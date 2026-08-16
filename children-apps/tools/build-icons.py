@@ -28,8 +28,8 @@ import pathlib
 
 from PIL import Image
 
-HERE = pathlib.Path(__file__).resolve().parent.parent
-REPO = HERE.parent
+HERE = pathlib.Path(__file__).resolve().parent.parent   # site/children-apps
+REPO = HERE.parent.parent                               # repository root
 SOURCE = REPO / "math-app" / "assets" / "unicorn" / "icons" / "crown.png"
 OUT_DIR = HERE / "assets"
 

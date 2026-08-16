@@ -2,211 +2,51 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>Children Games</title>
-  <meta name="description" content="All of our games in one place — maths, spelling, music, colouring, flowers and a space story."/>
-  <link rel="manifest" href="./manifest.webmanifest"/>
-  <link rel="stylesheet" href="./fonts.css"/>
-  <meta name="theme-color" content="#f7d9ec"/>
-  <link rel="apple-touch-icon" href="./assets/app-192.png"/>
-  <link rel="icon" href="./assets/app-192.png"/>
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
-  <meta name="apple-mobile-web-app-title" content="Games"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Veeranuch Lee</title>
+  <meta name="robots" content="noindex"/>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
-
-    :root{
-      --ink:#3b2a52;
-      --ink-soft:#6b5a84;
-      --card:#ffffff;
-      --radius:30px;
-    }
-
-    html{-webkit-text-size-adjust:100%}
-
     body{
-      font-family:'Nunito',system-ui,sans-serif;
-      color:var(--ink);
-      min-height:100svh;
-      background:
-        radial-gradient(1100px 620px at 12% -8%,  #ffe1f2 0%, rgba(255,225,242,0) 62%),
-        radial-gradient(980px  560px at 90% 4%,   #dfeaff 0%, rgba(223,234,255,0) 60%),
-        radial-gradient(900px  620px at 50% 108%, #e5fbf1 0%, rgba(229,251,241,0) 62%),
-        linear-gradient(170deg,#fdf6ff 0%,#f3f6ff 52%,#fdf8f4 100%);
-      background-attachment:fixed;
-      padding:
-        calc(28px + env(safe-area-inset-top)) 20px
-        calc(28px + env(safe-area-inset-bottom));
+      font-family:system-ui,-apple-system,'Segoe UI',sans-serif;
+      min-height:100svh;display:grid;place-items:center;
+      padding:32px;background:#fbfbfd;color:#1e2430;
+      line-height:1.5;
     }
-
-    /* Soft floating shapes. Purely decorative, and cheap: three blurred circles. */
-    .sky{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
-    .sky i{position:absolute;border-radius:50%;filter:blur(46px);opacity:.5}
-    .sky i:nth-child(1){width:280px;height:280px;left:-70px;top:16%;background:#ffc9e6}
-    .sky i:nth-child(2){width:330px;height:330px;right:-90px;top:44%;background:#c9dcff}
-    .sky i:nth-child(3){width:240px;height:240px;left:38%;bottom:-90px;background:#c8f2dd}
-
-    .wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto}
-
-    header{text-align:center;margin-bottom:30px}
-    h1{
-      font-family:'Fredoka One','Nunito',sans-serif;
-      font-weight:400;
-      font-size:clamp(2rem,7vw,3.4rem);
-      line-height:1.1;
-      letter-spacing:.5px;
-      color:#4a3168;
-      text-shadow:0 3px 0 rgba(255,255,255,.9);
+    main{max-width:30rem;text-align:center}
+    h1{font-size:1.5rem;font-weight:650;letter-spacing:-.01em}
+    p{margin-top:.75rem;color:#5c6675;font-size:.98rem}
+    a.go{
+      display:inline-block;margin-top:1.75rem;
+      padding:.7rem 1.35rem;border-radius:10px;
+      background:#1e2430;color:#fff;text-decoration:none;
+      font-weight:600;font-size:.95rem;
+      transition:background .15s ease;
     }
-    h1 em{font-style:normal;color:#e5559a}
-    .tagline{
-      margin-top:10px;font-weight:800;font-size:clamp(.95rem,2.6vw,1.15rem);
-      color:var(--ink-soft);
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-      gap:20px;
-    }
-
-    .card{
-      position:relative;
-      display:flex;flex-direction:column;align-items:center;text-align:center;
-      gap:12px;
-      padding:26px 18px 22px;
-      min-height:250px;
-      border-radius:var(--radius);
-      background:var(--card);
-      text-decoration:none;color:var(--ink);
-      border:3px solid var(--edge,#eee);
-      box-shadow:0 9px 0 var(--shadow,#e6e6f0), 0 16px 30px rgba(72,48,104,.14);
-      transition:transform .16s ease, box-shadow .16s ease;
-      -webkit-tap-highlight-color:transparent;
-    }
-    .card:hover{transform:translateY(-6px);box-shadow:0 15px 0 var(--shadow,#e6e6f0),0 24px 40px rgba(72,48,104,.2)}
-    .card:active{transform:translateY(5px);box-shadow:0 4px 0 var(--shadow,#e6e6f0),0 8px 16px rgba(72,48,104,.18)}
-    .card:focus-visible{outline:5px solid #7c4dff;outline-offset:4px}
-
-    .art{
-      width:124px;height:124px;
-      display:grid;place-items:center;
-      border-radius:26px;
-      background:var(--tint,#f6f4ff);
-      flex:none;
-    }
-    .art img{
-      width:96px;height:96px;object-fit:contain;
-      filter:drop-shadow(0 5px 9px rgba(60,40,90,.25));
-    }
-    /* Some games only have a square app icon rather than a cut-out sprite.
-       Rounding it makes it read as a deliberate tile instead of a pasted square. */
-    .art img.tile{border-radius:20px}
-
-    .name{font-weight:900;font-size:1.22rem;line-height:1.15}
-    .desc{font-weight:700;font-size:.86rem;color:var(--ink-soft);line-height:1.35;max-width:20ch}
-
-    /* The count of games behind a card, for the two that hold many. */
-    .count{
-      position:absolute;top:14px;right:14px;
-      font-weight:900;font-size:.72rem;letter-spacing:.3px;
-      padding:5px 10px;border-radius:999px;
-      background:var(--edge,#eee);color:#fff;
-      box-shadow:0 2px 5px rgba(60,40,90,.2);
-    }
-
-    .c-space   {--edge:#3f6fe0;--shadow:#2a4fae;--tint:#e8efff}
-    .c-unicorn {--edge:#e5559a;--shadow:#b03271;--tint:#ffe9f3}
-    .c-spell   {--edge:#8b5cf6;--shadow:#6435c9;--tint:#f1eaff}
-    .c-music   {--edge:#17a2b8;--shadow:#0d7c8e;--tint:#e2f7fa}
-    .c-petal   {--edge:#f0699b;--shadow:#c04574;--tint:#ffecf3}
-    .c-colour  {--edge:#34a853;--shadow:#217a3a;--tint:#e6f7ea}
-    .c-story   {--edge:#5b64c9;--shadow:#3b429c;--tint:#eceeff}
-
-    footer{
-      margin-top:34px;text-align:center;
-      font-weight:800;font-size:.85rem;color:var(--ink-soft);
-    }
-
-    @media (max-width:420px){
-      .grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
-      .card{min-height:212px;padding:20px 12px 18px;border-radius:24px}
-      .art{width:96px;height:96px;border-radius:22px}
-      .art img{width:74px;height:74px}
-      .name{font-size:1.04rem}
-      .desc{font-size:.78rem}
-    }
-
-    @media (prefers-reduced-motion:reduce){
-      .card{transition:none}
-      .card:hover{transform:none}
+    a.go:hover{background:#39424f}
+    a.go:focus-visible{outline:3px solid #6f8cff;outline-offset:3px}
+    @media (prefers-color-scheme:dark){
+      body{background:#12151b;color:#e9ecf2}
+      p{color:#a3adbb}
+      a.go{background:#e9ecf2;color:#12151b}
+      a.go:hover{background:#c9d0da}
     }
   </style>
 </head>
 <body>
-<div class="sky" aria-hidden="true"><i></i><i></i><i></i></div>
-
-<div class="wrap">
-  <header>
-    <h1>Children <em>Games</em></h1>
-    <p class="tagline">Pick a game to play</p>
-  </header>
-
-  <main class="grid">
-
-    <a class="card c-space" href="./magic-math/space-math.html">
-      <span class="count">9 games</span>
-      <span class="art"><img src="./assets/space-math.webp" alt="" width="96" height="96"/></span>
-      <span class="name">Space Math</span>
-      <span class="desc">Fly planet to planet with every answer</span>
-    </a>
-
-    <a class="card c-unicorn" href="./magic-math/unicorn-math.html">
-      <span class="count">9 games</span>
-      <span class="art"><img src="./assets/unicorn-math.webp" alt="" width="96" height="96"/></span>
-      <span class="name">Unicorn Math</span>
-      <span class="desc">Grow a flower garden with every answer</span>
-    </a>
-
-    <a class="card c-spell" href="./magic-math/magic-spelling.html">
-      <span class="art"><img src="./assets/magic-spelling.webp" alt="" width="96" height="96"/></span>
-      <span class="name">Magic Spelling</span>
-      <span class="desc">Letters and words</span>
-    </a>
-
-    <a class="card c-music" href="./magic-math/classical-music.html">
-      <span class="art"><img src="./assets/classical-music.webp" alt="" width="96" height="96"/></span>
-      <span class="name">Classical Music</span>
-      <span class="desc">Listen and guess</span>
-    </a>
-
-    <a class="card c-petal" href="./flower-shooter/">
-      <span class="art"><img src="./assets/petal-kingdom.webp" alt="" width="96" height="96"/></span>
-      <span class="name">Petal Kingdom</span>
-      <span class="desc">Pop the flowers and save the garden</span>
-    </a>
-
-    <a class="card c-colour" href="./little-color-garden/">
-      <span class="art"><img class="tile" src="./assets/little-color-garden.png" alt="" width="96" height="96"/></span>
-      <span class="name">Little Color Garden</span>
-      <span class="desc">Colour in the pictures</span>
-    </a>
-
-    <a class="card c-story" href="./solar-storybook-feedback/">
-      <span class="art"><img src="./assets/ari-and-dot.webp" alt="" width="96" height="96"/></span>
-      <span class="name">Ari &amp; Dot</span>
-      <span class="desc">A story about the planets</span>
-    </a>
-
+  <main>
+    <h1>Veeranuch Lee</h1>
+    <p>This is a placeholder. The children's games live in their own corner of the site.</p>
+    <a class="go" href="./children-apps/">Children apps →</a>
   </main>
-
-  <footer>Made with love for little learners</footer>
-</div>
-
-<!-- No service worker here on purpose. This page sits at the site root, so a
-     worker registered from it would take scope over EVERY game underneath it
-     (/magic-math/, /flower-shooter/, …), each of which already ships its own.
-     The page is small and static; the games keep their own offline support. -->
 </body>
 </html>
+<!-- Deliberately plain, and deliberately not the games.
+     The root is reserved for professional use later; when that arrives it
+     replaces this file and nothing the children use changes, because their
+     address is /children-apps/ and has been from the start.
+
+     No service worker here, and none should ever be added at this path: a
+     worker registered from the root takes scope over every project site
+     beneath it (/magic-math/, /flower-shooter/, …), each of which ships its
+     own. The hub's worker is scoped to /children-apps/ for that reason. -->
