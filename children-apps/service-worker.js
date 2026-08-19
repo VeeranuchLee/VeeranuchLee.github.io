@@ -23,7 +23,7 @@
  *
  *   v1  2026-08-16  first version, when the hub moved to /children-apps/
  */
-const CACHE_NAME = "children-apps-v1";
+const CACHE_NAME = "children-apps-v2";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
@@ -42,6 +42,7 @@ const SHELL = [
   "./assets/petal-kingdom.webp",
   "./assets/little-color-garden.png",
   "./assets/ari-and-dot.webp",
+  "./assets/animal-book.webp",
   "./assets/app-192.png",
   "./assets/app-512.png",
 ];
