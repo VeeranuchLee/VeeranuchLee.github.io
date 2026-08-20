@@ -76,28 +76,34 @@ like a single game. Output is deterministic; re-running leaves a clean
 
 ## Publishing
 
-Copy this directory's contents to the root of the public repo and push. The ship
-list is derived from tracked files, so nothing untracked or gitignored can leak:
+Copy the shipped files to the root of the public repo and push. **Do not copy the
+directory wholesale, and do not derive the list by hand** — ask for it:
 
-    git ls-files site ':(exclude)site/work_progress_and_other_discussion.md' \
-      | sed 's|^site/||'
+    scripts/site-ship-list.sh
 
-**The exclusion is not optional.** `work_progress_and_other_discussion.md` is the
-internal discussion trail — rejected ideas, half-finished reasoning, notes about
-how the owner and the agents work. It is tracked and lives inside `site/`, so the
-plain `git ls-files site` this file used to give would sweep it straight into a
-public repo.
+That prints one path per line, relative to this directory. It refuses to print
+anything unless `site/.publish-manifest` classifies every tracked file here as
+either `[ship]` or `[private]`.
 
-It has never reached one. That is verified against the public repo's **entire
-history**, every path in every commit, not just the files standing there now. But
-it was luck rather than design: the file was added 2026-08-19 08:47, the animal
-book publish ran the same evening at 21:12 ICT, and the log survived only because
-that publish copied the three files it had changed instead of following the ship
-list written here. The instruction was live and wrong through a real publish cycle.
+**Why it is a manifest and not a sentence.** This directory is not only the site:
+`work_progress_and_other_discussion.md` lives here too, because discussion logs
+live in the app's own folder. It is the internal trail — rejected ideas, reasoning,
+notes about how the owner and the agents work. This file used to say "derive the
+ship list with `git ls-files site`", which from 2026-08-19 08:47 quietly included
+it. A publish ran that evening at 21:12 ICT with the instruction live, and the log
+survived only because that publish copied the three files it had changed rather
+than following the instruction. Practice saved it; procedure would not have.
 
-Anything added under `site/` that is *about* the work rather than *is* the site
-needs the same exclusion — and note that this list names one file by hand, so a
-second internal file added later is not covered by it.
+So a new file under `site/` now has to be classified before it can be committed at
+all. Matching neither section fails `scripts/preflight.sh` — nothing defaults into
+being published, and nothing defaults into being hidden. The public repo has never
+held the discussion log, verified against its entire history rather than its
+current file list.
+
+Copying the whole list rather than only the files you changed is worth the extra
+seconds: it surfaces drift instead of hiding it. That is how the missing
+`Our Animal Book` row in the public `README.md` was found on 2026-08-20, left
+behind by the publish that added the card.
 
 There is deliberately no publish script, so nothing runs at publish time. What
 guards the copy is that it comes from a committed tree, and `scripts/preflight.sh`
