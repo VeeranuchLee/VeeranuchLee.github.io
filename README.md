@@ -84,11 +84,20 @@ list is derived from tracked files, so nothing untracked or gitignored can leak:
 
 **The exclusion is not optional.** `work_progress_and_other_discussion.md` is the
 internal discussion trail — rejected ideas, half-finished reasoning, notes about
-how the owner and the agents work. It is tracked, so the plain `git ls-files site`
-this file used to give would sweep it straight into a public repo. It arrived on
-2026-08-19, after the last publish, so nobody had run into it yet; the public repo
-has never held it and must not start. Anything else added here that is about the
-work rather than *is* the site needs the same treatment.
+how the owner and the agents work. It is tracked and lives inside `site/`, so the
+plain `git ls-files site` this file used to give would sweep it straight into a
+public repo.
+
+It has never reached one. That is verified against the public repo's **entire
+history**, every path in every commit, not just the files standing there now. But
+it was luck rather than design: the file was added 2026-08-19 08:47, the animal
+book publish ran the same evening at 21:12 ICT, and the log survived only because
+that publish copied the three files it had changed instead of following the ship
+list written here. The instruction was live and wrong through a real publish cycle.
+
+Anything added under `site/` that is *about* the work rather than *is* the site
+needs the same exclusion — and note that this list names one file by hand, so a
+second internal file added later is not covered by it.
 
 There is deliberately no publish script, so nothing runs at publish time. What
 guards the copy is that it comes from a committed tree, and `scripts/preflight.sh`
