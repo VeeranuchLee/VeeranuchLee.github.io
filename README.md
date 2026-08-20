@@ -79,11 +79,14 @@ like a single game. Output is deterministic; re-running leaves a clean
 Copy the shipped files to the root of the public repo and push. **Do not copy the
 directory wholesale, and do not derive the list by hand** — ask for it:
 
-    scripts/site-ship-list.sh
+    scripts/ship-list.py site
 
 That prints one path per line, relative to this directory. It refuses to print
 anything unless `site/.publish-manifest` classifies every tracked file here as
-either `[ship]` or `[private]`.
+either `[ship]` or `[private]`. The same script serves every published app —
+`math-app`, `coloring-app`, `flower-shooter`, `animal-book`, `solar-storybook` —
+each with its own manifest, and `scripts/preflight.sh` runs all of them on every
+commit.
 
 **Why it is a manifest and not a sentence.** This directory is not only the site:
 `work_progress_and_other_discussion.md` lives here too, because discussion logs
@@ -96,9 +99,16 @@ than following the instruction. Practice saved it; procedure would not have.
 
 So a new file under `site/` now has to be classified before it can be committed at
 all. Matching neither section fails `scripts/preflight.sh` — nothing defaults into
-being published, and nothing defaults into being hidden. The public repo has never
-held the discussion log, verified against its entire history rather than its
-current file list.
+being published, and nothing defaults into being hidden. A wildcard also never
+carries Markdown: `assets/**` sweeps the art and leaves `assets/NOTES.md` behind,
+because Markdown is what the internal reasoning is written in and publishing a
+document should take a deliberate act.
+
+The public repo here has never held the discussion log, verified against its entire
+history rather than its current file list. **`magic-math` was not so lucky** — on
+2026-08-19 it received `math-app`'s discussion trail and internal design document,
+which were served for about 23 hours before removal on 2026-08-20. That is why the
+gate now covers every published app rather than this one directory.
 
 Copying the whole list rather than only the files you changed is worth the extra
 seconds: it surfaces drift instead of hiding it. That is how the missing
