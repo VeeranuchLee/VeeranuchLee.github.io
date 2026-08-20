@@ -22,8 +22,10 @@
  * Bump CACHE_NAME on every publish, or installed devices keep the old shell.
  *
  *   v1  2026-08-16  first version, when the hub moved to /children-apps/
+ *   v2  2026-08-17  Our Animal Book joined the hub
+ *   v3  2026-08-20  Space Math and Unicorn Math badges say 11 games, not 9
  */
-const CACHE_NAME = "children-apps-v2";
+const CACHE_NAME = "children-apps-v3";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */

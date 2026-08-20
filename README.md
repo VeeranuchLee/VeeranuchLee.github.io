@@ -35,6 +35,7 @@ with `../`:
 | Petal Kingdom | `../flower-shooter/` | `flower-shooter` |
 | Little Color Garden | `../little-color-garden/` | `little-color-garden` |
 | Ari & Dot | `../solar-storybook-feedback/` | `solar-storybook-feedback` |
+| Our Animal Book | `../animal-book/` | `animal-book` |
 
 All links are relative, so there is no domain to go stale.
 
@@ -78,4 +79,25 @@ like a single game. Output is deterministic; re-running leaves a clean
 Copy this directory's contents to the root of the public repo and push. The ship
 list is derived from tracked files, so nothing untracked or gitignored can leak:
 
-    git ls-files site | sed 's|^site/||'
+    git ls-files site ':(exclude)site/work_progress_and_other_discussion.md' \
+      | sed 's|^site/||'
+
+**The exclusion is not optional.** `work_progress_and_other_discussion.md` is the
+internal discussion trail — rejected ideas, half-finished reasoning, notes about
+how the owner and the agents work. It is tracked, so the plain `git ls-files site`
+this file used to give would sweep it straight into a public repo. It arrived on
+2026-08-19, after the last publish, so nobody had run into it yet; the public repo
+has never held it and must not start. Anything else added here that is about the
+work rather than *is* the site needs the same treatment.
+
+There is deliberately no publish script, so nothing runs at publish time. What
+guards the copy is that it comes from a committed tree, and `scripts/preflight.sh`
+runs on every commit and push.
+
+One of its checks is worth knowing about here: the **"N games" badges** on the
+Space Math and Unicorn Math cards are verified against `math-app/`, by counting
+the cards on each game's home menu. The badge is a hand-typed claim about an app
+in a different repo, and it went stale for weeks once — it read "9 games" while
+both apps had eleven. Preflight now fails the commit that would do that again, and
+the message says which file to edit. If you add a badged card pointing at a new
+app, extend the small href map in that check; it will tell you when you need to.
