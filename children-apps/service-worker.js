@@ -2,10 +2,10 @@
  *
  * SCOPE IS THE WHOLE POINT. This file lives in /children-apps/, so its scope is
  * /children-apps/ and nothing above it. The games are published as separate
- * GitHub project sites at /magic-math/, /flower-shooter/, /little-color-garden/
- * and /solar-storybook-feedback/ — all OUTSIDE this scope, each already shipping
- * its own worker. Moving this file to the site root would silently put one
- * worker in front of four other apps. Do not.
+ * GitHub project sites at /magic-math/, /flower-shooter/, /little-color-garden/,
+ * /solar-storybook-feedback/, /animal-book/ and /solar-system-game/ — all OUTSIDE
+ * this scope, each already shipping its own worker. Moving this file to the site
+ * root would silently put one worker in front of six other apps. Do not.
  *
  * NAVIGATIONS ARE NETWORK-FIRST, deliberately, and this differs from the games'
  * worker. `math-app/service-worker.js` is cache-first for everything, which
@@ -24,8 +24,9 @@
  *   v1  2026-08-16  first version, when the hub moved to /children-apps/
  *   v2  2026-08-17  Our Animal Book joined the hub
  *   v3  2026-08-20  Space Math and Unicorn Math badges say 11 games, not 9
+ *   v4  2026-08-21  Planets & Moons joined the hub
  */
-const CACHE_NAME = "children-apps-v3";
+const CACHE_NAME = "children-apps-v4";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
@@ -44,6 +45,7 @@ const SHELL = [
   "./assets/petal-kingdom.webp",
   "./assets/little-color-garden.png",
   "./assets/ari-and-dot.webp",
+  "./assets/planets-and-moons.png",
   "./assets/animal-book.webp",
   "./assets/app-192.png",
   "./assets/app-512.png",

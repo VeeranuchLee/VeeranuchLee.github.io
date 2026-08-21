@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>Children Games</title>
-  <meta name="description" content="All of our games in one place — maths, spelling, music, colouring, flowers, a space story and an animal book."/>
+  <meta name="description" content="All of our games in one place — maths, spelling, music, colouring, flowers, a space story, the planets and their moons, and an animal book."/>
   <link rel="manifest" href="./manifest.webmanifest"/>
   <link rel="stylesheet" href="./fonts.css"/>
   <meta name="theme-color" content="#f7d9ec"/>
@@ -124,10 +124,19 @@
     .c-colour  {--edge:#34a853;--shadow:#217a3a;--tint:#e6f7ea}
     .c-story   {--edge:#5b64c9;--shadow:#3b429c;--tint:#eceeff}
     .c-animal  {--edge:#d97a16;--shadow:#a55606;--tint:#fff1de}
+    /* The darkest card on the page, deliberately: its art is a night sky, and the
+       three cards already in blue are all lighter than this. */
+    .c-planets {--edge:#26306e;--shadow:#151c46;--tint:#e6eaff}
 
     footer{
       margin-top:34px;text-align:center;
       font-weight:800;font-size:.85rem;color:var(--ink-soft);
+    }
+    /* The AI-voice disclosure. Deliberately quieter than the line above it — it is
+       for the adult who looks, not a warning aimed at the child who is here to play. */
+    footer .disclosure{
+      display:block;margin-top:8px;
+      font-weight:600;font-size:.72rem;opacity:.72;line-height:1.45;
     }
 
     @media (max-width:420px){
@@ -200,6 +209,12 @@
       <span class="desc">A story about the planets</span>
     </a>
 
+    <a class="card c-planets" href="../solar-system-game/">
+      <span class="art"><img class="tile" src="./assets/planets-and-moons.png" alt="" width="96" height="96"/></span>
+      <span class="name">Planets &amp; Moons</span>
+      <span class="desc">Put them in order, then give each planet its moons</span>
+    </a>
+
     <a class="card c-animal" href="../animal-book/">
       <span class="art"><img class="tile" src="./assets/animal-book.webp" alt="" width="96" height="96"/></span>
       <span class="name">Our Animal Book</span>
@@ -208,7 +223,9 @@
 
   </main>
 
-  <footer>Made with love for little learners</footer>
+  <footer>Made with love for little learners
+    <span class="disclosure">Every voice in these games is AI-generated. None is a recording of a real person.</span>
+  </footer>
 </div>
 
 <script>
