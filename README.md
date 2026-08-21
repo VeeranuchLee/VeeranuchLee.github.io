@@ -146,9 +146,11 @@ directory wholesale, and do not derive the list by hand** — ask for it:
 That prints one path per line, relative to this directory. It refuses to print
 anything unless `site/.publish-manifest` classifies every tracked file here as
 either `[ship]` or `[private]`. The same script serves every published app —
-`math-app`, `coloring-app`, `flower-shooter`, `animal-book`, `solar-storybook` —
-each with its own manifest, and `scripts/preflight.sh` runs all of them on every
-commit.
+`math-app`, `coloring-app`, `flower-shooter`, `animal-book`, `solar-storybook`,
+`solar-system-game` — each with its own manifest, and `scripts/preflight.sh` runs
+all of them on every commit. A new app joins that list by gaining a manifest, and
+**this sentence has to be extended by hand when one does**, which is why it is a
+list of directories rather than a claim about how many there are.
 
 **Why it is a manifest and not a sentence.** This directory is not only the site:
 `work_progress_and_other_discussion.md` lives here too, because discussion logs
