@@ -133,7 +133,11 @@
       font-weight:800;font-size:.85rem;color:var(--ink-soft);
     }
     /* The AI-voice disclosure. Deliberately quieter than the line above it — it is
-       for the adult who looks, not a warning aimed at the child who is here to play. */
+       for the adult who looks, not a warning aimed at the child who is here to play.
+       It claims only the voices we render ourselves. Magic Math and Planets & Moons
+       ship designed voices; the rest speak through the browser’s built-in speech,
+       and some vendors build those OS voices from a real speaker’s recordings — so a
+       blanket "every voice here is AI" would overclaim on games we do not control. */
     footer .disclosure{
       display:block;margin-top:8px;
       font-weight:600;font-size:.72rem;opacity:.72;line-height:1.45;
@@ -151,6 +155,75 @@
     @media (prefers-reduced-motion:reduce){
       .card{transition:none}
       .card:hover{transform:none}
+    }
+
+    /* ── Parent roadmap button ── */
+    .roadmap-btn{
+      display:inline-block;margin-top:14px;
+      background:none;border:1.5px solid rgba(107,90,132,.3);
+      border-radius:99px;padding:5px 14px;
+      font-family:inherit;font-weight:700;font-size:.72rem;
+      color:var(--ink-soft);cursor:pointer;letter-spacing:.2px;
+      transition:border-color .15s,color .15s;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .roadmap-btn:hover{border-color:rgba(107,90,132,.65);color:var(--ink)}
+    .roadmap-btn:focus-visible{outline:3px solid #7c4dff;outline-offset:3px}
+
+    /* ── Modal backdrop ── */
+    .roadmap-backdrop{
+      display:none;position:fixed;inset:0;z-index:100;
+      background:rgba(30,20,50,.45);
+      backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+      align-items:flex-end;justify-content:center;
+    }
+    .roadmap-backdrop.open{display:flex}
+
+    /* ── Panel ── */
+    .roadmap-panel{
+      width:100%;max-width:560px;max-height:82svh;
+      background:#fdf8ff;
+      border-radius:28px 28px 0 0;
+      padding:28px 24px calc(28px + env(safe-area-inset-bottom));
+      overflow-y:auto;
+      box-shadow:0 -8px 40px rgba(60,40,100,.18);
+      transform:translateY(100%);
+      transition:transform .28s cubic-bezier(.32,1,.28,1);
+    }
+    .roadmap-backdrop.open .roadmap-panel{transform:translateY(0)}
+    @media(prefers-reduced-motion:reduce){.roadmap-panel{transition:none}}
+
+    .roadmap-panel h2{
+      font-family:'Fredoka One','Nunito',sans-serif;
+      font-weight:400;font-size:1.35rem;color:#4a3168;
+      margin-bottom:18px;display:flex;align-items:center;gap:8px;
+    }
+    .roadmap-close{
+      margin-left:auto;background:none;border:none;cursor:pointer;
+      font-size:1.3rem;line-height:1;color:var(--ink-soft);padding:2px 6px;
+      border-radius:8px;
+    }
+    .roadmap-close:focus-visible{outline:3px solid #7c4dff;outline-offset:2px}
+
+    .roadmap-section{margin-top:18px}
+    .roadmap-section h3{
+      font-weight:900;font-size:.78rem;letter-spacing:.6px;text-transform:uppercase;
+      color:#9b8ab0;margin-bottom:10px;
+    }
+    .roadmap-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+    .roadmap-list li{
+      display:flex;align-items:flex-start;gap:10px;
+      font-weight:700;font-size:.88rem;color:var(--ink);line-height:1.35;
+    }
+    .roadmap-list li .dot{
+      flex:none;margin-top:3px;width:10px;height:10px;border-radius:50%;
+    }
+    .dot-coming{background:#7c4dff}
+    .dot-fix{background:#e5559a}
+
+    .roadmap-note{
+      margin-top:20px;font-size:.72rem;font-weight:600;
+      color:var(--ink-soft);opacity:.75;line-height:1.5;
     }
   </style>
 </head>
@@ -224,8 +297,42 @@
   </main>
 
   <footer>Made with love for little learners
-    <span class="disclosure">Every voice in these games is AI-generated. None is a recording of a real person.</span>
+    <span class="disclosure">The voices we made for these games are AI-generated — none is a
+      recording of a real person. Some games use your device’s own built-in speech instead.</span>
+    <button class="roadmap-btn" onclick="document.getElementById('roadmap').classList.add('open')">What's coming next? →</button>
   </footer>
+
+  <!-- Parent roadmap panel -->
+  <div class="roadmap-backdrop" id="roadmap" role="dialog" aria-modal="true" aria-label="What's coming next">
+    <div class="roadmap-panel">
+      <h2>What's coming next
+        <button class="roadmap-close" aria-label="Close" onclick="document.getElementById('roadmap').classList.remove('open')">✕</button>
+      </h2>
+
+      <div class="roadmap-section">
+        <h3>New features</h3>
+        <ul class="roadmap-list">
+          <li><span class="dot dot-coming"></span>Voices for all maths games — the robot reads every question and answer aloud</li>
+          <li><span class="dot dot-coming"></span>Choose your world — Space, Unicorn, or Dinosaur maths (Dinosaur coming soon)</li>
+          <li><span class="dot dot-coming"></span>Tap to learn — tap anything to hear and see it; no quiz pressure</li>
+          <li><span class="dot dot-coming"></span>Times table chart — tap any square to see the answer as coloured blocks in groups</li>
+          <li><span class="dot dot-coming"></span>Build big numbers — drag digits into place, then hear the robot read the number (up to a trillion)</li>
+          <li><span class="dot dot-coming"></span>Animal book rooms — painted scenes for each room, so children can explore</li>
+          <li><span class="dot dot-coming"></span>More pages in Ari &amp; Dot</li>
+        </ul>
+      </div>
+
+      <div class="roadmap-section">
+        <h3>Bugs being fixed</h3>
+        <ul class="roadmap-list">
+          <li><span class="dot dot-fix"></span>Ari &amp; Dot — the fact cards at the bottom are too small to read on an iPad; we're making them larger</li>
+          <li><span class="dot dot-fix"></span>Some maths sounds still use the device voice instead of the recorded robot voice</li>
+        </ul>
+      </div>
+
+      <p class="roadmap-note">This page is updated as work happens. Thank you for playing with us.</p>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -242,6 +349,15 @@
       navigator.serviceWorker.register('./service-worker.js').catch(function () {});
     });
   }
+
+  /* Close roadmap panel when clicking the backdrop itself */
+  document.getElementById('roadmap').addEventListener('click', function(e){
+    if (e.target === this) this.classList.remove('open');
+  });
+  /* Close on Escape */
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') document.getElementById('roadmap').classList.remove('open');
+  });
 </script>
 </body>
 </html>
