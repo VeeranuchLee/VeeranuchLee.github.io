@@ -56,14 +56,19 @@ the reasoning survives the conversation it came from.
 
 The rest of this file is for whoever works on the site.
 
-The user Pages site. Two things live here:
+The user Pages site. Three deliberately separate things live here:
 
     /                 a deliberately plain placeholder, reserved for professional use
     /children-apps/   the children's games hub — one screen, nine cards
+    /test-apps/       an unlinked hub for apps being tested before main-hub promotion
 
 **Live:** `https://veeranuchlee.github.io/`
 **Public repo:** `VeeranuchLee/VeeranuchLee.github.io`
 **Source of truth:** this directory, in the private `children-games` repo.
+
+`/test-apps/` is public but intentionally undiscoverable from `/` and
+`/children-apps/`. Share its direct URL with test users. Promotion is a separate owner
+decision; adding something here never implies adding it to the main hub.
 
 ## Why the games are in a subdirectory
 
@@ -93,6 +98,12 @@ with `../`:
 | Ari & Dot | `../solar-storybook-feedback/` | `solar-storybook-feedback` |
 | Planets & Moons | `../solar-system-game/` | `solar-system-game` |
 | Our Animal Book | `../animal-book/` | `animal-book` |
+
+The test publish additionally places Music Book at `../music-book/` and contains the
+self-contained `./bird-flight/` interaction test. Both are committed to the public Pages
+repository for testing; neither appears in the main hub table above. A later main-hub
+promotion may also split Music Book into its own project repository, but testing does not
+require that extra public-repository boundary.
 
 All links are relative, so there is no domain to go stale.
 

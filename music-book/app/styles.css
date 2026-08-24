@@ -1,0 +1,370 @@
+/* Music Book — the illustrated shell.
+   Built for a 9.7" iPad in LANDSCAPE: the art is 4:3, so the page is 4:3.
+   The backgrounds carry the mood; UI chrome stays out of their way. */
+
+:root {
+  --ink: #1e2b45;
+  --ink-soft: #4d5a72;
+  --gold: #c9a227;
+  --gold-deep: #8a6a12;
+  --plate: #f6ecd4;
+  --plate-edge: #d8bf86;
+  --shadow: 0 6px 18px rgba(20, 26, 45, 0.28);
+  --frame: 0 0 0 5px var(--gold), 0 0 0 8px rgba(255, 255, 255, 0.55), var(--shadow);
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  background: #10162a;
+  color: var(--ink);
+  font-family: ui-rounded, "Avenir Next", "Nunito", system-ui, sans-serif;
+  overflow: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* The stage is always 4:3 and always fully visible — letterboxed rather than
+   cropped, because the art was composed as a whole picture. */
+.stage {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: min(100vw, calc(100vh * 4 / 3));
+  height: min(100vh, calc(100vw * 3 / 4));
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 2.2% 3%;
+}
+
+/* ── landing ──────────────────────────────────────────────────────────────── */
+
+.stage--landing .scrim {
+  align-items: center;
+  background: radial-gradient(ellipse at 50% 38%, rgba(255,252,244,.72) 0%, rgba(255,252,244,.42) 45%, rgba(255,252,244,.12) 75%);
+}
+
+.hero { text-align: center; margin-top: 0; }
+.hero__eyebrow {
+  margin: 0; font-size: clamp(11px, 1.5vw, 17px); letter-spacing: .16em;
+  text-transform: uppercase; color: var(--gold-deep); font-weight: 700;
+}
+.hero__title {
+  margin: .15em 0 .1em; line-height: 1.02;
+  font-size: clamp(26px, 4.4vw, 48px); color: var(--ink);
+  text-shadow: 0 2px 0 rgba(255,255,255,.65);
+}
+.hero__line { display: block; }
+.hero__sub { margin: 0; font-size: clamp(12px, 1.8vw, 20px); color: var(--ink-soft); }
+
+/* Three across, two down. Six across made each card a narrow strip with a tiny
+   character marooned in it; these characters need width to read as characters. */
+.companion-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 1.6% 2%;
+  width: 100%;
+  max-width: 86%;
+  padding: 1.4% 0 0;
+  min-height: 0;
+}
+
+.companion-card {
+  display: flex; flex-direction: column; align-items: center; justify-content: stretch; gap: 1px;
+  min-height: 0; overflow: hidden;
+  padding: 4% 3% 3.5%;
+  border: 0; border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,247,232,.88));
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+  cursor: pointer;
+  transition: transform .14s ease, box-shadow .14s ease;
+}
+.companion-card:hover, .companion-card:focus-visible { transform: translateY(-6px); outline: none; }
+.companion-card:active { transform: translateY(-2px) scale(.985); }
+/* flex-basis 0 lets the row decide the height and `contain` letterboxes the
+   figure inside it. Sizing by width instead made each card as tall as the
+   picture's aspect ratio demanded, which overflowed the grid row. */
+.companion-card__art {
+  flex: 1 1 0; min-height: 0;
+  width: 100%; object-fit: contain;
+  margin-bottom: 3%;
+}
+.companion-card__name { font-size: clamp(12px, 1.7vw, 19px); font-weight: 800; color: var(--ink); }
+.companion-card__tag { font-size: clamp(9px, 1.1vw, 13px); color: var(--ink-soft); text-align: center; }
+
+/* ── shared page furniture ────────────────────────────────────────────────── */
+
+.topbar { display: flex; align-items: flex-start; gap: 2%; }
+
+.round-btn {
+  flex: 0 0 auto;
+  width: clamp(42px, 5.4vw, 62px); height: clamp(42px, 5.4vw, 62px);
+  border: 0; border-radius: 50%;
+  background: linear-gradient(180deg, #fdf6e3, #ecdcb6);
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+  font-size: clamp(18px, 2.4vw, 26px); color: var(--ink);
+  cursor: pointer;
+}
+.round-btn:active { transform: scale(.94); }
+
+.banner {
+  flex: 1; text-align: center;
+  padding: .5% 2%;
+  background: linear-gradient(180deg, #fbf3dd, #f0e2bd);
+  border-radius: 14px;
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+}
+.banner h1 { margin: 0; font-size: clamp(18px, 3.2vw, 38px); letter-spacing: .01em; }
+.banner p { margin: 1px 0 0; font-size: clamp(10px, 1.4vw, 16px); color: var(--ink-soft); }
+
+.guide-badge {
+  flex: 0 0 auto; display: flex; align-items: center; gap: 6px;
+  padding: 4px 12px 4px 4px;
+  background: rgba(255,250,238,.92); border-radius: 999px;
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+}
+.guide-badge img { width: clamp(30px, 3.6vw, 46px); height: auto; }
+.guide-badge span { font-size: clamp(10px, 1.3vw, 15px); font-weight: 700; }
+
+/* ── music world ──────────────────────────────────────────────────────────── */
+
+.group-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 1.4% 3%;
+  align-content: center;
+  /* Right padding keeps the last column clear of the guide badge; the generous
+     bottom padding is the band the companion stands in, so a card and a
+     character never share the same corner. */
+  padding: 1% 9% 13%;
+}
+
+.group-card {
+  position: relative;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+  border: 0; background: none; padding: 0; cursor: pointer;
+  transition: transform .14s ease;
+}
+.group-card:hover:not(:disabled) { transform: translateY(-5px); }
+.group-card:active:not(:disabled) { transform: scale(.98); }
+
+.group-card__art {
+  width: min(100%, 16.5vh); aspect-ratio: 1;
+  border-radius: 50%;
+  background-size: cover; background-position: center;
+  box-shadow: var(--frame);
+}
+.group-card__label {
+  margin-top: -8%;
+  padding: 5px 16px;
+  border-radius: 999px;
+  background: var(--accent, #22385a);
+  color: #fff8e6;
+  font-size: clamp(11px, 1.6vw, 18px); font-weight: 800;
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+  z-index: 1;
+}
+.group-card.is-soon { cursor: default; }
+.group-card.is-soon .group-card__art { filter: grayscale(.75) brightness(1.08); opacity: .72; }
+.group-card__soon {
+  margin-top: 5px; font-size: clamp(9px, 1.1vw, 13px);
+  color: #fff; background: rgba(30,43,69,.72); padding: 2px 10px; border-radius: 999px;
+}
+
+/* ── group page ───────────────────────────────────────────────────────────── */
+
+.group-body { flex: 1; display: flex; gap: 2%; padding: 1.6% 0 0; min-height: 0; }
+
+.bubble-field {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
+  gap: 2% 3%;
+  align-content: center;
+  justify-items: center;
+  min-height: 0;
+}
+
+.bubble { display: flex; flex-direction: column; align-items: center; }
+
+.bubble__disc {
+  position: relative;
+  width: min(19vh, 100%); aspect-ratio: 1;
+  padding: 0; border: 0; border-radius: 50%;
+  background: #dcd2bb;
+  box-shadow: var(--frame);
+  cursor: pointer; overflow: hidden;
+  transition: transform .15s ease;
+}
+.bubble--large .bubble__disc { width: min(23vh, 100%); }
+.bubble__disc:hover { transform: scale(1.035); }
+.bubble__disc:active { transform: scale(.98); }
+.bubble__art { width: 100%; height: 100%; object-fit: cover; display: block; }
+.bubble__art--none {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%; font-size: 3rem; color: #8a7f66;
+}
+
+/* A ring that breathes while the piece plays — the only "now playing" cue the
+   page needs, and it lives on the picture the child tapped. */
+.bubble__pulse {
+  position: absolute; inset: 0; border-radius: 50%;
+  box-shadow: inset 0 0 0 0 rgba(255, 236, 160, 0);
+  pointer-events: none;
+}
+.is-playing .bubble__pulse { animation: pulse 1.5s ease-in-out infinite; }
+@keyframes pulse {
+  0%, 100% { box-shadow: inset 0 0 0 4px rgba(255,236,160,.35), 0 0 0 0 rgba(255,214,102,.55); }
+  50%      { box-shadow: inset 0 0 0 9px rgba(255,236,160,.75), 0 0 26px 8px rgba(255,214,102,.5); }
+}
+
+.bubble__name {
+  margin-top: -6%;
+  padding: 4px 14px;
+  max-width: 108%;
+  border: 0; border-radius: 10px;
+  background: linear-gradient(180deg, var(--plate), #ecdcb4);
+  box-shadow: 0 0 0 2.5px var(--plate-edge), var(--shadow);
+  color: var(--ink);
+  font: inherit; font-size: clamp(10px, 1.45vw, 17px); font-weight: 800;
+  cursor: pointer; z-index: 1;
+  transition: transform .12s ease, background .2s ease;
+}
+.bubble__name:hover { transform: translateY(-2px); }
+.bubble__name.is-speaking { background: linear-gradient(180deg, #fff3c9, #ffe08a); transform: translateY(-2px); }
+
+/* ── info objects ─────────────────────────────────────────────────────────── */
+
+.info-rail {
+  flex: 0 0 auto; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 12%;
+  width: clamp(76px, 11vw, 130px);
+}
+
+.info-square {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  width: 100%; padding: 8% 4%;
+  border: 0; border-radius: 12px;
+  background: linear-gradient(180deg, #fdf6e3, #e9d9ae);
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+  cursor: pointer; color: var(--ink); font: inherit;
+}
+.info-square:active { transform: scale(.97); }
+.info-square__face {
+  display: block;
+  width: 74%; aspect-ratio: 1; border-radius: 8px;
+  object-fit: cover;
+  background: linear-gradient(160deg, #6f7f9c, #3d4a63);
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.5);
+}
+.info-square__face--monogram {
+  display: flex; align-items: center; justify-content: center;
+  color: #fff6df; font-size: clamp(16px, 2.4vw, 30px); font-weight: 800;
+}
+.info-square__line { display: block; }
+.info-square__label { font-size: clamp(9px, 1.1vw, 13px); font-weight: 800; text-align: center; line-height: 1.15; }
+
+.info-diamond {
+  position: relative;
+  width: 72%; aspect-ratio: 1;
+  border: 0; background: none; padding: 0; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+/* The rotation lives on a pseudo-element so the glyph itself stays upright:
+   rotating the box and the emoji together tips the lightbulb on its side. */
+.info-diamond__inner {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: clamp(15px, 2.1vw, 26px);
+}
+.info-diamond__inner::before {
+  content: ''; position: absolute; inset: 0;
+  transform: rotate(45deg); border-radius: 12px;
+  background: linear-gradient(160deg, #33406b, #1d2544);
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+}
+.info-diamond__inner > * { position: relative; }
+.info-diamond__label {
+  position: absolute; bottom: -26%;
+  font-size: clamp(9px, 1.1vw, 13px); font-weight: 800; color: var(--ink);
+  background: rgba(255,250,238,.9); padding: 1px 8px; border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* ── companion in the corner ──────────────────────────────────────────────── */
+
+.companion-corner {
+  position: absolute; left: 2.4%; bottom: 1%;
+  display: flex; align-items: flex-end; gap: 8px;
+  max-width: 46%;
+  pointer-events: none;
+}
+.companion-figure { width: clamp(70px, 10vw, 140px); height: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,.3)); }
+.companion-bubble {
+  margin: 0 0 10% 0; padding: 7px 13px;
+  max-width: 17ch;
+  background: rgba(255,251,240,.95); border-radius: 16px;
+  box-shadow: 0 0 0 2.5px var(--plate-edge), var(--shadow);
+  font-size: clamp(10px, 1.3vw, 15px); font-weight: 600; line-height: 1.3;
+}
+
+/* ── pager ────────────────────────────────────────────────────────────────── */
+
+.pager { display: flex; justify-content: center; gap: 10px; padding: 1% 0 .4%; }
+.pager__dot {
+  width: 14px; height: 14px; border-radius: 50%; border: 0; cursor: pointer;
+  background: rgba(255,250,238,.6); box-shadow: 0 0 0 2px var(--gold);
+}
+.pager__dot.is-current { background: var(--gold); }
+
+/* ── pop-up ───────────────────────────────────────────────────────────────── */
+
+#popup {
+  position: fixed; inset: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(16, 22, 42, .55);
+}
+#popup[hidden] { display: none; }
+
+.popup__card {
+  position: relative;
+  width: min(560px, 78vw); max-height: 76vh; overflow: auto;
+  padding: 26px 30px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #fdf7e8, #f2e6c9);
+  box-shadow: 0 0 0 4px var(--gold), 0 20px 50px rgba(0,0,0,.4);
+}
+.popup__card h2 { margin: 0 0 4px; font-size: clamp(20px, 2.6vw, 28px); }
+.popup__card p { margin: 10px 0 0; font-size: clamp(13px, 1.6vw, 17px); line-height: 1.55; }
+/* A heading you can tap to hear the name. Inherits the h2's type so it still reads
+   as the title rather than as a control; the dotted underline is the only hint,
+   because a button-looking heading would compete with the close button. */
+.popup__say {
+  font: inherit; color: inherit; text-align: left;
+  border: 0; padding: 0; background: none; cursor: pointer;
+  border-bottom: 2px dotted rgba(26,42,92,.55);
+}
+/* The speaker is the affordance a child actually reads. The dotted rule alone was
+   invisible at arm's length on the iPad, which made a working feature undiscoverable.
+   Sized in em so it tracks the heading rather than needing its own breakpoint. */
+.popup__say-cue { margin-left: .35em; font-size: .8em; opacity: .55; }
+.popup__say.is-speaking { background: linear-gradient(180deg, #fff3c9, #ffe08a); border-radius: 6px; }
+.popup__meta { color: var(--ink-soft); font-weight: 700; }
+.popup__close {
+  position: absolute; top: 10px; right: 12px;
+  width: 40px; height: 40px; border: 0; border-radius: 50%;
+  background: rgba(30,43,69,.1); font-size: 20px; cursor: pointer;
+}

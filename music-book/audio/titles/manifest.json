@@ -1,0 +1,102 @@
+{
+ "app": "music-book",
+ "mode": "Spoken piece titles and composer names",
+ "format": {
+  "container": "m4a",
+  "codec": "aac",
+  "channels": 1,
+  "sampleRateHz": 24000,
+  "targetPeakDbfs": -3.0,
+  "why": "AUDIO-DIRECTION.md decision 5: AAC in .m4a plays in Safari on iOS, Chrome, Edge and Firefox on all three target platforms. Mono 24 kHz is plenty for speech. Decision 7 allows .m4a under music-book/audio/titles/ and nowhere else, and scripts/preflight.sh enforces exactly that."
+ },
+ "provenance": {
+  "REQUIRED_BEFORE_SHIPPING": "AUDIO-DIRECTION.md: every asset records the tool and model that generated it, the date, and the prompt or voice it came from. render-titles.py refuses to run while any of tool/model/voiceId/voiceName/designedOn/renderedOn is null.",
+  "policy": "AUDIO-DIRECTION.md decisions 7 (pre-rendered titles) and 8 (its own designed voice)",
+  "tool": "ElevenLabs Voice Design",
+  "model": "eleven_multilingual_v2",
+  "voiceId": "5KZlmCsS3xs5UrEZIZGy",
+  "voiceName": "Music Book Narrator",
+  "voiceOrigin": "Designed from the text prompt below on 2026-08-21, not cloned from any person and not taken from the Voice Library. Candidate 2 of 3 from a single generation that billed 186 characters, chosen by the owner by ear against the audition text. The two candidates heard and passed over were u9VR0ANnoMrPMMmBw4hz and U9USfN4M8ir7x0b79jZJ.",
+  "voicePrompt": "A calm adult man with a low, warm, unhurried voice - the register of a history documentary narrator. Measured and quietly authoritative, confident rather than grand. Speaks as though he has known these pieces for years and is glad to name them for you. Crisp diction with authentic pronunciation of European names and titles - German, French, Italian and Russian - spoken naturally rather than anglicised. Neutral English accent. Perfect studio audio quality, completely clean, no background noise or music.",
+  "voiceBrief": "Owner, 2026-08-21: 'calm male voice, kind of voice we hear narrating history.' A deliberate contrast with the maths app's bright primary-school teacher, because these clips are naming rather than encouraging or instructing.",
+  "rejectIf": "Solemn rather than calm - this is a man who finds the music delightful, not a man narrating a war. Or portentous: the register carries a slow weighted delivery that reads as gravitas across a paragraph and as an announcement across two words, and every clip here is two or three words. Reject a candidate that makes 'Ode to Joy' sound like a verdict. And reject any candidate that anglicises the names, however lovely it sounds - that is the whole reason speechSynthesis was refused.",
+  "auditionText": "Für Elise. Moonlight Sonata. Eine kleine Nachtmusik. Ah! vous dirai-je, maman. Pyotr Ilyich Tchaikovsky. Ludwig van Beethoven. Wolfgang Amadeus Mozart. Symphony Number Five, the opening.",
+  "auditionRationale": "Every hard case in the catalogue is in the audition on purpose, exactly as the maths voice put 13/30 and 14/40 in on purpose. speechSynthesis was rejected on pronunciation, so an audition that only proves the voice is pleasant tests nothing. A candidate that says 'fur ee-lyse' is rejected however lovely it sounds.",
+  "cloningForbidden": "Decision 1: designed from a text prompt via Voice Design, never cloned from any person, and never taken from the Voice Library, so no third-party voice-owner terms travel into this repository.",
+  "designedOn": "2026-08-21",
+  "renderedOn": "2026-08-21",
+  "termsCheckedForPublicRedistribution": true,
+  "modelNote": "Voice Design created the voice; this TTS model rendered each clip, at 1 credit/char. Flash is half the price and flatter, and this catalogue is foreign names - see tools/render-titles.py."
+ },
+ "counts": {
+  "clips": 9,
+  "pieces": 6,
+  "composers": 3,
+  "characters": 182
+ },
+ "clips": [
+  {
+   "id": "ode-to-joy",
+   "kind": "piece",
+   "file": "ode-to-joy.m4a",
+   "printed": "Ode to Joy",
+   "text": "Ode to Joy"
+  },
+  {
+   "id": "fur-elise",
+   "kind": "piece",
+   "file": "fur-elise.m4a",
+   "printed": "Für Elise",
+   "text": "Für Elise"
+  },
+  {
+   "id": "moonlight-sonata",
+   "kind": "piece",
+   "file": "moonlight-sonata.m4a",
+   "printed": "Moonlight Sonata",
+   "text": "Moonlight Sonata"
+  },
+  {
+   "id": "symphony-5-opening",
+   "kind": "piece",
+   "file": "symphony-5-opening.m4a",
+   "printed": "Symphony No. 5 — opening",
+   "text": "Symphony Number Five, the opening"
+  },
+  {
+   "id": "twinkle",
+   "kind": "piece",
+   "file": "twinkle.m4a",
+   "printed": "Twinkle Twinkle Little Star",
+   "text": "Twinkle Twinkle Little Star"
+  },
+  {
+   "id": "swan-lake-theme",
+   "kind": "piece",
+   "file": "swan-lake-theme.m4a",
+   "printed": "Swan Lake — theme",
+   "text": "Swan Lake, the theme"
+  },
+  {
+   "id": "composer-beethoven",
+   "kind": "composer",
+   "file": "composer-beethoven.m4a",
+   "printed": "Ludwig van Beethoven",
+   "text": "Ludwig van Beethoven"
+  },
+  {
+   "id": "composer-mozart",
+   "kind": "composer",
+   "file": "composer-mozart.m4a",
+   "printed": "Wolfgang Amadeus Mozart",
+   "text": "Wolfgang Amadeus Mozart"
+  },
+  {
+   "id": "composer-tchaikovsky",
+   "kind": "composer",
+   "file": "composer-tchaikovsky.m4a",
+   "printed": "Pyotr Ilyich Tchaikovsky",
+   "text": "Pyotr Ilyich Tchaikovsky"
+  }
+ ]
+}
