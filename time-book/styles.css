@@ -1,0 +1,493 @@
+/* Time Book — styles.
+ *
+ * One colour decision here is a teaching decision, not decoration: the hour hand
+ * and the minute hand have their own colours, and each of the two number systems
+ * on the face is drawn in its hand's colour. The hour numerals are hour-blue; the
+ * 00/05/10 ring is minute-amber. So when §2.2 reveals the second system, the child
+ * can see at a glance which hand each set of numbers belongs to. Never recolour
+ * one without the other.
+ */
+
+:root {
+  --night: #16213e;
+  --night-deep: #0e1729;
+  --paper: #fdf6e8;
+  --dial: #fffdf7;
+
+  --hour: #2f4a7d;      /* the hour hand and the twelve hour numerals */
+  --minute: #e08a1e;    /* the minute hand and the 00/05/10 ring */
+
+  --ink: #22304d;
+  --ink-soft: #5c6b87;
+  --good: #2e8b57;
+  --bad: #c0392b;
+
+  --radius: 22px;
+  --shadow: 0 10px 30px rgba(14, 23, 41, .28);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+  background:
+    radial-gradient(1200px 700px at 50% -15%, #2a3c66 0%, transparent 60%),
+    linear-gradient(180deg, var(--night) 0%, var(--night-deep) 100%);
+  background-attachment: fixed;
+  color: var(--paper);
+  min-height: 100vh;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#screen {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 24px 18px 56px;
+}
+
+h1, h2 { font-family: 'Fredoka One', 'Nunito', sans-serif; font-weight: 400; line-height: 1.15; }
+
+/* ------------------------------------------------------------------ *
+ * The clock
+ * ------------------------------------------------------------------ */
+
+.clock { width: 100%; height: auto; display: block; touch-action: none; }
+
+.clock-rim  { fill: #e6dcc4; }
+.clock-dial { fill: var(--dial); }
+
+.clock-tick { stroke: #b9c2d4; stroke-width: 1.4; }
+.clock-tick--major { stroke: var(--hour); stroke-width: 3; }
+
+.clock-numeral {
+  font-family: 'Fredoka One', 'Nunito', sans-serif;
+  font-size: 17px;
+  fill: var(--hour);
+}
+.clock-numeral--roman { font-size: 12px; letter-spacing: .5px; }
+
+/* The second system. Hidden until §2.2 turns it on, then it fades in on top of
+   the face the child was already looking at. */
+.clock-minute-label {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 8.5px;   /* must fit inside the 10-unit rim band; see clock.js drawRing */
+  fill: var(--minute);
+  opacity: 0;
+  transition: opacity .45s ease;
+}
+.clock--ring-on .clock-minute-label { opacity: 1; }
+
+.clock-hand { stroke-linecap: round; }
+.clock-hand--hour   { stroke: var(--hour);   stroke-width: 7.5; }
+.clock-hand--minute { stroke: var(--minute); stroke-width: 4.5; }
+.clock-pin { fill: var(--hour); }
+
+/* Wide invisible grab targets. A 4.5px hand cannot be hit by a finger. */
+.clock-hit { stroke: transparent; stroke-width: 22; stroke-linecap: round; }
+.clock--draggable .clock-hit { cursor: grab; }
+.clock--dragging .clock-hit { cursor: grabbing; }
+.clock:not(.clock--draggable) .clock-hit { pointer-events: none; }
+
+.clock--hour-only .clock-hand--minute,
+.clock--hour-only .clock-hit[data-hand="minute"] { display: none; }
+
+.clock--draggable .clock-hand { transition: none; }
+
+/* ------------------------------------------------------------------ *
+ * Home
+ * ------------------------------------------------------------------ */
+
+.home-head { text-align: center; margin-bottom: 28px; }
+.title { font-size: clamp(2rem, 8vw, 3.2rem); }
+.title::after {
+  content: '';
+  display: block;
+  width: 84px; height: 4px;
+  margin: 14px auto 0;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--minute), #ffd98a);
+}
+.subtitle { margin-top: 12px; color: #c6d0e4; font-weight: 600; }
+
+.chapter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 18px;
+}
+
+.chapter-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 22px 18px 20px;
+  border: none;
+  border-radius: var(--radius);
+  background: linear-gradient(165deg, #ffffff 0%, #f2ecdd 100%);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  font: inherit;
+  text-align: center;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.chapter-card:hover { transform: translateY(-5px); box-shadow: 0 16px 36px rgba(14, 23, 41, .34); }
+.chapter-card:active { transform: translateY(1px); }
+.chapter-card h2 { font-size: 1.2rem; }
+.chapter-card p { font-size: .88rem; color: var(--ink-soft); font-weight: 600; }
+
+.card-clock { width: 116px; }
+
+.card-done {
+  position: absolute;
+  top: 12px; right: 14px;
+  font-size: .78rem;
+  font-weight: 900;
+  color: var(--good);
+}
+
+/* ------------------------------------------------------------------ *
+ * Chapter frame
+ * ------------------------------------------------------------------ */
+
+.chapter-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.chapter-titles h1 { font-size: clamp(1.3rem, 5vw, 1.9rem); }
+.chapter-titles p { font-size: .85rem; color: #c6d0e4; font-weight: 700; margin-top: 4px; }
+
+.back-button,
+.ghost-button {
+  border: 2px solid rgba(253, 246, 232, .35);
+  background: rgba(253, 246, 232, .08);
+  color: var(--paper);
+  font: inherit;
+  font-weight: 800;
+  padding: 10px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.back-button:hover,
+.ghost-button:hover { background: rgba(253, 246, 232, .18); }
+
+.ghost-button { display: block; margin: 26px auto 0; }
+
+.primary-button {
+  border: none;
+  background: linear-gradient(165deg, #ffc046, var(--minute));
+  color: #2b1a02;
+  font: inherit;
+  font-weight: 900;
+  font-size: 1.05rem;
+  padding: 14px 30px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #a8620d;
+}
+.primary-button:active { transform: translateY(3px); box-shadow: 0 3px 0 #a8620d; }
+
+/* ------------------------------------------------------------------ *
+ * c1 — mechanism
+ * ------------------------------------------------------------------ */
+
+.mechanism { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+
+.stage { width: min(320px, 78vw); position: relative; }
+
+.readout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-height: 54px;
+}
+.readout strong {
+  font-family: 'Fredoka One', 'Nunito', sans-serif;
+  font-weight: 400;
+  font-size: 1.9rem;
+  color: var(--minute);
+}
+.readout span { font-weight: 700; color: #c6d0e4; }
+
+.copy {
+  background: rgba(253, 246, 232, .07);
+  border: 1px solid rgba(253, 246, 232, .16);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  max-width: 560px;
+}
+.copy h2 { font-size: 1.15rem; color: #ffd98a; margin-bottom: 8px; }
+.copy p { font-weight: 600; line-height: 1.6; color: #e7ecf6; }
+
+.step-dots { display: flex; gap: 9px; }
+.step-dots i {
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  background: rgba(253, 246, 232, .25);
+}
+.step-dots i.is-past { background: rgba(253, 246, 232, .55); }
+.step-dots i.is-current { background: var(--minute); transform: scale(1.35); }
+
+/* ------------------------------------------------------------------ *
+ * Stage and face pickers
+ * ------------------------------------------------------------------ */
+
+/* Both pickers are grids of near-square cards, not rows.
+   A full-width row spent almost all of itself on empty space to the right of the
+   label, which forced the clock down to a ~56px thumbnail. A card roughly as tall
+   as it is wide gives the picture about five times the area — and the picture is
+   what a child who cannot yet read the label is actually navigating by. */
+/* Column counts are fixed per picker rather than left to auto-fit, because seven
+   and five both compose badly at an arbitrary width -- auto-fit put the steps at
+   five-plus-two, with a stranded pair under a full row. Four columns give the
+   seven steps 4 + 3, and three give the five faces 3 + 2. */
+.stage-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  /* Every row the same height, so a card with a two-line caption does not make its
+     row taller than the others. */
+  grid-auto-rows: 1fr;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.stage-list--faces {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 620px;
+}
+
+.stage-button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 16px 12px 18px;
+  border: 2px solid rgba(253, 246, 232, .18);
+  border-radius: var(--radius);
+  background: rgba(253, 246, 232, .07);
+  color: var(--paper);
+  font: inherit;
+  font-weight: 800;
+  font-size: 1.05rem;
+  text-align: center;
+  cursor: pointer;
+  transition: transform .15s ease, background .15s ease;
+}
+.stage-button:hover { background: rgba(253, 246, 232, .16); transform: translateY(-4px); }
+.stage-button:active { transform: translateY(1px); }
+.stage-button.is-done { border-color: rgba(46, 139, 87, .8); }
+.stage-button small { display: block; font-weight: 600; color: #b9c4da; font-size: .8rem; margin-top: 3px; }
+.stage-label { display: block; }
+
+/* Every card previews what it opens. Without this the two pickers were columns of
+   near-identical text bars — unusable for a child who cannot read them, and in the
+   "Any clock" chapter absurd, since the cards describe clock faces. */
+/* Square, whatever it holds. A dial is square by its own viewBox, but a digital
+   readout is a short wide box — so without this the two screen cards came out
+   markedly shorter than the three dial cards and the grid looked accidental. */
+.row-clock {
+  width: 100%;
+  max-width: 124px;
+  aspect-ratio: 1;
+  display: grid; place-items: center;
+}
+
+/* Roman numerals are set small on a real dial so that twelve of them fit. Shrunk to
+   a preview they become illegible smudges, so the preview overrides the size —
+   enough to read as letters rather than digits, which is the whole distinction
+   between this card and the tick-marks one. */
+.stage-list--faces .row-clock .clock-numeral--roman { font-size: 15px; }
+.stage-list--faces .row-clock .clock-tick--major { stroke-width: 4; }
+
+/* The screen-based cards show a readout, not a dial: that IS the distinction. */
+.row-digital {
+  font-family: 'Fredoka One', 'Nunito', sans-serif;
+  font-size: 1.55rem;
+  letter-spacing: 1px;
+  color: #7ef0c0;
+  background: #08131f;
+  border-radius: 12px;
+  padding: 8px;
+  width: 100%;
+  /* The square holder supplies the height; this just fills it. */
+  height: 100%;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  box-shadow: inset 0 0 18px rgba(126, 240, 192, .16);
+}
+
+/* Badge and tick sit in the card's corners so the clock keeps the middle. */
+.stage-number {
+  position: absolute;
+  top: 10px; left: 10px;
+  width: 28px; height: 28px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--minute);
+  color: #2b1a02;
+  font-weight: 900;
+  font-size: .9rem;
+}
+.stage-tick {
+  position: absolute;
+  top: 8px; right: 11px;
+  color: #6ee7a0;
+  font-size: 1.15rem;
+}
+
+/* Two per row on a phone rather than four cramped ones. */
+@media (max-width: 640px) {
+  .stage-list,
+  .stage-list--faces { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .stage-button { font-size: .95rem; padding: 14px 8px 14px; }
+  .row-digital { font-size: 1.35rem; padding: 22px 6px; }
+}
+
+/* ------------------------------------------------------------------ *
+ * Practice
+ * ------------------------------------------------------------------ */
+
+.practice { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+
+/* Smaller than the mechanism chapter's clock. There the child drags the hands, so
+   it needs the size; here it is only read, and the extra 70px pushed the Next
+   button off a 720px-tall screen. */
+.practice .stage { width: min(250px, 62vw); }
+
+.score { font-weight: 800; font-size: .85rem; color: #b9c4da; letter-spacing: .3px; }
+.prompt { font-size: clamp(1.1rem, 4.5vw, 1.5rem); text-align: center; color: #ffd98a; }
+
+/* Prompt plus its "say that again" control. */
+.prompt-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.replay-button {
+  flex: 0 0 auto;
+  width: 44px; height: 44px;      /* a real finger target, not a decorative glyph */
+  display: grid; place-items: center;
+  font-size: 1.15rem;
+  line-height: 1;
+  border: 2px solid rgba(253, 246, 232, .3);
+  border-radius: 50%;
+  background: rgba(253, 246, 232, .1);
+  color: var(--paper);
+  cursor: pointer;
+}
+.replay-button:hover { background: rgba(253, 246, 232, .22); }
+.replay-button:active { transform: translateY(2px); }
+
+/* Set once an utterance has been shown not to start. Every voice affordance goes
+   away rather than sitting there promising sound the device will never make. */
+body.no-voice .replay-button { display: none; }
+body.no-voice .voice-button { opacity: .65; }
+
+.live-readout {
+  margin-top: 10px;
+  text-align: center;
+  font-family: 'Fredoka One', 'Nunito', sans-serif;
+  font-size: 1.7rem;
+  color: var(--minute);
+}
+
+.digital {
+  font-family: 'Fredoka One', 'Nunito', sans-serif;
+  font-size: clamp(3rem, 16vw, 5rem);
+  text-align: center;
+  color: #7ef0c0;
+  background: #08131f;
+  border-radius: var(--radius);
+  padding: 20px 10px;
+  letter-spacing: 3px;
+  box-shadow: inset 0 0 30px rgba(126, 240, 192, .18);
+}
+
+/* Column count follows the number of options, set as data-count by app.js. Left to
+   auto-fit, four options land as three-plus-an-orphan; three want a single row. */
+.choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  width: 100%;
+  max-width: 620px;
+}
+.choices[data-count="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.choices[data-count="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.choices[data-count="4"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+.choices.is-faces { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+
+/* One option per row once there is no width to share. */
+@media (max-width: 430px) {
+  .choices[data-count] { grid-template-columns: 1fr; }
+  .choices.is-faces[data-count] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.choice {
+  padding: 16px 14px;
+  border: 2px solid rgba(253, 246, 232, .22);
+  border-radius: 16px;
+  background: rgba(253, 246, 232, .09);
+  color: var(--paper);
+  font: inherit;
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.choice:hover { background: rgba(253, 246, 232, .2); }
+
+/* Digit answers on the steps that are not about naming. Bigger and in the display
+   face, because "3:45" is a shape to recognise rather than a phrase to read. */
+.choice--digits {
+  font-family: 'Fredoka One', 'Nunito', sans-serif;
+  font-weight: 400;
+  font-size: 1.6rem;
+  letter-spacing: 1px;
+  padding: 14px;
+}
+
+.target-time {
+  font-family: 'Fredoka One', 'Nunito', sans-serif;
+  font-weight: 400;
+  color: var(--minute);
+  font-size: 1.25em;
+  letter-spacing: 1px;
+}
+
+.face-choice {
+  padding: 10px;
+  border: 3px solid rgba(253, 246, 232, .22);
+  border-radius: 18px;
+  background: rgba(253, 246, 232, .09);
+  cursor: pointer;
+}
+
+.choice.is-right,
+.face-choice.is-right { border-color: #6ee7a0; background: rgba(110, 231, 160, .2); }
+.choice.is-wrong,
+.face-choice.is-wrong { border-color: #ff8b7a; background: rgba(255, 139, 122, .18); }
+
+.choices.is-locked .choice,
+.choices.is-locked .face-choice { cursor: default; }
+
+.feedback { text-align: center; min-height: 48px; }
+.feedback .good { color: #6ee7a0; font-weight: 900; font-size: 1.1rem; }
+.feedback .bad  { color: #ff9d8e; font-weight: 900; font-size: 1.1rem; }
+.feedback .also { margin-top: 6px; color: #c6d0e4; font-weight: 700; font-size: .9rem; }
+
+.actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.actions .ghost-button { margin: 0; }
