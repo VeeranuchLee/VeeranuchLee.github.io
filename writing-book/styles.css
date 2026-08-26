@@ -1,0 +1,656 @@
+/* Writing Book — prototype styles.
+ *
+ * Target device is a 9.7" iPad, 768 px wide, held in portrait. Not a phone.
+ * Every tap target below is at least 64 px, and the writing area is sized for a
+ * child's finger rather than a cursor.
+ *
+ * CONCEPT.md §25: one primary task per screen. On the writing screen the word
+ * is the largest thing on the paper and the controls are deliberately quiet.
+ */
+
+:root {
+  --ink: #2c3e63;
+  --ink-soft: #6b7a99;
+  --paper: #fdfaf3;
+  --guide: #c7bfae;
+  --target: #b9c6dd;
+  --child-ink: #3f6fb5;
+  --done-ink: #2f6fb0;
+  --start: #2f8d63;
+  --shell: #efe7d8;
+  --shadow: 0 6px 20px rgba(60, 48, 30, 0.16);
+  --radius: 20px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--shell);
+  color: var(--ink);
+  font-family: ui-rounded, "Avenir Next", "Nunito", "Trebuchet MS", system-ui, sans-serif;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+body { display: flex; flex-direction: column; }
+
+#screen { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+
+button { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; }
+
+/* ---------- the paper page ------------------------------------------- */
+
+.page {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  min-height: 0;
+}
+
+/* The illustrated frame is the background; content sits in the clean middle.
+   The inset is the widest of the four frames, so one number works for all. */
+/* Sized from the space left after the bar, not from the viewport. Measuring
+   against 100dvh ignores the bar and pushes the page 20-odd pixels past the
+   bottom of the screen in landscape. */
+.paper {
+  position: relative;
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  aspect-ratio: 1200 / 1551;
+  background-size: cover;
+  background-position: center;
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* ---------- the worksheet ---------------------------------------------- */
+
+/* The owner's page sketch, 2026-08-26: word cards down the left margin — over
+   the decorated edge, as drawn — and the writing rows filling the rest. */
+/* Inset to the clear middle of the busiest of the four frames. The bottom is the
+   deepest because every paper puts its heaviest illustration along the bottom
+   edge — grass and animals, coral and sand — and the last writing row landed on
+   top of it. */
+.sheet {
+  position: absolute;
+  inset: 7% 6% 12% 4%;
+  display: flex;
+  gap: 14px;
+  min-height: 0;
+}
+
+.wordlist {
+  flex: 0 0 21%;
+  max-width: 132px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+}
+
+/* One card per writing row, each taking an equal share of the column. Sized by
+   their contents instead, the third card hangs off the bottom of the paper. */
+.wordcard {
+  position: relative;
+  flex: 1 1 0;
+  min-height: 0;
+  background: rgba(255, 253, 247, 0.96);
+  border-radius: 13px;
+  box-shadow: 0 2px 9px rgba(60, 48, 30, 0.2);
+  padding: 6px 5px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  transition: transform 120ms ease;
+}
+.wordcard:active { transform: scale(0.95); }
+.wordcard__pic {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.wordcard__pic img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
+/* Never shrink: a tall picture was squeezing the word out of the card. */
+.wordcard__word { flex: 0 0 auto; font-size: 17px; font-weight: 800; line-height: 1; }
+
+.wordcard__tick {
+  position: absolute;
+  top: -6px; right: -6px;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--start);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  display: grid; place-items: center;
+  transform: scale(0);
+  transition: transform 260ms cubic-bezier(0.2, 1.5, 0.4, 1);
+}
+.wordcard.is-done .wordcard__tick { transform: scale(1); }
+
+.lines {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.entry {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  padding: 2px 6px;
+  transition: opacity 260ms ease, background 260ms ease;
+}
+/* The row being written on gets a clean panel: the four papers carry their own
+   faint printed rules, and without this the app's guide lines cross them and the
+   writing area turns to noise. CONCEPT.md §2 asks for a clean central writing
+   area — this is it, moved to whichever row is live. */
+.entry.is-active {
+  background: rgba(255, 253, 247, 0.88);
+  box-shadow: 0 2px 10px rgba(60, 48, 30, 0.1);
+}
+/* Quiet, but still readable — a child should be able to see what is coming. */
+.entry.is-waiting { opacity: 0.55; }
+
+/* Row geometry, and the two traps in it.
+   1. An SVG is a REPLACED element. Given `top:0; bottom:0; height:auto` it
+      ignores `bottom` and takes its intrinsic height from width ÷ viewBox
+      aspect — which made every word two to three times too tall and the rows
+      overlap. Both height and width are therefore stated outright.
+   2. `height: 100%` only resolves because the parent is positioned and its
+      height is definite. Through the bare flex chain it silently fell back to
+      the same intrinsic sizing. */
+.entry__row { position: relative; min-height: 0; }
+.entry__row--model { flex: 0 0 40%; }
+.entry__row--trace { flex: 1 1 auto; }
+
+.rowsvg {
+  position: absolute;
+  left: 50px; top: 0;
+  width: calc(100% - 50px);
+  height: 100%;
+  touch-action: none;
+  overflow: visible;
+}
+
+/* Tap it and the word writes itself. This stands in for the "← How to" label the
+   owner drew: a pre-reader cannot use the words, but they can use the button. */
+.playrow {
+  position: absolute;
+  left: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 7px rgba(60, 48, 30, 0.2);
+  display: grid; place-items: center;
+  font-size: 17px;
+  color: var(--ink);
+  transition: transform 120ms ease;
+}
+.playrow:active { transform: translateY(-50%) scale(0.9); }
+/* Reserves the same left gutter on the trace row, so the model word and the word
+   the child writes line up exactly. */
+.playrow--ghost { visibility: hidden; }
+
+.wb-guide { stroke: var(--guide); fill: none; stroke-width: 1.6; }
+.wb-guide--dashed { stroke-dasharray: 8 9; opacity: 0.75; }
+.wb-guide--solid { opacity: 0.95; }
+
+/* The pale solid letter under the dots: what letter this is, readable at arm's
+   length. */
+.wb-ghost {
+  fill: none;
+  stroke: #dbe3f0;
+  stroke-width: 13;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: opacity 200ms ease;
+}
+.wb-ghost.is-finished { opacity: 0; }
+
+/* The dotted line on top: where the stroke runs. It stays thin and pretty; the
+   corridor that actually passes a trace is far wider and never drawn —
+   CONCEPT.md §4. */
+.wb-target {
+  fill: none;
+  stroke: var(--target);
+  stroke-width: 5.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 0.1 11;
+  opacity: 0.7;
+  transition: opacity 200ms ease, stroke 200ms ease;
+}
+.wb-target.is-current { opacity: 1; stroke: #7f93bb; }
+.wb-target.is-waiting { opacity: 0.4; }
+.wb-target.is-finished { opacity: 0; }
+.wb-target.is-demoing { opacity: 1; }
+
+.wb-done {
+  fill: none;
+  stroke: var(--done-ink);
+  stroke-width: 11;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.wb-ink {
+  fill: none;
+  stroke: var(--child-ink);
+  stroke-width: 11;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.85;
+}
+.wb-ink.is-accepted { transition: opacity 300ms ease; opacity: 0; }
+.wb-ink.is-rejected {
+  transition: opacity 400ms ease;
+  opacity: 0;
+  stroke: #b9a6c9;
+}
+
+.wb-start-dot {
+  fill: var(--start);
+  transition: opacity 200ms ease;
+  animation: startPulse 1.9s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.wb-start-dot.is-nudging { animation: startNudge 560ms ease-in-out 2; }
+
+/* Kept opaque. Fading it out lets the pale letter underneath show through and
+   the dot turns a muddy olive instead of reading as green. */
+@keyframes startPulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.12); }
+}
+@keyframes startNudge {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.5); }
+}
+
+.wb-demo-dot { fill: #e08a3c; }
+
+/* The "how to" row is finished ink and nothing else — no ghost, no dots to
+   trace, nothing to touch. It shows what the word looks like when it is done. */
+.wb--model .wb-ghost,
+.wb--model .wb-target { display: none; }
+.wb--model .wb-done { stroke: var(--ink); }
+
+/* Dimming lives on .entry only. Putting it here too compounded the two and left
+   the rows a child has not reached at roughly a fifth opacity — invisible. */
+
+/* ---------- the message line ------------------------------------------ */
+
+/* One line of guidance, in the bar rather than on the paper. On the paper it
+   competed with the writing for the child's eye; the bar is where they already
+   look for the page title. */
+.says {
+  margin-left: auto;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  text-align: right;
+  transition: color 160ms ease;
+}
+.says.is-good { color: var(--start); }
+
+/* ---------- controls --------------------------------------------------- */
+
+.controls {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+}
+
+.control {
+  min-height: 64px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 3px 10px rgba(60, 48, 30, 0.18);
+  font-size: 19px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  transition: transform 120ms ease;
+}
+.control:active { transform: scale(0.95); }
+.control[hidden] { display: none; }
+
+/* ---------- top bar ---------------------------------------------------- */
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px 0;
+  flex: 0 0 auto;
+}
+
+.bar__back {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(60, 48, 30, 0.16);
+  display: grid; place-items: center;
+  font-size: 26px;
+}
+
+.bar__title { font-size: 21px; font-weight: 800; }
+
+.dots { margin-left: auto; display: flex; gap: 8px; }
+.dots span {
+  width: 15px; height: 15px; border-radius: 50%;
+  background: #fff; box-shadow: inset 0 0 0 2px rgba(44, 62, 99, 0.25);
+}
+.dots span.is-done { background: var(--start); box-shadow: none; }
+.dots span.is-now { background: var(--ink); box-shadow: none; }
+
+/* ---------- cover / level picker --------------------------------------- */
+
+.cover { padding: 18px 18px 26px; overflow-y: auto; }
+.cover__head { text-align: center; margin-bottom: 16px; }
+.cover__head h1 { font-size: 34px; margin: 4px 0 2px; }
+.cover__head p { margin: 0; color: var(--ink-soft); font-size: 18px; }
+
+.levels {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.level {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  background: var(--paper) center/cover;
+  padding: 12px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 150px;
+  transition: transform 130ms ease;
+}
+.level:active { transform: scale(0.97); }
+
+/* The four papers include two dark ones (space, ocean). The veil is what keeps
+   the title readable on all four, so it must stay under the text and above the
+   art — a blanket `.level > *` rule would flatten it back into the flow. */
+.level__veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 253, 247, 0.72), rgba(255, 253, 247, 0.93));
+}
+.level__n,
+.level__title,
+.level__peek { position: relative; }
+
+.level__n { font-size: 15px; font-weight: 800; color: var(--ink-soft); letter-spacing: 0.04em; }
+.level__title { font-size: 23px; font-weight: 800; line-height: 1.1; }
+.level__peek { display: flex; gap: 6px; margin-top: auto; }
+.level__peek img {
+  width: 30%; max-width: 62px; border-radius: 9px;
+  box-shadow: 0 2px 6px rgba(60,48,30,0.2); background: #fff;
+}
+.level__count {
+  position: absolute; top: 10px; right: 12px;
+  font-size: 15px; font-weight: 800; color: var(--ink);
+  background: rgba(255,255,255,0.9);
+  border-radius: 999px; padding: 3px 10px;
+}
+
+.cover__book {
+  margin: 18px auto 0;
+  display: flex;
+}
+
+/* ---------- mode selector ----------------------------------------------- */
+
+.modes {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.mode {
+  flex: 1 1 0;
+  min-height: 76px;
+  border-radius: 16px;
+  background: rgba(255, 253, 247, 0.9);
+  box-shadow: inset 0 0 0 2px rgba(44, 62, 99, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  transition: transform 120ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+.mode:active { transform: scale(0.96); }
+.mode.is-on {
+  background: #fff;
+  box-shadow: inset 0 0 0 3px var(--start), 0 3px 10px rgba(60, 48, 30, 0.18);
+}
+.mode__icon { font-size: 27px; line-height: 1; }
+.mode__label { font-size: 15px; font-weight: 800; }
+
+/* ---------- the two vocabulary games ------------------------------------- */
+
+/* Same inset as the writing sheet, so both games sit in the clear middle of
+   every paper. */
+.quiz {
+  position: absolute;
+  inset: 6% 6% 10% 6%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-height: 0;
+}
+
+.quiz__dots { display: flex; gap: 8px; flex: 0 0 auto; }
+.quiz__dots span {
+  width: 13px; height: 13px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: inset 0 0 0 2px rgba(44, 62, 99, 0.3);
+}
+.quiz__dots span.is-done { background: var(--start); box-shadow: none; }
+.quiz__dots span.is-now { background: var(--ink); box-shadow: none; }
+
+.quiz__prompt {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Hearing the word again is the child's main way out of being stuck, so it is a
+   full-size target, not a decoration. */
+.speak {
+  width: 74px;
+  height: 74px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 3px 10px rgba(60, 48, 30, 0.2);
+  display: grid;
+  place-items: center;
+  font-size: 34px;
+  line-height: 1;
+  transition: transform 120ms ease;
+}
+.speak:active { transform: scale(0.92); }
+
+/* The picture is the clue. The word it came from is cropped out of this file —
+   see art/words/picture/ — so the answer cannot leak from the artwork. */
+.quiz__picture {
+  height: 100%;
+  width: auto;
+  max-width: 62%;
+  object-fit: contain;
+  border-radius: 14px;
+  box-shadow: 0 3px 12px rgba(60, 48, 30, 0.22);
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.boxes {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 9px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.box {
+  width: 58px;
+  height: 68px;
+  border-radius: 12px;
+  background: rgba(255, 253, 247, 0.94);
+  box-shadow: inset 0 -4px 0 rgba(44, 62, 99, 0.22);
+  display: grid;
+  place-items: center;
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--ink);
+}
+.box.is-open { animation: boxIn 320ms cubic-bezier(0.2, 1.5, 0.4, 1) both; }
+@keyframes boxIn {
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+.boxes.is-complete .box {
+  background: #eaf6ee;
+  box-shadow: inset 0 -4px 0 var(--start);
+}
+
+.keys {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  width: 100%;
+  background: rgba(255, 253, 247, 0.88);
+  border-radius: 16px;
+  padding: 9px 8px;
+  box-shadow: 0 2px 10px rgba(60, 48, 30, 0.12);
+}
+.keyrow { display: flex; gap: 7px; justify-content: center; }
+
+/* 64 px minimum, both ways — this is the one control a child taps over and
+   over, and the target device is a 9.7" iPad held by a four-year-old. */
+.key {
+  flex: 0 1 76px;
+  min-width: 0;
+  height: 64px;
+  border-radius: 13px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(60, 48, 30, 0.2);
+  font-size: 29px;
+  font-weight: 800;
+  color: var(--ink);
+  transition: transform 110ms ease, opacity 200ms ease, background 200ms ease;
+}
+.key:active { transform: scale(0.9); }
+/* Dimmed, not removed: a letter that vanished would change the keyboard under
+   the child's finger between one tap and the next. */
+.key.is-spent {
+  opacity: 0.32;
+  background: #efe9dd;
+  box-shadow: none;
+  pointer-events: none;
+}
+.key.is-wrong { animation: keyWiggle 400ms ease; }
+@keyframes keyWiggle {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-7px) rotate(-3deg); }
+  75%      { transform: translateX(7px) rotate(3deg); }
+}
+
+/* ---------- reward ------------------------------------------------------ */
+
+.reward {
+  flex: 1;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 18px; padding: 24px; text-align: center;
+}
+.reward h2 { font-size: 32px; margin: 0; }
+.reward p { margin: 0; font-size: 20px; color: var(--ink-soft); }
+
+/* The cards are tall strips (181:516). Sizing these by width runs them off the
+   bottom of the iPad and takes the buttons with them — height is the constraint
+   that matters. */
+.sticker {
+  max-height: 54dvh;
+  max-width: 62vw;
+  width: auto;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(60, 48, 30, 0.28);
+  background: #fff;
+  animation: stickerIn 620ms cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+@keyframes stickerIn {
+  from { transform: scale(0.4) rotate(-9deg); opacity: 0; }
+  to   { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+/* ---------- sticker book ------------------------------------------------ */
+
+.book { padding: 0 16px 26px; overflow-y: auto; }
+.book__page { margin-top: 20px; }
+.book__page h3 { margin: 0 0 10px; font-size: 21px; }
+.book__grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+/* The card art is a tall strip. Shown whole, ten of them fill two screens and
+   the book becomes unbrowsable — the one thing a sticker album must not be. The
+   slot crops to the picture and prints the word underneath in the app's own
+   type, which is also far more legible than the word baked into the artwork at
+   this size. */
+.book__item { display: flex; flex-direction: column; gap: 4px; }
+
+.book__slot {
+  aspect-ratio: 5 / 7;
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 0 0 2px rgba(44, 62, 99, 0.13);
+  display: grid; place-items: center;
+  font-size: 26px; color: rgba(44, 62, 99, 0.28);
+  overflow: hidden;
+}
+/* contain, not cover: cover crops the tall strips through the middle and takes
+   the top off every character's head. */
+.book__slot img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+.book__word {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 800;
+  min-height: 19px;
+  color: var(--ink);
+}
+.book__word:empty::after { content: '·'; color: rgba(44, 62, 99, 0.25); }
