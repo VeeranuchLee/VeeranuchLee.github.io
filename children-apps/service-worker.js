@@ -26,7 +26,7 @@
  *   v3  2026-08-20  Space Math and Unicorn Math badges say 11 games, not 9
  *   v4  2026-08-21  Planets & Moons joined the hub
  */
-const CACHE_NAME = "children-apps-v5";
+const CACHE_NAME = "children-apps-v6";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
