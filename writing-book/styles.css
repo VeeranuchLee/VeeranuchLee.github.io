@@ -369,6 +369,10 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 /* ---------- cover / level picker --------------------------------------- */
 
 .cover { padding: 18px 18px 26px; overflow-y: auto; }
+/* The way out of the book, on the cover only. It reuses .bar__back so the arrow that
+   leaves the app is the same circle as the arrow that leaves a page. */
+.cover__out { margin-bottom: 2px; }
+.cover__out .bar__back { text-decoration: none; color: inherit; }
 .cover__head { text-align: center; margin-bottom: 16px; }
 .cover__head h1 { font-size: 34px; margin: 4px 0 2px; }
 .cover__head p { margin: 0; color: var(--ink-soft); font-size: 18px; }

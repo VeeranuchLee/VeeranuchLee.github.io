@@ -99,11 +99,12 @@ with `../`:
 | Planets & Moons | `../solar-system-game/` | `solar-system-game` |
 | Our Animal Book | `../animal-book/` | `animal-book` |
 
-The test publish additionally places Music Book at `../music-book/` and contains the
-self-contained `./bird-flight/` interaction test. Both are committed to the public Pages
-repository for testing; neither appears in the main hub table above. A later main-hub
-promotion may also split Music Book into its own project repository, but testing does not
-require that extra public-repository boundary.
+The test publish additionally places three apps at the top level of the public Pages
+repository — Music Book at `../music-book/`, Clock Game at `../time-book/` and Writing Book
+at `../writing-book/` — plus the self-contained `./bird-flight/` interaction test. None
+appears in the main hub table above. A later main-hub promotion may split any of them into
+its own project repository, but testing does not require that extra public-repository
+boundary.
 
 All links are relative, so there is no domain to go stale.
 
