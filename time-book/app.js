@@ -266,7 +266,21 @@
       return card;
     });
 
+    /* Owner, 2026-08-26: "add back button to test hub for the test apps too." It sits on
+       the home screen only -- a chapter already has "\u2039 Book" back to here, so the way
+       out is one more tap of the same idea rather than a second button on every screen.
+       It reads "\u2039 Test Apps" for the same reason the chapter button reads "\u2039 Book":
+       this book names where a button GOES. Absolute URL on purpose: published, /time-book/
+       and /test-apps/ are siblings; in the repo the hub lives under site/, so a relative
+       link would work live and 404 in every local preview. */
     screen.appendChild(h('div', { class: 'home' }, [
+      h('div', { class: 'home-out' }, [
+        h('a', {
+          class: 'back-button hub-button',
+          href: 'https://veeranuchlee.github.io/test-apps/',
+          text: '\u2039 Test Apps'
+        })
+      ]),
       h('header', { class: 'home-head' }, [
         h('h1', { class: 'title', text: 'Time Book' }),
         h('p', { class: 'subtitle', text: 'Learn to read any clock in the world.' })

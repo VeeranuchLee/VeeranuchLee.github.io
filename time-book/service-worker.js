@@ -10,9 +10,12 @@
  * Bump CACHE_NAME on every publish. The activate handler deletes every other
  * cache, and that is what actually ships an update to a device that already
  * installed the app.
+ *
+ *   v1  2026-08-25  first publish, as Clock Game on the test hub
+ *   v2  2026-08-27  a back button on the home screen, out to the test hub
  */
 
-const CACHE_NAME = "time-book-v1";
+const CACHE_NAME = "time-book-v2";
 
 const SHELL = [
   "./",

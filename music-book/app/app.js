@@ -36,6 +36,14 @@ function renderLanding() {
   stage.style.backgroundImage = 'url(assets/backgrounds/garden-pastel.webp)';
   stage.innerHTML = `
     <div class="scrim">
+      <!-- Owner, 2026-08-26: "add back button to test hub for the test apps too."
+           Only the landing carries it, because only the landing is the top of this app --
+           the world screen already has a house button back to here, and a child who taps
+           back twice should leave the book, not fall out of it from the middle. Absolute
+           URL on purpose: published, /music-book/ and /test-apps/ are siblings, but in the
+           repo the hub lives under site/, so a relative link would work live and 404 in
+           every local preview. -->
+      <a class="round-btn hub-btn" href="https://veeranuchlee.github.io/test-apps/" aria-label="Back to Test Apps">&larr;</a>
       <header class="hero">
         <p class="hero__eyebrow">Welcome, young musician</p>
         <h1 class="hero__title"><span class="hero__line">Choose Your</span> <span class="hero__line">Music Companion</span></h1>

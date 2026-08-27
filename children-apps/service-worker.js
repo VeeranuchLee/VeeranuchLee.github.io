@@ -25,8 +25,12 @@
  *   v2  2026-08-17  Our Animal Book joined the hub
  *   v3  2026-08-20  Space Math and Unicorn Math badges say 11 games, not 9
  *   v4  2026-08-21  Planets & Moons joined the hub
+ *   v5  2026-08-24  the AI-voice line, scoped to the voices we actually made
+ *   v6  2026-08-26  the badges say 13 games -- and the hub was pushed for the first time
+ *                   in weeks, which is why it had been showing 11
+ *   v7  2026-08-26  Read Fractions makes it 14
  */
-const CACHE_NAME = "children-apps-v6";
+const CACHE_NAME = "children-apps-v7";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */

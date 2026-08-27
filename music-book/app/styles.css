@@ -118,6 +118,13 @@ body {
 }
 .round-btn:active { transform: scale(.94); }
 
+/* The way out of the book, on the landing only. The scrim is inset:0, so this pins to
+   the same corner the world screen puts its house button in. */
+.hub-btn {
+  position: absolute; left: 2.2%; top: 2.2%; z-index: 3;
+  display: grid; place-items: center; text-decoration: none;
+}
+
 .banner {
   flex: 1; text-align: center;
   padding: .5% 2%;
