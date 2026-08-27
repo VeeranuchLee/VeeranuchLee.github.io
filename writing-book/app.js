@@ -21,6 +21,9 @@
   var Strokes = window.WritingStrokes;
   var Words = window.WritingWords;
   var Sound = window.WritingSound;
+  /* Optional on purpose: if sentences.js is ever absent the cards simply lose
+     their badge rather than throwing on every page. */
+  var Sentences = window.WritingSentences;
   var Vocab = window.WritingVocab;
 
   var screen = document.getElementById('screen');
@@ -227,8 +230,23 @@
     var tracing = Words.tracingLevel(page.level);
     var queue = session.queue;
 
+    /* THE SAY BADGE. Owner, 2026-08-27, choosing it from twelve: the speech bubble,
+       because it is the only one whose meaning matches the action -- a bubble is a
+       sentence, the speaker is "hear it" -- and the only shortlist member that is
+       still legible at the 40px it actually renders at.
+
+       It is a SPAN, not a button, because the card is already a button and a button
+       inside a button is invalid. It carries role and tabindex so it is still a
+       control to a screen reader and a keyboard, and its handler stops propagation
+       so tapping the badge does not also fire the card underneath.
+
+       TOP LEFT, not top right: the green done-tick already owns the right corner. */
     var cards = queue.map(function (entry, i) {
+      var says = Sentences && Sentences.of(entry.slug);
       return '<button class="wordcard" data-i="' + i + '">' +
+             (says ? '<span class="wordcard__say" role="button" tabindex="0"' +
+                     ' data-say="' + entry.slug + '"' +
+                     ' aria-label="Hear a sentence with ' + entry.word + '"></span>' : '') +
              '<span class="wordcard__pic"><img src="' + Words.picture(entry.slug) +
              '" alt="' + entry.word + '"></span>' +
              '<span class="wordcard__word">' + entry.word + '</span>' +
@@ -278,6 +296,22 @@
       Sound.unlock();
       Sound.voice.word(queue[i].slug);
     }
+
+    /* The badge speaks the sentence and nothing else happens: stopPropagation keeps
+       the card's own word from firing underneath it, so one tap is one utterance. */
+    Array.prototype.forEach.call(screen.querySelectorAll('.wordcard__say'), function (badge) {
+      function speak(event) {
+        event.stopPropagation();
+        event.preventDefault();
+        Sound.unlock();
+        Sound.play('tap');
+        Sound.voice.sentence(badge.getAttribute('data-say'));
+      }
+      badge.addEventListener('click', speak);
+      badge.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' || event.key === ' ') { speak(event); }
+      });
+    });
 
     function activate(i) {
       at = i;

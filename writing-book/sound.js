@@ -147,6 +147,10 @@
     word: function (slug) { return say('audio/words/' + slug + '.m4a'); },
     spell: function (slug) { return say('audio/spell/' + slug + '.m4a'); },
     letter: function (ch) { return say('audio/letters/' + ch.toLowerCase() + '.m4a'); },
+    /* The word used in a sentence about its own picture. Separate from word() on
+       purpose: tapping the card says the word, tapping the badge says the sentence,
+       and a child who only wants the word should never have to sit through one. */
+    sentence: function (slug) { return say('audio/sentence/' + slug + '.m4a'); },
     cue: function (name) {
       return say('audio/cues/' + name.toLowerCase().replace(/[^a-z]+/g, '-') + '.m4a');
     }

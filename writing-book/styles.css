@@ -139,6 +139,22 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 }
 .wordcard.is-done .wordcard__tick { transform: scale(1); }
 
+/* The say badge: tap the card to hear the word, tap this to hear the word used in a
+   sentence about the picture. TOP LEFT because the done-tick owns the right corner.
+   44px is the tap target; the art is drawn at 96 so it stays sharp on the iPad. */
+.wordcard__say {
+  position: absolute;
+  top: -8px; left: -8px;
+  width: 44px; height: 44px;
+  background: url('art/ui/say-bubble.png') center/contain no-repeat;
+  cursor: pointer;
+  z-index: 2;
+  filter: drop-shadow(0 2px 4px rgba(60, 48, 30, 0.28));
+  transition: transform 120ms ease;
+}
+.wordcard__say:active { transform: scale(0.88); }
+.wordcard__say:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; border-radius: 50%; }
+
 .lines {
   flex: 1 1 auto;
   min-width: 0;
