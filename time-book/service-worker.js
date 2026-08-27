@@ -13,9 +13,12 @@
  *
  *   v1  2026-08-25  first publish, as Clock Game on the test hub
  *   v2  2026-08-27  a back button on the home screen, out to the test hub
+ *   v3  2026-08-27  c4 World Clock Explorer (§2.8) and c5 How long? (§2.7).
+ *                   NOT YET PUBLISHED — v2 is what the live site serves, so both
+ *                   chapters ride on this one bump rather than taking one each.
  */
 
-const CACHE_NAME = "time-book-v2";
+const CACHE_NAME = "time-book-v3";
 
 const SHELL = [
   "./",
@@ -24,6 +27,8 @@ const SHELL = [
   "./styles.css",
   "./fonts.css",
   "./clock.js",
+  "./worldclock.js",
+  "./elapsed.js",
   "./app.js",
 
   "./fonts/Nunito-latin.woff2",

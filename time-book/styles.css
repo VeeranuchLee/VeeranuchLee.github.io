@@ -86,6 +86,22 @@ h1, h2 { font-family: 'Fredoka One', 'Nunito', sans-serif; font-weight: 400; lin
 
 /* Wide invisible grab targets. A 4.5px hand cannot be hit by a finger. */
 .clock-hit { stroke: transparent; stroke-width: 22; stroke-linecap: round; }
+
+/* §2.7's journey. A THIRD colour, deliberately: the hour hand's blue and the minute
+   hand's amber each own one of the two number systems on the face (see the top of
+   this file), and a duration is neither of them -- it is a distance travelled. Green
+   says "this is a different kind of thing" without touching either pairing. */
+.clock-sweep {
+  fill: none;
+  stroke: #2e8b57;
+  stroke-width: 7;
+  stroke-linecap: round;
+  opacity: .55;
+}
+/* Hollow where the hand set off, an arrowhead where it arrived, so the arc reads as
+   a direction rather than as a ring — see setSweep for why a dot was not enough. */
+.clock-sweep-end { fill: var(--dial); stroke: #2e8b57; stroke-width: 3; }
+.clock-sweep-head { fill: #2e8b57; }
 .clock--draggable .clock-hit { cursor: grab; }
 .clock--dragging .clock-hit { cursor: grabbing; }
 .clock:not(.clock--draggable) .clock-hit { pointer-events: none; }
@@ -260,7 +276,8 @@ h1, h2 { font-family: 'Fredoka One', 'Nunito', sans-serif; font-weight: 400; lin
   max-width: 720px;
   margin: 0 auto;
 }
-.stage-list--faces {
+.stage-list--faces,
+.stage-list--five {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   max-width: 620px;
 }
@@ -493,3 +510,381 @@ body.no-voice .voice-button { opacity: .65; }
 
 .actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
 .actions .ghost-button { margin: 0; }
+
+/* ------------------------------------------------------------------ *
+ * c4 — World Clock Explorer (§2.8)
+ *
+ * The stacking order is the lesson: clock, then place, then map. The map is
+ * deliberately the smallest and quietest thing here -- if it ever becomes the
+ * main event this chapter has drifted into a geography toy, which is the one
+ * thing the brief says it must not be.
+ *
+ * Sized to a 9.7-inch iPad in landscape (1024x768), which is what the children
+ * actually hold, so the whole chapter fits without scrolling.
+ * ------------------------------------------------------------------ */
+
+/* Tight, because the clock and the map have to be on screen together: the whole
+   point is watching the hands move when a place is tapped, and a child who has to
+   scroll to see the clock they just changed has been shown nothing. */
+.wc { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+
+.wc-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+
+.wc-dial-tap {
+  width: min(184px, 27vh);
+  cursor: pointer;
+  border-radius: 50%;
+  touch-action: manipulation;
+}
+
+.wc-replay { position: absolute; left: 0; top: 4px; }
+
+.wc-hint { color: var(--ink-soft); font-size: .82rem; }
+.no-voice .wc-hint, .no-voice .wc-replay, .no-voice .wc-panel-hint { display: none; }
+
+/* The place, on a ribbon -- flag, city, country. */
+.wc-ribbon {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 5px 20px;
+  box-shadow: var(--shadow);
+  font-family: 'Fredoka One', 'Nunito', sans-serif;
+  font-size: 1.15rem;
+}
+
+.wc-flag { font-size: 1.3rem; }
+
+/* Tapping it says the time the other way round: "ten forty-five" becomes
+   "a quarter to eleven". One time, several names -- §2.4, in one gesture. */
+.wc-digital {
+  background: none; border: 0; cursor: pointer;
+  color: var(--paper);
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+  padding: 2px 10px;
+  border-radius: 10px;
+  text-decoration: underline dotted rgba(253, 246, 232, .35);
+  text-underline-offset: 5px;
+}
+.wc-digital:hover { background: rgba(253, 246, 232, .08); }
+
+/* ---- the map ---- */
+
+.wc-map-wrap { width: 100%; display: flex; justify-content: center; }
+
+.wc-map {
+  width: 100%;
+  max-width: 700px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  line-height: 0;
+}
+
+.wc-map-svg { width: 100%; height: auto; display: block; }
+
+/* The map is real coastline data (tools/build-map.py) drawn to look hand-made.
+   The storybook feel is entirely in these two rules, so the geometry can stay
+   honest: soft palette, no borders, no graticule, nothing a textbook would add.
+
+   `paint-order: stroke fill` is what rounds the coast. A fat round-joined
+   stroke drawn UNDER the fill shows only its outer half, so the silhouette
+   becomes the coastline gently dilated with every sharp corner rounded off --
+   simplification artefacts read as a friendly blob instead of a survey error.
+   It also nudges the two marginal pins (Rome, Singapore, both under half a
+   pixel out) safely inside the painted land. */
+.wc-ocean { fill: #bfe4f5; }
+.wc-land  {
+  fill: #a9dc8d;
+  stroke: #79b863;
+  stroke-width: 5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  paint-order: stroke fill;
+}
+
+.wc-pin { cursor: pointer; }
+.wc-pin-body { fill: #6f7fa8; stroke: #fffdf7; stroke-width: 2; }
+.wc-pin-eye  { fill: #fffdf7; }
+/* Invisible, and much bigger than the mark it sits behind. The hunt is the
+   game; a finger that misses by 20 px is not a wrong answer. */
+.wc-pin-hit  { fill: transparent; }
+
+.wc-pin.is-home .wc-pin-body { fill: #e2564b; }
+.wc-pin.is-here .wc-pin-body { fill: var(--minute); }
+.wc-pin.is-here .wc-pin-eye  { r: 5; }
+.wc-pin:focus { outline: none; }
+.wc-pin:focus .wc-pin-body { stroke: var(--minute); stroke-width: 4; }
+
+.wc-chip rect { fill: #fffdf7; stroke: #cbd5e6; stroke-width: 1; }
+.wc-chip text {
+  fill: #22304d; font-family: 'Nunito', sans-serif;
+  font-size: 15px; font-weight: 700;
+}
+.wc-chip.is-here rect { fill: var(--minute); stroke: #b06f10; }
+.wc-chip.is-here text { fill: #fffdf7; }
+
+/* ---- the panel ---- */
+
+/* One tap says the gap and the date out loud. They are not in the arrival line
+   on purpose: five sentences in a row was too many for a six-year-old. */
+.wc-panel {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  text-align: left;
+  background: var(--paper);
+  color: var(--ink);
+  border: 0;
+  border-radius: var(--radius);
+  padding: 9px 52px 9px 20px;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  box-shadow: var(--shadow);
+}
+
+.wc-panel.is-home { background: rgba(253, 246, 232, .14); color: var(--paper); }
+
+/* The date line is the whole point of the chapter, so when it moves, it shows. */
+.wc-panel.is-crossing { background: #fff3cf; box-shadow: 0 0 0 3px var(--minute), var(--shadow); }
+
+.wc-gap  { font-size: 1.05rem; font-weight: 700; }
+.wc-date { font-size: 1.15rem; font-weight: 800; margin-top: 2px; }
+.wc-panel.is-crossing .wc-date { color: #a4550c; }
+
+.wc-panel-hint { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); opacity: .5; }
+
+.wc-facts { display: flex; align-items: center; gap: 14px; }
+
+.wc-chip-flat {
+  background: rgba(253, 246, 232, .14);
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-size: .9rem;
+  font-weight: 700;
+}
+
+/* Midnight at both ends, noon in the middle: where in its own day this place is. */
+.wc-strip {
+  position: relative;
+  display: block;
+  width: 190px; height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #1b2a56 0%, #4a4a9c 18%, #f0a85a 30%,
+                              #ffe9a8 50%, #f0a85a 70%, #4a4a9c 82%, #1b2a56 100%);
+}
+
+.wc-strip-dot {
+  position: absolute; top: 50%;
+  width: 12px; height: 12px; margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  background: #fffdf7;
+  box-shadow: 0 0 0 2px rgba(22, 33, 62, .45);
+}
+
+.wc-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+/* ---- the entry popup ---- */
+
+.wc-overlay {
+  position: fixed; inset: 0;
+  background: rgba(14, 23, 41, .62);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  z-index: 20;
+}
+
+.wc-sheet {
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 26px;
+  box-shadow: var(--shadow);
+  padding: 18px 22px 22px;
+  width: min(560px, 100%);
+}
+
+.wc-sheet-head { display: flex; align-items: center; justify-content: center; gap: 12px; }
+.wc-sheet-head h2 { color: var(--hour); font-size: 1.35rem; text-align: center; }
+
+.wc-sheet-body { display: flex; gap: 18px; align-items: center; margin-top: 16px; flex-wrap: wrap; }
+
+.wc-picker { display: flex; align-items: center; gap: 6px; }
+
+.wc-stepper { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+
+.wc-step {
+  width: 62px; height: 34px;
+  border: 0; border-radius: 12px;
+  background: #d8e6f6;
+  color: var(--hour);
+  font-size: 1rem;
+  cursor: pointer;
+}
+.wc-step:active { background: #c3d8ef; }
+
+.wc-num {
+  display: flex; align-items: center; justify-content: center;
+  width: 62px; height: 52px;
+  background: #fdf1d4;
+  border-radius: 12px;
+  font-family: 'Fredoka One', 'Nunito', sans-serif;
+  font-size: 1.7rem;
+  color: var(--ink);
+}
+.wc-num-ampm { font-size: 1.2rem; }
+
+.wc-colon {
+  font-family: 'Fredoka One', 'Nunito', sans-serif;
+  font-size: 1.7rem; color: var(--ink-soft); padding: 0 2px;
+}
+
+.wc-choices { display: flex; flex-direction: column; gap: 8px; flex: 1 1 210px; }
+
+.wc-choice { width: 100%; text-align: left; }
+.wc-choice.is-green  { background: #3f9c62; }
+.wc-choice.is-purple { background: #7a5cc0; }
+
+/* The chapter asks for more vertical room than the rest of the book, so it takes
+   the page padding back rather than making everything in it smaller. */
+.chapter:has(.wc) { --chapter-tight: 1; }
+#screen:has(.wc) { padding: 14px 12px 24px; max-width: 900px; }
+.chapter:has(.wc) .chapter-head { margin-bottom: 6px; }
+
+/* A phone is not the target device, but nothing should be unusable on one. */
+@media (max-width: 640px) {
+  .wc-dial-tap { width: min(200px, 42vh); }
+  .wc-strip { width: 130px; }
+  .wc-sheet-body { flex-direction: column; align-items: stretch; }
+  .wc-picker { justify-content: center; }
+}
+
+/* ------------------------------------------------------------------ *
+ * c5 — How long? (§2.7)
+ *
+ * Two layouts the rest of the book does not need: a pair of dials with an arrow
+ * between them (the journey's two ends), and an option that is itself a pair of
+ * dials (two journeys, compared). Everything else — the prompt, the choice grid,
+ * the feedback — is the shared practice furniture above.
+ * ------------------------------------------------------------------ */
+
+.elapsed-stage { display: flex; justify-content: center; width: 100%; }
+
+/* The scenario, above the question. Deliberately a smaller, quieter register than
+   the prompt: the sentence is the situation, the amber line is what is being
+   asked. A child who reads only one of the two should read the question. */
+.scene {
+  text-align: center;
+  max-width: 30rem;
+  font-weight: 700;
+  color: #d8e0f0;
+  line-height: 1.4;
+}
+
+/* Its own element rather than two spaces in the sentence: HTML collapses those to
+   one, and one space after a wide emoji glyph reads as none. */
+.scene-emoji { font-size: 1.2em; margin-right: .45em; }
+
+/* Appears after two misses and stays for the rest of the round. */
+.standing-hint {
+  text-align: center;
+  /* Wide enough that most of the five rules sit on one line. Two of them still wrap,
+     and the page budget above is set so that the worst case — step 1's dial plus a
+     two-line rule — still leaves "Next" on screen at 1024x768. */
+  max-width: 34rem;
+  font-weight: 800;
+  font-size: .95rem;
+  color: #ffd98a;
+  background: rgba(255, 217, 138, .1);
+  border: 2px dashed rgba(255, 217, 138, .35);
+  border-radius: 14px;
+  padding: 6px 14px;
+}
+
+/* Both of these are filled only some of the time, and an empty box still eats its
+   padding and its gap. */
+.scene:empty,
+.standing-hint:empty { display: none; }
+
+/* Starts → finishes. */
+.pair {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.pair-slot { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+
+/* As big as the single dial the other steps show, because step 4's arc is often an
+   HOUR-hand arc and those are short by nature: an hour is 30 degrees where a minute
+   is six. At 150px a one-hour journey was a green speck. Step 4 has the vertical room
+   — it carries no dragging and no standing picture — so the dials take it. */
+.pair-dial { width: min(216px, 30vw); }
+.pair-dial--small { width: min(112px, 22vw); }
+
+.pair-label { font-weight: 800; font-size: .8rem; color: #b9c4da; letter-spacing: .3px; }
+
+/* The digital time under each dial. §2.7 is duration, not reading — c2 and c3 are
+   where a child earns the reading, and making them re-earn it here would put two
+   skills in one question, which is the mistake c2's own distractors record. */
+.pair-time {
+  font-family: 'Fredoka One', 'Nunito', sans-serif;
+  font-size: 1.15rem;
+  letter-spacing: 1px;
+  color: var(--minute);
+}
+
+.pair-arrow { font-size: 1.5rem; color: #b9c4da; flex: 0 0 auto; }
+
+/* One of the two journeys being compared. A whole card is the tap target, so the
+   dials inside it must not swallow the tap. */
+.doing-choice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 10px 16px;
+  border: 3px solid rgba(253, 246, 232, .22);
+  border-radius: 18px;
+  background: rgba(253, 246, 232, .09);
+  color: var(--paper);
+  font: inherit;
+  cursor: pointer;
+}
+.doing-choice:hover { background: rgba(253, 246, 232, .2); }
+.doing-choice .clock { pointer-events: none; }
+.doing-choice.is-right { border-color: #6ee7a0; background: rgba(110, 231, 160, .2); }
+.doing-choice.is-wrong { border-color: #ff8b7a; background: rgba(255, 139, 122, .18); }
+.choices.is-locked .doing-choice { cursor: default; }
+
+.doing-name { font-weight: 800; font-size: 1rem; text-align: center; }
+
+/* This chapter is the TALLEST thing in the book, and the standing hint makes it
+   taller still: measured at 1024x768 — the target iPad in landscape — the stack came
+   to 850px and put "Next" 26px below the fold, where a child cannot reach it.
+   So it takes the page padding and the gaps back rather than shrinking the dial. The
+   dial is where the arc lives, and the arc is the chapter; c4 made the same trade for
+   the same reason. Scoped to a round in progress, so the step picker keeps the
+   book's normal spacing. */
+#screen:has(.elapsed-stage) { padding: 12px 18px 10px; }
+.chapter:has(.elapsed-stage) .chapter-head { margin-bottom: 6px; }
+.practice:has(.elapsed-stage) { gap: 6px; }
+
+/* A 9.7" iPad in portrait is 768px, and two comparison cards each holding two
+   dials is the widest thing in the book. They fit there; on a phone they stack,
+   and the dials come down with them. */
+@media (max-width: 640px) {
+  .pair-dial { width: min(124px, 30vw); }
+  .pair-dial--small { width: min(96px, 26vw); }
+}

@@ -7,9 +7,15 @@
  *   c2  §2.3  Read the clock         — the seven-stage progression
  *       §2.4  ...with past and to    — merged into stage 6, not a separate chapter
  *   c3  §2.5  Any clock              — read a face you have never seen before
+ *   c5  §2.7  How long?              — duration, drawn as an arc on the dial
+ *   c4  §2.8  World Clock Explorer   — the same moment, different local times
  *
- * §2.1, §2.6, §2.7 and §2.8 are NOT built. See the task record for why; §2.6 in
- * particular is blocked on a decision no agent should make alone.
+ * The menu lists chapters in the concept's order, so c5 appears before c4 there.
+ * The ids follow the section numbers instead, which is what keeps this file
+ * greppable against the brief — and is why the two orders differ.
+ *
+ * §2.1 and §2.6 are NOT built. See the task records for why; §2.6 in particular is
+ * blocked on a decision no agent should make alone.
  *
  * The clock itself lives in clock.js. This file never draws a dial.
  */
@@ -137,6 +143,59 @@
     }
   }
 
+  /* Several sentences, in order, as separate utterances.
+   *
+   * Two rules pull against each other here and both are obeyed. One sentence per
+   * utterance -- punctuation inside a single string buys almost no pause. And
+   * never chain playback on `onend`, which has been observed not to fire, leaving
+   * a child with the first line and then silence. So the whole run is handed to
+   * the platform queue at once: it orders them, and nothing here has to be told
+   * that a line finished.
+   *
+   * `cancel()` happens once, before the first line, rather than once per line --
+   * the single-line `speak()` above cancels every time, which would leave only
+   * the last sentence of a three-sentence arrival.
+   *
+   * NOT VERIFIED BY EAR. No browser in the session that built this produces
+   * audible speech, and the preview pane keeps pages hidden, which suspends audio
+   * outright. math-app measured roughly a 5 ms seam between queued utterances;
+   * whether three sentences separated by that read as three sentences or as one
+   * run-on needs a real device. If they run together the fix is a pause between
+   * clips at playback, not punctuation inside them.
+   */
+  function speakLines(lines) {
+    lines = (lines || []).filter(Boolean);
+    if (!lines.length) return;
+    lastSpoken = lines.join(' ');
+
+    if (!speechOn || !('speechSynthesis' in window) ||
+        typeof window.SpeechSynthesisUtterance !== 'function') return;
+
+    try {
+      if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
+        window.speechSynthesis.cancel();
+      }
+      lines.forEach(function (line, index) {
+        var utterance = new SpeechSynthesisUtterance(line);
+        utterance.rate = 0.9;
+        utterance.pitch = 1.05;
+        /* Only the first line reports whether this device speaks at all; the rest
+           are queued behind it and would say nothing new. */
+        if (index === 0) {
+          utterance.onstart = function () {
+            speechWorks = true;
+            document.body.classList.remove('no-voice');
+            refreshVoiceLabel();
+          };
+        }
+        window.speechSynthesis.speak(utterance);
+      });
+    } catch (err) {
+      /* A device that throws here is one the verdict logic has already handled,
+         or will on the next single-line prompt. Never let it break a screen. */
+    }
+  }
+
   /* The voice button may be on screen when a verdict lands (or lands late), so it
      is re-read from the single source of truth rather than left stale. */
   function refreshVoiceLabel() {
@@ -219,6 +278,7 @@
       section: '§2.2',
       title: 'How a clock works',
       blurb: 'Two hands, one circle, and the secret that the numbers mean two things at once.',
+      preview: { minutes: 9 * 60 },
       open: openMechanism
     },
     {
@@ -226,6 +286,7 @@
       section: '§2.3',
       title: 'Read the clock',
       blurb: 'Seven steps: from o’clock all the way to any single minute, past and to.',
+      preview: { minutes: 3 * 60 + 15 },
       open: openProgression
     },
     {
@@ -233,7 +294,26 @@
       section: '§2.5',
       title: 'Any clock',
       blurb: 'Tick marks, Roman numerals, a digital screen — and a clock with no numbers at all.',
+      preview: { minutes: 7 * 60 + 45, face: 'ticks' },
       open: openAnyClock
+    },
+    {
+      id: 'c5',
+      section: '§2.7',
+      title: 'How long?',
+      blurb: 'Leave at 3:20 and the drive takes 25 minutes. What will the clock say?',
+      /* The preview carries the chapter's own idea: a dial with a journey drawn on
+         it, which no other card on this screen shows. */
+      preview: { minutes: 200, sweep: 25 },
+      open: openElapsed
+    },
+    {
+      id: 'c4',
+      section: '§2.8',
+      title: 'World Clock Explorer',
+      blurb: 'The same moment, all over the Earth. Tap a place and watch the hands move.',
+      preview: { minutes: 10 * 60 + 45, ring: true },
+      open: openWorldClock
     }
   ];
 
@@ -256,12 +336,19 @@
       ]);
 
       /* A live clock on every card, each showing a different time, so the home
-         screen already looks like the thing the book is about. */
-      new CLOCK.Clock(preview, {
-        minutes: chapter.id === 'c1' ? 9 * 60 : chapter.id === 'c2' ? 3 * 60 + 15 : 7 * 60 + 45,
-        face: chapter.id === 'c3' ? 'ticks' : 'numbers',
-        ring: false
+         screen already looks like the thing the book is about. Each chapter
+         carries its own preview: this was a ternary chain on the chapter id, and
+         a fourth chapter fell off the end of it and silently borrowed c3's. */
+      var previewClock = new CLOCK.Clock(preview, {
+        minutes: chapter.preview.minutes,
+        face: chapter.preview.face || 'numbers',
+        ring: chapter.preview.ring === true
       });
+      /* Only §2.7's card asks for one, and it is the whole reason that chapter looks
+         different from the others at a glance. */
+      if (chapter.preview.sweep) {
+        previewClock.setSweep(chapter.preview.minutes, chapter.preview.sweep);
+      }
 
       return card;
     });
@@ -1081,6 +1168,602 @@
       actions.appendChild(h('button', {
         class: 'ghost-button', type: 'button', text: 'All clocks', onclick: openAnyClock
       }));
+    }
+  }
+
+  /* ================================================================== *
+   * c4 — §2.8 World Clock Explorer
+   *
+   * Not a quiz. The rest of this book asks questions; this chapter is the
+   * reward for climbing them, and there is no right answer in it anywhere.
+   *
+   * The order on screen is the lesson: clock first, place second, map last. If
+   * the map ever becomes the main event, this has drifted into a geography toy.
+   *
+   * All the arithmetic, the wording and the drawing live in worldclock.js. This
+   * function is the screen.
+   * ================================================================== */
+
+  var WORLD = window.TimeBookWorld;
+
+  /* Owner decision, 2026-08-27: THREE utterances on arrival, and the gap and the
+     date wait for a tap on the panel. Five sentences before a child touches
+     anything was too many. Everything is rendered either way, so this costs
+     nothing but attention -- which was the point. */
+  function openWorldClock() {
+    var homeZone = WORLD.deviceZone();
+    var homeCity = WORLD.cityForZone(homeZone);
+    var instant = new Date();
+    var here = homeCity;
+    var level = registerLevel();
+
+    var dial, ribbon, digitalRow, facts, panel, map, hint;
+
+    chapterFrame('World Clock Explorer',
+      'The same moment, all over the Earth. Only the clocks disagree.',
+      buildBody());
+    /* Paint before asking. The popup is see-through at the edges, and a child
+       dismissing it without choosing must land on a real screen rather than an
+       empty one -- so the chapter is already showing this device's own time
+       behind the question. Nothing is spoken until they pick. */
+    paint();
+    askForTime();
+
+    /* "Ten forty-five" until the child has met "past" and "to" in c2, then
+       "a quarter to eleven" for the same clock. The book's own ladder, carried
+       into the voice rather than restated. Tapping the digital readout swaps it
+       either way, which is §2.4 in one gesture: one time, several names. */
+    function registerLevel() {
+      return (countDone('c2') >= 6) ? 'past-to' : 'digital';
+    }
+
+    function buildBody() {
+      dial = h('div', { class: 'wc-clock' });
+      ribbon = h('div', { class: 'wc-ribbon' });
+      digitalRow = h('button', {
+        class: 'wc-digital', type: 'button',
+        title: 'Say it a different way',
+        onclick: function () {
+          level = (level === 'digital') ? 'past-to' : 'digital';
+          paint();
+          speakLines([WORLD.register(current().minutesSince12, level)]);
+        }
+      });
+      facts = h('div', { class: 'wc-facts' });
+      panel = h('button', {
+        class: 'wc-panel', type: 'button',
+        onclick: function () { speakLines(panelLines()); }
+      });
+      hint = h('p', { class: 'wc-hint', text: WORLD.PROMPTS[0] });
+
+      var mapHost = h('div', { class: 'wc-map' });
+      map = WORLD.buildMap(function (city) { goTo(city); });
+      mapHost.appendChild(map.root);
+
+      return h('div', { class: 'wc' }, [
+        h('div', { class: 'wc-stage' }, [
+          h('button', {
+            class: 'replay-button wc-replay', type: 'button',
+            'aria-label': 'Say that again',
+            text: '🔊',
+            onclick: function () { speakLines(arrivalLines()); }
+          }),
+          h('div', {
+            class: 'wc-dial-tap', role: 'button', tabindex: '0',
+            onclick: function () { speakLines(arrivalLines()); }
+          }, [dial]),
+          hint
+        ]),
+        ribbon,
+        digitalRow,
+        h('div', { class: 'wc-map-wrap' }, [mapHost]),
+        panel,
+        facts,
+        h('div', { class: 'wc-actions' }, [
+          h('button', {
+            class: 'ghost-button', type: 'button', text: '← Your time',
+            onclick: function () { goTo(homeCity, true); }
+          }),
+          h('button', {
+            class: 'primary-button', type: 'button', text: WORLD.NAV[0],
+            onclick: askForTime
+          })
+        ])
+      ]);
+    }
+
+    function current() { return WORLD.readZone(here ? here.zone : homeZone, instant); }
+    function home() { return WORLD.readZone(homeZone, instant); }
+
+    function arrivalLines() {
+      var part = current();
+      if (!here) {
+        /* The device is somewhere this map does not name. The clock, the gap and
+           the date are all still true -- only the place line has nothing to say,
+           so it is left out rather than invented. */
+        return [WORLD.register(part.minutesSince12, level),
+                WORLD.dayPartLine(WORLD.dayPart(part.hour24))];
+      }
+      return WORLD.arrivalLines(here, part, level);
+    }
+
+    function panelLines() {
+      var part = current();
+      var base = home();
+      return WORLD.panelLines(part.offset - base.offset, part.weekday,
+                              sign(part.dayNumber - base.dayNumber));
+    }
+
+    function sign(n) { return n > 0 ? 1 : (n < 0 ? -1 : 0); }
+
+    function goTo(city, quiet) {
+      if (!city) return;
+      here = city;
+      paint();
+      if (!quiet) speakLines(arrivalLines());
+      else speakLines(arrivalLines());
+    }
+
+    /* One repaint for everything, so the dial, the ribbon, the map and the panel
+       can never show two different moments -- which in a chapter about time
+       zones would not be a cosmetic bug. */
+    function paint() {
+      var part = current();
+      var base = home();
+      var gap = part.offset - base.offset;
+      var dayShift = sign(part.dayNumber - base.dayNumber);
+      var isHome = !here || here.zone === homeZone;
+
+      clear(dial);
+      new CLOCK.Clock(dial, { minutes: part.minutesSince12, ring: true });
+
+      clear(ribbon);
+      ribbon.appendChild(h('span', { class: 'wc-flag', text: here ? here.flag : '🏠' }));
+      ribbon.appendChild(h('span', {
+        class: 'wc-place',
+        text: here ? here.name + ', ' + here.country : 'Your time'
+      }));
+
+      digitalRow.textContent = WORLD.digital(part) + ' · ' + part.weekday;
+
+      clear(facts);
+      facts.appendChild(h('span', { class: 'wc-chip-flat', text: WORLD.offsetLabel(part.offset) }));
+      facts.appendChild(dayNightStrip(part.hour24));
+
+      clear(panel);
+      panel.className = 'wc-panel' + (isHome ? ' is-home' : '') +
+        (dayShift ? ' is-crossing' : '');
+      if (isHome) {
+        panel.appendChild(h('p', { class: 'wc-gap', text: WORLD.NAV[1] }));
+      } else {
+        panel.appendChild(h('p', { class: 'wc-gap', text: WORLD.comparisonLine(gap) }));
+        panel.appendChild(h('p', {
+          class: 'wc-date',
+          text: WORLD.dateLine(part.weekday, dayShift)
+        }));
+      }
+      panel.appendChild(h('span', { class: 'wc-panel-hint', text: '🔊' }));
+
+      WORLD.layoutChips(map, function (city) {
+        return shortTime(WORLD.readZone(city.zone, instant));
+      }, [here ? here.name : '', homeCity ? homeCity.name : '']);
+
+      map.marks.forEach(function (mark) {
+        var isHere = here && mark.city.name === here.name;
+        var atHome = homeCity && mark.city.name === homeCity.name;
+        mark.group.setAttribute('class',
+          'wc-pin' + (isHere ? ' is-here' : '') + (atHome ? ' is-home' : ''));
+      });
+    }
+
+    function shortTime(part) {
+      var hour = part.hour24 % 12;
+      return (hour === 0 ? 12 : hour) + ':' +
+        (part.minute < 10 ? '0' : '') + part.minute;
+    }
+
+    /* A day in one bar: midnight at both ends, noon in the middle. The dot says
+       where in its own day this place is, which is the thing a digital readout
+       alone never shows a child. */
+    function dayNightStrip(hour24) {
+      var strip = h('span', { class: 'wc-strip' });
+      strip.appendChild(h('span', {
+        class: 'wc-strip-dot',
+        style: 'left:' + ((hour24 + 0.5) / 24 * 100).toFixed(1) + '%'
+      }));
+      return strip;
+    }
+
+    /* ---- the entry popup -------------------------------------------- */
+
+    /* Speaks on a tap of its 🔊, never on open. AUDIO-DIRECTION forbids autoplay
+       when a dialog opens, and iOS would refuse anyway: this is the first thing
+       in the session, before any gesture. */
+    function askForTime() {
+      var base = home();
+      var pick = { hour: (base.hour24 % 12) || 12, minute: base.minute, pm: base.hour24 >= 12 };
+
+      var hourBox = h('span', { class: 'wc-num' });
+      var minuteBox = h('span', { class: 'wc-num' });
+      var ampmBox = h('span', { class: 'wc-num wc-num-ampm' });
+
+      function show() {
+        hourBox.textContent = pick.hour;
+        minuteBox.textContent = (pick.minute < 10 ? '0' : '') + pick.minute;
+        ampmBox.textContent = pick.pm ? 'PM' : 'AM';
+      }
+
+      function stepper(box, up, down) {
+        return h('div', { class: 'wc-stepper' }, [
+          h('button', { class: 'wc-step', type: 'button', 'aria-label': 'Up', text: '▲',
+                        onclick: function () { up(); show(); } }),
+          box,
+          h('button', { class: 'wc-step', type: 'button', 'aria-label': 'Down', text: '▼',
+                        onclick: function () { down(); show(); } })
+        ]);
+      }
+
+      var sheet = h('div', { class: 'wc-sheet' }, [
+        h('div', { class: 'wc-sheet-head' }, [
+          h('h2', { text: WORLD.POPUP[0] }),
+          h('button', {
+            class: 'replay-button', type: 'button', 'aria-label': 'Say that again',
+            text: '🔊', onclick: function () { speakLines([WORLD.POPUP[0]]); }
+          })
+        ]),
+        h('div', { class: 'wc-sheet-body' }, [
+          h('div', { class: 'wc-picker' }, [
+            stepper(hourBox,
+              function () { pick.hour = pick.hour === 12 ? 1 : pick.hour + 1; },
+              function () { pick.hour = pick.hour === 1 ? 12 : pick.hour - 1; }),
+            h('span', { class: 'wc-colon', text: ':' }),
+            /* Five-minute steps: forty-five taps to reach :45 one at a time is not
+               a picker, it is a punishment. The clock still shows every minute --
+               "Use my local time" lands wherever it lands. */
+            stepper(minuteBox,
+              function () { pick.minute = (pick.minute + 5) % 60; },
+              function () { pick.minute = (pick.minute + 55) % 60; }),
+            stepper(ampmBox,
+              function () { pick.pm = !pick.pm; },
+              function () { pick.pm = !pick.pm; })
+          ]),
+          h('div', { class: 'wc-choices' }, [
+            h('button', {
+              class: 'primary-button wc-choice', type: 'button',
+              text: '📍 ' + WORLD.POPUP[1],
+              onclick: function () { start(new Date()); }
+            }),
+            h('button', {
+              class: 'primary-button wc-choice is-green', type: 'button',
+              text: '🕐 ' + WORLD.POPUP[2],
+              onclick: function () { start(fromPick()); }
+            }),
+            h('button', {
+              class: 'primary-button wc-choice is-purple', type: 'button',
+              text: '🎲 ' + WORLD.POPUP[3],
+              onclick: function () {
+                pick.hour = 1 + Math.floor(Math.random() * 12);
+                pick.minute = Math.floor(Math.random() * 12) * 5;
+                pick.pm = Math.random() < 0.5;
+                show();
+                start(fromPick());
+              }
+            })
+          ])
+        ])
+      ]);
+
+      function fromPick() {
+        var today = home();
+        var atHome = new Date(instant.getTime() + home().offset * 60000);
+        var hour24 = (pick.hour % 12) + (pick.pm ? 12 : 0);
+        return WORLD.instantFor(homeZone,
+          atHome.getUTCFullYear(), atHome.getUTCMonth(), atHome.getUTCDate(),
+          hour24, pick.minute);
+      }
+
+      function start(when) {
+        instant = when;
+        here = homeCity;
+        close();
+        paint();
+        speakLines(arrivalLines());
+      }
+
+      var overlay = h('div', { class: 'wc-overlay', onclick: function (event) {
+        if (event.target === overlay) close();
+      } }, [sheet]);
+
+      function close() {
+        if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      }
+
+      show();
+      document.body.appendChild(overlay);
+    }
+  }
+
+  /* ================================================================== *
+   * c5 — §2.7 elapsed time
+   *
+   * "Reading a clock and understanding duration are different skills", says the
+   * concept, and that sentence decides the chapter. Every other chapter asks where
+   * the hands ARE. This one asks how far they MOVED, which is a quantity the dial
+   * does not display — so the answer has to be built, and the child has to see the
+   * building.
+   *
+   * Hence the arc. After every answer the journey is drawn on the dial by clock.js's
+   * `setSweep`, and twenty-five minutes stops being "45 take away 20" and becomes a
+   * piece of the circle, which is the only form in which crossing the hour makes any
+   * sense.
+   *
+   * All five steps' arithmetic and every sentence they say live in `elapsed.js`,
+   * where `tools/check-elapsed.js` can run thousands of questions through them. This
+   * section is the screen and nothing else.
+   * ================================================================== */
+
+  var ELAPSED = window.TimeBookElapsed;
+
+  function openElapsed() {
+    openElapsedPicker();
+  }
+
+  function openElapsedPicker() {
+    var buttons = ELAPSED.STEPS.map(function (step, i) {
+      var done = progress['c5:' + step.key];
+      var preview = h('div', { class: 'row-clock' });
+
+      var button = h('button', {
+        class: 'stage-button' + (done ? ' is-done' : ''),
+        type: 'button',
+        onclick: function () { runElapsedRound(step); }
+      }, [
+        h('span', { class: 'stage-number', text: String(i + 1) }),
+        preview,
+        h('span', { class: 'stage-name' }, [
+          h('span', { class: 'stage-label', text: step.name }),
+          h('small', { text: step.note })
+        ]),
+        done ? h('span', { class: 'stage-tick', text: '✓' }) : null
+      ]);
+
+      /* Each card previews the chapter's own idea rather than a time: a dial with a
+         journey already drawn on it. c3 settled the principle — the picture is the
+         label and the words are the caption — and here it also introduces the arc
+         before any question depends on reading one. */
+      var clock = new CLOCK.Clock(preview, { minutes: step.show.at, face: 'numbers' });
+      clock.setSweep(step.show.at, step.show.lasting);
+
+      return button;
+    });
+
+    chapterFrame('How long?', 'Five steps. Start at one.',
+      h('div', { class: 'stage-list stage-list--five' }, buttons));
+  }
+
+  function runElapsedRound(step) {
+    var asked = 0;
+    var right = 0;
+    var misses = 0;
+    var rightNode = null;
+
+    var stageHost = h('div', { class: 'elapsed-stage' });
+    var scene = h('p', { class: 'scene' });
+    var prompt = h('h2', { class: 'prompt' });
+    var hint = h('p', { class: 'standing-hint' });
+    var choices = h('div', { class: 'choices' });
+    var feedback = h('div', { class: 'feedback' });
+    var score = h('div', { class: 'score' });
+    var actions = h('div', { class: 'actions' });
+
+    chapterFrame(step.name, 'Step ' + (ELAPSED.STEPS.indexOf(step) + 1) + ' of ' + ELAPSED.STEPS.length,
+      h('div', { class: 'practice' },
+        [score, scene, promptRow(prompt), stageHost, hint, choices, feedback, actions]));
+
+    nextQuestion();
+
+    function nextQuestion() {
+      clear(choices);
+      clear(feedback);
+      clear(actions);
+      clear(stageHost);
+      clear(scene);
+      /* Same trap c2 and c3 hit: clear() only removes children, so without dropping
+         the lock class nothing is clickable again for the rest of the round. */
+      choices.classList.remove('is-locked');
+      rightNode = null;
+
+      if (asked >= ROUND_LENGTH) return finishRound();
+
+      score.textContent = 'Question ' + (asked + 1) + ' of ' + ROUND_LENGTH +
+                          '   ·   ' + right + ' right';
+
+      /* Both directions on the steps that have two, 50/50. "When do we arrive?" and
+         "when must we leave?" are not the same question, and the second is the one a
+         family actually asks. */
+      var q = ELAPSED.question(step, Math.random() < 0.5);
+
+      clear(scene);
+      if (q.emoji) scene.appendChild(h('span', { class: 'scene-emoji', text: q.emoji }));
+      if (q.scene) scene.appendChild(document.createTextNode(q.scene));
+      prompt.textContent = q.ask;
+      speak((q.sceneSaid ? q.sceneSaid + ' ' : '') + q.ask);
+
+      if (q.kind === 'compare') layoutCompare(q);
+      else if (q.kind === 'duration') layoutDuration(q);
+      else layoutTime(q);
+
+      countChoices(choices);
+    }
+
+    /* Steps 1 to 3: one end of the journey is on the dial, the duration is in the
+       sentence, and the child taps the other end. */
+    function layoutTime(q) {
+      var host = h('div', { class: 'stage' });
+      stageHost.appendChild(host);
+      var clock = new CLOCK.Clock(host, { minutes: q.shown, face: 'numbers' });
+
+      attachOptions(q, true, function () {
+        /* The hands land on the answer and the arc shows where they came from, so
+           the reveal is one picture rather than a sentence. */
+        clock.set(q.answer);
+        clock.setSweep(q.start, q.lasting);
+      });
+    }
+
+    /* Step 4: both ends are on the dials and the duration is the unknown.
+
+       The digital time sits under each dial on purpose. The concept's own sentence
+       is that "reading a clock and understanding duration are different skills", and
+       c2 already proved what happens when one question stacks two skills: it stops
+       measuring either. Reading the faces is c2 and c3's job. */
+    function layoutDuration(q) {
+      var startHost = h('div', { class: 'pair-dial' });
+      var finishHost = h('div', { class: 'pair-dial' });
+
+      stageHost.appendChild(h('div', { class: 'pair' }, [
+        h('div', { class: 'pair-slot' }, [
+          h('span', { class: 'pair-label', text: 'Starts' }),
+          startHost,
+          h('span', { class: 'pair-time', text: CLOCK.digital(q.start) })
+        ]),
+        h('span', { class: 'pair-arrow', text: '→' }),
+        h('div', { class: 'pair-slot' }, [
+          h('span', { class: 'pair-label', text: 'Finishes' }),
+          finishHost,
+          h('span', { class: 'pair-time', text: CLOCK.digital(q.finish) })
+        ])
+      ]));
+
+      var startClock = new CLOCK.Clock(startHost, { minutes: q.start, face: 'numbers' });
+      new CLOCK.Clock(finishHost, { minutes: q.finish, face: 'numbers' });
+
+      attachOptions(q, false, function () { startClock.setSweep(q.start, q.lasting); });
+    }
+
+    /* Step 5: two journeys, and the longer one wins. The option IS the pair of
+       dials, so the whole card is the tap target. */
+    function layoutCompare(q) {
+      q.cards.forEach(function (card) {
+        var startHost = h('div', { class: 'pair-dial pair-dial--small' });
+        var finishHost = h('div', { class: 'pair-dial pair-dial--small' });
+
+        var node = h('button', {
+          class: 'doing-choice',
+          type: 'button',
+          onclick: function (event) { judge(event.currentTarget, card.ok, q, reveal); }
+        }, [
+          h('span', { class: 'doing-name' }, [
+            h('span', { class: 'scene-emoji', text: card.doing.emoji }),
+            document.createTextNode(ELAPSED.sentenceCase(card.doing.name))
+          ]),
+          h('span', { class: 'pair' }, [
+            h('span', { class: 'pair-slot' }, [
+              startHost, h('span', { class: 'pair-time', text: CLOCK.digital(card.start) })
+            ]),
+            h('span', { class: 'pair-arrow', text: '→' }),
+            h('span', { class: 'pair-slot' }, [
+              finishHost, h('span', { class: 'pair-time', text: CLOCK.digital(card.finish) })
+            ])
+          ])
+        ]);
+
+        if (card.ok) rightNode = node;
+        choices.appendChild(node);
+
+        card.clock = new CLOCK.Clock(startHost, { minutes: card.start, face: 'numbers' });
+        new CLOCK.Clock(finishHost, { minutes: card.finish, face: 'numbers' });
+      });
+
+      /* Both arcs, so the comparison is the picture rather than the caption. Declared
+         after the cards because it needs the dials they built. */
+      function reveal() {
+        q.cards.forEach(function (card) { card.clock.setSweep(card.start, card.lasting); });
+      }
+    }
+
+    function attachOptions(q, digits, reveal) {
+      q.options.forEach(function (option) {
+        var node = h('button', {
+          class: 'choice' + (digits ? ' choice--digits' : ''),
+          type: 'button',
+          text: option.label,
+          onclick: function (event) { judge(event.currentTarget, option.ok, q, reveal); }
+        });
+        if (option.ok) rightNode = node;
+        choices.appendChild(node);
+      });
+    }
+
+    function judge(button, correct, q, reveal) {
+      if (choices.classList.contains('is-locked')) return;
+      choices.classList.add('is-locked');
+      asked += 1;
+
+      clear(feedback);
+      if (correct) {
+        right += 1;
+        button.classList.add('is-right');
+        feedback.appendChild(h('p', { class: 'good', text: q.good }));
+      } else {
+        misses += 1;
+        button.classList.add('is-wrong');
+        /* Marked by node rather than by matching text: step 5's options are whole
+           cards holding two dials each, and there is no label to compare. */
+        if (rightNode) rightNode.classList.add('is-right');
+        feedback.appendChild(h('p', { class: 'bad', text: q.bad }));
+      }
+
+      /* The arc is drawn either way. A child who got it right should still see the
+         shape of what they just did — that is the chapter's teaching, not a
+         consolation for being wrong. */
+      reveal();
+      if (q.also) feedback.appendChild(h('p', { class: 'also', text: q.also }));
+
+      /* On the one question where the rule first appears it is spoken INSTEAD of the
+         answer. speak() cancels whatever is in flight, so saying both would clip the
+         first, and the answer is already on screen in the largest type on the page. */
+      if (!offerHint()) speak(q.say);
+
+      actions.appendChild(h('button', {
+        class: 'primary-button', type: 'button', text: 'Next →', onclick: nextQuestion
+      }));
+    }
+
+    /* Two misses, and the step's rule appears above the options and stays for the
+       rest of the round. A rule, deliberately: it teaches the method and gives away
+       no answer. */
+    function offerHint() {
+      if (misses < 2 || hint.textContent) return false;
+      hint.textContent = '💡 ' + step.hint;
+      speak(step.hint);
+      return true;
+    }
+
+    function finishRound() {
+      clear(stageHost);
+      score.textContent = '';
+      clear(scene);
+      hint.textContent = '';
+      prompt.textContent = right + ' out of ' + ROUND_LENGTH;
+
+      var passed = right >= ROUND_LENGTH - 1;
+      if (passed) markDone('c5:' + step.key);
+
+      clear(feedback);
+      feedback.appendChild(h('p', {
+        class: passed ? 'good' : 'bad',
+        text: passed ? 'This step is yours. ✓' : 'Close. One more go.'
+      }));
+
+      actions.appendChild(h('button', {
+        class: 'primary-button', type: 'button', text: 'Again',
+        onclick: function () { runElapsedRound(step); }
+      }));
+      actions.appendChild(h('button', {
+        class: 'ghost-button', type: 'button', text: 'All steps', onclick: openElapsedPicker
+      }));
+      speak(passed ? 'Well done' : 'Try again');
     }
   }
 

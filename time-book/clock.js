@@ -3,7 +3,7 @@
  * One reusable SVG clock. Every chapter in the book is a consumer of this file;
  * nothing else in the app draws a clock face.
  *
- * Two things here are load-bearing teaching decisions, not implementation detail:
+ * Three things here are load-bearing teaching decisions, not implementation detail:
  *
  * 1. THE HOUR HAND MOVES CONTINUOUSLY. At 3:45 it sits three quarters of the way
  *    from 3 to 4, because that is what a real clock does and because "quarter to
@@ -15,6 +15,12 @@
  *    You cannot show an overlap by drawing it permanently -- the child has to see
  *    the face without it, then with it. So the 00/05/10... ring is its own layer
  *    and `setRing()` fades it in.
+ *
+ * 3. THE SWEEP IS A DISTANCE, NOT A POSITION. §2.7 is about duration, and the one
+ *    thing a still dial cannot show is how far the hand travelled. `setSweep()`
+ *    draws that journey as an arc. Read the comment on it before using it: which
+ *    hand carries the arc depends on the duration, and getting that wrong draws a
+ *    misleading picture rather than a wrong one.
  *
  * Geometry: viewBox is 0 0 200 200, centre (100,100). 12 o'clock is straight up,
  * angles increase clockwise, and every angle in this file is in degrees measured
@@ -106,10 +112,15 @@
 
     this.faceLayer = el('g', { class: 'clock-face-layer' });
     this.ringLayer = el('g', { class: 'clock-ring-layer' });
+    /* Between the face and the hands on purpose: §2.7's arc has to sit on top of
+       the numerals it spans and underneath the hands, or a hand lying along the
+       arc disappears into it. */
+    this.sweepLayer = el('g', { class: 'clock-sweep-layer' });
     this.handLayer = el('g', { class: 'clock-hand-layer' });
 
     svg.appendChild(this.faceLayer);
     svg.appendChild(this.ringLayer);
+    svg.appendChild(this.sweepLayer);
     svg.appendChild(this.handLayer);
 
     /* Hands are drawn as lines with a round cap, plus a wide invisible line on top
@@ -352,6 +363,98 @@
       this.bindPointer();
       this.bound = true;
     }
+  };
+
+  /* ------------------------------------------------------------------ *
+   * The sweep -- CONCEPT.md §2.7's duration, drawn as a piece of the circle.
+   *
+   * Elapsed time is the one thing in this book a still clock cannot show. A dial
+   * reading 4:15 is a position; "twenty-five minutes" is a distance, and a child
+   * who only ever subtracts digits never sees that it is a distance. So the
+   * journey gets drawn: an arc from where the hand set off to where it arrived.
+   *
+   * WHICH HAND CARRIES THE ARC follows the duration, because the two hands do not
+   * share a scale. Under an hour the minute hand is the whole story -- six degrees
+   * a minute, and the arc is unmistakable. At an hour and over, the minute hand's
+   * arc is a full turn or more and says nothing, while the hour hand's own travel
+   * is exactly the readable quantity. So: the minute hand's circle under an hour,
+   * the hour hand's at an hour and above.
+   *
+   * That switch is also a trap for the caller. Two durations either side of the
+   * hour draw on DIFFERENT circles at different degrees-per-minute, so a
+   * fifty-five minute arc looks five times longer than a one-hour arc. Never put
+   * two sweeps side by side unless both durations are on the same side of 60.
+   *
+   * Only ever called to explain an answer, never to pose a question: an arc from
+   * start to finish is the answer to "how long?" drawn in one stroke.
+   * ------------------------------------------------------------------ */
+
+  /* Each arc runs at its own hand's TIP rather than somewhere inside it, so the arc
+     is literally the path that hand's point traced: hour hand 48 long, minute hand
+     76. The minute arc at 68 runs in the clear channel between the numerals at 62
+     and the ticks at 74.
+
+     The hour radius was 40 first, and one hour came out as 19px of arc on a 250px
+     dial — nearly invisible on the step where one hour is the SMALLEST journey there
+     is. At 52 the same hour is 27px and sits on the hour hand's tip, which is the
+     more honest picture anyway. */
+  var SWEEP_RADIUS = { minute: 68, hour: 52 };
+
+  Clock.prototype.setSweep = function (fromMinutes, durationMinutes) {
+    this.clearSweep();
+
+    var from = clampMinutes(fromMinutes);
+    if (from === null || typeof durationMinutes !== 'number' ||
+        !isFinite(durationMinutes) || durationMinutes <= 0) return;
+
+    var onMinuteHand = durationMinutes < 60;
+    var radius = onMinuteHand ? SWEEP_RADIUS.minute : SWEEP_RADIUS.hour;
+    var angles = handAngles(from);
+    var startAngle = onMinuteHand ? angles.minute : angles.hour;
+
+    /* Six degrees per minute for the minute hand, half a degree for the hour hand:
+       the same two rates handAngles uses, so the arc cannot disagree with the hands
+       it is drawn between. Stopped just short of a full turn -- an arc whose two
+       ends coincide draws nothing at all. */
+    var sweep = Math.min(durationMinutes * (onMinuteHand ? 6 : 0.5), 359);
+
+    /* An arrowhead at the finish rather than a second dot. A fifty-five minute
+       journey is almost a full turn, and with a plain dot at each end "nearly all
+       the way round" and "a short hop backwards" look identical -- which loses the
+       one thing a duration cannot be read without. The head is measured in units of
+       ARC rather than degrees, so it comes out the same size on either circle. */
+    var head = (11 / radius) * 180 / Math.PI;
+    /* Stop the stroke short of the tip: its round cap would otherwise poke out past
+       the arrowhead by half its own width. */
+    var arcSweep = Math.max(sweep - head * 0.5, 0.1);
+
+    var began = pointOnFace(startAngle, radius);
+    var ended = pointOnFace(startAngle + arcSweep, radius);
+    var tip = pointOnFace(startAngle + sweep, radius);
+    var wingIn = pointOnFace(startAngle + sweep - head, radius - 6.5);
+    var wingOut = pointOnFace(startAngle + sweep - head, radius + 6.5);
+
+    this.sweepLayer.appendChild(el('path', {
+      class: 'clock-sweep',
+      d: 'M ' + began.x + ' ' + began.y +
+         ' A ' + radius + ' ' + radius + ' 0 ' + (arcSweep > 180 ? 1 : 0) + ' 1 ' +
+         ended.x + ' ' + ended.y
+    }));
+
+    /* Hollow, and only at the start: where the hand set off. */
+    this.sweepLayer.appendChild(el('circle', {
+      class: 'clock-sweep-end', cx: began.x, cy: began.y, r: 5
+    }));
+    this.sweepLayer.appendChild(el('path', {
+      class: 'clock-sweep-head',
+      d: 'M ' + tip.x + ' ' + tip.y + ' L ' + wingOut.x + ' ' + wingOut.y +
+         ' L ' + wingIn.x + ' ' + wingIn.y + ' Z'
+    }));
+  };
+
+  Clock.prototype.clearSweep = function () {
+    var layer = this.sweepLayer;
+    while (layer.firstChild) layer.removeChild(layer.firstChild);
   };
 
   /* ------------------------------------------------------------------ *
