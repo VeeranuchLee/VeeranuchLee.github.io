@@ -1527,7 +1527,20 @@
       }
 
       show();
-      document.body.appendChild(overlay);
+      /* Into `screen`, NOT `document.body` -- so the popup cannot outlive the
+         chapter that owns it. On body it was parented outside everything
+         `chapterFrame` clears, and one Tab reaches '‹ Book' behind the popup
+         (nothing here traps focus or makes the background inert), so a keyboard
+         Enter left the chapter and marooned the popup on top of the home screen:
+         the whole book dimmed behind a question about a chapter the child had
+         already left, and answering it spoke three sentences into the wrong
+         screen. Parented here, `clear(screen)` takes it with the chapter, and
+         that holds for every way out -- including any added later.
+
+         `.wc-overlay` is `position: fixed`, so this does not move it: no
+         ancestor of `#screen` sets transform, filter, perspective, will-change
+         or contain, and only those would make it a containing block. */
+      screen.appendChild(overlay);
     }
   }
 

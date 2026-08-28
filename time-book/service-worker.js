@@ -20,9 +20,14 @@
  *                   the moment it was drawn. This bump is what carries the fix
  *                   to a device that already installed the app: the worker is
  *                   cache-first, so without it the old app.js is served forever.
+ *                   Published 2026-08-28, public commit e603c45.
+ *   v5  2026-08-28  c4's popup is parented to `screen`, so it can no longer
+ *                   outlive its chapter. On body it survived a keyboard exit and
+ *                   sat over the home screen, still driving the chapter the
+ *                   child had left.
  */
 
-const CACHE_NAME = "time-book-v4";
+const CACHE_NAME = "time-book-v5";
 
 const SHELL = [
   "./",
