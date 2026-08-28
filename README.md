@@ -19,7 +19,7 @@ actually use.
 | [Petal Kingdom](https://veeranuchlee.github.io/flower-shooter/) | An arcade game |
 | [Little Color Garden](https://veeranuchlee.github.io/little-color-garden/) | Colouring |
 | [Ari & Dot](https://veeranuchlee.github.io/solar-storybook-feedback/) | An illustrated tour of the solar system |
-| [Planets & Moons](https://veeranuchlee.github.io/solar-system-game/) | Put the planets in order, then give every planet its moons |
+| [Planets & Moons](https://veeranuchlee.github.io/solar-system-game/) | Put the planets in order, give every planet its moons, then do the same for the dwarf planets |
 | [Animal Book](https://veeranuchlee.github.io/animal-book/) | A growing illustrated animal encyclopaedia |
 
 ## How these are made
@@ -29,7 +29,7 @@ it is actually good at — and that division is the interesting part.
 
 **The voices are AI-generated. None is a recording of a real person.** Each is *designed*
 from a written description rather than cloned from anyone — Magic Math has a narrator and
-3,404 clips, Planets & Moons has a different voice of its own and 59. Nothing is generated
+3,404 clips, Planets & Moons has a different voice of its own and 76. Nothing is generated
 while a child is playing: the apps ship finished audio files and never call a speech
 service, which is also why they still speak with no network. The remaining games use the
 browser's own built-in speech.

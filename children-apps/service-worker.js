@@ -29,8 +29,9 @@
  *   v6  2026-08-26  the badges say 13 games -- and the hub was pushed for the first time
  *                   in weeks, which is why it had been showing 11
  *   v7  2026-08-26  Read Fractions makes it 14
+ *   v8  2026-08-28  Planets & Moons has a fourth level, so its card says so
  */
-const CACHE_NAME = "children-apps-v7";
+const CACHE_NAME = "children-apps-v8";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
