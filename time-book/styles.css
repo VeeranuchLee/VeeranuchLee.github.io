@@ -697,13 +697,38 @@ body.no-voice .voice-button { opacity: .65; }
 
 /* ---- the entry popup ---- */
 
+/* A <dialog> opened with showModal() -- see askForTime in app.js for why the
+   platform's modal rather than a div dressed as one.
+
+   Everything before `background` is undoing the UA stylesheet, which styles a
+   dialog as a small centred card: `margin: auto`, a solid border, its own
+   background, and `max-width/max-height: calc(100% - 6px - 2em)`. Left alone,
+   those fight `inset: 0` and the dim never reaches the edges of the screen.
+
+   `display` is the one that bites. A dialog is `display: none` until it is
+   open, so setting `display: flex` unconditionally here would paint the popup
+   over the chapter permanently, open or not -- hence the split across the two
+   rules below. */
 .wc-overlay {
+  display: none;
+  margin: 0; border: 0;
+  max-width: none; max-height: none;
+  width: auto; height: auto;
+  color: inherit;
   position: fixed; inset: 0;
   background: rgba(14, 23, 41, .62);
-  display: flex; align-items: center; justify-content: center;
+  align-items: center; justify-content: center;
   padding: 20px;
   z-index: 20;
 }
+
+.wc-overlay[open] { display: flex; }
+
+/* The dim is painted by the dialog itself, above, so the real backdrop stays out
+   of the way. Two translucent layers would darken the book twice over, and only
+   on the browsers that have a top layer -- a difference no one would think to
+   look for. */
+.wc-overlay::backdrop { background: transparent; }
 
 .wc-sheet {
   background: var(--paper);

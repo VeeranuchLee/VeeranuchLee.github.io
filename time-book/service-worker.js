@@ -25,9 +25,15 @@
  *                   outlive its chapter. On body it survived a keyboard exit and
  *                   sat over the home screen, still driving the chapter the
  *                   child had left.
+ *                   Published 2026-08-28, public commit 8f82a91.
+ *   v6  2026-08-28  that popup is a real <dialog> now, opened with showModal():
+ *                   the background is inert, focus is trapped in the sheet and
+ *                   Escape closes it. First bump to carry a styles.css change
+ *                   as well -- the UA's own dialog styling has to be undone or
+ *                   the dim stops short of the edges of the screen.
  */
 
-const CACHE_NAME = "time-book-v5";
+const CACHE_NAME = "time-book-v6";
 
 const SHELL = [
   "./",

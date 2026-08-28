@@ -1518,11 +1518,52 @@
         speakLines(arrivalLines());
       }
 
-      var overlay = h('div', { class: 'wc-overlay', onclick: function (event) {
-        if (event.target === overlay) close();
-      } }, [sheet]);
+      /* A real <dialog>, opened with showModal(), rather than a div that merely
+         looks like one. The platform then owns the three things a hand-rolled
+         overlay has to get right and this one did not: the background goes inert
+         (Tab cannot reach '‹ Book' behind the question any more, which is what
+         made the popup escapable in the first place), focus moves into the sheet
+         and is trapped there, and Escape closes it.
 
+         It is also the more portable of the two ways to do this, which is the
+         opposite of what the note here used to say. `showModal()` shipped in
+         Safari 15.4; the `inert` attribute did not arrive until 15.5, and was
+         behind an experimental flag before that. Since showModal() makes
+         everything outside the dialog inert BY ITSELF -- the spec's words are "as
+         if the inert attribute is specified" -- reaching for `inert` would have
+         bought less on a strictly narrower set of devices.
+
+         The dialog is the full-viewport overlay, not the sheet, so `event.target
+         === overlay` still reads as "tapped outside the sheet" and the dismissal
+         a child already knows is untouched. */
+      var overlay = h('dialog', {
+        class: 'wc-overlay', 'aria-label': WORLD.POPUP[0],
+        onclick: function (event) { if (event.target === overlay) close(); }
+      }, [sheet]);
+
+      /* Escape is taken here rather than left to the platform, so that every way
+         out runs the same two lines below. The first shape of this hung teardown
+         off the dialog's own `close` event, which is the obvious way to catch a
+         native Escape -- and that event never arrived in testing, while a `click`
+         listener on the same element fired normally. Rather than decide whether
+         that is a real engine bug or an artefact of the harness, nothing depends
+         on it: preventDefault() suppresses the native dismissal, and close() runs
+         because we called it. An event that may or may not fire is a poor thing
+         to hang a teardown on either way. */
+      overlay.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' || event.key === 'Esc') {
+          event.preventDefault();
+          close();
+        }
+      });
+
+      /* Close AND remove, always. A dialog that is merely closed is still in the
+         tree, and a popup that is present but invisible is the same half-state
+         this chapter was bitten by when the overlay outlived its chapter.
+         `.close` is absent where there is no <dialog> at all: there the element
+         is an unknown one shown by `[open]`, and removing it is the whole job. */
       function close() {
+        if (overlay.open && overlay.close) overlay.close();
         if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
       }
 
@@ -1539,8 +1580,17 @@
 
          `.wc-overlay` is `position: fixed`, so this does not move it: no
          ancestor of `#screen` sets transform, filter, perspective, will-change
-         or contain, and only those would make it a containing block. */
+         or contain, and only those would make it a containing block. A modal
+         dialog is in the top layer and escapes that ancestry regardless -- and
+         leaves the top layer when `clear(screen)` takes it, so the parenting
+         above still does its job. */
       screen.appendChild(overlay);
+      /* Append first: showModal() on a dialog outside the document throws.
+         Below Safari 15.4 there is no showModal, so the `open` attribute shows it
+         as a plain overlay -- the behaviour that shipped as v5, which is already
+         safe. What is lost there is the trap, not the popup. */
+      if (overlay.showModal) overlay.showModal();
+      else overlay.setAttribute('open', '');
     }
   }
 
