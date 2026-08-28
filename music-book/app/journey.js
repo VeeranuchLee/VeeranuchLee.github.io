@@ -4,24 +4,32 @@
 // page after the landing page reads from here rather than offering the choice
 // again. Restarting the journey is a deliberate trip back to the beginning,
 // which is what makes the first choice worth making.
+//
+// Where the child stands: a wing of the world, then a room inside it, then a
+// page of that room's bubbles. The pager page is reset whenever the room
+// changes and clamped on every render — a stale page outliving a room change
+// is how a child lands on an empty page nobody can leave.
 
 const KEY = 'music-book.journey';
 
 export const journey = {
   companionId: null,
-  groupId: null,
+  wingId: null,
+  roomId: null,
   page: 0,
 
   start(companionId) {
     this.companionId = companionId;
-    this.groupId = null;
+    this.wingId = null;
+    this.roomId = null;
     this.page = 0;
     this.save();
   },
 
   restart() {
     this.companionId = null;
-    this.groupId = null;
+    this.wingId = null;
+    this.roomId = null;
     this.page = 0;
     try { localStorage.removeItem(KEY); } catch (err) { /* private mode */ }
   },

@@ -134,6 +134,8 @@ body {
 }
 .banner h1 { margin: 0; font-size: clamp(18px, 3.2vw, 38px); letter-spacing: .01em; }
 .banner p { margin: 1px 0 0; font-size: clamp(10px, 1.4vw, 16px); color: var(--ink-soft); }
+/* Wing taglines are full sentences, not one-liners like a room subtitle. */
+.banner--wing p { font-size: clamp(9px, 1.15vw, 13.5px); max-width: 58ch; margin-inline: auto; line-height: 1.3; }
 
 .guide-badge {
   flex: 0 0 auto; display: flex; align-items: center; gap: 6px;
@@ -144,9 +146,9 @@ body {
 .guide-badge img { width: clamp(30px, 3.6vw, 46px); height: auto; }
 .guide-badge span { font-size: clamp(10px, 1.3vw, 15px); font-weight: 700; }
 
-/* ── music world ──────────────────────────────────────────────────────────── */
+/* ── music world (the six wings) ──────────────────────────────────────────── */
 
-.group-grid {
+.wing-grid {
   flex: 1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -159,22 +161,22 @@ body {
   padding: 1% 9% 13%;
 }
 
-.group-card {
+.wing-card {
   position: relative;
   display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
   border: 0; background: none; padding: 0; cursor: pointer;
   transition: transform .14s ease;
 }
-.group-card:hover:not(:disabled) { transform: translateY(-5px); }
-.group-card:active:not(:disabled) { transform: scale(.98); }
+.wing-card:hover { transform: translateY(-5px); }
+.wing-card:active { transform: scale(.98); }
 
-.group-card__art {
-  width: min(100%, 16.5vh); aspect-ratio: 1;
+.wing-card__art {
+  width: min(100%, 15.5vh); aspect-ratio: 1;
   border-radius: 50%;
   background-size: cover; background-position: center;
   box-shadow: var(--frame);
 }
-.group-card__label {
+.wing-card__label {
   margin-top: -8%;
   padding: 5px 16px;
   border-radius: 999px;
@@ -184,16 +186,63 @@ body {
   box-shadow: 0 0 0 3px var(--gold), var(--shadow);
   z-index: 1;
 }
-.group-card.is-soon { cursor: default; }
-.group-card.is-soon .group-card__art { filter: grayscale(.75) brightness(1.08); opacity: .72; }
-.group-card__soon {
+.wing-card__count {
   margin-top: 5px; font-size: clamp(9px, 1.1vw, 13px);
   color: #fff; background: rgba(30,43,69,.72); padding: 2px 10px; border-radius: 999px;
 }
 
-/* ── group page ───────────────────────────────────────────────────────────── */
+/* ── a wing's rooms ───────────────────────────────────────────────────────── */
 
-.group-body { flex: 1; display: flex; gap: 2%; padding: 1.6% 0 0; min-height: 0; }
+.stage--wing .scrim {
+  background: radial-gradient(ellipse at 50% 42%, rgba(255,252,244,.62) 0%, rgba(255,252,244,.34) 48%, rgba(255,252,244,.08) 78%);
+}
+
+.room-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 1.6% 2.4%;
+  align-content: center;
+  padding: 1% 7% 10%;
+  min-height: 0;
+}
+
+/* Placeholder door: a tinted plate with the room's number and name. Room art
+   replaces the gradient, not the structure — the number/title/subtitle/count
+   slots stay so the wiring survives the art pass. */
+.room-card {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px;
+  min-height: 0;
+  padding: 4% 6%;
+  border: 0; border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.5), rgba(255,255,255,.18)),
+    linear-gradient(165deg, color-mix(in srgb, var(--accent, #22385a) 62%, #1d2544), color-mix(in srgb, var(--accent, #22385a) 30%, #1d2544));
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+  color: #fff8e6; font: inherit; cursor: pointer;
+  transition: transform .14s ease;
+}
+.room-card:hover { transform: translateY(-4px); }
+.room-card:active { transform: scale(.98); }
+.room-card__number {
+  font-size: clamp(9px, 1.1vw, 13px); font-weight: 800; letter-spacing: .14em;
+  text-transform: uppercase; opacity: .82;
+}
+.room-card__title {
+  font-size: clamp(14px, 2vw, 24px); font-weight: 800; text-align: center; line-height: 1.12;
+}
+.room-card__subtitle {
+  font-size: clamp(9px, 1.2vw, 14px); opacity: .9; text-align: center; line-height: 1.25;
+}
+.room-card__count {
+  margin-top: 3px; font-size: clamp(9px, 1.05vw, 12px); font-weight: 700; opacity: .75;
+}
+
+/* ── a room (its pieces) ──────────────────────────────────────────────────── */
+
+.room-body { flex: 1; display: flex; gap: 2%; padding: 1.6% 0 0; min-height: 0; }
 
 .bubble-field {
   flex: 1;
@@ -252,6 +301,33 @@ body {
 }
 .bubble__name:hover { transform: translateY(-2px); }
 .bubble__name.is-speaking { background: linear-gradient(180deg, #fff3c9, #ffe08a); transform: translateY(-2px); }
+
+.bubble__modes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 6px;
+  max-width: 140%;
+  z-index: 1;
+}
+.bubble__mode {
+  min-height: 44px;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--plate), #ecdcb4);
+  box-shadow: 0 0 0 2px var(--plate-edge), var(--shadow);
+  color: var(--ink);
+  font: inherit;
+  font-size: clamp(10px, 1.3vw, 15px);
+  font-weight: 700;
+  cursor: pointer;
+}
+.bubble__mode.is-current {
+  background: linear-gradient(180deg, #fff3c9, #ffe08a);
+  box-shadow: 0 0 0 2.5px var(--gold), var(--shadow);
+}
 
 /* ── info objects ─────────────────────────────────────────────────────────── */
 
@@ -337,6 +413,36 @@ body {
 }
 .pager__dot.is-current { background: var(--gold); }
 
+/* ── where this room leads (connections) ──────────────────────────────────── */
+
+/* A slim scrollable band under the bubbles: the room's outgoing connections.
+   Each link is the curation's one-sentence label plus the room it leads to,
+   so the journey is readable without opening anything. */
+.room-links {
+  display: flex; gap: 8px;
+  padding: .6% 1% .2%;
+  overflow-x: auto; scrollbar-width: thin;
+}
+.room-link {
+  display: flex; flex-direction: column; gap: 1px;
+  flex: 0 0 auto; max-width: 34%;
+  padding: 6px 12px;
+  border: 0; border-radius: 12px;
+  background: rgba(255,250,238,.92);
+  box-shadow: 0 0 0 2px var(--plate-edge), var(--shadow);
+  color: var(--ink); font: inherit; text-align: left; cursor: pointer;
+}
+.room-link:active { transform: scale(.98); }
+.room-link__label {
+  font-size: clamp(8.5px, 1vw, 12px); line-height: 1.25; color: var(--ink-soft);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.room-link__target {
+  font-size: clamp(10px, 1.25vw, 14.5px); font-weight: 800; white-space: nowrap;
+}
+.room-link--hint { cursor: default; box-shadow: 0 0 0 2px rgba(216,191,134,.5); }
+.room-link--hint .room-link__target { color: var(--ink-soft); }
+
 /* ── pop-up ───────────────────────────────────────────────────────────────── */
 
 #popup {
@@ -370,6 +476,30 @@ body {
 .popup__say-cue { margin-left: .35em; font-size: .8em; opacity: .55; }
 .popup__say.is-speaking { background: linear-gradient(180deg, #fff3c9, #ffe08a); border-radius: 6px; }
 .popup__meta { color: var(--ink-soft); font-weight: 700; }
+
+/* Room knowledge: the words this room teaches, as chips rather than a sentence,
+   so they read as things to collect rather than a glossary to read. */
+.popup__vocab { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.vocab-chip {
+  padding: 3px 12px; border-radius: 999px;
+  background: linear-gradient(180deg, #fff3c9, #ffe08a);
+  box-shadow: 0 0 0 2px var(--gold);
+  font-size: clamp(11px, 1.3vw, 14px); font-weight: 700;
+}
+
+/* Compare links inside a piece popup: the same A/B journey the room teaches,
+   offered from the piece that starts it. */
+.popup__compare { margin-top: 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.popup__compare strong { font-size: clamp(12px, 1.4vw, 15px); }
+.popup__compare-link {
+  padding: 6px 14px; border: 0; border-radius: 999px;
+  background: linear-gradient(180deg, var(--plate), #ecdcb4);
+  box-shadow: 0 0 0 2px var(--plate-edge), var(--shadow);
+  color: var(--ink); font: inherit; font-weight: 700;
+  font-size: clamp(11px, 1.3vw, 15px); cursor: pointer;
+}
+.popup__compare-link:hover { transform: translateY(-2px); }
+
 .popup__close {
   position: absolute; top: 10px; right: 12px;
   width: 40px; height: 40px; border: 0; border-radius: 50%;

@@ -110,8 +110,9 @@ export class AudioEngine {
    * @param {string} noteName  e.g. "E4", "D#5"
    * @param {number} at        seconds on the AudioContext clock
    * @param {number} duration  seconds the note is held
+   * @param {number} [gainScale=1]  0–1 multiplier on the instrument peak (left hand sits under the tune)
    */
-  playNote(noteName, at, duration) {
+  playNote(noteName, at, duration, gainScale = 1) {
     if (!this.ctx || !this.instrument) return;
     const { timbre } = this.instrument;
     const frequency = noteToFrequency(noteName);
@@ -147,7 +148,7 @@ export class AudioEngine {
     });
 
     const env = timbre.envelope;
-    const peak = timbre.gain ?? 0.28;
+    const peak = (timbre.gain ?? 0.28) * Math.max(0, Math.min(1, gainScale));
     const g = gain.gain;
     g.setValueAtTime(0.0001, at);
     g.linearRampToValueAtTime(peak, at + env.attack);
