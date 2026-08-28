@@ -1,11 +1,24 @@
 /* Time Book offline cache.
  *
- * One tier, not three. `math-app`'s worker splits precache / warm / lazy because
- * it carries ~30 MB of artwork and precaching that would make "add to home
- * screen" feel broken. Time Book draws every clock in SVG at runtime, so the
- * whole app is well under 200 KB — the fonts are the biggest thing in it. There
- * is nothing to defer, so everything is precached and the app is fully offline
- * from the moment it installs.
+ * One tier, not three — but no longer because there is nothing to defer.
+ *
+ * `math-app`'s worker splits precache / warm / lazy because it carries ~30 MB of
+ * artwork, and precaching that would make "add to home screen" feel broken. Time
+ * Book used to be the easy case: every clock is SVG drawn at runtime, so the whole
+ * app was under 200 KB and precaching all of it was free.
+ *
+ * That stopped being true on 2026-08-28, when the voice arrived: **1,588 clips,
+ * about 24 MB**, which is the same problem math-app solved with tiers. The answer
+ * here is simpler than tiers because the fetch handler below already caches any
+ * same-origin GET on first use. So the SHELL stays small and deliberately EXCLUDES
+ * the clips: a child gets the app instantly, and each clip is kept the first time
+ * it is heard. `audio/clips.json` IS in the shell, because the app reads it before
+ * the first screen and a missing map means an all-robot session.
+ *
+ * The trade is explicit: the book is fully offline for everything it draws, and
+ * the voice becomes offline for the parts of it a child has already heard. A first
+ * run in a tunnel speaks through the robot, which is the fallback the app already
+ * has, rather than failing.
  *
  * Bump CACHE_NAME on every publish. The activate handler deletes every other
  * cache, and that is what actually ships an update to a device that already
@@ -31,9 +44,15 @@
  *                   Escape closes it. First bump to carry a styles.css change
  *                   as well -- the UA's own dialog styling has to be undone or
  *                   the dim stops short of the edges of the screen.
+ *   v7  2026-08-28  THE VOICE. 3,136 rendered clips and the per-chapter gate:
+ *                   c1-c4 speak in the Magic Math Narrator, c5 stays robot
+ *                   because its scene sentences cost 6.5x a Creator month and
+ *                   do not split. Carries audio/clips.json in the shell and
+ *                   38 MB of .m4a cached lazily by the fetch handler, NOT
+ *                   precached -- see the header above.
  */
 
-const CACHE_NAME = "time-book-v6";
+const CACHE_NAME = "time-book-v7";
 
 const SHELL = [
   "./",
@@ -45,6 +64,11 @@ const SHELL = [
   "./worldclock.js",
   "./elapsed.js",
   "./app.js",
+
+  // The clip map, but NOT the clips. Read before the first screen; without it
+  // the app is all-robot, so it belongs in the shell. The 24 MB of .m4a behind
+  // it does not, and is cached per clip by the fetch handler instead.
+  "./audio/clips.json",
 
   "./fonts/Nunito-latin.woff2",
   "./fonts/Nunito-latin-ext.woff2",

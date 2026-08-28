@@ -78,8 +78,196 @@
   var speechWorks = null;   // null = untested, true = heard it start, false = silent
   var lastSpoken = '';
 
+  /* ------------------------------------------------------------------ *
+   * Clips — the rendered voice, resolved by the sentence itself.
+   *
+   * WORLD-CLOCK-EXPLORER.md's rule, and the reason this layer exists at all:
+   * until the bank is rendered the game is FULLY robot, and the day it is
+   * rendered it is FULLY voiced. AUDIO-DIRECTION.md forbids a release where a
+   * child hears a real voice for one line and `speechSynthesis` for the next, so
+   * the gate below is deliberately all-or-nothing in two places:
+   *
+   *   - `clips.complete` is false while any clip in the bank is unbuilt, and a
+   *     partial bank is ignored entirely rather than used for the lines it does
+   *     cover. `tools/build-audio.py` sets that flag.
+   *   - `speakLines` checks EVERY line before playing ANY of it. One missing
+   *     sentence sends the whole run to the robot, rather than voicing two of
+   *     three and switching mid-arrival.
+   *
+   * Resolution is by exact sentence, which is only safe because
+   * `tools/check-voice-parity.js` proves the app and the bank say the same 1,588
+   * strings. Run it after touching any wording here.
+   *
+   * A LATE MANIFEST MUST NOT LOSE THE FIRST LINE. The fetch is async and the
+   * entry popup can speak before it lands, so `pending` holds the first request
+   * and replays it once the map arrives -- a child who taps immediately gets the
+   * voice, not the robot, and not silence.
+   * ------------------------------------------------------------------ */
+
+  var Clips = (function () {
+    var texts = null;         // sentence -> id, null unless a COMPLETE bank landed
+    var resolved = false;     // has the fetch finished, either way?
+    var robotChapters = [];   // chapters that must stay all-robot
+    var chapter = null;       // the chapter on screen, or null on the home screen
+    var base = '';
+    var element = null;
+    var token = 0;            // invalidates in-flight handlers on interruption
+    var pending = [];         // requests that arrived before the manifest did
+
+    function load(onReady) {
+      var request = new XMLHttpRequest();
+      request.open('GET', 'audio/clips.json', true);
+      request.onload = function () {
+        try {
+          var data = JSON.parse(request.responseText);
+          /* `voiceReady`, NOT `complete`. They answer different questions and the
+             difference is the whole gate: `complete` means every id in the bank
+             has a clip, `voiceReady` means the bank covers everything THIS APP
+             SAYS. On 2026-08-28 the first was true and the second was false --
+             the bank is the World Clock Explorer's, and nothing has counted what
+             the four teaching chapters speak. Gating on `complete` would have
+             voiced c4 and left c1/c2/c3/c5 on the robot, which is exactly the
+             mixed release AUDIO-DIRECTION.md forbids. */
+          if (data && data.voiceReady && data.texts) {
+            texts = data.texts;
+            base = data.base || 'audio/clips/';
+            robotChapters = data.robotChapters || [];
+          }
+        } catch (err) { texts = null; }
+        flush();
+        if (onReady) onReady(!!texts);
+      };
+      /* No manifest, no clips, no error to a child: the robot simply keeps the
+         job it already had. */
+      request.onerror = flush;
+      try { request.send(); } catch (err) { texts = null; flush(); }
+    }
+
+    /* `resolved` is set here and NOWHERE else, and it means "the fetch finished",
+       NOT "we got clips". Those are different, and conflating them is a bug that
+       mutes the whole app: an incomplete bank leaves `texts` null on purpose, so
+       a settled()-means-have-texts test would defer every line forever and the
+       child would hear nothing at all -- worse than the robot this gate exists to
+       fall back to. Every deferred request is replayed, not just the first. */
+    function flush() {
+      resolved = true;
+      var waiting = pending;
+      pending = [];
+      for (var i = 0; i < waiting.length; i++) waiting[i]();
+    }
+
+    function settled() { return resolved; }
+
+    /* Which chapter is on screen. Set before a chapter opens, cleared on the home
+       screen. c5 is robot-only: its scene sentences cost 6.5x a Creator month and
+       do not split, so it can never be fully voiced -- and its ANSWERS are in the
+       bank, so playing "whatever we have" would put a robot question and a real
+       voice on the same screen. Refusing wholesale is what keeps each chapter to
+       one voice. */
+    function setChapter(id) { chapter = id || null; }
+    function robotOnly() {
+      return chapter !== null && robotChapters.indexOf(chapter) !== -1;
+    }
+    function has(line) { return !!(texts && !robotOnly() && texts[line]); }
+    function hasAll(lines) {
+      if (!texts || robotOnly()) return false;
+      for (var i = 0; i < lines.length; i++) if (!texts[lines[i]]) return false;
+      return true;
+    }
+
+    function stop() {
+      token++;
+      if (element) {
+        element.onended = null;
+        element.onerror = null;
+        try { element.pause(); } catch (err) {}
+      }
+    }
+
+    /* Play a run of sentences in order.
+     *
+     * Chained on `ended`, which -- unlike `speechSynthesis.onend`, whose failure
+     * to fire is why the robot path queues everything at once -- is reliable on
+     * an <audio> element. That reliability buys the thing the robot path could
+     * not have: a real, chosen GAP between sentences. app.js's own note worried
+     * that three queued utterances might read as one run-on; at ~5 ms they would.
+     * Here the pause is explicit and audible.
+     *
+     * `onFail` runs if any clip errors mid-run, so a network hiccup falls back
+     * rather than leaving a child halfway through an arrival.
+     */
+    function playAll(lines, onFail) {
+      stop();
+      var mine = ++token;
+      var index = 0;
+      if (!element) element = new Audio();
+
+      function next() {
+        if (mine !== token) return;
+        if (index >= lines.length) return;
+        var line = lines[index++];
+        element.onended = function () {
+          if (mine !== token) return;
+          if (index < lines.length) window.setTimeout(next, GAP_MS);
+        };
+        element.onerror = function () {
+          if (mine !== token) return;
+          token++;
+          if (onFail) onFail();
+        };
+        element.src = base + texts[line] + '.m4a';
+        var played = element.play();
+        if (played && played.catch) {
+          played.catch(function () {
+            if (mine !== token) return;
+            token++;
+            if (onFail) onFail();
+          });
+        }
+      }
+      next();
+      return true;
+    }
+
+    /* Long enough that two sentences do not run together, short enough that a
+       child does not think it has stopped. Matches the beat a reader leaves at a
+       full stop. NOT VERIFIED BY EAR -- the preview pane suspends audio, so this
+       needs a real device, and it is one constant to change. */
+    var GAP_MS = 320;
+
+    return {
+      load: load, settled: settled, has: has, hasAll: hasAll,
+      setChapter: setChapter, robotOnly: robotOnly,
+      stop: stop, playAll: playAll,
+      defer: function (fn) { if (resolved) fn(); else pending.push(fn); }
+    };
+  })();
+
   function speak(text, onVerdict) {
     lastSpoken = text;
+    if (!speechOn) { if (onVerdict) onVerdict(false); return; }
+
+    /* The rendered voice first. If the manifest has not landed yet, hold this
+       request rather than letting the robot answer a line the bank covers --
+       the first thing a child taps must not be the one line in the wrong voice. */
+    if (!Clips.settled()) {
+      Clips.defer(function () { speak(text, onVerdict); });
+      return;
+    }
+    if (Clips.has(text)) {
+      var spoke = Clips.playAll([text], function () { robotSpeak(text, onVerdict); });
+      if (spoke) {
+        speechWorks = true;
+        document.body.classList.remove('no-voice');
+        refreshVoiceLabel();
+        if (onVerdict) onVerdict(true);
+        return;
+      }
+    }
+    robotSpeak(text, onVerdict);
+  }
+
+  function robotSpeak(text, onVerdict) {
     if (!speechOn || !('speechSynthesis' in window) ||
         typeof window.SpeechSynthesisUtterance !== 'function') {
       if (onVerdict) onVerdict(false);
@@ -167,7 +355,29 @@
     lines = (lines || []).filter(Boolean);
     if (!lines.length) return;
     lastSpoken = lines.join(' ');
+    if (!speechOn) return;
 
+    if (!Clips.settled()) {
+      Clips.defer(function () { speakLines(lines); });
+      return;
+    }
+    /* EVERY line, or none of them. Voicing two sentences of a three-sentence
+       arrival and handing the third to the robot is exactly the mixed release
+       AUDIO-DIRECTION.md forbids, and it would be more jarring mid-sentence-run
+       than an all-robot arrival. */
+    if (Clips.hasAll(lines)) {
+      var spoke = Clips.playAll(lines, function () { robotLines(lines); });
+      if (spoke) {
+        speechWorks = true;
+        document.body.classList.remove('no-voice');
+        refreshVoiceLabel();
+        return;
+      }
+    }
+    robotLines(lines);
+  }
+
+  function robotLines(lines) {
     if (!speechOn || !('speechSynthesis' in window) ||
         typeof window.SpeechSynthesisUtterance !== 'function') return;
 
@@ -318,6 +528,8 @@
   ];
 
   function openHome() {
+    /* The home screen belongs to no chapter, so nothing is robot-gated here. */
+    Clips.setChapter(null);
     clear(screen);
 
     var cards = CHAPTERS.map(function (chapter) {
@@ -327,7 +539,7 @@
       var card = h('button', {
         class: 'chapter-card',
         type: 'button',
-        onclick: function () { chapter.open(); }
+        onclick: function () { Clips.setChapter(chapter.id); chapter.open(); }
       }, [
         preview,
         h('h2', { text: chapter.title }),
@@ -397,6 +609,16 @@
     saveProgress(progress);
 
     if (!speechOn) {
+      /* Stop what is playing NOW. The robot path is cancelled by the next
+         speak(); a clip is an <audio> element that would happily keep going,
+         so muting has to reach it directly or the tap appears to do nothing. */
+      Clips.stop();
+      try {
+        if (window.speechSynthesis &&
+            (window.speechSynthesis.speaking || window.speechSynthesis.pending)) {
+          window.speechSynthesis.cancel();
+        }
+      } catch (err) {}
       button.textContent = voiceLabel();
       return;
     }
@@ -819,7 +1041,17 @@
       clear(prompt);
       prompt.appendChild(document.createTextNode('Make the clock say '));
       prompt.appendChild(h('strong', { class: 'target-time', text: label }));
-      speak('Make the clock say ' + (stage.naming ? label : CLOCK.spoken(target)));
+      /* TWO utterances, not one string. Glued together this is a product -- the
+         prefix times every one of 1,452 time forms, 55,455 credits. Split, the
+         instruction is one clip and the time is a clip the bank already needs
+         for other call sites: 1,452 clips become 1.
+         And it is a SENTENCE, not the fragment "Make the clock say". This
+         repository rejected concatenating a number bank into templates twice,
+         because the seam is audible; one whole sentence per utterance is the
+         rule the World Clock follows and the reason its arrival line splits
+         cleanly. Wording changed 2026-08-28 for exactly that. */
+      speakLines(['Make the clock say this time.',
+                  stage.naming ? label : CLOCK.spoken(target)]);
 
       var live = h('div', { class: 'live-readout' });
 
@@ -863,7 +1095,12 @@
         clock.set(target);
         clock.setDraggable(false);
         feedback.appendChild(h('p', { class: 'also', text: 'Look where the hands sit now.' }));
-        speak(label);
+        /* Say the time the way a person says it, not the way the screen prints it.
+           `label` is CLOCK.digital() outside the naming stages -- "10:05" -- which
+           is not a sentence, is not in any bank, and is not how a child is being
+           taught to read a clock aloud. The digits stay on screen; the voice says
+           the words. */
+        speak(stage.naming ? label : CLOCK.spoken(target));
       }
 
       actions.appendChild(h('button', {
@@ -1878,5 +2115,9 @@
     }
   }
 
+  /* Fetch the clip map before the first screen. Anything that speaks before it
+     lands is held by Clips.defer and replayed, so the opening line is voiced
+     rather than robot-voiced -- and if there is no manifest, nothing waits. */
+  Clips.load();
   openHome();
 }());
