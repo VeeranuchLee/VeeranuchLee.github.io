@@ -14,11 +14,15 @@
  *   v1  2026-08-25  first publish, as Clock Game on the test hub
  *   v2  2026-08-27  a back button on the home screen, out to the test hub
  *   v3  2026-08-27  c4 World Clock Explorer (§2.8) and c5 How long? (§2.7).
- *                   NOT YET PUBLISHED — v2 is what the live site serves, so both
- *                   chapters ride on this one bump rather than taking one each.
+ *                   Published 2026-08-27, public commit 1481a06.
+ *   v4  2026-08-28  the World Clock Explorer keeps time -- c4 captured one
+ *                   instant at open and never advanced it, so the clock stopped
+ *                   the moment it was drawn. This bump is what carries the fix
+ *                   to a device that already installed the app: the worker is
+ *                   cache-first, so without it the old app.js is served forever.
  */
 
-const CACHE_NAME = "time-book-v3";
+const CACHE_NAME = "time-book-v4";
 
 const SHELL = [
   "./",

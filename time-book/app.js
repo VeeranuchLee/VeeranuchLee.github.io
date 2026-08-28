@@ -1194,6 +1194,14 @@
     var homeZone = WORLD.deviceZone();
     var homeCity = WORLD.cityForZone(homeZone);
     var instant = new Date();
+    /* Is `instant` the real now, or a moment the child invented? The chapter
+       explores ONE instant everywhere, so a picked or a surprise time must sit
+       perfectly still -- but "Use my local time" promises the device clock, and a
+       device clock that stopped the moment it was drawn is simply wrong. It reads
+       right for sixty seconds and then it is a minute out, an hour out, and by the
+       next morning a day out, on the dial, the digital row and all twenty-two map
+       chips at once. See the tick below. */
+    var live = true;
     var here = homeCity;
     var level = registerLevel();
 
@@ -1208,6 +1216,43 @@
        behind the question. Nothing is spoken until they pick. */
     paint();
     askForTime();
+
+    /* The clock keeps time.
+     *
+     * Only while `live`: a picked or a surprise time is a moment the child chose
+     * to stand in, and hands that crept away from it would break the one idea the
+     * chapter exists to make -- that this is a single instant, held still, seen
+     * from twenty-two places.
+     *
+     * Repaint on the minute rather than the second. Nothing on this screen shows
+     * seconds, so a second-by-second repaint would rebuild the dial and re-lay
+     * twenty-two chips sixty times over to change nothing. The one-second poll is
+     * only there to notice the minute turning promptly; `paint()` runs when it
+     * does, which is at most once a minute and is the same repaint a city tap
+     * already does.
+     *
+     * A backgrounded tab has its timers throttled, so a child coming back to the
+     * iPad could stare at a stale minute while the poll waits its turn. Correct on
+     * the way back in rather than making them wait for it. */
+    function tick() {
+      /* The chapter carries no teardown hook, so the timer retires itself once its
+         own dial has left the page -- via '‹ Book', the hub link, or any screen
+         built after this one. Without this it would repaint a detached dial for
+         the rest of the session, and a second visit would run two of them. */
+      if (!document.body.contains(dial)) {
+        clearInterval(timer);
+        document.removeEventListener('visibilitychange', tick);
+        return;
+      }
+      if (!live) return;
+      var now = new Date();
+      if (Math.floor(now.getTime() / 60000) === Math.floor(instant.getTime() / 60000)) return;
+      instant = now;
+      paint();
+    }
+
+    var timer = setInterval(tick, 1000);
+    document.addEventListener('visibilitychange', tick);
 
     /* "Ten forty-five" until the child has met "past" and "to" in c2, then
        "a quarter to eleven" for the same clock. The book's own ladder, carried
@@ -1431,12 +1476,12 @@
             h('button', {
               class: 'primary-button wc-choice', type: 'button',
               text: '📍 ' + WORLD.POPUP[1],
-              onclick: function () { start(new Date()); }
+              onclick: function () { start(new Date(), true); }
             }),
             h('button', {
               class: 'primary-button wc-choice is-green', type: 'button',
               text: '🕐 ' + WORLD.POPUP[2],
-              onclick: function () { start(fromPick()); }
+              onclick: function () { start(fromPick(), false); }
             }),
             h('button', {
               class: 'primary-button wc-choice is-purple', type: 'button',
@@ -1446,7 +1491,7 @@
                 pick.minute = Math.floor(Math.random() * 12) * 5;
                 pick.pm = Math.random() < 0.5;
                 show();
-                start(fromPick());
+                start(fromPick(), false);
               }
             })
           ])
@@ -1462,8 +1507,11 @@
           hour24, pick.minute);
       }
 
-      function start(when) {
+      /* `isLive` is the whole difference between the three ways in: only the
+         device clock goes on running. See the tick at the top of the chapter. */
+      function start(when, isLive) {
         instant = when;
+        live = !!isLive;
         here = homeCity;
         close();
         paint();
