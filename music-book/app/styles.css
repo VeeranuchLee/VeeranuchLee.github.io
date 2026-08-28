@@ -389,6 +389,11 @@ body {
 
 /* ── companion in the corner ──────────────────────────────────────────────── */
 
+/* The owner's 2026-08-28 QA caught the companion overlapping the connections
+   strip on room screens. Interim rule: on a room, the companion shrinks and
+   the bottom band reserves its corner. The real fix belongs to the art-stage
+   scene design, which places the guides inside the picture instead of as a
+   floating layer. */
 .companion-corner {
   position: absolute; left: 2.4%; bottom: 1%;
   display: flex; align-items: flex-end; gap: 8px;
@@ -396,6 +401,7 @@ body {
   pointer-events: none;
 }
 .companion-figure { width: clamp(70px, 10vw, 140px); height: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,.3)); }
+.stage--room .companion-figure { width: clamp(54px, 7.5vw, 104px); }
 .companion-bubble {
   margin: 0 0 10% 0; padding: 7px 13px;
   max-width: 17ch;
@@ -403,6 +409,7 @@ body {
   box-shadow: 0 0 0 2.5px var(--plate-edge), var(--shadow);
   font-size: clamp(10px, 1.3vw, 15px); font-weight: 600; line-height: 1.3;
 }
+.stage--room .room-links { padding-left: clamp(88px, 15vw, 180px); }
 
 /* ── pager ────────────────────────────────────────────────────────────────── */
 
@@ -505,3 +512,258 @@ body {
   width: 40px; height: 40px; border: 0; border-radius: 50%;
   background: rgba(30,43,69,.1); font-size: 20px; cursor: pointer;
 }
+
+/* ── Read Together: the guided chapter ──────────────────────────────────────
+   Scenes here are deliberately flat placeholder plates. Four painted 4:3 plates
+   replace .rt-scene's background and its dashed shapes; nothing else should have
+   to move when they arrive. The teaching layer -- contours, tags, evidence,
+   ribbons -- is styled as real UI because that is what it will stay.          */
+
+.stage--chapter { background: linear-gradient(180deg, #fbf6ea, #f3e9d3); }
+
+.rt {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1%;
+  padding: 2% 3%;
+  color: var(--ink);
+}
+
+.rt-top { display: flex; align-items: center; gap: 12px; }
+.rt-head { flex: 1; text-align: center; }
+.rt-head h1 {
+  margin: 0; font-size: clamp(15px, 2.3vw, 26px); font-weight: 800; letter-spacing: .01em;
+}
+.rt-head p {
+  margin: 2px 0 0; font-size: clamp(10px, 1.5vw, 16px); color: var(--ink-soft);
+}
+.rt-flag {
+  font-size: clamp(8px, 1vw, 11px); text-transform: uppercase; letter-spacing: .12em;
+  font-weight: 700; color: var(--gold-deep); border: 1px dashed var(--plate-edge);
+  border-radius: 999px; padding: 3px 8px; white-space: nowrap;
+}
+
+/* Page orientation, not a score: four marks, no numbers, no streak. */
+.rt-marks { display: flex; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.rt-mark {
+  flex: 1; text-align: center; font-size: clamp(8px, 1.05vw, 12px); font-weight: 700;
+  color: var(--ink-soft); padding: 4px 2px; border-radius: 999px;
+  background: rgba(255, 255, 255, .5); box-shadow: inset 0 0 0 1px var(--plate-edge);
+}
+.rt-mark.is-done { color: var(--gold-deep); }
+.rt-mark.is-current {
+  color: var(--ink); background: linear-gradient(180deg, #fff3c9, #ffe08a);
+  box-shadow: inset 0 0 0 2px var(--gold);
+}
+
+.rt-scene {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  border-radius: 18px;
+  border: 2px dashed var(--plate-edge);
+  background: radial-gradient(ellipse at 50% 30%, #fffdf7, #f4ead4);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 1.4%;
+  padding: 1.5% 12%;
+  overflow: hidden;
+}
+
+/* Reserved guide zones. Neutral on purpose: the permanent cast is unresolved,
+   and whatever gets drawn first is what everyone starts arguing from. */
+.rt-guide {
+  position: absolute; bottom: 4%;
+  width: clamp(38px, 6.5%, 64px); aspect-ratio: 1;
+  border-radius: 50%; border: 2px dashed var(--plate-edge);
+  background: rgba(255, 255, 255, .6);
+  display: grid; place-content: center; text-align: center; line-height: 1;
+}
+.rt-guide span { font-size: clamp(13px, 2vw, 20px); font-weight: 800; color: var(--gold-deep); }
+.rt-guide small { font-size: clamp(6px, .85vw, 9px); color: var(--ink-soft); }
+.rt-guide--curious { left: 3%; }
+.rt-guide--knowing { right: 3%; }
+
+/* Placeholder scenery. */
+.rt-door, .rt-bench, .rt-channel, .rt-desk {
+  position: absolute; border: 2px dashed var(--plate-edge); border-radius: 10px;
+  background: rgba(255, 255, 255, .35);
+}
+.rt-door { left: 6%; top: 12%; width: 12%; height: 52%; }
+.rt-bench { left: 22%; bottom: 16%; right: 22%; height: 12%; }
+.rt-channel { left: 8%; right: 8%; top: 34%; height: 7%; border-radius: 999px; z-index: 0; }
+.rt-desk { left: 10%; right: 10%; bottom: 8%; height: 26%; }
+
+/* Spread A ------------------------------------------------------------------ */
+.rt-lens {
+  position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  min-height: 44px; border: 0; background: none; cursor: pointer; padding: 0; font: inherit;
+}
+.rt-lens__glass {
+  width: clamp(52px, 9vw, 88px); aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle at 38% 32%, #ffffff, #dcefff 60%, #b9d6ef);
+  box-shadow: 0 0 0 5px var(--gold), var(--shadow);
+}
+.rt-lens__cap {
+  font-size: clamp(9px, 1.3vw, 14px); font-weight: 700; color: var(--gold-deep);
+}
+.rt-lens.is-playing .rt-lens__glass { box-shadow: 0 0 0 6px #ffe08a, var(--shadow); }
+
+.rt-ribbon { width: min(100%, 420px); }
+
+.rt-tags { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.rt-tag {
+  min-height: 44px; display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border: 0; border-radius: 999px; cursor: pointer; font: inherit;
+  font-size: clamp(10px, 1.35vw, 15px); font-weight: 700; color: var(--ink);
+  background: linear-gradient(180deg, var(--plate), #ecdcb4);
+  box-shadow: 0 0 0 2px var(--plate-edge), var(--shadow);
+}
+.rt-tag.is-current { background: linear-gradient(180deg, #fff3c9, #ffe08a); box-shadow: 0 0 0 2.5px var(--gold), var(--shadow); }
+.rt-tag__charm { font-size: 1.1em; color: var(--gold-deep); }
+
+.rt-note {
+  position: relative; z-index: 1;
+  margin: 0; max-width: 46ch; text-align: center; color: var(--ink-soft);
+  font-size: clamp(9px, 1.25vw, 14px);
+  background: rgba(255, 253, 247, .88); border-radius: 8px; padding: 2px 6px;
+}
+
+/* The contour: computed from the score, never painted. */
+.rt-contour { width: 100%; height: auto; overflow: visible; }
+.rt-contour__line { fill: none; stroke: var(--gold); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.rt-contour__dot {
+  fill: #fff; stroke: var(--gold-deep); stroke-width: 3;
+  opacity: 0;   /* parked off-viewBox until a note lights it; overflow is visible */
+  transition: opacity .12s linear;
+}
+.rt-contour--small .rt-contour__line { stroke-width: 2.5; }
+
+/* Spreads B and C ----------------------------------------------------------- */
+.rt-stations, .rt-machines {
+  position: relative; z-index: 1;
+  display: flex; gap: 4%; align-items: flex-start; justify-content: center; width: 100%;
+}
+.rt-station { flex: 1; max-width: 46%; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.rt-station__hit {
+  min-height: 44px; display: flex; flex-direction: column; align-items: center; gap: 6px;
+  border: 0; background: none; cursor: pointer; font: inherit; padding: 0; width: 100%;
+}
+.rt-station__shape {
+  width: clamp(56px, 12vw, 108px); aspect-ratio: 3 / 2;
+  border: 2px dashed var(--plate-edge); border-radius: 12px; background: rgba(255,255,255,.5);
+}
+.rt-station__shape--bridge { border-radius: 60% 60% 8px 8px; }
+.rt-station__shape--lanterns { border-radius: 12px; background: repeating-linear-gradient(90deg, rgba(255,255,255,.7) 0 22%, transparent 22% 33%); }
+.rt-station__shape--crank { border-radius: 8px; }
+.rt-station__shape--turntable { border-radius: 50%; aspect-ratio: 1; }
+.rt-station__label { font-size: clamp(10px, 1.35vw, 15px); font-weight: 700; }
+.rt-station.is-done .rt-station__shape { border-style: solid; border-color: var(--gold); }
+.rt-station__hit.is-playing .rt-station__shape { box-shadow: 0 0 0 4px #ffe08a; }
+
+.rt-rail { position: relative; z-index: 1; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; width: 100%; }
+.rt-strip, .rt-token {
+  min-height: 44px; display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 6px 10px; border: 0; border-radius: 12px; cursor: pointer; font: inherit;
+  font-size: clamp(8px, 1.1vw, 12px); font-weight: 700; color: var(--ink);
+  background: rgba(255, 255, 255, .72); box-shadow: 0 0 0 1.5px var(--plate-edge);
+  width: clamp(96px, 15%, 150px);
+}
+.rt-strip.is-playing, .rt-token.is-playing { box-shadow: 0 0 0 2.5px var(--gold); }
+.rt-token.is-cued { background: linear-gradient(180deg, #fff3c9, #ffe08a); box-shadow: 0 0 0 2.5px var(--gold); }
+
+/* The pop clears the box's own top edge by design — that overshoot IS the
+   surprise. Reserve headroom for it in the column, or it rises into the
+   caption's line box and strikes through the station's name at the one moment
+   the child is watching for it. */
+.rt-popbox {
+  position: relative; width: clamp(48px, 9vw, 84px); aspect-ratio: 1;
+  margin-top: clamp(16px, 2.6vw, 30px);
+}
+.rt-popbox__lid {
+  position: absolute; inset: auto 0 0 0; height: 56%;
+  border: 2px dashed var(--plate-edge); border-radius: 8px; background: rgba(255,255,255,.55);
+}
+.rt-popbox__pop {
+  position: absolute; left: 50%; bottom: 40%; translate: -50% 0;
+  font-size: clamp(16px, 3vw, 30px); font-weight: 900; color: var(--gold-deep);
+  opacity: 0; transition: opacity .12s linear, bottom .18s ease-out;
+}
+.rt-popbox.is-open .rt-popbox__pop { opacity: 1; bottom: 78%; }
+
+.rt-turntable {
+  position: relative; width: clamp(64px, 13vw, 120px); aspect-ratio: 1;
+}
+.rt-groove {
+  position: absolute; border-radius: 50%; border: 3px solid var(--plate-edge);
+}
+.rt-groove--lead { inset: 0; }
+.rt-groove--echo { inset: 16%; }
+.rt-groove.is-dim { opacity: .38; }
+.rt-groove.is-lit { border-color: var(--gold); box-shadow: 0 0 10px rgba(201, 162, 39, .6); }
+
+.rt-echo-tab {
+  min-height: 44px; padding: 8px 16px; border: 0; border-radius: 999px; cursor: pointer;
+  font: inherit; font-size: clamp(10px, 1.3vw, 15px); font-weight: 800; color: var(--ink);
+  background: linear-gradient(180deg, #fff3c9, #ffe08a); box-shadow: 0 0 0 2px var(--gold), var(--shadow);
+}
+.rt-echo-tab.is-done { background: rgba(255,255,255,.6); box-shadow: 0 0 0 1.5px var(--plate-edge); }
+
+/* Spread D ------------------------------------------------------------------ */
+.rt-card {
+  position: relative; z-index: 1; width: min(72%, 460px); text-align: center;
+  padding: 10px 14px; border-radius: 14px; background: rgba(255, 255, 255, .86);
+  box-shadow: 0 0 0 2px var(--plate-edge), var(--shadow);
+}
+.rt-card.is-placed { box-shadow: 0 0 0 3px var(--gold), var(--shadow); }
+.rt-card__line { margin: 0 0 6px; font-weight: 800; font-size: clamp(11px, 1.6vw, 18px); }
+.rt-card__cues { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin: 0; padding: 0; list-style: none; }
+.rt-card__cues li {
+  padding: 6px 10px; min-height: 32px; display: inline-flex; align-items: center;
+  border-radius: 999px; background: var(--plate); box-shadow: 0 0 0 1.5px var(--plate-edge);
+  font-size: clamp(9px, 1.2vw, 13px); font-weight: 700; cursor: pointer;
+}
+.rt-card__place {
+  margin-top: 8px; min-height: 44px; padding: 8px 16px; border: 0; border-radius: 999px;
+  cursor: pointer; font: inherit; font-weight: 800; font-size: clamp(10px, 1.3vw, 15px);
+  background: linear-gradient(180deg, #fff3c9, #ffe08a); box-shadow: 0 0 0 2px var(--gold), var(--shadow);
+}
+.rt-tokens { position: relative; z-index: 1; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; width: 100%; }
+.rt-routes { position: relative; z-index: 1; display: flex; gap: 12px; }
+.rt-route {
+  min-height: 44px; padding: 8px 18px; border: 0; border-radius: 999px; cursor: pointer;
+  font: inherit; font-weight: 800; font-size: clamp(10px, 1.3vw, 15px); color: var(--ink);
+  background: linear-gradient(180deg, var(--plate), #ecdcb4);
+  box-shadow: 0 0 0 2px var(--plate-edge), var(--shadow);
+}
+
+/* Dialogue and controls ----------------------------------------------------- */
+.rt-talk { display: flex; flex-direction: column; gap: 2px; min-height: 2.6em; }
+.rt-line {
+  margin: 0; font-size: clamp(10px, 1.4vw, 16px); color: var(--ink);
+}
+.rt-who {
+  display: inline-block; min-width: 5.5em; font-weight: 800; color: var(--gold-deep);
+  text-transform: lowercase; letter-spacing: .04em;
+}
+.rt-line--knowing .rt-who { color: #4a6b8a; }
+
+.rt-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.rt-btn {
+  min-height: 44px; padding: 8px 20px; border: 0; border-radius: 999px; cursor: pointer;
+  font: inherit; font-weight: 800; font-size: clamp(10px, 1.4vw, 16px); color: var(--ink);
+  background: linear-gradient(180deg, var(--plate), #ecdcb4);
+  box-shadow: 0 0 0 2px var(--plate-edge), var(--shadow);
+}
+/* Continue is always reachable for an adult; it only gains emphasis once the
+   spread's own interaction has happened, so the chapter never becomes a trap. */
+.rt-btn.is-ready { background: linear-gradient(180deg, #fff3c9, #ffe08a); box-shadow: 0 0 0 2.5px var(--gold), var(--shadow); }
+.rt-btn--quiet {
+  background: none; box-shadow: none; color: var(--ink-soft); font-weight: 700;
+  font-size: clamp(9px, 1.15vw, 13px); text-decoration: underline;
+}
+
+/* While a piece plays, the furniture quiets and the active object stays lit. */
+.stage--chapter.is-listening .rt-marks,
+.stage--chapter.is-listening .rt-foot { opacity: .55; transition: opacity .2s ease; }

@@ -105,10 +105,9 @@ export const ROOMS = [
       "pop-goes-weasel",
       "three-blind-mice"
     ],
-    "composers": [
-      "mozart"
-    ],
+    "composers": [],
     "traditions": [
+      "Traditional tune family",
       "Traditional French tune family",
       "Traditional English tune family",
       "Traditional English/American tune family"

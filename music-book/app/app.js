@@ -5,6 +5,7 @@ import { PIECES, composerById } from '../data/catalogue.js';
 import { WINGS, ROOMS, PIECE_ROOMS } from '../data/rooms.js';
 import { journey } from './journey.js';
 import { speakTitle } from './titles.js';
+import { createChapter } from './read-together.js';
 
 const engine = new AudioEngine();
 const player = new Player(engine);
@@ -25,6 +26,11 @@ let pendingPopupPieceId = null;
 const greetedRooms = new Set();
 
 const PAGE_SIZE = 6;
+
+// A room the child chose to explore instead of reading its chapter. Held per
+// room id and cleared on every room change, so Read Together stays the default
+// door into a room rather than something you opt back into.
+let exploreOverride = null;
 
 const pieceById = (id) => PIECES.find((p) => p.id === id);
 const wingById = (id) => WINGS.find((w) => w.id === id);
@@ -155,6 +161,14 @@ function renderRoom() {
   player.stop();
   const room = roomById(journey.roomId);
   if (!room) { renderWorld(); return; }
+
+  // Read Together is the default and Explore is the return mode. A room with an
+  // authored chapter the child has not finished opens into the chapter.
+  if (chapter.isFor(room.id) && exploreOverride !== room.id) {
+    chapter.open(room.id);
+    return;
+  }
+  chapter.close();
   const wing = wingById(room.wingId);
   const c = companionById(journey.companionId);
   const style = wingStyle(room.wingId);
@@ -222,10 +236,15 @@ function bubbleMarkup(p) {
   const art = p.art
     ? `<img class="bubble__art" src="${p.art}" alt="">`
     : `<span class="bubble__art bubble__art--none">♪</span>`;
+  // The second score is the melody plus a root-fifth bass, played on whichever
+  // companion the child chose at the landing page -- the instrument never changes
+  // mid-journey (2026-08-21: "the companion IS the instrument"). So this control
+  // must name the arrangement, never an instrument: labelling it "Piano" promised
+  // a piano to a child on a Flute journey, and "Piano" is also a companion name.
   const modes = p.piano
     ? `<div class="bubble__modes">
          <button class="bubble__mode" data-play="${p.id}" data-which="melody">Melody</button>
-         <button class="bubble__mode" data-play="${p.id}" data-which="piano">Piano</button>
+         <button class="bubble__mode" data-play="${p.id}" data-which="piano">Melody + bass</button>
        </div>`
     : '';
   return `
@@ -306,7 +325,12 @@ function piecePopup(id) {
   const compare = room?.compareWith?.[id] ?? [];
   openPopup(`
     <h2><button class="popup__say" data-say="${p.id}">${p.title}<span class="popup__say-cue" aria-hidden="true">🔊</span></button></h2>
-    <p class="popup__meta">${composerById(p.composerId)?.name || ''}${p.year ? ` · ${p.year}` : ''}</p>
+    ${/* 'traditional' is a catalogue pseudo-composer, not a name a child should
+         read under a title — traditional pieces show no byline (their room's
+         knowledge popup carries the tradition labels from data). */
+      (p.composerId && p.composerId !== 'traditional')
+      ? `<p class="popup__meta">${composerById(p.composerId)?.name || ''}${p.year ? ` · ${p.year}` : ''}</p>`
+      : (p.year ? `<p class="popup__meta">${p.year}</p>` : '')}
     <p><strong>Listen for.</strong> ${p.info.listenFor}</p>
     ${p.info.whyItMatters ? `<p>${p.info.whyItMatters}</p>` : ''}
     ${compare.length ? `
@@ -360,6 +384,11 @@ function playPiece(id, which) {
   const resolved = which || (p.full ? 'melody' : 'excerpt');
   const score = scoreFor(p, resolved);
   if (!score) return;
+  // The chapter installs its own note/finish handlers while it is on screen.
+  // Explore takes them back here rather than at module load, so returning from
+  // a chapter cannot leave Explore driving a contour that is no longer drawn.
+  player.onNote = () => {};
+  player.onFinish = () => setPlayingUI(null, null);
   engine.setInstrument(companionById(journey.companionId));
 
   if (playingPieceId === id && playingWhich === resolved && player.playing) {
@@ -386,6 +415,17 @@ function setPlayingUI(id, which) {
 
 player.onFinish = () => setPlayingUI(null, null);
 
+const chapter = createChapter({
+  stage,
+  engine,
+  player,
+  journey,
+  pieceById,
+  companionById,
+  exitToExplore: () => { exploreOverride = journey.roomId; renderRoom(); },
+  exitToWing: () => { chapter.close(); go('wing'); }
+});
+
 // ── routing ──────────────────────────────────────────────────────────────────
 
 function go(view) {
@@ -410,6 +450,8 @@ function handleSay(target) {
 stage.addEventListener('click', (event) => {
   const t = event.target;
 
+  if (chapter.active() && chapter.click(t)) return;
+
   const companion = t.closest('[data-companion]');
   if (companion) {
     journey.start(companion.dataset.companion);
@@ -423,7 +465,7 @@ stage.addEventListener('click', (event) => {
   if (wing) { journey.wingId = wing.dataset.wing; journey.roomId = null; journey.page = 0; renderWing(); return; }
 
   const room = t.closest('[data-room]');
-  if (room) { journey.wingId = roomById(room.dataset.room).wingId; journey.roomId = room.dataset.room; journey.page = 0; renderRoom(); return; }
+  if (room) { journey.wingId = roomById(room.dataset.room).wingId; journey.roomId = room.dataset.room; journey.page = 0; exploreOverride = null; renderRoom(); return; }
 
   const nav = t.closest('[data-go]');
   if (nav) { go(nav.dataset.go); return; }
@@ -446,6 +488,7 @@ stage.addEventListener('click', (event) => {
       journey.wingId = target.wingId;
       journey.roomId = target.id;
       journey.page = 0;
+      exploreOverride = null;
       renderRoom();
     }
     return;
