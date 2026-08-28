@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" data-build="v2">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pattern Pegs</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./assets/icons/icon-192.png">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<main id="stage">
+
+  <!-- Menu -->
+  <section id="menu" class="screen" aria-label="Pattern Pegs menu">
+    <header class="topbar">
+      <h1 class="title">Pattern Pegs</h1>
+      <button id="sound-toggle" class="round-btn" type="button" aria-label="Sound on or off" aria-pressed="true">🔊</button>
+    </header>
+    <nav class="menu-grid" aria-label="Choose an activity">
+      <button class="menu-card" type="button" data-activity="copy">
+        <span class="menu-beads" data-beads="square:blue,circle:red,square:blue"></span>
+        <span class="menu-name">Copy the Tower</span>
+      </button>
+      <button class="menu-card" type="button" data-activity="continue">
+        <span class="menu-beads" data-beads="circle:red,circle:blue,circle:red"></span>
+        <span class="menu-name">Continue the Pattern</span>
+      </button>
+      <button class="menu-card" type="button" data-activity="sort">
+        <span class="menu-beads" data-beads="star:red,star:yellow,heart:red"></span>
+        <span class="menu-name">Sort by Rule</span>
+      </button>
+      <button class="menu-card" type="button" data-activity="lace">
+        <span class="menu-beads" data-beads="triangle:purple,circle:yellow,triangle:purple"></span>
+        <span class="menu-name">Lace the Beads</span>
+      </button>
+      <button class="menu-card" type="button" data-activity="decode">
+        <span class="menu-beads" data-beads="heart:blue,circle:red,star:green"></span>
+        <span class="menu-name">Decode the Card</span>
+      </button>
+    </nav>
+  </section>
+
+  <!-- Activity (re-rendered per activity) -->
+  <section id="activity" class="screen hidden" aria-label="Activity">
+    <header class="topbar">
+      <button id="home-btn" class="round-btn" type="button" aria-label="Back to menu">⌂</button>
+      <h2 id="activity-title" class="title">Activity</h2>
+      <div class="status-row">
+        <div id="stars" class="stars" aria-label="Solved puzzles"></div>
+      </div>
+    </header>
+    <div id="levels" class="levels" aria-label="Choose difficulty"></div>
+    <div id="activity-body"></div>
+  </section>
+
+</main>
+<script src="./js/pattern-core.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>

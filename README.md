@@ -99,9 +99,11 @@ with `../`:
 | Planets & Moons | `../solar-system-game/` | `solar-system-game` |
 | Our Animal Book | `../animal-book/` | `animal-book` |
 
-The test publish additionally places three apps at the top level of the public Pages
-repository — Music Book at `../music-book/`, Clock Game at `../time-book/` and Writing Book
-at `../writing-book/` — plus the self-contained `./bird-flight/` interaction test. None
+The test publish additionally places four apps at the top level of the public Pages
+repository — Music Book at `../music-book/`, Clock Game at `../time-book/`, Writing Book
+at `../writing-book/` and Pattern Pegs at `../pattern-pegs/` (the private folder is
+`pattern-pegs-app/`; the public path drops the family `-app` suffix) — plus the
+self-contained `./bird-flight/` interaction test. None
 appears in the main hub table above. A later main-hub promotion may split any of them into
 its own project repository, but testing does not require that extra public-repository
 boundary.
