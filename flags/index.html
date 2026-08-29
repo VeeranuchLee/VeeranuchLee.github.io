@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+    <meta name="theme-color" content="#FAF6ED" />
+    <meta name="description" content="Flags — meet the flags of the world: match them, name them, and collect one tiny fact for every country." />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Flags" />
+    <title>Flags</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png" />
+    <link rel="stylesheet" href="./fonts.css" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="screen" id="app-root">
+      <!-- Home, question and celebration screens are mounted here by app.js.
+           The shell (topbar with sound toggle) is static so the sound control
+           never moves while a child plays — the same rule every app here
+           follows. -->
+      <header class="topbar">
+        <button id="btn-home" class="btn btn-icon" type="button" aria-label="Back to the home screen" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <h1 class="topbar-title">Flags</h1>
+        <button id="btn-sound" class="btn btn-icon" type="button" aria-label="Sound on or off" aria-pressed="true">
+          <svg class="ic-sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 010 7M19 6a8.5 8.5 0 010 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <svg class="ic-sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 9l6 6m0-6l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </header>
+      <div id="view-root" class="view-root"></div>
+    </main>
+
+    <!-- Static load order, pattern-blocks pattern: data first, then the speech
+         helper, then the app that mounts everything. -->
+    <script src="./data.js"></script>
+    <script src="./speech.js"></script>
+    <script src="./app.js"></script>
+    <script>
+      /* Offline support. Best-effort on purpose (time-book pattern): straight
+         off the filesystem a browser refuses to register a worker, and the
+         game must still work. */
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('./service-worker.js').catch(function () {});
+        });
+      }
+    </script>
+  </body>
+</html>
