@@ -459,6 +459,11 @@
   const vol = document.getElementById("vol");
   const sustainBtn = document.getElementById("sustain");
 
+  /* The LCD's volume meter. `#lcdVol` ships as an empty div and drawLcd()
+     lights its children, so without this the meter had no children to light
+     and read blank at every volume — styled in CSS, never built. */
+  for (let i = 0; i < 12; i += 1) lcdVol.appendChild(document.createElement("i"));
+
   function drawLcd() {
     lcdName.textContent = PATCHES[state.patch].name;
     lcdState.textContent = state.sustain ? "SUSTAIN" : "READY";

@@ -1,0 +1,140 @@
+/* Toy Box — the shelf's styles.
+ *
+ * Design language: warm paper, rounded corners, quiet chrome. The shelf stays
+ * neutral so the toy cards' colours read calmly. Flat and calm on purpose.
+ * The toy-screen and pb-* styles now live in each toy app (pattern-blocks-app/
+ * took them when the room was split, 2026-08-28).
+ */
+
+:root {
+  --bg: #faf6ed;
+  --panel: #ffffff;
+  --ink: #3e3a47;
+  --ink-soft: #8d8698;
+  --line: #e9e1d0;
+  --shadow: 0 6px 18px rgba(96, 84, 60, 0.12);
+  --radius: 18px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(120% 90% at 50% 0%, #fdfaf3 0%, var(--bg) 55%, #f3ecdc 100%);
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+.screen {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* --- Room (the whole app now) ------------------------------------------------ */
+
+.room-head {
+  text-align: center;
+  padding: clamp(18px, 4vh, 40px) 16px 6px;
+}
+
+.room-head h1 {
+  font-family: 'Fredoka One', 'Nunito', sans-serif;
+  font-weight: 400;
+  font-size: clamp(30px, 6vw, 44px);
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.room-sub {
+  margin: 4px 0 0;
+  color: var(--ink-soft);
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.room-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 220px));
+  gap: 18px;
+  justify-content: center;
+  align-content: start;
+  padding: 18px clamp(14px, 4vw, 40px) 34px;
+  overflow-y: auto;
+}
+
+.toy-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 22px 14px 18px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: transform 0.12s ease;
+  font: inherit;
+  color: inherit;
+  text-decoration: none;
+  min-height: 44px;
+}
+
+a.toy-card:hover,
+a.toy-card:focus-visible { transform: translateY(-2px); }
+a.toy-card:active { transform: translateY(1px); }
+
+.toy-art {
+  width: 104px;
+  height: 104px;
+  display: block;
+}
+
+.toy-art svg { width: 100%; height: 100%; }
+
+.toy-name {
+  font-family: 'Fredoka One', 'Nunito', sans-serif;
+  font-weight: 400;
+  font-size: 19px;
+}
+
+.toy-sub {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.toy-card.is-soon {
+  cursor: default;
+  background: #fbf8f0;
+  box-shadow: none;
+  border-style: dashed;
+}
+
+.toy-soon-tag {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #efe7d3;
+  color: #7a7160;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 4px 9px;
+  border-radius: 999px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toy-card { transition: none; }
+}

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+    <meta name="theme-color" content="#FAF6ED" />
+    <meta name="description" content="Pattern Blocks — arrange flat pattern blocks: build pictures freely or match outline cards." />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Pattern Blocks" />
+    <title>Pattern Blocks</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./assets/icons/icon-192.png" />
+    <link rel="stylesheet" href="./fonts.css" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <!-- One screen: the toy owns the whole app. The back arrow is a plain link to
+         the Toy Box shelf (../toy-room/) — navigation, not mounting. -->
+    <main class="screen toy-screen">
+      <header class="toy-topbar">
+        <a id="toy-back" class="btn btn-icon" href="../toy-room/" aria-label="Back to the toy box">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <h1 class="toy-title">Pattern Blocks</h1>
+        <button id="toy-sound" class="btn btn-icon" type="button" aria-label="Sound on or off" aria-pressed="true">
+          <svg class="ic-sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 010 7M19 6a8.5 8.5 0 010 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <svg class="ic-sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 9l6 6m0-6l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </header>
+      <div id="toy-root" class="toy-root"></div>
+    </main>
+
+    <!-- Static load order, time-book pattern: the engine files first, then the toy,
+         then this app's bootstrap. No lazy loading — there is nothing to be lazy
+         about in a one-toy app. -->
+    <script src="./geometry.js"></script>
+    <script src="./cards.js"></script>
+    <script src="./pattern-blocks.js"></script>
+    <script src="./app.js"></script>
+    <script>
+      /* Offline support. Best-effort on purpose (time-book pattern): straight
+         off the filesystem a browser refuses to register a worker, and the toy
+         must still work. */
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('./service-worker.js').catch(function () {});
+        });
+      }
+    </script>
+  </body>
+</html>

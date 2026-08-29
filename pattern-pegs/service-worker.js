@@ -9,9 +9,16 @@
  *                   labelled beads). Nothing installed v1 anywhere.
  *   v3  2026-08-28  next-position ghost markers on the lace thread and copy tower
  *                   (owner UX call from live play). Still pre-publish.
+ *   v4  2026-08-29  Font paths fixed. assets/fonts/fonts.css asked for
+ *                   ./fonts/<face>.woff2, which resolves from its OWN directory
+ *                   to assets/fonts/fonts/ — a level that has never existed. All
+ *                   three faces 404'd and the app has been drawing in the system
+ *                   fallback since it went live; the .woff2 files were published
+ *                   correctly the whole time. This is the first bump that has to
+ *                   reach installed devices, so it is the first one that matters.
  */
 
-const CACHE_NAME = "pattern-pegs-v3";
+const CACHE_NAME = "pattern-pegs-v4";
 
 const SHELL = [
   "./",

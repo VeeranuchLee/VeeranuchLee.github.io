@@ -99,8 +99,14 @@ body {
 }
 
 #center {
+  /* The side columns size to their content and the LCD absorbs what is left.
+     They used to be `fr` ratios tuned at 1024px; at the iPad's 768px portrait
+     width those tracks fell below their own content and every nowrap child
+     spilled across its neighbour — the brand plate under the LCD, the sound
+     buttons under the right speaker, the volume slider crushed to 2px. `auto`
+     cannot do that: a track never shrinks below the content it holds. */
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 2.1fr) minmax(0, 1.5fr);
+  grid-template-columns: auto minmax(0, 1fr) auto;
   grid-template-rows: auto 1fr;
   gap: clamp(4px, 0.9vmin, 10px);
   align-items: center;
@@ -184,7 +190,9 @@ body {
   gap: 0.45em;
   cursor: pointer;
   box-shadow: 0 2px 0 rgba(0,0,0,.4);
-  min-height: 0;
+  /* Repository minimum tap target. These were 30px — small for a finger on
+     the console the child taps most while playing. */
+  min-height: 44px;
   white-space: nowrap;
 }
 .sound:active, #sustain:active { transform: translateY(1px); box-shadow: 0 1px 0 rgba(0,0,0,.4); }
@@ -226,23 +234,58 @@ body {
   letter-spacing: 0.14em;
   color: #6f778c;
 }
+/* The label is its own word — it never gets squeezed narrower than it reads.
+   Without this it kept its 45px of text inside a 14px box and the letters
+   ran out over the LCD. */
+#volLabel { flex: 0 0 auto; white-space: nowrap; }
+
+/* The master volume.
+ *
+ * Two separate faults lived here. The control was `flex: 1 1 auto` with
+ * `min-width: 0` and no floor, so its neighbours in a crowded row shrank it
+ * to 2px wide — invisible, and sitting under the LCD. And the input itself
+ * carried the visible bar as its own background, which meant the touch
+ * target could only ever be as tall as the bar was drawn: 8px.
+ *
+ * So the input is now a 44px transparent band (the repository minimum, and
+ * what a finger actually needs) with the bar drawn on the *track* inside it,
+ * and it has a width it cannot fall below. --track / --thumb-h are shared
+ * with the thumb rules so the centring maths below stays readable. */
 #vol {
+  --track: clamp(6px, 1vmin, 10px);
+  --thumb-h: clamp(18px, 3vmin, 28px);
   flex: 1 1 auto;
   appearance: none;
   -webkit-appearance: none;
-  height: clamp(6px, 1vmin, 10px);
+  min-width: clamp(64px, 11vmin, 130px);
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+}
+#vol::-webkit-slider-runnable-track {
+  height: var(--track);
   border-radius: 99px;
   background: linear-gradient(90deg, #3fe0c8 var(--fill, 80%), #191d26 var(--fill, 80%));
   border: 1px solid #0d0f15;
-  outline: none;
-  cursor: pointer;
-  min-width: 0;
+}
+#vol::-moz-range-track {
+  height: var(--track);
+  border-radius: 99px;
+  background: linear-gradient(90deg, #3fe0c8 var(--fill, 80%), #191d26 var(--fill, 80%));
+  border: 1px solid #0d0f15;
 }
 #vol::-webkit-slider-thumb {
   appearance: none;
   -webkit-appearance: none;
   width: clamp(12px, 2vmin, 20px);
-  height: clamp(18px, 3vmin, 28px);
+  height: var(--thumb-h);
+  /* Webkit lays the thumb out from the top of the track, so it is centred by
+     hand once the track has a height of its own. */
+  margin-top: calc((var(--track) - var(--thumb-h)) / 2);
   border-radius: 5px;
   background: linear-gradient(180deg, #3a3f4c, #262a34);
   border: 1px solid #10131a;
@@ -250,7 +293,7 @@ body {
 }
 #vol::-moz-range-thumb {
   width: clamp(12px, 2vmin, 20px);
-  height: clamp(18px, 3vmin, 28px);
+  height: var(--thumb-h);
   border-radius: 5px;
   background: linear-gradient(180deg, #3a3f4c, #262a34);
   border: 1px solid #10131a;
@@ -324,4 +367,9 @@ body {
 @media (orientation: portrait) {
   #console { aspect-ratio: auto; height: auto; width: 100%; }
   #keybed { min-height: 42vh; }
+  /* Portrait is ~280px narrower than the landscape target, and the two speaker
+     pods were claiming 38% of it for decoration while the controls a child
+     actually presses fought over the rest. Same three zones, same layout —
+     the pods just give their width back to the deck where it is needed. */
+  #deck { grid-template-columns: minmax(0, 0.5fr) minmax(0, 5fr) minmax(0, 0.5fr); }
 }

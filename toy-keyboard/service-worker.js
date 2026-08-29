@@ -13,9 +13,17 @@
  *       number moved before anything shipped.
  *   v2  2026-08-29  LCD note readout and the no-pointer-events click
  *       fallback, still pre-publication.
+ *   v3  2026-08-29  Test Hub publication prep: the control deck fixed at the
+ *       iPad's portrait width, a master volume that is not 2px wide, 44px
+ *       controls, and the LCD volume meter actually built. No back link — the
+ *       owner took the Keyboard off the toy shelf (different age segment), so
+ *       it is self-contained like every other app carded on the hub.
+ *       apple-touch-icon.png joins the shell too — index.html has always linked
+ *       it and it was never precached, so a cold offline install had no
+ *       home-screen icon to fall back on.
  */
 
-const CACHE_NAME = "toy-keyboard-v2";
+const CACHE_NAME = "toy-keyboard-v3";
 
 const SHELL = [
   "./",
@@ -32,6 +40,7 @@ const SHELL = [
   "./assets/icons/icon-192.png",
   "./assets/icons/icon-512.png",
   "./assets/icons/icon-512-maskable.png",
+  "./assets/icons/apple-touch-icon.png",
 ];
 
 self.addEventListener("install", (event) => {

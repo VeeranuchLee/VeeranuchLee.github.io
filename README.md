@@ -102,16 +102,34 @@ this Pages repository (see the row below and the paragraph after the table).
 | Planets & Moons | `../solar-system-game/` | `solar-system-game` |
 | Our Animal Book | `../animal-book/` | `animal-book` |
 
-The test publish additionally places three apps at the top level of the public Pages
-repository — Music Book at `../music-book/`, Clock Game at `../time-book/` and
-Pattern Pegs at `../pattern-pegs/` (the private folder is `pattern-pegs-app/`; the
-public path drops the family `-app` suffix) — plus the self-contained
-`./bird-flight/` interaction test. None of the three appears in the main hub table
-above. **Writing Book was the fourth of these until 2026-08-29**, when the owner
-promoted it to the main hub: only its card moved, and the app still serves from
-`../writing-book/` at this repo's top level. A later main-hub promotion may split
-any top-level app into its own project repository, but neither testing nor
-promotion requires that extra public-repository boundary.
+The test publish additionally places six apps at the top level of the public Pages
+repository — Music Book at `../music-book/`, Clock Game at `../time-book/`, Pattern Pegs
+at `../pattern-pegs/`, the Toy Box shelf at `../toy-room/`, Pattern Blocks at
+`../pattern-blocks/` and the Keyboard at `../toy-keyboard/` (first published
+2026-08-29) — plus the self-contained
+`./bird-flight/` interaction test. None of the six appears in the main hub table above.
+**Writing Book was one of these until 2026-08-29**, when the owner promoted it to the
+main hub: only its card moved, and the app still serves from `../writing-book/` at this
+repo's top level. A later main-hub promotion may split any top-level app into its own
+project repository, but neither testing nor promotion requires that extra
+public-repository boundary.
+
+**The public path drops the family `-app` suffix**, so `pattern-pegs-app/` publishes as
+`/pattern-pegs/`, `pattern-blocks-app/` as `/pattern-blocks/` and `toy-keyboard-app/` as
+`/toy-keyboard/`. `toy-room/` has no suffix and keeps its name. That last one is load-
+bearing in a way the others are not: the Toy Box shelf is the only card here that links
+onward to other apps, and Pattern Blocks links back to it with a hard-coded
+`../toy-room/`, so the shelf's folder name is part of another app's markup. The Keyboard
+publishes to the same top level but is **not** on the shelf and does not link to it —
+owner, 2026-08-29: it is aimed at an older child than the toy room, and a toy shelf
+frames it as "just a toy". It gets its own `/test-apps/` card instead. The shelf's own UI says "Toy
+Box" while its URL says `toy-room` — the child-facing name is open decision 7 in
+`toy-room/README.md`, and the URL deliberately does not settle it.
+
+Because those links are written for the public layout, **the shelf's cards do not resolve
+against a server pointed at the private repository root** — the folders there still carry
+`-app`. Check it from a publish candidate laid out with the public names, the way
+`solar-candidate` and `animal-candidate` are checked.
 
 All links are relative, so there is no domain to go stale.
 
@@ -172,8 +190,9 @@ That prints one path per line, relative to this directory. It refuses to print
 anything unless `site/.publish-manifest` classifies every tracked file here as
 either `[ship]` or `[private]`. The same script serves every published app —
 `math-app`, `coloring-app`, `flower-shooter`, `animal-book`, `solar-storybook`,
-`solar-system-game` — each with its own manifest, and `scripts/preflight.sh` runs
-all of them on every commit. A new app joins that list by gaining a manifest, and
+`solar-system-game`, `music-book`, `time-book`, `writing-book`, `pattern-pegs-app`,
+`toy-room`, `pattern-blocks-app`, `toy-keyboard-app` — each with its own manifest, and
+`scripts/preflight.sh` runs all of them on every commit. A new app joins that list by gaining a manifest, and
 **this sentence has to be extended by hand when one does**, which is why it is a
 list of directories rather than a claim about how many there are.
 

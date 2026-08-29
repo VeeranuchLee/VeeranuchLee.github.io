@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#FAF6ED" />
+    <meta name="description" content="Toy Box — a shelf of gentle learning toys. Pick a toy and play." />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Toy Box" />
+    <title>Toy Box</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./assets/icons/icon-192.png" />
+    <link rel="stylesheet" href="./fonts.css" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <!-- The shelf. One screen, no toy runtime: every tappable card is a plain
+         link to that toy's own standalone app (see shelf.js). Adding a toy is
+         adding a shelf entry plus an app folder — nothing here changes. -->
+    <main id="room" class="screen">
+      <header class="room-head">
+        <h1>Toy Box</h1>
+        <p class="room-sub">Pick a toy and play</p>
+      </header>
+      <nav id="room-grid" class="room-grid" aria-label="Toys"></nav>
+    </main>
+
+    <script src="./shelf.js"></script>
+    <script src="./app.js"></script>
+    <script>
+      /* Offline support. Best-effort on purpose (time-book pattern): straight
+         off the filesystem a worker will not register, and the shelf must
+         still work. */
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('./service-worker.js').catch(function () {});
+        });
+      }
+    </script>
+  </body>
+</html>
