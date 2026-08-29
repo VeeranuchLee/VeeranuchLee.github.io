@@ -30,8 +30,10 @@
  *                   in weeks, which is why it had been showing 11
  *   v7  2026-08-26  Read Fractions makes it 14
  *   v8  2026-08-28  Planets & Moons has a fourth level, so its card says so
+ *   v14 2026-08-29  Writing Book joined the hub, promoted from the Test Hub
+ *                  (v9-v13 were badge bumps in other tasks and went unlogged here)
  */
-const CACHE_NAME = "children-apps-v13";
+const CACHE_NAME = "children-apps-v14";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
@@ -46,6 +48,7 @@ const SHELL = [
   "./assets/space-math.webp",
   "./assets/unicorn-math.webp",
   "./assets/magic-spelling.webp",
+  "./assets/writing-book.webp",
   "./assets/classical-music.webp",
   "./assets/petal-kingdom.webp",
   "./assets/little-color-garden.png",

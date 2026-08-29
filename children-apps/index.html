@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>Children Games</title>
-  <meta name="description" content="All of our games in one place — maths, spelling, music, colouring, flowers, a space story, the planets and their moons, and an animal book."/>
+  <meta name="description" content="All of our games in one place — maths, spelling, writing, music, colouring, flowers, a space story, the planets and their moons, and an animal book."/>
   <link rel="manifest" href="./manifest.webmanifest"/>
   <link rel="stylesheet" href="./fonts.css"/>
   <meta name="theme-color" content="#f7d9ec"/>
@@ -124,6 +124,10 @@
     .c-colour  {--edge:#34a853;--shadow:#217a3a;--tint:#e6f7ea}
     .c-story   {--edge:#5b64c9;--shadow:#3b429c;--tint:#eceeff}
     .c-animal  {--edge:#d97a16;--shadow:#a55606;--tint:#fff1de}
+    /* Pencil-gold: the writing app is paper and pencil, so the chrome says so.
+       Yellower and lighter than Animal Book's burnt orange, and the card sits
+       beside purple Magic Spelling rather than beside that orange. */
+    .c-writing {--edge:#d9a12a;--shadow:#b07d12;--tint:#fff5d9}
     /* The darkest card on the page, deliberately: its art is a night sky, and the
        three cards already in blue are all lighter than this. */
     .c-planets {--edge:#26306e;--shadow:#151c46;--tint:#e6eaff}
@@ -256,6 +260,12 @@
       <span class="art"><img src="./assets/magic-spelling.webp" alt="" width="96" height="96"/></span>
       <span class="name">Magic Spelling</span>
       <span class="desc">Letters and words</span>
+    </a>
+
+    <a class="card c-writing" href="../writing-book/">
+      <span class="art"><img class="tile" src="./assets/writing-book.webp" alt="" width="96" height="96"/></span>
+      <span class="name">Writing Book</span>
+      <span class="desc">Trace words and fill your sticker book</span>
     </a>
 
     <a class="card c-music" href="../magic-math/classical-music.html">

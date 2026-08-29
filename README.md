@@ -15,6 +15,7 @@ actually use.
 | [Space Math](https://veeranuchlee.github.io/magic-math/space-math.html) | Counting, place value, times tables and column arithmetic, on a journey through the solar system |
 | [Unicorn Math](https://veeranuchlee.github.io/magic-math/unicorn-math.html) | The same maths, a different world |
 | [Magic Spelling](https://veeranuchlee.github.io/magic-math/magic-spelling.html) | Letters and words |
+| [Writing Book](https://veeranuchlee.github.io/writing-book/) | Hear a word, watch how each letter is written, then trace it on writing paper |
 | [Classical Music](https://veeranuchlee.github.io/magic-math/classical-music.html) | A first instrument to play with |
 | [Petal Kingdom](https://veeranuchlee.github.io/flower-shooter/) | An arcade game |
 | [Little Color Garden](https://veeranuchlee.github.io/little-color-garden/) | Colouring |
@@ -59,7 +60,7 @@ The rest of this file is for whoever works on the site.
 The user Pages site. Three deliberately separate things live here:
 
     /                 a deliberately plain placeholder, reserved for professional use
-    /children-apps/   the children's games hub — one screen, nine cards
+    /children-apps/   the children's games hub — one screen, ten cards
     /test-apps/       an unlinked hub for apps being tested before main-hub promotion
 
 **Live:** `https://veeranuchlee.github.io/`
@@ -85,13 +86,15 @@ and nothing else.
 
 Each game is its own GitHub project repo, and GitHub serves those at `/<repo>/`.
 They **cannot** be nested under `/children-apps/`; the hub links up and across
-with `../`:
+with `../` — with one exception, Writing Book, which lives at the top level of
+this Pages repository (see the row below and the paragraph after the table).
 
 | Card | Path | Repo |
 | --- | --- | --- |
 | Space Math | `../magic-math/space-math.html` | `magic-math` |
 | Unicorn Math | `../magic-math/unicorn-math.html` | `magic-math` |
 | Magic Spelling | `../magic-math/magic-spelling.html` | `magic-math` |
+| Writing Book | `../writing-book/` | this repo, top level (promoted from `/test-apps/` 2026-08-29) |
 | Classical Music | `../magic-math/classical-music.html` | `magic-math` |
 | Petal Kingdom | `../flower-shooter/` | `flower-shooter` |
 | Little Color Garden | `../little-color-garden/` | `little-color-garden` |
@@ -99,14 +102,16 @@ with `../`:
 | Planets & Moons | `../solar-system-game/` | `solar-system-game` |
 | Our Animal Book | `../animal-book/` | `animal-book` |
 
-The test publish additionally places four apps at the top level of the public Pages
-repository — Music Book at `../music-book/`, Clock Game at `../time-book/`, Writing Book
-at `../writing-book/` and Pattern Pegs at `../pattern-pegs/` (the private folder is
-`pattern-pegs-app/`; the public path drops the family `-app` suffix) — plus the
-self-contained `./bird-flight/` interaction test. None
-appears in the main hub table above. A later main-hub promotion may split any of them into
-its own project repository, but testing does not require that extra public-repository
-boundary.
+The test publish additionally places three apps at the top level of the public Pages
+repository — Music Book at `../music-book/`, Clock Game at `../time-book/` and
+Pattern Pegs at `../pattern-pegs/` (the private folder is `pattern-pegs-app/`; the
+public path drops the family `-app` suffix) — plus the self-contained
+`./bird-flight/` interaction test. None of the three appears in the main hub table
+above. **Writing Book was the fourth of these until 2026-08-29**, when the owner
+promoted it to the main hub: only its card moved, and the app still serves from
+`../writing-book/` at this repo's top level. A later main-hub promotion may split
+any top-level app into its own project repository, but neither testing nor
+promotion requires that extra public-repository boundary.
 
 All links are relative, so there is no domain to go stale.
 
@@ -142,6 +147,12 @@ like a single game. Output is deterministic; re-running leaves a clean
 game's `tools/build-assets.py` from the same sprites the game plays with — the Sun
 low and left, with Earth and Saturn climbing away from it. It is the one card whose
 art is a square tile by design rather than for want of a cut-out sprite.
+
+`writing-book.webp` is a square crop of Writing Book's own published `write.jpg`
+word picture — the boy writing in his book with a pencil — cut from the tall strip
+the app serves on its word cards (crop window chosen by eye, verified against the
+source). The app has no cut-out sprite, so like Animal Book it rides as a rounded
+tile.
 
 **Two known art gaps**, both cosmetic and both inherited:
 
