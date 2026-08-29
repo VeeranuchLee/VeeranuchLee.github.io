@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Keyboard</title>
+<meta name="description" content="A big keyboard for bigger kids: four sounds, sustain, and every key there for playing."/>
+<link rel="manifest" href="./manifest.webmanifest"/>
+<link rel="stylesheet" href="./fonts.css"/>
+<link rel="stylesheet" href="./styles.css"/>
+<meta name="theme-color" content="#101319"/>
+<link rel="icon" href="./assets/icons/icon-192.png"/>
+<link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Keyboard"/>
+</head>
+<body>
+
+<main id="console" aria-label="Keyboard">
+
+  <!-- The LED edge: one lit strip around the top of the console. -->
+  <div id="edge" aria-hidden="true"></div>
+
+  <!-- Control deck: speakers, screen, sounds, effects. Every control drawn
+       here is a real control — nothing decorative pretends to be a button. -->
+  <section id="deck" aria-label="Controls">
+
+    <div class="speaker" aria-hidden="true"><div class="grille"></div></div>
+
+    <div id="center">
+      <p id="brand" aria-hidden="true">KEYBOARD<span>49</span></p>
+
+      <div id="lcd" aria-live="polite">
+        <p id="lcdName">Piano</p>
+        <div id="lcdRow">
+          <p id="lcdState">READY</p>
+          <div id="lcdVol" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <div id="sounds" role="group" aria-label="Sound">
+        <button type="button" class="sound" data-patch="piano"    aria-pressed="true"><i class="led"></i>Piano</button>
+        <button type="button" class="sound" data-patch="epiano"   aria-pressed="false"><i class="led"></i>E. Piano</button>
+        <button type="button" class="sound" data-patch="organ"    aria-pressed="false"><i class="led"></i>Organ</button>
+        <button type="button" class="sound" data-patch="synth"    aria-pressed="false"><i class="led"></i>Synth</button>
+      </div>
+
+      <div id="fx" aria-label="Effects and volume">
+        <button type="button" id="sustain" aria-pressed="false"><i class="led"></i>Sustain</button>
+        <label id="volWrap">
+          <span id="volLabel">Master</span>
+          <input type="range" id="vol" min="0" max="100" value="80" aria-label="Master volume"/>
+        </label>
+      </div>
+    </div>
+
+    <div class="speaker right" aria-hidden="true"><div class="grille"></div></div>
+  </section>
+
+  <!-- The keybed. Keys are laid out by app.js (49 keys, C3 to C7); touch
+       handling is one geometry pass over this element, so every finger is a
+       note and sliding a finger across the keys plays across them. -->
+  <section id="keybed" aria-label="Keys"></section>
+
+</main>
+
+<script src="./app.js"></script>
+</body>
+</html>

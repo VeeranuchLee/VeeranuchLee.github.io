@@ -1,0 +1,327 @@
+/* Keyboard — the console.
+ *
+ * The reference is an older kid's "beat maker" keyboard: black casing, a lit
+ * edge in purple-cyan, an LCD, speaker grilles, box-style keys — gear rather
+ * than a toddler toy. Everything here is drawn with CSS: no images ship, the
+ * whole app is shell + one script + fonts.
+ *
+ * Landscape first (the 9.7" iPad at 1024x768 is the design target); portrait
+ * scales the same console down rather than offering a different layout, so
+ * there is exactly one thing to learn. */
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  /* The room the console sits in — deep and dark with a faint violet wash,
+     so the lit edge reads against it. */
+  background:
+    radial-gradient(120% 90% at 50% -10%, #1d2030 0%, #12141c 55%, #0b0d13 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  padding: clamp(6px, 1.6vmin, 18px);
+  font-family: "Nunito", system-ui, sans-serif;
+  color: #dfe3ee;
+  -webkit-user-select: none;
+  user-select: none;
+  overflow: hidden;
+}
+
+#console {
+  /* The instrument: a wide dark slab. It keeps the reference console's
+     proportions (about 2.2 : 1) and never grows past the room. */
+  width: min(1180px, 100%);
+  max-height: 100%;
+  aspect-ratio: 118 / 55;
+  background: linear-gradient(178deg, #2b2f3a 0%, #22252f 12%, #1c1f28 80%, #171a22 100%);
+  border-radius: clamp(10px, 1.8vmin, 22px);
+  border: 1px solid #0c0e14;
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.06) inset,
+    0 -3px 12px rgba(0, 0, 0, 0.5) inset,
+    0 18px 50px rgba(0, 0, 0, 0.55);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(8px, 1.5vmin, 18px);
+  gap: clamp(6px, 1.2vmin, 14px);
+}
+
+/* The lit edge. One strip along the top, brightest at the corners, the way
+   the reference's LED ribbon glows. Purely atmospheric; it never blinks or
+   demands attention while a child plays. */
+#edge {
+  position: absolute;
+  inset: clamp(3px, 0.7vmin, 7px) clamp(3px, 0.7vmin, 7px) auto;
+  height: clamp(3px, 0.6vmin, 6px);
+  border-radius: 99px;
+  background: linear-gradient(90deg,
+    rgba(167, 97, 255, 0.9), rgba(64, 214, 255, 0.95) 30%,
+    rgba(64, 214, 255, 0.85) 70%, rgba(255, 92, 205, 0.9));
+  box-shadow: 0 0 12px rgba(96, 190, 255, 0.55), 0 0 26px rgba(140, 90, 255, 0.35);
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------- the deck --- */
+
+#deck {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 3.2fr) 1fr;
+  align-items: stretch;
+  gap: clamp(8px, 1.6vmin, 18px);
+}
+
+/* Speakers: dot grilles in slanted pods, one each side. */
+.speaker {
+  background: linear-gradient(180deg, #191c24, #14161d);
+  border: 1px solid #0d0f15;
+  border-radius: 10px 26px 26px 10px;
+  padding: clamp(6px, 1vmin, 12px);
+  min-height: 0;
+  transform: skewX(-6deg);
+}
+.speaker.right { border-radius: 26px 10px 10px 26px; transform: skewX(6deg); }
+.speaker .grille {
+  height: 100%;
+  border-radius: inherit;
+  background:
+    repeating-linear-gradient(0deg, rgba(0,0,0,.55) 0 2px, transparent 2px 6px),
+    repeating-linear-gradient(90deg, rgba(0,0,0,.55) 0 2px, transparent 2px 6px),
+    radial-gradient(120% 120% at 30% 20%, #262a35, #171a21 70%);
+  background-blend-mode: multiply;
+}
+
+#center {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 2.1fr) minmax(0, 1.5fr);
+  grid-template-rows: auto 1fr;
+  gap: clamp(4px, 0.9vmin, 10px);
+  align-items: center;
+}
+
+/* Model plate. A plain name until the owner names the toy; "49" is the key
+   count, the way real keyboards carry their model number. */
+#brand {
+  grid-row: 1;
+  margin: 0;
+  font-family: "Fredoka One", "Nunito", sans-serif;
+  font-size: clamp(10px, 1.7vmin, 17px);
+  letter-spacing: 0.22em;
+  color: #8b93a8;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.05);
+  white-space: nowrap;
+}
+#brand span { color: #565d70; margin-left: 0.5em; font-size: 0.78em; }
+
+/* The LCD: dark teal glass, cyan text, one name line and one status line. */
+#lcd {
+  grid-row: 1 / span 2;
+  background: linear-gradient(180deg, #0c2b2e, #082124 70%, #0a262a);
+  border: 1px solid #06181b;
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px rgba(120, 255, 240, 0.06), 0 2px 8px rgba(0,0,0,.5) inset;
+  padding: clamp(5px, 1vmin, 10px) clamp(8px, 1.4vmin, 14px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+  overflow: hidden;
+}
+#lcdName {
+  margin: 0;
+  font-family: "Fredoka One", "Nunito", sans-serif;
+  font-size: clamp(13px, 2.4vmin, 24px);
+  color: #7df3e3;
+  text-shadow: 0 0 8px rgba(84, 235, 215, 0.45);
+  white-space: nowrap;
+}
+#lcdRow { display: flex; align-items: center; gap: clamp(6px, 1vmin, 10px); min-width: 0; }
+#lcdState {
+  margin: 0;
+  font-size: clamp(8px, 1.4vmin, 13px);
+  letter-spacing: 0.18em;
+  color: #4da89c;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+#lcdVol { flex: 1 1 auto; height: clamp(5px, 0.9vmin, 9px); display: flex; gap: 2px; }
+#lcdVol i {
+  flex: 1;
+  border-radius: 2px;
+  background: #123b3a;
+}
+#lcdVol i.on { background: #57e0cd; box-shadow: 0 0 5px rgba(87, 224, 205, 0.5); }
+
+/* Sound buttons. Each carries its own LED; the active one is lit. */
+#sounds {
+  grid-row: 1 / span 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(4px, 0.8vmin, 9px);
+}
+.sound, #sustain {
+  appearance: none;
+  border: 1px solid #0d0f15;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #2a2e39, #20232d);
+  color: #aab1c4;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: clamp(9px, 1.55vmin, 15px);
+  letter-spacing: 0.04em;
+  padding: clamp(4px, 0.8vmin, 9px) clamp(6px, 1vmin, 12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45em;
+  cursor: pointer;
+  box-shadow: 0 2px 0 rgba(0,0,0,.4);
+  min-height: 0;
+  white-space: nowrap;
+}
+.sound:active, #sustain:active { transform: translateY(1px); box-shadow: 0 1px 0 rgba(0,0,0,.4); }
+.sound .led, #sustain .led {
+  width: 0.62em; height: 0.62em;
+  border-radius: 50%;
+  background: #14171f;
+  border: 1px solid #0b0d12;
+  flex: 0 0 auto;
+}
+.sound[aria-pressed="true"] { color: #eef1f8; border-color: #3a4152; }
+.sound[aria-pressed="true"] .led, #sustain[aria-pressed="true"] .led {
+  background: var(--led, #6ee7ff);
+  box-shadow: 0 0 6px var(--led, #6ee7ff);
+}
+.sound[data-patch="piano"]  { --led: #ffc65c; }
+.sound[data-patch="epiano"] { --led: #6ee7ff; }
+.sound[data-patch="organ"]  { --led: #b58cff; }
+.sound[data-patch="synth"]  { --led: #ff6ecd; }
+
+/* Effects row: the sustain pedal and the master volume. */
+#fx {
+  grid-row: 2;
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 1.2vmin, 14px);
+  min-width: 0;
+}
+#sustain { flex: 0 0 auto; --led: #7dff9b; }
+#sustain[aria-pressed="true"] { color: #eef1f8; }
+#volWrap {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  min-width: 0;
+  font-size: clamp(8px, 1.4vmin, 13px);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #6f778c;
+}
+#vol {
+  flex: 1 1 auto;
+  appearance: none;
+  -webkit-appearance: none;
+  height: clamp(6px, 1vmin, 10px);
+  border-radius: 99px;
+  background: linear-gradient(90deg, #3fe0c8 var(--fill, 80%), #191d26 var(--fill, 80%));
+  border: 1px solid #0d0f15;
+  outline: none;
+  cursor: pointer;
+  min-width: 0;
+}
+#vol::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: clamp(12px, 2vmin, 20px);
+  height: clamp(18px, 3vmin, 28px);
+  border-radius: 5px;
+  background: linear-gradient(180deg, #3a3f4c, #262a34);
+  border: 1px solid #10131a;
+  box-shadow: 0 2px 6px rgba(0,0,0,.5);
+}
+#vol::-moz-range-thumb {
+  width: clamp(12px, 2vmin, 20px);
+  height: clamp(18px, 3vmin, 28px);
+  border-radius: 5px;
+  background: linear-gradient(180deg, #3a3f4c, #262a34);
+  border: 1px solid #10131a;
+}
+
+/* --------------------------------------------------------------- keys --- */
+
+#keybed {
+  flex: 1 1 auto;
+  position: relative;
+  background: #0d0f15;
+  border-radius: clamp(6px, 1vmin, 12px);
+  border: 1px solid #080a0f;
+  box-shadow: 0 3px 10px rgba(0,0,0,.6) inset;
+  padding: clamp(4px, 0.8vmin, 9px);
+  touch-action: none;   /* every finger on the keys is a note, not a scroll */
+  min-height: 0;
+}
+
+#keybed .white,
+#keybed .black {
+  position: absolute;
+  cursor: pointer;
+}
+
+.white {
+  background: linear-gradient(180deg, #fbfbf6 0%, #efeee6 82%, #d9d7cc 100%);
+  border: 1px solid #b9b7ab;
+  border-top: none;
+  border-radius: 0 0 clamp(3px, 0.6vmin, 6px) clamp(3px, 0.6vmin, 6px);
+  box-shadow: 0 2px 0 rgba(0,0,0,0.25);
+}
+.white.down {
+  background: linear-gradient(180deg, #e8f6f2 0%, #cfeee6 60%, #b9e2d8 100%);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.25);
+  transform: translateY(1px);
+}
+/* Octave marks: a small dark dot above each C, the way real keyboards mark
+   middle C — orientation, not reading. Never a label on every key. */
+.white.c::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: clamp(3px, 0.7vmin, 8px);
+  width: clamp(3px, 0.6vmin, 6px);
+  height: clamp(3px, 0.6vmin, 6px);
+  border-radius: 50%;
+  background: #23262e;
+  transform: translateX(-50%);
+}
+.white.c4::after {
+  background: #8a5cf6;
+  box-shadow: 0 0 4px rgba(138, 92, 246, 0.8);
+}
+
+.black {
+  background: linear-gradient(180deg, #3b3f4b 0%, #23262e 20%, #14161c 92%);
+  border: 1px solid #060709;
+  border-radius: 0 0 clamp(3px, 0.5vmin, 5px) clamp(3px, 0.5vmin, 5px);
+  box-shadow: 0 3px 4px rgba(0,0,0,.55), 0 -1px 0 rgba(255,255,255,.08) inset;
+  z-index: 2;
+}
+.black.down {
+  background: linear-gradient(180deg, #4d3f63 0%, #372c4b 30%, #221b30 92%);
+  box-shadow: 0 1px 2px rgba(0,0,0,.55);
+  transform: translateY(1px);
+}
+
+/* Portrait rooms are smaller: the console keeps its shape and the keys are
+   simply narrower. One layout, one thing to learn. */
+@media (orientation: portrait) {
+  #console { aspect-ratio: auto; height: auto; width: 100%; }
+  #keybed { min-height: 42vh; }
+}
