@@ -29,6 +29,18 @@
  * Accuracy alone passes a scribble. Coverage alone passes a scribble too. The
  * pair is the point.
  *
+ * LIFTING IS OPTIONAL. One pointerdown→pointerup used to mean exactly one
+ * stroke, so a child who wrote a whole d in one motion — around, up, down — had
+ * the entire gesture graded against the bowl alone: rejected at level 3, and at
+ * levels 1 and 2 given a tick for the bowl and then asked to draw the stem
+ * again over a d they had already finished. Either way the screen and the check
+ * disagreed. A gesture is now read against the LETTER by readGesture below:
+ * first as a run of consecutive strokes of that letter, and failing that as one
+ * stroke, which is what this engine always did. Nothing is loosened to do it —
+ * every portion of a run faces the same four scores at the same thresholds, and
+ * a lifted stroke finds no run and is graded exactly as before. All that is new
+ * is where one gesture may be cut.
+ *
  * TOLERANCE is a wide invisible corridor around a thin pretty guide
  * (CONCEPT.md §4), widened again for a finger over a stylus. All of it is in
  * LEVELS below — one table, so tuning the difficulty never means reading this
@@ -53,6 +65,36 @@
   /* A finger is blunter than a pencil, so it gets a wider corridor at every
      level rather than a level of its own (CONCEPT.md §4). */
   var FINGER_BONUS = 4;
+
+  /* Reading one gesture as several strokes (readRun). The BRIDGE is the ink a
+     continuous hand necessarily lays down travelling from the end of one stroke
+     to the start of the next — the climb from the seam of a d's bowl up to the
+     top of its stem. It belongs to no target, so it is discarded rather than
+     graded against either, and it is bounded so a scribble cannot hide in it:
+     no longer than the straight-line gap between the two strokes plus half
+     again, and never less than one corridor's worth of wobble for the letters
+     whose strokes already touch. */
+  var BRIDGE_SLACK = 1.5;
+
+  /* How near the end of a stroke counts as having finished it, as a fraction of
+     that stroke's samples. */
+  var TAIL_FRACTION = 0.06;
+
+  /* However many bridges a gesture has, they may not add up to more than this
+     share of it. The per-bridge cap above bounds each hop geometrically, but on
+     a letter whose strokes nearly touch — the bowl and stem of an a are thirteen
+     units apart — that cap is small enough to be cleared by the first point of a
+     long detour, which would then land in the NEXT stroke's trail instead of
+     being discarded. This is the guard that actually stops a scribble being cut
+     into a lucky piece with the rest thrown away: a run has to account for most
+     of the ink the child laid down. */
+  var BRIDGE_SHARE = 1 / 3;
+
+  /* A run is only believed when it explains the gesture as more than one
+     stroke. If it can only account for one, the single-stroke reading already
+     had its say and stands — so a child who traces the bowl and then scribbles
+     cannot bank the bowl. */
+  var MIN_RUN = 2;
 
   var SAMPLE_SPACING = 2;   // letter units between samples, target and child alike
   var MIN_SAMPLES = 16;
@@ -129,6 +171,19 @@
    * Writing is monotonic — a child moves along the stroke, not around it — so
    * matching within a window that follows them is both truer and immune to the
    * crossing. The window is wide enough to absorb a wobble or a small backtrack. */
+  /* Does this stroke close on itself? Its first and last samples then sit on the
+     same spot, so "the end" is not a different place from "the start". Exactly
+     five strokes in the alphabet do: the bowls of a, d, g, q and the o. NOT the
+     loop of an e — an e is one stroke that starts on the bar and ends below the
+     loop, 43 units apart. The threshold is safe because nothing sits near it: the
+     five meet at 0.00 and the nearest open stroke is the bar of an I at 28.
+     qc/grading.html checks that gap rather than trusting it, so a new letterform
+     cannot quietly land in between. */
+  function isClosed(target) {
+    return target.length > 2 &&
+      dist(target[0], target[target.length - 1]) <= SAMPLE_SPACING;
+  }
+
   /* Where the child's FIRST touch landed on the target. This one searches the
      whole stroke — a window would clamp a child who started half way along back
      to the window's edge and score them as though they had begun at the start.
@@ -140,8 +195,26 @@
     for (var i = 0; i < target.length; i++) {
       bestD = Math.min(bestD, dist(target[i], p));
     }
+    var tail = target.length - 1 - Math.max(2, Math.round(target.length * TAIL_FRACTION));
     for (var j = 0; j < target.length; j++) {
-      if (dist(target[j], p) <= bestD + 1.5) return { index: j, distance: dist(target[j], p) };
+      if (dist(target[j], p) > bestD + 1.5) continue;
+      /* On a CLOSED stroke, a first touch that lands a hair behind the seam is
+         genuinely nearest to the stroke's last samples, and the near-tie band
+         above is too narrow to reach back across the seam — a finger is 2.5 units
+         wobbly and the sample two before the seam is 4 units round the arc. Mapped
+         there, the child begins where the stroke ends: the cursor starts at the
+         tail, nearestAhead can only look backwards from it, and a perfectly good o
+         travels nowhere. It failed on coverage 8.7% of the time on a d's bowl.
+
+         A stroke cannot begin already finished. On an open stroke a first touch at
+         the far end is real information — the child started at the wrong end, and
+         direction is meant to catch it. On a closed one the far end IS the start,
+         so the tail carries no information beyond "they began near the seam", and
+         index 0 is the honest reading. Nothing is loosened by this: where the child
+         actually began is checked separately, by `start` against startRadius, and
+         the distance returned here is the true one to target[0]. */
+      if (j >= tail && isClosed(target)) return { index: 0, distance: dist(target[0], p) };
+      return { index: j, distance: dist(target[j], p) };
     }
     return { index: 0, distance: bestD };
   }
@@ -261,6 +334,157 @@
     else if (accuracy < tuning.accuracy) result.reason = 'accuracy';
     else result.pass = true;
     return result;
+  }
+
+  /* ---- reading one gesture as several strokes --------------------------- */
+
+  function centroid(points) {
+    var c = { x: 0, y: 0 };
+    for (var i = 0; i < points.length; i++) {
+      c.x += points[i].x / points.length;
+      c.y += points[i].y / points.length;
+    }
+    return c;
+  }
+
+  /* The first moment the child's trail reaches the end of this stroke: the
+     earliest sample that is both inside the corridor and mapped to the stroke's
+     tail. FIRST, not last — on a d the child climbs from the bowl's seam up to
+     the stem and then comes back DOWN past that same seam, twelve units away
+     from it, so the last such sample would cut the gesture half way down the
+     stem and hand the bowl a trail it never drew. Returns -1 when the child
+     never got to the end, which is the honest answer: there is no run to read,
+     and the single-stroke reading stands. */
+  function firstAtEnd(target, child, corridor) {
+    var tail = target.length - 1 - Math.max(2, Math.round(target.length * TAIL_FRACTION));
+    var cursor = 0;
+    for (var i = 0; i < child.length; i++) {
+      var n = i === 0 ? nearestStart(target, child[0]) : nearestAhead(target, child[i], cursor);
+      cursor = n.index;
+      if (n.index >= tail && n.distance <= corridor) return i;
+    }
+    return -1;
+  }
+
+  function firstWithin(child, centre, reach) {
+    for (var i = 0; i < child.length; i++) {
+      if (dist(child[i], centre) <= reach) return i;
+    }
+    return -1;
+  }
+
+  /* Where one gesture stops being this stroke and starts being the next, or
+     null when it cannot honestly be read that way. The ink between the two is
+     the bridge and is thrown away — neither stroke is scored on it. */
+  function splitAt(stroke, next, child, tuning) {
+    /* A dot is finished the moment it is touched; it has no end to reach. */
+    var cut = stroke.kind === 'dot'
+      ? firstWithin(child, centroid(stroke.samples), tuning.corridor)
+      : firstAtEnd(stroke.samples, child, tuning.corridor);
+    if (cut < 0 || cut >= child.length - 2) return null;
+
+    var begins = next.samples[0];
+    var gap = dist(stroke.samples[stroke.samples.length - 1], begins);
+    var allowance = Math.max(tuning.corridor, gap * BRIDGE_SLACK);
+
+    /* Walk the bridge and take the point that comes CLOSEST to where the next
+       stroke begins — not the first point inside the start radius. On a b the
+       child retraces the stem upwards from the baseline, and every point of
+       that climb is already within the radius of the bowl's start; cutting at
+       the first would hand the bowl a trail beginning half way down it, which
+       nearestStart then maps to the bowl's far end and reads as backwards. */
+    var walked = 0, at = -1, best = Infinity;
+    for (var i = cut + 1; i < child.length; i++) {
+      walked += dist(child[i - 1], child[i]);
+      if (walked > allowance) break;
+      var d = dist(child[i], begins);
+      if (d < best) { best = d; at = i; }
+    }
+    if (at < 0 || best > tuning.startRadius) return null;
+    /* Nothing left to be the next stroke: this was an overshoot, not a run. */
+    if (child.length - at < 4) return null;
+
+    var bridge = 0;
+    for (var k = cut + 1; k <= at; k++) bridge += dist(child[k - 1], child[k]);
+
+    return { prefix: child.slice(0, cut + 1), rest: child.slice(at), bridge: bridge };
+  }
+
+  /* Read one gesture as consecutive strokes of ONE letter.
+   *
+   * Within one letter only. This model is print, not cursive (letters.js), and
+   * print lifts between letters; letting a gesture run on into the next letter
+   * would also fire that letter's completion sound from the middle of a stroke.
+   *
+   * Every portion faces the ordinary score() at the ordinary thresholds. If any
+   * portion fails, the whole reading is abandoned rather than partly banked. */
+  function readRun(letterStrokes, from, raw, tuning) {
+    var child = resample(raw);
+    if (child.length < 4) return null;
+
+    var drawn = 0;
+    for (var i = 1; i < child.length; i++) drawn += dist(child[i - 1], child[i]);
+
+    var results = [];
+    var at = from;
+    var trail = child;
+    var bridged = 0;
+
+    while (at < letterStrokes.length - 1) {
+      var split = splitAt(letterStrokes[at], letterStrokes[at + 1], trail, tuning);
+      if (!split) break;
+      bridged += split.bridge;
+      if (bridged > drawn * BRIDGE_SHARE) return null;
+      var part = score(letterStrokes[at].samples, split.prefix, tuning, letterStrokes[at].kind);
+      if (!part.pass) return null;
+      results.push(part);
+      trail = split.rest;
+      at++;
+    }
+    if (!results.length) return null;
+
+    /* A dot ends a run only if what is left is the size of a tap.
+     *
+     * scoreDot asks one question — did any point come near the centre — because
+     * it is written for a gesture that IS a tap. At the tail of a run that is a
+     * hole with no floor: an i is a zero-width line in a box ten units across,
+     * so every point of a scribble inside it sits in the corridor, and the run
+     * reader was handing the dot two thousand units of scribble and being told
+     * it had been touched. Accuracy and coverage bound the ink a real stroke can
+     * absorb; nothing bounds a dot's, so bound it here. */
+    if (letterStrokes[at].kind === 'dot') {
+      var ink = 0;
+      for (var j = 1; j < trail.length; j++) ink += dist(trail[j - 1], trail[j]);
+      if (ink > letterStrokes[at].samples.totalLength + tuning.corridor * 2) return null;
+    }
+
+    /* Whatever is left has to be the last stroke of the run, in full. */
+    var last = score(letterStrokes[at].samples, trail, tuning, letterStrokes[at].kind);
+    if (!last.pass) return null;
+    results.push(last);
+
+    return results.length >= MIN_RUN ? results : null;
+  }
+
+  /* What one pointerdown→pointerup means: how many strokes it satisfied, and
+     the result to say out loud.
+   *
+   * The RUN is read first, and this order matters. A continuous a never leaves
+   * the bowl's corridor — the stem of an a sits eleven units from the bowl it
+   * hangs off — so the single-stroke reading PASSES the whole gesture and would
+   * bank one stroke for a child who plainly wrote two, leaving them to draw the
+   * stem again over their own finished letter. Whichever reading accounts for
+   * more of what the child drew is the truer one, and a run only ever wins by
+   * clearing the ordinary thresholds on every portion of itself.
+   *
+   * A lifted stroke has no run to find, falls through to the single-stroke
+   * reading, and is graded bit-for-bit as it was before runs existed. */
+  function readGesture(letterStrokes, from, raw, tuning) {
+    var run = readRun(letterStrokes, from, raw, tuning);
+    if (run) return { completed: run.length, result: run[run.length - 1], results: run };
+
+    var solo = score(letterStrokes[from].samples, raw, tuning, letterStrokes[from].kind);
+    return { completed: solo.pass ? 1 : 0, result: solo, results: [solo] };
   }
 
   function create(options) {
@@ -410,6 +634,19 @@
       });
     }
 
+    /* The strokes of the letter the child is standing in, and where in them
+       they are. A gesture may run on through these and no further. */
+    function letterRun() {
+      var li = strokes[current].letterIndex;
+      var first = current;
+      while (first > 0 && strokes[first - 1].letterIndex === li) first--;
+      var list = [];
+      for (var i = first; i < strokes.length && strokes[i].letterIndex === li; i++) {
+        list.push(strokes[i]);
+      }
+      return { list: list, from: current - first };
+    }
+
     function completeStroke() {
       var stroke = strokes[current];
       stroke.done.style.transition = 'stroke-dashoffset 260ms ease-out';
@@ -471,18 +708,23 @@
       try { svg.releasePointerCapture(event.pointerId); } catch (e) { /* already gone */ }
 
       var stroke = strokes[current];
-      var result = score(stroke.samples, attempt.points, tuning(), stroke.kind);
+      var run = letterRun();
+      /* One stroke if they lifted, several if they did not — readGesture makes
+         that the child's choice rather than a rule they cannot see. */
+      var read = readGesture(run.list, run.from, attempt.points, tuning());
+      var result = read.result;
       result.char = stroke.char;
       result.cue = stroke.cue;
+      result.strokes = read.completed;
 
-      if (result.pass) {
+      if (read.completed) {
         /* The child's own wobble fades as the clean stroke draws itself in —
            they see what they made, tidied, rather than a red mark. */
         attempt.path.classList.add('is-accepted');
         window.setTimeout(function () {
           if (attempt.path.parentNode) attempt.path.parentNode.removeChild(attempt.path);
         }, 320);
-        completeStroke();
+        for (var n = 0; n < read.completed; n++) completeStroke();
       } else {
         attempt.path.classList.add('is-rejected');
         window.setTimeout(function () {
@@ -706,6 +948,8 @@
     LEVELS: LEVELS,
     /* exposed for the QC harness, which grades synthetic traces */
     score: score,
+    readGesture: readGesture,
+    readRun: readRun,
     samplePath: samplePath
   };
 })(window);
