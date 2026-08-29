@@ -31,7 +31,7 @@
  *   v7  2026-08-26  Read Fractions makes it 14
  *   v8  2026-08-28  Planets & Moons has a fourth level, so its card says so
  */
-const CACHE_NAME = "children-apps-v8";
+const CACHE_NAME = "children-apps-v13";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
@@ -62,11 +62,16 @@ self.addEventListener("install", (event) => {
   );
 });
 
-/* Cache isolation (private PR #288): evict only this app's own old caches - sibling apps on this origin keep theirs. */
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches
       .keys()
+      /* Evict only this hub's old versions (children-apps-v*). The header above
+         names the neighbours this worker shares its origin with — every game on
+         the hub ships its own worker and cache at a sibling subpath, and this
+         hub updates often, so "delete every cache that is not ours" was evicting
+         every game's offline cache on each hub publish (and each game's worker
+         could return the favor). Foreign cache names are not ours to touch. */
       .then((keys) => Promise.all(keys.filter((k) => /^children-apps-v/.test(k) && k !== CACHE_NAME).map((k) => caches.delete(k))))
       .then(() => self.clients.claim())
   );
