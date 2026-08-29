@@ -161,6 +161,50 @@
       .card:hover{transform:none}
     }
 
+    /* ── Music toggle ──
+       Top-right and fixed, which is where Magic Math puts its own music button: a child
+       who learns the control in one place should not have to find it again in the next.
+       60px because the target device is a 9.7" iPad and this is a child's finger, not a
+       cursor; the icon inside is much smaller than the button, which is the right way
+       round — never shrink a tap target to match its art. */
+    .music-btn{
+      position:fixed;z-index:50;
+      top:calc(12px + env(safe-area-inset-top));
+      right:calc(12px + env(safe-area-inset-right));
+      width:60px;height:60px;border-radius:50%;
+      display:grid;place-items:center;
+      background:var(--card);border:3px solid #e4dcf0;
+      box-shadow:0 4px 0 #ddd4ec,0 8px 18px rgba(72,48,104,.16);
+      cursor:pointer;padding:0;
+      -webkit-tap-highlight-color:transparent;
+      transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease;
+    }
+    .music-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #ddd4ec,0 4px 10px rgba(72,48,104,.16)}
+    .music-btn:focus-visible{outline:5px solid #7c4dff;outline-offset:4px}
+    .music-btn svg{width:30px;height:30px;display:block}
+    /* The note is grey and struck through when off, pink and clear when on. Two signals,
+       not one: colour alone is not a state a child reads reliably, and the slash is the
+       part that says "no sound" without a word of text on it. */
+    .music-btn .note{fill:#a99bbd;transition:fill .16s ease}
+    .music-btn .slash{stroke:#a99bbd;stroke-width:2.6;stroke-linecap:round}
+    .music-btn[aria-pressed="true"]{border-color:#f3b7d5}
+    .music-btn[aria-pressed="true"] .note{fill:#e5559a}
+    .music-btn[aria-pressed="true"] .slash{display:none}
+    /* Only while it is actually playing, so the button is never animating at a silence. */
+    .music-btn.playing{animation:musicPulse 2.2s ease-in-out infinite}
+    @keyframes musicPulse{
+      0%,100%{box-shadow:0 4px 0 #ddd4ec,0 8px 18px rgba(72,48,104,.16)}
+      50%    {box-shadow:0 4px 0 #ddd4ec,0 8px 26px rgba(229,85,154,.45)}
+    }
+    @media (prefers-reduced-motion:reduce){
+      .music-btn{transition:none}
+      .music-btn.playing{animation:none}
+    }
+    @media (max-width:420px){
+      .music-btn{width:52px;height:52px}
+      .music-btn svg{width:26px;height:26px}
+    }
+
     /* ── Parent roadmap button ── */
     .roadmap-btn{
       display:inline-block;margin-top:14px;
@@ -233,6 +277,15 @@
 </head>
 <body>
 <div class="sky" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<!-- Starts as "off" in the markup and is corrected by the script below the moment it
+     runs, so a remembered preference never renders as the wrong state. -->
+<button class="music-btn" id="musicBtn" type="button" aria-pressed="false" aria-label="Play music">
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path class="note" d="M20 3.5v11.2a3.3 3.3 0 1 1-2-3V7.9l-7 1.6v8.2a3.3 3.3 0 1 1-2-3V6.3l11-2.8z"/>
+    <line class="slash" x1="3.4" y1="3.4" x2="20.6" y2="20.6"/>
+  </svg>
+</button>
 
 <div class="wrap">
   <header>
@@ -307,8 +360,9 @@
   </main>
 
   <footer>Made with love for little learners
-    <span class="disclosure">The voices we made for these games are AI-generated — none is a
-      recording of a real person. Some games use your device’s own built-in speech instead.</span>
+    <span class="disclosure">The voices and the background music we made for these games are
+      AI-generated — no voice here is a recording of a real person, and no music is a
+      recording of real players. Some games use your device’s own built-in speech instead.</span>
     <button class="roadmap-btn" onclick="document.getElementById('roadmap').classList.add('open')">What's coming next? →</button>
   </footer>
 
@@ -322,7 +376,7 @@
       <div class="roadmap-section">
         <h3>New features</h3>
         <ul class="roadmap-list">
-          <li><span class="dot dot-coming"></span>Voices for all maths games — the robot reads every question and answer aloud</li>
+          <li><span class="dot dot-coming"></span>Voices for the bigger-number maths games — the robot reads every question and answer aloud</li>
           <li><span class="dot dot-coming"></span>Choose your world — Space, Unicorn, or Dinosaur maths (Dinosaur coming soon)</li>
           <li><span class="dot dot-coming"></span>Tap to learn — tap anything to hear and see it; no quiz pressure</li>
           <li><span class="dot dot-coming"></span>Times table chart — tap any square to see the answer as coloured blocks in groups</li>
@@ -336,7 +390,7 @@
         <h3>Bugs being fixed</h3>
         <ul class="roadmap-list">
           <li><span class="dot dot-fix"></span>Ari &amp; Dot — the fact cards at the bottom are too small to read on an iPad; we're making them larger</li>
-          <li><span class="dot dot-fix"></span>Some maths sounds still use the device voice instead of the recorded robot voice</li>
+          <li><span class="dot dot-fix"></span>In the bigger-number maths games the answers are still read by your device’s voice. Every question, hint and helper line now uses our own, and Magic Spelling is fully ours</li>
         </ul>
       </div>
 
@@ -359,6 +413,117 @@
       navigator.serviceWorker.register('./service-worker.js').catch(function () {});
     });
   }
+
+  /* ══ HUB MUSIC ══
+     One generated instrumental bed, looping quietly under the page a child is choosing
+     from. It belongs HERE and not in the games, which is the same line Magic Math drew on
+     2026-08-20 and the reason its bed plays on the menu only: atmosphere belongs where
+     the child is choosing, silence belongs where they are counting. This page is nothing
+     but choosing, so it is the one page on the whole site that is all atmosphere.
+
+     OFF BY DEFAULT AND REMEMBERED. A page that starts singing the first time you open it
+     is a thing you turn off, not a thing you enjoy — and the parent who cannot find the
+     switch is the person who pays for a default of "on".
+
+     THE AUTOPLAY PROBLEM, AND WHY `arm` EXISTS. A browser will not let a page start audio
+     before the user has interacted with it, so on a fresh load play() rejects even though
+     the child turned music on last week, and swallowing that quietly makes the preference
+     look broken. The rejection instead arms a one-shot listener on the next pointerdown.
+     Honest limitation: on THIS page the next tap is often a game card, which navigates
+     away — so returning to the hub can cost you the first few seconds of music until
+     something is tapped. The alternative is not "fix it", it is "autoplay", which no
+     browser allows and no parent wants.
+
+     NOT PRECACHED. The service worker's fetch handler is cache-first for same-origin GETs
+     and stores what it fetches, so the bed joins the cache the first time it plays, with
+     no change to SHELL. Adding 866 KB to the install for a file that is off by default
+     would make every child's first load slower to serve the ones who turn it on. Do still
+     bump CACHE_NAME on publish. */
+  var Music = (function () {
+    var SRC = './audio/hub-bed.m4a';
+    var KEY = 'ca_music';
+    var FULL = 0.22;             /* resting level: present in a quiet room, never in front */
+    var RAMP_MS = 900, STEP_MS = 50;
+    var el = null, ramp = 0, armed = false, pref = false;
+    try { pref = localStorage.getItem(KEY) === '1'; } catch (e) {}
+
+    var btn = document.getElementById('musicBtn');
+
+    function paint() {
+      btn.setAttribute('aria-pressed', pref ? 'true' : 'false');
+      btn.setAttribute('aria-label', pref ? 'Stop music' : 'Play music');
+      /* The pulse tracks what is AUDIBLE, not what is preferred: while a remembered
+         preference is still waiting on a first tap, the note is pink but nothing throbs,
+         which is the truth of that moment. */
+      btn.classList.toggle('playing', !!(el && !el.paused));
+    }
+
+    function fadeTo(v, thenPause) {
+      if (!el) return;
+      if (ramp) { clearInterval(ramp); ramp = 0; }
+      var from = el.volume, steps = Math.max(1, Math.round(RAMP_MS / STEP_MS)), i = 0;
+      ramp = setInterval(function () {
+        i++;
+        try { el.volume = Math.max(0, Math.min(1, from + (v - from) * (i / steps))); } catch (e) {}
+        if (i >= steps) {
+          clearInterval(ramp); ramp = 0;
+          if (thenPause && el) { try { el.pause(); } catch (e) {} }
+          paint();
+        }
+      }, STEP_MS);
+    }
+
+    function arm() {
+      if (armed) return;
+      armed = true;
+      var go = function () {
+        window.removeEventListener('pointerdown', go, true);
+        armed = false;
+        apply();
+      };
+      window.addEventListener('pointerdown', go, true);
+    }
+
+    function apply() {
+      if (!pref) {
+        if (el && !el.paused) fadeTo(0, true); else paint();
+        return;
+      }
+      if (!el) {
+        try { el = new Audio(SRC); } catch (e) { return; }
+        el.loop = true;
+        el.preload = 'none';
+        el.volume = 0;
+        el.addEventListener('playing', paint);
+        el.addEventListener('pause', paint);
+      }
+      el.volume = 0;
+      var p;
+      try { p = el.play(); } catch (e) { arm(); return; }
+      if (p && p.then) p.then(function () { fadeTo(FULL, false); paint(); }).catch(arm);
+      else { fadeTo(FULL, false); paint(); }
+    }
+
+    btn.addEventListener('click', function () {
+      pref = !pref;
+      try { localStorage.setItem(KEY, pref ? '1' : '0'); } catch (e) {}
+      /* The click itself is the user gesture, so this is the one path where play() is
+         reliably allowed. */
+      apply();
+      paint();
+    });
+
+    paint();
+    apply();
+
+    /* Read-only, for verification. The element is never added to the document, so there
+       is otherwise no way to tell from outside whether the bed is actually playing or
+       merely intended to be. */
+    return { state: function () {
+      return { pref: pref, exists: !!el, playing: !!(el && !el.paused),
+               volume: el ? +el.volume.toFixed(3) : null, armed: armed, src: SRC };
+    } };
+  })();
 
   /* Close roadmap panel when clicking the backdrop itself */
   document.getElementById('roadmap').addEventListener('click', function(e){

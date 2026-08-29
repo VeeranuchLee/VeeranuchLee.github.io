@@ -32,8 +32,13 @@
  *   v8  2026-08-28  Planets & Moons has a fourth level, so its card says so
  *   v14 2026-08-29  Writing Book joined the hub, promoted from the Test Hub
  *                  (v9-v13 were badge bumps in other tasks and went unlogged here)
+ *   v15 2026-08-29  the hub gets background music: one generated instrumental bed and a
+ *                  toggle. The .m4a is deliberately NOT in SHELL — the fetch handler
+ *                  below is cache-first and stores what it fetches, so the bed is cached
+ *                  the first time it plays. Precaching 866 KB for a file that is off by
+ *                  default would slow every install to serve the children who turn it on.
  */
-const CACHE_NAME = "children-apps-v14";
+const CACHE_NAME = "children-apps-v15";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
