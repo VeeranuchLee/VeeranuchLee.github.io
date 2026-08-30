@@ -102,13 +102,13 @@ this Pages repository (see the row below and the paragraph after the table).
 | Planets & Moons | `../solar-system-game/` | `solar-system-game` |
 | Our Animal Book | `../animal-book/` | `animal-book` |
 
-The test publish additionally places seven apps at the top level of the public Pages
-repository — Music Book at `../music-book/`, Clock Game at `../time-book/`, Pattern Pegs
+The test publish additionally places eight apps at the top level of the public Pages
+repository — Spelling Exam at `../spelling-exam/`, Music Book at `../music-book/`, Clock Game at `../time-book/`, Pattern Pegs
 at `../pattern-pegs/`, the Toy Box shelf at `../toy-room/`, Pattern Blocks at
 `../pattern-blocks/`, the Keyboard at `../toy-keyboard/` (first published
 2026-08-29) and the Flags game at `../flags/` (first published 2026-08-29) —
 plus the self-contained
-`./bird-flight/` interaction test. None of the seven appears in the main hub table above.
+`./bird-flight/` interaction test. None of the eight appears in the main hub table above.
 **Writing Book was one of these until 2026-08-29**, when the owner promoted it to the
 main hub: only its card moved, and the app still serves from `../writing-book/` at this
 repo's top level. A later main-hub promotion may split any top-level app into its own
@@ -197,7 +197,7 @@ list of directories rather than a claim about how many there are. That list
 today: `math-app`, `coloring-app`, `flower-shooter`, `animal-book`,
 `solar-storybook`, `solar-system-game`, `music-book`, `time-book`,
 `writing-book`, `pattern-pegs-app`, `toy-room`, `pattern-blocks-app`,
-`toy-keyboard-app`, `flags-app`.
+`toy-keyboard-app`, `flags-app`, `spelling-exam-app`.
 
 **Why it is a manifest and not a sentence.** This directory is not only the site:
 `work_progress_and_other_discussion.md` lives here too, because discussion logs
