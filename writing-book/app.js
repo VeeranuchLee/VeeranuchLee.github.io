@@ -143,11 +143,15 @@
        into Music Book and Clock Game. The cover only -- every screen inside already has a
        bar__back, so leaving the book is one more tap of the arrow the child already uses,
        not a second button competing with the first. Absolute URL on purpose: published,
-       this app and /test-apps/ are siblings, but in the repo the hub lives under site/,
-       so a relative link would work live and 404 in every local preview. */
+       this app and /children-apps/ are siblings, but in the repo the hub lives under site/,
+       so a relative link would work live and 404 in every local preview.
+       2026-09-06: retargeted from /test-apps/ to /children-apps/. The book was promoted
+       to the main hub on 2026-08-29 (04896da8) and its Test Hub card was removed that
+       same day, but this arrow was not moved with it, so the exit landed the child on a
+       hub the book is no longer listed on. */
     show('' +
       '<div class="cover">' +
-      '  <div class="cover__out"><a class="bar__back" href="https://veeranuchlee.github.io/test-apps/" aria-label="Back to Test Apps">\u2190</a></div>' +
+      '  <div class="cover__out"><a class="bar__back" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games">\u2190</a></div>' +
       '  <div class="cover__head">' +
       '    <h1>Writing Book</h1>' +
       '    <p id="cover-hint">' + currentMode().hint + '</p>' +
