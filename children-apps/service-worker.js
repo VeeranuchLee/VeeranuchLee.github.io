@@ -38,7 +38,7 @@
  *                  the first time it plays. Precaching 866 KB for a file that is off by
  *                  default would slow every install to serve the children who turn it on.
  */
-const CACHE_NAME = "children-apps-v17";
+const CACHE_NAME = "children-apps-v18";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
@@ -60,6 +60,7 @@ const SHELL = [
   "./assets/ari-and-dot.webp",
   "./assets/planets-and-moons.png",
   "./assets/animal-book.webp",
+  "./assets/spelling-exam.webp",
   "./assets/app-192.png",
   "./assets/app-512.png",
 ];
