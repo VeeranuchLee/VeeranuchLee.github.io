@@ -54,8 +54,10 @@ body.scene-hall::before{background-image:url(assets/mermaid/bg-hall.webp)}
    portrait 502x760, so the old min(300px,52vw) made her 454px tall and pushed
    step 4 of the progression 144px below the fold on the 768x1024 iPad. A
    numbered progression that needs scrolling to see teaches nothing. */
-.hero{padding:2.4vh 0 1vh}
-.hero .mermaid{height:clamp(180px,26vh,270px);margin:0 auto;filter:drop-shadow(0 14px 12px #2a5c7a33)}
+.hero{padding:1.3vh 0 .8vh}
+/* The way-out button costs 52px at the top, which put Mock Exam 16px under the
+   fold at 768x1024. Measured, not guessed: the hero gives that back. */
+.hero .mermaid{height:clamp(170px,23.5vh,250px);margin:0 auto;filter:drop-shadow(0 14px 12px #2a5c7a33)}
 .hero .mermaid img{display:block;height:100%;width:auto;margin:0 auto}
 .menu{margin:18px auto}
 .hero h1{color:#0e6f8e;text-shadow:0 2px 12px #fff,0 1px 2px #fff}
@@ -78,3 +80,7 @@ body.scene-hall::before{background-image:url(assets/mermaid/bg-hall.webp)}
 /* Under 620px the sea floor is where the keyboard goes, so the buddy shrinks
    into the corner rather than sitting on top of the keys. */
 @media(max-width:620px){.buddy{width:clamp(74px,15vw,104px);opacity:.96}.buddy .bubble{max-width:52vw;min-width:0}}
+/* The way out to the hub, home screen only. Sized as a real target rather than a
+   decoration: 48px tall clears the tap-target floor the letter tiles are held to. */
+.hub{display:inline-flex;align-items:center;gap:7px;min-height:48px;padding:0 16px;margin:2px 0 0;border-radius:999px;background:#fffffff0;color:#0e6f8e;font-weight:1000;font-size:clamp(.9rem,2.4vw,1.05rem);text-decoration:none;box-shadow:0 7px 18px #2a5c7a26}
+.hub:active{transform:translateY(2px)}
