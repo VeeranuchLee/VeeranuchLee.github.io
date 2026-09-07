@@ -28,6 +28,13 @@ html, body {
   -webkit-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
+  /* Kills double-tap-to-zoom -- which is what a child tapping stickers quickly
+     triggers by accident -- and leaves PINCH alone in both directions. That
+     pairing matters: iOS has ignored `user-scalable=no` since iOS 10 because
+     zoom is an accessibility feature, so zoom will happen whatever a page
+     wants, and anything that blocks it one-way leaves the child zoomed in with
+     no way back. See the long note in app.js. */
+  touch-action: manipulation;
 }
 
 #app {
@@ -227,9 +234,15 @@ html, body {
 }
 .sticker.dragging { cursor: grabbing; filter: drop-shadow(0 6px 10px rgba(90,60,80,.3)); }
 
-/* The worn garment rides inside the doll's own box, so she and her clothes
-   move, and are picked up, as one thing. */
+/* Everything she is wearing rides inside her own box, so she and her clothes
+   move, and are picked up, as one thing.
+
+   The layers ignore the pointer, EXCEPT while Change is armed -- then each one
+   is its own target, so tapping the shoes changes the shoes and tapping the bow
+   changes the bow. Without that exception the accessories' colourways would be
+   unreachable the moment she put them on. */
 .worn { position: absolute; pointer-events: none; }
+#placed.picking .worn { pointer-events: auto; }
 
 /* A tool that is armed marks what it can act on, and only while it is armed --
    at rest a dollhouse shows no buttons over the furniture. */

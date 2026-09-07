@@ -30,11 +30,17 @@ const SAVE_KEY = "dollhouse.pilot.bedroom";
  * rather than half-read, and replaced. A child's scene is the most valuable
  * thing this app holds, so this went in on day one -- it costs nothing then and
  * cannot be retrofitted. 1 -> 2 added the room, 2 -> 3 added variants. */
-const SAVE_SCHEMA = 3;
+const SAVE_SCHEMA = 4;
 
 const byId = Object.fromEntries(KIT.stickers.map((s) => [s.id, s]));
 const ROOMS = KIT.rooms;
 const DOLL = KIT.stickers.find((s) => s.role === "doll");
+/* The order the doll's worn things are drawn in, which is also their layering:
+ * the outfit over her body, the shoes over her feet, the bag over the outfit's
+ * edge, the bow on top of everything. A slot holds at most one thing, so
+ * dropping a second pair of shoes on her replaces the first -- which is what a
+ * child expects and what makes "one of each" need no explaining. */
+const SLOTS = ["outfit", "feet", "hand", "hair"];
 
 const stage = document.getElementById("stage");
 const placed = document.getElementById("placed");
@@ -43,7 +49,7 @@ const trayWrap = document.getElementById("trayWrap");
 const hintEl = document.getElementById("hint");
 
 let tool = "move";
-let scene = [];          // [{ uid, assetId, variantIndex, x, y, on, worn }]
+let scene = [];          // [{ uid, assetId, variantIndex, x, y, on, worn: {slot: ref} }]
 let room = 0;
 let seq = 1;
 
@@ -67,11 +73,20 @@ function variantName(ref) {
   return a.variants[ref.variantIndex % a.variants.length].name;
 }
 
-/* Tapping a dressed doll changes what she is WEARING. The garment is the thing
- * with variants; she is not. This is the only place the doll is special, and it
- * is about WHICH ref to act on -- not about how. */
-function changeTarget(item) {
-  return item.worn ? item.worn : item;
+/* WHICH ref a Change acts on. The doll herself has one variant, so tapping her
+ * has to mean something she is wearing -- and now that she can wear four things
+ * at once, it means the one you actually touched. `slot` comes from the layer
+ * under the finger; without one (her body, her hair) it falls back to the
+ * outfit, which keeps "tap the girl, the dress changes" true.
+ *
+ * This is still the only place the doll is special, and it is only about which
+ * ref to hand over. cycleVariant below does not know a dress from a duvet. */
+function changeTarget(item, slot) {
+  if (!item.worn) return item;
+  if (slot && item.worn[slot]) return item.worn[slot];
+  if (item.worn.outfit) return item.worn.outfit;
+  for (const s of SLOTS) if (item.worn[s]) return item.worn[s];
+  return item;
 }
 
 function cycleVariant(ref) {
@@ -83,6 +98,13 @@ function cycleVariant(ref) {
 
 function newRef(assetId, variantIndex) {
   return { assetId, variantIndex: variantIndex || 0 };
+}
+
+/* Where a worn thing sits on the doll. The garments share one measured fit
+ * because they are drawn to one scale on the sheet; the shoes, bag and bow each
+ * carry their own, because they attach to her feet, her hand and her crown. */
+function fitOf(asset) {
+  return asset.fit || KIT.wearFit;
 }
 
 /* ------------------------------------------------------------------ state */
@@ -103,15 +125,27 @@ function save() {
   }
 }
 
-function sane(item) {
-  const a = byId[item.assetId];
+function clampVariant(ref) {
+  const a = byId[ref.assetId];
   if (!a) return false;
-  item.variantIndex = Math.min(Math.max(item.variantIndex | 0, 0), a.variants.length - 1);
-  if (item.worn) {
-    const g = byId[item.worn.assetId];
-    if (!g) item.worn = null;
-    else item.worn.variantIndex =
-      Math.min(Math.max(item.worn.variantIndex | 0, 0), g.variants.length - 1);
+  ref.variantIndex = Math.min(Math.max(ref.variantIndex | 0, 0), a.variants.length - 1);
+  return true;
+}
+
+function sane(item) {
+  if (!clampVariant(item)) return false;
+  if (assetOf(item).role === "doll") {
+    const worn = {};
+    for (const slot of SLOTS) {
+      const ref = item.worn && item.worn[slot];
+      // A slot naming an asset this kit no longer has, or a thing whose family
+      // has moved to a different slot, is dropped rather than drawn somewhere
+      // nobody chose.
+      if (ref && clampVariant(ref) && byId[ref.assetId].wear === slot) worn[slot] = ref;
+    }
+    item.worn = worn;
+  } else {
+    delete item.worn;
   }
   return true;
 }
@@ -226,18 +260,25 @@ function draw() {
     // a garment shares one registered canvas, this fit serves all of them and a
     // Change cannot move a hem.
     if (item.worn) {
-      const g = assetOf(item.worn);
-      const worn = document.createElement("img");
-      worn.className = "worn";
-      worn.src = srcOf(item.worn);
-      worn.alt = g.label;
-      const wPct = (g.w * KIT.wearFit.scale) / a.w * 100;
-      const hPct = (g.h * KIT.wearFit.scale) / a.h * 100;
-      worn.style.width = wPct + "%";
-      worn.style.left = (100 - wPct) / 2 + "%";
-      worn.style.height = hPct + "%";
-      worn.style.top = KIT.wearFit.top * 100 + "%";
-      el.appendChild(worn);
+      for (const slot of SLOTS) {
+        const ref = item.worn[slot];
+        if (!ref) continue;
+        const g = assetOf(ref);
+        const f = fitOf(g);
+        const worn = document.createElement("img");
+        worn.className = "worn";
+        worn.dataset.slot = slot;
+        worn.src = srcOf(ref);
+        worn.alt = g.label;
+        const wPct = (g.w * f.scale) / a.w * 100;
+        const hPct = (g.h * f.scale) / a.h * 100;
+        worn.style.width = wPct + "%";
+        worn.style.height = hPct + "%";
+        worn.style.left = f.cx - wPct / 2 + "%";
+        if (f.bottom !== undefined) worn.style.top = f.bottom * 100 - hPct + "%";
+        else worn.style.top = f.top * 100 + "%";
+        el.appendChild(worn);
+      }
     }
     placed.appendChild(el);
   }
@@ -246,17 +287,22 @@ function draw() {
 }
 
 function drawTray() {
-  const wornIds = new Set(scene.map((i) => i.worn && i.worn.assetId).filter(Boolean));
+  const wornIds = new Set();
+  for (const it of scene) {
+    for (const slot of SLOTS) {
+      if (it.worn && it.worn[slot]) wornIds.add(it.worn[slot].assetId);
+    }
+  }
   for (const chip of tray.children) {
     const id = chip.dataset.id;
     const used = scene.some((i) => i.assetId === id) || wornIds.has(id);
     // The doll and her clothes are one-of-a-kind. The furniture is not, and a
     // dollhouse with unlimited copies is one of the reasons to be digital --
     // it is also what lets two televisions show two different channels.
-    const unique = id === DOLL.id || byId[id].wear === true;
-    // Boolean(), and not just `unique && used`: `wear` is absent on furniture,
-    // so that expression yields `undefined`, and classList.toggle(c, undefined)
-    // counts as "no second argument" and FLIPS the class instead of clearing it.
+    const unique = id === DOLL.id || !!byId[id].wear;
+    // Boolean() rather than a bare `&&`: `wear` is absent on furniture, and
+    // classList.toggle(c, undefined) counts as "no second argument" and FLIPS
+    // the class instead of clearing it.
     chip.classList.toggle("spent", Boolean(unique && used));
   }
 }
@@ -317,7 +363,17 @@ function canAct(item) {
   const a = assetOf(item);
   if (tool === "battery-in") return !!a.battery && !item.on;
   if (tool === "battery-out") return !!a.battery && item.on;
-  if (tool === "change") return assetOf(changeTarget(item)).variants.length > 1;
+  if (tool === "change") {
+    // She is a candidate if ANY of the things on her can change, not just the
+    // one a default tap would reach.
+    if (item.worn) {
+      for (const slot of SLOTS) {
+        const r = item.worn[slot];
+        if (r && assetOf(r).variants.length > 1) return true;
+      }
+    }
+    return assetOf(changeTarget(item)).variants.length > 1;
+  }
   return false;
 }
 
@@ -344,12 +400,13 @@ function setTool(next) {
     b.setAttribute("aria-pressed", String(on));
   }
   markCandidates();
+  placed.classList.toggle("picking", next === "change");
   if (next === "battery-in") say("Tap a toy to put a battery in");
   if (next === "battery-out") say("Tap a toy to take its battery out");
   if (next === "change") say("Tap something to change how it looks");
 }
 
-function useTool(item) {
+function useTool(item, slot) {
   const a = assetOf(item);
   if (tool === "battery-in" || tool === "battery-out") {
     if (!a.battery) return false;
@@ -361,7 +418,7 @@ function useTool(item) {
   if (tool === "change") {
     // One implementation, every object. Nothing here knows whether it is
     // changing a dress, a duvet, a television channel or the weather.
-    return cycleVariant(changeTarget(item));
+    return cycleVariant(changeTarget(item, slot));
   }
   return false;
 }
@@ -416,7 +473,10 @@ function onStageDown(ev) {
   if (!item) return;
 
   if (tool !== "move") {
-    if (useTool(item)) {
+    // `.worn` layers only accept the pointer while Change is armed (styles.css),
+    // so in Move mode she and her clothes stay one thing to pick up.
+    const layer = ev.target.closest(".worn");
+    if (useTool(item, layer && layer.dataset.slot)) {
       draw();
       save();
     }
@@ -485,12 +545,12 @@ function onUp(ev) {
     const a = byId[d.assetId];
     const host = a.wear ? dollUnder(x, y, null) : null;
     if (host) {
-      host.worn = newRef(a.id, 0);
+      host.worn[a.wear] = newRef(a.id, 0);
     } else {
       scene.push({
         uid: seq++, assetId: a.id, variantIndex: 0,
         x: clamp(x, 0, 100), y: clamp(y, 0, 100),
-        on: false, worn: a.role === "doll" ? null : undefined,
+        on: false, worn: a.role === "doll" ? {} : undefined,
       });
     }
     draw();
@@ -509,11 +569,14 @@ function onUp(ev) {
     save();
     return;
   }
-  // A garment dropped on the girl is worn, and keeps the colour it had.
-  if (assetOf(item).wear) {
+  // Anything she can wear, dropped on her, is worn -- and keeps the colour it
+  // had. Shoes, the bag and the bow snap exactly the way a garment does; that
+  // they did not was the whole point of this change.
+  const dropped = assetOf(item);
+  if (dropped.wear) {
     const host = dollUnder(item.x, item.y, item.uid);
     if (host) {
-      host.worn = newRef(item.assetId, item.variantIndex);
+      host.worn[dropped.wear] = newRef(item.assetId, item.variantIndex);
       scene.splice(scene.indexOf(item), 1);
     }
   }
@@ -572,16 +635,43 @@ function start() {
     save();
     setTool("move");
   });
-  // A dollhouse is dragging from edge to edge; the page itself never moves.
-  document.addEventListener("gesturestart", (e) => e.preventDefault());
+  /* THERE IS DELIBERATELY NO `gesturestart` PREVENTDEFAULT HERE.
+   *
+   * There was, to stop the page pinch-zooming mid-drag, and on a real iPad it
+   * made the app a trap: once it had zoomed in by any other route the child
+   * could never pinch back out, because every following pinch was cancelled at
+   * gesturestart. You could get in and not out, which is the worst shape a bug
+   * can have on a device handed to a seven-year-old.
+   *
+   * iOS has ignored `user-scalable=no` and `maximum-scale` since iOS 10, on
+   * purpose -- zoom is an accessibility feature and a page does not get to take
+   * it away. So zoom WILL happen, and the only safe design is one where it is
+   * symmetric: whatever gets you in gets you out.
+   *
+   * What replaces it is narrower and is in styles.css: `touch-action:
+   * manipulation` kills double-tap-to-zoom, which is what a child rapidly
+   * tapping stickers actually triggers by accident, while leaving pinch alone
+   * in both directions. The drag surfaces keep `touch-action: none`, which stops
+   * the browser panning or zooming for a touch that STARTS on a sticker -- that
+   * is what protects a drag, and it never blocks a pinch elsewhere.
+   */
 
   // Handy in the console, and what the acceptance run drives.
   window.DOLLHOUSE = {
     get scene() { return scene; },
     get room() { return ROOMS[room].id; },
-    variantOf: (uid) => {
+    variantOf: (uid, slot) => {
       const it = scene.find((i) => i.uid === uid);
-      return it && variantName(changeTarget(it));
+      return it && variantName(changeTarget(it, slot));
+    },
+    wornOn: (uid) => {
+      const it = scene.find((i) => i.uid === uid);
+      if (!it || !it.worn) return null;
+      const out = {};
+      for (const slot of SLOTS) {
+        if (it.worn[slot]) out[slot] = it.worn[slot].assetId + ":" + variantName(it.worn[slot]);
+      }
+      return out;
     },
   };
 }

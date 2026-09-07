@@ -62,7 +62,7 @@ window.KIT = {
     {
       "id": "floral-dress",
       "label": "Floral dress",
-      "wear": true,
+      "wear": "outfit",
       "w": 266,
       "h": 255,
       "variants": [
@@ -87,7 +87,7 @@ window.KIT = {
     {
       "id": "pyjamas",
       "label": "Pyjamas",
-      "wear": true,
+      "wear": "outfit",
       "w": 251,
       "h": 292,
       "variants": [
@@ -112,7 +112,7 @@ window.KIT = {
     {
       "id": "skirt-outfit",
       "label": "Skirt outfit",
-      "wear": true,
+      "wear": "outfit",
       "w": 248,
       "h": 232,
       "variants": [
@@ -137,6 +137,18 @@ window.KIT = {
     {
       "id": "shoes",
       "label": "Shoes",
+      "wear": "feet",
+      "$fit": [
+        "On her feet, and measured rather than guessed: her two bare feet span",
+        "110px of the 322px doll canvas, and the shoe pair's art at 0.68 is 111px.",
+        "Bottom-aligned just past her soles so the bare feet are covered, which is",
+        "the anchor the alignment brief asks for -- same centre, same baseline."
+      ],
+      "fit": {
+        "scale": 0.68,
+        "cx": 50,
+        "bottom": 0.99
+      },
       "w": 183,
       "h": 136,
       "variants": [
@@ -161,6 +173,17 @@ window.KIT = {
     {
       "id": "handbag",
       "label": "Handbag",
+      "wear": "hand",
+      "$fit": [
+        "Hanging from her hand. Her hands sit at 58-68% of her height and about",
+        "11% and 88% across, read off the art; the bag's top meets the right one.",
+        "That is the handle anchor the alignment brief names."
+      ],
+      "fit": {
+        "scale": 0.44,
+        "cx": 87,
+        "top": 0.6
+      },
       "w": 152,
       "h": 136,
       "variants": [
@@ -185,6 +208,17 @@ window.KIT = {
     {
       "id": "bow",
       "label": "Hair bow",
+      "wear": "hair",
+      "$fit": [
+        "On the crown. The top of her hair is at 3% of her height, so the bow's own",
+        "top sits there and it perches rather than floats. One centre attachment",
+        "point for all four colourways, as the alignment brief asks."
+      ],
+      "fit": {
+        "scale": 0.42,
+        "cx": 50,
+        "top": 0.03
+      },
       "w": 166,
       "h": 110,
       "variants": [
@@ -413,6 +447,7 @@ window.KIT = {
   },
   "wearFit": {
     "scale": 0.95,
-    "top": 0.36
+    "top": 0.36,
+    "cx": 50
   }
 };

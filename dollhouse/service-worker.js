@@ -14,6 +14,13 @@
  *                   cropped the ceiling and floor away and left the doll looking
  *                   enormous against a zoomed crop. This is the first bump that
  *                   has to reach an installed device.
+ *   v3  2026-09-07  two things found by a real child on a real iPad. The app had
+ *                   become a ZOOM TRAP -- it blocked `gesturestart`, so once it
+ *                   was pinched in it could never be pinched out, and iOS has
+ *                   ignored `user-scalable=no` since iOS 10 precisely because
+ *                   zoom is an accessibility feature. And the shoes, bag and bow
+ *                   did not snap to the doll the way a garment did; now every
+ *                   worn thing has its own measured attachment point.
  *
  * THE FILE LIST IS GENERATED, THE VERSION IS NOT. `assets/shell.js` is written by
  * tools/build-runtime-assets.py and imported below, because fifty sprites is well
@@ -25,7 +32,7 @@
 
 importScripts("./assets/shell.js");
 
-const CACHE_NAME = "dollhouse-v2";
+const CACHE_NAME = "dollhouse-v3";
 const SHELL = self.SHELL_ASSETS;
 
 self.addEventListener("install", (event) => {
