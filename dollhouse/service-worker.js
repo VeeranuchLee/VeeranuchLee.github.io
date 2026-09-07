@@ -24,6 +24,9 @@
  *   v4  2026-09-07  the owner's new shoe art: eight pairs drawn ON the feet,
  *                   socks and ankles included, replacing the four flat pairs
  *                   that sat at her toes like a sticker.
+ *   v5  2026-09-07  the third shoe sheet, cropped tight to the shoe with only a
+ *                   sock frill: the previous pairs carried a stretch of leg that
+ *                   covered her calves and fought with a skirt hem.
  *
  * THE FILE LIST IS GENERATED, THE VERSION IS NOT. `assets/shell.js` is written by
  * tools/build-runtime-assets.py and imported below, because fifty sprites is well
@@ -35,7 +38,7 @@
 
 importScripts("./assets/shell.js");
 
-const CACHE_NAME = "dollhouse-v4";
+const CACHE_NAME = "dollhouse-v5";
 const SHELL = self.SHELL_ASSETS;
 
 self.addEventListener("install", (event) => {

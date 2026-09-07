@@ -209,28 +209,29 @@ window.KIT = {
       "label": "Shoes",
       "wear": "feet",
       "$fit": [
-        "DERIVED, not eyeballed, and both numbers come from the art:",
+        "DERIVED, not eyeballed. The third shoe sheet is cropped tight to the",
+        "shoe with only a sock frill above it -- no leg -- which is why it sits",
+        "under a skirt where the previous art covered her calves.",
         "",
-        "  scale 0.509  the sprite's two leg centres are 144.5px apart and hers are",
-        "               73.5px, so 73.5/144.5 puts each sock on each leg. At that",
-        "               scale the sock is 59px wide against her 42px leg, which is",
-        "               what a sock should look like.",
-        "  top 0.705    the sprite's art ends at y=316 of its 338 canvas and her",
-        "               feet end at y=571 of 582, so (571 - 316*0.509)/582 lands the",
-        "               sole on her sole rather than through the floor.",
+        "  scale 0.435  her two feet span 123px at 96% of her height; the shoe",
+        "               pair's art is 317px wide, and 123 * 1.12 / 317 puts the",
+        "               pair a shoe's-width wider than her bare feet.",
+        "  top 0.794    (her feet end at y=571) - (the art ends at y=250 * 0.435),",
+        "               over 582, so the sole lands on her sole.",
+        "  cx 50        her feet are centred on x=161 of 322, which is 50.0%.",
         "",
-        "Anchored by the TOP, which is where the eight variants actually register:",
-        "their sock edge is stable to +0/+1px while a sneaker's thicker sole reaches",
-        "11px further down. Pinning the sock is what keeps a Change from moving",
-        "anything; the sole hanging lower is the shoe being chunkier."
+        "Anchored by the TOP because the sole line is what the fit already pins;",
+        "the anchor moves at most 1.2 rendered pixels across all eight variants,",
+        "and the fluffy slipper's 23px of extra width is 5.2 rendered pixels of",
+        "fluff. tools/check-variant-alignment.py measures both separately."
       ],
       "fit": {
-        "scale": 0.509,
+        "scale": 0.435,
         "cx": 50,
-        "top": 0.705
+        "top": 0.794
       },
-      "w": 355,
-      "h": 338,
+      "w": 372,
+      "h": 265,
       "variants": [
         {
           "name": "pink",
