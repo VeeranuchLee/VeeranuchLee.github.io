@@ -37,8 +37,13 @@
  *                  below is cache-first and stores what it fetches, so the bed is cached
  *                  the first time it plays. Precaching 866 KB for a file that is off by
  *                  default would slow every install to serve the children who turn it on.
+ *   v19 2026-09-07  Dollhouse joined the TEST hub. (v16-v18 went unlogged, as v9-v13 did;
+ *                  the version is the release gate, so it moves in tasks that never touch
+ *                  this comment.) test-apps/index.html is not in SHELL and never has been
+ *                  -- the shell is the children's hub -- so this bump is what lets the
+ *                  release happen and what evicts a stale copy, not a precache change.
  */
-const CACHE_NAME = "children-apps-v18";
+const CACHE_NAME = "children-apps-v19";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
