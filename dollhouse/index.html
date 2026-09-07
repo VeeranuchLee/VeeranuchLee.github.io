@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dollhouse — bedroom pilot</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#FDF7F9">
+<link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- The three verbs. MOVE is the default and is always available; the other
+       two are "pick the tool, then tap the toy", which is the brief's grammar. -->
+  <div id="tools" role="toolbar" aria-label="Toys">
+    <!-- Back to the TEST hub, which is where this app lives. Each app in this
+         estate hard-codes its own hub URL, and pointing a test app at the
+         children's hub is how the Test Hub got exposed for eight days once. -->
+    <a class="tool ghost" id="back" href="../test-apps/">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M11.3 4.3 3.6 12l7.7 7.7 1.8-1.8L8.1 13.3H20v-2.6H8.1l5-4.6z"/>
+      </svg>
+      <span>Back</span>
+    </a>
+    <button class="tool is-on" data-tool="move" aria-pressed="true">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2.6 15 6h-2.2v4.8H17.6V8.6L21 12l-3.4 3.4v-2.2h-4.8V18H15l-3 3.4L9 18h2.2v-4.8H6.4v2.2L3 12l3.4-3.4v2.2h4.8V6H9z"/>
+      </svg>
+      <span>Move</span>
+    </button>
+    <button class="tool" data-tool="battery-in" aria-pressed="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="2.5" y="7" width="15.5" height="10" rx="2.4"/>
+        <rect x="19.2" y="10" width="2.6" height="4" rx="1.1"/>
+        <path class="bolt" d="M11.2 8.6 7.6 13h2.6l-1 3.2L12.8 12h-2.6z"/>
+      </svg>
+      <span>Battery in</span>
+    </button>
+    <button class="tool" data-tool="battery-out" aria-pressed="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="2.5" y="7" width="15.5" height="10" rx="2.4"/>
+        <rect x="19.2" y="10" width="2.6" height="4" rx="1.1"/>
+        <path class="slash" d="M4 19.2 18.4 4.8"/>
+      </svg>
+      <span>Battery out</span>
+    </button>
+    <button class="tool" data-tool="change" aria-pressed="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 9.4A8 8 0 0 1 18.2 6.6M20 14.6A8 8 0 0 1 5.8 17.4" fill="none" stroke-width="2.1" stroke-linecap="round"/>
+        <path d="M17.4 2.6 19 7.2l-4.7-.7zM6.6 21.4 5 16.8l4.7.7z"/>
+      </svg>
+      <span>Change</span>
+    </button>
+    <div class="spacer"></div>
+    <!-- Day / night. Filled in from the kit at boot so the toolbar cannot drift
+         out of step with what is actually painted. -->
+    <div id="rooms" class="group" role="group" aria-label="Time of day"></div>
+    <button class="tool ghost" id="reset" aria-pressed="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 5V2.2L7.8 6 12 9.8V7a5 5 0 1 1-5 5H4.6A7.4 7.4 0 1 0 12 5z"/>
+      </svg>
+      <span>Start again</span>
+    </button>
+  </div>
+
+  <!-- The room. Everything the child places lives in here, positioned in
+       percentages of the stage so it survives a resize or a rotation. -->
+  <div id="stageWrap">
+    <div id="stage">
+      <img id="room" alt="">
+      <div id="placed"></div>
+      <p id="hint" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <!-- The kit. Drag a sticker in, or tap it. -->
+  <div id="trayWrap">
+    <div id="tray" role="list"></div>
+  </div>
+
+</div>
+
+<script src="assets/kit.js"></script>
+<script src="app.js"></script>
+<script>
+  /* Cache-first, no auto-reload: an update reaches an open app only once it is
+     fully closed. That is this estate's settled behaviour and it is why editing
+     a file can look like it "did nothing" -- use ?dev while iterating. */
+  if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+    addEventListener("load", () => navigator.serviceWorker.register("service-worker.js"));
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,313 @@
+/* Dollhouse — bedroom pilot.
+
+   Sized for a 9.7" iPad at 768px portrait, which is the device these games are
+   actually played on. The room is 4:3 landscape, so at 768px wide it is 576
+   tall and the remaining ~448px carries the toolbar and the kit tray without
+   either of them crowding the play area. */
+
+:root {
+  --ink: #4a3b46;
+  --paper: #fdf7f9;
+  --edge: #f0dbe4;
+  --pick: #ff8fb4;
+  --pick-soft: #ffe3ed;
+  --tool-h: 62px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--paper);
+  color: var(--ink);
+  font: 500 16px/1.35 ui-rounded, "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  /* A dollhouse is all dragging. Nothing here should ever scroll the page,
+     rubber-band, or fire a magnifying-glass long-press on iOS. */
+  overscroll-behavior: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+#app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------------------------------------------------------------- toolbar */
+
+#tools {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 10px;
+  background: #fff;
+  border-bottom: 2px solid var(--edge);
+}
+
+#tools .spacer { flex: 1; }
+
+.tool {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  /* 44px is the floor for a small finger; these are comfortably over it. */
+  min-width: 76px;
+  min-height: var(--tool-h);
+  padding: 4px 8px;
+  border: 2px solid var(--edge);
+  border-radius: 15px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 12.5px;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tool svg { width: 25px; height: 25px; fill: currentColor; }
+.tool svg [fill="none"] { stroke: currentColor; }
+.tool .slash { stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; fill: none; }
+.tool .bolt { fill: #fff; }
+
+.tool.is-on {
+  background: var(--pick);
+  border-color: var(--pick);
+  color: #fff;
+}
+.tool.is-on .bolt { fill: var(--pick); }
+
+.tool.ghost { min-width: 68px; font-size: 12px; }
+
+/* Day / night sit together as one control, so they read as two settings of the
+   same thing rather than as two more tools. */
+.group { display: flex; gap: 4px; margin-right: 6px; }
+.room-pick { min-width: 62px; }
+
+/* The room lights the things standing in it: dimmer and less colourful at
+   night. A toy that is switched on lights itself and ignores both, which is
+   the entire reward for turning it on. */
+#placed { --room-dim: 1; --room-drain: 1; }
+.sticker > img,
+.sticker .worn {
+  filter: brightness(var(--room-dim)) saturate(var(--room-drain));
+  transition: filter .45s ease;
+}
+.sticker.on > img { filter: none; }
+
+/* A screen with no battery in it. Dark, and it does NOT forget the channel --
+   the channel is the variant underneath, the power is a separate flag. The
+   rectangle comes from the manifest, measured off the art. */
+.screen-off {
+  position: absolute;
+  background: #141a26;
+  box-shadow: inset 0 2px 7px rgba(0, 0, 0, .55);
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity .3s ease;
+}
+.sticker.on .screen-off { opacity: 0; }
+
+/* ------------------------------------------------------------------ stage */
+
+#stageWrap {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  min-height: 0;
+}
+
+#stage {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: 1448 / 1086;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 3px 14px rgba(120, 80, 100, .18);
+  touch-action: none;
+}
+
+#room { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+#placed { position: absolute; inset: 0; }
+
+#hint {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 7px 15px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .93);
+  font-size: 15px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity .18s;
+  pointer-events: none;
+}
+#hint.show { opacity: 1; }
+
+/* --------------------------------------------------------------- stickers */
+
+.sticker {
+  position: absolute;
+  /* The sticker's own drawn size, as a share of the room, so the kit keeps the
+     proportions it was drawn at: the bed really is about half the girl's
+     height, because that is how the sheet drew them. */
+  transform: translate(-50%, -50%);
+  touch-action: none;
+  cursor: grab;
+  /* A tap target is never smaller than a finger even when the art is. */
+  min-width: 44px;
+  min-height: 44px;
+}
+.sticker img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+.sticker.dragging { cursor: grabbing; filter: drop-shadow(0 6px 10px rgba(90,60,80,.3)); }
+
+/* The worn garment rides inside the doll's own box, so she and her clothes
+   move, and are picked up, as one thing. */
+.worn { position: absolute; pointer-events: none; }
+
+/* A tool that is armed marks what it can act on, and only while it is armed --
+   at rest a dollhouse shows no buttons over the furniture. */
+.sticker.candidate::after {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border: 3px dashed var(--pick);
+  border-radius: 14px;
+  animation: breathe 1.5s ease-in-out infinite;
+}
+@keyframes breathe { 50% { opacity: .35; } }
+
+/* ------------------------------------------------------- battery behaviours
+   Three of the reusable behaviours from CONCEPT.md 16, and no more: the
+   pilot's job is to show that one small library covers unrelated toys. */
+
+.glow-halo {
+  position: absolute;
+  inset: -45%;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .35s;
+}
+.on > .glow-halo { opacity: 1; }
+.sticker.on.beh-glow > img { filter: brightness(1.12) saturate(1.08); }
+.sticker.on.beh-screenGlow > img { filter: brightness(1.1) saturate(1.14); }
+
+/* Spin turns a clipped copy of the fan's head only, about the middle of its
+   guard, so the stand stays where it was put. The guard is close to radially
+   symmetric, so at this speed it reads as blur rather than as a spinning cage. */
+.spin-head {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+.spin-head img { width: 100%; height: 100%; display: block; }
+.on > .spin-head { opacity: 1; animation: spin .34s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .on > .spin-head { animation-duration: 2.4s; }
+  .sticker.candidate::after { animation: none; }
+}
+
+/* -------------------------------------------------------------------- tray */
+
+#trayWrap {
+  flex: 0 0 auto;
+  background: #fff;
+  border-top: 2px solid var(--edge);
+}
+
+/* Two rows, everything visible, nothing to scroll for. A tray a child has to
+   swipe hides half the kit behind a gesture they have no reason to try -- and
+   at 768px the whole sixteen fit if the chips are 86px. */
+#tray {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  /* Nine chips of 78px plus eight 5px gaps is 742, inside the 748 a 768px iPad
+     leaves after padding. Six pixels of slack, measured -- at gap 6 it wrapped
+     to three rows and the last two chips sat alone. */
+  gap: 5px;
+  padding: 8px 10px;
+}
+
+.chip {
+  position: relative;
+  flex: 0 0 auto;
+  /* Nine to a row at 768px, two rows, all eighteen visible. The tap target is
+     78x82, comfortably past the 44px floor even though the art inside is small. */
+  width: 78px;
+  height: 82px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  padding: 4px;
+  border: 2px solid var(--edge);
+  border-radius: 14px;
+  background: #fff;
+  touch-action: none;
+  cursor: grab;
+}
+.chip img {
+  max-width: 100%;
+  max-height: 46px;
+  object-fit: contain;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+.chip span { font-size: 10.5px; text-align: center; line-height: 1.1; }
+.chip.spent { opacity: .32; }
+
+/* How many ways this one can look. Change is the least discoverable of the three
+   verbs, so the catalogue says up front which things have anything to change. */
+.chip .many {
+  position: absolute;
+  top: 3px;
+  right: 4px;
+  min-width: 15px;
+  padding: 0 3px;
+  border-radius: 8px;
+  background: var(--pick);
+  color: #fff;
+  font-size: 9.5px;
+  font-weight: 700;
+  line-height: 15px;
+  text-align: center;
+}
+
+/* The sticker that follows the finger between the tray and the room. */
+#flying {
+  position: fixed;
+  z-index: 40;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 8px 12px rgba(90, 60, 80, .35));
+}
+
+/* Dropping a sticker back on the tray puts it away again. */
+#trayWrap.armed { background: var(--pick-soft); }
