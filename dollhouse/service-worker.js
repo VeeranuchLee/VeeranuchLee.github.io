@@ -6,6 +6,14 @@
  *
  *   v1  2026-09-07  first publication. The bedroom pilot: three verbs, eleven
  *                   variant families, day and night.
+ *   v2  2026-09-07  the stage keeps the room's shape on a desktop window. On a
+ *                   9.7" iPad it never did anything else, but measured on a
+ *                   1440x860 Safari window the stage was 1420x575 -- aspect 2.47
+ *                   against the room's 1.333 -- because `max-height` clamps the
+ *                   height without narrowing the width, and object-fit then
+ *                   cropped the ceiling and floor away and left the doll looking
+ *                   enormous against a zoomed crop. This is the first bump that
+ *                   has to reach an installed device.
  *
  * THE FILE LIST IS GENERATED, THE VERSION IS NOT. `assets/shell.js` is written by
  * tools/build-runtime-assets.py and imported below, because fifty sprites is well
@@ -17,7 +25,7 @@
 
 importScripts("./assets/shell.js");
 
-const CACHE_NAME = "dollhouse-v1";
+const CACHE_NAME = "dollhouse-v2";
 const SHELL = self.SHELL_ASSETS;
 
 self.addEventListener("install", (event) => {

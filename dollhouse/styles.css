@@ -34,6 +34,12 @@ html, body {
   height: 100%;
   display: flex;
   flex-direction: column;
+  /* The layout is designed for a 9.7" iPad at 768px. Past that there is nothing
+     to gain by stretching it -- a toolbar spread across 1440px and a tray of
+     eighteen chips in one long row are worse, not better -- so the app keeps its
+     shape and centres. On the iPad this changes nothing at all. */
+  max-width: 860px;
+  margin: 0 auto;
 }
 
 /* ---------------------------------------------------------------- toolbar */
@@ -85,6 +91,16 @@ html, body {
 
 .tool.ghost { min-width: 68px; font-size: 12px; }
 
+/* Narrower than the iPad this is designed for -- a small desktop window, a
+   phone held sideways. Out of the design range, but it must not look broken:
+   the row breaks before Day/Night rather than overflowing off the edge. */
+@media (max-width: 720px) {
+  #tools { flex-wrap: wrap; row-gap: 6px; }
+  #tools .spacer { flex: 0 0 100%; height: 0; }
+  .tool { min-width: 66px; font-size: 11.5px; }
+  .tool.ghost { min-width: 62px; }
+}
+
 /* Day / night sit together as one control, so they read as two settings of the
    same thing rather than as two more tools. */
 .group { display: flex; gap: 4px; margin-right: 6px; }
@@ -123,20 +139,50 @@ html, body {
   justify-content: center;
   padding: 10px;
   min-height: 0;
+  /* cqw/cqh below measure THIS box, and size excludes the padding. */
+  container-type: size;
 }
 
+/* THE STAGE MUST KEEP THE ROOM'S SHAPE EXACTLY, on every window.
+ *
+ * Not a nicety: every sticker is positioned in percentages of this box, so if
+ * the box stops matching the painting, `object-fit` crops the room and the
+ * child's furniture is placed against a coordinate system they cannot see. That
+ * is what a 9.7" iPad never showed and a desktop Safari window did.
+ *
+ * Neither single-axis form works, and both were measured on a 1440x860 window:
+ *
+ *   width:100%; max-height:100%   ->  box 1420x575, aspect 2.47 against the
+ *                                     room's 1.333. max-height clamps the
+ *                                     HEIGHT without narrowing the width, so
+ *                                     the room is scaled to 1420 wide and the
+ *                                     ceiling and floor are cropped away.
+ *   height:100%; width:auto       ->  the mirror of the same fault on a tall,
+ *                                     narrow window.
+ *
+ * `aspect-ratio` does not rescue either one: it only derives the axis that is
+ * `auto`, and a max-* clamp on the other axis simply breaks the ratio. The
+ * largest box that fits BOTH axes is min() of the two, and cqw/cqh are what
+ * make the container's own height available to express it. */
 #stage {
   position: relative;
-  width: 100%;
-  max-width: 100%;
-  max-height: 100%;
   aspect-ratio: 1448 / 1086;
+  width: min(100cqw, 100cqh * 1448 / 1086);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 3px 14px rgba(120, 80, 100, .18);
   touch-action: none;
 }
 
+/* Anything without size container queries (Safari before 16) gets a stage that
+   is smaller than it could be rather than one that is the wrong shape. Being
+   modest is recoverable; being cropped is not. */
+@supports not (container-type: size) {
+  #stage { width: min(100%, 700px); }
+}
+
+/* The box is now exactly the room's aspect, so cover, contain and fill are the
+   same thing here; cover is kept so a sub-pixel rounding cannot letterbox. */
 #room { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 #placed { position: absolute; inset: 0; }
