@@ -135,42 +135,6 @@ window.KIT = {
       ]
     },
     {
-      "id": "shoes",
-      "label": "Shoes",
-      "wear": "feet",
-      "$fit": [
-        "On her feet, and measured rather than guessed: her two bare feet span",
-        "110px of the 322px doll canvas, and the shoe pair's art at 0.68 is 111px.",
-        "Bottom-aligned just past her soles so the bare feet are covered, which is",
-        "the anchor the alignment brief asks for -- same centre, same baseline."
-      ],
-      "fit": {
-        "scale": 0.68,
-        "cx": 50,
-        "bottom": 0.99
-      },
-      "w": 183,
-      "h": 136,
-      "variants": [
-        {
-          "name": "pink",
-          "src": "assets/stickers/shoes/pink.webp"
-        },
-        {
-          "name": "blue",
-          "src": "assets/stickers/shoes/blue.webp"
-        },
-        {
-          "name": "yellow",
-          "src": "assets/stickers/shoes/yellow.webp"
-        },
-        {
-          "name": "purple",
-          "src": "assets/stickers/shoes/purple.webp"
-        }
-      ]
-    },
-    {
       "id": "handbag",
       "label": "Handbag",
       "wear": "hand",
@@ -237,6 +201,68 @@ window.KIT = {
         {
           "name": "purple",
           "src": "assets/stickers/bow/purple.webp"
+        }
+      ]
+    },
+    {
+      "id": "shoes",
+      "label": "Shoes",
+      "wear": "feet",
+      "$fit": [
+        "DERIVED, not eyeballed, and both numbers come from the art:",
+        "",
+        "  scale 0.509  the sprite's two leg centres are 144.5px apart and hers are",
+        "               73.5px, so 73.5/144.5 puts each sock on each leg. At that",
+        "               scale the sock is 59px wide against her 42px leg, which is",
+        "               what a sock should look like.",
+        "  top 0.705    the sprite's art ends at y=316 of its 338 canvas and her",
+        "               feet end at y=571 of 582, so (571 - 316*0.509)/582 lands the",
+        "               sole on her sole rather than through the floor.",
+        "",
+        "Anchored by the TOP, which is where the eight variants actually register:",
+        "their sock edge is stable to +0/+1px while a sneaker's thicker sole reaches",
+        "11px further down. Pinning the sock is what keeps a Change from moving",
+        "anything; the sole hanging lower is the shoe being chunkier."
+      ],
+      "fit": {
+        "scale": 0.509,
+        "cx": 50,
+        "top": 0.705
+      },
+      "w": 355,
+      "h": 338,
+      "variants": [
+        {
+          "name": "pink",
+          "src": "assets/stickers/shoes/pink.webp"
+        },
+        {
+          "name": "blue",
+          "src": "assets/stickers/shoes/blue.webp"
+        },
+        {
+          "name": "yellow",
+          "src": "assets/stickers/shoes/yellow.webp"
+        },
+        {
+          "name": "purple",
+          "src": "assets/stickers/shoes/purple.webp"
+        },
+        {
+          "name": "mint",
+          "src": "assets/stickers/shoes/mint.webp"
+        },
+        {
+          "name": "sneakers",
+          "src": "assets/stickers/shoes/sneakers.webp"
+        },
+        {
+          "name": "slippers",
+          "src": "assets/stickers/shoes/slippers.webp"
+        },
+        {
+          "name": "red",
+          "src": "assets/stickers/shoes/red.webp"
         }
       ]
     },

@@ -253,6 +253,15 @@ html, body {
   border: 3px dashed var(--pick);
   border-radius: 14px;
   animation: breathe 1.5s ease-in-out infinite;
+  /* IT MUST NOT TAKE THE POINTER. A pseudo-element of the sticker paints after
+     the sticker's children, so with the default `auto` this outline covered
+     every worn layer underneath it -- and it is only there while a tool is
+     armed, which is exactly when the layers need to be tappable. The symptom
+     was that tapping the shoes or the bag changed the DRESS: the tap landed on
+     the sticker itself, `closest('.worn')` came back null, and Change fell back
+     to the outfit. Reported from a real iPad; every hit test at the layers'
+     centres returned `div.sticker candidate`. */
+  pointer-events: none;
 }
 @keyframes breathe { 50% { opacity: .35; } }
 

@@ -623,7 +623,16 @@ function start() {
   tray.addEventListener("pointerdown", onTrayDown);
   stage.addEventListener("pointerdown", onStageDown);
   for (const b of document.querySelectorAll(".tool[data-tool]")) {
-    b.addEventListener("click", () => setTool(b.dataset.tool));
+    b.addEventListener("click", () => {
+      // Tapping an armed tool a second time puts it away and goes back to Move.
+      // Move is the resting state -- it is what the child is doing most of the
+      // time -- and before this the only way out of Battery or Change was to
+      // find the Move button, which is a thing to remember rather than a thing
+      // to discover. Tapping the same button again is the gesture everybody
+      // already tries.
+      const armed = b.dataset.tool === tool && tool !== "move";
+      setTool(armed ? "move" : b.dataset.tool);
+    });
   }
   for (const b of document.querySelectorAll(".room-pick")) {
     b.addEventListener("click", () => setRoom(+b.dataset.room));
