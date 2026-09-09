@@ -42,8 +42,27 @@
  *                  this comment.) test-apps/index.html is not in SHELL and never has been
  *                  -- the shell is the children's hub -- so this bump is what lets the
  *                  release happen and what evicts a stale copy, not a precache change.
+ *   v20 2026-09-08  the badges said 27 games: Memory Match arrived as three cards.
+ *   v21 2026-09-08  back to 24: six arithmetic cards folded into three ribbons.
+ *   v22 2026-09-08  down to 22: the three Memory Match cards became one.
+ *                  (v20-v22 are RECONSTRUCTED from their bump commits, c685f57c,
+ *                  d942f31c and 1887e6e2. This comment stopped at v19 while the
+ *                  constant reached v22 -- the same drift the math worker hit at v31
+ *                  and again at v35, which is why a bump is not finished when the
+ *                  constant moves. They claim nothing new; none of the three ever
+ *                  reached production, because the release that would have carried
+ *                  them was refused when main moved under its approval.)
+ *   v23 2026-09-09  the count badge comes OFF both maths cards, and its rule with it.
+ *                  Three bumps in one day did nothing but correct that number, and it
+ *                  was still wrong where it mattered: live has been telling children
+ *                  "24 games" since 2026-09-07 over an app that has held fewer since
+ *                  the arithmetic and Memory Match cards were merged. The count is a
+ *                  promise the hub cannot keep -- it goes stale the moment a game is
+ *                  added, merged or renamed, and nothing here can see that happen.
+ *                  The shelf behind the card is the honest answer, so the badge goes
+ *                  and this worker stops moving every time a game does.
  */
-const CACHE_NAME = "children-apps-v19";
+const CACHE_NAME = "children-apps-v23";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
