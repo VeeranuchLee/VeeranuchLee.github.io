@@ -107,8 +107,11 @@
     .name{font-weight:900;font-size:1.22rem;line-height:1.15}
     .desc{font-weight:700;font-size:.86rem;color:var(--ink-soft);line-height:1.35;max-width:20ch}
 
-    .c-space   {--edge:#3f6fe0;--shadow:#2a4fae;--tint:#e8efff}
-    .c-unicorn {--edge:#e5559a;--shadow:#b03271;--tint:#ffe9f3}
+    /* The two maths cards were blue (#3f6fe0) and pink (#e5559a) until 2026-09-09,
+       when they merged into one. Their card wears the colour between them, which is
+       the same thing the artwork does: one blue doorway, one pink one. Distinct from
+       Magic Spelling's blue-violet, which is the nearest card on the page. */
+    .c-magic   {--edge:#a855c7;--shadow:#7b3a90;--tint:#f8e8fb}
     .c-spell   {--edge:#8b5cf6;--shadow:#6435c9;--tint:#f1eaff}
     .c-music   {--edge:#17a2b8;--shadow:#0d7c8e;--tint:#e2f7fa}
     .c-petal   {--edge:#f0699b;--shadow:#c04574;--tint:#ffecf3}
@@ -287,16 +290,19 @@
 
   <main class="grid">
 
-    <a class="card c-space" href="../magic-math/space-math.html">
-      <span class="art"><img src="./assets/space-math.webp" alt="" width="96" height="96"/></span>
-      <span class="name">Space Math</span>
-      <span class="desc">Fly planet to planet with every answer</span>
-    </a>
-
-    <a class="card c-unicorn" href="../magic-math/unicorn-math.html">
-      <span class="art"><img src="./assets/unicorn-math.webp" alt="" width="96" height="96"/></span>
-      <span class="name">Unicorn Math</span>
-      <span class="desc">Grow a flower garden with every answer</span>
+    <!-- ONE CARD FOR TWO WORLDS, and room for the next one.
+         Owner, 2026-09-09: "Space Math and Unicorn Math are no longer shown as two
+         separate cards on the main hub. Instead, they should be merged into a single
+         Magic Math card that visually represents both worlds ... making it clear that
+         Magic Math contains multiple math experiences." So this links to the Magic
+         Math front door rather than to either game, and a third world lands there
+         without touching this page at all. The artwork is built by
+         tools/build-magic-math-card.py out of the two games' own art -- see that file
+         for why the doorways are wider than the mockup's. -->
+    <a class="card c-magic" href="../magic-math/">
+      <span class="art"><img class="tile" src="./assets/magic-math.webp" alt="" width="96" height="96"/></span>
+      <span class="name">Magic Math</span>
+      <span class="desc">Pick your world and play</span>
     </a>
 
     <a class="card c-spell" href="../magic-math/magic-spelling.html">

@@ -61,8 +61,14 @@
  *                  added, merged or renamed, and nothing here can see that happen.
  *                  The shelf behind the card is the honest answer, so the badge goes
  *                  and this worker stops moving every time a game does.
+ *   v24 2026-09-09  Space Math and Unicorn Math become ONE card, Magic Math, opening the
+ *                  Magic Math front door instead of a game. New artwork joins the shell;
+ *                  the two sprites it is built from leave it. They stay in `assets/`
+ *                  because `tools/build-magic-math-card.py` reads them, but no page
+ *                  fetches them any more, so precaching them would cost every install
+ *                  50 KB for nothing.
  */
-const CACHE_NAME = "children-apps-v23";
+const CACHE_NAME = "children-apps-v24";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
@@ -74,8 +80,7 @@ const SHELL = [
   "./fonts/Nunito-latin.woff2",
   "./fonts/Nunito-latin-ext.woff2",
   "./fonts/FredokaOne-latin.woff2",
-  "./assets/space-math.webp",
-  "./assets/unicorn-math.webp",
+  "./assets/magic-math.webp",
   "./assets/magic-spelling.webp",
   "./assets/writing-book.webp",
   "./assets/classical-music.webp",
