@@ -68,7 +68,7 @@
  *                  fetches them any more, so precaching them would cost every install
  *                  50 KB for nothing.
  */
-const CACHE_NAME = "children-apps-v24";
+const CACHE_NAME = "children-apps-v25";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
@@ -81,15 +81,13 @@ const SHELL = [
   "./fonts/Nunito-latin-ext.woff2",
   "./fonts/FredokaOne-latin.woff2",
   "./assets/magic-math.webp",
-  "./assets/magic-spelling.webp",
-  "./assets/writing-book.webp",
+  "./assets/our-word-book.webp",
   "./assets/classical-music.webp",
   "./assets/petal-kingdom.webp",
   "./assets/little-color-garden.png",
   "./assets/ari-and-dot.webp",
   "./assets/planets-and-moons.png",
   "./assets/animal-book.webp",
-  "./assets/spelling-exam.webp",
   "./assets/app-192.png",
   "./assets/app-512.png",
 ];
