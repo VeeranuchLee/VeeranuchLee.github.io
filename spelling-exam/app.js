@@ -32,11 +32,19 @@ function priority(x){const r=rec(x.word);return (r.incorrect*5+r.hintsUsed*4+(r.
    more tap of the same idea rather than a second button on every screen -- the same
    arrangement time-book uses.
 
-   Absolute URL on purpose: published, /spelling-exam/ and /children-apps/ are siblings,
-   but in this repo the hub lives under site/, so a relative link would work live and 404
-   in every local preview -- the kind of difference nobody notices until a child taps it.
-   It names where it goes rather than saying "back", for the same reason. */
-const HUB='https://veeranuchlee.github.io/children-apps/';
+   Absolute URL on purpose: published, /spelling-exam/ and /word-book/ are siblings, but
+   in this repo they are separate top-level folders, so a relative link would work live
+   and 404 in every local preview -- the kind of difference nobody notices until a child
+   taps it. It names where it goes rather than saying "back", for the same reason.
+
+   2026-09-09: this went from /children-apps/ to /word-book/. Children Games no longer
+   has a Spelling Exam card; it has one Our Word Book card, and this game is a section
+   inside it. An arrow left pointing at the hub would drop a child onto a page that no
+   longer lists the game they were just playing -- which is the exact fault Writing Book
+   shipped for eight days in September.
+   THIS ARROW AND /word-book/ MUST PUBLISH TOGETHER, or the exit is a 404. See
+   release/registry.json, the word-book note. */
+const HUB='https://veeranuchlee.github.io/word-book/';
 /* ---- MENU BED AND SPOKEN PRAISE ----
    AUDIO-DIRECTION.md decision 10 for the bed, and its 2026-08-20 rule for where it may
    play: atmosphere where the child is CHOOSING, silence where they are spelling. So the
@@ -81,7 +89,7 @@ const MODE_ART={
   weak:`<svg viewBox="0 0 60 46" aria-hidden="true"><path d="M46 20A16 16 0 1 0 43 33" class="s3"/><path d="M53 12l-5.6 8.6 10.2.8z" class="f3"/><g class="f1"><rect x="17" y="33" width="9" height="4.6" rx="2.3"/><rect x="28.5" y="33" width="9" height="4.6" rx="2.3"/></g></svg>`,
   exam:`<svg viewBox="0 0 60 46" aria-hidden="true"><path d="M13 25v-4a17 17 0 0 1 34 0v4" class="s3"/><rect x="6.5" y="23" width="11" height="16" rx="5.5" class="f1"/><rect x="42.5" y="23" width="11" height="16" rx="5.5" class="f1"/><g class="f3"><rect x="21" y="40" width="7.4" height="4.4" rx="2.2"/><rect x="31" y="40" width="7.4" height="4.4" rx="2.2"/></g></svg>`};
 
-function home(){state.screen='home';state.buddy='';scene('hall');app.innerHTML=`<div class="topline"><a class="hub" href="${HUB}">← Children Games</a><button class="bedtoggle" aria-pressed="${bedOn()}">${bedOn()?"🔊":"🔈"} Music</button></div><section class="hero"><div class="mascot" aria-hidden="true">${MASCOT}</div><h1>Spelling Exam</h1><p>See it. Hear it. Spell it.</p></section><section class="menu"><button data-go="practice"><span class="modeart">${MODE_ART.practice}</span><strong>Practice Now</strong><small>Start with words that need you most</small></button><button data-go="learn"><i class="step">1</i><span class="modeart">${MODE_ART.learn}</span><strong>Learn Words</strong><small>Look, listen, then copy</small></button><button data-go="blocks"><i class="step">2</i><span class="modeart">${MODE_ART.blocks}</span><strong>Letter Blocks</strong><small>Build the word from tiles</small></button><button data-go="sets"><i class="step">3</i><span class="modeart">${MODE_ART.sets}</span><strong>Word Sets 1–12</strong><small>Spell it on the keyboard</small></button><button data-go="weak"><span class="modeart">${MODE_ART.weak}</span><strong>Weak Words</strong><small>Practise tricky words again</small></button><button class="span" data-go="exam"><i class="step">4</i><span class="modeart">${MODE_ART.exam}</span><strong>Mock Exam</strong><small>Five words, results at the end</small></button></section>`;bindNav();$('.bedtoggle').onclick=()=>{setBed(!bedOn());home()};bedPlay()}
+function home(){state.screen='home';state.buddy='';scene('hall');app.innerHTML=`<div class="topline"><a class="hub" href="${HUB}">← Our Word Book</a><button class="bedtoggle" aria-pressed="${bedOn()}">${bedOn()?"🔊":"🔈"} Music</button></div><section class="hero"><div class="mascot" aria-hidden="true">${MASCOT}</div><h1>Spelling Exam</h1><p>See it. Hear it. Spell it.</p></section><section class="menu"><button data-go="practice"><span class="modeart">${MODE_ART.practice}</span><strong>Practice Now</strong><small>Start with words that need you most</small></button><button data-go="learn"><i class="step">1</i><span class="modeart">${MODE_ART.learn}</span><strong>Learn Words</strong><small>Look, listen, then copy</small></button><button data-go="blocks"><i class="step">2</i><span class="modeart">${MODE_ART.blocks}</span><strong>Letter Blocks</strong><small>Build the word from tiles</small></button><button data-go="sets"><i class="step">3</i><span class="modeart">${MODE_ART.sets}</span><strong>Word Sets 1–12</strong><small>Spell it on the keyboard</small></button><button data-go="weak"><span class="modeart">${MODE_ART.weak}</span><strong>Weak Words</strong><small>Practise tricky words again</small></button><button class="span" data-go="exam"><i class="step">4</i><span class="modeart">${MODE_ART.exam}</span><strong>Mock Exam</strong><small>Five words, results at the end</small></button></section>`;bindNav();$('.bedtoggle').onclick=()=>{setBed(!bedOn());home()};bedPlay()}
 function bindNav(){document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>route(b.dataset.go))}
 function route(go){if(go==='practice')start('practice',shuffle(all()).sort((a,b)=>priority(b)-priority(a)).slice(0,10));if(go==='weak'){const q=all().filter(x=>rec(x.word).incorrect||rec(x.word).hintsUsed).sort((a,b)=>priority(b)-priority(a));start('practice',(q.length?q:all()).slice(0,10))}if(go==='sets')chooseSets('practice');if(go==='learn')chooseSets('learn');if(go==='blocks')chooseSets('blocks');if(go==='exam')examMenu()}
 function headerBar(title,extra=''){return `<header class="top"><button class="back" aria-label="Back">←</button><h1>${title}</h1>${extra}</header>`}
