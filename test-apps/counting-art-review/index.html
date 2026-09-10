@@ -1,0 +1,166 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Counting art 1-20 - review at true size</title>
+<style>
+  :root{
+    --ink:#2b2530; --muted:#6f6676; --line:#e3dce6; --bg:#fbf7fb;
+    --card-bg:#faf0f6;            /* the dictionary card's own pale pink */
+    --gap:#f4e2e6; --ok:#1f7a4d; --warn:#a8341f;
+    /* The real picture well on a 9.7" iPad, measured: 231 x 173 CSS px. */
+    --well-w:231px; --well-h:173px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font:15px/1.5 ui-rounded,"Avenir Next",-apple-system,system-ui,sans-serif;
+       color:var(--ink);background:var(--bg)}
+  header{padding:22px 20px 8px;max-width:1080px;margin:0 auto}
+  h1{font-size:22px;margin:0 0 4px}
+  .sub{color:var(--muted);margin:0 0 14px}
+  main{max-width:1080px;margin:0 auto;padding:0 20px 60px}
+  .bar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;
+       padding:12px 14px;background:#fff;border:1px solid var(--line);border-radius:12px;margin:10px 0 22px}
+  .bar label{display:flex;gap:7px;align-items:center;font-size:14px}
+  .grid{display:flex;flex-wrap:wrap;gap:18px}
+  figure{margin:0}
+  .well{width:var(--well-w);height:var(--well-h);background:var(--card-bg);
+        border:1px solid var(--line);border-radius:10px;overflow:hidden;
+        display:flex;align-items:center;justify-content:center}
+  .well img{max-width:100%;max-height:100%;display:block}
+  .well.zoom{width:calc(var(--well-w)*2);height:calc(var(--well-h)*2)}
+  .gap .well{background:repeating-linear-gradient(45deg,var(--gap),var(--gap) 8px,#fff 8px,#fff 16px);
+             color:var(--warn);font-weight:600;font-size:15px}
+  figcaption{font-size:13px;color:var(--muted);margin-top:6px;display:flex;justify-content:space-between}
+  figcaption b{color:var(--ink);font-weight:600}
+  .tag{font-size:11px;padding:1px 6px;border-radius:20px;background:#efe9f2}
+  .tag.numeral{background:#fbe4de;color:var(--warn)}
+  h2{font-size:16px;margin:34px 0 10px;padding-top:16px;border-top:1px solid var(--line)}
+  ol,ul{padding-left:20px} li{margin:5px 0}
+  .drop{border:2px dashed var(--line);border-radius:12px;padding:20px;text-align:center;
+        color:var(--muted);background:#fff}
+  .drop.hot{border-color:var(--ok);color:var(--ok)}
+  .note{background:#fff;border:1px solid var(--line);border-left:3px solid var(--warn);
+        border-radius:8px;padding:12px 14px;margin:14px 0}
+  .ruler{height:10px;width:var(--well-w);background:linear-gradient(90deg,#bbb 1px,transparent 1px) 0 0/23.1px 100%;
+         border-bottom:1px solid #bbb;margin-bottom:4px}
+  .rlab{font-size:11px;color:var(--muted);margin-bottom:14px}
+</style>
+
+<header>
+  <h1>Counting art 1&ndash;20 &mdash; review at true size</h1>
+  <p class="sub">Every card below is rendered at <b>231&times;173&nbsp;CSS px</b>, the real picture
+  well on the 9.7&Prime; iPad. That is the only size worth judging: art can read beautifully at full
+  resolution and still be uncountable where a child actually meets it.</p>
+</header>
+
+<main>
+  <div class="bar">
+    <label><input type="checkbox" id="zoom"> Show at 2&times; (for detail only &mdash; never judge here)</label>
+    <label><input type="checkbox" id="pink" checked> Card ground (pale pink)</label>
+    <span style="color:var(--muted);font-size:13px">Ticks below = 10&nbsp;px each.</span>
+  </div>
+  <div class="ruler"></div>
+  <div class="rlab">231 px across &mdash; the full width a child sees.</div>
+
+  <h2>What ships today</h2>
+  <div class="grid" id="grid"></div>
+
+  <div class="note">
+    <b>Two problems visible above.</b> The series has holes &mdash; <b>5, 8, 12, 13, 14, 17, 18, 19</b>
+    were never drawn, so a child counting through the dictionary hits a blank at five. And it is not
+    one series: <b>one, two, three</b> are apple counts with no numeral, while <b>four</b> is a
+    sticker reading &ldquo;4&rdquo; beside four stars, because no Writing Book file existed for it and
+    it fell back to Spelling&nbsp;Exam. That set is not a design &mdash; it is whatever Spelling
+    Exam&rsquo;s word list happened to contain.
+  </div>
+
+  <h2>Try candidate art</h2>
+  <p class="sub">Drop images here (or pick files). They render in the same well at the same size, so
+  you can hold a candidate against what ships. Nothing is uploaded &mdash; this stays in the browser.</p>
+  <div class="drop" id="drop">
+    Drop candidate art here, or <input type="file" id="file" accept="image/*" multiple>
+  </div>
+  <div class="grid" id="cand" style="margin-top:18px"></div>
+
+  <h2>How to judge it</h2>
+  <ol>
+    <li><b>Landscape 4:3, always.</b> This is the whole reason the cards broke. Portrait art gets
+      cropped to a band (which deleted apples) or padded (which shrinks it). Landscape art needs
+      neither, and lands about twice the size.</li>
+    <li><b>Count it at true size, not zoomed.</b> If you have to lean in, a child cannot do it.</li>
+    <li><b>Objects must be separated, never overlapping.</b> A child counts by pointing at each one.
+      Two apples touching read as one blob.</li>
+    <li><b>No printed numeral.</b> The card teaches the word; the numeral gives the answer away.
+      <span class="tag numeral">four</span> is the current exception and should not set the pattern.</li>
+    <li><b>One visual language across all ten.</b> Same objects, same style, same ground, so 1&ndash;10
+      reads as a series rather than a collection.</li>
+    <li><b>Same object throughout, ideally.</b> Counting is easier when only the number changes.</li>
+  </ol>
+</main>
+
+<script>
+// The cards that exist today, in counting order. `numeral` marks art that shows a printed digit.
+const HAVE = [
+  {n:1,  f:"one.number"},   {n:2, f:"two.number"},   {n:3, f:"three.number"},
+  {n:4,  f:"four.number", numeral:true},
+  {n:6,  f:"six.number"},   {n:7, f:"seven.number"},
+  {n:9,  f:"nine.number"},  {n:10,f:"ten.number"},   {n:11,f:"eleven.number"},
+  {n:15, f:"fifteen.number"},{n:16,f:"sixteen.number"},{n:20,f:"twenty.number"}
+];
+const MISSING = [5,8,12,13,14,17,18,19];
+const ART = "art/";   // deployed copy: art sits beside this page
+
+const grid = document.getElementById("grid");
+const rows = [...HAVE, ...MISSING.map(n=>({n, missing:true}))].sort((a,b)=>a.n-b.n);
+
+for (const r of rows){
+  const fig = document.createElement("figure");
+  if (r.missing) fig.className = "gap";
+  const well = document.createElement("div");
+  well.className = "well";
+  if (r.missing){ well.textContent = "not drawn"; }
+  else {
+    const img = new Image();
+    img.src = ART + r.f + ".webp";
+    img.alt = r.f;
+    img.onerror = ()=>{ well.textContent = "art missing: " + r.f; well.style.color = "#a8341f"; };
+    well.appendChild(img);
+  }
+  const cap = document.createElement("figcaption");
+  cap.innerHTML = "<b>"+r.n+"</b><span>"+(r.missing ? "&mdash;" :
+      (r.numeral ? '<span class="tag numeral">printed numeral</span>' : '<span class="tag">no numeral</span>'))+"</span>";
+  fig.appendChild(well); fig.appendChild(cap); grid.appendChild(fig);
+}
+
+// zoom + ground toggles
+document.getElementById("zoom").onchange = e =>
+  document.querySelectorAll(".well").forEach(w => w.classList.toggle("zoom", e.target.checked));
+document.getElementById("pink").onchange = e =>
+  document.querySelectorAll(".well").forEach(w =>
+    w.style.background = e.target.checked ? "" : "#fff");
+
+// candidate art, entirely client-side
+const cand = document.getElementById("cand"), drop = document.getElementById("drop");
+function addCandidate(file){
+  const fig = document.createElement("figure");
+  const well = document.createElement("div"); well.className = "well";
+  const img = new Image(); img.src = URL.createObjectURL(file); img.alt = file.name;
+  img.onload = ()=>{
+    const r = (img.naturalWidth/img.naturalHeight).toFixed(2);
+    const shape = img.naturalWidth >= img.naturalHeight ? "landscape" : "PORTRAIT - will be padded";
+    cap.innerHTML = "<b>"+file.name.replace(/\.[^.]+$/,"")+"</b><span>"+
+      img.naturalWidth+"&times;"+img.naturalHeight+" &middot; "+r+" &middot; "+shape+"</span>";
+    if (img.naturalWidth < img.naturalHeight) cap.querySelector("span").className = "tag numeral";
+  };
+  well.appendChild(img);
+  const cap = document.createElement("figcaption");
+  fig.appendChild(well); fig.appendChild(cap); cand.appendChild(fig);
+  if (document.getElementById("zoom").checked) well.classList.add("zoom");
+}
+document.getElementById("file").onchange = e => [...e.target.files].forEach(addCandidate);
+drop.addEventListener("dragover", e=>{e.preventDefault(); drop.classList.add("hot")});
+drop.addEventListener("dragleave", ()=>drop.classList.remove("hot"));
+drop.addEventListener("drop", e=>{
+  e.preventDefault(); drop.classList.remove("hot");
+  [...e.dataTransfer.files].filter(f=>f.type.startsWith("image/")).forEach(addCandidate);
+});
+</script>

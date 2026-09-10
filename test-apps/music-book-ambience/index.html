@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Music Book</title>
+<link rel="stylesheet" href="app/styles.css">
+</head>
+<body>
+  <main id="stage" class="stage"></main>
+
+  <!-- Chrome that outlives a re-render. Every page draws itself by replacing the
+       stage's contents, so a control living inside the stage would have to be
+       redrawn by all four render functions and would be forgotten by the fifth.
+       This box mirrors the stage's letterboxed 4:3 geometry exactly, so the
+       button sits inside the picture rather than in the black surround. -->
+  <div id="chrome">
+    <button id="sound" class="chrome-btn" type="button" aria-pressed="true" aria-label="Sound on">🔊</button>
+  </div>
+
+  <div id="popup" hidden>
+    <div class="popup__card">
+      <button class="popup__close" data-close aria-label="Close">✕</button>
+      <div id="popup-body"></div>
+    </div>
+  </div>
+
+  <script type="module" src="app/app.js"></script>
+</body>
+</html>
