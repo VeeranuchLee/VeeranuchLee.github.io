@@ -65,12 +65,23 @@
   <div class="grid" id="grid"></div>
 
   <div class="note">
-    <b>Two problems visible above.</b> The series has holes &mdash; <b>5, 8, 12, 13, 14, 17, 18, 19</b>
-    were never drawn, so a child counting through the dictionary hits a blank at five. And it is not
-    one series: <b>one, two, three</b> are apple counts with no numeral, while <b>four</b> is a
-    sticker reading &ldquo;4&rdquo; beside four stars, because no Writing Book file existed for it and
-    it fell back to Spelling&nbsp;Exam. That set is not a design &mdash; it is whatever Spelling
-    Exam&rsquo;s word list happened to contain.
+    <b>Three problems visible above.</b>
+    <br>1. <b>The series has holes.</b> 5, 8, 12, 13, 14, 17, 18, 19 were never drawn, so a child
+    counting through the dictionary hits a blank at five. That set is not a design &mdash; it is
+    whatever Spelling Exam&rsquo;s word list happened to contain.
+    <br>2. <b>It is two visual languages, split 3 against 9.</b> Only <b>1, 2, 3</b> are painted
+    apple counts with no numeral. The other <b>nine</b> are sticker art with a large printed digit.
+    The minority style is the one that looks like the rest of the dictionary.
+    <br>3. <b>Every numbered card counts a different object</b> &mdash; stars, dots, flowers, leaves,
+    crayons, carrots, fish, cookies, hearts. Counting is easiest when only the <i>number</i> changes.
+  </div>
+
+  <div class="note" style="border-left-color:#1f7a4d">
+    <b>An open decision, not a rule.</b> Whether a counting card should show the printed numeral is
+    a design question for the owner. The repository&rsquo;s source-preference rule keeps printed
+    <i>words</i> off dictionary cards &mdash; it says nothing about digits, and a digit beside the
+    objects may well help a child link numeral to quantity. Decide it deliberately and apply it to
+    all ten; today&rsquo;s split is an accident of which app happened to supply each picture.
   </div>
 
   <h2>Try candidate art</h2>
@@ -89,8 +100,9 @@
     <li><b>Count it at true size, not zoomed.</b> If you have to lean in, a child cannot do it.</li>
     <li><b>Objects must be separated, never overlapping.</b> A child counts by pointing at each one.
       Two apples touching read as one blob.</li>
-    <li><b>No printed numeral.</b> The card teaches the word; the numeral gives the answer away.
-      <span class="tag numeral">four</span> is the current exception and should not set the pattern.</li>
+    <li><b>Settle the numeral question once</b>, then hold it for all ten. Today 9 of 12 show a
+      digit and 3 do not, which is an accident rather than a choice. Either is defensible; the
+      mixture is not.</li>
     <li><b>One visual language across all ten.</b> Same objects, same style, same ground, so 1&ndash;10
       reads as a series rather than a collection.</li>
     <li><b>Same object throughout, ideally.</b> Counting is easier when only the number changes.</li>
@@ -99,15 +111,25 @@
 
 <script>
 // The cards that exist today, in counting order. `numeral` marks art that shows a printed digit.
+// Checked by eye against the actual art, not inherited from a report.
+// NINE of the twelve carry a printed numeral; only 1-3 do not. Each numbered card
+// also counts a DIFFERENT object, which is the second half of the consistency problem.
 const HAVE = [
-  {n:1,  f:"one.number"},   {n:2, f:"two.number"},   {n:3, f:"three.number"},
-  {n:4,  f:"four.number", numeral:true},
-  {n:6,  f:"six.number"},   {n:7, f:"seven.number"},
-  {n:9,  f:"nine.number"},  {n:10,f:"ten.number"},   {n:11,f:"eleven.number"},
-  {n:15, f:"fifteen.number"},{n:16,f:"sixteen.number"},{n:20,f:"twenty.number"}
+  {n:1,  f:"one.number",     obj:"apple"},
+  {n:2,  f:"two.number",     obj:"apples"},
+  {n:3,  f:"three.number",   obj:"apples"},
+  {n:4,  f:"four.number",    obj:"stars",   numeral:true},
+  {n:6,  f:"six.number",     obj:"dots",    numeral:true},
+  {n:7,  f:"seven.number",   obj:"flowers", numeral:true},
+  {n:9,  f:"nine.number",    obj:"leaves",  numeral:true},
+  {n:10, f:"ten.number",     obj:"crayons", numeral:true},
+  {n:11, f:"eleven.number",  obj:"carrots", numeral:true},
+  {n:15, f:"fifteen.number", obj:"fish",    numeral:true},
+  {n:16, f:"sixteen.number", obj:"cookies", numeral:true},
+  {n:20, f:"twenty.number",  obj:"hearts",  numeral:true}
 ];
 const MISSING = [5,8,12,13,14,17,18,19];
-const ART = "art/";   // deployed copy: art sits beside this page
+const ART = "art/";   // page lives at word-book/qa/, art at word-book/assets/words/
 
 const grid = document.getElementById("grid");
 const rows = [...HAVE, ...MISSING.map(n=>({n, missing:true}))].sort((a,b)=>a.n-b.n);
@@ -127,7 +149,8 @@ for (const r of rows){
   }
   const cap = document.createElement("figcaption");
   cap.innerHTML = "<b>"+r.n+"</b><span>"+(r.missing ? "&mdash;" :
-      (r.numeral ? '<span class="tag numeral">printed numeral</span>' : '<span class="tag">no numeral</span>'))+"</span>";
+      (r.obj?'<span class="tag">'+r.obj+'</span> ':'')+
+      (r.numeral ? '<span class="tag numeral">numeral</span>' : '<span class="tag">no numeral</span>'))+"</span>";
   fig.appendChild(well); fig.appendChild(cap); grid.appendChild(fig);
 }
 
