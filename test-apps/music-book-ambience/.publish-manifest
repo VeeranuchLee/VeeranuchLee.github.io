@@ -1,0 +1,23 @@
+# Public Music Book files. Internal design, discussion, and build tools never ship.
+
+[ship]
+index.html
+app/*
+assets/**
+audio/titles/*
+data/*
+
+[private]
+# The owner's own direction for what this book is. Internal reasoning, never ships.
+CORE-DIRECTION.md
+DESIGN-HANDOFF.md
+REPERTOIRE-ROADMAP.md
+ROOM-ARCHITECTURE.md
+curation/*
+# Markdown is never picked up by a wildcard — name it. The propose-prompt list is
+# art-stage preparation derived from curation; it stays private.
+curation/ART-PROPOSALS.md
+# The Room 1 Read Together spec is internal design, not shipped app content.
+curation/ROOM-01-READ-TOGETHER.md
+tools/*
+work_progress_and_other_discussion.md

@@ -1,28 +1,10 @@
-// Music Book — instrument synthesis, and the mixer everything sounds through.
+// Music Book — instrument synthesis.
 //
 // AUDIO-DIRECTION.md decision 6: this book ships no audio assets. Every timbre
 // below is built from oscillators, envelopes, a filter and a synthetic reverb
 // at the moment a note sounds. Nothing is fetched. `scripts/preflight.sh`
 // enforces that, so if you are here looking for where the samples load: there
 // are none, and adding some fails the build.
-//
-// Decision 9 added background music and ambience, which is why this file now
-// holds a mixer rather than a single master gain. Four buses hang off master:
-//
-//   master ── music      the piece the child tapped
-//          ├─ bed        the background tune
-//          ├─ ambience   birds, water, room tone
-//          └─ voice      the spoken title clips (decision 7)
-//
-// Two things fall out of having them separate, and both are requirements rather
-// than tidiness. `setMuted` moves ONE gain, so the Sound toggle cannot leave a
-// layer playing that it forgot about. And `duck` can pull the bed and the
-// ambience down while leaving the piece and the spoken title at full level —
-// the whole reason background sound is allowed here at all.
-//
-// Each bus is a PAIR of gains, dry and wet, because the reverb send has to be
-// duckable too. Ducking only the dry path would leave a bed's reverb tail
-// washing over the title clip it was supposed to make room for.
 
 // Every spelling the note regex can produce, all 21 of them. B# and E# are real
 // notes, not typos: B# is the raised seventh of C# minor, which is why Moonlight
@@ -40,6 +22,12 @@ const SEMITONE = {
   'F#': 6, Gb: 6, G: 7, 'G#': 8, Ab: 8, A: 9, 'A#': 10, Bb: 10, B: 11, 'B#': 12
 };
 
+const MASTER_LEVEL = 0.5;
+const MUTE_TIME = 0.08;
+const DUCK_LEVEL = 0.2;
+const DUCK_DOWN = 0.12;
+const DUCK_UP = 0.35;
+
 export function noteToFrequency(name) {
   const parsed = /^([A-G][#b]?)(-?\d)$/.exec(name);
   if (!parsed) throw new Error(`unreadable note name: ${name}`);
@@ -52,31 +40,16 @@ export function noteToFrequency(name) {
   return 440 * Math.pow(2, (midi - 69) / 12);
 }
 
-// How far the bed and the ambience drop when something in front of them needs
-// to be heard, and how long each move takes. Down fast, up slowly: a duck that
-// rises as quickly as it falls sounds like a fault, and the child hears the
-// background surge back before the last word of the title has finished.
-const DUCK_LEVEL = 0.2;
-const DUCK_DOWN = 0.12;
-const DUCK_UP = 0.5;
-
-// Master level. The Sound toggle ramps between this and silence rather than
-// jumping, which is the difference between turning sound off and a click.
-const MASTER_LEVEL = 0.5;
-const MUTE_TIME = 0.08;
-
 export class AudioEngine {
   constructor() {
     this.ctx = null;
     this.master = null;
+    this.reverbBus = null;
+    this.convolver = null;
     this.instrument = null;
     this.voices = new Set();
     this.buses = null;
     this.muted = false;
-    // Ducking is keyed rather than counted. A spoken title and a playing piece
-    // can both want the background out of the way, and they finish in either
-    // order; with a counter, an unbalanced release leaves the bed quiet forever.
-    // With keys, releasing a key that was never held is simply nothing.
     this.ducks = new Set();
     this._noise = null;
     this._voiceSources = new WeakMap();
@@ -98,8 +71,6 @@ export class AudioEngine {
     this.master.gain.value = this.muted ? 0 : MASTER_LEVEL;
     this.master.connect(this.ctx.destination);
 
-    // One room for the whole book. Every bus sends to the same convolver, so a
-    // bird and a piano note sound like they are in the same place.
     this.convolver = this.ctx.createConvolver();
     this.convolver.buffer = this._impulseResponse(2.0, 2.5);
     this.convolver.connect(this.master);
@@ -110,16 +81,14 @@ export class AudioEngine {
       ambience: this._bus(),
       voice: this._bus()
     };
-
-    // Kept because `playNote` defaulted to it and a stray caller elsewhere is
-    // cheaper to absorb than to hunt: the reverb send of the music bus.
     this.reverbBus = this.buses.music.wet;
 
     return this.ctx;
   }
 
-  // A bus is a dry gain into master and a wet gain into the shared room. Both
-  // move together when the bus ducks — see the note at the top of the file.
+  // A bus has both a dry path to master and a wet path to the shared reverb.
+  // Ducking moves both gains together, so the reverb tail cannot wash over a
+  // spoken title after the dry sound has moved aside.
   _bus() {
     const dry = this.ctx.createGain();
     dry.gain.value = 1;
@@ -134,7 +103,6 @@ export class AudioEngine {
     return this.buses ? this.buses[name] : null;
   }
 
-  /** The Sound toggle. One gain, so nothing can be left playing unnoticed. */
   setMuted(muted) {
     this.muted = muted;
     if (!this.ctx) return;
@@ -142,17 +110,13 @@ export class AudioEngine {
     const g = this.master.gain;
     g.cancelScheduledValues(now);
     g.setValueAtTime(g.value, now);
-    g.linearRampToValueAtTime(muted ? 0.0001 : MASTER_LEVEL, now + MUTE_TIME);
+    g.linearRampToValueAtTime(muted ? 0 : MASTER_LEVEL, now + MUTE_TIME);
   }
 
-  /**
-   * Pull the background out of the way, or let it back.
-   * @param {string} key   who is asking — 'voice', 'piece'
-   * @param {boolean} on   true to duck, false to release this key
-   */
   duck(key, on) {
-    if (on) this.ducks.add(key); else this.ducks.delete(key);
-    if (!this.ctx) return;
+    if (on) this.ducks.add(key);
+    else this.ducks.delete(key);
+    if (!this.ctx || !this.buses) return;
     const target = this.ducks.size ? DUCK_LEVEL : 1;
     const seconds = this.ducks.size ? DUCK_DOWN : DUCK_UP;
     const now = this.ctx.currentTime;
@@ -166,18 +130,8 @@ export class AudioEngine {
     });
   }
 
-  /**
-   * Route a spoken-title `<audio>` element through the mixer.
-   *
-   * This is what makes ducking possible at all: before it, the title clips
-   * played straight to the output and nothing could move out of their way.
-   * A media element accepts exactly one source node in its lifetime, so the
-   * node is remembered per element. Returns false if the browser refuses, and
-   * the caller then lets the element play on its own — quiet titles would be a
-   * worse failure than un-duckable ones.
-   */
   connectVoice(element) {
-    if (!this.ctx) return false;
+    if (!this.ctx || !this.buses) return false;
     if (this._voiceSources.has(element)) return true;
     try {
       const source = this.ctx.createMediaElementSource(element);
@@ -189,10 +143,6 @@ export class AudioEngine {
     }
   }
 
-  /**
-   * White noise, generated once and looped. Ambience is built from it, and
-   * regenerating it per layer was audibly identical and measurably slower.
-   */
   noiseBuffer(seconds = 2.5) {
     if (this._noise) return this._noise;
     const rate = this.ctx.sampleRate;
@@ -222,13 +172,7 @@ export class AudioEngine {
     this.instrument = instrument;
   }
 
-  /**
-   * Silence a bus immediately — used by pause and by switching pieces.
-   *
-   * It takes a bus name because the bed sounds through this same synthesiser.
-   * Stopping "everything" when a child pauses a piece would also cut the
-   * background tune, which was never what pause meant.
-   */
+  // Silence one bus immediately — used by pause and by switching pieces.
   stopAll(busName = 'music') {
     if (!this.ctx) return;
     const now = this.ctx.currentTime;
@@ -251,14 +195,14 @@ export class AudioEngine {
    * @param {string} noteName  e.g. "E4", "D#5"
    * @param {number} at        seconds on the AudioContext clock
    * @param {number} duration  seconds the note is held
-   * @param {object} [opts]
-   * @param {object} [opts.instrument]  play on a timbre other than the chosen companion
-   * @param {string} [opts.bus]         'music' (default) or 'bed'
-   * @param {number} [opts.level]       multiplies the timbre's own gain; the bed is well under 1
+   * @param {number|object} [gainScale=1]  old numeric gain scale, or `{ instrument, bus, level }`
    */
-  playNote(noteName, at, duration, opts = {}) {
+  playNote(noteName, at, duration, gainScale = 1) {
+    const opts = typeof gainScale === 'object' && gainScale !== null
+      ? gainScale
+      : { level: gainScale };
     const instrument = opts.instrument || this.instrument;
-    if (!this.ctx || !instrument) return;
+    if (!this.ctx || !instrument || !this.buses) return;
     const busName = opts.bus || 'music';
     const bus = this.buses[busName];
     if (!bus) return;
@@ -296,7 +240,7 @@ export class AudioEngine {
     });
 
     const env = timbre.envelope;
-    const peak = (timbre.gain ?? 0.28) * (opts.level ?? 1);
+    const peak = (timbre.gain ?? 0.28) * Math.max(0, Math.min(1, opts.level ?? 1));
     const g = gain.gain;
     g.setValueAtTime(0.0001, at);
     g.linearRampToValueAtTime(peak, at + env.attack);
