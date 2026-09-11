@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Word Book</title>
+  <link rel="manifest" href="./manifest.webmanifest"/>
+  <link rel="stylesheet" href="./fonts.css"/>
+  <meta name="theme-color" content="#3a1e33"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Our Word Book"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'Nunito',sans-serif;min-height:100vh;color:#fff;
+      background:linear-gradient(170deg,#4a2340 0%,#3a1e33 55%,#2b1626 100%);
+    }
+    .wrap{
+      position:relative;z-index:1;min-height:100vh;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:26px;padding:32px 20px;
+    }
+    h1{font-weight:900;font-size:clamp(1.8rem,6vw,3rem);text-shadow:0 4px 12px rgba(0,0,0,.5);text-align:center}
+    h1 span{color:#ffd54f}
+    /* The same words the Our Word Book card on Children Games promises, so the page a
+       child lands on says what the card they tapped said it would -- the rule the Magic
+       Math front door set. */
+    .sub{
+      font-weight:800;font-size:clamp(1rem,3.4vw,1.3rem);opacity:.92;
+      margin-top:-14px;text-align:center;text-shadow:0 2px 8px rgba(0,0,0,.5);
+    }
+
+    /* FOUR SECTIONS, and room for the next one. Auto-fit, so a themed word game --
+       Mermaid Words is the one on the roadmap -- is a card added below and nothing
+       else: Children Games does not have to be touched, republished, or even know. */
+    .cards{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:20px;width:100%;max-width:900px;
+    }
+    .card{
+      display:flex;flex-direction:column;align-items:center;gap:12px;
+      padding:26px 18px 22px;border-radius:28px;
+      text-decoration:none;color:#fff;font-weight:900;font-size:1.2rem;text-align:center;
+      transition:transform .15s ease,box-shadow .15s ease;
+      text-shadow:0 2px 4px rgba(0,0,0,.35);
+      -webkit-tap-highlight-color:transparent;
+      /* 9.7" iPad portrait is 768px, so two cards sit side by side and a child's finger
+         gets a target well past 44px in both directions. Checked in pixels, not assumed. */
+      min-height:190px;
+    }
+    .card:hover{transform:translateY(-6px) scale(1.03)}
+    .card:active{transform:translateY(2px)}
+    .card:focus-visible{outline:5px solid #ffd54f;outline-offset:4px}
+    .card img{width:104px;height:104px;object-fit:contain;filter:drop-shadow(0 6px 12px rgba(0,0,0,.35))}
+    .card small{font-weight:700;font-size:.82rem;opacity:.92;max-width:22ch}
+
+    /* EACH SECTION KEEPS THE COLOUR ITS OLD HUB CARD WORE. Until 2026-09-09 Magic
+       Spelling was blue-violet, Writing Book pencil-gold and Spelling Exam coral on
+       Children Games. A child who knew those three cards finds the same three colours
+       here, one level down, which is the cheapest possible way to say "they are not
+       gone, they moved". Our Dictionary is new and takes the book's own berry. */
+    .c-dict  {background:linear-gradient(160deg,#d4739a,#a8386a);box-shadow:0 8px 0 #7b2049,0 14px 28px rgba(168,56,106,.35)}
+    .c-spell {background:linear-gradient(160deg,#a78bfa,#7c3aed);box-shadow:0 8px 0 #5b21b6,0 14px 28px rgba(124,58,237,.35)}
+    .c-write {background:linear-gradient(160deg,#f0c14b,#c98a10);box-shadow:0 8px 0 #96650a,0 14px 28px rgba(201,138,16,.35)}
+    .c-exam  {background:linear-gradient(160deg,#f79172,#e05a34);box-shadow:0 8px 0 #ad4022,0 14px 28px rgba(224,90,52,.35)}
+
+    footer{font-size:.8rem;font-weight:700;opacity:.72;text-align:center;max-width:44ch;line-height:1.5}
+
+    /* ── Back to Children Games ──
+       Top-left, 60px tall, arrow AND words -- the shape every app in this project uses,
+       copied deliberately from math-app/index.html rather than reinvented. The arrow is
+       for the child who cannot read yet and already knows what it does; the words are
+       for the one who can and wants to know where it goes. */
+    .hub-btn{
+      position:fixed;z-index:9;
+      top:calc(14px + env(safe-area-inset-top));
+      left:calc(14px + env(safe-area-inset-left));
+      display:inline-flex;align-items:center;gap:9px;
+      min-height:60px;padding:0 20px 0 16px;
+      border-radius:50px;
+      background:linear-gradient(135deg,#fff,#ffe9f1);
+      border:2.5px solid #e59bbb;box-shadow:0 4px 0 #e59bbb;
+      color:#a8386a;text-decoration:none;
+      font-family:inherit;font-weight:900;font-size:1rem;line-height:1;
+      white-space:nowrap;-webkit-tap-highlight-color:transparent;
+      transition:transform .1s;
+    }
+    .hub-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #e59bbb}
+    .hub-btn:focus-visible{outline:4px solid #ffd54f;outline-offset:3px}
+    .hub-btn svg{width:24px;height:24px;flex:none}
+    /* Narrow phones get the arrow alone. The words are the first thing to go, not the
+       target: the button keeps its height and the tap area with it. */
+    @media (max-width:420px){
+      .hub-btn{padding:0;width:60px;justify-content:center;gap:0}
+      .hub-btn span{display:none}
+    }
+    /* The heading clears the button on a narrow screen, where they would otherwise
+       share the top line. */
+    .wrap{padding-top:max(32px,calc(86px + env(safe-area-inset-top)))}
+
+    @media (prefers-reduced-motion:reduce){
+      .card{transition:none}
+      .card:hover{transform:none}
+    }
+  </style>
+</head>
+<body>
+
+<!-- The URL is absolute for the same reason every game's arrow is: published, the hub is
+     a sibling of this app (/word-book/ -> /children-apps/), but in the repo it lives
+     under site/, so a relative link would work live and 404 in every local preview. -->
+<a class="hub-btn" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <path d="M15 5 8 12l7 7"/>
+  </svg>
+  <span>Children Games</span>
+</a>
+
+<div class="wrap">
+  <h1>Our <span>Word Book</span></h1>
+  <p class="sub">Read, spell, write and discover words</p>
+
+  <div class="cards">
+    <!-- OUR DICTIONARY IS DELIBERATELY NOT HERE YET. The owner's own gate (2026-09-09,
+         enforced by check-word-data.py) is that Our Dictionary does not publish until every
+         concept is illustrated. That gate names Our Dictionary, not Our Word Book -- so this
+         front door ships first, on its own, to end a live 404 that had orphaned all three
+         apps below. The card goes back the moment the illustration gate passes, and nothing
+         else on this page changes. -->
+
+    <!-- STILL LIVES IN THE MATHS APP, and that is temporary.
+         Magic Spelling was never its own app: it is a page inside math-app/, shipping as
+         /magic-math/magic-spelling.html. The owner decided on 2026-09-09 that it moves here
+         and leaves a redirect behind -- which finishes their own 2026-08-26 line, "the url
+         say math app ... we shouldn't have the spelling there".
+         The move is specified and not yet done: it carries 740 tracked, PAID narration
+         clips, vendored React and Babel, the word list and three gates, and it needs
+         `word-book/narration/rendered` added to six hand-written paid-master path lists
+         BEFORE anything re-renders there. Sequenced deliberately rather than rushed --
+         see coordination/tasks/2026-09-09-1530-claudecode-our-word-book.md.
+         Until then this points at where the page actually is, so no child meets a 404.
+         When it moves, this href becomes `spelling.html` and nothing else here changes. -->
+    <a class="card c-spell" href="https://veeranuchlee.github.io/magic-math/magic-spelling.html">
+      <img src="assets/icons/spelling.webp" alt="" width="104" height="104"/>
+      Spelling
+      <small>Letters and words, grade by grade</small>
+    </a>
+
+    <!-- The two apps below are separate deploys in the same public repository, so their
+         links are absolute for the same reason the back arrow's is. -->
+    <a class="card c-write" href="https://veeranuchlee.github.io/writing-book/">
+      <img src="assets/icons/writing-book.webp" alt="" width="104" height="104"/>
+      Writing Book
+      <small>Trace words and fill your sticker book</small>
+    </a>
+
+    <a class="card c-exam" href="https://veeranuchlee.github.io/spelling-exam/">
+      <img src="assets/icons/spelling-exam.webp" alt="" width="104" height="104"/>
+      Spelling Exam
+      <small>See the picture, build the word, then spell it</small>
+    </a>
+  </div>
+
+  <footer>Made with love for little learners</footer>
+</div>
+<script>
+  /* Offline support. Registration is best-effort: opened straight from a file the
+     browser refuses it, and the book must still open. */
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('./service-worker.js').catch(function () {});
+    });
+  }
+</script>
+</body>
+</html>
