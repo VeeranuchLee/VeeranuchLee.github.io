@@ -68,7 +68,7 @@
  *                  fetches them any more, so precaching them would cost every install
  *                  50 KB for nothing.
  */
-const CACHE_NAME = "children-apps-v25";
+const CACHE_NAME = "children-apps-v26";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
