@@ -21,9 +21,17 @@
  *       apple-touch-icon.png joins the shell too — index.html has always linked
  *       it and it was never precached, so a cold offline install had no
  *       home-screen icon to fall back on.
+ *   v4  2026-09-12  Five skins. The dark console stays the default and is unchanged;
+ *               four cute pianos join it (moon bunny, coral whale, strawberry
+ *               picnic, woodland mushroom), each with its own background. Art is
+ *               lazy -- CSS never names the backgrounds or the two painted shells,
+ *               so a child who plays the classic console fetches none of ~1.9 MB.
+ *               The picker chips are CSS-drawn mini pianos, so no chip loads an
+ *               image either. The keybed is untouched geometry; a skin only changes
+ *               what is painted around and behind the keys.
  */
 
-const CACHE_NAME = "toy-keyboard-v3";
+const CACHE_NAME = "toy-keyboard-v4";
 
 const SHELL = [
   "./",
@@ -41,6 +49,13 @@ const SHELL = [
   "./assets/icons/icon-512.png",
   "./assets/icons/icon-512-maskable.png",
   "./assets/icons/apple-touch-icon.png",
+
+  "./assets/backgrounds/moon-bunny.jpg",
+  "./assets/backgrounds/strawberry-picnic.jpg",
+  "./assets/backgrounds/coral-whale.jpg",
+  "./assets/backgrounds/woodland-mushroom.jpg",
+  "./assets/pianos/moon-bunny-shell.png",
+  "./assets/pianos/coral-whale-shell.png",
 ];
 
 self.addEventListener("install", (event) => {

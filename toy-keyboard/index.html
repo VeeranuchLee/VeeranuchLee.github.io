@@ -17,10 +17,29 @@
 </head>
 <body>
 
+<nav id="skinPicker" aria-label="Choose a piano">
+  <button type="button" class="skin-choice classic" data-skin="classic" aria-label="Dark console" aria-pressed="true"><i aria-hidden="true"><b></b></i></button>
+  <button type="button" class="skin-choice moon-bunny" data-skin="moon-bunny" aria-label="Moon Bunny" aria-pressed="false"><i aria-hidden="true"><b></b></i></button>
+  <button type="button" class="skin-choice strawberry-picnic" data-skin="strawberry-picnic" aria-label="Strawberry Picnic" aria-pressed="false"><i aria-hidden="true"><b></b></i></button>
+  <button type="button" class="skin-choice coral-whale" data-skin="coral-whale" aria-label="Coral Whale" aria-pressed="false"><i aria-hidden="true"><b></b></i></button>
+  <button type="button" class="skin-choice woodland-mushroom" data-skin="woodland-mushroom" aria-label="Woodland Mushroom" aria-pressed="false"><i aria-hidden="true"><b></b></i></button>
+</nav>
+
 <main id="console" aria-label="Keyboard">
 
   <!-- The LED edge: one lit strip around the top of the console. -->
   <div id="edge" aria-hidden="true"></div>
+
+  <!-- Owner, 2026-08-26: "add back button to test hub for the test apps too." This app is
+       carded on the Test Hub without one, and unlike the others it has no menu screen to
+       hang it on — the console IS the app, so there is no way out at all once it is
+       installed and the browser chrome goes away. It sits on the left speaker pod, which
+       is decoration rather than a control, so nothing a child plays with moves to make
+       room. Absolute URL on purpose: published, /toy-keyboard/ and /test-apps/ are
+       siblings, but in the repo the hub lives under site/, so a relative link would work
+       live and 404 in every local preview. Carries `hub-btn` so the promotion check greps
+       a class and not a URL — a card has moved hubs without its arrow before. -->
+  <a id="hub" class="hub-btn" href="https://veeranuchlee.github.io/test-apps/" aria-label="Back to Test Apps">←</a>
 
   <!-- Control deck: speakers, screen, sounds, effects. Every control drawn
        here is a real control — nothing decorative pretends to be a button. -->
@@ -57,6 +76,10 @@
 
     <div class="speaker right" aria-hidden="true"><div class="grille"></div></div>
   </section>
+
+  <!-- Loaded only for the two illustrated skins that need it. Its transparent
+       opening is decoration behind the live key geometry, never a target. -->
+  <img id="pianoShell" alt="" aria-hidden="true"/>
 
   <!-- The keybed. Keys are laid out by app.js (49 keys, C3 to C7); touch
        handling is one geometry pass over this element, so every finger is a

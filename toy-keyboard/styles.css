@@ -33,6 +33,152 @@ body {
   overflow: hidden;
 }
 
+/* Five one-tap pianos. The chips are deliberately pictures, not a reading
+   task, and each measured box is 52px on the target iPad. */
+#skinPicker {
+  position: fixed;
+  z-index: 20;
+  top: max(10px, env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  padding: 6px;
+  border-radius: 999px;
+  background: rgba(12, 14, 22, 0.76);
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(8px);
+}
+.skin-choice {
+  appearance: none;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: 3px solid transparent;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #232731;
+  box-shadow: 0 2px 5px rgba(0,0,0,.3), inset 0 1px rgba(255,255,255,.25);
+}
+.skin-choice i {
+  position: relative;
+  width: 35px;
+  height: 23px;
+  border-radius: 7px 7px 5px 5px;
+  display: block;
+  background: var(--piano-case);
+  box-shadow: inset 0 -2px rgba(0,0,0,.16), 0 2px 2px rgba(0,0,0,.25);
+}
+/* Every choice is the piano it opens. The tiny keybed is shared live CSS, so
+   it adds no eager request for the full-size skin art. */
+.skin-choice i b {
+  position: absolute;
+  z-index: 2;
+  left: 4px;
+  right: 4px;
+  bottom: 3px;
+  height: 9px;
+  border: 1px solid rgba(0,0,0,.35);
+  border-radius: 1px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 3px, #252733 3px 4px),
+    #fffdf4;
+}
+.skin-choice i b::after {
+  content: "";
+  position: absolute;
+  inset: 0 1px 4px;
+  background: repeating-linear-gradient(90deg, transparent 0 3px, #20222b 3px 5px, transparent 5px 7px);
+}
+.skin-choice.classic { --piano-case: linear-gradient(#343946, #151820); background: #232731; }
+.skin-choice.classic i { border: 1px solid #59606f; border-radius: 3px; }
+.skin-choice.classic i::before { content: ""; position: absolute; left: 13px; top: 3px; width: 9px; height: 4px; border-radius: 1px; background: #183c40; }
+.skin-choice.moon-bunny { --piano-case: linear-gradient(#7567c9, #241a52); background: #30245f; }
+.skin-choice.moon-bunny i::before,
+.skin-choice.moon-bunny i::after { content: ""; position: absolute; top: -7px; width: 8px; height: 13px; border-radius: 80% 80% 35% 35%; background: #c9b9ff; }
+.skin-choice.moon-bunny i::before { left: 6px; transform: rotate(-12deg); }
+.skin-choice.moon-bunny i::after { right: 6px; transform: rotate(12deg); }
+.skin-choice.strawberry-picnic { --piano-case: linear-gradient(#ffb6c1 0 40%, #fff1d6 40%); background: #dff3c9; }
+.skin-choice.strawberry-picnic i { border-left: 4px solid #f45b69; border-right: 4px solid #f45b69; }
+.skin-choice.strawberry-picnic i::before { content: ""; position: absolute; z-index: 3; right: -2px; top: -4px; width: 8px; height: 6px; border-radius: 70% 15% 70% 15%; background: #70b77e; transform: rotate(-20deg); }
+.skin-choice.coral-whale { --piano-case: linear-gradient(#5fcad1, #176b87); background: #d9f5ef; }
+.skin-choice.coral-whale i { border-radius: 10px 12px 6px 8px; }
+.skin-choice.coral-whale i::before { content: ""; position: absolute; left: -7px; top: -5px; width: 12px; height: 14px; background: #5fcad1; clip-path: polygon(100% 52%, 0 0, 22% 50%, 0 100%); }
+.skin-choice.coral-whale i::after { content: ""; position: absolute; z-index: 3; right: 5px; top: 5px; width: 3px; height: 3px; border-radius: 50%; background: #102f3c; }
+.skin-choice.woodland-mushroom { --piano-case: linear-gradient(#83a95c 0 45%, #f3c77b 45%); background: #315b43; }
+.skin-choice.woodland-mushroom i { border-left: 5px solid #d96c4b; border-right: 5px solid #d96c4b; border-radius: 9px 9px 5px 5px; }
+.skin-choice.woodland-mushroom i::before,
+.skin-choice.woodland-mushroom i::after { content: ""; position: absolute; z-index: 3; top: 3px; width: 3px; height: 3px; border-radius: 50%; background: #f7e8c6; }
+.skin-choice.woodland-mushroom i::before { left: -4px; }
+.skin-choice.woodland-mushroom i::after { right: -4px; }
+.skin-choice[aria-pressed="true"] { border-color: #fff; box-shadow: 0 0 0 3px rgba(64,214,255,.7), 0 3px 8px rgba(0,0,0,.35); }
+.skin-choice:focus-visible { outline: 4px solid #fff; outline-offset: 3px; }
+
+body:not([data-skin="classic"]) {
+  background-image: linear-gradient(rgba(255,255,255,.04), rgba(255,255,255,.04)), var(--skin-background);
+  background-size: cover;
+  background-position: center center;
+}
+
+#pianoShell { display: none; }
+
+/* Cute skins change only what is painted around the controls and keys. The
+   live keybed keeps the same element, layout routine and hit-test. */
+body:not([data-skin="classic"]) #console {
+  border-color: rgba(255,255,255,.5);
+  overflow: visible;
+}
+body:not([data-skin="classic"]) #edge { opacity: .35; }
+body[data-skin="moon-bunny"] #console { background: linear-gradient(#7567c9, #241a52); box-shadow: 0 18px 50px rgba(25,13,65,.48); }
+body[data-skin="moon-bunny"] #deck { filter: hue-rotate(28deg) saturate(.75) brightness(1.25); }
+body[data-skin="coral-whale"] #console { background: linear-gradient(#5fcad1, #176b87); box-shadow: 0 18px 50px rgba(13,75,89,.42); }
+body[data-skin="coral-whale"] #deck { filter: hue-rotate(145deg) saturate(.72) brightness(1.22); }
+body[data-skin="moon-bunny"] #pianoShell,
+body[data-skin="coral-whale"] #pianoShell {
+  display: block;
+  position: absolute;
+  z-index: 1;
+  left: -1.5%;
+  bottom: -2.5%;
+  width: 103%;
+  height: auto;
+  pointer-events: none;
+}
+body:not([data-skin="classic"]) #deck,
+body:not([data-skin="classic"]) #keybed { position: relative; z-index: 2; }
+body:not([data-skin="classic"]) #keybed { margin: 2.5% 6% 1%; }
+
+/* The model plate belongs to the older-child console. On the painted and
+   picnic-toy cases it competed with the characters while being too faint to
+   read, so it is deliberately absent rather than accidentally ghosted. The
+   Master label is functional and stays, with explicit light contrast on the
+   filtered cute-skin deck. Buttons and LCD copy already sit on their own dark
+   surfaces and keep their established colours. */
+body:not([data-skin="classic"]) #brand { visibility: hidden; }
+body:not([data-skin="classic"]) #volWrap { color: #f7f5ff; }
+
+body[data-skin="strawberry-picnic"] #console {
+  background: linear-gradient(#ffb6c1 0 23%, #fff1d6 23% 100%);
+  border: 14px solid #f45b69;
+  border-radius: 34px;
+  box-shadow: inset 0 0 0 7px #dff3c9, 0 18px 44px rgba(111,58,48,.32);
+}
+body[data-skin="strawberry-picnic"] #console::after {
+  content: ""; position: absolute; z-index: 3; right: 3%; top: 21%; width: 34px; height: 28px;
+  border-radius: 65% 12% 65% 12%; background: #70b77e; transform: rotate(-18deg); pointer-events: none;
+}
+body[data-skin="woodland-mushroom"] #console {
+  background: linear-gradient(#83a95c 0 25%, #f3c77b 25% 34%, #315b43 34% 100%);
+  border: 14px solid #d96c4b;
+  border-radius: 42px 42px 28px 28px;
+  box-shadow: inset 0 0 0 7px #f7e8c6, 0 18px 44px rgba(34,69,45,.38);
+}
+body[data-skin="woodland-mushroom"] #console::after {
+  content: ""; position: absolute; inset: -8px; border-radius: inherit; pointer-events: none; z-index: 3;
+  background: radial-gradient(circle at 3% 18%, #f7e8c6 0 6px, transparent 7px), radial-gradient(circle at 97% 18%, #f7e8c6 0 6px, transparent 7px);
+}
+
 #console {
   /* The instrument: a wide dark slab. It keeps the reference console's
      proportions (about 2.2 : 1) and never grows past the room. */
@@ -69,6 +215,32 @@ body {
 }
 
 /* ------------------------------------------------------------- the deck --- */
+
+/* The way out of the app. Drawn as one more piece of console gear — the same dark slab
+   and hairline border as the sound buttons — so it belongs to the instrument rather than
+   floating over it, and placed on the left speaker pod, which is decoration rather than a
+   control, so nothing a child presses moves to make room. Sized from `max(44px, ...)` and
+   not from vmin alone: 4.4vmin on the 9.7" iPad is 34px, under the 44px this repository
+   holds itself to for anything a child has to hit. It clears #edge on purpose — the lit
+   strip ends around 13px down. */
+#hub {
+  position: absolute;
+  left: clamp(10px, 2vmin, 24px);
+  top: clamp(15px, 2.7vmin, 30px);
+  z-index: 3;
+  width: max(44px, 4.4vmin); height: max(44px, 4.4vmin);
+  display: grid; place-items: center;
+  border: 1px solid #0d0f15;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #2a2e39, #20232d);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+  color: #aab1c4;
+  font-size: clamp(18px, 2.6vmin, 24px);
+  line-height: 1;
+  text-decoration: none;
+}
+#hub:active { transform: translateY(1px); color: #eef1f8; }
+#hub:focus-visible { outline: 3px solid #40d6ff; outline-offset: 2px; }
 
 #deck {
   flex: 0 0 auto;
@@ -372,4 +544,13 @@ body {
      actually presses fought over the rest. Same three zones, same layout —
      the pods just give their width back to the deck where it is needed. */
   #deck { grid-template-columns: minmax(0, 0.5fr) minmax(0, 5fr) minmax(0, 0.5fr); }
+
+  /* The shell well is shallow by design: it receives the back of the long
+     live keys, which project toward the player. Register its top edge to the
+     keybed instead of parking the whole bitmap underneath the opaque bed.
+     The subtraction is the skin-specific portion of the proportional shell
+     below the well's top (measured from each 1200px source). Key width and
+     height are untouched, so the 49-key layout and hit-test do not move. */
+  body[data-skin="moon-bunny"] #pianoShell { bottom: calc(42vh - 13.4vw); }
+  body[data-skin="coral-whale"] #pianoShell { bottom: calc(42vh - 15vw); }
 }

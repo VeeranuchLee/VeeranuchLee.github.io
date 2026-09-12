@@ -25,6 +25,52 @@
 
   const keybed = document.getElementById("keybed");
 
+  /* ------------------------------------------------------------- skins --- */
+
+  const SKIN_KEY = "toy-keyboard-skin";
+  const SKINS = {
+    classic: {},
+    "moon-bunny": {
+      background: "./assets/backgrounds/moon-bunny.jpg",
+      shell: "./assets/pianos/moon-bunny-shell.png",
+    },
+    "strawberry-picnic": { background: "./assets/backgrounds/strawberry-picnic.jpg" },
+    "coral-whale": {
+      background: "./assets/backgrounds/coral-whale.jpg",
+      shell: "./assets/pianos/coral-whale-shell.png",
+    },
+    "woodland-mushroom": { background: "./assets/backgrounds/woodland-mushroom.jpg" },
+  };
+  const shell = document.getElementById("pianoShell");
+  const skinChoices = [...document.querySelectorAll(".skin-choice")];
+
+  function applySkin(id, persist = true) {
+    const skin = SKINS[id] ? id : "classic";
+    const art = SKINS[skin];
+    document.body.dataset.skin = skin;
+    /* URLs are assigned only after selection. CSS never mentions the four
+       full-size backgrounds or two shells, so unopened skins fetch no art. */
+    if (art.background) document.body.style.setProperty("--skin-background", `url("${art.background}")`);
+    else document.body.style.removeProperty("--skin-background");
+    if (art.shell) {
+      if (shell.getAttribute("src") !== art.shell) shell.setAttribute("src", art.shell);
+    } else {
+      shell.removeAttribute("src");
+    }
+    skinChoices.forEach((button) => {
+      button.setAttribute("aria-pressed", String(button.dataset.skin === skin));
+    });
+    if (persist) {
+      try { localStorage.setItem(SKIN_KEY, skin); } catch (e) { /* private mode */ }
+    }
+  }
+
+  skinChoices.forEach((button) => button.addEventListener("click", () => applySkin(button.dataset.skin)));
+
+  let savedSkin = "classic";
+  try { savedSkin = localStorage.getItem(SKIN_KEY) || "classic"; } catch (e) { /* private mode */ }
+  applySkin(savedSkin, false);
+
   /* White keys are laid out in one row; black keys sit between their
      neighbours, overlapping the top of the row. The geometry is computed,
      not measured per element, so hit-testing during a slide is exact and
