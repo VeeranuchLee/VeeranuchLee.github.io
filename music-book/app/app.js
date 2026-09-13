@@ -165,6 +165,27 @@ const WING_STYLE = {
 };
 const wingStyle = (id) => WING_STYLE[id] ?? { background: 'assets/backgrounds/garden-green.webp', focus: 'center', accent: '#22385a' };
 
+// Owner, 2026-09-13: "use bg." — the painted room plates go on their rooms'
+// screens (1448×1086, the stage's own 4:3, so `cover` shows the whole picture).
+// Room 14 is wired like the rest: its plate is being redrawn in the book's
+// style under the same file name and drops in without a code change. Rooms
+// without a plate (1, 13, 15-18, 20-24) keep their wing's wash.
+const ROOM_BACKGROUND = {
+  'playground-of-patterns': { background: 'assets/backgrounds/r02-playground-of-patterns-background.webp', focus: '50% 45%' },
+  'steps-beats-marches': { background: 'assets/backgrounds/r03-steps-beats-marches-background.webp', focus: '50% 45%' },
+  'home-distance-belonging': { background: 'assets/backgrounds/r04-home-distance-belonging-background.webp', focus: '50% 45%' },
+  'gardens-season-memory': { background: 'assets/backgrounds/r05-gardens-season-memory-background.webp', focus: '50% 45%' },
+  'southeast-asian-courtyard': { background: 'assets/backgrounds/r06-southeast-asian-courtyard-background.webp', focus: '50% 45%' },
+  'roads-prayer-city-sea': { background: 'assets/backgrounds/r07-roads-prayer-city-sea-background.webp', focus: '50% 45%' },
+  'songs-that-transform': { background: 'assets/backgrounds/r08-songs-that-transform-background.webp', focus: '50% 45%' },
+  'when-song-means-home': { background: 'assets/backgrounds/r09-when-a-song-means-home-background.webp', focus: '50% 45%' },
+  'celebration-square': { background: 'assets/backgrounds/r10-celebration-square-background.webp', focus: '50% 45%' },
+  'winter-lanterns': { background: 'assets/backgrounds/r11-winter-lanterns-background.webp', focus: '50% 45%' },
+  'baroque-pattern-workshop': { background: 'assets/backgrounds/r12-baroque-pattern-workshop-background.webp', focus: '50% 45%' },
+  'vienna-classical-city': { background: 'assets/backgrounds/r14-vienna-classical-city-background.webp', focus: '50% 45%' },
+  'ballet-kingdom': { background: 'assets/backgrounds/r19-ballet-kingdom-background.webp', focus: '50% 45%' }
+};
+
 // ── companion presence ───────────────────────────────────────────────────────
 
 function companionCorner(line) {
@@ -296,6 +317,10 @@ function renderRoom() {
   const wing = wingById(room.wingId);
   const c = companionById(journey.companionId);
   const style = wingStyle(room.wingId);
+  // Owner, 2026-09-13: "use bg." A room with its own painting wears it; the
+  // accent colour stays the wing's either way — a painting is a picture, not
+  // a palette.
+  const art = ROOM_BACKGROUND[room.id];
   const pieces = room.pieceIds.map(pieceById).filter(Boolean);
 
   // The pager page never outlives the room it belongs to: clamped here on
@@ -305,7 +330,11 @@ function renderRoom() {
   const shown = pieces.slice(journey.page * PAGE_SIZE, journey.page * PAGE_SIZE + PAGE_SIZE);
 
   stage.className = 'stage stage--room';
-  stage.style.backgroundImage = `url(${style.background})`;
+  // With a painting the focus is its own; without one the position goes back
+  // to the stylesheet, whose `center` is exactly what the wing wash has always
+  // shown. (`cover` on 4:3 art in a 4:3 stage leaves no slack either way.)
+  stage.style.backgroundImage = `url(${art ? art.background : style.background})`;
+  stage.style.backgroundPosition = art ? art.focus : '';
   stage.innerHTML = `
     <div class="scrim">
       <div class="topbar">
