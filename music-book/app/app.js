@@ -168,8 +168,9 @@ const wingStyle = (id) => WING_STYLE[id] ?? { background: 'assets/backgrounds/ga
 // Owner, 2026-09-13: "use bg." — the painted room plates go on their rooms'
 // screens (1448×1086, the stage's own 4:3, so `cover` shows the whole picture).
 // Room 14 is wired like the rest: its plate is being redrawn in the book's
-// style under the same file name and drops in without a code change. Rooms
-// without a plate (1, 13, 15-18, 20-24) keep their wing's wash.
+// style under the same file name and drops in without a code change. Rooms 13,
+// 16 and 17 gained their plates on 2026-09-13. Rooms without one (1, 15, 18,
+// 20-24) keep their wing's wash.
 const ROOM_BACKGROUND = {
   'playground-of-patterns': { background: 'assets/backgrounds/r02-playground-of-patterns-background.webp', focus: '50% 45%' },
   'steps-beats-marches': { background: 'assets/backgrounds/r03-steps-beats-marches-background.webp', focus: '50% 45%' },
@@ -182,9 +183,40 @@ const ROOM_BACKGROUND = {
   'celebration-square': { background: 'assets/backgrounds/r10-celebration-square-background.webp', focus: '50% 45%' },
   'winter-lanterns': { background: 'assets/backgrounds/r11-winter-lanterns-background.webp', focus: '50% 45%' },
   'baroque-pattern-workshop': { background: 'assets/backgrounds/r12-baroque-pattern-workshop-background.webp', focus: '50% 45%' },
+  'baroque-stage-seasons-water-fireworks': { background: 'assets/backgrounds/r13-baroque-stage-seasons-water-fireworks-background.webp', focus: '50% 45%' },
   'vienna-classical-city': { background: 'assets/backgrounds/r14-vienna-classical-city-background.webp', focus: '50% 45%' },
+  'music-learns-to-sing': { background: 'assets/backgrounds/r16-music-learns-to-sing-background.webp', focus: '50% 45%' },
+  'piano-diary': { background: 'assets/backgrounds/r17-piano-diary-background.webp', focus: '50% 45%' },
   'ballet-kingdom': { background: 'assets/backgrounds/r19-ballet-kingdom-background.webp', focus: '50% 45%' }
 };
+
+// Owner, 2026-09-13: "let's also make arts for these cards." — the room-selection
+// cards on the wing screen, which until now were a flat slate gradient with text
+// on it. A card is NOT the room's background shrunk: measured in Chrome, a card
+// is 303×195 CSS px at 768×1024 and 404×261 at 1024×768, so ~1.55:1 — a wide,
+// short thumbnail, against the room plate's 4:3. The art is painted for that
+// shape, with the incident in the left and right thirds and a calm middle,
+// because the number/title/subtitle/count sit over the centre in cream.
+// Keyed by room id and kept out of data/rooms.js on purpose: that file is
+// generated from the private curation sources and tools/check-rooms.mjs rebuilds
+// it, so an art path added there would be lost on the next regenerate. Same
+// keying and shape as ROOM_BACKGROUND above. Wing 1 only for now — the other
+// twenty rooms fall back to the plain card until their art is made.
+const ROOM_CARD = {
+  'melody-detective-workshop': { card: 'assets/room-cards/r01-melody-detective-workshop-card.webp', focus: '50% 50%' },
+  'playground-of-patterns': { card: 'assets/room-cards/r02-playground-of-patterns-card.webp', focus: '50% 50%' },
+  'steps-beats-marches': { card: 'assets/room-cards/r03-steps-beats-marches-card.webp', focus: '50% 50%' },
+  'home-distance-belonging': { card: 'assets/room-cards/r04-home-distance-belonging-card.webp', focus: '50% 50%' }
+};
+
+// A relative url() carried inside a custom property is resolved against the
+// STYLESHEET that substitutes it, not against the element or the document — so
+// `--card-art:url(assets/...)` read by app/styles.css asks the server for
+// app/assets/… and 404s. Caught by reading the network log, not the DOM: the
+// DOM looked right and the card quietly showed the stage behind it. Resolving to
+// an absolute href here removes the question, and stays correct both at
+// /music-book/ locally and wherever the app is published.
+const cardArtUrl = (path) => new URL(path, document.baseURI).href;
 
 // ── companion presence ───────────────────────────────────────────────────────
 
@@ -284,8 +316,9 @@ function renderWing() {
       <div class="room-grid">
         ${wing.roomIds.map((roomId) => {
           const room = roomById(roomId);
+          const card = ROOM_CARD[room.id];
           return `
-          <button class="room-card" data-room="${room.id}" style="--accent:${style.accent}">
+          <button class="room-card${card ? ' room-card--art' : ''}" data-room="${room.id}" style="--accent:${style.accent}${card ? `;--card-art:url(&quot;${cardArtUrl(card.card)}&quot;);--card-focus:${card.focus}` : ''}">
             <span class="room-card__number">Room ${room.number}</span>
             <span class="room-card__title">${room.title}</span>
             <span class="room-card__subtitle">${room.subtitle}</span>

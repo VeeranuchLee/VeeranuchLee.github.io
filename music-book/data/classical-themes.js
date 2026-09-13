@@ -193,7 +193,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'vivaldi-spring-1',
-    art: null,
+    art: 'assets/bubbles/vivaldi-spring-1.webp',
     composerId: 'vivaldi',
     title: 'The Four Seasons — Spring',
     shortTitle: 'Spring',
@@ -230,7 +230,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'vivaldi-summer-storm',
-    art: null,
+    art: 'assets/bubbles/vivaldi-summer-storm.webp',
     composerId: 'vivaldi',
     title: 'The Four Seasons — Summer Storm',
     shortTitle: 'Summer Storm',
@@ -267,7 +267,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'vivaldi-winter-1',
-    art: null,
+    art: 'assets/bubbles/vivaldi-winter-1.webp',
     composerId: 'vivaldi',
     title: 'The Four Seasons — Winter',
     shortTitle: 'Winter',
@@ -304,7 +304,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'handel-hallelujah-chorus',
-    art: null,
+    art: 'assets/bubbles/handel-hallelujah-chorus.webp',
     composerId: 'handel',
     title: 'Messiah — Hallelujah Chorus',
     shortTitle: 'Hallelujah',
@@ -341,7 +341,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'handel-water-music-hornpipe',
-    art: null,
+    art: 'assets/bubbles/handel-water-music-hornpipe.webp',
     composerId: 'handel',
     title: 'Water Music — Hornpipe',
     shortTitle: 'Hornpipe',
@@ -377,7 +377,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'handel-royal-fireworks-rejouissance',
-    art: null,
+    art: 'assets/bubbles/handel-royal-fireworks-rejouissance.webp',
     composerId: 'handel',
     title: 'Music for the Royal Fireworks — La Réjouissance',
     shortTitle: 'La Réjouissance',
@@ -748,7 +748,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'schubert-ave-maria',
-    art: null,
+    art: 'assets/bubbles/schubert-ave-maria.webp',
     composerId: 'schubert',
     title: 'Ave Maria',
     alternateTitles: [],
@@ -782,7 +782,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'schubert-die-forelle',
-    art: null,
+    art: 'assets/bubbles/schubert-die-forelle.webp',
     composerId: 'schubert',
     title: 'The Trout',
     shortTitle: 'The Trout',
@@ -817,7 +817,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'mendelssohn-wedding-march',
-    art: null,
+    art: 'assets/bubbles/mendelssohn-wedding-march.webp',
     composerId: 'mendelssohn',
     title: 'Wedding March',
     alternateTitles: [],
@@ -851,7 +851,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'mendelssohn-spring-song',
-    art: null,
+    art: 'assets/bubbles/mendelssohn-spring-song.webp',
     composerId: 'mendelssohn',
     title: 'Spring Song',
     alternateTitles: [],
@@ -885,7 +885,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'mendelssohn-violin-concerto-opening',
-    art: null,
+    art: 'assets/bubbles/mendelssohn-violin-concerto-opening.webp',
     composerId: 'mendelssohn',
     title: 'Violin Concerto — opening',
     shortTitle: 'Violin Concerto',
@@ -920,7 +920,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'chopin-nocturne-op9-no2',
-    art: null,
+    art: 'assets/bubbles/chopin-nocturne-op9-no2.webp',
     composerId: 'chopin',
     title: 'Nocturne in E-flat, Op. 9 No. 2',
     shortTitle: 'Nocturne Op. 9 No. 2',
@@ -955,7 +955,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'chopin-minute-waltz',
-    art: null,
+    art: 'assets/bubbles/chopin-minute-waltz.webp',
     composerId: 'chopin',
     title: 'Minute Waltz',
     alternateTitles: [],
@@ -993,7 +993,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'chopin-raindrop-prelude',
-    art: null,
+    art: 'assets/bubbles/chopin-raindrop-prelude.webp',
     composerId: 'chopin',
     title: 'Raindrop Prelude',
     alternateTitles: [],
@@ -1030,7 +1030,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'chopin-fantaisie-impromptu',
-    art: null,
+    art: 'assets/bubbles/chopin-fantaisie-impromptu.webp',
     composerId: 'chopin',
     title: 'Fantaisie-Impromptu',
     alternateTitles: [],
@@ -1063,7 +1063,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'schumann-traumerei',
-    art: null,
+    art: 'assets/bubbles/schumann-traumerei.webp',
     composerId: 'schumann',
     title: 'Träumerei',
     alternateTitles: [],
@@ -1097,7 +1097,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'schumann-happy-farmer',
-    art: null,
+    art: 'assets/bubbles/schumann-happy-farmer.webp',
     composerId: 'schumann',
     title: 'The Happy Farmer',
     alternateTitles: [],
@@ -1133,7 +1133,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'schumann-foreign-lands-people',
-    art: null,
+    art: 'assets/bubbles/schumann-foreign-lands-people.webp',
     composerId: 'schumann',
     title: 'Of Foreign Lands and People',
     alternateTitles: [],

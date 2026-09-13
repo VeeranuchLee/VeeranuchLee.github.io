@@ -305,32 +305,101 @@ body {
   margin-top: 3px; font-size: clamp(9px, 1.05vw, 12px); font-weight: 700; opacity: .75;
 }
 
+/* ── a room card that has its own painting ───────────────────────────────────
+   Owner, 2026-09-13: "let's also make arts for these cards." The art replaces
+   the slate gradient and nothing else: same box, same four text slots, same tap
+   target (303×195 CSS px at 768 wide, 404×261 at 1024 wide — deliberately not
+   shrunk to make room for a picture). app.js passes the file as --card-art.
+
+   The scrim is not decoration. The title, subtitle and count are cream (#fff8e6)
+   lying directly over the middle of the painting, so the middle band is darkened
+   to ~.62 and the two ends are left nearly clear — the art is composed with its
+   incident at the left and right thirds for exactly this. Measured on the four
+   Wing 1 cards, every text span clears WCAG AA contrast against the pixels
+   actually behind it; the text-shadow is the second line of defence for a future
+   card whose centre comes back lighter than briefed.
+
+   `background-image` here overrides the shorthand in `.room-card` above by
+   source order (both are one class, so specificity ties). The wing's accent
+   gradient is repeated as the bottom layer on purpose: a card whose webp 404s
+   then falls back to the tinted plate it had before, instead of going
+   transparent and letting the stage painting show through the scrim — which is
+   what a missing file actually looked like while this was being built. */
+.room-card--art {
+  background-image:
+    linear-gradient(180deg,
+      rgba(13, 18, 36, .12) 0%,
+      rgba(13, 18, 36, .52) 30%,
+      rgba(13, 18, 36, .56) 68%,
+      rgba(13, 18, 36, .20) 100%),
+    var(--card-art),
+    linear-gradient(165deg,
+      color-mix(in srgb, var(--accent, #22385a) 62%, #1d2544),
+      color-mix(in srgb, var(--accent, #22385a) 30%, #1d2544));
+  background-size: 100% 100%, cover, 100% 100%;
+  background-position: center, var(--card-focus, 50% 50%), center;
+  background-repeat: no-repeat;
+  text-shadow: 0 1px 3px rgba(10, 14, 28, .8);
+}
+.room-card--art .room-card__number { opacity: .95; }
+.room-card--art .room-card__subtitle { opacity: 1; }
+.room-card--art .room-card__count { opacity: .92; }
+
 /* ── a room (its pieces) ──────────────────────────────────────────────────── */
 
 .room-body { flex: 1; display: flex; gap: 2%; padding: 1.6% 0 0; min-height: 0; }
 
+/* The field is a fixed box on a stage that cannot scroll, so the rows have to
+   fit INSIDE it. They used to be auto-sized: six bubbles with a name plate and
+   two stacked mode buttons came to 520px of rows in a 385px box, and
+   `align-content: center` on an overflowing grid spills the excess equally in
+   BOTH directions — 67px of discs above the field, on top of the room's banner,
+   and 67px below it, on the connections strip. Measured 2026-09-13 at 768×1024:
+   17 of 24 rooms covered their own title, and in 16 of them a disc sat on the
+   back arrow and swallowed the tap that leaves the room.
+   `minmax(0, 1fr)` is the fix: a row can never be taller than its share of the
+   box, so nothing is ever painted outside it. What gives way inside the row is
+   the picture (see `.bubble__disc`), never a tap target. */
 .bubble-field {
   flex: 1;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
+  grid-auto-rows: minmax(0, 1fr);
   gap: 2% 3%;
   align-content: center;
-  justify-items: center;
+  /* `stretch`, not `center`: the bubble is its column, which gives it the
+     definite width `100cqw` below is measured against. */
+  justify-items: stretch;
   min-height: 0;
 }
 
-.bubble { display: flex; flex-direction: column; align-items: center; }
+.bubble {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  height: 100%; min-height: 0;
+  container-type: inline-size;
+}
+
+/* The name plate and the mode buttons are what a child aims a finger at, so
+   they are never shrunk — `flex: 0 0 auto` takes them out of the shrink pass. */
+.bubble__name, .bubble__modes { flex: 0 0 auto; }
 
 .bubble__disc {
   position: relative;
-  width: min(19vh, 100%); aspect-ratio: 1;
+  /* Sized by HEIGHT, not width, so the flex column can shrink it when the row
+     is short, and kept square by `aspect-ratio` so it shrinks as a disc. The
+     starting height is the old width rule — `100cqw` is this bubble's column —
+     so every room that already fitted is pixel-identical. A tap target that
+     gives ground is still enormous next to a fingertip; the art inside it is
+     what gets smaller. */
+  flex: 0 1 auto;
+  height: min(19vh, 100cqw); width: auto; aspect-ratio: 1;
   padding: 0; border: 0; border-radius: 50%;
   background: #dcd2bb;
   box-shadow: var(--frame);
   cursor: pointer; overflow: hidden;
   transition: transform .15s ease;
 }
-.bubble--large .bubble__disc { width: min(23vh, 100%); }
+.bubble--large .bubble__disc { height: min(23vh, 100cqw); }
 .bubble__disc:hover { transform: scale(1.035); }
 .bubble__disc:active { transform: scale(.98); }
 .bubble__art { width: 100%; height: 100%; object-fit: cover; display: block; }
