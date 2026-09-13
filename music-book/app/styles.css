@@ -46,10 +46,50 @@ body {
   padding: 2.2% 3%;
 }
 
+#chrome {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: min(100vw, calc(100vh * 4 / 3));
+  height: min(100vh, calc(100vw * 3 / 4));
+  pointer-events: none;
+  z-index: 15;
+}
+
+.chrome-btn {
+  position: absolute;
+  right: 1.8%;
+  bottom: 1.8%;
+  min-width: 56px;
+  height: 48px;
+  padding: 0 14px;
+  pointer-events: auto;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #fdf6e3, #ecdcb6);
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+  color: var(--ink);
+  font: inherit;
+  font-size: clamp(12px, 1.35vw, 15px);
+  font-weight: 800;
+  cursor: pointer;
+}
+.chrome-btn:active { transform: scale(.96); }
+.chrome-btn.is-nudged { animation: nudge .75s ease-out 2; }
+.chrome-btn[aria-pressed="false"] {
+  background: linear-gradient(180deg, #e6e2d6, #cfc9b6);
+  box-shadow: 0 0 0 3px #a99a6e, var(--shadow);
+}
+@keyframes nudge {
+  0%, 100% { box-shadow: 0 0 0 3px var(--gold), var(--shadow); }
+  40% { box-shadow: 0 0 0 4px #ffcf5c, 0 0 22px 8px rgba(255, 207, 92, .7), var(--shadow); }
+}
+
 /* ── landing ──────────────────────────────────────────────────────────────── */
 
 .stage--landing .scrim {
   align-items: center;
+  padding-bottom: 8.5%;
   background: radial-gradient(ellipse at 50% 38%, rgba(255,252,244,.72) 0%, rgba(255,252,244,.42) 45%, rgba(255,252,244,.12) 75%);
 }
 
@@ -65,6 +105,23 @@ body {
 }
 .hero__line { display: block; }
 .hero__sub { margin: 0; font-size: clamp(12px, 1.8vw, 20px); color: var(--ink-soft); }
+
+.listen-cue {
+  display: block;
+  min-height: 44px;
+  margin: .5em auto 0;
+  padding: 6px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #fff6dd, #f3e3b6);
+  box-shadow: 0 0 0 2.5px var(--gold), var(--shadow);
+  color: var(--ink);
+  font: inherit;
+  font-size: clamp(11px, 1.5vw, 17px);
+  font-weight: 800;
+  cursor: pointer;
+}
+.listen-cue:active { transform: scale(.97); }
 
 /* Three across, two down. Six across made each card a narrow strip with a tiny
    character marooned in it; these characters need width to read as characters. */
@@ -92,6 +149,14 @@ body {
 }
 .companion-card:hover, .companion-card:focus-visible { transform: translateY(-6px); outline: none; }
 .companion-card:active { transform: translateY(-2px) scale(.985); }
+.companion-card.is-voicing {
+  transform: translateY(-6px) scale(1.035);
+  background: linear-gradient(180deg, #fffdf6, #fff0cd);
+  box-shadow: 0 0 0 5px #f5a623, 0 0 34px 11px rgba(245, 166, 35, .55), var(--shadow);
+}
+@media (prefers-reduced-motion: reduce) {
+  .companion-card.is-voicing { transform: none; }
+}
 /* flex-basis 0 lets the row decide the height and `contain` letterboxes the
    figure inside it. Sizing by width instead made each card as tall as the
    picture's aspect ratio demanded, which overflowed the grid row. */

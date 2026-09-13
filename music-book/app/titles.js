@@ -13,6 +13,11 @@
 
 const cache = new Map();
 let current = null;
+let engine = null;
+
+export function configureTitles(options = {}) {
+  engine = options.engine || null;
+}
 
 export function titleClipPath(pieceId) {
   return `audio/titles/${pieceId}.m4a`;
@@ -29,9 +34,21 @@ export async function speakTitle(pieceId) {
   try {
     audio.currentTime = 0;
     current = audio;
+    if (engine) {
+      engine.connectVoice(audio);
+      engine.duck('voice', true);
+    }
+    audio.onended = () => {
+      if (current === audio) current = null;
+      if (engine) engine.duck('voice', false);
+    };
+    audio.onpause = () => {
+      if (engine && audio.currentTime < audio.duration) engine.duck('voice', false);
+    };
     await audio.play();
     return true;
   } catch (err) {
+    if (engine) engine.duck('voice', false);
     // No clip rendered yet, or the file is missing. Deliberately silent.
     return false;
   }

@@ -149,7 +149,8 @@ const W = 240;
 const H = 78;
 
 export function createChapter(deps) {
-  const { stage, engine, player, journey, pieceById, companionById, exitToExplore, exitToWing } = deps;
+  const { stage, engine, player, journey, pieceById, companionById, exitToExplore, exitToWing,
+    canPlaySound = () => true, atmosphere = () => {} } = deps;
 
   let chapter = null;
   let spreadIndex = 0;
@@ -177,14 +178,17 @@ export function createChapter(deps) {
 
   function stop() {
     player.stop();
+    engine.duck('piece', false);
     playing = null;
     paintPlaying();
+    atmosphere();               // the page's tune comes back
   }
 
   function play(pieceId, which, opts = {}) {
     const p = pieceById(pieceId);
     const score = opts.score || scoreFor(p, which);
     if (!score) return;
+    if (!canPlaySound()) return;
 
     // Same tap twice is a stop. A child who taps the box again expects the box
     // to stop, not to start a second box.
@@ -193,14 +197,17 @@ export function createChapter(deps) {
       return;
     }
 
-    player.stop();
+    stop();
     engine.setInstrument(companionById(journey.companionId));
+    engine.duck('piece', true);
 
     playing = { pieceId, which, popIndex: opts.popIndex ?? -1, popped: false };
     player.onNote = (_i, slot) => onNote(slot);
     player.onFinish = () => {
       const finished = playing;
       playing = null;
+      engine.duck('piece', false);
+      atmosphere();
       if (finished) {
         state.heardOnce.add(`${finished.pieceId}:${finished.which}`);
         opts.onFinish?.();
@@ -210,6 +217,7 @@ export function createChapter(deps) {
     player.load(score);
     player.play();
     paintPlaying();
+    atmosphere();               // the page's tune steps aside for the piece
   }
 
   // The moving highlight. Driven by the player's own AudioContext-derived

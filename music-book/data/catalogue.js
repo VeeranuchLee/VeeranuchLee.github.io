@@ -388,7 +388,7 @@ export const PIECES = [
   },
   {
     id: 'swan-lake-theme',
-    art: null,
+    art: 'assets/bubbles/swan-lake-theme.webp',
     composerId: 'tchaikovsky',
     title: 'Swan Lake — theme',
     shortTitle: 'Swan Lake',
@@ -433,7 +433,7 @@ export const PIECES = [
   },
   {
     id: 'mary-had-little-lamb',
-    art: null,
+    art: 'assets/bubbles/mary-had-little-lamb.webp',
     composerId: 'traditional',
     title: 'Mary Had a Little Lamb',
     alternateTitles: [],
@@ -512,7 +512,7 @@ export const PIECES = [
   },
   {
     id: 'row-row-row-your-boat',
-    art: null,
+    art: 'assets/bubbles/row-row-row-your-boat.webp',
     composerId: 'traditional',
     title: 'Row, Row, Row Your Boat',
     shortTitle: 'Row Your Boat',
@@ -553,7 +553,7 @@ export const PIECES = [
   },
   {
     id: 'old-macdonald',
-    art: null,
+    art: 'assets/bubbles/old-macdonald.webp',
     composerId: 'traditional',
     title: 'Old MacDonald Had a Farm',
     shortTitle: 'Old MacDonald',
@@ -600,7 +600,7 @@ export const PIECES = [
   },
   {
     id: 'bingo',
-    art: null,
+    art: 'assets/bubbles/bingo.webp',
     composerId: 'traditional',
     title: 'BINGO',
     alternateTitles: [],
@@ -769,7 +769,7 @@ export const PIECES = [
   },
   {
     id: 'hot-cross-buns',
-    art: null,
+    art: 'assets/bubbles/hot-cross-buns.webp',
     composerId: 'traditional',
     title: 'Hot Cross Buns',
     alternateTitles: [],
@@ -804,7 +804,7 @@ export const PIECES = [
   },
   {
     id: 'this-old-man',
-    art: null,
+    art: 'assets/bubbles/this-old-man.webp',
     composerId: 'traditional',
     title: 'This Old Man',
     alternateTitles: [],
@@ -840,7 +840,7 @@ export const PIECES = [
   },
   {
     id: 'farmer-in-dell',
-    art: null,
+    art: 'assets/bubbles/farmer-in-dell.webp',
     composerId: 'traditional',
     title: 'The Farmer in the Dell',
     shortTitle: 'The Farmer in the Dell',
@@ -879,7 +879,7 @@ export const PIECES = [
   },
   {
     id: 'mulberry-bush',
-    art: null,
+    art: 'assets/bubbles/mulberry-bush.webp',
     composerId: 'traditional',
     title: 'Here We Go Round the Mulberry Bush',
     shortTitle: 'Mulberry Bush',
@@ -919,7 +919,7 @@ export const PIECES = [
   },
   {
     id: 'rock-a-bye-baby',
-    art: null,
+    art: 'assets/bubbles/rock-a-bye-baby.webp',
     composerId: 'traditional',
     title: 'Rock-a-bye Baby',
     alternateTitles: [],
@@ -965,7 +965,7 @@ export const PIECES = [
   },
   {
     id: 'skip-to-my-lou',
-    art: null,
+    art: 'assets/bubbles/skip-to-my-lou.webp',
     composerId: 'traditional',
     title: 'Skip to My Lou',
     alternateTitles: [],
@@ -1003,7 +1003,7 @@ export const PIECES = [
   },
   {
     id: 'amazing-grace-new-britain',
-    art: null,
+    art: 'assets/bubbles/amazing-grace-new-britain.webp',
     composerId: 'traditional',
     title: 'Amazing Grace',
     alternateTitles: ['New Britain'],
@@ -1050,7 +1050,7 @@ export const PIECES = [
   },
   {
     id: 'when-saints-go-marching',
-    art: null,
+    art: 'assets/bubbles/when-saints-go-marching.webp',
     composerId: 'traditional',
     title: 'When the Saints Go Marching In',
     shortTitle: 'When the Saints',
@@ -1089,7 +1089,7 @@ export const PIECES = [
   },
   {
     id: 'simple-gifts',
-    art: null,
+    art: 'assets/bubbles/simple-gifts.webp',
     composerId: 'traditional',
     title: 'Simple Gifts',
     alternateTitles: [],
@@ -1132,7 +1132,7 @@ export const PIECES = [
   },
   {
     id: 'my-bonnie',
-    art: null,
+    art: 'assets/bubbles/my-bonnie.webp',
     composerId: 'traditional',
     title: 'My Bonnie Lies over the Ocean',
     shortTitle: 'My Bonnie',
@@ -1187,7 +1187,7 @@ export const PIECES = [
   },
   {
     id: 'home-on-range',
-    art: null,
+    art: 'assets/bubbles/home-on-range.webp',
     composerId: 'traditional',
     title: 'Home on the Range',
     alternateTitles: [],
@@ -1254,7 +1254,7 @@ export const PIECES = [
   },
   {
     id: 'happy-birthday',
-    art: null,
+    art: 'assets/bubbles/happy-birthday.webp',
     composerId: 'traditional',
     title: 'Happy Birthday to You',
     shortTitle: 'Happy Birthday',
@@ -1289,7 +1289,7 @@ export const PIECES = [
   },
   {
     id: 'jolly-good-fellow',
-    art: null,
+    art: 'assets/bubbles/jolly-good-fellow.webp',
     composerId: 'traditional',
     title: 'For He\'s a Jolly Good Fellow',
     shortTitle: 'Jolly Good Fellow',
@@ -1328,7 +1328,7 @@ export const PIECES = [
   },
   {
     id: 'jingle-bells',
-    art: null,
+    art: 'assets/bubbles/jingle-bells.webp',
     composerId: 'traditional',
     title: 'Jingle Bells',
     alternateTitles: [],
@@ -1370,7 +1370,7 @@ export const PIECES = [
   },
   {
     id: 'silent-night',
-    art: null,
+    art: 'assets/bubbles/silent-night.webp',
     composerId: 'traditional',
     title: 'Silent Night',
     alternateTitles: ['Stille Nacht'],
@@ -1411,7 +1411,7 @@ export const PIECES = [
   },
   {
     id: 'o-tannenbaum',
-    art: null,
+    art: 'assets/bubbles/o-tannenbaum.webp',
     composerId: 'traditional',
     title: 'O Tannenbaum',
     shortTitle: 'O Tannenbaum',
@@ -1454,7 +1454,7 @@ export const PIECES = [
   },
   {
     id: 'deck-the-hall',
-    art: null,
+    art: 'assets/bubbles/deck-the-hall.webp',
     composerId: 'traditional',
     title: 'Deck the Hall',
     alternateTitles: ['Nos Galan'],
@@ -1495,7 +1495,7 @@ export const PIECES = [
   },
   {
     id: 'we-wish-merry-christmas',
-    art: null,
+    art: 'assets/bubbles/we-wish-merry-christmas.webp',
     composerId: 'traditional',
     title: 'We Wish You a Merry Christmas',
     shortTitle: 'We Wish You a Merry Christmas',
@@ -1534,7 +1534,7 @@ export const PIECES = [
   },
   {
     id: 'first-noel',
-    art: null,
+    art: 'assets/bubbles/first-noel.webp',
     composerId: 'traditional',
     title: 'The First Noel',
     shortTitle: 'The First Noel',
@@ -1586,7 +1586,7 @@ export const PIECES = [
   },
   {
     id: 'joy-to-world',
-    art: null,
+    art: 'assets/bubbles/joy-to-world.webp',
     composerId: 'traditional',
     title: 'Joy to the World',
     alternateTitles: [],
@@ -1626,7 +1626,7 @@ export const PIECES = [
   },
   {
     id: 'auld-lang-syne',
-    art: null,
+    art: 'assets/bubbles/auld-lang-syne.webp',
     composerId: 'traditional',
     title: 'Auld Lang Syne',
     alternateTitles: [],
@@ -1668,7 +1668,7 @@ export const PIECES = [
   },
   {
     id: 'sakura-sakura',
-    art: null,
+    art: 'assets/bubbles/sakura-sakura.webp',
     composerId: 'traditional',
     title: 'Sakura Sakura',
     shortTitle: 'Sakura',
@@ -1705,7 +1705,7 @@ export const PIECES = [
   },
   {
     id: 'arirang',
-    art: null,
+    art: 'assets/bubbles/arirang.webp',
     composerId: 'traditional',
     title: 'Arirang',
     alternateTitles: [],
@@ -1743,7 +1743,7 @@ export const PIECES = [
   },
   {
     id: 'mo-li-hua',
-    art: null,
+    art: 'assets/bubbles/mo-li-hua.webp',
     composerId: 'traditional',
     title: 'Mo Li Hua',
     shortTitle: 'Mo Li Hua',
@@ -1781,7 +1781,7 @@ export const PIECES = [
   },
   {
     id: 'rasa-sayang',
-    art: null,
+    art: 'assets/bubbles/rasa-sayang.webp',
     composerId: 'traditional',
     title: 'Rasa Sayang',
     alternateTitles: [],
@@ -1819,7 +1819,7 @@ export const PIECES = [
   },
   {
     id: 'burung-kakak-tua',
-    art: null,
+    art: 'assets/bubbles/burung-kakak-tua.webp',
     composerId: 'traditional',
     title: 'Burung Kakak Tua',
     shortTitle: 'Burung Kakak Tua',
@@ -1859,7 +1859,7 @@ export const PIECES = [
   },
   {
     id: 'leron-leron-sinta',
-    art: null,
+    art: 'assets/bubbles/leron-leron-sinta.webp',
     composerId: 'traditional',
     title: 'Leron, Leron Sinta',
     shortTitle: 'Leron Leron Sinta',
@@ -1898,7 +1898,7 @@ export const PIECES = [
   },
   {
     id: 'lao-duang-duen',
-    art: null,
+    art: 'assets/bubbles/lao-duang-duen.webp',
     composerId: 'traditional',
     title: 'Lao Duang Duen',
     shortTitle: 'Lao Duang Duen',
@@ -1937,7 +1937,7 @@ export const PIECES = [
   },
   {
     id: 'raghupati-raghava',
-    art: null,
+    art: 'assets/bubbles/raghupati-raghava.webp',
     composerId: 'traditional',
     title: 'Raghupati Raghava Raja Ram',
     shortTitle: 'Raghupati Raghava',
@@ -1976,7 +1976,7 @@ export const PIECES = [
   },
   {
     id: 'uskudara-gider-iken',
-    art: null,
+    art: 'assets/bubbles/uskudara-gider-iken.webp',
     composerId: 'traditional',
     title: 'Üsküdar\'a Gider İken',
     shortTitle: 'Kâtibim',
@@ -2016,7 +2016,7 @@ export const PIECES = [
   },
   {
     id: 'hava-nagila',
-    art: null,
+    art: 'assets/bubbles/hava-nagila.webp',
     composerId: 'traditional',
     title: 'Hava Nagila',
     alternateTitles: [],
@@ -2056,7 +2056,7 @@ export const PIECES = [
   },
   {
     id: 'kalinka',
-    art: null,
+    art: 'assets/bubbles/kalinka.webp',
     composerId: 'traditional',
     title: 'Kalinka',
     alternateTitles: [],
@@ -2094,7 +2094,7 @@ export const PIECES = [
   },
   {
     id: 'shchedryk',
-    art: null,
+    art: 'assets/bubbles/shchedryk.webp',
     composerId: 'traditional',
     title: 'Shchedryk',
     shortTitle: 'Shchedryk',
@@ -2136,7 +2136,7 @@ export const PIECES = [
   },
   {
     id: 'nkosi-sikelel-iafrika',
-    art: null,
+    art: 'assets/bubbles/nkosi-sikelel-iafrika.webp',
     composerId: 'traditional',
     title: 'Nkosi Sikelel\' iAfrika',
     shortTitle: 'Nkosi Sikelel\' iAfrika',
@@ -2174,7 +2174,7 @@ export const PIECES = [
   },
   {
     id: 'misirlou',
-    art: null,
+    art: 'assets/bubbles/misirlou.webp',
     composerId: 'traditional',
     title: 'Misirlou',
     alternateTitles: [],
@@ -2210,7 +2210,7 @@ export const PIECES = [
   },
   {
     id: 'waltzing-matilda',
-    art: null,
+    art: 'assets/bubbles/waltzing-matilda.webp',
     composerId: 'traditional',
     title: 'Waltzing Matilda',
     shortTitle: 'Waltzing Matilda',
@@ -2257,7 +2257,7 @@ export const PIECES = [
   },
   {
     id: 'el-condor-pasa',
-    art: null,
+    art: 'assets/bubbles/el-condor-pasa.webp',
     composerId: 'traditional',
     title: 'El Cóndor Pasa',
     shortTitle: 'El Cóndor Pasa',
@@ -2296,7 +2296,7 @@ export const PIECES = [
   },
   {
     id: 'la-bamba',
-    art: null,
+    art: 'assets/bubbles/la-bamba.webp',
     composerId: 'traditional',
     title: 'La Bamba',
     alternateTitles: [],
@@ -2334,7 +2334,7 @@ export const PIECES = [
   },
   {
     id: 'greensleeves',
-    art: null,
+    art: 'assets/bubbles/greensleeves.webp',
     composerId: 'traditional',
     title: 'Greensleeves',
     alternateTitles: ['What Child Is This?'],

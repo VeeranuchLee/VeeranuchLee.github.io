@@ -22,6 +22,13 @@ const SEMITONE = {
   'F#': 6, Gb: 6, G: 7, 'G#': 8, Ab: 8, A: 9, 'A#': 10, Bb: 10, B: 11, 'B#': 12
 };
 
+const MASTER_LEVEL = 0.5;
+const MUTE_TIME = 0.08;
+const DUCK_LEVEL = 0.2;
+const DUCK_DOWN = 0.12;
+const DUCK_UP = 0.35;
+const DUCKED_BUSES = ['musicBed', 'ambientBed'];
+
 export function noteToFrequency(name) {
   const parsed = /^([A-G][#b]?)(-?\d)$/.exec(name);
   if (!parsed) throw new Error(`unreadable note name: ${name}`);
@@ -39,8 +46,14 @@ export class AudioEngine {
     this.ctx = null;
     this.master = null;
     this.reverbBus = null;
+    this.convolver = null;
     this.instrument = null;
     this.voices = new Set();
+    this.buses = null;
+    this.muted = false;
+    this.ducks = new Set();
+    this._noise = null;
+    this._voiceSources = new WeakMap();
   }
 
   // Browsers refuse to start audio without a gesture, so this is called from
@@ -56,17 +69,104 @@ export class AudioEngine {
     this.master = this.ctx.createGain();
     // Gentle volume is a stated requirement, not a default. A child hears this
     // hundreds of times.
-    this.master.gain.value = 0.5;
+    this.master.gain.value = this.muted ? 0 : MASTER_LEVEL;
     this.master.connect(this.ctx.destination);
 
-    this.reverbBus = this.ctx.createGain();
-    this.reverbBus.gain.value = 1;
-    const convolver = this.ctx.createConvolver();
-    convolver.buffer = this._impulseResponse(2.0, 2.5);
-    this.reverbBus.connect(convolver);
-    convolver.connect(this.master);
+    this.convolver = this.ctx.createConvolver();
+    this.convolver.buffer = this._impulseResponse(2.0, 2.5);
+    this.convolver.connect(this.master);
+
+    // Four background/foreground concepts kept separate on purpose, so a book
+    // can use some and not others — AUDIO-DIRECTION.md decision 12. The Music
+    // Book uses `music`, `musicBed`, `voice` and `sfx`; its `ambientBed` is
+    // present, wired and silent, because this book's background is musical
+    // rather than environmental. Another book fills it in without touching
+    // anything here.
+    //
+    //   music       the piece the child started — the foreground, never ducked
+    //   musicBed    the page's own tune, played by the chosen companion
+    //   ambientBed  environmental sound: wind, water, birdsong, room tone
+    //   voice       spoken titles, routed in from <audio> via connectVoice
+    //   sfx         taps, page turns, feedback cues
+    this.buses = {
+      music: this._bus(),
+      musicBed: this._bus(),
+      ambientBed: this._bus(),
+      voice: this._bus(),
+      sfx: this._bus()
+    };
+    this.reverbBus = this.buses.music.wet;
 
     return this.ctx;
+  }
+
+  // A bus has both a dry path to master and a wet path to the shared reverb.
+  // Ducking moves both gains together, so the reverb tail cannot wash over a
+  // spoken title after the dry sound has moved aside.
+  _bus() {
+    const dry = this.ctx.createGain();
+    dry.gain.value = 1;
+    dry.connect(this.master);
+    const wet = this.ctx.createGain();
+    wet.gain.value = 1;
+    wet.connect(this.convolver);
+    return { dry, wet };
+  }
+
+  bus(name) {
+    return this.buses ? this.buses[name] : null;
+  }
+
+  setMuted(muted) {
+    this.muted = muted;
+    if (!this.ctx) return;
+    const now = this.ctx.currentTime;
+    const g = this.master.gain;
+    g.cancelScheduledValues(now);
+    g.setValueAtTime(g.value, now);
+    g.linearRampToValueAtTime(muted ? 0 : MASTER_LEVEL, now + MUTE_TIME);
+  }
+
+  duck(key, on) {
+    if (on) this.ducks.add(key);
+    else this.ducks.delete(key);
+    if (!this.ctx || !this.buses) return;
+    const target = this.ducks.size ? DUCK_LEVEL : 1;
+    const seconds = this.ducks.size ? DUCK_DOWN : DUCK_UP;
+    const now = this.ctx.currentTime;
+    // Only the beds move. The foreground piece, the spoken title that asked for
+    // the duck, and the interaction cues all need to stay where they are.
+    DUCKED_BUSES.forEach((name) => {
+      const bus = this.buses[name];
+      [bus.dry.gain, bus.wet.gain].forEach((g) => {
+        g.cancelScheduledValues(now);
+        g.setValueAtTime(g.value, now);
+        g.linearRampToValueAtTime(target, now + seconds);
+      });
+    });
+  }
+
+  connectVoice(element) {
+    if (!this.ctx || !this.buses) return false;
+    if (this._voiceSources.has(element)) return true;
+    try {
+      const source = this.ctx.createMediaElementSource(element);
+      source.connect(this.buses.voice.dry);
+      this._voiceSources.set(element, source);
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
+
+  noiseBuffer(seconds = 2.5) {
+    if (this._noise) return this._noise;
+    const rate = this.ctx.sampleRate;
+    const buffer = this.ctx.createBuffer(1, Math.floor(rate * seconds), rate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < data.length; i += 1) data[i] = Math.random() * 2 - 1;
+    this._noise = buffer;
+    return buffer;
   }
 
   // A room, generated. Exponentially decaying noise is a crude impulse
@@ -88,11 +188,12 @@ export class AudioEngine {
     this.instrument = instrument;
   }
 
-  // Silence everything immediately — used by pause and by switching pieces.
-  stopAll() {
+  // Silence one bus immediately — used by pause and by switching pieces.
+  stopAll(busName = 'music') {
     if (!this.ctx) return;
     const now = this.ctx.currentTime;
     this.voices.forEach((voice) => {
+      if (voice.bus !== busName) return;
       try {
         voice.gain.gain.cancelScheduledValues(now);
         voice.gain.gain.setValueAtTime(voice.gain.gain.value, now);
@@ -101,8 +202,8 @@ export class AudioEngine {
       } catch (err) {
         /* a voice that already stopped is not a problem */
       }
+      this.voices.delete(voice);
     });
-    this.voices.clear();
   }
 
   /**
@@ -110,11 +211,18 @@ export class AudioEngine {
    * @param {string} noteName  e.g. "E4", "D#5"
    * @param {number} at        seconds on the AudioContext clock
    * @param {number} duration  seconds the note is held
-   * @param {number} [gainScale=1]  0–1 multiplier on the instrument peak (left hand sits under the tune)
+   * @param {number|object} [gainScale=1]  old numeric gain scale, or `{ instrument, bus, level }`
    */
   playNote(noteName, at, duration, gainScale = 1) {
-    if (!this.ctx || !this.instrument) return;
-    const { timbre } = this.instrument;
+    const opts = typeof gainScale === 'object' && gainScale !== null
+      ? gainScale
+      : { level: gainScale };
+    const instrument = opts.instrument || this.instrument;
+    if (!this.ctx || !instrument || !this.buses) return;
+    const busName = opts.bus || 'music';
+    const bus = this.buses[busName];
+    if (!bus) return;
+    const { timbre } = instrument;
     const frequency = noteToFrequency(noteName);
 
     const gain = this.ctx.createGain();
@@ -128,12 +236,12 @@ export class AudioEngine {
     const dry = this.ctx.createGain();
     dry.gain.value = 1 - timbre.reverb.mix;
     filter.connect(dry);
-    dry.connect(this.master);
+    dry.connect(bus.dry);
 
     const wet = this.ctx.createGain();
     wet.gain.value = timbre.reverb.mix;
     filter.connect(wet);
-    wet.connect(this.reverbBus);
+    wet.connect(bus.wet);
 
     const sources = timbre.oscillators.map((partial) => {
       const osc = this.ctx.createOscillator();
@@ -148,7 +256,7 @@ export class AudioEngine {
     });
 
     const env = timbre.envelope;
-    const peak = (timbre.gain ?? 0.28) * Math.max(0, Math.min(1, gainScale));
+    const peak = (timbre.gain ?? 0.28) * Math.max(0, Math.min(1, opts.level ?? 1));
     const g = gain.gain;
     g.setValueAtTime(0.0001, at);
     g.linearRampToValueAtTime(peak, at + env.attack);
@@ -174,7 +282,7 @@ export class AudioEngine {
       osc.stop(stopAt);
     });
 
-    const voice = { gain, sources };
+    const voice = { gain, sources, bus: busName };
     this.voices.add(voice);
     sources[0].onended = () => this.voices.delete(voice);
   }

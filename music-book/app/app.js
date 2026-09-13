@@ -1,21 +1,30 @@
 import { AudioEngine } from './audio-engine.js';
 import { Player } from './player.js';
+import { MusicBed } from './music-bed.js';
+import { Ambience } from './ambience.js';
 import { COMPANIONS, companionById } from '../data/instruments.js';
 import { PIECES, composerById } from '../data/catalogue.js';
 import { WINGS, ROOMS, PIECE_ROOMS } from '../data/rooms.js';
+import { motifFor, PARADE } from '../data/motifs.js';
 import { journey } from './journey.js';
-import { speakTitle } from './titles.js';
+import { speakTitle, configureTitles } from './titles.js';
 import { createChapter } from './read-together.js';
 
 const engine = new AudioEngine();
 const player = new Player(engine);
+const musicBed = new MusicBed(engine);
+const ambience = new Ambience(engine);
+configureTitles({ engine });
 
 const stage = document.getElementById('stage');
 const popup = document.getElementById('popup');
 const popupBody = document.getElementById('popup-body');
+const soundBtn = document.getElementById('sound');
 
 let playingPieceId = null;
 let playingWhich = null;
+let currentView = 'landing';
+let bedTune = null;
 // Set when a compare-link crosses rooms: the target room renders first, then
 // its piece popup opens. Without this the child lands in a new room with no
 // sign of what they followed to get there.
@@ -35,6 +44,112 @@ let exploreOverride = null;
 const pieceById = (id) => PIECES.find((p) => p.id === id);
 const wingById = (id) => WINGS.find((w) => w.id === id);
 const roomById = (id) => ROOMS.find((r) => r.id === id);
+// A room's motif falls back to its wing's. `motifs.js` asks for this rather
+// than importing rooms.js, so the tune data stays independent of the room data.
+const wingOfRoom = (id) => roomById(id)?.wingId || null;
+
+const SOUND_KEY = 'music-book.sound';
+const sound = {
+  on: true,
+  load() {
+    try {
+      this.on = localStorage.getItem(SOUND_KEY) !== 'off';
+    } catch (err) { /* private mode: sound stays on */ }
+  },
+  save() {
+    try {
+      localStorage.setItem(SOUND_KEY, this.on ? 'on' : 'off');
+    } catch (err) { /* private mode: the choice just does not persist */ }
+  }
+};
+
+function nudgeSound() {
+  soundBtn.classList.remove('is-nudged');
+  void soundBtn.offsetWidth;
+  soundBtn.classList.add('is-nudged');
+}
+
+function syncSoundButton() {
+  soundBtn.textContent = sound.on ? 'Sound' : 'Muted';
+  soundBtn.setAttribute('aria-pressed', String(sound.on));
+  soundBtn.setAttribute('aria-label', sound.on ? 'Sound on' : 'Sound off');
+}
+
+// AUDIO-DIRECTION.md decision 12: the page chooses the tune, the companion
+// chooses the timbre. Everything from here to `unlockAudio` is that rule.
+
+// Which pages get environmental sound. **Empty, on purpose, and it is not an
+// oversight.** This book's background is musical rather than environmental, so
+// `ambientBed` stays present, wired and silent here. The map is the only thing
+// a book that DOES want ambience has to fill in — see `ambience.js`, which
+// knows about layers and nothing about pages.
+const AMBIENT_SCENES = {};
+
+// Restarting the same tune on every render would retrigger it on every tap. The
+// key names the page AND the companion, because changing either changes what
+// should be sounding.
+function setTune(key, motif, by, onPhrase) {
+  if (bedTune === key && musicBed.playing) return;
+  bedTune = key;
+  musicBed.play(motif, by, onPhrase);
+}
+
+function stopTune() {
+  musicBed.stop();
+  bedTune = null;
+}
+
+// The landing page's tune is the one exception to "one companion plays it":
+// its phrases pass between all six so the child hears each voice before
+// choosing. This lights the card whose turn it is.
+function paradeGlow(index) {
+  stage.querySelectorAll('[data-companion]').forEach((card, i) => {
+    card.classList.toggle('is-voicing', i === index);
+  });
+}
+
+function applyAtmosphere() {
+  if (!engine.ctx) return;
+  engine.setMuted(!sound.on);
+
+  const scene = AMBIENT_SCENES[journey.roomId];
+  ambience.start(journey.roomId, sound.on && !document.hidden ? scene : null);
+
+  // A piece the child started is the foreground and the lesson. The page tune
+  // steps out of the way entirely rather than ducking: two tunes at once is a
+  // teaching problem, not a mix problem. It comes back when the piece ends.
+  if (!sound.on || document.hidden || player.playing) {
+    stopTune();
+    return;
+  }
+
+  if (currentView === 'landing') {
+    setTune('landing', PARADE, COMPANIONS, paradeGlow);
+    stage.querySelector('.listen-cue')?.remove();
+    return;
+  }
+
+  const companion = companionById(journey.companionId);
+  const where = { wingId: journey.wingId, roomId: journey.roomId };
+  const page = currentView === 'room' ? journey.roomId
+    : currentView === 'wing' ? journey.wingId
+      : 'world';
+  setTune(`${currentView}:${page}:${companion.id}`,
+    motifFor(currentView, where, wingOfRoom), companion);
+}
+
+function unlockAudio() {
+  engine.start();
+  if (journey.companionId) engine.setInstrument(companionById(journey.companionId));
+  applyAtmosphere();
+}
+
+function stopPiece() {
+  player.stop();
+  engine.duck('piece', false);
+  setPlayingUI(null, null);
+  applyAtmosphere();          // the page's tune comes back
+}
 
 // Placeholder visual identity per wing until wing art exists. Six wings, five
 // painted backgrounds: `cities-colour-new-pulse` deliberately reuses a
@@ -64,7 +179,8 @@ function companionCorner(line) {
 // ── page 1: choose a companion ───────────────────────────────────────────────
 
 function renderLanding() {
-  player.stop();
+  currentView = 'landing';
+  stopPiece();                  // sets currentView first so the tune it restores is this page's
   stage.className = 'stage stage--landing';
   stage.style.backgroundImage = 'url(assets/backgrounds/garden-pastel.webp)';
   stage.innerHTML = `
@@ -81,6 +197,7 @@ function renderLanding() {
         <p class="hero__eyebrow">Welcome, young musician</p>
         <h1 class="hero__title"><span class="hero__line">Choose Your</span> <span class="hero__line">Music Companion</span></h1>
         <p class="hero__sub">Your friend plays every piece on your journey.</p>
+        ${musicBed.playing ? '' : '<button class="listen-cue" data-listen>Hear them play</button>'}
       </header>
       <div class="companion-grid">
         ${COMPANIONS.map((c) => `
@@ -91,12 +208,14 @@ function renderLanding() {
           </button>`).join('')}
       </div>
     </div>`;
+  applyAtmosphere();
 }
 
 // ── page 2: the music world (six wings) ──────────────────────────────────────
 
 function renderWorld() {
-  player.stop();
+  currentView = 'world';
+  stopPiece();                  // sets currentView first so the tune it restores is this page's
   const c = companionById(journey.companionId);
   stage.className = 'stage stage--world';
   stage.style.backgroundImage = 'url(assets/backgrounds/garden-green.webp)';
@@ -120,12 +239,14 @@ function renderWorld() {
       </div>
       ${companionCorner(c.greeting)}
     </div>`;
+  applyAtmosphere();
 }
 
 // ── page 3: a wing (its rooms) ───────────────────────────────────────────────
 
 function renderWing() {
-  player.stop();
+  currentView = 'wing';
+  stopPiece();                  // sets currentView first so the tune it restores is this page's
   const wing = wingById(journey.wingId);
   if (!wing) { renderWorld(); return; }
   const c = companionById(journey.companionId);
@@ -153,18 +274,21 @@ function renderWing() {
       </div>
       ${companionCorner(null)}
     </div>`;
+  applyAtmosphere();
 }
 
 // ── page 4: a room (its pieces) ──────────────────────────────────────────────
 
 function renderRoom() {
-  player.stop();
+  currentView = 'room';
+  stopPiece();                  // sets currentView first so the tune it restores is this page's
   const room = roomById(journey.roomId);
   if (!room) { renderWorld(); return; }
 
   // Read Together is the default and Explore is the return mode. A room with an
   // authored chapter the child has not finished opens into the chapter.
   if (chapter.isFor(room.id) && exploreOverride !== room.id) {
+    applyAtmosphere();
     chapter.open(room.id);
     return;
   }
@@ -229,6 +353,7 @@ function renderRoom() {
     pendingPopupPieceId = null;
     piecePopup(target);
   }
+  applyAtmosphere();
 }
 
 function bubbleMarkup(p) {
@@ -380,6 +505,7 @@ function scoreFor(p, which) {
 }
 
 function playPiece(id, which) {
+  if (!sound.on) { nudgeSound(); return; }
   const p = pieceById(id);
   const resolved = which || (p.full ? 'melody' : 'excerpt');
   const score = scoreFor(p, resolved);
@@ -388,17 +514,24 @@ function playPiece(id, which) {
   // Explore takes them back here rather than at module load, so returning from
   // a chapter cannot leave Explore driving a contour that is no longer drawn.
   player.onNote = () => {};
-  player.onFinish = () => setPlayingUI(null, null);
-  engine.setInstrument(companionById(journey.companionId));
 
   if (playingPieceId === id && playingWhich === resolved && player.playing) {
-    player.stop();
-    setPlayingUI(null, null);
+    stopPiece();
     return;
   }
+  player.onFinish = pieceFinished;
+  engine.duck('piece', true);
+  engine.setInstrument(companionById(journey.companionId));
   player.load(score);
   player.play();
   setPlayingUI(id, resolved);
+  applyAtmosphere();          // the page's tune steps aside for the piece
+}
+
+function pieceFinished() {
+  engine.duck('piece', false);
+  setPlayingUI(null, null);
+  applyAtmosphere();
 }
 
 function setPlayingUI(id, which) {
@@ -413,7 +546,7 @@ function setPlayingUI(id, which) {
   });
 }
 
-player.onFinish = () => setPlayingUI(null, null);
+player.onFinish = pieceFinished;
 
 const chapter = createChapter({
   stage,
@@ -422,6 +555,14 @@ const chapter = createChapter({
   journey,
   pieceById,
   companionById,
+  canPlaySound: () => {
+    if (sound.on) return true;
+    nudgeSound();
+    return false;
+  },
+  // The chapter starts and stops pieces of its own, and the page's tune has to
+  // get out of the way for those too.
+  atmosphere: applyAtmosphere,
   exitToExplore: () => { exploreOverride = journey.roomId; renderRoom(); },
   exitToWing: () => { chapter.close(); go('wing'); }
 });
@@ -441,6 +582,7 @@ function go(view) {
 function handleSay(target) {
   const say = target.closest('[data-say]');
   if (!say) return false;
+  if (!sound.on) { nudgeSound(); return true; }
   say.classList.add('is-speaking');
   setTimeout(() => say.classList.remove('is-speaking'), 700);
   speakTitle(say.dataset.say);
@@ -452,10 +594,13 @@ stage.addEventListener('click', (event) => {
 
   if (chapter.active() && chapter.click(t)) return;
 
+  const listen = t.closest('[data-listen]');
+  if (listen) { unlockAudio(); return; }
+
   const companion = t.closest('[data-companion]');
   if (companion) {
     journey.start(companion.dataset.companion);
-    engine.start();                       // first gesture: unlock audio
+    unlockAudio();                        // first gesture: unlock audio
     engine.setInstrument(companionById(journey.companionId));
     renderWorld();
     return;
@@ -521,8 +666,22 @@ popup.addEventListener('click', (event) => {
 // Audio is scheduled ahead on the audio clock; a hidden page would come back
 // with the picture frozen and the music gone. Stop cleanly instead.
 document.addEventListener('visibilitychange', () => {
-  if (document.hidden && player.playing) { player.stop(); setPlayingUI(null, null); }
+  if (document.hidden && player.playing) stopPiece();
+  applyAtmosphere();
 });
 
 journey.restore();
+sound.load();
+syncSoundButton();
+window.musicBook = { engine, player, musicBed, ambience, sound, journey };
+soundBtn.addEventListener('click', () => {
+  sound.on = !sound.on;
+  sound.save();
+  syncSoundButton();
+  if (sound.on) unlockAudio();
+  else {
+    stopPiece();
+    applyAtmosphere();
+  }
+});
 if (journey.companionId) renderWorld(); else renderLanding();

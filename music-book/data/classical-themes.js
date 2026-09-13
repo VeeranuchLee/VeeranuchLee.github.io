@@ -31,7 +31,7 @@ export const CLASSICAL_COMPOSERS = [
 export const CLASSICAL_PIECES = [
   {
     id: 'bach-prelude-c-major-bwv-846',
-    art: null,
+    art: 'assets/bubbles/bach-prelude-c-major-bwv-846.webp',
     composerId: 'bach',
     title: 'Prelude in C major, BWV 846',
     shortTitle: 'Prelude in C',
@@ -77,7 +77,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'bach-air-orchestral-suite-3',
-    art: null,
+    art: 'assets/bubbles/bach-air-orchestral-suite-3.webp',
     composerId: 'bach',
     title: 'Air from Orchestral Suite No. 3',
     alternateTitles: [],
@@ -110,7 +110,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'bach-jesu-joy',
-    art: null,
+    art: 'assets/bubbles/bach-jesu-joy.webp',
     composerId: 'bach',
     title: "Jesu, Joy of Man's Desiring",
     alternateTitles: [],
@@ -147,7 +147,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'bach-cello-suite-1-prelude',
-    art: null,
+    art: 'assets/bubbles/bach-cello-suite-1-prelude.webp',
     composerId: 'bach',
     title: 'Cello Suite No. 1 — Prelude',
     shortTitle: 'Cello Prelude',
@@ -413,7 +413,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'pachelbel-canon-d',
-    art: null,
+    art: 'assets/bubbles/pachelbel-canon-d.webp',
     composerId: 'pachelbel',
     title: 'Canon in D',
     alternateTitles: [],
@@ -486,7 +486,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'haydn-trumpet-concerto-3',
-    art: null,
+    art: 'assets/bubbles/haydn-trumpet-concerto-3.webp',
     composerId: 'haydn',
     title: 'Trumpet Concerto — third movement',
     shortTitle: 'Trumpet Concerto',
@@ -559,7 +559,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'mozart-rondo-alla-turca',
-    art: null,
+    art: 'assets/bubbles/mozart-rondo-alla-turca.webp',
     composerId: 'mozart',
     title: 'Rondo alla Turca',
     alternateTitles: [],
@@ -596,7 +596,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'mozart-symphony-40-1',
-    art: null,
+    art: 'assets/bubbles/mozart-symphony-40-1.webp',
     composerId: 'mozart',
     title: 'Symphony No. 40',
     shortTitle: 'Symphony No. 40',
@@ -632,7 +632,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'mozart-piano-sonata-k545-1',
-    art: null,
+    art: 'assets/bubbles/mozart-piano-sonata-k545-1.webp',
     composerId: 'mozart',
     title: 'Piano Sonata in C, K.545',
     shortTitle: 'Sonata K.545',
@@ -669,7 +669,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'mozart-ah-vous-dirai-je-variations',
-    art: null,
+    art: 'assets/bubbles/mozart-ah-vous-dirai-je-variations.webp',
     composerId: 'mozart',
     title: "Twelve Variations on 'Ah! vous dirai-je, maman'",
     shortTitle: 'Ah! vous dirai-je, maman',
@@ -711,7 +711,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'beethoven-symphony-7-2',
-    art: null,
+    art: 'assets/bubbles/symphony-7.webp',
     composerId: 'beethoven',
     title: 'Symphony No. 7 — second movement',
     shortTitle: 'Symphony No. 7',
@@ -1272,7 +1272,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'tchaikovsky-sugar-plum-fairy',
-    art: null,
+    art: 'assets/bubbles/tchaikovsky-sugar-plum-fairy.webp',
     composerId: 'tchaikovsky',
     title: 'Dance of the Sugar Plum Fairy',
     alternateTitles: [],
@@ -1306,7 +1306,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'tchaikovsky-waltz-flowers',
-    art: null,
+    art: 'assets/bubbles/tchaikovsky-waltz-flowers.webp',
     composerId: 'tchaikovsky',
     title: 'Waltz of the Flowers',
     alternateTitles: [],
@@ -1340,7 +1340,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'tchaikovsky-nutcracker-march',
-    art: null,
+    art: 'assets/bubbles/tchaikovsky-nutcracker-march.webp',
     composerId: 'tchaikovsky',
     title: 'The Nutcracker — March',
     shortTitle: 'Nutcracker March',
@@ -1376,7 +1376,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'tchaikovsky-trepak',
-    art: null,
+    art: 'assets/bubbles/tchaikovsky-trepak.webp',
     composerId: 'tchaikovsky',
     title: 'Russian Dance (Trepak)',
     shortTitle: 'Trepak',
@@ -1412,7 +1412,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'tchaikovsky-piano-concerto-1-opening',
-    art: null,
+    art: 'assets/bubbles/tchaikovsky-piano-concerto-1-opening.webp',
     composerId: 'tchaikovsky',
     title: 'Piano Concerto No. 1 — opening',
     shortTitle: 'Piano Concerto No. 1',
