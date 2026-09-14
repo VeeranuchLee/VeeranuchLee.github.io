@@ -1,0 +1,903 @@
+/* Music Book — the illustrated shell.
+   Built for a 9.7" iPad in LANDSCAPE: the art is 4:3, so the page is 4:3.
+   The backgrounds carry the mood; UI chrome stays out of their way. */
+
+:root {
+  --ink: #1e2b45;
+  --ink-soft: #4d5a72;
+  --gold: #c9a227;
+  --gold-deep: #8a6a12;
+  --plate: #f6ecd4;
+  --plate-edge: #d8bf86;
+  --shadow: 0 6px 18px rgba(20, 26, 45, 0.28);
+  --frame: 0 0 0 5px var(--gold), 0 0 0 8px rgba(255, 255, 255, 0.55), var(--shadow);
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  background: #10162a;
+  color: var(--ink);
+  font-family: ui-rounded, "Avenir Next", "Nunito", system-ui, sans-serif;
+  overflow: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* The stage is always 4:3 and always fully visible — letterboxed rather than
+   cropped, because the art was composed as a whole picture. */
+.stage {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: min(100vw, calc(100vh * 4 / 3));
+  height: min(100vh, calc(100vw * 3 / 4));
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 2.2% 3%;
+}
+
+#chrome {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: min(100vw, calc(100vh * 4 / 3));
+  height: min(100vh, calc(100vw * 3 / 4));
+  pointer-events: none;
+  z-index: 15;
+}
+
+.chrome-btn {
+  position: absolute;
+  right: 1.8%;
+  bottom: 1.8%;
+  min-width: 56px;
+  height: 48px;
+  padding: 0 14px;
+  pointer-events: auto;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #fdf6e3, #ecdcb6);
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+  color: var(--ink);
+  font: inherit;
+  font-size: clamp(12px, 1.35vw, 15px);
+  font-weight: 800;
+  cursor: pointer;
+}
+.chrome-btn:active { transform: scale(.96); }
+.chrome-btn.is-nudged { animation: nudge .75s ease-out 2; }
+.chrome-btn[aria-pressed="false"] {
+  background: linear-gradient(180deg, #e6e2d6, #cfc9b6);
+  box-shadow: 0 0 0 3px #a99a6e, var(--shadow);
+}
+@keyframes nudge {
+  0%, 100% { box-shadow: 0 0 0 3px var(--gold), var(--shadow); }
+  40% { box-shadow: 0 0 0 4px #ffcf5c, 0 0 22px 8px rgba(255, 207, 92, .7), var(--shadow); }
+}
+
+/* ── landing ──────────────────────────────────────────────────────────────── */
+
+.stage--landing .scrim {
+  align-items: center;
+  padding-bottom: 8.5%;
+  background: radial-gradient(ellipse at 50% 38%, rgba(255,252,244,.72) 0%, rgba(255,252,244,.42) 45%, rgba(255,252,244,.12) 75%);
+}
+
+.hero { text-align: center; margin-top: 0; }
+.hero__eyebrow {
+  margin: 0; font-size: clamp(11px, 1.5vw, 17px); letter-spacing: .16em;
+  text-transform: uppercase; color: var(--gold-deep); font-weight: 700;
+}
+.hero__title {
+  margin: .15em 0 .1em; line-height: 1.02;
+  font-size: clamp(26px, 4.4vw, 48px); color: var(--ink);
+  text-shadow: 0 2px 0 rgba(255,255,255,.65);
+}
+.hero__line { display: block; }
+.hero__sub { margin: 0; font-size: clamp(12px, 1.8vw, 20px); color: var(--ink-soft); }
+
+.listen-cue {
+  display: block;
+  min-height: 44px;
+  margin: .5em auto 0;
+  padding: 6px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #fff6dd, #f3e3b6);
+  box-shadow: 0 0 0 2.5px var(--gold), var(--shadow);
+  color: var(--ink);
+  font: inherit;
+  font-size: clamp(11px, 1.5vw, 17px);
+  font-weight: 800;
+  cursor: pointer;
+}
+.listen-cue:active { transform: scale(.97); }
+
+/* Three across, two down. Six across made each card a narrow strip with a tiny
+   character marooned in it; these characters need width to read as characters. */
+.companion-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 1.6% 2%;
+  width: 100%;
+  max-width: 86%;
+  padding: 1.4% 0 0;
+  min-height: 0;
+}
+
+.companion-card {
+  display: flex; flex-direction: column; align-items: center; justify-content: stretch; gap: 1px;
+  min-height: 0; overflow: hidden;
+  padding: 4% 3% 3.5%;
+  border: 0; border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,247,232,.88));
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+  cursor: pointer;
+  transition: transform .14s ease, box-shadow .14s ease;
+}
+.companion-card:hover, .companion-card:focus-visible { transform: translateY(-6px); outline: none; }
+.companion-card:active { transform: translateY(-2px) scale(.985); }
+.companion-card.is-voicing {
+  transform: translateY(-6px) scale(1.035);
+  background: linear-gradient(180deg, #fffdf6, #fff0cd);
+  box-shadow: 0 0 0 5px #f5a623, 0 0 34px 11px rgba(245, 166, 35, .55), var(--shadow);
+}
+@media (prefers-reduced-motion: reduce) {
+  .companion-card.is-voicing { transform: none; }
+}
+/* flex-basis 0 lets the row decide the height and `contain` letterboxes the
+   figure inside it. Sizing by width instead made each card as tall as the
+   picture's aspect ratio demanded, which overflowed the grid row. */
+.companion-card__art {
+  flex: 1 1 0; min-height: 0;
+  width: 100%; object-fit: contain;
+  margin-bottom: 3%;
+}
+.companion-card__name { font-size: clamp(12px, 1.7vw, 19px); font-weight: 800; color: var(--ink); }
+.companion-card__tag { font-size: clamp(9px, 1.1vw, 13px); color: var(--ink-soft); text-align: center; }
+
+/* ── shared page furniture ────────────────────────────────────────────────── */
+
+.topbar { display: flex; align-items: flex-start; gap: 2%; }
+
+.round-btn {
+  flex: 0 0 auto;
+  width: clamp(42px, 5.4vw, 62px); height: clamp(42px, 5.4vw, 62px);
+  border: 0; border-radius: 50%;
+  background: linear-gradient(180deg, #fdf6e3, #ecdcb6);
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+  font-size: clamp(18px, 2.4vw, 26px); color: var(--ink);
+  cursor: pointer;
+}
+.round-btn:active { transform: scale(.94); }
+
+/* The way out of the book, on the landing only. The scrim is inset:0, so this pins to
+   the same corner the world screen puts its house button in. */
+.hub-btn {
+  position: absolute; left: 2.2%; top: 2.2%; z-index: 3;
+  display: grid; place-items: center; text-decoration: none;
+}
+
+.banner {
+  flex: 1; text-align: center;
+  padding: .5% 2%;
+  background: linear-gradient(180deg, #fbf3dd, #f0e2bd);
+  border-radius: 14px;
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+}
+.banner h1 { margin: 0; font-size: clamp(18px, 3.2vw, 38px); letter-spacing: .01em; }
+.banner p { margin: 1px 0 0; font-size: clamp(10px, 1.4vw, 16px); color: var(--ink-soft); }
+/* Wing taglines are full sentences, not one-liners like a room subtitle. */
+.banner--wing p { font-size: clamp(9px, 1.15vw, 13.5px); max-width: 58ch; margin-inline: auto; line-height: 1.3; }
+
+.guide-badge {
+  flex: 0 0 auto; display: flex; align-items: center; gap: 6px;
+  padding: 4px 12px 4px 4px;
+  background: rgba(255,250,238,.92); border-radius: 999px;
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+}
+.guide-badge img { width: clamp(30px, 3.6vw, 46px); height: auto; }
+.guide-badge span { font-size: clamp(10px, 1.3vw, 15px); font-weight: 700; }
+
+/* ── music world (the six wings) ──────────────────────────────────────────── */
+
+.wing-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 1.4% 3%;
+  align-content: center;
+  /* Right padding keeps the last column clear of the guide badge; the generous
+     bottom padding is the band the companion stands in, so a card and a
+     character never share the same corner. */
+  padding: 1% 9% 13%;
+}
+
+.wing-card {
+  position: relative;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+  border: 0; background: none; padding: 0; cursor: pointer;
+  transition: transform .14s ease;
+}
+.wing-card:hover { transform: translateY(-5px); }
+.wing-card:active { transform: scale(.98); }
+
+.wing-card__art {
+  width: min(100%, 15.5vh); aspect-ratio: 1;
+  border-radius: 50%;
+  background-size: cover; background-position: center;
+  box-shadow: var(--frame);
+}
+.wing-card__label {
+  margin-top: -8%;
+  padding: 5px 16px;
+  border-radius: 999px;
+  background: var(--accent, #22385a);
+  color: #fff8e6;
+  font-size: clamp(11px, 1.6vw, 18px); font-weight: 800;
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+  z-index: 1;
+}
+.wing-card__count {
+  margin-top: 5px; font-size: clamp(9px, 1.1vw, 13px);
+  color: #fff; background: rgba(30,43,69,.72); padding: 2px 10px; border-radius: 999px;
+}
+
+/* ── a wing's rooms ───────────────────────────────────────────────────────── */
+
+.stage--wing .scrim {
+  background: radial-gradient(ellipse at 50% 42%, rgba(255,252,244,.62) 0%, rgba(255,252,244,.34) 48%, rgba(255,252,244,.08) 78%);
+}
+
+.room-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 1.6% 2.4%;
+  align-content: center;
+  padding: 1% 7% 10%;
+  min-height: 0;
+}
+
+/* Placeholder door: a tinted plate with the room's number and name. Room art
+   replaces the gradient, not the structure — the number/title/subtitle/count
+   slots stay so the wiring survives the art pass. */
+.room-card {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px;
+  min-height: 0;
+  padding: 4% 6%;
+  border: 0; border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.5), rgba(255,255,255,.18)),
+    linear-gradient(165deg, color-mix(in srgb, var(--accent, #22385a) 62%, #1d2544), color-mix(in srgb, var(--accent, #22385a) 30%, #1d2544));
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+  color: #fff8e6; font: inherit; cursor: pointer;
+  transition: transform .14s ease;
+}
+.room-card:hover { transform: translateY(-4px); }
+.room-card:active { transform: scale(.98); }
+.room-card__number {
+  font-size: clamp(9px, 1.1vw, 13px); font-weight: 800; letter-spacing: .14em;
+  text-transform: uppercase; opacity: .82;
+}
+.room-card__title {
+  font-size: clamp(14px, 2vw, 24px); font-weight: 800; text-align: center; line-height: 1.12;
+}
+.room-card__subtitle {
+  font-size: clamp(9px, 1.2vw, 14px); opacity: .9; text-align: center; line-height: 1.25;
+}
+.room-card__count {
+  margin-top: 3px; font-size: clamp(9px, 1.05vw, 12px); font-weight: 700; opacity: .75;
+}
+
+/* ── a room card that has its own painting ───────────────────────────────────
+   Owner, 2026-09-13: "let's also make arts for these cards." The art replaces
+   the slate gradient and nothing else: same box, same four text slots, same tap
+   target (303×195 CSS px at 768 wide, 404×261 at 1024 wide — deliberately not
+   shrunk to make room for a picture). app.js passes the file as --card-art.
+
+   The scrim is not decoration. The title, subtitle and count are cream (#fff8e6)
+   lying directly over the middle of the painting, so the middle band is darkened
+   to ~.62 and the two ends are left nearly clear — the art is composed with its
+   incident at the left and right thirds for exactly this. Measured on the four
+   Wing 1 cards, every text span clears WCAG AA contrast against the pixels
+   actually behind it; the text-shadow is the second line of defence for a future
+   card whose centre comes back lighter than briefed.
+
+   `background-image` here overrides the shorthand in `.room-card` above by
+   source order (both are one class, so specificity ties). The wing's accent
+   gradient is repeated as the bottom layer on purpose: a card whose webp 404s
+   then falls back to the tinted plate it had before, instead of going
+   transparent and letting the stage painting show through the scrim — which is
+   what a missing file actually looked like while this was being built. */
+.room-card--art {
+  background-image:
+    linear-gradient(180deg,
+      rgba(13, 18, 36, .12) 0%,
+      rgba(13, 18, 36, .52) 30%,
+      rgba(13, 18, 36, .56) 68%,
+      rgba(13, 18, 36, .20) 100%),
+    var(--card-art),
+    linear-gradient(165deg,
+      color-mix(in srgb, var(--accent, #22385a) 62%, #1d2544),
+      color-mix(in srgb, var(--accent, #22385a) 30%, #1d2544));
+  background-size: 100% 100%, cover, 100% 100%;
+  background-position: center, var(--card-focus, 50% 50%), center;
+  background-repeat: no-repeat;
+  text-shadow: 0 1px 3px rgba(10, 14, 28, .8);
+}
+.room-card--art .room-card__number { opacity: .95; }
+.room-card--art .room-card__subtitle { opacity: 1; }
+.room-card--art .room-card__count { opacity: .92; }
+
+/* ── a room (its pieces) ──────────────────────────────────────────────────── */
+
+.room-body { flex: 1; display: flex; gap: 2%; padding: 1.6% 0 0; min-height: 0; }
+
+/* The field is a fixed box on a stage that cannot scroll, so the rows have to
+   fit INSIDE it. They used to be auto-sized: six bubbles with a name plate and
+   two stacked mode buttons came to 520px of rows in a 385px box, and
+   `align-content: center` on an overflowing grid spills the excess equally in
+   BOTH directions — 67px of discs above the field, on top of the room's banner,
+   and 67px below it, on the connections strip. Measured 2026-09-13 at 768×1024:
+   17 of 24 rooms covered their own title, and in 16 of them a disc sat on the
+   back arrow and swallowed the tap that leaves the room.
+   `minmax(0, 1fr)` is the fix: a row can never be taller than its share of the
+   box, so nothing is ever painted outside it. What gives way inside the row is
+   the picture (see `.bubble__disc`), never a tap target. */
+.bubble-field {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
+  grid-auto-rows: minmax(0, 1fr);
+  gap: 2% 3%;
+  align-content: center;
+  /* `stretch`, not `center`: the bubble is its column, which gives it the
+     definite width `100cqw` below is measured against. */
+  justify-items: stretch;
+  min-height: 0;
+}
+
+.bubble {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  height: 100%; min-height: 0;
+  container-type: inline-size;
+}
+
+/* The name plate and the mode buttons are what a child aims a finger at, so
+   they are never shrunk — `flex: 0 0 auto` takes them out of the shrink pass. */
+.bubble__name, .bubble__modes { flex: 0 0 auto; }
+
+.bubble__disc {
+  position: relative;
+  /* Sized by HEIGHT, not width, so the flex column can shrink it when the row
+     is short, and kept square by `aspect-ratio` so it shrinks as a disc. The
+     starting height is the old width rule — `100cqw` is this bubble's column —
+     so every room that already fitted is pixel-identical. A tap target that
+     gives ground is still enormous next to a fingertip; the art inside it is
+     what gets smaller. */
+  flex: 0 1 auto;
+  height: min(19vh, 100cqw); width: auto; aspect-ratio: 1;
+  padding: 0; border: 0; border-radius: 50%;
+  background: #dcd2bb;
+  box-shadow: var(--frame);
+  cursor: pointer; overflow: hidden;
+  transition: transform .15s ease;
+}
+.bubble--large .bubble__disc { height: min(23vh, 100cqw); }
+.bubble__disc:hover { transform: scale(1.035); }
+.bubble__disc:active { transform: scale(.98); }
+.bubble__art { width: 100%; height: 100%; object-fit: cover; display: block; }
+.bubble__art--none {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%; font-size: 3rem; color: #8a7f66;
+}
+
+/* A ring that breathes while the piece plays — the only "now playing" cue the
+   page needs, and it lives on the picture the child tapped. */
+.bubble__pulse {
+  position: absolute; inset: 0; border-radius: 50%;
+  box-shadow: inset 0 0 0 0 rgba(255, 236, 160, 0);
+  pointer-events: none;
+}
+.is-playing .bubble__pulse { animation: pulse 1.5s ease-in-out infinite; }
+@keyframes pulse {
+  0%, 100% { box-shadow: inset 0 0 0 4px rgba(255,236,160,.35), 0 0 0 0 rgba(255,214,102,.55); }
+  50%      { box-shadow: inset 0 0 0 9px rgba(255,236,160,.75), 0 0 26px 8px rgba(255,214,102,.5); }
+}
+
+.bubble__name {
+  margin-top: -6%;
+  padding: 4px 14px;
+  max-width: 108%;
+  border: 0; border-radius: 10px;
+  background: linear-gradient(180deg, var(--plate), #ecdcb4);
+  box-shadow: 0 0 0 2.5px var(--plate-edge), var(--shadow);
+  color: var(--ink);
+  font: inherit; font-size: clamp(10px, 1.45vw, 17px); font-weight: 800;
+  cursor: pointer; z-index: 1;
+  transition: transform .12s ease, background .2s ease;
+}
+.bubble__name:hover { transform: translateY(-2px); }
+.bubble__name.is-speaking { background: linear-gradient(180deg, #fff3c9, #ffe08a); transform: translateY(-2px); }
+
+.bubble__modes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 6px;
+  max-width: 140%;
+  z-index: 1;
+}
+.bubble__mode {
+  min-height: 44px;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--plate), #ecdcb4);
+  box-shadow: 0 0 0 2px var(--plate-edge), var(--shadow);
+  color: var(--ink);
+  font: inherit;
+  font-size: clamp(10px, 1.3vw, 15px);
+  font-weight: 700;
+  cursor: pointer;
+}
+.bubble__mode.is-current {
+  background: linear-gradient(180deg, #fff3c9, #ffe08a);
+  box-shadow: 0 0 0 2.5px var(--gold), var(--shadow);
+}
+
+/* ── info objects ─────────────────────────────────────────────────────────── */
+
+.info-rail {
+  flex: 0 0 auto; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 12%;
+  width: clamp(76px, 11vw, 130px);
+}
+
+.info-square {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  width: 100%; padding: 8% 4%;
+  border: 0; border-radius: 12px;
+  background: linear-gradient(180deg, #fdf6e3, #e9d9ae);
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+  cursor: pointer; color: var(--ink); font: inherit;
+}
+.info-square:active { transform: scale(.97); }
+.info-square__face {
+  display: block;
+  width: 74%; aspect-ratio: 1; border-radius: 8px;
+  object-fit: cover;
+  background: linear-gradient(160deg, #6f7f9c, #3d4a63);
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.5);
+}
+.info-square__face--monogram {
+  display: flex; align-items: center; justify-content: center;
+  color: #fff6df; font-size: clamp(16px, 2.4vw, 30px); font-weight: 800;
+}
+.info-square__line { display: block; }
+.info-square__label { font-size: clamp(9px, 1.1vw, 13px); font-weight: 800; text-align: center; line-height: 1.15; }
+
+.info-diamond {
+  position: relative;
+  width: 72%; aspect-ratio: 1;
+  border: 0; background: none; padding: 0; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+/* The rotation lives on a pseudo-element so the glyph itself stays upright:
+   rotating the box and the emoji together tips the lightbulb on its side. */
+.info-diamond__inner {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: clamp(15px, 2.1vw, 26px);
+}
+.info-diamond__inner::before {
+  content: ''; position: absolute; inset: 0;
+  transform: rotate(45deg); border-radius: 12px;
+  background: linear-gradient(160deg, #33406b, #1d2544);
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+}
+.info-diamond__inner > * { position: relative; }
+.info-diamond__label {
+  position: absolute; bottom: -26%;
+  font-size: clamp(9px, 1.1vw, 13px); font-weight: 800; color: var(--ink);
+  background: rgba(255,250,238,.9); padding: 1px 8px; border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* ── companion in the corner ──────────────────────────────────────────────── */
+
+/* The owner's 2026-08-28 QA caught the companion overlapping the connections
+   strip on room screens. Interim rule: on a room, the companion shrinks and
+   the bottom band reserves its corner. The real fix belongs to the art-stage
+   scene design, which places the guides inside the picture instead of as a
+   floating layer. */
+.companion-corner {
+  position: absolute; left: 2.4%; bottom: 1%;
+  display: flex; align-items: flex-end; gap: 8px;
+  max-width: 46%;
+  pointer-events: none;
+}
+.companion-figure { width: clamp(70px, 10vw, 140px); height: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,.3)); }
+.stage--room .companion-figure { width: clamp(54px, 7.5vw, 104px); }
+.companion-bubble {
+  margin: 0 0 10% 0; padding: 7px 13px;
+  max-width: 17ch;
+  background: rgba(255,251,240,.95); border-radius: 16px;
+  box-shadow: 0 0 0 2.5px var(--plate-edge), var(--shadow);
+  font-size: clamp(10px, 1.3vw, 15px); font-weight: 600; line-height: 1.3;
+}
+.stage--room .room-links { padding-left: clamp(88px, 15vw, 180px); }
+
+/* ── pager ────────────────────────────────────────────────────────────────── */
+
+.pager { display: flex; justify-content: center; gap: 10px; padding: 1% 0 .4%; }
+.pager__dot {
+  width: 14px; height: 14px; border-radius: 50%; border: 0; cursor: pointer;
+  background: rgba(255,250,238,.6); box-shadow: 0 0 0 2px var(--gold);
+}
+.pager__dot.is-current { background: var(--gold); }
+
+/* ── where this room leads (connections) ──────────────────────────────────── */
+
+/* A slim scrollable band under the bubbles: the room's outgoing connections.
+   Each link is the curation's one-sentence label plus the room it leads to,
+   so the journey is readable without opening anything. */
+.room-links {
+  display: flex; gap: 8px;
+  padding: .6% 1% .2%;
+  overflow-x: auto; scrollbar-width: thin;
+}
+.room-link {
+  display: flex; flex-direction: column; gap: 1px;
+  flex: 0 0 auto; max-width: 34%;
+  padding: 6px 12px;
+  border: 0; border-radius: 12px;
+  background: rgba(255,250,238,.92);
+  box-shadow: 0 0 0 2px var(--plate-edge), var(--shadow);
+  color: var(--ink); font: inherit; text-align: left; cursor: pointer;
+}
+.room-link:active { transform: scale(.98); }
+.room-link__label {
+  font-size: clamp(8.5px, 1vw, 12px); line-height: 1.25; color: var(--ink-soft);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.room-link__target {
+  font-size: clamp(10px, 1.25vw, 14.5px); font-weight: 800; white-space: nowrap;
+}
+.room-link--hint { cursor: default; box-shadow: 0 0 0 2px rgba(216,191,134,.5); }
+.room-link--hint .room-link__target { color: var(--ink-soft); }
+
+/* ── pop-up ───────────────────────────────────────────────────────────────── */
+
+#popup {
+  position: fixed; inset: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(16, 22, 42, .55);
+}
+#popup[hidden] { display: none; }
+
+.popup__card {
+  position: relative;
+  width: min(560px, 78vw); max-height: 76vh; overflow: auto;
+  padding: 26px 30px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #fdf7e8, #f2e6c9);
+  box-shadow: 0 0 0 4px var(--gold), 0 20px 50px rgba(0,0,0,.4);
+}
+.popup__card h2 { margin: 0 0 4px; font-size: clamp(20px, 2.6vw, 28px); }
+.popup__card p { margin: 10px 0 0; font-size: clamp(13px, 1.6vw, 17px); line-height: 1.55; }
+/* A heading you can tap to hear the name. Inherits the h2's type so it still reads
+   as the title rather than as a control; the dotted underline is the only hint,
+   because a button-looking heading would compete with the close button. */
+.popup__say {
+  font: inherit; color: inherit; text-align: left;
+  border: 0; padding: 0; background: none; cursor: pointer;
+  border-bottom: 2px dotted rgba(26,42,92,.55);
+}
+/* The speaker is the affordance a child actually reads. The dotted rule alone was
+   invisible at arm's length on the iPad, which made a working feature undiscoverable.
+   Sized in em so it tracks the heading rather than needing its own breakpoint. */
+.popup__say-cue { margin-left: .35em; font-size: .8em; opacity: .55; }
+.popup__say.is-speaking { background: linear-gradient(180deg, #fff3c9, #ffe08a); border-radius: 6px; }
+.popup__meta { color: var(--ink-soft); font-weight: 700; }
+
+/* Room knowledge: the words this room teaches, as chips rather than a sentence,
+   so they read as things to collect rather than a glossary to read. */
+.popup__vocab { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.vocab-chip {
+  padding: 3px 12px; border-radius: 999px;
+  background: linear-gradient(180deg, #fff3c9, #ffe08a);
+  box-shadow: 0 0 0 2px var(--gold);
+  font-size: clamp(11px, 1.3vw, 14px); font-weight: 700;
+}
+
+/* Compare links inside a piece popup: the same A/B journey the room teaches,
+   offered from the piece that starts it. */
+.popup__compare { margin-top: 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.popup__compare strong { font-size: clamp(12px, 1.4vw, 15px); }
+.popup__compare-link {
+  padding: 6px 14px; border: 0; border-radius: 999px;
+  background: linear-gradient(180deg, var(--plate), #ecdcb4);
+  box-shadow: 0 0 0 2px var(--plate-edge), var(--shadow);
+  color: var(--ink); font: inherit; font-weight: 700;
+  font-size: clamp(11px, 1.3vw, 15px); cursor: pointer;
+}
+.popup__compare-link:hover { transform: translateY(-2px); }
+
+.popup__close {
+  position: absolute; top: 10px; right: 12px;
+  width: 40px; height: 40px; border: 0; border-radius: 50%;
+  background: rgba(30,43,69,.1); font-size: 20px; cursor: pointer;
+}
+
+/* ── Read Together: the guided chapter ──────────────────────────────────────
+   Scenes here are deliberately flat placeholder plates. Four painted 4:3 plates
+   replace .rt-scene's background and its dashed shapes; nothing else should have
+   to move when they arrive. The teaching layer -- contours, tags, evidence,
+   ribbons -- is styled as real UI because that is what it will stay.          */
+
+.stage--chapter { background: linear-gradient(180deg, #fbf6ea, #f3e9d3); }
+
+.rt {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1%;
+  padding: 2% 3%;
+  color: var(--ink);
+}
+
+.rt-top { display: flex; align-items: center; gap: 12px; }
+.rt-head { flex: 1; text-align: center; }
+.rt-head h1 {
+  margin: 0; font-size: clamp(15px, 2.3vw, 26px); font-weight: 800; letter-spacing: .01em;
+}
+.rt-head p {
+  margin: 2px 0 0; font-size: clamp(10px, 1.5vw, 16px); color: var(--ink-soft);
+}
+.rt-flag {
+  font-size: clamp(8px, 1vw, 11px); text-transform: uppercase; letter-spacing: .12em;
+  font-weight: 700; color: var(--gold-deep); border: 1px dashed var(--plate-edge);
+  border-radius: 999px; padding: 3px 8px; white-space: nowrap;
+}
+
+/* Page orientation, not a score: four marks, no numbers, no streak. */
+.rt-marks { display: flex; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.rt-mark {
+  flex: 1; text-align: center; font-size: clamp(8px, 1.05vw, 12px); font-weight: 700;
+  color: var(--ink-soft); padding: 4px 2px; border-radius: 999px;
+  background: rgba(255, 255, 255, .5); box-shadow: inset 0 0 0 1px var(--plate-edge);
+}
+.rt-mark.is-done { color: var(--gold-deep); }
+.rt-mark.is-current {
+  color: var(--ink); background: linear-gradient(180deg, #fff3c9, #ffe08a);
+  box-shadow: inset 0 0 0 2px var(--gold);
+}
+
+.rt-scene {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  border-radius: 18px;
+  border: 2px dashed var(--plate-edge);
+  background: radial-gradient(ellipse at 50% 30%, #fffdf7, #f4ead4);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 1.4%;
+  padding: 1.5% 12%;
+  overflow: hidden;
+}
+
+/* Reserved guide zones. Neutral on purpose: the permanent cast is unresolved,
+   and whatever gets drawn first is what everyone starts arguing from. */
+.rt-guide {
+  position: absolute; bottom: 4%;
+  width: clamp(38px, 6.5%, 64px); aspect-ratio: 1;
+  border-radius: 50%; border: 2px dashed var(--plate-edge);
+  background: rgba(255, 255, 255, .6);
+  display: grid; place-content: center; text-align: center; line-height: 1;
+}
+.rt-guide span { font-size: clamp(13px, 2vw, 20px); font-weight: 800; color: var(--gold-deep); }
+.rt-guide small { font-size: clamp(6px, .85vw, 9px); color: var(--ink-soft); }
+.rt-guide--curious { left: 3%; }
+.rt-guide--knowing { right: 3%; }
+
+/* Placeholder scenery. */
+.rt-door, .rt-bench, .rt-channel, .rt-desk {
+  position: absolute; border: 2px dashed var(--plate-edge); border-radius: 10px;
+  background: rgba(255, 255, 255, .35);
+}
+.rt-door { left: 6%; top: 12%; width: 12%; height: 52%; }
+.rt-bench { left: 22%; bottom: 16%; right: 22%; height: 12%; }
+.rt-channel { left: 8%; right: 8%; top: 34%; height: 7%; border-radius: 999px; z-index: 0; }
+.rt-desk { left: 10%; right: 10%; bottom: 8%; height: 26%; }
+
+/* Spread A ------------------------------------------------------------------ */
+.rt-lens {
+  position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  min-height: 44px; border: 0; background: none; cursor: pointer; padding: 0; font: inherit;
+}
+.rt-lens__glass {
+  width: clamp(52px, 9vw, 88px); aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle at 38% 32%, #ffffff, #dcefff 60%, #b9d6ef);
+  box-shadow: 0 0 0 5px var(--gold), var(--shadow);
+}
+.rt-lens__cap {
+  font-size: clamp(9px, 1.3vw, 14px); font-weight: 700; color: var(--gold-deep);
+}
+.rt-lens.is-playing .rt-lens__glass { box-shadow: 0 0 0 6px #ffe08a, var(--shadow); }
+
+.rt-ribbon { width: min(100%, 420px); }
+
+.rt-tags { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.rt-tag {
+  min-height: 44px; display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border: 0; border-radius: 999px; cursor: pointer; font: inherit;
+  font-size: clamp(10px, 1.35vw, 15px); font-weight: 700; color: var(--ink);
+  background: linear-gradient(180deg, var(--plate), #ecdcb4);
+  box-shadow: 0 0 0 2px var(--plate-edge), var(--shadow);
+}
+.rt-tag.is-current { background: linear-gradient(180deg, #fff3c9, #ffe08a); box-shadow: 0 0 0 2.5px var(--gold), var(--shadow); }
+.rt-tag__charm { font-size: 1.1em; color: var(--gold-deep); }
+
+.rt-note {
+  position: relative; z-index: 1;
+  margin: 0; max-width: 46ch; text-align: center; color: var(--ink-soft);
+  font-size: clamp(9px, 1.25vw, 14px);
+  background: rgba(255, 253, 247, .88); border-radius: 8px; padding: 2px 6px;
+}
+
+/* The contour: computed from the score, never painted. */
+.rt-contour { width: 100%; height: auto; overflow: visible; }
+.rt-contour__line { fill: none; stroke: var(--gold); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.rt-contour__dot {
+  fill: #fff; stroke: var(--gold-deep); stroke-width: 3;
+  opacity: 0;   /* parked off-viewBox until a note lights it; overflow is visible */
+  transition: opacity .12s linear;
+}
+.rt-contour--small .rt-contour__line { stroke-width: 2.5; }
+
+/* Spreads B and C ----------------------------------------------------------- */
+.rt-stations, .rt-machines {
+  position: relative; z-index: 1;
+  display: flex; gap: 4%; align-items: flex-start; justify-content: center; width: 100%;
+}
+.rt-station { flex: 1; max-width: 46%; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.rt-station__hit {
+  min-height: 44px; display: flex; flex-direction: column; align-items: center; gap: 6px;
+  border: 0; background: none; cursor: pointer; font: inherit; padding: 0; width: 100%;
+}
+.rt-station__shape {
+  width: clamp(56px, 12vw, 108px); aspect-ratio: 3 / 2;
+  border: 2px dashed var(--plate-edge); border-radius: 12px; background: rgba(255,255,255,.5);
+}
+.rt-station__shape--bridge { border-radius: 60% 60% 8px 8px; }
+.rt-station__shape--lanterns { border-radius: 12px; background: repeating-linear-gradient(90deg, rgba(255,255,255,.7) 0 22%, transparent 22% 33%); }
+.rt-station__shape--crank { border-radius: 8px; }
+.rt-station__shape--turntable { border-radius: 50%; aspect-ratio: 1; }
+.rt-station__label { font-size: clamp(10px, 1.35vw, 15px); font-weight: 700; }
+.rt-station.is-done .rt-station__shape { border-style: solid; border-color: var(--gold); }
+.rt-station__hit.is-playing .rt-station__shape { box-shadow: 0 0 0 4px #ffe08a; }
+
+.rt-rail { position: relative; z-index: 1; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; width: 100%; }
+.rt-strip, .rt-token {
+  min-height: 44px; display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 6px 10px; border: 0; border-radius: 12px; cursor: pointer; font: inherit;
+  font-size: clamp(8px, 1.1vw, 12px); font-weight: 700; color: var(--ink);
+  background: rgba(255, 255, 255, .72); box-shadow: 0 0 0 1.5px var(--plate-edge);
+  width: clamp(96px, 15%, 150px);
+}
+.rt-strip.is-playing, .rt-token.is-playing { box-shadow: 0 0 0 2.5px var(--gold); }
+.rt-token.is-cued { background: linear-gradient(180deg, #fff3c9, #ffe08a); box-shadow: 0 0 0 2.5px var(--gold); }
+
+/* The pop clears the box's own top edge by design — that overshoot IS the
+   surprise. Reserve headroom for it in the column, or it rises into the
+   caption's line box and strikes through the station's name at the one moment
+   the child is watching for it. */
+.rt-popbox {
+  position: relative; width: clamp(48px, 9vw, 84px); aspect-ratio: 1;
+  margin-top: clamp(16px, 2.6vw, 30px);
+}
+.rt-popbox__lid {
+  position: absolute; inset: auto 0 0 0; height: 56%;
+  border: 2px dashed var(--plate-edge); border-radius: 8px; background: rgba(255,255,255,.55);
+}
+.rt-popbox__pop {
+  position: absolute; left: 50%; bottom: 40%; translate: -50% 0;
+  font-size: clamp(16px, 3vw, 30px); font-weight: 900; color: var(--gold-deep);
+  opacity: 0; transition: opacity .12s linear, bottom .18s ease-out;
+}
+.rt-popbox.is-open .rt-popbox__pop { opacity: 1; bottom: 78%; }
+
+.rt-turntable {
+  position: relative; width: clamp(64px, 13vw, 120px); aspect-ratio: 1;
+}
+.rt-groove {
+  position: absolute; border-radius: 50%; border: 3px solid var(--plate-edge);
+}
+.rt-groove--lead { inset: 0; }
+.rt-groove--echo { inset: 16%; }
+.rt-groove.is-dim { opacity: .38; }
+.rt-groove.is-lit { border-color: var(--gold); box-shadow: 0 0 10px rgba(201, 162, 39, .6); }
+
+.rt-echo-tab {
+  min-height: 44px; padding: 8px 16px; border: 0; border-radius: 999px; cursor: pointer;
+  font: inherit; font-size: clamp(10px, 1.3vw, 15px); font-weight: 800; color: var(--ink);
+  background: linear-gradient(180deg, #fff3c9, #ffe08a); box-shadow: 0 0 0 2px var(--gold), var(--shadow);
+}
+.rt-echo-tab.is-done { background: rgba(255,255,255,.6); box-shadow: 0 0 0 1.5px var(--plate-edge); }
+
+/* Spread D ------------------------------------------------------------------ */
+.rt-card {
+  position: relative; z-index: 1; width: min(72%, 460px); text-align: center;
+  padding: 10px 14px; border-radius: 14px; background: rgba(255, 255, 255, .86);
+  box-shadow: 0 0 0 2px var(--plate-edge), var(--shadow);
+}
+.rt-card.is-placed { box-shadow: 0 0 0 3px var(--gold), var(--shadow); }
+.rt-card__line { margin: 0 0 6px; font-weight: 800; font-size: clamp(11px, 1.6vw, 18px); }
+.rt-card__cues { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin: 0; padding: 0; list-style: none; }
+.rt-card__cues li {
+  padding: 6px 10px; min-height: 32px; display: inline-flex; align-items: center;
+  border-radius: 999px; background: var(--plate); box-shadow: 0 0 0 1.5px var(--plate-edge);
+  font-size: clamp(9px, 1.2vw, 13px); font-weight: 700; cursor: pointer;
+}
+.rt-card__place {
+  margin-top: 8px; min-height: 44px; padding: 8px 16px; border: 0; border-radius: 999px;
+  cursor: pointer; font: inherit; font-weight: 800; font-size: clamp(10px, 1.3vw, 15px);
+  background: linear-gradient(180deg, #fff3c9, #ffe08a); box-shadow: 0 0 0 2px var(--gold), var(--shadow);
+}
+.rt-tokens { position: relative; z-index: 1; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; width: 100%; }
+.rt-routes { position: relative; z-index: 1; display: flex; gap: 12px; }
+.rt-route {
+  min-height: 44px; padding: 8px 18px; border: 0; border-radius: 999px; cursor: pointer;
+  font: inherit; font-weight: 800; font-size: clamp(10px, 1.3vw, 15px); color: var(--ink);
+  background: linear-gradient(180deg, var(--plate), #ecdcb4);
+  box-shadow: 0 0 0 2px var(--plate-edge), var(--shadow);
+}
+
+/* Dialogue and controls ----------------------------------------------------- */
+.rt-talk { display: flex; flex-direction: column; gap: 2px; min-height: 2.6em; }
+.rt-line {
+  margin: 0; font-size: clamp(10px, 1.4vw, 16px); color: var(--ink);
+}
+.rt-who {
+  display: inline-block; min-width: 5.5em; font-weight: 800; color: var(--gold-deep);
+  text-transform: lowercase; letter-spacing: .04em;
+}
+.rt-line--knowing .rt-who { color: #4a6b8a; }
+
+.rt-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.rt-btn {
+  min-height: 44px; padding: 8px 20px; border: 0; border-radius: 999px; cursor: pointer;
+  font: inherit; font-weight: 800; font-size: clamp(10px, 1.4vw, 16px); color: var(--ink);
+  background: linear-gradient(180deg, var(--plate), #ecdcb4);
+  box-shadow: 0 0 0 2px var(--plate-edge), var(--shadow);
+}
+/* Continue is always reachable for an adult; it only gains emphasis once the
+   spread's own interaction has happened, so the chapter never becomes a trap. */
+.rt-btn.is-ready { background: linear-gradient(180deg, #fff3c9, #ffe08a); box-shadow: 0 0 0 2.5px var(--gold), var(--shadow); }
+.rt-btn--quiet {
+  background: none; box-shadow: none; color: var(--ink-soft); font-weight: 700;
+  font-size: clamp(9px, 1.15vw, 13px); text-decoration: underline;
+}
+
+/* While a piece plays, the furniture quiets and the active object stays lit. */
+.stage--chapter.is-listening .rt-marks,
+.stage--chapter.is-listening .rt-foot { opacity: .55; transition: opacity .2s ease; }
