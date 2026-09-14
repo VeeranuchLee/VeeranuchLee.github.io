@@ -1,0 +1,12 @@
+{
+  "datePrepared": "2026-09-12",
+  "sourceCommit": "c95a5000938b62beed621523c7c3c7ef56018f55",
+  "purpose": "Page-by-page review of the Saturn and Uranus moon deep-dives alongside the earlier asteroid-belt and Jupiter-moons deep-dives.",
+  "included": {
+    "pages": ["page-10.html", "page-12.html", "page-14.html", "page-16.html"],
+    "runtime": ["app/book-nav.js", "app/deep-dive.js", "app/deep-dive.css"],
+    "assets": "Standard runtime art for pages 10, 12, 14 and 16; shared space-friend art; and narration clips whose filenames belong to those four pages. No high-quality tier exists in this source checkout."
+  },
+  "selection": "Every copied source file was confirmed in the output of scripts/ship-list.py solar-storybook. Private source art, Markdown, QC harnesses, tools, data files and Moon Explorer files were excluded.",
+  "art": "The ten new deep-dive images were generated with OpenAI image generation on 2026-09-12 and encoded by solar-storybook/tools/build-runtime-assets.py; detailed prompts and source records remain private in the source app. Existing page art is reused where the review note says so."
+}

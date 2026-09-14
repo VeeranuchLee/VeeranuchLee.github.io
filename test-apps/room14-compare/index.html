@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Room 14 — batch 1 beside the redo</title>
+<style>
+  :root{
+    --ink:#25343b; --ink-soft:#526169;
+    --card:#fffdf7; --edge:#fff9;
+    --b1-ink:#7a4f07; --b1-bg:#fdeecb; --b1-line:#d9a23e;
+    --rd-ink:#0e5462; --rd-bg:#d6eff4; --rd-line:#3ba3b8;
+    --live-ink:#1d5c33; --live-bg:#dcf3e2; --live-line:#5bb078;
+    --held-ink:#7c2f3c; --held-bg:#fbe1e6; --held-line:#cf7286;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; padding:22px 16px 60px;
+    font:16px/1.55 Nunito,"Avenir Next",system-ui,-apple-system,sans-serif;
+    color:var(--ink);
+    background:linear-gradient(150deg,#fff5c9,#f1c8ff);
+    min-height:100vh;
+  }
+  .wrap{max-width:880px;margin:0 auto}
+  a.back{display:inline-block;margin-bottom:14px;color:#2d5d7c;font-weight:800;text-decoration:none}
+  a.back:hover{text-decoration:underline}
+
+  .panel{
+    background:var(--card); border:3px solid var(--edge); border-radius:24px;
+    padding:20px 22px; box-shadow:0 14px 36px #45566c22; margin-bottom:20px;
+  }
+  h1{margin:0 0 10px;font-size:1.55rem;line-height:1.25;color:#243d52}
+  .panel p{margin:0 0 10px;color:var(--ink-soft)}
+  .panel p:last-child{margin-bottom:0}
+  .panel strong{color:var(--ink)}
+  .quote{
+    border-left:4px solid var(--b1-line); padding-left:13px;
+    font-style:italic; color:var(--ink);
+  }
+  .standing{
+    margin:14px 0; padding:13px 15px; border-radius:16px;
+    background:#f4f7f4; border:2px solid #dfe7e0;
+  }
+  .standing h2{margin:0 0 7px;font-size:1rem;letter-spacing:.02em;text-transform:uppercase;color:#3d5a48}
+  .standing ul{margin:0;padding-left:19px;color:var(--ink-soft)}
+  .standing li{margin-bottom:5px}
+  .standing li:last-child{margin-bottom:0}
+
+  /* ── one pair ─────────────────────────────────────────────────────────── */
+  .pair{
+    background:var(--card); border:3px solid var(--edge); border-radius:24px;
+    padding:16px 16px 18px; box-shadow:0 14px 36px #45566c1a; margin-bottom:20px;
+  }
+  .pair-head{margin:0 0 12px}
+  .pair-head h2{margin:0 0 6px;font-size:1.12rem;line-height:1.3}
+  .pair-head .note{margin:7px 0 0;color:var(--ink-soft);font-size:.9rem}
+  .tag{
+    display:inline-block;padding:4px 11px;border-radius:999px;
+    font-size:.76rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+  }
+  .tag.live{background:var(--live-bg);border:2px solid var(--live-line);color:var(--live-ink)}
+  .tag.held{background:var(--held-bg);border:2px solid var(--held-line);color:var(--held-ink)}
+
+  /* Two columns at the 768px iPad target; stacked only on much narrower screens.
+     The label sits ABOVE its own image inside a bordered, tinted panel, so a
+     stacked column can never be read as the caption of the picture below it. */
+  .sides{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+  @media (max-width:600px){ .sides{grid-template-columns:1fr;gap:16px} }
+
+  figure.side{
+    margin:0; border:2px solid; border-radius:16px; overflow:hidden;
+    display:flex; flex-direction:column; min-width:0;
+  }
+  figure.side figcaption{
+    padding:7px 11px; font-weight:800; font-size:.8rem;
+    letter-spacing:.05em; text-transform:uppercase; text-align:center;
+    border-bottom:2px solid;
+  }
+  figure.side figcaption .when{
+    display:block; margin-top:1px; font-weight:600; font-size:.74rem;
+    letter-spacing:0; text-transform:none; opacity:.85;
+  }
+  .side--b1{border-color:var(--b1-line)}
+  .side--b1 figcaption{background:var(--b1-bg);color:var(--b1-ink);border-bottom-color:var(--b1-line)}
+  .side--rd{border-color:var(--rd-line)}
+  .side--rd figcaption{background:var(--rd-bg);color:var(--rd-ink);border-bottom-color:var(--rd-line)}
+
+  figure.side img{width:100%;height:auto;display:block;background:#f3efe4}
+  /* Bubbles are discs in the app (.bubble__disc is border-radius:50%,
+     object-fit:cover), so they are judged as discs here too. */
+  .bubbles figure.side img{border-radius:50%}
+  .bubbles figure.side .frame{padding:9px}
+  .frame{display:block}
+
+  footer{margin-top:24px;color:#4a5a63;font-size:.85rem;text-align:center}
+  footer code{background:#fff8;padding:1px 5px;border-radius:5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../">← Back to the test hub</a>
+
+  <header class="panel">
+    <h1>Room 14 — Vienna’s Classical City, drawn twice</h1>
+    <p>Room 14 was painted once at the start of September and again on 13 September. Batch 1 was
+    sent back with one note: it read as <strong>historical plates</strong> rather than as Music Book
+    art.</p>
+    <p class="quote">The brief for the redo was not to take the historical people out. It was to
+    make the figures feel like Music Book characters, in the style the rest of the book now uses.</p>
+
+    <div class="standing">
+      <h2>Where Room 14 stands today</h2>
+      <ul>
+        <li><strong>Six batch&nbsp;1 pictures are already on the app</strong> — the room plate and
+        five of the seven song bubbles. A child opening Room 14 right now sees batch&nbsp;1.</li>
+        <li><strong>Two bubbles were held back</strong> — <em>Eine kleine Nachtmusik</em> and the
+        <em>Surprise Symphony</em>. They still carry <code>art: null</code>, so those two bubbles
+        are blank in the app. They are the two where the period figures are most unmistakable.</li>
+        <li><strong>The redo is not wired anywhere.</strong> All eight redone pictures exist only
+        as files, waiting on this decision.</li>
+      </ul>
+    </div>
+
+    <p><strong>So this is not a question of switching Room 14 on for the first time.</strong>
+    Choosing the redo replaces six pictures a child can already see, and fills the two blank
+    bubbles. Choosing batch&nbsp;1 leaves those six alone and gives the two blank bubbles their
+    batch&nbsp;1 art after all.</p>
+    <p>Every pair below is the same piece at the same pixel size and the same WebP encode — bubbles
+    512&times;512, the plate 1448&times;1086 — so neither side is flattered by a better conversion.
+    Bubbles are shown as circles because that is exactly how the app draws them, so the square
+    corners hidden here are corners no child ever sees either.</p>
+  </header>
+
+  <section class="pair">
+    <div class="pair-head">
+      <h2>The room plate</h2>
+      <span class="tag live">Live in the app</span>
+      <p class="note">The painting behind the whole room screen, with the bubbles laid over it.</p>
+    </div>
+    <div class="sides">
+      <figure class="side side--b1">
+        <figcaption>Batch 1 <span class="when">1 September · on the app now</span></figcaption>
+        <span class="frame"><img src="./batch1/r14-vienna-classical-city-background.webp" alt="Room 14 room plate, batch 1: a pale Vienna street in soft cream and blue" width="1448" height="1086"></span>
+      </figure>
+      <figure class="side side--rd">
+        <figcaption>Redo <span class="when">13 September · not wired</span></figcaption>
+        <span class="frame"><img src="./redo/r14-vienna-classical-city-background.webp" alt="Room 14 room plate, redo: a brighter Vienna square with a fountain and flowers" width="1448" height="1086"></span>
+      </figure>
+    </div>
+  </section>
+
+  <section class="pair bubbles">
+    <div class="pair-head">
+      <h2>Eine kleine Nachtmusik — first movement</h2>
+      <span class="tag held">Held back · blank in the app</span>
+      <p class="note">One of the two that prompted the redo: batch&nbsp;1 is four adults in wigs and
+      period costume.</p>
+    </div>
+    <div class="sides">
+      <figure class="side side--b1">
+        <figcaption>Batch 1 <span class="when">1 September · withheld</span></figcaption>
+        <span class="frame"><img src="./batch1/mozart-eine-kleine-nachtmusik-1.webp" alt="Eine kleine Nachtmusik, batch 1: period adults playing strings by a moonlit balcony" width="512" height="512"></span>
+      </figure>
+      <figure class="side side--rd">
+        <figcaption>Redo <span class="when">13 September · not wired</span></figcaption>
+        <span class="frame"><img src="./redo/mozart-eine-kleine-nachtmusik-1.webp" alt="Eine kleine Nachtmusik, redo: children with flute, guitar and drum and a dog under a moon" width="512" height="512"></span>
+      </figure>
+    </div>
+  </section>
+
+  <section class="pair bubbles">
+    <div class="pair-head">
+      <h2>Surprise Symphony No. 94 — second movement</h2>
+      <span class="tag held">Held back · blank in the app</span>
+      <p class="note">The other withheld bubble, held back for the same reason.</p>
+    </div>
+    <div class="sides">
+      <figure class="side side--b1">
+        <figcaption>Batch 1 <span class="when">1 September · withheld</span></figcaption>
+        <span class="frame"><img src="./batch1/haydn-surprise-symphony-94-2.webp" alt="Surprise Symphony No. 94, batch 1" width="512" height="512"></span>
+      </figure>
+      <figure class="side side--rd">
+        <figcaption>Redo <span class="when">13 September · not wired</span></figcaption>
+        <span class="frame"><img src="./redo/haydn-surprise-symphony-94-2.webp" alt="Surprise Symphony No. 94, redo" width="512" height="512"></span>
+      </figure>
+    </div>
+  </section>
+
+  <section class="pair bubbles">
+    <div class="pair-head">
+      <h2>Trumpet Concerto — third movement</h2>
+      <span class="tag live">Live in the app</span>
+    </div>
+    <div class="sides">
+      <figure class="side side--b1">
+        <figcaption>Batch 1 <span class="when">1 September · on the app now</span></figcaption>
+        <span class="frame"><img src="./batch1/haydn-trumpet-concerto-3.webp" alt="Trumpet Concerto third movement, batch 1" width="512" height="512"></span>
+      </figure>
+      <figure class="side side--rd">
+        <figcaption>Redo <span class="when">13 September · not wired</span></figcaption>
+        <span class="frame"><img src="./redo/haydn-trumpet-concerto-3.webp" alt="Trumpet Concerto third movement, redo" width="512" height="512"></span>
+      </figure>
+    </div>
+  </section>
+
+  <section class="pair bubbles">
+    <div class="pair-head">
+      <h2>Ah vous dirai-je, Maman — variations</h2>
+      <span class="tag live">Live in the app</span>
+    </div>
+    <div class="sides">
+      <figure class="side side--b1">
+        <figcaption>Batch 1 <span class="when">1 September · on the app now</span></figcaption>
+        <span class="frame"><img src="./batch1/mozart-ah-vous-dirai-je-variations.webp" alt="Ah vous dirai-je Maman variations, batch 1" width="512" height="512"></span>
+      </figure>
+      <figure class="side side--rd">
+        <figcaption>Redo <span class="when">13 September · not wired</span></figcaption>
+        <span class="frame"><img src="./redo/mozart-ah-vous-dirai-je-variations.webp" alt="Ah vous dirai-je Maman variations, redo" width="512" height="512"></span>
+      </figure>
+    </div>
+  </section>
+
+  <section class="pair bubbles">
+    <div class="pair-head">
+      <h2>Piano Sonata K.545 — first movement</h2>
+      <span class="tag live">Live in the app</span>
+    </div>
+    <div class="sides">
+      <figure class="side side--b1">
+        <figcaption>Batch 1 <span class="when">1 September · on the app now</span></figcaption>
+        <span class="frame"><img src="./batch1/mozart-piano-sonata-k545-1.webp" alt="Piano Sonata K.545 first movement, batch 1" width="512" height="512"></span>
+      </figure>
+      <figure class="side side--rd">
+        <figcaption>Redo <span class="when">13 September · not wired</span></figcaption>
+        <span class="frame"><img src="./redo/mozart-piano-sonata-k545-1.webp" alt="Piano Sonata K.545 first movement, redo" width="512" height="512"></span>
+      </figure>
+    </div>
+  </section>
+
+  <section class="pair bubbles">
+    <div class="pair-head">
+      <h2>Rondo alla Turca</h2>
+      <span class="tag live">Live in the app</span>
+    </div>
+    <div class="sides">
+      <figure class="side side--b1">
+        <figcaption>Batch 1 <span class="when">1 September · on the app now</span></figcaption>
+        <span class="frame"><img src="./batch1/mozart-rondo-alla-turca.webp" alt="Rondo alla Turca, batch 1" width="512" height="512"></span>
+      </figure>
+      <figure class="side side--rd">
+        <figcaption>Redo <span class="when">13 September · not wired</span></figcaption>
+        <span class="frame"><img src="./redo/mozart-rondo-alla-turca.webp" alt="Rondo alla Turca, redo" width="512" height="512"></span>
+      </figure>
+    </div>
+  </section>
+
+  <section class="pair bubbles">
+    <div class="pair-head">
+      <h2>Symphony No. 40 — first movement</h2>
+      <span class="tag live">Live in the app</span>
+    </div>
+    <div class="sides">
+      <figure class="side side--b1">
+        <figcaption>Batch 1 <span class="when">1 September · on the app now</span></figcaption>
+        <span class="frame"><img src="./batch1/mozart-symphony-40-1.webp" alt="Symphony No. 40 first movement, batch 1" width="512" height="512"></span>
+      </figure>
+      <figure class="side side--rd">
+        <figcaption>Redo <span class="when">13 September · not wired</span></figcaption>
+        <span class="frame"><img src="./redo/mozart-symphony-40-1.webp" alt="Symphony No. 40 first movement, redo" width="512" height="512"></span>
+      </figure>
+    </div>
+  </section>
+
+  <footer>
+    Eight pairs, sixteen pictures — the room plate and all seven song bubbles, in both versions.
+    Batch&nbsp;1 is what Room 14 shows today, apart from the two bubbles still on <code>art: null</code>.
+  </footer>
+</div>
+</body>
+</html>
