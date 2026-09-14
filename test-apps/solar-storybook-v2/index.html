@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ari &amp; Dot · The Solar System</title>
+<!--
+  The book's front door. It holds no book: it sends the child to page-01.html,
+  which is the one and only Page 1.
+
+  WHY THIS IS A REDIRECT AND NOT THE PAGE.
+
+  It used to be the page -- a copy of page-01.html written by hand into the public
+  repo, which `.publish-manifest` recorded as deliberate ("written in the public
+  repo, not copied from here"). A hand-maintained copy of a page that keeps being
+  fixed only has to be forgotten once, and it was forgotten twice:
+
+    narration   b07eefa5 wired all twenty pages to the rendered voice. The copy
+                was not one of them, so it kept its dead `assets/audio/*.mp3` map.
+                Those files are git-ignored and have never been published, so all
+                five of Page 1's lines 404'd and fell through to `speechSynthesis`
+                -- the OS robot voice, on the first page of the book, while
+                page-01.html one click away spoke in Ari's own voice.
+    tap target  014ca8ca shrank Ari's tap box to Ari on pages 1 and 2. The copy kept
+                the old rectangle, so ~38px of curtain either side of Ari's head
+                still answered to "Wave to Ari" -- the very thing the owner had
+                reported.
+
+  Both landed on 2026-08-28. The copy was published that same day, by 7775a145,
+  which gave it the back-to-hub arrow and nothing else; it carried the robot voice
+  and the fat tap box for the twelve days to 2026-09-09, when the owner reported
+  hearing the robot again.
+
+  Both fixes were made, merged and published. Neither reached the page a child
+  actually opens, because the hub card links to this directory, not to page-01.html.
+
+  So the copy is gone. There is one Page 1 now, every route reaches it -- the hub
+  through here, Page 2's back arrow, and the page-jump box all land on
+  page-01.html -- and there is nothing left to keep in sync.
+
+  Belt and braces, in this order: `location.replace` runs first so this stop is not
+  pushed onto history (Back from Page 1 returns to the hub, not into a loop), and
+  the meta refresh carries a browser with JavaScript off. The link is for anyone
+  who somehow has neither.
+-->
+<meta http-equiv="refresh" content="0; url=page-01.html">
+<link rel="canonical" href="page-01.html">
+<style>
+  /* The book opens on a night sky. Painting the same ground here means the
+     redirect reads as the page loading rather than as a white flash. */
+  html, body { margin: 0; height: 100%; background: #05060d; color: #f4f1ea;
+    font-family: "Baloo 2", ui-rounded, "Segoe UI", system-ui, -apple-system, sans-serif; }
+  main { height: 100%; display: grid; place-items: center; text-align: center; padding: 1rem; }
+  a { color: #ffd67a; font-size: 1.25rem; font-weight: 800; }
+</style>
+<script>location.replace("page-01.html");</script>
+</head>
+<body>
+<main><p><a href="page-01.html">Open Ari &amp; Dot · The Solar System</a></p></main>
+</body>
+</html>

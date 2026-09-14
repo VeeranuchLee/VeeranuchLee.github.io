@@ -1,0 +1,712 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ari &amp; Dot · Page 5 — Venus: Earth's Almost-Twin</title>
+<style>
+:root{--gold:#ffc84a;--cream:#fff4cf;--ink:#211307;--glass:rgba(31,16,5,.78);--cyan:#78eaff}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#150a02;color:#fff;font-family:ui-rounded,"Avenir Next","Segoe UI",system-ui,sans-serif}button{font:inherit}
+body{overflow-x:hidden}
+/* Shared skeleton: pages 1-4 wrap the stage in <main class="book">, so 5-6 now
+   do too and centring lives on .book on every page. Previously 5-6 centred on
+   body instead -- and page 6 had neither, which is how it ended up hard left. */
+.book{min-height:100vh;display:grid;place-items:center}
+.stage{position:relative;width:min(100vw,150vh,1536px);aspect-ratio:3/2;overflow:hidden;background:#3a1b06 url("assets-runtime/standard/page-05/venus-space-background.webp") center/cover no-repeat;isolation:isolate}
+.stage:after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(10,4,0,.7),transparent 43%),linear-gradient(0deg,rgba(12,4,0,.63),transparent 40%)}
+
+/* Owner, 2026-08-27: "need to make sure ALL games has back icon to the hub".
+   Mirrors .page-nav's geometry on the opposite corner -- the book's whole chrome
+   lives top-right, and top-left, which was empty, is where the same arrow sits in
+   every other app the hub links to. --focus is defined on page 1 only, hence the
+   literal fallback the other pages already use for focus rings. */
+.story-hub{position:absolute;z-index:40;top:1.5%;left:1.5%;display:grid;place-items:center;height:32px;min-width:32px;padding:0 8px;border:1px solid rgba(255,255,255,.2);border-radius:8px;background:#16345c;color:#fff;font:inherit;font-weight:900;text-decoration:none}
+.story-hub:hover{background:#285b87}
+.story-hub:focus-visible{outline:3px solid var(--focus,#8eeaff);outline-offset:2px}
+.page-nav{position:absolute;z-index:40;top:2%;left:2%;display:flex;gap:.45rem;align-items:center}.page-nav>a,.page-jump,.tool{display:grid;place-items:center;min-width:44px;min-height:44px;border:1px solid #ffd77c;border-radius:999px;background:rgba(28,13,3,.75);color:#fff;text-decoration:none;font-weight:900;box-shadow:0 4px 15px #0008}.page-jump{padding:0 .8rem}
+.story{position:absolute;z-index:12;top:9%;left:4%;width:31%;text-shadow:0 3px 7px #000}.story h1{margin:0;color:var(--gold);font-size:clamp(1.7rem,4vw,3.5rem);line-height:.93}.story h1 small{display:block;font-size:.55em;margin-top:.2em}.story p{font-size:clamp(.82rem,1.65vw,1.35rem);line-height:1.38;margin:.75em 0}
+.planet{position:absolute;z-index:3;right:-2%;top:-15%;width:69%;aspect-ratio:1;border:0;background:none;padding:0;cursor:pointer;border-radius:50%}.planet:after{content:"";position:absolute;z-index:5;top:16%;bottom:16%;left:18%;width:3px;border-radius:99px;background:#8ff;box-shadow:0 0 8px #fff,0 0 22px #5ff;opacity:0;pointer-events:none}.planet img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}.surface{opacity:0}.radar{opacity:0;clip-path:inset(0 100% 0 0);filter:drop-shadow(0 0 15px #6ff)}.cloud{opacity:1}.cloud-detail{mix-blend-mode:screen;opacity:.52;animation:drift 8s ease-in-out infinite alternate;transform-origin:center}.detail2{opacity:.4;animation-duration:11s;animation-direction:alternate-reverse}.planet.radar-on .cloud{opacity:.32}.planet.radar-on .surface{opacity:.18}.planet.radar-on .radar{opacity:1;animation:radarReveal 2.2s ease-in-out forwards}.planet.radar-on:after{opacity:1;animation:radarLine 2.2s ease-in-out forwards}.planet img{transition:opacity .65s ease}
+@keyframes drift{0%{transform:translate(-1.8%,.7%) rotate(-2deg) scale(1.025);filter:brightness(.94)}50%{transform:translate(1.5%,-.6%) rotate(1deg) scale(1.035);filter:brightness(1.12)}100%{transform:translate(-.4%,1.1%) rotate(2.5deg) scale(1.02);filter:brightness(1)}}@keyframes radarReveal{to{clip-path:inset(0)}}@keyframes radarLine{from{left:18%}to{left:82%}}
+.hint{position:absolute;z-index:9;right:6%;top:5%;padding:.55rem .8rem;border-radius:999px;background:#fff1c9;color:#3d2108;font-weight:900;box-shadow:0 5px 18px #0007}
+.bubble{position:absolute;z-index:9;left:1%;bottom:18%;width:33%;height:38%;pointer-events:none}.bubble img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .3s}.bubble img.active{opacity:1}.speech{position:absolute;left:67%;top:0;width:43%;padding:.55rem;border-radius:50%;background:#fff;color:#311807;text-align:center;font-weight:900;font-size:clamp(.65rem,1.1vw,1rem);box-shadow:0 4px 10px #0006}
+.features{position:absolute;z-index:10;left:37%;bottom:26%;display:flex;gap:.5rem}.feature{width:92px;height:82px;border:2px solid #ffd163;border-radius:18px;background:rgba(45,19,2,.8);color:#fff;font-weight:900;padding:.35rem;cursor:pointer}.feature img{display:block;width:42px;height:42px;margin:auto}.feature.active{background:#81420b;box-shadow:0 0 20px #ffb52a}
+.panel{position:absolute;z-index:19;left:36%;top:10%;width:29%;height:30%;overflow:hidden;padding:.6rem .75rem;border:2px solid #ffd66c;border-radius:20px;background:rgba(36,15,2,.88);box-shadow:0 10px 30px #000b;display:none}.panel.open{display:grid;grid-template-rows:auto 1fr auto}.panel h2{font-size:1rem;color:var(--gold);margin:0;text-align:center}.visual-demo{position:relative;min-height:88px;margin:.15rem auto;width:100%;overflow:hidden}.visual-demo>img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:.1;transform:scale(.82);transition:opacity .35s,transform .5s}.visual-demo.step-0 .sunlight,.visual-demo.step-1 .warm,.visual-demo.step-2 .trapped{opacity:1;transform:scale(1)}.visual-demo.step-1{filter:drop-shadow(0 0 12px #ff9a31)}.visual-demo.step-2{filter:drop-shadow(0 0 14px #ff5d2e)}.visual-demo.single>img{opacity:1;transform:scale(1);animation:diagramPulse 1.8s ease-in-out infinite}.visual-demo.duo>img{width:55%;opacity:1;transform:scale(1)}.visual-demo.duo>img:first-child{right:auto;animation:backTurn 3s linear infinite}.visual-demo.duo>img:last-child{left:auto;animation:diagramPulse 1.8s ease-in-out infinite}.demo-caption{text-align:center;color:#fff4ce;font-size:.76rem;font-weight:900;min-height:1.1rem}.steps{display:flex;gap:.3rem;margin-top:.2rem}.steps button{flex:1;border:1px solid #ffd36a;border-radius:999px;background:#4c2507;color:#fff;padding:.3rem .2rem;font-size:.65rem;font-weight:800}.steps button.on{background:#c8650e;box-shadow:0 0 10px #ffad35}.steps button.done{background:#76400e}@keyframes diagramPulse{50%{transform:scale(1.08);filter:brightness(1.25)}}@keyframes backTurn{to{transform:rotate(-360deg)}}
+.visitors{position:absolute;z-index:11;inset:0;pointer-events:none}.visitor{position:absolute;width:92px;height:82px;border:0;border-radius:50%;background:transparent;overflow:visible;cursor:pointer;pointer-events:auto}.visitor:nth-child(1){left:47%;top:17%}.visitor:nth-child(2){left:69%;top:45%}/* Lifted clear of the control row. Its box reached y 73% while the row starts at 71%, so Sound, Replay and Full screen all sat inside this secret's tap area -- the sticker button only made it visible. */
+.visitor:nth-child(3){left:86%;top:56%}.visitor:before{content:"✦";position:absolute;z-index:3;inset:0;display:grid;place-items:center;color:#fff4a3;font-size:clamp(13px,1.55vw,21px);text-shadow:0 0 5px #fff,0 0 13px #ffb51d;animation:secretTwinkle 2.8s ease-in-out infinite}.visitor:nth-child(2):before{animation-delay:.55s}.visitor:nth-child(3):before{animation-delay:1.1s}.visitor img{position:absolute;inset:-9%;width:118%;height:118%;object-fit:contain;opacity:0;transform:scale(.15);pointer-events:none}.visitor.on:before{animation:starBurst .45s ease-out forwards}.visitor.on .revealed{opacity:1;animation:visitorArrive .65s cubic-bezier(.2,.9,.2,1.25) forwards}.visitor.on .hidden{opacity:0}.visitor-effect{position:absolute;inset:0;width:100%;height:100%;opacity:0}.visitor.on .visitor-effect{opacity:1;transform:scale(1);animation:effectFlash 1.5s ease-out}.visitor.depart .revealed{animation:visitorDepart .45s ease-in forwards}@keyframes secretTwinkle{0%,100%{opacity:.28;transform:scale(.78)}50%{opacity:1;transform:scale(1.13)}}@keyframes starBurst{45%{opacity:1;transform:scale(2.2) rotate(25deg)}to{opacity:0;transform:scale(3)}}@keyframes visitorArrive{from{opacity:0;transform:scale(.15) translateY(20px) rotate(-12deg)}to{opacity:1;transform:scale(1) translateY(0) rotate(0)}}@keyframes effectFlash{from{opacity:0;transform:scale(.5)}35%{opacity:1}to{opacity:.7;transform:scale(1)}}@keyframes visitorDepart{to{opacity:0;transform:scale(.2) translateY(-18px)}}
+.visitor-note{position:absolute;z-index:16;right:2%;top:42%;width:25%;padding:.55rem .7rem;background:#fff4d6;color:#321805;border-radius:999px;text-align:center;font-weight:950;font-size:.78rem;opacity:0;transform:translateY(8px);transition:.25s}.visitor-note.show{opacity:1;transform:none;animation:labelPop .42s ease-out}
+.facts{position:absolute;z-index:20;left:32%;right:2%;bottom:1.5%;height:20%;display:grid;grid-template-columns:repeat(6,1fr);gap:.28rem;padding:.55rem;border-radius:22px;background:rgba(255,247,226,.94);color:var(--ink);box-shadow:0 8px 26px #0008}.facts:before{content:"VENUS FACTS";position:absolute;left:38%;top:-18px;padding:.2rem 2rem;border-radius:12px 12px 0 0;background:#ffc536;font-weight:1000}.fact{border:0;border-right:1px dashed #a67b49;background:transparent;color:inherit;padding:.2rem;cursor:pointer;font-weight:850;font-size:clamp(12px,1.35vw,17px)}.fact:last-child{border-right:0}.fact img{display:block;width:46px;height:46px;margin:0 auto .05rem}.fact span{display:block}.fact .value{font-weight:1000}.fact.on{background:#ffe19a;border-radius:12px}.fact.on img{animation:factPop .75s cubic-bezier(.2,.9,.3,1.4)}@keyframes factPop{35%{transform:translateY(-10px) scale(1.2) rotate(-8deg)}70%{transform:translateY(1px) scale(.96) rotate(5deg)}}@keyframes labelPop{from{transform:translateY(8px) scale(.8)}to{transform:none}}
+.tools{position:absolute;z-index:31;right:2%;top:2%;display:flex;gap:.4rem}.tool{border-color:#ffd77c;padding:0 .65rem;cursor:pointer}.status{position:absolute;left:-9999px}.reduced *{animation:none!important;transition:none!important}
+@media(min-aspect-ratio:4/5) and (max-aspect-ratio:149/100){.book{place-items:stretch}.stage{width:100vw;height:100vh;max-width:none;aspect-ratio:auto}}
+@media(max-width:1050px) and (min-aspect-ratio:4/5){.story{width:29%}.story p{font-size:clamp(.72rem,1.65vw,1.05rem)}.planet{right:-4%;width:66%}.features{left:31%;bottom:26%;gap:.35rem}.feature{width:72px;height:76px;font-size:.65rem;line-height:1.05}.feature img{width:32px;height:32px}.visitor{width:72px;height:68px}.panel{left:31%;top:9%;width:35%;height:31%}.visitor-note{top:43%;width:29%;font-size:.66rem}.facts{left:15%;height:20%}.fact img{width:38px;height:38px}.fact{font-size:12px}}
+@media(max-aspect-ratio:4/5){.book{display:block}.stage{width:100%;min-height:1100px;aspect-ratio:auto;overflow-x:hidden;overflow-y:visible;background-attachment:fixed}.story{top:9%;width:52%}.story h1{font-size:2rem}.story p{font-size:.82rem}.planet{top:17%;right:-18%;width:78vw}.hint{top:16%;right:2%;font-size:.7rem}.bubble{top:37%;bottom:auto;width:47%;height:27%}.features{left:43%;bottom:auto;top:47%;display:grid;grid-template-columns:repeat(3,64px)}.feature{width:62px;height:68px;font-size:.58rem}.feature img{width:32px;height:32px}.panel{left:4%;top:61%;width:92%;height:14%}.panel h2{font-size:.82rem}.visual-demo{min-height:58px}.demo-caption{font-size:.65rem}.steps button{font-size:.6rem;padding:.2rem}.visitors{inset:0}.visitor{width:72px;height:68px}.visitor:nth-child(1){left:66%;top:29%}.visitor:nth-child(2){left:54%;top:69%}.visitor:nth-child(3){left:76%;top:80%}.visitor-note{top:69%;left:4%;width:45%}.facts{left:2%;right:2%;bottom:auto;top:89%;height:auto;grid-template-columns:repeat(3,1fr);padding-top:1rem}.fact{min-height:110px;border-bottom:1px dashed #a67b49}.page-nav,.tools{position:fixed}.tools{top:auto;bottom:1%}}
+
+/* Page 3–4 shared storybook language */
+.page-nav{left:auto;right:1.5%;top:1.5%;gap:4px;padding:4px;border:1px solid #b9ddff55;border-radius:13px;background:#07142de8;backdrop-filter:blur(7px)}
+.page-nav>a,.page-jump{min-width:32px;min-height:32px;border:1px solid #b9ddff55;border-radius:9px;background:#16345c;box-shadow:none}.page-nav>a:hover,.page-jump:hover{background:#285b87}.page-nav [aria-disabled=true]{opacity:.35;pointer-events:none}.page-goto{position:absolute;right:calc(100% + 6px);top:0;display:flex;gap:4px;padding:7px;border:1px solid #b9ddff55;border-radius:10px;background:#07142df5;z-index:41}.page-goto[hidden]{display:none}.page-goto label{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:800}.page-goto input{width:45px;padding:4px;border:1px solid #8fe7ff88;border-radius:6px;background:#061126;color:#fff}.page-goto button{padding:4px 7px;border:0;border-radius:6px;background:var(--gold);color:var(--ink);font-weight:900;min-width:0;min-height:0;box-shadow:none}.page-nav *:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}.page-jump{min-width:58px;padding:0 8px}
+.story{top:2%;left:2%;width:30%;padding:13px 15px;border:1px solid #d7efff6b;border-radius:18px;background:linear-gradient(140deg,#071530ee,#182d53c7);text-shadow:none;backdrop-filter:blur(9px);box-shadow:0 10px 32px #0009}
+.story-back{display:inline-flex;margin-bottom:4px;color:#bdeaff;text-decoration:none;font-size:clamp(8px,.82vw,12px);font-weight:900}
+.story h1{font-size:clamp(22px,3.15vw,44px);line-height:1;color:#ffc84a}.story h1 small{font-size:.48em;line-height:1.08;margin-top:3px;color:#fff}
+.story p{margin:5px 0;font-size:clamp(8.5px,1vw,14px);line-height:1.35}.story p strong{color:#ffe29a}
+.story-actions{display:flex;gap:7px;margin-top:8px}.story-actions button{border:1px solid #b9ddff66;border-radius:999px;background:#102c54e8;color:#fff;padding:6px 11px;font-weight:850;cursor:pointer}.story-actions .primary{background:#d17a24;border-color:#ffd79c}
+.planet{right:3%;top:2%;width:49%}
+.sparkles{position:absolute;z-index:2;inset:0;pointer-events:none}.sparkles span{position:absolute;left:var(--x);top:var(--y);width:var(--s);height:var(--s);border-radius:50%;background:#dff8ff;box-shadow:0 0 5px #fff,0 0 12px #79cfff;animation:ambientSparkle var(--d) ease-in-out infinite;animation-delay:var(--delay)}.sparkles span:nth-child(3n){background:#ffeab0;box-shadow:0 0 5px #fff,0 0 14px #ffc24a}.sparkles span:nth-child(4n){border-radius:0;transform:rotate(45deg)}@keyframes ambientSparkle{0%,100%{opacity:.14;scale:.55}45%{opacity:.95;scale:1.25}70%{opacity:.38;scale:.8}}
+.hint{left:2%;right:auto;top:auto;bottom:24.5%;padding:5px 10px;border:1px solid #ffe69a7a;background:#07142deb;color:#fff;font-size:clamp(8px,.82vw,12px);box-shadow:0 4px 12px #0008;transition:opacity .22s}
+/* Hint, subtitle and controls have separate bands. showStatus() also mutes the
+   hint while a subtitle is present so changing copy cannot reintroduce a
+   collision at an intermediate width. */
+.hint.muted{opacity:0;pointer-events:none}
+.bubble{left:2%;bottom:24%;width:28%;height:34%}.speech{display:none}
+.features{inset:0;display:block;pointer-events:none}.feature{position:absolute;width:auto;height:auto;padding:5px 9px;border:1px solid #ffe58b9c;border-radius:999px;background:#0b1738dc;font-size:clamp(8px,.86vw,12px);box-shadow:0 3px 12px #0007;pointer-events:auto}.feature img{display:none}.feature:after{content:"";position:absolute;width:30px;height:1px;background:#ffe799aa;top:50%}.feature:nth-child(1){left:39%;top:17%}.feature:nth-child(1):after{left:100%;transform:rotate(14deg);transform-origin:left}.feature:nth-child(2){left:35%;top:39%}.feature:nth-child(2):after{left:100%;transform:rotate(-6deg);transform-origin:left}.feature:nth-child(3){right:4%;top:42%}.feature:nth-child(3):after{right:100%;transform:rotate(8deg);transform-origin:right}.feature.active{background:#87512c;color:#fff5c6}
+.panel{left:34%;top:9%;width:27%;height:29%;border:1px solid #ffe89f88;border-radius:16px;background:#07142ded;backdrop-filter:blur(8px)}
+.visitor:nth-child(1){left:68%;top:18%}
+.visitor-note{top:auto;right:31%;bottom:25.2%;width:auto;max-width:25%;padding:6px 11px;border:1px solid #ffe69a7a;background:#07142deb;color:#fff;font-size:clamp(8px,.82vw,12px)}
+.facts{left:2%;right:2%;bottom:1.5%;height:22%;gap:0;padding:0;overflow:hidden;border:3px solid #244b79;border-radius:28px;background:linear-gradient(#fffdf5,#fff6e3);color:#14365f}.facts:before{display:none}
+.fact{display:grid;grid-template-rows:52% auto;place-items:center;border-right:1px dashed #8c9aa8;padding:6px;font-size:clamp(12px,1.35vw,17px);line-height:1.18}.fact svg{width:auto;height:100%;max-width:62px}.fact .value{display:inline;color:#0a4a96;font-size:1.08em}.fact.on{border-radius:0;background:#ffe9ae}
+.tools{right:2%;top:auto;bottom:24.5%;gap:5px}.tool{min-width:0;min-height:0;padding:5px 9px;border:1px solid #b9ddff66;border-radius:999px;background:#102c54e8;font-size:clamp(8px,.88vw,12px);box-shadow:none}
+.status{position:absolute;z-index:34;left:50%;bottom:30%;max-width:42%;transform:translateX(-50%);padding:7px 13px;border:1px solid #ffe69a7a;border-radius:12px;background:#07142deb;text-align:center;font-size:clamp(9px,1vw,14px);font-weight:800}.status:empty{display:none}
+@media(max-width:1050px) and (min-aspect-ratio:4/5){.story{width:30%}.planet{right:2%;top:2%;width:54%}.features{inset:0}.feature{width:auto;height:auto;font-size:clamp(7px,.8vw,10px)}.panel{left:33%;top:9%;width:31%;height:31%}.facts{left:2%;height:22%}.fact svg{width:auto;height:100%}}
+@media(max-aspect-ratio:4/5){.stage{min-height:1100px}.page-nav{position:absolute;right:2%;top:1.5%}.story{top:2%;left:2%;width:54%;padding:9px}.story h1{font-size:23px}.story p{font-size:7.8px}.story p:nth-of-type(2){display:none}.story-actions button{padding:10px 14px;font-size:11px;min-height:44px}.planet{top:19%;right:2%;width:70vw}.hint{left:auto;top:44%;right:2%;bottom:auto;font-size:7px}.bubble{top:38%;left:2%;width:40%;height:24%}.features{inset:0;display:block}.feature{width:auto;height:auto;padding:4px 6px;font-size:7px}.feature:nth-child(1){left:45%;top:45%}.feature:nth-child(2){left:46%;top:53%}.feature:nth-child(3){right:3%;top:48%}.panel{left:4%;top:61%;width:92%;height:14%}.visitor-note{left:4%;right:auto;top:76%;bottom:auto;width:auto;max-width:48%}.facts{left:2%;right:2%;top:82%;bottom:auto;height:auto;grid-template-columns:repeat(3,1fr);border-radius:18px}.fact{min-height:105px;grid-template-rows:45px auto;padding:5px}.fact svg{height:42px}.tools{position:absolute;right:2%;top:77%;bottom:auto}.status{position:fixed;z-index:60;top:auto;bottom:10px;max-width:92%;font-size:11px}.visitor:nth-child(1){left:66%;top:29%}.visitor:nth-child(2){left:54%;top:67%}.visitor:nth-child(3){left:76%;top:75%}.sparkles span:nth-child(n+8){display:none}}
+
+
+
+/* NAMEPLATES:CSS */
+.np{position:absolute;z-index:23;display:flex;flex-direction:column;align-items:center;
+gap:.32em;font-size:var(--np-size,clamp(8px,.9vw,13px));line-height:1;font-weight:900;
+white-space:nowrap}
+/* The drawing. No frame around it: a boxed avatar reads as an icon in a chip,
+   an unboxed one reads as a small world floating in the same sky as the big
+   ones, which on Pages 10 and 16 is exactly what it is. */
+.np-body{display:block;padding:0;border:0;background:transparent;cursor:pointer;
+border-radius:50%;transition:transform .18s;
+/* A cold rim light and a shadow. Without the rim a dark grey moon drawn on a
+   dark grey sky is a smudge at 30px -- the framed disc the old chip drew
+   around the avatar was doing this job, and taking the frame away took it. */
+filter:drop-shadow(0 0 2px #d6ecffcc) drop-shadow(0 4px 9px #000b)}
+.np-body:hover{transform:scale(1.1)}
+.np-body:active{transform:scale(.95)}
+.np-body:focus-visible{outline:3px solid #8eeaff;outline-offset:4px}
+.np .np-av{display:block;width:var(--np-av,clamp(24px,2.7vw,40px));
+height:var(--np-av,clamp(24px,2.7vw,40px))}
+.np .np-blush{fill:#ff8fa3;opacity:.5}
+.np-label{display:inline-flex;align-items:center;gap:.34em;padding:.2em .52em;
+border:2px solid #244b79;border-radius:999px;background:#fff8dff2;color:#15365f;
+font:inherit;cursor:pointer;box-shadow:0 3px 9px #0007;
+transition:background .16s,transform .16s,box-shadow .16s}
+.np-label:hover{background:#ffe9b8;transform:translateY(-1px)}
+.np-label:active{transform:translateY(1px) scale(.97)}
+.np-label:focus-visible{outline:3px solid #8eeaff;outline-offset:3px}
+.np-ear{flex:none;width:.9em;height:.9em;opacity:.55;transition:opacity .16s}
+.np-label:hover .np-ear,.np.np-on .np-ear{opacity:1}
+.np.np-on .np-label{background:#ffe08e;box-shadow:0 0 0 3px #ffc52b,0 3px 9px #0007}
+.np.np-on .np-av{animation:npPop .62s cubic-bezier(.34,1.56,.64,1)}
+@keyframes npPop{0%{transform:scale(1) rotate(0)}35%{transform:scale(1.28) rotate(-9deg)}
+65%{transform:scale(1.05) rotate(6deg)}100%{transform:scale(1) rotate(0)}}
+/* Leader line, so a plate can sit clear of the art and still point at it. It
+   leaves the drawing, not the middle of the stack, or it would appear to come
+   out of the label's ear glyph. */
+.np-lead::after{content:"";position:absolute;height:2px;background:#ffe9a8cc;
+box-shadow:0 0 4px #0009;top:calc(var(--np-av,clamp(24px,2.7vw,40px))/2);pointer-events:none}
+.np-lead-r::after{left:100%;width:var(--np-lead,34px);transform-origin:left;
+transform:rotate(var(--np-angle,0deg))}
+.np-lead-l::after{right:100%;width:var(--np-lead,34px);transform-origin:right;
+transform:rotate(var(--np-angle,0deg))}
+/* "You are here" -- the plate for the ground the reader is standing on. */
+.np-here .np-label{flex-direction:column;align-items:flex-start;gap:.18em;
+padding:.3em .62em;border-radius:1.05em;border-color:#ffc52b}
+.np-here .np-row{display:flex;align-items:center;gap:.34em}
+.np-here-tag{display:block;color:#a4501c;font-size:.74em;letter-spacing:.09em;
+text-transform:uppercase}
+/* A roster: one block of plates that flows itself, used where a page names a
+   family of small worlds at once. Ten hand-placed positions drift apart every
+   time the type size moves; one grid does not. */
+.np-roster{position:absolute;z-index:23;display:grid;
+grid-template-columns:repeat(var(--np-cols,4),1fr);gap:.7em .3em;
+justify-items:center;align-items:end}
+.np-roster .np{position:static}
+.stage.reduce-motion .np.np-on .np-av,.reduced .np.np-on .np-av,
+.stage.reduced .np.np-on .np-av{animation:none}
+@media(prefers-reduced-motion:reduce){.np.np-on .np-av{animation:none}}
+@media(max-width:700px),(max-aspect-ratio:1/1){.np-lead::after{display:none}}
+/* A roster is sized by the space the page has, and on a phone that space is
+   a third of 420px. Four columns of labels do not fit in 140px; two do. */
+@media(max-width:560px){.np-roster{--np-cols:2}}
+
+[data-np="p5-venus"]{left:46%;top:62%}
+@media(max-aspect-ratio:4/5){[data-np="p5-venus"]{inset:auto;left:24%;top:33%}}/* /NAMEPLATES:CSS */
+/* SECRETS:CSS */
+/* Sparkling stars that hide a space friend, and the sticker book that
+   remembers who has been found.
+
+   The trigger is a small glint of light: a child should have to look for it
+   rather than be told where it is. The glint and the friend share one position
+   and are each centred on it, so a secret is a single point on the page rather
+   than two boxes to keep in agreement. */
+.sf-star,.sf-friend{position:absolute;transform:translate(-50%,-50%)}
+/* A glint, not a picture of a star. This used to show one of the owner's sticker
+   sprites at 18px, and at that size the pastel ones -- which have no face -- read
+   as a white lump on a photograph of space; several of them also carry
+   see-through patches left by the sheet cut, which show as grey smudges on a
+   dark sky. The book already had a better answer on Pages 2-4: a small drawn
+   sparkle. The sticker art is not lost, it is moved to where it is seen big --
+   the friend who pops out, and the sticker book -- and the thing hiding on the
+   painting is now a point of light.
+
+   Big invisible button, small mark. Page 6's original sparkle is 70px wide
+   holding 25px of star, and that split is the point: a mark small enough to hunt
+   for must not mean a target too small for a four-year-old's finger. */
+.sf-star{z-index:24;width:44px;height:44px;padding:0;border:0;background:none;
+cursor:pointer;display:grid;place-items:center;line-height:0;color:#fff6c8}
+/* Deliberately quiet -- the owner's rule is that a child should have to look for
+   it. The twinkle is what makes that fair: the glint nearly fades out and comes
+   back, so a page scanned patiently gives it away and a page glanced at does not. */
+.sf-star::before{content:"✦";line-height:1;
+font-size:var(--sf-art,clamp(13px,1.05vw,15px));
+text-shadow:0 0 3px #ffffffaa,0 0 7px #ffc65eaa;
+animation:sfTwinkle 4.6s ease-in-out infinite}
+.sf-star:hover::before{text-shadow:0 0 4px #fff,0 0 12px #ffd27a}
+.sf-star:focus-visible{outline:3px solid #8eeaff;outline-offset:4px;border-radius:50%}
+.sf-star[hidden]{display:none}
+@keyframes sfTwinkle{0%,100%{opacity:.2;transform:scale(.72)}
+45%{opacity:.92;transform:scale(1.08)}70%{opacity:.34;transform:scale(.85)}}
+.sf-friend{z-index:25;pointer-events:none;width:15%;height:21%}
+.sf-pop{width:100%;height:100%;opacity:0;transform:translateY(14%) scale(.5);
+transition:opacity .38s,transform .52s cubic-bezier(.34,1.56,.64,1)}
+.sf-pop img{width:100%;height:100%;object-fit:contain;
+filter:drop-shadow(0 8px 16px #000a) drop-shadow(0 0 14px #ffd76a55)}
+.sf-friend.sf-here .sf-pop{opacity:1;transform:none}
+.sf-friend.sf-going .sf-pop{opacity:0;transform:translateY(-16%) scale(.82)}
+
+/* The sticker book. A child collects across the whole book, so the count is
+   kept in localStorage and every page shows the same running total. */
+/* The sticker book lives in the page's existing control row rather than
+   floating on the picture. Absolutely positioning it meant ten hand-tuned spots
+   that still collided -- with a story card at one window size, a fact tray at
+   another. In the control row it is laid out in flow, so it cannot collide at
+   any size, it is in the place children already look for buttons, and it is in
+   the same place on every page. */
+.sf-book{position:static;z-index:27;display:inline-flex;align-items:center;gap:.34em;
+padding:.26em .62em .26em .34em;border:2px solid #ffd76a;border-radius:999px;
+background:#0b1730e8;color:#ffeab5;font:inherit;font-weight:900;
+font-size:clamp(8px,.85vw,12px);cursor:pointer;box-shadow:0 3px 12px #0008}
+.sf-book:hover{background:#17325a}
+/* Let the control row wrap. Several pages lay their row out without wrapping,
+   and in portrait it already ran past the edge of the stage before the sticker
+   button joined it -- page 6's was 105% of the stage wide. One extra button
+   made that visible, so it is fixed here rather than left to overflow. */
+.tools,.page-controls,.toolbar{flex-wrap:wrap-reverse;justify-content:flex-end}
+/* wrap-reverse, not wrap: these rows are anchored near the bottom of the stage,
+   so an overflow line has to go *up* into the sky. Wrapping downwards pushed the
+   sticker button off the stage on a phone and onto the rover on Mars. */
+.sf-book:focus-visible{outline:3px solid #8eeaff;outline-offset:3px}
+.sf-book img{width:1.5em;height:1.5em;object-fit:contain}
+.sf-book.sf-pulse{animation:sfPulse .7s ease-out}
+@keyframes sfPulse{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
+.sf-panel{position:absolute;z-index:70;inset:6% 8%;display:none;flex-direction:column;
+padding:14px 16px;border:2px solid #ffd76a;border-radius:22px;background:#07152df7;
+box-shadow:0 18px 50px #000d;backdrop-filter:blur(6px)}
+.sf-panel.sf-open{display:flex}
+.sf-panel h2{margin:0 0 2px;color:#ffd76a;font-size:clamp(13px,1.5vw,20px)}
+.sf-panel p{margin:0 0 10px;color:#bdd8f0;font-size:clamp(8px,.9vw,12px)}
+.sf-grid{flex:1;display:grid;gap:6px;overflow:auto;
+grid-template-columns:repeat(auto-fill,minmax(52px,1fr));align-content:start}
+.sf-slot{position:relative;aspect-ratio:1;border-radius:12px;background:#0d1c34;
+display:grid;place-items:center;padding:5px}
+.sf-slot img{width:100%;height:100%;object-fit:contain}
+.sf-slot.sf-locked img{filter:brightness(0) opacity(.32)}
+.sf-slot.sf-got{background:#16345c;box-shadow:inset 0 0 0 2px #ffd76a}
+.sf-close{position:absolute;right:10px;top:10px;width:32px;height:32px;border:0;
+border-radius:50%;background:#ffd76a;color:#07152d;font-weight:1000;font-size:16px;cursor:pointer}
+.reduced .sf-star::before,.reduce-motion .sf-star::before,
+.stage.reduced .sf-star::before,.stage.reduce-motion .sf-star::before{animation:none;opacity:.85}
+.reduced .sf-pop,.reduce-motion .sf-pop,
+.stage.reduced .sf-pop,.stage.reduce-motion .sf-pop{transition:opacity .18s}
+@media(prefers-reduced-motion:reduce){.sf-star::before{animation:none;opacity:.85}}
+@media(max-aspect-ratio:4/5){.sf-star{width:44px;height:44px;--sf-art:clamp(13px,3.4vw,15px)}
+.page-controls{max-width:56%}
+/* Page 5 and 6 lay their portrait control row out 105% of the stage wide, so it
+   already ran off both edges before the sticker button existed. Constraining it
+   makes it wrap inside the stage, which is what made the button reachable on a
+   phone at all. */
+.tools{max-width:96%;right:2%}
+.sf-friend{width:18%;height:13%}.sf-panel{inset:4% 4%}}
+
+[data-friend="sf5-rock-fire-comet"],#sf5-rock-fire-comet{left:39%;top:52%}[data-friend="sf5-friend-orange-waver"],#sf5-friend-orange-waver{left:39%;top:28%}[data-friend="sf5-rock-gold-crystal-rock"],#sf5-rock-gold-crystal-rock{left:39%;top:10%}
+@media(max-aspect-ratio:4/5){[data-friend="sf5-rock-fire-comet"],#sf5-rock-fire-comet{inset:auto;left:13%;top:28%}[data-friend="sf5-friend-orange-waver"],#sf5-friend-orange-waver{inset:auto;left:13%;top:70%}[data-friend="sf5-rock-gold-crystal-rock"],#sf5-rock-gold-crystal-rock{inset:auto;left:63%;top:12%}}/* /SECRETS:CSS */
+
+/* Ari and Dot are 20% smaller (owner, 2026-08-19), to leave the pages more room
+   for everything else. Done with the standalone `scale` property about
+   bottom-centre, not by rewriting every width/height, for three reasons: the
+   feet stay on the same ground line, the figure keeps its horizontal centre so
+   shrinking cannot slide it left into the pill column, and the narrow-screen
+   layouts inherit the same factor without being edited. `scale` composes with
+   `transform`, so the pose animations still work on top of it. */
+.bubble{scale:.8;transform-origin:50% 100%}
+</style>
+</head>
+<body>
+<main class="book"><section class="stage" id="stage">
+<!-- NAMEPLATES:HTML -->
+<div class="np" data-np="p5-venus"><button type="button" class="np-body" data-say="Venus. Earth's almost-twin, hidden under thick golden clouds." aria-label="Venus. Hear about it"><svg class="np-av" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><clipPath id="npc-p5-venus"><circle cx="50" cy="50" r="32"/></clipPath></defs><circle cx="50" cy="50" r="32" fill="#efbc64"/><g clip-path="url(#npc-p5-venus)"><path d="M12 22q24 12 46 0t34 6v10q-20-12-42 0t-38-4z" fill="#ffe6ae"/><path d="M12 40q22 8 44-2t36 4v7q-22-8-42 2t-38-3z" fill="#dda23f" opacity=".6"/><path d="M12 66q22-12 44 0t36-4v9q-20 12-42 0t-38 4z" fill="#ffe0a0"/><path d="M14 82q22 8 42-2t36 4v10H14z" fill="#d99c3c" opacity=".55"/><ellipse cx="36" cy="30" rx="12" ry="6.5" fill="#fff" opacity=".26" transform="rotate(-30 36 30)"/></g><g transform="translate(8.00,11.00) scale(0.84)"><g class="np-face"><ellipse class="np-blush" cx="30" cy="58" rx="5.6" ry="3.4"/><ellipse class="np-blush" cx="70" cy="58" rx="5.6" ry="3.4"/><g class="np-eyes"><ellipse cx="39" cy="46" rx="7" ry="8.4" fill="#fff"/><ellipse cx="61" cy="46" rx="7" ry="8.4" fill="#fff"/><circle cx="39.6" cy="47.4" r="4.6" fill="#16233d"/><circle cx="61.6" cy="47.4" r="4.6" fill="#16233d"/><circle cx="41.4" cy="44.4" r="2" fill="#fff"/><circle cx="63.4" cy="44.4" r="2" fill="#fff"/></g><path d="M45 58.5q5 5.4 10 0" fill="none" stroke="#16233d" stroke-width="3" stroke-linecap="round"/></g></g></svg></button><button type="button" class="np-label" data-say="Venus" aria-label="Hear the name Venus"><span class="np-name">Venus</span><svg class="np-ear" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9h4l5-4v14l-5-4H4z" fill="#15365f"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="#15365f" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+<!-- /NAMEPLATES:HTML -->
+<!-- SECRETS:HTML -->
+<button type="button" class="sf-star" data-friend="sf5-rock-fire-comet" data-sticker="rock-fire-comet" data-say="Hi! I'm Flick." aria-label="A tiny sparkling star hiding a space friend"></button>
+<div class="sf-friend" id="sf5-rock-fire-comet"><div class="sf-pop"><img src="assets-runtime/standard/shared/space-friends/rock-fire-comet.webp" alt="Flick, a space friend"></div></div>
+<button type="button" class="sf-star" data-friend="sf5-friend-orange-waver" data-sticker="friend-orange-waver" data-say="Hello! I'm Tango." aria-label="A tiny sparkling star hiding a space friend"></button>
+<div class="sf-friend" id="sf5-friend-orange-waver"><div class="sf-pop"><img src="assets-runtime/standard/shared/space-friends/friend-orange-waver.webp" alt="Tango, a space friend"></div></div>
+<button type="button" class="sf-star" data-friend="sf5-rock-gold-crystal-rock" data-sticker="rock-gold-crystal-rock" data-say="Hi there! I'm Nugget." aria-label="A tiny sparkling star hiding a space friend"></button>
+<div class="sf-friend" id="sf5-rock-gold-crystal-rock"><div class="sf-pop"><img src="assets-runtime/standard/shared/space-friends/rock-gold-crystal-rock.webp" alt="Nugget, a space friend"></div></div>
+<button type="button" class="sf-book" aria-label="Open the sticker book"><img src="assets-runtime/standard/shared/space-friends/star-happy-gold.webp" alt=""><span>Stickers</span><span class="sf-tally">0 / 0</span></button>
+<section class="sf-panel" role="dialog" aria-modal="true" aria-label="Sticker book"><button type="button" class="sf-close" aria-label="Close the sticker book">&times;</button><h2>My sticker book</h2><p>Tap a sparkling star on any page to meet a space friend and keep their sticker.</p><div class="sf-grid"></div></section>
+<!-- NARRATION:JS -->
+<script>
+window.__NARRATION = {
+ "Venus": "p02-narrator-16-venus.m4a",
+ "Radar reveals the surface below.": "p05-narrator-01-radar-reveals-the-surface-below.m4a",
+ "Golden clouds return.": "p05-narrator-02-golden-clouds-return.m4a",
+ "Venus is wrapped in thick golden clouds above an extremely hot surface.": "p05-narrator-03-venus-is-wrapped-in-thick-golden.m4a",
+ "Venus is almost as wide as Earth, but its thick atmosphere traps heat. Radar helps us explore the surface beneath its golden clouds.": "p05-narrator-04-venus-is-almost-as-wide-as.m4a",
+ "Venus hides behind golden clouds.": "p05-narrator-05-venus-hides-behind-golden-clouds.m4a",
+ "Radar mapper scans Venus.": "p05-narrator-06-radar-mapper-scans-venus.m4a",
+ "A protected lander touches down.": "p05-narrator-07-a-protected-lander-touches-down.m4a",
+ "An imaginary glider rides the clouds.": "p05-narrator-08-an-imaginary-glider-rides-the-clouds.m4a",
+ "Venus's thick atmosphere holds in heat.": "p05-narrator-09-venus-s-thick-atmosphere-holds-in.m4a",
+ "Venus spins backward.": "p05-narrator-10-venus-spins-backward.m4a",
+ "The Sun rises in the west.": "p05-narrator-11-the-sun-rises-in-the-west.m4a",
+ "Venus. Earth's almost-twin, hidden under thick golden clouds.": "p05-narrator-12-venus-earth-s-almost-twin-hidden.m4a",
+ "Hi! I'm Flick.": "p05-friend-13-hi-i-m-flick.m4a",
+ "Hello! I'm Tango.": "p05-friend-14-hello-i-m-tango.m4a",
+ "Hi there! I'm Nugget.": "p05-friend-15-hi-there-i-m-nugget.m4a",
+ "Almost Earth-sized: 12,104 kilometres.": "p05-narrator-16-almost-earth-sized-12-104-kilometres.m4a",
+ "About 467 degrees. Hottest planet!": "p05-narrator-17-about-467-degrees-hottest-planet.m4a",
+ "One backward turn: 243 Earth days.": "p05-narrator-18-one-backward-turn-243-earth-days.m4a",
+ "One year: 225 Earth days.": "p05-narrator-19-one-year-225-earth-days.m4a",
+ "No moons.": "p05-narrator-20-no-moons.m4a",
+ "Pressure: 93 times Earth's sea level.": "p05-narrator-21-pressure-93-times-earth-s-sea.m4a"
+};
+window.__NARRATION_BASE = "assets-runtime/narration/";
+(function () {
+  /* Generated by tools/wire-narration.py. Do not edit by hand. */
+  var MAP = window.__NARRATION || {}, BASE = window.__NARRATION_BASE || "";
+  var synth = window.speechSynthesis;
+  if (!synth || !synth.speak) return;
+  var realSpeak = synth.speak.bind(synth), realCancel = synth.cancel.bind(synth);
+  var el = null, token = 0;
+
+  function stop() {
+    token++;
+    if (el) { el.onended = null; el.onerror = null; try { el.pause(); } catch (e) {} }
+  }
+
+  /* Muting calls cancel(). Without this an <audio> element keeps playing and the
+     tap appears to do nothing. */
+  synth.cancel = function () { stop(); realCancel(); };
+
+  synth.speak = function (utterance) {
+    var text = utterance && utterance.text ? String(utterance.text).trim() : "";
+    var file = MAP[text];
+    if (!file) return realSpeak(utterance);   /* no clip: the robot keeps the line */
+    stop();
+    var mine = ++token;
+    if (!el) el = new Audio();
+
+    /* A clip that cannot load must not leave a child in silence, so a failure
+       falls back to the very utterance we intercepted. The token stops a
+       superseded clip's late error from talking over whatever is playing now.
+
+       ONE RETRY BEFORE THE ROBOT (owner decision, 2026-09-09). A dropped request
+       on the wifi is indistinguishable here from a clip that does not exist, and
+       both used to go straight to the OS voice. The owner heard exactly that --
+       one page robotic, the rest in Ari's voice -- and a transient miss is the
+       only thing that explains a robot page that moves around, since every one of
+       the book's 405 lines is mapped, rendered and published. So a failure gets a
+       second attempt, cache-bypassed, before the fallback. The cost when a file is
+       genuinely gone is one extra request; the gain when the network hiccuped is a
+       child hearing Ari instead of an adult robot. AUDIO-DIRECTION.md: no OS
+       voices. */
+    var attempt = 0;
+    function play() {
+      if (mine !== token) return;
+      /* The retry must not be answered from the same failed cache entry. */
+      el.src = BASE + file + (attempt ? "?retry=" + attempt : "");
+      var played = el.play();
+      if (played && played.catch) played.catch(onFail);
+    }
+    function onFail() {
+      if (mine !== token) return;
+      if (attempt++ < 1) { play(); return; }
+      token++;
+      el.onerror = null;
+      realSpeak(utterance);
+    }
+    el.onerror = onFail;
+    play();
+  };
+})();
+</script>
+<!-- /NARRATION:JS -->
+<script>const SF_ROSTER=[{"id":"rock-fire-comet","art":"rock-fire-comet","name":"Flick"},{"id":"friend-orange-waver","art":"friend-orange-waver","name":"Tango"},{"id":"rock-gold-crystal-rock","art":"rock-gold-crystal-rock","name":"Nugget"},{"id":"friend-jelly-blue","art":"friend-jelly-blue","name":"Bloop"},{"id":"friend-blue-octo","art":"friend-blue-octo","name":"Squish"},{"id":"rock-frost-comet","art":"rock-frost-comet","name":"Frosty"},{"id":"friend-moon-hugger","art":"friend-moon-hugger","name":"Cuddle"},{"id":"friend-little-robot","art":"friend-little-robot","name":"Beep"},{"id":"rock-grey-rock","art":"rock-grey-rock","name":"Pebble"},{"id":"rock-lava-rock","art":"rock-lava-rock","name":"Ember"},{"id":"friend-rock-peeker","art":"friend-rock-peeker","name":"Peek"},{"id":"ship-moon-buggy","art":"ship-moon-buggy","name":"Trundle"},{"id":"rock-dark-rock","art":"rock-dark-rock","name":"Cinder"},{"id":"friend-suited-teal","art":"friend-suited-teal","name":"Zed"},{"id":"ship-saucer-classic","art":"ship-saucer-classic","name":"Whizz"},{"id":"rock-plain-purple-rock","art":"rock-plain-purple-rock","name":"Plum"},{"id":"ship-crystal-hauler","art":"ship-crystal-hauler","name":"Hauler"},{"id":"ship-little-digger","art":"ship-little-digger","name":"Scoop"},{"id":"friend-big-violet","art":"friend-big-violet","name":"Grape"},{"id":"ship-rocket-red","art":"ship-rocket-red","name":"Zoom"},{"id":"rock-ice-crystal-rock","art":"rock-ice-crystal-rock","name":"Sparkle"},{"id":"ship-sub-explorer","art":"ship-sub-explorer","name":"Dipper"},{"id":"friend-hoodie-teal","art":"friend-hoodie-teal","name":"Hoodie"},{"id":"rock-plain-ice-comet","art":"rock-plain-ice-comet","name":"Glide"},{"id":"friend-star-friend","art":"friend-star-friend","name":"Twinkle"},{"id":"ship-halo-saucer","art":"ship-halo-saucer","name":"Ringo"},{"id":"ship-jelly-saucer","art":"ship-jelly-saucer","name":"Wobble"},{"id":"friend-calm-blue","art":"friend-calm-blue","name":"Zen"},{"id":"rock-plain-ice-rock","art":"rock-plain-ice-rock","name":"Chip"},{"id":"friend-floaty-mint","art":"friend-floaty-mint","name":"Drift"},{"id":"ship-crystal-glider","art":"ship-crystal-glider","name":"Glider"},{"id":"friend-book-reader","art":"friend-book-reader","name":"Pip"},{"id":"rock-blue-gem-rock","art":"rock-blue-gem-rock","name":"Gem"},{"id":"ship-ringed-pod","art":"ship-ringed-pod","name":"Halo"},{"id":"star-ice-blue","art":"star-ice-blue","name":"Chill"},{"id":"friend-blue-shy","art":"friend-blue-shy","name":"Shy"},{"id":"ship-star-sled","art":"ship-star-sled","name":"Sled"},{"id":"rock-plain-violet-comet","art":"rock-plain-violet-comet","name":"Wisp"},{"id":"friend-shy-violet","art":"friend-shy-violet","name":"Dusk"},{"id":"ship-star-cruiser","art":"ship-star-cruiser","name":"Cruise"}],SF_ART="assets-runtime/standard/shared/space-friends";</script>
+<!-- /SECRETS:HTML -->
+
+
+
+  <div class="sparkles" aria-hidden="true">
+    <span style="--x:4%;--y:36%;--s:4px;--d:2.7s;--delay:-.4s"></span><span style="--x:16%;--y:42%;--s:3px;--d:3.4s;--delay:-1.8s"></span><span style="--x:27%;--y:33%;--s:5px;--d:2.9s;--delay:-1.1s"></span>
+    <span style="--x:7%;--y:57%;--s:5px;--d:3.1s;--delay:-2.2s"></span><span style="--x:22%;--y:62%;--s:3px;--d:2.5s;--delay:-.9s"></span><span style="--x:31%;--y:52%;--s:4px;--d:3.6s;--delay:-2.7s"></span>
+    <span style="--x:12%;--y:71%;--s:3px;--d:2.8s;--delay:-1.5s"></span><span style="--x:27%;--y:73%;--s:5px;--d:3.3s;--delay:-.2s"></span><span style="--x:34%;--y:29%;--s:3px;--d:2.6s;--delay:-2s"></span>
+    <span style="--x:3%;--y:48%;--s:3px;--d:3.5s;--delay:-1.3s"></span><span style="--x:19%;--y:29%;--s:4px;--d:2.4s;--delay:-.6s"></span><span style="--x:35%;--y:66%;--s:4px;--d:3s;--delay:-2.4s"></span>
+  </div>
+  <!-- Absolute URL on purpose: published, /solar-storybook-feedback/ and
+       /children-apps/ are siblings, but in the repo the hub lives under site/, so a
+       relative link would work live and 404 in every local preview. -->
+  <a class="story-hub" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games" title="Back to Children Games">←</a>
+  <nav class="page-nav" data-current-page="5" aria-label="Page navigation"><a href="page-04.html" aria-label="Previous page">‹</a><button class="page-jump" id="pageJump" type="button" aria-label="Page 5 of 20. Press and hold to go to a page">5 / 20</button><a href="page-06.html" aria-label="Next page" title="Next page">›</a><form class="page-goto" hidden><label>Go to <input type="number" min="1" max="20" value="5" inputmode="numeric" aria-label="Page number"></label><button type="submit">Go</button></form></nav>
+  <div class="tools"><button class="tool" id="motion" type="button" aria-pressed="false" title="Stop everything on the page from moving (reduced motion)">Calm mode</button><button class="tool" id="sound" type="button">🔊 Sound</button><button class="tool" id="replay" type="button">↻ Replay</button><button class="tool" id="fullscreen" type="button" aria-label="Full screen">⛶ Full</button><button class="tool" id="quality" type="button" aria-pressed="false">✦ Standard</button></div>
+  <section class="story">
+    <a class="story-back" href="page-04.html">← The speedy little planet</a>
+    <h1>Venus:<small>Earth’s Almost-Twin</small></h1>
+    <p>Venus hides behind thick, golden clouds.</p>
+    <p>It is almost as wide as Earth, but its deep atmosphere traps heat, making Venus the hottest planet.</p>
+    <p><strong>What is hiding beneath those clouds?</strong></p>
+    <div class="story-actions"><button class="primary" id="aboutVenus" type="button">About Venus</button><button id="listen" type="button">Listen</button></div>
+  </section>
+  <button class="planet" id="planet" type="button" aria-pressed="false" aria-label="Scan through Venus's clouds with radar">
+    <img class="surface" src="assets-runtime/standard/page-05/venus-surface-base.webp" alt="">
+    <img class="radar" src="assets-runtime/standard/page-05/venus-radar-surface.webp" alt="">
+    <img class="cloud" src="assets-runtime/standard/page-05/venus-cloud-base.webp" alt="Golden cloud-covered Venus">
+    <img class="cloud cloud-detail" src="assets-runtime/standard/page-05/venus-cloud-detail-front.webp" alt="">
+    <img class="cloud cloud-detail detail2" src="assets-runtime/standard/page-05/venus-cloud-detail-high.webp" alt="">
+  </button>
+  <div class="hint" id="hint">Tap Venus to scan beneath the clouds</div>
+  <section class="bubble" aria-label="Ari and Dot">
+    <img id="poseObserve" class="active" src="assets-runtime/standard/page-05/ari-dot-venus-observe.webp" alt="Ari and Dot observing Venus">
+    <img id="poseHeat" src="assets-runtime/standard/page-05/ari-dot-venus-heat-reaction.webp" alt="Ari and Dot reacting to Venus's heat">
+    <img id="poseRadar" src="assets-runtime/standard/page-05/ari-dot-venus-radar-scan.webp" alt="Ari and Dot using radar">
+    <div class="speech" id="speech" hidden>Almost Earth’s twin… but much too hot!</div>
+  </section>
+  <section class="features" aria-label="Venus discoveries">
+    <button class="feature" data-feature="greenhouse" type="button"><img src="assets-runtime/standard/page-05/effects/venus-thermometer.svg" alt="">Heat trap</button>
+    <button class="feature" data-feature="turn" type="button"><img src="assets-runtime/standard/page-05/orbit/venus-retrograde-arrow.svg" alt="">Backward turn</button>
+    <button class="feature" data-feature="sunrise" type="button"><img src="assets-runtime/standard/page-05/orbit/venus-sunrise-west.svg" alt="">West sunrise</button>
+  </section>
+  <aside class="panel" id="panel" aria-live="polite"></aside>
+  <section class="visitors" aria-label="Secret visiting machines">
+    <button class="visitor" data-visitor="magellan" type="button" aria-label="Secret star: reveal Magellan-inspired radar mapper"><img class="hidden" src="assets-runtime/standard/page-05/magellan-hidden.webp" alt=""><img class="revealed" src="assets-runtime/standard/page-05/magellan-revealed.webp" alt="Magellan-inspired radar mapper"><img class="visitor-effect" src="assets-runtime/standard/page-05/effects/magellan-radar-beam.svg" alt=""></button>
+    <button class="visitor" data-visitor="venera" type="button" aria-label="Secret star: reveal Venera-inspired lander"><img class="hidden" src="assets-runtime/standard/page-05/venera-hidden.webp" alt=""><img class="revealed" src="assets-runtime/standard/page-05/venera-revealed.webp" alt="Venera-inspired protected lander"><img class="visitor-effect" src="assets-runtime/standard/page-05/effects/venera-descent-pulse.svg" alt=""></button>
+    <button class="visitor" data-visitor="glider" type="button" aria-label="Secret star: reveal imaginary cloud glider"><img class="hidden" src="assets-runtime/standard/page-05/cloud-glider-hidden.webp" alt=""><img class="revealed" src="assets-runtime/standard/page-05/cloud-glider-revealed.webp" alt="Imaginary high-cloud glider"><img class="visitor-effect" src="assets-runtime/standard/page-05/effects/cloud-glider-wind-streams.svg" alt=""></button>
+  </section>
+  <div class="visitor-note" id="visitorNote" aria-live="polite"></div>
+  <section class="facts" aria-label="Venus facts">
+    <button class="fact" data-say="Almost Earth-sized: 12,104 kilometres." type="button"><svg viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="68" r="45" fill="#dca442" stroke="#ffe18b" stroke-width="4"/><path d="M45 50q25-22 45-4l-8 23-31 4zM91 78q28-18 43 7l-15 25-26-9z" fill="#b26d35"/><g fill="#ffe287"><path d="M22 117l15-9v18z"><animateTransform attributeName="transform" type="translate" values="0 0;-8 0;0 0" dur=".8s" begin="indefinite"/></path><path d="M138 117l-15-9v18z"><animateTransform attributeName="transform" type="translate" values="0 0;8 0;0 0" dur=".8s" begin="indefinite"/></path><rect x="35" y="113" width="90" height="8" rx="4"/></g></svg><span>Diameter<br><span class="value">12,104 km</span></span></button>
+    <button class="fact" data-say="About 467 degrees. Hottest planet!" type="button"><svg viewBox="0 0 160 160" aria-hidden="true"><path d="M55 28a17 17 0 0 1 34 0v65a30 30 0 1 1-34 0z" fill="#fffaf0" stroke="#28577f" stroke-width="6"/><rect x="68" y="55" width="12" height="52" rx="6" fill="#ff963f"><animate attributeName="y" values="55;24;55" dur="1.15s" begin="indefinite"/><animate attributeName="height" values="52;83;52" dur="1.15s" begin="indefinite"/></rect><circle cx="72" cy="114" r="19" fill="#ef5b4d"/><g fill="#ffbd4e" opacity=".85"><circle cx="116" cy="46" r="7"><animate attributeName="r" values="7;12;7" dur="1.15s" begin="indefinite"/></circle><circle cx="130" cy="68" r="5"><animate attributeName="r" values="5;9;5" dur="1.15s" begin="indefinite"/></circle></g></svg><span>Surface<br><span class="value">about 467°C</span></span></button>
+    <button class="fact" data-say="One backward turn: 243 Earth days." type="button"><svg viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="80" r="49" fill="#dca442" stroke="#ffe18b" stroke-width="4"/><path d="M49 60q25-17 47-2l-9 22-31 3z" fill="#b26d35"/><path d="M30 43a66 66 0 0 1 93-5" fill="none" stroke="#2b5b89" stroke-width="7" stroke-linecap="round"/><path d="M126 22l13 22-25 1z" fill="#2b5b89"/><g><path d="M31 119a66 66 0 0 0 94 1" fill="none" stroke="#82dff0" stroke-width="6" stroke-linecap="round"/><animateTransform attributeName="transform" type="rotate" from="0 80 80" to="-360 80 80" dur="1.35s" begin="indefinite"/></g></svg><span>One turn<br><span class="value">243 Earth days</span></span></button>
+    <button class="fact" data-say="One year: 225 Earth days." type="button"><svg viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="80" r="23" fill="#f7a638"/><ellipse cx="80" cy="80" rx="67" ry="44" fill="none" stroke="#82dff0" stroke-width="5" stroke-dasharray="8 7"/><g><circle cx="28" cy="108" r="13" fill="#dca442" stroke="#ffe18b" stroke-width="3"/><animateTransform attributeName="transform" type="rotate" from="0 80 80" to="360 80 80" dur="1.05s" begin="indefinite"/></g></svg><span>One year<br><span class="value">225 Earth days</span></span></button>
+    <button class="fact" data-say="No moons." type="button"><svg viewBox="0 0 160 160" aria-hidden="true"><circle cx="73" cy="80" r="46" fill="#dca442" stroke="#ffe18b" stroke-width="4"/><ellipse cx="77" cy="80" rx="65" ry="52" fill="none" stroke="#8a94a0" stroke-width="4" stroke-dasharray="7 7"/><circle cx="128" cy="42" r="17" fill="#dcd8cd"><animate attributeName="opacity" values="1;.12;1" dur="1.1s" begin="indefinite"/><animate attributeName="r" values="17;5;17" dur="1.1s" begin="indefinite"/></circle><path d="M112 28l31 31M143 28l-31 31" stroke="#ef5b4d" stroke-width="7" stroke-linecap="round"><animate attributeName="opacity" values="0;1;0" dur="1.1s" begin="indefinite"/></path></svg><span>Moons<br><span class="value">None</span></span></button>
+    <button class="fact" data-say="Pressure: 93 times Earth's sea level." type="button"><svg viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="82" r="42" fill="#dca442" stroke="#ffe18b" stroke-width="4"/><g fill="none" stroke="#2b5b89" stroke-width="7" stroke-linecap="round"><path d="M25 32h110"/><path d="M34 52h92"/><path d="M45 72h70"/><animateTransform attributeName="transform" type="translate" values="0 -10;0 13;0 -10" dur="1.05s" begin="indefinite"/></g><g fill="#ef5b4d"><path d="M48 113l10-16 10 16z"/><path d="M72 113l10-16 10 16z"/><path d="M96 113l10-16 10 16z"/><animateTransform attributeName="transform" type="translate" values="0 0;0 13;0 0" dur="1.05s" begin="indefinite"/></g></svg><span>Atmosphere<br><span class="value">about 93× pressure</span></span></button>
+  </section>
+  <div class="status" id="status" aria-live="polite"></div>
+</section></main>
+<script>
+(()=>{
+/* Runtime asset tiers. assets/ holds the masters and is never loaded by a page;
+   assets-runtime/{standard,high}/ hold the derivatives -- identical trees apart
+   from one path segment, so changing tier is a path swap. The markup ships
+   standard/, so the default costs no JS at all. rt() maps a master path onto
+   the ACTIVE tier for the handful of paths this page builds at runtime, and
+   retier() re-points what is already in the DOM when the tier changes. */
+let rtTier="standard";try{if(localStorage.getItem("sb-quality")==="high")rtTier="high"}catch(e){}
+const rt=p=>(p=String(p),p.startsWith("assets-runtime/")?p.replace(/^assets-runtime\/(standard|high)\//,"assets-runtime/"+rtTier+"/"):"assets-runtime/"+rtTier+"/"+p.replace(/^assets\//,"").replace(/\.png$/i,".webp"));
+const retier=()=>{const s=x=>x.replace(/assets-runtime\/(standard|high)\//g,"assets-runtime/"+rtTier+"/");document.querySelectorAll("img[src]").forEach(i=>{const o=i.getAttribute("src"),n=s(o);if(n!==o)i.setAttribute("src",n)});document.querySelectorAll("[style*='assets-runtime/']").forEach(e=>{const o=e.getAttribute("style"),n=s(o);if(n!==o)e.setAttribute("style",n)});document.querySelectorAll("style").forEach(e=>{const o=e.textContent;if(o.indexOf("assets-runtime/")<0)return;const n=s(o);if(n!==o)e.textContent=n})};
+/* The high tier is not always there. `assets-runtime/high/` is sidecar-only and
+   the public export ships standard alone, so "Sharper" used to repoint every
+   path at a tier with no files behind it and break every image on the page --
+   and localStorage kept the reader there across pages and sessions, so one tap
+   left a child with a broken book until they happened to tap back. Probe one
+   real asset before committing to the tier, and treat a STORED "high" the same
+   way, which is what rescues anyone already stranded by an older build.
+   Deliberately not a preload of the whole tier: one image answers the only
+   question that matters, and a miss costs one 404. */
+const probeHigh=()=>new Promise(res=>{const el=document.querySelector('img[src*="assets-runtime/"]');if(!el)return res(false);const im=new Image();im.onload=()=>res(true);im.onerror=()=>res(false);im.src=el.getAttribute("src").replace(/assets-runtime\/(standard|high)\//,"assets-runtime/high/")});
+let highTier=null;const highReady=async()=>{if(highTier===null)highTier=await probeHigh();return highTier};
+const forgetTier=()=>{try{localStorage.removeItem("sb-quality")}catch(e){}};
+if(rtTier==="high"){rtTier="standard";highReady().then(ok=>{if(ok){rtTier="high";retier()}else forgetTier();syncQuality()})}
+/* Narration. The map and base now come from the shared block that
+     tools/wire-narration.py writes above -- one AAC .m4a per line under
+     assets-runtime/narration/, keyed by the exact line text, which is why no
+     call site changed. narrate() returns false on a miss and the caller falls
+     through to speechSynthesis, so a line without a clip behaves as before.
+     Superseded 2026-08-28: this used to be MP3s under assets/audio/, which is
+     git-ignored and never shipped -- that is how the 2026-08-07 edge-tts render
+     became invisible. Those files are gone and the edge/azure note with them;
+     the voice is ElevenLabs now. Do not point this back. */
+const NARRATION = window.__NARRATION;
+const NARRATION_BASE = window.__NARRATION_BASE;
+let narrationAudio=null,narrationToken=0;
+const stopNarration=()=>{try{if(narrationAudio){narrationToken++;narrationAudio.onended=null;narrationAudio.onerror=null;narrationAudio.pause()}}catch(e){}};
+const narrate=(text,onend,fallback)=>{
+    /* Generated by tools/wire-narration.py. Do not edit by hand. */
+    const f = NARRATION[String(text).trim()];
+    if (!f) return false;                    /* no clip: the caller keeps the line */
+    try {
+      stopNarration();
+      if (!narrationAudio) narrationAudio = new Audio();
+      const my = ++narrationToken;
+      let attempt = 0;
+      /* One retry before the fallback, matching the shim -- see its comment. A
+         dropped request and a missing file look identical from here, and only one
+         of them should cost a child the recorded voice. */
+      const fail = () => {
+        if (my !== narrationToken) return;   /* superseded: stay quiet */
+        if (attempt++ < 1) { start(); return; }
+        narrationToken++;
+        narrationAudio.onended = null;
+        narrationAudio.onerror = null;
+        (fallback || onend || (() => {}))();
+      };
+      const start = () => {
+        if (my !== narrationToken) return;
+        narrationAudio.onended = () => { if (my === narrationToken && onend) onend(); };
+        narrationAudio.onerror = fail;
+        /* The retry must not be answered from the same failed cache entry. */
+        narrationAudio.src = NARRATION_BASE + f + (attempt ? "?retry=" + attempt : "");
+        const p = narrationAudio.play();
+        if (p && p.catch) p.catch(fail);
+      };
+      start();
+      return true;
+    } catch (e) { return false; }
+  };
+const syncQuality=()=>{const b=document.getElementById("quality");if(!b)return;b.textContent=rtTier==="high"?"✦ Sharper":"✦ Standard";b.setAttribute("aria-pressed",String(rtTier==="high"))};
+const qb=document.getElementById("quality");if(qb)qb.onclick=async()=>{if(rtTier==="high"){rtTier="standard";try{localStorage.setItem("sb-quality",rtTier)}catch(e){}retier();syncQuality();return}qb.disabled=true;const ok=await highReady();qb.disabled=false;if(!ok){forgetTier();qb.textContent="✦ Standard only";qb.title="Sharper pictures are not included in this build";setTimeout(()=>{qb.removeAttribute("title");syncQuality()},2600);return}rtTier="high";try{localStorage.setItem("sb-quality",rtTier)}catch(e){}retier();syncQuality()};
+syncQuality();
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const stage=$("#stage"), planet=$("#planet"), panel=$("#panel"), status=$("#status"), note=$("#visitorNote");
+/* `reduced` was already declared and already branched on below, but nothing ever
+   set it and no control existed, so the whole reduced-motion path was inert on
+   this page. It also ignored the OS preference, which page 6 honours. */
+let soundOn=true, reduced=matchMedia("(prefers-reduced-motion: reduce)").matches, greenhouseStep=0, demoTimers=[], visitorTimer=0, audioContext;
+const clearDemo=()=>{demoTimers.forEach(clearTimeout);demoTimers=[]};
+const clearVisitor=()=>{clearTimeout(visitorTimer);visitorTimer=0;$$(".visitor").forEach(x=>x.classList.remove("on","depart"));note.classList.remove("show")};
+const visitorSound=kind=>{
+  if(!soundOn)return;
+  audioContext ||= new (window.AudioContext||window.webkitAudioContext)();
+  const now=audioContext.currentTime, notes=kind==="magellan"?[620,880,1120]:kind==="venera"?[420,330,520]:[760,1040,1320];
+  notes.forEach((frequency,i)=>{const o=audioContext.createOscillator(),g=audioContext.createGain();o.type=kind==="venera"?"triangle":"sine";o.frequency.setValueAtTime(frequency,now+i*.09);g.gain.setValueAtTime(.0001,now+i*.09);g.gain.exponentialRampToValueAtTime(.075,now+i*.09+.02);g.gain.exponentialRampToValueAtTime(.0001,now+i*.09+.16);o.connect(g).connect(audioContext.destination);o.start(now+i*.09);o.stop(now+i*.09+.18)});
+};
+// Auto-dismiss the subtitle. Pages 3-4 already do this via showStatus/statusTimer;
+// without it the line sat over the fact tray until Replay happened to blank it.
+// Pages 5-6 hide the element with .status:empty, so clearing the text is the hide.
+let statusTimer;
+const showStatus=(text,ms=4200)=>{
+  clearTimeout(statusTimer);
+  status.textContent=text;
+  $("#hint").classList.toggle("muted",!!text);
+  statusTimer=setTimeout(()=>{status.textContent="";$("#hint").classList.remove("muted")},ms);
+};
+const say=(text)=>{
+  showStatus(text);
+  if(!soundOn)return;
+  const synth=()=>{
+    if(!("speechSynthesis" in window))return;
+    speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text);u.rate=.9;u.pitch=1.02;speechSynthesis.speak(u);
+  };
+  if(narrate(text,null,synth))return;
+  synth();
+};
+const pose=name=>{
+  $$(".bubble img").forEach(x=>x.classList.remove("active"));
+  $("#pose"+name).classList.add("active");
+};
+planet.addEventListener("click",()=>{
+  const on=planet.classList.toggle("radar-on");planet.setAttribute("aria-pressed",on);
+  $("#hint").textContent=on?"Radar view: volcanic surface beneath the clouds":"Tap Venus to scan beneath the clouds";
+  pose(on?"Radar":"Observe");$("#speech").textContent=on?"Radar sees beneath the clouds!":"Almost Earth’s twin… but much too hot!";
+  say(on?"Radar reveals the surface below.":"Golden clouds return.");
+});
+const featureData={
+greenhouse:{title:"Watch Venus trap heat",voice:"Venus's thick atmosphere holds in heat.",captions:["Sunlight enters","The surface warms","Heat struggles to escape"]},
+turn:{title:"Venus turns backward",voice:"Venus spins backward."},
+sunrise:{title:"Sunrise starts in the west",voice:"The Sun rises in the west."}};
+$$(".feature").forEach(b=>b.addEventListener("click",()=>{
+  const closing=b.classList.contains("active")&&panel.classList.contains("open");
+  clearDemo();
+  if(closing){b.classList.remove("active");panel.classList.remove("open");pose("Observe");$("#speech").textContent="Almost Earth’s twin… but much too hot!";return}
+  clearVisitor();
+  $$(".feature").forEach(x=>x.classList.toggle("active",x===b));const d=featureData[b.dataset.feature];
+  if(b.dataset.feature==="greenhouse"){
+    panel.innerHTML=`<h2>${d.title}</h2><div class="visual-demo step-0"><img class="sunlight" src="assets-runtime/standard/page-05/effects/greenhouse-sunlight.svg" alt=""><img class="warm" src="assets-runtime/standard/page-05/effects/greenhouse-heat-rise.svg" alt=""><img class="trapped" src="assets-runtime/standard/page-05/effects/greenhouse-heat-trapped.svg" alt=""></div><div class="demo-caption">${d.captions[0]}</div><div class="steps">${d.captions.map((x,i)=>`<button type="button" data-step="${i}" aria-label="${x}">${i+1}</button>`).join("")}</div>`;
+  }else if(b.dataset.feature==="turn"){
+    panel.innerHTML=`<h2>${d.title}</h2><div class="visual-demo duo"><img src="assets-runtime/standard/page-05/orbit/venus-retrograde-arrow.svg" alt="Venus turning backward"><img src="assets-runtime/standard/page-05/orbit/venus-earth-comparison.svg" alt="Venus beside Earth"></div><div class="demo-caption">243 Earth days per turn</div>`;
+  }else{
+    panel.innerHTML=`<h2>${d.title}</h2><div class="visual-demo single"><img src="assets-runtime/standard/page-05/orbit/venus-sunrise-west.svg" alt="Sun rising in the west"></div><div class="demo-caption">About 117 Earth days, sunrise to sunrise</div>`;
+  }
+  panel.classList.add("open");pose(b.dataset.feature==="greenhouse"?"Heat":"Observe");$("#speech").textContent=b.dataset.feature==="greenhouse"?"Wow… so hot!":"Venus keeps surprising us!";
+  say(d.voice);
+  const complete=()=>{
+    if(!b.classList.contains("active"))return;
+    b.classList.remove("active");
+    panel.classList.remove("open");pose("Observe");$("#speech").textContent="Almost Earth’s twin… but much too hot!";
+  };
+  const scheduleComplete=delay=>demoTimers.push(setTimeout(complete,delay));
+  if(b.dataset.feature==="greenhouse"){
+    greenhouseStep=0;
+    const update=step=>{greenhouseStep=step;const demo=$(".visual-demo"),caption=$(".demo-caption");demo.className=`visual-demo step-${step}`;caption.textContent=d.captions[step];$$(".steps button").forEach((x,i)=>{x.classList.toggle("on",i===step);x.classList.toggle("done",i<step)})};
+    update(0);$$(".steps button").forEach(x=>x.addEventListener("click",()=>{clearDemo();update(+x.dataset.step);scheduleComplete(1800)}));
+    if(!reduced){demoTimers.push(setTimeout(()=>update(1),900),setTimeout(()=>update(2),1800))}
+    else update(2);
+    scheduleComplete(3400);
+  }else scheduleComplete(3200);
+}));
+const visitors={
+magellan:{label:"Radar mapper",voice:"Radar mapper scans Venus."},
+venera:{label:"Pressure lander",voice:"A protected lander touches down."},
+glider:{label:"Imaginary cloud glider",voice:"An imaginary glider rides the clouds."}
+};
+$$(".visitor").forEach(b=>b.addEventListener("click",()=>{
+  const was=b.classList.contains("on");clearVisitor();
+  clearDemo();$$(".feature").forEach(x=>x.classList.remove("active"));panel.classList.remove("open");
+  if(was)return;const v=visitors[b.dataset.visitor];b.classList.add("on");note.textContent=v.label;note.classList.add("show");visitorSound(b.dataset.visitor);say(v.voice);
+  visitorTimer=setTimeout(()=>{b.classList.add("depart");note.classList.remove("show");visitorTimer=setTimeout(()=>clearVisitor(),450)},reduced?2200:4000);
+}));
+$$(".fact").forEach(b=>b.addEventListener("click",()=>{$$(".fact").forEach(x=>x.classList.toggle("on",x===b));if(!reduced)b.querySelectorAll("animate,animateTransform").forEach(a=>a.beginElement());say(b.dataset.say)}));
+$("#aboutVenus").addEventListener("click",()=>say("Venus is wrapped in thick golden clouds above an extremely hot surface."));
+$("#listen").addEventListener("click",()=>say("Venus is almost as wide as Earth, but its thick atmosphere traps heat. Radar helps us explore the surface beneath its golden clouds."));
+$("#sound").addEventListener("click",e=>{soundOn=!soundOn;e.currentTarget.textContent=soundOn?"🔊 Sound":"🔇 Muted";if(!soundOn){stopNarration();if(speechSynthesis)speechSynthesis.cancel()}});
+/* Motion control — page 5 was the only page without one, so a child who needs
+   less movement had no way to ask for it here. Mirrors page 6's handler. */
+const syncMotion=()=>{stage.classList.toggle("reduced",reduced);const b=$("#motion");if(b){b.textContent=reduced?"Full motion":"Calm mode";b.setAttribute("aria-pressed",String(reduced))}};
+$("#motion").addEventListener("click",()=>{reduced=!reduced;syncMotion()});
+syncMotion();
+$("#replay").addEventListener("click",()=>{clearDemo();clearVisitor();stopNarration();speechSynthesis?.cancel();planet.classList.remove("radar-on");planet.setAttribute("aria-pressed","false");panel.classList.remove("open");$$(".active,.on").forEach(x=>x.classList.remove("active","on"));$("#poseObserve").classList.add("active");$$(".feature,.fact").forEach(x=>x.classList.remove("active","on"));$("#hint").textContent="Tap Venus to scan beneath the clouds";$("#speech").textContent="Almost Earth’s twin… but much too hot!";say("Venus hides behind golden clouds.")});
+/* Shared hold-to-jump, identical to pages 1-4 and 6. Replaces a browser
+   prompt(), which was unstyled and diverged from the inline field. */
+(()=>{const nav=document.querySelector(".page-nav"),jump=nav.querySelector(".page-jump"),form=nav.querySelector(".page-goto"),input=form.querySelector("input");let timer=0,longPress=false;const open=()=>{longPress=true;form.hidden=false;input.select();input.focus()};jump.addEventListener("pointerdown",()=>{longPress=false;timer=setTimeout(open,650)});["pointerup","pointercancel","pointerleave"].forEach(t=>jump.addEventListener(t,()=>clearTimeout(timer)));jump.addEventListener("click",e=>{if(longPress)e.preventDefault()});jump.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();open()}});jump.addEventListener("contextmenu",e=>{e.preventDefault();open()});form.addEventListener("submit",e=>{e.preventDefault();const page=Number(input.value);if(page<1||page>19)return;try{speechSynthesis.cancel()}catch(err){}location.href=`page-${String(page).padStart(2,"0")}.html`});document.addEventListener("pointerdown",e=>{if(!nav.contains(e.target))form.hidden=true})})();
+
+
+
+
+
+/* NAMEPLATES:JS */
+/* Name boxes. Two targets, two answers: the drawing tells you what the world
+   is, the label tells you only what it is called. Both route through this
+   page's own narration helper so the sound toggle and status line keep working.
+   The leading semicolon is load-bearing: pages 7-10 end their last statement
+   without one, and a following line that opens with `(` is parsed as a call on
+   that statement's value -- `classList.add('reduced')(...)` -- which throws and
+   silently takes this whole block with it. The boxes still looked right and
+   simply never spoke. */
+;(()=>{const parts=[...document.querySelectorAll('.np-body,.np-label')];
+if(!parts.length)return;
+const tell=(typeof say==='function')?say
+:(typeof showStatus==='function'&&typeof speak==='function')?(t=>{showStatus(t);speak(t)})
+:(t=>{if(!window.speechSynthesis)return;speechSynthesis.cancel();
+const u=new SpeechSynthesisUtterance(t);u.rate=.92;u.pitch=1.06;speechSynthesis.speak(u)});
+/* The page's own picture of the body, made to speak the same sentence the
+   drawing in the plate speaks. A four-year-old aims at the planet, not at the
+   38px emblem beside it. Only plates that name an inert piece of art carry
+   `data-art`; anything the page already wired keeps its own behaviour. */
+document.querySelectorAll('.np[data-art]').forEach(p=>{
+const el=document.querySelector(p.dataset.art),src=p.querySelector('.np-body');
+if(!el||el.dataset.npArt)return;el.dataset.npArt='1';
+el.style.pointerEvents='auto';el.style.cursor='pointer';
+/* stopPropagation, because Page 6 nests the Moon inside the Earth group: a
+   tap on the Moon reached both handlers and the outer one, firing last, said
+   "Earth" over it. */
+el.addEventListener('click',e=>{e.stopPropagation();src.click()})});
+let offTimer;parts.forEach(b=>b.addEventListener('click',()=>{
+const plate=b.closest('.np');
+document.querySelectorAll('.np').forEach(x=>x.classList.toggle('np-on',x===plate));
+clearTimeout(offTimer);offTimer=setTimeout(()=>plate.classList.remove('np-on'),2600);
+tell(b.dataset.say)}))})();
+/* /NAMEPLATES:JS */
+/* SECRETS:JS */
+/* Sparkling stars and the sticker book. Speech goes through the page's own
+   helper so the Sound toggle keeps working; one friend at a time so taps cannot
+   stack; the collection is shared across the whole book via localStorage. */
+;(()=>{const stars=[...document.querySelectorAll('.sf-star')];if(!stars.length)return;
+const tell=(typeof say==='function')?say
+:(typeof showStatus==='function'&&typeof speak==='function')?(t=>{showStatus(t);speak(t)})
+:(typeof showFact==='function'&&typeof speakRole==='function')?(t=>{showFact(t);speakRole(t)})
+:(t=>{if(!window.speechSynthesis)return;speechSynthesis.cancel();
+const u=new SpeechSynthesisUtterance(t);u.rate=.95;u.pitch=1.25;speechSynthesis.speak(u)});
+/* A two-note plink, made rather than loaded: it needs no asset, no licence and
+   no download, and it is the same trick page 2 already uses for its chime. */
+let actx;const plink=()=>{try{const A=window.AudioContext||window.webkitAudioContext;if(!A)return;
+actx=actx||new A();if(actx.state==='suspended')actx.resume();
+[[880,0],[1320,.09]].forEach(([f,t])=>{const o=actx.createOscillator(),g=actx.createGain();
+o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(.0001,actx.currentTime+t);
+g.gain.exponentialRampToValueAtTime(.16,actx.currentTime+t+.015);
+g.gain.exponentialRampToValueAtTime(.0001,actx.currentTime+t+.28);
+o.connect(g);g.connect(actx.destination);o.start(actx.currentTime+t);o.stop(actx.currentTime+t+.3)})}catch(e){}};
+
+const KEY='sb-stickers';
+const load=()=>{try{return new Set(JSON.parse(localStorage.getItem(KEY)||'[]'))}catch(e){return new Set()}};
+const save=set=>{try{localStorage.setItem(KEY,JSON.stringify([...set]))}catch(e){}};
+let got=load();
+const book=document.querySelector('.sf-book'),tally=book&&book.querySelector('.sf-tally');
+/* Prefer .page-controls: on pages 11-14 that is the utility row, while .tools
+   there holds the page's own discovery buttons. On pages 5-10 .tools *is* the
+   utility row. Asked for in one selector list this picks whichever comes first
+   in the document, not the one wanted -- page 12 got its empty .tools and the
+   book vanished -- so they are tried in order, and a zero-sized row is skipped. */
+const host=['.page-controls','.tools','.toolbar'].map(q=>document.querySelector(q))
+ .find(el=>el&&el.getBoundingClientRect().width>10);
+if(book&&host)host.appendChild(book);
+const syncBook=()=>{if(tally)tally.textContent=`${got.size} / ${SF_ROSTER.length}`};
+
+const panel=document.querySelector('.sf-panel'),grid=panel&&panel.querySelector('.sf-grid');
+const paint=()=>{if(!grid)return;grid.innerHTML=SF_ROSTER.map(f=>{
+const has=got.has(f.id);
+return `<div class="sf-slot ${has?'sf-got':'sf-locked'}" title="${has?f.name:'Still hidden'}">`+
+`<img src="${SF_ART}/${f.art}.webp" alt="${has?f.name:'A sticker still to find'}"></div>`}).join('')};
+const outside=()=>[...panel.parentElement.children].filter(x=>x!==panel);
+if(book){book.addEventListener('click',()=>{paint();panel.classList.add('sf-open');
+outside().forEach(x=>x.inert=true);panel.querySelector('.sf-close').focus()})}
+if(panel){const shut=()=>{panel.classList.remove('sf-open');outside().forEach(x=>x.inert=false);
+if(book)book.focus()};panel.querySelector('.sf-close').onclick=shut;
+addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.classList.contains('sf-open'))shut()})}
+
+let busy=false,timers=[];
+let total=stars.filter(s=>s.offsetParent!==null).length;
+addEventListener('resize',()=>{if(!busy)total=stars.filter(s=>s.offsetParent!==null).length});
+stars.forEach(star=>star.addEventListener('click',()=>{
+if(busy)return;busy=true;const id=star.dataset.friend;
+const friend=document.getElementById(id);star.hidden=true;
+friend.classList.remove('sf-going');friend.classList.add('sf-here');
+plink();
+if(!got.has(star.dataset.sticker)){got.add(star.dataset.sticker);save(got);syncBook();
+if(book){book.classList.remove('sf-pulse');void book.offsetWidth;book.classList.add('sf-pulse')}}
+tell(star.dataset.say);
+timers.forEach(clearTimeout);timers=[
+ setTimeout(()=>friend.classList.add('sf-going'),3600),
+ setTimeout(()=>{friend.classList.remove('sf-here','sf-going');star.hidden=false;busy=false},4400)]}));
+syncBook()})();
+/* /SECRETS:JS */
+})();
+
+/* Shared fullscreen toggle, ported from page 1 so every page has it. Fails
+   safe: the control hides itself where the API is unavailable or blocked
+   (older iOS Safari, some embedded webviews) rather than dead-clicking. */
+(()=>{const b=document.getElementById("fullscreen");if(!b)return;const t=document.documentElement;if(!t.requestFullscreen){b.hidden=true;return}b.addEventListener("click",()=>{if(document.fullscreenElement)document.exitFullscreen();else t.requestFullscreen().catch(()=>{})});})();
+
+/* Hide the picture-quality control unless the sharper tier is really there.
+   It is sidecar-only and unpublished, so on the live site it would otherwise be
+   a button that can only ever say "Standard only". Same rule the fullscreen
+   button already follows. The probe costs one 404 and re-shows the control the
+   moment the tier exists. */
+;(()=>{const q=document.getElementById('quality');if(!q)return;
+const el=document.querySelector('img[src*="assets-runtime/"]');if(!el){q.hidden=true;return}
+const im=new Image();im.onerror=()=>{q.hidden=true};
+im.src=el.getAttribute('src').replace(/assets-runtime\/(standard|high)\//,'assets-runtime/high/')})();
+</script>
+<!-- SERVICEWORKER:JS -->
+<script>
+/* Generated by tools/wire-service-worker.py. Do not edit by hand. */
+if ("serviceWorker" in navigator) {
+  addEventListener("load", function () {
+    navigator.serviceWorker.register("service-worker.js").catch(function () {});
+  });
+}
+</script>
+<!-- /SERVICEWORKER:JS -->
+</body>
+</html>
