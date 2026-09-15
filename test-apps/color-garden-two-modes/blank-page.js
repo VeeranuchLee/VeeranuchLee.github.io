@@ -217,6 +217,9 @@
     usingEraser = false;
     brushButton.classList.add("is-selected");
     eraserToolButton.classList.remove("is-selected");
+    // Coming back from the eraser restores the ring it cleared (owner:
+    // "selected color must be visually obvious").
+    if (palette) palette.markSelected(currentColor);
   }
 
   function selectEraser() {

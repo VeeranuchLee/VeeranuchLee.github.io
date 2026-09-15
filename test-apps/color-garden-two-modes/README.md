@@ -13,9 +13,10 @@ The app opens on a **mode menu** with two large choices, **Pixel** and **Colorin
 brush, eraser and clear (`blank-page.js`). The coloring palette is **48
 colors**, 12 hue families × 4 shades light-to-dark, pastel-leaning, with the
 app's original ten colors kept as the classic row and white, greys, browns and
-black for line art. The tray is the same grid in both orientations — 12
-columns × 4 rows of 48 px swatches (664 px wide): a full band under the tools
-in portrait, a tray under the canvas in landscape.
+black for line art. The swatches are 48 px in both orientations: portrait lays
+them as a 12 × 4 band under the tools; landscape stands them up as a 4 × 12
+shelf in a right-hand column beside the studio tools, so the canvas keeps the
+screen's full height.
 
 **Pixel Mosaic** is a pegboard-style 20 × 15 grid the child fills by tapping or
 dragging, with a challenge-card system — small pattern pictures (fruit, hearts,
@@ -47,7 +48,7 @@ Each picture has two assets that share a page id:
 
 Both are cut from the same source render, where the colored version and the line art sit side by side in one image. Add a new picture by dropping both files in and appending an entry to `PAGES` in `app.js` (and to `PAGE_IDS` in `service-worker.js` for offline caching).
 
-The finished reference opens on the left of the child's canvas. Watercolor scene backgrounds in `assets/backgrounds/` are selected by page theme and cached for offline play.
+The finished reference opens beside the child's canvas in portrait, and as a small card pinned over the page's corner in landscape (the canvas keeps drawing underneath it). Watercolor scene backgrounds in `assets/backgrounds/` are selected by page theme and cached for offline play.
 
 ## GitHub Pages
 

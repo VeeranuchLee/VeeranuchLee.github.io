@@ -163,9 +163,10 @@
         </div>
         <!-- The colours are their own band of the tool surface, never sharing
              the tool row. It is a sibling of .studio-tools rather than a child
-             because in landscape the tools stay in the side column while the
-             colours become a full-width tray under the canvas (the 48-swatch
-             layout does not fit a 190px column; see TWO-MODE-SPEC §3). -->
+             because the two orientations shape it differently: portrait stacks
+             it as the last band of the bottom surface, landscape stands it up
+             as a four-column shelf in its own right-hand column (the
+             arithmetic for both is in TWO-MODE-SPEC §3). -->
         <div id="colorPalette" class="color-palette" role="group" aria-label="Colors"></div>
 
         <div id="celebration" class="celebration" aria-hidden="true"></div>

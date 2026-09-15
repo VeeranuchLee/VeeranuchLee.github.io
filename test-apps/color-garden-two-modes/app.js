@@ -256,6 +256,13 @@ function buildColorPalette(container, onSelect) {
   api.clearSelection = () => {
     container.querySelectorAll(".color-button").forEach((item) => item.classList.remove("is-selected"));
   };
+  // Bringing a tool back after the eraser must restore the ring the eraser
+  // cleared (owner: "selected color must be visually obvious"). Silent, and
+  // deliberately not api.select: restoring state is not a tap, so it plays
+  // no tone and announces nothing.
+  api.markSelected = (value) => {
+    container.querySelectorAll(".color-button").forEach((item) => item.classList.toggle("is-selected", item.dataset.color === value));
+  };
   return api;
 }
 
@@ -739,6 +746,10 @@ function selectTool(tool) {
   document.querySelectorAll(".tool-options").forEach((options) => { options.hidden = options.dataset.options !== tool; });
   colorPalette.hidden = false;
   if (tool !== "brush") usingEraser = false;
+  // Every tool paints with currentColor, so leaving the eraser for any of
+  // them brings the ring back on it. The eraser's own handler calls this
+  // first and clears after, so erasing still leaves the palette unmarked.
+  galleryPalette.markSelected(currentColor);
   const directions = { brush: "Draw with your finger.", fill: "Tap a space to fill it.", gradient: "Drag across the picture to blend two colors.", stamp: "Tap the picture to add a stamp." };
   showMessage(directions[tool]);
   tinyPop(430 + ["brush", "fill", "gradient", "stamp"].indexOf(tool) * 60);
