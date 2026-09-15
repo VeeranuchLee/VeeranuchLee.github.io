@@ -52,7 +52,7 @@
  *                   precached -- see the header above.
  */
 
-const CACHE_NAME = "time-book-v7";
+const CACHE_NAME = "time-book-v8";
 
 const SHELL = [
   "./",
@@ -84,11 +84,14 @@ self.addEventListener("install", (event) => {
   self.skipWaiting();
 });
 
-/* Cache isolation (private PR #288): evict only this app's own old caches - sibling apps on this origin keep theirs. */
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches
       .keys()
+      /* Evict only this app's old versions (time-book-v*). Several repo apps
+         share one origin when published, each with its own worker — deleting
+         every cache that is not ours would evict the neighbours' offline caches.
+         Foreign cache names are not ours to touch. */
       .then((keys) => Promise.all(keys.filter((key) => /^time-book-v/.test(key) && key !== CACHE_NAME).map((key) => caches.delete(key))))
   );
   self.clients.claim();
