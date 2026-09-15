@@ -143,15 +143,30 @@
        into Music Book and Clock Game. The cover only -- every screen inside already has a
        bar__back, so leaving the book is one more tap of the arrow the child already uses,
        not a second button competing with the first. Absolute URL on purpose: published,
-       this app and /children-apps/ are siblings, but in the repo the hub lives under site/,
-       so a relative link would work live and 404 in every local preview.
+       this app and its parent are siblings, but in the repo they are separate top-level
+       folders, so a relative link would work live and 404 in every local preview.
        2026-09-06: retargeted from /test-apps/ to /children-apps/. The book was promoted
        to the main hub on 2026-08-29 (04896da8) and its Test Hub card was removed that
        same day, but this arrow was not moved with it, so the exit landed the child on a
-       hub the book is no longer listed on. */
+       hub the book is no longer listed on.
+       2026-09-09: retargeted again, to /word-book/. Children Games no longer has a
+       Writing Book card -- it has one Our Word Book card, and this book is a section
+       inside it. Leaving it pointed here would repeat the 2026-09-06 fault exactly: an
+       exit onto a hub that no longer lists the book.
+       2026-09-12: both halves of the warning that stood here are now settled, so it is
+       rewritten rather than left to be read as still true.
+       The ordering held: Our Word Book is live -- https://veeranuchlee.github.io/word-book/
+       returns 200 and serves <title>Our Word Book</title>, checked this day -- so this href
+       is no longer a pending 404. And "Writing Book is hand-published, it has no service
+       worker, so nothing enforces the ordering except a person reading this" stopped being
+       true the same day: service-worker.js was added at writing-book-v1 precisely so the
+       app HAS a cache version, which is the thing the release gate reads.
+       What that warning was right about is now measured history. The retarget above landed
+       in main on 2026-09-09 and three days later the live bytes still said /children-apps/,
+       because nothing could notice. See release/registry.json, the word-book note. */
     show('' +
       '<div class="cover">' +
-      '  <div class="cover__out"><a class="bar__back" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games">\u2190</a></div>' +
+      '  <div class="cover__out"><a class="bar__back" href="https://veeranuchlee.github.io/word-book/" aria-label="Back to Our Word Book">\u2190</a></div>' +
       '  <div class="cover__head">' +
       '    <h1>Writing Book</h1>' +
       '    <p id="cover-hint">' + currentMode().hint + '</p>' +

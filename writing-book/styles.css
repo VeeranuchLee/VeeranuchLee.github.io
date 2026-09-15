@@ -674,3 +674,41 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   color: var(--ink);
 }
 .book__word:empty::after { content: '·'; color: rgba(44, 62, 99, 0.25); }
+
+/* ----------------------------------------------------------- touch hygiene ---
+ * Owner, 2026-09-15: "many times when kids play, sometimes apps like writing
+ * turned into 'selection' and the UI turn blue to show selected items, which is
+ * not nice ... also for some apps accidental zoom in occur a lot."
+ *
+ * Both are the same cause: a child drags and long-presses constantly, and a
+ * browser reads those as text selection and as zoom gestures. An adult lifts off
+ * a button; a child rests a finger on it.
+ *
+ * `user-select: none` kills the blue selection. `-webkit-touch-callout: none`
+ * kills the long-press copy/share bubble, which is the other half and is missing
+ * from almost every app here.
+ *
+ * `touch-action: manipulation` removes the 300ms double-tap-to-zoom without
+ * removing scrolling or panning. It is deliberately NOT `none`: that would kill
+ * scrolling everywhere. The tracing surface sets its own `touch-action: none`
+ * (.rowsvg above) and must keep it -- a drawing surface wants every gesture.
+ *
+ * Pinch-zoom needs JavaScript, not CSS: iOS Safari has ignored
+ * `user-scalable=no` since iOS 10, so a viewport meta alone does nothing. See the
+ * gesturestart guard in index.html.
+ */
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+}
+
+/* Anything a person genuinely types into stays selectable. There are none here
+ * today; this is here so adding one later does not silently break it. */
+input, textarea, [contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+}

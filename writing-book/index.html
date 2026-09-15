@@ -16,6 +16,14 @@
 
     <!-- Load order matters. letters.js is the geometry every other file reads;
          strokes.js reads it at call time, app.js at startup. -->
+    <script>
+      /* Pinch-zoom guard. iOS Safari ignores user-scalable=no (since iOS 10), so
+         this is the only thing that stops two small hands zooming the page mid
+         stroke. gesturestart fires once per pinch; preventing it cancels the zoom
+         without touching scrolling or any single-finger gesture. Non-Safari
+         browsers never fire it, so this is inert there. */
+      document.addEventListener("gesturestart", function (e) { e.preventDefault(); }, { passive: false });
+    </script>
     <script src="./letters.js"></script>
     <script src="./strokes.js"></script>
     <script src="./words.js"></script>
@@ -23,5 +31,14 @@
     <script src="./sound.js"></script>
     <script src="./vocab.js"></script>
     <script src="./app.js"></script>
+    <script>
+      /* Offline support. Best-effort on purpose: opened straight off the filesystem
+         the browser refuses to register a worker, and the book must still work. */
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('./service-worker.js').catch(function () {});
+        });
+      }
+    </script>
   </body>
 </html>
