@@ -622,6 +622,14 @@
    deep. The column's own 14px gap sets the vertical rhythm between
    buttons, transport, band and bed. */
 .toy-preschool {
+  /* Never taller than #stage. The parts below are sized in pixels for the
+     768 x 1024 portrait target and add up to about 764px; a 1024 x 768
+     landscape stage is 662px. Centred in #stage, the toy then spilled 51px
+     past BOTH edges, and the top spill lay over the ribbon: measured
+     2026-09-15 with elementFromPoint, all five toy chips were covered, so a
+     child on First Piano in landscape could not reach another toy. With this
+     cap only the keybed gives way (see its rule); in portrait nothing moves. */
+  max-height: 100%;
   --fp-keybed-height: 420px;
   --fp-padband-height: 128px;
   --fp-pad-gap: 12px;
@@ -722,7 +730,12 @@
 }
 
 .toy-preschool .keybed {
-  flex: 0 0 auto;
+  /* Shrinkable, and the ONLY shrinkable part of the case: 420px in portrait,
+     318px in a 1024 x 768 landscape. keybed.js rebuilds its geometry on a
+     ResizeObserver, so a shorter bed is still hit-tested exactly. The floor
+     keeps the naturals a palm target on any screen this app meets. */
+  flex: 0 1 auto;
+  min-height: 240px;
   height: var(--fp-keybed-height, 420px);
   border-radius: 20px;
   background: #f4ddc6;
@@ -811,17 +824,22 @@
   flex: 1 1 auto;
   align-self: center;
   align-items: center;
+  /* Same fault as First Piano, smaller: about 708px of castle in a 662px
+     landscape stage, 23px over the ribbon. Capped here; the keybed gives way
+     (280px portrait, 234px landscape), never the castle back. */
+  max-height: 100%;
 }
 .vanity {
   position: relative;
   width: 100%;
-  flex: 0 0 auto;
+  flex: 0 1 auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   /* The top padding is the castle back: the arch and turrets are absolute,
      so this is the room they stand in. */
   padding: 236px 58px 18px;
+  min-height: 0;
   border-radius: 26px;
   background: linear-gradient(180deg, #ffd7ee 0 50%, #ffc2e2 100%);
   border: 2px solid #eba8cd;
@@ -998,7 +1016,8 @@
 .toy-princess .keybed {
   position: relative;
   z-index: 1;
-  flex: 0 0 auto;
+  flex: 0 1 auto;
+  min-height: 180px;
   height: 280px;
   border-radius: 14px;
   background: #6a3d58;
