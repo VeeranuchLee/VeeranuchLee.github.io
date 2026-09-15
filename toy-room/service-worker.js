@@ -14,7 +14,7 @@
  *                   publish set, still v1 because nothing shipped before.
  */
 
-const CACHE_NAME = "toy-box-v1";
+const CACHE_NAME = "toy-box-v2";
 
 const SHELL = [
   "./",

@@ -20,6 +20,18 @@
          link to that toy's own standalone app (see shelf.js). Adding a toy is
          adding a shelf entry plus an app folder — nothing here changes. -->
     <main id="room" class="screen">
+      <!-- Owner, 2026-08-26: "add back button to test hub for the test apps too." The
+           shelf is carded on the Test Hub without one, and it is the worst place for the
+           gap: Pattern Blocks and Pattern Pegs both send a child HERE when they finish, so
+           the whole toy branch dead-ends on this screen. Same chevron the toys use for
+           their own way back, so it is one arrow the child learns once. Absolute URL on
+           purpose: published, /toy-room/ and /test-apps/ are siblings, but in the repo the
+           hub lives under site/, so a relative link would work live and 404 in every local
+           preview. Carries `hub-btn` so the promotion check greps a class and not a URL —
+           a card has moved hubs without its arrow before. -->
+      <a id="hub-back" class="hub-btn" href="https://veeranuchlee.github.io/test-apps/" aria-label="Back to Test Apps">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
       <header class="room-head">
         <h1>Toy Box</h1>
         <p class="room-sub">Pick a toy and play</p>
@@ -39,5 +51,12 @@
         });
       }
     </script>
+    <script>
+  /* Pinch-zoom guard. iOS Safari ignores user-scalable=no (since iOS 10), so this is
+     the only thing that stops two small hands zooming the page mid-play. gesturestart
+     fires once per pinch; preventing it cancels the zoom and touches nothing else.
+     Other browsers never fire it, so this is inert there. */
+  document.addEventListener("gesturestart", function (e) { e.preventDefault(); }, { passive: false });
+  </script>
   </body>
 </html>

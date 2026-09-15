@@ -37,7 +37,31 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 0;
+  /* So #hub-back below anchors to the shelf and not to the initial containing block.
+     Same box here, but only by coincidence of #room filling the viewport. */
+  position: relative;
 }
+
+/* The way out of the shelf. Absolutely placed rather than put in .room-head, because
+   that header is centred and a flex child would pull the title off centre. 52px is the
+   same disc the toys give their own back arrow, so the target is the toy branch's size
+   and not this room's. */
+#hub-back {
+  position: absolute;
+  left: clamp(10px, 2vw, 20px);
+  top: max(clamp(10px, 2vh, 20px), env(safe-area-inset-top));
+  z-index: 2;
+  width: 52px; height: 52px;
+  display: grid; place-items: center;
+  border-radius: 16px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  color: var(--ink);
+  text-decoration: none;
+}
+#hub-back svg { width: 26px; height: 26px; }
+#hub-back:active { transform: translateY(2px); box-shadow: none; }
 
 /* --- Room (the whole app now) ------------------------------------------------ */
 
@@ -137,4 +161,38 @@ a.toy-card:active { transform: translateY(1px); }
 
 @media (prefers-reduced-motion: reduce) {
   .toy-card { transition: none; }
+}
+
+/* ----------------------------------------------------------- touch hygiene ---
+ * Owner, 2026-09-15: "sometimes apps like writing turned into 'selection' and the
+ * UI turn blue ... also for some apps accidental zoom in occur a lot."
+ *
+ * One cause, two symptoms: a child drags and rests fingers constantly, and the
+ * browser reads that as text selection and as zoom.
+ *
+ * user-select: none        kills the blue selection.
+ * -webkit-touch-callout    kills the long-press copy/share bubble -- the other
+ *                          half, and it was missing from every app but one.
+ * touch-action: manipulation  removes double-tap-to-zoom WITHOUT killing scroll.
+ *                          Deliberately not `none`: that would stop scrolling.
+ *                          Drawing surfaces set their own `touch-action: none`
+ *                          and keep it -- a more specific rule still wins.
+ *
+ * Pinch needs JavaScript, not CSS: iOS Safari has ignored user-scalable=no since
+ * iOS 10, so the viewport meta does nothing. See the gesturestart guard in the
+ * HTML.
+ */
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+}
+
+/* Anything a person genuinely types into stays selectable. */
+input, textarea, [contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
 }
