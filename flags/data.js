@@ -68,7 +68,7 @@ var FLAGS_DATA = (function () {
       code: 'kh', name: 'Cambodia', region: 'Southeast Asia', capital: 'Phnom Penh',
       lookFor: 'the white temple in the middle',
       facts: [
-        { id: 'kh-f1', text: 'Cambodia\u2019s flag shows Angkor Wat, a giant temple built about 900 years ago.', src: 'Britannica, Angkor Wat' },
+        { id: 'kh-f1', text: 'Cambodia\u2019s flag shows Angkor Wat, a giant temple built 900 years ago.', src: 'Britannica, Angkor Wat' },
         { id: 'kh-f2', text: 'Angkor Wat is the largest religious monument in the world.', src: 'Britannica, Angkor Wat' },
         { id: 'kh-f3', text: 'Cambodia has a huge lake called Tonle Sap that grows much bigger every rainy season.', src: 'Britannica, Tonle Sap' },
         { id: 'kh-f4', text: 'Every year Cambodians celebrate a water festival with big boat races on the river.', src: 'Wikipedia, Bon Om Touk' }
@@ -249,9 +249,9 @@ var FLAGS_DATA = (function () {
       lookFor: 'the yellow rings in the middle, like a little ball made of hoops',
       facts: [
         { id: 'pt-f1', text: 'Portugal\u2019s flag shows an armillary sphere \u2014 an old machine for studying the stars. It honours Portugal\u2019s brave sailors of long ago.', src: 'Britannica, flag of Portugal' },
-        { id: 'pt-f2', text: 'About 500 years ago, sailors from Portugal found the sea route from Europe all the way to India.', src: 'Britannica, Vasco da Gama' },
+        { id: 'pt-f2', text: 'More than 500 years ago, sailors from Portugal found the sea route from Europe all the way to India.', src: 'Britannica, Vasco da Gama' },
         { id: 'pt-f3', text: 'Portugal\u2019s borders are among the oldest in Europe \u2014 they have barely changed for centuries.', src: 'Britannica, Portugal' },
-        { id: 'pt-f4', text: 'About half the world\u2019s cork comes from Portugal \u2014 cork is the bark of the cork oak tree.', src: 'Britannica, cork' }
+        { id: 'pt-f4', text: 'More of the world\u2019s cork comes from Portugal than from any other country \u2014 cork is the bark of the cork oak tree.', src: 'Britannica, cork' }
       ]
     },
     {
@@ -288,7 +288,7 @@ var FLAGS_DATA = (function () {
       code: 'dk', name: 'Denmark', region: 'Europe', capital: 'Copenhagen',
       lookFor: 'the white cross on red',
       facts: [
-        { id: 'dk-f1', text: 'Denmark\u2019s flag is the oldest still in use by any country \u2014 about 800 years old!', src: 'Britannica, flag of Denmark' },
+        { id: 'dk-f1', text: 'Denmark\u2019s flag is the oldest still in use by any country \u2014 more than 800 years old!', src: 'Britannica, flag of Denmark' },
         { id: 'dk-f2', text: 'Denmark is a land of islands \u2014 it has more than 400 of them.', src: 'Statistics Denmark, Denmark in Figures' },
         { id: 'dk-f3', text: 'LEGO bricks come from Denmark \u2014 the name means \u201cplay well\u201d in Danish.', src: 'Britannica, LEGO' },
         { id: 'dk-f4', text: 'In Copenhagen\u2019s harbour sits a little statue of the Little Mermaid, from the fairy tale by Hans Christian Andersen.', src: 'Britannica, Copenhagen' }
@@ -408,7 +408,7 @@ var FLAGS_DATA = (function () {
       code: 'eg', name: 'Egypt', region: 'Africa', capital: 'Cairo',
       lookFor: 'the golden eagle in the middle',
       facts: [
-        { id: 'eg-f1', text: 'Egypt\u2019s Great Pyramid is about 4,500 years old \u2014 and it is still standing.', src: 'Britannica, Pyramids of Giza' },
+        { id: 'eg-f1', text: 'Egypt\u2019s Great Pyramid is 4,500 years old \u2014 and it is still standing.', src: 'Britannica, Pyramids of Giza' },
         { id: 'eg-f2', text: 'The Great Pyramid was the tallest building in the world for more than 3,000 years.', src: 'Britannica, Great Pyramid of Khufu' },
         { id: 'eg-f3', text: 'The Nile is the longest river in Africa \u2014 ancient Egypt grew along it like a green ribbon through the desert.', src: 'Britannica, Nile River' },
         { id: 'eg-f4', text: 'Ancient Egyptians wrote with pictures called hieroglyphs \u2014 birds, snakes, eyes and feet!', src: 'Britannica, hieroglyph' },

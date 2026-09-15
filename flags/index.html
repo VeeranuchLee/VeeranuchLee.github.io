@@ -22,6 +22,19 @@
            never moves while a child plays — the same rule every app here
            follows. -->
       <header class="topbar">
+        <!-- Owner, 2026-08-26: "add back button to test hub for the test apps too." This
+             app is carded on the Test Hub without one. It takes the SAME slot as
+             #btn-home and the two swap: inside a round the arrow goes back to this app's
+             home screen, on the home screen it goes out to the hub, so the leftmost
+             control always means "back one level" and never two arrows argue for the
+             corner. Absolute URL on purpose: published, /flags/ and /test-apps/ are
+             siblings, but in the repo the hub lives under site/, so a relative link would
+             work live and 404 in every local preview. Carries `hub-btn` so the promotion
+             check greps a class and not a URL — a card has moved hubs without its arrow
+             before. -->
+        <a id="btn-hub" class="btn btn-icon hub-btn" href="https://veeranuchlee.github.io/test-apps/" aria-label="Back to Test Apps">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
         <button id="btn-home" class="btn btn-icon" type="button" aria-label="Back to the home screen" hidden>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
@@ -49,5 +62,12 @@
         });
       }
     </script>
+    <script>
+  /* Pinch-zoom guard. iOS Safari ignores user-scalable=no (since iOS 10), so this is
+     the only thing that stops two small hands zooming the page mid-play. gesturestart
+     fires once per pinch; preventing it cancels the zoom and touches nothing else.
+     Other browsers never fire it, so this is inert there. */
+  document.addEventListener("gesturestart", function (e) { e.preventDefault(); }, { passive: false });
+  </script>
   </body>
 </html>

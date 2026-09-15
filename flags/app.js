@@ -21,6 +21,7 @@
 
   var VIEW = document.getElementById('view-root');
   var BTN_HOME = document.getElementById('btn-home');
+  var BTN_HUB = document.getElementById('btn-hub');
   var BTN_SOUND = document.getElementById('btn-sound');
 
   var STORE_PREFIX = 'flags-app.';
@@ -205,7 +206,10 @@
 
   function renderHome() {
     screen = 'home';
+    /* The two share the corner and swap. renderCard and renderDone deliberately leave
+       both alone: they follow a question, so "back one level" still means the round. */
     BTN_HOME.hidden = true;
+    BTN_HUB.hidden = false;
     clearView();
     SPEECH.stop();
 
@@ -241,6 +245,7 @@
   function renderQuestion() {
     screen = 'question';
     BTN_HOME.hidden = false;
+    BTN_HUB.hidden = true;
     clearView();
     SPEECH.stop();
 

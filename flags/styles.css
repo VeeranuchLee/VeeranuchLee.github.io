@@ -84,6 +84,23 @@ body {
 
 .btn-icon svg { width: 26px; height: 26px; }
 
+/* `.btn-icon` sets a display, and an AUTHOR declaration beats the user agent's
+   `[hidden] { display: none }` whatever the specificity says — origin is settled before
+   specificity is consulted. So `BTN_HOME.hidden = true` was setting an attribute that
+   changed nothing, and the home screen carried a back arrow that did render, did take a
+   tap, and answered it by drawing the home screen it was already on — live, for as long
+   as the app has existed. Found while adding #btn-hub beside it, which is why it matters
+   twice: the two are meant to swap, and without this rule they would simply both be
+   there. `!important` rather than a `.btn-icon[hidden]` override so it covers anything
+   later given both `hidden` and a display. */
+[hidden] { display: none !important; }
+
+/* The way out of the app, home screen only — the mirror of #btn-home, same slot, same
+   shape, so only one of them is ever in the corner. It is an anchor, so it needs the
+   underline and inherited link colour removed that the button got for free; the 52px
+   target comes from .btn-icon and is deliberately untouched. */
+#btn-hub { text-decoration: none; color: inherit; }
+
 #btn-sound .ic-sound-off { display: none; }
 #btn-sound.is-off .ic-sound-on { display: none; }
 #btn-sound.is-off .ic-sound-off { display: block; }
@@ -388,4 +405,38 @@ body {
   .options-flags { grid-template-columns: repeat(2, 1fr); }
   .options-names { grid-template-columns: 1fr; }
   .card-row { grid-template-columns: 92px 1fr; }
+}
+
+/* ----------------------------------------------------------- touch hygiene ---
+ * Owner, 2026-09-15: "sometimes apps like writing turned into 'selection' and the
+ * UI turn blue ... also for some apps accidental zoom in occur a lot."
+ *
+ * One cause, two symptoms: a child drags and rests fingers constantly, and the
+ * browser reads that as text selection and as zoom.
+ *
+ * user-select: none        kills the blue selection.
+ * -webkit-touch-callout    kills the long-press copy/share bubble -- the other
+ *                          half, and it was missing from every app but one.
+ * touch-action: manipulation  removes double-tap-to-zoom WITHOUT killing scroll.
+ *                          Deliberately not `none`: that would stop scrolling.
+ *                          Drawing surfaces set their own `touch-action: none`
+ *                          and keep it -- a more specific rule still wins.
+ *
+ * Pinch needs JavaScript, not CSS: iOS Safari has ignored user-scalable=no since
+ * iOS 10, so the viewport meta does nothing. See the gesturestart guard in the
+ * HTML.
+ */
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+}
+
+/* Anything a person genuinely types into stays selectable. */
+input, textarea, [contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
 }

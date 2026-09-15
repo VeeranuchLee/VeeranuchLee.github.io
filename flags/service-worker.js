@@ -13,7 +13,7 @@
  *                   interim speechSynthesis narration.
  */
 
-const CACHE_NAME = "flags-v1";
+const CACHE_NAME = "flags-v2";
 
 const FLAG_CODES = [
   "th", "vn", "la", "kh", "my", "sg", "id", "ph",
