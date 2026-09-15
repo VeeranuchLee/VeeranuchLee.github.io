@@ -18,7 +18,7 @@
  *                   reach installed devices, so it is the first one that matters.
  */
 
-const CACHE_NAME = "pattern-pegs-v4";
+const CACHE_NAME = "pattern-pegs-v5";
 
 const SHELL = [
   "./",

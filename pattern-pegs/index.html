@@ -14,6 +14,16 @@
   <!-- Menu -->
   <section id="menu" class="screen" aria-label="Pattern Pegs menu">
     <header class="topbar">
+      <!-- Owner, 2026-08-26: "add back button to test hub for the test apps too." This app
+           is carded on the Test Hub without one: inside an activity ⌂ returns to this menu,
+           and from the menu there is nothing at all, so an installed PWA with no browser
+           chrome has no way out. It takes the same slot in the same top bar that ⌂ takes one
+           screen in, so the leftmost button is always "back one level". Menu screen only.
+           Absolute URL on purpose: published, /pattern-pegs/ and /test-apps/ are siblings,
+           but in the repo the hub lives under site/, so a relative link would work live and
+           404 in every local preview. Carries `hub-btn` so the promotion check greps a class
+           and not a URL — a card has moved hubs without its arrow before. -->
+      <a class="round-btn hub-btn" href="https://veeranuchlee.github.io/test-apps/" aria-label="Back to Test Apps">←</a>
       <h1 class="title">Pattern Pegs</h1>
       <button id="sound-toggle" class="round-btn" type="button" aria-label="Sound on or off" aria-pressed="true">🔊</button>
     </header>
@@ -57,5 +67,12 @@
 </main>
 <script src="./js/pattern-core.js"></script>
 <script src="./app.js"></script>
-</body>
+  <script>
+  /* Pinch-zoom guard. iOS Safari ignores user-scalable=no (since iOS 10), so this is
+     the only thing that stops two small hands zooming the page mid-play. gesturestart
+     fires once per pinch; preventing it cancels the zoom and touches nothing else.
+     Other browsers never fire it, so this is inert there. */
+  document.addEventListener("gesturestart", function (e) { e.preventDefault(); }, { passive: false });
+  </script>
+  </body>
 </html>
