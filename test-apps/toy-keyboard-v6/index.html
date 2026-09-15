@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Keyboard</title>
+<meta name="description" content="Five musical toys from rainbow keys to a studio keyboard."/>
+<link rel="manifest" href="./manifest.webmanifest"/>
+<link rel="stylesheet" href="./fonts.css"/>
+<link rel="stylesheet" href="./styles.css"/>
+<link rel="stylesheet" href="./toys.css"/>
+<meta name="theme-color" content="#101319"/>
+<link rel="icon" href="./assets/icons/icon-192.png"/>
+<link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Keyboard"/>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- The chrome. It is the only thing that does not change when the toy
+       changes: same place, same size, same order, whichever keyboard is on
+       screen. Two rows and no more — the rule this app is built around is
+       that there is essentially nothing between opening it and playing, so
+       the ribbon had to earn every pixel it takes from the keys. -->
+  <header id="topbar">
+
+    <div id="bar1">
+      <!-- Owner, 2026-08-26: "add back button to test hub for the test apps too." It used to
+           sit on the Classic console's left speaker pod, which was the only screen there was.
+           There are four screens now, and an arrow that lives on one of them is no way out of
+           the other three — the exact fault the 2026-09-10 entry fixed. So it moved up here
+           into the chrome, where it is reachable from every toy.
+           Its DESTINATION has not changed and must not: /test-apps/, not the main hub. The
+           owner says this app "will soon promote to the main hub" and that promotion has not
+           happened; an arrow pointing at a hub before the card moves has exposed a hub before.
+           It keeps `hub-btn` so the promotion check greps a class and not a URL. -->
+      <a id="hub" class="hub-btn" href="https://veeranuchlee.github.io/test-apps/" aria-label="Back to Test Apps">←</a>
+
+      <!-- Five physical toy models in the developmental order settled by the
+           owner. Built from the toy definitions so each name has one home. -->
+      <nav id="ribbon" role="tablist" aria-label="Choose a keyboard"></nav>
+
+      <!-- A parent setting, kept in the stable chrome rather than among a
+           toy's bright controls. It takes no new row and changes no keybed;
+           the subdued treatment makes it reachable without advertising a
+           mid-song button to a four-year-old. -->
+      <button type="button" id="effects-toggle" aria-pressed="true">
+        <span class="effects-word">Effects</span> <strong>ON</strong>
+      </button>
+    </div>
+
+  </header>
+
+  <!-- The instrument. One toy is mounted here at a time; the keys are the
+       first thing under a finger the moment the app opens. -->
+  <main id="stage" aria-label="Keyboard"></main>
+
+</div>
+
+<script src="./voices.js"></script>
+<script src="./engine.js"></script>
+<script src="./recorder.js"></script>
+<script src="./keybed.js"></script>
+<script src="./effects.js"></script>
+<script src="./toys.js"></script>
+<script src="./toy-studio.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
