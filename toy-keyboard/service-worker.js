@@ -29,17 +29,61 @@
  *               The picker chips are CSS-drawn mini pianos, so no chip loads an
  *               image either. The keybed is untouched geometry; a skin only changes
  *               what is painted around and behind the keys.
+ *   v5  2026-09-14  FIVE TOYS, not one console with five skins. Baby Rainbow Keys
+ *               (eight slabs and a carry handle), Chunky First Piano (fifteen pads),
+ *               Princess Star Piano, Big-Kid Keyboard and Studio Explorer (instrument
+ *               bank, octave and transpose, metronome, record and play) over one
+ *               shared engine. The ribbon chips are CSS-drawn pictures of the toy
+ *               each opens, so with the colour taken away the picture still says
+ *               which keyboard it is.
+ *
+ *               Six modules join the shell: engine.js, keybed.js, toys.js, toys.css,
+ *               toy-studio.js and recorder.js. They were listed here before this
+ *               bump and were therefore never cached, because a shell list is only
+ *               read when CACHE_NAME changes.
+ *
+ *               Still v5, 2026-09-14: effects.js joins the same list. Live is v4,
+ *               so v5 has never been published and everything landing under it is
+ *               part of one unshipped release -- a second bump here would be a
+ *               double-bump against a version no device has ever held. The file
+ *               had to be added because index.html loads it and the three
+ *               colourful toys call it on mount: a cold offline install that
+ *               cached the shell without it would open on a toy that throws.
+ *
+ *               Worth knowing for anyone reading this during an incident: nothing
+ *               registers this worker. There is no serviceWorker.register call
+ *               anywhere under toy-keyboard-app/, so every bump from v1 to v4 was
+ *               ceremonial and no child has ever had a cached copy. That means this
+ *               release cannot be held back by a stale cache -- and it also means
+ *               the offline promise in the manifest is not being kept. Registering
+ *               it is a separate owner decision, deliberately not taken here.
+ *   v6  2026-09-14  First Piano replaces its five-block rear row with the
+ *               Princess-style C4-F5 piano bed: rainbow naturals, dark
+ *               accidentals, and four engine-recorded drum pads (kick,
+ *               snare, tom and clap). No new shell file joins this cache.
+ *               Still v6, 2026-09-15: First Piano and Princess are capped at
+ *               the stage's height so a landscape iPad no longer spills them
+ *               over the ribbon. Unpublished, so no second bump -- the same
+ *               reasoning as the v5 note above.
  */
 
-const CACHE_NAME = "toy-keyboard-v4";
+const CACHE_NAME = "toy-keyboard-v7";
 
 const SHELL = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
   "./styles.css",
+  "./toys.css",
   "./fonts.css",
   "./app.js",
+  "./voices.js",
+  "./engine.js",
+  "./recorder.js",
+  "./keybed.js",
+  "./effects.js",
+  "./toys.js",
+  "./toy-studio.js",
 
   "./fonts/Nunito-latin.woff2",
   "./fonts/Nunito-latin-ext.woff2",
@@ -53,6 +97,7 @@ const SHELL = [
   "./assets/backgrounds/moon-bunny.jpg",
   "./assets/backgrounds/strawberry-picnic.jpg",
   "./assets/backgrounds/coral-whale.jpg",
+  "./assets/backgrounds/classic.jpg",
   "./assets/backgrounds/woodland-mushroom.jpg",
   "./assets/pianos/moon-bunny-shell.png",
   "./assets/pianos/coral-whale-shell.png",
