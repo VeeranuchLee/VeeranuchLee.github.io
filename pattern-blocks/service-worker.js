@@ -11,7 +11,7 @@
  *                   app the same day; the toy itself is unchanged).
  */
 
-const CACHE_NAME = "pattern-blocks-v1";
+const CACHE_NAME = "pattern-blocks-v2";
 
 const SHELL = [
   "./",
