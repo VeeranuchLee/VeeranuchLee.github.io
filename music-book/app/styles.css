@@ -1,6 +1,7 @@
 /* Music Book — the illustrated shell.
-   Built for a 9.7" iPad in LANDSCAPE: the art is 4:3, so the page is 4:3.
-   The backgrounds carry the mood; UI chrome stays out of their way. */
+   Room art remains a 4:3 landscape stage. The Music World is a deliberate 3:4
+   portrait stage for the 9.7" iPad, with its complete 4:3 map letterboxed inside.
+   Both stages use both viewport axes so neither ratio can collapse or crop. */
 
 :root {
   --ink: #1e2b45;
@@ -190,6 +191,42 @@ body {
   display: grid; place-items: center; text-decoration: none;
 }
 
+/* The Toy Piano room's only door (the owner, 2026-08-27: pinned to the landing's
+   top-right, mirroring the hub button top-left; the Music World's door was
+   removed the same evening). It is a destination, so it is bigger than the hub
+   button: a round plate carrying the toy's own octave, white keys plus the five
+   black ones, drawn from the room's exported key lists. */
+.toy-bubble {
+  position: absolute; right: 2.2%; top: 2.2%; z-index: 3;
+  width: clamp(58px, 8vw, 84px); aspect-ratio: 1;
+  padding: 0;
+  border: 0; border-radius: 50%;
+  background: radial-gradient(circle at 38% 30%, #fffdf4, #f4e9cd);
+  box-shadow: 0 0 0 4px var(--gold), 0 0 0 7px rgba(255, 255, 255, .5), var(--shadow);
+  cursor: pointer;
+  transition: transform .14s ease;
+}
+.toy-bubble:hover, .toy-bubble:focus-visible { transform: scale(1.06); outline: none; }
+.toy-bubble:active { transform: scale(.96); }
+
+.toy-face {
+  position: absolute; inset: 13%;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  border-radius: 14%;
+  background: #fffdf6;
+  box-shadow: inset 0 0 0 1.5px var(--plate-edge), inset 0 -3px 6px rgba(31, 43, 69, .16);
+  overflow: hidden;
+}
+.toy-face__key { position: relative; }
+.toy-face__key--black {
+  position: absolute; top: 0;
+  width: 7%; height: 58%;
+  transform: translateX(-50%);
+  border-radius: 0 0 3px 3px;
+  z-index: 1;
+}
+
 .banner {
   flex: 1; text-align: center;
   padding: .5% 2%;
@@ -211,50 +248,216 @@ body {
 .guide-badge img { width: clamp(30px, 3.6vw, 46px); height: auto; }
 .guide-badge span { font-size: clamp(10px, 1.3vw, 15px); font-weight: 700; }
 
-/* ── music world (the six wings) ──────────────────────────────────────────── */
+/* ── music world (the six wings) ────────────────────────────────────────────
+   The source painting is 4:3 and all six islands matter. On a 3:4 portrait
+   screen, `cover` would remove half the map's width and either the mountain,
+   piano terrace, or town would disappear. The map is therefore letterboxed at
+   its native ratio, while the portrait margins hold the screen furniture.
 
-.wing-grid {
-  flex: 1;
+   The outer stage and inner map each use min() against BOTH axes. At the target
+   768×1024 the stage is exactly 768×1024 and the complete map is 768×576. */
+
+.stage.stage--world {
+  width: min(100vw, calc(100vh * 3 / 4));
+  height: min(100vh, calc(100vw * 4 / 3));
+  container-type: size;
+  background:
+    radial-gradient(circle at 50% 72%, rgba(255, 244, 200, .42), transparent 34%),
+    linear-gradient(180deg, #a7ddf4 0%, #77c8e8 55%, #419fc9 100%);
+}
+
+body[data-view="world"] #chrome {
+  width: min(100vw, calc(100vh * 3 / 4));
+  height: min(100vh, calc(100vw * 4 / 3));
+}
+
+body[data-view="world"] .chrome-btn {
+  left: 4%; right: auto; bottom: 3.1%;
+  min-width: 76px; height: 48px;
+}
+
+.world-shell { position: absolute; inset: 0; overflow: hidden; }
+
+/* `top` centres the plate in the sky between the title bar and the bottom
+   furniture. At 14% the map sat 52px under the title bar and left a 154px band
+   of empty sea above the speech bubble; 19% splits that leftover evenly, ~103px
+   each, so the sea reads as margin rather than as a gap. */
+.world-map {
+  position: absolute;
+  left: 50%; top: 19%;
+  width: min(100cqw, calc(64cqh * 4 / 3));
+  height: min(64cqh, calc(100cqw * 3 / 4));
+  transform: translateX(-50%);
+  background: #75c9e9 url(../assets/backgrounds/music-world-map.webp) center / 100% 100% no-repeat;
+  box-shadow: 0 10px 30px rgba(18, 64, 99, .24);
+}
+
+.world-topbar {
+  position: absolute; z-index: 5;
+  top: 2.4%; left: 3%; right: 3%;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 1fr;
-  gap: 1.4% 3%;
-  align-content: center;
-  /* Right padding keeps the last column clear of the guide badge; the generous
-     bottom padding is the band the companion stands in, so a card and a
-     character never share the same corner. */
-  padding: 1% 9% 13%;
+  grid-template-columns: minmax(96px, 1fr) minmax(300px, 3.7fr) minmax(112px, 1.25fr);
+  align-items: center;
+  gap: 2.2%;
 }
 
-.wing-card {
-  position: relative;
-  display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+.world-home {
+  justify-self: start;
+  min-width: 92px; min-height: 48px;
+  padding: 8px 15px;
+  border: 0; border-radius: 999px;
+  background: linear-gradient(180deg, #fff9e9, #ead9ad);
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+  color: var(--ink); font: inherit; font-size: clamp(13px, 1.8cqw, 17px); font-weight: 800;
+  cursor: pointer;
+}
+.world-home:active { transform: scale(.96); }
+
+.world-title {
+  min-width: 0;
+  padding: 7px 16px 8px;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(255,250,234,.97), rgba(237,220,178,.97));
+  border-radius: 16px;
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+}
+.world-title h1 { margin: 0; font-size: clamp(24px, 4.1cqw, 34px); line-height: 1; }
+.world-title p { margin: 3px 0 0; font-size: clamp(11px, 1.65cqw, 14px); color: var(--ink-soft); font-weight: 700; }
+
+.guide-badge--world {
+  justify-self: end;
+  min-height: 48px;
+  padding-right: 10px;
+}
+.guide-badge--world img { width: clamp(38px, 6.2cqw, 48px); }
+.guide-badge--world span { display: grid; font-size: clamp(11px, 1.65cqw, 14px); line-height: 1.05; }
+.guide-badge--world small { margin-top: 3px; font-size: .72em; font-weight: 700; color: var(--ink-soft); }
+
+.wing-map { position: absolute; inset: 0; }
+
+/* Owner, 2026-09-14: the map is the menu. Each wing is a transparent elliptical
+   hotspot over its painted region — no card, no thumbnail, nothing drawn on the
+   art but the outline below. --x/--y/--w/--h are percentages of the letterboxed
+   plate, so the hotspots track the painting at any stage size; the box itself
+   is the tap target (160px+ on the 768-wide plate, far past the 44px minimum).
+   Feedback is light alone: nothing here scales, zooms or pans the map. */
+.wing-spot {
+  position: absolute;
+  left: var(--x); top: var(--y);
+  width: var(--w); height: var(--h);
   border: 0; background: none; padding: 0; cursor: pointer;
-  transition: transform .14s ease;
+  color: var(--ink); font: inherit;
+  transform: translate(-50%, -50%);
 }
-.wing-card:hover { transform: translateY(-5px); }
-.wing-card:active { transform: scale(.98); }
+.wing-spot:focus-visible { outline: none; }
 
-.wing-card__art {
-  width: min(100%, 15.5vh); aspect-ratio: 1;
+/* The affordance: a gentle outlined ellipse — a soft light rim and a slow,
+   low-contrast glow that breathes, visible while the painting shows through. */
+.wing-spot__ring {
+  position: absolute; inset: 0;
   border-radius: 50%;
-  background-size: cover; background-position: center;
-  box-shadow: var(--frame);
+  border: 3px solid rgba(255, 244, 208, .82);
+  box-shadow: 0 0 16px 3px rgba(255, 236, 170, .30), inset 0 0 22px rgba(255, 236, 170, .18);
+  animation: wing-spot-glow 4.6s ease-in-out infinite;
 }
-.wing-card__label {
-  margin-top: -8%;
-  padding: 5px 16px;
-  border-radius: 999px;
+/* Hover, keyboard focus and press all answer the same way: a clearly brighter
+   rim and a soft inner glow, with the breathing paused. */
+.wing-spot:hover .wing-spot__ring,
+.wing-spot:focus-visible .wing-spot__ring,
+.wing-spot:active .wing-spot__ring {
+  border-color: #fff6d8;
+  box-shadow: 0 0 26px 9px rgba(255, 236, 170, .62), inset 0 0 34px 7px rgba(255, 243, 205, .55);
+  animation: none;
+}
+@keyframes wing-spot-glow {
+  0%, 100% { box-shadow: 0 0 12px 2px rgba(255, 236, 170, .24), inset 0 0 16px rgba(255, 236, 170, .14); }
+  50%      { box-shadow: 0 0 22px 6px rgba(255, 236, 170, .44), inset 0 0 30px 5px rgba(255, 236, 170, .30); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wing-spot__ring { animation: none; }
+}
+
+/* The name pill and room count sit at the wing's label point — still the
+   opaque pill pair, so they stay legible over painted art. They are children of
+   the hotspot button, so the pills are as tappable as the ellipse itself.
+   --lx/--ly are percentages of the hotspot's own box; app.js converts the
+   plate point. */
+.wing-spot__tag {
+  position: absolute;
+  left: var(--lx); top: var(--ly);
+  transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.wing-spot__name {
+  width: max-content; max-width: 32cqw;
+  padding: 5px 12px 6px;
+  border-radius: 12px;
   background: var(--accent, #22385a);
   color: #fff8e6;
-  font-size: clamp(11px, 1.6vw, 18px); font-weight: 800;
-  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
-  z-index: 1;
+  font-size: clamp(10.5px, 1.55cqw, 13px); font-weight: 800; line-height: 1.08;
+  text-align: center; text-wrap: balance; overflow-wrap: anywhere;
+  box-shadow: 0 0 0 2.5px #f5e5bb, 0 3px 9px rgba(19, 31, 50, .4);
+  text-shadow: 0 1px 2px rgba(0,0,0,.45);
 }
-.wing-card__count {
-  margin-top: 5px; font-size: clamp(9px, 1.1vw, 13px);
-  color: #fff; background: rgba(30,43,69,.72); padding: 2px 10px; border-radius: 999px;
+.wing-spot__count {
+  min-height: 21px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(27, 45, 69, .86);
+  box-shadow: 0 1px 5px rgba(0,0,0,.28);
+  font-size: clamp(9.5px, 1.3cqw, 11.5px); font-weight: 800; line-height: 15px;
 }
+
+.world-greeting {
+  position: absolute; z-index: 5;
+  left: 4%; bottom: 11.2%;
+  max-width: 29%;
+  margin: 0; padding: 10px 14px;
+  border-radius: 18px 18px 18px 5px;
+  background: rgba(255,251,240,.96);
+  box-shadow: 0 0 0 2.5px var(--plate-edge), var(--shadow);
+  font-size: clamp(11px, 1.7cqw, 14px); font-weight: 700; line-height: 1.25;
+}
+.world-greeting::after {
+  content: '';
+  position: absolute; left: 13px; bottom: -10px;
+  border-width: 11px 11px 0 0;
+  border-style: solid;
+  border-color: #fdf9ed transparent transparent transparent;
+}
+
+.world-motto {
+  position: absolute; z-index: 4;
+  left: 50%; bottom: 3.1%;
+  width: 52%; min-height: 48px;
+  margin: 0; padding: 9px 26px;
+  display: grid; place-items: center;
+  transform: translateX(-50%);
+  text-align: center;
+  color: #5d3b16;
+  background:
+    radial-gradient(ellipse at 2% 50%, #b88742 0 7px, transparent 8px),
+    radial-gradient(ellipse at 98% 50%, #b88742 0 7px, transparent 8px),
+    linear-gradient(180deg, #fff1bf, #e7bf72);
+  border: 2px solid #b88742; border-radius: 8px;
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.35), var(--shadow);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(12px, 1.85cqw, 15px); font-weight: 700; line-height: 1.15;
+}
+
+.world-compass {
+  position: absolute; z-index: 4;
+  right: 3.8%; bottom: 2.1%;
+  width: clamp(54px, 8.6cqw, 68px); aspect-ratio: 1;
+  display: grid; place-items: center;
+  border: 3px solid rgba(255,245,208,.95); border-radius: 50%;
+  background: rgba(28, 92, 130, .58);
+  box-shadow: 0 0 0 2px #b88a35, 0 5px 13px rgba(13,51,79,.36);
+  color: #fff1bc;
+}
+.world-compass__north { position: absolute; top: 2px; font-size: 10px; font-weight: 900; }
+.world-compass__star { font-size: clamp(31px, 5.2cqw, 42px); line-height: 1; transform: rotate(22.5deg); text-shadow: 0 2px 3px rgba(0,0,0,.32); }
 
 /* ── a wing's rooms ───────────────────────────────────────────────────────── */
 
@@ -901,3 +1104,268 @@ body {
 /* While a piece plays, the furniture quiets and the active object stays lit. */
 .stage--chapter.is-listening .rt-marks,
 .stage--chapter.is-listening .rt-foot { opacity: .55; transition: opacity .2s ease; }
+
+/* ── the Toy Piano room ──────────────────────────────────────────────────────
+   Owner, 2026-08-27: a Usborne-style play room — song picture tiles, colored
+   notes on a simplified staff, a piano octave with working black keys or a
+   xylophone's colored bars. Pre-readers: no words anywhere a child must act.
+
+   GEOMETRY. The room lives on the same 4:3 letterboxed stage as the rest of
+   the book, so a 768×1024 portrait iPad gives it a 768×576 stage — not
+   768×1024. Everything inside is therefore sized from the stage itself via
+   container queries (`container-type: size` below), never from the viewport:
+   a vh unit sees 1024px there and eats a third of the stage. The scrim's
+   bottom band reserves the chrome Sound button's corner, so the toy's last
+   key can run the full width and still never sit under it. */
+
+.stage--playroom { container-type: size; }
+
+.stage--playroom .scrim {
+  background: radial-gradient(ellipse at 50% 40%,
+    rgba(255, 252, 244, .78) 0%, rgba(255, 252, 244, .48) 45%, rgba(255, 252, 244, .12) 82%);
+  /* 60px ≈ the Sound button's 48px height plus its corner offset; the exact
+     clearance is re-proved by tools/playroom-smoke.html's geometry report. */
+  padding-bottom: calc(2.2% + 60px);
+}
+
+.topbar-spacer { flex: 1; }
+.banner--slim { flex: 0 1 auto; }
+.banner--slim h1 { font-size: clamp(16px, 2.6vw, 30px); }
+
+/* SELECT — the songs as pictures, the friends as pictures, one big ▶. */
+.toy-select {
+  flex: 1; min-height: 0;
+  display: flex; flex-direction: column;
+  gap: 2cqh;
+  padding-top: 1cqh;
+}
+
+.song-grid {
+  flex: 1; min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: minmax(0, 1fr);
+  gap: 2cqh 2.2cqw;
+}
+
+.song-tile {
+  min-width: 44px; min-height: 44px;
+  padding: 0;
+  border: 0; border-radius: 16px;
+  overflow: hidden;
+  background: #fffdf6;
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+  cursor: pointer;
+  transition: transform .14s ease, box-shadow .14s ease;
+}
+.song-tile:hover, .song-tile:focus-visible { transform: translateY(-4px); outline: none; }
+.song-tile:active { transform: scale(.97); }
+.song-tile.is-current { box-shadow: 0 0 0 5px #f5a623, 0 0 26px 7px rgba(245, 166, 35, .45), var(--shadow); }
+.song-tile__art { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* A tile can never render empty: the emoji stands in until the art answers. */
+.song-tile__emoji {
+  width: 100%; height: 100%;
+  display: grid; place-items: center;
+  font-size: clamp(34px, 9cqw, 64px);
+}
+
+.friend-row {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1.4cqh 2cqw;
+}
+.friend-tile {
+  height: clamp(56px, 12cqh, 92px);
+  min-width: 44px;
+  padding: 0;
+  border: 0; border-radius: 14px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .94), rgba(255, 247, 232, .88));
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+  cursor: pointer;
+  transition: transform .14s ease, box-shadow .14s ease;
+}
+.friend-tile:hover, .friend-tile:focus-visible { transform: translateY(-3px); outline: none; }
+.friend-tile:active { transform: scale(.97); }
+.friend-tile.is-current { box-shadow: 0 0 0 5px #f5a623, 0 0 22px 6px rgba(245, 166, 35, .45), var(--shadow); }
+.friend-tile img { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+/* The breathing ▶ — the only wordless "go" a pre-reader needs. */
+.go-btn {
+  flex: 0 0 auto;
+  align-self: center;
+  width: clamp(64px, 15cqh, 100px); aspect-ratio: 1;
+  padding: 0;
+  border: 0; border-radius: 50%;
+  background: linear-gradient(180deg, #ffefb0, #f2b84b);
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+  color: #6b4a0e;
+  font-size: clamp(28px, 6.5cqh, 44px);
+  cursor: pointer;
+  animation: toy-go-breathe 3.2s ease-in-out infinite;
+}
+.go-btn:active { transform: scale(.96); }
+.go-btn__icon { line-height: 1; }
+@keyframes toy-go-breathe {
+  0%, 100% { box-shadow: 0 0 0 3px var(--gold), var(--shadow); }
+  50%      { box-shadow: 0 0 0 6px #f5c242, 0 0 26px 8px rgba(245, 194, 66, .5), var(--shadow); }
+}
+
+/* PLAY — the song takes the stand, the toy takes the bottom. */
+.toy-songdot {
+  flex: 0 0 auto;
+  width: clamp(44px, 7.5cqh, 60px); aspect-ratio: 1;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 252, 244, .92);
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+  font-size: clamp(22px, 4cqh, 34px);
+  line-height: 1;
+}
+.toy-playbtns { margin-left: auto; display: flex; gap: 1.6cqw; }
+.toy-iconbtn {
+  width: clamp(44px, 7.5cqh, 60px); aspect-ratio: 1;
+  padding: 0;
+  border: 0; border-radius: 50%;
+  background: linear-gradient(180deg, #fdf6e3, #ecdcb6);
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+  color: var(--ink);
+  font-size: clamp(18px, 3.4cqh, 26px);
+  line-height: 1;
+  cursor: pointer;
+}
+.toy-iconbtn:active { transform: scale(.94); }
+.toy-iconbtn.is-on {
+  background: linear-gradient(180deg, #fff3c9, #ffe08a);
+  box-shadow: 0 0 0 4px #f5a623, var(--shadow);
+}
+
+.toy-panel {
+  position: relative;
+  flex: 1; min-height: 0;
+  display: grid; place-items: center;
+  padding: 1.2cqh 1%;
+  border-radius: 14px;
+  background: rgba(255, 252, 244, .72);
+  box-shadow: inset 0 0 0 3px rgba(216, 191, 134, .55);
+}
+.toy-staff { width: 100%; height: 100%; min-height: 0; display: grid; place-items: center; }
+.toy-staff__svg { display: block; width: 100%; height: 100%; }
+
+.staff-line { stroke: #b9a87e; stroke-width: 1.6; }
+.staff-rest { fill: #b9a87e; }
+.staff-note ellipse { stroke: rgba(30, 43, 69, .28); stroke-width: 1; }
+.staff-note text { fill: #fff; font-weight: 800; font-size: 15px; }
+.staff-note.is-current ellipse { stroke: #1e2b45; stroke-width: 2.5; }
+.staff-note.is-current { filter: drop-shadow(0 0 6px rgba(255, 214, 102, .9)); }
+.staff-note.is-done ellipse { opacity: .55; }
+.staff-note.is-done { opacity: .45; }
+
+/* The keys. Sized from the stage (cqh of the room container): at the portrait
+   worst case, 768×576, 27cqh is 155px and every white key is ~88px wide; the
+   black keys are 58px wide and 62% as tall — everything a child taps clears
+   the 44px floor with room to spare. */
+.toy-keys {
+  position: relative;
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: .7%;
+  height: clamp(112px, 27cqh, 208px);
+  min-height: 112px;
+}
+.toy-key {
+  position: relative;
+  min-width: 44px;
+  padding: 0;
+  border: 0; border-radius: 0 0 10px 10px;
+  background: linear-gradient(180deg, #fffdf6, #f1e9d4);
+  box-shadow: inset 0 -4px 0 rgba(31, 43, 69, .12), 0 3px 0 rgba(31, 43, 69, .18);
+  cursor: pointer;
+}
+/* The colored band IS the key's identity: same color as its note-head, letter
+   for the child who knows a few. */
+.toy-key__band {
+  position: absolute; left: 9%; right: 9%; bottom: 6%;
+  display: grid; place-items: center;
+  min-height: 30%;
+  border-radius: 8px;
+  color: #fff;
+  font-size: clamp(13px, 2.6cqw, 22px);
+  font-weight: 800;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .35);
+}
+
+/* The black keys straddle their white-key boundaries (left comes inline from
+   playroom.js, in eighths of the keyboard). Absolutely positioned, so the grid
+   lays out the eight white keys and these ride on top. */
+.toy-key--black {
+  position: absolute; top: 0;
+  width: 8%; height: 62%;
+  min-width: 44px;
+  transform: translateX(-50%);
+  border-radius: 0 0 8px 8px;
+  background: linear-gradient(180deg, #2b3247, #171d2e);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, .3), inset 0 0 0 2px rgba(255, 255, 255, .07);
+  z-index: 2;
+}
+.toy-key--black .toy-key__band {
+  left: 12%; right: 12%; bottom: 7%;
+  min-height: 32%;
+  border-radius: 6px;
+  font-size: clamp(11px, 2cqw, 16px);
+}
+
+/* Xylophone mode: colored bars, longest at the low end — real bar instruments
+   have no black bars, which is exactly why the songs stay diatonic. */
+.toy-keys--bars { align-items: end; }
+.toy-key--bar {
+  height: var(--bar-h);
+  border-radius: 10px 10px 12px 12px;
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--key-color) 78%, #fff), var(--key-color));
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, .25), 0 3px 0 rgba(31, 43, 69, .25);
+}
+.toy-key--bar .toy-key__band {
+  left: 6%; right: 6%; bottom: 5%;
+  min-height: 24%;
+  border-radius: 999px;
+}
+
+/* One tap, one answer. The strike is a glow ring on the key's own box, not a
+   transform: the black keys carry a centering translateX that an animated
+   transform would fight. */
+.toy-key.is-struck { filter: brightness(1.14); }
+.toy-key.is-struck::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 4px rgba(255, 224, 130, .95), 0 0 18px 6px rgba(255, 214, 102, .55);
+  animation: toy-strike-glow .32s ease-out forwards;
+  pointer-events: none;
+}
+@keyframes toy-strike-glow { from { opacity: 1; } to { opacity: 0; } }
+
+/* Your turn: the key the next note waits on breathes. */
+.toy-key.is-hint .toy-key__band { animation: toy-hint 1.6s ease-in-out infinite; }
+@keyframes toy-hint {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 214, 102, 0); }
+  50%      { box-shadow: 0 0 0 6px rgba(255, 214, 102, .8); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .go-btn { animation: none; }
+  .toy-key.is-hint .toy-key__band { animation: none; box-shadow: 0 0 0 4px rgba(255, 214, 102, .65); }
+}
+
+/* The celebration: pictures, not words. */
+.toy-cheer {
+  position: absolute; left: 50%; top: 40%;
+  transform: translate(-50%, -50%);
+  padding: clamp(8px, 1.6cqh, 14px) clamp(16px, 4cqw, 30px);
+  border-radius: 999px;
+  background: rgba(255, 251, 240, .96);
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+  font-size: clamp(26px, 6cqh, 46px);
+  line-height: 1;
+}

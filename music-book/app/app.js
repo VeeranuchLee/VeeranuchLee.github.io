@@ -9,6 +9,7 @@ import { motifFor, PARADE } from '../data/motifs.js';
 import { journey } from './journey.js';
 import { speakTitle, configureTitles } from './titles.js';
 import { createChapter } from './read-together.js';
+import { renderPlayroom, leavePlayroom, PITCHES, NOTE_COLORS, BLACK_KEYS, BLACK_COLORS } from './playroom.js';
 
 const engine = new AudioEngine();
 const player = new Player(engine);
@@ -129,6 +130,17 @@ function applyAtmosphere() {
     return;
   }
 
+  // The Toy Piano room is its own instrument: the keys under the child's hand
+  // are the sound in there, and the parade that followed them from the landing
+  // must not play under the piano — two tunes at once is the teaching problem
+  // the rule above exists to prevent. Stop the page tune and start nothing.
+  // `visibilitychange` lands here too, so a hidden tab cannot restart the
+  // parade inside the room on the way back.
+  if (currentView === 'playroom') {
+    stopTune();
+    return;
+  }
+
   const companion = companionById(journey.companionId);
   const where = { wingId: journey.wingId, roomId: journey.roomId };
   const page = currentView === 'room' ? journey.roomId
@@ -151,19 +163,23 @@ function stopPiece() {
   applyAtmosphere();          // the page's tune comes back
 }
 
-// Placeholder visual identity per wing until wing art exists. Six wings, five
-// painted backgrounds: `cities-colour-new-pulse` deliberately reuses a
-// background at a different focus rather than inventing art. Accents are
-// presentational only — the wing's content comes entirely from data/rooms.js.
+// Owner, 2026-09-14: the map is the menu. Each wing is a tappable region of the
+// painting itself — no circular thumbnails over the art. `region` is the
+// elliptical hotspot as a percentage of the complete 4:3 plate (x/y its centre,
+// rx/ry its half-size); `label` is the plate point the name pill is centred on.
+// This table is the single placement source — the controller tunes these numbers
+// against screenshots and everything on the world screen derives from them.
+// `background`, `focus` and `accent` stay: the wing and room screens still wash
+// with them. The wing's content comes entirely from data/rooms.js.
 const WING_STYLE = {
-  'songs-we-already-carry': { background: 'assets/backgrounds/garden-pastel.webp', focus: '50% 46%', accent: '#3f6b4f' },
-  'the-world-sings': { background: 'assets/backgrounds/garden-green.webp', focus: '50% 50%', accent: '#2f6b63' },
-  'music-for-shared-days': { background: 'assets/backgrounds/music-room.webp', focus: '50% 40%', accent: '#8a5a12' },
-  'the-time-corridor': { background: 'assets/backgrounds/beethoven-hall.webp', focus: '50% 42%', accent: '#22385a' },
-  'the-romantic-century': { background: 'assets/backgrounds/night-piano.webp', focus: '50% 45%', accent: '#2b2f6b' },
-  'cities-colour-new-pulse': { background: 'assets/backgrounds/garden-green.webp', focus: '18% 62%', accent: '#6b3f5f' }
+  'songs-we-already-carry': { background: 'assets/backgrounds/garden-pastel.webp', focus: '50% 46%', accent: '#3f6b4f', region: { x: 21, y: 30, rx: 13, ry: 14 }, label: { x: 17, y: 43 } },
+  'the-world-sings': { background: 'assets/backgrounds/garden-green.webp', focus: '50% 50%', accent: '#2f6b63', region: { x: 51, y: 18, rx: 11, ry: 14 }, label: { x: 51, y: 5 } },
+  'music-for-shared-days': { background: 'assets/backgrounds/music-room.webp', focus: '50% 40%', accent: '#8a5a12', region: { x: 81, y: 31, rx: 13, ry: 13 }, label: { x: 79, y: 45 } },
+  'the-time-corridor': { background: 'assets/backgrounds/beethoven-hall.webp', focus: '50% 42%', accent: '#22385a', region: { x: 19, y: 58, rx: 12, ry: 12 }, label: { x: 18, y: 73 } },
+  'the-romantic-century': { background: 'assets/backgrounds/night-piano.webp', focus: '50% 45%', accent: '#2b2f6b', region: { x: 48, y: 76, rx: 16, ry: 17 }, label: { x: 48, y: 95 } },
+  'cities-colour-new-pulse': { background: 'assets/backgrounds/garden-green.webp', focus: '18% 62%', accent: '#6b3f5f', region: { x: 81, y: 63, rx: 14, ry: 13 }, label: { x: 80, y: 82 } }
 };
-const wingStyle = (id) => WING_STYLE[id] ?? { background: 'assets/backgrounds/garden-green.webp', focus: 'center', accent: '#22385a' };
+const wingStyle = (id) => WING_STYLE[id] ?? { background: 'assets/backgrounds/garden-green.webp', focus: 'center', accent: '#22385a', region: { x: 50, y: 50, rx: 13, ry: 13 }, label: { x: 50, y: 76 } };
 
 // Owner, 2026-09-13: "use bg." — the painted room plates go on their rooms'
 // screens (1448×1086, the stage's own 4:3, so `cover` shows the whole picture).
@@ -206,7 +222,31 @@ const ROOM_CARD = {
   'melody-detective-workshop': { card: 'assets/room-cards/r01-melody-detective-workshop-card.webp', focus: '50% 50%' },
   'playground-of-patterns': { card: 'assets/room-cards/r02-playground-of-patterns-card.webp', focus: '50% 50%' },
   'steps-beats-marches': { card: 'assets/room-cards/r03-steps-beats-marches-card.webp', focus: '50% 50%' },
-  'home-distance-belonging': { card: 'assets/room-cards/r04-home-distance-belonging-card.webp', focus: '50% 50%' }
+  'home-distance-belonging': { card: 'assets/room-cards/r04-home-distance-belonging-card.webp', focus: '50% 50%' },
+  // The remaining twenty, painted 2026-09-15. Each card leaves a calm centre because
+  // the app prints the room number, title, subtitle and piece count OVER the art --
+  // a busy middle makes the title unreadable, which is invisible in the file and
+  // obvious on the wing screen.
+  'gardens-season-memory': { card: 'assets/room-cards/r05-gardens-season-memory-card.webp', focus: '50% 50%' },
+  'southeast-asian-courtyard': { card: 'assets/room-cards/r06-southeast-asian-courtyard-card.webp', focus: '50% 50%' },
+  'roads-prayer-city-sea': { card: 'assets/room-cards/r07-roads-prayer-city-sea-card.webp', focus: '50% 50%' },
+  'songs-that-transform': { card: 'assets/room-cards/r08-songs-that-transform-card.webp', focus: '50% 50%' },
+  'when-song-means-home': { card: 'assets/room-cards/r09-when-song-means-home-card.webp', focus: '50% 50%' },
+  'celebration-square': { card: 'assets/room-cards/r10-celebration-square-card.webp', focus: '50% 50%' },
+  'winter-lanterns': { card: 'assets/room-cards/r11-winter-lanterns-card.webp', focus: '50% 50%' },
+  'baroque-pattern-workshop': { card: 'assets/room-cards/r12-baroque-pattern-workshop-card.webp', focus: '50% 50%' },
+  'baroque-stage-seasons-water-fireworks': { card: 'assets/room-cards/r13-baroque-stage-seasons-water-fireworks-card.webp', focus: '50% 50%' },
+  'vienna-classical-city': { card: 'assets/room-cards/r14-vienna-classical-city-card.webp', focus: '50% 50%' },
+  'beethoven-door-two-eras': { card: 'assets/room-cards/r15-beethoven-door-two-eras-card.webp', focus: '50% 50%' },
+  'music-learns-to-sing': { card: 'assets/room-cards/r16-music-learns-to-sing-card.webp', focus: '50% 50%' },
+  'piano-diary': { card: 'assets/room-cards/r17-piano-diary-card.webp', focus: '50% 50%' },
+  'home-memory-dance': { card: 'assets/room-cards/r18-home-memory-dance-card.webp', focus: '50% 50%' },
+  'ballet-kingdom': { card: 'assets/room-cards/r19-ballet-kingdom-card.webp', focus: '50% 50%' },
+  'when-music-storybook': { card: 'assets/room-cards/r20-when-music-storybook-card.webp', focus: '50% 50%' },
+  'pictures-legends-russian-colour': { card: 'assets/room-cards/r21-pictures-legends-russian-colour-card.webp', focus: '50% 50%' },
+  'three-theatre-cities': { card: 'assets/room-cards/r22-three-theatre-cities-card.webp', focus: '50% 50%' },
+  'painting-with-sound': { card: 'assets/room-cards/r23-painting-with-sound-card.webp', focus: '50% 50%' },
+  'new-century-many-sounds': { card: 'assets/room-cards/r24-new-century-many-sounds-card.webp', focus: '50% 50%' }
 };
 
 // A relative url() carried inside a custom property is resolved against the
@@ -231,8 +271,22 @@ function companionCorner(line) {
 
 // ── page 1: choose a companion ───────────────────────────────────────────────
 
+// The Toy Piano bubble's face: the toy's own octave in miniature, the eight
+// colored keys plus the five black ones, drawn from the room's exported key
+// lists so the face can never advertise a key the toy does not have.
+function toyKeysFaceMarkup() {
+  const white = PITCHES.map((pitch) =>
+    `<span class="toy-face__key" style="background:${NOTE_COLORS[pitch]}"></span>`).join('');
+  // Each black key straddles the boundary after its white key — eighths of the
+  // face's width, the same arithmetic the room's own keyboard uses.
+  const black = BLACK_KEYS.map(({ n, after }) =>
+    `<span class="toy-face__key toy-face__key--black" style="left:${(after + 1) * 12.5}%;background:${BLACK_COLORS[n]}"></span>`).join('');
+  return `<span class="toy-face" aria-hidden="true">${white}${black}</span>`;
+}
+
 function renderLanding() {
   currentView = 'landing';
+  document.body.dataset.view = currentView;
   stopPiece();                  // sets currentView first so the tune it restores is this page's
   stage.className = 'stage stage--landing';
   stage.style.backgroundImage = 'url(assets/backgrounds/garden-pastel.webp)';
@@ -246,6 +300,11 @@ function renderLanding() {
            repo the hub lives under site/, so a relative link would work live and 404 in
            every local preview. -->
       <a class="round-btn hub-btn" href="https://veeranuchlee.github.io/test-apps/" aria-label="Back to Test Apps">&larr;</a>
+      <!-- The Toy Piano room's only door. The owner pinned it to the landing's
+           top-right on 2026-08-27 and removed the Music World's door the same
+           evening: a pre-reader meets the toy on its own, before the journey,
+           not as a room inside it. -->
+      <button class="toy-bubble" data-go="playroom" aria-label="Toy Piano">${toyKeysFaceMarkup()}</button>
       <header class="hero">
         <p class="hero__eyebrow">Welcome, young musician</p>
         <h1 class="hero__title"><span class="hero__line">Choose Your</span> <span class="hero__line">Music Companion</span></h1>
@@ -268,29 +327,46 @@ function renderLanding() {
 
 function renderWorld() {
   currentView = 'world';
+  document.body.dataset.view = currentView;
   stopPiece();                  // sets currentView first so the tune it restores is this page's
   const c = companionById(journey.companionId);
   stage.className = 'stage stage--world';
-  stage.style.backgroundImage = 'url(assets/backgrounds/garden-green.webp)';
+  stage.style.backgroundImage = '';
   stage.innerHTML = `
-    <div class="scrim">
-      <div class="topbar">
-        <button class="round-btn" data-go="landing" aria-label="Choose another companion">⌂</button>
-        <div class="banner"><h1>Music World</h1><p>Six wings, twenty-four rooms.</p></div>
-        <div class="guide-badge"><img src="${c.art}" alt=""><span>${c.name}</span></div>
+    <div class="world-shell">
+      <div class="world-map" role="img" aria-label="A painted island map of Music World">
+        <div class="wing-map" aria-label="Choose a wing">
+          ${WINGS.map((wing) => {
+            const style = wingStyle(wing.id);
+            const rooms = wing.roomIds.length;
+            const roomsWord = `${rooms} room${rooms === 1 ? '' : 's'}`;
+            // The label point arrives as a plate percentage, but the pill lives
+            // inside the hotspot's own box — convert it into that box's
+            // coordinates so both come from the one placement table.
+            const left = style.region.x - style.region.rx;
+            const top = style.region.y - style.region.ry;
+            const lx = (((style.label.x - left) / (style.region.rx * 2)) * 100).toFixed(2);
+            const ly = (((style.label.y - top) / (style.region.ry * 2)) * 100).toFixed(2);
+            return `
+            <button class="wing-spot" data-wing="${wing.id}" aria-label="${wing.title}, ${roomsWord}"
+              style="--x:${style.region.x}%;--y:${style.region.y}%;--w:${style.region.rx * 2}%;--h:${style.region.ry * 2}%;--lx:${lx}%;--ly:${ly}%;--accent:${style.accent}">
+              <span class="wing-spot__ring" aria-hidden="true"></span>
+              <span class="wing-spot__tag">
+                <span class="wing-spot__name">${wing.title}</span>
+                <span class="wing-spot__count">${roomsWord}</span>
+              </span>
+            </button>`;
+          }).join('')}
+        </div>
       </div>
-      <div class="wing-grid">
-        ${WINGS.map((wing) => {
-          const style = wingStyle(wing.id);
-          return `
-          <button class="wing-card" data-wing="${wing.id}">
-            <span class="wing-card__art" style="background-image:url(${style.background});background-position:${style.focus}"></span>
-            <span class="wing-card__label" style="--accent:${style.accent}">${wing.title}</span>
-            <span class="wing-card__count">${wing.roomIds.length} room${wing.roomIds.length === 1 ? '' : 's'}</span>
-          </button>`;
-        }).join('')}
+      <div class="world-topbar">
+        <button class="world-home" data-go="landing" aria-label="Home — choose another companion"><span aria-hidden="true">⌂</span> Home</button>
+        <div class="world-title"><h1>Music World</h1><p>Six wings, twenty-four rooms.</p></div>
+        <div class="guide-badge guide-badge--world"><img src="${c.art}" alt=""><span>${c.name}<small>companion</small></span></div>
       </div>
-      ${companionCorner(c.greeting)}
+      <p class="world-greeting">${c.greeting}</p>
+      <p class="world-motto">A Kinder Brighter World Through Music</p>
+      <div class="world-compass" aria-hidden="true"><span class="world-compass__north">N</span><span class="world-compass__star">✦</span></div>
     </div>`;
   applyAtmosphere();
 }
@@ -299,6 +375,7 @@ function renderWorld() {
 
 function renderWing() {
   currentView = 'wing';
+  document.body.dataset.view = currentView;
   stopPiece();                  // sets currentView first so the tune it restores is this page's
   const wing = wingById(journey.wingId);
   if (!wing) { renderWorld(); return; }
@@ -335,6 +412,7 @@ function renderWing() {
 
 function renderRoom() {
   currentView = 'room';
+  document.body.dataset.view = currentView;
   stopPiece();                  // sets currentView first so the tune it restores is this page's
   const room = roomById(journey.roomId);
   if (!room) { renderWorld(); return; }
@@ -632,10 +710,36 @@ const chapter = createChapter({
 // ── routing ──────────────────────────────────────────────────────────────────
 
 function go(view) {
+  // Leaving the Toy Piano room: it has already stopped its own sound and handed
+  // the player's callbacks back blank, so restore main's defaults before the
+  // next page renders — pieceFinished is what clears a playing bubble and
+  // brings the page tune back. Nothing to do for any navigation that is not
+  // out of the room.
+  if (currentView === 'playroom') {
+    leavePlayroom();
+    player.onNote = () => {};
+    player.onFinish = pieceFinished;
+  }
   if (view === 'landing') { journey.restart(); renderLanding(); }
-  else if (view === 'world') { journey.wingId = null; journey.roomId = null; renderWorld(); }
+  else if (view === 'world') {
+    // The room's back arrow targets the world, but the room is only reachable
+    // from the landing, where no companion is chosen (arriving here restarts
+    // the journey). Without the guard the world would render with
+    // companionById's silent INSTRUMENTS[0] fallback wearing the guide badge —
+    // not a crash on main, just quietly the wrong page. Land on the landing.
+    if (!journey.companionId) renderLanding();
+    else { journey.wingId = null; journey.roomId = null; renderWorld(); }
+  }
   else if (view === 'wing') { journey.roomId = null; renderWing(); }
   else if (view === 'room') renderRoom();
+  else if (view === 'playroom') {
+    currentView = 'playroom';
+    document.body.dataset.view = currentView;
+    // Sets currentView first, so the atmosphere stopPiece() restores is the
+    // room's own: page tune stopped, nothing started.
+    stopPiece();
+    renderPlayroom({ stage, engine, player, journeyCompanionId: journey.companionId });
+  }
 }
 
 // Tapping any name -- a bubble's plate, or a heading inside a popup -- speaks it.
