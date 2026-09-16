@@ -30,9 +30,38 @@
      rendered from -- plus the eight alternate pronunciations rendered for A/B, which are
      the whole reason the risky proper nouns can be judged by ear rather than by faith.
 
+  4. A GREEN LABEL MEANS ONE THING: THE OWNER SAID SO. Before CG-116, one green
+     "resolved" flag sat beside every clip meaning only "a sound file exists and plays" --
+     nothing had ever checked pronunciation, and a green flag next to "Sun" read as
+     approval it never had (it renders ซุน). Now every clip carries THREE independent,
+     separately-coloured labels, and only one of them can ever be green:
+
+       sound file    -- present / missing.            Decided by this build script.
+       pronunciation -- approved / rejected / unchecked. Decided ONLY by the owner, by
+                        hand, in narration/pronunciation.json. No script writes "approved".
+       ASR           -- check by ear (amber) / matches (neutral) / not run.
+                        `tools/asr-check.py` runs macOS on-device speech recognition over
+                        every clip at build time and records the transcript in
+                        narration/asr-check.json. A match is NEVER painted green: matching
+                        text is not proof of a good accent, and the machine approves
+                        nothing. This page reads the recorded result; it never shells out
+                        to a recogniser at load.
+
   `ok: true` is still only a claim about the build machine. So the page also believes its
   ears: a clip that 404s, errors, or plays without `currentTime` ever advancing is
   re-marked as broken IN THE TEXT, live. See markBroken() and the stall watchdog.
+
+  TEXT ON THE PICTURE. No new art was made or generated for this pilot (CG-116); each
+  page keeps the picture it already had. The words sit on a solid cream band and the
+  picture fades into it through a soft CSS gradient -- drawn over the art by the app,
+  never painted into it -- top by default, bottom where a page's own picture makes that
+  the better fit (see tools/build-runtime.py's TEXT_POSITION for the per-page reasoning,
+  and the .page rule below for why the art is framed in the part a child can see). The
+  text itself stays real, tappable DOM the whole time; a picture of text would look
+  identical at a glance and would silently kill tap-to-hear, which is the one failure
+  mode a storybook page can least afford.
+
+  A page can be opened directly: #p02, #p14, and #p14/audit to open the Audit on it.
 -->
 <style>
   *{box-sizing:border-box}
@@ -44,7 +73,9 @@
   }
   html,body{margin:0;background:var(--space);color:var(--pale);
     font-family:Nunito,system-ui,-apple-system,sans-serif;overflow-x:hidden}
-  body{min-height:100svh;display:flex;flex-direction:column;
+  /* height, not min-height: the book must fit the screen, so a long page makes the
+     cream band scroll instead of pushing the Back/Next buttons off the bottom. */
+  body{height:100svh;display:flex;flex-direction:column;
     padding:10px 14px calc(14px + env(safe-area-inset-bottom));
     width:min(768px,100%);margin:0 auto}
   button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;
@@ -61,18 +92,49 @@
     font-size:.82rem;background:var(--space-2);color:var(--pale);
     border:2px solid #2d3548;display:flex;align-items:center;gap:7px}
   .chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-  .chip .dot{width:9px;height:9px;border-radius:50%;background:var(--good)}
+  /* Grey, not green, when nothing is wrong: a green dot beside "Audit" read as "the
+     audit passed", which no machine on this page is entitled to say. */
+  .chip .dot{width:9px;height:9px;border-radius:50%;background:#5f6c85}
   .chip.alarm{border-color:var(--bad);color:#ffd9d5}
   .chip.alarm .dot{background:var(--bad)}
 
   /* ------------------------------------------------------------------ book */
-  main{flex:1 1 auto;display:flex;flex-direction:column;gap:10px;min-height:0}
-  .art{width:100%;aspect-ratio:3/2;max-height:34svh;border-radius:20px;overflow:hidden;
-    flex:0 0 auto;background:#000;box-shadow:0 14px 40px #0009}
-  .art img{width:100%;height:100%;object-fit:contain;display:block}
-  .sheet{flex:1 1 auto;background:var(--paper);color:var(--ink);border-radius:20px;
-    padding:14px 14px 10px;overflow-y:auto;-webkit-overflow-scrolling:touch}
-  .sheet h2{margin:0 0 6px;font-size:1.25rem;font-weight:900;color:#1d2b36}
+  main{flex:1 1 auto;display:flex;min-height:0}
+  /* THE PAGE IS ONE PICTURE WITH A CREAM BAND FOR THE WORDS (CG-116).
+     The band (`.wash`) is solid cream where the words are, and the art fades into it
+     through a soft CSS gradient (`.art::after`) -- the "A World of Gems" look, drawn by
+     the app, never painted into the image.
+
+     WHY THE ART IS FRAMED ABOVE (OR BELOW) THE SOLID PART, NOT UNDER ALL OF IT. The
+     solid cream hides whatever is beneath it completely, so drawing art under it only
+     changes where `object-fit:cover` puts the crop -- and on p01 at iPad landscape that
+     crop put the lower third of Mars under the words, with the title sitting in the
+     half-transparent fade over black sky where it could hardly be read. Framing the art
+     in the part a child can actually see means the subject is never under the words,
+     at either orientation, and every word sits on solid cream. The fade still lies over
+     the art, so the picture runs into the band with no hard edge.
+
+     `.pos-top`/`.pos-bottom` is a per-page choice (app-data.json's textPosition, set in
+     tools/build-runtime.py with the reasoning per page). The art's crop point is also
+     per page (app-data.json's art.focus -> object-position), because what "the
+     subject" is differs per picture. */
+  .page{position:relative;width:100%;flex:1 1 auto;min-height:0;border-radius:20px;
+    overflow:hidden;background:var(--paper);box-shadow:0 14px 40px #0009;
+    display:flex;flex-direction:column;--fade:64px}
+  .art{position:relative;flex:1 1 auto;min-height:200px;background:#000}
+  .art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .art::after{content:"";position:absolute;left:0;right:0;height:var(--fade);pointer-events:none}
+  .page.pos-bottom .art::after{bottom:0;background:linear-gradient(to top,
+    rgba(253,249,243,1) 0%,rgba(253,249,243,.88) 22%,rgba(253,249,243,.6) 48%,
+    rgba(253,249,243,.25) 76%,rgba(253,249,243,0) 100%)}
+  .page.pos-top .art::after{top:0;background:linear-gradient(to bottom,
+    rgba(253,249,243,1) 0%,rgba(253,249,243,.88) 22%,rgba(253,249,243,.6) 48%,
+    rgba(253,249,243,.25) 76%,rgba(253,249,243,0) 100%)}
+  .page.pos-top .wash{order:-1}
+  .wash{position:relative;flex:0 1 auto;min-height:0;background:var(--paper);color:var(--ink);
+    padding:14px 16px 4px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .page.pos-bottom .wash{padding:4px 16px 14px}
+  .wash h2{margin:0 0 6px;font-size:1.25rem;font-weight:900;color:#1d2b36}
 
   .s{display:flex;align-items:flex-start;gap:4px;margin:0 0 2px}
   .say{flex:0 0 auto;width:var(--tap);height:var(--tap);border-radius:14px;
@@ -121,12 +183,12 @@
   .kv{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.84rem;line-height:1.5}
   .kv b{color:var(--dim);font-weight:700}
   .tally{display:flex;flex-wrap:wrap;gap:8px}
-  .tally div{flex:1 1 120px;background:#141926;border:1px solid #232c40;border-radius:14px;
+  .tally > div{flex:1 1 120px;background:#141926;border:1px solid #232c40;border-radius:14px;
     padding:9px 11px}
   .tally .n{font-size:1.5rem;font-weight:900;line-height:1.1}
   .tally .l{font-size:.72rem;color:var(--dim);font-weight:700;text-transform:uppercase;
     letter-spacing:.07em}
-  .tally .n.bad{color:var(--bad)} .tally .n.good{color:var(--good)}
+  .tally .n.bad{color:var(--bad)} .tally .n.good{color:var(--good)} .tally .n.amber{color:#ffcf9a}
 
   .row{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid #1e2534;
     flex-wrap:wrap}
@@ -137,8 +199,21 @@
   .meta code{color:#bcd0ea;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.95em}
   .risk{color:#ffcf9a}
   .flag{display:inline-block;font-size:.68rem;font-weight:900;letter-spacing:.06em;
-    padding:3px 7px;border-radius:7px;text-transform:uppercase}
-  .flag.ok{background:#12352a;color:#6fe0ab} .flag.no{background:#3a1512;color:#ff9c92}
+    padding:3px 7px;border-radius:7px;text-transform:uppercase;margin:0 4px 4px 0}
+  /* Three independent labels, three independent colours. GREEN IS RESERVED: the only
+     rule in this file that must never be broken is that green means the owner's own
+     "approved" -- .pron-approved, and the approved count when it is above zero, are the
+     only things allowed to use it. A present sound file, a matching ASR pass, a clean
+     log line, a zero "blocked" count are all facts about a machine, not a verdict, so
+     they get neutral colours. */
+  .flag.sf-present{background:#17263a;color:#9fd0ff}
+  .flag.sf-missing{background:#3a1512;color:#ff9c92}
+  .flag.pron-approved{background:#12352a;color:#6fe0ab}
+  .flag.pron-rejected{background:#3a1512;color:#ff9c92}
+  .flag.pron-unchecked{background:#2a2636;color:#c9b8e6}
+  .flag.asr-differs{background:#3a2c12;color:#ffcf9a}
+  .flag.asr-match{background:#1c2333;color:#9fb0cf}
+  .flag.asr-notrun{background:#1c2333;color:#6b7690}
   .mini{min-height:40px;min-width:44px;border-radius:11px;background:#212a3d;
     border:1px solid #303a52;font-size:.8rem;font-weight:900;padding:0 11px}
   .mini:active{background:var(--accent);color:var(--accent-ink)}
@@ -148,7 +223,7 @@
   #log{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.72rem;
     line-height:1.6;white-space:pre-wrap;word-break:break-word;max-height:40svh;
     overflow-y:auto;margin:0}
-  #log .t{color:#5f6c85} #log .e{color:#ff9c92} #log .g{color:#6fe0ab} #log .w-{color:#ffcf9a}
+  #log .t{color:#5f6c85} #log .e{color:#ff9c92} #log .g{color:#9fb0cf} #log .w-{color:#ffcf9a}
   .note{font-size:.8rem;color:var(--dim);line-height:1.5;margin:6px 0 0}
   .fail{padding:18px;border-radius:16px;background:#3a1512;color:#ffd9d5;font-weight:700;
     line-height:1.5}
@@ -163,11 +238,13 @@
 </div>
 
 <main>
-  <div class="art"><img id="art" alt="" src="" decoding="async"></div>
-  <div class="sheet">
-    <h2 id="page-title">Loading…</h2>
-    <div id="sentences"></div>
-    <p class="alarm-strip" id="page-alarm"></p>
+  <div class="page pos-top" id="page">
+    <div class="art"><img id="art" alt="" src="" decoding="async"></div>
+    <div class="wash" id="wash">
+      <h2 id="page-title">Loading…</h2>
+      <div id="sentences"></div>
+      <p class="alarm-strip" id="page-alarm"></p>
+    </div>
   </div>
 </main>
 
@@ -227,7 +304,7 @@ fetch('app-data.json', {cache: 'no-store'})
   .then(d => { DATA = d; boot(); })
   .catch(err => {
     log('err', 'data', 'app-data.json did not load: ' + err.message);
-    $('.sheet').innerHTML =
+    $('#wash').innerHTML =
       '<div class="fail">app-data.json did not load (' + esc(err.message) + ').<br><br>' +
       'If this is a <code>file://</code> URL, fetch is blocked by the browser, not by the ' +
       'data. Serve the folder over HTTP — <code>python3 -m http.server</code> from ' +
@@ -241,7 +318,14 @@ function boot(){
   $('#prev').addEventListener('click', () => turn(-1));
   $('#next').addEventListener('click', () => turn(+1));
   $('#audit-open').addEventListener('click', toggleAudit);
+  /* The address says which page is open -- #p02, #p14 -- so a reload stays on the page
+     the owner was checking, and a page can be linked or screenshotted directly.
+     #p14/audit (or just #audit) also opens the Audit. Anything unknown is ignored. */
+  const parts = decodeURIComponent(location.hash.slice(1)).split('/');
+  const at = DATA.pages.findIndex(pg => parts.indexOf(pg.id) !== -1);
+  if (at > 0) pageIndex = at;
   render();
+  if (parts.indexOf('audit') !== -1) toggleAudit();
 }
 
 /* ===================================================================== *
@@ -366,6 +450,7 @@ function turn(step){
   pageIndex = n;
   $('#page-alarm').textContent = '';
   log('ok', 'page', 'turned to ' + DATA.pages[n].id + ' — ' + DATA.pages[n].title);
+  try { history.replaceState(null, '', '#' + DATA.pages[n].id); } catch (e) {}
   render();
   paintAudit();
 }
@@ -377,7 +462,13 @@ function render(keepScroll){
     art.src = p.art.src;
     art.alt = p.title;
   }
-  $('.art').style.background = p.art.backdrop;
+  /* Top by default; bottom only where app-data.json says this page's own picture
+     suits it better (see tools/build-runtime.py's TEXT_POSITION). The crop point keeps
+     the page's subject in view at both iPad orientations (ART's `focus`). */
+  const page = $('#page');
+  page.classList.toggle('pos-bottom', p.textPosition === 'bottom');
+  page.classList.toggle('pos-top', p.textPosition !== 'bottom');
+  art.style.objectPosition = p.art.focus || '';
   $('#page-title').textContent = p.title;
 
   $('#sentences').innerHTML = p.sentences.map((s, si) => {
@@ -447,15 +538,58 @@ function paintGuard(){
                           : 'Audit';
 }
 
-function flags(clip){
-  if (!clip) return '<span class="flag no">no clip</span>';
-  if (broken.has(clip.id)) return '<span class="flag no">broken here</span>';
-  if (!clip.ok) return '<span class="flag no">unresolved</span>';
-  return '<span class="flag ok">resolved</span>';
+/* The owner's verdict and the build's ASR pass both live in ONE place, keyed by clip
+   id, in app-data.json's clipVerdicts -- not copied into every occurrence of a clip
+   (the same clip id appears on several pages). A clip with no entry is unchecked /
+   not run; that is the honest default, not an omission. */
+function verdictFor(id){
+  const v = (DATA.clipVerdicts && DATA.clipVerdicts[id]) || {};
+  return {
+    pronunciation: v.pronunciation || {verdict: 'unchecked'},
+    asr: v.asr || {status: 'not run'}
+  };
+}
+
+function soundFlag(clip){
+  if (!clip) return '<span class="flag sf-missing">sound file: missing</span>';
+  if (broken.has(clip.id)) return '<span class="flag sf-missing">sound file: missing (runtime)</span>';
+  return clip.ok ? '<span class="flag sf-present">sound file: present</span>'
+                 : '<span class="flag sf-missing">sound file: missing</span>';
+}
+
+/* GREEN COMES FROM ONLY ONE PLACE: the owner's own verdict, written by hand into
+   narration/pronunciation.json. Nothing else in this file is allowed to return the
+   pron-approved class. */
+function pronFlag(clip){
+  if (!clip) return '';
+  const v = verdictFor(clip.id).pronunciation.verdict;
+  if (v === 'approved') return '<span class="flag pron-approved">pronunciation: approved</span>';
+  if (v === 'rejected') return '<span class="flag pron-rejected">pronunciation: rejected</span>';
+  return '<span class="flag pron-unchecked">pronunciation: unchecked</span>';
+}
+
+/* The build's speech-recognition pass. A match is NEUTRAL, never green -- matching
+   text is not proof of a good accent, and no machine signs a clip off here. */
+function asrFlag(clip){
+  if (!clip) return '';
+  const a = verdictFor(clip.id).asr;
+  /* The recogniser failing on a clip is not a pass: the clip still needs an ear. */
+  if (a.status === 'error')
+    return '<span class="flag asr-differs">ASR: failed — check by ear</span>';
+  if (a.status === 'not run' || a.match == null)
+    return '<span class="flag asr-notrun">ASR: not run</span>';
+  return a.match
+    ? '<span class="flag asr-match">ASR: matches (not an approval)</span>'
+    : '<span class="flag asr-differs">ASR: check by ear</span>';
+}
+
+function badges(clip){
+  return soundFlag(clip) + pronFlag(clip) + asrFlag(clip);
 }
 
 function clipMeta(clip){
   if (!clip) return '<div class="meta">No clip id. Nothing can play.</div>';
+  const v = verdictFor(clip.id);
   let m = '<div class="meta"><code>' + esc(clip.id) + '</code>';
   if (clip.renderedFrom != null)
     m += ' · rendered from <code>' + esc(JSON.stringify(clip.renderedFrom)) + '</code>';
@@ -467,7 +601,55 @@ function clipMeta(clip){
   if (broken.has(clip.id))
     m += '<br><span class="risk">RUNTIME: ' + esc(broken.get(clip.id)) + '</span>';
   if (clip.risk) m += '<br><span class="risk">RISK: ' + esc(clip.risk) + '</span>';
+  if (v.pronunciation.note) m += '<br><span class="risk">OWNER: ' + esc(v.pronunciation.note) + '</span>';
+  if (v.asr.heard === '')
+    m += '<br>ASR heard <b>nothing at all</b> — differs from the intended text.';
+  else if (v.asr.heard != null)
+    m += '<br>ASR heard <code>' + esc(v.asr.heard) + '</code>' +
+         (v.asr.match ? ' — matches the intended text.' : ' — differs from the intended text.');
+  if (v.asr.status === 'error')
+    m += '<br><span class="risk">ASR could not read this clip: ' + esc(v.asr.detail) + '</span>';
   return m + '</div>';
+}
+
+/* Every distinct clip id in the whole pilot, deduped -- the same clip id can appear on
+   several pages, and the owner's verdict is about the CLIP, not about any one page it
+   happens to sit on. */
+function everyClipId(){
+  const ids = new Set();
+  DATA.pages.forEach(p => p.sentences.forEach(s => {
+    if (s.clip) ids.add(s.clip.id);
+    s.words.forEach(w => {
+      if (w.clip) ids.add(w.clip.id);
+      if (w.alt) ids.add(w.alt.id);
+    });
+  }));
+  return ids;
+}
+
+function ownerTally(){
+  let approved = 0, rejected = 0, unchecked = 0;
+  everyClipId().forEach(id => {
+    const v = verdictFor(id).pronunciation.verdict;
+    if (v === 'approved') approved++;
+    else if (v === 'rejected') rejected++;
+    else unchecked++;
+  });
+  return {approved, rejected, unchecked};
+}
+
+/* The build's ASR pass over every clip, and the clips it says need an ear first.
+   Kept apart from ownerTally() on purpose: these counts are the machine's, not the
+   owner's, and none of them can make anything green. */
+function asrTally(){
+  const t = {differs: [], match: 0, notRun: 0};
+  Array.from(everyClipId()).sort().forEach(id => {
+    const a = verdictFor(id).asr;
+    if (a.status === 'error' || a.match === false) t.differs.push(id);
+    else if (a.match === true) t.match++;
+    else t.notRun++;
+  });
+  return t;
 }
 
 function paintAudit(){
@@ -481,6 +663,8 @@ function paintAudit(){
     if (w.clip && w.clip.id) allClips.add(w.clip.id);
   }));
   const unresolved = allWords.filter(w => !playable(w.clip)).length;
+  const tally = ownerTally();
+  const asrT = asrTally();
 
   /* The alternates. app-data.json hangs each one off the word it belongs to, so the
      A/B list is built from the words rather than from a hand-typed list of names. */
@@ -494,15 +678,46 @@ function paintAudit(){
   '<div class="bar"><h1>Audit</h1>' +
     '<button class="chip" id="audit-close">Close ✕</button></div>' +
 
+  '<h3>Owner sign-off — every clip in the pilot</h3>' +
+  '<div class="tally">' +
+    '<div><div class="n' + (tally.approved ? ' good' : '') + '">' + tally.approved + '</div>' +
+      '<div class="l">approved</div></div>' +
+    '<div><div class="n' + (tally.rejected ? ' bad' : '') + '">' + tally.rejected + '</div>' +
+      '<div class="l">flagged</div></div>' +
+    '<div><div class="n">' + tally.unchecked + '</div><div class="l">unchecked</div></div>' +
+  '</div>' +
+  '<p class="note">These three counts are the only ones on this page that mean anything about ' +
+  'pronunciation. They come only from narration/pronunciation.json, written by hand by the owner. ' +
+  'A sound file that plays, or an ASR pass that matches, never turns a clip green here.</p>' +
+
+  '<h3>Speech recognition — where to listen first</h3>' +
+  '<div class="tally">' +
+    '<div><div class="n' + (asrT.differs.length ? ' amber' : '') + '">' + asrT.differs.length +
+      '</div><div class="l">check by ear</div></div>' +
+    '<div><div class="n">' + asrT.match + '</div><div class="l">ASR matches</div></div>' +
+    '<div><div class="n">' + asrT.notRun + '</div><div class="l">ASR not run</div></div>' +
+  '</div>' +
+  '<p class="note">The build ran on-device speech recognition over every clip ' +
+  '(tools/asr-check.py). It is a machine, so it approves nothing: a match means it heard the ' +
+  'right words, not that they were said the right way. The clips below are where it heard ' +
+  'something else — listen to these first. Some will be the recogniser’s mistake, not the ' +
+  'voice’s (“its” can only ever be heard as “it’s”).</p>' +
+  (asrT.differs.length ? '<div class="card">' + asrT.differs.map(id => {
+    const c = findClip(id);
+    return '<div class="row"><div class="grow"><span class="word-of">' + esc(c.label) + '</span> ' +
+      badges(c.clip) + clipMeta(c.clip) + '</div>' +
+      '<button class="mini" data-play-clip="' + esc(id) + '">play</button></div>';
+  }).join('') + '</div>' : '') +
+
   '<h3>This page — ' + esc(p.id) + ' ' + esc(p.title) + '</h3>' +
   '<div class="tally">' +
     '<div><div class="n">' + allWords.length + '</div><div class="l">words</div></div>' +
-    '<div><div class="n good">' + (allWords.length - unresolved) + '</div>' +
+    '<div><div class="n">' + (allWords.length - unresolved) + '</div>' +
       '<div class="l">with sound</div></div>' +
-    '<div><div class="n ' + (unresolved ? 'bad' : 'good') + '">' + unresolved + '</div>' +
+    '<div><div class="n' + (unresolved ? ' bad' : '') + '">' + unresolved + '</div>' +
       '<div class="l">silent</div></div>' +
     '<div><div class="n">' + allClips.size + '</div><div class="l">distinct clips</div></div>' +
-    '<div><div class="n ' + (guard.blocked ? 'bad' : 'good') + '">' + guard.blocked + '</div>' +
+    '<div><div class="n' + (guard.blocked ? ' bad' : '') + '">' + guard.blocked + '</div>' +
       '<div class="l">device-voice calls blocked</div></div>' +
   '</div>' +
   '<p class="note">A word is counted as having sound only if the build resolved it <em>and</em> ' +
@@ -516,7 +731,7 @@ function paintAudit(){
   'a bare “Sun” shipped as “soon” on 2026-09-15.</p>' +
   '<div class="card">' + alts.map(w =>
     '<div class="row"><div class="grow"><span class="word-of">' + esc(w.display) + '</span> ' +
-      flags(w.clip) +
+      badges(w.clip) +
       '<div class="meta">book <code>' + esc(w.clip.id) + '</code> ' +
         esc(JSON.stringify(w.clip.renderedFrom)) +
       ' · alt <code>' + esc(w.alt.id) + '</code> ' +
@@ -530,20 +745,20 @@ function paintAudit(){
   '<h3>Sentences on this page</h3>' +
   '<div class="card">' + p.sentences.map(s =>
     '<div class="row"><div class="grow"><span class="word-of">' + esc(s.text) + '</span> ' +
-      flags(s.clip) + clipMeta(s.clip) + '</div>' +
+      badges(s.clip) + clipMeta(s.clip) + '</div>' +
     '<button class="mini" data-play-clip="' + esc(s.clip.id) + '">play</button></div>').join('') +
   '</div>' +
 
   '<h3>Every word on this page</h3>' +
   '<div class="card">' + allWords.map((w, i) =>
     '<div class="row"><div class="grow"><span class="word-of">' + esc(w.display) + '</span> ' +
-      '<span class="meta">key <code>' + esc(w.word) + '</code></span> ' + flags(w.clip) +
+      '<span class="meta">key <code>' + esc(w.word) + '</code></span> ' + badges(w.clip) +
       clipMeta(w.clip) + '</div>' +
     '<button class="mini" data-play-clip="' + esc(w.clip.id) + '">play</button>' +
     (w.alt ? '<button class="mini alt" data-play-clip="' + esc(w.alt.id) + '">alt</button>' : '') +
     '</div>').join('') + '</div>' +
   '<button class="wide" id="probe">Check every clip on this page really downloads</button>' +
-  '<p class="note">The “resolved” flags above were decided when the data was built. This button ' +
+  '<p class="note">The “sound file” labels above were decided when the data was built. This button ' +
   'asks the server for each file right now, so a clip that was rendered but never deployed shows ' +
   'up as a 404 instead of as silence on a tap.</p>' +
 

@@ -14,9 +14,10 @@
     {
       "id": "p01",
       "title": "Meet Mars",
+      "textPosition": "bottom",
       "art": {
         "src": "assets/p01.webp",
-        "backdrop": "#11131b"
+        "focus": "95% 50%"
       },
       "sentences": [
         {
@@ -312,9 +313,10 @@
     {
       "id": "p02",
       "title": "Why Is Mars Red?",
+      "textPosition": "top",
       "art": {
         "src": "assets/p02.webp",
-        "backdrop": "#e0925f"
+        "focus": "25% 60%"
       },
       "sentences": [
         {
@@ -721,9 +723,10 @@
     {
       "id": "p14",
       "title": "Meet Olympus Mons",
+      "textPosition": "bottom",
       "art": {
         "src": "assets/p14.webp",
-        "backdrop": "#714430"
+        "focus": "50% 55%"
       },
       "sentences": [
         {
@@ -1186,5 +1189,389 @@
       ]
     }
   ],
+  "clipVerdicts": {
+    "alt-mars": {
+      "asr": {
+        "heard": "Mars.",
+        "match": true
+      }
+    },
+    "alt-mons": {
+      "asr": {
+        "heard": "Monse.",
+        "match": false
+      }
+    },
+    "alt-olympus": {
+      "asr": {
+        "heard": "Olympus.",
+        "match": true
+      }
+    },
+    "alt-planet": {
+      "asr": {
+        "heard": "Planet.",
+        "match": true
+      }
+    },
+    "alt-red": {
+      "asr": {
+        "heard": "Read.",
+        "match": false
+      }
+    },
+    "alt-solar": {
+      "asr": {
+        "heard": "Solar.",
+        "match": true
+      }
+    },
+    "alt-sun": {
+      "asr": {
+        "heard": "Soon.",
+        "match": false
+      }
+    },
+    "alt-system": {
+      "asr": {
+        "heard": "System.",
+        "match": true
+      }
+    },
+    "s-p01-1": {
+      "asr": {
+        "heard": "This is mars.",
+        "match": true
+      }
+    },
+    "s-p01-2": {
+      "asr": {
+        "heard": "Mars is the fourth planet from the sun.",
+        "match": true
+      }
+    },
+    "s-p01-3": {
+      "asr": {
+        "heard": "It is a cold, rocky world.",
+        "match": true
+      }
+    },
+    "s-p02-1": {
+      "asr": {
+        "heard": "Mars is called the red planet.",
+        "match": true
+      }
+    },
+    "s-p02-2": {
+      "asr": {
+        "heard": "There is iron in its rocks and dust.",
+        "match": true
+      }
+    },
+    "s-p02-3": {
+      "asr": {
+        "heard": "The iron has changed into rusty minerals, making Mars look red.",
+        "match": true
+      }
+    },
+    "s-p14-1": {
+      "asr": {
+        "heard": "This is Olympus month.",
+        "match": false
+      }
+    },
+    "s-p14-2": {
+      "asr": {
+        "heard": "It is the largest known volcano in the solar system.",
+        "match": true
+      }
+    },
+    "s-p14-3": {
+      "asr": {
+        "heard": "It is so huge that we need to look from far above to see its shape.",
+        "match": true
+      }
+    },
+    "w-a": {
+      "asr": {
+        "heard": "A.",
+        "match": true
+      }
+    },
+    "w-above": {
+      "asr": {
+        "heard": "Above.",
+        "match": true
+      }
+    },
+    "w-and": {
+      "asr": {
+        "heard": "And...",
+        "match": true
+      }
+    },
+    "w-called": {
+      "asr": {
+        "heard": "Called.",
+        "match": true
+      }
+    },
+    "w-changed": {
+      "asr": {
+        "heard": "Changed.",
+        "match": true
+      }
+    },
+    "w-cold": {
+      "asr": {
+        "heard": "Cold.",
+        "match": true
+      }
+    },
+    "w-dust": {
+      "asr": {
+        "heard": "Dust.",
+        "match": true
+      }
+    },
+    "w-far": {
+      "asr": {
+        "heard": "Fun.",
+        "match": false
+      }
+    },
+    "w-fourth": {
+      "asr": {
+        "heard": "Fourth.",
+        "match": true
+      }
+    },
+    "w-from": {
+      "asr": {
+        "heard": "From.",
+        "match": true
+      }
+    },
+    "w-has": {
+      "asr": {
+        "heard": "Has.",
+        "match": true
+      }
+    },
+    "w-huge": {
+      "asr": {
+        "heard": "Huge.",
+        "match": true
+      }
+    },
+    "w-in": {
+      "asr": {
+        "heard": "In.",
+        "match": true
+      }
+    },
+    "w-into": {
+      "asr": {
+        "heard": "Into.",
+        "match": true
+      }
+    },
+    "w-iron": {
+      "asr": {
+        "heard": "Iron.",
+        "match": true
+      }
+    },
+    "w-is": {
+      "asr": {
+        "heard": "Is.",
+        "match": true
+      }
+    },
+    "w-it": {
+      "asr": {
+        "heard": "It.",
+        "match": true
+      }
+    },
+    "w-its": {
+      "asr": {
+        "heard": "It's.",
+        "match": false
+      }
+    },
+    "w-known": {
+      "asr": {
+        "heard": "Known.",
+        "match": true
+      }
+    },
+    "w-largest": {
+      "asr": {
+        "heard": "Largest.",
+        "match": true
+      }
+    },
+    "w-look": {
+      "asr": {
+        "heard": "Look.",
+        "match": true
+      }
+    },
+    "w-making": {
+      "asr": {
+        "heard": "Making?",
+        "match": true
+      }
+    },
+    "w-mars": {
+      "asr": {
+        "heard": "Mars.",
+        "match": true
+      }
+    },
+    "w-minerals": {
+      "asr": {
+        "heard": "Minerals.",
+        "match": true
+      }
+    },
+    "w-mons": {
+      "asr": {
+        "heard": "Months?",
+        "match": false
+      }
+    },
+    "w-need": {
+      "asr": {
+        "heard": "Need.",
+        "match": true
+      }
+    },
+    "w-olympus": {
+      "asr": {
+        "heard": "Olympus.",
+        "match": true
+      }
+    },
+    "w-planet": {
+      "asr": {
+        "heard": "Planet",
+        "match": true
+      }
+    },
+    "w-red": {
+      "asr": {
+        "heard": "Red.",
+        "match": true
+      }
+    },
+    "w-rocks": {
+      "asr": {
+        "heard": "Rocks.",
+        "match": true
+      }
+    },
+    "w-rocky": {
+      "asr": {
+        "heard": "Rocky.",
+        "match": true
+      }
+    },
+    "w-rusty": {
+      "asr": {
+        "heard": "Rusty?",
+        "match": true
+      }
+    },
+    "w-see": {
+      "asr": {
+        "heard": "See?",
+        "match": true
+      }
+    },
+    "w-shape": {
+      "asr": {
+        "heard": "Shape.",
+        "match": true
+      }
+    },
+    "w-so": {
+      "asr": {
+        "heard": "So.",
+        "match": true
+      }
+    },
+    "w-solar": {
+      "asr": {
+        "heard": "Solar?",
+        "match": true
+      }
+    },
+    "w-sun": {
+      "pronunciation": {
+        "verdict": "rejected",
+        "note": "Owner, 2026-09-16: heard as ซุน, not \"sun\"."
+      },
+      "asr": {
+        "heard": "Soon.",
+        "match": false
+      }
+    },
+    "w-system": {
+      "asr": {
+        "heard": "Sistium.",
+        "match": false
+      }
+    },
+    "w-that": {
+      "asr": {
+        "heard": "That.",
+        "match": true
+      }
+    },
+    "w-the": {
+      "asr": {
+        "heard": "The.",
+        "match": true
+      }
+    },
+    "w-there": {
+      "asr": {
+        "heard": "There.",
+        "match": true
+      }
+    },
+    "w-this": {
+      "asr": {
+        "heard": "This.",
+        "match": true
+      }
+    },
+    "w-to": {
+      "asr": {
+        "heard": "",
+        "match": false
+      }
+    },
+    "w-volcano": {
+      "asr": {
+        "heard": "Volcano.",
+        "match": true
+      }
+    },
+    "w-we": {
+      "asr": {
+        "heard": "Wait.",
+        "match": false
+      }
+    },
+    "w-world": {
+      "asr": {
+        "heard": "World.",
+        "match": true
+      }
+    }
+  },
   "builtFrom": "pages.js (the owner's MARS_BOOK_PAGES, verbatim)"
 }

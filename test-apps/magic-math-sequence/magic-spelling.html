@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Magic Spelling 👸</title>
+  <link rel="manifest" href="./manifest.webmanifest"/>
+  <link rel="stylesheet" href="./fonts.css"/>
+  <meta name="theme-color" content="#0a0e2d"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Magic Math"/>
+  <script src="./vendor/react-18.3.1.production.min.js"></script>
+  <script src="./vendor/react-dom-18.3.1.production.min.js"></script>
+  <script src="./vendor/babel-7.26.4.min.js"></script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;touch-action:manipulation}
+    body{font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden;background:#fce4ec}
+
+    /* ── BG ── */
+    .app-bg{position:fixed;inset:0;z-index:0;pointer-events:none;
+      background-image:
+        radial-gradient(1.8px 1.8px at 30px 40px,rgba(255,255,255,.95),transparent 55%),
+        radial-gradient(1.4px 1.4px at 150px 110px,rgba(255,213,79,.8),transparent 55%),
+        radial-gradient(1.2px 1.2px at 90px 180px,rgba(255,255,255,.7),transparent 55%),
+        radial-gradient(ellipse 130% 55% at 50% 118%,rgba(206,147,216,.5),transparent 65%),
+        linear-gradient(180deg,#ffe3ef 0%,#fdd0e2 45%,#e8d4f5 100%);
+      background-size:240px 210px,240px 210px,240px 210px,cover,cover;
+      background-repeat:repeat,repeat,repeat,no-repeat,no-repeat}
+    .bg-deco{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+    .bg-deco span{position:absolute;display:inline-block;line-height:1;
+      animation:twinkleDeco ease-in-out infinite alternate;
+      filter:drop-shadow(0 0 6px rgba(255,190,220,.6));will-change:transform,opacity}
+    @keyframes twinkleDeco{
+      0%{opacity:.06;transform:scale(.55) rotate(-12deg)}
+      100%{opacity:var(--deco-opacity,.5);transform:scale(1.15) rotate(12deg)}
+    }
+    @keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-8px)}}
+    @keyframes float{from{transform:translateY(0)}to{transform:translateY(-9px)}}
+    @media (prefers-reduced-motion: reduce){
+      .bg-deco span{animation:none!important;opacity:.12!important}
+      *{animation-duration:.001s!important}
+    }
+
+    /* ── LAYOUT ── */
+    .screen{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:12px 12px 140px;gap:12px}
+
+    /* ── HOME ── */
+    .home-title{font-size:clamp(1.9rem,7.5vw,3.3rem);font-weight:900;text-align:center;display:flex;flex-wrap:wrap;justify-content:center;gap:2px;filter:drop-shadow(0 4px 8px rgba(173,20,87,.25));margin-top:6px}
+    .home-title span{display:inline-block;animation:bounce 1.2s infinite alternate}
+    .home-sub{font-size:1rem;font-weight:900;color:#ad1457;text-shadow:0 1px 0 #fff;letter-spacing:.5px}
+    .home-crown-row{display:flex;gap:80px;align-items:center;justify-content:center;min-height:64px;margin-bottom:-6px}
+    .home-crown{font-size:52px;line-height:1;filter:drop-shadow(0 5px 10px rgba(173,20,87,.25))}
+    .mode-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;width:100%;max-width:640px}
+    .mode-card{flex:1;min-width:140px;max-width:190px;border-radius:26px;padding:18px 12px 14px;cursor:pointer;border:none;display:flex;flex-direction:column;align-items:center;gap:8px;transition:transform .15s;font-family:inherit}
+    .mode-card:active{transform:translateY(5px) scale(.96)}
+    .mc-pink  {background:linear-gradient(160deg,#f48fb1,#e91e63);box-shadow:0 7px 0 #ad1457,0 10px 20px rgba(233,30,99,.3)}
+    .mc-purple{background:linear-gradient(160deg,#ce93d8,#7b1fa2);box-shadow:0 7px 0 #4a148c,0 10px 20px rgba(123,31,162,.3)}
+    .mc-gold  {background:linear-gradient(160deg,#ffe082,#f9a825);box-shadow:0 7px 0 #e65100,0 10px 20px rgba(249,168,37,.35)}
+    .mode-card-art{font-size:56px;line-height:1;height:64px;display:flex;align-items:center;justify-content:center}
+    .mode-card-label{font-size:.95rem;font-weight:900;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.3)}
+    .mode-card-sub{font-size:.68rem;font-weight:900;color:rgba(255,255,255,.92);text-shadow:0 1px 3px rgba(0,0,0,.25);margin-top:-4px}
+    .trophy-line{font-size:.9rem;font-weight:900;color:#7b1fa2;background:rgba(255,255,255,.7);border-radius:50px;padding:5px 14px}
+
+    /* ── TOP BAR / SHARED ── */
+    .top-bar{width:100%;max-width:640px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .round-btn{width:46px;height:46px;border-radius:50%;border:none;background:#fff;color:#e91e63;font-size:1.3rem;font-weight:900;cursor:pointer;box-shadow:0 4px 0 #f48fb1;display:flex;align-items:center;justify-content:center;font-family:inherit}
+    .round-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #f48fb1}
+    /* Owner, 2026-08-27: *"need to make sure ALL games has back icon to the hub"* --
+       a 4-year-old could not get out of this app. Fixed rather than in the top bar,
+       because Home has no top bar to sit in, and top-left is where the same arrow
+       lives in Space Math and Unicorn Math. z-index clears the drifting petals. */
+    .hub-btn{position:fixed;top:12px;left:12px;z-index:20;text-decoration:none}
+    .bar-label{font-size:.8rem;font-weight:900;color:#9c27b0;background:rgba(255,255,255,.7);border-radius:50px;padding:4px 12px}
+
+    /* ── PACK GRID ── */
+    .pack-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:12px;width:100%;max-width:640px}
+    .pack-card{border:none;border-radius:20px;padding:12px 6px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-family:inherit;min-height:100px}
+    .pack-card:active{transform:translateY(4px) scale(.97)}
+    .pack-num{font-size:1.7rem;font-weight:900;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.3);line-height:1.1}
+    .pack-word{font-size:.62rem;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.85);text-shadow:0 1px 2px rgba(0,0,0,.25)}
+    .pack-stars{font-size:.95rem;letter-spacing:2px;line-height:1;margin-top:2px}
+    .star-on {color:#fff59d;text-shadow:0 1px 3px rgba(0,0,0,.35)}
+    .star-off{color:rgba(255,255,255,.38)}
+
+    /* ── GAME AREA ── */
+    .prompt-bubble{background:linear-gradient(135deg,#fff,#fce4ec);border:2.5px solid #f48fb1;border-radius:20px;padding:10px 18px;box-shadow:0 4px 0 #f48fb1;font-size:clamp(1rem,4vw,1.4rem);font-weight:900;color:#333;text-align:center;display:flex;align-items:center;gap:10px}
+    /* THE ROBOT IS THE BUTTON. This was a bare 🔊 on a purple pill, and the emoji is drawn
+       by the operating system -- a grey metal speaker on macOS, something else again on the
+       iPad -- so it was chrome pretending to be art. It also asked a pre-reader to
+       know that a speaker glyph means "press me and I will say it", which is exactly the
+       kind of reading this game exists to teach. A face that opens its mouth when you tap
+       it needs no such decoding. Sized well past the 44px tap minimum, both because the
+       target must stay generous and because the ABC on his chin has to read at all. */
+    /* THE ROBOT STANDS OUTSIDE THE BUBBLE, and the bubble points at him. Inside it he was
+       58px of button glyph -- at that size the ABC on his chin is a smudge and he reads as
+       decoration on a control. Out here at 88px he is a character who is saying the thing
+       in the bubble, which is what a speech bubble has always meant. */
+    .read-row{display:flex;align-items:center;gap:12px;max-width:min(94vw,640px)}
+    .speak-btn{border:none;background:none;padding:0;width:88px;height:88px;cursor:pointer;flex-shrink:0;display:grid;place-items:center;-webkit-tap-highlight-color:transparent}
+    .speak-btn:active{transform:translateY(2px)}
+    .read-row .prompt-bubble{position:relative}
+    .read-row .prompt-bubble::before{content:'';position:absolute;left:-11px;top:50%;transform:translateY(-50%);border:9px solid transparent;border-right-color:#f48fb1;border-left:0}
+    .read-row .prompt-bubble::after{content:'';position:absolute;left:-7px;top:50%;transform:translateY(-50%);border:8px solid transparent;border-right-color:#fff;border-left:0}
+    .rb-robot{width:88px;display:grid;place-items:center}
+    /* Both frames share one grid cell so the swap cannot shift the bubble by a pixel, and
+       both are in the DOM from the start so the first word never waits for a decode. An
+       animated WebP cannot be paused, so the idle robot is simply the still one with the
+       animation running unseen underneath. At 58px that costs nothing. */
+    .rb-robot img{width:100%;height:auto;display:block;grid-area:1/1;transition:opacity .18s linear}
+    .rb-robot .rb-talk{opacity:0}
+    .rb-robot.talking .rb-still{opacity:0}
+    .rb-robot.talking .rb-talk{opacity:1}
+    @media (prefers-reduced-motion: reduce){
+      .rb-robot .rb-talk{display:none}
+      .rb-robot .rb-still{opacity:1 !important}
+      /* Movement is refused, so "who is speaking" falls back to light on the still face --
+         the child still has to know the robot is the one talking. */
+      .rb-robot.talking{animation:rbPulse 1.4s ease-in-out infinite}
+    }
+    @keyframes rbPulse{0%,100%{filter:none}50%{filter:brightness(1.12) drop-shadow(0 0 9px rgba(233,30,99,.7))}}
+    .icon-svg{width:22px;height:22px;display:block}
+
+    /* THE SLOTS ARE LOWERCASE NOW, and that is the point. The old game showed CAT in
+       capitals because it was teaching letter recognition; this game teaches children to
+       write real words, and a Grade 3 child writes "because", not "BECAUSE". Capitals
+       appear exactly where the written form has them -- the I in I'll, the M in Mrs. --
+       so the tiles a child taps are the characters they would put on paper. */
+    .slot-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+    .slot{width:52px;height:58px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.7rem;font-weight:900;background:rgba(255,255,255,.55);border:3px dashed #f06292;color:#ad1457}
+    .slot.filled{background:linear-gradient(160deg,#fff,#fce4ec);border:3px solid #e91e63;animation:popIn .3s cubic-bezier(.34,1.56,.64,1)}
+    .slot-row.long{gap:5px}
+    .slot-row.long .slot{width:38px;height:46px;font-size:1.2rem;border-radius:10px;border-width:2.5px}
+    @keyframes popIn{from{transform:scale(0) rotate(-10deg)}to{transform:scale(1)}}
+
+    .tile-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;max-width:560px}
+    .tile{width:60px;height:64px;border-radius:16px;border:none;font-family:inherit;font-size:1.8rem;font-weight:900;color:#fff;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.25);transition:transform .1s}
+    .tile:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(0,0,0,.25)}
+    .tile.t0{background:linear-gradient(160deg,#f48fb1,#e91e63);box-shadow:0 5px 0 #ad1457}
+    .tile.t1{background:linear-gradient(160deg,#ce93d8,#8e24aa);box-shadow:0 5px 0 #4a148c}
+    .tile.t2{background:linear-gradient(160deg,#ffd54f,#f9a825);box-shadow:0 5px 0 #e65100}
+    .tile.t3{background:linear-gradient(160deg,#80cbc4,#00897b);box-shadow:0 5px 0 #004d40}
+    .tile.used{opacity:.25;pointer-events:none;transform:scale(.9)}
+    .tile.wrong{animation:wrongShake .35s ease}
+    .tile.right{animation:correctPop .5s ease}
+    /* THE HINT GLOWS THE TILES THAT COULD BE NEXT, and never fills the slot for the child
+       until the third miss. It is help that still asks for a tap -- the child keeps the
+       agency of choosing, which is the whole difference between help and the game
+       playing itself. */
+    .tile.hint{animation:hintGlow 1s ease-in-out infinite alternate}
+    @keyframes hintGlow{from{outline:0 solid rgba(255,213,79,0)}to{outline:5px solid rgba(255,213,79,.9)}}
+    .tile-row.dense{gap:7px;max-width:600px}
+    .tile-row.dense .tile{width:46px;height:50px;font-size:1.3rem;border-radius:12px}
+    @keyframes correctPop{0%{transform:scale(1)}40%{transform:scale(1.4) rotate(-8deg)}70%{transform:scale(1.2) rotate(8deg)}100%{transform:scale(1)}}
+    @keyframes wrongShake{0%,100%{transform:translateX(0)}25%,75%{transform:translateX(-8px)}50%{transform:translateX(8px)}}
+
+    .praise-banner{font-size:1.3rem;font-weight:900;color:#e91e63;text-shadow:0 1px 0 #fff;animation:popIn .35s cubic-bezier(.34,1.56,.64,1);min-height:1.6em;text-align:center}
+
+    /* ── PACK COMPLETE ── */
+    .complete-overlay{position:fixed;inset:0;z-index:8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px;background:rgba(255,240,247,.94);backdrop-filter:blur(4px)}
+    .complete-stars{font-size:clamp(56px,16vw,84px);display:flex;gap:12px;line-height:1}
+    .complete-stars span{display:inline-block;animation:popIn .55s cubic-bezier(.34,1.56,.64,1) both}
+    .complete-stars .off{filter:grayscale(1);opacity:.3}
+    .complete-title{font-size:clamp(1.4rem,6vw,2rem);font-weight:900;color:#ad1457;text-shadow:0 1px 0 #fff;text-align:center}
+    .complete-sub{font-size:1rem;font-weight:900;color:#880e4f}
+    .complete-btn-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+    .big-btn{border:none;border-radius:50px;padding:14px 26px;font-family:inherit;font-size:1rem;font-weight:900;color:#fff;cursor:pointer;background:linear-gradient(160deg,#f06292,#c2185b);box-shadow:0 5px 0 #880e4f}
+    .big-btn.alt{background:linear-gradient(160deg,#ce93d8,#7b1fa2);box-shadow:0 5px 0 #4a148c}
+    .big-btn:active{transform:translateY(4px);box-shadow:0 1px 0 #880e4f}
+
+    /* ── SCORE / GARDEN ── */
+    .score-row{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.55);backdrop-filter:blur(6px);border-top:2px solid rgba(244,143,177,.5)}
+    .score-badge{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,.85);border:2px solid #f8bbd0;border-radius:50px;padding:5px 12px;font-weight:900;color:#ad1457;font-size:.95rem}
+    .flower-garden{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;padding:6px 8px;background:rgba(255,255,255,.84);border:2px solid #f8bbd0;border-radius:16px;max-width:300px;flex:1}
+    .flower-slot{width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:17px;line-height:1}
+    .flower-slot.empty{opacity:.18;filter:grayscale(.45)}
+    .flower-slot.filled{animation:popIn .35s cubic-bezier(.34,1.56,.64,1);filter:drop-shadow(0 2px 3px rgba(123,31,162,.25))}
+    .garden-full-badge{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:linear-gradient(160deg,#ffd54f,#f9a825);color:#7b1fa2;font-weight:900;padding:8px 18px;border-radius:50px;box-shadow:0 5px 0 #e65100;z-index:6;animation:popIn .35s}
+
+    /* ── MASCOT ── */
+    .mascot-corner{position:fixed;left:18px;bottom:76px;width:104px;height:104px;z-index:6;pointer-events:none;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 7px 14px rgba(123,31,162,.32))}
+    .mascot-corner::before{content:'';position:absolute;left:50%;bottom:2px;width:96%;height:82%;transform:translateX(-50%);border-radius:999px;background:radial-gradient(circle at 50% 54%,rgba(255,255,255,.96) 0 46%,rgba(255,245,253,.82) 58%,rgba(244,143,177,.38) 75%,rgba(244,143,177,0) 100%);box-shadow:0 0 0 3px rgba(255,255,255,.62),0 8px 22px rgba(123,31,162,.22)}
+    .mascot-emoji{position:relative;font-size:58px;line-height:1;animation:float 2.3s ease-in-out infinite alternate;transform-origin:center bottom}
+    .mascot-corner.happy .mascot-emoji{animation:correctPop 1s cubic-bezier(.34,1.56,.64,1)}
+    .mascot-corner.oops .mascot-emoji{animation:wrongShake .4s ease}
+    @media (max-width:560px){
+      .mascot-corner{width:76px;height:76px;left:8px;bottom:70px}
+      .mascot-emoji{font-size:44px}
+      .flower-garden{max-width:240px}
+      .flower-slot{width:20px;height:20px;font-size:14px}
+      .slot{width:44px;height:50px;font-size:1.4rem}
+      .tile{width:52px;height:56px;font-size:1.5rem}
+      .slot-row.long{gap:3px}
+      .slot-row.long .slot{width:29px;height:36px;font-size:.95rem;border-width:2px}
+      .tile-row.dense{gap:5px}
+      .tile-row.dense .tile{width:41px;height:45px;font-size:1.05rem}
+    }
+
+    /* ── CONFETTI ── */
+    .confetti-container{position:fixed;inset:0;pointer-events:none;z-index:9;overflow:hidden}
+    .confetti-piece{position:absolute;top:-24px;animation:confettiFall linear forwards}
+    @keyframes confettiFall{to{transform:translateY(110vh) rotate(560deg)}}
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<!-- THE WORD UNIVERSE, as data. 729 words in 63 packs across three grades, from the
+     owner's curriculum master (spelling/spelling-master.csv -- Reading Rockets Grades 1-3
+     core with the Fry first-300 overlay). It rides inside the page on purpose: the page
+     is what the service worker precaches, so the words are offline the moment the game
+     is, with no second file to fetch, cache or strand. tools/check-spelling-data.py
+     holds this JSON and the CSV to the same content; edit the CSV and regenerate, never
+     this block by hand. Homophones carry a spoken context line because "two" and "too"
+     cannot be told apart by ear -- the line is spoken by the robot and NEVER shown as
+     text, or it would give away the spelling it exists to disambiguate. -->
+<script type="application/json" id="spelling-universe">{"grades":{"1":[["a","all","am","and","at","be","big","book","boy","but","called","came"],["can","car","come","day","did","do","for","get","go","good","got","had"],["he","her","here","him","his","home","I","if","in","into","is","it"],["its","let","like","look","man","may","me","my","no","not","of","old"],["on","one","out","play","run","see","she","so","stop","the","this","to"],["two","up","us","was","we","will","words","you","ball","bed","box","cat"],["cow","dad","dog","fat","fun","hat","hen","hot","mum","oh","pan","pet"],["pig","ran","rat","red","ride","sat","sit","six","sun","ten","top","toy"],["yes"]],"2":[["about","add","after","America","an","answer","any","are","as","ask","away","back"],["been","before","being","both","by","change","city","could","cut","different","down","each"],["eat","end","far","father","feet","find","first","food","four","from","girl","give"],["grow","hand","hard","has","have","hear","help","house","how","just","keep","know"],["land","last","late","left","light","line","little","live","long","made","make","many"],["means","men","mile","miss","more","most","mother","move","much","must","name","need"],["new","next","night","now","off","only","open","or","other","our","over","page"],["part","plant","put","read","said","same","saw","say","school","sea","seem","sentence"],["set","show","side","small","some","soon","spell","start","still","story","take","talk"],["tell","than","that","them","then","there","they","things","think","three","through","time"],["too","took","tree","try","use","very","walk","want","way","well","went","were"],["what","when","while","white","who","why","with","work","years","your","ago","apple"],["ate","baby","bad","bag","base","bat","bee","best","bike","bill","bird","black"],["blue","boat","bring","brother","brown","bus","buy","cake","call","candy","child","clean"],["club","coat","cold","coming","corn","cry","cup","daddy","dear","deep","deer","doing"],["doll","door","dress","drive","drop","dry","duck","eating","egg","fall","farm","fast"],["feed","feel","fell","fine","fire","fish","five","fix","flag","floor","fly","foot"],["fox","full","funny","game","gas","gave","glad","goat","goes","going","gold","gone"],["grade","grass","green","happy","hill","hit","hold","hole","hop","hope","horse","ice"],["inch","inside","job","jump","king","lake","lay","leg","lives","looking","lost","lot"],["love","mad","meat","met","milk","mine","moon","myself","nail","nice","nine","north"],["nut","outside","park","pay","pick","playing","pony","post","pull","rabbit","rain","rest"],["riding","road","rock","room","sang","seat","seen","send","seven","sheep","ship","shoe"],["sick","sing","sky","sleep","snow","stay","store","tall","teach","thank","thing","today"],["told","train","truck","warm","wash","week","wet","wind","wish","woke","wood","yellow"],["yet","zoo"]],"3":[["above","again","air","almost","along","also","always","animal","another","around","because","began"],["begin","below","between","carry","children","close","country","does","don't","earth","enough","even"],["every","example","eyes","face","family","few","follow","form","found","great","group","head"],["high","idea","important","Indian","it's","kind","large","learn","leave","letter","life","list"],["might","mountains","near","never","number","often","once","own","paper","people","picture","place"],["point","real","right","river","second","should","something","sometimes","song","sound","state","study"],["such","their","these","those","thought","together","turn","under","until","watch","water","where"],["which","without","world","would","write","young","able","aeroplane","afraid","afternoon","age","alone"],["already","anything","art","aunt","balloon","bark","barn","basket","beach","bear","become","behind"],["believe","belt","better","birthday","body","bones","born","bought","bread","bright","broke","brought"],["busy","cabin","cage","camp","can't","care","catch","cattle","cave","class","cloth","coal"],["colour","corner","cotton","cover","dark","desert","didn't","dinner","dishes","done","dragon","draw"],["dream","drink","early","east","eight","ever","everyone","everything","feeling","felt","fight","fishing"],["flower","flying","forest","forgot","fourth","free","Friday","friend","front","getting","given","grandmother"],["grew","ground","guess","hair","half","having","he's","heard","heat","hello","himself","hour"],["hundred","hurry","hurt","I'd","I'll","I'm","I've","inches","isn't","kept","kids","kitten"],["knew","knife","lady","largest","later","let's","living","lovely","loving","lunch","mail","making"],["maybe","mean","merry","mind","money","month","morning","mouse","mouth","Mr.","Mrs.","Ms."],["music","nearly","news","noise","nothing","o'clock","oil","orange","order","paint","pair","party"],["pass","past","penny","person","plan","plane","please","pocket","poor","race","reach","reading"],["ready","rich","rocket","rode","round","rule","running","salt","says","sending","sent","seventh"],["sew","shall","short","shot","sight","sister","sitting","sixth","sledge","smoke","soap","someone"],["sometime","sorry","south","space","spelling","spent","sport","spring","stairs","stand","step","stick"],["stood","stopped","stove","street","strong","sugar","summer","Sunday","supper","table","taken","taking"],["talking","teacher","team","teeth","tenth","that's","thinking","third","throw","tonight","trade","trick"],["trip","trying","twelve","twenty","uncle","upon","wagon","wait","walking","wasn't","we're","weather"],["west","wheat","wife","wild","win","window","winter","woman","won","won't","wool","word"],["working","wrong","yard","year","yesterday","you're"]]},"homophones":{"to":"We go to school.","too":"This is too big.","two":"I have two hands.","for":"This gift is for you.","four":"A cat has four legs.","no":"No more cookies.","know":"I know the answer.","new":"I have new shoes.","knew":"I knew the answer.","right":"This is my right hand.","write":"Write your name.","their":"Their house is big.","there":"The ball is over there.","by":"Sit by me.","buy":"We buy bread at the shop.","one":"I have one nose.","won":"She won the game.","your":"Your book is red.","you're":"You're my friend."}}</script>
+<script type="text/babel" data-presets="react">
+const {useState,useEffect,useMemo,useRef,useCallback} = React;
+
+/* ══ SOUND ══ */
+const Sound=(()=>{ 
+  let _ctx=null,_muted=false;
+  const ctx=()=>{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return null;if(!_ctx)_ctx=new AC();if(_ctx.state==='suspended')_ctx.resume();return _ctx;};
+  const tone=(c,freq,type,t,dur,vol,fe)=>{try{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.type=type;o.frequency.setValueAtTime(freq,t);if(fe)o.frequency.exponentialRampToValueAtTime(fe,t+dur);g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(0.001,t+dur);o.start(t);o.stop(t+dur);}catch(e){}};
+  return{
+    setMuted(m){_muted=m;},
+    tap(){if(_muted)return;const c=ctx();if(!c)return;const n=c.currentTime;tone(c,880,'sine',n,.08,.12);tone(c,1320,'sine',n+.04,.06,.08);},
+    ding(){if(_muted)return;const c=ctx();if(!c)return;const n=c.currentTime;[[523,0],[659,.06],[784,.12],[1047,.22]].forEach(([f,t])=>tone(c,f,'sine',n+t,.45,.16));},
+    wrong(){if(_muted)return;const c=ctx();if(!c)return;const n=c.currentTime;tone(c,220,'sawtooth',n,.28,.09,100);},
+    celebrate(){if(_muted)return;const c=ctx();if(!c)return;const n=c.currentTime;[[523,0],[659,.1],[784,.2],[1047,.32],[784,.46],[1047,.58],[1319,.68],[1047,.82]].forEach(([f,t])=>tone(c,f,'sine',n+t,.2,.18));},
+    fanfare(){if(_muted)return;const c=ctx();if(!c)return;const n=c.currentTime;[523,659,784,1047,1319,1568,2093,1568,1319,1047].forEach((f,i)=>tone(c,f,'sine',n+i*.1,.2,.22));}
+  };
+})();
+
+/* ══ VOICE ══ */
+let _voiceMuted=false;
+const Voice={
+  setMuted(m){_voiceMuted=m; if(m&&window.speechSynthesis)window.speechSynthesis.cancel();},
+  say(text,rate=0.85,on){
+    const off=()=>{try{on&&on(false);}catch(e){}};
+    if(_voiceMuted){off();return;}
+    try{
+      const s=window.speechSynthesis; if(!s){off();return;}
+      s.cancel();
+      const u=new SpeechSynthesisUtterance(text);
+      u.rate=rate; u.pitch=1.15; u.lang='en-US';
+      u.onstart=()=>{try{on&&on(true);}catch(e){}};
+      u.onend=off; u.onerror=off;
+      s.speak(u);
+    }catch(e){off();}
+  }
+};
+
+/* ══ NARRATION CLIPS ══
+   Rendered speech for the whole game -- every word, the praise and the pack-complete
+   lines -- replacing the browser's adult robot voice, which was never a decision for
+   this game, just what it always had (2026-08-27 open item, closed by the owner
+   2026-08-29: render it). Same resolver idea as Space Math's Clips: the game asks for
+   a line by its exact text and neither knows nor cares whether a file exists, so a
+   missing clip falls back to speechSynthesis line by line rather than breaking the
+   game. One set, exact strings only -- there are no patterns here because every spoken
+   line in this game is one of a fixed handful of strings plus the words themselves,
+   which is exactly what made the render affordable. The index is fetched, not guessed:
+   without clips.json the only way to discover a missing clip is a 404 the child hears
+   as silence before the engine picks the word up. */
+const Clips=(()=>{
+  const ROOT='assets-runtime/narration/spelling/';
+  let texts=null,tried=false;
+  const load=()=>{ if(tried)return; tried=true;
+    try{ fetch(ROOT+'clips.json').then(r=>r.ok?r.json():null).then(j=>{ if(j&&j.texts)texts=j.texts; }).catch(()=>{}); }catch(e){}
+  };
+  return { url(text){ load(); const s=String(text).trim(); return (texts&&texts[s])?ROOT+texts[s]+'.m4a':null; } };
+})();
+/* One Audio at a time, so a rapid robot tap cannot stack two words on top of each
+   other, and so the mute button can stop a clip that is already playing. */
+let _lineAudio=null;
+const speakLine=(text,rate=0.95)=>{
+  try{_lineAudio&&_lineAudio.pause();}catch(e){}
+  _lineAudio=null;
+  const u=Clips.url(text);
+  if(u){
+    const a=new Audio(u); _lineAudio=a;
+    a.onended=()=>{_lineAudio=null;}; a.onerror=()=>{_lineAudio=null;Voice.say(text,rate);};
+    a.play().catch(()=>{_lineAudio=null;Voice.say(text,rate);});
+  } else Voice.say(text,rate);
+};
+
+const PRAISE=['Great job!','Amazing!','You did it!','Wonderful!','Beautiful!','Magical!'];
+const praise=()=>PRAISE[Math.floor(Math.random()*PRAISE.length)];
+const STAR_LINES={1:'One star!',2:'Two stars!',3:'Three stars! Amazing!'};
+const PRACTICE_LINE="Let's practice the tricky ones again!";
+const STORE_KEY='magicSpelling.v1';
+
+/* ══ WORD UNIVERSE ══
+   grades: 1/2/3 -> array of packs; each pack is an ordered array of words in their
+   exact written form (lowercase except where the word itself is capitalised: I'll,
+   Mr., Mrs., Ms., America, Indian). homophones: word -> spoken context line. */
+const UNIVERSE=JSON.parse(document.getElementById('spelling-universe').textContent);
+const GRADE_META={
+  1:{label:'Grade 1',sub:'First words',art:'🐰'},
+  2:{label:'Grade 2',sub:'More words',art:'🦊'},
+  3:{label:'Grade 3',sub:'Big words',art:'🦁'},
+};
+
+/* ══ SPELLING PRIMITIVES (shared, pure) ══
+   Everything deterministic about the game engine, with the randomness injected as an
+   `rng` argument so tools/test-spelling-game.js can replay it from a seed and test the
+   engine the page actually ships -- the same discipline as the maths primitives block
+   in space-math.html. Nothing in this block touches React, the DOM or the word data. */
+const DECOY_ALPHABET='abcdefghijklmnopqrstuvwxyz';
+function mulberry32(seed){
+  let a=seed>>>0;
+  return function(){
+    a|=0; a=(a+0x6D2B79F5)|0;
+    let t=Math.imul(a^(a>>>15),1|a);
+    t=(t+Math.imul(t^(t>>>7),61|t))^t;
+    return ((t^(t>>>14))>>>0)/4294967296;
+  };
+}
+function randR(rng,a,b){return Math.floor(rng()*(b-a+1))+a;}
+function shuffleR(rng,arr){
+  const x=arr.slice();
+  for(let i=x.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[x[i],x[j]]=[x[j],x[i]];}
+  return x;
+}
+/* Decoy letters scale with word length: two for the short words a beginner meets, four
+   for the eight-and-up words where the tile bank is already big. The count is small on
+   purpose -- every extra decoy makes "guess by elimination" easier than spelling. */
+function decoyCount(len){return len<=4?2:len<=7?3:4;}
+function makeTiles(word,rng){
+  const inWord=new Set(word.toLowerCase().split(''));
+  const decoys=[];
+  while(decoys.length<decoyCount(word.length)){
+    const c=DECOY_ALPHABET[randR(rng,0,25)];
+    if(!inWord.has(c)&&!decoys.includes(c))decoys.push(c);
+  }
+  /* A capital in the word (the I of I'll) still gets its capital tile; decoys are
+     always lowercase, so a capital tile is always a real letter of the word. */
+  return shuffleR(rng,word.split('').concat(decoys)).map((c,i)=>({c,id:i}));
+}
+/* The robot says the bare word, except for the words English cannot disambiguate by
+   ear -- "two" sounds exactly like "too", so those carry a context line that names
+   which spelling is meant without ever showing it. */
+function lineFor(word,homophones){
+  const h=homophones&&homophones[word];
+  return h?word+'. '+h:word;
+}
+/* Stars measure independence, not just completion: three stars means every word in the
+   pack was spelled with no wrong tap at all; two means wrong taps but never the
+   auto-fill ladder; one means the game had to fill letters in. A child who needs the
+   ladder still finishes the pack -- the stars simply tell the truth about how much
+   help it took. */
+function starsFor(pass1){
+  if(pass1.wrongTaps===0)return 3;
+  if(pass1.autoFills===0)return 2;
+  return 1;
+}
+function packId(grade,packIdx){return 'G'+grade+'-'+String(packIdx+1).padStart(2,'0');}
+function defaultState(){return {stars:{},bouquets:0};}
+function recordPack(state,id,stars){
+  const prev=(state.stars&&state.stars[id])||0;
+  return {...state,stars:{...state.stars,[id]:Math.max(prev,stars)}};
+}
+function addBouquet(state){return {...state,bouquets:(state.bouquets||0)+1};}
+
+/* ── THE SESSION ENGINE ──
+   One pack = a first pass over every word, then as many "practice again" passes over
+   the words that needed the auto-fill ladder as it takes to clear one with none. Words
+   a child self-corrects (one or two wrong taps, then the right tile) are NOT re-asked:
+   re-queuing every imperfect word would double a nine-word pack for one slip, and the
+   stars already record the slip. */
+function initSession(words,rng){
+  const q=shuffleR(rng,words.slice());
+  return {passNo:1,q,qi:0,word:q[0],filled:0,used:[],tiles:makeTiles(q[0],rng),
+    posMisses:0,hint:false,wordWrong:0,wordAuto:false,
+    pass1:{wrongTaps:0,autoFills:0},relearn:[],stars:0,
+    celebrating:false,relearnPulse:false,complete:false};
+}
+/* THE HELP LADDER, three rungs and never a dead end:
+     miss 1  -- shake and buzz, try again;
+     miss 2  -- every tile that could fill this slot glows (still the child's choice);
+     miss 3  -- the game fills the letter in, the word is marked as helped, and it will
+                come back in the practice pass at the end of the pack.
+   The engine never blocks, and the child can always finish by tapping glowing tiles. */
+function applyTap(s,tileId){
+  if(s.celebrating||s.complete)return {s,fx:null};
+  const t=s.tiles.find(x=>x.id===tileId);
+  if(!t||s.used.includes(tileId))return {s,fx:null};
+  if(t.c===s.word[s.filled]){
+    const used=[...s.used,tileId];
+    const filled=s.filled+1;
+    if(filled>=s.word.length){
+      return {s:{...s,used,filled,celebrating:true,
+        relearn:s.wordAuto?[...s.relearn,s.word]:s.relearn},
+        fx:{tile:tileId,kind:'right'}};
+    }
+    return {s:{...s,used,filled,posMisses:0,hint:false},fx:{tile:tileId,kind:'right'}};
+  }
+  const misses=s.posMisses+1;
+  const wordWrong=s.wordWrong+1;
+  let pass1=s.pass1;
+  if(s.passNo===1)pass1={...pass1,wrongTaps:pass1.wrongTaps+1};
+  if(misses>=3){
+    /* Auto-fill: consume an unused tile carrying the needed letter so the bank stays
+       honest -- every letter that lands in a slot comes from a tile the child can see. */
+    const need=s.word[s.filled];
+    const tile=s.tiles.find(x=>x.c===need&&!s.used.includes(x.id));
+    const used=tile?[...s.used,tile.id]:s.used;
+    const filled=s.filled+1;
+    let p1=pass1;
+    if(s.passNo===1)p1={...p1,autoFills:p1.autoFills+1};
+    const base={...s,used,filled,posMisses:0,hint:false,wordWrong,wordAuto:true,pass1:p1};
+    if(filled>=s.word.length){
+      return {s:{...base,celebrating:true,relearn:[...s.relearn,s.word]},
+        fx:{tile:tile?tile.id:null,kind:'autofill'}};
+    }
+    return {s:base,fx:{tile:tile?tile.id:null,kind:'autofill'}};
+  }
+  return {s:{...s,posMisses:misses,hint:misses>=2,wordWrong,pass1},fx:{tile:tileId,kind:'wrong'}};
+}
+function nextWord(s,rng){
+  if(!s.celebrating)return s;
+  const ni=s.qi+1;
+  const fresh=w=>({word:w,filled:0,used:[],tiles:makeTiles(w,rng),posMisses:0,hint:false,wordWrong:0,wordAuto:false});
+  if(ni<s.q.length){
+    return {...s,qi:ni,...fresh(s.q[ni]),celebrating:false,relearnPulse:false};
+  }
+  const stars=s.passNo===1?starsFor(s.pass1):s.stars;
+  if(s.relearn.length){
+    const q2=shuffleR(rng,s.relearn.slice());
+    return {...s,passNo:s.passNo+1,q:q2,qi:0,...fresh(q2[0]),relearn:[],stars,
+      celebrating:false,relearnPulse:true};
+  }
+  return {...s,celebrating:false,complete:true,stars};
+}
+
+/* ══ SHARED COMPONENTS ══ */
+function BgDeco(){
+  const items=useMemo(()=>['✨','🌸','💖','✨','👑','✨','🌸','🦋','✨','💜','🌷','✨','🦄','🌸','✨','💖','🌺','✨','🎀','✨'].map((e,i)=>({e,id:i,left:randR(Math.random,2,95),top:randR(Math.random,2,88),dur:(randR(Math.random,14,34)/10),delay:(randR(Math.random,0,30)/10),size:randR(Math.random,16,32),opacity:(randR(Math.random,28,58)/100).toFixed(2)})),[]);
+  return(
+    <div className="bg-deco">
+      {items.map(it=>(
+        <span key={it.id} aria-hidden="true"
+          style={{left:`${it.left}%`,top:`${it.top}%`,fontSize:it.size,'--deco-opacity':it.opacity,
+            animation:`twinkleDeco ${it.dur}s -${it.delay}s ease-in-out infinite alternate`}}>{it.e}</span>
+      ))}
+    </div>
+  );
+}
+
+function Confetti({active}){
+  const p=useMemo(()=>Array.from({length:70},(_,i)=>({id:i,left:randR(Math.random,0,100),delay:randR(Math.random,0,700),dur:randR(Math.random,1200,2400),color:['#e91e63','#f06292','#9c27b0','#ce93d8','#ffd54f','#fff176','#f48fb1','#ba68c8','#fff'][i%9],size:randR(Math.random,7,14),isE:i%5===0})),[active]);
+  if(!active)return null;
+  return <div className="confetti-container">{p.map(x=>(
+    <div key={x.id} className="confetti-piece"
+      style={{left:`${x.left}%`,width:x.isE?'auto':x.size,height:x.isE?'auto':x.size,
+        fontSize:x.isE?x.size+6:undefined,borderRadius:x.isE?undefined:(x.id%2?'50%':'3px'),
+        background:x.isE?'none':x.color,animationDuration:`${x.dur}ms`,animationDelay:`${x.delay}ms`}}>
+      {x.isE?['🌸','👑','💖','⭐','🦋'][x.id%5]:null}
+    </div>))}</div>;
+}
+
+function Mascot({mood,stamp}){
+  const face=mood==='oops'?'😯':'👸';
+  return(
+    <div key={stamp} className={`mascot-corner ${mood!=='idle'?mood:''}`} aria-hidden="true">
+      <span className="mascot-emoji">{face}</span>
+    </div>
+  );
+}
+function useMascot(){
+  const [mood,setMood]=useState('idle');
+  const [stamp,setStamp]=useState(0);
+  const tRef=useRef(null);
+  const trigger=useCallback((m,ms)=>{clearTimeout(tRef.current);setMood(m);setStamp(x=>x+1);if(ms)tRef.current=setTimeout(()=>setMood('idle'),ms);},[]);
+  useEffect(()=>()=>clearTimeout(tRef.current),[]);
+  return{mood,stamp,happy:useCallback(()=>trigger('happy',2400),[trigger]),oops:useCallback(()=>trigger('oops',1000),[trigger])};
+}
+
+function FlowerGarden({flowers}){
+  return(
+    <div className="flower-garden" aria-label={`${flowers} of 10 flowers collected`}>
+      {Array.from({length:10},(_,i)=>(
+        <span key={i} className={`flower-slot ${i<flowers?'filled':'empty'}`}>
+          {i<flowers?['🌸','🌼','🌷','🌺','💖'][i%5]:'·'}
+        </span>))}
+    </div>
+  );
+}
+function ScoreRow({score,flowers,bouquets,gardenFull}){
+  return(
+    <div className="score-row">
+      <div className="score-badge"><span role="img" aria-label="star">⭐</span><span>{score}</span></div>
+      <FlowerGarden flowers={flowers}/>
+      <div className="score-badge" aria-label={`${bouquets} bouquets collected`}>💐<span>{bouquets}</span></div>
+      {gardenFull&&<div className="garden-full-badge">Garden full! +1 💐</div>}
+    </div>
+  );
+}
+function useFlowerReward(setFlowers,setGardenFull,addBouquet){
+  return useCallback(()=>{
+    setFlowers(f=>{
+      if(f+1>=10){
+        setGardenFull(true);
+        setTimeout(()=>{Sound.fanfare();},300);
+        setTimeout(()=>{setGardenFull(false);setFlowers(0);addBouquet();},2100);
+        return 10;
+      }
+      return f+1;
+    });
+  },[setFlowers,setGardenFull,addBouquet]);
+}
+
+/* Painted chrome, not emoji. A bare 🔊/🔇 is drawn by the operating system -- grey metal
+   on macOS, a different shape again on the iPad -- so it never matched the app it sat in
+   and never looked the same twice. These inherit `currentColor`, so they take the button's
+   own pink without a second asset. Same two icons Space Math already uses. */
+function SpeakerOnIcon(){return(<svg className="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor" stroke="none"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 6a9 9 0 0 1 0 12"/></svg>);}
+function SpeakerOffIcon(){return(<svg className="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor" stroke="none"/><line x1="16" y1="9" x2="22" y2="15"/><line x1="22" y1="9" x2="16" y2="15"/></svg>);}
+
+/* THE ABC HEAD. The third of the five talking heads, and the one whose face is literally
+   the subject of this game -- an A on his crown and ABC on his chin. Built by
+   `tools/make-talking-robot.py` from the same intake as the maths robots, so he is the
+   same character family in the same light; the sources and recipe are in the sidecar at
+   art-source/math-app/talking-robots-2026-08-27.
+
+   He is blue and white in a pink app, deliberately: he is a visitor who reads to you, not
+   part of the furniture, and the two maths apps each keep their own head for the same
+   reason. */
+function RobotReader({speaking}){
+  return(
+    <span className={`rb-robot ${speaking?'talking':''}`} aria-hidden="true">
+      <img className="rb-still" src="assets-runtime/spelling/icons/robot-reader.webp" alt=""/>
+      <img className="rb-talk" src="assets-runtime/spelling/icons/robot-reader-talk.webp" alt=""/>
+    </span>
+  );
+}
+/* ONE TOKEN PER TAP, and only the current tap may stop the mouth. `speechSynthesis.cancel()`
+   fires `end` on the utterance it is cancelling, so without this the SECOND tap starts the
+   animation and is then killed a tick later by the FIRST tap's end event -- the robot moved
+   once per session and never again, which is the opposite of how a child uses him. */
+function useReader(){
+  const [speaking,setSpeaking]=useState(false);
+  const t=useRef(0);
+  const gen=useRef(0);
+  const audio=useRef(null);
+  useEffect(()=>()=>{clearTimeout(t.current);try{audio.current&&audio.current.pause();}catch(e){}},[]);
+  const stop=useCallback(()=>{clearTimeout(t.current);setSpeaking(false);},[]);
+  /* THE MOUTH STARTS ON THE TAP, NOT ON THE ENGINE'S `onstart`. Driving it from onstart
+     reads better on paper and fails in practice: Chrome never fires it while the document
+     is hidden (the utterance sits queued with speaking===true), and iOS Safari drops
+     utterances outright. A robot that stays still when a child taps him reads as broken,
+     which is far worse than one who mouths a beat past the voice. With a rendered clip
+     the audio's own `ended` stops him early; the timeout stays as the net under both. */
+  const say=useCallback(text=>{
+    const mine=++gen.current;
+    Sound.tap();
+    clearTimeout(t.current);
+    try{audio.current&&audio.current.pause();}catch(e){}
+    const stopMine=()=>{if(gen.current===mine)stop();};
+    setSpeaking(true);
+    t.current=setTimeout(stopMine,Math.max(2400,text.length*110+900));
+    const fallback=()=>Voice.say(text,0.85,on=>{if(!on)stopMine();});
+    const u=Clips.url(text);
+    if(u){
+      const a=new Audio(u); audio.current=a;
+      a.onended=stopMine; a.onerror=()=>{stopMine();fallback();};
+      a.play().catch(fallback);
+    } else fallback();
+  },[stop]);
+  return{speaking,say};
+}
+
+function TopBar({onBack,label,muted,onToggleMute}){
+  return(
+    <div className="top-bar">
+      <div style={{display:'flex',alignItems:'center',gap:6}}>
+        <span aria-hidden="true" style={{fontSize:26,lineHeight:1}}>🌸</span>
+        <button className="round-btn" aria-label="Back" onClick={()=>{Sound.tap();onBack();}}>←</button>
+      </div>
+      {label&&<div className="bar-label">{label}</div>}
+      <button className="round-btn" aria-label={muted?'Unmute':'Mute'} onClick={onToggleMute}>{muted?<SpeakerOffIcon/>:<SpeakerOnIcon/>}</button>
+    </div>
+  );
+}
+
+function Stars({n,total}){
+  return <span className="pack-stars" aria-label={`${n} of ${total} stars`}>
+    {Array.from({length:total},(_,i)=>(
+      <span key={i} className={i<n?'star-on':'star-off'} aria-hidden="true">{i<n?'★':'☆'}</span>))}
+  </span>;
+}
+
+/* ══ HOME ══ */
+function Home({go,store}){
+  const title='Magic Spelling!'.split('');
+  return(
+    <div className="screen">
+      {/* The SAME arrow the child already knows: in a game it goes back to this screen,
+          here it goes one level further out, to the page the child came in from.
+          That page is Our Word Book, not Children Games. Spelling is one of the three
+          activities on /word-book/, and Children Games no longer has a Spelling card --
+          it has one Our Word Book card. An arrow left pointing at the main hub skipped a
+          level and dropped the child two rooms out from the one they were in, which is
+          the same fault Spelling Exam and Writing Book had in their own exits.
+          Absolute URL on purpose -- published, /magic-math/ and /word-book/ are
+          siblings, but in this repo word-book is a separate top-level folder, so a
+          relative link would work live and 404 in every local preview.
+          When this page moves into word-book (see word-book/index.html, the c-spell
+          card) this becomes a relative link and the label does not change. */}
+      <a className="round-btn hub-btn" href="https://veeranuchlee.github.io/word-book/" aria-label="Back to Our Word Book">&larr;</a>
+      <div className="home-crown-row">
+        <span className="home-crown" aria-hidden="true" style={{animation:'bounce 1.7s 0s ease-in-out infinite alternate'}}>👑</span>
+        <span className="home-crown" aria-hidden="true" style={{animation:'bounce 1.6s .12s ease-in-out infinite alternate'}}>🦄</span>
+      </div>
+      <div className="home-title">
+        {title.map((ch,i)=>(
+          <span key={i} style={{color:['#e91e63','#f06292','#9c27b0','#7b1fa2','#3f51b5','#2196f3','#00bcd4','#f9a825','#ff9800','#e91e63','#9c27b0','#f06292','#ffd54f','#ab47bc'][i%14],animationDelay:`${i*0.06}s`}}>{ch===' '?'\u00A0':ch}</span>))}
+      </div>
+      <div className="home-sub">Hear the word. Spell it!</div>
+      {store.bouquets>0&&<div className="trophy-line">💐 Bouquets collected: {store.bouquets}</div>}
+      <div className="mode-row">
+        {[1,2,3].map((g,i)=>(
+          <button key={g} className={`mode-card ${['mc-pink','mc-purple','mc-gold'][i]}`}
+            aria-label={`${GRADE_META[g].label}: ${gradeStars(store,g)} of ${UNIVERSE.grades[String(g)].length*3} stars`}
+            onClick={()=>{Sound.tap();go({s:'packs',g});}}>
+            <span className="mode-card-art" role="img" aria-label={GRADE_META[g].sub}>{GRADE_META[g].art}</span>
+            <span className="mode-card-label">{GRADE_META[g].label}</span>
+            <span className="mode-card-sub">{GRADE_META[g].sub}</span>
+            <Stars n={gradeStars(store,g)} total={3}/>
+          </button>
+        ))}
+      </div>
+      <div style={{marginTop:8,fontSize:44,lineHeight:1,filter:'drop-shadow(0 3px 8px rgba(173,20,87,.2))'}} aria-hidden="true">🌈</div>
+    </div>
+  );
+}
+function gradeStars(store,grade){
+  const packs=UNIVERSE.grades[String(grade)].length;
+  let n=0;
+  for(let i=0;i<packs;i++)n+=((store.stars&&store.stars[packId(grade,i)])||0);
+  return n;
+}
+
+/* ══ PACK PICKER ══ */
+function Packs({nav,grade,store,muted,onToggleMute}){
+  const packs=UNIVERSE.grades[String(grade)];
+  const meta=GRADE_META[grade];
+  return(
+    <div className="screen">
+      <TopBar onBack={()=>nav({s:'home'})} label={meta.label} muted={muted} onToggleMute={onToggleMute}/>
+      <div className="home-sub">Pick a pack!</div>
+      <div className="pack-grid" role="group" aria-label={`${meta.label} packs`}>
+        {packs.map((_,i)=>(
+          <button key={i} className={`pack-card ${['mc-pink','mc-purple','mc-gold'][i%3]}`}
+            aria-label={`Pack ${i+1}: ${((store.stars&&store.stars[packId(grade,i)])||0)} of 3 stars`}
+            onClick={()=>{Sound.tap();nav({s:'game',g:grade,p:i});}}>
+            <span className="pack-num">{i+1}</span>
+            <span className="pack-word">pack</span>
+            <Stars n={(store.stars&&store.stars[packId(grade,i)])||0} total={3}/>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ══ THE SPELL GAME ══ */
+function SpellGame({nav,grade,packIdx,shared}){
+  const words=UNIVERSE.grades[String(grade)][packIdx];
+  const [st,setSt]=useState(()=>initSession(words,Math.random));
+  const [fx,setFx]=useState({});
+  const [banner,setBanner]=useState('');
+  const [confetti,setConfetti]=useState(false);
+  const reader=useReader();
+  const mascot=useMascot();
+  const stRef=useRef(st); stRef.current=st;
+
+  /* Speak each new word once it lands -- the robot, so his mouth moves. The delay keeps
+     the previous word's praise from colliding with the new question. */
+  useEffect(()=>{
+    if(st.celebrating||st.complete)return;
+    const id=setTimeout(()=>reader.say(lineFor(st.word,UNIVERSE.homophones)),350);
+    return ()=>clearTimeout(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[st.word,st.passNo,st.qi]);
+
+  /* The word is solved: the filled slots ARE the reveal, then praise, a flower, and the
+     next word. Stars are recorded when the FIRST pass ends; practice passes only re-ask. */
+  useEffect(()=>{
+    if(!st.celebrating)return;
+    Sound.celebrate();
+    const msg=praise();
+    setBanner(msg);
+    speakLine(msg,1);
+    mascot.happy();
+    setConfetti(true);
+    shared.reward();
+    shared.setScore(s=>s+1);
+    const id=setTimeout(()=>{setConfetti(false);setBanner('');setSt(s=>nextWord(s,Math.random));},1900);
+    return ()=>clearTimeout(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[st.celebrating,st.qi,st.word]);
+
+  /* A practice pass just started: say so, in words and in voice. */
+  useEffect(()=>{
+    if(!st.relearnPulse)return;
+    setBanner(PRACTICE_LINE);
+    speakLine(PRACTICE_LINE,1);
+    const id=setTimeout(()=>setBanner(''),2200);
+    return ()=>clearTimeout(id);
+  },[st.relearnPulse]);
+
+  /* The pack is finished: stars land in the store, three stars pay a bonus bouquet,
+     the fanfare and the star line play. */
+  useEffect(()=>{
+    if(!st.complete)return;
+    const id=packId(grade,packIdx);
+    const stars=st.stars;
+    shared.setStore(prev=>{
+      let next=recordPack(prev,id,stars);
+      if(stars===3)next=addBouquet(next);
+      return next;
+    });
+    Sound.fanfare();
+    speakLine(STAR_LINES[stars]||STAR_LINES[1],1);
+    mascot.happy();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[st.complete]);
+
+  const tap=(tileId)=>{
+    const {s,fx:f}=applyTap(stRef.current,tileId);
+    if(!f)return;
+    if(f.kind==='right'){
+      Sound.tap();
+      setSt(s);
+      setFx({[f.tile]:'right'});
+    }else if(f.kind==='autofill'){
+      Sound.ding();
+      setSt(s);
+      setFx({});
+    }else{
+      Sound.wrong();
+      mascot.oops();
+      setSt(s);
+      setFx({[f.tile]:'wrong'});
+      setTimeout(()=>setFx({}),400);
+    }
+  };
+
+  if(st.complete){
+    return(
+      <div className="screen">
+        <Confetti active/>
+        <div className="complete-overlay" role="dialog" aria-label="Pack complete">
+          <div className="complete-stars">
+            {[1,2,3].map(i=>(
+              <span key={i} className={i<=st.stars?'':'off'} style={{animationDelay:`${i*0.18}s`}}>
+                {i<=st.stars?'⭐':'☆'}
+              </span>))}
+          </div>
+          <div className="complete-title">Pack {packIdx+1} complete!</div>
+          <div className="complete-sub">{GRADE_META[grade].label} · {st.stars===3?'Perfect spelling!':st.stars===2?'Almost perfect!':'You did it!'}</div>
+          <div className="complete-btn-row">
+            <button className="big-btn" onClick={()=>{Sound.tap();setSt(initSession(words,Math.random));}}>Play again</button>
+            {packIdx+1<UNIVERSE.grades[String(grade)].length&&
+              <button className="big-btn alt" onClick={()=>{Sound.tap();nav({s:'game',g:grade,p:packIdx+1});}}>Next pack →</button>}
+            <button className="big-btn alt" onClick={()=>{Sound.tap();nav({s:'packs',g:grade});}}>All packs</button>
+          </div>
+        </div>
+        <ScoreRow {...shared.scoreProps}/>
+      </div>
+    );
+  }
+
+  const need=st.word[st.filled];
+  return(
+    <div className="screen">
+      <TopBar onBack={()=>nav({s:'packs',g:grade})} label={`Pack ${packIdx+1} · ${st.qi+1}/${st.q.length}`} muted={shared.muted} onToggleMute={shared.toggleMute}/>
+      <div className="read-row">
+        <button className="speak-btn" aria-label="Say the word again" onClick={()=>reader.say(lineFor(st.word,UNIVERSE.homophones))}><RobotReader speaking={reader.speaking}/></button>
+        <div className="prompt-bubble">Spell the word!</div>
+      </div>
+      <div className={`slot-row ${st.word.length>=8?'long':''}`} aria-label="Word so far">
+        {st.word.split('').map((c,i)=>(
+          <div key={i} className={`slot ${i<st.filled?'filled':''}`}>{i<st.filled?st.word[i]:''}</div>))}
+      </div>
+      <div className="praise-banner">{banner}</div>
+      <div className={`tile-row ${st.tiles.length>=12?'dense':''}`}>
+        {st.tiles.map((t,i)=>(
+          <button key={t.id} className={`tile t${i%4} ${st.used.includes(t.id)?'used':''} ${fx[t.id]||''} ${st.hint&&t.c===need&&!st.used.includes(t.id)?'hint':''}`}
+            aria-label={`letter ${t.c}`}
+            onClick={()=>tap(t.id)}>{t.c}</button>))}
+      </div>
+      <Mascot mood={mascot.mood} stamp={mascot.stamp}/>
+      <Confetti active={confetti}/>
+      <ScoreRow {...shared.scoreProps}/>
+    </div>
+  );
+}
+
+/* ══ APP ══ */
+function App(){
+  const [nav,setNav]=useState({s:'home'});
+  const [score,setScore]=useState(0);
+  const [flowers,setFlowers]=useState(0);
+  const [gardenFull,setGardenFull]=useState(false);
+  const [muted,setMuted]=useState(false);
+  const [store,setStore]=useState(()=>{
+    try{const raw=JSON.parse(localStorage.getItem(STORE_KEY));if(raw&&typeof raw==='object')return {...defaultState(),...raw};}catch(e){}
+    return defaultState();
+  });
+  /* Progress survives the app being closed: pack stars and bouquets are the long game,
+     while score, flowers and the garden reset per session, as they always did. */
+  useEffect(()=>{try{localStorage.setItem(STORE_KEY,JSON.stringify(store));}catch(e){}},[store]);
+
+  const addBouquet=useCallback(()=>setStore(s=>({...s,bouquets:(s.bouquets||0)+1})),[]);
+  const reward=useFlowerReward(setFlowers,setGardenFull,addBouquet);
+  const toggleMute=()=>{
+    setMuted(m=>{const nm=!m;Sound.setMuted(nm);Voice.setMuted(nm);try{_lineAudio&&_lineAudio.pause();}catch(e){}if(!nm)Sound.tap();return nm;});
+  };
+
+  const shared={
+    reward,setScore,setStore,muted,toggleMute,
+    scoreProps:{score,flowers,bouquets:store.bouquets||0,gardenFull},
+  };
+
+  return(
+    <React.Fragment>
+      <div className="app-bg"/>
+      <BgDeco/>
+      {nav.s==='home'&&<Home go={setNav} store={store}/>}
+      {nav.s==='packs'&&<Packs nav={setNav} grade={nav.g} store={store} muted={muted} onToggleMute={toggleMute}/>}
+      {nav.s==='game'&&<SpellGame key={nav.g+'-'+nav.p} nav={setNav} grade={nav.g} packIdx={nav.p} shared={shared}/>}
+    </React.Fragment>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+<script>
+  /* Offline support. Registration is best-effort: opened straight from a file
+     the browser refuses it, and the games must still run. */
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('./service-worker.js').catch(function () {});
+    });
+  }
+</script>
+  <script>
+  /* Pinch-zoom guard. iOS Safari ignores user-scalable=no (since iOS 10), so this is
+     the only thing that stops two small hands zooming the page mid-play. gesturestart
+     fires once per pinch; preventing it cancels the zoom and touches nothing else.
+     Other browsers never fire it, so this is inert there. */
+  document.addEventListener("gesturestart", function (e) { e.preventDefault(); }, { passive: false });
+  </script>
+  </body>
+</html>
