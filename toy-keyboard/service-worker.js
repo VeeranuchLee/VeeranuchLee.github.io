@@ -65,9 +65,15 @@
  *               the stage's height so a landscape iPad no longer spills them
  *               over the ribbon. Unpublished, so no second bump -- the same
  *               reasoning as the v5 note above.
+ *   v7  2026-09-15  Touch hygiene across 13 apps (#625): a child's drag is not a
+ *               selection and a pinch is not a zoom. (Reconstructed from 0fbb4d5a;
+ *               this note had stopped at v6.)
+ *   v8  2026-09-16  The back arrow moves from the Test Hub to the Music hub
+ *               (children-apps/music.html), because the app is promoted there and
+ *               its Test Hub card is removed. index.html only; no new shell file.
  */
 
-const CACHE_NAME = "toy-keyboard-v7";
+const CACHE_NAME = "toy-keyboard-v8";
 
 const SHELL = [
   "./",

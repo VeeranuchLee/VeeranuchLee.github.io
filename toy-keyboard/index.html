@@ -33,11 +33,15 @@
            There are four screens now, and an arrow that lives on one of them is no way out of
            the other three — the exact fault the 2026-09-10 entry fixed. So it moved up here
            into the chrome, where it is reachable from every toy.
-           Its DESTINATION has not changed and must not: /test-apps/, not the main hub. The
-           owner says this app "will soon promote to the main hub" and that promotion has not
-           happened; an arrow pointing at a hub before the card moves has exposed a hub before.
-           It keeps `hub-btn` so the promotion check greps a class and not a URL. -->
-      <a id="hub" class="hub-btn" href="https://veeranuchlee.github.io/test-apps/" aria-label="Back to Test Apps">←</a>
+           Until 2026-09-16 it pointed at /test-apps/, because the card had not yet moved.
+           Owner, 2026-09-16: "since we already put toy keyboard in main hub, pls remove from
+           test hub." The card is on the Music hub (site/children-apps/music.html) and the Test
+           Hub card is gone, so the arrow goes back to where a child opened the app from -- the
+           Music hub, not the front page. Left pointing at /test-apps/, it made the unlisted Test
+           Hub one tap from the children's hub, which is how the Test Hub was exposed for eight
+           days after the Writing Book promotion. It keeps `hub-btn` so the promotion check
+           greps a class and not a URL. -->
+      <a id="hub" class="hub-btn" href="https://veeranuchlee.github.io/children-apps/music.html" aria-label="Back to Music">←</a>
 
       <!-- Five physical toy models in the developmental order settled by the
            owner. Built from the toy definitions so each name has one home. -->
