@@ -1,0 +1,1190 @@
+{
+  "set": "mars-pilot",
+  "provenance": {
+    "REQUIRED_BEFORE_SHIPPING": "AUDIO-DIRECTION.md: tool, model, date and the prompt or voice. Filled at render time.",
+    "tool": "ElevenLabs API /v1/text-to-speech",
+    "voiceId": "b1nETcsssv4YQrki3NcR",
+    "voiceName": "Storybook Narrator (solar-storybook narrator, Voice Design)",
+    "voiceNote": "Reused from solar-storybook/narration/voices.json (narrator). Nothing in solar-storybook is read or changed by this.",
+    "termsCheckedForPublicRedistribution": true,
+    "model": "eleven_multilingual_v2",
+    "renderedOn": "2026-09-16"
+  },
+  "pages": [
+    {
+      "id": "p01",
+      "title": "Meet Mars",
+      "art": {
+        "src": "assets/p01.webp",
+        "backdrop": "#11131b"
+      },
+      "sentences": [
+        {
+          "n": 1,
+          "text": "This is Mars.",
+          "words": [
+            {
+              "display": "This",
+              "word": "this",
+              "clip": {
+                "id": "w-this",
+                "ok": true,
+                "renderedFrom": "This.",
+                "ledger": "This.",
+                "src": "assets-runtime/narration/w-this.m4a",
+                "speechText": "This."
+              },
+              "alt": null
+            },
+            {
+              "display": "is",
+              "word": "is",
+              "clip": {
+                "id": "w-is",
+                "ok": true,
+                "renderedFrom": "is.",
+                "ledger": "is.",
+                "src": "assets-runtime/narration/w-is.m4a",
+                "speechText": "is."
+              },
+              "alt": null
+            },
+            {
+              "display": "Mars.",
+              "word": "mars",
+              "clip": {
+                "id": "w-mars",
+                "ok": true,
+                "renderedFrom": "Mars.",
+                "ledger": "Mars.",
+                "src": "assets-runtime/narration/w-mars.m4a",
+                "risk": "Proper noun, and the book's subject. Must not drift toward a Latin/Spanish 'marce'.",
+                "speechText": "Mars."
+              },
+              "alt": {
+                "id": "alt-mars",
+                "ok": true,
+                "renderedFrom": "mars",
+                "ledger": "mars",
+                "src": "assets-runtime/narration/alt-mars.m4a"
+              }
+            }
+          ],
+          "clip": {
+            "id": "s-p01-1",
+            "ok": true,
+            "renderedFrom": "This is Mars.",
+            "ledger": "This is Mars.",
+            "src": "assets-runtime/narration/s-p01-1.m4a"
+          }
+        },
+        {
+          "n": 2,
+          "text": "Mars is the fourth planet from the Sun.",
+          "words": [
+            {
+              "display": "Mars",
+              "word": "mars",
+              "clip": {
+                "id": "w-mars",
+                "ok": true,
+                "renderedFrom": "Mars.",
+                "ledger": "Mars.",
+                "src": "assets-runtime/narration/w-mars.m4a",
+                "risk": "Proper noun, and the book's subject. Must not drift toward a Latin/Spanish 'marce'.",
+                "speechText": "Mars."
+              },
+              "alt": {
+                "id": "alt-mars",
+                "ok": true,
+                "renderedFrom": "mars",
+                "ledger": "mars",
+                "src": "assets-runtime/narration/alt-mars.m4a"
+              }
+            },
+            {
+              "display": "is",
+              "word": "is",
+              "clip": {
+                "id": "w-is",
+                "ok": true,
+                "renderedFrom": "is.",
+                "ledger": "is.",
+                "src": "assets-runtime/narration/w-is.m4a",
+                "speechText": "is."
+              },
+              "alt": null
+            },
+            {
+              "display": "the",
+              "word": "the",
+              "clip": {
+                "id": "w-the",
+                "ok": true,
+                "renderedFrom": "The.",
+                "ledger": "The.",
+                "src": "assets-runtime/narration/w-the.m4a",
+                "speechText": "The."
+              },
+              "alt": null
+            },
+            {
+              "display": "fourth",
+              "word": "fourth",
+              "clip": {
+                "id": "w-fourth",
+                "ok": true,
+                "renderedFrom": "fourth.",
+                "ledger": "fourth.",
+                "src": "assets-runtime/narration/w-fourth.m4a",
+                "speechText": "fourth."
+              },
+              "alt": null
+            },
+            {
+              "display": "planet",
+              "word": "planet",
+              "clip": {
+                "id": "w-planet",
+                "ok": true,
+                "renderedFrom": "Planet.",
+                "ledger": "Planet.",
+                "src": "assets-runtime/narration/w-planet.m4a",
+                "risk": "Common noun, but capitalised on p02 as part of the name 'Red Planet'.",
+                "speechText": "Planet."
+              },
+              "alt": {
+                "id": "alt-planet",
+                "ok": true,
+                "renderedFrom": "planet",
+                "ledger": "planet",
+                "src": "assets-runtime/narration/alt-planet.m4a"
+              }
+            },
+            {
+              "display": "from",
+              "word": "from",
+              "clip": {
+                "id": "w-from",
+                "ok": true,
+                "renderedFrom": "from.",
+                "ledger": "from.",
+                "src": "assets-runtime/narration/w-from.m4a",
+                "speechText": "from."
+              },
+              "alt": null
+            },
+            {
+              "display": "the",
+              "word": "the",
+              "clip": {
+                "id": "w-the",
+                "ok": true,
+                "renderedFrom": "The.",
+                "ledger": "The.",
+                "src": "assets-runtime/narration/w-the.m4a",
+                "speechText": "The."
+              },
+              "alt": null
+            },
+            {
+              "display": "Sun.",
+              "word": "sun",
+              "clip": {
+                "id": "w-sun",
+                "ok": true,
+                "renderedFrom": "Sun!",
+                "ledger": "Sun!",
+                "src": "assets-runtime/narration/w-sun.m4a",
+                "risk": "PROVEN: bare 'Sun' shipped as /suːn/ ('soon') on 2026-09-15. Confirm the /sʌn/ vowel.",
+                "speechText": "Sun!"
+              },
+              "alt": {
+                "id": "alt-sun",
+                "ok": true,
+                "renderedFrom": "sun",
+                "ledger": "sun",
+                "src": "assets-runtime/narration/alt-sun.m4a"
+              }
+            }
+          ],
+          "clip": {
+            "id": "s-p01-2",
+            "ok": true,
+            "renderedFrom": "Mars is the fourth planet from the Sun.",
+            "ledger": "Mars is the fourth planet from the Sun.",
+            "src": "assets-runtime/narration/s-p01-2.m4a"
+          }
+        },
+        {
+          "n": 3,
+          "text": "It is a cold, rocky world.",
+          "words": [
+            {
+              "display": "It",
+              "word": "it",
+              "clip": {
+                "id": "w-it",
+                "ok": true,
+                "renderedFrom": "It.",
+                "ledger": "It.",
+                "src": "assets-runtime/narration/w-it.m4a",
+                "speechText": "It."
+              },
+              "alt": null
+            },
+            {
+              "display": "is",
+              "word": "is",
+              "clip": {
+                "id": "w-is",
+                "ok": true,
+                "renderedFrom": "is.",
+                "ledger": "is.",
+                "src": "assets-runtime/narration/w-is.m4a",
+                "speechText": "is."
+              },
+              "alt": null
+            },
+            {
+              "display": "a",
+              "word": "a",
+              "clip": {
+                "id": "w-a",
+                "ok": true,
+                "renderedFrom": "a.",
+                "ledger": "a.",
+                "src": "assets-runtime/narration/w-a.m4a",
+                "speechText": "a."
+              },
+              "alt": null
+            },
+            {
+              "display": "cold,",
+              "word": "cold",
+              "clip": {
+                "id": "w-cold",
+                "ok": true,
+                "renderedFrom": "cold.",
+                "ledger": "cold.",
+                "src": "assets-runtime/narration/w-cold.m4a",
+                "speechText": "cold."
+              },
+              "alt": null
+            },
+            {
+              "display": "rocky",
+              "word": "rocky",
+              "clip": {
+                "id": "w-rocky",
+                "ok": true,
+                "renderedFrom": "rocky.",
+                "ledger": "rocky.",
+                "src": "assets-runtime/narration/w-rocky.m4a",
+                "speechText": "rocky."
+              },
+              "alt": null
+            },
+            {
+              "display": "world.",
+              "word": "world",
+              "clip": {
+                "id": "w-world",
+                "ok": true,
+                "renderedFrom": "world.",
+                "ledger": "world.",
+                "src": "assets-runtime/narration/w-world.m4a",
+                "speechText": "world."
+              },
+              "alt": null
+            }
+          ],
+          "clip": {
+            "id": "s-p01-3",
+            "ok": true,
+            "renderedFrom": "It is a cold, rocky world.",
+            "ledger": "It is a cold, rocky world.",
+            "src": "assets-runtime/narration/s-p01-3.m4a"
+          }
+        }
+      ]
+    },
+    {
+      "id": "p02",
+      "title": "Why Is Mars Red?",
+      "art": {
+        "src": "assets/p02.webp",
+        "backdrop": "#e0925f"
+      },
+      "sentences": [
+        {
+          "n": 1,
+          "text": "Mars is called the Red Planet.",
+          "words": [
+            {
+              "display": "Mars",
+              "word": "mars",
+              "clip": {
+                "id": "w-mars",
+                "ok": true,
+                "renderedFrom": "Mars.",
+                "ledger": "Mars.",
+                "src": "assets-runtime/narration/w-mars.m4a",
+                "risk": "Proper noun, and the book's subject. Must not drift toward a Latin/Spanish 'marce'.",
+                "speechText": "Mars."
+              },
+              "alt": {
+                "id": "alt-mars",
+                "ok": true,
+                "renderedFrom": "mars",
+                "ledger": "mars",
+                "src": "assets-runtime/narration/alt-mars.m4a"
+              }
+            },
+            {
+              "display": "is",
+              "word": "is",
+              "clip": {
+                "id": "w-is",
+                "ok": true,
+                "renderedFrom": "is.",
+                "ledger": "is.",
+                "src": "assets-runtime/narration/w-is.m4a",
+                "speechText": "is."
+              },
+              "alt": null
+            },
+            {
+              "display": "called",
+              "word": "called",
+              "clip": {
+                "id": "w-called",
+                "ok": true,
+                "renderedFrom": "called.",
+                "ledger": "called.",
+                "src": "assets-runtime/narration/w-called.m4a",
+                "speechText": "called."
+              },
+              "alt": null
+            },
+            {
+              "display": "the",
+              "word": "the",
+              "clip": {
+                "id": "w-the",
+                "ok": true,
+                "renderedFrom": "The.",
+                "ledger": "The.",
+                "src": "assets-runtime/narration/w-the.m4a",
+                "speechText": "The."
+              },
+              "alt": null
+            },
+            {
+              "display": "Red",
+              "word": "red",
+              "clip": {
+                "id": "w-red",
+                "ok": true,
+                "renderedFrom": "Red.",
+                "ledger": "Red.",
+                "src": "assets-runtime/narration/w-red.m4a",
+                "risk": "Short bare word; the shape most exposed to the /suːn/ failure mode.",
+                "speechText": "Red."
+              },
+              "alt": {
+                "id": "alt-red",
+                "ok": true,
+                "renderedFrom": "red",
+                "ledger": "red",
+                "src": "assets-runtime/narration/alt-red.m4a"
+              }
+            },
+            {
+              "display": "Planet.",
+              "word": "planet",
+              "clip": {
+                "id": "w-planet",
+                "ok": true,
+                "renderedFrom": "Planet.",
+                "ledger": "Planet.",
+                "src": "assets-runtime/narration/w-planet.m4a",
+                "risk": "Common noun, but capitalised on p02 as part of the name 'Red Planet'.",
+                "speechText": "Planet."
+              },
+              "alt": {
+                "id": "alt-planet",
+                "ok": true,
+                "renderedFrom": "planet",
+                "ledger": "planet",
+                "src": "assets-runtime/narration/alt-planet.m4a"
+              }
+            }
+          ],
+          "clip": {
+            "id": "s-p02-1",
+            "ok": true,
+            "renderedFrom": "Mars is called the Red Planet.",
+            "ledger": "Mars is called the Red Planet.",
+            "src": "assets-runtime/narration/s-p02-1.m4a"
+          }
+        },
+        {
+          "n": 2,
+          "text": "There is iron in its rocks and dust.",
+          "words": [
+            {
+              "display": "There",
+              "word": "there",
+              "clip": {
+                "id": "w-there",
+                "ok": true,
+                "renderedFrom": "There.",
+                "ledger": "There.",
+                "src": "assets-runtime/narration/w-there.m4a",
+                "speechText": "There."
+              },
+              "alt": null
+            },
+            {
+              "display": "is",
+              "word": "is",
+              "clip": {
+                "id": "w-is",
+                "ok": true,
+                "renderedFrom": "is.",
+                "ledger": "is.",
+                "src": "assets-runtime/narration/w-is.m4a",
+                "speechText": "is."
+              },
+              "alt": null
+            },
+            {
+              "display": "iron",
+              "word": "iron",
+              "clip": {
+                "id": "w-iron",
+                "ok": true,
+                "renderedFrom": "iron.",
+                "ledger": "iron.",
+                "src": "assets-runtime/narration/w-iron.m4a",
+                "speechText": "iron."
+              },
+              "alt": null
+            },
+            {
+              "display": "in",
+              "word": "in",
+              "clip": {
+                "id": "w-in",
+                "ok": true,
+                "renderedFrom": "in.",
+                "ledger": "in.",
+                "src": "assets-runtime/narration/w-in.m4a",
+                "speechText": "in."
+              },
+              "alt": null
+            },
+            {
+              "display": "its",
+              "word": "its",
+              "clip": {
+                "id": "w-its",
+                "ok": true,
+                "renderedFrom": "its.",
+                "ledger": "its.",
+                "src": "assets-runtime/narration/w-its.m4a",
+                "speechText": "its."
+              },
+              "alt": null
+            },
+            {
+              "display": "rocks",
+              "word": "rocks",
+              "clip": {
+                "id": "w-rocks",
+                "ok": true,
+                "renderedFrom": "rocks.",
+                "ledger": "rocks.",
+                "src": "assets-runtime/narration/w-rocks.m4a",
+                "speechText": "rocks."
+              },
+              "alt": null
+            },
+            {
+              "display": "and",
+              "word": "and",
+              "clip": {
+                "id": "w-and",
+                "ok": true,
+                "renderedFrom": "and.",
+                "ledger": "and.",
+                "src": "assets-runtime/narration/w-and.m4a",
+                "speechText": "and."
+              },
+              "alt": null
+            },
+            {
+              "display": "dust.",
+              "word": "dust",
+              "clip": {
+                "id": "w-dust",
+                "ok": true,
+                "renderedFrom": "dust.",
+                "ledger": "dust.",
+                "src": "assets-runtime/narration/w-dust.m4a",
+                "speechText": "dust."
+              },
+              "alt": null
+            }
+          ],
+          "clip": {
+            "id": "s-p02-2",
+            "ok": true,
+            "renderedFrom": "There is iron in its rocks and dust.",
+            "ledger": "There is iron in its rocks and dust.",
+            "src": "assets-runtime/narration/s-p02-2.m4a"
+          }
+        },
+        {
+          "n": 3,
+          "text": "The iron has changed into rusty minerals, making Mars look red.",
+          "words": [
+            {
+              "display": "The",
+              "word": "the",
+              "clip": {
+                "id": "w-the",
+                "ok": true,
+                "renderedFrom": "The.",
+                "ledger": "The.",
+                "src": "assets-runtime/narration/w-the.m4a",
+                "speechText": "The."
+              },
+              "alt": null
+            },
+            {
+              "display": "iron",
+              "word": "iron",
+              "clip": {
+                "id": "w-iron",
+                "ok": true,
+                "renderedFrom": "iron.",
+                "ledger": "iron.",
+                "src": "assets-runtime/narration/w-iron.m4a",
+                "speechText": "iron."
+              },
+              "alt": null
+            },
+            {
+              "display": "has",
+              "word": "has",
+              "clip": {
+                "id": "w-has",
+                "ok": true,
+                "renderedFrom": "has.",
+                "ledger": "has.",
+                "src": "assets-runtime/narration/w-has.m4a",
+                "speechText": "has."
+              },
+              "alt": null
+            },
+            {
+              "display": "changed",
+              "word": "changed",
+              "clip": {
+                "id": "w-changed",
+                "ok": true,
+                "renderedFrom": "changed.",
+                "ledger": "changed.",
+                "src": "assets-runtime/narration/w-changed.m4a",
+                "speechText": "changed."
+              },
+              "alt": null
+            },
+            {
+              "display": "into",
+              "word": "into",
+              "clip": {
+                "id": "w-into",
+                "ok": true,
+                "renderedFrom": "into.",
+                "ledger": "into.",
+                "src": "assets-runtime/narration/w-into.m4a",
+                "speechText": "into."
+              },
+              "alt": null
+            },
+            {
+              "display": "rusty",
+              "word": "rusty",
+              "clip": {
+                "id": "w-rusty",
+                "ok": true,
+                "renderedFrom": "rusty.",
+                "ledger": "rusty.",
+                "src": "assets-runtime/narration/w-rusty.m4a",
+                "speechText": "rusty."
+              },
+              "alt": null
+            },
+            {
+              "display": "minerals,",
+              "word": "minerals",
+              "clip": {
+                "id": "w-minerals",
+                "ok": true,
+                "renderedFrom": "minerals.",
+                "ledger": "minerals.",
+                "src": "assets-runtime/narration/w-minerals.m4a",
+                "speechText": "minerals."
+              },
+              "alt": null
+            },
+            {
+              "display": "making",
+              "word": "making",
+              "clip": {
+                "id": "w-making",
+                "ok": true,
+                "renderedFrom": "making.",
+                "ledger": "making.",
+                "src": "assets-runtime/narration/w-making.m4a",
+                "speechText": "making."
+              },
+              "alt": null
+            },
+            {
+              "display": "Mars",
+              "word": "mars",
+              "clip": {
+                "id": "w-mars",
+                "ok": true,
+                "renderedFrom": "Mars.",
+                "ledger": "Mars.",
+                "src": "assets-runtime/narration/w-mars.m4a",
+                "risk": "Proper noun, and the book's subject. Must not drift toward a Latin/Spanish 'marce'.",
+                "speechText": "Mars."
+              },
+              "alt": {
+                "id": "alt-mars",
+                "ok": true,
+                "renderedFrom": "mars",
+                "ledger": "mars",
+                "src": "assets-runtime/narration/alt-mars.m4a"
+              }
+            },
+            {
+              "display": "look",
+              "word": "look",
+              "clip": {
+                "id": "w-look",
+                "ok": true,
+                "renderedFrom": "look.",
+                "ledger": "look.",
+                "src": "assets-runtime/narration/w-look.m4a",
+                "speechText": "look."
+              },
+              "alt": null
+            },
+            {
+              "display": "red.",
+              "word": "red",
+              "clip": {
+                "id": "w-red",
+                "ok": true,
+                "renderedFrom": "Red.",
+                "ledger": "Red.",
+                "src": "assets-runtime/narration/w-red.m4a",
+                "risk": "Short bare word; the shape most exposed to the /suːn/ failure mode.",
+                "speechText": "Red."
+              },
+              "alt": {
+                "id": "alt-red",
+                "ok": true,
+                "renderedFrom": "red",
+                "ledger": "red",
+                "src": "assets-runtime/narration/alt-red.m4a"
+              }
+            }
+          ],
+          "clip": {
+            "id": "s-p02-3",
+            "ok": true,
+            "renderedFrom": "The iron has changed into rusty minerals, making Mars look red.",
+            "ledger": "The iron has changed into rusty minerals, making Mars look red.",
+            "src": "assets-runtime/narration/s-p02-3.m4a"
+          }
+        }
+      ]
+    },
+    {
+      "id": "p14",
+      "title": "Meet Olympus Mons",
+      "art": {
+        "src": "assets/p14.webp",
+        "backdrop": "#714430"
+      },
+      "sentences": [
+        {
+          "n": 1,
+          "text": "This is Olympus Mons.",
+          "words": [
+            {
+              "display": "This",
+              "word": "this",
+              "clip": {
+                "id": "w-this",
+                "ok": true,
+                "renderedFrom": "This.",
+                "ledger": "This.",
+                "src": "assets-runtime/narration/w-this.m4a",
+                "speechText": "This."
+              },
+              "alt": null
+            },
+            {
+              "display": "is",
+              "word": "is",
+              "clip": {
+                "id": "w-is",
+                "ok": true,
+                "renderedFrom": "is.",
+                "ledger": "is.",
+                "src": "assets-runtime/narration/w-is.m4a",
+                "speechText": "is."
+              },
+              "alt": null
+            },
+            {
+              "display": "Olympus",
+              "word": "olympus",
+              "clip": {
+                "id": "w-olympus",
+                "ok": true,
+                "renderedFrom": "Olympus.",
+                "ledger": "Olympus.",
+                "src": "assets-runtime/narration/w-olympus.m4a",
+                "risk": "Greek-derived proper noun; confirm oh-LIM-pus, not a spelling read.",
+                "speechText": "Olympus."
+              },
+              "alt": {
+                "id": "alt-olympus",
+                "ok": true,
+                "renderedFrom": "olympus",
+                "ledger": "olympus",
+                "src": "assets-runtime/narration/alt-olympus.m4a"
+              }
+            },
+            {
+              "display": "Mons.",
+              "word": "mons",
+              "clip": {
+                "id": "w-mons",
+                "ok": true,
+                "renderedFrom": "Mons.",
+                "ledger": "Mons.",
+                "src": "assets-runtime/narration/w-mons.m4a",
+                "risk": "Latin. Bare, it can read as English 'monz' or as a French nasal; want 'monz' as in Olympus Mons.",
+                "speechText": "Mons."
+              },
+              "alt": {
+                "id": "alt-mons",
+                "ok": true,
+                "renderedFrom": "mons",
+                "ledger": "mons",
+                "src": "assets-runtime/narration/alt-mons.m4a"
+              }
+            }
+          ],
+          "clip": {
+            "id": "s-p14-1",
+            "ok": true,
+            "renderedFrom": "This is Olympus Mons.",
+            "ledger": "This is Olympus Mons.",
+            "src": "assets-runtime/narration/s-p14-1.m4a"
+          }
+        },
+        {
+          "n": 2,
+          "text": "It is the largest known volcano in the Solar System.",
+          "words": [
+            {
+              "display": "It",
+              "word": "it",
+              "clip": {
+                "id": "w-it",
+                "ok": true,
+                "renderedFrom": "It.",
+                "ledger": "It.",
+                "src": "assets-runtime/narration/w-it.m4a",
+                "speechText": "It."
+              },
+              "alt": null
+            },
+            {
+              "display": "is",
+              "word": "is",
+              "clip": {
+                "id": "w-is",
+                "ok": true,
+                "renderedFrom": "is.",
+                "ledger": "is.",
+                "src": "assets-runtime/narration/w-is.m4a",
+                "speechText": "is."
+              },
+              "alt": null
+            },
+            {
+              "display": "the",
+              "word": "the",
+              "clip": {
+                "id": "w-the",
+                "ok": true,
+                "renderedFrom": "The.",
+                "ledger": "The.",
+                "src": "assets-runtime/narration/w-the.m4a",
+                "speechText": "The."
+              },
+              "alt": null
+            },
+            {
+              "display": "largest",
+              "word": "largest",
+              "clip": {
+                "id": "w-largest",
+                "ok": true,
+                "renderedFrom": "largest.",
+                "ledger": "largest.",
+                "src": "assets-runtime/narration/w-largest.m4a",
+                "speechText": "largest."
+              },
+              "alt": null
+            },
+            {
+              "display": "known",
+              "word": "known",
+              "clip": {
+                "id": "w-known",
+                "ok": true,
+                "renderedFrom": "known.",
+                "ledger": "known.",
+                "src": "assets-runtime/narration/w-known.m4a",
+                "speechText": "known."
+              },
+              "alt": null
+            },
+            {
+              "display": "volcano",
+              "word": "volcano",
+              "clip": {
+                "id": "w-volcano",
+                "ok": true,
+                "renderedFrom": "volcano.",
+                "ledger": "volcano.",
+                "src": "assets-runtime/narration/w-volcano.m4a",
+                "speechText": "volcano."
+              },
+              "alt": null
+            },
+            {
+              "display": "in",
+              "word": "in",
+              "clip": {
+                "id": "w-in",
+                "ok": true,
+                "renderedFrom": "in.",
+                "ledger": "in.",
+                "src": "assets-runtime/narration/w-in.m4a",
+                "speechText": "in."
+              },
+              "alt": null
+            },
+            {
+              "display": "the",
+              "word": "the",
+              "clip": {
+                "id": "w-the",
+                "ok": true,
+                "renderedFrom": "The.",
+                "ledger": "The.",
+                "src": "assets-runtime/narration/w-the.m4a",
+                "speechText": "The."
+              },
+              "alt": null
+            },
+            {
+              "display": "Solar",
+              "word": "solar",
+              "clip": {
+                "id": "w-solar",
+                "ok": true,
+                "renderedFrom": "Solar.",
+                "ledger": "Solar.",
+                "src": "assets-runtime/narration/w-solar.m4a",
+                "risk": "Half of a proper name ('Solar System'); confirm SOH-lar, not 'sollar'.",
+                "speechText": "Solar."
+              },
+              "alt": {
+                "id": "alt-solar",
+                "ok": true,
+                "renderedFrom": "solar",
+                "ledger": "solar",
+                "src": "assets-runtime/narration/alt-solar.m4a"
+              }
+            },
+            {
+              "display": "System.",
+              "word": "system",
+              "clip": {
+                "id": "w-system",
+                "ok": true,
+                "renderedFrom": "System.",
+                "ledger": "System.",
+                "src": "assets-runtime/narration/w-system.m4a",
+                "risk": "The other half; bare it can pick up a list-item flatness.",
+                "speechText": "System."
+              },
+              "alt": {
+                "id": "alt-system",
+                "ok": true,
+                "renderedFrom": "system",
+                "ledger": "system",
+                "src": "assets-runtime/narration/alt-system.m4a"
+              }
+            }
+          ],
+          "clip": {
+            "id": "s-p14-2",
+            "ok": true,
+            "renderedFrom": "It is the largest known volcano in the Solar System.",
+            "ledger": "It is the largest known volcano in the Solar System.",
+            "src": "assets-runtime/narration/s-p14-2.m4a"
+          }
+        },
+        {
+          "n": 3,
+          "text": "It is so huge that we need to look from far above to see its shape.",
+          "words": [
+            {
+              "display": "It",
+              "word": "it",
+              "clip": {
+                "id": "w-it",
+                "ok": true,
+                "renderedFrom": "It.",
+                "ledger": "It.",
+                "src": "assets-runtime/narration/w-it.m4a",
+                "speechText": "It."
+              },
+              "alt": null
+            },
+            {
+              "display": "is",
+              "word": "is",
+              "clip": {
+                "id": "w-is",
+                "ok": true,
+                "renderedFrom": "is.",
+                "ledger": "is.",
+                "src": "assets-runtime/narration/w-is.m4a",
+                "speechText": "is."
+              },
+              "alt": null
+            },
+            {
+              "display": "so",
+              "word": "so",
+              "clip": {
+                "id": "w-so",
+                "ok": true,
+                "renderedFrom": "so.",
+                "ledger": "so.",
+                "src": "assets-runtime/narration/w-so.m4a",
+                "speechText": "so."
+              },
+              "alt": null
+            },
+            {
+              "display": "huge",
+              "word": "huge",
+              "clip": {
+                "id": "w-huge",
+                "ok": true,
+                "renderedFrom": "huge.",
+                "ledger": "huge.",
+                "src": "assets-runtime/narration/w-huge.m4a",
+                "speechText": "huge."
+              },
+              "alt": null
+            },
+            {
+              "display": "that",
+              "word": "that",
+              "clip": {
+                "id": "w-that",
+                "ok": true,
+                "renderedFrom": "that.",
+                "ledger": "that.",
+                "src": "assets-runtime/narration/w-that.m4a",
+                "speechText": "that."
+              },
+              "alt": null
+            },
+            {
+              "display": "we",
+              "word": "we",
+              "clip": {
+                "id": "w-we",
+                "ok": true,
+                "renderedFrom": "we.",
+                "ledger": "we.",
+                "src": "assets-runtime/narration/w-we.m4a",
+                "speechText": "we."
+              },
+              "alt": null
+            },
+            {
+              "display": "need",
+              "word": "need",
+              "clip": {
+                "id": "w-need",
+                "ok": true,
+                "renderedFrom": "need.",
+                "ledger": "need.",
+                "src": "assets-runtime/narration/w-need.m4a",
+                "speechText": "need."
+              },
+              "alt": null
+            },
+            {
+              "display": "to",
+              "word": "to",
+              "clip": {
+                "id": "w-to",
+                "ok": true,
+                "renderedFrom": "to.",
+                "ledger": "to.",
+                "src": "assets-runtime/narration/w-to.m4a",
+                "speechText": "to."
+              },
+              "alt": null
+            },
+            {
+              "display": "look",
+              "word": "look",
+              "clip": {
+                "id": "w-look",
+                "ok": true,
+                "renderedFrom": "look.",
+                "ledger": "look.",
+                "src": "assets-runtime/narration/w-look.m4a",
+                "speechText": "look."
+              },
+              "alt": null
+            },
+            {
+              "display": "from",
+              "word": "from",
+              "clip": {
+                "id": "w-from",
+                "ok": true,
+                "renderedFrom": "from.",
+                "ledger": "from.",
+                "src": "assets-runtime/narration/w-from.m4a",
+                "speechText": "from."
+              },
+              "alt": null
+            },
+            {
+              "display": "far",
+              "word": "far",
+              "clip": {
+                "id": "w-far",
+                "ok": true,
+                "renderedFrom": "far.",
+                "ledger": "far.",
+                "src": "assets-runtime/narration/w-far.m4a",
+                "speechText": "far."
+              },
+              "alt": null
+            },
+            {
+              "display": "above",
+              "word": "above",
+              "clip": {
+                "id": "w-above",
+                "ok": true,
+                "renderedFrom": "above.",
+                "ledger": "above.",
+                "src": "assets-runtime/narration/w-above.m4a",
+                "speechText": "above."
+              },
+              "alt": null
+            },
+            {
+              "display": "to",
+              "word": "to",
+              "clip": {
+                "id": "w-to",
+                "ok": true,
+                "renderedFrom": "to.",
+                "ledger": "to.",
+                "src": "assets-runtime/narration/w-to.m4a",
+                "speechText": "to."
+              },
+              "alt": null
+            },
+            {
+              "display": "see",
+              "word": "see",
+              "clip": {
+                "id": "w-see",
+                "ok": true,
+                "renderedFrom": "see.",
+                "ledger": "see.",
+                "src": "assets-runtime/narration/w-see.m4a",
+                "speechText": "see."
+              },
+              "alt": null
+            },
+            {
+              "display": "its",
+              "word": "its",
+              "clip": {
+                "id": "w-its",
+                "ok": true,
+                "renderedFrom": "its.",
+                "ledger": "its.",
+                "src": "assets-runtime/narration/w-its.m4a",
+                "speechText": "its."
+              },
+              "alt": null
+            },
+            {
+              "display": "shape.",
+              "word": "shape",
+              "clip": {
+                "id": "w-shape",
+                "ok": true,
+                "renderedFrom": "shape.",
+                "ledger": "shape.",
+                "src": "assets-runtime/narration/w-shape.m4a",
+                "speechText": "shape."
+              },
+              "alt": null
+            }
+          ],
+          "clip": {
+            "id": "s-p14-3",
+            "ok": true,
+            "renderedFrom": "It is so huge that we need to look from far above to see its shape.",
+            "ledger": "It is so huge that we need to look from far above to see its shape.",
+            "src": "assets-runtime/narration/s-p14-3.m4a"
+          }
+        }
+      ]
+    }
+  ],
+  "builtFrom": "pages.js (the owner's MARS_BOOK_PAGES, verbatim)"
+}

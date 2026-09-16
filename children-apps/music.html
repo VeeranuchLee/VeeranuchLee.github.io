@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Music — Children Games</title>
+  <meta name="description" content="Music for children — listen and guess with Classical Music, or play and make music on the Toy Keyboard."/>
+  <link rel="stylesheet" href="./fonts.css"/>
+  <meta name="theme-color" content="#f7d9ec"/>
+  <link rel="apple-touch-icon" href="./assets/app-192.png"/>
+  <link rel="icon" href="./assets/app-192.png"/>
+  <style>
+
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    :root{
+      --ink:#3b2a52;
+      --ink-soft:#6b5a84;
+      --card:#ffffff;
+      --radius:30px;
+    }
+
+    html{-webkit-text-size-adjust:100%}
+
+    body{
+      font-family:'Nunito',system-ui,sans-serif;
+      color:var(--ink);
+      min-height:100svh;
+      background:
+        radial-gradient(1100px 620px at 12% -8%,  #ffe1f2 0%, rgba(255,225,242,0) 62%),
+        radial-gradient(980px  560px at 90% 4%,   #dfeaff 0%, rgba(223,234,255,0) 60%),
+        radial-gradient(900px  620px at 50% 108%, #e5fbf1 0%, rgba(229,251,241,0) 62%),
+        linear-gradient(170deg,#fdf6ff 0%,#f3f6ff 52%,#fdf8f4 100%);
+      background-attachment:fixed;
+      padding:
+        calc(28px + env(safe-area-inset-top)) 20px
+        calc(28px + env(safe-area-inset-bottom));
+    }
+
+    /* Soft floating shapes. Purely decorative, and cheap: three blurred circles. */
+    .sky{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+    .sky i{position:absolute;border-radius:50%;filter:blur(46px);opacity:.5}
+    .sky i:nth-child(1){width:280px;height:280px;left:-70px;top:16%;background:#ffc9e6}
+    .sky i:nth-child(2){width:330px;height:330px;right:-90px;top:44%;background:#c9dcff}
+    .sky i:nth-child(3){width:240px;height:240px;left:38%;bottom:-90px;background:#c8f2dd}
+
+    .wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto}
+
+    header{text-align:center;margin-bottom:30px}
+    h1{
+      font-family:'Fredoka One','Nunito',sans-serif;
+      font-weight:400;
+      font-size:clamp(2rem,7vw,3.4rem);
+      line-height:1.1;
+      letter-spacing:.5px;
+      color:#4a3168;
+      text-shadow:0 3px 0 rgba(255,255,255,.9);
+    }
+    h1 em{font-style:normal;color:#e5559a}
+    .tagline{
+      margin-top:10px;font-weight:800;font-size:clamp(.95rem,2.6vw,1.15rem);
+      color:var(--ink-soft);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:20px;
+    }
+
+    .card{
+      position:relative;
+      display:flex;flex-direction:column;align-items:center;text-align:center;
+      gap:12px;
+      padding:26px 18px 22px;
+      min-height:250px;
+      border-radius:var(--radius);
+      background:var(--card);
+      text-decoration:none;color:var(--ink);
+      border:3px solid var(--edge,#eee);
+      box-shadow:0 9px 0 var(--shadow,#e6e6f0), 0 16px 30px rgba(72,48,104,.14);
+      transition:transform .16s ease, box-shadow .16s ease;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .card:hover{transform:translateY(-6px);box-shadow:0 15px 0 var(--shadow,#e6e6f0),0 24px 40px rgba(72,48,104,.2)}
+    .card:active{transform:translateY(5px);box-shadow:0 4px 0 var(--shadow,#e6e6f0),0 8px 16px rgba(72,48,104,.18)}
+    .card:focus-visible{outline:5px solid #7c4dff;outline-offset:4px}
+
+    .art{
+      width:124px;height:124px;
+      display:grid;place-items:center;
+      border-radius:26px;
+      background:var(--tint,#f6f4ff);
+      flex:none;
+    }
+    .art img{
+      width:96px;height:96px;object-fit:contain;
+      filter:drop-shadow(0 5px 9px rgba(60,40,90,.25));
+    }
+    /* Some games only have a square app icon rather than a cut-out sprite.
+       Rounding it makes it read as a deliberate tile instead of a pasted square. */
+    .art img.tile{border-radius:20px}
+
+    .name{font-weight:900;font-size:1.22rem;line-height:1.15}
+    .desc{font-weight:700;font-size:.86rem;color:var(--ink-soft);line-height:1.35;max-width:20ch}
+
+    /* The two maths cards were blue (#3f6fe0) and pink (#e5559a) until 2026-09-09,
+       when they merged into one. Their card wears the colour between them, which is
+       the same thing the artwork does: one blue doorway, one pink one. Distinct from
+       Our Word Book's berry, which is the nearest card on the page -- until 2026-09-09
+       that sentence named Magic Spelling's blue-violet, which is now a section colour
+       one level down rather than a card here. */
+    .c-magic   {--edge:#a855c7;--shadow:#7b3a90;--tint:#f8e8fb}
+    /* The three language cards were blue-violet (Magic Spelling), pencil-gold (Writing
+       Book) and coral (Spelling Exam) until 2026-09-09, when they merged into one. Berry
+       sits between them in warmth and is none of them, which is the same thing the Magic
+       Math card did with its two. Distinct from Magic Math's purple immediately before it
+       and from Petal Kingdom's lighter pink. Each of the three keeps its own colour one
+       level down, on its section card inside Our Word Book. */
+    .c-word    {--edge:#c2557d;--shadow:#93325a;--tint:#ffe9f1}
+    .c-music   {--edge:#17a2b8;--shadow:#0d7c8e;--tint:#e2f7fa}
+    .c-petal   {--edge:#f0699b;--shadow:#c04574;--tint:#ffecf3}
+    .c-colour  {--edge:#34a853;--shadow:#217a3a;--tint:#e6f7ea}
+    .c-story   {--edge:#5b64c9;--shadow:#3b429c;--tint:#eceeff}
+    .c-animal  {--edge:#d97a16;--shadow:#a55606;--tint:#fff1de}
+    /* The darkest card on the page, deliberately: its art is a night sky, and the
+       three cards already in blue are all lighter than this. */
+    .c-planets {--edge:#26306e;--shadow:#151c46;--tint:#e6eaff}
+
+    footer{
+      margin-top:34px;text-align:center;
+      font-weight:800;font-size:.85rem;color:var(--ink-soft);
+    }
+    /* The AI-voice disclosure. Deliberately quieter than the line above it — it is
+       for the adult who looks, not a warning aimed at the child who is here to play.
+       It claims only the voices we render ourselves. Magic Math and Planets & Moons
+       ship designed voices; the rest speak through the browser’s built-in speech,
+       and some vendors build those OS voices from a real speaker’s recordings — so a
+       blanket "every voice here is AI" would overclaim on games we do not control. */
+    footer .disclosure{
+      display:block;margin-top:8px;
+      font-weight:600;font-size:.72rem;opacity:.72;line-height:1.45;
+    }
+
+    @media (max-width:420px){
+      .grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+      .card{min-height:212px;padding:20px 12px 18px;border-radius:24px}
+      .art{width:96px;height:96px;border-radius:22px}
+      .art img{width:74px;height:74px}
+      .name{font-size:1.04rem}
+      .desc{font-size:.78rem}
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      .card{transition:none}
+      .card:hover{transform:none}
+    }
+
+    /* ── Music toggle ──
+       Top-right and fixed, which is where Magic Math puts its own music button: a child
+       who learns the control in one place should not have to find it again in the next.
+       60px because the target device is a 9.7" iPad and this is a child's finger, not a
+       cursor; the icon inside is much smaller than the button, which is the right way
+       round — never shrink a tap target to match its art. */
+    .music-btn{
+      position:fixed;z-index:50;
+      top:calc(12px + env(safe-area-inset-top));
+      right:calc(12px + env(safe-area-inset-right));
+      width:60px;height:60px;border-radius:50%;
+      display:grid;place-items:center;
+      background:var(--card);border:3px solid #e4dcf0;
+      box-shadow:0 4px 0 #ddd4ec,0 8px 18px rgba(72,48,104,.16);
+      cursor:pointer;padding:0;
+      -webkit-tap-highlight-color:transparent;
+      transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease;
+    }
+    .music-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #ddd4ec,0 4px 10px rgba(72,48,104,.16)}
+    .music-btn:focus-visible{outline:5px solid #7c4dff;outline-offset:4px}
+    .music-btn svg{width:30px;height:30px;display:block}
+    /* The note is grey and struck through when off, pink and clear when on. Two signals,
+       not one: colour alone is not a state a child reads reliably, and the slash is the
+       part that says "no sound" without a word of text on it. */
+    .music-btn .note{fill:#a99bbd;transition:fill .16s ease}
+    .music-btn .slash{stroke:#a99bbd;stroke-width:2.6;stroke-linecap:round}
+    .music-btn[aria-pressed="true"]{border-color:#f3b7d5}
+    .music-btn[aria-pressed="true"] .note{fill:#e5559a}
+    .music-btn[aria-pressed="true"] .slash{display:none}
+    /* Only while it is actually playing, so the button is never animating at a silence. */
+    .music-btn.playing{animation:musicPulse 2.2s ease-in-out infinite}
+    @keyframes musicPulse{
+      0%,100%{box-shadow:0 4px 0 #ddd4ec,0 8px 18px rgba(72,48,104,.16)}
+      50%    {box-shadow:0 4px 0 #ddd4ec,0 8px 26px rgba(229,85,154,.45)}
+    }
+    @media (prefers-reduced-motion:reduce){
+      .music-btn{transition:none}
+      .music-btn.playing{animation:none}
+    }
+    @media (max-width:420px){
+      .music-btn{width:52px;height:52px}
+      .music-btn svg{width:26px;height:26px}
+    }
+
+
+    /* ---- the Music hub, and only what it needs beyond the main hub ----------
+       The style block above is the main hub's, copied verbatim so the two pages
+       cannot drift into looking like different products. Everything below is the
+       difference: a back arrow, and a grid that holds TWO cards without looking
+       like a page that lost its other four.
+
+       WHY THE GRID IS CAPPED RATHER THAN auto-fit.
+       The hub's grid is `repeat(auto-fit,minmax(220px,1fr))`, which is right for
+       eleven cards and wrong for two: on a wide tablet it stretches two cards to
+       half the screen each and the page reads as unfinished. Capping the track
+       count at the number of cards and centring the whole grid keeps them card-
+       sized and deliberate. Adding Music Book later means changing 2 to 3 in one
+       place -- `--cards` -- and nothing else. */
+    .music-grid{
+      grid-template-columns:repeat(var(--cards,2),minmax(220px,300px));
+      justify-content:center;
+    }
+
+    /* TWO CARDS MUST NOT LOOK LIKE A PAGE THAT LOST ITS OTHER NINE.
+       The main hub has eleven cards and fills the screen on its own. This page has
+       two, and left at the top of a 1024px-tall tablet they sit above roughly half a
+       screen of nothing -- which reads as unfinished rather than focused. So the page
+       centres itself vertically when there is room to. `min-height:100svh` on the flex
+       column, not 100vh, because iOS counts the toolbar in vh and the page would
+       overflow by exactly its height. When a third card arrives and the content grows,
+       `justify-content:center` simply stops having spare room to distribute and the
+       layout behaves like the main hub again -- no second breakpoint to maintain. */
+    body{display:flex;flex-direction:column;min-height:100svh}
+    .wrap{margin-block:auto}
+    /* The arrow stays at the top; the cards take the middle. A little breathing room
+       above the title stops the two from reading as one stack with a hole in it. */
+    .wrap header{margin-top:6px}
+    @media (max-width:640px){
+      .music-grid{grid-template-columns:minmax(220px,340px)}
+    }
+
+    /* The arrow back to the main hub. A RELATIVE href is correct here and an
+       absolute one is not: this page is a sibling of index.html in the same
+       published directory, so "./" works live and in every local preview. The
+       apps one level down use absolute URLs because they publish to different
+       repositories -- see the comment in word-book/index.html. */
+        /* width:100% matters. Once `body` became a flex column, this row is a flex ITEM,
+       and `margin:0 auto` on an item that has no set width shrink-wraps it to its
+       content and centres the whole box -- which put the back arrow in the middle of
+       the screen. Stretching it keeps the arrow where a child reaches for it. */
+    .backrow{position:relative;z-index:1;width:100%;max-width:1080px;margin:0 auto 18px}
+    .back{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:12px 20px 12px 16px;border-radius:999px;
+      background:#fff;border:3px solid #e6e0f2;
+      box-shadow:0 5px 0 #ded6ee,0 10px 20px rgba(72,48,104,.12);
+      font-weight:900;color:#4a3168;text-decoration:none;font-size:1rem;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .back:active{transform:translateY(3px);box-shadow:0 2px 0 #ded6ee}
+    .back:focus-visible{outline:5px solid #7c4dff;outline-offset:4px}
+    .back svg{width:20px;height:20px;flex:none}
+
+    /* Toy Keyboard's own colour. Classical Music keeps the teal it has always had
+       (.c-music above); this is its partner on the same screen, warm against that
+       cool so the pair reads as two different things rather than one thing twice. */
+    .c-keys{--edge:#e08a2e;--shadow:#b06616;--tint:#fff1dd}
+
+    /* Touch hygiene, matching the other apps (2026-09-15). A child drags and rests
+       fingers; the browser reads that as selection and as zoom. */
+    body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:manipulation}
+  </style>
+</head>
+<body>
+  <div class="sky" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="backrow">
+    <a class="back" href="./" aria-label="Back to Children Games">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 5 8 12l7 7"/></svg>
+      <span>Children Games</span>
+    </a>
+  </div>
+
+  <div class="wrap">
+    <header>
+      <h1>Mu<em>sic</em></h1>
+      <p class="tagline">Play, listen &amp; explore</p>
+    </header>
+
+    <!-- TWO CARDS TODAY, THREE LATER. Music Book is deliberately absent rather than
+         shown disabled: a card a child can see and cannot open is a promise the app
+         breaks every time they try it. When it is ready it is one more <a> here and
+         `--cards:3` on the grid. -->
+    <main class="grid music-grid" style="--cards:2">
+      <a class="card c-music" href="../magic-math/classical-music.html">
+        <span class="art"><img src="./assets/classical-music.webp" alt="" width="96" height="96"/></span>
+        <span class="name">Classical Music</span>
+        <span class="desc">Listen and guess</span>
+      </a>
+
+      <a class="card c-keys" href="../toy-keyboard/">
+        <span class="art"><img class="tile" src="./assets/toy-keyboard.webp" alt="" width="96" height="96"/></span>
+        <span class="name">Toy Keyboard</span>
+        <span class="desc">Play and make music</span>
+      </a>
+    </main>
+  </div>
+
+  <script>
+  /* Pinch-zoom guard: iOS Safari has ignored user-scalable=no since iOS 10, so this
+     is the only thing that stops two small hands zooming the page. Inert elsewhere. */
+  document.addEventListener("gesturestart", function (e) { e.preventDefault(); }, { passive: false });
+  </script>
+</body>
+</html>
