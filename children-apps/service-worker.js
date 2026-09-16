@@ -67,8 +67,17 @@
  *                  because `tools/build-magic-math-card.py` reads them, but no page
  *                  fetches them any more, so precaching them would cost every install
  *                  50 KB for nothing.
+ *   v25 2026-09-09  three cards become one, and the two arrows move with them (335d426b).
+ *   v26 2026-09-11  arms the publish the owner approved (#484, 1ec005d4).
+ *   v27 2026-09-16  arms the release that puts the Mars pilot on the Test Hub (#668).
+ *                  (v25-v27 are RECONSTRUCTED from their bump commits; this note had
+ *                  stopped at v24.)
+ *   v28 2026-09-16  the Test Hub loses three cards -- Mars Pilot, Toy Keyboard v6 and
+ *                  Keyboard -- because Toy Keyboard is on the Music hub now. Nothing in
+ *                  this hub's shell changes; the bump arms the site release that carries
+ *                  test-apps/index.html.
  */
-const CACHE_NAME = "children-apps-v27";
+const CACHE_NAME = "children-apps-v28";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */

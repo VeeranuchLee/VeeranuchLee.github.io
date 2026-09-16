@@ -109,6 +109,9 @@ at `../pattern-pegs/`, the Toy Box shelf at `../toy-room/`, Pattern Blocks at
 2026-08-29) and the Flags game at `../flags/` (first published 2026-08-29) —
 plus the self-contained
 `./bird-flight/` interaction test. None of the eight appears in the main hub table above.
+**The Keyboard is the exception since 2026-09-16:** it is on the Music hub
+(`children-apps/music.html`, one level below the front page), its Test Hub cards are gone,
+and its back arrow goes to the Music hub. It still serves from `../toy-keyboard/`.
 **Writing Book was one of these until 2026-08-29**, when the owner promoted it to the
 main hub: only its card moved, and the app still serves from `../writing-book/` at this
 repo's top level. A later main-hub promotion may split any top-level app into its own
@@ -123,7 +126,8 @@ onward to other apps, and Pattern Blocks links back to it with a hard-coded
 `../toy-room/`, so the shelf's folder name is part of another app's markup. The Keyboard
 publishes to the same top level but is **not** on the shelf and does not link to it —
 owner, 2026-08-29: it is aimed at an older child than the toy room, and a toy shelf
-frames it as "just a toy". It gets its own `/test-apps/` card instead. The shelf's own UI says "Toy
+frames it as "just a toy". It had its own `/test-apps/` card until 2026-09-16, when it moved to
+the Music hub. The shelf's own UI says "Toy
 Box" while its URL says `toy-room` — the child-facing name is open decision 7 in
 `toy-room/README.md`, and the URL deliberately does not settle it.
 
