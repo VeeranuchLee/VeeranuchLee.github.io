@@ -18,7 +18,13 @@ function scene(name){document.body.classList.remove('scene-hall','scene-reef');d
 function buddyFor(seed){return BUDDIES[Math.abs(seed)%BUDDIES.length]}
 function buddyHTML(){return state.buddy?`<div class="buddy" aria-hidden="true"><span class="bubble"></span><img src="assets/mermaid/buddy-${state.buddy}.webp" alt="" draggable="false"></div>`:''}
 let db=load(STORE,{words:{}}), sessionSeen=new Set(), state={screen:'home',mode:'practice',queue:[],i:0,typed:'',attempts:0,hinted:false,accent:'us',answers:[],locked:false,showWord:false};
-function load(k,f){try{return JSON.parse(localStorage.getItem(k))||f}catch{return f}} function save(){localStorage.setItem(STORE,JSON.stringify(db))}
+function load(k,f){try{return JSON.parse(localStorage.getItem(k))||f}catch{return f}}
+/* v:2 is the first version marker this store has ever carried, and nothing branches
+   on it: every field added since v1 -- the blocks counters, and now the writing ones
+   -- simply appears beside the older ones, so a record written before this build
+   loads and works untouched. The marker exists so a LATER schema change can find
+   its boundary without guessing. */
+function save(){db.v=2;localStorage.setItem(STORE,JSON.stringify(db))}
 function rec(word){return db.words[word]||(db.words[word]={correctUnassisted:0,incorrect:0,hintsUsed:0,lastPracticedAt:0,lastSession:'',accentIndex:0,accentOrder:[],accents:{us:{correct:0,incorrect:0},uk:{correct:0,incorrect:0},au:{correct:0,incorrect:0}}})}
 function shuffle(a){a=[...a];for(let i=a.length-1;i;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function accentFor(word){const r=rec(word);if(!r.accentOrder.length){let block=shuffle(ACCENTS);if(r.lastAccent===block[0])block.push(block.shift());r.accentOrder=block}const a=r.accentOrder.shift();r.lastAccent=a;save();return a}
@@ -87,14 +93,17 @@ const MODE_ART={
   blocks:`<svg viewBox="0 0 60 46" aria-hidden="true"><g class="s1"><rect x="3.5" y="29" width="12" height="14" rx="4"/><rect x="17.5" y="29" width="12" height="14" rx="4"/><rect x="31.5" y="29" width="12" height="14" rx="4"/><rect x="45.5" y="29" width="11" height="14" rx="4"/></g><rect x="3.5" y="29" width="12" height="14" rx="4" class="f1"/><text x="9.5" y="40" class="glyphtile">c</text><rect x="17.5" y="29" width="12" height="14" rx="4" class="f1"/><text x="23.5" y="40" class="glyphtile">a</text><rect x="31" y="4" width="13" height="15" rx="4" class="f3"/><text x="37.5" y="15.5" class="glyphtile on3">t</text><path d="M37.5 21v4.5" class="s2"/><path d="M34 23l3.5 4 3.5-4" class="s2"/></svg>`,
   sets:`<svg viewBox="0 0 60 46" aria-hidden="true"><rect x="1" y="9" width="58" height="33" rx="7" class="f2"/><g class="f1"><rect x="5" y="14" width="8.4" height="6.4" rx="2.2"/><rect x="15.4" y="14" width="8.4" height="6.4" rx="2.2"/><rect x="25.8" y="14" width="8.4" height="6.4" rx="2.2"/><rect x="36.2" y="14" width="8.4" height="6.4" rx="2.2"/><rect x="46.6" y="14" width="8.4" height="6.4" rx="2.2"/><rect x="8" y="23" width="8.4" height="6.4" rx="2.2"/><rect x="18.4" y="23" width="8.4" height="6.4" rx="2.2"/><rect x="28.8" y="23" width="8.4" height="6.4" rx="2.2"/><rect x="39.2" y="23" width="8.4" height="6.4" rx="2.2"/><rect x="12" y="32" width="8.4" height="6" rx="2.2"/><rect x="39" y="32" width="8.4" height="6" rx="2.2"/></g><rect x="22.4" y="32" width="14.6" height="6" rx="3" class="f3"/></svg>`,
   weak:`<svg viewBox="0 0 60 46" aria-hidden="true"><path d="M46 20A16 16 0 1 0 43 33" class="s3"/><path d="M53 12l-5.6 8.6 10.2.8z" class="f3"/><g class="f1"><rect x="17" y="33" width="9" height="4.6" rx="2.3"/><rect x="28.5" y="33" width="9" height="4.6" rx="2.3"/></g></svg>`,
+  /* What makes Write Words different from every other card: ruled paper, a dotted
+     word, and a hand actually laying ink on it. */
+  write:`<svg viewBox="0 0 60 46" aria-hidden="true"><g class="s1"><path d="M2 8h56" stroke-dasharray="5 5"/><path d="M2 20h56" stroke-dasharray="5 5"/></g><path d="M2 32h56" class="s3"/><text x="15" y="32" class="glyphtrace">ab</text><path d="M48 4l7 7-16 16-9 2 2-9z" class="f3"/><path d="M32 20l-2 9 9-2z" class="f1"/><path d="M30 29l3.4-.9-2.5-2.5z" class="f2"/></svg>`,
   exam:`<svg viewBox="0 0 60 46" aria-hidden="true"><path d="M13 25v-4a17 17 0 0 1 34 0v4" class="s3"/><rect x="6.5" y="23" width="11" height="16" rx="5.5" class="f1"/><rect x="42.5" y="23" width="11" height="16" rx="5.5" class="f1"/><g class="f3"><rect x="21" y="40" width="7.4" height="4.4" rx="2.2"/><rect x="31" y="40" width="7.4" height="4.4" rx="2.2"/></g></svg>`};
 
-function home(){state.screen='home';state.buddy='';scene('hall');app.innerHTML=`<div class="topline"><a class="hub" href="${HUB}">← Our Word Book</a><button class="bedtoggle" aria-pressed="${bedOn()}">${bedOn()?"🔊":"🔈"} Music</button></div><section class="hero"><div class="mascot" aria-hidden="true">${MASCOT}</div><h1>Spelling Exam</h1><p>See it. Hear it. Spell it.</p></section><section class="menu"><button data-go="practice"><span class="modeart">${MODE_ART.practice}</span><strong>Practice Now</strong><small>Start with words that need you most</small></button><button data-go="learn"><i class="step">1</i><span class="modeart">${MODE_ART.learn}</span><strong>Learn Words</strong><small>Look, listen, then copy</small></button><button data-go="blocks"><i class="step">2</i><span class="modeart">${MODE_ART.blocks}</span><strong>Letter Blocks</strong><small>Build the word from tiles</small></button><button data-go="sets"><i class="step">3</i><span class="modeart">${MODE_ART.sets}</span><strong>Word Sets 1–12</strong><small>Spell it on the keyboard</small></button><button data-go="weak"><span class="modeart">${MODE_ART.weak}</span><strong>Weak Words</strong><small>Practise tricky words again</small></button><button class="span" data-go="exam"><i class="step">4</i><span class="modeart">${MODE_ART.exam}</span><strong>Mock Exam</strong><small>Five words, results at the end</small></button></section>`;bindNav();$('.bedtoggle').onclick=()=>{setBed(!bedOn());home()};bedPlay()}
+function home(){state.screen='home';state.buddy='';scene('hall');app.innerHTML=`<div class="topline"><a class="hub" href="${HUB}">← Our Word Book</a><button class="bedtoggle" aria-pressed="${bedOn()}">${bedOn()?"🔊":"🔈"} Music</button></div><section class="hero"><div class="mascot" aria-hidden="true">${MASCOT}</div><h1>Spelling Exam</h1><p>See it. Hear it. Spell it.</p></section><section class="menu"><button data-go="practice"><span class="modeart">${MODE_ART.practice}</span><strong>Practice Now</strong><small>Start with words that need you most</small></button><button data-go="learn"><i class="step">1</i><span class="modeart">${MODE_ART.learn}</span><strong>Learn Words</strong><small>Look, listen, then copy</small></button><button data-go="blocks"><i class="step">2</i><span class="modeart">${MODE_ART.blocks}</span><strong>Letter Blocks</strong><small>Build the word from tiles</small></button><button data-go="write"><i class="step">3</i><span class="modeart">${MODE_ART.write}</span><strong>Write Words</strong><small>Trace, copy, then write it</small></button><button data-go="sets"><i class="step">4</i><span class="modeart">${MODE_ART.sets}</span><strong>Word Sets 1–12</strong><small>Spell it on the keyboard</small></button><button data-go="weak"><span class="modeart">${MODE_ART.weak}</span><strong>Weak Words</strong><small>Practise tricky words again</small></button><button data-go="exam"><i class="step">5</i><span class="modeart">${MODE_ART.exam}</span><strong>Mock Exam</strong><small>Five words, results at the end</small></button></section>`;bindNav();$('.bedtoggle').onclick=()=>{setBed(!bedOn());home()};bedPlay()}
 function bindNav(){document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>route(b.dataset.go))}
-function route(go){if(go==='practice')start('practice',shuffle(all()).sort((a,b)=>priority(b)-priority(a)).slice(0,10));if(go==='weak'){const q=all().filter(x=>rec(x.word).incorrect||rec(x.word).hintsUsed).sort((a,b)=>priority(b)-priority(a));start('practice',(q.length?q:all()).slice(0,10))}if(go==='sets')chooseSets('practice');if(go==='learn')chooseSets('learn');if(go==='blocks')chooseSets('blocks');if(go==='exam')examMenu()}
+function route(go){if(go==='practice')start('practice',shuffle(all()).sort((a,b)=>priority(b)-priority(a)).slice(0,10));if(go==='weak'){const q=all().filter(x=>rec(x.word).incorrect||rec(x.word).hintsUsed).sort((a,b)=>priority(b)-priority(a));start('practice',(q.length?q:all()).slice(0,10))}if(go==='sets')chooseSets('practice');if(go==='learn')chooseSets('learn');if(go==='blocks')chooseSets('blocks');if(go==='write')chooseSets('write');if(go==='exam')examMenu()}
 function headerBar(title,extra=''){return `<header class="top"><button class="back" aria-label="Back">←</button><h1>${title}</h1>${extra}</header>`}
 function wireBack(fn=home){$('.back').onclick=fn}
-function chooseSets(mode,examVariant=''){scene('hall');bedPlay();const title=mode==='learn'?'Learn Words':mode==='blocks'?'Letter Blocks':'Choose a word set';app.innerHTML=headerBar(title)+`<section class="sets">${SETS.map((w,i)=>{/* building a word and spelling one are different skills, so they are counted apart */const n=mode==='blocks'?w.filter(x=>rec(x).blocksCorrect).length:w.filter(x=>mastery(x)==='MASTERED').length;return`<button class="set" data-set="${i}"><b>WORDS ${i+1}</b><span>${n} / 5 ${mode==='blocks'?'built':'mastered'}</span></button>`}).join('')}</section>`;wireBack(mode==='learn'||mode==='blocks'?home:examVariant?examMenu:home);document.querySelectorAll('.set').forEach(b=>b.onclick=()=>{const i=+b.dataset.set;if(mode==='blocks')return startBlocks(i);start(mode,SETS[i].map(word=>({word,set:i+1})),examVariant)})}
+function chooseSets(mode,examVariant=''){scene('hall');bedPlay();const title=mode==='learn'?'Learn Words':mode==='blocks'?'Letter Blocks':mode==='write'?'Write Words':'Choose a word set';app.innerHTML=headerBar(title)+`<section class="sets">${SETS.map((w,i)=>{/* building a word and spelling one are different skills, so they are counted apart */const n=mode==='blocks'?w.filter(x=>rec(x).blocksCorrect).length:mode==='write'?w.filter(x=>(rec(x).write||{}).fromMemory).length:w.filter(x=>mastery(x)==='MASTERED').length;return`<button class="set" data-set="${i}"><b>WORDS ${i+1}</b><span>${n} / 5 ${mode==='blocks'?'built':mode==='write'?'done':'mastered'}</span></button>`}).join('')}</section>`;wireBack(mode==='learn'||mode==='blocks'||mode==='write'?home:examVariant?examMenu:home);document.querySelectorAll('.set').forEach(b=>b.onclick=()=>{const i=+b.dataset.set;if(mode==='blocks')return startBlocks(i);if(mode==='write')return startWrite(i);start(mode,SETS[i].map(word=>({word,set:i+1})),examVariant)})}
 function examMenu(){scene('hall');bedPlay();app.innerHTML=headerBar('Mock Exam')+`<section class="menu"><button data-variant="picture"><strong>Picture-assisted</strong><small>See the picture and hear the word</small></button><button data-variant="dictation"><strong>Pure dictation</strong><small>Hear the word, without a picture</small></button></section>`;wireBack();document.querySelectorAll('[data-variant]').forEach(b=>b.onclick=()=>chooseSets('exam',b.dataset.variant))}
 function start(mode,queue,variant=''){/* `set` is 1-based and startBlocks() seeds on the 0-based index, so without
    the -1 the same five words hand the child one companion in Letter Blocks
@@ -243,4 +252,169 @@ function blocksDone(){const words=state.words,idx=state.setIndex;
   blocksPanel(`<div class="reveal">All five built 🎉</div><p class="prompt">Now spell them on the keyboard.</p><div class="actions"><button class="primary keys">Keyboard →</button><button class="secondary again">Word cards again</button><button class="secondary done">Done</button></div>`);
   say('good','You built every one of them!');
   $('.keys').onclick=()=>start('practice',words);$('.again').onclick=()=>startBlocks(idx);$('.done').onclick=home}
+/* ---- WRITE WORDS ------------------------------------------------------------
+   The owner's 2026-09-14 progression, one word per screen: TRACE the dotted word,
+   COPY it on a blank line with the word still in view, then WRITE it from memory
+   with the spelling nowhere on the screen.
+
+   NONE OF THE HANDWRITING IS OURS. handwriting/letters.js and handwriting/strokes.js
+   are byte-identical copies of the Writing Book's canonical files, dropped there by
+   tools/port-handwriting.js and held to the byte by its --check in preflight. So the
+   letterforms a child traces here, the corridor they are allowed, the four-number
+   grader that marks them and the demonstration that shows them how are the ones
+   writing-book/qc/grading.html tests -- 858 + 522 + 31 checks. Nothing in this file
+   draws a letter or scores a stroke, and nothing in it may start to. A runtime
+   import is impossible: each release copies one directory to the public site, so
+   /spelling-exam/ has no path to /writing-book/'s files. See the port tool's header.
+
+   THE THIRD STAGE IS WHY THE ENGINE GREW A FREE MODE. A trace surface draws the
+   dotted word, and on the WRITE screen the dotted word IS the answer. Free mode has
+   no target layer at all -- no ghost, no dots, no ink-in-waiting -- so the spelling
+   cannot leak onto that screen through the writing area. tools/test-write-words.js
+   asserts that against the built DOM rather than trusting this paragraph.
+
+   THE CHILD'S OWN HAND STAYS. keepInk is the owner's "preserve the child's actual
+   strokes; do not auto-beautify handwriting": where the Writing Book fades an
+   accepted wobble out as the clean stroke draws in, here both stand. Undo and Clear
+   are how a child takes a line back -- crossing an attempt out is legitimate on
+   paper -- and neither touches the counters.  */
+const WRITE_STAGES=[
+  /* `step` names the stage on its own button in the step row, so a child reaching back
+     for a scaffold is told what they are reaching for. Deliberately says nothing a
+     child could read the spelling out of -- these labels render on the WRITE screen. */
+  {key:'trace',prompt:'Trace the word on the dots.',step:'Trace it'},
+  {key:'copy',prompt:'Now write it yourself.',step:'Copy it'},
+  /* Deliberately says nothing a child could read the spelling out of. */
+  {key:'memory',prompt:'Write it from memory.',step:'From memory'}];
+/* One visible number, the same rule the Writing Book uses: the corridor tightens in
+   thirds as the sets get harder (WRITING-EXPERIENCE-SPEC.md 10.2). */
+function writeLevel(setIndex){return setIndex<4?1:setIndex<8?2:3}
+/* The evidence tracks of WRITING-EXPERIENCE-SPEC.md 6.2, created the way the Letter
+   Blocks counters were: on first touch, beside everything already in the record. A
+   record saved before this build gains them here and is never rewritten, and the
+   keyboard modes keep feeding exactly the counters they feed today -- building a
+   word, writing one and spelling one are different skills and are counted apart. */
+function writeRec(word){const r=rec(word);
+  if(!r.recognise)r.recognise={exposures:0,lastAt:0};
+  if(!r.write)r.write={traced:0,copied:0,fromMemory:0,strokesAccepted:0,strokesRejected:0,lastAt:0};
+  if(r.writeStage==null)r.writeStage=0;
+  return r}
+let surface=null;
+function writeDestroy(){if(surface){surface.destroy();surface=null}}
+function startWrite(idx){writeDestroy();
+  state={screen:'write',mode:'write',setIndex:idx,queue:SETS[idx].map(word=>({word,set:idx+1})),i:0,
+    stage:0,level:writeLevel(idx),accent:'us',misses:0,inked:0,locked:false,screenToken:0,buddy:buddyFor(idx)};
+  nextWriteWord(true)}
+function nextWriteWord(first=false){if(state.i>=state.queue.length)return writeDone();
+  /* Resume where this word was left and never further back: a child who has already
+     traced `cat` is not sent through the dots again to reach the blank line. The word
+     still OPENS here -- what changed on 2026-09-16 is that the earlier stages stayed
+     reachable from the step row once it has opened. See goStage. */
+  state.stage=Math.min(2,writeRec(current().word).writeStage||0);
+  state.misses=0;state.inked=0;state.accent=accentFor(current().word);
+  renderWrite();setTimeout(playWord,first?450:250)}
+function renderWrite(){bedStop();writeDestroy();window.onkeydown=null;
+  const q=current(),st=state.stage,show=st<2,r=writeRec(q.word);
+  /* How far back the step row may reach for this word: every stage it has unlocked,
+     and not one past it. See goStage. */
+  const reach=Math.min(2,r.writeStage||0);
+  /* Which screen this is. Every way of ending a stage carries it, and ending one
+     spends it -- see writeStageDone. */
+  const tok=++state.screenToken;
+  /* Seeing the word beside its picture is recognition evidence, and it is counted
+     apart from spelling it: one exposure per screen the word is visible on. */
+  if(show){r.recognise.exposures++;r.recognise.lastAt=Date.now();save()}
+  scene('reef');
+  app.innerHTML=buddyHTML()+headerBar('Write Words',`<span class="pill">${state.i+1} / ${state.queue.length}</span>`)+
+    `<section class="wstage"><div class="card">${visual(q.word)}<div class="wsteps" role="group" aria-label="Step ${st+1} of 3">${WRITE_STAGES.map((x,n)=>`<button class="wstep wstep${n}${n===st?' on':n<st?' done':''}${n>reach?' is-off':''}"${n>reach?' disabled':''}${n===st?' aria-current="step"':''} aria-label="${x.step}"><i>${n+1}</i></button>`).join('')}</div>${show?`<div class="wref">${q.word}</div>`:''}<p class="prompt">${WRITE_STAGES[st].prompt}</p><div class="feedback"></div></div><div class="wpaper"><svg class="writesvg" aria-label="Writing line"></svg></div><div class="wcontrols"><button class="sound" aria-label="Replay it">🔊</button><button class="secondary undo">↶ Undo</button><button class="secondary wipe">✕ Clear</button><button class="primary wnext">Next →</button></div></section>`;
+  wireBack(()=>{writeDestroy();chooseSets('write')});
+  $('.sound').onclick=playWord;
+  /* Undo and Clear move ink and nothing else. A stroke the engine already accepted
+     stays counted: taking the line back is not a confession that it was wrong. */
+  $('.undo').onclick=()=>{if(surface&&surface.undoStroke())state.inked=Math.max(0,state.inked-1);writeReady()};
+  $('.wipe').onclick=()=>{if(surface)surface.clear();state.inked=0;writeReady()};
+  $('.wnext').onclick=()=>writeStageDone(tok);
+  /* The step row is the scaffolds' only door, and every button on it carries the
+     token of the screen it was drawn on, exactly as Next does. */
+  WRITE_STAGES.forEach((x,n)=>{const b=$('.wstep'+n);if(b)b.onclick=()=>goStage(tok,n)});
+  buildSurface(tok);writeReady()}
+/* THE SCAFFOLDS, AND WHY THE STEP ROW IS THE DOOR TO THEM.
+   Owner decision, 2026-09-16, verbatim: "Keep writeStage as the highest achieved stage,
+   but do not use it to permanently disable earlier stages. Completed words should reopen
+   at WRITE by default, while TRACE and COPY remain available as optional scaffolds. Do
+   not decrement mastery history when an earlier stage is revisited."
+
+   The three dots a child already reads as "step 2 of 3" ARE the buttons. Nothing new is
+   added to the screen, nothing is navigated to, and the row keeps its laid-out height --
+   the 48px targets overflow it rather than pushing the paper down. So a child stuck on
+   the blank line taps 1 and the dotted word is back, on the screen they were already on,
+   in one tap: the mode still asks one question and the child still answers with one tap.
+
+   THE ROW ONLY GOES BACK. n is refused above `reach`, so no tap can hand a child a
+   screen this word has not unlocked -- and the refusal lives here, not only in the
+   disabled attribute, because a disabled attribute is a hint and this is the rule.
+
+   GOING BACK STILL WALKS FORWARD. Choosing TRACE runs on into COPY and then WRITE the
+   ordinary way, because a scaffold exists to build up to writing the word, not to
+   escape writing it.
+
+   NOTHING IS TAKEN AWAY BY GOING BACK. This function moves state.stage and nothing else;
+   writeStage is raised by writeStageDone only when it is behind, so re-earning an unlock
+   is a no-op. Tracing `cat` for the fifth time cannot cost a child the COPY or WRITE it
+   already opened. */
+function goStage(tok,n){if(tok!==state.screenToken)return;
+  const r=writeRec(current().word);
+  if(n===state.stage||n<0||n>Math.min(2,r.writeStage||0))return;
+  state.screenToken++;state.stage=n;state.misses=0;state.inked=0;renderWrite()}
+/* Nothing to move on from until there is ink on the line -- except on the tracing
+   stage, where the dots do the asking and a child may leave when they like. */
+function writeReady(){const b=$('.wnext');if(!b)return;const off=state.stage>0&&!state.inked;
+  b.disabled=off;b.classList.toggle('is-off',off)}
+function buildSurface(tok){const svg=$('.writesvg');
+  if(!svg||typeof WritingStrokes==='undefined')return;
+  const q=current();
+  if(state.stage>0){
+    /* No word is passed, so there is no geometry on this surface to give one away. */
+    surface=WritingStrokes.create({svg,mode:'free',keepInk:true,palmRejection:true,
+      onInk:()=>{state.inked++;writeReady()}});
+    return}
+  surface=WritingStrokes.create({svg,word:q.word,level:state.level,mode:'trace',
+    keepInk:true,palmRejection:true,
+    onProgress:step=>{state.misses=0;feedback(step.cue==='Start here'?'Start at the green dot.':step.cue,'')},
+    onStroke:res=>{const r=writeRec(q.word);r.write.lastAt=Date.now();
+      if(res.pass){state.misses=0;r.write.strokesAccepted++;save();return}
+      state.misses++;r.write.strokesRejected++;save();feedback('Have another go.','try');
+      /* The repo's two thresholds, in the shape this mode can offer them: at two
+         misses the app writes the stroke slowly rather than saying the same words
+         again, and at three it gives that stroke so a child is never held on one. */
+      if(state.misses===2)setTimeout(()=>{if(surface)surface.demo('slow')},450);
+      else if(state.misses>=3){state.misses=0;
+        setTimeout(()=>{if(surface){surface.demo('slow');
+          setTimeout(()=>{if(surface){surface.stopDemo();surface.giveStroke()}},1500)}},450)}},
+    onWord:()=>setTimeout(()=>writeStageDone(tok),900)})}
+/* Finishing a traced word schedules this on a timer, and the Next button calls it, so
+   a child who taps Next inside that beat would be advanced twice and credited with a
+   COPY they never did. Both ways in carry the token of the screen they were armed on,
+   and ending a stage spends it: the second caller is refused, whichever it was. */
+function writeStageDone(tok){if(tok!==state.screenToken)return;state.screenToken++;
+  const q=current(),r=writeRec(q.word),st=state.stage;
+  r.lastPracticedAt=Date.now();r.write.lastAt=Date.now();
+  if(st===0)r.write.traced++;else if(st===1)r.write.copied++;else r.write.fromMemory++;
+  /* writeStage is the highest stage this word has ever reached, and this `<` is the
+     whole of that rule: an unlock is raised when it is behind and left alone when it is
+     not. Finishing a revisited TRACE on a word already at WRITE therefore changes
+     nothing about what the child has unlocked -- re-earning is a no-op, never a step
+     back. The tallies above are a different thing and keep counting: traced, copied and
+     fromMemory sit beside strokesAccepted/strokesRejected, which count every stroke of
+     every attempt, and phase 2's routing reads them as practice, not as a badge. */
+  if((r.writeStage||0)<Math.min(2,st+1))r.writeStage=Math.min(2,st+1);
+  save();
+  if(st>=2){/* the whole progression for this word, finished */
+    feedback('You wrote it! ⭐','good');cheer();chime(true);celebrate();
+    writeDestroy();state.i++;return setTimeout(nextWriteWord,900)}
+  state.stage=st+1;state.misses=0;state.inked=0;renderWrite()}
+function writeDone(){writeDestroy();bedStop();scene('reef');
+  app.innerHTML=buddyHTML()+headerBar('Write Words')+`<section class="wstage"><div class="card"><div class="reveal">You wrote all five 🎉</div><p class="prompt">Five words, three ways each.</p><div class="actions"><button class="primary again">Another set</button><button class="secondary done">Done</button></div></div></section>`;
+  wireBack(home);window.onkeydown=null;say('good','You wrote every one of them!');
+  $('.again').onclick=()=>chooseSets('write');$('.done').onclick=home}
 home();if('serviceWorker'in navigator)navigator.serviceWorker.register('./service-worker.js');
