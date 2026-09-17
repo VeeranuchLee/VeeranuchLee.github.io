@@ -1,6 +1,6 @@
 /* CACHE_NAME is the variable the release pipeline's reader expects (publish-app.sh stage 5
    matches /CACHE_NAME\s*=/). Do not rename it back; see release/registry.json. */
-const CACHE_NAME='spelling-exam-v12';
+const CACHE_NAME='spelling-exam-v13';
 /* handwriting/ is the Writing Book's stroke engine, ported by tools/port-handwriting.js.
    It is precached rather than left to the runtime cache because Write Words is the one
    screen that cannot degrade: without the engine the writing area is a blank rectangle.

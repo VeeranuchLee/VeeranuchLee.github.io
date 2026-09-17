@@ -31,7 +31,16 @@ function accentFor(word){const r=rec(word);if(!r.accentOrder.length){let block=s
 function all(){return SETS.flatMap((words,i)=>words.map(word=>({word,set:i+1}))) }
 function mastery(word){const r=rec(word);if(r.correctUnassisted>=3&&(r.correctSessions||[]).length>=2)return'MASTERED';if(r.correctUnassisted>=2)return'ALMOST';if(r.correctUnassisted||r.incorrect)return'LEARNING';return'NEW'}
 function sessionId(){let id=sessionStorage.getItem(SESSION);if(!id){id=Date.now().toString(36);sessionStorage.setItem(SESSION,id)}return id}
-function priority(x){const r=rec(x.word);return (r.incorrect*5+r.hintsUsed*4+(r.correctUnassisted?0:8))-(r.correctUnassisted*2)+(r.lastPracticedAt?Math.min(5,(Date.now()-r.lastPracticedAt)/864e5):6)+Math.random()}
+function priority(x){const r=rec(x.word);return (r.incorrect*5+/* §5.3: write misses join the weighting, guarded the way every late-added field is */((r.write||{}).strokesRejected||0)*3+r.hintsUsed*4+(r.correctUnassisted?0:8))-(r.correctUnassisted*2)+(r.lastPracticedAt?Math.min(5,(Date.now()-r.lastPracticedAt)/864e5):6)+Math.random()}
+/* §5.3: which representation a weak word is served through — the earliest of the
+   four tracks whose completion evidence is still empty, else keyboard recall.
+   Every read is guarded, because a record saved before these tracks existed has
+   no recognise and no write, and must load, route to Hear/See, and never throw. */
+function weakRoute(word){const r=rec(word),w=r.write||{};
+  if(!((r.recognise||{}).exposures>0))return'see';
+  if(!(r.blocksCorrect>0))return'build';
+  if(!(w.traced||w.copied||w.fromMemory))return'write';
+  return'type'}
 /* The way out, on the home screen only. The owner's standing rule from 2026-08-27 is
    that ALL games carry a back icon to the hub, because a four-year-old could not get out
    of one. The header arrow on every other screen goes to THIS screen, so leaving is one
@@ -76,6 +85,15 @@ let praise=null;
 function cheer(which){const name=which||PRAISE[Math.floor(Math.random()*PRAISE.length)];
   try{if(praise)praise.pause();praise=new Audio(`assets/audio/praise/${name}.m4a`);praise.volume=.9;praise.play().catch(()=>{})}catch{}}
 
+/* The Write Words stage guidance, in the same designed teacher voice as the words and
+   the praise (owner, 2026-09-17 evening): four ruled lines rendered by
+   tools/render-guidance.py, spoken EVERY time a stage opens -- the WORD first, the
+   instruction after a short pause (see speakStage below) -- plus the demonstration line
+   when the two-miss demo animates. Write screens only: never the Mock Exam, the same
+   boundary the praise bank obeys, and guidance never names the word it is asking about. */
+let guidance=null;
+function guide(key){try{if(guidance)guidance.pause();guidance=new Audio(`assets/audio/guidance/${key}.m4a`);guidance.volume=.9;guidance.play().catch(()=>{})}catch{}}
+
 /* Mode pictures for the menu. The owner's note was that the text alone does not say
    what a mode IS -- "hard for even grown up to know what they are exactly" -- so each
    one draws its own mechanic rather than decorating the card: a picture card with a word
@@ -100,16 +118,16 @@ const MODE_ART={
 
 function home(){state.screen='home';state.buddy='';scene('hall');app.innerHTML=`<div class="topline"><a class="hub" href="${HUB}">← Our Word Book</a><button class="bedtoggle" aria-pressed="${bedOn()}">${bedOn()?"🔊":"🔈"} Music</button></div><section class="hero"><div class="mascot" aria-hidden="true">${MASCOT}</div><h1>Spelling Exam</h1><p>See it. Hear it. Spell it.</p></section><section class="menu"><button data-go="practice"><span class="modeart">${MODE_ART.practice}</span><strong>Practice Now</strong><small>Start with words that need you most</small></button><button data-go="learn"><i class="step">1</i><span class="modeart">${MODE_ART.learn}</span><strong>Learn Words</strong><small>Look, listen, then copy</small></button><button data-go="blocks"><i class="step">2</i><span class="modeart">${MODE_ART.blocks}</span><strong>Letter Blocks</strong><small>Build the word from tiles</small></button><button data-go="write"><i class="step">3</i><span class="modeart">${MODE_ART.write}</span><strong>Write Words</strong><small>Trace, copy, then write it</small></button><button data-go="sets"><i class="step">4</i><span class="modeart">${MODE_ART.sets}</span><strong>Word Sets 1–12</strong><small>Spell it on the keyboard</small></button><button data-go="weak"><span class="modeart">${MODE_ART.weak}</span><strong>Weak Words</strong><small>Practise tricky words again</small></button><button data-go="exam"><i class="step">5</i><span class="modeart">${MODE_ART.exam}</span><strong>Mock Exam</strong><small>Five words, results at the end</small></button></section>`;bindNav();$('.bedtoggle').onclick=()=>{setBed(!bedOn());home()};bedPlay()}
 function bindNav(){document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>route(b.dataset.go))}
-function route(go){if(go==='practice')start('practice',shuffle(all()).sort((a,b)=>priority(b)-priority(a)).slice(0,10));if(go==='weak'){const q=all().filter(x=>rec(x.word).incorrect||rec(x.word).hintsUsed).sort((a,b)=>priority(b)-priority(a));start('practice',(q.length?q:all()).slice(0,10))}if(go==='sets')chooseSets('practice');if(go==='learn')chooseSets('learn');if(go==='blocks')chooseSets('blocks');if(go==='write')chooseSets('write');if(go==='exam')examMenu()}
+function route(go){if(go==='practice')start('practice',shuffle(all()).sort((a,b)=>priority(b)-priority(a)).slice(0,10));if(go==='weak'){const q=all().filter(x=>{const r=rec(x.word);return r.incorrect||r.hintsUsed||r.blocksIncorrect||(r.write||{}).strokesRejected}).sort((a,b)=>priority(b)-priority(a));startWeak((q.length?q:all()).slice(0,10))}if(go==='sets')chooseSets('practice');if(go==='learn')chooseSets('learn');if(go==='blocks')chooseSets('blocks');if(go==='write')chooseSets('write');if(go==='exam')examMenu()}
 function headerBar(title,extra=''){return `<header class="top"><button class="back" aria-label="Back">←</button><h1>${title}</h1>${extra}</header>`}
 function wireBack(fn=home){$('.back').onclick=fn}
 function chooseSets(mode,examVariant=''){scene('hall');bedPlay();const title=mode==='learn'?'Learn Words':mode==='blocks'?'Letter Blocks':mode==='write'?'Write Words':'Choose a word set';app.innerHTML=headerBar(title)+`<section class="sets">${SETS.map((w,i)=>{/* building a word and spelling one are different skills, so they are counted apart */const n=mode==='blocks'?w.filter(x=>rec(x).blocksCorrect).length:mode==='write'?w.filter(x=>(rec(x).write||{}).fromMemory).length:w.filter(x=>mastery(x)==='MASTERED').length;return`<button class="set" data-set="${i}"><b>WORDS ${i+1}</b><span>${n} / 5 ${mode==='blocks'?'built':mode==='write'?'done':'mastered'}</span></button>`}).join('')}</section>`;wireBack(mode==='learn'||mode==='blocks'||mode==='write'?home:examVariant?examMenu:home);document.querySelectorAll('.set').forEach(b=>b.onclick=()=>{const i=+b.dataset.set;if(mode==='blocks')return startBlocks(i);if(mode==='write')return startWrite(i);start(mode,SETS[i].map(word=>({word,set:i+1})),examVariant)})}
 function examMenu(){scene('hall');bedPlay();app.innerHTML=headerBar('Mock Exam')+`<section class="menu"><button data-variant="picture"><strong>Picture-assisted</strong><small>See the picture and hear the word</small></button><button data-variant="dictation"><strong>Pure dictation</strong><small>Hear the word, without a picture</small></button></section>`;wireBack();document.querySelectorAll('[data-variant]').forEach(b=>b.onclick=()=>chooseSets('exam',b.dataset.variant))}
-function start(mode,queue,variant=''){/* `set` is 1-based and startBlocks() seeds on the 0-based index, so without
+function start(mode,queue,variant='',after=''){/* `set` is 1-based and startBlocks() seeds on the 0-based index, so without
    the -1 the same five words hand the child one companion in Letter Blocks
    and a different one on the keyboard -- which is the one place the
    companion is supposed to carry over. */
-  const buddy=buddyFor(queue.length?queue[0].set-1:0);state={screen:'question',mode,variant,queue:shuffle(queue),i:0,typed:'',attempts:0,hinted:false,accent:'us',answers:[],locked:false,showWord:mode==='learn',buddy};next(true)}
+  const buddy=buddyFor(queue.length?queue[0].set-1:0);state={screen:'question',mode,variant,queue:shuffle(queue),i:0,typed:'',attempts:0,hinted:false,accent:'us',answers:[],locked:false,showWord:mode==='learn',buddy,after};next(true)}
 function current(){return state.queue[state.i]}
 function next(first=false){if(state.i>=state.queue.length)return results();state.typed='';state.attempts=0;state.hinted=false;state.locked=false;state.showWord=state.mode==='learn';state.accent=accentFor(current().word);renderQuestion();setTimeout(playWord,first?450:250)}
 function visual(word){return`<div class="picture"><img src="assets/words/${word}.webp" alt="" draggable="false"></div>`}
@@ -140,7 +158,7 @@ let audio;function playWord(){const q=current();if(!q)return;const {word}=q;if(a
 function spellLetters(){let i=0;const letters=current().word.split('');function one(){if(i>=letters.length)return;const a=new Audio(`assets/audio/letters/${letters[i++]}.m4a`);a.onended=one;a.play().catch(()=>{});}one()}
 function chime(ok){const C=window.AudioContext||window.webkitAudioContext,c=new C();if(!ok){const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=180;g.gain.setValueAtTime(.08,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.18);o.start();o.stop(c.currentTime+.2);return}/* three-note major arpeggio: the sound of getting it right */[523.25,659.25,783.99].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain(),t=c.currentTime+i*.09;o.type='triangle';o.connect(g);g.connect(c.destination);o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.12,t+.02);g.gain.exponentialRampToValueAtTime(.001,t+.5);o.start(t);o.stop(t+.55)})}
 function celebrate(){const host=document.createElement('div');host.className='celebration';host.setAttribute('aria-hidden','true');const BITS=['★','✦','♥','✧','✿'],COLORS=['#f06fb4','#9a55d6','#f6ad3d','#f472b6','#c4b5fd','#7ad0f0'];for(let i=0;i<44;i++){const s=document.createElement('span');s.className='confetti';s.textContent=BITS[i%BITS.length];s.style.left=(4+Math.random()*92)+'%';s.style.color=COLORS[i%COLORS.length];s.style.fontSize=(13+Math.random()*17)+'px';s.style.animationDuration=(.9+Math.random()*.9)+'s';s.style.animationDelay=(Math.random()*.25)+'s';host.appendChild(s)}document.body.appendChild(host);setTimeout(()=>host.remove(),2200)}
-function results(){window.onkeydown=null;if(state.mode!=='exam'){home();return}const score=state.answers.filter(x=>x.ok).length;state.answers.forEach(a=>{const r=rec(a.word);r.lastPracticedAt=Date.now();if(a.ok){r.correctUnassisted++;r.correctSessions=[...new Set([...(r.correctSessions||[]),sessionId()])];r.accents[a.accent].correct++}else{r.incorrect++;r.accents[a.accent].incorrect++}});save();scene('hall');app.innerHTML=headerBar('Your results')+`<section class="card results"><div class="word-reveal">${score} / ${state.answers.length}</div>${state.answers.map(a=>`<div class="result"><b>${a.ok?'✓':'✗'} ${a.word}</b><span>${a.ok?'correct':`you typed: ${a.typed||'—'}`}</span></div>`).join('')}<div class="actions"><button class="primary mistakes">Practice mistakes</button><button class="secondary done">Done</button></div></section>`;wireBack(home);$('.done').onclick=home;$('.mistakes').onclick=()=>{const q=state.answers.filter(x=>!x.ok).map(x=>all().find(y=>y.word===x.word));start('practice',q.length?q:state.queue)}}
+function results(){window.onkeydown=null;if(state.mode!=='exam'){if(state.after)return state.after();home();return}const score=state.answers.filter(x=>x.ok).length;state.answers.forEach(a=>{const r=rec(a.word);r.lastPracticedAt=Date.now();if(a.ok){r.correctUnassisted++;r.correctSessions=[...new Set([...(r.correctSessions||[]),sessionId()])];r.accents[a.accent].correct++}else{r.incorrect++;r.accents[a.accent].incorrect++}});save();scene('hall');app.innerHTML=headerBar('Your results')+`<section class="card results"><div class="word-reveal">${score} / ${state.answers.length}</div>${state.answers.map(a=>`<div class="result"><b>${a.ok?'✓':'✗'} ${a.word}</b><span>${a.ok?'correct':`you typed: ${a.typed||'—'}`}</span></div>`).join('')}<div class="actions"><button class="primary mistakes">Practice mistakes</button><button class="secondary done">Done</button></div></section>`;wireBack(home);$('.done').onclick=home;$('.mistakes').onclick=()=>{const q=state.answers.filter(x=>!x.ok).map(x=>all().find(y=>y.word===x.word));start('practice',q.length?q:state.queue)}}
 /* ---- BEGINNER LETTER BLOCKS ------------------------------------------------
    The scaffold between recognising a word and spelling it from the keyboard.
    Two rules shape every choice below. The board must never disclose how long
@@ -237,8 +255,11 @@ function nextBlock(){if(state.i>=state.queue.length){if(state.round===1){state.r
   state.accent=accentFor(current().word);dealTiles();renderBlock();setTimeout(playWord,300)}
 /* The group flow the brief describes: meet the five cards, build all five,
    shuffle and build them again, then hand the same five to the keyboard. */
-function startBlocks(idx){const words=SETS[idx].map(word=>({word,set:idx+1}));
-  state={screen:'blocks',mode:'blocks',setIndex:idx,words,queue:words,i:0,round:1,leg:'cards',attempts:0,hinted:false,locked:false,showWord:true,accent:'us',answers:[],tiles:[],slots:[],fixed:new Set(),buddy:buddyFor(idx)};
+function startBlocks(idx,one,after){const words=one?[one]:SETS[idx].map(word=>({word,set:idx+1}));
+  /* A weak word routed here (§5.3) arrives already chosen: no cards leg and no
+     second round — one build of this word, then the sitting it came from. */
+  state={screen:'blocks',mode:'blocks',setIndex:idx,words,queue:words,i:0,round:one?2:1,leg:one?'build':'cards',attempts:0,hinted:false,locked:false,showWord:true,accent:'us',answers:[],tiles:[],slots:[],fixed:new Set(),buddy:buddyFor(idx),after};
+  if(one)return nextBlock();
   cardLeg()}
 function cardLeg(){bedStop();const q=current(),last=state.i===state.queue.length-1;state.accent=accentFor(q.word);
   scene('reef');app.innerHTML=buddyHTML()+headerBar('Word Cards',`<span class="pill">${state.i+1} / ${state.queue.length}</span>`)+`<section class="bstage"><div class="card">${visual(q.word)}<button class="sound" aria-label="Replay word">🔊</button><div class="reveal">${q.word.toUpperCase()}</div><p class="prompt">Look at it. Listen to it. Say it.</p><div class="actions"><button class="primary go">${last?'Build the words →':'Next →'}</button></div></div></section>`;
@@ -248,7 +269,7 @@ function cardLeg(){bedStop();const q=current(),last=state.i===state.queue.length
 function beginRound(){state.leg='build';state.queue=shuffle(state.words);state.i=0;nextBlock()}
 function blocksPanel(inner){scene('reef');app.innerHTML=buddyHTML()+headerBar('Letter Blocks')+`<section class="bstage"><div class="card">${inner}</div></section>`;wireBack(()=>chooseSets('blocks'));window.onkeydown=null}
 function roundBreak(){blocksPanel(`<div class="reveal">Round 1 done ⭐</div><p class="prompt">The same five words again, all mixed up.</p><div class="actions"><button class="primary go">Go →</button></div>`);say('good','Five down. I am right here.');$('.go').onclick=beginRound}
-function blocksDone(){const words=state.words,idx=state.setIndex;
+function blocksDone(){if(state.after)return state.after();const words=state.words,idx=state.setIndex;
   blocksPanel(`<div class="reveal">All five built 🎉</div><p class="prompt">Now spell them on the keyboard.</p><div class="actions"><button class="primary keys">Keyboard →</button><button class="secondary again">Word cards again</button><button class="secondary done">Done</button></div>`);
   say('good','You built every one of them!');
   $('.keys').onclick=()=>start('practice',words);$('.again').onclick=()=>startBlocks(idx);$('.done').onclick=home}
@@ -300,10 +321,11 @@ function writeRec(word){const r=rec(word);
   if(r.writeStage==null)r.writeStage=0;
   return r}
 let surface=null;
-function writeDestroy(){if(surface){surface.destroy();surface=null}}
-function startWrite(idx){writeDestroy();
-  state={screen:'write',mode:'write',setIndex:idx,queue:SETS[idx].map(word=>({word,set:idx+1})),i:0,
-    stage:0,level:writeLevel(idx),accent:'us',misses:0,inked:0,locked:false,screenToken:0,buddy:buddyFor(idx)};
+function writeDestroy(){if(surface){surface.destroy();surface=null}if(guidance)guidance.pause()}
+function startWrite(idx,one,after){writeDestroy();
+  const words=one?[one]:SETS[idx].map(word=>({word,set:idx+1}));
+  state={screen:'write',mode:'write',setIndex:idx,queue:words,i:0,
+    stage:0,level:writeLevel(idx),accent:'us',misses:0,inked:0,locked:false,screenToken:0,buddy:buddyFor(idx),after};
   nextWriteWord(true)}
 function nextWriteWord(first=false){if(state.i>=state.queue.length)return writeDone();
   /* Resume where this word was left and never further back: a child who has already
@@ -312,7 +334,28 @@ function nextWriteWord(first=false){if(state.i>=state.queue.length)return writeD
      reachable from the step row once it has opened. See goStage. */
   state.stage=Math.min(2,writeRec(current().word).writeStage||0);
   state.misses=0;state.inked=0;state.accent=accentFor(current().word);
-  renderWrite();setTimeout(playWord,first?450:250)}
+  renderWrite();speakStage(first?450:250)}
+/* THE WORD, THEN THE GUIDANCE (owner, 2026-09-17: "Play word first, then guidance after
+   a short pause", every time a stage opens). 'ended' is the honest beat; behind it sits
+   a generous duration estimate for the browsers whose 'ended' never fires -- the same
+   net the math app had to build for iOS Safari -- and whichever fires first wins, once.
+   The screen token guards the whole chain: a fast stage change or an exit retires the
+   old screen's pending guidance unsaid, so a child never hears instructions for a
+   screen they have already left. */
+function speakStage(delay){
+  const tok=state.screenToken;
+  setTimeout(()=>{
+    if(tok!==state.screenToken)return;
+    playWord();
+    let said=false;
+    const later=()=>{if(said||tok!==state.screenToken)return;said=true;
+      setTimeout(()=>{if(tok===state.screenToken)guide(WRITE_STAGES[state.stage].key)},550)};
+    const est=700+(current().word.length*280);
+    /* Guarded: a stubbed or exotic Audio without events still reaches `later` through
+       the estimate net, which is the whole reason the net exists. */
+    if(audio&&typeof audio.addEventListener==='function')audio.addEventListener('ended',later,{once:true});
+    setTimeout(later,est);
+  },delay)}
 function renderWrite(){bedStop();writeDestroy();window.onkeydown=null;
   const q=current(),st=state.stage,show=st<2,r=writeRec(q.word);
   /* How far back the step row may reach for this word: every stage it has unlocked,
@@ -365,7 +408,7 @@ function renderWrite(){bedStop();writeDestroy();window.onkeydown=null;
 function goStage(tok,n){if(tok!==state.screenToken)return;
   const r=writeRec(current().word);
   if(n===state.stage||n<0||n>Math.min(2,r.writeStage||0))return;
-  state.screenToken++;state.stage=n;state.misses=0;state.inked=0;renderWrite()}
+  state.screenToken++;state.stage=n;state.misses=0;state.inked=0;renderWrite();speakStage(250)}
 /* Nothing to move on from until there is ink on the line -- except on the tracing
    stage, where the dots do the asking and a child may leave when they like. */
 function writeReady(){const b=$('.wnext');if(!b)return;const off=state.stage>0&&!state.inked;
@@ -387,7 +430,7 @@ function buildSurface(tok){const svg=$('.writesvg');
       /* The repo's two thresholds, in the shape this mode can offer them: at two
          misses the app writes the stroke slowly rather than saying the same words
          again, and at three it gives that stroke so a child is never held on one. */
-      if(state.misses===2)setTimeout(()=>{if(surface)surface.demo('slow')},450);
+      if(state.misses===2)setTimeout(()=>{if(surface){surface.demo('slow');guide('demo')}},450);
       else if(state.misses>=3){state.misses=0;
         setTimeout(()=>{if(surface){surface.demo('slow');
           setTimeout(()=>{if(surface){surface.stopDemo();surface.giveStroke()}},1500)}},450)}},
@@ -412,9 +455,42 @@ function writeStageDone(tok){if(tok!==state.screenToken)return;state.screenToken
   if(st>=2){/* the whole progression for this word, finished */
     feedback('You wrote it! ⭐','good');cheer();chime(true);celebrate();
     writeDestroy();state.i++;return setTimeout(nextWriteWord,900)}
-  state.stage=st+1;state.misses=0;state.inked=0;renderWrite()}
-function writeDone(){writeDestroy();bedStop();scene('reef');
+  state.stage=st+1;state.misses=0;state.inked=0;renderWrite();speakStage(250)}
+function writeDone(){if(state.after)return state.after();writeDestroy();bedStop();scene('reef');
   app.innerHTML=buddyHTML()+headerBar('Write Words')+`<section class="wstage"><div class="card"><div class="reveal">You wrote all five 🎉</div><p class="prompt">Five words, three ways each.</p><div class="actions"><button class="primary again">Another set</button><button class="secondary done">Done</button></div></div></section>`;
   wireBack(home);window.onkeydown=null;say('good','You wrote every one of them!');
   $('.again').onclick=()=>chooseSets('write');$('.done').onclick=home}
+/* ---- WEAK WORDS, ROUTED -----------------------------------------------------
+   §5.3: the queue keeps its entry predicate, its priority() order and its cap of
+   ten, and each queued word is now served through ONE representation, chosen by
+   weakRoute() — Hear/See, one build, Write Words at the stage the word reached,
+   or the keyboard. The other flows each own a whole sitting and end on screens
+   of their own, so this sitting hands each word to the right flow for that word
+   alone and takes itself back through state.after when that flow's word is done.
+   The buddy is the word's own set's, the accent rotation is accentFor()'s, and a
+   back-arrow out of a leg abandons the sitting, as it abandons any other. */
+let weakSitting=null;
+function startWeak(q){weakSitting={queue:shuffle(q),i:0};weakNext()}
+function weakNext(){const s=weakSitting;if(!s)return;
+  if(s.i>=s.queue.length){weakSitting=null;return home()}
+  const q=s.queue[s.i],how=weakRoute(q.word),
+    done=()=>{if(weakSitting!==s)return;s.i++;weakNext()};
+  if(how==='see')return weakSee(q,done);
+  /* startBlocks/startWrite take the chosen word itself and wrap it; handing them
+     a one-word array here would nest it and deal tiles for an undefined word. */
+  if(how==='build')return startBlocks(q.set-1,q,done);
+  if(how==='write')return startWrite(q.set-1,q,done);
+  start('practice',[q],'',done)}
+/* The Hear/See representation is the card the blocks flow opens on — picture,
+   word, audio, nothing to answer — and seeing the word beside its picture is
+   recognition evidence (§5.2). The exposure is what moves the word on: without
+   it, this card would be served again every sitting. writeRec() is also where a
+   record older than the writing build gains the new tracks, so the first card a
+   pre-upgrade weak word is served through is its migration. */
+function weakSee(q,done){state={screen:'weak',mode:'weak',queue:[q],i:0,accent:'us',buddy:buddyFor(q.set-1)};
+  state.accent=accentFor(q.word);const r=writeRec(q.word);
+  r.recognise.exposures++;r.recognise.lastAt=Date.now();save();bedStop();scene('reef');
+  app.innerHTML=buddyHTML()+headerBar('Weak Words',`<span class="pill">${weakSitting.i+1} / ${weakSitting.queue.length}</span>`)+`<section class="bstage"><div class="card">${visual(q.word)}<button class="sound" aria-label="Replay word">🔊</button><div class="reveal">${q.word.toUpperCase()}</div><p class="prompt">Look at it. Listen to it. Say it.</p><div class="actions"><button class="primary go">Next →</button></div></div></section>`;
+  wireBack(home);window.onkeydown=null;$('.sound').onclick=playWord;
+  $('.go').onclick=done;setTimeout(playWord,300)}
 home();if('serviceWorker'in navigator)navigator.serviceWorker.register('./service-worker.js');
