@@ -15,10 +15,32 @@
     *{box-sizing:border-box;margin:0;padding:0}
     /* A night sky, in the space violet proposed for the SPACE card on Children Games
        (HUB-SPEC.md §2) -- dark like Planets & Moons' deliberate night, so the two
-       card colours below sit inside it rather than fighting it. */
+       card colours below sit inside it rather than fighting it. The gradient stays as
+       the background colour: it is what paints before the image decodes, and what
+       shows if the image 404s -- never a blank white flash on a dark app. */
     body{
       font-family:'Nunito',sans-serif;min-height:100vh;color:#fff;
       background:linear-gradient(170deg,#3b2e78 0%,#2e2560 55%,#1e1748 100%);
+    }
+    /* The owner's backdrop -- planets and stars framing an empty centre -- sits behind
+       everything as its own layer so the scrim below can dim it without touching the
+       gradient underneath. background-attachment stays the default (scroll): iOS Safari
+       does not support fixed backgrounds well, and this page never scrolls anyway. */
+    .backdrop{
+      position:fixed;inset:0;z-index:0;
+      background-image:url('./assets/backdrop.webp');
+      background-size:cover;background-position:center;background-repeat:no-repeat;
+    }
+    /* A subtle scrim: the source image is brightest at its four corners (planets,
+       nebula) and darkest in the middle, which is the opposite of what the cards need,
+       since the cards sit in the middle on a phone and spread toward the corners on
+       the iPad's wider canvas. A soft radial vignette keeps the centre clear (that is
+       where the heading reads best against the plain sky) and quietly darkens the
+       edges the art is busiest at, so white card text stays readable without hiding
+       the art. */
+    .scrim{
+      position:fixed;inset:0;z-index:0;
+      background:radial-gradient(ellipse at center,rgba(20,14,46,0) 0%,rgba(20,14,46,.15) 55%,rgba(20,14,46,.5) 100%);
     }
     .wrap{
       position:relative;z-index:1;min-height:100vh;
@@ -128,6 +150,8 @@
   <span>Children Games</span>
 </a>
 
+<div class="backdrop"></div>
+<div class="scrim"></div>
 <div class="wrap">
   <h1><span>Space</span></h1>
   <p class="sub">Stories and planets to explore</p>
