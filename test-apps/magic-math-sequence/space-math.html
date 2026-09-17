@@ -12902,7 +12902,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
      the browser refuses it, and the games must still run. */
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
-      navigator.serviceWorker.register('./service-worker.js').catch(function () {});
+      Promise.resolve() /* Test Hub staging: no service worker */.catch(function () {});
     });
   }
 </script>

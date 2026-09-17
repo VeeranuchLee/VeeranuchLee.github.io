@@ -135,6 +135,52 @@
       .card{transition:none}
       .card:hover{transform:none}
     }
+
+    /* ── Music toggle ──
+       Top-right and fixed, mirroring the hub-btn's top-left placement and the same
+       60px circle the children's hub and Magic Math both use for this control -- a
+       child who learns the shape in one place should not have to find it again here.
+       Colours follow THIS page's own palette rather than copying children-apps' pink:
+       the note lights up in the star-gold (#ffd54f) the "Space" heading and every
+       focus ring on this page already use, so "on" reads as this app's own accent,
+       not a borrowed one. */
+    .music-btn{
+      position:fixed;z-index:50;
+      top:calc(14px + env(safe-area-inset-top));
+      right:calc(14px + env(safe-area-inset-right));
+      width:60px;height:60px;border-radius:50%;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg,#fff,#ece9ff);
+      border:2.5px solid #8f86d8;box-shadow:0 4px 0 #8f86d8;
+      cursor:pointer;padding:0;
+      -webkit-tap-highlight-color:transparent;
+      transition:transform .16s ease,box-shadow .16s ease;
+    }
+    .music-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #8f86d8}
+    .music-btn:focus-visible{outline:5px solid #ffd54f;outline-offset:4px}
+    .music-btn svg{width:30px;height:30px;display:block}
+    /* Two signals, not one: colour alone is not a state a child reads reliably, and
+       the slash is the part that says "no sound" with no words on it. */
+    .music-btn .note{fill:#8f86d8;transition:fill .16s ease}
+    .music-btn .slash{stroke:#8f86d8;stroke-width:2.6;stroke-linecap:round}
+    .music-btn[aria-pressed="true"] .note{fill:#e5a100}
+    .music-btn[aria-pressed="true"] .slash{display:none}
+    /* Only while it is actually playing, so the button never animates at a silence --
+       the same rule children-apps' bed follows: the pulse tracks what is AUDIBLE, not
+       what is merely preferred. */
+    .music-btn.playing{animation:musicPulse 2.2s ease-in-out infinite}
+    @keyframes musicPulse{
+      0%,100%{box-shadow:0 4px 0 #8f86d8}
+      50%    {box-shadow:0 4px 0 #8f86d8,0 8px 22px rgba(255,213,79,.55)}
+    }
+    @media (prefers-reduced-motion:reduce){
+      .music-btn{transition:none}
+      .music-btn.playing{animation:none}
+    }
+    @media (max-width:420px){
+      .music-btn{width:52px;height:52px}
+      .music-btn svg{width:26px;height:26px}
+    }
   </style>
 </head>
 <body>
@@ -149,6 +195,15 @@
   </svg>
   <span>Children Games</span>
 </a>
+
+<!-- Starts as "off" in the markup and is corrected by the script below the moment it
+     runs, so a remembered preference never renders as the wrong state. -->
+<button class="music-btn" id="musicBtn" type="button" aria-pressed="false" aria-label="Play music">
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path class="note" d="M20 3.5v11.2a3.3 3.3 0 1 1-2-3V7.9l-7 1.6v8.2a3.3 3.3 0 1 1-2-3V6.3l11-2.8z"/>
+    <line class="slash" x1="3.4" y1="3.4" x2="20.6" y2="20.6"/>
+  </svg>
+</button>
 
 <div class="backdrop"></div>
 <div class="scrim"></div>
@@ -184,6 +239,166 @@
       Promise.resolve() /* Test Hub staging: no service worker */.catch(function () {});
     });
   }
+
+  /* ══ HUB MUSIC ══
+     Owner approval, 2026-09-17, verbatim: "(c) Render a new space track: about 1,031
+     credits (1.7% of the key's quota). -> yes pls." One generated instrumental track,
+     off by default, behind its own toggle -- AUDIO-DIRECTION.md decision 9's shape,
+     decision 10's "conversation and not a habit" accepted a second time.
+
+     OWN KEY, NOT A SHARED ONE. veeranuchlee.github.io/, /children-apps/, /spelling-exam/
+     and /magic-math/ share an origin and therefore `localStorage`. This page's own key,
+     `space_music`, is what keeps it from reading or overwriting the main hub's
+     `ca_music` -- the same reason `ca_music`, `sm_music` and `spelling-exam-bed-v1` are
+     all distinct rather than one shared flag.
+
+     THIS PAGE ONLY, NEVER SPACE TRIVIA. Space Trivia is a wholly separate published
+     tree with its own service worker and no Sound toggle of its own (HUB-SPEC §12), so
+     the bed cannot follow a child in there even by accident -- there is no shared code
+     path for it to travel on.
+
+     PLAYHEAD PARKING, copied from Magic Math (math-app/index.html) rather than
+     children-apps: `space-bed.m4a` is 70.8s of written music, not a few-second loop, so
+     a fresh <audio> restarting at 0:00 on every navigation back to this hub would be
+     audibly broken. The position is parked in `space_music_t` on the way out and picked
+     up on the way in.
+
+     ARM SKIPS `<a>` TAPS, same reason as Magic Math: almost everything on this page is
+     a link (both cards, the back arrow) and starting a 900ms fade-in on the tap that
+     unloads the document buys a swell cut off mid-breath. A tap that keeps the child
+     here is what should start the music.
+
+     NOT PRECACHED. service-worker.js's SHELL list is unchanged by this file -- the
+     fetch handler is cache-first for same-origin GETs and stores the bed the first time
+     it plays. Adding ~880 KB to every child's first install to serve a feature that is
+     off by default would be the wrong trade, exactly as children-apps' own bed reasons
+     it (index.html, "NOT PRECACHED"). CACHE_NAME is still bumped on publish, because
+     index.html itself -- which IS precached -- changed. */
+  var Music = (function () {
+    var SRC = './audio/space-bed.m4a';
+    var KEY = 'space_music';
+    var TKEY = 'space_music_t';   // the parked playhead, in seconds
+    var FULL = 0.20;              /* resting level: present in a quiet room, never in front */
+    var RAMP_MS = 900, STEP_MS = 50;
+    var el = null, ramp = 0, armed = false, pref = false;
+    var seekTo = 0, posTaken = true;
+    try { pref = localStorage.getItem(KEY) === '1'; } catch (e) {}
+
+    var btn = document.getElementById('musicBtn');
+
+    function paint() {
+      btn.setAttribute('aria-pressed', pref ? 'true' : 'false');
+      btn.setAttribute('aria-label', pref ? 'Stop music' : 'Play music');
+      /* The pulse tracks what is AUDIBLE, not what is preferred: while a remembered
+         preference is still waiting on a first tap, the note is gold but nothing
+         throbs, which is the truth of that moment. */
+      btn.classList.toggle('playing', !!(el && !el.paused));
+    }
+
+    function fadeTo(v, thenPause) {
+      if (!el) return;
+      if (ramp) { clearInterval(ramp); ramp = 0; }
+      var from = el.volume, steps = Math.max(1, Math.round(RAMP_MS / STEP_MS)), i = 0;
+      ramp = setInterval(function () {
+        i++;
+        try { el.volume = Math.max(0, Math.min(1, from + (v - from) * (i / steps))); } catch (e) {}
+        if (i >= steps) {
+          clearInterval(ramp); ramp = 0;
+          if (thenPause && el) { try { el.pause(); } catch (e) {} }
+          paint();
+        }
+      }, STEP_MS);
+    }
+
+    function readPos() {
+      var t = 0; try { t = parseFloat(localStorage.getItem(TKEY)); } catch (e) {}
+      return (isFinite(t) && t > 0) ? t : 0;
+    }
+    /* Seeking needs metadata, and preload:'none' means there is none until something
+       asks for it -- called from loadedmetadata and again after play() resolves. */
+    function takePos() {
+      if (posTaken || !el || !(el.readyState >= 1)) return;
+      try { if (seekTo < el.duration) el.currentTime = seekTo; } catch (e) {}
+      posTaken = true;
+    }
+    /* `posTaken` is the guard that matters: a child who arrives, never touches the
+       page and taps straight into a card had an element that never loaded a byte and
+       whose currentTime is 0 -- saving that would overwrite a real position with
+       nothing. A page that never took the playhead does not get to move it. */
+    function savePos() {
+      if (!el || !posTaken) return;
+      try { localStorage.setItem(TKEY, String(el.currentTime || 0)); } catch (e) {}
+    }
+
+    function arm() {
+      if (armed) return;
+      armed = true;
+      var go = function (e) {
+        /* Skip taps that land on a link: both cards and the back arrow navigate away,
+           and starting the fade-in on the tap that unloads the page buys a swell cut
+           off mid-breath followed by silence on the other side. */
+        if (e.target && e.target.closest && e.target.closest('a')) return;
+        window.removeEventListener('pointerdown', go, true);
+        armed = false;
+        apply();
+      };
+      window.addEventListener('pointerdown', go, true);
+    }
+
+    function apply() {
+      if (!pref) {
+        if (el && !el.paused) fadeTo(0, true); else paint();
+        return;
+      }
+      if (!el) {
+        try { el = new Audio(SRC); } catch (e) { return; }
+        el.loop = true;
+        el.preload = 'none';
+        el.volume = 0;
+        seekTo = readPos(); posTaken = (seekTo === 0);
+        el.addEventListener('loadedmetadata', takePos);
+        el.addEventListener('playing', paint);
+        el.addEventListener('pause', paint);
+        takePos();
+      }
+      el.volume = 0;
+      var p;
+      try { p = el.play(); } catch (e) { arm(); return; }
+      if (p && p.then) p.then(function () { takePos(); fadeTo(FULL, false); paint(); }).catch(arm);
+      else { takePos(); fadeTo(FULL, false); paint(); }
+    }
+
+    btn.addEventListener('click', function () {
+      pref = !pref;
+      try { localStorage.setItem(KEY, pref ? '1' : '0'); } catch (e) {}
+      /* The click itself is the user gesture, so this is the one path where play() is
+         reliably allowed. */
+      apply();
+      paint();
+    });
+
+    paint();
+    apply();
+
+    /* Read-only, for verification. The element is never added to the document, so
+       there is otherwise no way to tell from outside whether the bed is actually
+       playing or merely intended to be. */
+    return {
+      save: savePos,
+      state: function () {
+        return { pref: pref, exists: !!el, playing: !!(el && !el.paused),
+                 volume: el ? +el.volume.toFixed(3) : null, armed: armed,
+                 posTaken: posTaken, currentTime: el ? +el.currentTime.toFixed(2) : null,
+                 src: SRC };
+      }
+    };
+  })();
+
+  /* Park the playhead before this document goes. `pagehide` is the one that fires on
+     iOS when the child taps into a card; `visibilitychange` catches the iPad being put
+     to sleep or the app swapped away, where pagehide does not come. */
+  window.addEventListener('pagehide', Music.save);
+  document.addEventListener('visibilitychange', function () { if (document.hidden) Music.save(); });
 </script>
 </body>
 </html>
