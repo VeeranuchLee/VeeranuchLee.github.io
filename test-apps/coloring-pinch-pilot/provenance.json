@@ -1,0 +1,8 @@
+{
+  "datePrepared": "2026-09-19",
+  "purpose": "Real-iPad QA of the zoom-trap fix (layers 1-2): the document-level gesturestart pinch block is removed and touch-action: manipulation now covers html as well as body. No double-tap timing guard by owner decision. Production stays at little-color-garden-v19.",
+  "stagedFrom": "agent/zcode-coloring-pinch-pilot, coloring-app per that branch (ship set minus service-worker.js)",
+  "rule": "INTERACTION-DIRECTION.md",
+  "task": "coordination/tasks/2026-09-19-0005-zcode-coloring-pinch-pilot.md",
+  "serviceWorker": "Stripped per scripts/testhub-service-worker.py: a staged copy must carry no worker, because /test-apps/ and the live app share one origin and one CacheStorage."
+}
