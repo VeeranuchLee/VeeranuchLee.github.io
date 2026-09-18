@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Dictionary</title>
+  <link rel="manifest" href="./manifest.webmanifest"/>
+  <link rel="stylesheet" href="./fonts.css"/>
+  <meta name="theme-color" content="#3a1e33"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Our Dictionary"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'Nunito',sans-serif;min-height:100vh;color:#3a1e33;
+      background:#fdf6ff;
+      -webkit-text-size-adjust:100%;
+    }
+
+    /* ── The header, stuck as ONE piece ──
+       The bar and the A-Z strip used to be sticky separately, both at top:0. The bar won
+       on z-index, so the moment the page scrolled it painted straight over the strip and
+       a child lost the only fast way to move through the dictionary.
+
+       They stick together now, from this one wrapper, because the bar's height is not a
+       number anyone can write down: it wraps at narrow widths (79px at 768px, 183px at
+       400px) and its top padding carries env(safe-area-inset-top), which differs by
+       device. Any `.az{top:<px>}` would be right on one screen and wrong on the next.
+       Gluing them means nothing has to be measured at all. */
+    .topbar{position:sticky;top:0;z-index:20}
+
+    /* Back to OUR WORD BOOK, not to Children Games. That is the navigation the owner
+       asked for -- Children Hub -> Our Word Book -> activity -> back to Our Word Book --
+       and it is the one thing a promotion like this gets wrong: moving a card without
+       moving the arrow leaves a child two taps from a page nobody meant them to see.
+       Relative, because this page and the front door are the same app. */
+    .bar{
+      display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+      padding:calc(10px + env(safe-area-inset-top)) 14px 10px;
+      background:rgba(253,246,255,.94);backdrop-filter:blur(8px);
+      border-bottom:3px solid #f0dcea;
+    }
+    .back{
+      display:inline-flex;align-items:center;gap:8px;
+      min-height:56px;padding:0 18px 0 14px;border-radius:50px;
+      background:linear-gradient(135deg,#fff,#ffe9f1);
+      border:2.5px solid #e59bbb;box-shadow:0 4px 0 #e59bbb;
+      color:#a8386a;text-decoration:none;
+      font-weight:900;font-size:1rem;line-height:1;white-space:nowrap;
+      -webkit-tap-highlight-color:transparent;transition:transform .1s;
+    }
+    .back:active{transform:translateY(3px);box-shadow:0 1px 0 #e59bbb}
+    .back:focus-visible{outline:4px solid #ffd54f;outline-offset:3px}
+    .back svg{width:22px;height:22px;flex:none}
+
+    h1{font-weight:900;font-size:1.35rem;color:#a8386a;margin-right:auto}
+
+    .find{
+      flex:1 1 220px;min-width:200px;
+      display:flex;align-items:center;gap:8px;
+      background:#fff;border:3px solid #f0dcea;border-radius:50px;
+      padding:0 14px;min-height:56px;
+    }
+    .find:focus-within{border-color:#e59bbb}
+    .find svg{width:22px;height:22px;flex:none;color:#c98aa8}
+    .find input{
+      flex:1;border:0;outline:0;background:transparent;
+      font-family:inherit;font-weight:800;font-size:1.05rem;color:#3a1e33;min-width:0;
+    }
+    .find input::placeholder{color:#c9a8bb}
+    .clear{
+      border:0;background:#f6e6ef;color:#a8386a;border-radius:50%;
+      width:34px;height:34px;flex:none;font:inherit;font-weight:900;font-size:1.1rem;
+      cursor:pointer;line-height:1;
+    }
+    .clear[hidden]{display:none!important}
+
+    /* ── A to Z ──
+       The whole alphabet, always visible, because a child who can find "S" does not need
+       to be taught a menu. 52px tall so it clears a finger on the 9.7" iPad this is built
+       for, and it scrolls sideways rather than wrapping into a block that pushes the words
+       off the screen. Not sticky itself -- .topbar above carries it. */
+    .az{
+      display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;
+      padding:10px 14px;background:#fdf6ff;
+      border-bottom:3px solid #f0dcea;
+      scrollbar-width:none;
+    }
+    .az::-webkit-scrollbar{display:none}
+    .az button{
+      flex:none;min-width:52px;height:52px;border-radius:16px;
+      border:2.5px solid #f0dcea;background:#fff;
+      font-family:inherit;font-weight:900;font-size:1.1rem;text-transform:uppercase;
+      color:#8a5c76;cursor:pointer;-webkit-tap-highlight-color:transparent;
+    }
+    .az button[aria-pressed="true"]{
+      background:linear-gradient(160deg,#d4739a,#a8386a);color:#fff;border-color:#a8386a;
+    }
+    .az button:focus-visible{outline:4px solid #ffd54f;outline-offset:2px}
+
+    main{padding:16px 14px 40px;max-width:1100px;margin:0 auto}
+
+    /* Three cards across at 768px, which is the target device in portrait. */
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+
+    .card{
+      background:#fff;border:3px solid #f0dcea;border-radius:22px;
+      overflow:hidden;display:flex;flex-direction:column;
+    }
+    .pic{
+      aspect-ratio:4/3;background:#faf0f6;
+      display:flex;align-items:center;justify-content:center;overflow:hidden;
+    }
+    .pic img{width:100%;height:100%;object-fit:cover;display:block}
+    /* A concept whose picture has not been drawn yet. This state NEVER SHIPS -- the owner
+       decided on 2026-09-09 that Our Dictionary does not publish until all 2,098 concepts
+       are illustrated, and check-word-data.py prints the remaining count every run. It
+       exists so the corpus can be reviewed now, and it says nothing to a child because no
+       child will see it. */
+    .pic.todo{background:repeating-linear-gradient(45deg,#faf0f6,#faf0f6 10px,#f4e4ee 10px,#f4e4ee 20px)}
+    .pic.todo span{font-weight:900;font-size:.72rem;color:#c9a8bb;letter-spacing:.04em}
+
+    .body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px}
+    .word{font-family:'Fredoka One',Nunito,sans-serif;font-size:1.5rem;line-height:1.1;color:#3a1e33}
+    /* Thai sits DIRECTLY under the English, which is where a reader who can already read
+       Thai looks for it -- animal-book/DECISIONS.md 3, applied here. Its own font stack
+       because the self-hosted Nunito is latin and latin-ext only and has no Thai glyphs;
+       Thonburi is the one the iPad supplies. Printed, never spoken: there is no Thai audio
+       anywhere in this project and none is planned (AUDIO-DIRECTION.md 4). */
+    .thai{
+      font-family:"Noto Sans Thai","Thonburi",ui-rounded,system-ui,sans-serif;
+      font-size:1.05rem;font-weight:700;color:#a8386a;line-height:1.35;
+    }
+    /* An example, not a definition. The owner's brief: "example sentences instead of
+       formal definitions". */
+    .eg{font-size:.9rem;font-weight:700;color:#6b5260;line-height:1.4;margin-top:2px}
+
+    .none{
+      grid-column:1/-1;text-align:center;padding:50px 20px;
+      font-weight:900;font-size:1.1rem;color:#a8386a;
+    }
+    .count{
+      margin:0 0 12px;font-weight:800;font-size:.85rem;color:#8a5c76;
+    }
+
+    @media (max-width:560px){
+      h1{font-size:1.1rem;width:100%;order:3;margin:0}
+      .find{order:4;flex-basis:100%}
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+<div class="bar">
+  <a class="back" href="index.html" aria-label="Back to Our Word Book">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <path d="M15 5 8 12l7 7"/>
+    </svg>
+    <span>Our Word Book</span>
+  </a>
+  <h1>Our Dictionary</h1>
+  <label class="find">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true" focusable="false">
+      <circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/>
+    </svg>
+    <input id="q" type="search" placeholder="Find a word" autocomplete="off"
+           enterkeyhint="search" aria-label="Find a word"/>
+    <button class="clear" id="clear" type="button" hidden aria-label="Clear">✕</button>
+  </label>
+</div>
+
+<nav class="az" id="az" aria-label="Choose a letter"></nav>
+</div>
+
+<main>
+  <p class="count" id="count"></p>
+  <div class="grid" id="grid"></div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var LETTERS = 'abcdefghijklmnopqrstuvwxyz'.split('');
+  var rows = [], letter = 'a', query = '';
+  var grid = document.getElementById('grid');
+  var count = document.getElementById('count');
+  var az = document.getElementById('az');
+  var q = document.getElementById('q');
+  var clear = document.getElementById('clear');
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  /* ONE CARD PER CONCEPT, not per spelling. The corpus keeps 72 groups of words that
+     share a spelling as separate cards -- `bat` the animal and `bat` you hit a ball
+     with are two concepts with two Thai translations and two pictures. Two cards
+     reading "bat" is correct here, and the Thai line underneath is what tells them
+     apart, which is why it is never optional. */
+  function card(r) {
+    var word = r[0], thai = r[2], eg = r[3], pic = r[4];
+    var art = pic
+      ? '<div class="pic"><img src="' + esc(pic) + '" alt="" loading="lazy" decoding="async" draggable="false"></div>'
+      : '<div class="pic todo"><span>picture to come</span></div>';
+    return '<article class="card">' + art +
+      '<div class="body">' +
+      '<p class="word">' + esc(word) + '</p>' +
+      '<p class="thai" lang="th">' + esc(thai) + '</p>' +
+      '<p class="eg">' + esc(eg) + '</p>' +
+      '</div></article>';
+  }
+
+  function matches() {
+    if (query) {
+      var n = query.toLowerCase();
+      return rows.filter(function (r) {
+        return r[0].toLowerCase().indexOf(n) > -1 ||
+               r[2].indexOf(query) > -1 ||
+               r[3].toLowerCase().indexOf(n) > -1;
+      });
+    }
+    return rows.filter(function (r) { return r[0].charAt(0).toLowerCase() === letter; });
+  }
+
+  function render() {
+    var found = matches();
+    if (!found.length) {
+      grid.innerHTML = '<p class="none">No words here yet. Try another letter.</p>';
+      count.textContent = '';
+      return;
+    }
+    /* Built as one string and assigned once. 283 cards is the biggest letter, and
+       appending them one at a time re-lays out the page 283 times. */
+    grid.innerHTML = found.map(card).join('');
+    count.textContent = found.length === 1 ? '1 word' : found.length + ' words';
+  }
+
+  function buildAZ() {
+    az.innerHTML = LETTERS.map(function (l) {
+      return '<button type="button" data-l="' + l + '" aria-pressed="' +
+             (l === letter) + '">' + l + '</button>';
+    }).join('');
+    az.addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-l]');
+      if (!b) return;
+      letter = b.dataset.l;
+      query = '';
+      q.value = '';
+      clear.hidden = true;
+      syncAZ();
+      render();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  function syncAZ() {
+    Array.prototype.forEach.call(az.querySelectorAll('button'), function (b) {
+      b.setAttribute('aria-pressed', String(!query && b.dataset.l === letter));
+    });
+  }
+
+  q.addEventListener('input', function () {
+    query = q.value.trim();
+    clear.hidden = !query;
+    syncAZ();
+    render();
+  });
+  clear.addEventListener('click', function () {
+    query = ''; q.value = ''; clear.hidden = true; q.focus(); syncAZ(); render();
+  });
+
+  buildAZ();
+  count.textContent = 'Opening the book…';
+
+  fetch('data/dictionary.json').then(function (r) { return r.json(); }).then(function (d) {
+    rows = d.rows;
+    render();
+  }).catch(function () {
+    /* Says what a child can do about it, and does not explain itself. */
+    grid.innerHTML = '<p class="none">The book did not open. Try again in a moment.</p>';
+    count.textContent = '';
+  });
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('./service-worker.js').catch(function () {});
+    });
+  }
+})();
+</script>
+</body>
+</html>
