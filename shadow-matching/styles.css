@@ -116,3 +116,26 @@ body{
   .tile.nope{animation:none;border-color:#d9534f}
   .tile.chosen{transform:none}
 }
+
+/* ---- memory mode --------------------------------------------------------- */
+/* Twelve cards, 4x3 on the iPad in portrait. A card is 3:4 -- the shape a physical
+   memory card is, which is the shape the Math app's deck settled on for the same reason. */
+.deck{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+  max-width:560px;margin:0 auto;width:100%;
+}
+.card{
+  aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;
+  border:4px solid transparent;border-radius:18px;padding:8px;cursor:pointer;
+  background:linear-gradient(150deg,#5b86ad,#3d6b93);
+  box-shadow:0 5px 0 #2d5271;
+  /* The face-down back carries a faint shadow motif so a deck reads as THIS game's deck
+     rather than as generic blue rectangles. */
+  background-image:radial-gradient(circle at 50% 42%,rgba(255,255,255,.17) 0 26%,rgba(255,255,255,0) 27%),
+                   linear-gradient(150deg,#5b86ad,#3d6b93);
+}
+.card.up{background:#fff;background-image:none;box-shadow:0 5px 0 #cfdae5}
+.card.found{background:#eefaf1;background-image:none;border-color:#3f9d5d;opacity:.75;cursor:default}
+.card img{max-width:100%;max-height:100%;object-fit:contain}
+
+@media (max-width:420px){ .deck{grid-template-columns:repeat(3,1fr)} }
