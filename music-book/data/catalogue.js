@@ -27,7 +27,7 @@ export const COMPOSERS = [
   },
   {
     id: 'mozart',
-    portrait: null,
+    portrait: 'assets/portraits/mozart.webp',
     name: 'Wolfgang Amadeus Mozart',
     shortName: 'Mozart',
     birthYear: 1756,
@@ -40,7 +40,7 @@ export const COMPOSERS = [
   },
   {
     id: 'tchaikovsky',
-    portrait: null,
+    portrait: 'assets/portraits/tchaikovsky.webp',
     name: 'Pyotr Ilyich Tchaikovsky',
     shortName: 'Tchaikovsky',
     birthYear: 1840,
@@ -333,7 +333,7 @@ export const PIECES = [
   },
   {
     id: 'twinkle',
-    art: null,
+    art: 'assets/songs/twinkle.webp',
     composerId: 'traditional',
     title: 'Twinkle Twinkle Little Star',
     shortTitle: 'Twinkle Twinkle',
@@ -471,7 +471,7 @@ export const PIECES = [
   },
   {
     id: 'frere-jacques',
-    art: null,
+    art: 'assets/songs/frere-jacques.webp',
     composerId: 'traditional',
     title: 'Frère Jacques',
     shortTitle: 'Frère Jacques',
@@ -652,7 +652,7 @@ export const PIECES = [
   },
   {
     id: 'london-bridge',
-    art: null,
+    art: 'assets/songs/london-bridge.webp',
     composerId: 'traditional',
     title: 'London Bridge Is Falling Down',
     shortTitle: 'London Bridge',

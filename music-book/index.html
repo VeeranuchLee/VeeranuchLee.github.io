@@ -22,14 +22,5 @@
   </div>
 
   <script type="module" src="app/app.js"></script>
-    <script>
-      /* Offline support. Best-effort on purpose: opened straight off the filesystem
-         the browser refuses to register a worker, and the book must still work. */
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function () {
-          navigator.serviceWorker.register('./service-worker.js').catch(function () {});
-        });
-      }
-    </script>
-</body>
+    </body>
 </html>

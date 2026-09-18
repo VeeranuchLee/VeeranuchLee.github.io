@@ -4,28 +4,28 @@
 
 
 export const CLASSICAL_COMPOSERS = [
-  { id: 'bach', portrait: null, name: 'Johann Sebastian Bach', shortName: 'Bach', birthYear: 1685, deathYear: 1750, country: 'Germany', period: 'Baroque', knownFor: 'Preludes, fugues, and church music that still teaches how harmony works.', summary: 'Bach wrote every day. Children meet him first through a few tunes that sound like they were always there.', importance: 3 },
-  { id: 'vivaldi', portrait: null, name: 'Antonio Vivaldi', shortName: 'Vivaldi', birthYear: 1678, deathYear: 1741, country: 'Italy', period: 'Baroque', knownFor: 'The Four Seasons — spring, summer, autumn and winter as violin pictures.', summary: 'Vivaldi taught at a girls’ orphanage in Venice. Their orchestra was famous.', importance: 3 },
-  { id: 'handel', portrait: null, name: 'George Frideric Handel', shortName: 'Handel', birthYear: 1685, deathYear: 1759, country: 'Germany and England', period: 'Baroque', knownFor: 'Big public music: Messiah, Water Music, fireworks.', summary: 'Handel wrote for kings and for crowds. Hallelujah is the crowd joining in.', importance: 3 },
+  { id: 'bach', portrait: 'assets/portraits/bach.webp', name: 'Johann Sebastian Bach', shortName: 'Bach', birthYear: 1685, deathYear: 1750, country: 'Germany', period: 'Baroque', knownFor: 'Preludes, fugues, and church music that still teaches how harmony works.', summary: 'Bach wrote every day. Children meet him first through a few tunes that sound like they were always there.', importance: 3 },
+  { id: 'vivaldi', portrait: 'assets/portraits/vivaldi.webp', name: 'Antonio Vivaldi', shortName: 'Vivaldi', birthYear: 1678, deathYear: 1741, country: 'Italy', period: 'Baroque', knownFor: 'The Four Seasons — spring, summer, autumn and winter as violin pictures.', summary: 'Vivaldi taught at a girls’ orphanage in Venice. Their orchestra was famous.', importance: 3 },
+  { id: 'handel', portrait: 'assets/portraits/handel.webp', name: 'George Frideric Handel', shortName: 'Handel', birthYear: 1685, deathYear: 1759, country: 'Germany and England', period: 'Baroque', knownFor: 'Big public music: Messiah, Water Music, fireworks.', summary: 'Handel wrote for kings and for crowds. Hallelujah is the crowd joining in.', importance: 3 },
   { id: 'pachelbel', portrait: null, name: 'Johann Pachelbel', shortName: 'Pachelbel', birthYear: 1653, deathYear: 1706, country: 'Germany', period: 'Baroque', knownFor: 'Canon in D, a bass line that repeats while the tune climbs over it.', summary: 'Pachelbel’s canon is one repeating eight-note walk in the bass. Everything else is decoration.', importance: 2 },
-  { id: 'haydn', portrait: null, name: 'Joseph Haydn', shortName: 'Haydn', birthYear: 1732, deathYear: 1809, country: 'Austria', period: 'Classical', knownFor: 'Symphonies with jokes, including the Surprise.', summary: 'Haydn liked waking sleepy listeners. One loud chord in a quiet tune did it.', importance: 2 },
-  { id: 'schubert', portrait: null, name: 'Franz Schubert', shortName: 'Schubert', birthYear: 1797, deathYear: 1828, country: 'Austria', period: 'Romantic', knownFor: 'Songs that feel like stories, and a trout that flickers in the piano.', summary: 'Schubert wrote more songs than he had years. Ave Maria and The Trout are two everyone knows.', importance: 3 },
-  { id: 'mendelssohn', portrait: null, name: 'Felix Mendelssohn', shortName: 'Mendelssohn', birthYear: 1809, deathYear: 1847, country: 'Germany', period: 'Romantic', knownFor: 'A wedding march and a violin concerto that starts without waiting.', summary: 'Mendelssohn wrote the march people still walk down aisles to.', importance: 2 },
-  { id: 'chopin', portrait: null, name: 'Frédéric Chopin', shortName: 'Chopin', birthYear: 1810, deathYear: 1849, country: 'Poland', period: 'Romantic', knownFor: 'Piano music that sings: nocturnes, waltzes, a raindrop that will not stop.', summary: 'Chopin almost only wrote for piano. The piano is the whole orchestra.', importance: 3 },
-  { id: 'schumann', portrait: null, name: 'Robert Schumann', shortName: 'Schumann', birthYear: 1810, deathYear: 1856, country: 'Germany', period: 'Romantic', knownFor: 'Small piano scenes: a daydream, a happy farmer, a child looking at a picture book.', summary: 'Schumann wrote albums for the young. The pieces are short on purpose.', importance: 2 },
-  { id: 'brahms', portrait: null, name: 'Johannes Brahms', shortName: 'Brahms', birthYear: 1833, deathYear: 1897, country: 'Germany', period: 'Romantic', knownFor: 'A lullaby almost every child has been sung, and fiery Hungarian dances.', summary: 'Brahms’s lullaby is gentle. His Hungarian Dance No. 5 is the opposite.', importance: 3 },
-  { id: 'saint-saens', portrait: null, name: 'Camille Saint-Saëns', shortName: 'Saint-Saëns', birthYear: 1835, deathYear: 1921, country: 'France', period: 'Romantic', knownFor: 'Carnival of the Animals — a swan, an aquarium, and dancing bones.', summary: 'Saint-Saëns made a zoo in music. The swan is the quiet one.', importance: 3 },
-  { id: 'grieg', portrait: null, name: 'Edvard Grieg', shortName: 'Grieg', birthYear: 1843, deathYear: 1907, country: 'Norway', period: 'Romantic', knownFor: 'Morning Mood and a mountain king whose hall gets faster and faster.', summary: 'Grieg painted Norway: sunrise, trolls, and a dance for Anitra.', importance: 3 },
-  { id: 'dvorak', portrait: null, name: 'Antonín Dvořák', shortName: 'Dvořák', birthYear: 1841, deathYear: 1904, country: 'Bohemia', period: 'Romantic', knownFor: 'The New World Symphony largo — a tune that feels like home.', summary: 'Dvořák wrote the largo in America, thinking of home. People still hum it as a hymn.', importance: 3 },
-  { id: 'mussorgsky', portrait: null, name: 'Modest Mussorgsky', shortName: 'Mussorgsky', birthYear: 1839, deathYear: 1881, country: 'Russia', period: 'Romantic', knownFor: 'Pictures at an Exhibition, and a wild night on a mountain.', summary: 'Mussorgsky walked through a picture gallery in music. The promenade is his own footsteps.', importance: 2 },
-  { id: 'rimsky-korsakov', portrait: null, name: 'Nikolai Rimsky-Korsakov', shortName: 'Rimsky-Korsakov', birthYear: 1844, deathYear: 1908, country: 'Russia', period: 'Romantic', knownFor: 'A bumblebee in flight, and Scheherazade telling stories on a violin.', summary: 'Rimsky-Korsakov painted with orchestra colours. The bee is all fast notes; the sea is all long ones.', importance: 3 },
-  { id: 'strauss', portrait: null, name: 'Johann Strauss II', shortName: 'Strauss', birthYear: 1825, deathYear: 1899, country: 'Austria', period: 'Romantic', knownFor: 'The Blue Danube waltz, and polkas that chatter.', summary: 'Strauss wrote dance music for Vienna. The Danube waltz is the city spinning.', importance: 3 },
-  { id: 'bizet', portrait: null, name: 'Georges Bizet', shortName: 'Bizet', birthYear: 1838, deathYear: 1875, country: 'France', period: 'Romantic', knownFor: 'Two tunes from Carmen: a swaying habanera and a marching toreador.', summary: 'Bizet’s opera is for grown-ups. The two tunes here are played without the story.', importance: 3 },
-  { id: 'rossini', portrait: null, name: 'Gioachino Rossini', shortName: 'Rossini', birthYear: 1792, deathYear: 1868, country: 'Italy', period: 'Bel canto', knownFor: 'Overtures that start quiet and end in a gallop, including William Tell.', summary: 'Rossini loved a crescendo. William Tell’s finish is a horse race in music.', importance: 2 },
-  { id: 'debussy', portrait: null, name: 'Claude Debussy', shortName: 'Debussy', birthYear: 1862, deathYear: 1918, country: 'France', period: 'Impressionist', knownFor: 'Clair de lune — moonlight as piano water.', summary: 'Debussy blurred the edges of chords the way painters blurred light.', importance: 3 },
-  { id: 'satie', portrait: null, name: 'Erik Satie', shortName: 'Satie', birthYear: 1866, deathYear: 1925, country: 'France', period: 'Early modern', knownFor: 'Gymnopédie No. 1 — three slow notes that refuse to hurry.', summary: 'Satie wrote music that sounds like it is thinking. Nothing is loud.', importance: 2 },
-  { id: 'joplin', portrait: null, name: 'Scott Joplin', shortName: 'Joplin', birthYear: 1868, deathYear: 1917, country: 'United States', period: 'Ragtime', knownFor: 'The Entertainer and Maple Leaf Rag — a steady left hand and a dancing right.', summary: 'Joplin called ragtime the folk music of the American city piano.', importance: 3 },
-  { id: 'holst', portrait: null, name: 'Gustav Holst', shortName: 'Holst', birthYear: 1874, deathYear: 1934, country: 'England', period: 'Early 20th century', knownFor: 'The Planets: a marching Mars and a big-hearted Jupiter.', summary: 'Holst wrote planets as characters. Mars is a tramp of feet. Jupiter is a hymn hiding in a dance.', importance: 3 }
+  { id: 'haydn', portrait: 'assets/portraits/haydn.webp', name: 'Joseph Haydn', shortName: 'Haydn', birthYear: 1732, deathYear: 1809, country: 'Austria', period: 'Classical', knownFor: 'Symphonies with jokes, including the Surprise.', summary: 'Haydn liked waking sleepy listeners. One loud chord in a quiet tune did it.', importance: 2 },
+  { id: 'schubert', portrait: 'assets/portraits/schubert.webp', name: 'Franz Schubert', shortName: 'Schubert', birthYear: 1797, deathYear: 1828, country: 'Austria', period: 'Romantic', knownFor: 'Songs that feel like stories, and a trout that flickers in the piano.', summary: 'Schubert wrote more songs than he had years. Ave Maria and The Trout are two everyone knows.', importance: 3 },
+  { id: 'mendelssohn', portrait: 'assets/portraits/mendelssohn.webp', name: 'Felix Mendelssohn', shortName: 'Mendelssohn', birthYear: 1809, deathYear: 1847, country: 'Germany', period: 'Romantic', knownFor: 'A wedding march and a violin concerto that starts without waiting.', summary: 'Mendelssohn wrote the march people still walk down aisles to.', importance: 2 },
+  { id: 'chopin', portrait: 'assets/portraits/chopin.webp', name: 'Frédéric Chopin', shortName: 'Chopin', birthYear: 1810, deathYear: 1849, country: 'Poland', period: 'Romantic', knownFor: 'Piano music that sings: nocturnes, waltzes, a raindrop that will not stop.', summary: 'Chopin almost only wrote for piano. The piano is the whole orchestra.', importance: 3 },
+  { id: 'schumann', portrait: 'assets/portraits/schumann.webp', name: 'Robert Schumann', shortName: 'Schumann', birthYear: 1810, deathYear: 1856, country: 'Germany', period: 'Romantic', knownFor: 'Small piano scenes: a daydream, a happy farmer, a child looking at a picture book.', summary: 'Schumann wrote albums for the young. The pieces are short on purpose.', importance: 2 },
+  { id: 'brahms', portrait: 'assets/portraits/brahms.webp', name: 'Johannes Brahms', shortName: 'Brahms', birthYear: 1833, deathYear: 1897, country: 'Germany', period: 'Romantic', knownFor: 'A lullaby almost every child has been sung, and fiery Hungarian dances.', summary: 'Brahms’s lullaby is gentle. His Hungarian Dance No. 5 is the opposite.', importance: 3 },
+  { id: 'saint-saens', portrait: 'assets/portraits/saint-saens.webp', name: 'Camille Saint-Saëns', shortName: 'Saint-Saëns', birthYear: 1835, deathYear: 1921, country: 'France', period: 'Romantic', knownFor: 'Carnival of the Animals — a swan, an aquarium, and dancing bones.', summary: 'Saint-Saëns made a zoo in music. The swan is the quiet one.', importance: 3 },
+  { id: 'grieg', portrait: 'assets/portraits/grieg.webp', name: 'Edvard Grieg', shortName: 'Grieg', birthYear: 1843, deathYear: 1907, country: 'Norway', period: 'Romantic', knownFor: 'Morning Mood and a mountain king whose hall gets faster and faster.', summary: 'Grieg painted Norway: sunrise, trolls, and a dance for Anitra.', importance: 3 },
+  { id: 'dvorak', portrait: 'assets/portraits/dvorak.webp', name: 'Antonín Dvořák', shortName: 'Dvořák', birthYear: 1841, deathYear: 1904, country: 'Bohemia', period: 'Romantic', knownFor: 'The New World Symphony largo — a tune that feels like home.', summary: 'Dvořák wrote the largo in America, thinking of home. People still hum it as a hymn.', importance: 3 },
+  { id: 'mussorgsky', portrait: 'assets/portraits/mussorgsky.webp', name: 'Modest Mussorgsky', shortName: 'Mussorgsky', birthYear: 1839, deathYear: 1881, country: 'Russia', period: 'Romantic', knownFor: 'Pictures at an Exhibition, and a wild night on a mountain.', summary: 'Mussorgsky walked through a picture gallery in music. The promenade is his own footsteps.', importance: 2 },
+  { id: 'rimsky-korsakov', portrait: 'assets/portraits/rimsky-korsakov.webp', name: 'Nikolai Rimsky-Korsakov', shortName: 'Rimsky-Korsakov', birthYear: 1844, deathYear: 1908, country: 'Russia', period: 'Romantic', knownFor: 'A bumblebee in flight, and Scheherazade telling stories on a violin.', summary: 'Rimsky-Korsakov painted with orchestra colours. The bee is all fast notes; the sea is all long ones.', importance: 3 },
+  { id: 'strauss', portrait: 'assets/portraits/strauss.webp', name: 'Johann Strauss II', shortName: 'Strauss', birthYear: 1825, deathYear: 1899, country: 'Austria', period: 'Romantic', knownFor: 'The Blue Danube waltz, and polkas that chatter.', summary: 'Strauss wrote dance music for Vienna. The Danube waltz is the city spinning.', importance: 3 },
+  { id: 'bizet', portrait: 'assets/portraits/bizet.webp', name: 'Georges Bizet', shortName: 'Bizet', birthYear: 1838, deathYear: 1875, country: 'France', period: 'Romantic', knownFor: 'Two tunes from Carmen: a swaying habanera and a marching toreador.', summary: 'Bizet’s opera is for grown-ups. The two tunes here are played without the story.', importance: 3 },
+  { id: 'rossini', portrait: 'assets/portraits/rossini.webp', name: 'Gioachino Rossini', shortName: 'Rossini', birthYear: 1792, deathYear: 1868, country: 'Italy', period: 'Bel canto', knownFor: 'Overtures that start quiet and end in a gallop, including William Tell.', summary: 'Rossini loved a crescendo. William Tell’s finish is a horse race in music.', importance: 2 },
+  { id: 'debussy', portrait: 'assets/portraits/debussy.webp', name: 'Claude Debussy', shortName: 'Debussy', birthYear: 1862, deathYear: 1918, country: 'France', period: 'Impressionist', knownFor: 'Clair de lune — moonlight as piano water.', summary: 'Debussy blurred the edges of chords the way painters blurred light.', importance: 3 },
+  { id: 'satie', portrait: 'assets/portraits/satie.webp', name: 'Erik Satie', shortName: 'Satie', birthYear: 1866, deathYear: 1925, country: 'France', period: 'Early modern', knownFor: 'Gymnopédie No. 1 — three slow notes that refuse to hurry.', summary: 'Satie wrote music that sounds like it is thinking. Nothing is loud.', importance: 2 },
+  { id: 'joplin', portrait: 'assets/portraits/joplin.webp', name: 'Scott Joplin', shortName: 'Joplin', birthYear: 1868, deathYear: 1917, country: 'United States', period: 'Ragtime', knownFor: 'The Entertainer and Maple Leaf Rag — a steady left hand and a dancing right.', summary: 'Joplin called ragtime the folk music of the American city piano.', importance: 3 },
+  { id: 'holst', portrait: 'assets/portraits/holst.webp', name: 'Gustav Holst', shortName: 'Holst', birthYear: 1874, deathYear: 1934, country: 'England', period: 'Early 20th century', knownFor: 'The Planets: a marching Mars and a big-hearted Jupiter.', summary: 'Holst wrote planets as characters. Mars is a tramp of feet. Jupiter is a hymn hiding in a dance.', importance: 3 }
 ];
 
 export const CLASSICAL_PIECES = [
@@ -450,7 +450,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'haydn-surprise-symphony-94-2',
-    art: null,
+    art: 'assets/bubbles/haydn-surprise-symphony-94-2.webp',
     composerId: 'haydn',
     title: 'Symphony No. 94 — Surprise',
     shortTitle: 'Surprise Symphony',
@@ -522,7 +522,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'mozart-eine-kleine-nachtmusik-1',
-    art: null,
+    art: 'assets/bubbles/mozart-eine-kleine-nachtmusik-1.webp',
     composerId: 'mozart',
     title: 'Eine kleine Nachtmusik',
     shortTitle: 'Eine kleine Nachtmusik',
@@ -1167,7 +1167,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'brahms-lullaby',
-    art: null,
+    art: 'assets/bubbles/brahms-lullaby.webp',
     composerId: 'brahms',
     title: "Brahms's Lullaby",
     alternateTitles: [],
@@ -1203,7 +1203,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'brahms-hungarian-dance-5',
-    art: null,
+    art: 'assets/bubbles/brahms-hungarian-dance-5.webp',
     composerId: 'brahms',
     title: 'Hungarian Dance No. 5',
     alternateTitles: [],
@@ -1237,7 +1237,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'brahms-waltz-op39-no15',
-    art: null,
+    art: 'assets/bubbles/brahms-waltz-op39-no15.webp',
     composerId: 'brahms',
     title: 'Waltz in A-flat, Op. 39 No. 15',
     alternateTitles: [],
@@ -1446,7 +1446,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'saint-saens-the-swan',
-    art: null,
+    art: 'assets/bubbles/saint-saens-the-swan.webp',
     composerId: 'saint-saens',
     title: 'The Swan',
     alternateTitles: [],
@@ -1480,7 +1480,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'saint-saens-aquarium',
-    art: null,
+    art: 'assets/bubbles/saint-saens-aquarium.webp',
     composerId: 'saint-saens',
     title: 'Aquarium',
     alternateTitles: [],
@@ -1514,7 +1514,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'saint-saens-danse-macabre',
-    art: null,
+    art: 'assets/bubbles/saint-saens-danse-macabre.webp',
     composerId: 'saint-saens',
     title: 'Danse macabre',
     alternateTitles: [],
@@ -1549,7 +1549,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'grieg-morning-mood',
-    art: null,
+    art: 'assets/bubbles/grieg-morning-mood.webp',
     composerId: 'grieg',
     title: 'Morning Mood',
     alternateTitles: [],
@@ -1583,7 +1583,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'grieg-mountain-king',
-    art: null,
+    art: 'assets/bubbles/grieg-mountain-king.webp',
     composerId: 'grieg',
     title: 'In the Hall of the Mountain King',
     alternateTitles: [],
@@ -1618,7 +1618,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'grieg-anitras-dance',
-    art: null,
+    art: 'assets/bubbles/grieg-anitras-dance.webp',
     composerId: 'grieg',
     title: "Anitra's Dance",
     alternateTitles: [],
@@ -1652,7 +1652,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'dvorak-new-world-largo',
-    art: null,
+    art: 'assets/bubbles/dvorak-new-world-largo.webp',
     composerId: 'dvorak',
     title: 'Symphony No. 9 — Largo',
     shortTitle: 'New World Largo',
@@ -1687,7 +1687,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'dvorak-humoresque-7',
-    art: null,
+    art: 'assets/bubbles/dvorak-humoresque-7.webp',
     composerId: 'dvorak',
     title: 'Humoresque No. 7',
     alternateTitles: [],
@@ -1722,7 +1722,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'dvorak-slavonic-dance-8',
-    art: null,
+    art: 'assets/bubbles/dvorak-slavonic-dance-8.webp',
     composerId: 'dvorak',
     title: 'Slavonic Dance No. 8',
     alternateTitles: [],
@@ -1756,7 +1756,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'mussorgsky-promenade',
-    art: null,
+    art: 'assets/bubbles/mussorgsky-promenade.webp',
     composerId: 'mussorgsky',
     title: 'Pictures at an Exhibition — Promenade',
     shortTitle: 'Promenade',
@@ -1791,7 +1791,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'mussorgsky-unhatched-chicks',
-    art: null,
+    art: 'assets/bubbles/mussorgsky-unhatched-chicks.webp',
     composerId: 'mussorgsky',
     title: 'Ballet of the Unhatched Chicks',
     shortTitle: 'Unhatched Chicks',
@@ -1830,7 +1830,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'mussorgsky-night-bald-mountain',
-    art: null,
+    art: 'assets/bubbles/mussorgsky-night-bald-mountain.webp',
     composerId: 'mussorgsky',
     title: 'Night on Bald Mountain',
     alternateTitles: [],
@@ -1864,7 +1864,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'rimsky-flight-bumblebee',
-    art: null,
+    art: 'assets/bubbles/rimsky-flight-bumblebee.webp',
     composerId: 'rimsky-korsakov',
     title: 'Flight of the Bumblebee',
     alternateTitles: [],
@@ -1901,7 +1901,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'rimsky-scheherazade-opening',
-    art: null,
+    art: 'assets/bubbles/rimsky-scheherazade-opening.webp',
     composerId: 'rimsky-korsakov',
     title: 'Scheherazade — opening',
     shortTitle: 'Scheherazade',
@@ -1936,7 +1936,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'strauss-blue-danube',
-    art: null,
+    art: 'assets/bubbles/strauss-blue-danube.webp',
     composerId: 'strauss',
     title: 'The Blue Danube',
     alternateTitles: [],
@@ -1970,7 +1970,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'strauss-tritsch-tratsch-polka',
-    art: null,
+    art: 'assets/bubbles/strauss-tritsch-tratsch-polka.webp',
     composerId: 'strauss',
     title: 'Tritsch-Tratsch-Polka',
     alternateTitles: [],
@@ -2004,7 +2004,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'bizet-habanera',
-    art: null,
+    art: 'assets/bubbles/bizet-habanera.webp',
     composerId: 'bizet',
     title: 'Carmen — Habanera',
     shortTitle: 'Habanera',
@@ -2038,7 +2038,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'bizet-toreador-song',
-    art: null,
+    art: 'assets/bubbles/bizet-toreador-song.webp',
     composerId: 'bizet',
     title: 'Carmen — Toreador Song',
     shortTitle: 'Toreador Song',
@@ -2075,7 +2075,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'rossini-william-tell-finale',
-    art: null,
+    art: 'assets/bubbles/rossini-william-tell-finale.webp',
     composerId: 'rossini',
     title: 'William Tell Overture — finale',
     shortTitle: 'William Tell',
@@ -2112,7 +2112,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'rossini-barber-seville-overture',
-    art: null,
+    art: 'assets/bubbles/rossini-barber-seville-overture.webp',
     composerId: 'rossini',
     title: 'The Barber of Seville — overture',
     shortTitle: 'Barber of Seville',
@@ -2148,7 +2148,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'debussy-clair-de-lune',
-    art: null,
+    art: 'assets/bubbles/debussy-clair-de-lune.webp',
     composerId: 'debussy',
     title: 'Clair de lune',
     alternateTitles: [],
@@ -2182,7 +2182,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'debussy-arabesque-1',
-    art: null,
+    art: 'assets/bubbles/debussy-arabesque-1.webp',
     composerId: 'debussy',
     title: 'Arabesque No. 1',
     alternateTitles: [],
@@ -2216,7 +2216,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'debussy-little-shepherd',
-    art: null,
+    art: 'assets/bubbles/debussy-little-shepherd.webp',
     composerId: 'debussy',
     title: 'The Little Shepherd',
     alternateTitles: [],
@@ -2250,7 +2250,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'satie-gymnopedie-1',
-    art: null,
+    art: 'assets/bubbles/satie-gymnopedie-1.webp',
     composerId: 'satie',
     title: 'Gymnopédie No. 1',
     alternateTitles: [],
@@ -2283,7 +2283,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'joplin-entertainer',
-    art: null,
+    art: 'assets/bubbles/joplin-entertainer.webp',
     composerId: 'joplin',
     title: 'The Entertainer',
     alternateTitles: [],
@@ -2319,7 +2319,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'joplin-maple-leaf-rag',
-    art: null,
+    art: 'assets/bubbles/joplin-maple-leaf-rag.webp',
     composerId: 'joplin',
     title: 'Maple Leaf Rag',
     alternateTitles: [],
@@ -2355,7 +2355,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'holst-jupiter',
-    art: null,
+    art: 'assets/bubbles/holst-jupiter.webp',
     composerId: 'holst',
     title: 'The Planets — Jupiter',
     shortTitle: 'Jupiter',
@@ -2390,7 +2390,7 @@ export const CLASSICAL_PIECES = [
   },
   {
     id: 'holst-mars',
-    art: null,
+    art: 'assets/bubbles/holst-mars.webp',
     composerId: 'holst',
     title: 'The Planets — Mars',
     shortTitle: 'Mars',
