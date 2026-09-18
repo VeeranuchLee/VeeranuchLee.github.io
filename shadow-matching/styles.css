@@ -85,3 +85,34 @@ body{
   .choice.pop{animation:none}
   .progress i.now{transform:none}
 }
+
+/* ---- board mode ---------------------------------------------------------- */
+/* Two columns, six rows, on the iPad in portrait without scrolling. A board a child has
+   to scroll is a board they lose their place on. */
+.modes{display:flex;gap:10px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.mode{
+  min-height:64px;padding:0 22px;border:none;border-radius:999px;
+  background:#fff;color:#2d5d7c;font:inherit;font-weight:800;cursor:pointer;
+  box-shadow:0 4px 0 #c9d6e2;
+}
+.mode.on{background:#2d5d7c;color:#fff;box-shadow:0 4px 0 #1e4159}
+.tally{font-weight:800;color:#55646f}
+
+.board{display:flex;gap:min(7vw,58px);justify-content:center;align-items:flex-start}
+.col{display:flex;flex-direction:column;gap:12px}
+.tile{
+  width:min(26vw,122px);height:min(20vw,96px);
+  display:flex;align-items:center;justify-content:center;
+  border:4px solid transparent;border-radius:18px;background:#fff;padding:8px;
+  cursor:pointer;box-shadow:0 5px 0 #cfdae5;
+}
+.tile img{max-width:100%;max-height:100%;object-fit:contain}
+.tile.chosen{border-color:#2d5d7c;transform:scale(1.04)}
+.tile.matched{border-color:#3f9d5d;background:#eefaf1;opacity:.72;cursor:default}
+.tile.nope{animation:nope .4s ease}
+@keyframes nope{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+@media (prefers-reduced-motion:reduce){
+  .tile.nope{animation:none;border-color:#d9534f}
+  .tile.chosen{transform:none}
+}
