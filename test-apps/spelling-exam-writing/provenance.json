@@ -1,0 +1,9 @@
+{
+  "datePrepared": "2026-09-19",
+  "purpose": "Real-iPad QA of the Write Words fix: the writing screen is now a locked viewport shell (no page drag under the finger), and the grader tells the child why a stroke was rejected while counting reasons per tier for the parked tolerance decision.",
+  "stagedFrom": "agent/zcode-write-path-ipad, spelling-exam-app per that branch (ship set minus service-worker.js)",
+  "rule": "INTERACTION-DIRECTION.md; audit: spelling-exam-app/2026-09-19-write-path-audit.md",
+  "task": "coordination/tasks/2026-09-19-0821-zcode-write-path-ipad.md",
+  "serviceWorker": "Stripped per scripts/testhub-service-worker.py: a staged copy must carry no worker (same origin, one CacheStorage).",
+  "productionUntouched": "The live /spelling-exam/ v4 and its cache are untouched by this staging."
+}
