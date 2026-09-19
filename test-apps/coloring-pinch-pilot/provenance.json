@@ -4,5 +4,7 @@
   "stagedFrom": "agent/zcode-coloring-pinch-pilot, coloring-app per that branch (ship set minus service-worker.js)",
   "rule": "INTERACTION-DIRECTION.md",
   "task": "coordination/tasks/2026-09-19-0005-zcode-coloring-pinch-pilot.md",
-  "serviceWorker": "Stripped per scripts/testhub-service-worker.py: a staged copy must carry no worker, because /test-apps/ and the live app share one origin and one CacheStorage."
+  "serviceWorker": "Stripped per scripts/testhub-service-worker.py: a staged copy must carry no worker, because /test-apps/ and the live app share one origin and one CacheStorage.",
+  "refreshed": "2026-09-19 evening: mosaic fill safety added to the same pilot — the margin outside every mosaic card is now non-fillable (one bad tap at an edge can no longer flood around the whole card), interstitial pockets are no-ops, and tools/check-mosaic-fill.py proves over all nine sheets that the fill cannot escape a region and the mask cannot swallow a cell.",
+  "fillHarness": "coloring-app/tools/check-mosaic-fill.py (runs in preflight; CI installs Pillow for it)"
 }
