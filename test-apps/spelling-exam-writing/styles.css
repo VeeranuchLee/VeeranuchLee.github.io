@@ -258,3 +258,10 @@ body.wlock #app>.top{flex:0 0 auto}
 /* The Write Words card's glyph: a dotted word with a hand actually on it. */
 .modeart .glyphtrace{fill:none;stroke:#7fb4cd;stroke-width:1.7;stroke-dasharray:1.6 3;font-size:26px;letter-spacing:.06em}
 .menu button:first-child .modeart .glyphtrace{stroke:#ffffffcc}
+
+/* The grown-ups evidence row: the muted line, plus a small grey ✕ that resets the
+   grader EVIDENCE only (2026-09-19). Tiny and quiet on purpose -- a child tapping it
+   costs nothing but a fresh evidence session. */
+.gline-row{margin:10px auto 0;display:flex;align-items:center;justify-content:center;gap:8px}
+.greset{border:0;background:none;color:#b6bec9;font-size:.85rem;min-width:26px;min-height:26px;padding:0 4px;cursor:pointer}
+.greset:active{color:#8a93a0}

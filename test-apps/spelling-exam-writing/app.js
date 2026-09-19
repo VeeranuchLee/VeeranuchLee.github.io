@@ -330,6 +330,14 @@ function grader(){if(!graderDb)graderDb={accepted:0,rejected:{1:{start:0,directi
   2:{start:0,direction:0,coverage:0,accuracy:0},3:{start:0,direction:0,coverage:0,accuracy:0}}};
   return graderDb}
 function graderSave(){try{localStorage.setItem(GRADER_STORE,JSON.stringify(graderDb))}catch{}}
+/* The grown-up reset, 2026-09-19: zeroes the EVIDENCE and nothing else. The child's
+   progress record (STORE) is a different key and is never touched, the grading
+   thresholds live in the ported engine and are never read here, and a reset starts a
+   fresh evidence session without erasing a single sticker, set or completion. The ✕
+   beside the grown-ups line is the only door to it -- a child has no reason to tap a
+   small grey dot that says nothing. */
+function resetGraderEvidence(){graderDb=null;try{localStorage.removeItem(GRADER_STORE)}catch{}
+  const line=$('.gline-row');if(line)line.outerHTML=graderLine()?`<p class="gline-row"><span class="gline">${graderLine()}</span><button class="greset" aria-label="Reset grader evidence for a fresh session">✕</button></p>`:''}
 function graderLine(){const g=grader();if(!g.accepted&&!Object.values(g.rejected).some(t=>Object.values(t).some(n=>n)))return'';
   const parts=['start','direction','coverage','accuracy'].map((k,i)=>[k,[1,2,3].reduce((s,L)=>s+(g.rejected[L][k]||0),0)])
     .filter(([,n])=>n).map(([k,n])=>`${k} ${n}`);
@@ -489,8 +497,9 @@ function writeStageDone(tok){if(tok!==state.screenToken)return;state.screenToken
     writeDestroy();state.i++;return setTimeout(nextWriteWord,900)}
   state.stage=st+1;state.misses=0;state.inked=0;renderWrite();speakStage(250)}
 function writeDone(){if(state.after)return state.after();writeDestroy();bedStop();scene('reef');
-  app.innerHTML=buddyHTML()+headerBar('Write Words')+`<section class="wstage"><div class="card"><div class="reveal">You wrote all five 🎉</div><p class="prompt">Five words, three ways each.</p>${graderLine()?`<p class="gline">${graderLine()}</p>`:''}<div class="actions"><button class="primary again">Another set</button><button class="secondary done">Done</button></div></div></section>`;
+  app.innerHTML=buddyHTML()+headerBar('Write Words')+`<section class="wstage"><div class="card"><div class="reveal">You wrote all five 🎉</div><p class="prompt">Five words, three ways each.</p>${graderLine()?`<p class="gline-row"><span class="gline">${graderLine()}</span><button class="greset" aria-label="Reset grader evidence for a fresh session">✕</button></p>`:''}<div class="actions"><button class="primary again">Another set</button><button class="secondary done">Done</button></div></div></section>`;
   wireBack(home);window.onkeydown=null;say('good','You wrote every one of them!');guide('round');
+  $('.greset')&&($('.greset').onclick=resetGraderEvidence);
   $('.again').onclick=()=>chooseSets('write');$('.done').onclick=home}
 /* ---- WEAK WORDS, ROUTED -----------------------------------------------------
    §5.3: the queue keeps its entry predicate, its priority() order and its cap of
