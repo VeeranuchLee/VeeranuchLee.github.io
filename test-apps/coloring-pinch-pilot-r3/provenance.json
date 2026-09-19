@@ -1,0 +1,11 @@
+{
+  "datePrepared": "2026-09-19",
+  "purpose": "Real-iPad QA of the zoom-trap fix (layers 1-2) and the mosaic fill safety (exterior non-fillable mask + tiny-pocket no-op). Production stays at little-color-garden-v19.",
+  "stagedFrom": "agent/zcode-mosaic-stalecache, coloring-app per that branch (ship set minus service-worker.js)",
+  "rule": "INTERACTION-DIRECTION.md",
+  "task": "coordination/tasks/2026-09-19-1759-zcode-mosaic-stalecache.md",
+  "serviceWorker": "Stripped per scripts/testhub-service-worker.py: a staged copy must carry no worker, because /test-apps/ and the live app share one origin and one CacheStorage.",
+  "whyR3": "The r2 refresh at /test-apps/coloring-pinch-pilot/ carried the same fixes, but the owner's iPad QA (17:5x ICT) still saw the old fill behaviour while reporting the zoom fix present — the signature of Safari serving the deploy-1 app.js from cache (Pages sends max-age=600 and iOS Safari revalidates unreliably on reload). WebKit probes on all nine sheets and a full-UI WebKit run found zero leak paths in the fixed code (cells identical to PIL ground truth, 0 painted px outside the art), so the fix itself was never in question. r3 is the same code under URLs no cache has ever seen, plus a visible build tag: if the badge says 'staging r3 - 19 Sep 2026', the bytes are fresh.",
+  "buildTag": "staging r3 - 19 Sep 2026, fixed top-right, pointer-events:none, staging-only markup that never exists in coloring-app/",
+  "fillHarness": "coloring-app/tools/check-mosaic-fill.py (runs in preflight; CI installs Pillow for it)"
+}
