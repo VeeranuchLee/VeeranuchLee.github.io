@@ -1,0 +1,674 @@
+/* Space Trivia — shell styles (PRODUCT-SPEC.md §11).
+   The calm indigo night-sky family the space apps share, for the chrome; a
+   near-white card as the answer's ground; large controls for a 7-year-old's
+   finger; chunky buttons with hard-shadow press states; calm motion — the
+   only sustained effect the family allows is the success sparkle (Phase 4).
+   Designed to a 9.7" iPad: 768px wide, portrait first, landscape a re-flow
+   (§12), never a phone. */
+
+* { box-sizing: border-box; }
+/* .screen layouts below set their own display, which would outrank the UA's
+   [hidden] rule -- so hidden wins explicitly, everywhere. */
+[hidden] { display: none !important; }
+button { font: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+a { -webkit-tap-highlight-color: transparent; }
+
+:root {
+  /* Chrome: .c-planets' night sky (site/children-apps/index.html:131) is the
+     family this app belongs to; gold and cyan are the two accents the space
+     apps already use for "the one big thing" and "active". Answer ground: a
+     near-white card, the Spelling Exam lesson -- it stays near-opaque over
+     the night sky so letter tiles keep their contrast (spec §11). */
+  --deep:        #151c46;
+  --deep-2:      #26306e;
+  --deeper:      #0d1231;
+  --ink:         #eaf1ff;
+  --ink-soft:    #9fb0d8;
+  --gold:        #ffd479;
+  --gold-top:    #ffe29a;
+  --gold-shadow: #d9a93e;
+  --gold-ink:    #3a2708;
+  --cyan:        #7fe3ff;
+  --lavender:    #aab4f2;
+  --card:        #fffdf6;
+  --card-ink:    #33395f;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  color: var(--ink);
+  font: 700 18px/1.35 'Nunito', system-ui, sans-serif;
+  background: linear-gradient(172deg, var(--deep-2) 0%, var(--deep) 58%, var(--deeper) 100%);
+  touch-action: manipulation;
+}
+
+/* Touch hygiene, the house standard since the owner's 2026-09-15 note about
+   selection blue and accidental zoom (spelling-exam-app/styles.css:117-149):
+   no text selection, no long-press callout, no double-tap zoom. Scrolling
+   stays -- `manipulation` removes the double-tap, not the scroll. */
+body {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+input, textarea, [contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+:focus-visible { outline: 4px solid var(--cyan); outline-offset: 3px; }
+
+/* ----------------------------------------------------------- start screen */
+
+#screen-start {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(22px, 5vh, 46px);
+  padding: clamp(24px, 6vh, 56px) 24px calc(28px + env(safe-area-inset-bottom));
+}
+
+.app-title {
+  margin: 0;
+  font-weight: 900;
+  font-size: clamp(2.5rem, 9vw, 4.2rem);
+  line-height: 1.05;
+  text-align: center;
+  text-shadow: 0 4px 14px rgba(0, 0, 0, .45);
+}
+
+.start-art { width: min(340px, 72vw); }
+.start-art svg { display: block; width: 100%; height: auto; }
+
+/* THE one big action (spec §3.1): primary, full-width, min-height 72px -- a
+   target for a whole hand, not a fingertip. */
+.play {
+  width: min(420px, 100%);
+  min-height: 72px;
+  border: 0;
+  border-radius: 24px;
+  background: linear-gradient(180deg, var(--gold-top), var(--gold));
+  box-shadow: 0 7px 0 var(--gold-shadow), 0 16px 30px rgba(0, 0, 0, .35);
+  color: var(--gold-ink);
+  font-weight: 900;
+  font-size: clamp(1.5rem, 5vw, 2rem);
+}
+.play:active {
+  transform: translateY(5px);
+  box-shadow: 0 2px 0 var(--gold-shadow), 0 8px 18px rgba(0, 0, 0, .3);
+}
+
+/* The way out, Start screen only. The word-book .hub-btn shape (arrow and
+   words, 60px tall -- the project's back-button floor, word-book/index.html:81),
+   in this app's lavender. */
+.hub-btn {
+  position: fixed;
+  z-index: 9;
+  top: calc(14px + env(safe-area-inset-top));
+  left: calc(14px + env(safe-area-inset-left));
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 60px;
+  padding: 0 20px 0 16px;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #fff, #eef1ff);
+  border: 2.5px solid var(--lavender);
+  box-shadow: 0 4px 0 var(--lavender);
+  color: #333c86;
+  text-decoration: none;
+  font-family: inherit;
+  font-weight: 900;
+  font-size: 1rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+.hub-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--lavender); }
+.hub-btn:focus-visible { outline: 4px solid var(--gold); outline-offset: 3px; }
+.hub-btn svg { width: 24px; height: 24px; flex: none; }
+
+/* ------------------------------------------------------- question screen */
+/* The spec §4 column, top to bottom: header bar, question text, speaker,
+   illustration, answer UI, feedback line. One column at 768px -- portrait
+   first is the established family shape, not a new one.
+
+   The column is exactly one screen tall, and the illustration is the ONE row
+   in it allowed to give ground. The shell could leave the height open
+   because its answer card was a 120px placeholder; Phase 4 fills that card
+   with four 64px choices and a 64px Next, and on a 9.7" iPad in portrait
+   (768x1024) the stack then ran past the fold — measured at 1136px of
+   content in a 1024px viewport on mercury-venus-002, whose question wraps to
+   three lines and whose picture exists, before Next was even added: the
+   correct answer sat on the bottom edge and Next was off-screen entirely. A
+   child does not scroll to find the answer. So every other row keeps its
+   size and the picture shrinks to fit, staying 4:3 as it does — spec §4
+   calls it context, never information, which is exactly what makes it the
+   row that yields. */
+
+#screen-question {
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  padding: max(12px, env(safe-area-inset-top)) clamp(14px, 3vw, 28px)
+           max(16px, env(safe-area-inset-bottom));
+}
+
+/* Nothing in the column shrinks except the picture. Without this, flex's
+   default shrink squashes the answer card itself and the choices lose the
+   64px the spec gives them. */
+#screen-question > * { flex-shrink: 0; }
+#screen-question > .q-art { flex-shrink: 1; }
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 60px;
+}
+
+/* Back arrow: to Start, never out of the app mid-mission (spec §4). 60px
+   square like every back button in the family. */
+.back {
+  border: 0;
+  border-radius: 18px;
+  min-width: 60px;
+  min-height: 60px;
+  background: #fff;
+  box-shadow: 0 5px 0 var(--lavender);
+  color: #333c86;
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 1;
+}
+.back:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--lavender); }
+
+.top h1 {
+  flex: 1;
+  margin: 0;
+  font-weight: 900;
+  font-size: clamp(1.3rem, 4vw, 1.9rem);
+  text-align: center;
+}
+
+/* The progress pill, same shape and same place as every sibling (spec §3) --
+   count-only, unobtrusive. Hidden until a mission gives it numbers. */
+.pill {
+  background: rgba(255, 255, 255, .14);
+  border: 1.5px solid rgba(234, 241, 255, .28);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: .85rem;
+  font-weight: 800;
+}
+
+/* The question is the top of the hierarchy; everything else is calmer
+   (spec §4). */
+.q-text {
+  font-size: clamp(1.35rem, 4.5vw, 2rem);
+  font-weight: 800;
+  max-width: 30ch;
+  margin: 14px auto 6px;
+  text-align: center;
+}
+
+/* The speaker button: persistent, replay at any time. The house 50x50 floor
+   (spelling-exam-app/styles.css:1) is the minimum, not the aim. */
+.sound {
+  align-self: center;
+  display: inline-grid;
+  place-items: center;
+  border: 0;
+  border-radius: 16px;
+  min-width: 56px;
+  min-height: 56px;
+  margin: 4px 0 2px;
+  background: #fff;
+  box-shadow: 0 4px 0 var(--lavender);
+  color: #333c86;
+}
+.sound:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--lavender); }
+.sound svg { width: 26px; height: 26px; }
+
+/* The illustration well: 4:3, up to 560px wide, centred (spec §4). Sized by
+   its HEIGHT so that aspect-ratio computes the width — that is what lets the
+   flex column above shrink it without stretching it: at its full 420px the
+   width is the same 560px it always was, and every pixel it gives back
+   narrows the picture in step, so it is never a letterbox and `cover` never
+   crops. The floor is 96px, below which a picture stops being a picture; if
+   a screen is ever too short even for that, the page scrolls as it did
+   before rather than clipping anything. */
+.q-art {
+  height: min(42svh, 420px);
+  min-height: 96px;
+  width: auto;
+  max-width: min(100%, 560px);
+  aspect-ratio: 4 / 3;
+  margin: 10px auto;
+  border-radius: 26px;
+  background: rgba(9, 13, 40, .55);
+  border: 1.5px solid rgba(150, 180, 255, .22);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.q-art img { width: 100%; height: 100%; object-fit: cover; }
+
+/* SEAM: the answer's ground (spec §11). Near-opaque, rounded, calm -- the
+   LETTERS board (Phase 3) and the MC buttons (Phase 4) land on it. */
+.answer-card {
+  width: min(100%, 640px);
+  margin: 8px auto;
+  min-height: 120px;
+  padding: clamp(14px, 3vw, 24px);
+  border-radius: 26px;
+  background: var(--card);
+  color: var(--card-ink);
+  box-shadow: 0 14px 34px rgba(4, 6, 24, .4);
+}
+
+/* One short line under the answer UI, never more than a sentence (spec §4).
+   A reserved height so appearing text cannot jump the layout. */
+.q-feedback {
+  min-height: 30px;
+  margin: 8px 0 4px;
+  text-align: center;
+  font-size: 1.08rem;
+  color: var(--ink);
+}
+
+/* ------------------------------------------- the answer UI (Phase 4, §6) ---
+   One question, one tap: every choice is a whole-hand button, min-height
+   64px — above the project's 60px back-button floor. Numeric choices sit in
+   a 2×2 grid, word choices stack full-width (spec §6), on the card's
+   near-white ground with the family's hard-shadow press. */
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.choices.numeric {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.choice {
+  border: 0;
+  border-radius: 20px;
+  min-height: 64px;
+  padding: 12px 18px;
+  background: linear-gradient(180deg, #ffffff, #eef1ff);
+  box-shadow: 0 5px 0 var(--lavender);
+  color: var(--card-ink);
+  font-weight: 800;
+  font-size: clamp(1.15rem, 3.6vw, 1.6rem);
+  line-height: 1.25;
+}
+.choice:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 var(--lavender);
+}
+/* A retired wrong answer (§6): faded to 45%, untappable, still its own
+   colour — no red, no X, nothing taken away. */
+.choice.retired {
+  opacity: .45;
+  pointer-events: none;
+}
+/* The single 300ms wobble a wrong tap gets — a thinking shiver, not a
+   shake-down (§6). */
+.choice.wobble { animation: choice-wobble .3s ease; }
+@keyframes choice-wobble {
+  0%, 100% { transform: translateX(0); }
+  30%      { transform: translateX(-7px); }
+  60%      { transform: translateX(5px); }
+}
+/* The miss-3 reveal (§6.1): the correct choice pulses gently ~4s, then rests
+   in its glow until tapped. */
+.choice.reveal {
+  animation: choice-pulse 1s ease-in-out 4;
+  box-shadow: 0 5px 0 var(--gold-shadow), 0 0 24px rgba(255, 212, 121, .5);
+}
+@keyframes choice-pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.05); }
+}
+/* The chosen-right button (§6): a soft gold glow. */
+.choice.right {
+  background: linear-gradient(180deg, var(--gold-top), var(--gold));
+  color: var(--gold-ink);
+  box-shadow: 0 5px 0 var(--gold-shadow), 0 0 26px rgba(255, 212, 121, .55);
+  pointer-events: none;
+}
+/* The unchosen ones once the answer is in: still themselves, only calmer. */
+.choice.settled {
+  opacity: .55;
+  pointer-events: none;
+}
+.choice:disabled { cursor: default; }
+
+/* Next (§5.5): a primary button below the answer UI, min-height 64px,
+   mounted only when the voice has finished — the child continues when they
+   choose. */
+.next {
+  display: block;
+  width: min(100%, 340px);
+  margin: 16px auto 2px;
+  border: 0;
+  border-radius: 20px;
+  min-height: 64px;
+  background: linear-gradient(180deg, var(--gold-top), var(--gold));
+  box-shadow: 0 6px 0 var(--gold-shadow), 0 14px 26px rgba(0, 0, 0, .28);
+  color: var(--gold-ink);
+  font-weight: 900;
+  font-size: clamp(1.2rem, 4vw, 1.6rem);
+}
+.next:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 var(--gold-shadow);
+}
+
+/* ------------------------------------ the LETTERS board (Phase 3, §5, §5.2) ---
+   The Spelling Exam's board (spelling-exam-app/styles.css:14-33) on this
+   app's near-white card: dashed slots, a wrapped bank, chunky tiles with the
+   family's hard-shadow press. Sizes are spec §5.2 verbatim -- tiles land at
+   about 54x61px at 768px and never under 44px in either dimension, and eight
+   slots plus gaps sit comfortably inside the card -- and the fixed hint tile
+   is the family's gold, the colour of the one thing that is settled. */
+.letters {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/* The miss-3 reveal (§5.4): the whole word above the board, and it stays --
+   the child builds it by copying it. */
+.reveal-word {
+  margin: 0;
+  font-weight: 900;
+  font-size: clamp(1.5rem, 5.5vw, 2.2rem);
+  letter-spacing: .12em;
+  color: var(--card-ink);
+  text-align: center;
+}
+
+/* The row takes the card's full width. `.letters` centres its children, which
+   shrinks each one to its content -- and an empty slot's content is nothing
+   but its border, so the row came out about 70px wide and the wrap below put
+   every slot on a line of its own: a six-letter word was a 430px column of
+   slots, pushing the bank to the bottom of the screen. Stretching the row
+   gives the slots their §5.2 width to sit side by side in. */
+.bslots {
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;   /* eight slots fit at 768; the wrap is the safety net */
+  gap: clamp(3px, .9vw, 8px);
+}
+/* The border is 2px, not the source's 3px: a placed tile fills the slot's
+   inside, and at 768px the slot is 49.2px wide, so a 3px border left the
+   tile a child taps to take a letter back at 43.2px -- under the 44px floor.
+   At 2px it is 45.2px, with the slot itself still §5.2's size. */
+.bslot {
+  flex: 0 1 clamp(30px, 6.4vw, 58px);
+  height: clamp(44px, 8.6vw, 68px);
+  border: 2px dashed #c4cdf2;
+  border-radius: 15px;
+  background: #f2f5ff;
+  display: grid;
+  place-items: center;
+}
+/* The slot under a dragging finger (§5.2). */
+.bslot.over {
+  border-color: var(--gold);
+  border-style: solid;
+  background: #fff3d6;
+}
+
+.pool {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  gap: clamp(6px, 1.5vw, 12px);
+  width: 100%;
+  min-height: 78px;
+  padding: 10px 12px;
+  border-radius: 22px;
+  background: #edf1fc;
+  box-shadow: inset 0 2px 8px rgba(38, 48, 110, .1);
+}
+.pool.over { box-shadow: inset 0 0 0 3px var(--gold); }
+
+.tile {
+  border: 0;
+  border-radius: 15px;
+  background: linear-gradient(180deg, #ffffff, #eef1ff);
+  box-shadow: 0 5px 0 var(--lavender);
+  color: var(--card-ink);
+  font-weight: 900;
+  font-size: clamp(1.1rem, 3.4vw, 1.85rem);
+  min-width: clamp(44px, 7vw, 58px);
+  height: clamp(44px, 8vw, 62px);
+  /* The drag must own the whole gesture: with the body's `manipulation` the
+     first pointermove would pan the page instead. */
+  touch-action: none;
+}
+.tile:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 var(--lavender);
+}
+.bslot .tile {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  border-radius: 12px;
+}
+/* The miss-2 hint (§5.4): gold and immovable -- the one settled thing. */
+.tile.fixed {
+  background: linear-gradient(180deg, var(--gold-top), var(--gold));
+  box-shadow: 0 5px 0 var(--gold-shadow);
+  color: var(--gold-ink);
+}
+.tile.lifted { opacity: .26; }
+.tile.ghost {
+  position: fixed;
+  z-index: 60;
+  margin: 0;
+  pointer-events: none;
+  transform: scale(1.14);
+  box-shadow: 0 14px 24px rgba(4, 6, 24, .35);
+}
+
+/* The win row (§5.5.1): the staggered pop. */
+.bslots.win .tile { animation: slot-pop .5s cubic-bezier(.34, 1.56, .64, 1); }
+.bslots.win .bslot:nth-child(2) .tile { animation-delay: .05s; }
+.bslots.win .bslot:nth-child(3) .tile { animation-delay: .1s; }
+.bslots.win .bslot:nth-child(4) .tile { animation-delay: .15s; }
+.bslots.win .bslot:nth-child(5) .tile { animation-delay: .2s; }
+.bslots.win .bslot:nth-child(6) .tile { animation-delay: .25s; }
+.bslots.win .bslot:nth-child(7) .tile { animation-delay: .3s; }
+.bslots.win .bslot:nth-child(8) .tile { animation-delay: .35s; }
+@keyframes slot-pop {
+  0%   { transform: scale(1); }
+  45%  { transform: scale(1.28) translateY(-6px); }
+  100% { transform: scale(1); }
+}
+
+/* Rotated (1024x768), height is the scarce axis: the same board on a tighter
+   rhythm. No tap target shrinks -- tiles and slots keep their §5.2 floors. */
+@media (min-width: 900px) and (max-height: 850px) {
+  .letters { gap: 8px; }
+  .reveal-word { font-size: clamp(1.25rem, 3.4vh, 1.7rem); }
+  .pool { min-height: 70px; padding: 8px 10px; }
+}
+
+/* The win pop is motion, so it switches off under prefers-reduced-motion
+   (§11) -- the row still locks and chimes; only the movement is gone. */
+@media (prefers-reduced-motion: reduce) {
+  .bslots.win .tile { animation: none; }
+}
+
+/* The success sparkle (§5.5, §11): stars in the family's colours, each
+   falling ~1.2s, the whole thing gone in 2.2s and nothing at all under
+   prefers-reduced-motion (below). */
+.celebration {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 50;
+}
+.confetti {
+  position: absolute;
+  top: -8%;
+  animation: confetti-fall 1.2s ease-in forwards;
+}
+@keyframes confetti-fall {
+  0%   { transform: translateY(0) rotate(0deg) scale(.6); opacity: 0; }
+  12%  { opacity: 1; }
+  100% { transform: translateY(105vh) rotate(320deg) scale(1); opacity: 0; }
+}
+
+/* ---------------------------------------------------- mission complete */
+/* Warm, one screen (spec §8): centre-column like the start screen, so the
+   ending sits in the family shape. No score, no grade, no recap — the
+   illustration, the words, three facts and two ways on. */
+#screen-complete {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: clamp(24px, 6vh, 56px) 24px calc(28px + env(safe-area-inset-bottom));
+}
+
+.done-art { width: min(300px, 62vw); }
+.done-art svg { display: block; width: 100%; height: auto; }
+
+.done-title {
+  margin: 0;
+  font-weight: 900;
+  font-size: clamp(2rem, 7vw, 3.2rem);
+  text-align: center;
+  text-shadow: 0 4px 14px rgba(0, 0, 0, .45);
+}
+
+.done-sub {
+  margin: 0;
+  text-align: center;
+  font-size: clamp(1.05rem, 3.4vw, 1.35rem);
+  color: var(--ink-soft);
+}
+
+/* Things we learned (§8): up to three teaching facts from the mission, each
+   tappable to hear its clip — a whole-card target on the near-white ground. */
+.learned {
+  width: min(100%, 640px);
+}
+.learned h3 {
+  margin: 0 0 10px;
+  text-align: center;
+  font-weight: 900;
+  font-size: 1.15rem;
+  color: var(--ink);
+}
+.learned-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.fact-card {
+  width: 100%;
+  min-height: 64px;
+  border: 0;
+  border-radius: 20px;
+  padding: 14px 18px;
+  background: var(--card);
+  box-shadow: 0 5px 0 rgba(150, 180, 255, .35);
+  color: var(--card-ink);
+  font-weight: 700;
+  font-size: 1.02rem;
+  line-height: 1.35;
+}
+.fact-card:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 rgba(150, 180, 255, .35);
+}
+
+/* The second way on: the Start screen's way out, unstuck from its corner to
+   sit in the column (its fixed twin stays on Start). */
+.hub-btn.done-hub {
+  position: static;
+  margin-top: 8px;
+}
+
+/* ------------------------------------------------------------- landscape */
+/* The 9.7" iPad rotated is 1024x768: width turns plentiful and height becomes
+   the scarce axis, so the vertical rhythm tightens and the illustration
+   yields first. A re-flow, not a second design (spec §12). */
+@media (min-width: 900px) and (max-height: 850px) {
+  #screen-start { gap: 16px; }
+  .start-art { width: min(250px, 36vh); }
+  .app-title { font-size: clamp(2rem, 5.5vh, 3rem); }
+
+  /* The question spreads instead of stacking. Portrait keeps it to 30ch
+     because a narrow measure is easier for a 7-year-old to track; rotated,
+     the width is there and the third line costs more than the measure
+     gains — the same question drops from three lines to two. */
+  .q-text {
+    margin-top: 8px;
+    max-width: 44ch;
+    font-size: clamp(1.2rem, 3.2vh, 1.65rem);
+  }
+
+  /* Rotated, height is the scarce axis and the illustration yields first
+     (spec §12). Capped by height, not width, for the same reason as above:
+     the width follows from the 4:3 and the picture never stretches. The
+     floor drops to 64px here: at 768px tall, the header, a two-line
+     question, four 64px choices, Next and the feedback line leave the
+     picture very little, and a smaller picture is the right thing to lose
+     — it is context, never information (spec §4), while a Next button off
+     the bottom of the screen is a child stuck. */
+  .q-art { height: min(34svh, 300px); min-height: 64px; margin: 4px auto; }
+
+  /* Every remaining millimetre of the vertical rhythm, tightened. None of
+     it touches a tap target: the choices keep their 64px, the speaker keeps
+     the house 50px floor, the back arrow keeps its 60. */
+  .sound { min-height: 50px; min-width: 50px; margin: 2px 0 0; }
+  .sound svg { width: 24px; height: 24px; }
+  .answer-card { min-height: 96px; margin: 6px auto; padding: 14px; }
+  .choices { gap: 10px; }
+  .next { margin: 12px auto 0; }
+  .q-feedback { margin: 6px 0 2px; font-size: 1rem; }
+
+  /* Mission Complete rotated: the same six things, closer together. Measured
+     at 819px of content in a 768px screen, which put the Space Hub button off
+     the bottom — the ending screen has two ways on and a child must be able
+     to see both. The illustration gives ground first here too, and the three
+     facts spread into the width they now have instead of wrapping. */
+  #screen-complete {
+    gap: 12px;
+    padding: 20px 24px calc(20px + env(safe-area-inset-bottom));
+  }
+  .done-art { width: min(190px, 26vh); }
+  .learned { width: min(100%, 860px); }
+  .learned-cards { gap: 8px; }
+}
+
+/* The only sustained effect the family allows is the success sparkle; it and
+   the answer states' small motions switch off under prefers-reduced-motion
+   (§11), the reveal keeping its steady glow so the miss-3 help survives
+   without the movement. The LETTERS slot-pop (Phase 3) carries its own
+   guard, as the family's do. */
+@media (prefers-reduced-motion: reduce) {
+  .celebration { display: none; }
+  .choice.wobble, .choice.reveal { animation: none; }
+}
