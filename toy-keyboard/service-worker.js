@@ -73,7 +73,7 @@
  *               its Test Hub card is removed. index.html only; no new shell file.
  */
 
-const CACHE_NAME = "toy-keyboard-v8";
+const CACHE_NAME = "toy-keyboard-v9";
 
 const SHELL = [
   "./",
