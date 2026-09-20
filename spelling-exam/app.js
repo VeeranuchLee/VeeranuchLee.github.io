@@ -116,7 +116,7 @@ const MODE_ART={
   write:`<svg viewBox="0 0 60 46" aria-hidden="true"><g class="s1"><path d="M2 8h56" stroke-dasharray="5 5"/><path d="M2 20h56" stroke-dasharray="5 5"/></g><path d="M2 32h56" class="s3"/><text x="15" y="32" class="glyphtrace">ab</text><path d="M48 4l7 7-16 16-9 2 2-9z" class="f3"/><path d="M32 20l-2 9 9-2z" class="f1"/><path d="M30 29l3.4-.9-2.5-2.5z" class="f2"/></svg>`,
   exam:`<svg viewBox="0 0 60 46" aria-hidden="true"><path d="M13 25v-4a17 17 0 0 1 34 0v4" class="s3"/><rect x="6.5" y="23" width="11" height="16" rx="5.5" class="f1"/><rect x="42.5" y="23" width="11" height="16" rx="5.5" class="f1"/><g class="f3"><rect x="21" y="40" width="7.4" height="4.4" rx="2.2"/><rect x="31" y="40" width="7.4" height="4.4" rx="2.2"/></g></svg>`};
 
-function home(){state.screen='home';state.buddy='';scene('hall');app.innerHTML=`<div class="topline"><a class="hub" href="${HUB}">← Our Word Book</a><button class="bedtoggle" aria-pressed="${bedOn()}">${bedOn()?"🔊":"🔈"} Music</button></div><section class="hero"><div class="mascot" aria-hidden="true">${MASCOT}</div><h1>Spelling Exam</h1><p>See it. Hear it. Spell it.</p></section><section class="menu"><button data-go="practice"><span class="modeart">${MODE_ART.practice}</span><strong>Practice Now</strong><small>Start with words that need you most</small></button><button data-go="learn"><i class="step">1</i><span class="modeart">${MODE_ART.learn}</span><strong>Learn Words</strong><small>Look, listen, then copy</small></button><button data-go="blocks"><i class="step">2</i><span class="modeart">${MODE_ART.blocks}</span><strong>Letter Blocks</strong><small>Build the word from tiles</small></button><button data-go="write"><i class="step">3</i><span class="modeart">${MODE_ART.write}</span><strong>Write Words</strong><small>Trace, copy, then write it</small></button><button data-go="sets"><i class="step">4</i><span class="modeart">${MODE_ART.sets}</span><strong>Word Sets 1–12</strong><small>Spell it on the keyboard</small></button><button data-go="weak"><span class="modeart">${MODE_ART.weak}</span><strong>Weak Words</strong><small>Practise tricky words again</small></button><button data-go="exam"><i class="step">5</i><span class="modeart">${MODE_ART.exam}</span><strong>Mock Exam</strong><small>Five words, results at the end</small></button></section>`;bindNav();$('.bedtoggle').onclick=()=>{setBed(!bedOn());home()};bedPlay()}
+function home(){state.screen='home';state.buddy='';scene('hall');app.innerHTML=`<div class="topline"><a class="hub" href="${HUB}">← Our Word Book</a><button class="bedtoggle" aria-pressed="${bedOn()}">${bedOn()?"🔊":"🔈"} Music</button></div><section class="hero"><div class="mascot" aria-hidden="true">${MASCOT}</div><h1>Spelling Exam</h1><p>See it. Hear it. Spell it.</p></section><section class="menu"><button data-go="practice"><span class="modeart">${MODE_ART.practice}</span><strong>Practise Now</strong><small>Start with words that need you most</small></button><button data-go="learn"><i class="step">1</i><span class="modeart">${MODE_ART.learn}</span><strong>Learn Words</strong><small>Look, listen, then copy</small></button><button data-go="blocks"><i class="step">2</i><span class="modeart">${MODE_ART.blocks}</span><strong>Letter Blocks</strong><small>Build the word from tiles</small></button><button data-go="write"><i class="step">3</i><span class="modeart">${MODE_ART.write}</span><strong>Write Words</strong><small>Trace, copy, then write it</small></button><button data-go="sets"><i class="step">4</i><span class="modeart">${MODE_ART.sets}</span><strong>Word Sets 1–12</strong><small>Spell it on the keyboard</small></button><button data-go="weak"><span class="modeart">${MODE_ART.weak}</span><strong>Weak Words</strong><small>Practise tricky words again</small></button><button data-go="exam"><i class="step">5</i><span class="modeart">${MODE_ART.exam}</span><strong>Mock Exam</strong><small>Five words, results at the end</small></button></section>`;bindNav();$('.bedtoggle').onclick=()=>{setBed(!bedOn());home()};bedPlay()}
 function bindNav(){document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>route(b.dataset.go))}
 function route(go){if(go==='practice')start('practice',shuffle(all()).sort((a,b)=>priority(b)-priority(a)).slice(0,10));if(go==='weak'){const q=all().filter(x=>{const r=rec(x.word);return r.incorrect||r.hintsUsed||r.blocksIncorrect||(r.write||{}).strokesRejected}).sort((a,b)=>priority(b)-priority(a));startWeak((q.length?q:all()).slice(0,10))}if(go==='sets')chooseSets('practice');if(go==='learn')chooseSets('learn');if(go==='blocks')chooseSets('blocks');if(go==='write')chooseSets('write');if(go==='exam')examMenu()}
 function headerBar(title,extra=''){return `<header class="top"><button class="back" aria-label="Back">←</button><h1>${title}</h1>${extra}</header>`}
@@ -310,6 +310,39 @@ const WRITE_STAGES=[
 /* One visible number, the same rule the Writing Book uses: the corridor tightens in
    thirds as the sets get harder (WRITING-EXPERIENCE-SPEC.md 10.2). */
 function writeLevel(setIndex){return setIndex<4?1:setIndex<8?2:3}
+/* THE GRADER TELLS THE CHILD WHY (owner report 2026-09-19: "apparently good writing
+   repeatedly fails... the UI exposes only generic retry feedback"). The engine has
+   always returned a specific reject reason; these are the Writing Book's own nudge
+   words for the same reasons, so a child meeting both apps is told the same thing
+   by both. Tolerances are NOT touched -- the parked level-tolerance decision stays
+   parked, and qc/grading.html's verdicts are unchanged because the engine is. */
+const WRITE_NUDGE={start:'Start at the green dot.',direction:'Follow the line from the dot.',
+  coverage:'Keep going to the end.',accuracy:'Stay on the line.'};
+/* Grader evidence, per difficulty tier, kept in a store of its own
+   (spelling-exam-grader-v1) so the progress record keeps exactly the shape the spec
+   names and test-write-words.js guards -- the evidence is device telemetry, not part
+   of the child's record. With this, the parked tolerance decision can one day be
+   made from what actually rejected the children on this device; see the muted line
+   on the round-complete screen. */
+const GRADER_STORE='spelling-exam-grader-v1';
+let graderDb=load(GRADER_STORE,null);
+function grader(){if(!graderDb)graderDb={accepted:0,rejected:{1:{start:0,direction:0,coverage:0,accuracy:0},
+  2:{start:0,direction:0,coverage:0,accuracy:0},3:{start:0,direction:0,coverage:0,accuracy:0}}};
+  return graderDb}
+function graderSave(){try{localStorage.setItem(GRADER_STORE,JSON.stringify(graderDb))}catch{}}
+/* The grown-up reset, 2026-09-19: zeroes the EVIDENCE and nothing else. The child's
+   progress record (STORE) is a different key and is never touched, the grading
+   thresholds live in the ported engine and are never read here, and a reset starts a
+   fresh evidence session without erasing a single sticker, set or completion. The ✕
+   beside the grown-ups line is the only door to it -- a child has no reason to tap a
+   small grey dot that says nothing. */
+function resetGraderEvidence(){graderDb=null;try{localStorage.removeItem(GRADER_STORE)}catch{}
+  const line=$('.gline-row');if(line)line.outerHTML=graderLine()?`<p class="gline-row"><span class="gline">${graderLine()}</span><button class="greset" aria-label="Reset grader evidence for a fresh session">✕</button></p>`:''}
+function graderLine(){const g=grader();if(!g.accepted&&!Object.values(g.rejected).some(t=>Object.values(t).some(n=>n)))return'';
+  const parts=['start','direction','coverage','accuracy'].map((k,i)=>[k,[1,2,3].reduce((s,L)=>s+(g.rejected[L][k]||0),0)])
+    .filter(([,n])=>n).map(([k,n])=>`${k} ${n}`);
+  return `Grown-ups — grader on this device: ${g.accepted} accepted`+(parts.length?` · rejected: ${parts.join(' · ')}`:'')}
+
 /* The evidence tracks of WRITING-EXPERIENCE-SPEC.md 6.2, created the way the Letter
    Blocks counters were: on first touch, beside everything already in the record. A
    record saved before this build gains them here and is never rewritten, and the
@@ -321,7 +354,10 @@ function writeRec(word){const r=rec(word);
   if(r.writeStage==null)r.writeStage=0;
   return r}
 let surface=null;
-function writeDestroy(){if(surface){surface.destroy();surface=null}if(guidance)guidance.pause()}
+function writeDestroy(){if(surface){surface.destroy();surface=null}if(guidance)guidance.pause();
+  /* The writing lock leaves with the surface: every other screen keeps the app's
+     ordinary scrolling document. renderWrite re-adds it on the way in. */
+  document.body.classList.remove('wlock')}
 function startWrite(idx,one,after){writeDestroy();
   const words=one?[one]:SETS[idx].map(word=>({word,set:idx+1}));
   state={screen:'write',mode:'write',setIndex:idx,queue:words,i:0,
@@ -357,6 +393,8 @@ function speakStage(delay){
     setTimeout(later,est);
   },delay)}
 function renderWrite(){bedStop();writeDestroy();window.onkeydown=null;
+  /* The locked writing shell: see the body.wlock block in styles.css. */
+  document.body.classList.add('wlock');
   const q=current(),st=state.stage,show=st<2,r=writeRec(q.word);
   /* How far back the step row may reach for this word: every stage it has unlocked,
      and not one past it. See goStage. */
@@ -425,8 +463,10 @@ function buildSurface(tok){const svg=$('.writesvg');
     keepInk:true,palmRejection:true,
     onProgress:step=>{state.misses=0;feedback(step.cue==='Start here'?'Start at the green dot.':step.cue,'')},
     onStroke:res=>{const r=writeRec(q.word);r.write.lastAt=Date.now();
-      if(res.pass){state.misses=0;r.write.strokesAccepted++;save();return}
-      state.misses++;r.write.strokesRejected++;save();feedback('Have another go.','try');
+      if(res.pass){state.misses=0;r.write.strokesAccepted++;grader().accepted++;graderSave();save();return}
+      state.misses++;r.write.strokesRejected++;save();
+      if(res.reason&&grader().rejected[state.level][res.reason]!=null){grader().rejected[state.level][res.reason]++;graderSave()}
+      feedback(WRITE_NUDGE[res.reason]||'Have another go.','try');
       /* The repo's two thresholds, in the shape this mode can offer them: at two
          misses the app writes the stroke slowly rather than saying the same words
          again, and at three it gives that stroke so a child is never held on one. */
@@ -457,8 +497,9 @@ function writeStageDone(tok){if(tok!==state.screenToken)return;state.screenToken
     writeDestroy();state.i++;return setTimeout(nextWriteWord,900)}
   state.stage=st+1;state.misses=0;state.inked=0;renderWrite();speakStage(250)}
 function writeDone(){if(state.after)return state.after();writeDestroy();bedStop();scene('reef');
-  app.innerHTML=buddyHTML()+headerBar('Write Words')+`<section class="wstage"><div class="card"><div class="reveal">You wrote all five 🎉</div><p class="prompt">Five words, three ways each.</p><div class="actions"><button class="primary again">Another set</button><button class="secondary done">Done</button></div></div></section>`;
-  wireBack(home);window.onkeydown=null;say('good','You wrote every one of them!');
+  app.innerHTML=buddyHTML()+headerBar('Write Words')+`<section class="wstage"><div class="card"><div class="reveal">You wrote all five 🎉</div><p class="prompt">Five words, three ways each.</p>${graderLine()?`<p class="gline-row"><span class="gline">${graderLine()}</span><button class="greset" aria-label="Reset grader evidence for a fresh session">✕</button></p>`:''}<div class="actions"><button class="primary again">Another set</button><button class="secondary done">Done</button></div></div></section>`;
+  wireBack(home);window.onkeydown=null;say('good','You wrote every one of them!');guide('round');
+  $('.greset')&&($('.greset').onclick=resetGraderEvidence);
   $('.again').onclick=()=>chooseSets('write');$('.done').onclick=home}
 /* ---- WEAK WORDS, ROUTED -----------------------------------------------------
    §5.3: the queue keeps its entry predicate, its priority() order and its cap of
