@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Uranus pronunciation — old vs re-rendered</title>
+<style>
+  :root { --ink:#25343b; --soft:#526169; --old:#8a5a07; --new:#0e5c46; }
+  * { box-sizing:border-box }
+  body { margin:0; padding:22px 16px 60px; font:16px/1.55 Nunito,"Avenir Next",system-ui,-apple-system,sans-serif;
+        color:var(--ink); background:linear-gradient(160deg,#eaf4ff,#f4ecff); min-height:100vh }
+  .wrap { max-width:1000px; margin:0 auto }
+  .panel { background:#fffdf7; border:3px solid #fff9; border-radius:22px; padding:20px 22px;
+           box-shadow:0 14px 36px #45566c22; margin-bottom:20px }
+  h1 { margin:0 0 10px; font-size:1.45rem; color:#243d52 }
+  p { margin:0 0 10px; color:var(--soft) }
+  p:last-child { margin:0 }
+  strong { color:var(--ink) }
+  h2 { margin:26px 0 8px; font-size:1.1rem; color:#243d52 }
+  table { width:100%; border-collapse:collapse; background:#fffdf7; border-radius:16px; overflow:hidden;
+          box-shadow:0 10px 26px #45566c1a; margin-bottom:8px }
+  th, td { padding:9px 10px; vertical-align:top; border-bottom:1px solid #eee6d4; text-align:left }
+  th { background:#f3ead2; color:#5a4513; font-size:.8rem; text-transform:uppercase; letter-spacing:.04em }
+  td.t { width:46%; color:var(--ink) }
+  td:nth-child(2) { border-left:3px solid #efd9a7; width:27% }
+  td:nth-child(3) { border-left:3px solid #bfe6d6; width:27% }
+  audio { width:100%; height:34px }
+  .asr { font-size:.72rem; color:#8b9299; margin-top:3px; font-style:italic }
+  .flag { display:inline-block; background:#fde1e6; color:#7c2f3c; border-radius:8px;
+          padding:1px 7px; font-size:.68rem; font-weight:800; white-space:nowrap }
+  .key span.oldk { color:var(--old); font-weight:800 }
+  .key span.newk { color:var(--new); font-weight:800 }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="panel">
+    <h1>Uranus — old clip vs re-rendered clip</h1>
+    <p><strong>What was wrong.</strong> The voice said &ldquo;Uranus&rdquo; Latin/Thai-style &mdash;
+    &ldquo;oo-RAH-nuhs&rdquo; (&#3623;&#3640;&#3619;&#3634;&#3609;&#3624;) &mdash; with no English y-glide and the wrong stress.
+    The owner heard it on the live apps (2026-09-20).</p>
+    <p><strong>What changed.</strong> Every clip below was re-rendered from the same voice, model, seed and
+    settings, with the one difference that the renderer input respells the name &mdash;
+    <strong>&ldquo;Yoor-uh-nus&rdquo;</strong> &mdash; while every word a child <em>sees</em> still spells
+    &ldquo;Uranus&rdquo;. 28 clips from <strong>Planets &amp; Moons</strong> (Solar System Order) and 28 from
+    <strong>Ari &amp; Dot</strong> (Solar Storybook).</p>
+    <p class="key"><span class="oldk">LEFT &mdash; old clip</span> (what plays on the live apps today) &nbsp;&middot;&nbsp;
+    <span class="newk">RIGHT &mdash; new clip</span> (in this fix&rsquo;s pull request, not yet published).</p>
+    <p><strong>Listen for:</strong> the name starting with a &ldquo;yoo&rdquo; glide (like &ldquo;Europe&rdquo;)
+    and the stress on the first syllable: <strong>YOOR-uh-nuhs</strong>. The italic line under each player is what the
+    Mac&rsquo;s own recogniser transcribed &mdash; evidence, not the verdict; your ear is the verdict.
+    Nothing here has been published &mdash; the live apps change only after your approval of a release.</p>
+  </div>
+
+  <h2>Ari &amp; Dot (Solar Storybook) &mdash; 28 clips, narrator voice</h2>
+  <table>
+    <tr><th>Line (page text)</th><th>Old clip</th><th>New clip</th></tr>
+    <tr>
+  <td class="t">Uranus and Neptune are cold ice giants.</td>
+  <td><audio controls preload="none" src="audio/old/p02-narrator-14-uranus-and-neptune-are-cold-ice.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Uranus and Neptune are cold ice giants.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p02-narrator-14-uranus-and-neptune-are-cold-ice.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Uranus and Neptune are cold ice giants.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Uranus <span class="flag">bare nameplate word — the risk case, listen first</span></td>
+  <td><audio controls preload="none" src="audio/old/p02-narrator-20-uranus.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Oranus.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p02-narrator-20-uranus.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Eurohnus.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Blue-green Uranus rolls around the Sun almost on its side. Its unusual tilt brings long seasons, faint rings, and a lopsided magnetic field.</td>
+  <td><audio controls preload="none" src="audio/old/p15-narrator-01-blue-green-uranus-rolls-around-the.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Blue green Uranus rolls around the sun almost on its side. Its unusual tilt brings long seasons, faint rings, and a lopsided magnetic field.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p15-narrator-01-blue-green-uranus-rolls-around-the.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Blue green yorjun nus rolls around the sun almost on its side. Its unusual tilt brings long seasons, faint rings, and a lopsided magnetic field.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Uranus spins around an axis tilted almost ninety-eight degrees, so the planet seems to roll along its orbit.</td>
+  <td><audio controls preload="none" src="audio/old/p15-narrator-02-uranus-spins-around-an-axis-tilted.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Urena spins around an axis tilted almost 98 degrees, so the planet seems to roll along its orbit.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p15-narrator-02-uranus-spins-around-an-axis-tilted.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Uranus spins around an axis tilted almost 98 degrees, so the planet seems to roll along its orbit.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Because Uranus is tipped sideways, sunlight and darkness can linger near each pole for many Earth years.</td>
+  <td><audio controls preload="none" src="audio/old/p15-narrator-03-because-uranus-is-tipped-sideways-sunlight.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Because Uranus is tipped sideways, sunlight and darkness can linger near each pole for many earth years.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p15-narrator-03-because-uranus-is-tipped-sideways-sunlight.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Because your unus is tipped sideways, sunlight and darkness can linger near each pole for many earth years.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Voyager 2 flew past Uranus in January nineteen eighty-six and remains the only spacecraft to visit closely.</td>
+  <td><audio controls preload="none" src="audio/old/p15-narrator-04-voyager-2-flew-past-uranus-in.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Voyager 2 flew past Uranus in January, 1986, and remains the only spacecraft to visit closely.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p15-narrator-04-voyager-2-flew-past-uranus-in.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Voyager 2 flew past Yoa Unis in January 1986 and remains the only spacecraft to visit closely.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Uranus. The ice giant that rolls along on its side.</td>
+  <td><audio controls preload="none" src="audio/old/p15-narrator-05-uranus-the-ice-giant-that-rolls.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Uranus, the ice giant that rolls along on its side.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p15-narrator-05-uranus-the-ice-giant-that-rolls.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Uranus, the ice giant that rolls along on its side.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Uranus is about fifty-one thousand kilometres wide, roughly four times wider than Earth.</td>
+  <td><audio controls preload="none" src="audio/old/p15-narrator-09-uranus-is-about-fifty-one-thousand.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Erenus is about 51,000 kilometers wide, roughly four times wider than Earth.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p15-narrator-09-uranus-is-about-fifty-one-thousand.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Your unus is about 51,000 kilometers wide, roughly 4 times wider than earth.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">One day on Uranus lasts about seventeen hours.</td>
+  <td><audio controls preload="none" src="audio/old/p15-narrator-10-one-day-on-uranus-lasts-about.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;One day on Uranus lasts about 17 hours.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p15-narrator-10-one-day-on-uranus-lasts-about.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;One day on Eurunoose lasts about 17 hours?&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">One Uranus year lasts about eighty-four Earth years.</td>
+  <td><audio controls preload="none" src="audio/old/p15-narrator-11-one-uranus-year-lasts-about-eighty.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;When Uranus here lasts about 84 Earth years.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p15-narrator-11-one-uranus-year-lasts-about-eighty.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;One year on this year lasts about 84 earth years.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Uranus&#x27;s atmosphere can be as cold as minus two hundred twenty-four degrees Celsius.</td>
+  <td><audio controls preload="none" src="audio/old/p15-narrator-12-uranus-s-atmosphere-can-be-as.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Uranus&#x27;s atmosphere can be as cold as 224 degrees Celsius.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p15-narrator-12-uranus-s-atmosphere-can-be-as.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Uranus&#x27;s atmosphere can be as cold as -224 degrees Celsius.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Uranus has thirteen faint rings, including narrow dark inner rings.</td>
+  <td><audio controls preload="none" src="audio/old/p15-narrator-13-uranus-has-thirteen-faint-rings-including.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Uranus has 13 faint rings, including narrow, dark inner rings.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p15-narrator-13-uranus-has-thirteen-faint-rings-including.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Your unus has 13 faint rings, including narrow dark inner rings.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Uranus&#x27;s rotation axis is tilted about ninety-eight degrees, so it appears to spin sideways.</td>
+  <td><audio controls preload="none" src="audio/old/p15-narrator-14-uranus-s-rotation-axis-is-tilted.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Uranus&#x27; rotation axis is tilted about 98 degrees, so it appears to spin sideways.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p15-narrator-14-uranus-s-rotation-axis-is-tilted.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Yoranas&#x27;s rotation axis is tilted about 98 degrees, so it appears to spin sideways.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Uranus rotates around an axis tipped almost completely sideways.</td>
+  <td><audio controls preload="none" src="audio/old/p15-narrator-15-uranus-rotates-around-an-axis-tipped.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Uranus rotates around an axis tipped almost completely sideways.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p15-narrator-15-uranus-rotates-around-an-axis-tipped.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Uranus rotates around an axis tipped almost completely sideways.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Uranus&#x27;s sideways tilt creates seasons that can last about twenty-one Earth years.</td>
+  <td><audio controls preload="none" src="audio/old/p15-narrator-16-uranus-s-sideways-tilt-creates-seasons.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Uranus&#x27; sideways tilt creates seasons that can last about 21 earth years.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p15-narrator-16-uranus-s-sideways-tilt-creates-seasons.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Uranus&#x27;s sideways tilt creates seasons that can last about 21 earth years.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Uranus has narrow dark rings separated by broad gaps.</td>
+  <td><audio controls preload="none" src="audio/old/p15-narrator-17-uranus-has-narrow-dark-rings-separated.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Uranus has narrow, dark rings separated by broad gaps.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p15-narrator-17-uranus-has-narrow-dark-rings-separated.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Uranus has narrow, dark rings separated by broad gaps.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Uranus is an ice giant made mostly of deep hot fluid beneath a hydrogen, helium, and methane atmosphere.</td>
+  <td><audio controls preload="none" src="audio/old/p15-narrator-18-uranus-is-an-ice-giant-made.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Uranus is an ice giant, made mostly of deep hot fluid beneath a hydrogen, helium and methane atmosphere.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p15-narrator-18-uranus-is-an-ice-giant-made.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Uranus is an ice giant made mostly of deep hot fluid beneath a hydrogen, helium and methane atmosphere.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Uranus&#x27;s magnetic field is strongly tilted and offset from the planet&#x27;s center.</td>
+  <td><audio controls preload="none" src="audio/old/p15-narrator-19-uranus-s-magnetic-field-is-strongly.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Uranus&#x27;s magnetic field is strongly tilted and offset from the planet&#x27;s center.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p15-narrator-19-uranus-s-magnetic-field-is-strongly.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Uranus&#x27; magnetic field is strongly tilted and offset from the planet&#x27;s center.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Voyager 2 flew past Uranus in January nineteen eighty-six.</td>
+  <td><audio controls preload="none" src="audio/old/p15-narrator-20-voyager-2-flew-past-uranus-in.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Voyager two flew past Uranus in January 1986.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p15-narrator-20-voyager-2-flew-past-uranus-in.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Voyager two flew past your Unis in January 1986.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Miranda, Ariel, Umbriel, Titania, and Oberon circle Uranus. Their names come from literature, and each moon carries a different record across its icy surface.</td>
+  <td><audio controls preload="none" src="audio/old/p16-narrator-01-miranda-ariel-umbriel-titania-and-oberon.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Miranda, Ariel, umbriel, titania, and Oberon circle Uranus. The names come from literature, and each moon carries a different record across its icy surface.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p16-narrator-01-miranda-ariel-umbriel-titania-and-oberon.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Miranda, Ariel, Umbriel, titania, and Oberon circle your unus their names come from literature, and each moon carries a different record across its icy surface.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Voyager 2 photographed all five major moons during its Uranus flyby in January nineteen eighty-six.</td>
+  <td><audio controls preload="none" src="audio/old/p16-narrator-04-voyager-2-photographed-all-five-major.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Voyager 2 photographed all 5 major moons during its Uranus fly by in January 1986.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p16-narrator-04-voyager-2-photographed-all-five-major.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Voyager 2 photographed all 5 major moons during its Yuanus fly by in January 1986.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Ariel has the brightest surface of Uranus&#x27;s major moons, crossed by many fault valleys.</td>
+  <td><audio controls preload="none" src="audio/old/p16-narrator-10-ariel-has-the-brightest-surface-of.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Ariel has the brightest surface of Uranus&#x27;s major moons crossed by many fault valleys.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p16-narrator-10-ariel-has-the-brightest-surface-of.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Ariel has the brightest surface of your Unus&#x27;s major moons, crossed by many fault valleys.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Titania is Uranus&#x27;s largest moon and has long rift valleys across its crust.</td>
+  <td><audio controls preload="none" src="audio/old/p16-narrator-14-titania-is-uranus-s-largest-moon.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Titania is Uranus&#x27; largest moon, and has long rift valleys across its crust.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p16-narrator-14-titania-is-uranus-s-largest-moon.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Titania is Eurunos&#x27;s largest moon, and has long rift valleys across its crust.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Uranus&#x27;s moons are named for characters from Shakespeare and Alexander Pope.</td>
+  <td><audio controls preload="none" src="audio/old/p16-narrator-17-uranus-s-moons-are-named-for.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Uranus&#x27;s moons are named for characters from Shakespeare and Alexander pope.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p16-narrator-17-uranus-s-moons-are-named-for.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Uranus&#x27; moons are named for characters from Shakespeare and Alexander pope.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Titania is Uranus&#x27;s largest moon and has very long fault valleys.</td>
+  <td><audio controls preload="none" src="audio/old/p16-narrator-21-titania-is-uranus-s-largest-moon.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Titania is Uranus&#x27; largest moon, and has very long fault valleys.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p16-narrator-21-titania-is-uranus-s-largest-moon.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Titania is Eurunos&#x27;s largest moon and has very long fault valleys.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Juliet. This little moon races around Uranus in half a day.</td>
+  <td><audio controls preload="none" src="audio/old/p16-narrator-27-juliet-this-little-moon-races-around.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Juliet, this little moon races around Uranus in half a day.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p16-narrator-27-juliet-this-little-moon-races-around.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Juliet, this little moon races around your unus and half a day.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Caliban. This far moon circles Uranus the opposite way.</td>
+  <td><audio controls preload="none" src="audio/old/p16-narrator-35-caliban-this-far-moon-circles-uranus.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Caliban, this far moon circles Uranus, the opposite way.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p16-narrator-35-caliban-this-far-moon-circles-uranus.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Caliban, this far moon circles your Aranus the opposite way.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Moving outward from Uranus comes Miranda, Ariel, Umbriel, Titania, then Oberon.</td>
+  <td><audio controls preload="none" src="audio/old/p16-narrator-44-moving-outward-from-uranus-comes-miranda.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Moving outward from Uranus comes Miranda, Ariel, umbriel, titania, then Oberon.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/p16-narrator-44-moving-outward-from-uranus-comes-miranda.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Moving outward from your Unas comes Miranda, aerial, umbriel, titania, then Oberon.&rdquo;</div></td>
+</tr>
+  </table>
+
+  <h2>Planets &amp; Moons (Solar System Order game) &mdash; 28 clips, host voice</h2>
+  <table>
+    <tr><th>Line (caption text)</th><th>Old clip</th><th>New clip</th></tr>
+    <tr>
+  <td class="t">Uranus. It rolls along on its side, like a ball on the floor.</td>
+  <td><audio controls preload="none" src="audio/old/030-uranus-it-rolls-along-on-its-side-like-a-ball-on-the.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Uranus? It rolls along on its side, like a ball on the floor.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/030-uranus-it-rolls-along-on-its-side-like-a-ball-on-the.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Uranus, it rolls along on its side like a ball on the floor.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Miranda, a moon of Uranus. Cliffs so tall that a fall would last for minutes.</td>
+  <td><audio controls preload="none" src="audio/old/042-miranda-a-moon-of-uranus-cliffs-so-tall-that-a-fall.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Miranda, a moon of Uranus, cliffs so tall that a fall would last for minutes.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/042-miranda-a-moon-of-uranus-cliffs-so-tall-that-a-fall.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Miranda, a moon of Euronos cliffs, so tall that a fall would last for minutes.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Ariel, a moon of Uranus. The brightest of all the moons of Uranus.</td>
+  <td><audio controls preload="none" src="audio/old/043-ariel-a-moon-of-uranus-the-brightest-of-all-the-moon.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Ariel, a moon of Uranus, the brightest of all the moons of Uranus.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/043-ariel-a-moon-of-uranus-the-brightest-of-all-the-moon.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Ariel, a moon of your unus, the brightest of all the moons of your unus.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Umbriel, a moon of Uranus. The darkest of the five big moons of Uranus.</td>
+  <td><audio controls preload="none" src="audio/old/224-umbriel-a-moon-of-uranus-the-darkest-of-the-five-big.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Umbriel, a moon of Uranus, the darkest of the five big moons of Uranus.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/224-umbriel-a-moon-of-uranus-the-darkest-of-the-five-big.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Umbriel, a moon of your on us, the darkest of the five big moons of your on us.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Titania, a moon of Uranus. The biggest moon of Uranus.</td>
+  <td><audio controls preload="none" src="audio/old/045-titania-a-moon-of-uranus-the-biggest-moon-of-uranus.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Titania, a moon of Uranus, the biggest moon of Uranus.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/045-titania-a-moon-of-uranus-the-biggest-moon-of-uranus.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Titania, a moon of Uranus, the biggest moon of Uranus.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Oberon, a moon of Uranus. Old, dark, and covered all over in craters.</td>
+  <td><audio controls preload="none" src="audio/old/046-oberon-a-moon-of-uranus-old-dark-and-covered-all-ove.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Oberon, a moon of Uranus, old, dark and covered all over in craters.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/046-oberon-a-moon-of-uranus-old-dark-and-covered-all-ove.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Oberon, a moon of Euronos, old, dark, and covered all over in craters.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Cordelia, a moon of Uranus. It and Ophelia keep the bright epsilon ring thin.</td>
+  <td><audio controls preload="none" src="audio/old/092-cordelia-a-moon-of-uranus-it-and-ophelia-keep-the-br.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Cordelia, a moon of Uranus, it and Ophelia, keep the bright epsilon ring thin.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/092-cordelia-a-moon-of-uranus-it-and-ophelia-keep-the-br.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Cordelia, a moon of Uranus, It, and Ophelia, keep the bright epsilon ring thin.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Ophelia, a moon of Uranus. It herds that same bright ring from the outside.</td>
+  <td><audio controls preload="none" src="audio/old/093-ophelia-a-moon-of-uranus-it-herds-that-same-bright-r.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Ophelia, a moon of Uranus, it herds that same bright ring from the outside.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/093-ophelia-a-moon-of-uranus-it-herds-that-same-bright-r.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Ophelia, a moon of Uranus, it herds that same bright ring from the outside.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Juliet, a moon of Uranus. This little moon races around Uranus in half a day.</td>
+  <td><audio controls preload="none" src="audio/old/094-juliet-a-moon-of-uranus-this-little-moon-races-aroun.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Juliet, a moon of Uranus, this little moon races around Uranus in half a day.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/094-juliet-a-moon-of-uranus-this-little-moon-races-aroun.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Juliet, a moon of your Unus, this little moon races around your Unus in half a day?&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Portia, a moon of Uranus. It leads a crowded family of tiny inner moons.</td>
+  <td><audio controls preload="none" src="audio/old/095-portia-a-moon-of-uranus-it-leads-a-crowded-family-of.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Portia, a moon of Uranus, it leads a crowded family of tiny inner moons.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/095-portia-a-moon-of-uranus-it-leads-a-crowded-family-of.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Portia, a moon of yore, unus, it leads a crowded family of tiny inner moons.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Puck, a moon of Uranus. Voyager is the only visitor to see this moon close up.</td>
+  <td><audio controls preload="none" src="audio/old/096-puck-a-moon-of-uranus-voyager-is-the-only-visitor-to.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Puck, a moon of Uranus. Voyager is the only visitor to see this moon close up.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/096-puck-a-moon-of-uranus-voyager-is-the-only-visitor-to.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Puck, a moon of your on us? Voyager is the only visitor to see this moon close up?&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Mab, a moon of Uranus. Its dust supplies the faint outer mu ring.</td>
+  <td><audio controls preload="none" src="audio/old/097-mab-a-moon-of-uranus-its-dust-supplies-the-faint-out.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Mab, a moon of Uranus, its dust supplies the faint outer mew ring.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/097-mab-a-moon-of-uranus-its-dust-supplies-the-faint-out.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Mab, a moon of your onus, its dust supplies the faint outer mew ring.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Caliban, a moon of Uranus. This far moon circles Uranus the opposite way.</td>
+  <td><audio controls preload="none" src="audio/old/098-caliban-a-moon-of-uranus-this-far-moon-circles-uranu.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Caliban, a moon of Uranus, this far moon circles Uranus the opposite way.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/098-caliban-a-moon-of-uranus-this-far-moon-circles-uranu.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Caliban, a moon of your onus, this far moon circles your onus the opposite way.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Sycorax, a moon of Uranus. The biggest far-out moon is a faint reddish speck.</td>
+  <td><audio controls preload="none" src="audio/old/099-sycorax-a-moon-of-uranus-the-biggest-far-out-moon-is.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Sycorax, a moon of Uranus, the biggest far out moon is a faint reddish speck.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/099-sycorax-a-moon-of-uranus-the-biggest-far-out-moon-is.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Sychorax, a moon of your on earth, the biggest far out moon is a faint reddish speck.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Prospero, a moon of Uranus. We have only ever seen it as a moving speck.</td>
+  <td><audio controls preload="none" src="audio/old/100-prospero-a-moon-of-uranus-we-have-only-ever-seen-it.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Prospero, a moon of Uranus. We have only ever seen it as a moving speck.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/100-prospero-a-moon-of-uranus-we-have-only-ever-seen-it.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Prospero, a moon of Uranus, we have only ever seen it as a moving speck.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Setebos, a moon of Uranus. This far moon takes about six years to go around.</td>
+  <td><audio controls preload="none" src="audio/old/101-setebos-a-moon-of-uranus-this-far-moon-takes-about-s.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Sebus, a moon of Uranus, this far moon takes about six years to go round.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/101-setebos-a-moon-of-uranus-this-far-moon-takes-about-s.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Saebus, a moon of Euranus, this far moon takes about six years to go round.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Bianca, a moon of Uranus. Voyager 2 spotted it in 1986, and no one has been back.</td>
+  <td><audio controls preload="none" src="audio/old/164-bianca-a-moon-of-uranus-voyager-2-spotted-it-in-1986.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Bianca, a moon of Uranus, voyager to, spotted it in 1986, and no one has been back.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/164-bianca-a-moon-of-uranus-voyager-2-spotted-it-in-1986.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Bianca, a moon of your unus, voyager, two spotted it in 1986 and no one has been back.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Cressida, a moon of Uranus. It circles Uranus in only eleven hours.</td>
+  <td><audio controls preload="none" src="audio/old/165-cressida-a-moon-of-uranus-it-circles-uranus-in-only.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Cressida, a moon of Uranus, it circles Uranus in only eleven hours.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/165-cressida-a-moon-of-uranus-it-circles-uranus-in-only.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Cressida, a moon of Uranus, it circles Uranus in only 11 hours.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Desdemona, a moon of Uranus. It shares a crowded lane with Cressida and Juliet.</td>
+  <td><audio controls preload="none" src="audio/old/166-desdemona-a-moon-of-uranus-it-shares-a-crowded-lane.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Desdemona, a moon of Uranus, it shares a crowded lane with Cressidar and Juliet.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/166-desdemona-a-moon-of-uranus-it-shares-a-crowded-lane.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Desdemona, a moon of your, achnus, it shares a crowded lane with Cressidar and Juliet.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Rosalind, a moon of Uranus. Named after the heroine who runs away to the forest.</td>
+  <td><audio controls preload="none" src="audio/old/170-rosalind-a-moon-of-uranus-named-after-the-heroine-wh.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Rosalind, a moon of Uranus, named after the heroine who runs away to the forest.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/170-rosalind-a-moon-of-uranus-named-after-the-heroine-wh.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Rosalind, a moon of Uranus, named after the heroine who runs away to the forest.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Cupid, a moon of Uranus. The faintest moon of Uranus, and the hardest to see.</td>
+  <td><audio controls preload="none" src="audio/old/171-cupid-a-moon-of-uranus-the-faintest-moon-of-uranus-a.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Cupid, a moon of Uranus, the faintest moon of Uranus, and the hardest to see.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/171-cupid-a-moon-of-uranus-the-faintest-moon-of-uranus-a.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Cupid, a moon of Uranus, the faintest moon of Uranus, and the hardest to see.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Belinda, a moon of Uranus. It goes around Uranus in fifteen hours.</td>
+  <td><audio controls preload="none" src="audio/old/172-belinda-a-moon-of-uranus-it-goes-around-uranus-in-fi.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Belinda, a moon of Uranus. It goes around Uranus in 15 hours.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/172-belinda-a-moon-of-uranus-it-goes-around-uranus-in-fi.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Belinda, a moon of Uranus. It goes around Uranus in fifteen hours.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Perdita, a moon of Uranus. It was hiding in Voyager&#x27;s photographs for thirteen years.</td>
+  <td><audio controls preload="none" src="audio/old/173-perdita-a-moon-of-uranus-it-was-hiding-in-voyager-s.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Perdita, a moon of Uranus. It was hiding in Voyager&#x27;s photographs for thirteen years.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/173-perdita-a-moon-of-uranus-it-was-hiding-in-voyager-s.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Perdita, a moon of yoronus. It was hiding in voyager&#x27;s photographs for thirteen years.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Francisco, a moon of Uranus. The closest of Uranus&#x27;s far-out moons.</td>
+  <td><audio controls preload="none" src="audio/old/174-francisco-a-moon-of-uranus-the-closest-of-uranus-s-f.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Francisco, a moon of Uranus, the closest of Uranus&#x27;s far out moons.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/174-francisco-a-moon-of-uranus-the-closest-of-uranus-s-f.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Francisco and one of your uchnus, the closest of your uchnus&#x27;s far out moons.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Stephano, a moon of Uranus. It travels the opposite way to Uranus&#x27;s big moons.</td>
+  <td><audio controls preload="none" src="audio/old/175-stephano-a-moon-of-uranus-it-travels-the-opposite-wa.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Stephano, a moon of Uranus, it travels the opposite way to Uranus&#x27; big moons.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/175-stephano-a-moon-of-uranus-it-travels-the-opposite-wa.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Stephano, a moon of Urinus, it travels the opposite way to Uranus&#x27;s big moons.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Trinculo, a moon of Uranus. The smallest of Uranus&#x27;s far-out moons.</td>
+  <td><audio controls preload="none" src="audio/old/180-trinculo-a-moon-of-uranus-the-smallest-of-uranus-s-f.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Trinculo, a moon of Uranus, the smallest of Urinus&#x27;s far out moons.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/180-trinculo-a-moon-of-uranus-the-smallest-of-uranus-s-f.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Trinculo, a moon of euronous, the smallest of euronouses far out moons.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Margaret, a moon of Uranus. The only far-out moon of Uranus that goes the right way round.</td>
+  <td><audio controls preload="none" src="audio/old/181-margaret-a-moon-of-uranus-the-only-far-out-moon-of-u.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Margaret, a moon of Uranus, the only far out moon of Uranus that goes the right way round.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/181-margaret-a-moon-of-uranus-the-only-far-out-moon-of-u.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Margaret, a moon of Uranus, the only far out moon of Uranus that goes the right way round.&rdquo;</div></td>
+</tr>
+<tr>
+  <td class="t">Ferdinand, a moon of Uranus. The furthest moon of Uranus, and it takes eight years.</td>
+  <td><audio controls preload="none" src="audio/old/182-ferdinand-a-moon-of-uranus-the-furthest-moon-of-uran.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Ferdinand, a moon of Uranus, the furthest moon of Uranus, and it takes eight years.&rdquo;</div></td>
+  <td><audio controls preload="none" src="audio/new/182-ferdinand-a-moon-of-uranus-the-furthest-moon-of-uran.m4a"></audio>
+      <div class="asr">ASR heard: &ldquo;Ferdinand, a moon of your ownness, the farthest moon of your ownness, and it takes eight years.&rdquo;</div></td>
+</tr>
+  </table>
+
+  <div class="panel">
+    <p><strong>Also affected, nothing to hear yet:</strong> Space Trivia has no rendered audio (its narration
+    manifest is empty by decision), so nothing was re-rendered for it. Its pipeline note now requires its future
+    renderer to carry the same pronunciation map, and it plans to reuse this game&rsquo;s clips, which now say
+    the name correctly.</p>
+  </div>
+</div>
+</body>
+</html>
