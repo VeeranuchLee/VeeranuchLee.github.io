@@ -1451,8 +1451,8 @@ body[data-toy="princess"] .vanity::after {
   gap: 0.4em;
   box-shadow: 0 2px 0 rgba(0,0,0,.4);
 }
-.tbtn:disabled { opacity: 0.42; cursor: default; }
-.tbtn:not(:disabled):active { transform: translateY(1px); box-shadow: 0 1px 0 rgba(0,0,0,.4); }
+.tbtn:disabled, .tbtn.not-ready { opacity: 0.42; cursor: default; }
+.tbtn:not(:disabled):not(.not-ready):active { transform: translateY(1px); box-shadow: 0 1px 0 rgba(0,0,0,.4); }
 .tbtn.rec { color: #ff8f8f; }
 .tbtn.rec[aria-pressed="true"] { background: linear-gradient(180deg, #8a2436, #5f1826); color: #ffe9ec; }
 .tbtn.play[aria-pressed="true"] { background: linear-gradient(180deg, #1d6b54, #14493a); color: #d9fff3; }
@@ -1493,10 +1493,34 @@ body[data-toy="princess"] .vanity::after {
 .transport.is-recording .record-status { animation: kb-status-pulse 1.6s ease-in-out infinite; }
 .transport.is-finished .record-status { animation: kb-finished-pop .55s cubic-bezier(.34,1.56,.64,1) 2; }
 .record-time { font-weight: 800; letter-spacing: 0.06em; opacity: .85; }
+/* RECORD FIRST (owner, 2026-09-22). Play tapped before any take: the Record
+   button glows twice with a thick ring in the recording red (the answer to
+   "what do I press?"), and the dimmed Play gives one small no-shake. The ring
+   is a static style too, so reduced motion still SEES which button to press. */
+@keyframes kb-record-nudge {
+  0%   { transform: scale(1);    box-shadow: 0 2px 0 rgba(0,0,0,.4), 0 0 0 0 rgba(255, 84, 110, .8); }
+  30%  { transform: scale(1.12); box-shadow: 0 2px 0 rgba(0,0,0,.4), 0 0 0 10px rgba(255, 84, 110, .45); }
+  100% { transform: scale(1);    box-shadow: 0 2px 0 rgba(0,0,0,.4), 0 0 0 16px rgba(255, 84, 110, 0); }
+}
+@keyframes kb-play-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
+.transport .tbtn.rec.nudge {
+  outline: 4px solid rgba(255, 84, 110, .85);
+  outline-offset: 3px;
+  animation: kb-record-nudge .75s ease-out 2;
+}
+.transport .tbtn.play.nudge { animation: kb-play-shake .4s ease-in-out 1; }
 @media (prefers-reduced-motion: reduce) {
   .transport.is-recording .tbtn.rec[aria-pressed="true"],
   .transport.is-recording .record-status,
-  .transport.is-finished .record-status { animation: none; }
+  .transport.is-finished .record-status,
+  .transport .tbtn.rec.nudge,
+  .transport .tbtn.play.nudge { animation: none; }
 }
 
 .toy-studio .keybed {

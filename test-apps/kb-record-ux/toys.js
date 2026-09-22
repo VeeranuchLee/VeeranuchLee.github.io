@@ -63,7 +63,7 @@
     const row = frag(
       '<div class="transport" role="group" aria-label="Record">' +
         '<button type="button" class="tbtn rec" data-record="start" aria-pressed="false">● <span>Record</span></button>' +
-        '<button type="button" class="tbtn play" data-record="play" aria-pressed="false" disabled>▶ <span>Play</span></button>' +
+        '<button type="button" class="tbtn play not-ready" data-record="play" aria-pressed="false" aria-disabled="true">▶ <span>Play</span></button>' +
         '<p class="record-status" aria-live="polite">Ready <span class="record-time"></span></p>' +
       '</div>');
     const recBtn = row.querySelector('[data-record="start"]');
@@ -76,6 +76,25 @@
     };
     let prevHadTake = false;
     let flash = null;
+    let nudging = null;
+    /* RECORD FIRST (owner, 2026-09-22: child-use evidence showed a dimmed Play
+       that silently did nothing was confusing). Play before any take is NOT
+       disabled: it stays tappable, looks dimmed (.not-ready + aria-disabled),
+       and a tap answers with words, a glow on the Record button it points at,
+       and a small shake of itself. Motion is dropped under reduced motion in
+       toys.css; the glow stays, still, for the same moment. */
+    const nudgeRecord = () => {
+      window.clearTimeout(nudging);
+      recBtn.classList.remove("nudge");
+      playBtn.classList.remove("nudge");
+      void recBtn.offsetWidth; // restart the animation on a repeat tap
+      recBtn.classList.add("nudge");
+      playBtn.classList.add("nudge");
+      nudging = window.setTimeout(() => {
+        recBtn.classList.remove("nudge");
+        playBtn.classList.remove("nudge");
+      }, 1600);
+    };
     const say = (text, ms) => {
       window.clearTimeout(flash);
       status.dataset.words = text;
@@ -91,7 +110,14 @@
       const playing = snap.mode === "playing";
       recBtn.setAttribute("aria-pressed", String(recording));
       playBtn.setAttribute("aria-pressed", String(playing));
-      playBtn.disabled = !snap.hasTake || recording;
+      /* Disabled only mid-recording (the lit Record button is the answer
+         there). With no take yet Play stays tappable so a tap can say
+         "Record a song first!" instead of silently doing nothing. */
+      const notReady = !snap.hasTake && !recording && !playing;
+      playBtn.disabled = recording;
+      playBtn.classList.toggle("not-ready", notReady);
+      if (notReady) playBtn.setAttribute("aria-disabled", "true");
+      else playBtn.removeAttribute("aria-disabled");
       row.classList.toggle("is-recording", recording);
       row.classList.toggle("is-playing", playing);
       row.classList.toggle("is-finished", !recording && !playing && snap.hasTake && snap.ended === "finished");
@@ -139,9 +165,11 @@
       KB.engine.ensureAudio();
       if (KB.recorder.getMode() === "playing") { KB.recorder.stop(); return; }
       if (!KB.recorder.hasTake()) {
-        /* Normally unreachable (the button disables itself), kept so a keyboard
-           or a race can never look silently broken. */
+        /* The ordinary path for a child who taps Play before recording: Play
+           is dimmed but tappable (see paint), so this answers with words, the
+           Record glow and the "record-first" voice clip once it is rendered. */
         say("Record a song first!", 2000);
+        nudgeRecord();
         KB.guidance && KB.guidance.play("record-first");
         return;
       }
@@ -154,6 +182,7 @@
     return () => {
       window.clearInterval(tick);
       window.clearTimeout(flash);
+      window.clearTimeout(nudging);
       unsubscribe();
     };
   }
