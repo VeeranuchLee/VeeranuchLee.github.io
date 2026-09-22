@@ -145,6 +145,15 @@
       prevHadTake = snap.hasTake || snap.mode === "recording";
       paint();
     });
+    /* onChange reports changes only, so a toy mounted on a fresh page has no
+       snapshot until the first recording -- and paint() drew nothing, so a
+       child's very first tap on Play got the glow but not "Record a song
+       first!". Start from the recorder's current state instead. */
+    if (!lastSnap) {
+      lastSnap = { mode: KB.recorder.getMode(), hasTake: KB.recorder.hasTake(),
+        duration: KB.recorder.getDuration(), ended: null, elapsed: 0 };
+      paint();
+    }
     /* The clock ticks on its own because snapshots only fire on state changes;
        4Hz is enough for a child to SEE time passing while recording. */
     const tick = window.setInterval(() => {
