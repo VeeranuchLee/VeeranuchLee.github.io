@@ -22,6 +22,7 @@ actually use.
 | [Ari & Dot](https://veeranuchlee.github.io/solar-storybook-feedback/) | An illustrated tour of the solar system |
 | [Planets & Moons](https://veeranuchlee.github.io/solar-system-game/) | Put the planets in order, give every planet its moons, then do the same for the dwarf planets |
 | [Animal Book](https://veeranuchlee.github.io/animal-book/) | A growing illustrated animal encyclopaedia |
+| [Shadow Matching](https://veeranuchlee.github.io/shadow-matching/) | Look at the picture, find its shadow |
 
 ## How these are made
 
@@ -60,7 +61,7 @@ The rest of this file is for whoever works on the site.
 The user Pages site. Three deliberately separate things live here:
 
     /                 a deliberately plain placeholder, reserved for professional use
-    /children-apps/   the children's games hub — one screen, ten cards
+    /children-apps/   the children's games hub — one screen, nine cards
     /test-apps/       an unlinked hub for apps being tested before main-hub promotion
 
 **Live:** `https://veeranuchlee.github.io/`
@@ -86,29 +87,36 @@ and nothing else.
 
 Each game is its own GitHub project repo, and GitHub serves those at `/<repo>/`.
 They **cannot** be nested under `/children-apps/`; the hub links up and across
-with `../` — with one exception, Writing Book, which lives at the top level of
-this Pages repository (see the row below and the paragraph after the table).
+with `../`. **Several of them are not separate repos at all**: as of 2026-09-20
+`release/registry.json` records **eleven enabled apps** (plus three not yet
+enabled) publishing into the top level of this same Pages repository, among them
+Our Word Book, Writing Book, Spelling Exam and Shadow Matching. This sentence
+used to name Writing Book as the single exception; that stopped being true as
+each of those was onboarded. The registry, not this paragraph, is the list.
 
 | Card | Path | Repo |
 | --- | --- | --- |
-| Space Math | `../magic-math/space-math.html` | `magic-math` |
-| Unicorn Math | `../magic-math/unicorn-math.html` | `magic-math` |
-| Magic Spelling | `../magic-math/magic-spelling.html` | `magic-math` |
-| Writing Book | `../writing-book/` | this repo, top level (promoted from `/test-apps/` 2026-08-29) |
-| Classical Music | `../magic-math/classical-music.html` | `magic-math` |
+| Magic Math | `../magic-math/` | `magic-math` |
+| Our Word Book | `../word-book/` | this repo, top level |
+| Music | `./music.html` | this directory (a sub-hub, not an app) |
 | Petal Kingdom | `../flower-shooter/` | `flower-shooter` |
 | Little Color Garden | `../little-color-garden/` | `little-color-garden` |
 | Ari & Dot | `../solar-storybook-feedback/` | `solar-storybook-feedback` |
 | Planets & Moons | `../solar-system-game/` | `solar-system-game` |
 | Our Animal Book | `../animal-book/` | `animal-book` |
+| Shadow Matching | `../shadow-matching/` | this repo, top level (onboarded 2026-09-20) |
 
-The test publish additionally places eight apps at the top level of the public Pages
+The test publish additionally places apps at the top level of the public Pages
 repository — Spelling Exam at `../spelling-exam/`, Music Book at `../music-book/`, Clock Game at `../time-book/`, Pattern Pegs
 at `../pattern-pegs/`, the Toy Box shelf at `../toy-room/`, Pattern Blocks at
 `../pattern-blocks/`, the Keyboard at `../toy-keyboard/` (first published
-2026-08-29) and the Flags game at `../flags/` (first published 2026-08-29) —
+2026-08-29), the Flags game at `../flags/` (first published 2026-08-29), the
+Dollhouse at `../dollhouse/` and Shadow Matching at `../shadow-matching/` —
 plus the self-contained
-`./bird-flight/` interaction test. None of the eight appears in the main hub table above.
+`./bird-flight/` interaction test. **Do not trust this sentence for the full list**:
+it is hand-typed and has gone stale twice. The authoritative list is the `site`
+entry's `public_only_allowlist` in `release/registry.json`. Of those named here,
+only Shadow Matching has a main-hub card (added 2026-09-20).
 **The Keyboard is the exception since 2026-09-16:** it is on the Music hub
 (`children-apps/music.html`, one level below the front page), its Test Hub cards are gone,
 and its back arrow goes to the Music hub. It still serves from `../toy-keyboard/`.
@@ -175,7 +183,21 @@ art is a square tile by design rather than for want of a cut-out sprite.
 word picture — the boy writing in his book with a pencil — cut from the tall strip
 the app serves on its word cards (crop window chosen by eye, verified against the
 source). The app has no cut-out sprite, so like Animal Book it rides as a rounded
-tile.
+tile. **It is not on the hub any more** — the 2026-09-09 restructure folded Writing
+Book, Magic Spelling and Spelling Exam behind the single Our Word Book card. The
+file is kept because the app still ships and a card may return; nothing renders it
+today, and it is not in the worker's `SHELL`.
+
+`shadow-matching.webp` is built by `children-apps/tools/build-shadow-tile.py` from
+two sprites Shadow Matching already ships — the apple's `picture.webp` and that same
+apple's `shadow.webp` — composited onto the hub palette. It is the second built tile
+after `planets-and-moons.png`, and for the same reason: the card has to show what the
+app *asks* a child to do, and one object alone would say "pictures" where the object
+beside its own silhouette says "match these". The apple was chosen by rendering ten
+candidates at the real 96px and looking: the swan vanishes into the pale background,
+the bicycle and rocket lose their silhouettes, the elephant and duck go muddy against
+black. The apple has the contrast, and its leaf survives into the silhouette, so the
+tile shows that a shadow keeps an object's *shape*. The teapot was the runner-up.
 
 **Two known art gaps**, both cosmetic and both inherited:
 
@@ -201,7 +223,7 @@ list of directories rather than a claim about how many there are. That list
 today: `math-app`, `coloring-app`, `flower-shooter`, `animal-book`,
 `solar-storybook`, `solar-system-game`, `music-book`, `time-book`,
 `writing-book`, `pattern-pegs-app`, `toy-room`, `pattern-blocks-app`,
-`toy-keyboard-app`, `flags-app`, `spelling-exam-app`.
+`toy-keyboard-app`, `flags-app`, `spelling-exam-app`, `shadow-matching-app`.
 
 **Why it is a manifest and not a sentence.** This directory is not only the site:
 `work_progress_and_other_discussion.md` lives here too, because discussion logs

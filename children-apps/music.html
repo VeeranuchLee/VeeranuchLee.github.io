@@ -20,7 +20,7 @@
       --radius:30px;
     }
 
-    html{-webkit-text-size-adjust:100%}
+    html{-webkit-text-size-adjust:100%;touch-action:manipulation}
 
     body{
       font-family:'Nunito',system-ui,sans-serif;
@@ -304,10 +304,5 @@
     </main>
   </div>
 
-  <script>
-  /* Pinch-zoom guard: iOS Safari has ignored user-scalable=no since iOS 10, so this
-     is the only thing that stops two small hands zooming the page. Inert elsewhere. */
-  document.addEventListener("gesturestart", function (e) { e.preventDefault(); }, { passive: false });
-  </script>
 </body>
 </html>

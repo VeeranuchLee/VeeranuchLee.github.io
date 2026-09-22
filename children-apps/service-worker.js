@@ -76,8 +76,14 @@
  *                  Keyboard -- because Toy Keyboard is on the Music hub now. Nothing in
  *                  this hub's shell changes; the bump arms the site release that carries
  *                  test-apps/index.html.
+ *   v30 2026-09-21  Ari & Dot and Planets & Moons become ONE card, Space, opening the
+ *                  space hub at ../space/ instead of either app. Its art,
+ *                  `assets/space.png`, joins the shell; the two sprites it replaces
+ *                  leave it. They stay in `assets/` because the dashboard still reads
+ *                  them, but the hub page no longer fetches them. Without this bump
+ *                  an installed hub would open offline with a broken Space tile.
  */
-const CACHE_NAME = "children-apps-v28";
+const CACHE_NAME = "children-apps-v30";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
@@ -94,9 +100,9 @@ const SHELL = [
   "./assets/classical-music.webp",
   "./assets/petal-kingdom.webp",
   "./assets/little-color-garden.png",
-  "./assets/ari-and-dot.webp",
-  "./assets/planets-and-moons.png",
+  "./assets/space.png",
   "./assets/animal-book.webp",
+  "./assets/shadow-matching.webp",
   "./assets/app-192.png",
   "./assets/app-512.png",
 ];

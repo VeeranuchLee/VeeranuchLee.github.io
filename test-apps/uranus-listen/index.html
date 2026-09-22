@@ -53,6 +53,55 @@
     Nothing here has been published &mdash; the live apps change only after your approval of a release.</p>
   </div>
 
+  <h2>THE ACTUAL FIX &mdash; the one-word nameplate, cut not re-rendered</h2>
+  <p class="t">The respelling is withdrawn: it regressed 27 of 56 clips and fixed neither real
+  defect. Only <strong>two</strong> clips were ever genuinely wrong. This is the first one, and it
+  cost nothing &mdash; the word is <strong>cut from an approved sentence render in the same
+  narrator voice</strong>, which is what this repository learned on the Mars pilot &ldquo;Sun&rdquo;
+  case (2026-09-16): a one-word render has no context to choose the vowel, so respelling is the
+  wrong tool. Your ear is the acceptance test; ASR only rules out the obvious failures.</p>
+  <table>
+    <tr><th>What</th><th>Listen</th><th>ASR</th></tr>
+    <tr>
+      <td class="t">Nameplate as it ships today &mdash; <strong>wrong</strong></td>
+      <td><audio controls preload="none" src="audio/fix/nameplate-old.m4a"></audio></td>
+      <td><div class="asr">ASR heard: &ldquo;<strong>Oranus.</strong>&rdquo;</div></td>
+    </tr>
+    <tr>
+      <td class="t">The source sentence it was cut from (already approved, unchanged)</td>
+      <td><audio controls preload="none" src="audio/fix/source-sentence.m4a"></audio></td>
+      <td><div class="asr">ASR heard: &ldquo;Uranus, the ice giant that rolls&hellip;&rdquo;</div></td>
+    </tr>
+    <tr>
+      <td class="t"><strong>The proposed nameplate</strong> &mdash; first 0.52s of that sentence,
+        normalised to &minus;3.00 dBFS, 24 kHz mono</td>
+      <td><audio controls preload="none" src="audio/fix/nameplate-cut.m4a"></audio></td>
+      <td><div class="asr">ASR heard: &ldquo;<strong>Uranus.</strong>&rdquo;</div></td>
+    </tr>
+  </table>
+  <h3>The second clip &mdash; Trinculo, fixed by rewording</h3>
+  <p class="t">A plain re-render was tried first and <strong>failed</strong>: it produced the
+  identical mispronunciation from different bytes, which proved the fault is not an unlucky
+  take but how the model reads the possessive <em>Uranus&rsquo;s</em> at these settings. Note
+  that the <em>first</em> &ldquo;Uranus&rdquo; is read correctly in every take. So the sentence
+  was reworded to avoid the possessive entirely &mdash; and the new wording reads better to a
+  child as well, because it stops repeating the planet&rsquo;s name.</p>
+  <table>
+    <tr><th>What</th><th>Listen</th><th>ASR</th></tr>
+    <tr>
+      <td class="t">As it ships &mdash; &ldquo;The smallest of <strong>Uranus&rsquo;s</strong>
+        far-out moons.&rdquo;</td>
+      <td><audio controls preload="none" src="audio/fix/trinculo-old.m4a"></audio></td>
+      <td><div class="asr">ASR heard: &ldquo;&hellip;the smallest of <strong>Urinus&rsquo;s</strong> far out moons.&rdquo;</div></td>
+    </tr>
+    <tr>
+      <td class="t"><strong>Reworded</strong> &mdash; &ldquo;The smallest of <strong>its</strong>
+        far-out moons.&rdquo;</td>
+      <td><audio controls preload="none" src="audio/fix/trinculo-reworded.m4a"></audio></td>
+      <td><div class="asr">ASR heard: &ldquo;Trinculo, a moon of <strong>Uranus</strong>, the smallest of <strong>its</strong> far out moons.&rdquo;</div></td>
+    </tr>
+  </table>
+
   <h2>Ari &amp; Dot (Solar Storybook) &mdash; 28 clips, narrator voice</h2>
   <table>
     <tr><th>Line (page text)</th><th>Old clip</th><th>New clip</th></tr>

@@ -129,6 +129,8 @@
     /* The darkest card on the page, deliberately: its art is a night sky, and the
        three cards already in blue are all lighter than this. */
     .c-planets {--edge:#26306e;--shadow:#151c46;--tint:#e6eaff}
+    .c-space   {--edge:#26306e;--shadow:#151c46;--tint:#e6eaff}
+    .c-shadow  {--edge:#2d5d7c;--shadow:#1b3e56;--tint:#e4eff6}
 
     footer{
       margin-top:34px;text-align:center;
@@ -281,22 +283,28 @@
       <span class="desc">Colour in the pictures</span>
     </a>
 
-    <a class="card c-story" href="../solar-storybook-feedback/">
-      <span class="art"><img src="./assets/ari-and-dot.webp" alt="" width="96" height="96"/></span>
-      <span class="name">Ari &amp; Dot</span>
-      <span class="desc">A story about the planets</span>
-    </a>
-
-    <a class="card c-planets" href="../solar-system-game/">
-      <span class="art"><img class="tile" src="./assets/planets-and-moons.png" alt="" width="96" height="96"/></span>
-      <span class="name">Planets &amp; Moons</span>
-      <span class="desc">Planets in order, moons at home, then the dwarf planets</span>
+    <!-- One door to the space apps, not two. Children Games -> Space -> app ->
+         back to Space is the shape space-hub/README.md describes, and the hub
+         at /space/ already carries Ari & Dot and Planets & Moons with a back
+         arrow to here. Two cards here would have made /space/ a room nobody
+         walks through. Space Trivia becomes a card THERE when it is released,
+         which is the point: this hub stops growing a card per space app. -->
+    <a class="card c-space" href="../space/">
+      <span class="art"><img class="tile" src="./assets/space.png" alt="" width="96" height="96"/></span>
+      <span class="name">Space</span>
+      <span class="desc">A story about the planets, and a game about where they go</span>
     </a>
 
     <a class="card c-animal" href="../animal-book/">
       <span class="art"><img class="tile" src="./assets/animal-book.webp" alt="" width="96" height="96"/></span>
       <span class="name">Our Animal Book</span>
       <span class="desc">Tap an animal to hear its name</span>
+    </a>
+
+    <a class="card c-shadow" href="../shadow-matching/">
+      <span class="art"><img class="tile" src="./assets/shadow-matching.webp" alt="" width="96" height="96"/></span>
+      <span class="name">Shadow Matching</span>
+      <span class="desc">Look at the picture, find its shadow</span>
     </a>
 
   </main>
