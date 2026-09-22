@@ -12,17 +12,19 @@
                    `Earth` -> earth. This is audio/words.manifest.json's `naming` field
                    ("lowercase kebab-case, one clip per headword ... Resolve a clip by
                    slugifying the headword, NOT by using it raw") and it is what the 2,020
-                   files on disk actually are: every one of the 2,022 non-homograph
+                   headword files on disk actually are: every one of the 2,022 non-homograph
                    headwords maps onto exactly one of them and no file is left over.
+                   (2,028 files in all -- those 2,020 plus the 8 sense clips below.)
 
      bow / close / tear / wind  ->  audio/words/<sense>.m4a
                    e.g. audio/words/bow.ribbon-knot.m4a. Their two senses are pronounced
                    differently (/baʊ/ vs /bəʊ/, /kləʊz/ vs /kləʊs/, /tɪə/ vs /teə/,
                    /wɪnd/ vs /waɪnd/), so a headword clip would teach one sense the wrong
                    word. tools/render-dictionary-words.py names this exact filename shape
-                   ("audio/words/<sense>.m4a  4 homograph exceptions") and skipped them;
-                   AUDIO-DIRECTION.md decision 11 keys them by sense. The sense ids are the
-                   ones assets/words/ already uses for their pictures.
+                   ("audio/words/<sense>.m4a  4 homograph exceptions"); it skipped them on
+                   2026-09-18 and rendered all eight on 2026-09-22, so every one of these
+                   cards now speaks. AUDIO-DIRECTION.md decision 11 keys them by sense. The
+                   sense ids are the ones assets/words/ already uses for their pictures.
 
    THE EXCEPTIONS
 
@@ -32,6 +34,9 @@
      word. When a clip is rendered, delete its line here; the coverage gate refuses an
      entry whose file already exists, so a stale exception cannot linger.
 
+     It is EMPTY as of 2026-09-22: every one of the 2,098 cards speaks. The mechanism stays
+     because the next unrendered card needs it -- an empty table is the goal, not dead code.
+
    Loaded by dictionary.html as a plain <script> (it defines window.WordAudio) and by
    Node as CommonJS. Shipped, so it is in .publish-manifest [ship] and the worker SHELL. */
 (function (root) {
@@ -40,23 +45,17 @@
   var DIR = 'audio/words/';
 
   /* Headwords whose senses are pronounced differently: keyed by sense, never by
-     headword. Exactly render-dictionary-words.py's HOMOGRAPHS and the manifest's
-     `unrendered_homographs`; the coverage gate asserts all three agree. */
+     headword. Exactly render-dictionary-words.py's HOMOGRAPHS. It is NOT the manifest's
+     `unrendered_homographs` -- that list is the ones still waiting, and it emptied on
+     2026-09-22 when all eight senses were rendered while these four stay sense-keyed
+     forever. The coverage gate asserts the real invariant: every headword here is either
+     listed unrendered or has a clip for each of its senses, and every headword the
+     manifest lists as unrendered appears here. */
   var SENSE_KEYED = ['bow', 'close', 'tear', 'wind'];
 
-  var WHY_HOMOGRAPH = 'homograph: this sense is said differently from the other one, ' +
-    'so the headword clip would be the wrong word; its own clip is a separate paid render ' +
-    '(render-dictionary-words.py skipped all four homographs on 2026-09-18)';
-
   var UNRENDERED = {
-    'bow.bend-in-greeting': WHY_HOMOGRAPH,
-    'bow.ribbon-knot': WHY_HOMOGRAPH,
-    'close.make-not-open': WHY_HOMOGRAPH,
-    'close.nearby': WHY_HOMOGRAPH,
-    'tear.eye-drop': WHY_HOMOGRAPH,
-    'tear.pull-apart': WHY_HOMOGRAPH,
-    'wind.moving-air': WHY_HOMOGRAPH,
-    'wind.wrap-around': WHY_HOMOGRAPH
+    /* Empty since 2026-09-22: the eight homograph senses (bow, close, tear, wind) were
+       rendered on owner approval, one listened-to test clip first. */
   };
 
   function slug(word) {
