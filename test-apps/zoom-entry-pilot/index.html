@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Zoom-entry pilot — which technique stops tap-zoom?</title>
+<!-- Staged Test Hub copy: NO service worker here (INTERACTION-DIRECTION.md /
+     scripts/testhub-service-worker.py — same origin, shared CacheStorage). -->
+<style>
+  /* The estate's approved base (post-#867): manipulation on html and body. */
+  html { -webkit-text-size-adjust: 100%; touch-action: manipulation; }
+  body {
+    margin: 0; padding: 12px 12px 40px;
+    font: 700 16px/1.4 Nunito, system-ui, sans-serif;
+    -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
+    touch-action: manipulation;
+    background: #171c2b; color: #e8ecf7;
+  }
+  .badge {
+    position: fixed; top: 6px; right: 6px; z-index: 99;
+    background: #7857e8; color: #fff; font: 700 12px/1.4 system-ui, sans-serif;
+    padding: 4px 10px; border-radius: 999px; opacity: .9; pointer-events: none;
+  }
+  h1 { font-size: 20px; margin: 8px 0 2px; }
+  p.how { margin: 0 0 14px; font-weight: 600; color: #aeb8d0; font-size: 14px; }
+  section {
+    border-radius: 16px; padding: 12px; margin: 14px 0;
+    background: #232a3f; border: 2px solid #3a4463;
+  }
+  section h2 { margin: 0 0 2px; font-size: 17px; }
+  section p { margin: 2px 0 10px; font-size: 13px; color: #aeb8d0; font-weight: 600; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .tile {
+    min-height: 88px; border: 0; border-radius: 14px;
+    background: #31405f; color: #fff; font-size: 38px;
+    box-shadow: 0 4px 0 #1c2438;
+  }
+  .tile:active { transform: translateY(2px); box-shadow: 0 2px 0 #1c2438; }
+  .pinch {
+    margin-top: 10px; min-height: 70px; border-radius: 14px;
+    background: repeating-linear-gradient(45deg, #2b3450, #2b3450 12px, #232a3f 12px, #232a3f 24px);
+    border: 1px dashed #57628a; color: #c6cfe6;
+    display: flex; align-items: center; justify-content: center; font-size: 14px;
+  }
+  /* A — the estate today: manipulation only (scroll + pinch stay, double-tap
+     supposed to die; WebKit has been unreliable exactly here). */
+  .zone-a { touch-action: manipulation; }
+  /* B — panning only, no zoom keywords: pinch AND double-tap are both supposed
+     to be refused (symmetric: no way in, so no trap). One CSS value, no JS. */
+  .zone-b, .zone-b .tile, .zone-b .pinch { touch-action: pan-x pan-y; }
+  /* C — manipulation PLUS a scoped double-tap guard: preventDefault on the
+     second tap of a fast pair, never on the first, non-passive, nothing else. */
+  .zone-c { touch-action: manipulation; }
+  .count { font-variant-numeric: tabular-nums; color: #7df3e3; }
+</style>
+</head>
+<body>
+<div class="badge">staging zoom-entry-pilot</div>
+<h1>Which technique stops tap-to-zoom?</h1>
+<p class="how">On the iPad: in each box, TAP THE ANIMALS AS FAST AS YOU CAN — the way a
+child plays. If the page zooms in, that box's technique FAILED. Then try to PINCH in
+and out inside each dashed area and note what happens. Sounds play on finger-DOWN, so
+a "beep" means the tap registered.</p>
+
+<section class="zone-a" id="zoneA">
+  <h2>A — what the apps ship today</h2>
+  <p><code>touch-action: manipulation</code> on html + body. Pinch works (both ways), double-tap zoom is <em>supposed</em> to be off — this is the control.</p>
+  <div class="grid"></div>
+  <div class="pinch">pinch test — zoom IN then OUT</div>
+</section>
+
+<section class="zone-b" id="zoneB">
+  <h2>B — panning only, no zoom at all</h2>
+  <p><code>touch-action: pan-x pan-y</code> (one CSS value, no JavaScript). Scrolling stays; pinch AND double-tap are both supposed to be refused — no way in, so no way to be trapped.</p>
+  <div class="grid"></div>
+  <div class="pinch">pinch test — can you zoom at all?</div>
+</section>
+
+<section class="zone-c" id="zoneC">
+  <h2>C — double-tap guard on top of today's rule</h2>
+  <p><code>manipulation</code> + a tiny script that cancels the <em>second tap of a fast pair</em> only. First taps, pinches and scrolling untouched. Taps score on finger-down, so rapid play keeps working.</p>
+  <div class="grid"></div>
+  <div class="pinch">pinch test — zoom IN then OUT</div>
+</section>
+
+<p class="how">Scores — A: <span class="count" id="scoreA">0</span> · B: <span class="count" id="scoreB">0</span> · C: <span class="count" id="scoreC">0</span>.
+Rapid taps should all register; zooming in A or C (or anywhere a child plays) is the defect we are choosing a fix for.</p>
+
+<script>
+(function () {
+  "use strict";
+  var ctx = null;
+  function beep(i) {
+    try {
+      ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+      var o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = "triangle";
+      o.frequency.value = [392, 440, 494, 523, 587, 659, 698, 784, 880][i % 9];
+      g.gain.setValueAtTime(0.0001, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.12, ctx.currentTime + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.18);
+      o.connect(g).connect(ctx.destination);
+      o.start();
+      o.stop(ctx.currentTime + 0.2);
+    } catch (e) { /* silent */ }
+  }
+  var animals = ["🐙", "🦊", "🐼", "🦉", "🐸", "🦄", "🐝", "🐬", "🦁"];
+  ["zoneA", "zoneB", "zoneC"].forEach(function (id, zi) {
+    var zone = document.getElementById(id);
+    var grid = zone.querySelector(".grid");
+    var score = document.getElementById("score" + "ABC"[zi]);
+    animals.forEach(function (a, i) {
+      var b = document.createElement("button");
+      b.className = "tile"; b.type = "button"; b.textContent = a;
+      /* Sounds on pointerDOWN: a guard that cancels the second tap's default
+         cannot eat a note, because the note has already happened. */
+      b.addEventListener("pointerdown", function () { beep(i); score.textContent = Number(score.textContent) + 1; });
+      grid.appendChild(b);
+    });
+  });
+  /* C's guard: cancel the default of a touchend that completes a fast pair.
+     Nothing else — not touchstart (that would eat the tap), not pinches. */
+  var lastTap = 0;
+  document.getElementById("zoneC").addEventListener("touchend", function (e) {
+    var now = Date.now();
+    if (now - lastTap < 350) { e.preventDefault(); lastTap = 0; return; }
+    lastTap = now;
+  }, { passive: false });
+})();
+</script>
+</body>
+</html>
