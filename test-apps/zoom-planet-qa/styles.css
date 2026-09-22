@@ -1,0 +1,512 @@
+/* Solar System Order — layout and looks.
+   Geometry that has to agree with the maths (slot positions, orbit arcs, body
+   sizes) is set from app.js. Everything here is the paint. */
+
+:root{
+  --ink:#eaf1ff;
+  --ink-soft:#9fb0d8;
+  --deep:#070a1e;
+  --panel:rgba(20,28,64,.62);
+  --panel-line:rgba(150,180,255,.20);
+  --gold:#ffd479;
+  --cyan:#7fe3ff;
+  --slot-line:rgba(148,196,255,.42);
+
+  /* Filled in by app.js so the tray and the header can size themselves. */
+  --tray-h:150px;
+  --bar-h:60px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+html,body{height:100%}
+
+body{
+  font-family:'Nunito',system-ui,-apple-system,sans-serif;
+  color:var(--ink);
+  background:var(--deep);
+  overflow:hidden;
+  -webkit-text-size-adjust:100%;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+  -webkit-user-select:none;
+  touch-action:manipulation;
+}
+
+/* The starfield. Painted once per resize by app.js. */
+#sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
+
+#app{
+  position:fixed;
+  inset:0;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+/* ---------------- header ---------------- */
+
+#bar{
+  flex:0 0 auto;
+  height:var(--bar-h);
+  display:grid;
+  /* Four columns since 2026-08-27: the hub link, the levels, the title, the tools.
+     The title keeps the only 1fr so it stays centred-ish as the ends grow. */
+  grid-template-columns:auto auto 1fr auto;
+  align-items:center;
+  gap:12px;
+  padding:0 clamp(10px,2vw,22px);
+}
+
+#title{
+  font-family:'Fredoka One','Nunito',sans-serif;
+  font-weight:400;
+  font-size:clamp(1rem,2.6vw,1.6rem);
+  letter-spacing:.4px;
+  text-align:center;
+  text-shadow:0 2px 12px rgba(0,0,0,.7);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+#levels{display:flex;gap:7px}
+
+.lvl{
+  width:34px;height:34px;
+  border:2px solid var(--panel-line);
+  border-radius:50%;
+  background:var(--panel);
+  color:var(--ink-soft);
+  font:700 .95rem/1 'Nunito',sans-serif;
+  display:grid;place-items:center;
+  cursor:pointer;
+  transition:transform .18s,background .18s,border-color .18s,color .18s;
+}
+.lvl[disabled]{opacity:.34;cursor:default}
+.lvl.done{background:rgba(127,227,255,.16);border-color:rgba(127,227,255,.5);color:var(--cyan)}
+.lvl.now{background:var(--gold);border-color:#fff2cf;color:#3a2708;transform:scale(1.12)}
+
+.tool{
+  width:38px;height:38px;
+  border:2px solid var(--panel-line);
+  border-radius:12px;
+  background:var(--panel);
+  color:var(--ink);
+  display:grid;place-items:center;
+  cursor:pointer;
+  transition:transform .15s,background .15s;
+}
+.tool:active{transform:scale(.92)}
+
+/* The hub link wears the same chrome as the tools, but it is an <a>: it needs the
+   underline off and its glyph centred, which .tool's grid does for a <button> only
+   because a button centres its own content. */
+#hub{text-decoration:none;justify-items:center}
+.tool svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#sound svg .mute{display:none}
+#sound[aria-pressed="false"] svg .wave{display:none}
+#sound[aria-pressed="false"] svg .mute{display:block}
+#sound[aria-pressed="false"]{color:var(--ink-soft)}
+
+#tools{display:flex;gap:8px}
+
+/* ---------------- stage ---------------- */
+
+#stage{
+  position:relative;
+  flex:1 1 auto;
+  min-height:0;
+  overflow:hidden;
+}
+
+#orbits{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.orbit{fill:none;stroke:var(--slot-line);stroke-width:1.5;opacity:.3}
+.orbit.lit{stroke:var(--gold);opacity:.9;stroke-width:2.4}
+
+#sun{
+  position:absolute;
+  transform:translate(-50%,-50%);
+  z-index:2;
+  pointer-events:none;
+  filter:drop-shadow(0 0 14px #fff3b8) drop-shadow(0 0 44px #ff9a2ecc) drop-shadow(0 0 90px #ff4a1466);
+}
+#sun img{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity .19s linear}
+#sun img.on{opacity:1}
+
+#slots,#placed,#sparks{position:absolute;inset:0;z-index:3}
+#sparks{pointer-events:none;z-index:9}
+
+/* An empty landing ring. Every ring is the same size on purpose: sizing each
+   one to its planet would turn "which planet comes next" into "which ball fits
+   this hole", and the child would never have to think about the order. */
+.slot{
+  position:absolute;
+  transform:translate(-50%,-50%);
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  cursor:pointer;
+  touch-action:none;
+}
+.slot::before{
+  content:"";
+  position:absolute;
+  inset:50% 50%;
+  width:var(--ring);height:var(--ring);
+  margin:calc(var(--ring) / -2) 0 0 calc(var(--ring) / -2);
+  border:2.5px dashed var(--slot-line);
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(120,170,255,.13),rgba(120,170,255,0) 70%);
+  transition:border-color .2s,background .2s,transform .2s;
+}
+.slot b{
+  position:relative;
+  font:700 clamp(.85rem,1.5vw,1.15rem)/1 'Nunito',sans-serif;
+  color:rgba(214,232,255,.92);
+  text-shadow:0 1px 6px #000a;
+}
+/* The ring the game is asking about. It blinks from the moment the level loads
+   so a child who cannot yet read the question still knows where the answer is
+   going -- the owner's steer, 2026-08-20. */
+.slot.asking::before{
+  border-color:var(--gold);
+  border-style:solid;
+  background:radial-gradient(circle,rgba(255,212,121,.24),rgba(255,212,121,0) 72%);
+  animation:asking 1.5s ease-in-out infinite;
+}
+.slot.asking b{color:#fff3d2}
+.slot.asking::after{
+  content:"";
+  position:absolute;
+  left:50%;top:50%;
+  width:var(--ring);height:var(--ring);
+  margin:calc(var(--ring) / -2) 0 0 calc(var(--ring) / -2);
+  border:2px solid var(--gold);
+  border-radius:50%;
+  animation:askingHalo 1.5s ease-out infinite;
+  pointer-events:none;
+}
+.slot.near::before{border-color:var(--cyan);background:radial-gradient(circle,rgba(127,227,255,.3),rgba(127,227,255,0) 72%);transform:scale(1.15)}
+.slot.nope::before{border-color:var(--gold);animation:nope .42s ease}
+.slot.filled{pointer-events:none}
+.slot.filled::before,.slot.filled b{opacity:0;transition:opacity .3s}
+
+@keyframes asking{
+  0%,100%{transform:scale(1);box-shadow:0 0 0 rgba(255,212,121,0)}
+  50%{transform:scale(1.13);box-shadow:0 0 22px rgba(255,212,121,.5)}
+}
+@keyframes askingHalo{
+  0%{opacity:.7;transform:scale(1)}
+  100%{opacity:0;transform:scale(1.9)}
+}
+@keyframes nope{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-7px)}
+  75%{transform:translateX(7px)}
+}
+
+/* A planet or moon that has found its place, and the tray token before it has:
+   one class, so a piece never changes identity mid-drag. */
+.body{
+  position:absolute;
+  transform:translate(-50%,-50%);
+  z-index:4;
+  touch-action:none;
+  cursor:grab;
+}
+.body img{
+  display:block;
+  width:100%;height:100%;
+  pointer-events:none;
+  filter:drop-shadow(0 4px 10px rgba(0,0,0,.62));
+}
+.body .name{
+  position:absolute;
+  left:50%;top:100%;
+  transform:translate(-50%,4px);
+  font:700 clamp(.62rem,1.15vw,.86rem)/1 'Nunito',sans-serif;
+  letter-spacing:.3px;
+  white-space:nowrap;
+  color:#fff;
+  text-shadow:0 2px 6px #000,0 0 12px #000a;
+  pointer-events:none;
+}
+.body.moon .name{
+  font-size:clamp(.55rem,1vw,.72rem);
+  color:#eaf2ff;
+  opacity:0;
+  transition:opacity .35s;
+}
+.body.moon.telling{z-index:12}
+.body.moon.telling .name,.cell .body.moon .name{opacity:1}
+.body.telling img{filter:drop-shadow(0 0 13px rgba(180,220,255,.75)) drop-shadow(0 4px 10px rgba(0,0,0,.62))}
+
+/* The pad is the finger target and is never smaller than 60px, however small
+   the world says the body is. Mercury is 34px of paint and 60px of target. */
+.body::after{
+  content:"";
+  position:absolute;
+  left:50%;top:50%;
+  width:max(100%,60px);height:max(100%,60px);
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+}
+.body.lift{z-index:20;cursor:grabbing}
+.body.lift img{filter:drop-shadow(0 14px 22px rgba(0,0,0,.72)) drop-shadow(0 0 18px rgba(180,220,255,.5))}
+.body.picked img{animation:bob 1.5s ease-in-out infinite}
+.body.picked::before{
+  content:"";
+  position:absolute;
+  inset:-14%;
+  border:2.5px solid var(--cyan);
+  border-radius:50%;
+  animation:ringPulse 1.4s ease-out infinite;
+}
+.body.hot img{filter:drop-shadow(0 0 16px var(--cyan)) drop-shadow(0 4px 10px rgba(0,0,0,.62))}
+.body.hot::before{
+  content:"";
+  position:absolute;
+  inset:-16%;
+  border:2.5px solid var(--cyan);
+  border-radius:50%;
+  animation:ringPulse 1.1s ease-out infinite;
+}
+.body.blink{z-index:14}
+.body.blink img{animation:blinkGlow 1s ease-in-out infinite}
+.body.blink::before{
+  content:"";
+  position:absolute;
+  inset:-18%;
+  border:3px solid var(--gold);
+  border-radius:50%;
+  animation:ringPulse 1s ease-out infinite;
+}
+.body.settling{transition:left .34s cubic-bezier(.2,1.5,.5,1),top .34s cubic-bezier(.2,1.5,.5,1),width .34s ease,height .34s ease}
+.body.home{transition:left .3s ease-out,top .3s ease-out}
+.body.locked{cursor:default}
+.body.shake{animation:nope .42s ease}
+
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes ringPulse{0%{opacity:.85;transform:scale(1)}100%{opacity:0;transform:scale(1.35)}}
+@keyframes blinkGlow{
+  0%,100%{filter:drop-shadow(0 4px 10px rgba(0,0,0,.62))}
+  50%{filter:drop-shadow(0 0 22px var(--gold)) drop-shadow(0 4px 10px rgba(0,0,0,.62))}
+}
+
+/* ---------------- caption ---------------- */
+
+#caption{
+  flex:0 0 auto;
+  min-height:2.5em;
+  display:grid;
+  place-items:center;
+  padding:2px clamp(12px,4vw,40px);
+  text-align:center;
+  font-size:clamp(.86rem,1.9vw,1.12rem);
+  font-weight:700;
+  line-height:1.25;
+  color:#dbe6ff;
+  text-shadow:0 2px 10px #000c;
+  cursor:pointer;
+  transition:opacity .2s;
+}
+#caption.cheer{color:var(--gold)}
+#caption.pop{animation:capPop .34s ease}
+@keyframes capPop{0%{transform:scale(.9);opacity:0}100%{transform:scale(1);opacity:1}}
+
+/* ---------------- tray ---------------- */
+
+#tray{
+  flex:0 0 auto;
+  height:var(--tray-h);
+  background:linear-gradient(to top,rgba(10,16,44,.92),rgba(10,16,44,.34));
+  border-top:1px solid var(--panel-line);
+  overflow-x:auto;
+  overflow-y:hidden;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+#tray::-webkit-scrollbar{display:none}
+
+#trayRow{
+  position:relative;
+  height:100%;
+  min-width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:clamp(2px,1vw,14px);
+  padding:0 10px;
+}
+
+/* Levels 2 and 3 put one moon on the deck instead of a row of eight. It is
+   drawn big, it says its name, and the pill beside it counts the level down. */
+.deckCount{
+  position:absolute;
+  left:clamp(12px,3vw,32px);
+  top:50%;
+  transform:translateY(-50%);
+  padding:6px 14px;
+  border:2px solid var(--panel-line);
+  border-radius:999px;
+  background:var(--panel);
+  font:800 clamp(.72rem,1.5vw,.95rem)/1 'Nunito',sans-serif;
+  color:var(--ink-soft);
+  white-space:nowrap;
+}
+.cell.deck{width:auto;min-width:112px}
+.cell.deck .body .name{
+  font-size:clamp(.8rem,1.9vw,1.1rem);
+  font-weight:900;
+  letter-spacing:.5px;
+  transform:translate(-50%,8px);
+}
+
+/* One cell per piece, all the same width, so a tap lands where the eye expects
+   even though the pieces inside them are wildly different sizes. */
+.cell{
+  position:relative;
+  flex:0 0 auto;
+  height:100%;
+  display:grid;
+  place-items:center;
+}
+.cell.gone{opacity:0;pointer-events:none}
+
+/* ---------------- sparkles ---------------- */
+
+.spark{
+  position:absolute;
+  width:9px;height:9px;
+  margin:-4.5px 0 0 -4.5px;
+  border-radius:50%;
+  background:radial-gradient(circle,#fff,#ffe6a3 45%,rgba(255,214,120,0) 72%);
+  animation:sparkFly var(--dur) ease-out forwards;
+}
+@keyframes sparkFly{
+  0%{opacity:1;transform:translate(0,0) scale(.5)}
+  100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1.35)}
+}
+
+/* ---------------- between levels ---------------- */
+
+#curtain{
+  position:fixed;
+  inset:0;
+  z-index:40;
+  display:grid;
+  place-items:center;
+  padding:20px;
+  background:radial-gradient(circle at 50% 45%,rgba(30,44,102,.72),rgba(4,6,20,.9) 70%);
+  backdrop-filter:blur(3px);
+  -webkit-backdrop-filter:blur(3px);
+}
+#curtain[hidden]{display:none}
+
+#card{
+  width:min(520px,92vw);
+  padding:clamp(20px,4vw,34px);
+  text-align:center;
+  border:2px solid rgba(160,195,255,.34);
+  border-radius:28px;
+  background:linear-gradient(160deg,rgba(34,46,104,.95),rgba(16,22,58,.96));
+  box-shadow:0 26px 70px rgba(0,0,0,.6);
+  animation:cardIn .38s cubic-bezier(.2,1.4,.5,1);
+}
+@keyframes cardIn{0%{transform:scale(.86) translateY(14px);opacity:0}100%{transform:none;opacity:1}}
+
+#cardArt{
+  height:clamp(74px,15vh,120px);
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+#cardArt img{height:100%;width:auto;filter:drop-shadow(0 6px 14px rgba(0,0,0,.5))}
+
+#cardTitle{
+  font-family:'Fredoka One','Nunito',sans-serif;
+  font-weight:400;
+  font-size:clamp(1.4rem,4.4vw,2rem);
+  color:var(--gold);
+  margin-bottom:8px;
+}
+#cardText{
+  font-size:clamp(.95rem,2.2vw,1.12rem);
+  line-height:1.45;
+  color:#dbe6ff;
+  margin-bottom:20px;
+}
+
+.big{
+  min-width:min(260px,72vw);
+  padding:15px 26px;
+  border:0;
+  border-radius:999px;
+  font-family:'Fredoka One','Nunito',sans-serif;
+  font-size:clamp(1.05rem,2.7vw,1.32rem);
+  color:#2a1c04;
+  background:linear-gradient(180deg,#ffe6a6,#ffbe4d);
+  box-shadow:0 8px 0 #c98d21,0 14px 26px rgba(0,0,0,.42);
+  cursor:pointer;
+  transition:transform .12s,box-shadow .12s;
+}
+.big:active{transform:translateY(5px);box-shadow:0 3px 0 #c98d21,0 8px 14px rgba(0,0,0,.4)}
+
+/* ---------------- motion off ---------------- */
+
+@media (prefers-reduced-motion:reduce){
+  .body.picked img,.body.picked::before,.body.hot::before,.body.blink img,
+  .slot.asking::before,.slot.asking::after{animation:none}
+  .body.blink::before{animation:none;opacity:.9}
+  .slot.asking::before{transform:scale(1.13);box-shadow:0 0 22px rgba(255,212,121,.5)}
+  .body.settling,.body.home{transition:none}
+  .spark{display:none}
+  #card{animation:none}
+}
+
+/* Reachable by assistive tech, never painted. Used by #voiceNote, the sound
+   button's description. Not `display:none` and not `hidden`: both remove the
+   node from the accessibility tree, which would make aria-describedby point at
+   nothing. */
+.sr-only{
+  position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+  clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0;
+}
+
+/* ----------------------------------------------------------- touch hygiene ---
+ * Owner, 2026-09-15: "sometimes apps like writing turned into 'selection' and the
+ * UI turn blue ... also for some apps accidental zoom in occur a lot."
+ *
+ * One cause, two symptoms: a child drags and rests fingers constantly, and the
+ * browser reads that as text selection and as zoom.
+ *
+ * user-select: none        kills the blue selection.
+ * -webkit-touch-callout    kills the long-press copy/share bubble -- the other
+ *                          half, and it was missing from every app but one.
+ * touch-action: manipulation  removes double-tap-to-zoom WITHOUT killing scroll.
+ *                          Deliberately not `none`: that would stop scrolling.
+ *                          Drawing surfaces set their own `touch-action: none`
+ *                          and keep it -- a more specific rule still wins.
+ *
+ * Pinch needs JavaScript, not CSS: iOS Safari has ignored user-scalable=no since
+ * iOS 10, so the viewport meta does nothing. See the gesturestart guard in the
+ * HTML.
+ */
+html { -webkit-text-size-adjust: 100%; touch-action: manipulation; }
+
+body {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+}
+
+/* Anything a person genuinely types into stays selectable. */
+input, textarea, [contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+}

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Planets &amp; Moons</title>
+<meta name="description" content="Put the planets in order around the Sun, give every planet its moons, then do the same for the dwarf planets."/>
+<link rel="manifest" href="./manifest.webmanifest"/>
+<link rel="stylesheet" href="./fonts.css"/>
+<link rel="stylesheet" href="./styles.css"/>
+<meta name="theme-color" content="#0a0e28"/>
+<link rel="icon" href="./assets/icons/icon-192.png"/>
+<link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Planets &amp; Moons"/>
+</head>
+<body>
+    <!-- Staging badge: which bytes loaded is the QA question. -->
+    <div style="position:fixed;top:6px;left:6px;z-index:9999;background:#26306e;color:#fff;
+                font:700 12px/1.4 system-ui,sans-serif;padding:4px 10px;border-radius:999px;
+                opacity:.85;pointer-events:none">staging zoom-qa</div>
+
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<div id="app">
+
+  <header id="bar">
+    <!-- Owner, 2026-08-27: *"need to make sure ALL games has back icon to the hub"* --
+         a 4-year-old could not get out of the game. It goes IN the bar rather than
+         fixed over the corner, because the level buttons already own the top left and
+         an overlay would land on top of them. Absolute URL on purpose: published,
+         /solar-system-game/ and /children-apps/ are siblings, but in the repo the hub
+         lives under site/, so a relative link would work live and 404 in every local
+         preview -- the kind of difference nobody notices until a child taps it. -->
+    <a id="hub" class="tool" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5"/><path d="m11 18-6-6 6-6"/></svg>
+    </a>
+    <nav id="levels" aria-label="Levels">
+      <button class="lvl" data-level="1" type="button"><span>1</span></button>
+      <button class="lvl" data-level="2" type="button"><span>2</span></button>
+      <button class="lvl" data-level="3" type="button"><span>3</span></button>
+      <button class="lvl" data-level="4" type="button"><span>4</span></button>
+      <button class="lvl" data-level="5" type="button"><span>5</span></button>
+      <button class="lvl" data-level="6" type="button"><span>6</span></button>
+      <button class="lvl" data-level="7" type="button"><span>7</span></button>
+      <button class="lvl" data-level="8" type="button"><span>8</span></button>
+    </nav>
+    <h1 id="title">Put the planets in order</h1>
+    <div id="tools">
+      <button id="sound" class="tool" type="button" aria-pressed="true" aria-label="Sound on" aria-describedby="voiceNote">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h3l5-4v14l-5-4H4z"/><path class="wave" d="M16 8.5a5 5 0 0 1 0 7"/><path class="wave" d="M18.5 6a8.5 8.5 0 0 1 0 12"/><path class="mute" d="M16 9.5l5 5m0-5l-5 5"/></svg>
+      </button>
+      <button id="again" class="tool" type="button" aria-label="Start this level again">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12a7 7 0 1 1-2.6-5.4"/><path d="M19 4.5V9h-4.5"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="stage">
+    <svg id="orbits" aria-hidden="true"></svg>
+    <!-- All four Sun frames live in the DOM and cross-fade by class. Swapping one
+         img's src re-requested the file on every tick. -->
+    <div id="sun" aria-hidden="true">
+      <img class="on" src="./assets/planets/sun-1.webp" alt=""/>
+      <img src="./assets/planets/sun-2.webp" alt=""/>
+      <img src="./assets/planets/sun-3.webp" alt=""/>
+      <img src="./assets/planets/sun-4.webp" alt=""/>
+    </div>
+    <div id="slots"></div>
+    <div id="placed"></div>
+    <div id="sparks" aria-hidden="true"></div>
+  </main>
+
+  <p id="caption" aria-live="polite"></p>
+
+  <!-- The AI-voice disclosure, hung off the sound button as its description. Every
+       app that ships a voice we rendered carries its own line (AUDIO-DIRECTION.md,
+       "One thing we should do regardless") -- this game is reachable by its own URL
+       and most players never see the hub footer. There is no menu or home screen to
+       print it on: the layout is header, stage, caption and tray, all sized to the
+       viewport. The sound button is the one control the line actually belongs to.
+       Unqualified here on purpose -- this game never falls back to speechSynthesis,
+       so every voice in it really is one we rendered. -->
+  <p id="voiceNote" class="sr-only">Every voice here is AI-generated. None is a recording of a real person.</p>
+
+  <footer id="tray">
+    <div id="trayRow"></div>
+  </footer>
+
+</div>
+
+<div id="curtain" hidden>
+  <div id="card" role="dialog" aria-modal="true" aria-labelledby="cardTitle">
+    <div id="cardArt" aria-hidden="true"></div>
+    <h2 id="cardTitle"></h2>
+    <p id="cardText"></p>
+    <button id="cardGo" class="big" type="button"></button>
+  </div>
+</div>
+
+<script src="./app.js"></script>
+  </body>
+</html>
