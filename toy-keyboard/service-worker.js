@@ -71,9 +71,17 @@
  *   v8  2026-09-16  The back arrow moves from the Test Hub to the Music hub
  *               (children-apps/music.html), because the app is promoted there and
  *               its Test Hub card is removed. index.html only; no new shell file.
- */
+  *   v10 2026-09-22: zoom-trap fix -- the global gesturestart pinch blocker is
+ *               gone estate-wide (INTERACTION-DIRECTION.md); this bump carries it.
+ *   v11 2026-09-22  Record/Play states a child can read: distinct words for a
+ *               waiting take and a finished song, a recording pulse, live
+ *               clocks, and the guidance-clip player (silent until the owner
+ *               picks the voice). guidance.js joins the shell for the same
+ *               reason effects.js did: index.html loads it, so a cold offline
+ *               install without it would open on a toy that throws.
+*/
 
-const CACHE_NAME = "toy-keyboard-v9";
+const CACHE_NAME = "toy-keyboard-v11";
 
 const SHELL = [
   "./",
@@ -86,6 +94,7 @@ const SHELL = [
   "./voices.js",
   "./engine.js",
   "./recorder.js",
+  "./guidance.js",
   "./keybed.js",
   "./effects.js",
   "./toys.js",

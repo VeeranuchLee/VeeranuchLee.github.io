@@ -50,17 +50,118 @@
      The row draws itself from the recorder's own snapshots and asks the
      recorder for its mode at click time; nothing here caches state, and the
      unsubscribe it returns is called on destroy so a toy that unmounts
-     leaves no listener behind. */
+     leaves no listener behind.
+
+     STATE WORDS (owner, 2026-09-21: "a working feature that appears broken to
+     the child is still a UX failure"). Every state a child can be in now says
+     what it is and what to do next, instead of the old four words where a
+     fresh take, a stopped take and a finished song all said "Your song":
+       Ready / Recording… <clock> / Your song — press ▶ / Playing… <clock of
+       total> / Finished! press ▶ again. Recording pulses, finishing pops, and
+     pressing Record over an existing take says the old song goes away. */
   function mountTransport(host, before) {
     const row = frag(
       '<div class="transport" role="group" aria-label="Record">' +
         '<button type="button" class="tbtn rec" data-record="start" aria-pressed="false">● <span>Record</span></button>' +
-        '<button type="button" class="tbtn play" data-record="play" aria-pressed="false" disabled>▶ <span>Play</span></button>' +
-        '<p class="record-status" aria-live="polite">Ready</p>' +
+        '<button type="button" class="tbtn play not-ready" data-record="play" aria-pressed="false" aria-disabled="true">▶ <span>Play</span></button>' +
+        '<p class="record-status" aria-live="polite">Ready <span class="record-time"></span></p>' +
       '</div>');
     const recBtn = row.querySelector('[data-record="start"]');
     const playBtn = row.querySelector('[data-record="play"]');
     const status = row.querySelector(".record-status");
+    const clock = row.querySelector(".record-time");
+    const fmt = (s) => {
+      s = Math.max(0, Math.round(s));
+      return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+    };
+    let prevHadTake = false;
+    let flash = null;
+    let nudging = null;
+    /* RECORD FIRST (owner, 2026-09-22: child-use evidence showed a dimmed Play
+       that silently did nothing was confusing). Play before any take is NOT
+       disabled: it stays tappable, looks dimmed (.not-ready + aria-disabled),
+       and a tap answers with words, a glow on the Record button it points at,
+       and a small shake of itself. Motion is dropped under reduced motion in
+       toys.css; the glow stays, still, for the same moment. */
+    const nudgeRecord = () => {
+      window.clearTimeout(nudging);
+      recBtn.classList.remove("nudge");
+      playBtn.classList.remove("nudge");
+      void recBtn.offsetWidth; // restart the animation on a repeat tap
+      recBtn.classList.add("nudge");
+      playBtn.classList.add("nudge");
+      nudging = window.setTimeout(() => {
+        recBtn.classList.remove("nudge");
+        playBtn.classList.remove("nudge");
+      }, 1600);
+    };
+    const say = (text, ms) => {
+      window.clearTimeout(flash);
+      status.dataset.words = text;
+      paint();
+      flash = window.setTimeout(() => { delete status.dataset.words; paint(); }, ms);
+    };
+    /* `words` in the dataset outranks the derived words while a transient
+       message (New song! / Record first!) is on the line. */
+    function paint() {
+      const snap = lastSnap;
+      if (!snap) return;
+      const recording = snap.mode === "recording";
+      const playing = snap.mode === "playing";
+      recBtn.setAttribute("aria-pressed", String(recording));
+      playBtn.setAttribute("aria-pressed", String(playing));
+      /* Disabled only mid-recording (the lit Record button is the answer
+         there). With no take yet Play stays tappable so a tap can say
+         "Record a song first!" instead of silently doing nothing. */
+      const notReady = !snap.hasTake && !recording && !playing;
+      playBtn.disabled = recording;
+      playBtn.classList.toggle("not-ready", notReady);
+      if (notReady) playBtn.setAttribute("aria-disabled", "true");
+      else playBtn.removeAttribute("aria-disabled");
+      row.classList.toggle("is-recording", recording);
+      row.classList.toggle("is-playing", playing);
+      row.classList.toggle("is-finished", !recording && !playing && snap.hasTake && snap.ended === "finished");
+      let words = "Ready";
+      if (recording) words = "Recording…";
+      else if (playing) words = "Playing…";
+      else if (snap.hasTake) words = snap.ended === "finished" ? "Finished! press ▶ again" : "Your song — press ▶";
+      if (status.dataset.words) words = status.dataset.words;
+      const label = words + " ";
+      if (status.textContent !== label + clock.textContent) status.firstChild.nodeValue = label;
+    }
+    let lastSnap = null;
+    const unsubscribe = KB.recorder.onChange((snap) => {
+      lastSnap = snap;
+      if (snap.mode === "recording") {
+        /* Record pressed over a take that existed a moment ago says so: the
+           old song going away is the one surprise in the row. */
+        if (prevHadTake) say("New song — the old one goes away!", 1800);
+        KB.guidance && KB.guidance.play("recording");
+      } else if (snap.hasTake && snap.ended === "stop") {
+        KB.guidance && KB.guidance.play("stopped");
+      } else if (snap.hasTake && snap.ended === "finished") {
+        KB.guidance && KB.guidance.play("finished");
+      }
+      prevHadTake = snap.hasTake || snap.mode === "recording";
+      paint();
+    });
+    /* onChange reports changes only, so a toy mounted on a fresh page has no
+       snapshot until the first recording -- and paint() drew nothing, so a
+       child's very first tap on Play got the glow but not "Record a song
+       first!". Start from the recorder's current state instead. */
+    if (!lastSnap) {
+      lastSnap = { mode: KB.recorder.getMode(), hasTake: KB.recorder.hasTake(),
+        duration: KB.recorder.getDuration(), ended: null, elapsed: 0 };
+      paint();
+    }
+    /* The clock ticks on its own because snapshots only fire on state changes;
+       4Hz is enough for a child to SEE time passing while recording. */
+    const tick = window.setInterval(() => {
+      if (!lastSnap) return;
+      if (lastSnap.mode === "recording") clock.textContent = fmt(KB.recorder.elapsed());
+      else if (lastSnap.mode === "playing") clock.textContent = fmt(KB.recorder.getDuration() - KB.recorder.elapsed()) + " left of " + fmt(KB.recorder.getDuration());
+      else clock.textContent = "";
+    }, 250);
     recBtn.addEventListener("click", () => {
       KB.engine.ensureAudio();
       /* The lit Record button means Stop. start() here would wipe the take
@@ -71,24 +172,28 @@
     });
     playBtn.addEventListener("click", () => {
       KB.engine.ensureAudio();
-      /* And the lit Play button means Stop too: play() on its own would
-         start the take over from the top. */
-      if (KB.recorder.getMode() === "playing") KB.recorder.stop();
-      else KB.recorder.play();
-    });
-    const unsubscribe = KB.recorder.onChange((snap) => {
-      const recording = snap.mode === "recording";
-      const playing = snap.mode === "playing";
-      recBtn.setAttribute("aria-pressed", String(recording));
-      playBtn.setAttribute("aria-pressed", String(playing));
-      playBtn.disabled = !snap.hasTake || recording;
-      status.textContent = recording ? "Recording" : playing ? "Playing" : snap.hasTake ? "Your song" : "Ready";
+      if (KB.recorder.getMode() === "playing") { KB.recorder.stop(); return; }
+      if (!KB.recorder.hasTake()) {
+        /* The ordinary path for a child who taps Play before recording: Play
+           is dimmed but tappable (see paint), so this answers with words, the
+           Record glow and the "record-first" voice clip once it is rendered. */
+        say("Record a song first!", 2000);
+        nudgeRecord();
+        KB.guidance && KB.guidance.play("record-first");
+        return;
+      }
+      KB.recorder.play();
     });
     host.insertBefore(row, before || null);
     /* The idle face baked into the markup is not a guess: the shell stops and
        clears the take before any toy mounts, so the recorder is always idle
        and empty at the moment this row appears. */
-    return unsubscribe;
+    return () => {
+      window.clearInterval(tick);
+      window.clearTimeout(flash);
+      window.clearTimeout(nudging);
+      unsubscribe();
+    };
   }
 
   /* --------------------------------------------------------- 🌈 Rainbow ---

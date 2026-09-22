@@ -38,11 +38,20 @@
   let openNotes = new Map(); /* notes recorded on but not yet off */
   const watchers = [];
 
+  /* WHY `ended` EXISTS (owner, 2026-09-21: "the state is too hard for a child to
+     understand"). idle-with-a-take is two different moments to a child -- the
+     take they just made, and the song that just finished playing -- and the
+     transport used to show the same words for both. `ended` tells the UI which
+     idle face to wear: "stop" (a take waits), "finished" (playback just ended),
+     or null (nothing has happened yet with this take). */
+  let ended = null;
+
   function changed() {
     const snap = {
       mode: mode,
       hasTake: take.length > 0,
       duration: duration,
+      ended: ended,
       elapsed: mode === "recording" ? KB.engine.time() - startedAt : 0,
     };
     watchers.forEach((fn) => { try { fn(snap); } catch (e) { /* keep going */ } });
@@ -81,6 +90,7 @@
     take = [];
     openNotes = new Map();
     duration = 0;
+    ended = null;
     startedAt = KB.engine.time();
     mode = "recording";
     /* The cap, armed from the moment recording starts. */
@@ -97,6 +107,7 @@
       openNotes = new Map();
       duration = Math.max(t, take.length ? take[take.length - 1].t : 0);
       mode = "idle";
+      ended = "stop";
       clearTimers();
       changed();
       return;
@@ -105,6 +116,7 @@
       clearTimers();
       KB.engine.panic("play");
       mode = "idle";
+      ended = "stop";
       changed();
     }
   }
@@ -115,6 +127,7 @@
     if (mode === "recording") stop();
     if (mode === "playing") stop();
     mode = "playing";
+    ended = null;
     take.forEach((e) => {
       timers.push(window.setTimeout(() => {
         if (mode !== "playing") return;
@@ -129,6 +142,7 @@
       if (mode !== "playing") return;
       KB.engine.panic("play");
       mode = "idle";
+      ended = "finished";
       changed();
     }, duration * 1000 + 400));
     changed();
@@ -139,6 +153,7 @@
     take = [];
     openNotes = new Map();
     duration = 0;
+    ended = null;
     changed();
   }
 

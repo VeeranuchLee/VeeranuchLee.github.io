@@ -101,7 +101,7 @@
           '<div class="transport" role="group" aria-label="Record">' +
             '<button type="button" class="tbtn rec" data-record="start" aria-pressed="false">● <span>Record</span></button>' +
             '<button type="button" class="tbtn" data-record="stop" disabled>■ <span>Stop</span></button>' +
-            '<button type="button" class="tbtn play" data-record="play" aria-pressed="false" disabled>▶ <span>Play</span></button>' +
+            '<button type="button" class="tbtn play not-ready" data-record="play" aria-pressed="false" aria-disabled="true">▶ <span>Play</span></button>' +
             '<button type="button" class="tbtn" data-record="clear" disabled>✕ <span>Clear</span></button>' +
             '<p class="record-status" aria-live="polite">Ready</p>' +
           '</div>' +
@@ -367,20 +367,64 @@
         clear: root.querySelector('[data-record="clear"]'),
       };
       const recordStatus = root.querySelector(".record-status");
+      /* Record first (owner, 2026-09-22: child-use evidence showed a dimmed Play
+         that silently did nothing was confusing). With no take, Play stays
+         tappable and answers: the words, a glow on Record, and the guidance clip
+         once it is rendered (silent until then). Same behaviour as the young toys. */
+      let recordFirstTimer = 0;
+      const recordFirst = () => {
+        window.clearTimeout(recordFirstTimer);
+        recordStatus.textContent = "Record a song first!";
+        [recordButtons.start, recordButtons.play].forEach((b) => {
+          b.classList.remove("nudge"); void b.offsetWidth; b.classList.add("nudge");
+        });
+        KB.guidance && KB.guidance.play("record-first");
+        recordFirstTimer = window.setTimeout(() => {
+          recordButtons.start.classList.remove("nudge");
+          recordButtons.play.classList.remove("nudge");
+          if (KB.recorder.getMode() === "idle" && !KB.recorder.hasTake()) recordStatus.textContent = "Ready";
+        }, 1600);
+      };
       Object.keys(recordButtons).forEach((command) => recordButtons[command].addEventListener("click", () => {
         KB.engine.ensureAudio();
+        if (command === "play" && KB.recorder.getMode() !== "playing" && !KB.recorder.hasTake()) { recordFirst(); return; }
         if (command === "start") KB.recorder.start();
         else KB.recorder[command]();
       }));
+      /* The same state vocabulary the young toys wear (owner, 2026-09-21): a
+         finished song says so, a waiting take says what to press, and a take
+         that just ended is not the same words as one never played. Studio keeps
+         its four buttons — this is the advanced face. */
+      const transport = root.querySelector(".transport");
       const unsubscribeRecorder = KB.recorder.onChange((snap) => {
         const recording = snap.mode === "recording";
         const playing = snap.mode === "playing";
         recordButtons.start.setAttribute("aria-pressed", String(recording));
         recordButtons.play.setAttribute("aria-pressed", String(playing));
         recordButtons.stop.disabled = !recording && !playing;
-        recordButtons.play.disabled = !snap.hasTake || recording;
+        const notReady = !snap.hasTake && !recording && !playing;
+        recordButtons.play.disabled = recording;
+        recordButtons.play.classList.toggle("not-ready", notReady);
+        if (notReady) recordButtons.play.setAttribute("aria-disabled", "true");
+        else recordButtons.play.removeAttribute("aria-disabled");
+        window.clearTimeout(recordFirstTimer);
+        recordButtons.start.classList.remove("nudge");
+        recordButtons.play.classList.remove("nudge");
         recordButtons.clear.disabled = !snap.hasTake || recording || playing;
-        recordStatus.textContent = recording ? "Recording" : playing ? "Playing" : snap.hasTake ? "Your song" : "Ready";
+        transport.classList.toggle("is-recording", recording);
+        transport.classList.toggle("is-playing", playing);
+        transport.classList.toggle("is-finished", !recording && !playing && snap.hasTake && snap.ended === "finished");
+        recordStatus.textContent = recording
+          ? "Recording…"
+          : playing
+            ? "Playing…"
+            : snap.hasTake
+              ? (snap.ended === "finished" ? "Finished! press ▶ again" : "Your song — press ▶")
+              : "Ready";
+        if (recording) KB.guidance && KB.guidance.play("recording");
+        else if (snap.hasTake && snap.ended === "stop") KB.guidance && KB.guidance.play("stopped");
+        else if (snap.hasTake && snap.ended === "finished") KB.guidance && KB.guidance.play("finished");
+        prevHadTake = snap.hasTake || recording;
       });
 
       KB.engine.setPatch(st.voice);
