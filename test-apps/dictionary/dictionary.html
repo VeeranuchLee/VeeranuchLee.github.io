@@ -137,6 +137,43 @@
        formal definitions". */
     .eg{font-size:.9rem;font-weight:700;color:#6b5260;line-height:1.4;margin-top:2px}
 
+    /* ── Hear it ──
+       Every card that has a clip carries one round speaker beside its word. 52px, the
+       same size as the A-Z buttons, so it clears the 44pt iPad floor with room. Beside
+       the WORD, not under the sentence: the clip says the headword, and a child who
+       cannot read the sentence yet can still find the thing that speaks. Tapping while
+       it speaks starts the word again from the top -- repeating a word is what a child
+       practising it wants.
+       Two states a child can see: `.speaking` (filled, while the word plays) and
+       `.missed` (the clip did not load -- offline and never heard before, or a file
+       gone). A missed tap shakes the button and swaps the sound waves for a cross, and
+       the button stays live so the next tap tries again. It never goes quiet, and it
+       never dims into something that looks tappable and does nothing.
+       The eight homograph cards (word-audio.js UNRENDERED) have no speaker at all:
+       their clip is not rendered yet and a speaker that can only fail is a dead tap. */
+    .head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+    .head .word{flex:1;min-width:0;overflow-wrap:anywhere;padding-top:12px}
+    .speak{
+      flex:none;width:52px;height:52px;border-radius:50%;cursor:pointer;
+      display:inline-flex;align-items:center;justify-content:center;padding:0;
+      border:2.5px solid #e59bbb;background:linear-gradient(135deg,#fff,#ffe9f1);
+      color:#a8386a;box-shadow:0 4px 0 #e59bbb;
+      -webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:transform .1s;
+    }
+    .speak:active{transform:translateY(3px);box-shadow:0 1px 0 #e59bbb}
+    .speak:focus-visible{outline:4px solid #ffd54f;outline-offset:3px}
+    .speak svg{width:26px;height:26px;flex:none;pointer-events:none}
+    .speak .no{display:none}
+    .speak.speaking{background:linear-gradient(160deg,#d4739a,#a8386a);color:#fff;border-color:#a8386a}
+    .speak.missed{color:#9b7a8a;border-color:#d9c3cf;box-shadow:0 4px 0 #d9c3cf;animation:nope .45s}
+    .speak.missed .waves{display:none}
+    .speak.missed .no{display:inline}
+    @keyframes nope{
+      0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)}
+      60%{transform:translateX(-4px)} 80%{transform:translateX(4px)}
+    }
+    @media (prefers-reduced-motion:reduce){.speak.missed{animation:none}}
+
     .none{
       grid-column:1/-1;text-align:center;padding:50px 20px;
       font-weight:900;font-size:1.1rem;color:#a8386a;
@@ -180,6 +217,7 @@
   <div class="grid" id="grid"></div>
 </main>
 
+<script src="word-audio.js"></script>
 <script>
 (function () {
   'use strict';
@@ -203,14 +241,31 @@
      with are two concepts with two Thai translations and two pictures. Two cards
      reading "bat" is correct here, and the Thai line underneath is what tells them
      apart, which is why it is never optional. */
+  /* The clip each card speaks comes from word-audio.js (window.WordAudio), THE one
+     resolver -- tools/check-audio-coverage.mjs require()s the same file to prove every
+     card resolves to exactly one clip on disk or a documented exception. Nothing on this
+     page knows how a filename is made. If that file ever failed to load, cards simply
+     carry no speaker; they never carry one that cannot work. */
+  var WA = window.WordAudio || null;
+  var SPEAKER = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" ' +
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' +
+    '<path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/>' +
+    '<g class="waves"><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></g>' +
+    '<g class="no"><path d="M16 9.5l5 5M21 9.5l-5 5"/></g></svg>';
+
   function card(r) {
-    var word = r[0], thai = r[2], eg = r[3], pic = r[4];
+    var word = r[0], sense = r[1], thai = r[2], eg = r[3], pic = r[4];
+    var clip = WA ? WA.clipFor(word, sense) : null;
     var art = pic
       ? '<div class="pic"><img src="' + esc(pic) + '" alt="" loading="lazy" decoding="async" draggable="false"></div>'
       : '<div class="pic todo"><span>picture to come</span></div>';
+    var speak = clip
+      ? '<button type="button" class="speak" data-clip="' + esc(clip) + '" aria-label="Hear ' +
+        esc(word) + '">' + SPEAKER + '</button>'
+      : '';
     return '<article class="card">' + art +
       '<div class="body">' +
-      '<p class="word">' + esc(word) + '</p>' +
+      '<div class="head"><p class="word">' + esc(word) + '</p>' + speak + '</div>' +
       '<p class="thai" lang="th">' + esc(thai) + '</p>' +
       '<p class="eg">' + esc(eg) + '</p>' +
       '</div></article>';
@@ -229,6 +284,7 @@
   }
 
   function render() {
+    hush();
     var found = matches();
     if (!found.length) {
       grid.innerHTML = '<p class="none">No words here yet. Try another letter.</p>';
@@ -273,6 +329,60 @@
   });
   clear.addEventListener('click', function () {
     query = ''; q.value = ''; clear.hidden = true; q.focus(); syncAZ(); render();
+  });
+
+  /* ONE shared voice for the whole page, created on the first tap and never before:
+     nothing is fetched or played on load. A child taps word after word, and the
+     previous word stops the moment the next one starts, because it is the same
+     element being given a new src -- there is nothing to stack. Tapping the word that
+     is already speaking rewinds it to the top.
+     voiceBtn is the button the voice is serving now. Every late event (ended, error, a
+     rejected play) is checked against it, so a slow failure from an earlier word can
+     never mark the button a child has since moved on to. */
+  var voice = null, voiceBtn = null;
+  function missed(btn) {
+    if (!btn || btn !== voiceBtn) return;
+    btn.classList.remove('speaking');
+    btn.classList.remove('missed');
+    void btn.offsetWidth;            /* restart the shake on every failed tap */
+    btn.classList.add('missed');
+  }
+  function hush() {
+    if (voice) { try { voice.pause(); } catch (e) {} }
+    if (voiceBtn) voiceBtn.classList.remove('speaking');
+    voiceBtn = null;
+  }
+  function say(btn) {
+    var clip = btn.getAttribute('data-clip');
+    if (!voice) {
+      voice = new Audio();
+      voice.addEventListener('ended', function () {
+        if (voiceBtn) voiceBtn.classList.remove('speaking');
+      });
+      voice.addEventListener('error', function () { missed(voiceBtn); });
+    }
+    if (voiceBtn && voiceBtn !== btn) voiceBtn.classList.remove('speaking');
+    voiceBtn = btn;
+    btn.classList.remove('missed');
+    btn.classList.add('speaking');
+    try {
+      /* A new word, or a retry after a failure, loads the file; the same word again
+         only rewinds, so a repeated tap never re-downloads anything. */
+      if (voice.getAttribute('src') !== clip || voice.error) voice.src = clip;
+      else voice.currentTime = 0;
+      var p = voice.play();
+      if (p && typeof p.then === 'function') {
+        p.then(null, function (err) {
+          /* AbortError means a newer tap replaced this one: not a failure. */
+          if (err && err.name === 'AbortError') return;
+          missed(btn);
+        });
+      }
+    } catch (e) { missed(btn); }
+  }
+  grid.addEventListener('click', function (e) {
+    var b = e.target.closest('button.speak');
+    if (b) say(b);
   });
 
   buildAZ();
