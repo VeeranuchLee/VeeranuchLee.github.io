@@ -1,0 +1,1684 @@
+/* Keyboard — the five toys.
+ *
+ * styles.css is the Big-Kid console and nothing else: it is the compatibility
+ * reference TOY-ARCHITECTURE.md says not to redesign, and it stays as it was.
+ * This file is the shell around it and the four other instruments.
+ *
+ * THE PART THAT IS NOT DECORATION. keybed.js positions every key with inline
+ * `left/top/width/height` in pixels, so a keybed that is not `position:
+ * relative` puts its keys in the wrong place, and a keybed without
+ * `touch-action: none` scrolls the page under a finger instead of playing.
+ * styles.css only ever said that about `#keybed`, an ID only the Classic
+ * console mounts. Rainbow, First Piano, Princess and Studio all mount
+ * `.keybed`, so until this file existed three of the five toys did not
+ * work — they were not merely unstyled.
+ *
+ * The design target is the 9.7-inch iPad at 768 x 1024 portrait. The ribbon is
+ * in fixed pixels on purpose (TOY-ARCHITECTURE "Ribbon"): no clamp(), no vmin,
+ * no viewport scaling, because a chip that shrinks with the window is a chip
+ * that can fall under a finger's size. Type is Nunito throughout — never
+ * `ui-rounded`, which falls back to Avenir Next in Chrome at about 20% wider
+ * and would push the ribbon's words out of their chips on the one machine
+ * this gets checked on.
+ */
+
+:root {
+  /* Ten key colours, warm through cool. Rainbow uses the first eight; First
+     Piano's eleven naturals use all ten and then wrap back to the first —
+     a rainbow wheel, starting over on F5. Colour is redundant
+     identification here: the hit test is geometry and never reads a class. */
+  --hue0: #ff5f6d;
+  --hue1: #ff8a3d;
+  --hue2: #ffc233;
+  --hue3: #b2d235;
+  --hue4: #3ecf8e;
+  --hue5: #35c5d8;
+  --hue6: #4f8bff;
+  --hue7: #a06bff;
+  --hue8: #e560c8;
+  --hue9: #ff7aa8;
+
+  --chip-ink: #cfd6e8;
+  --chip-case: #1b1f29;
+}
+
+/* =========================================================== the shell === */
+
+#app {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#topbar { flex: 0 0 auto; }
+
+#bar1 {
+  position: relative;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The way out. styles.css pins it to the Classic console, which is no longer
+   the only screen and is no longer a positioned ancestor of it — left alone,
+   it would hang off the initial containing block. It belongs to the chrome
+   now, on the left of the bar, reachable from all five toys. 48px square,
+   over the 44px floor. */
+#hub {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  font-size: 24px;
+}
+#hub:active { transform: translateY(-50%) translateY(1px); color: #eef1f8; }
+
+/* Parent-facing and deliberately plain: it lives opposite the way-out button,
+   outside every toy, and occupies space the centred ribbon already leaves
+   empty. No new row means no keybed gives up a pixel. */
+#effects-toggle {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  min-width: 112px;
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid #4a5060;
+  border-radius: 9px;
+  background: rgba(24, 27, 35, 0.9);
+  color: #aeb5c5;
+  font: 800 12px/1 "Nunito", sans-serif;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+#effects-toggle strong { color: #79d8b1; font-size: 11px; }
+#effects-toggle[aria-pressed="false"] strong { color: #9299a8; }
+#effects-toggle:active { transform: translateY(-50%) translateY(1px); }
+#effects-toggle:focus-visible { outline: 3px solid #ffd166; outline-offset: 2px; }
+
+@media (max-width: 650px) {
+  #effects-toggle { min-width: 52px; padding: 0 8px; }
+  #effects-toggle .effects-word { display: none; }
+}
+
+/* The ribbon. Five 64px chips, 10px apart, inside 8px of padding: 376px wide
+   and 76px tall, under half the iPad's 768px and measured, not guessed. */
+#ribbon {
+  display: flex;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: 999px;
+  background: rgba(12, 14, 22, 0.76);
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.3);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.toytab {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+  padding: 4px 2px 3px;
+  margin: 0;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  background: #232731;
+  color: #9aa3b8;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+}
+.toytab .word {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: clip;
+}
+.toytab[aria-selected="true"] {
+  border-color: #6ee7ff;
+  background: #2e3440;
+  color: #eef1f8;
+}
+/* The selected ring and the focus ring are separate signals and must stay
+   that way — a child using a keyboard has to see where they are even on the
+   toy that is already open. */
+.toytab:focus-visible { outline: 3px solid #ffd166; outline-offset: 2px; }
+
+/* ------------------------------------------------ the five chip drawings ---
+   48 x 36 each, drawn from the chip box, two empty elements and their
+   pseudo-elements. No image, no emoji: an emoji is a picture of a category,
+   and these have to be pictures of THESE five toys. Colour is switched off in
+   the description of each one below — every silhouette has to survive it. */
+
+.chip {
+  position: relative;
+  width: 48px;
+  height: 36px;
+  flex: 0 0 36px;
+  border-radius: 6px;
+  background: var(--chip-case);
+  overflow: hidden;
+}
+.chip > i,
+.chip > b {
+  position: absolute;
+  display: block;
+  background: var(--chip-ink);
+}
+.toytab[aria-selected="true"] .chip { background: #10131a; }
+
+/* 1. Baby Rainbow Keys — a carry handle over eight separated fat bars. */
+.toytab[data-toy="baby"] .chip > i {
+  left: 13px; top: 2px;
+  width: 22px; height: 9px;
+  background: none;
+  border: 3px solid var(--chip-ink);
+  border-bottom: 0;
+  border-radius: 12px 12px 0 0;
+}
+.toytab[data-toy="baby"] .chip > b {
+  left: 2px; bottom: 4px;
+  width: 44px; height: 17px;
+  background: repeating-linear-gradient(90deg,
+    var(--chip-ink) 0 3.5px, transparent 3.5px 5.5px);
+}
+
+/* 2. Chunky First Piano — three big round buttons, a four-pad drum band, and
+      broad slabs under them. The pad band is the row that has to tell this
+      model from the Princess now both keybeds share one arrangement. */
+.toytab[data-toy="preschool"] .chip > i {
+  left: 6px; top: 2px;
+  width: 36px; height: 8px;
+  background:
+    radial-gradient(circle 4px at 4px 4px, var(--chip-ink) 98%, transparent 100%),
+    radial-gradient(circle 4px at 18px 4px, var(--chip-ink) 98%, transparent 100%),
+    radial-gradient(circle 4px at 32px 4px, var(--chip-ink) 98%, transparent 100%);
+}
+.toytab[data-toy="preschool"] .chip > i::after {
+  content: "";
+  position: absolute;
+  left: -4px; top: 11px;
+  width: 44px; height: 8px;
+  background: repeating-linear-gradient(90deg,
+    var(--chip-ink) 0 8.5px, transparent 8.5px 11px);
+  border-radius: 2px;
+}
+.toytab[data-toy="preschool"] .chip > b {
+  left: 2px; bottom: 3px;
+  width: 45px; height: 12px;
+  background: repeating-linear-gradient(90deg,
+    var(--chip-ink) 0 7px, transparent 7px 9px);
+}
+
+/* 3. Princess Star Piano — a castle arch between two turrets, a star in the
+      arch, and a short narrow keybed under it. */
+.toytab[data-toy="princess"] .chip > i {
+  left: 11px; top: 2px;
+  width: 26px; height: 18px;
+  border-radius: 13px 13px 0 0;
+}
+.toytab[data-toy="princess"] .chip > i::before,
+.toytab[data-toy="princess"] .chip > i::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  width: 6px; height: 13px;
+  background: var(--chip-ink);
+  border-radius: 3px 3px 0 0;
+}
+.toytab[data-toy="princess"] .chip > i::before { left: -9px; }
+.toytab[data-toy="princess"] .chip > i::after { right: -9px; }
+.toytab[data-toy="princess"] .chip::after {
+  content: "★";
+  position: absolute;
+  left: 0; right: 0; top: 3px;
+  text-align: center;
+  font-size: 11px;
+  line-height: 1;
+  color: var(--chip-case);
+}
+.toytab[data-toy="princess"] .chip > b {
+  left: 8px; bottom: 4px;
+  width: 32px; height: 11px;
+  background: repeating-linear-gradient(90deg,
+    var(--chip-ink) 0 3px, transparent 3px 4px);
+}
+
+/* 4. Big-Kid Keyboard — an LCD between two speaker pods over a long dense
+      49-key bed. */
+.toytab[data-toy="big-kid"] .chip > i {
+  left: 17px; top: 5px;
+  width: 14px; height: 8px;
+  border-radius: 2px;
+}
+.toytab[data-toy="big-kid"] .chip > i::before,
+.toytab[data-toy="big-kid"] .chip > i::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 9px; height: 8px;
+  background: var(--chip-ink);
+  border-radius: 2px;
+  opacity: 0.55;
+}
+.toytab[data-toy="big-kid"] .chip > i::before { left: -13px; }
+.toytab[data-toy="big-kid"] .chip > i::after { right: -13px; }
+.toytab[data-toy="big-kid"] .chip > b {
+  left: 2px; bottom: 4px;
+  width: 44px; height: 14px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 2.4px, var(--chip-case) 2.4px 3px),
+    linear-gradient(180deg, var(--chip-case) 0 6px, transparent 6px),
+    var(--chip-ink);
+}
+
+/* 5. Studio Explorer — a 4 x 2 pad bank over the same long bed. */
+.toytab[data-toy="advanced"] .chip > i {
+  left: 5px; top: 4px;
+  width: 21px; height: 13px;
+  background-color: var(--chip-ink);
+  background-image:
+    repeating-linear-gradient(90deg, transparent 0 4.25px, var(--chip-case) 4.25px 5.25px),
+    repeating-linear-gradient(0deg, transparent 0 6px, var(--chip-case) 6px 7px);
+  border-radius: 2px;
+}
+.toytab[data-toy="advanced"] .chip > i::after {
+  content: "";
+  position: absolute;
+  right: -17px; top: 2px;
+  width: 15px; height: 9px;
+  border: 2px solid var(--chip-ink);
+  border-radius: 2px;
+}
+.toytab[data-toy="advanced"] .chip > b {
+  left: 2px; bottom: 4px;
+  width: 44px; height: 14px;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 1.6px, var(--chip-case) 1.6px 2px),
+    linear-gradient(180deg, var(--chip-case) 0 6px, transparent 6px),
+    var(--chip-ink);
+}
+
+/* ------------------------------------------------------------- the stage --- */
+
+#stage {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.toy {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ======================================================= every keybed === */
+
+/* The three lines the toys cannot work without. `position: relative` is what
+   makes keybed.js's pixel geometry mean anything; `touch-action: none` is what
+   makes a finger dragged across the keys a glissando instead of a page
+   scroll; and padding must be ZERO because keybed.js measures the border box
+   and then insets by its own `pad`. Any CSS padding here is added a second
+   time to every key's drawn position while the hit test knows nothing about
+   it — which is exactly why the Classic bed's keys sat ~6px right of the
+   region that plays them.
+
+   Deliberately NOT setting `min-height` here: styles.css gives `#keybed` a
+   42vh floor in portrait, and a blanket `min-height: 0` in this file lands at
+   the same specificity, wins by order, and collapses the Classic bed to a
+   1px strip. Each toy sets its own height below.
+
+   A border has the same problem as padding, one pixel at a time: keybed.js
+   measures the BORDER box and positions keys inside the PADDING box, so a
+   1px border puts every key 1px right of the strip that plays it. The line
+   around the Classic bed is redrawn as an inset ring, which costs no
+   layout. */
+.keybed,
+#keybed {
+  position: relative;
+  padding: 0;
+  border: 0;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+#keybed { box-shadow: 0 3px 10px rgba(0,0,0,.6) inset, 0 0 0 1px #080a0f inset; }
+
+.keybed .white,
+.keybed .black,
+.keybed .pad {
+  position: absolute;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+.keybed .black { z-index: 2; }
+
+/* Child-facing note names are decoration inside the existing key elements;
+   pointer hit-testing still belongs entirely to keybed.js coordinates. The
+   pale badge keeps one dark letter readable on yellow and violet alike. */
+.note-letter {
+  position: absolute;
+  left: 50%;
+  bottom: 9%;
+  z-index: 3;
+  width: 1.35em;
+  height: 1.35em;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.82);
+  color: #242033;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.28);
+  font-family: "Nunito", sans-serif;
+  font-size: 34px;
+  font-weight: 900;
+  line-height: 1.35;
+  text-align: center;
+  pointer-events: none;
+}
+.toy-preschool .note-letter { font-size: 30px; }
+.toy-princess .note-letter { font-size: 24px; bottom: 7%; }
+
+/* `.down` is a finger on the key; `.on` is a note sounding for it, which
+   includes notes nobody is touching because a take is playing them back.
+   They are different pictures on purpose: a played-back take should look
+   played, not pressed. Neither existed in CSS before this file. */
+.keybed .white.on { box-shadow: 0 0 0 2px #6ee7ff inset, 0 2px 0 rgba(0,0,0,0.25); }
+.keybed .black.on { box-shadow: 0 0 0 2px #6ee7ff inset, 0 3px 4px rgba(0,0,0,.55); }
+.keybed .pad.on { filter: brightness(1.25) saturate(1.15); }
+
+/* ----------------------------------------------------- press sparkles ---
+   The layer is clipped to the mounted toy, which is wholly below the ribbon.
+   Particles are already painted shapes; their animation touches transform and
+   opacity only, never the toy's painted background or layout. */
+.press-effects {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  overflow: hidden;
+  pointer-events: none;
+  contain: layout paint;
+}
+.key-burst {
+  position: absolute;
+  display: block;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+.press-particle {
+  position: absolute;
+  left: -5px;
+  top: -5px;
+  display: block;
+  width: 10px;
+  height: 10px;
+  opacity: 0;
+  background: currentColor;
+  will-change: transform, opacity;
+  animation: keyPressSparkle var(--life) cubic-bezier(.18,.68,.28,1) var(--delay) forwards;
+}
+.particle-dot { width: 7px; height: 7px; border-radius: 50%; }
+.particle-star {
+  width: 13px;
+  height: 13px;
+  clip-path: polygon(50% 0%, 61% 36%, 100% 50%, 61% 64%, 50% 100%, 39% 64%, 0% 50%, 39% 36%);
+}
+.particle-streak { width: 3px; height: 15px; border-radius: 99px; }
+.particle-shimmer {
+  width: 11px;
+  height: 11px;
+  clip-path: polygon(50% 0%, 63% 38%, 100% 50%, 63% 62%, 50% 100%, 37% 62%, 0% 50%, 37% 38%);
+}
+.particle-diamond {
+  width: 11px;
+  height: 11px;
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  box-shadow: 0 0 5px currentColor;
+}
+.particle-note {
+  width: 7px;
+  height: 13px;
+  background: transparent;
+  border-right: 2px solid currentColor;
+}
+.particle-note::after {
+  content: "";
+  position: absolute;
+  right: -2px;
+  bottom: -1px;
+  width: 7px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+@keyframes keyPressSparkle {
+  0% { opacity: 0; transform: translate3d(0, 6px, 0) scale(.42) rotate(0); }
+  16% { opacity: .94; }
+  52% {
+    opacity: .72;
+    transform: translate3d(var(--mx), var(--my), 0) scale(.9) rotate(var(--mid-turn));
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--dx), var(--dy), 0) scale(var(--end-scale)) rotate(var(--turn));
+  }
+}
+
+/* ==================================================== 1. Baby Rainbow === */
+
+/* A low molded case with a broad carry handle and eight separated key wells.
+   With every colour removed it is still eight widely spaced pillow bars under
+   a handle — nothing else in the ribbon looks like that. */
+/* An OBJECT, not a screen. It is sized and centred rather than stretched to
+   the stage: a baby toy that filled 768 x 918 with eight bars would stop
+   looking like a thing you can pick up, and the carry handle is half of what
+   makes this one recognisable with the colour taken away. */
+.toy-rainbow {
+  /* #stage is a ROW: `flex` sizes the toy horizontally and `align-self` is
+     what places it vertically. `margin: auto 0` looks like it centres and
+     instead cancels the stretch, leaving a toy one key wide. */
+  flex: 1 1 auto;
+  align-self: center;
+  border-radius: 40px;
+  padding: 86px 18px 24px;
+  background:
+    radial-gradient(120% 70% at 50% 0%, #3a4059 0%, #272c3d 55%, #1d2130 100%);
+  border: 2px solid #141824;
+  box-shadow: 0 2px 0 rgba(255,255,255,.07) inset, 0 16px 40px rgba(0,0,0,.5);
+  position: relative;
+}
+/* The carry handle. Decoration only, and it says so: nothing here is ever
+   hit-tested. */
+.toy-rainbow::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 16px;
+  width: 214px;
+  height: 60px;
+  transform: translateX(-50%);
+  /* Lighter than the case behind it. At #3a4059 it was invisible: that is
+     exactly the colour the case's own gradient reaches at the top. */
+  border: 16px solid #545d80;
+  border-bottom: 0;
+  border-radius: 120px 120px 0 0;
+  box-shadow: 0 3px 0 rgba(0,0,0,.35);
+  pointer-events: none;
+}
+.toy-rainbow .keybed {
+  flex: 0 0 auto;
+  height: 440px;
+  border-radius: 26px;
+  background: #171b27;
+  box-shadow: 0 4px 14px rgba(0,0,0,.55) inset;
+}
+/* The moulded look is built from white and black washes OVER the flat key
+   colour, not from `color-mix()`. The 9.7-inch iPad can be as far back as
+   iPadOS 15, whose Safari does not know `color-mix` — and an unknown function
+   makes the whole declaration invalid, so the key would have had no
+   background at all on the one device this is for. */
+.toy-rainbow .pad {
+  border-radius: 26px;
+  border: 0;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.5) 0%, rgba(255,255,255,0) 44%, rgba(0,0,0,.22) 100%),
+    var(--key);
+  box-shadow: 0 6px 0 rgba(0,0,0,.34), 0 10px 18px rgba(0,0,0,.3);
+  overflow: hidden;
+}
+.toy-rainbow .pad.down {
+  transform: translateY(5px);
+  box-shadow: 0 1px 0 rgba(0,0,0,.34), 0 4px 8px rgba(0,0,0,.3);
+}
+/* The soft highlight on each bar. Inside the key, so a tap on it is a tap on
+   the key; pointer events go to the bed by coordinate anyway. */
+.toy-rainbow .blob {
+  position: absolute;
+  left: 14%;
+  top: 5%;
+  width: 72%;
+  height: 26%;
+  border-radius: 50%;
+  background: rgba(255,255,255,.42);
+  pointer-events: none;
+}
+
+/* The record row, under the handle. Studio's dark .tbtn would read as gear
+   bolted to a crib toy, so the same structure wears the slab's own moulded
+   light plastic. The case is a centred object with slack around it at
+   768 x 1024, so this row takes slack, not keybed. */
+.toy-rainbow .transport {
+  flex: 0 0 auto;
+  justify-content: center;
+  gap: 14px;
+  margin: 0 4px 20px;
+}
+.toy-rainbow .tbtn {
+  min-height: 56px;
+  padding: 8px 24px;
+  border: 0;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #ffffff 0%, #e9e4d8 100%);
+  color: #3c4257;
+  font-size: 16px;
+  box-shadow: 0 5px 0 rgba(0,0,0,.34), 0 8px 16px rgba(0,0,0,.25);
+}
+.toy-rainbow .tbtn:focus-visible { outline: 3px solid #4f8bff; }
+.toy-rainbow .tbtn:not(:disabled):active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 rgba(0,0,0,.34);
+}
+.toy-rainbow .tbtn.rec { color: #b3364b; }
+.toy-rainbow .tbtn.rec[aria-pressed="true"] {
+  background: linear-gradient(180deg, #ff7585 0%, #e13b52 100%);
+  color: #ffffff;
+  box-shadow: 0 5px 0 #a12438, 0 0 0 6px rgba(225,59,82,.25);
+}
+.toy-rainbow .tbtn.play[aria-pressed="true"] {
+  background: linear-gradient(180deg, #4fd6a4 0%, #2ba579 100%);
+  color: #ffffff;
+  box-shadow: 0 5px 0 #1d7a5b, 0 0 0 6px rgba(43,165,121,.22);
+}
+.toy-rainbow .record-status {
+  margin: 0 0 0 8px;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  text-transform: none;
+  color: #efe6cf;
+}
+
+/* ================================================= 2. Chunky First Piano === */
+
+/* Sized and centred, like Rainbow: a preschool piano is an object on a
+   table. Stretched to the full 918px stage the drum pads came out the size
+   of oven doors, which is not a pad any more.
+
+   The numbers that place the two pieces this toy gained in its 2026-09-14
+   rebuild — the pad band and the deeper keybed — are named here and only
+   here, so the painted-art registration has one place to read: the band
+   runs the full case width between the sound buttons and the keys,
+   PADBAND_HEIGHT tall, PAD_GAP between pads, and the bed is KEYBED_HEIGHT
+   deep. The column's own 14px gap sets the vertical rhythm between
+   buttons, transport, band and bed. */
+.toy-preschool {
+  /* Never taller than #stage. The parts below are sized in pixels for the
+     768 x 1024 portrait target and add up to about 764px; a 1024 x 768
+     landscape stage is 662px. Centred in #stage, the toy then spilled 51px
+     past BOTH edges, and the top spill lay over the ribbon: measured
+     2026-09-15 with elementFromPoint, all five toy chips were covered, so a
+     child on First Piano in landscape could not reach another toy. With this
+     cap only the keybed gives way (see its rule); in portrait nothing moves. */
+  max-height: 100%;
+  --fp-keybed-height: 420px;
+  --fp-padband-height: 128px;
+  --fp-pad-gap: 12px;
+  flex: 1 1 auto;
+  align-self: center;
+  border-radius: 30px;
+  padding: 14px 16px 18px;
+  gap: 14px;
+  background: linear-gradient(180deg, #ffe2ea 0 22%, #fff4dd 22% 100%);
+  border: 2px solid #e6c3cd;
+  box-shadow: 0 16px 40px rgba(0,0,0,.45);
+  position: relative;
+}
+
+/* Three oversized picture buttons. Each is a picture first and a word second:
+   a pre-reader chooses by the symbol, and the word is there for the reader in
+   the house. 86px tall, well over the 44px floor. */
+.picture-sounds {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.picture-sound {
+  appearance: none;
+  -webkit-appearance: none;
+  min-height: 86px;
+  padding: 8px 4px;
+  border: 3px solid #e2b9c6;
+  border-radius: 22px;
+  background: linear-gradient(180deg, #ffffff, #ffeef3);
+  color: #5a3d49;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  box-shadow: 0 5px 0 #e2b9c6;
+}
+.picture-sound > span:first-child { font-size: 30px; line-height: 1; }
+.picture-sound:active { transform: translateY(3px); box-shadow: 0 2px 0 #e2b9c6; }
+.picture-sound[aria-pressed="true"] {
+  border-color: #f5749b;
+  background: linear-gradient(180deg, #fff3f7, #ffd9e5);
+  box-shadow: 0 5px 0 #f5749b, 0 0 0 4px rgba(245,116,155,.25);
+  color: #7a2540;
+}
+.picture-sound:focus-visible { outline: 3px solid #4f8bff; outline-offset: 3px; }
+
+/* The pad band. Four pads where the old five-button rear row used to sit,
+   between the sound buttons and the keys, sized by the case's own constants
+   above. A drum pad is a palm target, not a fingertip one: at the 768px
+   layout these come out about 169 x 128 — the picture-button family, far
+   over the 44px floor, and deliberately bigger than Studio's 52px pads,
+   which are the older child's. Scoped to .padband so nothing here can touch
+   the keybed's own .pad keys (Rainbow's slabs) or Studio's .bank.pads. */
+.padband {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--fp-pad-gap, 12px);
+}
+.toy-preschool .padband .pad {
+  appearance: none;
+  -webkit-appearance: none;
+  min-height: var(--fp-padband-height, 128px);
+  padding: 8px 4px;
+  border: 3px solid #e2b9c6;
+  border-radius: 22px;
+  background: linear-gradient(180deg, #ffffff, #ffeef3);
+  color: #5a3d49;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  box-shadow: 0 5px 0 #e2b9c6;
+  touch-action: none;
+}
+.toy-preschool .padband .pad .ico { font-size: 34px; line-height: 1; }
+.toy-preschool .padband .pad:active { transform: translateY(3px); box-shadow: 0 2px 0 #e2b9c6; }
+.toy-preschool .padband .pad:focus-visible { outline: 3px solid #4f8bff; outline-offset: 3px; }
+/* Struck, for the 110ms the toy lights it: the same flash language as the
+   pressed sound button, so the whole case answers a hit the same way. */
+.toy-preschool .padband .pad.lit {
+  border-color: #f5749b;
+  background: linear-gradient(180deg, #fff3f7, #ffd9e5);
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #f5749b, 0 0 0 4px rgba(245,116,155,.25);
+}
+
+.toy-preschool .keybed {
+  /* Shrinkable, and the ONLY shrinkable part of the case: 420px in portrait,
+     318px in a 1024 x 768 landscape. keybed.js rebuilds its geometry on a
+     ResizeObserver, so a shorter bed is still hit-tested exactly. The floor
+     keeps the naturals a palm target on any screen this app meets. */
+  flex: 0 1 auto;
+  min-height: 240px;
+  height: var(--fp-keybed-height, 420px);
+  border-radius: 20px;
+  background: #f4ddc6;
+  box-shadow: 0 3px 12px rgba(120,80,60,.28) inset;
+}
+/* The naturals: eleven broad keys a palm can land across, one hue each in
+   spectrum order (the wheel wraps onto F5). The moulded look is white and
+   black washes over the flat hue, as on Rainbow — no color-mix(), which the
+   target iPad's Safari may not know. */
+.toy-preschool .white {
+  border-radius: 12px 12px 16px 16px;
+  border: 0;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.52) 0%, rgba(255,255,255,0) 40%, rgba(0,0,0,.2) 100%),
+    var(--key);
+  box-shadow: 0 6px 0 rgba(0,0,0,.32);
+}
+.toy-preschool .white.down {
+  transform: translateY(5px);
+  box-shadow: 0 1px 0 rgba(0,0,0,.32);
+}
+/* The accidentals: one dark plum, raised over the white boundaries and
+   shorter than the naturals (keybed.js draws them at 58% of the bed).
+   This is the light/dark split that makes the arrangement read as a piano,
+   and it is what survives the grayscale check. */
+.toy-preschool .black {
+  border-radius: 12px 12px 14px 14px;
+  border: 0;
+  background: linear-gradient(180deg, #6d5b78 0%, #4a3d55 60%, #362c40 100%);
+  box-shadow: 0 5px 0 #241d2c, 0 8px 14px rgba(0,0,0,.28);
+}
+.toy-preschool .black.down {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 #241d2c;
+}
+
+/* The record row, in the case's own chunky-button language: the same
+   moulding, pink trim and 3px press as the picture buttons above it. */
+.toy-preschool .transport {
+  flex: 0 0 auto;
+  justify-content: center;
+  gap: 12px;
+}
+.toy-preschool .tbtn {
+  min-height: 52px;
+  padding: 8px 22px;
+  border: 3px solid #e2b9c6;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #ffffff, #ffeef3);
+  color: #5a3d49;
+  font-size: 16px;
+  box-shadow: 0 5px 0 #e2b9c6;
+}
+.toy-preschool .tbtn:focus-visible { outline: 3px solid #4f8bff; }
+.toy-preschool .tbtn:not(:disabled):active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #e2b9c6;
+}
+.toy-preschool .tbtn.rec { color: #a83a52; }
+.toy-preschool .tbtn.rec[aria-pressed="true"] {
+  border-color: #d94b64;
+  background: linear-gradient(180deg, #ff8fa3, #ef5f7a);
+  color: #ffffff;
+  box-shadow: 0 5px 0 #c2425c, 0 0 0 4px rgba(226,80,106,.25);
+}
+.toy-preschool .tbtn.play[aria-pressed="true"] {
+  border-color: #2fae82;
+  background: linear-gradient(180deg, #6fdcb4, #3cbf8f);
+  color: #ffffff;
+  box-shadow: 0 5px 0 #27916c, 0 0 0 4px rgba(60,191,143,.22);
+}
+.toy-preschool .record-status {
+  margin: 0 0 0 6px;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  text-transform: none;
+  color: #8a4a5e;
+}
+
+/* ================================================ 3. Princess Star Piano === */
+
+/* Sized and centred like the other two toys. Stretched to the stage the
+   castle back floated in half a screen of empty pink: the arch, the turrets
+   and the keybed are one object and have to stay one object's height. */
+.toy-princess {
+  flex: 1 1 auto;
+  align-self: center;
+  align-items: center;
+  /* Same fault as First Piano, smaller: about 740px of castle in a 662px
+     landscape stage (the castle zone grew for the six sound pads), 78px over
+     the ribbon. Capped here; the keybed gives way (280px portrait, 202px
+     landscape), never the castle back. */
+  max-height: 100%;
+}
+.vanity {
+  position: relative;
+  width: 100%;
+  flex: 0 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  /* The top padding is the castle back: the arch and turrets are absolute,
+     so this is the room they stand in — and the room the six sound pads
+     stand in, which is why it grew from 236px to 268px when they arrived.
+     The landscape budget holds: 268 + 106 (lid) + 64 (transport) + 180
+     (keybed floor) + 18 + 4 border = 640, inside the 662px stage. */
+  padding: 268px 58px 18px;
+  min-height: 0;
+  border-radius: 26px;
+  background: linear-gradient(180deg, #ffd7ee 0 50%, #ffc2e2 100%);
+  border: 2px solid #eba8cd;
+  box-shadow: 0 16px 40px rgba(0,0,0,.45);
+}
+/* The arched music-castle back. Drawn, decorative, never hit-tested. It was
+   62% wide until the sound pads arrived; at 62% it covered all but 39px of
+   the wall between turret and arch, which is no room at all for pads bigger
+   than a jewel. Narrowed to 44% so the pads flank it honestly, touching
+   neither it nor the turrets, and its dome now fills the taller zone. */
+.vanity::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 14px;
+  width: 44%;
+  height: 232px;
+  transform: translateX(-50%);
+  border-radius: 50% 50% 12px 12px / 62% 62% 12px 12px;
+  background: linear-gradient(180deg, #ffeaf6 0%, #ffd2ea 70%, #f7bcdd 100%);
+  border: 3px solid #eba8cd;
+  border-bottom: 0;
+  pointer-events: none;
+}
+.turret {
+  position: absolute;
+  /* Grown with the taller castle zone (was 30 x 200) so the towers still
+     fill their wall; the pads clear them by width, not by height. */
+  top: 34px;
+  width: 76px;
+  height: 214px;
+  background: linear-gradient(180deg, #ffe9f7, #f3b2d7);
+  border: 4px solid #e08fc0;
+  border-bottom: 0;
+  border-radius: 10px 10px 0 0;
+  pointer-events: none;
+}
+.turret.left { left: 18px; }
+.turret.right { right: 18px; }
+/* Battlements along the top, so a turret is a turret and not a pink stripe
+   once the colour is taken away. Three merlons each, cut out of the tower. */
+.turret::before {
+  content: "";
+  position: absolute;
+  left: -4px; right: -4px;
+  top: -4px;
+  height: 22px;
+  background: repeating-linear-gradient(90deg,
+    transparent 0 21px, #ffd7ee 21px 33px);
+}
+/* A narrow window, the other half of the castle reading. */
+.turret::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 52px;
+  width: 20px;
+  height: 34px;
+  margin-left: -10px;
+  border-radius: 10px 10px 2px 2px;
+  background: #c9739f;
+}
+
+/* --------------------------------------------------------- the stickers ---
+   The owner's five (PRINCESS-STICKER-SPEC.md): three designs — one hero
+   tiara and two mirrored pairs — on the only surfaces the #608 castle
+   leaves free: the arch dome, the two turret faces and the two keybed
+   cheeks. No DOM is mounted, so each sticker is a background layer on a
+   box that already paints its surface, plus one mirrored sheet (bottom)
+   for the right-hand pair. Every carrier is decorative and already
+   pointer-events: none, nothing rises above z-index 0, and the pads (1),
+   the lid (1) and the key sparkles (4) all paint over this layer, so a
+   mis-measured sticker is a cosmetic bug, never a covered button. The
+   carriers hold no content or elements, so nothing here reaches an
+   accessibility tree either. */
+
+/* 1. The tiara, the one hero: a layer on the arch's own background, stuck
+   to the dome it crowns — 104px wide on a ~310px dome, top 12px inside
+   the arch. That places its box at vanity y 29–86, clear of the dome's
+   curve at the sticker's corners in both orientations (the dome is
+   flatter at landscape width) and its foot 70px short of the arch's open
+   middle, which belongs to the sparkles. The gradient is restated
+   because a layer list replaces the `background` shorthand above; the
+   two change together. */
+body[data-toy="princess"] .vanity::before {
+  background-image:
+    url("assets/stickers/princess/tiara-heart.png"),
+    linear-gradient(180deg, #ffeaf6 0%, #ffd2ea 70%, #f7bcdd 100%);
+  background-size: 104px auto, auto;
+  background-position: center 12px, 0 0;
+  background-repeat: no-repeat, no-repeat;
+}
+
+/* 2. A bow round the left tower's lower face, a layer on the tower
+   itself: its top fixed at vanity y 170, below the window (y 90–124) and
+   above the foot at 248, and its x 34–78 ends 26px short of the pad rail
+   at x = 104 — a bow inside its tower cannot touch a pad. Top-anchored
+   in pixels like the castle zone, which is fixed in both orientations,
+   so it never moves when the keybed gives way. Gradient restated, as
+   above. */
+body[data-toy="princess"] .turret.left {
+  background-image:
+    url("assets/stickers/princess/bow-pink.png"),
+    linear-gradient(180deg, #ffe9f7, #f3b2d7);
+  background-size: 44px auto, auto;
+  background-position: center 132px, 0 0;
+  background-repeat: no-repeat, no-repeat;
+}
+
+/* 4. A pearl shell low on the left keybed cheek, a layer on the vanity's
+   own background: the cheek is bare pink, so the castle's bottom layer is
+   exactly as visible there as any other would be. Anchored to the BOTTOM
+   because the keybed is the part that gives way in landscape (280px
+   portrait, 202px landscape): from the bottom the shell holds its 6px
+   below the keybed's foot in both orientations; from the top it would
+   float off the cheek. Left 7px centres it in the 58px cheek, 7px clear
+   of the keybed's edge. Gradient restated, as above. */
+body[data-toy="princess"] .vanity {
+  background-image:
+    url("assets/stickers/princess/shell-pearl-purple.png"),
+    linear-gradient(180deg, #ffd7ee 0 50%, #ffc2e2 100%);
+  background-size: 44px auto, auto;
+  background-position: left 7px bottom 12px, 0 0;
+  background-repeat: no-repeat, no-repeat;
+}
+
+/* 3 and 5. The right-hand pair, mirrored. The one free pseudo-element on
+   the vanity is ::after (::before is the arch; both turret pseudos are
+   battlements and window), and a background layer cannot be flipped
+   alone — so the sheet is the mirror: one inset-0, z-index 0,
+   pointer-events: none layer turned over with scaleX(-1). Its two layers
+   carry the LEFT bow's and the LEFT shell's own numbers, and the mirror
+   lands them on the right tower and the right cheek with the art
+   flipped: the pair the spec asks for, exactly as symmetrical as the
+   copies above. The sheet is out of the flow and transformed, so it adds
+   no height anywhere and the #603 landscape cap and the 202px keybed are
+   untouched. */
+body[data-toy="princess"] .vanity::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  transform: scaleX(-1);
+  background-image:
+    url("assets/stickers/princess/bow-pink.png"),
+    url("assets/stickers/princess/shell-pearl-purple.png");
+  background-size: 44px auto, 44px auto;
+  background-position: 34px 170px, left 7px bottom 12px;
+  background-repeat: no-repeat, no-repeat;
+}
+
+/* The six special-sound pads (owner, 2026-09-15): three up each wall of the
+   castle, the arch's centre left open for the sparkles that rise off the
+   keys. Anchored to the vanity's own sides in fixed pixels, like the
+   turrets: 104px clears a turret box (18..94, battlements to 98) in BOTH
+   orientations, and the open middle simply widens in landscape. The band is
+   sized off the castle zone, not the flow, so the pads add no document
+   height anywhere — in a 662px landscape stage the keybed, not the castle,
+   still gives way. */
+.soundpads {
+  position: absolute;
+  left: 104px;
+  right: 104px;
+  top: 12px;
+  height: 244px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 1;
+  /* The band is scaffolding for its two rails; only a pad is tappable, so
+     the open middle really is open. */
+  pointer-events: none;
+}
+.spad-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  width: 92px;
+}
+/* A palm target in the jewel family, one size up: 92 x ~75 against the
+   jewel's 82 x 72, so the special sounds are the easiest things on the deck
+   to hit. `manipulation` rather than the keybed's `none`: it kills the
+   double-tap zoom delay without pulling the pad out of the page's gesture
+   stream. */
+.spad {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: 1 1 auto;
+  min-height: 64px;
+  padding: 6px 4px;
+  border: 3px solid #e39cc6;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #fffdff, #ffe6f4);
+  color: #6c2f52;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  box-shadow: 0 5px 0 #e39cc6;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  pointer-events: auto;
+}
+.spad .ico { font-size: 26px; line-height: 1; }
+.spad .word { white-space: nowrap; }
+.spad:active { transform: translateY(3px); box-shadow: 0 2px 0 #e39cc6; }
+.spad:focus-visible { outline: 3px solid #4f8bff; outline-offset: 3px; }
+/* Struck, for the 110ms the toy lights it: the same flash language as a
+   pressed jewel, so the whole deck answers a hit the same way. */
+.spad.lit {
+  border-color: #d6418f;
+  background: linear-gradient(180deg, #fff0f8, #ffcbe6);
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #d6418f, 0 0 0 4px rgba(214, 65, 143, 0.25);
+}
+/* Playback stands the pads down (owner: "during playback, can be disabled to
+   keep playback clean"): still castle furniture, no longer answering. */
+.spad:disabled {
+  opacity: 0.55;
+  cursor: default;
+  transform: none;
+  box-shadow: 0 5px 0 #e39cc6;
+}
+
+.lid {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 14px;
+  padding-bottom: 14px;
+}
+.jewels { display: flex; gap: 12px; }
+.jewel {
+  appearance: none;
+  -webkit-appearance: none;
+  min-width: 82px;
+  min-height: 72px;
+  padding: 8px 6px;
+  border: 3px solid #e39cc6;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #fffdff, #ffe6f4);
+  color: #6c2f52;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  box-shadow: 0 5px 0 #e39cc6;
+}
+.jewel .ico { font-size: 24px; line-height: 1; }
+.jewel .word { white-space: nowrap; }
+.jewel:active { transform: translateY(3px); box-shadow: 0 2px 0 #e39cc6; }
+.jewel[aria-pressed="true"] {
+  border-color: #d6418f;
+  background: linear-gradient(180deg, #fff0f8, #ffcbe6);
+  box-shadow: 0 5px 0 #d6418f, 0 0 0 4px rgba(214,65,143,.22);
+}
+.jewel:focus-visible, .starbtn:focus-visible { outline: 3px solid #4f8bff; outline-offset: 3px; }
+
+/* The star. One big round button, and the biggest thing on the deck, because
+   it is the one control that does something all by itself. */
+.starbtn {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 92px;
+  height: 92px;
+  padding: 0;
+  border: 4px solid #f0c23c;
+  border-radius: 50%;
+  background: radial-gradient(120% 120% at 40% 25%, #fff6d8, #ffd968 60%, #f2b923 100%);
+  color: #7a4a08;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  box-shadow: 0 6px 0 #d29a13, 0 10px 20px rgba(0,0,0,.25);
+}
+.starbtn .star { font-size: 34px; line-height: 1; }
+.starbtn:active { transform: translateY(4px); box-shadow: 0 2px 0 #d29a13; }
+.starbtn.ringing {
+  box-shadow: 0 6px 0 #d29a13, 0 0 0 8px rgba(255,217,104,.45);
+}
+
+/* The record row, under the lid and over the keys: one more row of jewels
+   rather than a strip of studio gear. The recording red is pushed toward
+   crimson so it still reads as RECORDING against all this pink. */
+.toy-princess .transport {
+  flex: 0 0 auto;
+  justify-content: center;
+  gap: 12px;
+  margin: 0 0 12px;
+}
+.toy-princess .tbtn {
+  min-height: 52px;
+  padding: 8px 20px;
+  border: 3px solid #e39cc6;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #fffdff, #ffe6f4);
+  color: #6c2f52;
+  font-size: 15px;
+  box-shadow: 0 5px 0 #e39cc6;
+}
+.toy-princess .tbtn:focus-visible { outline: 3px solid #4f8bff; }
+.toy-princess .tbtn:not(:disabled):active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #e39cc6;
+}
+.toy-princess .tbtn.rec { color: #a63a63; }
+.toy-princess .tbtn.rec[aria-pressed="true"] {
+  border-color: #c2185b;
+  background: linear-gradient(180deg, #ff6f9d, #dc2e6e);
+  color: #ffffff;
+  box-shadow: 0 5px 0 #a31352, 0 0 0 4px rgba(220,46,110,.25);
+}
+.toy-princess .tbtn.play[aria-pressed="true"] {
+  border-color: #2fae82;
+  background: linear-gradient(180deg, #6fdcb4, #3cbf8f);
+  color: #ffffff;
+  box-shadow: 0 5px 0 #27916c, 0 0 0 4px rgba(60,191,143,.22);
+}
+.toy-princess .record-status {
+  margin: 0 0 0 6px;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  text-transform: none;
+  color: #8a4a6b;
+}
+
+.toy-princess .keybed {
+  position: relative;
+  z-index: 1;
+  flex: 0 1 auto;
+  min-height: 180px;
+  height: 280px;
+  border-radius: 14px;
+  background: #6a3d58;
+  box-shadow: 0 4px 12px rgba(0,0,0,.4) inset;
+}
+/* Short and round: a pretend-play keybed, not a scaled piano one. */
+.toy-princess .white {
+  background: linear-gradient(180deg, #fffdfe 0%, #fdeff7 78%, #f3dae8 100%);
+  border: 1px solid #dbb6ca;
+  border-top: 0;
+  border-radius: 0 0 14px 14px;
+  box-shadow: 0 3px 0 rgba(120,70,100,.3);
+}
+.toy-princess .white.down {
+  background: linear-gradient(180deg, #ffe9f5 0%, #ffd4ea 100%);
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 rgba(120,70,100,.3);
+}
+.toy-princess .black {
+  background: linear-gradient(180deg, #8e5d7d 0%, #6b3f5d 40%, #50304a 100%);
+  border: 1px solid #40243a;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 4px 5px rgba(0,0,0,.4);
+}
+.toy-princess .black.down {
+  background: linear-gradient(180deg, #a97295, #7d4a6d);
+  transform: translateY(2px);
+}
+
+/* ================================================== 4. Big-Kid Keyboard === */
+
+/* The console is styles.css's, untouched. This only gives it the stage, plus
+   the record row it carries since 2026-09-14: Classic is the one toy that
+   wears the shared .transport exactly as the Studio section styles it further
+   down, because both are dark gear. The console is height:auto in portrait
+   with slack around it, so the row costs no keys. */
+.toy-classic { align-items: center; justify-content: center; }
+.toy-classic #console { margin: 0 auto; }
+
+/* ================================================== 5. Studio Explorer === */
+
+.toy-studio {
+  gap: 8px;
+  padding: 10px;
+  border-radius: 18px;
+  background: linear-gradient(178deg, #2b2f3a 0%, #1f222b 14%, #171a22 100%);
+  border: 1px solid #0c0e14;
+  box-shadow: 0 2px 0 rgba(255,255,255,.05) inset, 0 16px 40px rgba(0,0,0,.5);
+  color: #cdd4e6;
+}
+
+.rack { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; flex: 0 0 auto; }
+.bank { display: grid; gap: 6px; }
+.bank.voices { grid-template-columns: repeat(4, 1fr); }
+.bank.pads { grid-template-columns: repeat(4, 1fr); }
+
+.gear {
+  appearance: none;
+  -webkit-appearance: none;
+  min-height: 44px;
+  padding: 4px 6px;
+  border: 1px solid #0d0f15;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #2a2e39, #20232d);
+  color: #aab1c4;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  white-space: nowrap;
+  box-shadow: 0 2px 0 rgba(0,0,0,.4);
+}
+.gear:active { transform: translateY(1px); box-shadow: 0 1px 0 rgba(0,0,0,.4); }
+.gear:focus-visible, .tbtn:focus-visible, .step:focus-visible { outline: 3px solid #6ee7ff; outline-offset: 2px; }
+.gear .led {
+  width: 0.62em; height: 0.62em;
+  border-radius: 50%;
+  background: #14171f;
+  border: 1px solid #0b0d12;
+  flex: 0 0 auto;
+}
+.gear[aria-pressed="true"] { color: #eef1f8; border-color: #3a4152; }
+.gear[aria-pressed="true"] .led {
+  background: var(--led, #6ee7ff);
+  box-shadow: 0 0 6px var(--led, #6ee7ff);
+}
+.gear.voice { --led: #ffc65c; }
+.gear[data-tog="sustain"] { --led: #7dff9b; }
+.gear[data-tog="arp"] { --led: #b58cff; }
+.gear[data-tog="metro"] { --led: #ff6ecd; }
+.gear.rhythm[aria-pressed="true"] { background: linear-gradient(180deg, #3b4152, #2a2f3c); }
+
+/* The drum pads. Scoped to the bank so they never collide with the flat
+   keybed's `.pad` keys, which are notes and not drums. */
+.bank.pads .pad {
+  appearance: none;
+  -webkit-appearance: none;
+  min-height: 52px;
+  padding: 4px;
+  border: 1px solid #0d0f15;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #39404f, #262b36);
+  color: #99a2b8;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  box-shadow: 0 3px 0 rgba(0,0,0,.45), 0 1px 0 rgba(255,255,255,.07) inset;
+  touch-action: none;
+}
+.bank.pads .pad.lit {
+  background: linear-gradient(180deg, #7de1ff, #35a9d0);
+  color: #06222c;
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 rgba(0,0,0,.45);
+}
+
+.strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+}
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 7px;
+  border-radius: 10px;
+  background: #14171f;
+}
+.cap {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8891a6;
+  white-space: nowrap;
+}
+.step {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid #0d0f15;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #2a2e39, #20232d);
+  color: #dfe3ee;
+  font-family: inherit;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+}
+.step:active { transform: translateY(1px); }
+.read {
+  min-width: 28px;
+  text-align: center;
+  font-size: 15px;
+  color: #7df3e3;
+  font-variant-numeric: tabular-nums;
+}
+.rhythms { display: flex; gap: 5px; }
+.rhythms .gear { padding: 4px 9px; }
+
+.tempo, .studio-volume {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+}
+.studio-volume { flex: 1 1 150px; }
+.tempoRange, .masterRange {
+  --track: 8px;
+  --thumb-h: 26px;
+  appearance: none;
+  -webkit-appearance: none;
+  flex: 1 1 auto;
+  min-width: 96px;
+  height: 44px;          /* the finger's band; the bar is drawn on the track */
+  margin: 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.tempoRange::-webkit-slider-runnable-track,
+.masterRange::-webkit-slider-runnable-track {
+  height: var(--track);
+  border-radius: 99px;
+  background: #191d26;
+  border: 1px solid #0d0f15;
+}
+.tempoRange::-moz-range-track,
+.masterRange::-moz-range-track {
+  height: var(--track);
+  border-radius: 99px;
+  background: #191d26;
+  border: 1px solid #0d0f15;
+}
+.tempoRange::-webkit-slider-thumb,
+.masterRange::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: var(--thumb-h);
+  margin-top: calc((var(--track) - var(--thumb-h)) / 2);
+  border-radius: 5px;
+  background: linear-gradient(180deg, #3a3f4c, #262a34);
+  border: 1px solid #10131a;
+}
+.tempoRange::-moz-range-thumb,
+.masterRange::-moz-range-thumb {
+  width: 18px;
+  height: var(--thumb-h);
+  border-radius: 5px;
+  background: linear-gradient(180deg, #3a3f4c, #262a34);
+  border: 1px solid #10131a;
+}
+
+/* The transport's structure is shared by all five toys — owner, 2026-09-14:
+   "simple record for all piano too". Its face here is Studio's dark gear,
+   which Classic also wears unchanged (see section 4); the three young toys
+   re-skin .tbtn in their own sections above, in their own button language,
+   the way every other control on them is skinned. The two pressed colours
+   mean the same thing on every toy: red is recording, green is playing. */
+.transport {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+}
+.tbtn {
+  appearance: none;
+  -webkit-appearance: none;
+  min-height: 46px;
+  padding: 5px 12px;
+  border: 1px solid #0d0f15;
+  border-radius: 9px;
+  background: linear-gradient(180deg, #2a2e39, #20232d);
+  color: #cdd4e6;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  box-shadow: 0 2px 0 rgba(0,0,0,.4);
+}
+.tbtn:disabled { opacity: 0.42; cursor: default; }
+.tbtn:not(:disabled):active { transform: translateY(1px); box-shadow: 0 1px 0 rgba(0,0,0,.4); }
+.tbtn.rec { color: #ff8f8f; }
+.tbtn.rec[aria-pressed="true"] { background: linear-gradient(180deg, #8a2436, #5f1826); color: #ffe9ec; }
+.tbtn.play[aria-pressed="true"] { background: linear-gradient(180deg, #1d6b54, #14493a); color: #d9fff3; }
+.record-status {
+  margin: 0 0 0 4px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #7df3e3;
+}
+
+/* STATE ANIMATIONS (owner, 2026-09-21: "make each state visually obvious so a
+   child can tell immediately what is happening"). Colour alone carried the
+   state before; now the row also MOVES differently per state, which is what a
+   pre-reader reads. The young toys' skins re-colour .tbtn; these keyframes are
+   additive and ride on top of every skin.
+   - Recording: the lit Record button breathes, and the status word with it --
+     "the tape is rolling" is a pulse a child can see from across the room.
+   - Finished: one pop, then still. The celebration answers the song's end,
+     never runs while it plays, and respects prefers-reduced-motion. */
+@keyframes kb-rec-pulse {
+  0%   { box-shadow: 0 2px 0 rgba(0,0,0,.4), 0 0 0 0 rgba(255, 84, 110, .55); }
+  70%  { box-shadow: 0 2px 0 rgba(0,0,0,.4), 0 0 0 9px rgba(255, 84, 110, 0); }
+  100% { box-shadow: 0 2px 0 rgba(0,0,0,.4), 0 0 0 0 rgba(255, 84, 110, 0); }
+}
+@keyframes kb-status-pulse {
+  0%   { opacity: 1; }
+  50%  { opacity: .55; }
+  100% { opacity: 1; }
+}
+@keyframes kb-finished-pop {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1.22); }
+  100% { transform: scale(1); }
+}
+.transport.is-recording .tbtn.rec[aria-pressed="true"] { animation: kb-rec-pulse 1.6s ease-out infinite; }
+.transport.is-recording .record-status { animation: kb-status-pulse 1.6s ease-in-out infinite; }
+.transport.is-finished .record-status { animation: kb-finished-pop .55s cubic-bezier(.34,1.56,.64,1) 2; }
+.record-time { font-weight: 800; letter-spacing: 0.06em; opacity: .85; }
+@media (prefers-reduced-motion: reduce) {
+  .transport.is-recording .tbtn.rec[aria-pressed="true"],
+  .transport.is-recording .record-status,
+  .transport.is-finished .record-status { animation: none; }
+}
+
+.toy-studio .keybed {
+  flex: 1 1 auto;
+  min-height: 150px;
+  border-radius: 8px;
+  background: #0d0f15;
+  box-shadow: 0 3px 10px rgba(0,0,0,.6) inset, 0 0 0 1px #080a0f inset;
+}
+.toy-studio .white {
+  background: linear-gradient(180deg, #fbfbf6 0%, #efeee6 82%, #d9d7cc 100%);
+  border: 1px solid #b9b7ab;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.25);
+}
+.toy-studio .white.down {
+  background: linear-gradient(180deg, #e8f6f2 0%, #cfeee6 60%, #b9e2d8 100%);
+  transform: translateY(1px);
+}
+.toy-studio .black {
+  background: linear-gradient(180deg, #3b3f4b 0%, #23262e 20%, #14161c 92%);
+  border: 1px solid #060709;
+  border-radius: 0 0 3px 3px;
+  box-shadow: 0 3px 4px rgba(0,0,0,.55);
+}
+.toy-studio .black.down { background: linear-gradient(180deg, #4d3f63, #221b30); transform: translateY(1px); }
+
+/* ============================================================ the room === */
+
+/* styles.css centres a single console in the viewport. The shell is a column
+   that fills it now, so the room stops centring and the app takes the page. */
+body {
+  display: block;
+  padding: 10px 12px 12px;
+}
+
+/* ------------------------------------------------------ the five rooms ---
+   One room per toy, on the body, keyed off `body[data-toy]` — the attribute
+   app.js sets only once a mount has actually returned. That timing is doing
+   work here: a toy whose mount threw never gets to repaint the room, and the
+   stage falls back to styles.css's single dark room, which is the right
+   picture for a stage with nothing on it.
+
+   The selector is an attribute match and not `#stage:has(.toy-rainbow)` on
+   purpose. `:has()` reaches Safari in 15.4; the 9.7-inch iPad this is built
+   for can be on iPadOS 15.0-15.3, whose Safari would drop the declaration
+   whole — a toy with no room at all, the same failure the `color-mix` ban at
+   the rainbow pads records. Attribute selectors are understood by everything
+   this app has ever run on.
+
+   The scene is painted on the body and not on #stage for two reasons.
+   #stage is transparent and four of the five toys are centred objects that
+   leave most of it showing, so the body is where a room would show anyway;
+   and the Studio rack stretches to fill the stage completely, so a
+   stage-painted scene would be entirely hidden behind it — the band above
+   the ribbon and the frame of body padding are the only wall the studio has.
+
+   Each generated JPEG is the top layer, centred and covering the viewport as
+   PIANO-ART-SPEC requires. The CSS room remains beneath it as the deliberate
+   fallback while an image is loading or unavailable.
+
+   Every fallback scene is wall above a horizon and floor below it, the horizon placed
+   so the toy stands ON the floor (the toys all end somewhere in the 80-85%
+   band of the stage). The patterns — dots, stripes, stars, curtain folds —
+   are wall details, and every case is opaque, so no pattern ever renders
+   beside a keybed. Nothing animates and nothing blurs: the room is painted
+   once and a glissando never pays for it. And no room outshouts its
+   instrument — the two young toys read by their drop shadows on lighter
+   walls, while both consoles read by their lit edges and keep dark ones. */
+
+/* The nursery. A warm cream wall with a soft polka wallpaper and a
+   nightlight wash at the ceiling, over a honey floor with a pale skirting.
+   The rainbow slab is the darkest thing in the app's youngest room: against
+   the old shared grey its navy case barely separated, and here it is what
+   the eye lands on first. The floor layer is transparent above the horizon
+   so the wallpaper stops at the skirting instead of running under the toy. */
+body[data-toy="baby"] {
+  background-color: #e9dcc6;
+  background-image:
+    url("assets/backgrounds/moon-bunny.jpg"),
+    radial-gradient(140% 110% at 50% 42%, rgba(96, 70, 44, 0) 38%, rgba(96, 70, 44, 0.18) 72%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0) 0 67%, #dcc9ab 67% 69.5%, #c9a67d 69.5% 86%, #b18a61 100%),
+    radial-gradient(135% 60% at 50% -12%, rgba(255, 239, 203, 0.6), rgba(255, 239, 203, 0) 62%),
+    radial-gradient(3.5px 3.5px at 11px 11px, rgba(255, 255, 255, 0.6) 0 2.8px, rgba(255, 255, 255, 0) 3.5px),
+    radial-gradient(3.5px 3.5px at 33px 33px, rgba(255, 255, 255, 0.6) 0 2.8px, rgba(255, 255, 255, 0) 3.5px);
+  background-size: cover, auto, auto, auto, 44px 44px, 44px 44px;
+  background-position: center center, 0 0, 0 0, 0 0, 0 0, 0 0;
+  background-repeat: no-repeat, repeat, repeat, repeat, repeat, repeat;
+}
+
+/* The playroom. A dusty teal wall in broad calm stripes over a maple floor —
+   the paint job a playroom actually gets. The First Piano's case is the
+   lightest object in the app, so it wants a wall with some depth behind it
+   or both its cream moulding and its shadow go vague; pink-on-teal is the
+   complementary pair that keeps the toy loudest without the room shouting. */
+body[data-toy="preschool"] {
+  background-color: #579284;
+  background-image:
+    url("assets/backgrounds/strawberry-picnic.jpg"),
+    radial-gradient(140% 110% at 50% 42%, rgba(16, 44, 39, 0) 38%, rgba(16, 44, 39, 0.22) 72%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0) 0 65%, #cdb28b 65% 67.5%, #c3a072 67.5% 85%, #ab875c 100%),
+    radial-gradient(135% 60% at 50% -12%, rgba(255, 252, 228, 0.4), rgba(255, 252, 228, 0) 60%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0 58px, rgba(255, 255, 255, 0) 58px 116px);
+  background-size: cover, auto, auto, auto, auto;
+  background-position: center center, 0 0, 0 0, 0 0, 0 0;
+  background-repeat: no-repeat, repeat, repeat, repeat, repeat;
+}
+
+/* The night sky. Deep indigo, one low moon and a few dim stars, over a dark
+   violet terrace. The castle is pale pink edged in deeper pink, so it gets
+   the darkest room of the five — nothing pale in here but the stars, and
+   they are small and sparse on purpose: the sky is a place, not a firework.
+   They are static, too. A twinkle is an animation that runs under a held
+   key for exactly as long as the child holds it. */
+body[data-toy="princess"] {
+  background-color: #140e31;
+  background-image:
+    url("assets/backgrounds/coral-whale.jpg"),
+    linear-gradient(180deg, rgba(0, 0, 0, 0) 0 71%, #4a3669 71% 73.5%, #3b2a54 73.5% 87%, #291d3a 100%),
+    radial-gradient(90% 42% at 74% 9%, rgba(255, 246, 222, 0.28), rgba(255, 246, 222, 0) 58%),
+    radial-gradient(1.8px 1.8px at 19px 27px, rgba(255, 255, 255, 0.9) 0 1.3px, rgba(255, 255, 255, 0) 1.8px),
+    radial-gradient(1.3px 1.3px at 63px 61px, rgba(255, 255, 255, 0.55) 0 1px, rgba(255, 255, 255, 0) 1.3px),
+    radial-gradient(1.6px 1.6px at 88px 9px, rgba(255, 255, 255, 0.7) 0 1.2px, rgba(255, 255, 255, 0) 1.6px),
+    linear-gradient(180deg, #261c54 0%, #1d1546 46%, #140e31 100%);
+  background-size: cover, auto, auto, 104px 104px, 104px 104px, 104px 104px, auto;
+  background-position: center center, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+  background-repeat: no-repeat, repeat, repeat, repeat, repeat, repeat, repeat;
+}
+
+/* The stage. A velvet house curtain lit warm from above, folded into soft
+   vertical swags, over dark boards with a footlight bloom along the horizon.
+   This is the one room that stays as dark as the console's old shared room,
+   and for the reason styles.css already gives: the console reads as an
+   object through its lit purple-cyan edge, and that edge only glows against
+   a dark ground. The curtain keeps the ground dark while making it
+   somewhere — a practice stage rather than a void. */
+body[data-toy="big-kid"] {
+  background-color: #2b1220;
+  background-image:
+    url("assets/backgrounds/classic.jpg"),
+    linear-gradient(180deg, rgba(0, 0, 0, 0) 0 73%, #442a1a 73% 75.5%, #382013 75.5% 89%, #2a170c 100%),
+    radial-gradient(95% 24% at 50% 75%, rgba(255, 189, 110, 0.16), rgba(255, 189, 110, 0) 68%),
+    repeating-linear-gradient(90deg,
+      rgba(20, 6, 14, 0.34) 0 30px,
+      rgba(255, 216, 216, 0.09) 40px 47px,
+      rgba(20, 6, 14, 0.34) 57px 84px),
+    radial-gradient(125% 70% at 50% -8%, #5e2b45 0%, #472035 50%, #2f1424 100%);
+  background-size: cover, auto, auto, auto, auto;
+  background-position: center center, 0 0, 0 0, 0 0, 0 0;
+  background-repeat: no-repeat, repeat, repeat, repeat, repeat;
+}
+
+/* The studio, and the room that is mostly rack. The Explorer stretches to
+   fill the stage wall-to-wall by design, so its room is only ever glimpsed
+   in the band behind the ribbon and the frame of body padding around the
+   slab. That is honest — a rack bolted across a small control room — so the
+   scene is a quiet machine-room wall: a step LIGHTER than the rack's own top
+   gradient, so the dark slab separates instead of melting into it, with
+   faint vertical cable runs and a dim ceiling wash. The rack's LEDs are the
+   only colour in here, which is the point of a control room. */
+body[data-toy="advanced"] {
+  background-color: #262b35;
+  background-image:
+    url("assets/backgrounds/woodland-mushroom.jpg"),
+    radial-gradient(115% 60% at 50% -8%, #404754 0%, #343b47 52%, #262b35 100%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.045) 0 2px, rgba(255, 255, 255, 0) 2px 38px);
+  background-size: cover, auto, auto;
+  background-position: center center, 0 0, 0 0;
+  background-repeat: no-repeat, repeat, repeat;
+}
+
+/* The keybed colour hooks. Written once here rather than ten times in each
+   toy: `--key` is what the gradients above read, and nothing reads the class
+   except these ten lines. */
+.hue0 { --key: var(--hue0); }
+.hue1 { --key: var(--hue1); }
+.hue2 { --key: var(--hue2); }
+.hue3 { --key: var(--hue3); }
+.hue4 { --key: var(--hue4); }
+.hue5 { --key: var(--hue5); }
+.hue6 { --key: var(--hue6); }
+.hue7 { --key: var(--hue7); }
+.hue8 { --key: var(--hue8); }
+.hue9 { --key: var(--hue9); }

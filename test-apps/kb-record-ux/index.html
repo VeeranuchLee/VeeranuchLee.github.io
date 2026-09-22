@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Toy Keyboard</title>
+<meta name="description" content="Five musical toys from rainbow keys to a studio keyboard."/>
+<link rel="manifest" href="./manifest.webmanifest"/>
+<link rel="stylesheet" href="./fonts.css"/>
+<link rel="stylesheet" href="./styles.css"/>
+<link rel="stylesheet" href="./toys.css"/>
+<meta name="theme-color" content="#101319"/>
+<link rel="icon" href="./assets/icons/icon-192.png"/>
+<link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Keyboard"/>
+</head>
+<body>
+    <!-- Staging badge: which bytes loaded is the QA question. -->
+    <div style="position:fixed;top:6px;left:6px;z-index:9999;background:#26306e;color:#fff;
+                font:700 12px/1.4 system-ui,sans-serif;padding:4px 10px;border-radius:999px;
+                opacity:.85;pointer-events:none">staging record-ux</div>
+
+<div id="app">
+
+  <!-- The chrome. It is the only thing that does not change when the toy
+       changes: same place, same size, same order, whichever keyboard is on
+       screen. Two rows and no more — the rule this app is built around is
+       that there is essentially nothing between opening it and playing, so
+       the ribbon had to earn every pixel it takes from the keys. -->
+  <header id="topbar">
+
+    <div id="bar1">
+      <!-- Owner, 2026-08-26: "add back button to test hub for the test apps too." It used to
+           sit on the Classic console's left speaker pod, which was the only screen there was.
+           There are four screens now, and an arrow that lives on one of them is no way out of
+           the other three — the exact fault the 2026-09-10 entry fixed. So it moved up here
+           into the chrome, where it is reachable from every toy.
+           Until 2026-09-16 it pointed at /test-apps/, because the card had not yet moved.
+           Owner, 2026-09-16: "since we already put toy keyboard in main hub, pls remove from
+           test hub." The card is on the Music hub (site/children-apps/music.html) and the Test
+           Hub card is gone, so the arrow goes back to where a child opened the app from -- the
+           Music hub, not the front page. Left pointing at /test-apps/, it made the unlisted Test
+           Hub one tap from the children's hub, which is how the Test Hub was exposed for eight
+           days after the Writing Book promotion. It keeps `hub-btn` so the promotion check
+           greps a class and not a URL. -->
+      <a id="hub" class="hub-btn" href="https://veeranuchlee.github.io/children-apps/music.html" aria-label="Back to Music">←</a>
+
+      <!-- Five physical toy models in the developmental order settled by the
+           owner. Built from the toy definitions so each name has one home. -->
+      <nav id="ribbon" role="tablist" aria-label="Choose a keyboard"></nav>
+
+      <!-- A parent setting, kept in the stable chrome rather than among a
+           toy's bright controls. It takes no new row and changes no keybed;
+           the subdued treatment makes it reachable without advertising a
+           mid-song button to a four-year-old. -->
+      <button type="button" id="effects-toggle" aria-pressed="true">
+        <span class="effects-word">Effects</span> <strong>ON</strong>
+      </button>
+    </div>
+
+  </header>
+
+  <!-- The instrument. One toy is mounted here at a time; the keys are the
+       first thing under a finger the moment the app opens. -->
+  <main id="stage" aria-label="Keyboard"></main>
+
+</div>
+
+<script src="./voices.js"></script>
+<script src="./engine.js"></script>
+<script src="./recorder.js"></script>
+<script src="./guidance.js"></script>
+<script src="./keybed.js"></script>
+<script src="./effects.js"></script>
+<script src="./toys.js"></script>
+<script src="./toy-studio.js"></script>
+<script src="./app.js"></script>
+  <script>
+  /* Pinch-zoom guard. iOS Safari ignores user-scalable=no (since iOS 10), so this is
+     the only thing that stops two small hands zooming the page mid-play. gesturestart
+     fires once per pinch; preventing it cancels the zoom and touches nothing else.
+     Other browsers never fire it, so this is inert there. */
+  document.addEventListener("gesturestart", function (e) { e.preventDefault(); }, { passive: false });
+  </script>
+  </body>
+</html>
