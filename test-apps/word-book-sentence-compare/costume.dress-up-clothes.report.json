@@ -1,0 +1,67 @@
+{
+ "sense": "costume.dress-up-clothes",
+ "word": "costume",
+ "sentence": "My costume makes me look like an astronaut.",
+ "char_span": [
+  3,
+  10
+ ],
+ "word_index": 1,
+ "words_in_sentence": 8,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.232,
+  0.627
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.163,
+  "next_char_start": 0.662
+ },
+ "energy_dbfs_at_raw_edges": [
+  -35.8,
+  -27.1
+ ],
+ "quietest_near_start": {
+  "t": 0.222,
+  "dbfs": -62.1
+ },
+ "quietest_near_end": {
+  "t": 0.6195,
+  "dbfs": -28.3
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip",
+  "raw"
+ ],
+ "cut_s": [
+  0.2208,
+  0.6261
+ ],
+ "edge_shift_ms_vs_raw": [
+  -11.2,
+  -0.9
+ ],
+ "energy_dbfs_at_cut": [
+  -61.8,
+  -28.3
+ ],
+ "word_audio_s": 0.4053,
+ "lead_tail_silence_s": [
+  0.19,
+  0.354
+ ],
+ "gain_db": 4.04,
+ "peak_dbfs_after": -3.47,
+ "level_to": "word-book/audio/words/costume.m4a",
+ "out": "word-book/qa/sentence-compare-21/audio/costume.dress-up-clothes.B.m4a",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -28.3 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ],
+ "b_note": null
+}

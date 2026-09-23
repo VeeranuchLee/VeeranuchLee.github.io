@@ -1,0 +1,71 @@
+{
+ "sense": "be.exist-or-have-a-quality",
+ "word": "be",
+ "sentence": "I want to be an astronaut.",
+ "char_span": [
+  10,
+  12
+ ],
+ "word_index": 3,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.499,
+  0.592
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.453,
+  "next_char_start": 0.627
+ },
+ "energy_dbfs_at_raw_edges": [
+  -52.1,
+  -20.7
+ ],
+ "quietest_near_start": {
+  "t": 0.499,
+  "dbfs": -52.1
+ },
+ "quietest_near_end": {
+  "t": 0.6545,
+  "dbfs": -28.2
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip",
+  "gap-min"
+ ],
+ "cut_s": [
+  0.5002,
+  0.6168
+ ],
+ "edge_shift_ms_vs_raw": [
+  1.2,
+  24.8
+ ],
+ "energy_dbfs_at_cut": [
+  -52.0,
+  -24.9
+ ],
+ "word_audio_s": 0.1166,
+ "lead_tail_silence_s": [
+  0.03,
+  0.069
+ ],
+ "gain_db": 2.47,
+ "peak_dbfs_after": -8.46,
+ "level_to": "word-book/audio/words/be.m4a",
+ "out": "word-book/qa/sentence-compare-21/audio/be.exist-or-have-a-quality.B.m4a",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "flags": [
+  {
+   "flag": "function-word",
+   "why": "a closed-class word; in a sentence it is often a weak, reduced form"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -24.9 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ],
+ "b_note": null
+}

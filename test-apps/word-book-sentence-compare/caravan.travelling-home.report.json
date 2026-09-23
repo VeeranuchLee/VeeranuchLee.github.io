@@ -1,0 +1,67 @@
+{
+ "sense": "caravan.travelling-home",
+ "word": "caravan",
+ "sentence": "Our caravan has a tiny kitchen.",
+ "char_span": [
+  4,
+  11
+ ],
+ "word_index": 1,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.244,
+  0.72
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.197,
+  "next_char_start": 0.789
+ },
+ "energy_dbfs_at_raw_edges": [
+  -31.0,
+  -20.5
+ ],
+ "quietest_near_start": {
+  "t": 0.2215,
+  "dbfs": -69.0
+ },
+ "quietest_near_end": {
+  "t": 0.805,
+  "dbfs": -30.6
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip",
+  "gap-min"
+ ],
+ "cut_s": [
+  0.213,
+  0.7847
+ ],
+ "edge_shift_ms_vs_raw": [
+  -31.0,
+  64.7
+ ],
+ "energy_dbfs_at_cut": [
+  -65.7,
+  -29.0
+ ],
+ "word_audio_s": 0.5717,
+ "lead_tail_silence_s": [
+  0.2,
+  0.282
+ ],
+ "gain_db": 0.25,
+ "peak_dbfs_after": -5.52,
+ "level_to": "word-book/audio/words/caravan.m4a",
+ "out": "word-book/qa/sentence-compare-21/audio/caravan.travelling-home.B.m4a",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -29.0 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ],
+ "b_note": null
+}

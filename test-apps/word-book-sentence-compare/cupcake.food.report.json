@@ -1,0 +1,69 @@
+{
+ "sense": "cupcake.food",
+ "word": "cupcake",
+ "sentence": "My cupcake has a pink flower on top.",
+ "char_span": [
+  3,
+  10
+ ],
+ "word_index": 1,
+ "words_in_sentence": 8,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.255,
+  0.685
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.186,
+  "next_char_start": 0.72
+ },
+ "energy_dbfs_at_raw_edges": [
+  -57.9,
+  -40.1
+ ],
+ "quietest_near_start": {
+  "t": 0.245,
+  "dbfs": -64.9
+ },
+ "quietest_near_end": {
+  "t": 0.6875,
+  "dbfs": -40.9
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip",
+  "dip"
+ ],
+ "cut_s": [
+  0.2379,
+  0.6875
+ ],
+ "edge_shift_ms_vs_raw": [
+  -17.1,
+  2.5
+ ],
+ "energy_dbfs_at_cut": [
+  -60.8,
+  -40.9
+ ],
+ "word_audio_s": 0.4496,
+ "lead_tail_silence_s": [
+  0.01,
+  0.089
+ ],
+ "gain_db": 3.2,
+ "peak_dbfs_after": -2.82,
+ "level_to": "word-book/audio/words/cupcake.m4a",
+ "out": "word-book/qa/sentence-compare-21/audio/cupcake.food.B.m4a",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "flags": [
+  {
+   "flag": "unreleased-stop",
+   "why": "ends in a stop before 'has' (a consonant): usually unreleased in connected speech",
+   "release_measured": true,
+   "measurement": "release at 0.485 s (-37 dBFS over a -68 dBFS closure)"
+  }
+ ],
+ "b_note": null
+}

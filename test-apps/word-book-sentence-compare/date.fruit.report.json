@@ -1,0 +1,67 @@
+{
+ "sense": "date.fruit",
+ "word": "date",
+ "sentence": "I take the stone out of the date.",
+ "char_span": [
+  28,
+  32
+ ],
+ "word_index": 7,
+ "words_in_sentence": 8,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  1.37,
+  1.765
+ ],
+ "neighbours_s": {
+  "previous_char_end": 1.324,
+  "next_char_start": 1.765
+ },
+ "energy_dbfs_at_raw_edges": [
+  -58.2,
+  -35.9
+ ],
+ "quietest_near_start": {
+  "t": 1.3625,
+  "dbfs": -63.1
+ },
+ "quietest_near_end": {
+  "t": 1.795,
+  "dbfs": -65.7
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip",
+  "decay"
+ ],
+ "cut_s": [
+  1.3575,
+  1.8001
+ ],
+ "edge_shift_ms_vs_raw": [
+  -12.5,
+  35.1
+ ],
+ "energy_dbfs_at_cut": [
+  -62.0,
+  -70.3
+ ],
+ "word_audio_s": 0.4426,
+ "lead_tail_silence_s": [
+  0.02,
+  0.133
+ ],
+ "gain_db": -0.45,
+ "peak_dbfs_after": -7.13,
+ "level_to": "word-book/audio/words/date.m4a",
+ "out": "word-book/qa/sentence-compare-21/audio/date.fruit.B.m4a",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ],
+ "b_note": null
+}

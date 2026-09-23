@@ -1,0 +1,69 @@
+{
+ "sense": "bake.cook-in-oven",
+ "word": "bake",
+ "sentence": "We bake biscuits shaped like stars.",
+ "char_span": [
+  3,
+  7
+ ],
+ "word_index": 1,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.232,
+  0.441
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.163,
+  "next_char_start": 0.476
+ },
+ "energy_dbfs_at_raw_edges": [
+  -74.2,
+  -54.0
+ ],
+ "quietest_near_start": {
+  "t": 0.2295,
+  "dbfs": -76.0
+ },
+ "quietest_near_end": {
+  "t": 0.486,
+  "dbfs": -81.4
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip",
+  "dip"
+ ],
+ "cut_s": [
+  0.2193,
+  0.496
+ ],
+ "edge_shift_ms_vs_raw": [
+  -12.7,
+  55.0
+ ],
+ "energy_dbfs_at_cut": [
+  -60.1,
+  -67.7
+ ],
+ "word_audio_s": 0.2767,
+ "lead_tail_silence_s": [
+  0.105,
+  0.182
+ ],
+ "gain_db": 0.13,
+ "peak_dbfs_after": -5.88,
+ "level_to": "word-book/audio/words/bake.m4a",
+ "out": "word-book/qa/sentence-compare-21/audio/bake.cook-in-oven.B.m4a",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "flags": [
+  {
+   "flag": "unreleased-stop",
+   "why": "ends in a stop before 'biscuits' (a consonant): usually unreleased in connected speech",
+   "release_measured": false,
+   "measurement": "110 ms of closure before the cut, no release above it"
+  }
+ ],
+ "b_note": "byte copy of /private/tmp/claude-501/-Users-veeranuchleelalai-git-repos-children-games/5beeeded-44b5-4ae7-b8a3-bf93b5644175/scratchpad/bake-B-judged.m4a, the B the owner already judged; the re-made cut decodes to identical samples"
+}

@@ -1,0 +1,69 @@
+{
+ "sense": "chop.cut-into-pieces",
+ "word": "chop",
+ "sentence": "Dad helps me chop the vegetables.",
+ "char_span": [
+  13,
+  17
+ ],
+ "word_index": 3,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.755,
+  0.964
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.708,
+  "next_char_start": 1.01
+ },
+ "energy_dbfs_at_raw_edges": [
+  -66.0,
+  -63.7
+ ],
+ "quietest_near_start": {
+  "t": 0.7575,
+  "dbfs": -68.2
+ },
+ "quietest_near_end": {
+  "t": 0.979,
+  "dbfs": -77.3
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip",
+  "dip"
+ ],
+ "cut_s": [
+  0.7473,
+  0.989
+ ],
+ "edge_shift_ms_vs_raw": [
+  -7.7,
+  25.0
+ ],
+ "energy_dbfs_at_cut": [
+  -60.7,
+  -64.8
+ ],
+ "word_audio_s": 0.2417,
+ "lead_tail_silence_s": [
+  0.045,
+  0.052
+ ],
+ "gain_db": 2.38,
+ "peak_dbfs_after": -6.52,
+ "level_to": "word-book/audio/words/chop.m4a",
+ "out": "word-book/qa/sentence-compare-21/audio/chop.cut-into-pieces.B.m4a",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "flags": [
+  {
+   "flag": "unreleased-stop",
+   "why": "ends in a stop before 'the' (a consonant): usually unreleased in connected speech",
+   "release_measured": true,
+   "measurement": "release at 0.850 s (-24 dBFS over a -40 dBFS closure)"
+  }
+ ],
+ "b_note": null
+}

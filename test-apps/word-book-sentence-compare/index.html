@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Word Book sentence compare</title>
+<!--
+  CG-185 comparison set, 2026-09-23. Owner, verbatim: "render those 23 now as a comparison set"
+  (the list in <sidecar>/word-book/Owner QA.md has 21 words = 22 senses; date has two).
+  PRIVATE QA instrument: word-book/.publish-manifest lists qa/** under [private]. Staged on the
+  Test Hub at /test-apps/word-book-sentence-compare/ with NO service worker. Nothing here
+  replaces or adds any clip in the app.
+    A  a byte copy of the card's shipped word clip (audio/words/<word>.m4a), sha256 in manifest.json
+    B  the word cut out of the paid sentence master (PR #899's tools/extract-sentence-word.py), free
+    C  the paid sentence master itself, transcoded like audio/sentences/
+  The pronunciation-QA verdict is from word-book/qa/PRONUNCIATION-QA-CONSOLIDATED.md (PR #918).
+  ASR below each card is TRIAGE ONLY, never pronunciation QA (owner rule, 2026-09-23).
+-->
+<style>
+  :root{
+    --ink:#2b2530; --muted:#6f6676; --line:#e3dce6; --bg:#fbf7fb; --card:#fff;
+    --a:#7a4fb3; --b:#1f7a4d; --c:#a8341f; --pick:#f1e9f8; --warn:#8a5a00;
+    --v-a:#fbe3df; --v-b:#fdf0d2; --v-ok:#e2f3e8; --v-ink:#2b2530;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#efe9f2; --muted:#b3a9b9; --line:#3d3542; --bg:#1d1a20; --card:#27232b;
+      --a:#b394e0; --b:#6cc79a; --c:#f0917b; --pick:#352c3d; --warn:#e0b25c;
+      --v-a:#4a2621; --v-b:#45391c; --v-ok:#1f3a2a; --v-ink:#efe9f2;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#efe9f2; --muted:#b3a9b9; --line:#3d3542; --bg:#1d1a20; --card:#27232b;
+    --a:#b394e0; --b:#6cc79a; --c:#f0917b; --pick:#352c3d; --warn:#e0b25c;
+    --v-a:#4a2621; --v-b:#45391c; --v-ok:#1f3a2a; --v-ink:#efe9f2;
+  }
+  *{box-sizing:border-box}
+  html,body{touch-action:manipulation}
+  body{margin:0;font:16px/1.5 ui-rounded,"Avenir Next",-apple-system,system-ui,sans-serif;
+       color:var(--ink);background:var(--bg)}
+  main{max-width:736px;margin:0 auto;padding:22px 16px 80px}
+  h1{font-size:22px;margin:0 0 4px}
+  .sub{color:var(--muted);margin:0 0 10px}
+  .progress{position:sticky;top:0;z-index:2;background:var(--bg);padding:8px 0;margin:0 0 8px;
+            border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .progress b{font-size:15px}
+  section.cardrow{background:var(--card);border:1px solid var(--line);border-radius:16px;
+                  padding:16px;margin:0 0 20px}
+  .head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:0 0 6px}
+  .head h2{font-size:26px;margin:0}
+  .head .n{color:var(--muted);font-size:14px}
+  .sentence{font-size:19px;margin:0 0 10px}
+  .sentence mark{background:var(--pick);color:inherit;border-radius:4px;padding:0 3px;font-weight:700}
+  .verdict{border-radius:10px;padding:8px 12px;margin:0 0 12px;font-size:14px;color:var(--v-ink)}
+  .verdict b{font-size:13px;text-transform:uppercase;letter-spacing:.03em}
+  .verdict.cat-A{background:var(--v-a)} .verdict.cat-B{background:var(--v-b)}
+  .verdict.cat-C,.verdict.cat-D,.verdict.cat-E{background:var(--v-ok)}
+  .play3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 14px}
+  button.play{appearance:none;border:2px solid var(--line);background:var(--bg);color:var(--ink);
+              border-radius:14px;padding:10px 8px;min-height:84px;font:inherit;cursor:pointer;
+              display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-align:center}
+  button.play b{font-size:30px;line-height:1}
+  button.play small{color:var(--muted);font-size:13px}
+  button.play[data-k="A"] b{color:var(--a)} button.play[data-k="B"] b{color:var(--b)}
+  button.play[data-k="C"] b{color:var(--c)}
+  button.play.on{border-color:var(--a);background:var(--pick)}
+  .q{font-weight:700;margin:0 0 6px}
+  .opts{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+  .opts label{display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center;text-align:center;
+              padding:8px 4px;border:1px solid var(--line);border-radius:10px;cursor:pointer;min-height:64px;font-size:14px;line-height:1.2}
+  .opts input{width:20px;height:20px;margin:0}
+  .opts label:has(input:checked){background:var(--pick);border-color:var(--a);font-weight:700}
+  .prefill{color:var(--muted);font-size:13px;margin:6px 0 0}
+  textarea{width:100%;min-height:52px;font:inherit;color:var(--ink);background:var(--bg);
+           border:1px solid var(--line);border-radius:8px;padding:8px;margin-top:8px}
+  details{border-top:1px dashed var(--line);margin-top:12px;padding-top:8px}
+  summary{cursor:pointer;font-weight:700;min-height:36px;display:flex;align-items:center;color:var(--muted);font-size:14px}
+  details ul{margin:6px 0;padding-left:20px;font-size:14px}
+  details li{margin:0 0 4px}
+  .flag{font-weight:700;color:var(--warn)}
+  table{border-collapse:collapse;width:100%;font-size:14px}
+  td,th{border-bottom:1px solid var(--line);padding:5px 4px;text-align:left;vertical-align:top}
+  .muted{color:var(--muted);font-size:14px}
+  .actions{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:0 0 20px}
+  .actions .btns{display:flex;gap:10px;flex-wrap:wrap}
+  .actions button{font:inherit;padding:10px 16px;border-radius:10px;border:1px solid var(--line);
+                  background:var(--bg);color:var(--ink);cursor:pointer;min-height:44px}
+  #out{width:100%;min-height:140px;font:13px/1.4 ui-monospace,Menlo,monospace;margin-top:10px;display:none}
+  #status{color:var(--muted);font-size:14px;margin-top:6px}
+  .err{color:var(--c);font-weight:700}
+  @media (max-width:600px){
+    .opts{grid-template-columns:1fr 1fr}
+    .play3{gap:6px} button.play{min-height:72px}
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Word cut out of a sentence — 21 words</h1>
+  <p class="sub">For each word: play <b>A</b> (the word clip the app has now), <b>B</b> (the word cut out of C)
+     and <b>C</b> (the whole sentence), then pick one answer. The coloured box is what the machine
+     pronunciation QA said about A. When you are done, press <b>Copy results</b> at the bottom and
+     paste them back. Nothing on this page changes the app.</p>
+  <div class="progress"><b id="count">0 answered</b>
+    <span class="muted">answers are kept in this browser as you go</span></div>
+
+  <div id="cards"></div>
+
+  <div class="actions">
+    <div class="btns">
+      <button id="copy">Copy results</button>
+      <button id="download">Save results as a file</button>
+    </div>
+    <div id="status"></div>
+    <textarea id="out" readonly></textarea>
+  </div>
+  <p class="muted">Built 2026-09-23 (CG-185 comparison set). A is a byte copy of the shipped clip; B and C exist
+     only on this page. 22 cards because <i>date</i> has two senses and so two sentences; both share one A clip.</p>
+</main>
+<script src="manifest.js"></script>
+<script>
+(function(){
+  'use strict';
+  var CHOICES = ['A better', 'B better', 'indistinguishable', 'both defective', 'uncertain'];
+  // What word-book/qa/PRONUNCIATION-QA-CONSOLIDATED.md (PR #918) says about each A clip.
+  // A = confirmed defect, B = needs your ear, C = accepted accent, D = ASR mismatch cleared, E = clean.
+  var QA = {
+    'arrive':  ['D', 'Cleared: a first pass suspected a wrong vowel; the second check fits /aɪ/.'],
+    'bake':    ['A', 'Confirmed defect: says "bike" /baɪk/, not /beɪk/.'],
+    'be':      ['E', 'Clean in the machine QA. On your list anyway.'],
+    'best':    ['E', 'Clean in the machine QA. On your list anyway.'],
+    'bone':    ['E', 'Clean in the machine QA. On your list anyway.'],
+    'bun':     ['E', 'Clean in the machine QA. On your list anyway.'],
+    'base':    ['E', 'Clean in the machine QA (used as a control for bake). On your list anyway.'],
+    'car':     ['D', 'Cleared: ASR heard "Cal", put down to the non-rhotic ending.'],
+    'caravan': ['B', 'Needs your ear: ASR heard "Che caravan" (an extra sound at the start?).'],
+    'care':    ['B', 'Needs your ear, highest priority in C: ASR heard "Got a...".'],
+    'chop':    ['B', 'Needs your ear: ASR heard "Shopping"; the vowel itself looks normal.'],
+    'cone':    ['B', 'Needs your ear: ASR heard "Conet".'],
+    'connect': ['B', 'Needs your ear: ASR heard "Cool connect"; segmenting recovers "Connect".'],
+    'costume': ['E', 'Clean in the machine QA. On your list anyway.'],
+    'cupcake': ['B', 'Needs your ear: ASR heard "A cupcake" (a minor insertion).'],
+    'date':    ['A', 'Confirmed defect: two vowel nuclei, heard as "Dighty". One clip serves both date cards.'],
+    'decide':  ['A', 'Confirmed defect: three vowel nuclei, heard as "Deceed it".'],
+    'dew':     ['D', 'Cleared: ASR heard "Don\'t", put down to the British yod (/djuː/).'],
+    'dice':    ['A', 'Confirmed defect: two vowel nuclei, heard as "DC".'],
+    'dive':    ['A', 'Confirmed defect: an extra vowel after /aɪ/, heard as "Diver".'],
+    'explorer':['C', 'Accepted accent variant (British).']
+  };
+  var CAT = { A: 'confirmed defect', B: 'needs your ear', C: 'accepted accent', D: 'cleared', E: 'clean' };
+  // The owner's recorded verdict on the first pilot (2026-09-23), pre-filled so it is not asked twice.
+  var PREFILL = { 'bake.cook-in-oven': { verdict: 'B better', note: 'A -> Ba - K',
+    source: 'your 2026-09-23 pilot verdict: "B better -- A -> Ba - K" (this B is that same file)' } };
+  var KEY = 'cg185-compare21-answers';
+  var root = document.getElementById('cards');
+  var data = window.SENTENCE_EXTRACT;
+  if (!data || !data.cards) {
+    root.innerHTML = '<p class="err">Could not load manifest.js. Keep this page next to its files.</p>';
+    return;
+  }
+  var cards = data.cards;
+  function store(){ try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; } }
+  var saved = store();
+  function persist(){ try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {} }
+
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function marked(sentence, word){
+    var re = new RegExp("(^|[^A-Za-z'])(" + word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ")(?![A-Za-z'])", 'i');
+    return esc(sentence).replace(re, function(m, pre, w){ return pre + '<mark>' + w + '</mark>'; });
+  }
+  function ordinal(n){ return n + (n === 1 ? 'st' : n === 2 ? 'nd' : n === 3 ? 'rd' : 'th'); }
+
+  cards.forEach(function(c, idx){
+    var s = saved[c.sense];
+    if (!s && PREFILL[c.sense]) { s = saved[c.sense] = { verdict: PREFILL[c.sense].verdict, note: PREFILL[c.sense].note, prefilled: true }; }
+    var pos = c.word_index + 1, final = pos === c.words_in_sentence;
+    var q = QA[c.word] || ['?', 'No entry in the consolidated QA.'];
+    var flags = (c.flags || []).map(function(f){
+      var extra = f.flag === 'unreleased-stop' && f.measurement ? ' Measured: ' + esc(f.measurement) + '.' : '';
+      return '<li><span class="flag">' + esc(f.flag) + '</span> — ' + esc(f.why) + '.' + extra + '</li>';
+    }).join('') || '<li>No automatic flags.</li>';
+    var asr = '';
+    if (c.asr_triage) {
+      var h = c.asr_triage.heard;
+      asr = '<details><summary>Machine triage (ASR) — TRIAGE ONLY, not QA · open after you answer</summary>' +
+        '<p class="muted">Owner rule, 2026-09-23: ASR may add a card to the listening set; it never passes or fails one. ' +
+        'On the first pilot it heard B as “Like.” and you judged B the better clip.</p><table>' +
+        '<tr><th>clip</th><th>on-device recogniser heard (two runs)</th></tr>' +
+        ['A','B','C'].map(function(k){ return '<tr><td>' + k + '</td><td>' +
+          (h[k] || []).map(function(t){ return t ? '“' + esc(t) + '”' : '(nothing)'; }).join(' · ') + '</td></tr>'; }).join('') +
+        '</table></details>';
+    }
+    var sec = document.createElement('section');
+    sec.className = 'cardrow';
+    sec.innerHTML =
+      '<div class="head"><h2>' + esc(c.word) + '</h2><span class="n">' + (idx + 1) + ' of ' + cards.length +
+      ' · <code>' + esc(c.sense) + '</code></span></div>' +
+      '<p class="sentence">' + marked(c.sentence, c.word) + '</p>' +
+      '<div class="verdict cat-' + esc(q[0]) + '"><b>Pronunciation QA on A: ' + esc(q[0]) + ' · ' +
+        esc(CAT[q[0]] || 'unknown') + '</b><br>' + esc(q[1]) + '</div>' +
+      '<div class="play3">' +
+        '<button class="play" data-k="A" data-src="' + esc(c.A.file) + '"><b>A</b><span>word clip now</span><small>rendered alone</small></button>' +
+        '<button class="play" data-k="B" data-src="' + esc(c.B.file) + '"><b>B</b><span>cut out of C</span><small>free, no new render</small></button>' +
+        '<button class="play" data-k="C" data-src="' + esc(c.C.file) + '"><b>C</b><span>whole sentence</span><small>for context</small></button>' +
+      '</div>' +
+      '<p class="q">Which says “' + esc(c.word) + '” better?</p>' +
+      '<div class="opts">' + CHOICES.map(function(v){
+        return '<label><input type="radio" name="v-' + esc(c.sense) + '" value="' + esc(v) + '"' +
+          (s && s.verdict === v ? ' checked' : '') + '>' + esc(v.charAt(0).toUpperCase() + v.slice(1)) + '</label>';
+      }).join('') + '</div>' +
+      (PREFILL[c.sense] ? '<p class="prefill">Pre-filled from ' + esc(PREFILL[c.sense].source) + '. Change it if you hear it differently now.</p>' : '') +
+      '<textarea placeholder="Anything you heard (optional)">' + esc(s && s.note || '') + '</textarea>' +
+      '<details><summary>Machine flags on the cut — open after you answer</summary>' +
+        '<p class="muted">Where the cut is likely to be hard. Measurements, not a verdict. The word is the ' +
+        ordinal(pos) + ' of ' + c.words_in_sentence + (final ? ', at the end' : '') + '. B is ' +
+        c.cut_s[0].toFixed(3) + '–' + c.cut_s[1].toFixed(3) + ' s of C (edges: ' + esc(c.edge_rule.join(' / ')) +
+        '; level at the cut ' + c.energy_dbfs_at_cut[0] + ' / ' + c.energy_dbfs_at_cut[1] + ' dBFS).</p>' +
+        '<ul>' + flags + '</ul>' +
+        (c.B.note ? '<p class="muted">B: ' + esc(c.B.note) + '.</p>' : '') +
+      '</details>' + asr;
+    root.appendChild(sec);
+
+    sec.querySelector('.opts').addEventListener('change', function(e){
+      saved[c.sense] = saved[c.sense] || {};
+      saved[c.sense].verdict = e.target.value; saved[c.sense].prefilled = false;
+      persist(); count();
+    });
+    sec.querySelector('textarea').addEventListener('input', function(e){
+      saved[c.sense] = saved[c.sense] || {};
+      saved[c.sense].note = e.target.value; saved[c.sense].prefilled = false;
+      persist();
+    });
+  });
+  persist();
+
+  // One player for the whole page: a new tap stops whatever is playing.
+  var audio = new Audio(), cur = null;
+  function off(){ if (cur) cur.classList.remove('on'); }
+  audio.addEventListener('ended', off);
+  audio.addEventListener('error', function(){ off(); if (cur) cur.querySelector('span').textContent = 'could not play this file'; });
+  root.addEventListener('click', function(e){
+    var b = e.target.closest('button.play'); if (!b) return;
+    off(); cur = b; b.classList.add('on');
+    audio.pause(); audio.src = b.getAttribute('data-src'); audio.currentTime = 0;
+    var p = audio.play(); if (p && p.catch) p.catch(function(){ off(); });
+  });
+
+  function count(){
+    var n = cards.filter(function(c){ return saved[c.sense] && saved[c.sense].verdict; }).length;
+    document.getElementById('count').textContent = n + ' of ' + cards.length + ' answered';
+  }
+  count();
+
+  function results(){
+    var rows = cards.map(function(c){
+      var s = saved[c.sense] || {};
+      return { sense: c.sense, word: c.word, verdict: s.verdict || null, note: s.note || '',
+               prefilled_from_earlier_verdict: !!s.prefilled };
+    });
+    var text = 'CG-185 21-word A/B/C comparison (' + new Date().toISOString().slice(0, 10) + ')\n' +
+      rows.map(function(r){ return r.sense + ': ' + (r.verdict || '(no answer)') + (r.note ? ' -- ' + r.note : ''); }).join('\n');
+    return text + '\n\n' + JSON.stringify({ task: 'CG-185', page: 'word-book/qa/sentence-compare-21/index.html', answers: rows }, null, 1);
+  }
+  var out = document.getElementById('out'), status = document.getElementById('status');
+  document.getElementById('copy').addEventListener('click', function(){
+    var t = results();
+    out.style.display = 'block'; out.value = t; out.focus(); out.select();
+    var done = function(){ status.textContent = 'Copied. Paste it back in the chat. (It is also shown below.)'; };
+    var fallback = function(){
+      var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+      status.textContent = ok ? 'Copied. Paste it back in the chat.' : 'Select the text below and copy it.';
+    };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(done, fallback);
+      else fallback();
+    } catch (e) { fallback(); }
+  });
+  document.getElementById('download').addEventListener('click', function(){
+    var t = results();
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([t], { type: 'text/plain' }));
+    a.download = 'cg185-21-word-answers.txt';
+    document.body.appendChild(a); a.click(); a.remove();
+    status.textContent = 'Saved as cg185-21-word-answers.txt in your downloads.';
+  });
+})();
+</script>
+</body>
+</html>

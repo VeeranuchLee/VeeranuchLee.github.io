@@ -1,0 +1,1206 @@
+{
+ "what": "Provenance for the CG-185 A/B/C comparison set (owner 2026-09-23: \"render those 23 now as a comparison set\"; the list in <sidecar>/word-book/Owner QA.md holds 21 words = 22 senses). QA material only: nothing here ships in the app, and no file under word-book/audio/words/ or word-book/audio/sentences/ was changed.",
+ "generator": "ElevenLabs (AI-generated speech; Voice Design voice, AUDIO-DIRECTION.md decision 11)",
+ "paid_run": {
+  "at": "2026-09-23T14:12:54Z",
+  "endpoint": "with-timestamps",
+  "model": "eleven_multilingual_v2",
+  "voiceId": "Xb7hH8MSUJpSbSDYk0k2",
+  "master_only": true,
+  "requests": [
+   {
+    "sense": "car.road-vehicle",
+    "chars": 37
+   },
+   {
+    "sense": "caravan.travelling-home",
+    "chars": 31
+   },
+   {
+    "sense": "care.be-concerned",
+    "chars": 40
+   },
+   {
+    "sense": "chop.cut-into-pieces",
+    "chars": 33
+   },
+   {
+    "sense": "cone.solid-shape",
+    "chars": 32
+   },
+   {
+    "sense": "connect.link",
+    "chars": 54
+   },
+   {
+    "sense": "costume.dress-up-clothes",
+    "chars": 43
+   },
+   {
+    "sense": "cupcake.food",
+    "chars": 36
+   },
+   {
+    "sense": "date.calendar-day",
+    "chars": 41
+   },
+   {
+    "sense": "date.fruit",
+    "chars": 33
+   },
+   {
+    "sense": "decide.make-a-choice",
+    "chars": 46
+   },
+   {
+    "sense": "dew.water-drops",
+    "chars": 33
+   },
+   {
+    "sense": "dice.game-cubes",
+    "chars": 35
+   },
+   {
+    "sense": "dive.go-underwater",
+    "chars": 42
+   },
+   {
+    "sense": "explorer.traveller",
+    "chars": 42
+   }
+  ],
+  "chars_sent": 578,
+  "subscription_character_count": {
+   "before": 6722,
+   "after": 6871
+  },
+  "character_stats_model_total": {
+   "before": 108794.0,
+   "after": 109112.0
+  },
+  "subscription_waited_s": 0,
+  "note": "A delta is only this run's cost if nothing else used the key meanwhile; the meters are account-wide."
+ },
+ "paid_run_settled_subscription_read": {
+  "at": "2026-09-23T14:15:26Z",
+  "character_count": 7040,
+  "note": "the subscription meter lags; read 2.5 min after the run it had moved 6722 -> 7040 = 318, equal to the character-stats delta"
+ },
+ "cost": {
+  "new_requests": 15,
+  "chars_sent": 578,
+  "credits": 318,
+  "credits_per_char": 0.55,
+  "reused_masters_not_rebought": [
+   "arrive.reach-a-place",
+   "bake.cook-in-oven",
+   "base.bottom-support",
+   "be.exist-or-have-a-quality",
+   "best.highest-quality",
+   "bone.body-part",
+   "bun.food"
+  ]
+ },
+ "files": [
+  {
+   "sense": "arrive.reach-a-place",
+   "word": "arrive",
+   "text": "We arrive at school before the bell.",
+   "master": {
+    "path": "word-book/audio-source/sentences/arrive.reach-a-place.mp3",
+    "sha256": "1ba4f1d266ada26cbc03dc2ab334e76cee16d70353e4674c7be3fdf787ca68e4",
+    "bytes": 33898,
+    "tool": "ElevenLabs API POST /v1/text-to-speech/{voice_id}/with-timestamps (word-book/tools/render-dictionary-sentences.py, PR #899)",
+    "model": "eleven_multilingual_v2",
+    "voice": "Alice - Clear, Engaging, Educational (British)",
+    "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+    "output_format": "mp3_44100_128",
+    "request_body": {
+     "text": "We arrive at school before the bell.",
+     "model_id": "eleven_multilingual_v2"
+    },
+    "voice_settings": "none sent (same as audio/words/)",
+    "rendered_at": "2026-09-23T04:36:13Z",
+    "rendered_by": "PR #899 stage-2 pilot (reused, not re-bought)",
+    "copies": [
+     "~/.local/state/children-games/orch/paid-masters/word-book/audio-source/sentences/arrive.reach-a-place.mp3",
+     "<sidecar>/word-book/audio-source/sentences/arrive.reach-a-place.mp3"
+    ]
+   },
+   "alignment": {
+    "path": "word-book/audio-alignment/sentences/arrive.reach-a-place.json",
+    "sidecar": "<sidecar>/word-book/audio-source/sentences/arrive.reach-a-place.alignment.json"
+   },
+   "A": {
+    "file": "audio/arrive.reach-a-place.A.m4a",
+    "derived_from": "word-book/audio/words/arrive.m4a",
+    "how": "byte copy",
+    "sha256": "e691d8f205e96cf63e8a1fe39fa9b04bf635378f71eb0ed117356139063b390b"
+   },
+   "B": {
+    "file": "audio/arrive.reach-a-place.B.m4a",
+    "sha256": "88911eddeb490950de5ec62f241243f0c40eedae5daf5da2c89f3101512431b3",
+    "how": "cut from the master by word-book/tools/extract-sentence-word.py (PR #899) using the ElevenLabs character alignment; afconvert AAC mono 64 kbps .m4a; peak-matched to A; zero synthesis credits",
+    "cut_s": [
+     0.1966,
+     0.476
+    ]
+   },
+   "C": {
+    "file": "audio/arrive.reach-a-place.C.m4a",
+    "how": "afconvert -f m4af -d aac -c 1 -b 64000 of the master",
+    "sha256": "f3faaf831fd71df98d5fa3af3577904a3bb03361d278a7466cb209a95fbbadf6"
+   }
+  },
+  {
+   "sense": "bake.cook-in-oven",
+   "word": "bake",
+   "text": "We bake biscuits shaped like stars.",
+   "master": {
+    "path": "word-book/audio-source/sentences/bake.cook-in-oven.mp3",
+    "sha256": "0b9fdf06758f8409581a4ab10439c6e8c9de357e8587635adef854e234ef0c6c",
+    "bytes": 35152,
+    "tool": "ElevenLabs API POST /v1/text-to-speech/{voice_id}/with-timestamps (word-book/tools/render-dictionary-sentences.py, PR #899)",
+    "model": "eleven_multilingual_v2",
+    "voice": "Alice - Clear, Engaging, Educational (British)",
+    "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+    "output_format": "mp3_44100_128",
+    "request_body": {
+     "text": "We bake biscuits shaped like stars.",
+     "model_id": "eleven_multilingual_v2"
+    },
+    "voice_settings": "none sent (same as audio/words/)",
+    "rendered_at": "2026-09-23T01:24:33Z",
+    "rendered_by": "PR #899 stage-2 pilot (reused, not re-bought)",
+    "copies": [
+     "~/.local/state/children-games/orch/paid-masters/word-book/audio-source/sentences/bake.cook-in-oven.mp3",
+     "<sidecar>/word-book/audio-source/sentences/bake.cook-in-oven.mp3"
+    ]
+   },
+   "alignment": {
+    "path": "word-book/audio-alignment/sentences/bake.cook-in-oven.json",
+    "sidecar": "<sidecar>/word-book/audio-source/sentences/bake.cook-in-oven.alignment.json"
+   },
+   "A": {
+    "file": "audio/bake.cook-in-oven.A.m4a",
+    "derived_from": "word-book/audio/words/bake.m4a",
+    "how": "byte copy",
+    "sha256": "ff87b3e8515f037707a3c618b2cb60cd22001a2645d2d95381b87237ac1c05f0"
+   },
+   "B": {
+    "file": "audio/bake.cook-in-oven.B.m4a",
+    "sha256": "4cab9836f1f87fa25ac258181831537c58f8cb342a81d7461b978a540989deff",
+    "how": "cut from the master by word-book/tools/extract-sentence-word.py (PR #899) using the ElevenLabs character alignment; afconvert AAC mono 64 kbps .m4a; peak-matched to A; zero synthesis credits",
+    "cut_s": [
+     0.2193,
+     0.496
+    ]
+   },
+   "C": {
+    "file": "audio/bake.cook-in-oven.C.m4a",
+    "how": "afconvert -f m4af -d aac -c 1 -b 64000 of the master",
+    "sha256": "c8882dababfe5325e3d378db33d8235e80527be33a07af3b6d066b2889d04f98"
+   }
+  },
+  {
+   "sense": "be.exist-or-have-a-quality",
+   "word": "be",
+   "text": "I want to be an astronaut.",
+   "master": {
+    "path": "word-book/audio-source/sentences/be.exist-or-have-a-quality.mp3",
+    "sha256": "aa2cf20365895df59c257b704b7e5fcb8f91a1afec219e478edc114cbaf2ba28",
+    "bytes": 27211,
+    "tool": "ElevenLabs API POST /v1/text-to-speech/{voice_id}/with-timestamps (word-book/tools/render-dictionary-sentences.py, PR #899)",
+    "model": "eleven_multilingual_v2",
+    "voice": "Alice - Clear, Engaging, Educational (British)",
+    "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+    "output_format": "mp3_44100_128",
+    "request_body": {
+     "text": "I want to be an astronaut.",
+     "model_id": "eleven_multilingual_v2"
+    },
+    "voice_settings": "none sent (same as audio/words/)",
+    "rendered_at": "2026-09-23T04:36:14Z",
+    "rendered_by": "PR #899 stage-2 pilot (reused, not re-bought)",
+    "copies": [
+     "~/.local/state/children-games/orch/paid-masters/word-book/audio-source/sentences/be.exist-or-have-a-quality.mp3",
+     "<sidecar>/word-book/audio-source/sentences/be.exist-or-have-a-quality.mp3"
+    ]
+   },
+   "alignment": {
+    "path": "word-book/audio-alignment/sentences/be.exist-or-have-a-quality.json",
+    "sidecar": "<sidecar>/word-book/audio-source/sentences/be.exist-or-have-a-quality.alignment.json"
+   },
+   "A": {
+    "file": "audio/be.exist-or-have-a-quality.A.m4a",
+    "derived_from": "word-book/audio/words/be.m4a",
+    "how": "byte copy",
+    "sha256": "84fb03635572f5d36b2cca530973460e54cbd96beebbbbd0b432f7a82eb161ec"
+   },
+   "B": {
+    "file": "audio/be.exist-or-have-a-quality.B.m4a",
+    "sha256": "eb1f3753d7d668cd07d31dbf69d494bbde04f5a311d1a09d2308359c69abc19c",
+    "how": "cut from the master by word-book/tools/extract-sentence-word.py (PR #899) using the ElevenLabs character alignment; afconvert AAC mono 64 kbps .m4a; peak-matched to A; zero synthesis credits",
+    "cut_s": [
+     0.5002,
+     0.6168
+    ]
+   },
+   "C": {
+    "file": "audio/be.exist-or-have-a-quality.C.m4a",
+    "how": "afconvert -f m4af -d aac -c 1 -b 64000 of the master",
+    "sha256": "61fc20887fb270e7076e61194aedbb68aa7b1c361e93a95d4b06882a8c2c9f94"
+   }
+  },
+  {
+   "sense": "best.highest-quality",
+   "word": "best",
+   "text": "This is the best spot for our picnic.",
+   "master": {
+    "path": "word-book/audio-source/sentences/best.highest-quality.mp3",
+    "sha256": "ff68321f082a8297d741cd1f5af911b1b32d32db54e2000dd16a62b779bb9804",
+    "bytes": 39750,
+    "tool": "ElevenLabs API POST /v1/text-to-speech/{voice_id}/with-timestamps (word-book/tools/render-dictionary-sentences.py, PR #899)",
+    "model": "eleven_multilingual_v2",
+    "voice": "Alice - Clear, Engaging, Educational (British)",
+    "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+    "output_format": "mp3_44100_128",
+    "request_body": {
+     "text": "This is the best spot for our picnic.",
+     "model_id": "eleven_multilingual_v2"
+    },
+    "voice_settings": "none sent (same as audio/words/)",
+    "rendered_at": "2026-09-23T04:36:15Z",
+    "rendered_by": "PR #899 stage-2 pilot (reused, not re-bought)",
+    "copies": [
+     "~/.local/state/children-games/orch/paid-masters/word-book/audio-source/sentences/best.highest-quality.mp3",
+     "<sidecar>/word-book/audio-source/sentences/best.highest-quality.mp3"
+    ]
+   },
+   "alignment": {
+    "path": "word-book/audio-alignment/sentences/best.highest-quality.json",
+    "sidecar": "<sidecar>/word-book/audio-source/sentences/best.highest-quality.alignment.json"
+   },
+   "A": {
+    "file": "audio/best.highest-quality.A.m4a",
+    "derived_from": "word-book/audio/words/best.m4a",
+    "how": "byte copy",
+    "sha256": "39793e0ac15da7946929ea8fe2f51f830c270ab9c2b83c1e2181db60d79a790d"
+   },
+   "B": {
+    "file": "audio/best.highest-quality.B.m4a",
+    "sha256": "1ff88e7446a9c7d874af9bbffe3287a29714c8134423b8c1f00a1c7747f74ff1",
+    "how": "cut from the master by word-book/tools/extract-sentence-word.py (PR #899) using the ElevenLabs character alignment; afconvert AAC mono 64 kbps .m4a; peak-matched to A; zero synthesis credits",
+    "cut_s": [
+     0.5325,
+     0.8318
+    ]
+   },
+   "C": {
+    "file": "audio/best.highest-quality.C.m4a",
+    "how": "afconvert -f m4af -d aac -c 1 -b 64000 of the master",
+    "sha256": "ad052e9b8cb897fd09622b3c27d2afd07497b2b74456ca33f2fa058b0833a7b1"
+   }
+  },
+  {
+   "sense": "bone.body-part",
+   "word": "bone",
+   "text": "The doctor shows us a picture of a bone.",
+   "master": {
+    "path": "word-book/audio-source/sentences/bone.body-part.mp3",
+    "sha256": "0951ae9ea847a2fb444ee3d7ce6ca94f6450f39c1807d118f1ace96258b93ff0",
+    "bytes": 37660,
+    "tool": "ElevenLabs API POST /v1/text-to-speech/{voice_id}/with-timestamps (word-book/tools/render-dictionary-sentences.py, PR #899)",
+    "model": "eleven_multilingual_v2",
+    "voice": "Alice - Clear, Engaging, Educational (British)",
+    "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+    "output_format": "mp3_44100_128",
+    "request_body": {
+     "text": "The doctor shows us a picture of a bone.",
+     "model_id": "eleven_multilingual_v2"
+    },
+    "voice_settings": "none sent (same as audio/words/)",
+    "rendered_at": "2026-09-23T04:36:16Z",
+    "rendered_by": "PR #899 stage-2 pilot (reused, not re-bought)",
+    "copies": [
+     "~/.local/state/children-games/orch/paid-masters/word-book/audio-source/sentences/bone.body-part.mp3",
+     "<sidecar>/word-book/audio-source/sentences/bone.body-part.mp3"
+    ]
+   },
+   "alignment": {
+    "path": "word-book/audio-alignment/sentences/bone.body-part.json",
+    "sidecar": "<sidecar>/word-book/audio-source/sentences/bone.body-part.alignment.json"
+   },
+   "A": {
+    "file": "audio/bone.body-part.A.m4a",
+    "derived_from": "word-book/audio/words/bone.m4a",
+    "how": "byte copy",
+    "sha256": "12eb5abd1f64f5c49254781965fe19ab69ad7c83c7cd7cfc0d59f694abaa4038"
+   },
+   "B": {
+    "file": "audio/bone.body-part.B.m4a",
+    "sha256": "013cdf145b1a761a56a58feaaf772f442cf5002679ae00a6a92b9980bcc24d7c",
+    "how": "cut from the master by word-book/tools/extract-sentence-word.py (PR #899) using the ElevenLabs character alignment; afconvert AAC mono 64 kbps .m4a; peak-matched to A; zero synthesis credits",
+    "cut_s": [
+     1.5279,
+     1.992
+    ]
+   },
+   "C": {
+    "file": "audio/bone.body-part.C.m4a",
+    "how": "afconvert -f m4af -d aac -c 1 -b 64000 of the master",
+    "sha256": "66625ebb2e0eb3ab41bd8253f5af1ac31403b7473f5ffefb10e50c51463dce5a"
+   }
+  },
+  {
+   "sense": "bun.food",
+   "word": "bun",
+   "text": "I choose a soft round bun.",
+   "master": {
+    "path": "word-book/audio-source/sentences/bun.food.mp3",
+    "sha256": "5a45087a27dabe57c195a901725630731ef2b7b812a40c4a6f00fc3a62a3678d",
+    "bytes": 32226,
+    "tool": "ElevenLabs API POST /v1/text-to-speech/{voice_id}/with-timestamps (word-book/tools/render-dictionary-sentences.py, PR #899)",
+    "model": "eleven_multilingual_v2",
+    "voice": "Alice - Clear, Engaging, Educational (British)",
+    "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+    "output_format": "mp3_44100_128",
+    "request_body": {
+     "text": "I choose a soft round bun.",
+     "model_id": "eleven_multilingual_v2"
+    },
+    "voice_settings": "none sent (same as audio/words/)",
+    "rendered_at": "2026-09-23T04:36:17Z",
+    "rendered_by": "PR #899 stage-2 pilot (reused, not re-bought)",
+    "copies": [
+     "~/.local/state/children-games/orch/paid-masters/word-book/audio-source/sentences/bun.food.mp3",
+     "<sidecar>/word-book/audio-source/sentences/bun.food.mp3"
+    ]
+   },
+   "alignment": {
+    "path": "word-book/audio-alignment/sentences/bun.food.json",
+    "sidecar": "<sidecar>/word-book/audio-source/sentences/bun.food.alignment.json"
+   },
+   "A": {
+    "file": "audio/bun.food.A.m4a",
+    "derived_from": "word-book/audio/words/bun.m4a",
+    "how": "byte copy",
+    "sha256": "ab49f129f5d1bf10156d86fabbb9dac9dfc6cd2c0c00d0993f27fcade682b5d6"
+   },
+   "B": {
+    "file": "audio/bun.food.B.m4a",
+    "sha256": "2ee9255f146dbf11710606ad84d1c9f617311caba29864d50858b3348602be41",
+    "how": "cut from the master by word-book/tools/extract-sentence-word.py (PR #899) using the ElevenLabs character alignment; afconvert AAC mono 64 kbps .m4a; peak-matched to A; zero synthesis credits",
+    "cut_s": [
+     1.262,
+     1.6702
+    ]
+   },
+   "C": {
+    "file": "audio/bun.food.C.m4a",
+    "how": "afconvert -f m4af -d aac -c 1 -b 64000 of the master",
+    "sha256": "f3782a24ab17e7140587aca238d6bf3306fa46ee65ab643d3b7e2f988442d513"
+   }
+  },
+  {
+   "sense": "base.bottom-support",
+   "word": "base",
+   "text": "The rocket waits on its launch base.",
+   "master": {
+    "path": "word-book/audio-source/sentences/base.bottom-support.mp3",
+    "sha256": "9e0f789970ebbda922fb65944b4d6cae56df165f3306bc1f660a7f0efade6f6f",
+    "bytes": 37660,
+    "tool": "ElevenLabs API POST /v1/text-to-speech/{voice_id}/with-timestamps (word-book/tools/render-dictionary-sentences.py, PR #899)",
+    "model": "eleven_multilingual_v2",
+    "voice": "Alice - Clear, Engaging, Educational (British)",
+    "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+    "output_format": "mp3_44100_128",
+    "request_body": {
+     "text": "The rocket waits on its launch base.",
+     "model_id": "eleven_multilingual_v2"
+    },
+    "voice_settings": "none sent (same as audio/words/)",
+    "rendered_at": "2026-09-23T04:36:18Z",
+    "rendered_by": "PR #899 stage-2 pilot (reused, not re-bought)",
+    "copies": [
+     "~/.local/state/children-games/orch/paid-masters/word-book/audio-source/sentences/base.bottom-support.mp3",
+     "<sidecar>/word-book/audio-source/sentences/base.bottom-support.mp3"
+    ]
+   },
+   "alignment": {
+    "path": "word-book/audio-alignment/sentences/base.bottom-support.json",
+    "sidecar": "<sidecar>/word-book/audio-source/sentences/base.bottom-support.alignment.json"
+   },
+   "A": {
+    "file": "audio/base.bottom-support.A.m4a",
+    "derived_from": "word-book/audio/words/base.m4a",
+    "how": "byte copy",
+    "sha256": "1009384bc1a4bb8c9e08120774ccc8671e8a9b1d4e390e1d0b77544eb546aad5"
+   },
+   "B": {
+    "file": "audio/base.bottom-support.B.m4a",
+    "sha256": "f4b5bf0b29a781998ddb44de2e19a92b4b4ed4ddb833b04531aa89291784ad90",
+    "how": "cut from the master by word-book/tools/extract-sentence-word.py (PR #899) using the ElevenLabs character alignment; afconvert AAC mono 64 kbps .m4a; peak-matched to A; zero synthesis credits",
+    "cut_s": [
+     1.5783,
+     2.0615
+    ]
+   },
+   "C": {
+    "file": "audio/base.bottom-support.C.m4a",
+    "how": "afconvert -f m4af -d aac -c 1 -b 64000 of the master",
+    "sha256": "9bab249f7367dfce4fde13d6e15356f44857f15dfb658775093373100299c7fa"
+   }
+  },
+  {
+   "sense": "car.road-vehicle",
+   "word": "car",
+   "text": "Dad parks the car beside the library.",
+   "master": {
+    "path": "word-book/audio-source/sentences/car.road-vehicle.mp3",
+    "sha256": "0170e59ac7c2700ac9b6a388239c84fe78406dcc35923bff78c85a1a9a3aa5f4",
+    "bytes": 38078,
+    "tool": "ElevenLabs API POST /v1/text-to-speech/{voice_id}/with-timestamps (word-book/tools/render-dictionary-sentences.py, PR #899)",
+    "model": "eleven_multilingual_v2",
+    "voice": "Alice - Clear, Engaging, Educational (British)",
+    "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+    "output_format": "mp3_44100_128",
+    "request_body": {
+     "text": "Dad parks the car beside the library.",
+     "model_id": "eleven_multilingual_v2"
+    },
+    "voice_settings": "none sent (same as audio/words/)",
+    "rendered_at": "2026-09-23T14:12:30Z",
+    "rendered_by": "this task (CG-185 comparison set)",
+    "copies": [
+     "~/.local/state/children-games/orch/paid-masters/word-book/audio-source/sentences/car.road-vehicle.mp3",
+     "<sidecar>/word-book/audio-source/sentences/car.road-vehicle.mp3"
+    ]
+   },
+   "alignment": {
+    "path": "word-book/audio-alignment/sentences/car.road-vehicle.json",
+    "sidecar": "<sidecar>/word-book/audio-source/sentences/car.road-vehicle.alignment.json"
+   },
+   "A": {
+    "file": "audio/car.road-vehicle.A.m4a",
+    "derived_from": "word-book/audio/words/car.m4a",
+    "how": "byte copy",
+    "sha256": "a7506ef3c5b854d9147274dc01587bee41391d9ad5d076916395fafb184c6f48"
+   },
+   "B": {
+    "file": "audio/car.road-vehicle.B.m4a",
+    "sha256": "ef7754ca881706601f174bec8272b5b562a3018be4fb156cba359d1c25ed0a1d",
+    "how": "cut from the master by word-book/tools/extract-sentence-word.py (PR #899) using the ElevenLabs character alignment; afconvert AAC mono 64 kbps .m4a; peak-matched to A; zero synthesis credits",
+    "cut_s": [
+     0.8062,
+     1.0904
+    ]
+   },
+   "C": {
+    "file": "audio/car.road-vehicle.C.m4a",
+    "how": "afconvert -f m4af -d aac -c 1 -b 64000 of the master",
+    "sha256": "6d05d864b4c8a443671bc997d8a8a16c05d9ead4e776f404fbaae8fd565222b4"
+   }
+  },
+  {
+   "sense": "caravan.travelling-home",
+   "word": "caravan",
+   "text": "Our caravan has a tiny kitchen.",
+   "master": {
+    "path": "word-book/audio-source/sentences/caravan.travelling-home.mp3",
+    "sha256": "00b5426127749b8de5efbe4a9d4d81d442f400bb696d76d682908b43b9479e23",
+    "bytes": 38078,
+    "tool": "ElevenLabs API POST /v1/text-to-speech/{voice_id}/with-timestamps (word-book/tools/render-dictionary-sentences.py, PR #899)",
+    "model": "eleven_multilingual_v2",
+    "voice": "Alice - Clear, Engaging, Educational (British)",
+    "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+    "output_format": "mp3_44100_128",
+    "request_body": {
+     "text": "Our caravan has a tiny kitchen.",
+     "model_id": "eleven_multilingual_v2"
+    },
+    "voice_settings": "none sent (same as audio/words/)",
+    "rendered_at": "2026-09-23T14:12:31Z",
+    "rendered_by": "this task (CG-185 comparison set)",
+    "copies": [
+     "~/.local/state/children-games/orch/paid-masters/word-book/audio-source/sentences/caravan.travelling-home.mp3",
+     "<sidecar>/word-book/audio-source/sentences/caravan.travelling-home.mp3"
+    ]
+   },
+   "alignment": {
+    "path": "word-book/audio-alignment/sentences/caravan.travelling-home.json",
+    "sidecar": "<sidecar>/word-book/audio-source/sentences/caravan.travelling-home.alignment.json"
+   },
+   "A": {
+    "file": "audio/caravan.travelling-home.A.m4a",
+    "derived_from": "word-book/audio/words/caravan.m4a",
+    "how": "byte copy",
+    "sha256": "96bee248ba3fef355fee0c8cc90b63b00cb49b255665f47747cdb176a54b9fd5"
+   },
+   "B": {
+    "file": "audio/caravan.travelling-home.B.m4a",
+    "sha256": "7bae52e52062aa2ea1c3429e5f74e4ff7ec8ec84e41d01eff5839b895fa48833",
+    "how": "cut from the master by word-book/tools/extract-sentence-word.py (PR #899) using the ElevenLabs character alignment; afconvert AAC mono 64 kbps .m4a; peak-matched to A; zero synthesis credits",
+    "cut_s": [
+     0.213,
+     0.7847
+    ]
+   },
+   "C": {
+    "file": "audio/caravan.travelling-home.C.m4a",
+    "how": "afconvert -f m4af -d aac -c 1 -b 64000 of the master",
+    "sha256": "2d7145e6971586a616705070306d0fc4abf5b611dd6a78c08327d28aa31bfe31"
+   }
+  },
+  {
+   "sense": "care.be-concerned",
+   "word": "care",
+   "text": "We care about the animals in our garden.",
+   "master": {
+    "path": "word-book/audio-source/sentences/care.be-concerned.mp3",
+    "sha256": "8784869b90e9ae15982906ab5778ddd6632c3097d5d67c3100b771dd85fd81e6",
+    "bytes": 38914,
+    "tool": "ElevenLabs API POST /v1/text-to-speech/{voice_id}/with-timestamps (word-book/tools/render-dictionary-sentences.py, PR #899)",
+    "model": "eleven_multilingual_v2",
+    "voice": "Alice - Clear, Engaging, Educational (British)",
+    "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+    "output_format": "mp3_44100_128",
+    "request_body": {
+     "text": "We care about the animals in our garden.",
+     "model_id": "eleven_multilingual_v2"
+    },
+    "voice_settings": "none sent (same as audio/words/)",
+    "rendered_at": "2026-09-23T14:12:32Z",
+    "rendered_by": "this task (CG-185 comparison set)",
+    "copies": [
+     "~/.local/state/children-games/orch/paid-masters/word-book/audio-source/sentences/care.be-concerned.mp3",
+     "<sidecar>/word-book/audio-source/sentences/care.be-concerned.mp3"
+    ]
+   },
+   "alignment": {
+    "path": "word-book/audio-alignment/sentences/care.be-concerned.json",
+    "sidecar": "<sidecar>/word-book/audio-source/sentences/care.be-concerned.alignment.json"
+   },
+   "A": {
+    "file": "audio/care.be-concerned.A.m4a",
+    "derived_from": "word-book/audio/words/care.m4a",
+    "how": "byte copy",
+    "sha256": "98f060bc677e961f2fc3ff16545c31dec8947a6aaf812713b6b48e6942deef20"
+   },
+   "B": {
+    "file": "audio/care.be-concerned.B.m4a",
+    "sha256": "1af8a95eefbe3360dab9a5da3c26a659ea2713dedf6fc898cef9f40d67f4c2f5",
+    "how": "cut from the master by word-book/tools/extract-sentence-word.py (PR #899) using the ElevenLabs character alignment; afconvert AAC mono 64 kbps .m4a; peak-matched to A; zero synthesis credits",
+    "cut_s": [
+     0.2165,
+     0.4758
+    ]
+   },
+   "C": {
+    "file": "audio/care.be-concerned.C.m4a",
+    "how": "afconvert -f m4af -d aac -c 1 -b 64000 of the master",
+    "sha256": "81ac5ea97aa79e4d70916a8c7c55bed885f9d8b4052a29715bede676299b4219"
+   }
+  },
+  {
+   "sense": "chop.cut-into-pieces",
+   "word": "chop",
+   "text": "Dad helps me chop the vegetables.",
+   "master": {
+    "path": "word-book/audio-source/sentences/chop.cut-into-pieces.mp3",
+    "sha256": "183afa965212a4ddf4018a3190cc0ce950bf4bdfd589b40be392d5b61c4aa68c",
+    "bytes": 34316,
+    "tool": "ElevenLabs API POST /v1/text-to-speech/{voice_id}/with-timestamps (word-book/tools/render-dictionary-sentences.py, PR #899)",
+    "model": "eleven_multilingual_v2",
+    "voice": "Alice - Clear, Engaging, Educational (British)",
+    "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+    "output_format": "mp3_44100_128",
+    "request_body": {
+     "text": "Dad helps me chop the vegetables.",
+     "model_id": "eleven_multilingual_v2"
+    },
+    "voice_settings": "none sent (same as audio/words/)",
+    "rendered_at": "2026-09-23T14:12:33Z",
+    "rendered_by": "this task (CG-185 comparison set)",
+    "copies": [
+     "~/.local/state/children-games/orch/paid-masters/word-book/audio-source/sentences/chop.cut-into-pieces.mp3",
+     "<sidecar>/word-book/audio-source/sentences/chop.cut-into-pieces.mp3"
+    ]
+   },
+   "alignment": {
+    "path": "word-book/audio-alignment/sentences/chop.cut-into-pieces.json",
+    "sidecar": "<sidecar>/word-book/audio-source/sentences/chop.cut-into-pieces.alignment.json"
+   },
+   "A": {
+    "file": "audio/chop.cut-into-pieces.A.m4a",
+    "derived_from": "word-book/audio/words/chop.m4a",
+    "how": "byte copy",
+    "sha256": "a97399137cea4c8b9217eedeee9491571b45fdb4bf64089351d3e44e4ec6a712"
+   },
+   "B": {
+    "file": "audio/chop.cut-into-pieces.B.m4a",
+    "sha256": "b1ded8587cf3fac0a8fb2f79ae8a95e0fe067e97469ae081bf72a234b9b4c762",
+    "how": "cut from the master by word-book/tools/extract-sentence-word.py (PR #899) using the ElevenLabs character alignment; afconvert AAC mono 64 kbps .m4a; peak-matched to A; zero synthesis credits",
+    "cut_s": [
+     0.7473,
+     0.989
+    ]
+   },
+   "C": {
+    "file": "audio/chop.cut-into-pieces.C.m4a",
+    "how": "afconvert -f m4af -d aac -c 1 -b 64000 of the master",
+    "sha256": "99739127dd42cc0844f4e1014ebafcad2c6345b3039c38f4abe73c68cf8c845c"
+   }
+  },
+  {
+   "sense": "cone.solid-shape",
+   "word": "cone",
+   "text": "The party hat looks like a cone.",
+   "master": {
+    "path": "word-book/audio-source/sentences/cone.solid-shape.mp3",
+    "sha256": "505838d72595126c4af1c7679c34e714332fc7ac74fedd2287aef97da0dc2e6e",
+    "bytes": 32226,
+    "tool": "ElevenLabs API POST /v1/text-to-speech/{voice_id}/with-timestamps (word-book/tools/render-dictionary-sentences.py, PR #899)",
+    "model": "eleven_multilingual_v2",
+    "voice": "Alice - Clear, Engaging, Educational (British)",
+    "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+    "output_format": "mp3_44100_128",
+    "request_body": {
+     "text": "The party hat looks like a cone.",
+     "model_id": "eleven_multilingual_v2"
+    },
+    "voice_settings": "none sent (same as audio/words/)",
+    "rendered_at": "2026-09-23T14:12:34Z",
+    "rendered_by": "this task (CG-185 comparison set)",
+    "copies": [
+     "~/.local/state/children-games/orch/paid-masters/word-book/audio-source/sentences/cone.solid-shape.mp3",
+     "<sidecar>/word-book/audio-source/sentences/cone.solid-shape.mp3"
+    ]
+   },
+   "alignment": {
+    "path": "word-book/audio-alignment/sentences/cone.solid-shape.json",
+    "sidecar": "<sidecar>/word-book/audio-source/sentences/cone.solid-shape.alignment.json"
+   },
+   "A": {
+    "file": "audio/cone.solid-shape.A.m4a",
+    "derived_from": "word-book/audio/words/cone.m4a",
+    "how": "byte copy",
+    "sha256": "9227146aadc45ca1e46afdb8903c00a20d6485d19efe34202a3f3301103e2e32"
+   },
+   "B": {
+    "file": "audio/cone.solid-shape.B.m4a",
+    "sha256": "216f0bd985a828c52e04f84cbda73265321379c1430eef1aa4ae2ba0f49b6730",
+    "how": "cut from the master by word-book/tools/extract-sentence-word.py (PR #899) using the ElevenLabs character alignment; afconvert AAC mono 64 kbps .m4a; peak-matched to A; zero synthesis credits",
+    "cut_s": [
+     1.1745,
+     1.6658
+    ]
+   },
+   "C": {
+    "file": "audio/cone.solid-shape.C.m4a",
+    "how": "afconvert -f m4af -d aac -c 1 -b 64000 of the master",
+    "sha256": "c5a9e8783964c0237861d2bf8704c541defb72e7c9ee9232d51bf823905e381f"
+   }
+  },
+  {
+   "sense": "connect.link",
+   "word": "connect",
+   "text": "We connect two tubes to build our model space station.",
+   "master": {
+    "path": "word-book/audio-source/sentences/connect.link.mp3",
+    "sha256": "fbb68fda6641a55095bae3dacdf70c3cd3640adccd96ba7167ea4ed14f7fe146",
+    "bytes": 53960,
+    "tool": "ElevenLabs API POST /v1/text-to-speech/{voice_id}/with-timestamps (word-book/tools/render-dictionary-sentences.py, PR #899)",
+    "model": "eleven_multilingual_v2",
+    "voice": "Alice - Clear, Engaging, Educational (British)",
+    "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+    "output_format": "mp3_44100_128",
+    "request_body": {
+     "text": "We connect two tubes to build our model space station.",
+     "model_id": "eleven_multilingual_v2"
+    },
+    "voice_settings": "none sent (same as audio/words/)",
+    "rendered_at": "2026-09-23T14:12:36Z",
+    "rendered_by": "this task (CG-185 comparison set)",
+    "copies": [
+     "~/.local/state/children-games/orch/paid-masters/word-book/audio-source/sentences/connect.link.mp3",
+     "<sidecar>/word-book/audio-source/sentences/connect.link.mp3"
+    ]
+   },
+   "alignment": {
+    "path": "word-book/audio-alignment/sentences/connect.link.json",
+    "sidecar": "<sidecar>/word-book/audio-source/sentences/connect.link.alignment.json"
+   },
+   "A": {
+    "file": "audio/connect.link.A.m4a",
+    "derived_from": "word-book/audio/words/connect.m4a",
+    "how": "byte copy",
+    "sha256": "31d6f6bce31a299fbb1edb9c7b8d3dd1f4034923832889d724e25c2d13037e5e"
+   },
+   "B": {
+    "file": "audio/connect.link.B.m4a",
+    "sha256": "73aa304266acb462d3d40c6bc0fc9dda91bc9ef8809be94dbc162a6eaab3c01c",
+    "how": "cut from the master by word-book/tools/extract-sentence-word.py (PR #899) using the ElevenLabs character alignment; afconvert AAC mono 64 kbps .m4a; peak-matched to A; zero synthesis credits",
+    "cut_s": [
+     0.2326,
+     0.5835
+    ]
+   },
+   "C": {
+    "file": "audio/connect.link.C.m4a",
+    "how": "afconvert -f m4af -d aac -c 1 -b 64000 of the master",
+    "sha256": "604932704f2c0eacf489fcc58dad4e382aec237fc48919b2fa1ecd5b72455d3e"
+   }
+  },
+  {
+   "sense": "costume.dress-up-clothes",
+   "word": "costume",
+   "text": "My costume makes me look like an astronaut.",
+   "master": {
+    "path": "word-book/audio-source/sentences/costume.dress-up-clothes.mp3",
+    "sha256": "2726f8ad3c32fa05711254dcd131a6cb9441832351a73928f023dee052a3cb46",
+    "bytes": 38914,
+    "tool": "ElevenLabs API POST /v1/text-to-speech/{voice_id}/with-timestamps (word-book/tools/render-dictionary-sentences.py, PR #899)",
+    "model": "eleven_multilingual_v2",
+    "voice": "Alice - Clear, Engaging, Educational (British)",
+    "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+    "output_format": "mp3_44100_128",
+    "request_body": {
+     "text": "My costume makes me look like an astronaut.",
+     "model_id": "eleven_multilingual_v2"
+    },
+    "voice_settings": "none sent (same as audio/words/)",
+    "rendered_at": "2026-09-23T14:12:37Z",
+    "rendered_by": "this task (CG-185 comparison set)",
+    "copies": [
+     "~/.local/state/children-games/orch/paid-masters/word-book/audio-source/sentences/costume.dress-up-clothes.mp3",
+     "<sidecar>/word-book/audio-source/sentences/costume.dress-up-clothes.mp3"
+    ]
+   },
+   "alignment": {
+    "path": "word-book/audio-alignment/sentences/costume.dress-up-clothes.json",
+    "sidecar": "<sidecar>/word-book/audio-source/sentences/costume.dress-up-clothes.alignment.json"
+   },
+   "A": {
+    "file": "audio/costume.dress-up-clothes.A.m4a",
+    "derived_from": "word-book/audio/words/costume.m4a",
+    "how": "byte copy",
+    "sha256": "cc54cf1fd9609b15de23bb98877b517d6b6d2e26b022ca6abbfdd6756d2eb777"
+   },
+   "B": {
+    "file": "audio/costume.dress-up-clothes.B.m4a",
+    "sha256": "d0f6a47cd5c16936d7821701c9c1051abdb71d68aa78d88ab15d63512a1f1cc2",
+    "how": "cut from the master by word-book/tools/extract-sentence-word.py (PR #899) using the ElevenLabs character alignment; afconvert AAC mono 64 kbps .m4a; peak-matched to A; zero synthesis credits",
+    "cut_s": [
+     0.2208,
+     0.6261
+    ]
+   },
+   "C": {
+    "file": "audio/costume.dress-up-clothes.C.m4a",
+    "how": "afconvert -f m4af -d aac -c 1 -b 64000 of the master",
+    "sha256": "261b6c19c03b6e2f409285fcd15a08c2659fe28cce32e11e065615a7683b0b9f"
+   }
+  },
+  {
+   "sense": "cupcake.food",
+   "word": "cupcake",
+   "text": "My cupcake has a pink flower on top.",
+   "master": {
+    "path": "word-book/audio-source/sentences/cupcake.food.mp3",
+    "sha256": "a857b161162576cac7112b630723f40df14a9a52ecb011f746d90b4f5fcc215d",
+    "bytes": 38078,
+    "tool": "ElevenLabs API POST /v1/text-to-speech/{voice_id}/with-timestamps (word-book/tools/render-dictionary-sentences.py, PR #899)",
+    "model": "eleven_multilingual_v2",
+    "voice": "Alice - Clear, Engaging, Educational (British)",
+    "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+    "output_format": "mp3_44100_128",
+    "request_body": {
+     "text": "My cupcake has a pink flower on top.",
+     "model_id": "eleven_multilingual_v2"
+    },
+    "voice_settings": "none sent (same as audio/words/)",
+    "rendered_at": "2026-09-23T14:12:38Z",
+    "rendered_by": "this task (CG-185 comparison set)",
+    "copies": [
+     "~/.local/state/children-games/orch/paid-masters/word-book/audio-source/sentences/cupcake.food.mp3",
+     "<sidecar>/word-book/audio-source/sentences/cupcake.food.mp3"
+    ]
+   },
+   "alignment": {
+    "path": "word-book/audio-alignment/sentences/cupcake.food.json",
+    "sidecar": "<sidecar>/word-book/audio-source/sentences/cupcake.food.alignment.json"
+   },
+   "A": {
+    "file": "audio/cupcake.food.A.m4a",
+    "derived_from": "word-book/audio/words/cupcake.m4a",
+    "how": "byte copy",
+    "sha256": "218e5dac84062c7165a67f90edb64e58376e953739c2aef70ec15a3dac02ae3f"
+   },
+   "B": {
+    "file": "audio/cupcake.food.B.m4a",
+    "sha256": "9783bf6f046d40305604054b47980a1d19848646482ec484ccce5e8dd919a0e4",
+    "how": "cut from the master by word-book/tools/extract-sentence-word.py (PR #899) using the ElevenLabs character alignment; afconvert AAC mono 64 kbps .m4a; peak-matched to A; zero synthesis credits",
+    "cut_s": [
+     0.2379,
+     0.6875
+    ]
+   },
+   "C": {
+    "file": "audio/cupcake.food.C.m4a",
+    "how": "afconvert -f m4af -d aac -c 1 -b 64000 of the master",
+    "sha256": "fac6b88dcdf5088d1ab559da9c8f2389c1084fc36a628b467313d1507078072a"
+   }
+  },
+  {
+   "sense": "date.calendar-day",
+   "word": "date",
+   "text": "We write the date at the top of the page.",
+   "master": {
+    "path": "word-book/audio-source/sentences/date.calendar-day.mp3",
+    "sha256": "01d5a5a3c5ddb797a5ddc384065e88af50732a45609726b5111df5d6427c6b5f",
+    "bytes": 37660,
+    "tool": "ElevenLabs API POST /v1/text-to-speech/{voice_id}/with-timestamps (word-book/tools/render-dictionary-sentences.py, PR #899)",
+    "model": "eleven_multilingual_v2",
+    "voice": "Alice - Clear, Engaging, Educational (British)",
+    "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+    "output_format": "mp3_44100_128",
+    "request_body": {
+     "text": "We write the date at the top of the page.",
+     "model_id": "eleven_multilingual_v2"
+    },
+    "voice_settings": "none sent (same as audio/words/)",
+    "rendered_at": "2026-09-23T14:12:40Z",
+    "rendered_by": "this task (CG-185 comparison set)",
+    "copies": [
+     "~/.local/state/children-games/orch/paid-masters/word-book/audio-source/sentences/date.calendar-day.mp3",
+     "<sidecar>/word-book/audio-source/sentences/date.calendar-day.mp3"
+    ]
+   },
+   "alignment": {
+    "path": "word-book/audio-alignment/sentences/date.calendar-day.json",
+    "sidecar": "<sidecar>/word-book/audio-source/sentences/date.calendar-day.alignment.json"
+   },
+   "A": {
+    "file": "audio/date.calendar-day.A.m4a",
+    "derived_from": "word-book/audio/words/date.m4a",
+    "how": "byte copy",
+    "sha256": "421e3febcc503005fd050ba25120fe17bc9d6555a9e56111a1805de15ecb0539"
+   },
+   "B": {
+    "file": "audio/date.calendar-day.B.m4a",
+    "sha256": "cc8ad39ca87f8b764d55a0afd0365dfbc7cc29f0508e7921fbcdc8121776fdff",
+    "how": "cut from the master by word-book/tools/extract-sentence-word.py (PR #899) using the ElevenLabs character alignment; afconvert AAC mono 64 kbps .m4a; peak-matched to A; zero synthesis credits",
+    "cut_s": [
+     0.564,
+     0.804
+    ]
+   },
+   "C": {
+    "file": "audio/date.calendar-day.C.m4a",
+    "how": "afconvert -f m4af -d aac -c 1 -b 64000 of the master",
+    "sha256": "601c53178ac601f540360c0f04b3eb2596f96d98763a3c51be3fe77d3a05f521"
+   }
+  },
+  {
+   "sense": "date.fruit",
+   "word": "date",
+   "text": "I take the stone out of the date.",
+   "master": {
+    "path": "word-book/audio-source/sentences/date.fruit.mp3",
+    "sha256": "a48c413fa82456281199a10d066fdb328d7ae20a64626c159e8192a3bef79548",
+    "bytes": 34316,
+    "tool": "ElevenLabs API POST /v1/text-to-speech/{voice_id}/with-timestamps (word-book/tools/render-dictionary-sentences.py, PR #899)",
+    "model": "eleven_multilingual_v2",
+    "voice": "Alice - Clear, Engaging, Educational (British)",
+    "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+    "output_format": "mp3_44100_128",
+    "request_body": {
+     "text": "I take the stone out of the date.",
+     "model_id": "eleven_multilingual_v2"
+    },
+    "voice_settings": "none sent (same as audio/words/)",
+    "rendered_at": "2026-09-23T14:12:41Z",
+    "rendered_by": "this task (CG-185 comparison set)",
+    "copies": [
+     "~/.local/state/children-games/orch/paid-masters/word-book/audio-source/sentences/date.fruit.mp3",
+     "<sidecar>/word-book/audio-source/sentences/date.fruit.mp3"
+    ]
+   },
+   "alignment": {
+    "path": "word-book/audio-alignment/sentences/date.fruit.json",
+    "sidecar": "<sidecar>/word-book/audio-source/sentences/date.fruit.alignment.json"
+   },
+   "A": {
+    "file": "audio/date.fruit.A.m4a",
+    "derived_from": "word-book/audio/words/date.m4a",
+    "how": "byte copy",
+    "sha256": "421e3febcc503005fd050ba25120fe17bc9d6555a9e56111a1805de15ecb0539"
+   },
+   "B": {
+    "file": "audio/date.fruit.B.m4a",
+    "sha256": "4411ed1410ca37d86d537b428c5b8dbfe1cc03640e49f61b27dc03970d9b3b39",
+    "how": "cut from the master by word-book/tools/extract-sentence-word.py (PR #899) using the ElevenLabs character alignment; afconvert AAC mono 64 kbps .m4a; peak-matched to A; zero synthesis credits",
+    "cut_s": [
+     1.3575,
+     1.8001
+    ]
+   },
+   "C": {
+    "file": "audio/date.fruit.C.m4a",
+    "how": "afconvert -f m4af -d aac -c 1 -b 64000 of the master",
+    "sha256": "99498f9abaa0a7631cd5f8740e132cf8273530ed67ab6e0fdb4158fbf7c51b9a"
+   }
+  },
+  {
+   "sense": "decide.make-a-choice",
+   "word": "decide",
+   "text": "We decide where to build our cardboard castle.",
+   "master": {
+    "path": "word-book/audio-source/sentences/decide.make-a-choice.mp3",
+    "sha256": "33bce2b787a3849e53aff5022f9cd158bc62173df6655e777e909f036045f28c",
+    "bytes": 47273,
+    "tool": "ElevenLabs API POST /v1/text-to-speech/{voice_id}/with-timestamps (word-book/tools/render-dictionary-sentences.py, PR #899)",
+    "model": "eleven_multilingual_v2",
+    "voice": "Alice - Clear, Engaging, Educational (British)",
+    "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+    "output_format": "mp3_44100_128",
+    "request_body": {
+     "text": "We decide where to build our cardboard castle.",
+     "model_id": "eleven_multilingual_v2"
+    },
+    "voice_settings": "none sent (same as audio/words/)",
+    "rendered_at": "2026-09-23T14:12:42Z",
+    "rendered_by": "this task (CG-185 comparison set)",
+    "copies": [
+     "~/.local/state/children-games/orch/paid-masters/word-book/audio-source/sentences/decide.make-a-choice.mp3",
+     "<sidecar>/word-book/audio-source/sentences/decide.make-a-choice.mp3"
+    ]
+   },
+   "alignment": {
+    "path": "word-book/audio-alignment/sentences/decide.make-a-choice.json",
+    "sidecar": "<sidecar>/word-book/audio-source/sentences/decide.make-a-choice.alignment.json"
+   },
+   "A": {
+    "file": "audio/decide.make-a-choice.A.m4a",
+    "derived_from": "word-book/audio/words/decide.m4a",
+    "how": "byte copy",
+    "sha256": "b5409c1d74787cd6532edb45a04ce111a730f046f1be7b2355189727ffcbbf47"
+   },
+   "B": {
+    "file": "audio/decide.make-a-choice.B.m4a",
+    "sha256": "2eb9c99e4390813dfb43a7c7caa92849f7d8cfdfd8ff85313ed3f4aac67cb1ae",
+    "how": "cut from the master by word-book/tools/extract-sentence-word.py (PR #899) using the ElevenLabs character alignment; afconvert AAC mono 64 kbps .m4a; peak-matched to A; zero synthesis credits",
+    "cut_s": [
+     0.2389,
+     0.7045
+    ]
+   },
+   "C": {
+    "file": "audio/decide.make-a-choice.C.m4a",
+    "how": "afconvert -f m4af -d aac -c 1 -b 64000 of the master",
+    "sha256": "fcd22282edcda99e0414cfbdeb3a902891a08049c6f20354f6031f703c33ad44"
+   }
+  },
+  {
+   "sense": "dew.water-drops",
+   "word": "dew",
+   "text": "Dew sparkles on the spider's web.",
+   "master": {
+    "path": "word-book/audio-source/sentences/dew.water-drops.mp3",
+    "sha256": "0a0db48db48ceade864204b87051c128b437bd5116d41a17613ca7097163effe",
+    "bytes": 38078,
+    "tool": "ElevenLabs API POST /v1/text-to-speech/{voice_id}/with-timestamps (word-book/tools/render-dictionary-sentences.py, PR #899)",
+    "model": "eleven_multilingual_v2",
+    "voice": "Alice - Clear, Engaging, Educational (British)",
+    "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+    "output_format": "mp3_44100_128",
+    "request_body": {
+     "text": "Dew sparkles on the spider's web.",
+     "model_id": "eleven_multilingual_v2"
+    },
+    "voice_settings": "none sent (same as audio/words/)",
+    "rendered_at": "2026-09-23T14:12:43Z",
+    "rendered_by": "this task (CG-185 comparison set)",
+    "copies": [
+     "~/.local/state/children-games/orch/paid-masters/word-book/audio-source/sentences/dew.water-drops.mp3",
+     "<sidecar>/word-book/audio-source/sentences/dew.water-drops.mp3"
+    ]
+   },
+   "alignment": {
+    "path": "word-book/audio-alignment/sentences/dew.water-drops.json",
+    "sidecar": "<sidecar>/word-book/audio-source/sentences/dew.water-drops.alignment.json"
+   },
+   "A": {
+    "file": "audio/dew.water-drops.A.m4a",
+    "derived_from": "word-book/audio/words/dew.m4a",
+    "how": "byte copy",
+    "sha256": "3fbbdf080d06262496c3b956d00fa8a8587119ad03111c93562b7c68086155bd"
+   },
+   "B": {
+    "file": "audio/dew.water-drops.B.m4a",
+    "sha256": "6bdbedbee56cb21b00f243e42671b2de6686274e376c8996e5d7b5b1ef3bd624",
+    "how": "cut from the master by word-book/tools/extract-sentence-word.py (PR #899) using the ElevenLabs character alignment; afconvert AAC mono 64 kbps .m4a; peak-matched to A; zero synthesis credits",
+    "cut_s": [
+     0.0,
+     0.299
+    ]
+   },
+   "C": {
+    "file": "audio/dew.water-drops.C.m4a",
+    "how": "afconvert -f m4af -d aac -c 1 -b 64000 of the master",
+    "sha256": "ddfef9f50848fbd5b867386e12535209abe0b8de3665710d01af7f16d5e7eac2"
+   }
+  },
+  {
+   "sense": "dice.game-cubes",
+   "word": "dice",
+   "text": "We roll the dice to start the game.",
+   "master": {
+    "path": "word-book/audio-source/sentences/dice.game-cubes.mp3",
+    "sha256": "9e5335c793645b47bcd6c8778b615999a56cd4ad89cc11e95c536b18a7d6c895",
+    "bytes": 35988,
+    "tool": "ElevenLabs API POST /v1/text-to-speech/{voice_id}/with-timestamps (word-book/tools/render-dictionary-sentences.py, PR #899)",
+    "model": "eleven_multilingual_v2",
+    "voice": "Alice - Clear, Engaging, Educational (British)",
+    "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+    "output_format": "mp3_44100_128",
+    "request_body": {
+     "text": "We roll the dice to start the game.",
+     "model_id": "eleven_multilingual_v2"
+    },
+    "voice_settings": "none sent (same as audio/words/)",
+    "rendered_at": "2026-09-23T14:12:44Z",
+    "rendered_by": "this task (CG-185 comparison set)",
+    "copies": [
+     "~/.local/state/children-games/orch/paid-masters/word-book/audio-source/sentences/dice.game-cubes.mp3",
+     "<sidecar>/word-book/audio-source/sentences/dice.game-cubes.mp3"
+    ]
+   },
+   "alignment": {
+    "path": "word-book/audio-alignment/sentences/dice.game-cubes.json",
+    "sidecar": "<sidecar>/word-book/audio-source/sentences/dice.game-cubes.alignment.json"
+   },
+   "A": {
+    "file": "audio/dice.game-cubes.A.m4a",
+    "derived_from": "word-book/audio/words/dice.m4a",
+    "how": "byte copy",
+    "sha256": "ec2f250ea4f250a1126cffb6bb86affc907846ba50d3f9559ebeba803f6be047"
+   },
+   "B": {
+    "file": "audio/dice.game-cubes.B.m4a",
+    "sha256": "58614502e7717b12ec451ac55b07598bf0d92336da184bf7a75be6d817df0bcf",
+    "how": "cut from the master by word-book/tools/extract-sentence-word.py (PR #899) using the ElevenLabs character alignment; afconvert AAC mono 64 kbps .m4a; peak-matched to A; zero synthesis credits",
+    "cut_s": [
+     0.6024,
+     0.931
+    ]
+   },
+   "C": {
+    "file": "audio/dice.game-cubes.C.m4a",
+    "how": "afconvert -f m4af -d aac -c 1 -b 64000 of the master",
+    "sha256": "3e0759f92a3b4e7f619d3c4a3a0e14f0ff3ce384104cf97da1505dc20cbd1185"
+   }
+  },
+  {
+   "sense": "dive.go-underwater",
+   "word": "dive",
+   "text": "We watch the mermaid dive below the waves.",
+   "master": {
+    "path": "word-book/audio-source/sentences/dive.go-underwater.mp3",
+    "sha256": "24cabe5924fcd29d4a4e1f3ebd48155106788f384b6a29a928fc64b5f5ac8f40",
+    "bytes": 41839,
+    "tool": "ElevenLabs API POST /v1/text-to-speech/{voice_id}/with-timestamps (word-book/tools/render-dictionary-sentences.py, PR #899)",
+    "model": "eleven_multilingual_v2",
+    "voice": "Alice - Clear, Engaging, Educational (British)",
+    "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+    "output_format": "mp3_44100_128",
+    "request_body": {
+     "text": "We watch the mermaid dive below the waves.",
+     "model_id": "eleven_multilingual_v2"
+    },
+    "voice_settings": "none sent (same as audio/words/)",
+    "rendered_at": "2026-09-23T14:12:45Z",
+    "rendered_by": "this task (CG-185 comparison set)",
+    "copies": [
+     "~/.local/state/children-games/orch/paid-masters/word-book/audio-source/sentences/dive.go-underwater.mp3",
+     "<sidecar>/word-book/audio-source/sentences/dive.go-underwater.mp3"
+    ]
+   },
+   "alignment": {
+    "path": "word-book/audio-alignment/sentences/dive.go-underwater.json",
+    "sidecar": "<sidecar>/word-book/audio-source/sentences/dive.go-underwater.alignment.json"
+   },
+   "A": {
+    "file": "audio/dive.go-underwater.A.m4a",
+    "derived_from": "word-book/audio/words/dive.m4a",
+    "how": "byte copy",
+    "sha256": "ce8a66c027d5a05d1160755657f8b43df10151160dc46ec9b1679f5b276499a7"
+   },
+   "B": {
+    "file": "audio/dive.go-underwater.B.m4a",
+    "sha256": "0274fa4bd2cfe096d3e6698defe4c4b85d42cb746a5c443dca86c80b138c9e6e",
+    "how": "cut from the master by word-book/tools/extract-sentence-word.py (PR #899) using the ElevenLabs character alignment; afconvert AAC mono 64 kbps .m4a; peak-matched to A; zero synthesis credits",
+    "cut_s": [
+     1.0155,
+     1.3925
+    ]
+   },
+   "C": {
+    "file": "audio/dive.go-underwater.C.m4a",
+    "how": "afconvert -f m4af -d aac -c 1 -b 64000 of the master",
+    "sha256": "c9e3b5a83f0b408f01f74e646dd177ea211b8f258ab742bb51aac0991692b42c"
+   }
+  },
+  {
+   "sense": "explorer.traveller",
+   "word": "explorer",
+   "text": "The explorer follows the river on the map.",
+   "master": {
+    "path": "word-book/audio-source/sentences/explorer.traveller.mp3",
+    "sha256": "9ca220869be3ff805fbce942750d360f1c16b9bbc2426b4c650451de6730d7a0",
+    "bytes": 42675,
+    "tool": "ElevenLabs API POST /v1/text-to-speech/{voice_id}/with-timestamps (word-book/tools/render-dictionary-sentences.py, PR #899)",
+    "model": "eleven_multilingual_v2",
+    "voice": "Alice - Clear, Engaging, Educational (British)",
+    "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+    "output_format": "mp3_44100_128",
+    "request_body": {
+     "text": "The explorer follows the river on the map.",
+     "model_id": "eleven_multilingual_v2"
+    },
+    "voice_settings": "none sent (same as audio/words/)",
+    "rendered_at": "2026-09-23T14:12:46Z",
+    "rendered_by": "this task (CG-185 comparison set)",
+    "copies": [
+     "~/.local/state/children-games/orch/paid-masters/word-book/audio-source/sentences/explorer.traveller.mp3",
+     "<sidecar>/word-book/audio-source/sentences/explorer.traveller.mp3"
+    ]
+   },
+   "alignment": {
+    "path": "word-book/audio-alignment/sentences/explorer.traveller.json",
+    "sidecar": "<sidecar>/word-book/audio-source/sentences/explorer.traveller.alignment.json"
+   },
+   "A": {
+    "file": "audio/explorer.traveller.A.m4a",
+    "derived_from": "word-book/audio/words/explorer.m4a",
+    "how": "byte copy",
+    "sha256": "93be2cadcb4309696670f6eb3543908f81fbc25569c2354ec56182780ea34636"
+   },
+   "B": {
+    "file": "audio/explorer.traveller.B.m4a",
+    "sha256": "5b8da41733ba00cdeb4b6fb08bd88f1ac8377c4e2a8f9a5391abf5187a19ca02",
+    "how": "cut from the master by word-book/tools/extract-sentence-word.py (PR #899) using the ElevenLabs character alignment; afconvert AAC mono 64 kbps .m4a; peak-matched to A; zero synthesis credits",
+    "cut_s": [
+     0.2476,
+     0.836
+    ]
+   },
+   "C": {
+    "file": "audio/explorer.traveller.C.m4a",
+    "how": "afconvert -f m4af -d aac -c 1 -b 64000 of the master",
+    "sha256": "2c8a74ef0cd7a38123b8a260c2cc7d2466462a4b5482a585f630e9ca7faa5584"
+   }
+  }
+ ]
+}

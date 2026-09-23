@@ -1,0 +1,67 @@
+{
+ "sense": "base.bottom-support",
+ "word": "base",
+ "sentence": "The rocket waits on its launch base.",
+ "char_span": [
+  31,
+  35
+ ],
+ "word_index": 6,
+ "words_in_sentence": 7,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  1.579,
+  1.974
+ ],
+ "neighbours_s": {
+  "previous_char_end": 1.521,
+  "next_char_start": 1.974
+ },
+ "energy_dbfs_at_raw_edges": [
+  -52.6,
+  -33.1
+ ],
+ "quietest_near_start": {
+  "t": 1.5815,
+  "dbfs": -54.3
+ },
+ "quietest_near_end": {
+  "t": 2.004,
+  "dbfs": -47.7
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip",
+  "decay"
+ ],
+ "cut_s": [
+  1.5783,
+  2.0615
+ ],
+ "edge_shift_ms_vs_raw": [
+  -0.7,
+  87.5
+ ],
+ "energy_dbfs_at_cut": [
+  -52.4,
+  -67.3
+ ],
+ "word_audio_s": 0.4832,
+ "lead_tail_silence_s": [
+  0.22,
+  0.33
+ ],
+ "gain_db": 2.66,
+ "peak_dbfs_after": -6.63,
+ "level_to": "word-book/audio/words/base.m4a",
+ "out": "word-book/qa/sentence-compare-21/audio/base.bottom-support.B.m4a",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ],
+ "b_note": null
+}

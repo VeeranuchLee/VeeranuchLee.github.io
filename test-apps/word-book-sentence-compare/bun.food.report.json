@@ -1,0 +1,67 @@
+{
+ "sense": "bun.food",
+ "word": "bun",
+ "sentence": "I choose a soft round bun.",
+ "char_span": [
+  22,
+  25
+ ],
+ "word_index": 5,
+ "words_in_sentence": 6,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  1.242,
+  1.614
+ ],
+ "neighbours_s": {
+  "previous_char_end": 1.161,
+  "next_char_start": 1.614
+ },
+ "energy_dbfs_at_raw_edges": [
+  -68.7,
+  -35.0
+ ],
+ "quietest_near_start": {
+  "t": 1.272,
+  "dbfs": -87.8
+ },
+ "quietest_near_end": {
+  "t": 1.644,
+  "dbfs": -47.5
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip",
+  "decay"
+ ],
+ "cut_s": [
+  1.262,
+  1.6702
+ ],
+ "edge_shift_ms_vs_raw": [
+  20.0,
+  56.2
+ ],
+ "energy_dbfs_at_cut": [
+  -80.6,
+  -63.1
+ ],
+ "word_audio_s": 0.4083,
+ "lead_tail_silence_s": [
+  0.17,
+  0.214
+ ],
+ "gain_db": -7.38,
+ "peak_dbfs_after": -11.48,
+ "level_to": "word-book/audio/words/bun.m4a",
+ "out": "word-book/qa/sentence-compare-21/audio/bun.food.B.m4a",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ],
+ "b_note": null
+}

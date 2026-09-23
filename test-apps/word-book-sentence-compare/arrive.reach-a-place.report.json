@@ -1,0 +1,71 @@
+{
+ "sense": "arrive.reach-a-place",
+ "word": "arrive",
+ "sentence": "We arrive at school before the bell.",
+ "char_span": [
+  3,
+  9
+ ],
+ "word_index": 1,
+ "words_in_sentence": 7,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.197,
+  0.476
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.163,
+  "next_char_start": 0.511
+ },
+ "energy_dbfs_at_raw_edges": [
+  -15.5,
+  -30.6
+ ],
+ "quietest_near_start": {
+  "t": 0.137,
+  "dbfs": -18.3
+ },
+ "quietest_near_end": {
+  "t": 0.456,
+  "dbfs": -33.5
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "raw"
+ ],
+ "cut_s": [
+  0.1966,
+  0.476
+ ],
+ "edge_shift_ms_vs_raw": [
+  -0.4,
+  -0.0
+ ],
+ "energy_dbfs_at_cut": [
+  -15.5,
+  -30.6
+ ],
+ "word_audio_s": 0.2794,
+ "lead_tail_silence_s": [
+  0.065,
+  0.258
+ ],
+ "gain_db": 3.83,
+ "peak_dbfs_after": -6.3,
+ "level_to": "word-book/audio/words/arrive.m4a",
+ "out": "word-book/qa/sentence-compare-21/audio/arrive.reach-a-place.B.m4a",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -15.5 dBFS, above -35: inside speech, so clipped or smeared"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -30.6 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ],
+ "b_note": null
+}

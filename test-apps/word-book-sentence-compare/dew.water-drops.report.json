@@ -1,0 +1,67 @@
+{
+ "sense": "dew.water-drops",
+ "word": "dew",
+ "sentence": "Dew sparkles on the spider's web.",
+ "char_span": [
+  0,
+  3
+ ],
+ "word_index": 0,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.0,
+  0.279
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.0,
+  "next_char_start": 0.348
+ },
+ "energy_dbfs_at_raw_edges": [
+  -180.0,
+  -21.9
+ ],
+ "quietest_near_start": {
+  "t": 0.0,
+  "dbfs": -180.0
+ },
+ "quietest_near_end": {
+  "t": 0.299,
+  "dbfs": -31.9
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip",
+  "gap-min"
+ ],
+ "cut_s": [
+  0.0,
+  0.299
+ ],
+ "edge_shift_ms_vs_raw": [
+  0.0,
+  20.0
+ ],
+ "energy_dbfs_at_cut": [
+  -180.0,
+  -31.9
+ ],
+ "word_audio_s": 0.299,
+ "lead_tail_silence_s": [
+  0.15,
+  0.214
+ ],
+ "gain_db": 3.35,
+ "peak_dbfs_after": -7.67,
+ "level_to": "word-book/audio/words/dew.m4a",
+ "out": "word-book/qa/sentence-compare-21/audio/dew.water-drops.B.m4a",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -31.9 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ],
+ "b_note": null
+}

@@ -1,0 +1,67 @@
+{
+ "sense": "care.be-concerned",
+ "word": "care",
+ "sentence": "We care about the animals in our garden.",
+ "char_span": [
+  3,
+  7
+ ],
+ "word_index": 1,
+ "words_in_sentence": 8,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.232,
+  0.476
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.174,
+  "next_char_start": 0.511
+ },
+ "energy_dbfs_at_raw_edges": [
+  -67.9,
+  -18.4
+ ],
+ "quietest_near_start": {
+  "t": 0.227,
+  "dbfs": -70.9
+ },
+ "quietest_near_end": {
+  "t": 0.541,
+  "dbfs": -31.3
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip",
+  "raw"
+ ],
+ "cut_s": [
+  0.2165,
+  0.4758
+ ],
+ "edge_shift_ms_vs_raw": [
+  -15.5,
+  -0.2
+ ],
+ "energy_dbfs_at_cut": [
+  -64.9,
+  -18.4
+ ],
+ "word_audio_s": 0.2593,
+ "lead_tail_silence_s": [
+  0.01,
+  0.305
+ ],
+ "gain_db": 6.49,
+ "peak_dbfs_after": -4.7,
+ "level_to": "word-book/audio/words/care.m4a",
+ "out": "word-book/qa/sentence-compare-21/audio/care.be-concerned.B.m4a",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -18.4 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ],
+ "b_note": null
+}

@@ -1,0 +1,67 @@
+{
+ "sense": "bone.body-part",
+ "word": "bone",
+ "sentence": "The doctor shows us a picture of a bone.",
+ "char_span": [
+  35,
+  39
+ ],
+ "word_index": 8,
+ "words_in_sentence": 9,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  1.521,
+  1.927
+ ],
+ "neighbours_s": {
+  "previous_char_end": 1.451,
+  "next_char_start": 1.927
+ },
+ "energy_dbfs_at_raw_edges": [
+  -81.1,
+  -42.3
+ ],
+ "quietest_near_start": {
+  "t": 1.5385,
+  "dbfs": -88.6
+ },
+ "quietest_near_end": {
+  "t": 1.957,
+  "dbfs": -54.4
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip",
+  "decay"
+ ],
+ "cut_s": [
+  1.5279,
+  1.992
+ ],
+ "edge_shift_ms_vs_raw": [
+  6.9,
+  65.0
+ ],
+ "energy_dbfs_at_cut": [
+  -81.2,
+  -70.4
+ ],
+ "word_audio_s": 0.4641,
+ "lead_tail_silence_s": [
+  0.03,
+  0.253
+ ],
+ "gain_db": -2.05,
+ "peak_dbfs_after": -8.52,
+ "level_to": "word-book/audio/words/bone.m4a",
+ "out": "word-book/qa/sentence-compare-21/audio/bone.body-part.B.m4a",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ],
+ "b_note": null
+}
