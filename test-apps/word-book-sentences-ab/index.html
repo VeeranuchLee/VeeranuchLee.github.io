@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Word Book sentences</title>
+<!-- CG-202 listening page. PRIVATE QA instrument; no service worker. Clips are byte copies of
+     word-book/audio/sentences/<sense>.m4a on agent/sentence-audio-ab (sha256 in manifest.js). -->
+<style>
+  :root{--ink:#2b2530;--muted:#6f6676;--line:#e3dce6;--bg:#fbf7fb;--card:#fff;--acc:#7a4fb3;--pick:#f1e9f8;--bad:#fbe3df;--ok:#e2f3e8}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--ink:#efe9f2;--muted:#b3a9b9;--line:#3d3542;--bg:#1d1a20;--card:#27232b;--acc:#b394e0;--pick:#352c3d;--bad:#4a2621;--ok:#1f3a2a}}
+  :root[data-theme="dark"]{--ink:#efe9f2;--muted:#b3a9b9;--line:#3d3542;--bg:#1d1a20;--card:#27232b;--acc:#b394e0;--pick:#352c3d;--bad:#4a2621;--ok:#1f3a2a}
+  *{box-sizing:border-box} html,body{touch-action:manipulation}
+  body{margin:0;font:16px/1.5 ui-rounded,"Avenir Next",-apple-system,system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+  main{max-width:736px;margin:0 auto;padding:22px 16px 80px}
+  h1{font-size:22px;margin:0 0 4px} .sub{color:var(--muted);margin:0 0 12px}
+  .bar{position:sticky;top:0;z-index:2;background:var(--bg);padding:8px 0;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+  .row{display:grid;grid-template-columns:64px 1fr;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin:0 0 10px}
+  .row.bad{background:var(--bad)} .row.ok{background:var(--ok)}
+  button{font:inherit;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:12px;cursor:pointer}
+  button.play{width:64px;height:64px;font-size:26px} button.play.on{border-color:var(--acc);background:var(--pick)}
+  .w{font-weight:700;font-size:18px} .w small{color:var(--muted);font-weight:400;font-size:13px}
+  .s{font-size:17px}
+  .marks{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap} .marks button{padding:6px 12px;min-height:40px;font-size:14px}
+  .marks button.sel{border-color:var(--acc);font-weight:700}
+  input.note{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px;margin-top:6px}
+  textarea{width:100%;min-height:120px;font:13px ui-monospace,monospace;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;margin-top:10px}
+</style>
+</head>
+<body>
+<main>
+<h1>Word Book example sentences, A and B</h1>
+<p class="sub" id="sub"></p>
+<div class="bar"><button id="all" style="padding:8px 14px">Play all from here</button><b id="count"></b><button id="copy" style="padding:8px 14px">Copy results</button></div>
+<div id="list"></div>
+<textarea id="out" readonly placeholder="Press Copy results; the text also appears here."></textarea>
+</main>
+<script src="manifest.js"></script>
+<script>
+(function(){
+  var M = window.SENTENCES, KEY = 'wb-sentences-ab-v1', saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
+  function persist(){ try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {} }
+  document.getElementById('sub').textContent = M.cards.length + ' sentences, voice ' + M.voice + ', ' + M.model +
+    '. Tap a sentence to hear it; mark only the ones that sound wrong.';
+  var audio = new Audio(), cur = null, chain = false;
+  var list = document.getElementById('list');
+  function count(){ var n=0; for (var k in saved) if (saved[k] && saved[k].mark==='wrong') n++;
+    document.getElementById('count').textContent = n + ' marked wrong'; }
+  function play(i){
+    var c = M.cards[i]; if (!c) { chain=false; return; }
+    if (cur) cur.classList.remove('on');
+    cur = document.getElementById('b'+i); cur.classList.add('on');
+    cur.scrollIntoView({block:'center', behavior:'smooth'});
+    audio.src = 'audio/' + c.sense + '.m4a'; audio.play().catch(function(){ chain=false; });
+    audio.onended = function(){ cur.classList.remove('on'); if (chain) play(i+1); };
+  }
+  M.cards.forEach(function(c, i){
+    var r = document.createElement('div'); r.className = 'row'; r.id = 'r'+i;
+    r.innerHTML = '<button class="play" id="b'+i+'" aria-label="play">&#9654;</button><div><div class="w"></div><div class="s"></div>' +
+      '<div class="marks"><button data-m="ok">Sounds right</button><button data-m="wrong">Sounds wrong</button></div>' +
+      '<input class="note" placeholder="what is wrong (optional)"></div>';
+    r.querySelector('.w').innerHTML = '';
+    r.querySelector('.w').appendChild(document.createTextNode(c.word + ' '));
+    var sm = document.createElement('small'); sm.textContent = c.sense + (c.reused ? '  (pilot master, reused)' : ''); r.querySelector('.w').appendChild(sm);
+    r.querySelector('.s').textContent = c.text;
+    var st = saved[c.sense] || {};
+    function paint(){ r.className = 'row' + (st.mark==='wrong' ? ' bad' : st.mark==='ok' ? ' ok' : '');
+      r.querySelectorAll('.marks button').forEach(function(b){ b.classList.toggle('sel', b.dataset.m===st.mark); }); }
+    r.querySelector('.play').onclick = function(){ chain=false; play(i); };
+    r.querySelectorAll('.marks button').forEach(function(b){ b.onclick = function(){
+      st.mark = (st.mark===b.dataset.m) ? '' : b.dataset.m; saved[c.sense]=st; persist(); paint(); count(); }; });
+    var note = r.querySelector('.note'); note.value = st.note || '';
+    note.oninput = function(){ st.note = note.value; saved[c.sense]=st; persist(); };
+    paint(); list.appendChild(r);
+  });
+  document.getElementById('all').onclick = function(){
+    var start = 0; if (cur) start = +cur.id.slice(1); chain = true; play(start); };
+  document.getElementById('copy').onclick = function(){
+    var lines = ['CG-202 sentence listening, ' + new Date().toISOString().slice(0,16)];
+    M.cards.forEach(function(c){ var s = saved[c.sense]; if (s && (s.mark || s.note))
+      lines.push(c.sense + ' | ' + (s.mark||'-') + ' | ' + (s.note||'')); });
+    var t = lines.join('\n'); document.getElementById('out').value = t;
+    try { navigator.clipboard.writeText(t); } catch (e) {}
+  };
+  count();
+})();
+</script>
+</body>
+</html>
