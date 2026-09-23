@@ -6552,8 +6552,11 @@ const COLUMN_MODES={
       fits:(a,b,hot)=>{if(b>=a)return false;const w=subInfo(a,b);if(w.cascade||w.count>1)return false;return hot?w.count===1:w.count===0;}},
   /* c5 ignores `hot`: whether a rung carries is the rung's own promise (none, at least
      one, at most one, at least two), so the zeros in its little boxes come from the
-     numbers, not from a coin. Opens on its first rung for the same reason c2 does. */
-  c5:{key:'c5',op:'×',hard:true, startIdx:0,title:'Multiply',        sub:'Start with the ones!',opWord:'times',intro:null,         presets:COLUMN_TIMES_RUNGS,
+     numbers, not from a coin. Opens on its first rung for the same reason c2 does.
+     `intro` is 'Multiplying!', rendered 2026-09-23 (CG-198) in the narrator voice with
+     the card line beside it -- the harvest reads this field, so reword it and the clip
+     stops resolving. */
+  c5:{key:'c5',op:'×',hard:true, startIdx:0,title:'Multiply',        sub:'Start with the ones!',opWord:'times',intro:'Multiplying!',presets:COLUMN_TIMES_RUNGS,
       fits:(a,b,hot,r)=>{const n=mulCarryCount(a,b);return n>=(r.minCarry||0)&&n<=(r.maxCarry==null?9:r.maxCarry);}},
 };
 
