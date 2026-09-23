@@ -1,0 +1,10 @@
+{
+ "why": "WHAT EACH SENTENCE CLIP ACTUALLY SAYS, pinned to its bytes. An .m4a carries no record of the words it was rendered from, and a dictionary sentence is mutable (shared-data/dictionary/sentence-corrections.json rewrites them). So the thing that produces the bytes records them: tools/render-dictionary-sentences.py writes {text, sha256} here the moment each clip is transcoded. sentence-audio.js plays a clip only when its text here equals the card's displayed sentence exactly, and tools/check-sentence-audio.mjs fails on any clip that is stale, orphaned, duplicated, missing or whose bytes no longer match. Keyed by SENSE, the permanent concept key, so a reworded sentence keeps its asset's name. Empty until the owner approves a render; never hand-edit an entry to make a stale clip pass.",
+ "writtenBy": "word-book/tools/render-dictionary-sentences.py; checked by word-book/tools/check-sentence-audio.mjs; resolved by word-book/sentence-audio.js",
+ "voice": "Alice - Clear, Engaging, Educational (British)",
+ "voiceId": "Xb7hH8MSUJpSbSDYk0k2",
+ "model": "eleven_multilingual_v2",
+ "format": "m4a",
+ "encoding": "AAC, mono, 64 kbps, via afconvert -- identical to audio/words/",
+ "clips": {}
+}
