@@ -198,6 +198,21 @@
     .speak.eg-speak svg{width:28px;height:28px}
     .speak.eg-speak.speaking{background:linear-gradient(160deg,#b98aa5,#8a5c76);color:#fff;border-color:#8a5c76}
 
+    /* ── One word, several senses (a merged card; data `groups`) ──
+       Each sense sits under the headword as its own block: a part-of-speech tag, then the
+       same Thai line and sentence (with its own sentence speaker) a one-sense card has. A
+       dashed rule between blocks, so two sentences never read as one paragraph. The tag is
+       a quiet pill, not a button -- nothing about it is tappable, so nothing about it may
+       look tappable. */
+    .senses{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:2px}
+    .sense{display:flex;flex-direction:column;gap:4px}
+    .sense + .sense{padding-top:10px;border-top:2px dashed #f0dcea}
+    .pos{
+      align-self:flex-start;padding:2px 10px;border-radius:50px;
+      background:#f7eef4;color:#8a5c76;border:2px solid #efdce8;
+      font-weight:900;font-size:.78rem;letter-spacing:.03em;line-height:1.3;
+    }
+
     .none{
       grid-column:1/-1;text-align:center;padding:50px 20px;
       font-weight:900;font-size:1.1rem;color:#a8386a;
@@ -248,7 +263,7 @@
   'use strict';
 
   var LETTERS = 'abcdefghijklmnopqrstuvwxyz'.split('');
-  var rows = [], letter = 'a', query = '';
+  var cards = [], letter = 'a', query = '';
   var grid = document.getElementById('grid');
   var count = document.getElementById('count');
   var az = document.getElementById('az');
@@ -265,7 +280,9 @@
      share a spelling as separate cards -- `bat` the animal and `bat` you hit a ball
      with are two concepts with two Thai translations and two pictures. Two cards
      reading "bat" is correct here, and the Thai line underneath is what tells them
-     apart, which is why it is never optional. */
+     apart, which is why it is never optional. The one exception is a word the owner
+     merged (data `groups`, see buildCards below): its senses share one card and each
+     keeps its own Thai line underneath. */
   /* The clip each card speaks comes from word-audio.js (window.WordAudio), THE one
      resolver -- tools/check-audio-coverage.mjs require()s the same file to prove every
      card resolves to exactly one clip on disk or a documented exception. Nothing on this
@@ -291,10 +308,58 @@
     '<g class="waves"><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></g>' +
     '<g class="no"><path d="M16 9.5l5 5M21 9.5l-5 5"/></g></svg>';
 
-  function card(r) {
-    var word = r[0], sense = r[1], thai = r[2], eg = r[3], pic = r[4];
-    var clip = WA ? WA.clipFor(word, sense) : null;
+  /* ONE WORD, SEVERAL SENSES, ONE CARD -- only where the owner said so (data `groups`,
+     built from shared-data/dictionary/card-groups.json; `answer` on 2026-09-23: "merge
+     the two answer cards. Keep both POS senses underneath.", then `brush`: "these too
+     -> same as 'answer'", then `clean`, then the
+     whole class (a) list in word-book/qa/2026-09-23-multi-card-words.md: "yes approved"). Every sense is still its
+     own row with its own id, Thai, sentence and sentence clip; a group only draws those
+     rows on one card, in the group's order, under the group's HERO picture, with each
+     sense's part of speech. A word not in `groups` gets one card per sense, exactly as
+     before. The one word speaker is safe because check-audio-coverage.mjs refuses a
+     group whose senses would say different clips (bow/close/tear/wind never merge). */
+  function buildCards(d) {
+    var inGroup = {};
+    (d.groups || []).forEach(function (g) {
+      g.senses.forEach(function (s, i) { inGroup[s[0]] = { g: g, i: i }; });
+    });
+    var out = [], open = {};
+    d.rows.forEach(function (r) {
+      var m = inGroup[r[1]];
+      if (!m) { out.push({ rows: [r], pos: null, pic: r[4] }); return; }
+      var c = open[m.g.word];
+      if (!c) { c = open[m.g.word] = { rows: [], pos: [], pic: null }; out.push(c); }
+      c.rows[m.i] = r;
+      c.pos[m.i] = m.g.senses[m.i][1];
+      if (r[1] === m.g.hero) c.pic = r[4];
+    });
+    out.forEach(function (c) {
+      if (!c.pos) return;
+      /* A sense named by the group but absent from the rows leaves a hole: close it. */
+      var rs = [], ps = [];
+      c.rows.forEach(function (r, i) { if (r) { rs.push(r); ps.push(c.pos[i]); } });
+      c.rows = rs; c.pos = ps;
+      if (!c.pic) rs.some(function (r) { return (c.pic = r[4]); });
+    });
+    return out;
+  }
+
+  /* What one sense says: its Thai, then its sentence with the sentence's own speaker. */
+  function says(r) {
+    var sense = r[1], thai = r[2], eg = r[3];
     var egClip = SA ? SA.clipFor(sense, eg, ledger) : null;
+    return '<p class="thai" lang="th">' + esc(thai) + '</p>' +
+      (egClip
+        ? '<div class="egline"><p class="eg">' + esc(eg) + '</p>' +
+          '<button type="button" class="speak eg-speak" data-clip="' + esc(egClip) +
+          '" aria-label="Hear the sentence">' + BUBBLE + '</button></div>'
+        : '<p class="eg">' + esc(eg) + '</p>');
+  }
+
+  function card(c) {
+    var r = c.rows[0];
+    var word = r[0], sense = r[1], eg = r[3], pic = c.pic;
+    var clip = WA ? WA.clipFor(word, sense) : null;
     var art = pic
       ? '<div class="pic"><img src="' + esc(pic) + '" alt="" loading="lazy" decoding="async" draggable="false"></div>'
       : '<div class="pic todo"><span>picture to come</span></div>';
@@ -302,28 +367,32 @@
       ? '<button type="button" class="speak" data-clip="' + esc(clip) + '" aria-label="Hear ' +
         esc(word) + '">' + SPEAKER + '</button>'
       : '';
-    return '<article class="card">' + art +
+    var senses = c.pos
+      ? '<ol class="senses">' + c.rows.map(function (s, i) {
+          return '<li class="sense" data-sense="' + esc(s[1]) + '">' +
+            '<p class="pos">' + esc(c.pos[i]) + '</p>' + says(s) + '</li>';
+        }).join('') + '</ol>'
+      : says(r);
+    return '<article class="card' + (c.pos ? ' merged' : '') + '">' + art +
       '<div class="body">' +
       '<div class="head"><p class="word">' + esc(word) + '</p>' + speak + '</div>' +
-      '<p class="thai" lang="th">' + esc(thai) + '</p>' +
-      (egClip
-        ? '<div class="egline"><p class="eg">' + esc(eg) + '</p>' +
-          '<button type="button" class="speak eg-speak" data-clip="' + esc(egClip) +
-          '" aria-label="Hear the sentence">' + BUBBLE + '</button></div>'
-        : '<p class="eg">' + esc(eg) + '</p>') +
+      senses +
       '</div></article>';
   }
 
+  /* A card matches when ANY of its senses does, so a merged card is found by either
+     sense's Thai or sentence and is still shown whole. */
   function matches() {
     if (query) {
       var n = query.toLowerCase();
-      return rows.filter(function (r) {
+      var hit = function (r) {
         return r[0].toLowerCase().indexOf(n) > -1 ||
                r[2].indexOf(query) > -1 ||
                r[3].toLowerCase().indexOf(n) > -1;
-      });
+      };
+      return cards.filter(function (c) { return c.rows.some(hit); });
     }
-    return rows.filter(function (r) { return r[0].charAt(0).toLowerCase() === letter; });
+    return cards.filter(function (c) { return c.rows[0][0].charAt(0).toLowerCase() === letter; });
   }
 
   function render() {
@@ -439,7 +508,7 @@
   fetch('data/dictionary.json').then(function (r) { return r.json(); }).then(function (d) {
     return ledgerLoad.then(function (l) {
       ledger = l;
-      rows = d.rows;
+      cards = buildCards(d);
       render();
     });
   }).catch(function () {

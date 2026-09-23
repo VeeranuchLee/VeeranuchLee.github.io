@@ -46,6 +46,12 @@
   .t .why{font-size:11px;margin-top:4px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
   .t.seen .w::after{content:"✓";position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:50%;
      background:var(--seen);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center}
+  h2{font-size:20px;margin:28px 0 12px;scroll-margin-top:12px}
+  .jump{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 0}
+  .jump a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:12px;
+     background:var(--card);border:1px solid var(--line);color:var(--ink);font-weight:800;text-decoration:none}
+  .t .note{display:block;font-size:12px;line-height:1.35;margin-top:6px;color:#a8341f;font-weight:700}
+  .vbar .here em{display:block;font-style:normal;font-size:12px;color:#ffd1c4;white-space:normal}
   .removed{margin-top:26px;font-size:14px;color:var(--muted)}
   .none{color:var(--muted)}
 
@@ -73,7 +79,8 @@
   <p class="tally" id="tally">Loading the list…</p>
 </header>
 <main>
-  <div class="grid" id="grid"></div>
+  <nav class="jump" id="jump" aria-label="Sections"></nav>
+  <div id="grid"></div>
   <p class="removed" id="removed" hidden></p>
 </main>
 
@@ -81,7 +88,7 @@
   <div class="vbar">
     <button type="button" id="back" aria-label="Back to all pictures">← All</button>
     <button type="button" id="prev" aria-label="Previous picture">‹</button>
-    <div class="here"><b id="hereWord"></b><span id="hereN"></span></div>
+    <div class="here"><b id="hereWord"></b><span id="hereN"></span><em id="hereNote"></em></div>
     <button type="button" id="next" aria-label="Next picture">Next ›</button>
   </div>
   <iframe id="frame" title="Our Dictionary"></iframe>
@@ -90,7 +97,7 @@
 <script>
 (function () {
   'use strict';
-  var cards = [], at = -1, frameReady = null;
+  var sections = [], cards = [], at = -1, frameReady = null;
   var grid = document.getElementById('grid'), tally = document.getElementById('tally');
   var view = document.getElementById('view'), frame = document.getElementById('frame');
   var SEEN_KEY = 'word-book-next:new-art-seen';
@@ -107,20 +114,34 @@
     try { localStorage.setItem(SEEN_KEY, JSON.stringify(s)); } catch (e) {}
   }
 
+  function seenKey(c) { return c.why + ':' + c.sense; }
+  function heading(sec) {
+    var n = sec.cards.length;
+    return n <= 3 ? sec.title + ': ' + sec.cards.map(function (c) { return c.word; }).join(', ')
+                  : sec.title + ' (' + n + ')';
+  }
+
+  /* One grid per section; `cards` is the flat list Next steps through, section by section. */
   function paint() {
-    var seen = readSeen(), n = 0;
-    /* The reason is shown only when the list mixes reasons (new picture, redrawn, card
-       changed); on a list where every card says the same thing it is noise. */
-    var mixed = cards.some(function (c) { return c.why !== cards[0].why; });
-    grid.innerHTML = cards.map(function (c, i) {
-      if (seen[c.sense]) n++;
-      return '<button type="button" class="t' + (seen[c.sense] ? ' seen' : '') + '" data-i="' + i + '">' +
-        '<span class="w">' + (c.pic ? '<img src="' + esc(c.pic) + '" alt="" loading="lazy" decoding="async">' : '') + '</span>' +
-        '<span class="cap"><span class="word">' + esc(c.word) + '</span>' +
-        '<span class="thai" lang="th">' + esc(c.thai) + '</span>' +
-        (mixed ? '<span class="why">' + esc(c.why) + '</span>' : '') + '</span></button>';
+    var seen = readSeen(), n = 0, i = 0;
+    grid.innerHTML = sections.map(function (sec, si) {
+      return '<h2 id="sec' + si + '">' + esc(heading(sec)) + '</h2><div class="grid">' +
+        sec.cards.map(function (c) {
+          var k = i++;
+          if (seen[seenKey(c)]) n++;
+          return '<button type="button" class="t' + (seen[seenKey(c)] ? ' seen' : '') + '" data-i="' + k + '">' +
+            '<span class="w">' + (c.pic ? '<img src="' + esc(c.pic) + '" alt="" loading="lazy" decoding="async">' : '') + '</span>' +
+            '<span class="cap"><span class="word">' + esc(c.word) + '</span>' +
+            '<span class="thai" lang="th">' + esc(c.thai) + '</span>' +
+            (c.pos ? '<span class="why">' + esc(c.pos.join(' + ')) + '</span>' : '') +
+            (c.note ? '<span class="note">' + esc(c.note) + '</span>' : '') +
+            '</span></button>';
+        }).join('') + '</div>';
     }).join('');
-    tally.textContent = cards.length + ' cards to look at' + (mixed ? '' : ' · every one a ' + cards[0].why) + (n ? ' · ' + n + ' opened on this device' : '');
+    document.getElementById('jump').innerHTML = sections.length > 1 ? sections.map(function (sec, si) {
+      return '<a href="#sec' + si + '">' + esc(heading(sec)) + '</a>';
+    }).join('') : '';
+    tally.textContent = cards.length + ' cards to look at' + (n ? ' · ' + n + ' opened on this device' : '');
   }
 
   /* The frame loads dictionary.html once. It is ready when its own data has arrived,
@@ -153,17 +174,21 @@
     at = i;
     var c = cards[i];
     document.getElementById('hereWord').textContent = c.word;
-    document.getElementById('hereN').textContent = (i + 1) + ' of ' + cards.length + ' · ' + c.thai;
+    document.getElementById('hereN').textContent = (i + 1) + ' of ' + cards.length + ' · ' + c.why + ' · ' + c.thai;
+    document.getElementById('hereNote').textContent = c.note || '';
     document.getElementById('prev').disabled = i === 0;
     document.getElementById('next').disabled = i === cards.length - 1;
     view.classList.add('on');
-    markSeen(c.sense);
+    markSeen(seenKey(c));
     loadFrame().then(function (d) {
       var q = d.getElementById('q');
       q.value = c.word;
       q.dispatchEvent(new Event('input', { bubbles: true }));
       var hit = null;
-      Array.prototype.forEach.call(d.querySelectorAll('#grid article.card'), function (a) {
+      /* A merged card marks each sense block with data-sense: that is the exact card. */
+      var block = d.querySelector('#grid li.sense[data-sense="' + ((c.senses && c.senses[0]) || c.sense) + '"]');
+      if (block) hit = block.closest('article.card');
+      if (!hit) Array.prototype.forEach.call(d.querySelectorAll('#grid article.card'), function (a) {
         var img = a.querySelector('img');
         if (!hit && img && img.getAttribute('src') === c.pic) hit = a;
       });
@@ -197,7 +222,10 @@
   document.getElementById('next').addEventListener('click', function () { if (at < cards.length - 1) show(at + 1); });
 
   fetch('new-art.json').then(function (r) { return r.json(); }).then(function (d) {
-    cards = d.cards || [];
+    sections = (d.sections || (d.cards ? [{ title: 'New pictures', cards: d.cards }] : []))
+      .filter(function (sec) { return sec.cards && sec.cards.length; });
+    cards = [];
+    sections.forEach(function (sec) { cards = cards.concat(sec.cards); });
     if (d.sentenceNote) document.getElementById('sentences').textContent = d.sentenceNote;
     if (!cards.length) { grid.innerHTML = '<p class="none">Nothing new to look at in this copy.</p>'; tally.textContent = ''; return; }
     paint();
