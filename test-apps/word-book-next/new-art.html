@@ -42,6 +42,7 @@
   .t .cap{padding:8px 10px 10px}
   .t .word{font-weight:800;font-size:17px}
   .t .thai{font-size:14px;color:var(--muted)}
+  .t .word,.t .thai,.t .why{display:block}
   .t .why{font-size:11px;margin-top:4px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
   .t.seen .w::after{content:"✓";position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:50%;
      background:var(--seen);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center}
@@ -108,15 +109,18 @@
 
   function paint() {
     var seen = readSeen(), n = 0;
+    /* The reason is shown only when the list mixes reasons (new picture, redrawn, card
+       changed); on a list where every card says the same thing it is noise. */
+    var mixed = cards.some(function (c) { return c.why !== cards[0].why; });
     grid.innerHTML = cards.map(function (c, i) {
       if (seen[c.sense]) n++;
       return '<button type="button" class="t' + (seen[c.sense] ? ' seen' : '') + '" data-i="' + i + '">' +
         '<span class="w">' + (c.pic ? '<img src="' + esc(c.pic) + '" alt="" loading="lazy" decoding="async">' : '') + '</span>' +
-        '<span class="cap"><span class="word">' + esc(c.word) + '</span><br>' +
+        '<span class="cap"><span class="word">' + esc(c.word) + '</span>' +
         '<span class="thai" lang="th">' + esc(c.thai) + '</span>' +
-        '<span class="why">' + esc(c.why) + '</span></span></button>';
+        (mixed ? '<span class="why">' + esc(c.why) + '</span>' : '') + '</span></button>';
     }).join('');
-    tally.textContent = cards.length + ' cards to look at' + (n ? ' · ' + n + ' opened on this device' : '');
+    tally.textContent = cards.length + ' cards to look at' + (mixed ? '' : ' · every one a ' + cards[0].why) + (n ? ' · ' + n + ' opened on this device' : '');
   }
 
   /* The frame loads dictionary.html once. It is ready when its own data has arrived,
@@ -135,7 +139,7 @@
             d.head.appendChild(st);
             return resolve(d);
           }
-          if (++tries > 300) return reject(new Error('dictionary did not open'));
+          if (++tries > 300) { frameReady = null; return reject(new Error('dictionary did not open')); }
           setTimeout(poll, 50);
         })();
       }, { once: true });
