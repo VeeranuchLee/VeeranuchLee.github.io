@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Make a Doll</title>
+<link rel="stylesheet" href="styles.css">
+<!-- Test Hub staging: no web app manifest, and no service worker. -->
+<meta name="theme-color" content="#FDF7F9">
+</head>
+<body>
+
+<div id="app" class="maker">
+
+  <div id="tools" role="toolbar" aria-label="Make a doll">
+    <a class="tool ghost" id="back" href="./">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M11.3 4.3 3.6 12l7.7 7.7 1.8-1.8L8.1 13.3H20v-2.6H8.1l5-4.6z"/>
+      </svg>
+      <span>Back</span>
+    </a>
+    <div class="spacer"></div>
+    <button class="tool done" id="done">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M9.6 17.5 4.4 12.3l1.8-1.8 3.4 3.4 8-8L19.4 7.7z"/>
+      </svg>
+      <span>Done</span>
+    </button>
+  </div>
+
+  <!-- She stays large and centred; the choices sit under her. -->
+  <div id="dollWrap">
+    <div id="dollStage"></div>
+  </div>
+
+  <!-- Category tabs, then that category's options. Built from the kit, so a
+       slot grows choices the moment its family grows variants. -->
+  <div id="slotBar" role="tablist" aria-label="What to change"></div>
+  <div id="optionWrap">
+    <div id="options" role="list"></div>
+  </div>
+
+</div>
+
+<script src="assets/kit.js"></script>
+<script src="character.js"></script>
+<script src="make-doll.js"></script>
+<script>
+  if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+    addEventListener("load", () => Promise.resolve() /* Test Hub staging: no service worker */);
+  }
+</script>
+</body>
+</html>

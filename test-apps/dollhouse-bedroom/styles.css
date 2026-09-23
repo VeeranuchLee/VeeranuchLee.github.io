@@ -1,0 +1,515 @@
+/* Dollhouse — bedroom pilot.
+
+   Sized for a 9.7" iPad at 768px portrait, which is the device these games are
+   actually played on. The room is 4:3 landscape, so at 768px wide it is 576
+   tall and the remaining ~448px carries the toolbar and the kit tray without
+   either of them crowding the play area. */
+
+:root {
+  --ink: #4a3b46;
+  --paper: #fdf7f9;
+  --edge: #f0dbe4;
+  --pick: #ff8fb4;
+  --pick-soft: #ffe3ed;
+  --tool-h: 62px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--paper);
+  color: var(--ink);
+  font: 500 16px/1.35 ui-rounded, "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  /* A dollhouse is all dragging. Nothing here should ever scroll the page,
+     rubber-band, or fire a magnifying-glass long-press on iOS. */
+  overscroll-behavior: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  /* Kills double-tap-to-zoom -- which is what a child tapping stickers quickly
+     triggers by accident -- and leaves PINCH alone in both directions. That
+     pairing matters: iOS has ignored `user-scalable=no` since iOS 10 because
+     zoom is an accessibility feature, so zoom will happen whatever a page
+     wants, and anything that blocks it one-way leaves the child zoomed in with
+     no way back. See the long note in app.js. */
+  touch-action: manipulation;
+}
+
+#app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  /* The layout is designed for a 9.7" iPad at 768px. Past that there is nothing
+     to gain by stretching it -- a toolbar spread across 1440px and a tray of
+     eighteen chips in one long row are worse, not better -- so the app keeps its
+     shape and centres. On the iPad this changes nothing at all. */
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* ---------------------------------------------------------------- toolbar */
+
+#tools {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 10px;
+  background: #fff;
+  border-bottom: 2px solid var(--edge);
+}
+
+#tools .spacer { flex: 1; }
+
+.tool {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  /* 44px is the floor for a small finger; these are comfortably over it. */
+  min-width: 76px;
+  min-height: var(--tool-h);
+  padding: 4px 8px;
+  border: 2px solid var(--edge);
+  border-radius: 15px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 12.5px;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tool svg { width: 25px; height: 25px; fill: currentColor; }
+.tool svg [fill="none"] { stroke: currentColor; }
+.tool .slash { stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; fill: none; }
+.tool .bolt { fill: #fff; }
+
+.tool.is-on {
+  background: var(--pick);
+  border-color: var(--pick);
+  color: #fff;
+}
+.tool.is-on .bolt { fill: var(--pick); }
+
+.tool.ghost { min-width: 68px; font-size: 12px; }
+
+/* Narrower than the iPad this is designed for -- a small desktop window, a
+   phone held sideways. Out of the design range, but it must not look broken:
+   the row breaks before Day/Night rather than overflowing off the edge. */
+@media (max-width: 720px) {
+  #tools { flex-wrap: wrap; row-gap: 6px; }
+  #tools .spacer { flex: 0 0 100%; height: 0; }
+  .tool { min-width: 66px; font-size: 11.5px; }
+  .tool.ghost { min-width: 62px; }
+}
+
+/* Day / night sit together as one control, so they read as two settings of the
+   same thing rather than as two more tools. */
+.group { display: flex; gap: 4px; margin-right: 6px; }
+.room-pick { min-width: 62px; }
+
+/* The room lights the things standing in it: dimmer and less colourful at
+   night. A toy that is switched on lights itself and ignores both, which is
+   the entire reward for turning it on. */
+#placed { --room-dim: 1; --room-drain: 1; }
+.sticker > img,
+.sticker .ch-layer {
+  filter: brightness(var(--room-dim)) saturate(var(--room-drain));
+  transition: filter .45s ease;
+}
+.sticker.on > img { filter: none; }
+
+/* A screen with no battery in it. Dark, and it does NOT forget the channel --
+   the channel is the variant underneath, the power is a separate flag. The
+   rectangle comes from the manifest, measured off the art. */
+.screen-off {
+  position: absolute;
+  background: #141a26;
+  box-shadow: inset 0 2px 7px rgba(0, 0, 0, .55);
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity .3s ease;
+}
+.sticker.on .screen-off { opacity: 0; }
+
+/* ------------------------------------------------------------------ stage */
+
+#stageWrap {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  min-height: 0;
+  /* cqw/cqh below measure THIS box, and size excludes the padding. */
+  container-type: size;
+}
+
+/* THE STAGE MUST KEEP THE ROOM'S SHAPE EXACTLY, on every window.
+ *
+ * Not a nicety: every sticker is positioned in percentages of this box, so if
+ * the box stops matching the painting, `object-fit` crops the room and the
+ * child's furniture is placed against a coordinate system they cannot see. That
+ * is what a 9.7" iPad never showed and a desktop Safari window did.
+ *
+ * Neither single-axis form works, and both were measured on a 1440x860 window:
+ *
+ *   width:100%; max-height:100%   ->  box 1420x575, aspect 2.47 against the
+ *                                     room's 1.333. max-height clamps the
+ *                                     HEIGHT without narrowing the width, so
+ *                                     the room is scaled to 1420 wide and the
+ *                                     ceiling and floor are cropped away.
+ *   height:100%; width:auto       ->  the mirror of the same fault on a tall,
+ *                                     narrow window.
+ *
+ * `aspect-ratio` does not rescue either one: it only derives the axis that is
+ * `auto`, and a max-* clamp on the other axis simply breaks the ratio. The
+ * largest box that fits BOTH axes is min() of the two, and cqw/cqh are what
+ * make the container's own height available to express it. */
+#stage {
+  position: relative;
+  aspect-ratio: 1448 / 1086;
+  width: min(100cqw, 100cqh * 1448 / 1086);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 3px 14px rgba(120, 80, 100, .18);
+  touch-action: none;
+}
+
+/* Anything without size container queries (Safari before 16) gets a stage that
+   is smaller than it could be rather than one that is the wrong shape. Being
+   modest is recoverable; being cropped is not. */
+@supports not (container-type: size) {
+  #stage { width: min(100%, 700px); }
+}
+
+/* The box is now exactly the room's aspect, so cover, contain and fill are the
+   same thing here; cover is kept so a sub-pixel rounding cannot letterbox. */
+#room { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+#placed { position: absolute; inset: 0; }
+
+#hint {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 7px 15px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .93);
+  font-size: 15px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity .18s;
+  pointer-events: none;
+}
+#hint.show { opacity: 1; }
+
+/* --------------------------------------------------------------- stickers */
+
+.sticker {
+  position: absolute;
+  /* The sticker's own drawn size, as a share of the room, so the kit keeps the
+     proportions it was drawn at: the bed really is about half the girl's
+     height, because that is how the sheet drew them. */
+  transform: translate(-50%, -50%);
+  touch-action: none;
+  cursor: grab;
+  /* A tap target is never smaller than a finger even when the art is. */
+  min-width: 44px;
+  min-height: 44px;
+}
+.sticker img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+.sticker.dragging { cursor: grabbing; filter: drop-shadow(0 6px 10px rgba(90,60,80,.3)); }
+
+/* A CHARACTER IS ONE BOX MADE OF LAYERS.
+   The room positions and scales this box; character.js fills it. Nothing inside
+   ever takes the pointer, so a doll is picked up as one thing wherever a finger
+   lands on her. That is what removed the whole tap-targeting problem the old
+   room-level dress-up produced -- there is no longer a shoe in the room to aim
+   at, so nothing can swallow the aim. */
+.character { position: absolute; inset: 0; }
+.ch-layer { position: absolute; display: block; pointer-events: none; -webkit-user-drag: none; }
+
+/* A tool that is armed marks what it can act on, and only while it is armed --
+   at rest a dollhouse shows no buttons over the furniture. */
+.sticker.candidate::after {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border: 3px dashed var(--pick);
+  border-radius: 14px;
+  animation: breathe 1.5s ease-in-out infinite;
+  /* IT MUST NOT TAKE THE POINTER. A pseudo-element of the sticker paints after
+     the sticker's children, so with the default `auto` this outline covered
+     every worn layer underneath it -- and it is only there while a tool is
+     armed, which is exactly when the layers need to be tappable. The symptom
+     was that tapping the shoes or the bag changed the DRESS: the tap landed on
+     the sticker itself, `closest('.worn')` came back null, and Change fell back
+     to the outfit. Reported from a real iPad; every hit test at the layers'
+     centres returned `div.sticker candidate`. */
+  pointer-events: none;
+}
+@keyframes breathe { 50% { opacity: .35; } }
+
+/* ------------------------------------------------------- battery behaviours
+   Three of the reusable behaviours from CONCEPT.md 16, and no more: the
+   pilot's job is to show that one small library covers unrelated toys. */
+
+.glow-halo {
+  position: absolute;
+  inset: -45%;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .35s;
+}
+.on > .glow-halo { opacity: 1; }
+.sticker.on.beh-glow > img { filter: brightness(1.12) saturate(1.08); }
+.sticker.on.beh-screenGlow > img { filter: brightness(1.1) saturate(1.14); }
+
+/* Spin turns a clipped copy of the fan's head only, about the middle of its
+   guard, so the stand stays where it was put. The guard is close to radially
+   symmetric, so at this speed it reads as blur rather than as a spinning cage. */
+.spin-head {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+}
+.spin-head img { width: 100%; height: 100%; display: block; }
+.on > .spin-head { opacity: 1; animation: spin .34s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .on > .spin-head { animation-duration: 2.4s; }
+  .sticker.candidate::after { animation: none; }
+}
+
+/* -------------------------------------------------------------------- tray */
+
+#trayWrap {
+  flex: 0 0 auto;
+  background: #fff;
+  border-top: 2px solid var(--edge);
+}
+
+/* Two rows, everything visible, nothing to scroll for. A tray a child has to
+   swipe hides half the kit behind a gesture they have no reason to try -- and
+   at 768px the whole sixteen fit if the chips are 86px. */
+#tray {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  /* Nine chips of 78px plus eight 5px gaps is 742, inside the 748 a 768px iPad
+     leaves after padding. Six pixels of slack, measured -- at gap 6 it wrapped
+     to three rows and the last two chips sat alone. */
+  gap: 5px;
+  padding: 8px 10px;
+  /* Fixed, not intrinsic. Doll chips are 132px tall and object chips 82, so an
+     intrinsic tray changed height with the tab -- and the stage, which sizes off
+     the space left over, jumped 712x534 -> 645x484 in landscape. Everything in
+     the room slid under the child's finger just for touching a tab. Measured at
+     1024x768; portrait hid it because height was not the binding axis there. */
+  height: 148px;
+  box-sizing: border-box;
+}
+
+.chip {
+  position: relative;
+  flex: 0 0 auto;
+  /* Nine to a row at 768px, two rows, all eighteen visible. The tap target is
+     78x82, comfortably past the 44px floor even though the art inside is small. */
+  width: 78px;
+  height: 82px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  padding: 4px;
+  border: 2px solid var(--edge);
+  border-radius: 14px;
+  background: #fff;
+  touch-action: none;
+  cursor: grab;
+}
+.chip img {
+  max-width: 100%;
+  max-height: 46px;
+  object-fit: contain;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+.chip span { font-size: 10.5px; text-align: center; line-height: 1.1; }
+.chip.spent { opacity: .32; }
+
+/* How many ways this one can look. Change is the least discoverable of the three
+   verbs, so the catalogue says up front which things have anything to change. */
+.chip .many {
+  position: absolute;
+  top: 3px;
+  right: 4px;
+  min-width: 15px;
+  padding: 0 3px;
+  border-radius: 8px;
+  background: var(--pick);
+  color: #fff;
+  font-size: 9.5px;
+  font-weight: 700;
+  line-height: 15px;
+  text-align: center;
+}
+
+/* The sticker that follows the finger between the tray and the room. */
+#flying {
+  position: fixed;
+  z-index: 40;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 8px 12px rgba(90, 60, 80, .35));
+}
+
+/* Dropping a sticker back on the tray puts it away again. */
+#trayWrap.armed { background: var(--pick-soft); }
+
+/* =============================================================== pilot v2 ===
+   Two spaces: Make a Doll, and the room. */
+
+#trayTabs { display: flex; gap: 5px; padding: 6px 10px 0; justify-content: center; }
+
+.tray-tab, .slot-tab {
+  position: relative;
+  min-height: 30px;
+  padding: 4px 12px;
+  border: 2px solid var(--edge);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.tray-tab.is-on, .slot-tab.is-on { background: var(--pick); border-color: var(--pick); color: #fff; }
+.slot-tab.thin { opacity: .62; }
+
+.slot-tab .many, .tray-tab .many {
+  display: inline-block;
+  margin-left: 5px;
+  min-width: 15px;
+  padding: 0 3px;
+  border-radius: 8px;
+  background: var(--pick-soft);
+  color: var(--ink);
+  font-size: 9.5px;
+  font-weight: 700;
+  line-height: 15px;
+}
+.slot-tab.is-on .many, .tray-tab.is-on .many { background: #ffffff55; color: #fff; }
+
+/* A doll chip shows the assembled doll, drawn from her own layers, so no
+   artwork has to exist for any particular combination of choices. */
+.doll-chip { position: relative; }
+/* Dolls are wider and taller than object chips: there are a handful of them, not
+   eighteen, and each one carries two verbs instead of one. */
+.doll-chip {
+  width: 104px;
+  height: 132px;
+  justify-content: flex-start;
+  gap: 0;
+  padding: 4px 4px 0;
+  overflow: hidden;
+}
+.doll-chip .thumb { position: relative; inset: auto; width: 100%; height: 72px; }
+.chip-edit {
+  /* flex-basis, not height: the footer is on this column's MAIN axis, so a
+     plain height is a suggestion that flex-shrink overrules -- it measured 32px
+     the first time round. */
+  flex: 0 0 44px;
+  margin-top: auto;
+  align-self: stretch;
+  margin-inline: -6px;
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+  background: var(--pick-soft); color: var(--ink);
+  font-size: 12px; font-weight: 600; text-decoration: none;
+}
+.chip-edit b { font-size: 14px; font-weight: 400; }
+/* A doll already in the room is spent for PLACING and not for CHANGING, so the
+   dimming stops at the doll. Dimming the whole chip took the only route to a
+   dress colour away at exactly the moment a child would want it. */
+.doll-chip.spent { opacity: 1; }
+.doll-chip.spent .thumb { opacity: .32; }
+.make-chip {
+  /* Only ever drawn in the Dolls tab, so it takes the doll chip's size. */
+  width: 104px; height: 132px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-decoration: none; color: var(--ink); border-style: dashed;
+}
+.make-chip .plus { font-size: 26px; line-height: 1; color: var(--pick); font-weight: 700; }
+
+/* ------------------------------------------------------------ Make a Doll */
+
+#dollWrap {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  /* cq units below measure THIS box. Without it they fall back to the viewport
+     and the doll renders full-app-width -- which is exactly what happened when
+     an earlier edit to this file failed to save: 753x1361 in a 768x1024 window,
+     with the controls pushed off the bottom. */
+  container-type: size;
+}
+/* Same shape-preserving sizing as the room's stage, for the same reason: the
+   layers are positioned in percentages of this box, so it must keep the body's
+   aspect at every window size. See the long note on #stage above. */
+#dollStage { position: relative; width: min(100cqw, 100cqh * 322 / 582); }
+@supports not (container-type: size) { #dollStage { width: min(100%, 240px); } }
+#dollStage .character { position: absolute; inset: 0; }
+
+#slotBar {
+  flex: 0 0 auto;
+  display: flex; flex-wrap: wrap; gap: 5px; justify-content: center;
+  padding: 6px 10px;
+  background: #fff;
+  border-top: 2px solid var(--edge);
+}
+
+#optionWrap { flex: 0 0 auto; background: #fff; padding-bottom: 8px; }
+#options {
+  display: flex; flex-wrap: wrap; align-content: center; justify-content: center;
+  gap: 6px; padding: 8px 10px 0; min-height: 92px;
+}
+.option {
+  position: relative; flex: 0 0 auto;
+  width: 84px; height: 84px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2px; padding: 4px;
+  border: 2px solid var(--edge); border-radius: 14px; background: #fff;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.option.is-on { border-color: var(--pick); box-shadow: 0 0 0 2px var(--pick-soft); }
+.option img {
+  max-width: 100%; max-height: 52px; object-fit: contain;
+  pointer-events: none; -webkit-user-drag: none;
+}
+.option span { font-size: 10.5px; text-align: center; line-height: 1.1; color: var(--ink); }
+.option-note { align-self: center; margin: 0 6px; font-size: 12px; color: #8b7a84; }
+
+.tool.done { background: var(--pick); border-color: var(--pick); color: #fff; min-width: 82px; }
