@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Word Cuts Round 5</title>
+<!--
+  CG-250 round 5, 2026-09-24. Built by word-book/tools/build-r5-compare.py (this file is its template).
+  PRIVATE QA instrument (word-book/.publish-manifest lists qa/** under [private]); staged on the Test Hub
+  with NO service worker. Nothing on this page changes the app.
+-->
+<style>
+  :root{
+    --ink:#2b2530; --muted:#6f6676; --line:#e3dce6; --bg:#fbf7fb; --card:#fff;
+    --a:#7a4fb3; --b:#1f7a4d; --c:#a8341f; --pick:#f1e9f8; --warn:#8a5a00;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#efe9f2; --muted:#b3a9b9; --line:#3d3542; --bg:#1d1a20; --card:#27232b;
+      --a:#b394e0; --b:#6cc79a; --c:#f0917b; --pick:#352c3d; --warn:#e0b25c;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#efe9f2; --muted:#b3a9b9; --line:#3d3542; --bg:#1d1a20; --card:#27232b;
+    --a:#b394e0; --b:#6cc79a; --c:#f0917b; --pick:#352c3d; --warn:#e0b25c;
+  }
+  *{box-sizing:border-box}
+  html,body{touch-action:manipulation}
+  body{margin:0;font:16px/1.5 ui-rounded,"Avenir Next",-apple-system,system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+  main{max-width:736px;margin:0 auto;padding:22px 16px 80px}
+  h1{font-size:22px;margin:0 0 4px} h3{font-size:19px;margin:28px 0 6px}
+  .sub{color:var(--muted);margin:0 0 10px}
+  .progress{position:sticky;top:0;z-index:2;background:var(--bg);padding:8px 0;margin:0 0 8px;border-bottom:1px solid var(--line)}
+  section.cardrow{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:0 0 20px}
+  .head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:0 0 6px}
+  .head h2{font-size:26px;margin:0} .head .n{color:var(--muted);font-size:14px}
+  .sentence{font-size:18px;margin:0 0 8px}
+  .sentence mark{background:var(--pick);color:inherit;border-radius:4px;padding:0 3px;font-weight:700}
+  .said{font-size:14px;color:var(--muted);margin:0 0 10px}
+  .plays{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:0 0 12px}
+  .clip{border:2px solid var(--line);border-radius:14px;padding:8px;display:flex;flex-direction:column;gap:6px;background:var(--bg)}
+  .clip button{appearance:none;border:0;background:transparent;color:var(--ink);font:inherit;cursor:pointer;min-height:56px;
+               display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+  .clip button b{font-size:22px;line-height:1.1;color:var(--b)}
+  .clip button small{color:var(--muted);font-size:13px;line-height:1.25}
+  .clip button.whole{min-height:36px;border-top:1px dashed var(--line);font-size:13px;color:var(--muted)}
+  .clip.on{border-color:var(--a);background:var(--pick)}
+  .q{font-weight:700;margin:4px 0 6px}
+  .opts{display:flex;flex-wrap:wrap;gap:6px}
+  .opts label{display:flex;gap:6px;align-items:center;padding:8px 12px;border:1px solid var(--line);border-radius:10px;cursor:pointer;min-height:44px;font-size:15px}
+  .opts input{width:20px;height:20px;margin:0}
+  .opts label:has(input:checked){background:var(--pick);border-color:var(--a);font-weight:700}
+  textarea{width:100%;min-height:48px;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px;margin-top:8px}
+  .muted{color:var(--muted);font-size:14px}
+  table{border-collapse:collapse;width:100%;font-size:14px}
+  td,th{border-bottom:1px solid var(--line);padding:5px 4px;text-align:left}
+  .actions{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:0 0 20px}
+  .actions button{font:inherit;padding:10px 16px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;min-height:44px}
+  #out{width:100%;min-height:140px;font:13px/1.4 ui-monospace,Menlo,monospace;margin-top:10px;display:none}
+  .err{color:var(--c);font-weight:700}
+</style>
+</head>
+<body>
+<main>
+  <h1>Word cuts, round 5</h1>
+  <p class="sub"><b>A</b> is the clip the app plays now. <b>B soft</b> is the best cut from round 4 (where there is one).
+    <b>S1-S6</b> are the word cut from six new sentences, with softer edges. Tap &ldquo;whole sentence&rdquo; to hear the carrier.
+    Pick one answer per word, then press <b>Copy results</b> at the bottom and paste them back.
+    Nothing here changes the app.</p>
+  <p class="progress"><b id="count"></b></p>
+  <h3>1. all / among / bow</h3>
+  <div id="g-words"></div>
+  <h3>2. &ldquo;and&rdquo;: AND in capitals between two nouns</h3>
+  <div id="g-and"></div>
+  <div class="actions">
+    <button id="copy">Copy results</button> <button id="download">Save results as a file</button>
+    <div id="status" class="muted"></div>
+    <textarea id="out" readonly></textarea>
+  </div>
+</main>
+<script src="manifest.js"></script>
+<script>
+(function(){
+  'use strict';
+  var KEY = 'cg250-round5-answers';
+  var data = window.ROUND5;
+  if (!data) { document.getElementById('g-words').innerHTML = '<p class="err">Could not load manifest.js. Keep this page next to its files.</p>'; return; }
+  var saved = {}; try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) {}
+  function persist(){ try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {} }
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function marked(sentence, word){
+    if (!word) return esc(sentence);
+    var re = new RegExp("(^|[^A-Za-z'])((" + esc(word).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "|AND))(?![A-Za-z'])", 'i');
+    return esc(sentence).replace(re, function(m, pre, w){ return pre + '<mark>' + w + '</mark>'; });
+  }
+  var audio = new Audio(), playing = null;
+  function play(src, el){
+    if (playing) playing.classList.remove('on');
+    audio.pause(); audio.src = src; audio.currentTime = 0;
+    var p = audio.play(); if (p && p.catch) p.catch(function(){});
+    playing = el; if (el) el.classList.add('on');
+  }
+  audio.addEventListener('ended', function(){ if (playing) playing.classList.remove('on'); playing = null; });
+  var total = 0;
+  function count(){
+    var n = Object.keys(saved).filter(function(k){ return saved[k] && saved[k].pick; }).length;
+    document.getElementById('count').textContent = n + ' of ' + total + ' answered';
+  }
+  function row(group, r, choices, idx, n){
+    total++;
+    var sec = document.createElement('section'); sec.className = 'cardrow';
+    var said = r.owner_r4 ? '<p class="said">You said on the round-4 page: <b>' + esc(r.owner_r4.verdict) + '</b>' +
+      (r.owner_r4.note ? ' — “' + esc(r.owner_r4.note.trim()) + '”' : '') + '</p>' : '';
+    var clips = r.clips.map(function(c, i){
+      var whole = c.sentence_file ? '<button class="whole" data-src="' + esc(c.sentence_file) + '">▶ whole sentence</button>' : '';
+      return '<div class="clip" data-i="' + i + '"><button class="main" data-src="' + esc(c.file) + '"><b>' + esc(c.label) +
+             '</b><small>' + esc(c.kind) + '</small></button>' + whole + '</div>';
+    }).join('');
+    var name = group + ':' + r.sense;
+    var s = saved[name] || {};
+    var opts = choices.map(function(ch){
+      return '<label><input type="radio" name="' + esc(name) + '" value="' + esc(ch) + '"' + (s.pick === ch ? ' checked' : '') + '>' + esc(ch) + '</label>';
+    }).join('');
+    sec.innerHTML = '<div class="head"><h2>' + esc(r.word || r.sense.split('.')[0]) + '</h2><span class="n">' + (idx + 1) + ' of ' + n +
+      ' · <code>' + esc(r.sense) + '</code></span></div>' +
+      '<p class="sentence">' + marked(r.sentence, r.word) + '</p>' + said +
+      '<div class="plays">' + clips + '</div><p class="q">Which is best?</p><div class="opts">' + opts + '</div>' +
+      '<textarea placeholder="Note (optional)">' + esc(s.note || '') + '</textarea>';
+    sec.querySelectorAll('button[data-src]').forEach(function(b){
+      b.addEventListener('click', function(){ play(b.getAttribute('data-src'), b.closest('.clip')); });
+    });
+    sec.querySelectorAll('input[type=radio]').forEach(function(inp){
+      inp.addEventListener('change', function(){ saved[name] = saved[name] || {}; saved[name].pick = inp.value; persist(); count(); });
+    });
+    sec.querySelector('textarea').addEventListener('input', function(e){ saved[name] = saved[name] || {}; saved[name].note = e.target.value; persist(); });
+    return sec;
+  }
+  function build(group, el, choicesFor){
+    var rows = data.groups[group];
+    rows.forEach(function(r, i){ el.appendChild(row(group, r, choicesFor(r), i, rows.length)); });
+  }
+  build('words', document.getElementById('g-words'), function(r){
+    var takes = r.clips.filter(function(c){ return c.label !== 'A'; }).map(function(c){ return c.label; });
+    return takes.concat(['A still best', 'none is right']);
+  });
+  build('and', document.getElementById('g-and'), function(r){
+    var takes = r.clips.filter(function(c){ return c.label !== 'A'; }).map(function(c){ return c.label; });
+    return takes.concat(['A still best', 'none is right']);
+  });
+  count();
+  function results(){
+    var lines = ['CG-250 round-5 word cuts (' + new Date().toISOString().slice(0, 10) + ')'], ans = [];
+    ['words', 'and'].forEach(function(g){
+      data.groups[g].forEach(function(r){
+        var s = saved[g + ':' + r.sense] || {};
+        lines.push(g + ' ' + r.sense + ': ' + (s.pick || '(no answer)') + (s.note ? ' -- ' + s.note : ''));
+        ans.push({ group: g, sense: r.sense, pick: s.pick || null, note: s.note || '' });
+      });
+    });
+    return lines.join('\n') + '\n\n' + JSON.stringify({ task: 'CG-250', page: 'word-book/qa/clip-compare-r5/index.html', answers: ans }, null, 1);
+  }
+  document.getElementById('copy').addEventListener('click', function(){
+    var t = results(), out = document.getElementById('out'); out.value = t; out.style.display = 'block';
+    var st = document.getElementById('status');
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(t).then(function(){ st.textContent = 'Copied. Paste it back in the chat.'; },
+        function(){ out.select(); st.textContent = 'Select the text below and copy it.'; });
+    } else { out.select(); st.textContent = 'Select the text below and copy it.'; }
+  });
+  document.getElementById('download').addEventListener('click', function(){
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([results()], { type: 'text/plain' }));
+    a.download = 'cg250-round5-results.txt'; a.click();
+  });
+})();
+</script>
+</body>
+</html>
