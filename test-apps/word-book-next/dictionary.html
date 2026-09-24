@@ -339,9 +339,29 @@
       var rs = [], ps = [];
       c.rows.forEach(function (r, i) { if (r) { rs.push(r); ps.push(c.pos[i]); } });
       c.rows = rs; c.pos = ps;
+      /* A hero not drawn yet (data `hero_pending`: its picture is on a branch still to
+         merge) falls back to the group's first drawn sense, never to an empty well. */
       if (!c.pic) rs.some(function (r) { return (c.pic = r[4]); });
     });
     return out;
+  }
+
+  /* A TO Z, WHATEVER ORDER THE DATA ARRIVES IN (owner, 2026-09-23: "also, need to arrange
+     it alphabetically."). data/dictionary.json keeps the order its layers were built in:
+     the 2,000-word source A to Z, then new-cards.json APPENDED after `zookeeper` -- so
+     letter C read cabbage ... cut, cylinder, cabin, cage, camp. The page sorts the cards
+     once, here, so the letter grid and search results (both filter this one list) are A to
+     Z, and a rebuild of the data can never undo it.
+     The key is the headword lowercased, compared character by character: `Saturday` sits
+     between `satellite` and `Saturn`, and a space or hyphen comes before any letter, so
+     `ice` < `ice cream` < `iceberg` and `T-shirt` < `table` -- the source's own order,
+     unchanged. A merged card sorts by its word. Cards that share a word (`bat` the animal,
+     `bat` for a ball; `may` and `May`) keep the order their rows have in the data: the
+     tie-break is each card's place in that list, so it holds on any browser's sort. */
+  function alphabetical(list) {
+    return list.map(function (c, i) { return { c: c, k: c.rows[0][0].toLowerCase(), i: i }; })
+      .sort(function (a, b) { return a.k < b.k ? -1 : a.k > b.k ? 1 : a.i - b.i; })
+      .map(function (x) { return x.c; });
   }
 
   /* What one sense says: its Thai, then its sentence with the sentence's own speaker. */
@@ -508,7 +528,7 @@
   fetch('data/dictionary.json').then(function (r) { return r.json(); }).then(function (d) {
     return ledgerLoad.then(function (l) {
       ledger = l;
-      cards = buildCards(d);
+      cards = alphabetical(buildCards(d));
       render();
     });
   }).catch(function () {

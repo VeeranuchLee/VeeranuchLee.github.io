@@ -53,6 +53,7 @@
   .t .note{display:block;font-size:12px;line-height:1.35;margin-top:6px;color:#a8341f;font-weight:700}
   .vbar .here em{display:block;font-style:normal;font-size:12px;color:#ffd1c4;white-space:normal}
   .removed{margin-top:26px;font-size:14px;color:var(--muted)}
+  .blurb{color:var(--muted);margin:-4px 0 12px;font-size:14px;line-height:1.45;max-width:760px}
   .none{color:var(--muted)}
 
   /* The card view: the real dictionary in a frame, under a bar that steps through the list. */
@@ -72,9 +73,10 @@
 <body>
 <header>
   <h1>New Word Pictures</h1>
-  <p class="sub">Tap a picture to open its <b>real card</b> in the dictionary, with its speaker,
-  its Thai and its sentence. Tap the speaker to hear the word. Use <b>Next</b> to step
-  through them all.</p>
+  <p class="sub">Everything that changed in Word Book since the live version: new pictures,
+  merged cards, every redraw grouped by where it came from, and the new sentence
+  speakers. Tap a picture to open its <b>real card</b> in the dictionary, with its speaker,
+  its Thai and its sentence. Use <b>Next</b> to step through them all.</p>
   <p class="sub" id="sentences"></p>
   <p class="tally" id="tally">Loading the list…</p>
 </header>
@@ -115,6 +117,14 @@
   }
 
   function seenKey(c) { return c.why + ':' + c.sense; }
+  /* One line under a section heading, where the section needs saying. */
+  var BLURB = {
+    'Merged cards': 'Words that had two or more cards now have one, with each meaning underneath. ' +
+      'A merged card shows only its main meaning\u2019s picture: a red note on a tile means that ' +
+      'picture is never seen on the card. correct and test now show their new pictures.',
+    'Sentence speakers (A and B)': 'These cards gained a speaker beside the sentence. Open the card ' +
+      'and tap the speaker next to the sentence to hear it.'
+  };
   function heading(sec) {
     var n = sec.cards.length;
     return n <= 3 ? sec.title + ': ' + sec.cards.map(function (c) { return c.word; }).join(', ')
@@ -125,7 +135,9 @@
   function paint() {
     var seen = readSeen(), n = 0, i = 0;
     grid.innerHTML = sections.map(function (sec, si) {
-      return '<h2 id="sec' + si + '">' + esc(heading(sec)) + '</h2><div class="grid">' +
+      var blurb = BLURB[sec.title] || '';
+      return '<h2 id="sec' + si + '">' + esc(heading(sec)) + '</h2>' +
+        (blurb ? '<p class="blurb">' + esc(blurb) + '</p>' : '') + '<div class="grid">' +
         sec.cards.map(function (c) {
           var k = i++;
           if (seen[seenKey(c)]) n++;
@@ -134,6 +146,7 @@
             '<span class="cap"><span class="word">' + esc(c.word) + '</span>' +
             '<span class="thai" lang="th">' + esc(c.thai) + '</span>' +
             (c.pos ? '<span class="why">' + esc(c.pos.join(' + ')) + '</span>' : '') +
+            (c.sentenceClip ? '<span class="why">sentence speaker</span>' : '') +
             (c.note ? '<span class="note">' + esc(c.note) + '</span>' : '') +
             '</span></button>';
         }).join('') + '</div>';
@@ -175,7 +188,8 @@
     var c = cards[i];
     document.getElementById('hereWord').textContent = c.word;
     document.getElementById('hereN').textContent = (i + 1) + ' of ' + cards.length + ' · ' + c.why + ' · ' + c.thai;
-    document.getElementById('hereNote').textContent = c.note || '';
+    document.getElementById('hereNote').textContent = c.note ||
+      (c.sentenceClip ? 'Tap the speaker beside the sentence.' : '');
     document.getElementById('prev').disabled = i === 0;
     document.getElementById('next').disabled = i === cards.length - 1;
     view.classList.add('on');
