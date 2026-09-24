@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "note": "Tricky lookalike families (TRICKY-SET-PLAN.md). In Tricky, each item is asked with its own three siblings as the distractors. Pilot: families A and B only. Art lives in assets-runtime/tricky/<id>/.",
+  "note": "Tricky lookalike families (TRICKY-SET-PLAN.md). In Tricky, each item is asked with its own three siblings as the distractors. Dealt as cards of two families. Art lives in assets-runtime/tricky/<id>/.",
   "title": "Lookalikes",
   "families": [
     {
@@ -63,6 +63,110 @@
           "source": "tricky-pilot/b4-rabbit.png",
           "detail": "two very long upright ears; tiny puff tail"
         }
+      ]
+    },
+    {
+      "id": "cups-with-a-side-handle",
+      "title": "Cups and pots with a side handle",
+      "view": "exact side view, one C-handle on the left, same body box",
+      "items": [
+        {
+          "id": "tricky-mug",
+          "label": "Mug",
+          "source": "tricky-pilot/c1-mug.png",
+          "detail": "straight sides, plain rim"
+        },
+        {
+          "id": "tricky-jug",
+          "label": "Jug",
+          "source": "tricky-pilot/c2-jug.png",
+          "detail": "small pointed pouring lip at the rim"
+        },
+        {
+          "id": "tricky-teacup",
+          "label": "Teacup",
+          "source": "tricky-pilot/c3-teacup.png",
+          "detail": "bowl flares at the rim and narrows to a small foot"
+        },
+        {
+          "id": "tricky-honey-pot",
+          "label": "Honey pot",
+          "source": "tricky-pilot/c4-honey-pot.png",
+          "detail": "round belly with a domed lid and knob"
+        }
+      ]
+    },
+    {
+      "id": "table-tools",
+      "title": "Table tools",
+      "view": "exact top view, vertical, head at the top, same handle",
+      "items": [
+        {
+          "id": "tricky-spoon",
+          "label": "Spoon",
+          "source": "tricky-pilot/d1-spoon.png",
+          "detail": "oval bowl"
+        },
+        {
+          "id": "tricky-fork",
+          "label": "Fork",
+          "source": "tricky-pilot/d2-fork.png",
+          "detail": "four separated tines"
+        },
+        {
+          "id": "tricky-butter-knife",
+          "label": "Butter knife",
+          "source": "tricky-pilot/d3-butter-knife.png",
+          "detail": "long narrow rounded blade"
+        },
+        {
+          "id": "tricky-spatula",
+          "label": "Spatula",
+          "source": "tricky-pilot/d4-spatula.png",
+          "detail": "flat square slotted blade"
+        }
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "id": "lookalikes-1",
+      "title": "Pots and pets",
+      "families": [
+        "top-handle-pots",
+        "sitting-animals"
+      ]
+    },
+    {
+      "id": "lookalikes-2",
+      "title": "Cups and cutlery",
+      "families": [
+        "cups-with-a-side-handle",
+        "table-tools"
+      ]
+    },
+    {
+      "id": "lookalikes-3",
+      "title": "Garden and farm",
+      "families": [
+        "garden-tools",
+        "farm-animals"
+      ]
+    },
+    {
+      "id": "lookalikes-4",
+      "title": "Birds and hats",
+      "families": [
+        "standing-birds",
+        "hats"
+      ]
+    },
+    {
+      "id": "lookalikes-5",
+      "title": "Cars and fruit",
+      "families": [
+        "road-vehicles",
+        "round-fruit"
       ]
     }
   ]

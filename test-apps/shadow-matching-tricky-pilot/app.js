@@ -44,8 +44,7 @@ var SIGS = null;               /* silhouette signatures, for Memory's fairness r
 var MEM_MIN_DISTANCE = 0.15;   /* see the note above memChoosePairs */
 var $ = function (s, r) { return (r || document).querySelector(s); };
 var MIRROR = null;             /* measured mirror eligibility, for Mirror Match -- see below */
-var TRICKY = null;             /* the lookalike families, for Tricky only -- see lookalikeGroup() */
-var LOOKALIKES = 'lookalikes'; /* the set id of the lookalike families' card */
+var TRICKY = null;             /* the lookalike families, for Tricky only -- see lookalikeGroups() */
 
 /* Regular | Tricky, kept the same way the speaker setting is: a plain localStorage read/write,
    each wrapped so blocked storage degrades to "this visit only" rather than a broken app.
@@ -197,8 +196,7 @@ function home() {
   /* The lookalike families belong to Tricky alone, so their card is shown only there --
      first, because they are what Tricky is now for. Regular, Board, Memory and Mirror never
      see them. */
-  var look = trickyFind() ? lookalikeGroup() : null;
-  if (look) cards = setCard(look, look.items.length) + cards;
+  if (trickyFind()) cards = lookalikeGroups().map(function (g) { return setCard(g, g.items.length); }).join('') + cards;
   screen(
     '<header class="topline"><a class="hub" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games">&larr; All games</a>' +
     soundButton() + '</header>' +
@@ -253,16 +251,25 @@ function trickyFind() { return state.mode === 'find' && state.level === 'tricky'
    three siblings as the distractors, so naming the picture no longer answers it: the child has
    to find the spout or the handle. Still four choices. The file is optional: without it the
    card is simply not offered. */
-function lookalikeGroup() {
-  if (!TRICKY || !TRICKY.families) return null;
-  var items = [];
-  TRICKY.families.forEach(function (f) {
-    f.items.forEach(function (it) {
-      items.push({ id: it.id, label: it.label, status: 'complete', family: f.id,
-                   art: 'assets-runtime/tricky/' });
+function lookalikeGroups() {
+  if (!TRICKY || !TRICKY.families) return [];
+  var fam = {};
+  TRICKY.families.forEach(function (f) { fam[f.id] = f; });
+  /* Families are dealt as cards of two (eight questions, like the pilot), so a round stays
+     short; a file without "cards" gets one card holding every family. */
+  var cards = TRICKY.cards || [{ id: 'lookalikes', title: TRICKY.title || 'Lookalikes',
+                                 families: TRICKY.families.map(function (f) { return f.id; }) }];
+  return cards.map(function (c) {
+    var items = [];
+    c.families.forEach(function (id) {
+      if (!fam[id]) return;
+      fam[id].items.forEach(function (it) {
+        items.push({ id: it.id, label: it.label, status: 'complete', family: id,
+                     art: 'assets-runtime/tricky/' });
+      });
     });
-  });
-  return items.length ? { id: LOOKALIKES, title: TRICKY.title || 'Lookalikes', items: items } : null;
+    return { id: c.id, title: c.title, items: items };
+  }).filter(function (g) { return g.items.length; });
 }
 
 function siblings(answer, pool) {
@@ -324,7 +331,7 @@ function mirrorChoices(answer, pool) {
 }
 
 function startSet(id) {
-  var g = id === LOOKALIKES ? lookalikeGroup() : roster.groups.filter(function (x) { return x.id === id; })[0];
+  var g = lookalikeGroups().concat(roster.groups).filter(function (x) { return x.id === id; })[0];
   state.set = g;
   state.queue = shuffle(playable(g).slice());
   state.i = 0; state.done = 0; state.pairs = 0; state.pick = null;
