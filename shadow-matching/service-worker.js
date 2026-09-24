@@ -1,6 +1,6 @@
 /* CACHE_NAME is the variable the release pipeline's reader expects (publish-app.sh stage 5
    matches /CACHE_NAME\s*=/), and bumping it is what arms a release. Do not rename it. */
-const CACHE_NAME = 'shadow-matching-v4';
+const CACHE_NAME = 'shadow-matching-v5';
 
 /* The SHELL is the app and the roster -- everything needed to show the set picker. The
    OBJECT ART IS NOT PRECACHED: 100 objects at two images each is several megabytes, and a

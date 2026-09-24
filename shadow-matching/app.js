@@ -44,7 +44,19 @@ var SIGS = null;               /* silhouette signatures, for Memory's fairness r
 var MEM_MIN_DISTANCE = 0.15;   /* see the note above memChoosePairs */
 var $ = function (s, r) { return (r || document).querySelector(s); };
 var MIRROR = null;             /* measured mirror eligibility, for Mirror Match -- see below */
-var state = { set: null, queue: [], i: 0, misses: 0, done: 0, mode: 'find', level: 'regular',
+
+/* Regular | Tricky, kept the same way the speaker setting is: a plain localStorage read/write,
+   each wrapped so blocked storage degrades to "this visit only" rather than a broken app.
+   Regular is the fallback on any failure, matching the brief's default. */
+var LEVEL_KEY = 'shadow-matching-level';
+function loadLevel() {
+  try { return window.localStorage.getItem(LEVEL_KEY) === 'tricky' ? 'tricky' : 'regular'; } catch (e) { return 'regular'; }
+}
+function saveLevel(level) {
+  try { window.localStorage.setItem(LEVEL_KEY, level); } catch (e) { /* kept for this visit only */ }
+}
+
+var state = { set: null, queue: [], i: 0, misses: 0, done: 0, mode: 'find', level: loadLevel(),
               pick: null, pairs: 0, mem: null, visit: 0 };
 var roster = null;
 
@@ -213,7 +225,7 @@ function home() {
     b.onclick = function () { state.mode = b.dataset.mode; home(); };
   });
   Array.prototype.forEach.call(document.querySelectorAll('.level'), function (b) {
-    b.onclick = function () { state.level = b.dataset.level; home(); };
+    b.onclick = function () { state.level = b.dataset.level; saveLevel(state.level); home(); };
   });
 }
 
@@ -607,12 +619,13 @@ function memFlip(cardId) {
   }
 
   /* A miss: both stay visible, then flip back. The pause is what makes it a memory game
-     -- a child who never sees the wrong card has nothing to remember. No sound here: in a
-     memory game turning over two that do not match is how the board is explored, not a
-     wrong answer, and a cue on every one of them would be the constant noise the brief
-     rules out. */
+     -- a child who never sees the wrong card has nothing to remember. Turning over two that
+     do not match is how a memory board is explored, not a wrong answer, so this plays the
+     quieter 'mismatch' cue rather than 'wrong' -- a silent control here reads as broken, but
+     the full wrong-answer buzz would be the constant noise the brief rules out. */
   m.resolving = true;
   say('memMiss');
+  sfx('mismatch');
   setTimeout(memResolve, 1300);
 }
 

@@ -1,9 +1,9 @@
 /* Shadow Matching — the sound controller. The only thing in this app that makes a sound.
  *
- * WHAT IT SAYS. Five short cues, each about what just happened in the game and nothing else
- * (OLDER-KID-SPEC.md sections 9-12): correct, wrong, hint, resolve, complete. No music, no
- * tap clicks. Every cue has a visible equivalent already on screen -- the green border, the
- * line under the picture, the finish screen -- so the game is whole with the sound off.
+ * WHAT IT SAYS. Six short cues, each about what just happened in the game and nothing else
+ * (OLDER-KID-SPEC.md sections 9-12): correct, wrong, mismatch, hint, resolve, complete. No
+ * music, no tap clicks. Every cue has a visible equivalent already on screen -- the green
+ * border, the line under the picture, the finish screen -- so the game is whole with sound off.
  *
  * WHERE THE SOUNDS COME FROM. Nowhere: they are synthesised here, a few sine and triangle
  * tones through Web Audio. No file, no network request, no generator, nothing bought, so
@@ -12,6 +12,8 @@
  *
  *   correct   two warm rising notes, E5 then A5 -- short, so it never holds up the next tap
  *   wrong     one soft low note, 330 Hz -- "look again", not a buzzer and not a fall
+ *   mismatch  the same low note as wrong, quieter still -- Memory's "turn them back", not a
+ *             miss; a child exploring a memory board is not wrong for not knowing yet
  *   hint      one very quiet high note with a slow start -- neither praise nor a miss
  *   resolve   one mellow middle note -- "here it is", deliberately NOT the success sound
  *   complete  C E G C, quick and small -- a little more than correct, far short of a fanfare
@@ -110,6 +112,7 @@ var Sound = (function () {
   return {
     correct:  function () { return play('correct',  [[659.3, 0, 0.16, 0.16, 0.01, 'triangle'], [880, 0.09, 0.22, 0.16, 0.01, 'triangle']]); },
     wrong:    function () { return play('wrong',    [[330, 0, 0.16, 0.10, 0.015, 'sine']]); },
+    mismatch: function () { return play('mismatch', [[330, 0, 0.14, 0.045, 0.02, 'sine']]); },
     hint:     function () { return play('hint',     [[1046.5, 0, 0.36, 0.05, 0.06, 'sine']]); },
     resolve:  function () { return play('resolve',  [[523.3, 0, 0.34, 0.11, 0.02, 'sine']]); },
     complete: function () {
