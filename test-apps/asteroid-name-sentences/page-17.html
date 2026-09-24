@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ari &amp; Dot · Page 17 — Neptune</title>
+<style>
+:root{--cream:#fff7df;--ink:#153c62;--gold:#f0c36e;--blue:#71d6e9;--orange:#d9853f;--violet:#403569}*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#030817;color:var(--ink);font-family:Nunito,"Trebuchet MS",sans-serif;overflow:hidden}.stage{position:relative;width:min(100vw,150vh,1536px);aspect-ratio:3/2;margin:auto;overflow:hidden;background:#07152d}.art{position:absolute;pointer-events:none;object-fit:contain}.bg{inset:0;width:100%;height:100%;object-fit:cover}
+/* A baked rotation: 36 square frames side by side in one image. jump-none is
+   what makes it exact -- it lands on all 36 frames inclusive, where a plain
+   steps(36) would skip the last one and stutter once per turn. */
+.globe{position:absolute;left:50%;top:50%;translate:-50% -50%;
+  aspect-ratio:1;max-width:100%;max-height:100%;height:100%;
+  background-repeat:no-repeat;
+  background-size:calc(var(--frames) * 100%) 100%;
+  animation:globeSpin var(--turn,26s) steps(var(--frames),jump-none) infinite}
+@keyframes globeSpin{from{background-position-x:0%}to{background-position-x:100%}}
+.neptune-globe{translate:none;max-width:none;max-height:none;z-index:5;
+  --frames:36;--turn:22s;background-image:url(assets-runtime/standard/page-17/neptune-spin.webp)}
+.neptune-ring-back,.neptune-ring-front{inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;mix-blend-mode:screen;-webkit-mask-image:radial-gradient(circle,#000 70%,transparent 78%);mask-image:radial-gradient(circle,#000 70%,transparent 78%);-webkit-mask-size:var(--nep-size) var(--nep-size);mask-size:var(--nep-size) var(--nep-size);-webkit-mask-position:left var(--nep-left) top var(--nep-top);mask-position:left var(--nep-left) top var(--nep-top);-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.neptune-ring-back{z-index:4;opacity:.38}
+.neptune-ring-front{z-index:6;opacity:.5}
+.neptune-scene{position:absolute;z-index:4;right:0;top:8%;width:64%;height:70%;pointer-events:none;transition:filter .8s ease,transform .8s ease}
+.rings{inset:0;width:100%;height:100%;opacity:.32;filter:drop-shadow(0 8px 18px #0008)}.rings-back{z-index:1}
+.planet,.bands,.storm,.high{left:18%;top:7%;width:64%;height:86%}
+.planet{z-index:2;filter:drop-shadow(0 18px 35px #0009)}
+.bands{z-index:3;opacity:.2;mix-blend-mode:screen}
+.storm,.high{z-index:3;opacity:0;transition:opacity .7s}
+.high{mix-blend-mode:screen}
+.rings-front{z-index:4;clip-path:polygon(0 52%,100% 52%,100% 100%,0 100%)}
+.neptune-scene.weather .storm{opacity:.72}.neptune-scene.weather .high{opacity:.42}.neptune-scene.weather .bands{opacity:.34}
+.neptune-scene.distant{filter:saturate(.86) brightness(.88)}
+.neptune-backdrop{transition:filter .8s ease}.neptune-backdrop.weather{filter:saturate(1.08) contrast(1.04)}.neptune-backdrop.distant{filter:saturate(.82) brightness(.76)}
+.craft{z-index:9;right:3%;top:4%;width:22%;height:32%;filter:drop-shadow(0 8px 20px #000a);transition:transform 1.25s ease}
+.craft.fly{transform:translate(-30vw,26vh) rotate(-12deg)}
+.story{position:absolute;z-index:20;left:3%;top:3%;width:36%;padding:1.1rem 1.3rem;border:2px solid #fff8;border-radius:24px;background:#fff8e9ef;box-shadow:0 12px 35px #0007}.eyebrow{font-weight:900;color:#327990;letter-spacing:.08em;text-transform:uppercase}.story h1{margin:.15rem 0 .3rem;font-size:clamp(1.7rem,3vw,3.25rem);line-height:1;color:#294d79}.story p{margin:.4rem 0;line-height:1.35;font-size:clamp(.88rem,1.1vw,1.18rem)}button,a,input{font:inherit}.pill,.tool,.fact,.close{border:2px solid #365a84;border-radius:999px;background:#fffaf0;color:#243d62;font-weight:900;cursor:pointer;box-shadow:0 4px 0 #193b5d}.pill:active,.tool:active,.fact:active{transform:translateY(3px);box-shadow:0 1px 0 #193b5d}.story-actions{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem}.pill{padding:.5rem .8rem}
+/* Owner, 2026-08-27: "need to make sure ALL games has back icon to the hub".
+   Mirrors .page-nav's geometry on the opposite corner -- the book's whole chrome
+   lives top-right, and top-left, which was empty, is where the same arrow sits in
+   every other app the hub links to. --focus is defined on page 1 only, hence the
+   literal fallback the other pages already use for focus rings. */
+.story-hub{position:absolute;z-index:40;top:1.5%;left:1.5%;display:grid;place-items:center;height:32px;min-width:32px;padding:0 8px;border:1px solid rgba(255,255,255,.2);border-radius:8px;background:#16345c;color:#fff;font:inherit;font-weight:900;text-decoration:none}
+.story-hub:hover{background:#285b87}
+.story-hub:focus-visible{outline:3px solid var(--focus,#8eeaff);outline-offset:2px}
+.page-nav{position:absolute;z-index:50;right:1.5%;top:1.5%;display:flex;align-items:center;gap:4px;padding:4px;border:1px solid #71d6e966;border-radius:13px;background:#07152de8}.page-nav>a,.page-jump{display:grid;place-items:center;height:32px;min-width:32px;border:1px solid #71d6e966;border-radius:9px;background:#17496b;color:#fff;text-decoration:none;font-weight:900;cursor:pointer}.page-nav [aria-disabled=true]{opacity:.35;pointer-events:none}.page-jump{min-width:64px;padding:0 8px}.page-goto{position:absolute;right:calc(100% + 6px);top:0;display:flex;gap:4px;padding:7px;border-radius:10px;background:#07152df5}.page-goto[hidden]{display:none}.page-goto input{width:44px}.page-goto button{background:var(--gold);border:0;border-radius:6px;font-weight:900}
+.ari{z-index:11;left:15%;bottom:18%;width:24%;height:52%;transition:opacity .3s}.dot{z-index:12;left:33%;bottom:20%;width:16%;height:36%;transition:opacity .3s}.pose{opacity:0}.pose.active{opacity:1}.tools{position:absolute;z-index:26;left:3%;top:45%;display:grid;gap:.5rem;width:16%;max-width:220px}.tool{padding:.58rem .8rem;background:#fff7dfea;text-align:left;font-size:clamp(.72rem,1vw,.98rem)}.status{position:absolute;z-index:45;left:50%;bottom:19.5%;transform:translateX(-50%);max-width:76%;background:#201a43ed;color:#fff;border-radius:999px;padding:.45rem .9rem;font-weight:800;text-align:center;opacity:0;transition:.25s;pointer-events:none}.status.show{opacity:1}
+.facts{position:absolute;z-index:28;left:2%;right:2%;bottom:1.5%;height:20%;display:grid;grid-template-columns:repeat(6,1fr);overflow:hidden;border:3px solid #244b79;border-radius:28px;background:linear-gradient(#fffdf5,#fff6df);color:#15365f;box-shadow:0 8px 26px #0008}.fact{display:grid;grid-template-rows:55% auto;place-items:center;min-width:0;border:0;border-right:1px dashed #8c9aa8;border-radius:0;box-shadow:none;background:transparent;color:inherit;padding:5px;font-size:clamp(12px,1.35vw,17px);line-height:1.15;text-align:center}.fact:last-child{border-right:0}.fact span:first-child{display:grid;place-items:center;width:100%;height:100%}.fact svg{width:100%;height:100%;max-width:64px}.fact strong{display:block;color:#a44e32}.modal{position:fixed;z-index:100;inset:0;display:none;place-items:center;background:#050918c7;padding:2vw}.modal.open{display:grid}.dialog{width:min(900px,94vw);max-height:92vh;overflow:auto;background:var(--cream);border:4px solid var(--gold);border-radius:28px;padding:1.2rem;box-shadow:0 20px 70px #0009}.dialog-head{display:flex;justify-content:space-between;gap:1rem;align-items:center}.dialog h2{margin:.1rem;color:#284e79}.close{width:44px;height:44px}.tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin:.8rem 0}.tabs button{padding:.45rem .65rem;border:2px solid #6887a8;border-radius:999px;background:#fff;font-weight:800;cursor:pointer}.tabs button[aria-selected=true]{background:#315d8b;color:#fff}.lesson{display:grid;grid-template-columns:1.3fr 1fr;gap:1rem;align-items:center}.lesson-box{min-height:330px;display:grid;place-items:center;background:#07152d;border-radius:20px;padding:1rem}.lesson-box svg{width:100%;max-height:300px}.lesson-copy{line-height:1.48}.note{font-size:.85rem;color:#657184}.reduced *{animation:none!important;transition:none!important}.reduced animate,.reduced animateTransform,.reduced animateMotion{display:none}
+@media(max-aspect-ratio:4/5){.stage{width:100vw;height:100vh;aspect-ratio:auto}.story{width:47%}.neptune-scene{right:-3%;top:14%;width:68%;height:62%}.craft{width:24%}.tools{top:46%;width:18%}.ari{left:15%;width:26%}.dot{left:35%;width:19%}.status{bottom:25%}}
+@media(max-aspect-ratio:4/5){.story{width:73%;padding:.85rem;top:6%;left:2%}.story p{font-size:.84rem}.page-nav{right:2%;top:1%}.neptune-scene{right:-16%;top:22%;width:92%;height:46%}.craft{right:-1%;top:18%;width:30%;height:22%}.craft.fly{transform:translate(-48vw,18vh) rotate(-10deg)}.ari{left:-7%;bottom:30%;width:48%;height:38%}.dot{left:30%;bottom:31%;width:31%;height:28%}.tools{left:auto;right:2%;top:48%;width:auto;max-width:none;gap:.3rem}.tool{padding:.42rem .55rem;font-size:.69rem}.facts{height:31%;grid-template-columns:repeat(2,1fr);border-radius:18px}.fact{font-size:12px;grid-template-rows:52px auto;border-right:0;border-bottom:1px dashed #8c9aa8}.fact:nth-last-child(-n+2){border-bottom:0}.fact svg{height:52px}.lesson{grid-template-columns:1fr}.lesson-box{min-height:220px}}
+
+/* Sound and Calm mode. Pages 11-17 use `.tools` for their own discovery
+   buttons, so the utility controls get their own cluster. */
+.page-controls{position:absolute;z-index:40;right:2%;bottom:22.5%;display:flex;gap:6px}
+.page-controls button{border:1px solid #b9ddff66;border-radius:999px;background:#17324fe8;
+color:#fff;padding:5px 11px;font:inherit;font-size:clamp(8px,.85vw,12px);font-weight:850;
+cursor:pointer;backdrop-filter:blur(6px)}
+.page-controls button:hover{background:#2c5d8a}
+.page-controls button:focus-visible{outline:3px solid #8eeaff;outline-offset:3px}
+@media(max-aspect-ratio:4/5){.page-controls{right:2%;bottom:auto;top:1.5%;left:2%;justify-content:flex-start}}
+
+/* NAMEPLATES:CSS */
+.np{position:absolute;z-index:23;display:flex;flex-direction:column;align-items:center;
+gap:.32em;font-size:var(--np-size,clamp(12px,.9vw,15px));line-height:1;font-weight:900;
+white-space:nowrap}
+/* The drawing. No frame around it: a boxed avatar reads as an icon in a chip,
+   an unboxed one reads as a small world floating in the same sky as the big
+   ones, which on Pages 10 and 16 is exactly what it is. */
+.np-body{display:block;padding:0;border:0;background:transparent;cursor:pointer;
+border-radius:50%;transition:transform .18s;
+/* A cold rim light and a shadow. Without the rim a dark grey moon drawn on a
+   dark grey sky is a smudge at 30px -- the framed disc the old chip drew
+   around the avatar was doing this job, and taking the frame away took it. */
+filter:drop-shadow(0 0 2px #d6ecffcc) drop-shadow(0 4px 9px #000b)}
+.np-body:hover{transform:scale(1.1)}
+.np-body:active{transform:scale(.95)}
+.np-body:focus-visible{outline:3px solid #8eeaff;outline-offset:4px}
+.np .np-av{display:block;width:var(--np-av,clamp(24px,2.7vw,40px));
+height:var(--np-av,clamp(24px,2.7vw,40px))}
+.np .np-blush{fill:#ff8fa3;opacity:.5}
+.np-label{display:inline-flex;align-items:center;gap:.34em;padding:.2em .52em;
+border:2px solid #244b79;border-radius:999px;background:#fff8dff2;color:#15365f;
+font:inherit;cursor:pointer;box-shadow:0 3px 9px #0007;
+transition:background .16s,transform .16s,box-shadow .16s}
+.np-label:hover{background:#ffe9b8;transform:translateY(-1px)}
+.np-label:active{transform:translateY(1px) scale(.97)}
+.np-label:focus-visible{outline:3px solid #8eeaff;outline-offset:3px}
+.np-ear{flex:none;width:.9em;height:.9em;opacity:.55;transition:opacity .16s}
+.np-label:hover .np-ear,.np.np-on .np-ear{opacity:1}
+.np.np-on .np-label{background:#ffe08e;box-shadow:0 0 0 3px #ffc52b,0 3px 9px #0007}
+.np.np-on .np-av{animation:npPop .62s cubic-bezier(.34,1.56,.64,1)}
+@keyframes npPop{0%{transform:scale(1) rotate(0)}35%{transform:scale(1.28) rotate(-9deg)}
+65%{transform:scale(1.05) rotate(6deg)}100%{transform:scale(1) rotate(0)}}
+/* Leader line, so a plate can sit clear of the art and still point at it. It
+   leaves the drawing, not the middle of the stack, or it would appear to come
+   out of the label's ear glyph. */
+.np-lead::after{content:"";position:absolute;height:2px;background:#ffe9a8cc;
+box-shadow:0 0 4px #0009;top:calc(var(--np-av,clamp(24px,2.7vw,40px))/2);pointer-events:none}
+.np-lead-r::after{left:100%;width:var(--np-lead,34px);transform-origin:left;
+transform:rotate(var(--np-angle,0deg))}
+.np-lead-l::after{right:100%;width:var(--np-lead,34px);transform-origin:right;
+transform:rotate(var(--np-angle,0deg))}
+/* "You are here" -- the plate for the ground the reader is standing on. */
+.np-here .np-label{flex-direction:column;align-items:flex-start;gap:.18em;
+padding:.3em .62em;border-radius:1.05em;border-color:#ffc52b}
+.np-here .np-row{display:flex;align-items:center;gap:.34em}
+.np-here-tag{display:block;color:#a4501c;font-size:.74em;letter-spacing:.09em;
+text-transform:uppercase}
+/* A roster: one block of plates that flows itself, used where a page names a
+   family of small worlds at once. Ten hand-placed positions drift apart every
+   time the type size moves; one grid does not. */
+.np-roster{position:absolute;z-index:23;display:grid;
+grid-template-columns:repeat(var(--np-cols,4),1fr);gap:.7em .3em;
+justify-items:center;align-items:end}
+.np-roster .np{position:static}
+.stage.reduce-motion .np.np-on .np-av,.reduced .np.np-on .np-av,
+.stage.reduced .np.np-on .np-av{animation:none}
+@media(prefers-reduced-motion:reduce){.np.np-on .np-av{animation:none}}
+@media(max-width:700px),(max-aspect-ratio:1/1){.np-lead::after{display:none}}
+/* A roster is sized by the space the page has, and on a phone that space is
+   a third of 420px. Four columns of labels do not fit in 140px; two do. */
+@media(max-width:560px){.np-roster{--np-cols:2}}
+
+[data-np="p17-neptune"]{right:27%;top:64%}
+@media(max-aspect-ratio:4/5){[data-np="p17-neptune"]{inset:auto;left:78%;top:42%}}/* /NAMEPLATES:CSS */
+/* SECRETS:CSS */
+/* Sparkling stars that hide a space friend, and the sticker book that
+   remembers who has been found.
+
+   The trigger is a small glint of light: a child should have to look for it
+   rather than be told where it is. The glint and the friend share one position
+   and are each centred on it, so a secret is a single point on the page rather
+   than two boxes to keep in agreement. */
+.sf-star,.sf-friend{position:absolute;transform:translate(-50%,-50%)}
+/* A glint, not a picture of a star. This used to show one of the owner's sticker
+   sprites at 18px, and at that size the pastel ones -- which have no face -- read
+   as a white lump on a photograph of space; several of them also carry
+   see-through patches left by the sheet cut, which show as grey smudges on a
+   dark sky. The book already had a better answer on Pages 2-4: a small drawn
+   sparkle. The sticker art is not lost, it is moved to where it is seen big --
+   the friend who pops out, and the sticker book -- and the thing hiding on the
+   painting is now a point of light.
+
+   Big invisible button, small mark. Page 6's original sparkle is 70px wide
+   holding 25px of star, and that split is the point: a mark small enough to hunt
+   for must not mean a target too small for a four-year-old's finger. */
+.sf-star{z-index:24;width:44px;height:44px;padding:0;border:0;background:none;
+cursor:pointer;display:grid;place-items:center;line-height:0;color:#fff6c8}
+/* Deliberately quiet -- the owner's rule is that a child should have to look for
+   it. The twinkle is what makes that fair: the glint nearly fades out and comes
+   back, so a page scanned patiently gives it away and a page glanced at does not. */
+.sf-star::before{content:"✦";line-height:1;
+font-size:var(--sf-art,clamp(13px,1.05vw,15px));
+text-shadow:0 0 3px #ffffffaa,0 0 7px #ffc65eaa;
+animation:sfTwinkle 4.6s ease-in-out infinite}
+.sf-star:hover::before{text-shadow:0 0 4px #fff,0 0 12px #ffd27a}
+.sf-star:focus-visible{outline:3px solid #8eeaff;outline-offset:4px;border-radius:50%}
+.sf-star[hidden]{display:none}
+@keyframes sfTwinkle{0%,100%{opacity:.2;transform:scale(.72)}
+45%{opacity:.92;transform:scale(1.08)}70%{opacity:.34;transform:scale(.85)}}
+.sf-friend{z-index:25;pointer-events:none;width:15%;height:21%}
+.sf-pop{width:100%;height:100%;opacity:0;transform:translateY(14%) scale(.5);
+transition:opacity .38s,transform .52s cubic-bezier(.34,1.56,.64,1)}
+.sf-pop img{width:100%;height:100%;object-fit:contain;
+filter:drop-shadow(0 8px 16px #000a) drop-shadow(0 0 14px #ffd76a55)}
+.sf-friend.sf-here .sf-pop{opacity:1;transform:none}
+.sf-friend.sf-going .sf-pop{opacity:0;transform:translateY(-16%) scale(.82)}
+
+/* The sticker book. A child collects across the whole book, so the count is
+   kept in localStorage and every page shows the same running total. */
+/* The sticker book lives in the page's existing control row rather than
+   floating on the picture. Absolutely positioning it meant ten hand-tuned spots
+   that still collided -- with a story card at one window size, a fact tray at
+   another. In the control row it is laid out in flow, so it cannot collide at
+   any size, it is in the place children already look for buttons, and it is in
+   the same place on every page. */
+.sf-book{position:static;z-index:27;display:inline-flex;align-items:center;gap:.34em;
+padding:.26em .62em .26em .34em;border:2px solid #ffd76a;border-radius:999px;
+background:#0b1730e8;color:#ffeab5;font:inherit;font-weight:900;
+font-size:clamp(12px,.85vw,14px);cursor:pointer;box-shadow:0 3px 12px #0008}
+.sf-book:hover{background:#17325a}
+/* Let the control row wrap. Several pages lay their row out without wrapping,
+   and in portrait it already ran past the edge of the stage before the sticker
+   button joined it -- page 6's was 105% of the stage wide. One extra button
+   made that visible, so it is fixed here rather than left to overflow. */
+.tools,.page-controls,.toolbar{flex-wrap:wrap-reverse;justify-content:flex-end}
+/* wrap-reverse, not wrap: these rows are anchored near the bottom of the stage,
+   so an overflow line has to go *up* into the sky. Wrapping downwards pushed the
+   sticker button off the stage on a phone and onto the rover on Mars. */
+.sf-book:focus-visible{outline:3px solid #8eeaff;outline-offset:3px}
+.sf-book img{width:1.5em;height:1.5em;object-fit:contain}
+.sf-book.sf-pulse{animation:sfPulse .7s ease-out}
+@keyframes sfPulse{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
+.sf-panel{position:absolute;z-index:70;inset:6% 8%;display:none;flex-direction:column;
+padding:14px 16px;border:2px solid #ffd76a;border-radius:22px;background:#07152df7;
+box-shadow:0 18px 50px #000d;backdrop-filter:blur(6px)}
+.sf-panel.sf-open{display:flex}
+.sf-panel h2{margin:0 0 2px;color:#ffd76a;font-size:clamp(13px,1.5vw,20px)}
+.sf-panel p{margin:0 0 10px;color:#bdd8f0;font-size:clamp(12px,.9vw,14px)}
+.sf-grid{flex:1;display:grid;gap:6px;overflow:auto;
+grid-template-columns:repeat(auto-fill,minmax(52px,1fr));align-content:start}
+.sf-slot{position:relative;aspect-ratio:1;border-radius:12px;background:#0d1c34;
+display:grid;place-items:center;padding:5px}
+.sf-slot img{width:100%;height:100%;object-fit:contain}
+.sf-slot.sf-locked img{filter:brightness(0) opacity(.32)}
+.sf-slot.sf-got{background:#16345c;box-shadow:inset 0 0 0 2px #ffd76a}
+.sf-close{position:absolute;right:10px;top:10px;width:32px;height:32px;border:0;
+border-radius:50%;background:#ffd76a;color:#07152d;font-weight:1000;font-size:16px;cursor:pointer}
+.reduced .sf-star::before,.reduce-motion .sf-star::before,
+.stage.reduced .sf-star::before,.stage.reduce-motion .sf-star::before{animation:none;opacity:.85}
+.reduced .sf-pop,.reduce-motion .sf-pop,
+.stage.reduced .sf-pop,.stage.reduce-motion .sf-pop{transition:opacity .18s}
+@media(prefers-reduced-motion:reduce){.sf-star::before{animation:none;opacity:.85}}
+@media(max-aspect-ratio:4/5){.sf-star{width:44px;height:44px;--sf-art:clamp(13px,3.4vw,15px)}
+.page-controls{max-width:56%}
+/* Page 5 and 6 lay their portrait control row out 105% of the stage wide, so it
+   already ran off both edges before the sticker button existed. Constraining it
+   makes it wrap inside the stage, which is what made the button reachable on a
+   phone at all. */
+.tools{max-width:96%;right:2%}
+.sf-friend{width:18%;height:13%}.sf-panel{inset:4% 4%}}
+
+[data-friend="sf17-friend-calm-blue"],#sf17-friend-calm-blue{left:52%;top:12%}[data-friend="sf17-rock-ice-crystal-rock"],#sf17-rock-ice-crystal-rock{left:90%;top:22%}[data-friend="sf17-ship-halo-saucer"],#sf17-ship-halo-saucer{left:78%;top:58%}
+@media(max-aspect-ratio:4/5){[data-friend="sf17-friend-calm-blue"],#sf17-friend-calm-blue{inset:auto;left:88%;top:16%}[data-friend="sf17-rock-ice-crystal-rock"],#sf17-rock-ice-crystal-rock{inset:auto;left:26%;top:52%}[data-friend="sf17-ship-halo-saucer"],#sf17-ship-halo-saucer{inset:auto;left:48%;top:58%}}/* /SECRETS:CSS */
+
+/* Ari and Dot are 20% smaller (owner, 2026-08-19), to leave the pages more room
+   for everything else. Done with the standalone `scale` property about
+   bottom-centre, not by rewriting every width/height, for three reasons: the
+   feet stay on the same ground line, the figure keeps its horizontal centre so
+   shrinking cannot slide it left into the pill column, and the narrow-screen
+   layouts inherit the same factor without being edited. `scale` composes with
+   `transform`, so the pose animations still work on top of it. */
+.ari,.dot{scale:.8;transform-origin:50% 100%}
+.crew{z-index:11;left:13%;bottom:18%;width:35%;height:48%;scale:.8;transform-origin:50% 100%;transition:opacity .3s}
+@media(max-aspect-ratio:4/5){.crew{left:10%;bottom:22%;width:42%;height:42%}}
+@media(max-aspect-ratio:4/5){.crew{left:-10%;bottom:31%;width:58%;height:34%}}
+</style>  <style>
+  /* Touch hygiene -- owner 2026-09-15: a child's drag became a blue text selection,
+     and pinches zoomed the page. user-select and touch-callout stop the first;
+     touch-action: manipulation stops double-tap zoom without killing scroll. Pinch is never blocked: it is a zoomed-in child's only way back out (INTERACTION-DIRECTION.md). */
+  html { -webkit-text-size-adjust: 100%; touch-action: manipulation; }
+  body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; touch-action: manipulation; }
+  input, textarea, [contenteditable="true"] { -webkit-user-select: text; user-select: text; }
+  </style>
+</head><body>
+<main class="stage" id="stage">
+<!-- NAMEPLATES:HTML -->
+<div class="np" data-np="p17-neptune" data-art=".neptune-globe"><button type="button" class="np-body" data-say="Neptune, the windiest planet, far out in the dark." aria-label="Neptune. Hear about it"><svg class="np-av" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><clipPath id="npc-p17-neptune"><circle cx="50" cy="50" r="32"/></clipPath></defs><circle cx="50" cy="50" r="32" fill="#3a5ec6"/><g clip-path="url(#npc-p17-neptune)"><path d="M10 22q22 10 40-2t40 6v8q-20-10-40 2t-40-6z" fill="#5b7ddb"/><path d="M10 72q20-10 40 2t40-6v14H10z" fill="#2f4ba6"/><ellipse cx="68" cy="74" rx="13" ry="8" fill="#25397f"/><path d="M20 34q16 6 30 0" fill="none" stroke="#cfe0ff" stroke-width="2.6" opacity=".7"/><ellipse cx="36" cy="30" rx="12" ry="6.5" fill="#fff" opacity=".26" transform="rotate(-30 36 30)"/></g><g transform="translate(8.00,11.00) scale(0.84)"><g class="np-face"><ellipse class="np-blush" cx="30" cy="58" rx="5.6" ry="3.4"/><ellipse class="np-blush" cx="70" cy="58" rx="5.6" ry="3.4"/><g class="np-eyes"><ellipse cx="39" cy="46" rx="7" ry="8.4" fill="#fff"/><ellipse cx="61" cy="46" rx="7" ry="8.4" fill="#fff"/><circle cx="39.6" cy="47.4" r="4.6" fill="#16233d"/><circle cx="61.6" cy="47.4" r="4.6" fill="#16233d"/><circle cx="41.4" cy="44.4" r="2" fill="#fff"/><circle cx="63.4" cy="44.4" r="2" fill="#fff"/></g><path d="M45 58.5q5 5.4 10 0" fill="none" stroke="#16233d" stroke-width="3" stroke-linecap="round"/></g></g></svg></button><button type="button" class="np-label" data-say="Neptune" aria-label="Hear the name Neptune"><span class="np-name">Neptune</span><svg class="np-ear" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9h4l5-4v14l-5-4H4z" fill="#15365f"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="#15365f" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+<!-- /NAMEPLATES:HTML -->
+<!-- SECRETS:HTML -->
+<button type="button" class="sf-star" data-friend="sf17-friend-calm-blue" data-sticker="friend-calm-blue" data-say="Hello! I'm Zen." aria-label="A tiny sparkling star hiding a space friend"></button>
+<div class="sf-friend" id="sf17-friend-calm-blue"><div class="sf-pop"><img src="assets-runtime/standard/shared/space-friends/friend-calm-blue.webp" alt="Zen, a space friend"></div></div>
+<button type="button" class="sf-star" data-friend="sf17-rock-ice-crystal-rock" data-sticker="rock-ice-crystal-rock" data-say="Hi! I'm Sparkle." aria-label="A tiny sparkling star hiding a space friend"></button>
+<div class="sf-friend" id="sf17-rock-ice-crystal-rock"><div class="sf-pop"><img src="assets-runtime/standard/shared/space-friends/rock-ice-crystal-rock.webp" alt="Sparkle, a space friend"></div></div>
+<button type="button" class="sf-star" data-friend="sf17-ship-halo-saucer" data-sticker="ship-halo-saucer" data-say="Hello! I'm Ringo." aria-label="A tiny sparkling star hiding a space friend"></button>
+<div class="sf-friend" id="sf17-ship-halo-saucer"><div class="sf-pop"><img src="assets-runtime/standard/shared/space-friends/ship-halo-saucer.webp" alt="Ringo, a space friend"></div></div>
+<button type="button" class="sf-book" aria-label="Open the sticker book"><img src="assets-runtime/standard/shared/space-friends/star-happy-gold.webp" alt=""><span>Stickers</span><span class="sf-tally">0 / 0</span></button>
+<section class="sf-panel" role="dialog" aria-modal="true" aria-label="Sticker book"><button type="button" class="sf-close" aria-label="Close the sticker book">&times;</button><h2>My sticker book</h2><p>Tap a sparkling star on any page to meet a space friend and keep their sticker.</p><div class="sf-grid"></div></section>
+<!-- NARRATION:JS -->
+<script>
+window.__NARRATION = {
+ "Neptune": "p02-narrator-21-neptune.m4a",
+ "Hi! I'm Sparkle.": "p12-friend-06-hi-i-m-sparkle.m4a",
+ "Hello! I'm Ringo.": "p13-friend-10-hello-i-m-ringo.m4a",
+ "Hello! I'm Zen.": "p14-friend-09-hello-i-m-zen.m4a",
+ "Deep-blue Neptune is the farthest major planet, with fierce winds and storms that can appear and fade.": "p17-narrator-01-deep-blue-neptune-is-the-farthest.m4a",
+ "Fierce winds race through Neptune's atmosphere, and dark storms can appear and then fade.": "p17-narrator-02-fierce-winds-race-through-neptune-s.m4a",
+ "From this far out, the Sun is only a bright point and sunlight is much dimmer than on Earth.": "p17-narrator-03-from-this-far-out-the-sun.m4a",
+ "Voyager 2 flew past Neptune in August nineteen eighty-nine and remains the only spacecraft to visit closely.": "p17-narrator-04-voyager-2-flew-past-neptune-in.m4a",
+ "Neptune, the windiest planet, far out in the dark.": "p17-narrator-05-neptune-the-windiest-planet-far-out.m4a",
+ "Neptune is the eighth planet, and the farthest major planet from the Sun.": "p17-narrator-06-neptune-is-the-eighth-planet-and.m4a",
+ "A day on Neptune lasts about sixteen hours, but one year lasts about one hundred sixty-five Earth years.": "p17-narrator-07-a-day-on-neptune-lasts-about.m4a",
+ "Neptune has the fastest winds of any planet, racing at more than two thousand kilometres an hour.": "p17-narrator-08-neptune-has-the-fastest-winds-of.m4a",
+ "Methane in the air helps Neptune look blue, but it is not the only reason for every shade we see.": "p17-narrator-09-methane-in-the-air-helps-neptune.m4a",
+ "Neptune has at least five main rings, with brighter clumps called arcs in the outer ring.": "p17-narrator-10-neptune-has-at-least-five-main.m4a",
+ "Voyager 2 flew past Neptune in August nineteen eighty-nine, and it is still the only spacecraft to visit closely.": "p17-narrator-11-voyager-2-flew-past-neptune-in.m4a",
+ "Neptune is more than thirty times farther from the Sun than Earth, so sunlight there is much dimmer.": "p17-narrator-12-neptune-is-more-than-thirty-times.m4a",
+ "Neptune spins once in about sixteen hours, but one trip around the Sun takes about one hundred sixty-five Earth years.": "p17-narrator-13-neptune-spins-once-in-about-sixteen.m4a",
+ "Methane soaks up red sunlight and helps Neptune look blue, but other gases and clouds change the shade too.": "p17-narrator-14-methane-soaks-up-red-sunlight-and.m4a",
+ "Neptune has at least five main rings, and the outer ring has brighter clumps called arcs.": "p17-narrator-15-neptune-has-at-least-five-main.m4a",
+ "Voyager 2 made the only close spacecraft visit to Neptune in August nineteen eighty-nine.": "p17-narrator-16-voyager-2-made-the-only-close.m4a"
+};
+window.__NARRATION_BASE = "assets-runtime/narration/";
+(function () {
+  /* Generated by tools/wire-narration.py. Do not edit by hand. */
+  var MAP = window.__NARRATION || {}, BASE = window.__NARRATION_BASE || "";
+  var synth = window.speechSynthesis;
+  if (!synth || !synth.speak) return;
+  var realSpeak = synth.speak.bind(synth), realCancel = synth.cancel.bind(synth);
+  var el = null, token = 0;
+
+  function stop() {
+    token++;
+    if (el) { el.onended = null; el.onerror = null; try { el.pause(); } catch (e) {} }
+  }
+
+  /* Muting calls cancel(). Without this an <audio> element keeps playing and the
+     tap appears to do nothing. */
+  synth.cancel = function () { stop(); realCancel(); };
+
+  synth.speak = function (utterance) {
+    var text = utterance && utterance.text ? String(utterance.text).trim() : "";
+    var file = MAP[text];
+    if (!file) return realSpeak(utterance);   /* no clip: the robot keeps the line */
+    stop();
+    var mine = ++token;
+    if (!el) el = new Audio();
+
+    /* A clip that cannot load must not leave a child in silence, so a failure
+       falls back to the very utterance we intercepted. The token stops a
+       superseded clip's late error from talking over whatever is playing now.
+
+       ONE RETRY BEFORE THE ROBOT (owner decision, 2026-09-09). A dropped request
+       on the wifi is indistinguishable here from a clip that does not exist, and
+       both used to go straight to the OS voice. The owner heard exactly that --
+       one page robotic, the rest in Ari's voice -- and a transient miss is the
+       only thing that explains a robot page that moves around, since every one of
+       the book's 405 lines is mapped, rendered and published. So a failure gets a
+       second attempt, cache-bypassed, before the fallback. The cost when a file is
+       genuinely gone is one extra request; the gain when the network hiccuped is a
+       child hearing Ari instead of an adult robot. AUDIO-DIRECTION.md: no OS
+       voices. */
+    var attempt = 0;
+    function play() {
+      if (mine !== token) return;
+      /* The retry must not be answered from the same failed cache entry. */
+      el.src = BASE + file + (attempt ? "?retry=" + attempt : "");
+      var played = el.play();
+      if (played && played.catch) played.catch(onFail);
+    }
+    function onFail() {
+      if (mine !== token) return;
+      if (attempt++ < 1) { play(); return; }
+      token++;
+      el.onerror = null;
+      realSpeak(utterance);
+    }
+    el.onerror = onFail;
+    play();
+  };
+})();
+</script>
+<!-- /NARRATION:JS -->
+<script>const SF_ROSTER=[{"id":"rock-fire-comet","art":"rock-fire-comet","name":"Flick"},{"id":"friend-orange-waver","art":"friend-orange-waver","name":"Tango"},{"id":"rock-gold-crystal-rock","art":"rock-gold-crystal-rock","name":"Nugget"},{"id":"friend-jelly-blue","art":"friend-jelly-blue","name":"Bloop"},{"id":"friend-blue-octo","art":"friend-blue-octo","name":"Squish"},{"id":"rock-frost-comet","art":"rock-frost-comet","name":"Frosty"},{"id":"friend-moon-hugger","art":"friend-moon-hugger","name":"Cuddle"},{"id":"friend-little-robot","art":"friend-little-robot","name":"Beep"},{"id":"rock-grey-rock","art":"rock-grey-rock","name":"Pebble"},{"id":"rock-lava-rock","art":"rock-lava-rock","name":"Ember"},{"id":"friend-rock-peeker","art":"friend-rock-peeker","name":"Peek"},{"id":"ship-moon-buggy","art":"ship-moon-buggy","name":"Trundle"},{"id":"rock-dark-rock","art":"rock-dark-rock","name":"Cinder"},{"id":"friend-suited-teal","art":"friend-suited-teal","name":"Zed"},{"id":"ship-saucer-classic","art":"ship-saucer-classic","name":"Whizz"},{"id":"rock-plain-purple-rock","art":"rock-plain-purple-rock","name":"Plum"},{"id":"ship-crystal-hauler","art":"ship-crystal-hauler","name":"Hauler"},{"id":"ship-little-digger","art":"ship-little-digger","name":"Scoop"},{"id":"friend-big-violet","art":"friend-big-violet","name":"Grape"},{"id":"ship-rocket-red","art":"ship-rocket-red","name":"Zoom"},{"id":"rock-ice-crystal-rock","art":"rock-ice-crystal-rock","name":"Sparkle"},{"id":"ship-sub-explorer","art":"ship-sub-explorer","name":"Dipper"},{"id":"friend-hoodie-teal","art":"friend-hoodie-teal","name":"Hoodie"},{"id":"rock-plain-ice-comet","art":"rock-plain-ice-comet","name":"Glide"},{"id":"friend-star-friend","art":"friend-star-friend","name":"Twinkle"},{"id":"ship-halo-saucer","art":"ship-halo-saucer","name":"Ringo"},{"id":"ship-jelly-saucer","art":"ship-jelly-saucer","name":"Wobble"},{"id":"friend-calm-blue","art":"friend-calm-blue","name":"Zen"},{"id":"rock-plain-ice-rock","art":"rock-plain-ice-rock","name":"Chip"},{"id":"friend-floaty-mint","art":"friend-floaty-mint","name":"Drift"},{"id":"ship-crystal-glider","art":"ship-crystal-glider","name":"Glider"},{"id":"friend-book-reader","art":"friend-book-reader","name":"Pip"},{"id":"rock-blue-gem-rock","art":"rock-blue-gem-rock","name":"Gem"},{"id":"ship-ringed-pod","art":"ship-ringed-pod","name":"Halo"},{"id":"star-ice-blue","art":"star-ice-blue","name":"Chill"},{"id":"friend-blue-shy","art":"friend-blue-shy","name":"Shy"},{"id":"ship-star-sled","art":"ship-star-sled","name":"Sled"},{"id":"rock-plain-violet-comet","art":"rock-plain-violet-comet","name":"Wisp"},{"id":"friend-shy-violet","art":"friend-shy-violet","name":"Dusk"},{"id":"ship-star-cruiser","art":"ship-star-cruiser","name":"Cruise"}],SF_ART="assets-runtime/standard/shared/space-friends";</script>
+<!-- /SECRETS:HTML -->
+<img class="art bg neptune-backdrop" id="neptuneScene" data-fixed-tier src="assets-runtime/standard/page-17/neptune-full-scene-v1.jpg" alt="Deep-blue Neptune and its faint rings in a distant star field">
+<img class="art neptune-ring-back" src="assets-runtime/standard/page-17/neptune-rings-back-v1.webp" alt="" aria-hidden="true">
+<div class="globe neptune-globe" role="img" aria-label="Neptune"></div>
+<img class="art neptune-ring-front" src="assets-runtime/standard/page-17/neptune-rings-front-v1.webp" alt="" aria-hidden="true">
+<section class="story"><div class="eyebrow">Page 17 · The windy blue world</div><h1>Neptune</h1><p>Deep-blue Neptune is the farthest major planet from the Sun. Fierce winds race through its atmosphere, and its dark storms can appear and then fade away.</p><div class="story-actions"><button class="pill" id="listen">▶ Listen</button><button class="pill" id="about">◎ Explore Neptune</button></div></section>
+<!-- Absolute URL on purpose: published, /solar-storybook-feedback/ and
+     /children-apps/ are siblings, but in the repo the hub lives under site/, so a
+     relative link would work live and 404 in every local preview. -->
+<a class="story-hub" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games" title="Back to Children Games">←</a>
+<nav class="page-nav" aria-label="Page navigation"><a href="page-16.html" aria-label="Previous page">‹</a><button class="page-jump" aria-label="Page 17 of 20. Press and hold to go to a page">17 / 20</button><a href="page-18.html" aria-label="Next page">›</a><form class="page-goto" hidden><label>Go to <input type="number" min="1" max="20" value="17"></label><button>Go</button></form></nav>
+<img class="art craft" id="craft" src="assets-runtime/standard/page-17/voyager-2-neptune-v1.webp" alt="Voyager 2 flying past Neptune">
+<img class="art crew pose active" data-crew="default" src="assets-runtime/standard/page-05/ari-dot-venus-observe.webp" alt="Ari and Dot observing Neptune from their bubble spacecraft">
+<img class="art ari pose" data-ari="present" src="assets-runtime/standard/page-17/ari-neptune-present-v1.webp" alt="Ari presenting Neptune"><img class="art ari pose" data-ari="wind" src="assets-runtime/standard/page-17/ari-neptune-wind-brace-v1.webp" alt="Ari bracing as if feeling Neptune's winds"><img class="art ari pose" data-ari="distance" src="assets-runtime/standard/page-17/ari-neptune-distance-look-v1.webp" alt="Ari looking toward the distant Sun">
+<img class="art dot pose" data-dot="weather" src="assets-runtime/standard/page-17/dot-neptune-weather-scan-v1.webp" alt="Dot scanning Neptune's weather"><img class="art dot pose" data-dot="wind" src="assets-runtime/standard/page-17/dot-neptune-wind-measure-v1.webp" alt="Dot measuring Neptune's winds"><img class="art dot pose" data-dot="study" src="assets-runtime/standard/page-17/dot-voyager-neptune-study-v1.webp" alt="Dot studying Voyager 2 observations">
+<div class="tools" aria-label="Neptune discoveries"><button class="tool" id="winds">↝ Watch the winds</button><button class="tool" id="distant">☀ Look toward the Sun</button><button class="tool" id="flyby">⌁ Voyager 2 flyby</button></div><div class="status" id="status" role="status"></div>
+<section class="facts" aria-label="Neptune facts"><button class="fact" data-icon="eighth-distant-world.svg" data-say="Neptune is the eighth planet, and the farthest major planet from the Sun."><span></span><span><strong>Eighth world</strong>Farthest major planet</span></button><button class="fact" data-icon="short-day-long-year.svg" data-say="A day on Neptune lasts about sixteen hours, but one year lasts about one hundred sixty-five Earth years."><span></span><span><strong>Day and year</strong>16 hours · 165 years</span></button><button class="fact" data-icon="supersonic-winds.svg" data-say="Neptune has the fastest winds of any planet, racing at more than two thousand kilometres an hour."><span></span><span><strong>Fastest winds</strong>Over 2,000 km/h</span></button><button class="fact" data-icon="methane-blue.svg" data-say="Methane in the air helps Neptune look blue, but it is not the only reason for every shade we see."><span></span><span><strong>Blue colour</strong>Methane helps</span></button><button class="fact" data-icon="faint-rings-arcs.svg" data-say="Neptune has at least five main rings, with brighter clumps called arcs in the outer ring."><span></span><span><strong>Faint rings</strong>Five rings and arcs</span></button><button class="fact" data-icon="voyager-1989.svg" data-say="Voyager 2 flew past Neptune in August nineteen eighty-nine, and it is still the only spacecraft to visit closely."><span></span><span><strong>Voyager 2</strong>Close flyby, 1989</span></button></section><div class="page-controls" aria-label="Page controls"><button type="button" id="sound" aria-pressed="true">Sound on</button><button type="button" id="motion" aria-pressed="false" title="Stop everything on the page from moving (reduced motion)">Calm mode</button><button type="button" id="replay">Replay</button><button type="button" id="fullscreen">Full screen</button><button type="button" id="quality" aria-pressed="false">Standard picture</button></div>
+</main>
+<div class="modal" id="modal"><section class="dialog" role="dialog" aria-modal="true" aria-labelledby="lessonTitle"><div class="dialog-head"><h2 id="lessonTitle">A far, windy blue world</h2><button class="close" id="close" aria-label="Close">×</button></div><div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-diagram="distance-and-dim-sunlight.svg" data-say="Neptune is more than thirty times farther from the Sun than Earth, so sunlight there is much dimmer." data-title="Far from the Sun" data-copy="Neptune is the eighth and most distant major planet, more than thirty times farther from the Sun than Earth. This picture shortens the huge gap so both worlds can fit; it is not a true scale model.">Distance</button><button role="tab" aria-selected="false" data-diagram="day-year-seasons.svg" data-say="Neptune spins once in about sixteen hours, but one trip around the Sun takes about one hundred sixty-five Earth years." data-title="A short day, a long year" data-copy="A Neptune day is about 16 hours. One orbit takes about 165 Earth years. The 28-degree tilt is shown simply, and the orbit is not drawn to scale.">Day and year</button><button role="tab" aria-selected="false" data-diagram="fast-winds-changing-storms.svg" data-say="Fierce winds race through Neptune's atmosphere, and dark storms can appear and then fade." data-title="Winds and changing storms" data-copy="Winds in Neptune's atmosphere can exceed 2,000 kilometres an hour. Dark storms are changeable weather, not permanent marks. The arrows stay inside the air; they are not wind blowing through empty space.">Winds</button><button role="tab" aria-selected="false" data-diagram="methane-color-filter.svg" data-say="Methane soaks up red sunlight and helps Neptune look blue, but other gases and clouds change the shade too." data-title="Why Neptune looks blue" data-copy="Methane in the atmosphere absorbs red wavelengths, which helps Neptune look blue. The graphic does not claim methane alone explains every observed shade.">Colour</button><button role="tab" aria-selected="false" data-diagram="rings-and-arcs.svg" data-say="Neptune has at least five main rings, and the outer ring has brighter clumps called arcs." data-title="Faint rings and bright arcs" data-copy="Neptune has at least five main rings and four prominent arcs in the outer Adams ring. This diagram is a simple map of the idea, not a true-to-scale portrait.">Rings</button><button role="tab" aria-selected="false" data-diagram="voyager-neptune-flyby.svg" data-say="Voyager 2 made the only close spacecraft visit to Neptune in August nineteen eighty-nine." data-title="The only close visit" data-copy="Voyager 2 flew past Neptune on 25 August 1989 and continued onward. It remains the only spacecraft to visit closely; it did not orbit or land.">Voyager 2</button></div><div class="lesson"><div class="lesson-box" id="diagram"></div><div class="lesson-copy"><h3 id="lessonName">Far from the Sun</h3><p id="lessonCopy"></p><p class="note">Tap the diagram to replay its motion. Diagrams are explanatory and not to scale.</p></div></div></section></div>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];const stage=$('#stage'),status=$('#status'),scene=$('#neptuneScene');let reduced=matchMedia('(prefers-reduced-motion: reduce)').matches,soundOn=true;let lastFocus,timer,actionTimer;
+function say(t){show(t);if(!soundOn||!window.speechSynthesis)return;speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(t))}function show(t){status.textContent=t;status.classList.add('show');clearTimeout(timer);timer=setTimeout(()=>status.classList.remove('show'),4400)}
+function poses(a,d){$$('.crew.pose').forEach(x=>x.classList.toggle('active',a==='default'));$$('.ari.pose').forEach(x=>x.classList.toggle('active',x.dataset.ari===a));$$('.dot.pose').forEach(x=>x.classList.toggle('active',x.dataset.dot===d))}
+function resetScene(){scene.className='art bg neptune-backdrop';$('#craft').classList.remove('fly')}
+function playSvg(root){if(reduced)return;root.querySelectorAll('animate,animateTransform,animateMotion').forEach(a=>{try{a.beginElement()}catch{}})}
+function autoReset(){clearTimeout(actionTimer);actionTimer=setTimeout(()=>{resetScene();poses('default')},6200)}
+/* Neptune is painted into the backdrop, and that backdrop is drawn
+   object-fit:cover -- so how much of it survives the crop depends on the
+   stage's aspect ratio, which itself changes (the stage drops to a free
+   aspect ratio on narrow screens). Percentages against the stage cannot
+   track that; a globe pinned with them drifts off the painted planet, which
+   is how the previous Neptune animation ended up out of register and had to
+   be pulled. Run the same cover maths the browser runs, and re-run it
+   whenever the box changes. Disc measured from the JPEG itself. */
+const NEP={w:1672,h:941,cx:830,cy:462,r:359},neptuneGlobe=$('.neptune-globe');
+function placeNeptuneGlobe(){
+  const b=stage.getBoundingClientRect();
+  if(!b.width||!b.height)return;
+  const s=Math.max(b.width/NEP.w,b.height/NEP.h),
+        ox=(b.width-NEP.w*s)/2, oy=(b.height-NEP.h*s)/2, d=2*NEP.r*s;
+  const left=(ox+(NEP.cx-NEP.r)*s)+'px', top=(oy+(NEP.cy-NEP.r)*s)+'px', size=d+'px';
+  neptuneGlobe.style.width=neptuneGlobe.style.height=size;
+  neptuneGlobe.style.left=left;
+  neptuneGlobe.style.top=top;
+  stage.style.setProperty('--nep-left',left);
+  stage.style.setProperty('--nep-top',top);
+  stage.style.setProperty('--nep-size',size);
+}
+placeNeptuneGlobe();
+addEventListener('resize',placeNeptuneGlobe);
+addEventListener('orientationchange',placeNeptuneGlobe);
+document.addEventListener('fullscreenchange',placeNeptuneGlobe);
+$('#listen').onclick=()=>say('Deep-blue Neptune is the farthest major planet, with fierce winds and storms that can appear and fade.');
+$('#winds').onclick=()=>{resetScene();poses('wind','wind');scene.classList.add('weather');say('Fierce winds race through Neptune\'s atmosphere, and dark storms can appear and then fade.');autoReset()};
+$('#distant').onclick=()=>{resetScene();poses('distance','weather');scene.classList.add('distant');say('From this far out, the Sun is only a bright point and sunlight is much dimmer than on Earth.');autoReset()};
+$('#flyby').onclick=()=>{resetScene();poses('present','study');$('#craft').classList.add('fly');say('Voyager 2 flew past Neptune in August nineteen eighty-nine and remains the only spacecraft to visit closely.');autoReset()};
+$$('.fact').forEach(b=>b.onclick=()=>{playSvg(b);say(b.dataset.say)});
+const modal=$('#modal');let diagramRequest=0;async function loadDiagram(btn){const request=++diagramRequest;$$('[role=tab]').forEach(x=>x.setAttribute('aria-selected',x===btn));$('#lessonName').textContent=btn.dataset.title;$('#lessonCopy').textContent=btn.dataset.copy;const r=await fetch(`assets-runtime/standard/page-17/diagrams/${btn.dataset.diagram}?v=1`),svg=await r.text();if(request!==diagramRequest)return;$('#diagram').innerHTML=svg;playSvg($('#diagram'))}function openModal(){lastFocus=document.activeElement;modal.classList.add('open');stage.inert=true;loadDiagram($('[role=tab]'));$('#close').focus()}function closeModal(){modal.classList.remove('open');stage.inert=false;lastFocus?.focus()}$('#about').onclick=openModal;$('#close').onclick=closeModal;$$('[role=tab]').forEach(b=>b.onclick=()=>{loadDiagram(b);say(b.dataset.say)});$('#diagram').onclick=()=>playSvg($('#diagram'));modal.onclick=e=>{if(e.target===modal)closeModal()};document.addEventListener('keydown',e=>{if(!modal.classList.contains('open'))return;if(e.key==='Escape')closeModal();if(e.key==='Tab'){const f=$$('.dialog button'),i=f.indexOf(document.activeElement);if(e.shiftKey&&i===0){e.preventDefault();f.at(-1).focus()}else if(!e.shiftKey&&i===f.length-1){e.preventDefault();f[0].focus()}}});
+async function loadFacts(){$$('.fact').forEach(async b=>{const r=await fetch(`assets-runtime/standard/page-17/icons/${b.dataset.icon}?v=1`);b.firstElementChild.innerHTML=await r.text()})}loadFacts();
+const nav=$('.page-nav'),jump=$('.page-jump'),form=$('.page-goto'),input=form.querySelector('input');let hold,long=false;const openJump=()=>{long=true;form.hidden=false;input.select();input.focus()};jump.onpointerdown=()=>{long=false;hold=setTimeout(openJump,650)};['pointerup','pointercancel','pointerleave'].forEach(t=>jump.addEventListener(t,()=>clearTimeout(hold)));jump.onclick=e=>{if(long)e.preventDefault()};jump.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openJump()}};form.onsubmit=e=>{e.preventDefault();const n=+input.value;if(n>0&&n<21)location.href=`page-${String(n).padStart(2,'0')}.html`};document.addEventListener('pointerdown',e=>{if(!nav.contains(e.target))form.hidden=true});if(reduced)document.body.classList.add('reduced');
+
+(()=>{const sb=document.getElementById('sound'),mb=document.getElementById('motion');const syncSound=()=>{sb.textContent=soundOn?'Sound on':'Sound off';sb.setAttribute('aria-pressed',String(soundOn))};const syncMotion=()=>{mb.textContent=reduced?'Full motion':'Calm mode';mb.setAttribute('aria-pressed',String(reduced));document.body.classList.toggle('reduced',reduced)};sb.onclick=()=>{soundOn=!soundOn;if(!soundOn&&window.speechSynthesis)speechSynthesis.cancel();syncSound()};mb.onclick=()=>{reduced=!reduced;syncMotion()};syncSound();syncMotion()})();
+(()=>{const byId=s=>document.getElementById(s);byId('replay').onclick=()=>location.reload();const fs=byId('fullscreen'),root=document.documentElement;if(!root.requestFullscreen)fs.hidden=true;else fs.onclick=()=>document.fullscreenElement?document.exitFullscreen():root.requestFullscreen().catch(()=>{});let tier='standard';try{if(localStorage.getItem('sb-quality')==='high')tier='high'}catch(e){}const anyImg=()=>document.querySelector('img[src*="assets-runtime/"]:not([data-fixed-tier])');const retier=()=>[...document.querySelectorAll('img[src*="assets-runtime/"]:not([data-fixed-tier])')].forEach(i=>i.src=i.getAttribute('src').replace(/assets-runtime\/(standard|high)\//,'assets-runtime/'+tier+'/'));const highReady=()=>new Promise(r=>{const el=anyImg();if(!el)return r(false);const im=new Image();im.onload=()=>r(true);im.onerror=()=>r(false);im.src=el.getAttribute('src').replace(/assets-runtime\/(standard|high)\//,'assets-runtime/high/')});const qb=byId('quality'),sync=()=>{qb.textContent=tier==='high'?'Sharper picture':'Standard picture';qb.setAttribute('aria-pressed',String(tier==='high'))};const remember=()=>{try{tier==='high'?localStorage.setItem('sb-quality','high'):localStorage.removeItem('sb-quality')}catch(e){}};qb.onclick=async()=>{if(tier==='high'){tier='standard';retier();remember();sync();return}qb.disabled=true;const ok=await highReady();qb.disabled=false;if(!ok){qb.textContent='Standard only';setTimeout(sync,2200);return}tier='high';retier();remember();sync()};if(tier==='high'){tier='standard';highReady().then(ok=>{if(ok){tier='high';retier()}else remember();sync()})}sync()})();
+;(()=>{const q=document.getElementById('quality'),el=document.querySelector('img[src*="assets-runtime/"]:not([data-fixed-tier])');if(!q)return;if(!el){q.hidden=true;return}const im=new Image();im.onerror=()=>{q.hidden=true};im.src=el.getAttribute('src').replace(/assets-runtime\/(standard|high)\//,'assets-runtime/high/')})();
+
+/* NAMEPLATES:JS */
+/* Name boxes. Two targets, two answers: the drawing tells you what the world
+   is, the label tells you only what it is called. Both route through this
+   page's own narration helper so the sound toggle and status line keep working.
+   The leading semicolon is load-bearing: pages 7-10 end their last statement
+   without one, and a following line that opens with `(` is parsed as a call on
+   that statement's value -- `classList.add('reduced')(...)` -- which throws and
+   silently takes this whole block with it. The boxes still looked right and
+   simply never spoke. */
+;(()=>{const parts=[...document.querySelectorAll('.np-body,.np-label')];
+if(!parts.length)return;
+const tell=(typeof say==='function')?say
+:(typeof showStatus==='function'&&typeof speak==='function')?(t=>{showStatus(t);speak(t)})
+:(t=>{if(!window.speechSynthesis)return;speechSynthesis.cancel();
+const u=new SpeechSynthesisUtterance(t);u.rate=.92;u.pitch=1.06;speechSynthesis.speak(u)});
+/* The page's own picture of the body, made to speak the same sentence the
+   drawing in the plate speaks. A four-year-old aims at the planet, not at the
+   38px emblem beside it. Only plates that name an inert piece of art carry
+   `data-art`; anything the page already wired keeps its own behaviour. */
+document.querySelectorAll('.np[data-art]').forEach(p=>{
+const el=document.querySelector(p.dataset.art),src=p.querySelector('.np-body');
+if(!el||el.dataset.npArt)return;el.dataset.npArt='1';
+el.style.pointerEvents='auto';el.style.cursor='pointer';
+/* stopPropagation, because Page 6 nests the Moon inside the Earth group: a
+   tap on the Moon reached both handlers and the outer one, firing last, said
+   "Earth" over it. */
+el.addEventListener('click',e=>{e.stopPropagation();src.click()})});
+let offTimer;parts.forEach(b=>b.addEventListener('click',()=>{
+const plate=b.closest('.np');
+document.querySelectorAll('.np').forEach(x=>x.classList.toggle('np-on',x===plate));
+clearTimeout(offTimer);offTimer=setTimeout(()=>plate.classList.remove('np-on'),2600);
+tell(b.dataset.say)}))})();
+/* /NAMEPLATES:JS */
+/* SECRETS:JS */
+/* Sparkling stars and the sticker book. Speech goes through the page's own
+   helper so the Sound toggle keeps working; one friend at a time so taps cannot
+   stack; the collection is shared across the whole book via localStorage. */
+;(()=>{const stars=[...document.querySelectorAll('.sf-star')];if(!stars.length)return;
+const tell=(typeof say==='function')?say
+:(typeof showStatus==='function'&&typeof speak==='function')?(t=>{showStatus(t);speak(t)})
+:(typeof showFact==='function'&&typeof speakRole==='function')?(t=>{showFact(t);speakRole(t)})
+:(t=>{if(!window.speechSynthesis)return;speechSynthesis.cancel();
+const u=new SpeechSynthesisUtterance(t);u.rate=.95;u.pitch=1.25;speechSynthesis.speak(u)});
+/* A two-note plink, made rather than loaded: it needs no asset, no licence and
+   no download, and it is the same trick page 2 already uses for its chime. */
+let actx;const plink=()=>{try{const A=window.AudioContext||window.webkitAudioContext;if(!A)return;
+actx=actx||new A();if(actx.state==='suspended')actx.resume();
+[[880,0],[1320,.09]].forEach(([f,t])=>{const o=actx.createOscillator(),g=actx.createGain();
+o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(.0001,actx.currentTime+t);
+g.gain.exponentialRampToValueAtTime(.16,actx.currentTime+t+.015);
+g.gain.exponentialRampToValueAtTime(.0001,actx.currentTime+t+.28);
+o.connect(g);g.connect(actx.destination);o.start(actx.currentTime+t);o.stop(actx.currentTime+t+.3)})}catch(e){}};
+
+const KEY='sb-stickers';
+const load=()=>{try{return new Set(JSON.parse(localStorage.getItem(KEY)||'[]'))}catch(e){return new Set()}};
+const save=set=>{try{localStorage.setItem(KEY,JSON.stringify([...set]))}catch(e){}};
+let got=load();
+const book=document.querySelector('.sf-book'),tally=book&&book.querySelector('.sf-tally');
+/* Prefer .page-controls: on pages 11-14 that is the utility row, while .tools
+   there holds the page's own discovery buttons. On pages 5-10 .tools *is* the
+   utility row. Asked for in one selector list this picks whichever comes first
+   in the document, not the one wanted -- page 12 got its empty .tools and the
+   book vanished -- so they are tried in order, and a zero-sized row is skipped. */
+const host=['.page-controls','.tools','.toolbar'].map(q=>document.querySelector(q))
+ .find(el=>el&&el.getBoundingClientRect().width>10);
+if(book&&host)host.appendChild(book);
+const syncBook=()=>{if(tally)tally.textContent=`${got.size} / ${SF_ROSTER.length}`};
+
+const panel=document.querySelector('.sf-panel'),grid=panel&&panel.querySelector('.sf-grid');
+const paint=()=>{if(!grid)return;grid.innerHTML=SF_ROSTER.map(f=>{
+const has=got.has(f.id);
+return `<div class="sf-slot ${has?'sf-got':'sf-locked'}" title="${has?f.name:'Still hidden'}">`+
+`<img src="${SF_ART}/${f.art}.webp" alt="${has?f.name:'A sticker still to find'}"></div>`}).join('')};
+const outside=()=>[...panel.parentElement.children].filter(x=>x!==panel);
+if(book){book.addEventListener('click',()=>{paint();panel.classList.add('sf-open');
+outside().forEach(x=>x.inert=true);panel.querySelector('.sf-close').focus()})}
+if(panel){const shut=()=>{panel.classList.remove('sf-open');outside().forEach(x=>x.inert=false);
+if(book)book.focus()};panel.querySelector('.sf-close').onclick=shut;
+addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.classList.contains('sf-open'))shut()})}
+
+let busy=false,timers=[];
+let total=stars.filter(s=>s.offsetParent!==null).length;
+addEventListener('resize',()=>{if(!busy)total=stars.filter(s=>s.offsetParent!==null).length});
+stars.forEach(star=>star.addEventListener('click',()=>{
+if(busy)return;busy=true;const id=star.dataset.friend;
+const friend=document.getElementById(id);star.hidden=true;
+friend.classList.remove('sf-going');friend.classList.add('sf-here');
+plink();
+if(!got.has(star.dataset.sticker)){got.add(star.dataset.sticker);save(got);syncBook();
+if(book){book.classList.remove('sf-pulse');void book.offsetWidth;book.classList.add('sf-pulse')}}
+tell(star.dataset.say);
+timers.forEach(clearTimeout);timers=[
+ setTimeout(()=>friend.classList.add('sf-going'),3600),
+ setTimeout(()=>{friend.classList.remove('sf-here','sf-going');star.hidden=false;busy=false},4400)]}));
+syncBook()})();
+/* /SECRETS:JS */
+</script><!-- SERVICEWORKER:JS -->
+<script>
+/* Generated by tools/wire-service-worker.py. Do not edit by hand. */
+if ("serviceWorker" in navigator) {
+  addEventListener("load", function () {
+    Promise.resolve() /* Test Hub staging: no service worker */.catch(function () {});
+  });
+}
+</script>
+<!-- /SERVICEWORKER:JS -->
+  </body></html>
