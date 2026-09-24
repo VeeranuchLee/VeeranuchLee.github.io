@@ -3,122 +3,203 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Music Book — title sentences listening review</title>
+<title>Title Sentences Review</title>
 <style>
-  :root { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
-  body { margin: 0; padding: 1rem; background: #f7f5f0; color: #222; }
-  header { max-width: 900px; margin: 0 auto 1rem; }
-  h1 { font-size: 1.25rem; margin: 0 0 0.5rem; }
-  .summary { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
-  .summary button { padding: 0.5rem 0.75rem; border: 0; border-radius: 0.375rem; background: #2563eb; color: #fff; cursor: pointer; }
-  .summary button:disabled { background: #94a3b8; cursor: not-allowed; }
-  .counts { font-size: 0.95rem; color: #444; }
-  table { max-width: 900px; margin: 0 auto; border-collapse: collapse; width: 100%; background: #fff; border-radius: 0.5rem; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-  th, td { padding: 0.6rem 0.75rem; text-align: left; border-bottom: 1px solid #e5e5e5; font-size: 0.95rem; }
-  th { background: #eeeae2; font-weight: 600; }
-  .sentence { max-width: 420px; }
-  audio { width: 220px; height: 34px; display: block; }
-  .vote { white-space: nowrap; }
-  .vote button { padding: 0.35rem 0.6rem; border: 1px solid #cbd5e1; border-radius: 0.25rem; background: #fff; cursor: pointer; }
-  .vote button.active { background: #dcfce7; border-color: #22c55e; }
-  .vote button.wrong.active { background: #fee2e2; border-color: #ef4444; }
-  .row-right { background: #f0fdf4; }
-  .row-wrong { background: #fef2f2; }
-  .empty { padding: 2rem; text-align: center; color: #666; }
+  :root {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --bg: #f7f5f0; --card: #fff; --ink: #222; --muted: #555; --line: #e5e5e5;
+    --new: #2563eb; --trim: #7c3aed; --ear: #b45309; --ok-bg: #f0fdf4; --ok: #22c55e; --bad-bg: #fef2f2; --bad: #ef4444;
+  }
+  body { margin: 0; padding: 16px; background: var(--bg); color: var(--ink); }
+  header, main { max-width: 980px; margin: 0 auto; }
+  h1 { font-size: 1.3rem; margin: 0 0 .4rem; }
+  h2 { font-size: 1.05rem; margin: 1.5rem 0 .5rem; }
+  p.lead { margin: 0 0 .8rem; color: var(--muted); font-size: .95rem; line-height: 1.4; }
+  .bar { display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; position: sticky; top: 0; background: var(--bg); padding: .5rem 0; z-index: 1; }
+  .bar button { padding: .55rem .9rem; border: 0; border-radius: 6px; background: var(--new); color: #fff; font-size: .95rem; cursor: pointer; }
+  .bar button.secondary { background: #475569; }
+  .counts { font-size: .95rem; color: var(--muted); }
+  .list { display: grid; gap: 8px; }
+  .row { background: var(--card); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,.08); padding: 10px 12px;
+         display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; align-items: center; }
+  .row.right { background: var(--ok-bg); }
+  .row.wrong { background: var(--bad-bg); }
+  .sentence { font-size: 1rem; }
+  .meta { font-size: .8rem; color: var(--muted); display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .badge { font-size: .72rem; font-weight: 600; color: #fff; border-radius: 4px; padding: 1px 6px; }
+  .badge.new { background: var(--new); } .badge.trim { background: var(--trim); } .badge.ear { background: var(--ear); }
+  .note { grid-column: 1 / -1; font-size: .85rem; color: var(--muted); }
+  .controls { display: flex; gap: 6px; align-items: center; }
+  .play { width: 44px; height: 44px; border-radius: 50%; border: 1px solid #cbd5e1; background: #fff; font-size: 1.1rem; cursor: pointer; }
+  .vote { min-height: 44px; padding: 0 .7rem; border: 1px solid #cbd5e1; border-radius: 6px; background: #fff; cursor: pointer; font-size: .9rem; }
+  .vote.on.r { background: #dcfce7; border-color: var(--ok); }
+  .vote.on.w { background: #fee2e2; border-color: var(--bad); }
+  .empty { padding: 2rem; text-align: center; color: var(--muted); }
+  @media (max-width: 640px) { .row { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 <header>
-  <h1>Music Book — title sentences listening review</h1>
-  <div class="summary">
-    <button id="copy" disabled>Copy results</button>
-    <span class="counts" id="counts">Loading manifest…</span>
+  <h1>Music Book: title sentences</h1>
+  <p class="lead">Every name the book speaks, as a whole sentence. <strong>Listen to the first section first</strong>:
+    those clips are new or changed in this round, or the automatic check could not judge them and they need your ear.
+    Tap ▶, then <em>Sounds right</em> or <em>Sounds wrong</em>. When you are done, tap <em>Copy results</em> and paste them back.</p>
+  <div class="bar">
+    <button id="copy">Copy results</button>
+    <button id="playall" class="secondary">Play listen-first in order</button>
+    <span class="counts" id="counts">Loading…</span>
   </div>
 </header>
-<table id="table">
-  <thead>
-    <tr><th>#</th><th>Class</th><th>Sentence</th><th>Audio</th><th>Vote</th></tr>
-  </thead>
-  <tbody id="tbody"></tbody>
-</table>
-
+<main>
+  <h2>Listen first</h2>
+  <div class="list" id="first"></div>
+  <h2>Everything else (checked automatically, no known problem)</h2>
+  <div class="list" id="rest"></div>
+</main>
+<script src="listen-data.js" onerror="void 0"></script>
 <script>
-const tbody = document.getElementById('tbody');
-const countsEl = document.getElementById('counts');
-const copyBtn = document.getElementById('copy');
-const votes = new Map(); // id -> 'right' | 'wrong'
+// The clip set and its flags come from the sentence manifest: take > 1 means
+// re-rendered in the 2026-09-24 check-and-fix round, gainTrimDb means the
+// loudness was evened out from the master. EAR lists what the on-device
+// transcript could not settle, plus judgment calls for the owner. Nothing is
+// saved anywhere; Copy results is the output.
+const EAR = {
+  'mozart-piano-sonata-k545-1': 'Printed "K.545" and kept as spoken; the alternative is "Köchel 545". Is "K 545" fine?',
+  'composer-strauss': 'Now written "Johann Strauss the Second" instead of "II". Check it says "the Second".',
+  'composer-mozart': 'The clip ends very close to the last word. Check "Mozart" is not clipped.',
+  'composer-handel': 'The transcript heard "Friedrich". It should be "George Frideric Handel".',
+  'composer-dvorak': 'Foreign name: check "Antonín Dvořák".',
+  'composer-saint-saens': 'Foreign name: check "Camille Saint-Saëns".',
+  'composer-pachelbel': 'Check "Pachelbel".',
+  'bach-jesu-joy': 'The transcript heard "Jisu". Check "Jesu, Joy of Man\'s Desiring".',
+  'first-noel': 'The transcript heard "Noll". Check "Noel".',
+  'leron-leron-sinta': 'Foreign title: check by ear.',
+  'nkosi-sikelel-iafrika': 'Foreign title: check by ear.',
+  'uskudara-gider-iken': 'Foreign title: check by ear.',
+  'raghupati-raghava': 'Foreign title: check by ear.',
+  'misirlou': 'Foreign title: check by ear.',
+  'shchedryk': 'Foreign title: check by ear.',
+  'schumann-traumerei': 'The transcript heard "Try Marai". Check "Träumerei".',
+  'satie-gymnopedie-1': 'Check "Gymnopédie". The printed "No. 1" is spoken as "number one".',
+  'mozart-ah-vous-dirai-je-variations': 'French inside quotes: check "Ah! vous dirai-je, maman".',
+  'schubert-ave-maria': 'Your call: this is sung. Should it be "This song is called" instead of "This music is called"?',
+  'schubert-die-forelle': 'Your call: The Trout is a song (a Lied). Music or song?',
+  'brahms-lullaby': 'Your call: a lullaby. Music or song?',
+  'bizet-toreador-song': 'Your call: "This music is called Carmen — Toreador Song". Music or song?',
+  'el-condor-pasa': 'Your call: filed as traditional ("song"), but it has a composer (Robles, 1913).',
+  'deck-the-hall': 'Printed "Deck the Hall" (the old singular form), not "Halls". Keep it?',
+};
+const base = 'audio/titles/sentences/';
+const votes = new Map();
+const rows = new Map();
+let clips = [];
 
-function updateCounts() {
-  let right = 0, wrong = 0;
-  for (const v of votes.values()) {
-    if (v === 'right') right++;
-    else if (v === 'wrong') wrong++;
-  }
-  countsEl.textContent = `${votes.size} reviewed — ${right} right, ${wrong} wrong`;
-  copyBtn.disabled = votes.size === 0;
+function reasons(c) {
+  const out = [];
+  if ((c.take || 1) > 1) out.push(['new', 'NEW TAKE']);
+  if (c.gainTrimDb) out.push(['trim', `LOUDNESS ${c.gainTrimDb > 0 ? '+' : ''}${c.gainTrimDb} dB`]);
+  if (EAR[c.id]) out.push(['ear', 'YOUR EAR']);
+  return out;
 }
 
-function setVote(id, value) {
-  votes.set(id, value);
-  const tr = document.getElementById('row-' + id);
-  const rightBtn = tr.querySelector('.btn-right');
-  const wrongBtn = tr.querySelector('.btn-wrong');
-  rightBtn.classList.toggle('active', value === 'right');
-  wrongBtn.classList.toggle('active', value === 'wrong');
-  tr.classList.remove('row-right', 'row-wrong');
-  tr.classList.add(value === 'right' ? 'row-right' : 'row-wrong');
-  updateCounts();
+function counts() {
+  let r = 0, w = 0;
+  for (const v of votes.values()) v === 'right' ? r++ : w++;
+  const first = clips.filter((c) => reasons(c).length).length;
+  document.getElementById('counts').textContent =
+    `${clips.length} clips, ${first} to listen to first. Reviewed ${votes.size}: ${r} right, ${w} wrong.`;
 }
 
-copyBtn.addEventListener('click', async () => {
-  const rows = [];
-  for (const [id, value] of votes) {
-    const tr = document.getElementById('row-' + id);
-    const sentence = tr.querySelector('.sentence').textContent;
-    rows.push(`${value === 'right' ? '✓' : '✗'} ${id}: ${sentence}`);
+let current = null;
+function play(c) {
+  if (current) current.pause();
+  current = new Audio(base + c.file);
+  current.play().catch(() => {});
+  return current;
+}
+
+function vote(c, v) {
+  votes.set(c.id, v);
+  const el = rows.get(c.id);
+  el.classList.toggle('right', v === 'right');
+  el.classList.toggle('wrong', v === 'wrong');
+  el.querySelector('.r').classList.toggle('on', v === 'right');
+  el.querySelector('.w').classList.toggle('on', v === 'wrong');
+  counts();
+}
+
+function row(c) {
+  const el = document.createElement('div');
+  el.className = 'row';
+  el.dataset.id = c.id;
+  const badges = reasons(c).map(([k, t]) => `<span class="badge ${k}">${t}</span>`).join('');
+  el.innerHTML = `
+    <div>
+      <div class="sentence"></div>
+      <div class="meta">${badges}<span>${c.class}</span><span>${c.id}</span></div>
+    </div>
+    <div class="controls">
+      <button class="play" aria-label="Play">▶</button>
+      <button class="vote r">Sounds right</button>
+      <button class="vote w">Sounds wrong</button>
+    </div>`;
+  el.querySelector('.sentence').textContent = c.sentence;
+  if (EAR[c.id]) {
+    const n = document.createElement('div'); n.className = 'note'; n.textContent = EAR[c.id]; el.appendChild(n);
   }
-  const right = [...votes.values()].filter(v => v === 'right').length;
-  const wrong = [...votes.values()].filter(v => v === 'wrong').length;
-  const text = `Music Book title sentences listening review\n\nTotal reviewed: ${votes.size}\nRight: ${right}\nWrong: ${wrong}\n\n${rows.join('\n')}`;
-  try {
-    await navigator.clipboard.writeText(text);
-    copyBtn.textContent = 'Copied!';
-    setTimeout(() => copyBtn.textContent = 'Copy results', 1500);
-  } catch (e) {
-    copyBtn.textContent = 'Copy failed';
+  el.querySelector('.play').addEventListener('click', () => play(c));
+  el.querySelector('.r').addEventListener('click', () => vote(c, 'right'));
+  el.querySelector('.w').addEventListener('click', () => vote(c, 'wrong'));
+  rows.set(c.id, el);
+  return el;
+}
+
+document.getElementById('copy').addEventListener('click', async () => {
+  const lines = ['Music Book title sentences: listening results', ''];
+  const wrong = clips.filter((c) => votes.get(c.id) === 'wrong');
+  const right = clips.filter((c) => votes.get(c.id) === 'right');
+  const unheard = clips.filter((c) => reasons(c).length && !votes.has(c.id));
+  lines.push(`Reviewed ${votes.size} of ${clips.length}: ${right.length} right, ${wrong.length} wrong.`, '');
+  if (wrong.length) { lines.push('SOUNDS WRONG:'); wrong.forEach((c) => lines.push(`  ${c.id}: ${c.sentence}`)); lines.push(''); }
+  if (right.length) { lines.push('Sounds right:'); right.forEach((c) => lines.push(`  ${c.id}`)); lines.push(''); }
+  if (unheard.length) { lines.push('Listen-first clips not yet marked:'); unheard.forEach((c) => lines.push(`  ${c.id}`)); }
+  const text = lines.join('\n');
+  const btn = document.getElementById('copy');
+  try { await navigator.clipboard.writeText(text); btn.textContent = 'Copied'; }
+  catch (e) {
+    const ta = document.createElement('textarea'); ta.value = text; ta.style.width = '100%'; ta.rows = 12;
+    document.querySelector('header').appendChild(ta); ta.select();
+    btn.textContent = document.execCommand('copy') ? 'Copied' : 'Select the text below and copy it';
+  }
+  setTimeout(() => { btn.textContent = 'Copy results'; }, 2000);
+});
+
+document.getElementById('playall').addEventListener('click', async () => {
+  for (const c of clips.filter((x) => reasons(x).length)) {
+    rows.get(c.id).scrollIntoView({ block: 'center', behavior: 'smooth' });
+    const a = play(c);
+    await new Promise((res) => { a.onended = a.onerror = () => setTimeout(res, 700); });
   }
 });
 
-async function load() {
-  const res = await fetch('audio/title-sentences/manifest.json');
-  if (!res.ok) {
-    tbody.innerHTML = `<tr><td colspan="5" class="empty">Could not load manifest: ${res.status}</td></tr>`;
-    return;
+(async function load() {
+  // The staged Test Hub copy carries its clip list inline (listen-data.js, built
+  // by tools/stage-title-sentences-testhub.sh), because the sentence manifest is
+  // private and must never be served from a Test Hub path. Opened from
+  // music-book/ locally, the page reads the manifest instead.
+  if (Array.isArray(window.LISTEN_CLIPS)) {
+    clips = window.LISTEN_CLIPS;
+  } else {
+    const res = await fetch(base + 'manifest.json');
+    if (!res.ok) { document.getElementById('first').innerHTML = `<div class="empty">Could not load the clip list (${res.status}).</div>`; return; }
+    clips = (await res.json()).clips || [];
   }
-  const manifest = await res.json();
-  const clips = manifest.clips || [];
-  tbody.innerHTML = '';
-  clips.forEach((clip, i) => {
-    const tr = document.createElement('tr');
-    tr.id = 'row-' + clip.id;
-    tr.innerHTML = `
-      <td>${i + 1}</td>
-      <td>${clip.class || '-'}</td>
-      <td class="sentence">${clip.sentence || clip.text}</td>
-      <td><audio controls preload="none" src="audio/title-sentences/${clip.file}"></audio></td>
-      <td class="vote">
-        <button class="btn-right" aria-label="Sounds right">Right</button>
-        <button class="btn-wrong wrong" aria-label="Sounds wrong">Wrong</button>
-      </td>
-    `;
-    tr.querySelector('.btn-right').addEventListener('click', () => setVote(clip.id, 'right'));
-    tr.querySelector('.btn-wrong').addEventListener('click', () => setVote(clip.id, 'wrong'));
-    tbody.appendChild(tr);
-  });
-  countsEl.textContent = `${clips.length} titles — click Right or Wrong after listening`;
-}
-
-load();
+  const first = document.getElementById('first'), rest = document.getElementById('rest');
+  // Listen-first order: new takes, then loudness changes, then ear checks.
+  const rank = (c) => ((c.take || 1) > 1 ? 0 : c.gainTrimDb ? 1 : EAR[c.id] ? 2 : 3);
+  [...clips].sort((a, b) => rank(a) - rank(b)).forEach((c) => (rank(c) < 3 ? first : rest).appendChild(row(c)));
+  counts();
+})();
 </script>
 </body>
 </html>
