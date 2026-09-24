@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>Our Maze</title>
+<meta name="apple-mobile-web-app-title" content="Our Maze"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="theme-color" content="#f6ead4"/>
+<link rel="icon" href="./icon-192.png"/>
+<link rel="manifest" href="./manifest.webmanifest"/>
+<link rel="stylesheet" href="./css/maze.css"/>
+</head>
+<body>
+<main id="app" aria-live="polite"><p class="loading">Building the maze…</p></main>
+<script src="./assets/sprites/sprites.js"></script>
+<script src="./js/maze-core.js"></script>
+<script src="./js/maze-movement.js"></script>
+<script src="./js/maze-sound.js"></script>
+<script src="./js/maze-app.js"></script>
+<script>
+  /* Registered only when served over http(s): a file:// preview has no service worker
+     scope and throws. */
+  if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+    addEventListener('load', function () { navigator.serviceWorker.register('./service-worker.js'); });
+  }
+</script>
+</body>
+</html>
