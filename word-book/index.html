@@ -17,6 +17,29 @@
       font-family:'Nunito',sans-serif;min-height:100vh;color:#fff;
       background:linear-gradient(170deg,#4a2340 0%,#3a1e33 55%,#2b1626 100%);
     }
+
+    /* The owner's backdrop -- books, letters and pencils framing an empty centre -- sits
+       behind everything as its own layer, so the scrim below can dim it without touching
+       the gradient underneath. The gradient STAYS: it is what shows through wherever the
+       art does not reach, and it is what the card colours were chosen against.
+       background-attachment stays the default (scroll): iOS Safari handles fixed
+       backgrounds badly, and this page does not scroll on the target iPad. */
+    .backdrop{
+      position:fixed;inset:0;z-index:0;
+      background-image:url('./assets/backdrop.webp');
+      background-size:cover;background-position:center;background-repeat:no-repeat;
+    }
+    /* A soft vignette, the same reasoning as the Space hub's. The art is busiest and
+       brightest at its edges -- stacked books bottom-left, an open book and pencil
+       right, letters across the top -- and emptiest in the middle, which is the
+       opposite of what the cards need: they sit centred on a phone and spread toward
+       the edges on the 9.7-inch iPad. This keeps the middle clear for the heading and
+       quietly darkens the busy edges so white card text stays readable over them. */
+    .backdrop::after{
+      content:'';position:absolute;inset:0;
+      background:radial-gradient(ellipse at center,
+        rgba(43,22,38,0) 0%, rgba(43,22,38,.18) 52%, rgba(43,22,38,.55) 100%);
+    }
     .wrap{
       position:relative;z-index:1;min-height:100vh;
       display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -107,6 +130,7 @@
   </style>
 </head>
 <body>
+<div class="backdrop"></div>
 
 <!-- The URL is absolute for the same reason every game's arrow is: published, the hub is
      a sibling of this app (/word-book/ -> /children-apps/), but in the repo it lives
@@ -123,12 +147,15 @@
   <p class="sub">Read, spell, write and discover words</p>
 
   <div class="cards">
-    <!-- OUR DICTIONARY IS DELIBERATELY NOT HERE YET. The owner's own gate (2026-09-09,
-         enforced by check-word-data.py) is that Our Dictionary does not publish until every
-         concept is illustrated. That gate names Our Dictionary, not Our Word Book -- so this
-         front door ships first, on its own, to end a live 404 that had orphaned all three
-         apps below. The card goes back the moment the illustration gate passes, and nothing
-         else on this page changes. -->
+    <!-- OUR DICTIONARY IS THE SOURCE OF TRUTH, not a fourth activity. Every word the
+         other three teach is a card in here, joined by sense ID -- see
+         shared-data/dictionary/README.md. It is listed first because it is what the
+         other three are about. -->
+    <a class="card c-dict" href="dictionary.html">
+      <img src="assets/icons/dictionary.webp" alt="" width="104" height="104"/>
+      Our Dictionary
+      <small>Every word, in English and Thai</small>
+    </a>
 
     <!-- STILL LIVES IN THE MATHS APP, and that is temporary.
          Magic Spelling was never its own app: it is a page inside math-app/, shipping as

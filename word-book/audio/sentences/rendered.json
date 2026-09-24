@@ -1,0 +1,2056 @@
+{
+ "why": "WHAT EACH SENTENCE CLIP ACTUALLY SAYS, pinned to its bytes. An .m4a carries no record of the words it was rendered from, and a dictionary sentence is mutable (shared-data/dictionary/sentence-corrections.json rewrites them). So the thing that produces the bytes records them: tools/render-dictionary-sentences.py writes {text, sha256} here the moment each clip is transcoded. sentence-audio.js plays a clip only when its text here equals the card's displayed sentence exactly, and tools/check-sentence-audio.mjs fails on any clip that is stale, orphaned, duplicated, missing or whose bytes no longer match. Keyed by SENSE, the permanent concept key, so a reworded sentence keeps its asset's name. Empty until the owner approves a render; never hand-edit an entry to make a stale clip pass.",
+ "writtenBy": "word-book/tools/render-dictionary-sentences.py; checked by word-book/tools/check-sentence-audio.mjs; resolved by word-book/sentence-audio.js",
+ "voice": "Alice - Clear, Engaging, Educational (British)",
+ "voiceId": "Xb7hH8MSUJpSbSDYk0k2",
+ "model": "eleven_multilingual_v2",
+ "format": "m4a",
+ "encoding": "AAC, mono, 64 kbps, via afconvert -- identical to audio/words/",
+ "clips": {
+  "a.indefinite-article": {
+   "text": "A rabbit sits beside the gate.",
+   "sha256": "ae9e553948eb5bd1f3ad9dc7c906b75c831e1a0f276d2b31f54ee50230299ea0",
+   "alignment": "audio-alignment/sentences/a.indefinite-article.json"
+  },
+  "able.can-do-something": {
+   "text": "Vanilla is able to jump over the log.",
+   "sha256": "4c47252624cbc665faccfab432bcf5b2587e3f57146c149b753c1b33fb51f127",
+   "alignment": "audio-alignment/sentences/able.can-do-something.json"
+  },
+  "about.on-the-subject-of": {
+   "text": "We read a book about rockets and the moon.",
+   "sha256": "bee9b7e5cb42aace1d2f6b35b0949fa2389282e71a08b8a213ccfb17d7b132b4",
+   "alignment": "audio-alignment/sentences/about.on-the-subject-of.json"
+  },
+  "above.higher-than": {
+   "text": "The rocket rises above the clouds.",
+   "sha256": "5ac25ad6fb52c0b713e0734f0df2ebeea9bc9c01d5d1babdf4fda58b06c915b8",
+   "alignment": "audio-alignment/sentences/above.higher-than.json"
+  },
+  "accept.agree-to-take": {
+   "text": "I accept the princess's invitation to the garden party.",
+   "sha256": "705710e74588932515cd0f0e26b8f69c2387b4967ed136d8e69e62066664b486",
+   "alignment": "audio-alignment/sentences/accept.agree-to-take.json"
+  },
+  "across.from-side-to-side": {
+   "text": "The mermaid swims across the lagoon.",
+   "sha256": "795115e193b9ea9e65012edfd831a614b9d8da64d17a09cc8c0a265b3b9d0204",
+   "alignment": "audio-alignment/sentences/across.from-side-to-side.json"
+  },
+  "active.moving-often": {
+   "text": "Vanilla is active and loves running around the garden.",
+   "sha256": "d1a04b619216b84c0980072f056712a564aea31806db197e0e4c23684500708b",
+   "alignment": "audio-alignment/sentences/active.moving-often.json"
+  },
+  "actor.performer": {
+   "text": "The actor plays a friendly dragon.",
+   "sha256": "3e71cdb0f0344c42c7a59670b55ab8307dadc342a2352e5d687d8f59b45b61a9",
+   "alignment": "audio-alignment/sentences/actor.performer.json"
+  },
+  "add.put-more-in": {
+   "text": "The mermaid helps me add shells to our picture.",
+   "sha256": "30019a7ebca22c8d36ef2efee9734adf74c0191e972cd34ab241aafeb36bf106",
+   "alignment": "audio-alignment/sentences/add.put-more-in.json"
+  },
+  "addition.maths-operation": {
+   "text": "We practise addition by counting two groups of star stickers.",
+   "sha256": "32cf988ba00d59cbc431c89633a0ea0c706ef40d9188e8f1c44285c5d049c72c",
+   "alignment": "audio-alignment/sentences/addition.maths-operation.json"
+  },
+  "adjective.word-class": {
+   "text": "The adjective tiny describes the little fairy.",
+   "sha256": "6fe9704826c9800d90b020e0913e847888c463e5adae9ea84552ee849ad36c54",
+   "alignment": "audio-alignment/sentences/adjective.word-class.json"
+  },
+  "adult.grown-person": {
+   "text": "An adult helps us cross the busy road.",
+   "sha256": "9c990338825ee66d61f34cef7f25e8cec20417ef22c1058d3de6d5752d01960f",
+   "alignment": "audio-alignment/sentences/adult.grown-person.json"
+  },
+  "adverb.word-class": {
+   "text": "The adverb slowly tells us how the snail moves.",
+   "sha256": "565a411be997d1054d489a52e115b50a9395e06c906d52992c51518bd3eccad4",
+   "alignment": "audio-alignment/sentences/adverb.word-class.json"
+  },
+  "aeroplane.flying-vehicle": {
+   "text": "The aeroplane rises above the clouds.",
+   "sha256": "7dbf67e28648536a3d862c383cf70248f0212baedee2aed8f8396b7bcc6b9320",
+   "alignment": "audio-alignment/sentences/aeroplane.flying-vehicle.json"
+  },
+  "afford.have-enough-money": {
+   "text": "I can afford one sticker with these coins.",
+   "sha256": "d2fdb271ce87f1eafe52e1f8027344e32c2dd6437d03de59bf240fc1925795f7",
+   "alignment": "audio-alignment/sentences/afford.have-enough-money.json"
+  },
+  "afraid.feeling-fear": {
+   "text": "The little dragon feels afraid, so Mum stays close.",
+   "sha256": "c87a5a44fc5cefcf6fb08b3e09dde62b989e978faa67279b5bb4e3e92e782e40",
+   "alignment": "audio-alignment/sentences/afraid.feeling-fear.json"
+  },
+  "after.later-than": {
+   "text": "We read a story after dinner.",
+   "sha256": "0a35b9a606f81e28b6241e9f74cfcfb8eae4b48802acf1e4caa35bd5d6d05d87",
+   "alignment": "audio-alignment/sentences/after.later-than.json"
+  },
+  "afternoon.after-noon": {
+   "text": "We visit the library this afternoon.",
+   "sha256": "20708cd0114f4d0d8d9f6cc68cc6b341d425a9985a4bb1a4d395798e0b1249d9",
+   "alignment": "audio-alignment/sentences/afternoon.after-noon.json"
+  },
+  "again.one-more-time": {
+   "text": "Please read the funny part again.",
+   "sha256": "a1d3611c5a67fb498f220e4ccb9bf61a8805ae9262ef6d52d3dad4ae7c976bb7",
+   "alignment": "audio-alignment/sentences/again.one-more-time.json"
+  },
+  "against.touching-and-supported-by": {
+   "text": "I lean my bicycle against the wall.",
+   "sha256": "20ccd13751c20786417fa0182faf9362088ea1825199d96fba1c5dbc0b973ab6",
+   "alignment": "audio-alignment/sentences/against.touching-and-supported-by.json"
+  },
+  "age.how-old-someone-is": {
+   "text": "The form asks for my age.",
+   "sha256": "2cefc69d0cd79c38497ba0911547cdb29dc97bd65d7fd18122ff19e8f2cc5026",
+   "alignment": "audio-alignment/sentences/age.how-old-someone-is.json"
+  },
+  "ago.before-now": {
+   "text": "We planted this tree two years ago.",
+   "sha256": "c31b029b7de8f634007a0a07a040a1d3781816055a77589e36ff8f8c8d5e832f",
+   "alignment": "audio-alignment/sentences/ago.before-now.json"
+  },
+  "agree.share-an-opinion": {
+   "text": "We agree that the castle needs a flag.",
+   "sha256": "65d6a158f0aaae00e74215513352130fe17ecff0febdceb6c90e54c9db9e0f64",
+   "alignment": "audio-alignment/sentences/agree.share-an-opinion.json"
+  },
+  "air-conditioner.cooling-machine": {
+   "text": "Mum turns on the air conditioner.",
+   "sha256": "bdf324d80a057fb8c905e6da7bb4a8a704d47704eef5635a93eeaac5a9e60cdf",
+   "alignment": "audio-alignment/sentences/air-conditioner.cooling-machine.json"
+  },
+  "air.surrounding-gas": {
+   "text": "I blow air into the balloon.",
+   "sha256": "36b80492bbcbc464212a8620af29c3b010fe069205ef351fa4dbef99a16a5fa9",
+   "alignment": "audio-alignment/sentences/air.surrounding-gas.json"
+  },
+  "airport.plane-place": {
+   "text": "We watch planes through the airport window.",
+   "sha256": "9863a9612097e0260b17841608fb34835c1f90e27348aae0cb3863cf412345ab",
+   "alignment": "audio-alignment/sentences/airport.plane-place.json"
+  },
+  "all.the-whole-group": {
+   "text": "All the ducks follow their mother.",
+   "sha256": "03a9698497d1448c32830fb8f4a0c135d51f978f6917513923a4721e37ef4ef2",
+   "alignment": "audio-alignment/sentences/all.the-whole-group.json"
+  },
+  "alligator.animal": {
+   "text": "The alligator slides into the water.",
+   "sha256": "62f38833c0ebfcff7ec8378959282186d76210cc7562b2876696ac1b522ce680",
+   "alignment": "audio-alignment/sentences/alligator.animal.json"
+  },
+  "allow.permit": {
+   "text": "Our teacher will allow one more question.",
+   "sha256": "fc33654667cd473b07d8e6bb0b1af82685579d71c0b4eab488f56333115fcbee",
+   "alignment": "audio-alignment/sentences/allow.permit.json"
+  },
+  "almond.nut": {
+   "text": "An almond sits on top of the biscuit.",
+   "sha256": "c2de4a9fce9817d48dc18e94b35d7c8411de1e168101c790e421ea327979dd42",
+   "alignment": "audio-alignment/sentences/almond.nut.json"
+  },
+  "almost.nearly": {
+   "text": "Our puzzle is almost finished.",
+   "sha256": "183a7a2ed65fa50e6e0a13dcb05437aa077205631986f1979d71d13ea6b24fe5",
+   "alignment": "audio-alignment/sentences/almost.nearly.json"
+  },
+  "alone.without-others": {
+   "text": "The teddy sits alone on the shelf.",
+   "sha256": "59da709c86db4fc1388a358b2462045111d90d8003f4d237e5c026e6b2302368",
+   "alignment": "audio-alignment/sentences/alone.without-others.json"
+  },
+  "along.following-a-line": {
+   "text": "Vanilla trots along the garden path beside me.",
+   "sha256": "f1a18b624d9be013b5087f2d096cf107da484bda74c1a3dab69c8ce0bc7bc554",
+   "alignment": "audio-alignment/sentences/along.following-a-line.json"
+  },
+  "alphabet.letter-set": {
+   "text": "We sing the alphabet while pointing to the letters.",
+   "sha256": "3beeaae686cfeb5a7cb743704988851ebbd5208a02afbc7ff786141d98dd856d",
+   "alignment": "audio-alignment/sentences/alphabet.letter-set.json"
+  },
+  "already.before-now": {
+   "text": "I have already packed my swimming bag.",
+   "sha256": "d83830cd87959f597a912ffc1bde5009c44049c165f3c43a9416893b1f1b45d1",
+   "alignment": "audio-alignment/sentences/already.before-now.json"
+  },
+  "also.in-addition": {
+   "text": "I like cats, and I also like rabbits.",
+   "sha256": "98e5418cefc4c337b9acd6675ffc167d267fb1e75ca2f1969337829888bb60ae",
+   "alignment": "audio-alignment/sentences/also.in-addition.json"
+  },
+  "although.giving-contrast": {
+   "text": "We enjoy the walk although it is muddy.",
+   "sha256": "8629ccb8c609a2b80392422c5f1d3a54f3a822fcb111029a071954adfda8e0e7",
+   "alignment": "audio-alignment/sentences/although.giving-contrast.json"
+  },
+  "always.every-time": {
+   "text": "I always put my helmet on before riding.",
+   "sha256": "7b6ce290259d0cafe180af019dd65c8bf889702b6d9921c9d9b8e65bdd044031",
+   "alignment": "audio-alignment/sentences/always.every-time.json"
+  },
+  "amazed.very-surprised": {
+   "text": "We are amazed by the giant rocket at the museum.",
+   "sha256": "b410329bdc7e5781d5f69bc9812b9f7bc75028f848191dec2c4c2f03d6d2c613",
+   "alignment": "audio-alignment/sentences/amazed.very-surprised.json"
+  },
+  "ambulance.medical-vehicle": {
+   "text": "The ambulance parks outside the hospital.",
+   "sha256": "2ca5558d90fa527c87c2464008da719cc3f02a06061b2583d5a1d9a6f8592b34",
+   "alignment": "audio-alignment/sentences/ambulance.medical-vehicle.json"
+  },
+  "america.country": {
+   "text": "The rocket lands back in America.",
+   "sha256": "ce64962c4b4e03563aab7f4a042be0ac4c561e6275ccf66e54f55b514e2ad0c8",
+   "alignment": "audio-alignment/sentences/america.country.json"
+  },
+  "among.surrounded-by": {
+   "text": "A little unicorn stands among the tall flowers.",
+   "sha256": "8527e8ba1d814bade790be5f8637333071ad5262969c519ee217ef71954b49d3",
+   "alignment": "audio-alignment/sentences/among.surrounded-by.json"
+  },
+  "amount.how-much": {
+   "text": "We pour the same amount of water into each cup.",
+   "sha256": "99aa1d4ecb6b36ae5d2330e3a2566a5b4351c5982b07af059542d938171bccd6",
+   "alignment": "audio-alignment/sentences/amount.how-much.json"
+  },
+  "an.indefinite-article": {
+   "text": "An owl sleeps in the tall tree.",
+   "sha256": "692d2cb1fe4cd28e6ec93b75cc9783451c939f7861affa8141600b60dacedd13",
+   "alignment": "audio-alignment/sentences/an.indefinite-article.json"
+  },
+  "ancient.very-old": {
+   "text": "The unicorn rests beside an ancient castle wall.",
+   "sha256": "19f7eddb602faae9e674eb49dd0271df7c7b06af79736c5f8f64828366e7c058",
+   "alignment": "audio-alignment/sentences/ancient.very-old.json"
+  },
+  "and.joining": {
+   "text": "I pack a book and a toy.",
+   "sha256": "15694a97933f4e88ee3c4affff001281a07e03b250e771ddc4a97cc0dc81fb3b",
+   "alignment": "audio-alignment/sentences/and.joining.json"
+  },
+  "angle.meeting-of-lines": {
+   "text": "We make a wide angle with two sticks.",
+   "sha256": "1c756dff810f305e6517a7d4d29c72ca6eb7e501fc1d50765e253850ee498970",
+   "alignment": "audio-alignment/sentences/angle.meeting-of-lines.json"
+  },
+  "animal.living-creature": {
+   "text": "Which animal left these footprints?",
+   "sha256": "75b9c40cc82545b92fe11020cabd74bd47d62167297e7a110353d9ce9e1ca390",
+   "alignment": "audio-alignment/sentences/animal.living-creature.json"
+  },
+  "ankle.body-part": {
+   "text": "My sock reaches just above my ankle.",
+   "sha256": "7a0121ecdd3ac56ed0d860ec7b341b66f1f1799c8f143cbda9a8d507032b103a",
+   "alignment": "audio-alignment/sentences/ankle.body-part.json"
+  },
+  "announce.tell-a-group": {
+   "text": "The teacher will announce the next game.",
+   "sha256": "cf94a429e12e08c67f1df79dea08ecd5ca6f7368041bf592b63a1f3671100368",
+   "alignment": "audio-alignment/sentences/announce.tell-a-group.json"
+  },
+  "another.one-more": {
+   "text": "May I have another sheet of paper?",
+   "sha256": "d7ffa3a04b7986b6a5e031471bcedf542a6eac61293304d1230028eb357e3881",
+   "alignment": "audio-alignment/sentences/another.one-more.json"
+  },
+  "answer.reply": {
+   "text": "I answer my teacher's question.",
+   "sha256": "dc46a24921121b7c6460be388e15ee26f20849ced573f1c75fcc8f55b1cabff4",
+   "alignment": "audio-alignment/sentences/answer.reply.json"
+  },
+  "answer.reply-to-question": {
+   "text": "I raise my hand to answer the question.",
+   "sha256": "408dfe08f9e320a0e1ac83790c75b54e3b1aae69e95663b7a13bafe885221b10",
+   "alignment": "audio-alignment/sentences/answer.reply-to-question.json"
+  },
+  "ant.insect": {
+   "text": "An ant carries a crumb home.",
+   "sha256": "6d2d5321f92e4996fccf6c9b02e4aafaa80a0ca426b5e7f369afa8f42469fdac",
+   "alignment": "audio-alignment/sentences/ant.insect.json"
+  },
+  "any.unspecified-amount": {
+   "text": "Are there any apples in the basket?",
+   "sha256": "1103ed2e90bca8a9e2087923c4ca9790028013c88bfe01b54a5dd698fcd048eb",
+   "alignment": "audio-alignment/sentences/any.unspecified-amount.json"
+  },
+  "anyone.any-person": {
+   "text": "Can anyone see my missing pencil?",
+   "sha256": "e256ac3ce8170e2592826e75bcf5b42b3f04bd515bb2ecb25d213934392bbc6d",
+   "alignment": "audio-alignment/sentences/anyone.any-person.json"
+  },
+  "anything.any-thing": {
+   "text": "Can you see anything inside the box?",
+   "sha256": "3c31822b00d1b3f618d9611a9e0365520758d24ff3ceaf3e3f91ed4be55f174a",
+   "alignment": "audio-alignment/sentences/anything.any-thing.json"
+  },
+  "apologise.say-sorry": {
+   "text": "I apologise for stepping on my friend's picture.",
+   "sha256": "e5835734deb24d5f94198ae644daffe2136314908c265575816ec471fe11fd24",
+   "alignment": "audio-alignment/sentences/apologise.say-sorry.json"
+  },
+  "app.software-program": {
+   "text": "I open the spelling app on my tablet.",
+   "sha256": "a3c1457886de78e384c7125efcc60daf9cce38aae734168a1db4b754603ec61d",
+   "alignment": "audio-alignment/sentences/app.software-program.json"
+  },
+  "apple.fruit": {
+   "text": "I put an apple in my lunchbox.",
+   "sha256": "ff315495f7ae9f35af0bff947c6669f9f45d9d17cf33051ad0a3bea3b945be56",
+   "alignment": "audio-alignment/sentences/apple.fruit.json"
+  },
+  "april.month": {
+   "text": "April is the fourth month of the year.",
+   "sha256": "4c1341c9fd937dbbe719c1541f06c766a9ecb22d66095fb15fb0b0a25406eb7e",
+   "alignment": "audio-alignment/sentences/april.month.json"
+  },
+  "apron.protective-clothing": {
+   "text": "I wear an apron when we paint.",
+   "sha256": "acd9af7e30848ca925b3ab1341dfdf3b39874252228ad2bc436b54aa238d0d28",
+   "alignment": "audio-alignment/sentences/apron.protective-clothing.json"
+  },
+  "aquarium.water-animal-place": {
+   "text": "We watch a jellyfish at the aquarium.",
+   "sha256": "b20ade1406c4fb92fc3288a196793b1adba0994d9436dca1450ecc1ca41bf056",
+   "alignment": "audio-alignment/sentences/aquarium.water-animal-place.json"
+  },
+  "arm.body-part": {
+   "text": "I raise one arm to wave.",
+   "sha256": "b294d64f5f6afabcf178cfe56c8942080b04cecaa09a1e618669c0dc22ac3c41",
+   "alignment": "audio-alignment/sentences/arm.body-part.json"
+  },
+  "armchair.seat": {
+   "text": "Grandpa reads in his armchair.",
+   "sha256": "e6e891c6421cfcf78c6c49191ba8eb016ffc4024acdd5c01fe82af9eab4fa7cc",
+   "alignment": "audio-alignment/sentences/armchair.seat.json"
+  },
+  "around.surrounding": {
+   "text": "We sit around the picnic table.",
+   "sha256": "c0123418284328532586c4b8369f68be74799e9efce269cf7ece98316699e3b1",
+   "alignment": "audio-alignment/sentences/around.surrounding.json"
+  },
+  "arrange.put-in-position": {
+   "text": "We arrange the princess's flowers in a tall vase.",
+   "sha256": "44a420bd459bb07b4540be5a31dbbd8d7be79f1ea6dc0e0f2392739bcd858702",
+   "alignment": "audio-alignment/sentences/arrange.put-in-position.json"
+  },
+  "array.rows-and-columns": {
+   "text": "Twelve star stickers form an array with three equal rows.",
+   "sha256": "6ab2ee066ced84c7707daecb9de9b9ee2954d7f6430c1fdd694746e9670c61ba",
+   "alignment": "audio-alignment/sentences/array.rows-and-columns.json"
+  },
+  "arrive.reach-a-place": {
+   "text": "We arrive at school before the bell.",
+   "sha256": "2ad94dac3a1d43a41bc4c067ecc1f54f6387410a1db92e7a081c0ce8ff9c95d0",
+   "alignment": "audio-alignment/sentences/arrive.reach-a-place.json"
+  },
+  "art.creative-work": {
+   "text": "We make a rainbow collage in art.",
+   "sha256": "8fab934b6d5115827dd12759e9762586da6e92ed9521dbf73bbd7a2b1c942f1d",
+   "alignment": "audio-alignment/sentences/art.creative-work.json"
+  },
+  "artist.occupation": {
+   "text": "The artist paints a bright garden.",
+   "sha256": "935f43290febb686d03485a9115302be25e68cd3192a54707fc5c37423e77acd",
+   "alignment": "audio-alignment/sentences/artist.occupation.json"
+  },
+  "as.in-the-same-way": {
+   "text": "Vanilla runs as fast as the wind.",
+   "sha256": "5ccca4fc2a9a927b083c0431d27f035205b92fa3151a4b695e59e098dbf17095",
+   "alignment": "audio-alignment/sentences/as.in-the-same-way.json"
+  },
+  "ask.request-information": {
+   "text": "I ask Grandma about her garden.",
+   "sha256": "6eb765827d0e69b90d8aeaab5b285a706edc4ae7fe71b12f4be6f54641d2aaf8",
+   "alignment": "audio-alignment/sentences/ask.request-information.json"
+  },
+  "asleep.sleeping": {
+   "text": "Vanilla is asleep beside our storybook.",
+   "sha256": "163cc49256780c85702705c24c3930676fae1aebae309b59a5d988508795642f",
+   "alignment": "audio-alignment/sentences/asleep.sleeping.json"
+  },
+  "asteroid.rocky-space-object": {
+   "text": "Our model spacecraft passes a rocky asteroid.",
+   "sha256": "125d61cd120381a578d8c8b5db59f3ec6a6a53030333fad96c0849861803497d",
+   "alignment": "audio-alignment/sentences/asteroid.rocky-space-object.json"
+  },
+  "astronaut.space-traveller": {
+   "text": "The astronaut floats inside the spacecraft.",
+   "sha256": "a27efd4d42c2ba019ccb34cfb31035815b992a2ac03b6e58d231f40cb15fa624",
+   "alignment": "audio-alignment/sentences/astronaut.space-traveller.json"
+  },
+  "at.specific-place": {
+   "text": "We meet at the library door.",
+   "sha256": "941e29628fe6ee3337eab4283e0bfa913086850ab3ba856c3b01a99536ff8e5a",
+   "alignment": "audio-alignment/sentences/at.specific-place.json"
+  },
+  "atlas.map-book": {
+   "text": "Our atlas has a map of every continent.",
+   "sha256": "485dbea8d35e827dae0775ff1a6820758e30721c3143d26519b6ddaf80ad24da",
+   "alignment": "audio-alignment/sentences/atlas.map-book.json"
+  },
+  "attic.roof-space": {
+   "text": "An old toy chest stands in the attic.",
+   "sha256": "4c95b53235e4dfe0e9aa34ec6eea1a4550d1f3df61e2d6cfbb037912cef31d9a",
+   "alignment": "audio-alignment/sentences/attic.roof-space.json"
+  },
+  "aubergine.vegetable": {
+   "text": "A big purple aubergine grows in our garden.",
+   "sha256": "481f3e14ee379b6007b85434b5cd44e2a8b8d7a53b32e1e777bb37741a503839",
+   "alignment": "audio-alignment/sentences/aubergine.vegetable.json"
+  },
+  "august.month": {
+   "text": "August is the eighth month of the year.",
+   "sha256": "3f8d26fb0de639c5e1a4256a79600e14fbb7fd602ab5d7d8ced3837f8ac4d6e7",
+   "alignment": "audio-alignment/sentences/august.month.json"
+  },
+  "aunt.family-role": {
+   "text": "My aunt brings a basket of mangoes.",
+   "sha256": "e066b78e60819f51631de1f7bd3881c843d199c5060ad4f39cc262b37d9b9175",
+   "alignment": "audio-alignment/sentences/aunt.family-role.json"
+  },
+  "author.book-creator": {
+   "text": "The author signs my new storybook.",
+   "sha256": "aa76c6cc80ea9973b9ec4de048a6b66934413c7547e694eba85803c78264db6e",
+   "alignment": "audio-alignment/sentences/author.book-creator.json"
+  },
+  "autumn.season": {
+   "text": "The storybook forest turns red in autumn.",
+   "sha256": "a15d0acae668c396a7e3a4ab9b78781e51e9d174c735de64917aef6908fb532c",
+   "alignment": "audio-alignment/sentences/autumn.season.json"
+  },
+  "avocado.fruit": {
+   "text": "I hold a green avocado in both hands.",
+   "sha256": "39ed8d96dd4ef2bbf5ee4777b61b349248f01d44676903cc81ca0dd394a68b36",
+   "alignment": "audio-alignment/sentences/avocado.fruit.json"
+  },
+  "awake.not-asleep": {
+   "text": "Vanilla is awake and ready for her walk.",
+   "sha256": "d9b4ddfa2f1f0008ffc3cbfd8e76317b75245f40210d06fa0824b0be5b637836",
+   "alignment": "audio-alignment/sentences/awake.not-asleep.json"
+  },
+  "away.to-another-place": {
+   "text": "The butterfly flies away from the flower.",
+   "sha256": "79a1bdd07b9590c5439a8439676e9187afefca46e0fad3399127c721619f2e8b",
+   "alignment": "audio-alignment/sentences/away.to-another-place.json"
+  },
+  "axle.wheel-rod": {
+   "text": "We slide an axle through the toy's wheels.",
+   "sha256": "05aad1e18a7aa1a146a5422b0d85db2492e1093c88ceedd3e8bd8b8f0545f0a4",
+   "alignment": "audio-alignment/sentences/axle.wheel-rod.json"
+  },
+  "baby.very-young-child": {
+   "text": "The baby reaches for a soft toy.",
+   "sha256": "3551141dd2ca33d2eb77f0cd5e9980284990b5944af55d5d43b8561569c965fe",
+   "alignment": "audio-alignment/sentences/baby.very-young-child.json"
+  },
+  "back.body-part": {
+   "text": "The turtle has a shell on its back.",
+   "sha256": "2f5fe6e294bd5415ec11c4c9ed61104e213d6bd8fc8ea572ee40da1831d1a26f",
+   "alignment": "audio-alignment/sentences/back.body-part.json"
+  },
+  "back.return-direction": {
+   "text": "We walk back to the little cottage.",
+   "sha256": "27f4c6d18db08793a329a2b2036d7a27c77e4e84d8d4774f393030d25ab69ee3",
+   "alignment": "audio-alignment/sentences/back.return-direction.json"
+  },
+  "backpack.back-carried-bag": {
+   "text": "I pack my space book in my backpack.",
+   "sha256": "cc097a1eed078a0ba77512825a4b783887ed25a3f768cabcff4a695da256c29a",
+   "alignment": "audio-alignment/sentences/backpack.back-carried-bag.json"
+  },
+  "bacon.food": {
+   "text": "The bacon cooks beside the eggs.",
+   "sha256": "70f2347de9cd5b5e5df88a7abe0cbb177276e41b7f40f848a945479706c995fb",
+   "alignment": "audio-alignment/sentences/bacon.food.json"
+  },
+  "bad.poor-quality": {
+   "text": "The bad glue will not hold my paper.",
+   "sha256": "05d2c6e6d6d0df52d5388764f3b029838568438d27b90d6a159180f4848ae3e0",
+   "alignment": "audio-alignment/sentences/bad.poor-quality.json"
+  },
+  "badminton.sport": {
+   "text": "I play badminton with my cousin.",
+   "sha256": "d79cb88640d9cc9434d5b4291c8bb3e5037cb0c5caeee4a55fa81dc0337a863a",
+   "alignment": "audio-alignment/sentences/badminton.sport.json"
+  },
+  "bag.container": {
+   "text": "I put my library book in my bag.",
+   "sha256": "8dfd3812f80e27933d6036a2ccce99f210b54fc869a071580dc0af8ec7b00d73",
+   "alignment": "audio-alignment/sentences/bag.container.json"
+  },
+  "bake.cook-in-oven": {
+   "text": "We bake biscuits shaped like stars.",
+   "sha256": "8a37edee0e03a8e67b799d8405685573392ce6f84fa1750942092657b69a6c4f",
+   "alignment": "audio-alignment/sentences/bake.cook-in-oven.json"
+  },
+  "baker.occupation": {
+   "text": "The baker takes fresh bread from the oven.",
+   "sha256": "97ea1f5df14f92a8bfa6518b4e72b39f2c7fcecba02acd9b45ebec80aa19bdf3",
+   "alignment": "audio-alignment/sentences/baker.occupation.json"
+  },
+  "bakery.bread-shop": {
+   "text": "The bakery smells of warm bread.",
+   "sha256": "247d02497a0f41f08dec41fbfe41add45099e2f64b01e0f2982de99647e77a7b",
+   "alignment": "audio-alignment/sentences/bakery.bread-shop.json"
+  },
+  "balance.keep-steady": {
+   "text": "I balance on one foot like a flamingo.",
+   "sha256": "9b3dc7146841add61fad0b8333992bfcd00f0b001440b28e7f8069eea13732c8",
+   "alignment": "audio-alignment/sentences/balance.keep-steady.json"
+  },
+  "balcony.outdoor-platform": {
+   "text": "We put flowerpots on the balcony.",
+   "sha256": "79412c6a5cd104695d08cc535f2413ea1f6ed8fbcaee851c36c7d4c99f0435a6",
+   "alignment": "audio-alignment/sentences/balcony.outdoor-platform.json"
+  },
+  "ball.round-play-object": {
+   "text": "Vanilla nudges the ball towards me with her nose.",
+   "sha256": "d5c2fc50af6bd66336e878933b6a3b7b4952f818a423720e05d027e63f4b9226",
+   "alignment": "audio-alignment/sentences/ball.round-play-object.json"
+  },
+  "balloon.air-filled-object": {
+   "text": "A pink balloon floats above the party table.",
+   "sha256": "7d10ab5199ff07c7d4a255147dc559df3a21034ccdadb724c7df588cc13274f6",
+   "alignment": "audio-alignment/sentences/balloon.air-filled-object.json"
+  },
+  "bamboo.plant": {
+   "text": "The panda holds a piece of bamboo.",
+   "sha256": "06842ce3bce6d2aebe74d48a6fc92d152ef7aee1da2f64cc397c65fb3bcfd44a",
+   "alignment": "audio-alignment/sentences/bamboo.plant.json"
+  },
+  "banana.fruit": {
+   "text": "The monkey peels a banana.",
+   "sha256": "eb0cfa648c87cc5ab648e6ca6290c3a25ea8ce462ce78a9602095105f4e8505e",
+   "alignment": "audio-alignment/sentences/banana.fruit.json"
+  },
+  "bank.money-place": {
+   "text": "Mum keeps her money in the bank.",
+   "sha256": "24267a3b4dbde0f88e853998bf7a9aa6240a8c1c9fe972189f243c0f2f8b494b",
+   "alignment": "audio-alignment/sentences/bank.money-place.json"
+  },
+  "bank.river-edge": {
+   "text": "The duck rests on the river bank.",
+   "sha256": "7a650d0722df0b9fcded117d282c27311e5f7eb9994d044b09ec4b8bff9c2614",
+   "alignment": "audio-alignment/sentences/bank.river-edge.json"
+  },
+  "bark.dog-sound": {
+   "text": "I hear Vanilla's happy bark at the door.",
+   "sha256": "4fbcc19580f47776c7f4b686eb543c47bff447a25337bdeb92210178c7e0d681",
+   "alignment": "audio-alignment/sentences/bark.dog-sound.json"
+  },
+  "bark.tree-covering": {
+   "text": "The tree has rough bark.",
+   "sha256": "c5d9513b571c2dde07b44914026861f716099cdf48a1fbefc0b86465cf799238",
+   "alignment": "audio-alignment/sentences/bark.tree-covering.json"
+  },
+  "base.bottom-support": {
+   "text": "The rocket waits on its launch base.",
+   "sha256": "2fd14be5dd349757f7ac8c9898a67f89735f7b4a2718025dc2ad83b987b971aa",
+   "alignment": "audio-alignment/sentences/base.bottom-support.json"
+  },
+  "baseball.sport": {
+   "text": "The baseball player catches the ball.",
+   "sha256": "a046831e1a968b3c0991592eabc523c1cf740bda33bd16c782656a8c7bdf2072",
+   "alignment": "audio-alignment/sentences/baseball.sport.json"
+  },
+  "basement.underground-room": {
+   "text": "The boxes are stored in the basement.",
+   "sha256": "aeaf569ede6608fcd2c6d5c1e8e1764eca14484904f5f8b3af6ed9e978170359",
+   "alignment": "audio-alignment/sentences/basement.underground-room.json"
+  },
+  "basket.container": {
+   "text": "We carry apples home in a basket.",
+   "sha256": "3a8efd5a04fc12a56d9e5f695787679b96c29c506d04030359795be5ad7466e8",
+   "alignment": "audio-alignment/sentences/basket.container.json"
+  },
+  "basketball.sport": {
+   "text": "Our basketball game starts after lunch.",
+   "sha256": "71894bb1ac84cb50e4bc86b185a25dfa7e33b86da104547c9766de053547606a",
+   "alignment": "audio-alignment/sentences/basketball.sport.json"
+  },
+  "bat.animal": {
+   "text": "A bat flies above the garden at dusk.",
+   "sha256": "8fe675032e50196dc4b4194edbb88a7503004c2aaf3e4e615bb23c34aaaf46c2",
+   "alignment": "audio-alignment/sentences/bat.animal.json"
+  },
+  "bat.sports-equipment": {
+   "text": "Ben hits the ball with a bat.",
+   "sha256": "6dcebd62138996ea0b32e06e410d96b71731f8e7d6a4ffbbfa9d6f33dbf27d48",
+   "alignment": "audio-alignment/sentences/bat.sports-equipment.json"
+  },
+  "bath.washing-tub": {
+   "text": "The toy duck floats in the bath.",
+   "sha256": "cfa51c62f83d22d45268466a0056685e029ff9e75b72a191a4b85514f063e91a",
+   "alignment": "audio-alignment/sentences/bath.washing-tub.json"
+  },
+  "bathe.wash-body": {
+   "text": "We bathe the puppy in a little tub.",
+   "sha256": "e3979fe7534e188c70a085c42b63ceea9bb4f44fe8bf924d2fb63ee711c12180",
+   "alignment": "audio-alignment/sentences/bathe.wash-body.json"
+  },
+  "bathroom.room": {
+   "text": "My towel hangs in the bathroom.",
+   "sha256": "93ed74ffeee3739d2a26d7a9ca7b8fbc68e764740495577f61574f6bc935415e",
+   "alignment": "audio-alignment/sentences/bathroom.room.json"
+  },
+  "battery.power-source": {
+   "text": "Dad puts a new battery in my toy rocket.",
+   "sha256": "d2c9289c44bb9c29210f67479954ea5acd8f9484c974df115c49a42394823987",
+   "alignment": "audio-alignment/sentences/battery.power-source.json"
+  },
+  "be.exist-or-have-a-quality": {
+   "text": "I want to be an astronaut.",
+   "sha256": "1bee7ceb270a97f8342da2b3cbfb7e88cc3827297bf804d831fe3ff6d879083c",
+   "alignment": "audio-alignment/sentences/be.exist-or-have-a-quality.json"
+  },
+  "beach.sandy-shore": {
+   "text": "A mermaid waves to us from the beach.",
+   "sha256": "ddfc3c1265c26c46317c339661ad0a8a4bb43cb7e929d59ead7de3d2bc3b02dc",
+   "alignment": "audio-alignment/sentences/beach.sandy-shore.json"
+  },
+  "bead.small-decorative-ball": {
+   "text": "I add a shiny bead to my paper crown.",
+   "sha256": "55c56468abc499e6c0d20afe23a14c59b04b0e57232821ab61b4a5039461043c",
+   "alignment": "audio-alignment/sentences/bead.small-decorative-ball.json"
+  },
+  "beak.bird-mouth": {
+   "text": "The parrot cracks a seed with its beak.",
+   "sha256": "a6abee8362d387ff3df4c754b27c7efe547a40609ec8e7abc5d51cfe8ab7c882",
+   "alignment": "audio-alignment/sentences/beak.bird-mouth.json"
+  },
+  "bean.food": {
+   "text": "We find a bean inside the long pod.",
+   "sha256": "82fc363f14ad253951de8c6fa82df52e52bdd47e236a4f00f277b6ff2f66a773",
+   "alignment": "audio-alignment/sentences/bean.food.json"
+  },
+  "bear.animal": {
+   "text": "The bear catches a fish.",
+   "sha256": "cf5c07cb46a605492c279524633ebb327c5e10957b105e499b9c8c8b98302eec",
+   "alignment": "audio-alignment/sentences/bear.animal.json"
+  },
+  "because.giving-reason": {
+   "text": "We stay inside because it is raining.",
+   "sha256": "11b37a22adf03c2cee7f96988c431bd075cff2fd562582c3098e247675948744",
+   "alignment": "audio-alignment/sentences/because.giving-reason.json"
+  },
+  "become.come-to-be": {
+   "text": "The little seeds become tall sunflowers.",
+   "sha256": "1cd22d527b4dd4aa363b8e0a612bd007865a5e72b3afa862556ec70d5c388f98",
+   "alignment": "audio-alignment/sentences/become.come-to-be.json"
+  },
+  "bed.furniture": {
+   "text": "I put my teddy on the bed.",
+   "sha256": "c11b716e01e720a9210395139ec2010cf3ab1d9f98cc9ea9420f3b4e9016f20d",
+   "alignment": "audio-alignment/sentences/bed.furniture.json"
+  },
+  "bedroom.room": {
+   "text": "Vanilla rests on the rug in my bedroom.",
+   "sha256": "7b19efe310a21ed3cf1a15e817e1a0b001c47317beffe4b85e026a34977c679f",
+   "alignment": "audio-alignment/sentences/bedroom.room.json"
+  },
+  "bee.insect": {
+   "text": "A bee visits the yellow flower.",
+   "sha256": "62c317d98b0beb6167569153b94792deee36a014951239c90b865db898d8f612",
+   "alignment": "audio-alignment/sentences/bee.insect.json"
+  },
+  "beef.meat": {
+   "text": "The noodle soup has beef in it.",
+   "sha256": "a71e81ac10767eaaa4eb75ab0cd448df436f954ea82e3ef0ef565b0a18c0306d",
+   "alignment": "audio-alignment/sentences/beef.meat.json"
+  },
+  "beetle.insect": {
+   "text": "A shiny beetle crawls along the branch.",
+   "sha256": "f63229bdb8fb5e187c3497c0ef0d74e398365566afe667985bb32b5cee191bca",
+   "alignment": "audio-alignment/sentences/beetle.insect.json"
+  },
+  "before.earlier-than": {
+   "text": "We pack our bags before breakfast.",
+   "sha256": "8b7feb30df735383bbf13fe252346c8a5f416d4c74e43c35300a334c667f81f0",
+   "alignment": "audio-alignment/sentences/before.earlier-than.json"
+  },
+  "begin.start": {
+   "text": "Our pretend space trip will begin after breakfast.",
+   "sha256": "79029cfc9052bae2f283824eec79cc91dd0ff4394b909c697a76e0dace5af52a",
+   "alignment": "audio-alignment/sentences/begin.start.json"
+  },
+  "behind.at-the-back-of": {
+   "text": "The rabbit hides behind the pink castle.",
+   "sha256": "4e17201373b288f2522ac322f2f22fa77a7bace2be8c5dd096fe68732b9b2cc5",
+   "alignment": "audio-alignment/sentences/behind.at-the-back-of.json"
+  },
+  "believe.accept-as-true": {
+   "text": "I believe you can do it!",
+   "sha256": "3f55be63cea5e0fc6474997e7aead76ac9576f6ae5c1b947452dba1397f480ff",
+   "alignment": "audio-alignment/sentences/believe.accept-as-true.json"
+  },
+  "belong.be-owned-by": {
+   "text": "These shiny boots belong to the princess.",
+   "sha256": "c050ccd86d9624942d0c034cde51939666d5779ff3780a76dbfdb1c9f85ddc4b",
+   "alignment": "audio-alignment/sentences/belong.be-owned-by.json"
+  },
+  "below.lower-than": {
+   "text": "The fish swim below the bridge.",
+   "sha256": "491e7eeac6fa74c3cd21ee44a062a444f9da88741d8b2515565f73e03dd77add",
+   "alignment": "audio-alignment/sentences/below.lower-than.json"
+  },
+  "belt.clothing": {
+   "text": "The pirate wears a wide belt.",
+   "sha256": "9d3f56bba4fc6531cad75b4a0b2cef8ec02dfa29186672383c262607900a9be4",
+   "alignment": "audio-alignment/sentences/belt.clothing.json"
+  },
+  "bench.long-seat": {
+   "text": "We rest on a bench in the garden.",
+   "sha256": "5cbd0f47495ac676470922182b7b5fb06c96f20cf8d0367d6b50aeb154085a51",
+   "alignment": "audio-alignment/sentences/bench.long-seat.json"
+  },
+  "bend.curve-body": {
+   "text": "I bend my knees before jumping.",
+   "sha256": "aae5ea74ad2ea81f134d3906095d6b56db076dabac517acad461c5b816f7ac28",
+   "alignment": "audio-alignment/sentences/bend.curve-body.json"
+  },
+  "bent.not-straight": {
+   "text": "The bent straw points towards me.",
+   "sha256": "253bb6c774ba083649f6ce4e4cfc1caa6ba63c265b2f53faa5d849e24f5a0c69",
+   "alignment": "audio-alignment/sentences/bent.not-straight.json"
+  },
+  "beside.next-to": {
+   "text": "Vanilla sits beside me while I read.",
+   "sha256": "2299f89298e941349cbbc5950a6b4ba6908a36d0b4892b0f8249e4ac1128c601",
+   "alignment": "audio-alignment/sentences/beside.next-to.json"
+  },
+  "best.highest-quality": {
+   "text": "This is the best spot for our picnic.",
+   "sha256": "efed4e76eeacf8cf3c1499ff9794935e707a60c7783cef1bf1d16914cfb83247",
+   "alignment": "audio-alignment/sentences/best.highest-quality.json"
+  },
+  "better.higher-quality": {
+   "text": "This new wheel is better than the broken one.",
+   "sha256": "305e2ff73f3e12d9b1d6be05c336b7b64641c68519c85b10ce1c258457165348",
+   "alignment": "audio-alignment/sentences/better.higher-quality.json"
+  },
+  "between.in-the-middle-of": {
+   "text": "The castle stands between two hills.",
+   "sha256": "b39483127859cffc3ea87eb964933c1c1335ec5ab57080382ae1142a6d7d0c9c",
+   "alignment": "audio-alignment/sentences/between.in-the-middle-of.json"
+  },
+  "bicycle.pedal-vehicle": {
+   "text": "I ride my bicycle around the park.",
+   "sha256": "23cd30fb2d774ff330f69f32f4fd2194735f39f71eda029d077527656d9b947f",
+   "alignment": "audio-alignment/sentences/bicycle.pedal-vehicle.json"
+  },
+  "big.large-size": {
+   "text": "The big box holds all my toys.",
+   "sha256": "df63856e669da8a648b9c2a9f065812330de7ae53febef9c1149ddcd72352cad",
+   "alignment": "audio-alignment/sentences/big.large-size.json"
+  },
+  "bike.two-wheeled-vehicle": {
+   "text": "I ride my bike along the path.",
+   "sha256": "4a9199fe374eba3b1d77b03fd1b665ad9d0d89ac75d049c9482ce56461d53d06",
+   "alignment": "audio-alignment/sentences/bike.two-wheeled-vehicle.json"
+  },
+  "bill.request-for-payment": {
+   "text": "Dad pays the bill after our meal.",
+   "sha256": "1af895ba37fc75bb9a5db1b6da82f1dfca79a1d57130310378452263472127d6",
+   "alignment": "audio-alignment/sentences/bill.request-for-payment.json"
+  },
+  "bin.waste-container": {
+   "text": "I put the wrapper in the bin.",
+   "sha256": "f6e63b3d479aa7597b0ebcc27149b2401df500159829a1c84ca871e433c6c40b",
+   "alignment": "audio-alignment/sentences/bin.waste-container.json"
+  },
+  "bird.animal": {
+   "text": "A bird sings outside my window.",
+   "sha256": "b97685179bc390fbb44410c4eb71bfd31f8324d9e354fae9f438959619c656e1",
+   "alignment": "audio-alignment/sentences/bird.animal.json"
+  },
+  "birthday.birth-anniversary": {
+   "text": "My birthday cake looks like a spaceship.",
+   "sha256": "63947d91b5ab099e7dba9e1fd6a186ffd625d489b96b2c938c472a539e1b9720",
+   "alignment": "audio-alignment/sentences/birthday.birth-anniversary.json"
+  },
+  "biscuit.food": {
+   "text": "I choose a star-shaped biscuit.",
+   "sha256": "b57f113cf7173fcbdf3b45c94c8b6849761a80d0a4220ca42b16f85735d517cd",
+   "alignment": "audio-alignment/sentences/biscuit.food.json"
+  },
+  "bite.use-teeth": {
+   "text": "I bite into a crunchy pear.",
+   "sha256": "0e575de87c249a7fd907296065e5a3b8bdc85863e31c1c3427260048dae84f13",
+   "alignment": "audio-alignment/sentences/bite.use-teeth.json"
+  },
+  "bitter.sharp-unpleasant-taste": {
+   "text": "This dark chocolate tastes a little bitter.",
+   "sha256": "1bc73fea99dec83ddddc06ee89dcf2afd858653d7c576bf67ec82dc34d96551e",
+   "alignment": "audio-alignment/sentences/bitter.sharp-unpleasant-taste.json"
+  },
+  "black.colour": {
+   "text": "Oreo has black ears in this family photograph.",
+   "sha256": "4cf754b0b6ece701456a4e030c48f50f5ccfbf865eee8fbc8132bdb6c8761c3e",
+   "alignment": "audio-alignment/sentences/black.colour.json"
+  },
+  "blanket.bed-cover": {
+   "text": "Vanilla curls up on her favourite blanket.",
+   "sha256": "7ae97bafa0438a0d3eb973fb96d7939e82f7dbd2052ab4ca63bb32d37dd4a842",
+   "alignment": "audio-alignment/sentences/blanket.bed-cover.json"
+  },
+  "blind.window-cover": {
+   "text": "Dad lowers the blind to block the sun.",
+   "sha256": "07e4cddc8e9474b9a054707ff36ee33f824f8ac32fdd44865227668e0b87c69d",
+   "alignment": "audio-alignment/sentences/blind.window-cover.json"
+  },
+  "blink.close-eyes-briefly": {
+   "text": "I blink when a raindrop hits my face.",
+   "sha256": "d363b700abc22533992765ad19c7dbbac71e279c99d78de62d6050e12dc8e622",
+   "alignment": "audio-alignment/sentences/blink.close-eyes-briefly.json"
+  },
+  "block.building-toy": {
+   "text": "I add one block to our toy space station.",
+   "sha256": "692eade12a5254da9a38b40b8e800ed5b13f98add33f96b1a0b4138dc8f54d65",
+   "alignment": "audio-alignment/sentences/block.building-toy.json"
+  },
+  "blue.colour": {
+   "text": "I paint the sky blue.",
+   "sha256": "2e61e7ccaa1436c9854e3c1361e4532f8da581881ed85a86cd87f6a0e2c51f2c",
+   "alignment": "audio-alignment/sentences/blue.colour.json"
+  },
+  "blueberry.fruit": {
+   "text": "A blueberry rolls off my pancake.",
+   "sha256": "c0e16b8bccb616ea6ec29f6221459e4eecae54c7a8d6dc81d461e0785e0d8c08",
+   "alignment": "audio-alignment/sentences/blueberry.fruit.json"
+  },
+  "blunt.not-sharp": {
+   "text": "My blunt pencil needs sharpening.",
+   "sha256": "693fd29680fec0a9454837fd8ec5def5085c8e5c20c4823e0853244a6a0087e9",
+   "alignment": "audio-alignment/sentences/blunt.not-sharp.json"
+  },
+  "boat.water-vehicle": {
+   "text": "Our boat rocks gently on the lake.",
+   "sha256": "f5cae42af1b68a110e3755861ab51b5961e0dff2fe07b7ca70033b3f25fe0a0d",
+   "alignment": "audio-alignment/sentences/boat.water-vehicle.json"
+  },
+  "body.person-or-animal": {
+   "text": "I stretch my whole body like a cat.",
+   "sha256": "efdaf16c6437d428678a0ddb2f3af349e6f167b2ddab52fe7a656998eb1ef826",
+   "alignment": "audio-alignment/sentences/body.person-or-animal.json"
+  },
+  "boil.heat-until-bubbling": {
+   "text": "Dad starts to boil water for the pasta.",
+   "sha256": "a58d51243f50e4f65eeae41ce33eb1e8c47edca2bdfc567e609e7a38db808268",
+   "alignment": "audio-alignment/sentences/boil.heat-until-bubbling.json"
+  },
+  "bone.body-part": {
+   "text": "The doctor shows us a picture of a bone.",
+   "sha256": "96aa837779dff993a061f34885f44e5116e31551f70cb78810519d5aaaec8947",
+   "alignment": "audio-alignment/sentences/bone.body-part.json"
+  },
+  "book.reading-object": {
+   "text": "I choose a book about mermaids.",
+   "sha256": "98ef07a1806be00452989843e059bb983a7b49f4d5a0d1e3f2090d7c7247cfb5",
+   "alignment": "audio-alignment/sentences/book.reading-object.json"
+  },
+  "bookcase.book-furniture": {
+   "text": "The bookcase is full of adventure stories.",
+   "sha256": "11ba50e2b48b759cd6aee8b879a37bac9fc6018f9514ea47fd43bab6ebe7dae7",
+   "alignment": "audio-alignment/sentences/bookcase.book-furniture.json"
+  },
+  "boot.footwear": {
+   "text": "My boot makes a print in the mud.",
+   "sha256": "93128ba1a21e969281751284f48177cef4d860f30f81a33263b7928292ef5095",
+   "alignment": "audio-alignment/sentences/boot.footwear.json"
+  },
+  "bored.not-interested": {
+   "text": "The bored dragon starts counting clouds.",
+   "sha256": "d6368bd500334640422e44344e630632c8e507310ca8883d4655a0ac1719e25a",
+   "alignment": "audio-alignment/sentences/bored.not-interested.json"
+  },
+  "borrow.take-for-a-time": {
+   "text": "I borrow a book from the library.",
+   "sha256": "785be11dc4a51babfc46594fb04bd636c4e5c51112a9c4b8f253c8f09987405e",
+   "alignment": "audio-alignment/sentences/borrow.take-for-a-time.json"
+  },
+  "both.two-together": {
+   "text": "Both kittens fit inside the basket.",
+   "sha256": "ee98ea5f0e9a01cb50fea65239cc649125d92d2b2a5e899b7ae4089ce738b646",
+   "alignment": "audio-alignment/sentences/both.two-together.json"
+  },
+  "bottle.container": {
+   "text": "My water bottle fits in my bag.",
+   "sha256": "2fa10ab6d68dc266482c02943664a3f169e1d41a38f7b79ed4b2d4157d83cdb6",
+   "alignment": "audio-alignment/sentences/bottle.container.json"
+  },
+  "bottom.body-part": {
+   "text": "The baby lands on a soft cushion, bottom first.",
+   "sha256": "15046de1bf180624414c1f9bcd0e1c67342321f48824d58944e1f3fd678a1285",
+   "alignment": "audio-alignment/sentences/bottom.body-part.json"
+  },
+  "bow.bend-in-greeting": {
+   "text": "The dancers bow when they greet the queen.",
+   "sha256": "4dfd9db5e3b422d895edc8f0f28dd1dffc1deef3c1a61ab28cb0fff5f91a88f6",
+   "alignment": "audio-alignment/sentences/bow.bend-in-greeting.json"
+  },
+  "bow.ribbon-knot": {
+   "text": "I tie a pink bow on my paper crown.",
+   "sha256": "42bc1c2547931ceb5035c2b00bc4e77561c768eced5b9ca26feefbef9d2c763e",
+   "alignment": "audio-alignment/sentences/bow.ribbon-knot.json"
+  },
+  "bowl.dish": {
+   "text": "I fill Vanilla's bowl with fresh water.",
+   "sha256": "2542305d26d67203d4ba62acb5cb12c901db953d196049e50b34b203626b4cee",
+   "alignment": "audio-alignment/sentences/bowl.dish.json"
+  },
+  "box.container": {
+   "text": "Our cardboard box becomes a pretend spaceship.",
+   "sha256": "e64f48f0769b9b15d561627c3875da8fb2dfacddd6dea737b1bdb356ffec0c0a",
+   "alignment": "audio-alignment/sentences/box.container.json"
+  },
+  "boy.young-person": {
+   "text": "The boy feeds his toy unicorn.",
+   "sha256": "cda256014b3d6ccb673873f6bab0f7e87216ae8c0cd8845963cd9b34cdaf3970",
+   "alignment": "audio-alignment/sentences/boy.young-person.json"
+  },
+  "bracelet.jewellery": {
+   "text": "The princess makes a bracelet for her friend.",
+   "sha256": "713f3ab8884ae86dca58588bf610a8029cda5005a30369abbad4da5fee34f309",
+   "alignment": "audio-alignment/sentences/bracelet.jewellery.json"
+  },
+  "brain.body-organ": {
+   "text": "My brain helps me solve the puzzle.",
+   "sha256": "78843811b0fadb26ea19158813df500f4ef9f8df448f1d44652efe39a376724c",
+   "alignment": "audio-alignment/sentences/brain.body-organ.json"
+  },
+  "brave.facing-fear": {
+   "text": "The brave princess enters the dark cave.",
+   "sha256": "a19f1e6bef36ad5470a191d3ea8b506a6a2a4ef895781b4caed88636ceca39d3",
+   "alignment": "audio-alignment/sentences/brave.facing-fear.json"
+  },
+  "bread.food": {
+   "text": "The bread is warm from the oven.",
+   "sha256": "77c58cd6a1c362f5718d6a4769798c16587c839b71ffdb8336db9222be8498a3",
+   "alignment": "audio-alignment/sentences/bread.food.json"
+  },
+  "break.damage-into-parts": {
+   "text": "The heavy rock breaks the thin branch.",
+   "sha256": "f8a8f2504c2a9cc41194ca5429f1203111b9158b9535b51a69a47c22e1752934",
+   "alignment": "audio-alignment/sentences/break.damage-into-parts.json"
+  },
+  "breathe.take-air-in-and-out": {
+   "text": "We breathe slowly after running.",
+   "sha256": "26e86ae3b5009a2d1df9820acbc4534007572f04f7098d23431df502f364ac2d",
+   "alignment": "audio-alignment/sentences/breathe.take-air-in-and-out.json"
+  },
+  "breeze.gentle-wind": {
+   "text": "A cool breeze moves the curtains.",
+   "sha256": "5b54d647ac1f2434624659250536ebef91a3398e19ed8de2a451a9566640053c",
+   "alignment": "audio-alignment/sentences/breeze.gentle-wind.json"
+  },
+  "bridge.crossing-structure": {
+   "text": "The unicorn walks across the little wooden bridge.",
+   "sha256": "ac714a88086ce9175eae100fa4fd4feb4e42fbdf449e42f6f60ded9a21ca013e",
+   "alignment": "audio-alignment/sentences/bridge.crossing-structure.json"
+  },
+  "bright.giving-much-light": {
+   "text": "The bright lamp lights our reading corner.",
+   "sha256": "db1b41aca454f824bc70feb8f959cd84c7f409a0a70d144913972ef08b482045",
+   "alignment": "audio-alignment/sentences/bright.giving-much-light.json"
+  },
+  "bring.carry-here": {
+   "text": "I bring my favourite book to school.",
+   "sha256": "c6166da6524550da768cd5964292e0989c96c5907e372ac73d93a5177b89f467",
+   "alignment": "audio-alignment/sentences/bring.carry-here.json"
+  },
+  "broccoli.vegetable": {
+   "text": "My broccoli looks like a tiny tree.",
+   "sha256": "c20caf6a95b85d655109fe9e33ae775ce398e62de4d15f24f8ae0fc44b3439a1",
+   "alignment": "audio-alignment/sentences/broccoli.vegetable.json"
+  },
+  "broken.damaged": {
+   "text": "We repair the broken toy train.",
+   "sha256": "8cc45027d61d4101c237c03bd7aaed2dba649b574818d7c41ead7db552d8faaa",
+   "alignment": "audio-alignment/sentences/broken.damaged.json"
+  },
+  "broom.sweeping-tool": {
+   "text": "I sweep the leaves with a broom.",
+   "sha256": "ac60dc5f283fd3d3ba934d525e87b3d43fdf994cd6e20f4e244cca363b2ff2fd",
+   "alignment": "audio-alignment/sentences/broom.sweeping-tool.json"
+  },
+  "brother.family-role": {
+   "text": "My brother shares his crayons with me.",
+   "sha256": "800ee71882086350964967e1bcd345d6d8afc0d5d27227de527406c0074d545e",
+   "alignment": "audio-alignment/sentences/brother.family-role.json"
+  },
+  "brown.colour": {
+   "text": "Vanilla has brown patches on her white fur.",
+   "sha256": "61d81405a705f647365509d5de59b4e565ca6fa603709c59d824f0ff9fc2d4f2",
+   "alignment": "audio-alignment/sentences/brown.colour.json"
+  },
+  "brush.bristled-tool": {
+   "text": "A soft brush smooths Vanilla's fluffy fur.",
+   "sha256": "80fcfe523bab628036fcdb23a6ce42892369f8c1279062d5794ce5fe0af45d3e",
+   "alignment": "audio-alignment/sentences/brush.bristled-tool.json"
+  },
+  "brush.use-a-brush": {
+   "text": "I brush my teeth before bed.",
+   "sha256": "0757f812634606c93fc9d3b562677926f43c571bca0bbeb8b9145a93900b924d",
+   "alignment": "audio-alignment/sentences/brush.use-a-brush.json"
+  },
+  "bucket.container": {
+   "text": "I fill a bucket with water.",
+   "sha256": "2bf7f0a8659e303d79b8c971ae8d2fa34e71c25b097a72cfc9eb1aa2b80c7c5b",
+   "alignment": "audio-alignment/sentences/bucket.container.json"
+  },
+  "buckle.fastener": {
+   "text": "The buckle on my belt is round.",
+   "sha256": "7b5f8da26234e5f7300d4890c4d99bde990f0c8892aff0f7a0e034063ec2b49d",
+   "alignment": "audio-alignment/sentences/buckle.fastener.json"
+  },
+  "bud.unopened-flower": {
+   "text": "The rose bud opens in the morning.",
+   "sha256": "7cb9c0bb12e5860c924918930c7d1f10ed849b4209d8c400ed5b5bf719c6247b",
+   "alignment": "audio-alignment/sentences/bud.unopened-flower.json"
+  },
+  "buffalo.animal": {
+   "text": "The buffalo rests beside the rice field.",
+   "sha256": "9a99820a7eb6749ced40801c2a74ee86300a95254bb868eb76dd8419c2bebfac",
+   "alignment": "audio-alignment/sentences/buffalo.animal.json"
+  },
+  "bug.small-creature": {
+   "text": "A little bug crawls across my notebook.",
+   "sha256": "8321a11ca759cc9f6f942b143c9efba670998c13bfb9ee56c9ee89fc0f50c9fa",
+   "alignment": "audio-alignment/sentences/bug.small-creature.json"
+  },
+  "build.construct": {
+   "text": "We build a castle from blocks.",
+   "sha256": "63f0199a228c8b793ad4c6c8cbaffb013bbe25b7793b8678a4c19febead73508",
+   "alignment": "audio-alignment/sentences/build.construct.json"
+  },
+  "builder.occupation": {
+   "text": "The builder checks the new wall.",
+   "sha256": "ac5465a4444dd0cdedc07c8d7e5dc773e523754c4fcdd45255288a13cc59f65a",
+   "alignment": "audio-alignment/sentences/builder.occupation.json"
+  },
+  "bull.animal": {
+   "text": "The bull stands near the barn.",
+   "sha256": "fadcfea604485acc5d3772ad6d5c405796421e84e6108027dc6b9a7b040c238f",
+   "alignment": "audio-alignment/sentences/bull.animal.json"
+  },
+  "bun.food": {
+   "text": "I choose a soft round bun.",
+   "sha256": "6e5f8d071f87904e1536e2d4aa59b81c0d7d53d3d3d4324a498ea064c6b86ecf",
+   "alignment": "audio-alignment/sentences/bun.food.json"
+  },
+  "bunk-bed.stacked-bed": {
+   "text": "Our bunk bed has a little ladder.",
+   "sha256": "af283032beee8f1081ef7b21945ad94a783c2b0356b01c988cd3f02ef1502e28",
+   "alignment": "audio-alignment/sentences/bunk-bed.stacked-bed.json"
+  },
+  "burger.food": {
+   "text": "The burger comes with a little salad.",
+   "sha256": "43cc08c0db53c2d8dd952d93df45ef9da06c7b0aefe021db942b18da5dd50eae",
+   "alignment": "audio-alignment/sentences/burger.food.json"
+  },
+  "burnt.damaged-by-heat": {
+   "text": "Dad puts the burnt toast aside.",
+   "sha256": "b61f5ef80670f7585e002af68edbae637329862ca8a3e68b2ba2a956fdd0dd03",
+   "alignment": "audio-alignment/sentences/burnt.damaged-by-heat.json"
+  },
+  "burrow.animal-hole": {
+   "text": "The rabbit's burrow has a small round entrance.",
+   "sha256": "bb16554e473a19ce3597b2c348b8535aa1e707914c871d942e63bb24d0c7313c",
+   "alignment": "audio-alignment/sentences/burrow.animal-hole.json"
+  },
+  "bus.road-vehicle": {
+   "text": "We take the bus to the museum.",
+   "sha256": "eedd53abc7d68f7b028a5fa18117c6486b8273b7f4f6419793298dc2edc73ef0",
+   "alignment": "audio-alignment/sentences/bus.road-vehicle.json"
+  },
+  "bush.shrub": {
+   "text": "A rabbit hides behind the bush.",
+   "sha256": "1e8512d43aca0055d5da178fd499980c6465477a03f019b3910c01658c39c29a",
+   "alignment": "audio-alignment/sentences/bush.shrub.json"
+  },
+  "busy.having-much-to-do": {
+   "text": "The busy baker puts another tray in the oven.",
+   "sha256": "50c92e1d009d503474634696acd4f8c25e332f6bf20aa04402490e7f5ad8a738",
+   "alignment": "audio-alignment/sentences/busy.having-much-to-do.json"
+  },
+  "butter.food": {
+   "text": "The butter melts on the warm bread.",
+   "sha256": "ca1de1a19728ea2241f82999de65f56860157c9c8c0e3c7889f7435af0d8d461",
+   "alignment": "audio-alignment/sentences/butter.food.json"
+  },
+  "butterfly.insect": {
+   "text": "A butterfly rests on the unicorn's nose.",
+   "sha256": "28aa56221542135af118244769d57bda3331c71bfcec731e8a9b514b1a2e487c",
+   "alignment": "audio-alignment/sentences/butterfly.insect.json"
+  },
+  "button.clothes-fastener": {
+   "text": "One button is missing from my coat.",
+   "sha256": "11fa6e1c45002cf22c23d2fcf5bad5b7a5c830aedd46fe0ecc1b4790879803fa",
+   "alignment": "audio-alignment/sentences/button.clothes-fastener.json"
+  },
+  "button.screen-control": {
+   "text": "I tap the planet button on our space app.",
+   "sha256": "682c63f02b3facaa87db45b6cf08ec23ab13143d76e50072c6741f98eeb2d892",
+   "alignment": "audio-alignment/sentences/button.screen-control.json"
+  },
+  "buy.get-by-paying": {
+   "text": "We buy fresh mangoes at the market.",
+   "sha256": "1c84024ef1cac451a25ad9b4536fef9417d7fcfb81b0601af31b9643ba7ed518",
+   "alignment": "audio-alignment/sentences/buy.get-by-paying.json"
+  },
+  "by.near": {
+   "text": "The rabbit sits by the gate.",
+   "sha256": "45eade2de5a182ae5b888660b7f2edb2793990ae72a9f7690464d8765979c473",
+   "alignment": "audio-alignment/sentences/by.near.json"
+  },
+  "cabin.small-wooden-house": {
+   "text": "We sleep in a warm wooden cabin.",
+   "sha256": "bf895832f07f5951189a255575b0a9d3fc23018b2c3a6836eb2ee12b58fb08f9",
+   "alignment": "audio-alignment/sentences/cabin.small-wooden-house.json"
+  },
+  "cactus.plant": {
+   "text": "A tiny cactus sits on the shelf.",
+   "sha256": "b14c363d85710c93fc103af903fac44a8285169ca4817b181a6af36900b9c3a2",
+   "alignment": "audio-alignment/sentences/cactus.plant.json"
+  },
+  "cafe.small-eating-place": {
+   "text": "We share a cake at the cafe.",
+   "sha256": "9c9830e951b2129251bb5596354874db9a39296faa48b9558543370a769bab09",
+   "alignment": "audio-alignment/sentences/cafe.small-eating-place.json"
+  },
+  "cage.barred-enclosure": {
+   "text": "The parrot hops inside its big cage.",
+   "sha256": "845321c72f9b654ea6634f8db27c16646f672f60777588c9938f3239d31d6f12",
+   "alignment": "audio-alignment/sentences/cage.barred-enclosure.json"
+  },
+  "cake.food": {
+   "text": "The birthday cake looks like a rocket.",
+   "sha256": "c1cef779826540e201254fee68c30fdd7f81f39c41aa7ac380023209efbca043",
+   "alignment": "audio-alignment/sentences/cake.food.json"
+  },
+  "calendar.date-chart": {
+   "text": "I mark my birthday on the calendar.",
+   "sha256": "f37a14a2c05ad9e665f245ab9ee9296b3732309e06cfc7d3b5b1020972dfeaca",
+   "alignment": "audio-alignment/sentences/calendar.date-chart.json"
+  },
+  "calf.young-cow": {
+   "text": "The calf stays close to its mother.",
+   "sha256": "3657a13b744c9c5bdb463728be5c75c9383ae6b3c345424957a43c6bf08dfb81",
+   "alignment": "audio-alignment/sentences/calf.young-cow.json"
+  },
+  "call.summon-with-voice": {
+   "text": "I call Vanilla when it is time for a walk.",
+   "sha256": "7433d76b80d7d89b2602b263f84ab037fb067729f4379a61ca4c00817e08f703",
+   "alignment": "audio-alignment/sentences/call.summon-with-voice.json"
+  },
+  "calm.not-upset": {
+   "text": "Vanilla stays calm while I brush her fur.",
+   "sha256": "b21de5b0c62f962ecf123cb0024f4e5de652c56ea95f55e33f6869f5e0422b05",
+   "alignment": "audio-alignment/sentences/calm.not-upset.json"
+  },
+  "camel.animal": {
+   "text": "A camel walks across the sand.",
+   "sha256": "81ed93c8473759f957937ec3f8d26fcc0e802de3bf2a0303aa66c568f3f7bd93",
+   "alignment": "audio-alignment/sentences/camel.animal.json"
+  },
+  "camera.picture-device": {
+   "text": "Dad takes a picture with his camera.",
+   "sha256": "a2a5ba90853c6b14de8eb606ee9eee2fb0f31a3a04c50e35f08ae7158dceeb02",
+   "alignment": "audio-alignment/sentences/camera.picture-device.json"
+  },
+  "camp.temporary-outdoor-home": {
+   "text": "Our camp sits beside the quiet lake.",
+   "sha256": "635331b569c98ea3f4cd506db8ba389b144825e511b2b056973d2cbd43ce8a00",
+   "alignment": "audio-alignment/sentences/camp.temporary-outdoor-home.json"
+  },
+  "campsite.camping-place": {
+   "text": "We pitch our tent at the campsite.",
+   "sha256": "66572739c41849c3ac0f5be9730583e891c9faa349ac282e3bccfb0a92dc4df1",
+   "alignment": "audio-alignment/sentences/campsite.camping-place.json"
+  },
+  "can.metal-container": {
+   "text": "Dad puts the empty can in the recycling bin.",
+   "sha256": "148bec5fa0403d26613f4210057d5ecb5c6721434e3205276a463bad55911f22",
+   "alignment": "audio-alignment/sentences/can.metal-container.json"
+  },
+  "canoe.narrow-boat": {
+   "text": "We paddle the canoe beside the reeds.",
+   "sha256": "65ddff3a95f1c043089d3ea2833cf842ba13dab615e0a1aeefca9e669c7615e6",
+   "alignment": "audio-alignment/sentences/canoe.narrow-boat.json"
+  },
+  "cap.headwear": {
+   "text": "My cap shades my face.",
+   "sha256": "5da3d1b7369560457249224f8f65a06d9d11f0392460774b7a499e95e9bb1beb",
+   "alignment": "audio-alignment/sentences/cap.headwear.json"
+  },
+  "capacity.amount-held": {
+   "text": "This bottle has a capacity of one litre.",
+   "sha256": "d4e5a33f54643866e81d43251502d06c36bab218c2735a8809cecdf08a11bc35",
+   "alignment": "audio-alignment/sentences/capacity.amount-held.json"
+  },
+  "capital.main-city": {
+   "text": "The capital is marked with a star on the map.",
+   "sha256": "3e0ec6dc598f2fbe16d8633fb2df2fc893e04417fe306342ac308c82d588b73a",
+   "alignment": "audio-alignment/sentences/capital.main-city.json"
+  },
+  "captain.team-leader": {
+   "text": "Our captain leads the team onto the field.",
+   "sha256": "1fbcaa344f550bb38ca3be46b6fa7a18fe88022481213d8665227a1c012ff1b2",
+   "alignment": "audio-alignment/sentences/captain.team-leader.json"
+  },
+  "car.road-vehicle": {
+   "text": "Dad parks the car beside the library.",
+   "sha256": "9b2cdc1d78a90b4f9f0e1a454225b109635c06e907402a2dc02343871e9d18a6",
+   "alignment": "audio-alignment/sentences/car.road-vehicle.json"
+  },
+  "caravan.travelling-home": {
+   "text": "Our caravan has a tiny kitchen.",
+   "sha256": "bb043b1d63cb20629f28feb3869afe9af76f9d4051ea5e4fd3e419d83e216ae2",
+   "alignment": "audio-alignment/sentences/caravan.travelling-home.json"
+  },
+  "card.game-piece": {
+   "text": "I turn over a card and find a kitten.",
+   "sha256": "9338979644c7cb09e8d8bd03a5c2d15ac3e146ac06ad780d7762bf4c794bb6b4",
+   "alignment": "audio-alignment/sentences/card.game-piece.json"
+  },
+  "care.be-concerned": {
+   "text": "We care about the animals in our garden.",
+   "sha256": "a7cbf5c0d3b7b63b1b78461641688bb4550200eec602ab66d9f7d5be6d16dd13",
+   "alignment": "audio-alignment/sentences/care.be-concerned.json"
+  },
+  "careful.taking-care": {
+   "text": "The unicorn is careful not to step on the flowers.",
+   "sha256": "27785e03705acfa2f65fb36402146ebfb4f2d77ec797759712eeca5f5a69d6af",
+   "alignment": "audio-alignment/sentences/careful.taking-care.json"
+  },
+  "carefully.with-care": {
+   "text": "I carry the full cup carefully.",
+   "sha256": "cb349a6ad58d3f5aacac73c05c38c9c4914d376587dae5583f3097a80fb9158c",
+   "alignment": "audio-alignment/sentences/carefully.with-care.json"
+  },
+  "careless.not-taking-care": {
+   "text": "I am careless and knock over my paint.",
+   "sha256": "48090fc8de3a9ebc6bd2e8b59edcd6026de12a375829e41746df9093370cb8e1",
+   "alignment": "audio-alignment/sentences/careless.not-taking-care.json"
+  },
+  "carpenter.occupation": {
+   "text": "The carpenter makes a wooden chair.",
+   "sha256": "1a8f3c7becb132605393eaf2edcb21afb260fb8a627f8eefa1461d21b4e6448c",
+   "alignment": "audio-alignment/sentences/carpenter.occupation.json"
+  },
+  "carpet.floor-covering": {
+   "text": "The soft carpet covers our bedroom floor.",
+   "sha256": "3903f023d19efad9f60abc638b9132fb5521b486a9d0289d82df42e74e31753b",
+   "alignment": "audio-alignment/sentences/carpet.floor-covering.json"
+  },
+  "carrot.vegetable": {
+   "text": "The rabbit nibbles a carrot.",
+   "sha256": "c595daebdbe7e9a54d6d711f8255601ef48b9624e0bf86f3fe04b7ad7df73133",
+   "alignment": "audio-alignment/sentences/carrot.vegetable.json"
+  },
+  "carry.take-with-you": {
+   "text": "I carry my basket to the market.",
+   "sha256": "cb48da39779e0482b38d1c9a072582180d22dcc80f9b726add84339055a39e15",
+   "alignment": "audio-alignment/sentences/carry.take-with-you.json"
+  },
+  "cart.wheeled-carrier": {
+   "text": "The pony pulls a little cart.",
+   "sha256": "366708509b7fba7aa1314233d1dcd383c253a23f6256174f6b2f6aa37a5aa3d9",
+   "alignment": "audio-alignment/sentences/cart.wheeled-carrier.json"
+  },
+  "cash.physical-money": {
+   "text": "Dad pays for the fruit with cash.",
+   "sha256": "7e394cfc143f4b010ed536fe77c937b813303225731f620dfa2085f43ab915d3",
+   "alignment": "audio-alignment/sentences/cash.physical-money.json"
+  },
+  "cashew.nut": {
+   "text": "I pick a cashew from the bowl.",
+   "sha256": "b1ddead39309c0325524e79e8a96f991e7f523bbcef259cd281ec76a285bb1a4",
+   "alignment": "audio-alignment/sentences/cashew.nut.json"
+  },
+  "cashier.occupation": {
+   "text": "The cashier gives Mum her change.",
+   "sha256": "7937d32d3d89d8bca35249c7b38056e57108a400e5d16e004f74a3e3e2a1bcd3",
+   "alignment": "audio-alignment/sentences/cashier.occupation.json"
+  },
+  "castle.large-fortified-home": {
+   "text": "The princess lives in a crystal castle.",
+   "sha256": "ee63489e2c0a76c18ab94377ab1c226132c557f40ad79a505a93c6e009971924",
+   "alignment": "audio-alignment/sentences/castle.large-fortified-home.json"
+  },
+  "cat.animal": {
+   "text": "I have a pet cat named Fluffy.",
+   "sha256": "d270b6d2ffc772a5d82c44b50bec787e101ff3c15649a078f1de0b448a9d2f17",
+   "alignment": "audio-alignment/sentences/cat.animal.json"
+  },
+  "catch.stop-and-hold": {
+   "text": "Can you catch this soft ball?",
+   "sha256": "1b0435b4cd6edcb13bcc39b572b066c510943a7edb73db3049c8a5fa3c2d93e5",
+   "alignment": "audio-alignment/sentences/catch.stop-and-hold.json"
+  },
+  "caterpillar.insect-larva": {
+   "text": "The caterpillar munches a green leaf.",
+   "sha256": "b7ba0180499bcd89bb51ea5618fe3061796cdbfc0c201e30ea402396c4dd84a1",
+   "alignment": "audio-alignment/sentences/caterpillar.insect-larva.json"
+  },
+  "cattle.farm-cows": {
+   "text": "The cattle walk slowly across the field.",
+   "sha256": "3794f1c60239582b50c1c8d7b6c31251b2a0867810faa9b0d26008585c508c3a",
+   "alignment": "audio-alignment/sentences/cattle.farm-cows.json"
+  },
+  "cauliflower.vegetable": {
+   "text": "We roast cauliflower for dinner.",
+   "sha256": "68edfc93134437b06c2081d095e5e15d5be02ddbaaecef233fa8ce0908c7e28b",
+   "alignment": "audio-alignment/sentences/cauliflower.vegetable.json"
+  },
+  "cave.rock-hollow": {
+   "text": "The dragon sleeps inside a cave.",
+   "sha256": "6cc2f5226f68e6b310f0ab083e729b86b1725a9b58459c6ccb37f97f22859b71",
+   "alignment": "audio-alignment/sentences/cave.rock-hollow.json"
+  },
+  "ceiling.room-top": {
+   "text": "Paper planets hang from our bedroom ceiling.",
+   "sha256": "eb4958caaad2f8f1aa60674810a42617c0fc8997dfdc0ac2728cfa976b96144c",
+   "alignment": "audio-alignment/sentences/ceiling.room-top.json"
+  },
+  "centimetre.length-unit": {
+   "text": "I move the bead one centimetre along the ruler.",
+   "sha256": "6afc0b7c6c3e2e3b4cf0912b110a6d25ca7202e3fda3e2496bd9f35c17cfa93d",
+   "alignment": "audio-alignment/sentences/centimetre.length-unit.json"
+  },
+  "cereal.breakfast-food": {
+   "text": "I pour milk over my cereal.",
+   "sha256": "40ad9230aa1560d9e0cbb787802c8b12057f580e27f4ba2f8b463eac82bd8458",
+   "alignment": "audio-alignment/sentences/cereal.breakfast-food.json"
+  },
+  "chain.linked-rings": {
+   "text": "The swing hangs from a strong chain.",
+   "sha256": "4685c902c93111cd12efd51982a8496e1dd870411d16152a1b73334ccf2376da",
+   "alignment": "audio-alignment/sentences/chain.linked-rings.json"
+  },
+  "chair.seat": {
+   "text": "I pull a chair up to the table.",
+   "sha256": "c6907508755262925ff2e61ecdaa4f5340b77a4d737c2e75ae9d54762364ec22",
+   "alignment": "audio-alignment/sentences/chair.seat.json"
+  },
+  "chalk.writing-material": {
+   "text": "I draw a moon with white chalk.",
+   "sha256": "ba5dc6513df11416f9a541ed99d354ba2478f4646dc2931031118953a468522e",
+   "alignment": "audio-alignment/sentences/chalk.writing-material.json"
+  },
+  "change.make-different": {
+   "text": "We change the ending of our story.",
+   "sha256": "289c2429b468b8454e299622ee5e236145dfb7e4f2276c9011797ed84268c926",
+   "alignment": "audio-alignment/sentences/change.make-different.json"
+  },
+  "chapter.book-section": {
+   "text": "This chapter tells how the princess fixes the bridge.",
+   "sha256": "5ea9741fe0c2411d4c5149062e411c1357fb1d6ce5d197ec010a41004c65da14",
+   "alignment": "audio-alignment/sentences/chapter.book-section.json"
+  },
+  "chart.information-display": {
+   "text": "We find Mars on our solar system chart.",
+   "sha256": "1cc9bc9a48666c14ce1cef427c083eb319e2bb62eb5ae0e5f5504eb5da882ca2",
+   "alignment": "audio-alignment/sentences/chart.information-display.json"
+  },
+  "chase.run-after": {
+   "text": "Vanilla loves to chase her ball across the grass.",
+   "sha256": "6ca69d7a0a0fcf8d0b224f579923ad620f57384fac36c3b9870751a6be980d69",
+   "alignment": "audio-alignment/sentences/chase.run-after.json"
+  },
+  "chat.talk-informally": {
+   "text": "We chat while we walk home.",
+   "sha256": "6c4beded8076dc7ad29d46d7f510d35ef9cdcde66c668e8991e30d093699ff5a",
+   "alignment": "audio-alignment/sentences/chat.talk-informally.json"
+  },
+  "cheap.low-price": {
+   "text": "The little notebook is cheap, so I can buy it.",
+   "sha256": "2601f615615fbc9763d0caeb926be632328b50375313dda2306f3c8384f1b080",
+   "alignment": "audio-alignment/sentences/cheap.low-price.json"
+  },
+  "cheek.body-part": {
+   "text": "Mum kisses my cheek.",
+   "sha256": "397393dee8262a7dd20665e236248a35703adb46db661a155ba8ca0f9c5d9ebd",
+   "alignment": "audio-alignment/sentences/cheek.body-part.json"
+  },
+  "cheerful.bright-and-happy": {
+   "text": "Vanilla gives us a cheerful welcome at the door.",
+   "sha256": "4576fe6da0b4706ca8c589ae66bedbb54ef2c938a94a562adfe45187112b4846",
+   "alignment": "audio-alignment/sentences/cheerful.bright-and-happy.json"
+  },
+  "cheese.food": {
+   "text": "A slice of cheese goes in my sandwich.",
+   "sha256": "5251ade7eddabc09756426b233d35b1cb981adf98793fcad64cd0e9f4844da60",
+   "alignment": "audio-alignment/sentences/cheese.food.json"
+  },
+  "chef.occupation": {
+   "text": "The chef decorates a plate of fruit.",
+   "sha256": "9dfcd94b485cd624860d3aba267723cc337745f14f8518f2971f82e614d0778b",
+   "alignment": "audio-alignment/sentences/chef.occupation.json"
+  },
+  "cherry.fruit": {
+   "text": "One cherry sits on top of my cake.",
+   "sha256": "39152ea01c989d6096862bd6ef9e1b7989db53bd0fa653a4f99a979db0cca506",
+   "alignment": "audio-alignment/sentences/cherry.fruit.json"
+  },
+  "chess.board-game": {
+   "text": "Grandpa teaches me to play chess.",
+   "sha256": "642eb79a9071336dc2a717228a59e7264bfec325ce172af4240d302ea09f986b",
+   "alignment": "audio-alignment/sentences/chess.board-game.json"
+  },
+  "chest.body-part": {
+   "text": "The swimmer holds a float against her chest.",
+   "sha256": "73e6d32d9114b3a350a8f665570f047533ad564072e3b91ef630d7c14688c511",
+   "alignment": "audio-alignment/sentences/chest.body-part.json"
+  },
+  "chest.storage-box": {
+   "text": "The mermaid opens a chest full of shiny shells.",
+   "sha256": "a2a4f3a771309df75856f42eaac6b5bc14bb4c6559716924a9df73b371a4c028",
+   "alignment": "audio-alignment/sentences/chest.storage-box.json"
+  },
+  "chew.break-food-with-teeth": {
+   "text": "I chew my apple before taking another bite.",
+   "sha256": "2652b441eb556a5ff1e45ae4395b78e068be08900d8e9e18917a05439b6e8c16",
+   "alignment": "audio-alignment/sentences/chew.break-food-with-teeth.json"
+  },
+  "chewy.needs-much-chewing": {
+   "text": "The chewy sweet sticks to my teeth.",
+   "sha256": "57262bb147e132e399661046a5fbddcd7be43ad6db4d53dd0ab42ffb63e55dbc",
+   "alignment": "audio-alignment/sentences/chewy.needs-much-chewing.json"
+  },
+  "chick.young-bird": {
+   "text": "A fluffy chick follows the hen.",
+   "sha256": "9371bd4a4c0c3e59fc68f3ff2370d4f431ea805f6dba95005ba761d91d3f7e7e",
+   "alignment": "audio-alignment/sentences/chick.young-bird.json"
+  },
+  "chicken.animal": {
+   "text": "The chicken scratches the ground.",
+   "sha256": "d91407e2d75d244b234c8d99dab68f169480677cdaad3f0e72b7bed140164108",
+   "alignment": "audio-alignment/sentences/chicken.animal.json"
+  },
+  "child.young-person": {
+   "text": "A child waves from the bus.",
+   "sha256": "cdbc8369667b1818c396c9ba75d2d44a8ae940f76b76dab71b4722c7348fa74b",
+   "alignment": "audio-alignment/sentences/child.young-person.json"
+  },
+  "chilli.food": {
+   "text": "The tiny chilli makes the soup spicy.",
+   "sha256": "67bf13b4867d9752f18ba08a2048536e0a49dfdb314f2f86ec685fb90d036d39",
+   "alignment": "audio-alignment/sentences/chilli.food.json"
+  },
+  "chimney.smoke-passage": {
+   "text": "A bird sits on the chimney.",
+   "sha256": "c5ed23dfd18d25e0db8fb8223be55b71e70e7544483b9f2c5be1b9f5faa3bc61",
+   "alignment": "audio-alignment/sentences/chimney.smoke-passage.json"
+  },
+  "chin.body-part": {
+   "text": "Ice cream drips onto my chin.",
+   "sha256": "e01e09e7187d5b63f998c14d9ea5f9a044bcf1b2d0902dd71f057c470ebe7c42",
+   "alignment": "audio-alignment/sentences/chin.body-part.json"
+  },
+  "chips.fried-potato-pieces": {
+   "text": "My chips come with a little pot of ketchup.",
+   "sha256": "3ef18e39559cbba22d28c2ce5ff924f0846001f193229296828c2cd66e74a9ca",
+   "alignment": "audio-alignment/sentences/chips.fried-potato-pieces.json"
+  },
+  "chocolate.food": {
+   "text": "The chocolate melts in my hand.",
+   "sha256": "fe7afcf7311cacbeccb103f868e05f57c6204c1d7330c5983c424c2bd6ef0972",
+   "alignment": "audio-alignment/sentences/chocolate.food.json"
+  },
+  "choose.select": {
+   "text": "The princess asks me to choose a flag for our castle.",
+   "sha256": "90c90a8caf2bda4e64899a5cf770314bd1a85e7ed44ec6f9ac246ba720da8297",
+   "alignment": "audio-alignment/sentences/choose.select.json"
+  },
+  "chopsticks.eating-tool": {
+   "text": "I pick up a dumpling with chopsticks.",
+   "sha256": "b6188f16c4a7028943956e3a00d3bf9455f5c23b0cf87abe0b15d3ac4f1509dd",
+   "alignment": "audio-alignment/sentences/chopsticks.eating-tool.json"
+  },
+  "church.religious-building": {
+   "text": "A bell rings in the church tower.",
+   "sha256": "b15c6cd16f6844f5a1f06c19957c23a24eacaa27d1db948c898fba86a71faa41",
+   "alignment": "audio-alignment/sentences/church.religious-building.json"
+  },
+  "cinema.film-place": {
+   "text": "We watch a funny film at the cinema.",
+   "sha256": "3d078a598a60ba5b12c679e033f7c2250ec67c6e47830b0ac64e839b79c174dd",
+   "alignment": "audio-alignment/sentences/cinema.film-place.json"
+  },
+  "circle.shape": {
+   "text": "I draw a circle for the moon.",
+   "sha256": "d44be7c1bdb736ffd2b5bc760a3d68aabde0460bbf9ef3a8fb6bbdaf7da7ba1d",
+   "alignment": "audio-alignment/sentences/circle.shape.json"
+  },
+  "circuit.electrical-loop": {
+   "text": "We complete the circuit and the little bulb lights up.",
+   "sha256": "9d580766cf0caff159e63720dae7cd495bd2f49f627f83de1d0f01f8eecff02f",
+   "alignment": "audio-alignment/sentences/circuit.electrical-loop.json"
+  },
+  "city.large-settlement": {
+   "text": "The city glows with lights at night.",
+   "sha256": "4e8ee481fe7d94820ceec4f152e3a8199f345d0ce6209f05a62b5256ef8193b8",
+   "alignment": "audio-alignment/sentences/city.large-settlement.json"
+  },
+  "clap.hit-hands-together": {
+   "text": "We clap when the song ends.",
+   "sha256": "ef6a3637315476002343cebabe9d99bf9e1389706c696ebaf6e39e0dfa167526",
+   "alignment": "audio-alignment/sentences/clap.hit-hands-together.json"
+  },
+  "class.school-group": {
+   "text": "Our class plants a small garden.",
+   "sha256": "5a9a065dde68de679cf7259ae70a6bbb811384222639db9c27cdac5bde0b9b7b",
+   "alignment": "audio-alignment/sentences/class.school-group.json"
+  },
+  "classmate.school-companion": {
+   "text": "I lend my classmate a pencil.",
+   "sha256": "dd85ca82475dc576a810fd93ecfac3983847a9c13b46c2e64aaeba5b8bf50169",
+   "alignment": "audio-alignment/sentences/classmate.school-companion.json"
+  },
+  "classroom.school-room": {
+   "text": "Our classroom has a reading corner.",
+   "sha256": "7e8c2c60fe8c8a37a23254d175162ec2d1c8c8c2bbd088043249d0bf1d164b6b",
+   "alignment": "audio-alignment/sentences/classroom.school-room.json"
+  },
+  "claw.animal-nail": {
+   "text": "A sharp claw peeks out of the cat's paw.",
+   "sha256": "d4cd79ef78b9d7c495d4e142e0c3c4fc53bc4df10883733d47671145d58cf5e6",
+   "alignment": "audio-alignment/sentences/claw.animal-nail.json"
+  },
+  "clay.earth-material": {
+   "text": "I make a little bowl from clay.",
+   "sha256": "ef14b1193a6d92f82efed4a585c099f59961c2df70c082f35c0036caf35e6cce",
+   "alignment": "audio-alignment/sentences/clay.earth-material.json"
+  },
+  "clean.not-dirty": {
+   "text": "I put on a clean shirt.",
+   "sha256": "aa16bc19ae1af12b335c620a513f85392458dd56c0485b0c6f8b2b6a797043ad",
+   "alignment": "audio-alignment/sentences/clean.not-dirty.json"
+  },
+  "clean.remove-dirt": {
+   "text": "We clean our muddy boots outside.",
+   "sha256": "3cda507c466288a0726957453050ced93e30be0d79dc92cb8978105e803654dc",
+   "alignment": "audio-alignment/sentences/clean.remove-dirt.json"
+  },
+  "cleaner.occupation": {
+   "text": "The cleaner wipes the classroom windows.",
+   "sha256": "bbf4dc64aaa47294a159eacb64828325735bf8b6da429977d5a3e22b6d8094b2",
+   "alignment": "audio-alignment/sentences/cleaner.occupation.json"
+  },
+  "clear.easy-to-see-through": {
+   "text": "The mermaid sees little fish through the clear water.",
+   "sha256": "092c1e81c1fad5a89184419f5f4d888eba4193f059ead7028aa16b74599efbed",
+   "alignment": "audio-alignment/sentences/clear.easy-to-see-through.json"
+  },
+  "clever.quick-to-understand": {
+   "text": "The clever rabbit finds another way across the stream.",
+   "sha256": "4edb33ad8ee936ba22cc4b7d31521ee4ab589db1b2a3eb552c0007391802cf3d",
+   "alignment": "audio-alignment/sentences/clever.quick-to-understand.json"
+  },
+  "cliff.steep-rock-face": {
+   "text": "The lighthouse stands on a high cliff.",
+   "sha256": "386a0e48a2872f3928c86d004e1791c0831442baa81940b1d2ce2c06b79f526f",
+   "alignment": "audio-alignment/sentences/cliff.steep-rock-face.json"
+  },
+  "climb.move-up": {
+   "text": "I climb up the ladder to our cardboard spaceship.",
+   "sha256": "c6561dc1ca1b590f228a0d4f9320d3bed422ccac2c704141c58b1f2f91e4e610",
+   "alignment": "audio-alignment/sentences/climb.move-up.json"
+  },
+  "close.nearby": {
+   "text": "The kitten stays close to its mother.",
+   "sha256": "1d86cd0b1d77c36ff916049eb006d3b78b0d9cc55d16f5f56aedd46a514b5b8a",
+   "alignment": "audio-alignment/sentences/close.nearby.json"
+  },
+  "closed.not-open": {
+   "text": "The shop is closed today.",
+   "sha256": "adaad3d5e4d533aeb28900a5fd3e59fab9d40898badc0461a2cc911016d09a2d",
+   "alignment": "audio-alignment/sentences/closed.not-open.json"
+  },
+  "cloth.piece-of-fabric": {
+   "text": "Mum wipes the table with a cloth.",
+   "sha256": "fde695495874654acdeacf77153b09ec84a089ce2a6368313ff3cd39a2842cde",
+   "alignment": "audio-alignment/sentences/cloth.piece-of-fabric.json"
+  },
+  "clothes.garments": {
+   "text": "I pack clean clothes for our trip.",
+   "sha256": "8bf40799b3f5edbef7cbda55c41c45b3f010a4f37499988aa5e4345d9f912f63",
+   "alignment": "audio-alignment/sentences/clothes.garments.json"
+  },
+  "club.group-who-meet": {
+   "text": "We started a maths club at school.",
+   "sha256": "be1637e6b1a08bc495032de1cf9b601729c61c1c6a5cd3f442c85cf9715e5707",
+   "alignment": "audio-alignment/sentences/club.group-who-meet.json"
+  },
+  "clue.helpful-information": {
+   "text": "A muddy footprint gives us a clue.",
+   "sha256": "7fdcaf0ec9f86e6d27740fd436cad0e0c71259221cafefc3235cf5aa22ef4b11",
+   "alignment": "audio-alignment/sentences/clue.helpful-information.json"
+  },
+  "coach.sports-teacher": {
+   "text": "Our coach shows us how to pass the ball.",
+   "sha256": "334de7cb0fd12e861162a9e5252d9c0ce27a1e85b5faebcc44011684c2e63b6a",
+   "alignment": "audio-alignment/sentences/coach.sports-teacher.json"
+  },
+  "coal.black-burning-rock": {
+   "text": "The coal burns in the warm fireplace.",
+   "sha256": "2ffd2a55c1ddffbf3be0bf7a435fd99d58011c2ae3bd0494b8b405a34574f139",
+   "alignment": "audio-alignment/sentences/coal.black-burning-rock.json"
+  },
+  "coast.land-beside-sea": {
+   "text": "We follow the coast on our map.",
+   "sha256": "6f6b08b8e93c78fe345d5a102f6c5c525ef0700eaa7d88e9bf26fd94e7bf862c",
+   "alignment": "audio-alignment/sentences/coast.land-beside-sea.json"
+  },
+  "coat.clothing": {
+   "text": "My winter coat has a furry hood.",
+   "sha256": "756b4673da650f49f3a8ad55fb2def2ac71de373ae0dae03e8e1ded2b1011442",
+   "alignment": "audio-alignment/sentences/coat.clothing.json"
+  },
+  "coconut.fruit": {
+   "text": "Dad opens a coconut for our picnic.",
+   "sha256": "a805e487f9f045ada9297125608dbe591b9a1ea4ac9218cd130dac91a7a90f57",
+   "alignment": "audio-alignment/sentences/coconut.fruit.json"
+  },
+  "cocoon.protective-case": {
+   "text": "A moth comes out of the cocoon.",
+   "sha256": "92924edeb440e611ae19a20fa0faf1b30defef423435ad2f2127ac1527db3beb",
+   "alignment": "audio-alignment/sentences/cocoon.protective-case.json"
+  },
+  "coffee.drink": {
+   "text": "Dad carries his coffee to the porch.",
+   "sha256": "76d6c5e6448a44f4bed85817b1d4e56ecc3a5e5155f8a56930590aee500868fd",
+   "alignment": "audio-alignment/sentences/coffee.drink.json"
+  },
+  "coin.metal-money": {
+   "text": "The princess saves a coin in her money box.",
+   "sha256": "5feb7a814b8e552a19d581855b1b7d65b636e87aae35be5dccfe4ecfc49643ab",
+   "alignment": "audio-alignment/sentences/coin.metal-money.json"
+  },
+  "cold.low-temperature": {
+   "text": "My cold hands need warm gloves.",
+   "sha256": "0318d797eb6522eafcbc612bbe766f228a0286208a2a77d04c619bfb76865767",
+   "alignment": "audio-alignment/sentences/cold.low-temperature.json"
+  },
+  "collage.pasted-picture": {
+   "text": "We make a collage from coloured paper.",
+   "sha256": "87c362c8aa60d6d9ee62f80e8489ff85b543282ec0f36cbd573d2e9930d24387",
+   "alignment": "audio-alignment/sentences/collage.pasted-picture.json"
+  },
+  "collar.clothing-part": {
+   "text": "Dad straightens the collar of his shirt.",
+   "sha256": "5283531af26ece487f663b32784775041f546243f85ff95ee853100c9400c31e",
+   "alignment": "audio-alignment/sentences/collar.clothing-part.json"
+  },
+  "colour.add-colour": {
+   "text": "I colour the unicorn's mane pink and purple.",
+   "sha256": "26cf38a27095555dfd2aa11d72a49f9b0e3e753b4ed68dbb3abf1015942b989d",
+   "alignment": "audio-alignment/sentences/colour.add-colour.json"
+  },
+  "colourful.many-colours": {
+   "text": "Colourful flags welcome visitors to the princess's castle.",
+   "sha256": "2a5a554c410a7d30c922e90c9886dd2b295a1e5436cd08c559980f2170c89dfb",
+   "alignment": "audio-alignment/sentences/colourful.many-colours.json"
+  },
+  "column.vertical-line": {
+   "text": "I colour one column in the number grid.",
+   "sha256": "b628cf55444ddd7dbf443b292cda9c0a7b29c568828111148afc2c2c70154043",
+   "alignment": "audio-alignment/sentences/column.vertical-line.json"
+  },
+  "comb.hair-tool": {
+   "text": "I use a comb to tidy my hair.",
+   "sha256": "7de8a3b6c3d6d4b9ca7ecb922a3ed4997d1aa3c682fdb8db88519045be62d172",
+   "alignment": "audio-alignment/sentences/comb.hair-tool.json"
+  },
+  "comb.tidy-hair": {
+   "text": "I comb my hair after my bath.",
+   "sha256": "c3b6014cfc235e881b7e1debe971303c23acc0ba413a274190989d0e7353b252",
+   "alignment": "audio-alignment/sentences/comb.tidy-hair.json"
+  },
+  "combine.put-together": {
+   "text": "We combine our drawings into one big picture.",
+   "sha256": "e5f59fce68790aa6c605acf172efcc061e3542b1d9507c5035f3037c42690288",
+   "alignment": "audio-alignment/sentences/combine.put-together.json"
+  },
+  "come.move-here": {
+   "text": "Please come and sit beside me.",
+   "sha256": "a88b23f6bf099edf12ae064cdaead30a73eabfed3bbe395c96c5314bc8869347",
+   "alignment": "audio-alignment/sentences/come.move-here.json"
+  },
+  "comet.icy-space-object": {
+   "text": "The comet in my picture has a long glowing tail.",
+   "sha256": "65ed719b8d235604d3e739af5f6846ef0cd955af63343c5e7af1d997c7d4abd9",
+   "alignment": "audio-alignment/sentences/comet.icy-space-object.json"
+  },
+  "comfortable.physically-at-ease": {
+   "text": "Vanilla looks comfortable on her soft cushion.",
+   "sha256": "98f42b9e36616ac137dfc01240dd18298d7b495c2aa5989a5be433807a09ecf4",
+   "alignment": "audio-alignment/sentences/comfortable.physically-at-ease.json"
+  },
+  "common.often-found": {
+   "text": "Sparrows are common visitors to our garden.",
+   "sha256": "57c8bc3a7902b5cf621afeadcbbd5f1a21f2224ba18b708f5d0b43d7316d3c24",
+   "alignment": "audio-alignment/sentences/common.often-found.json"
+  },
+  "compare.look-for-differences": {
+   "text": "We compare the lengths of two toy rockets.",
+   "sha256": "2e3c23147ef441c2322ca5bf4209e2feed7d1084a77f47e472f286b33021bbc1",
+   "alignment": "audio-alignment/sentences/compare.look-for-differences.json"
+  },
+  "competition.contest": {
+   "text": "We enter our paper boats in a friendly competition.",
+   "sha256": "dbdc5fd33268793b77544b353bc6b5c7b4277d03cdd4e502249f57ead11cb716",
+   "alignment": "audio-alignment/sentences/competition.contest.json"
+  },
+  "computer.electronic-device": {
+   "text": "I draw a rocket on the computer.",
+   "sha256": "c566618bdd887d48bbc94571f65070b535db966251533312a126998628407d80",
+   "alignment": "audio-alignment/sentences/computer.electronic-device.json"
+  },
+  "cone.solid-shape": {
+   "text": "The party hat looks like a cone.",
+   "sha256": "5ac9d672e96eb735dbbf0a5008d04e3b94f4343648e9b754a60c2c9f30fafb2e",
+   "alignment": "audio-alignment/sentences/cone.solid-shape.json"
+  },
+  "confident.sure-of-yourself": {
+   "text": "The princess feels confident after practising her speech.",
+   "sha256": "41fcbfff537b6aaee8977188c84459e83dc1cba22772ce9e95fb10915009b589",
+   "alignment": "audio-alignment/sentences/confident.sure-of-yourself.json"
+  },
+  "connect.link": {
+   "text": "We connect two tubes to build our model space station.",
+   "sha256": "77188d4cf75b5e3715c23f80ef922eab974d8231071af460b7a0a6f74d3061e1",
+   "alignment": "audio-alignment/sentences/connect.link.json"
+  },
+  "continent.large-land-region": {
+   "text": "We choose a continent to colour on the map.",
+   "sha256": "4d2d6225bd5d2cdbb82bde148d387e8438d4cc3fc12dd3ba5ab1b867df49c9bf",
+   "alignment": "audio-alignment/sentences/continent.large-land-region.json"
+  },
+  "continue.keep-going": {
+   "text": "We continue the story after dinner.",
+   "sha256": "4a00c27a55a95bc98dfefd5d4ae8acc91d8d925c136382b215e1fb8b9f1d4c02",
+   "alignment": "audio-alignment/sentences/continue.keep-going.json"
+  },
+  "cook.occupation": {
+   "text": "The cook makes soup for everyone.",
+   "sha256": "c466ceeb6928d5f8a9bd09a47d3063240b21a933478b66f0eae3217a7c4eccb4",
+   "alignment": "audio-alignment/sentences/cook.occupation.json"
+  },
+  "cook.prepare-food-with-heat": {
+   "text": "We cook dinner together.",
+   "sha256": "f711f334bfc3c8c84cfdd326099ede9641e06b7e5c35f20b4a06c44f6412b8e8",
+   "alignment": "audio-alignment/sentences/cook.prepare-food-with-heat.json"
+  },
+  "cooked.prepared-with-heat": {
+   "text": "The cooked rice is ready to serve.",
+   "sha256": "8733c335fa2d75367bd31585ffea61ff6ff76b64542d1810803cfe60314c9815",
+   "alignment": "audio-alignment/sentences/cooked.prepared-with-heat.json"
+  },
+  "cooker.cooking-appliance": {
+   "text": "The soup simmers on the cooker.",
+   "sha256": "f47b76d52539b8f5cf8c3552986ec820ee0bc73b02abf96ecece5ed064d36a48",
+   "alignment": "audio-alignment/sentences/cooker.cooking-appliance.json"
+  },
+  "cookie.sweet-biscuit": {
+   "text": "My cookie has little chocolate chips inside.",
+   "sha256": "4a72f7cf88fd13615855c5c7be86f704e3c5edea198d7f68cc38576c3e98894b",
+   "alignment": "audio-alignment/sentences/cookie.sweet-biscuit.json"
+  },
+  "cool.slightly-cold": {
+   "text": "A cool breeze blows through the window.",
+   "sha256": "578889d01288d8c5b942dcf63f6dda85ee4244d61b7852b82b4b7311d3b86e93",
+   "alignment": "audio-alignment/sentences/cool.slightly-cold.json"
+  },
+  "coop.chicken-home": {
+   "text": "The hens walk back to the coop.",
+   "sha256": "0ba4c60252aa820adf40702e815880d0d6f2f4ac351a049ce34bcd93e74c4085",
+   "alignment": "audio-alignment/sentences/coop.chicken-home.json"
+  },
+  "corn.food": {
+   "text": "Dad grills corn for our picnic.",
+   "sha256": "6e670f698556d243df54116f0d43d1b5560e920b3792e058807b9a1f29849c27",
+   "alignment": "audio-alignment/sentences/corn.food.json"
+  },
+  "corner.meeting-of-sides": {
+   "text": "A star marks each corner of the square.",
+   "sha256": "61202024a78f7a5a4b09d801f472583c9cdac93be40342f64c62f063b1529b45",
+   "alignment": "audio-alignment/sentences/corner.meeting-of-sides.json"
+  },
+  "correct.right": {
+   "text": "The correct answer makes the star light up.",
+   "sha256": "736514baee38cb65ebfa8f99bb8b85ef42831253e81900f3c0b6fdd6ed8e8bcb",
+   "alignment": "audio-alignment/sentences/correct.right.json"
+  },
+  "cost.have-a-price": {
+   "text": "How much does this little notebook cost?",
+   "sha256": "317281869d613691be775a57947fbf4feaa2a4a62a5e92ceb5b1780450bebf64",
+   "alignment": "audio-alignment/sentences/cost.have-a-price.json"
+  },
+  "costume.dress-up-clothes": {
+   "text": "My costume makes me look like an astronaut.",
+   "sha256": "8ce3c909ae30b6f73a0b9be23411b2e21ad391f2a315a12cabe5d8d4aa9056b4",
+   "alignment": "audio-alignment/sentences/costume.dress-up-clothes.json"
+  },
+  "cosy.warm-and-comfortable": {
+   "text": "The kitten sleeps in a cosy basket.",
+   "sha256": "2761efe16ea939b83229e947477bab4d77c75b977f606015a0224b38dc06f210",
+   "alignment": "audio-alignment/sentences/cosy.warm-and-comfortable.json"
+  },
+  "cot.baby-bed": {
+   "text": "The baby sleeps in a cot.",
+   "sha256": "e2996bd52b3941b11f2d65f6fcfe2a69235b4a43e2e61d228db9ceb000863b58",
+   "alignment": "audio-alignment/sentences/cot.baby-bed.json"
+  },
+  "cotton.fibre": {
+   "text": "My shirt is made of cotton.",
+   "sha256": "d2651d5861f99d0d44e28c2731e60ac8b8e9dd5b5ad6738a4a4ec96a2bc93a48",
+   "alignment": "audio-alignment/sentences/cotton.fibre.json"
+  },
+  "cough.throat-action": {
+   "text": "I cover my mouth when I cough.",
+   "sha256": "6081b7cc757df09d26cb08b3dc3e8ab315b72eeeea7feab14d6aa2ff4d12b5ed",
+   "alignment": "audio-alignment/sentences/cough.throat-action.json"
+  },
+  "count.say-how-many": {
+   "text": "We count the shells in the mermaid's basket.",
+   "sha256": "6a4cefa77b59023db495765ff8f523ecfaa99d5fb5b1e110bfe85723d843b31b",
+   "alignment": "audio-alignment/sentences/count.say-how-many.json"
+  },
+  "cousin.family-role": {
+   "text": "My cousin stays with us for the weekend.",
+   "sha256": "c8e6c7bde67261457423554df332dce939288691d0cb1115942dffb25e150d9a",
+   "alignment": "audio-alignment/sentences/cousin.family-role.json"
+  },
+  "cover.book-outside": {
+   "text": "The book's cover shows a silver castle.",
+   "sha256": "901bb10c155680ab8fbd92756e4f59392e408c1f89b08dad60e9a129f309e2e1",
+   "alignment": "audio-alignment/sentences/cover.book-outside.json"
+  },
+  "cover.put-something-over": {
+   "text": "We cover the doll with a blanket.",
+   "sha256": "acaf82c4fd39c18f5e86d6dfea7dbfc598e14b20be6b134678fc313d4b9a2454",
+   "alignment": "audio-alignment/sentences/cover.put-something-over.json"
+  },
+  "cow.animal": {
+   "text": "The cow eats grass in the field.",
+   "sha256": "d1d9142d846dcbd4403f4c969976b829e3f41e7b8c09bc503bcd4fc954e33826",
+   "alignment": "audio-alignment/sentences/cow.animal.json"
+  },
+  "crab.animal": {
+   "text": "The crab walks sideways across the sand.",
+   "sha256": "adb202a5e85b21d8c38ae2a282cc101357c2ec998de0e95f928e3bd246ee9578",
+   "alignment": "audio-alignment/sentences/crab.animal.json"
+  },
+  "cracker.food": {
+   "text": "I put cheese on a cracker.",
+   "sha256": "d829928c8e7ac1e03f70402972310134bf83d63ea8a6f1215866016cb69d870a",
+   "alignment": "audio-alignment/sentences/cracker.food.json"
+  },
+  "craft.handmade-activity": {
+   "text": "Our craft project is a cardboard castle.",
+   "sha256": "aa2266de2d34a8a699ccb154cc1ed55519820a82f97ea70d2fbe758b13d37a7b",
+   "alignment": "audio-alignment/sentences/craft.handmade-activity.json"
+  },
+  "crawl.move-on-hands-and-knees": {
+   "text": "We crawl through the blanket tunnel.",
+   "sha256": "c25cab0bcb6e6abe14bc15ab6196b9c7a73770e71fe102e3d518502501050d08",
+   "alignment": "audio-alignment/sentences/crawl.move-on-hands-and-knees.json"
+  },
+  "crayon.colouring-tool": {
+   "text": "I choose a purple crayon for the castle.",
+   "sha256": "bacd045b9b2536d9febb7fe9f7131dfbc8b77223c3084f9e93db6362d70cd206",
+   "alignment": "audio-alignment/sentences/crayon.colouring-tool.json"
+  },
+  "cream.dairy-food": {
+   "text": "Mum adds cream to the soup.",
+   "sha256": "8e020bcfbfcd9311f38d434274a26de20d24bb7888e0dae30a581c338e973bc9",
+   "alignment": "audio-alignment/sentences/cream.dairy-food.json"
+  },
+  "creamy.smooth-like-cream": {
+   "text": "The creamy soup warms my hands through the bowl.",
+   "sha256": "2c72de8d832f2f6866501f916a07b2bfb9cea0a9e7dc00400744ff756796de10",
+   "alignment": "audio-alignment/sentences/creamy.smooth-like-cream.json"
+  },
+  "create.make-something-new": {
+   "text": "We create a new world for our story.",
+   "sha256": "b6adc907dfe54783418852e90cbe9b8caba869aeec253c641a2b0d3ebdcad93a",
+   "alignment": "audio-alignment/sentences/create.make-something-new.json"
+  },
+  "creep.move-quietly": {
+   "text": "I creep past the sleeping dragon.",
+   "sha256": "60e7fb10227596d38d26c718e61073e5c5059f0864ec0796d345e4dbeb056583",
+   "alignment": "audio-alignment/sentences/creep.move-quietly.json"
+  },
+  "cricket.insect": {
+   "text": "A cricket chirps outside our tent.",
+   "sha256": "a76ccaf7932d2b74f52b3ab1129a18701ca690e331442ba44b46edeb1f00d5c8",
+   "alignment": "audio-alignment/sentences/cricket.insect.json"
+  },
+  "cricket.sport": {
+   "text": "The children play cricket on the field.",
+   "sha256": "55451ab699c15c6ed0824ac0927ed5419c21c26d3b85dff7117b8a9547a38ed9",
+   "alignment": "audio-alignment/sentences/cricket.sport.json"
+  },
+  "crisps.thin-potato-snack": {
+   "text": "I pack a small bag of crisps.",
+   "sha256": "2048f17c81e693a1ec1bfe07825e15bd206ec3a4e50755d9e3eac54f92b5e289",
+   "alignment": "audio-alignment/sentences/crisps.thin-potato-snack.json"
+  },
+  "crispy.thin-and-crisp": {
+   "text": "The pancake has a crispy edge.",
+   "sha256": "96fc2ab3890670ed132a438286669c2db9b3478c8d75d1deae5ab79998877c8f",
+   "alignment": "audio-alignment/sentences/crispy.thin-and-crisp.json"
+  },
+  "crocodile.animal": {
+   "text": "A crocodile rests on the riverbank.",
+   "sha256": "eeb697668cf019b074c2a774e84ad144f90bbd531ea23a7fca36ee19fc4d9d3e",
+   "alignment": "audio-alignment/sentences/crocodile.animal.json"
+  },
+  "croissant.food": {
+   "text": "Dad brings a croissant from the bakery.",
+   "sha256": "2365c5c8159cb39bce170473f411072cf78abc279aa528483c4d2a3d754bd4c1",
+   "alignment": "audio-alignment/sentences/croissant.food.json"
+  },
+  "crossing.safe-crossing-place": {
+   "text": "We use the crossing to reach the park.",
+   "sha256": "bd07b9a086fb7e2a9276121c7bc7f2802388443ec9f065bafb3d9925b7acc1ae",
+   "alignment": "audio-alignment/sentences/crossing.safe-crossing-place.json"
+  },
+  "crow.animal": {
+   "text": "The crow carries a twig.",
+   "sha256": "f0ef476486f1e2c58df2435d12873911ca998e690634bdf4ede5fbcfcb8e1a46",
+   "alignment": "audio-alignment/sentences/crow.animal.json"
+  },
+  "crowd.many-people": {
+   "text": "A crowd gathers to watch the dancers.",
+   "sha256": "e8b4206a2249ccc14886b2cf830c51db29940597665e43f89f51fa5325ac445f",
+   "alignment": "audio-alignment/sentences/crowd.many-people.json"
+  },
+  "crown.royal-headwear": {
+   "text": "The princess decorates her crown with paper flowers.",
+   "sha256": "2799007349e1af788e2a196c893f720e338be35c7732ff993418968b4dce2a12",
+   "alignment": "audio-alignment/sentences/crown.royal-headwear.json"
+  },
+  "crunchy.firm-and-noisy": {
+   "text": "I bite into a crunchy carrot.",
+   "sha256": "4d8560d80de08a5cad911fb90516300f141de54c713d1f769025b1c5fd8cb50f",
+   "alignment": "audio-alignment/sentences/crunchy.firm-and-noisy.json"
+  },
+  "cry.shed-tears": {
+   "text": "The baby starts to cry, so Dad cuddles her.",
+   "sha256": "88dde459d445ca7994cd592c6b8fc2b8efdb51461be2588b4708bb7d68a63282",
+   "alignment": "audio-alignment/sentences/cry.shed-tears.json"
+  },
+  "crystal.mineral-form": {
+   "text": "A clear crystal sparkles in the cave.",
+   "sha256": "df014ba66560040b11a0f7f30e1d762ffc29f80f5cded4b23653b59596edc7d9",
+   "alignment": "audio-alignment/sentences/crystal.mineral-form.json"
+  },
+  "cube.solid-shape": {
+   "text": "I build a tower with one cube on top.",
+   "sha256": "73d201212757e697b1ce3a4ea05e9d843420ba8030165f2b0a47dee2f8fa52a8",
+   "alignment": "audio-alignment/sentences/cube.solid-shape.json"
+  },
+  "cucumber.food": {
+   "text": "I eat a cool, crunchy cucumber.",
+   "sha256": "86f0f50150558ffaffb52663b03c528453de54771ea8e995443b708e5e1468f9",
+   "alignment": "audio-alignment/sentences/cucumber.food.json"
+  },
+  "cuddle.hold-lovingly": {
+   "text": "I cuddle Vanilla while we sit together.",
+   "sha256": "bead821cdcae04775f9a8af166502417b2ff5a2543906f3cd6d29d5f002c4af9",
+   "alignment": "audio-alignment/sentences/cuddle.hold-lovingly.json"
+  },
+  "cup.drinking-container": {
+   "text": "The fairy drinks from a tiny cup.",
+   "sha256": "19e7509cd2f62561c191717a8367b387c0810681ed0a7d816a9ebf12bd9aa303",
+   "alignment": "audio-alignment/sentences/cup.drinking-container.json"
+  },
+  "cupboard.storage-furniture": {
+   "text": "We keep our plates in the cupboard.",
+   "sha256": "178e26539a1144dd1ef175a1504de1684136fa7d25cbd3e35ac26bca0d44fab8",
+   "alignment": "audio-alignment/sentences/cupboard.storage-furniture.json"
+  },
+  "cupcake.food": {
+   "text": "My cupcake has a pink flower on top.",
+   "sha256": "646f86ad51d05f2747336aa1922e3dd731abe9c5b74d1322a1eb73eb78b02fc6",
+   "alignment": "audio-alignment/sentences/cupcake.food.json"
+  },
+  "curious.wanting-to-discover": {
+   "text": "Vanilla gives the new toy a curious sniff.",
+   "sha256": "43bf7db6127a8a1acee55fb1267ad1d742070bbf436a6405367609bf1e2d1422",
+   "alignment": "audio-alignment/sentences/curious.wanting-to-discover.json"
+  },
+  "curly.with-curls": {
+   "text": "The puppy has curly brown fur.",
+   "sha256": "c7256bba6fc9fc9c9239b0caaa01c84f0d4ac08dd3a2b7325e353fb10fe34e26",
+   "alignment": "audio-alignment/sentences/curly.with-curls.json"
+  },
+  "curry.spiced-dish": {
+   "text": "Grandma makes a mild curry for dinner.",
+   "sha256": "42fe559f6564066b414b48a61873b5e819d92ebdb34cd5f7d9f73eedf5e099ca",
+   "alignment": "audio-alignment/sentences/curry.spiced-dish.json"
+  },
+  "curtain.window-cover": {
+   "text": "My curtain has little rockets and stars on it.",
+   "sha256": "d4dea56c6bdf77a213d5e38fc3df003cb85e0d9bd7eb56559c7a60abf80a4f98",
+   "alignment": "audio-alignment/sentences/curtain.window-cover.json"
+  },
+  "curve.bending-line": {
+   "text": "I draw a curve for the rainbow.",
+   "sha256": "6f6a2acb044b9b04ab10424cae53d8c3bf2842491e3bad58cb3aa7312a38d830",
+   "alignment": "audio-alignment/sentences/curve.bending-line.json"
+  },
+  "curved.bending-shape": {
+   "text": "A curved bridge crosses the pond.",
+   "sha256": "3d3b9cfb628a8635ae3e602c05c1817795ae6161693728d0cb678cccec1b1cce",
+   "alignment": "audio-alignment/sentences/curved.bending-shape.json"
+  },
+  "cushion.soft-pad": {
+   "text": "Vanilla rests her head on a little cushion.",
+   "sha256": "c121e8140631662318572df39876d0e4f1afbe05ed29dc31aca9fe9cd0baea79",
+   "alignment": "audio-alignment/sentences/cushion.soft-pad.json"
+  },
+  "customer.buyer": {
+   "text": "A customer buys a bunch of bananas.",
+   "sha256": "853cffb341289d6f03c1040056095018c5586e21f40f231b762811c11dd9a937",
+   "alignment": "audio-alignment/sentences/customer.buyer.json"
+  },
+  "cut.divide-with-tool": {
+   "text": "I cut a paper star with scissors.",
+   "sha256": "fa2c5471ce7107ea6cb7c80a2b7fee7f7dfd992010c35a6f90710c1e38867874",
+   "alignment": "audio-alignment/sentences/cut.divide-with-tool.json"
+  },
+  "cylinder.solid-shape": {
+   "text": "We use a cardboard cylinder for the rocket's body.",
+   "sha256": "2cdce899d194c733a0757ad5e925b3a12d2ab0bbb923e28de5ede897b45edb20",
+   "alignment": "audio-alignment/sentences/cylinder.solid-shape.json"
+  },
+  "brick.building-piece": {
+   "text": "We build a little wall with red bricks.",
+   "sha256": "c18ac7c30be349f9dbcb8bdfb3488aaeba44e795aa395bbee8483f8b9a61b1fb",
+   "alignment": "audio-alignment/sentences/brick.building-piece.json"
+  },
+  "cabbage.vegetable": {
+   "text": "Grandma grows a big cabbage in the garden.",
+   "sha256": "d7592a4d277d74f37f243fe701df3e35c46becd34459fe802577e714e0043700",
+   "alignment": "audio-alignment/sentences/cabbage.vegetable.json"
+  },
+  "chop.cut-into-pieces": {
+   "text": "Dad chops the vegetables for our soup.",
+   "sha256": "7bdb1d4f2e5149b291de3298ff88bbb30e2a1e0585f1775fbae8bae24f58affa",
+   "alignment": "audio-alignment/sentences/chop.cut-into-pieces.json"
+  }
+ }
+}
