@@ -691,7 +691,7 @@ export const PIECES = [
   },
   {
     id: 'pop-goes-weasel',
-    art: null,
+    art: 'assets/bubbles/pop-goes-weasel.webp',
     composerId: 'traditional',
     title: 'Pop Goes the Weasel',
     shortTitle: 'Pop Goes the Weasel',
@@ -729,7 +729,7 @@ export const PIECES = [
   },
   {
     id: 'three-blind-mice',
-    art: null,
+    art: 'assets/bubbles/three-blind-mice.webp',
     composerId: 'traditional',
     title: 'Three Blind Mice',
     alternateTitles: [],

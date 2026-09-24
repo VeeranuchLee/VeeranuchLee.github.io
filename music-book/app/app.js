@@ -74,6 +74,12 @@ function syncSoundButton() {
   soundBtn.textContent = sound.on ? 'Sound' : 'Muted';
   soundBtn.setAttribute('aria-pressed', String(sound.on));
   soundBtn.setAttribute('aria-label', sound.on ? 'Sound on' : 'Sound off');
+  // Tell the engine now, not only once it has a context. applyAtmosphere() does
+  // nothing before the first audio gesture, and the Toy Piano room starts the
+  // engine itself — so a child who chose Muted on the landing (or came back to a
+  // stored "off") heard every song and key at full volume under a Muted chip.
+  // setMuted only records the flag until start() builds the master gain from it.
+  engine.setMuted(!sound.on);
 }
 
 // AUDIO-DIRECTION.md decision 12: the page chooses the tune, the companion
@@ -185,10 +191,20 @@ const wingStyle = (id) => WING_STYLE[id] ?? { background: 'assets/backgrounds/ga
 // screens (1448×1086, the stage's own 4:3, so `cover` shows the whole picture).
 // Room 14 is wired like the rest: its plate is being redrawn in the book's
 // style under the same file name and drops in without a code change. Rooms 13,
-// 16 and 17 gained their plates on 2026-09-13. Rooms without one (1, 15, 18,
-// 20-24) keep their wing's wash.
+// 16 and 17 gained their plates on 2026-09-13; Rooms 15 and 18 followed on
+// 2026-09-19, followed by Rooms 21–24 later that day. Room 1 keeps its separate
+// Read Together plate treatment rather than using this map.
 const ROOM_BACKGROUND = {
-  'playground-of-patterns': { background: 'assets/backgrounds/r02-playground-of-patterns-background.webp', focus: '50% 45%' },
+  'playground-of-patterns': { background: 'assets/backgrounds/r02-playground-of-patterns-background.webp', focus: '50% 45%', anchors: {
+    // Owner, 2026-09-16: "place the bubble over the part of the bg that most
+    // relate to the bubble ... mcdonald song over the barn, row your boat near
+    // water". Piloted in this room only (owner, 2026-09-24); see roomAnchors() below.
+    'mulberry-bush': { x: 21, y: 29 },          // the bush on the fence line beside the big tree
+    'row-row-row-your-boat': { x: 52, y: 31 },  // on the stream, at the foot of the bridge
+    'old-macdonald': { x: 75, y: 28 },          // over the red barn
+    'farmer-in-dell': { x: 30, y: 62 },         // down in the open grass field (the dell)
+    'bingo': { x: 72, y: 63 }                   // on the dirt path that runs up to the farm
+  } },
   'steps-beats-marches': { background: 'assets/backgrounds/r03-steps-beats-marches-background.webp', focus: '50% 45%' },
   'home-distance-belonging': { background: 'assets/backgrounds/r04-home-distance-belonging-background.webp', focus: '50% 45%' },
   'gardens-season-memory': { background: 'assets/backgrounds/r05-gardens-season-memory-background.webp', focus: '50% 45%' },
@@ -201,10 +217,37 @@ const ROOM_BACKGROUND = {
   'baroque-pattern-workshop': { background: 'assets/backgrounds/r12-baroque-pattern-workshop-background.webp', focus: '50% 45%' },
   'baroque-stage-seasons-water-fireworks': { background: 'assets/backgrounds/r13-baroque-stage-seasons-water-fireworks-background.webp', focus: '50% 45%' },
   'vienna-classical-city': { background: 'assets/backgrounds/r14-vienna-classical-city-background.webp', focus: '50% 45%' },
+  'beethoven-door-two-eras': { background: 'assets/backgrounds/r15-beethoven-door-two-eras-background.webp', focus: '50% 45%' },
   'music-learns-to-sing': { background: 'assets/backgrounds/r16-music-learns-to-sing-background.webp', focus: '50% 45%' },
   'piano-diary': { background: 'assets/backgrounds/r17-piano-diary-background.webp', focus: '50% 45%' },
-  'ballet-kingdom': { background: 'assets/backgrounds/r19-ballet-kingdom-background.webp', focus: '50% 45%' }
+  'home-memory-dance': { background: 'assets/backgrounds/r18-home-memory-dance-background.webp', focus: '50% 45%' },
+  'ballet-kingdom': { background: 'assets/backgrounds/r19-ballet-kingdom-background.webp', focus: '50% 45%' },
+  'when-music-storybook': { background: 'assets/backgrounds/r20-when-music-storybook-background.webp', focus: '50% 45%' },
+  'pictures-legends-russian-colour': { background: 'assets/backgrounds/r21-pictures-legends-russian-colour-background.webp', focus: '50% 45%' },
+  'three-theatre-cities': { background: 'assets/backgrounds/r22-three-theatre-cities-background.webp', focus: '50% 45%' },
+  'painting-with-sound': { background: 'assets/backgrounds/r23-painting-with-sound-background.webp', focus: '50% 45%' },
+  'new-century-many-sounds': { background: 'assets/backgrounds/r24-new-century-many-sounds-background.webp', focus: '50% 45%' }
 };
+
+// ── anchored song bubbles (pilot) ────────────────────────────────────────────
+// A room whose ROOM_BACKGROUND entry carries `anchors` places each song bubble
+// on the part of its painting the song belongs to, instead of in the grid.
+// Each anchor is the CENTRE OF THE DISC, in % of the stage box. That box IS the
+// painted image: the stage is always 4:3 and letterboxed, the plates are
+// 1448×1086 (the same 4:3) and drawn with `background-size: cover`, so cover
+// has no slack to crop and a % of the stage is the same % of the picture at
+// every viewport (tools/check-bubble-anchors.mjs asserts that ratio holds).
+//
+// All or nothing: if any piece shown on the page lacks an anchor (a curation
+// change added a song, or the page pager split the room) the whole room falls
+// back to the grid, which can never overflow. The CSS also falls back to the
+// grid on a stage smaller than the iPad's, where fixed-size tap targets would
+// no longer fit between the positions — see `.bubble-field--anchored`.
+function roomAnchors(art, shown) {
+  const anchors = art && art.anchors;
+  if (!anchors || !shown.length || !shown.every((p) => anchors[p.id])) return null;
+  return anchors;
+}
 
 // Owner, 2026-09-13: "let's also make arts for these cards." — the room-selection
 // cards on the wing screen, which until now were a flat slate gradient with text
@@ -439,6 +482,7 @@ function renderRoom() {
   const pages = Math.max(1, Math.ceil(pieces.length / PAGE_SIZE));
   journey.page = Math.min(Math.max(0, journey.page), pages - 1);
   const shown = pieces.slice(journey.page * PAGE_SIZE, journey.page * PAGE_SIZE + PAGE_SIZE);
+  const anchors = roomAnchors(art, shown);
 
   stage.className = 'stage stage--room';
   // With a painting the focus is its own; without one the position goes back
@@ -455,8 +499,8 @@ function renderRoom() {
       </div>
 
       <div class="room-body">
-        <div class="bubble-field">
-          ${shown.map((p) => bubbleMarkup(p)).join('')}
+        <div class="bubble-field${anchors ? ' bubble-field--anchored' : ''}">
+          ${shown.map((p) => bubbleMarkup(p, anchors && anchors[p.id])).join('')}
         </div>
         <aside class="info-rail">
           ${room.composers.slice(0, 2).map((composerId) => {
@@ -496,7 +540,7 @@ function renderRoom() {
   applyAtmosphere();
 }
 
-function bubbleMarkup(p) {
+function bubbleMarkup(p, anchor) {
   const big = p.importanceLevel === 3;
   const art = p.art
     ? `<img class="bubble__art" src="${p.art}" alt="">`
@@ -513,7 +557,7 @@ function bubbleMarkup(p) {
        </div>`
     : '';
   return `
-    <div class="bubble${big ? ' bubble--large' : ''}" data-piece-wrap="${p.id}">
+    <div class="bubble${big ? ' bubble--large' : ''}" data-piece-wrap="${p.id}"${anchor ? ` style="--ax:${anchor.x}%;--ay:${anchor.y}%"` : ''}>
       <button class="bubble__disc" data-play="${p.id}" aria-label="Play ${p.title}">
         ${art}
         <span class="bubble__pulse"></span>
@@ -754,6 +798,26 @@ function handleSay(target) {
   speakTitle(say.dataset.say);
   return true;
 }
+
+// Offline, a room that has never been visited has no pictures (owner decision
+// D3, 2026-09-22: the shell is precached, art caches room by room on first
+// visit — see service-worker.js). The room still opens and every piece still
+// plays; what must not happen is a disc of broken-image glyphs. A song picture
+// that fails becomes the same ♪ disc a piece with no art already shows, and any
+// other picture that fails steps out of the way. `error` does not bubble, hence
+// the capture listener on the stage, which outlives every re-render.
+stage.addEventListener('error', (event) => {
+  const img = event.target;
+  if (!img || img.tagName !== 'IMG') return;
+  if (img.classList.contains('bubble__art')) {
+    const note = document.createElement('span');
+    note.className = 'bubble__art bubble__art--none';
+    note.textContent = '♪';
+    img.replaceWith(note);
+  } else {
+    img.style.visibility = 'hidden';
+  }
+}, true);
 
 stage.addEventListener('click', (event) => {
   const t = event.target;

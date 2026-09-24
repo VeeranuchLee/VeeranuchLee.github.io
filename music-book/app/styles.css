@@ -666,6 +666,47 @@ body[data-view="world"] .chrome-btn {
   box-shadow: 0 0 0 2.5px var(--gold), var(--shadow);
 }
 
+/* ── anchored bubbles (pilot: Playground of Patterns, owner 2026-09-24) ───────
+   A room with anchor data (app.js, ROOM_BACKGROUND[..].anchors) sets each
+   bubble's disc centre on the painting instead of in the grid above. This gives
+   up the grid's `minmax(0, 1fr)` guarantee on purpose, so the guarantee is
+   bought back by measurement: tools/check-bubble-anchors.mjs proves at 768×1024,
+   1024×768 and 1440×900 that no disc, name plate or mode button touches another
+   bubble, the back arrow, the banner, the guide badge, the Learn More rail, the
+   connections strip, the companion corner or the Sound button.
+
+   Positions are % of the scrim, whose box is the stage, which is the painted
+   image (see roomAnchors() in app.js). The field stays in the flow as an empty
+   flex:1 box so the info rail keeps its place on the right.
+
+   Sizes are never smaller than the grid's at the same viewport: the grid's
+   discs are min(19vh, column) and min(23vh, column) for a large piece; here the
+   column is replaced by a share of the stage width. The two mode buttons sit
+   side by side rather than stacked, so a bubble is short enough for two tiers
+   of songs to fit between the banner and the connections strip.
+
+   Below an iPad-sized stage (700 × 525) the positions would no longer leave
+   room for fixed 44px buttons, so the media query lets the grid take over. */
+@media (min-width: 700px) and (min-height: 525px) {
+  .bubble-field--anchored {
+    display: block;
+    --stage-w: min(100vw, calc(100vh * 4 / 3));
+    --disc: min(19vh, calc(var(--stage-w) * .143));
+  }
+  .bubble-field--anchored .bubble--large { --disc: min(23vh, calc(var(--stage-w) * .1725)); }
+  .bubble-field--anchored .bubble {
+    position: absolute;
+    left: var(--ax); top: var(--ay);
+    width: var(--disc); height: auto;
+    justify-content: flex-start;
+    transform: translate(-50%, calc(var(--disc) / -2));
+  }
+  .bubble-field--anchored .bubble__disc { flex: 0 0 auto; height: var(--disc); }
+  .bubble-field--anchored .bubble__name { max-width: none; white-space: nowrap; }
+  .bubble-field--anchored .bubble__modes { flex-wrap: nowrap; max-width: none; }
+  .bubble-field--anchored .bubble__mode { white-space: nowrap; }
+}
+
 /* ── info objects ─────────────────────────────────────────────────────────── */
 
 .info-rail {
@@ -907,17 +948,18 @@ body[data-view="world"] .chrome-btn {
   border-radius: 999px; padding: 3px 8px; white-space: nowrap;
 }
 
-/* Page orientation, not a score: four marks, no numbers, no streak. */
-.rt-marks { display: flex; gap: 6px; margin: 0; padding: 0; list-style: none; }
+/* Page orientation, not a score: four marks, no numbers, no streak. One quiet
+   pill per spread; only the current one is lit (owner, 2026-09-24). */
+.rt-marks { display: flex; gap: 8px; margin: 0; padding: 0; list-style: none; }
 .rt-mark {
-  flex: 1; text-align: center; font-size: clamp(8px, 1.05vw, 12px); font-weight: 700;
-  color: var(--ink-soft); padding: 4px 2px; border-radius: 999px;
-  background: rgba(255, 255, 255, .5); box-shadow: inset 0 0 0 1px var(--plate-edge);
+  flex: 1; text-align: center; font-size: clamp(9px, 1.15vw, 13px); font-weight: 700;
+  color: var(--ink-soft); padding: 5px 4px; border-radius: 999px;
+  background: rgba(255, 252, 243, .78); box-shadow: inset 0 0 0 1px rgba(216, 191, 134, .7);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.rt-mark.is-done { color: var(--gold-deep); }
 .rt-mark.is-current {
   color: var(--ink); background: linear-gradient(180deg, #fff3c9, #ffe08a);
-  box-shadow: inset 0 0 0 2px var(--gold);
+  box-shadow: inset 0 0 0 1.5px var(--gold), 0 2px 6px rgba(138, 106, 18, .25);
 }
 
 .rt-scene {
@@ -1111,7 +1153,13 @@ body[data-view="world"] .chrome-btn {
 }
 .rt-line--knowing .rt-who { color: #4a6b8a; }
 
-.rt-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+/* The Sound button (#chrome, right: 1.8%, bottom: 1.8%, 48px tall) sits over the
+   stage's bottom-right corner on every page. The foot reserves its width so
+   Continue lands beside it instead of underneath it. */
+.rt-foot {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  min-height: 48px; padding-right: calc(1.8% + 104px);
+}
 .rt-btn {
   min-height: 44px; padding: 8px 20px; border: 0; border-radius: 999px; cursor: pointer;
   font: inherit; font-weight: 800; font-size: clamp(10px, 1.4vw, 16px); color: var(--ink);
@@ -1129,6 +1177,212 @@ body[data-view="world"] .chrome-btn {
 /* While a piece plays, the furniture quiets and the active object stays lit. */
 .stage--chapter.is-listening .rt-marks,
 .stage--chapter.is-listening .rt-foot { opacity: .55; transition: opacity .2s ease; }
+
+/* Read Together on a painted plate ------------------------------------------
+   The plate is the stage background (4:3, like the stage), and the scene layer
+   covers the whole stage so every overlay can be placed in plate percentages.
+   Header, tabs, dialogue and controls float above it on calm bands the plate
+   leaves for them. Only spread A has a plate so far.                          */
+.stage--chapter.stage--painted {
+  container-type: size;
+  background: linear-gradient(180deg, #fbf5e6, #f3e6c8);
+}
+.rt--painted { padding: 1.6% 2.2% 1.8%; gap: .9%; }
+.rt--painted::before, .rt--painted::after {
+  content: ''; position: absolute; left: 0; right: 0; pointer-events: none; z-index: 1;
+}
+/* Soft parchment washes under the header band and the dialogue band. */
+.rt--painted::before { top: 0; height: 20%; background: linear-gradient(180deg, rgba(251, 245, 230, .92) 55%, rgba(251, 245, 230, 0)); }
+.rt--painted::after { bottom: 0; height: 27%; background: linear-gradient(0deg, rgba(251, 245, 230, .9) 45%, rgba(251, 245, 230, 0)); }
+.rt--painted > * { position: relative; z-index: 2; }
+.rt--painted > .rt-scene { position: absolute; inset: 0; z-index: 0; }
+
+.rt--painted .rt-top { gap: 1.6cqw; }
+.rt--painted .rt-top .round-btn { flex: none; min-width: 48px; min-height: 48px; }
+.rt-top__balance { flex: none; width: 48px; }
+.rt--painted .rt-head h1 {
+  font-family: Georgia, "Iowan Old Style", "Palatino", serif;
+  font-size: clamp(20px, 3.6cqw, 36px); line-height: 1.05; color: #1c2742;
+}
+.rt--painted .rt-head p { font-family: Georgia, "Iowan Old Style", serif; font-size: clamp(11px, 1.7cqw, 17px); color: #2e3a55; }
+.rt--painted .rt-marks { padding: 0 1cqw; }
+
+.rt-scene--painted {
+  container-type: size;      /* in-plate cq units measure the plate, not the stage */
+  border: 0; border-radius: 0; padding: 0; display: block; overflow: visible;
+  background-color: #f3e6c8; background-size: 100% 100%; background-repeat: no-repeat;
+}
+.rt-flow { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.rt-flow__lead, .rt-flow__branch {
+  fill: none; stroke: #ffd766; stroke-width: 5; stroke-linecap: round;
+  filter: url(#rt-glow); opacity: .55;
+}
+/* A branch to every tag once the tune is heard, faint; the chosen name's
+   branch glows, and flows while the tune plays. */
+.rt-flow__branch { stroke-width: 4; opacity: 0; transition: opacity .35s ease; }
+.rt-scene--painted.is-heard .rt-flow__branch { opacity: .3; }
+.rt-scene--painted.is-heard .rt-flow__branch.is-lit { opacity: .95; }
+.stage--chapter.is-listening .rt-flow__branch.is-lit { stroke-dasharray: 14 10; animation: rt-flow .9s linear infinite; }
+@keyframes rt-flow { to { stroke-dashoffset: -28; } }
+
+/* The score's contour, restyled as a glowing ribbon. Still one polyline of
+   the real notes; the halo is the same points drawn wide and soft. */
+.rt-flow--ribbon .rt-contour__halo {
+  fill: none; stroke: rgba(255, 214, 102, .45); stroke-width: 18;
+  stroke-linecap: round; stroke-linejoin: round; filter: url(#rt-glow);
+}
+.rt-flow--ribbon .rt-contour__line {
+  fill: none; stroke: #ffcf4a; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round;
+  filter: drop-shadow(0 0 4px rgba(255, 200, 60, .9));
+}
+.rt-flow--ribbon.is-lit .rt-contour__line { stroke: #ffe28a; }
+.rt-flow--ribbon .rt-contour__dot {
+  fill: #fffbe8; stroke: #e0a91c; stroke-width: 4;
+  filter: drop-shadow(0 0 8px rgba(255, 215, 90, 1));
+}
+
+/* The lens is the painted one: the button is an invisible glass-sized disc
+   over it, plus the plaque, and only glows when it is playing. */
+.rt-lens--painted {
+  /* --lr is a % of plate WIDTH; on a 4:3 plate that is 4/3 of it in height. */
+  position: absolute; left: calc(var(--lx) - var(--lr)); top: calc(var(--ly) - var(--lr) * 4 / 3);
+  width: calc(var(--lr) * 2);
+  display: flex; flex-direction: column; align-items: center; gap: 1.2cqh;
+}
+.rt-lens--painted .rt-lens__glass {
+  width: 100%; aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 244, 200, 0) 55%, rgba(255, 226, 138, .0) 70%);
+  box-shadow: none; transition: box-shadow .25s ease, background .25s ease;
+}
+.rt-lens--painted:hover .rt-lens__glass,
+.rt-lens--painted:focus-visible .rt-lens__glass { box-shadow: 0 0 0 3px rgba(255, 224, 138, .7), 0 0 24px 6px rgba(255, 214, 102, .45); }
+.rt-lens--painted.is-playing .rt-lens__glass {
+  background: radial-gradient(circle at 50% 50%, rgba(255, 244, 200, .28) 30%, rgba(255, 226, 138, 0) 72%);
+  box-shadow: 0 0 0 4px rgba(255, 224, 138, .85), 0 0 36px 12px rgba(255, 214, 102, .55);
+}
+.rt-lens--painted .rt-lens__cap {
+  font-family: Georgia, "Iowan Old Style", serif; font-weight: 700;
+  font-size: clamp(12px, 1.9cqw, 19px); color: #2e2412;
+  padding: .7cqh 2.2cqw; border-radius: 6px;
+  background: linear-gradient(180deg, #fbf1d6, #ead6a4);
+  box-shadow: 0 0 0 2px #b58a2e, 0 0 0 4px rgba(255, 246, 220, .7), 0 3px 8px rgba(60, 40, 10, .35);
+  white-space: nowrap;
+}
+
+/* Parchment tags hanging from the painted brass arm. Before the tune has been
+   heard they hang blank; listening writes the names on them. */
+.rt-tagrail { position: absolute; inset: 0; pointer-events: none; }
+.rt-hang {
+  position: absolute; left: var(--tx); top: var(--ty); translate: -50% 0;
+  width: 17%; height: 12%; min-height: 0; padding: 0; border: 0; border-radius: 0;
+  background: none; box-shadow: none; display: block; font: inherit;
+  pointer-events: auto;
+  filter: drop-shadow(0 3px 4px rgba(60, 40, 10, .4));
+}
+/* The short cord from the painted hook to the tag. */
+.rt-hang::after {
+  content: ''; position: absolute; left: 50%; bottom: 100%; width: 2px; height: 1.4cqh;
+  translate: -50% 0; background: #8a6a2a;
+}
+.rt-hang__card {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .5cqh;
+  padding: .8cqh 1cqw .8cqh 2.6cqw;
+  color: #2a2114; text-align: center;
+  background: linear-gradient(180deg, #fdf6e1, #f1e1b9);
+  clip-path: polygon(11% 0, 100% 0, 100% 100%, 11% 100%, 0 50%);
+}
+/* The eyelet the ribbon's branch reaches, at the tag's pointed end. */
+.rt-hang::before {
+  content: ''; position: absolute; z-index: 1; left: 4%; top: 50%; translate: 0 -50%;
+  width: 1.1cqw; height: 1.1cqw; min-width: 8px; min-height: 8px; border-radius: 50%;
+  background: #6b4d14; box-shadow: 0 0 0 2px #d4a93c;
+}
+.rt-tagslot { opacity: 1; }
+.rt-tag.rt-hang { cursor: pointer; }
+.rt-tag.rt-hang:active { scale: .97; }
+.rt-tag.rt-hang.is-current { background: none; box-shadow: none; filter: drop-shadow(0 0 7px rgba(255, 205, 70, .95)) drop-shadow(0 3px 4px rgba(60, 40, 10, .35)); }
+.rt-tag.rt-hang.is-current .rt-hang__card { background: linear-gradient(180deg, #fff6cf, #ffe28a); }
+.rt-tag__text {
+  font-family: Georgia, "Iowan Old Style", serif; font-weight: 700;
+  font-size: clamp(11px, 1.7cqw, 18px); line-height: 1.15;
+}
+.rt-hang .rt-tag__charm { display: block; line-height: 0; color: inherit; }
+.rt-hang .rt-tag__charm svg { width: clamp(22px, 3.6cqw, 36px); height: auto; }
+.rt-hang .rt-tag__charm svg[viewBox^="0 0 32"] { width: clamp(30px, 4.8cqw, 48px); }
+.rt-tag__abc { display: inline-flex; gap: 2px; line-height: 1; font-family: ui-rounded, "Avenir Next", system-ui, sans-serif; font-weight: 900; font-size: clamp(13px, 2.2cqw, 22px); }
+.rt-tag__abc b:nth-child(1) { color: #d9423a; }
+.rt-tag__abc b:nth-child(2) { color: #2f6fc0; }
+.rt-tag__abc b:nth-child(3) { color: #3c9a4a; }
+
+.rt-note--slip {
+  position: absolute; right: 3%; top: 68%; max-width: 34%;
+  font-family: Georgia, "Iowan Old Style", serif; font-size: clamp(10px, 1.45cqw, 15px); color: #3a2e18;
+  padding: .8cqh 1.4cqw; border-radius: 8px;
+  background: rgba(253, 246, 225, .95); box-shadow: 0 0 0 1.5px #d8bf86, 0 3px 8px rgba(60, 40, 10, .25);
+}
+
+/* Dialogue: a neutral portrait medallion and a bubble for each line. */
+.rt--painted .rt-talk { margin-top: auto; gap: .8cqh; min-height: 0; max-width: 58%; }
+.rt-say { display: flex; align-items: center; gap: 1.2cqw; }
+.rt-portrait {
+  flex: none; display: flex; flex-direction: column; align-items: center;
+  width: clamp(40px, 6.2cqw, 62px);
+}
+.rt-portrait__img {
+  display: block; width: clamp(34px, 5.2cqw, 52px); aspect-ratio: 1; object-fit: cover;
+  border-radius: 50%; background: #f6ecd4;
+  box-shadow: 0 0 0 2.5px #c49a3a, 0 0 0 4px #fff6df, 0 2px 6px rgba(60, 40, 10, .35);
+}
+.rt-portrait small {
+  margin-top: 1px; font-size: clamp(9px, 1.15cqw, 12px); font-weight: 800; letter-spacing: .02em;
+  color: #6b4d0f; line-height: 1.1;
+}
+.rt-say--knowing .rt-portrait small { color: #2f4f73; }
+.rt-bubble {
+  position: relative; margin: 0;
+  padding: 1cqh 2cqw; border-radius: 16px;
+  font-family: Georgia, "Iowan Old Style", serif; font-size: clamp(11px, 1.65cqw, 17px); line-height: 1.3; color: #1f2638;
+  background: rgba(255, 253, 246, .96); box-shadow: 0 0 0 1px rgba(216, 191, 134, .8), 0 2px 6px rgba(60, 40, 10, .18);
+}
+.rt-bubble::before {
+  content: ''; position: absolute; left: -7px; top: 50%; translate: 0 -50%;
+  border: 7px solid transparent; border-left: 0; border-right-color: rgba(255, 253, 246, .96);
+}
+.rt-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+.rt--painted .rt-foot { min-height: 48px; }
+.rt--painted .rt-btn--quiet { font-family: Georgia, serif; color: #3a4a6a; min-height: 44px; padding: 8px 6px; }
+.rt--painted .rt-btn:not(.rt-btn--quiet) { font-family: Georgia, serif; min-width: 120px; min-height: 48px; }
+
+/* Portrait (the 9.7" iPad held upright): no letterbox. The stage and the chrome
+   fill the screen; the 4:3 plate becomes a full-width band between the header
+   and the dialogue, which use the extra height instead of overlaying the art. */
+@media (orientation: portrait) {
+  body.rt-painted .stage.stage--painted,
+  body.rt-painted #chrome { width: 100vw; height: 100vh; height: 100dvh; }
+  .rt--painted { justify-content: flex-start; gap: 1.2cqh; padding-top: 2.4cqh; padding-bottom: 1.6cqh; }
+  .rt--painted::before, .rt--painted::after { display: none; }
+  .rt--painted > .rt-scene {
+    position: relative; inset: auto; flex: none;
+    width: calc(100% + 2 * 2.2cqw); margin: 0 -2.2cqw; aspect-ratio: 4 / 3; height: auto;
+  }
+  .rt-scene--painted::before, .rt-scene--painted::after {
+    content: ''; position: absolute; left: 0; right: 0; height: 9%; pointer-events: none;
+  }
+  .rt-scene--painted::before { top: 0; background: linear-gradient(180deg, #fbf5e6, rgba(251, 245, 230, 0)); }
+  .rt-scene--painted::after { bottom: 0; background: linear-gradient(0deg, #f6ecd6, rgba(246, 236, 214, 0)); }
+  /* The dialogue rises onto the plate's own calm cream band (its bottom
+     quarter, below the desk edge) so three lines and the controls still fit. */
+  .rt--painted .rt-talk { max-width: none; margin-top: -14cqw; }
+  .rt--painted .rt-foot { margin-top: auto; }
+  .rt--painted .rt-bubble { font-size: clamp(14px, 2.2cqw, 20px); }
+  .rt--painted .rt-portrait { width: clamp(64px, 10cqw, 84px); }
+  .rt--painted .rt-portrait__img { width: clamp(56px, 8.4cqw, 72px); }
+  .rt--painted .rt-head h1 { font-size: clamp(26px, 5cqw, 40px); }
+  .rt--painted .rt-head p { font-size: clamp(14px, 2.2cqw, 19px); }
+  .rt--painted .rt-mark { font-size: clamp(11px, 1.7cqw, 14px); padding: 7px 4px; }
+}
 
 /* ── the Toy Piano room ──────────────────────────────────────────────────────
    Owner, 2026-08-27: a Usborne-style play room — song picture tiles, colored
@@ -1152,6 +1406,11 @@ body[data-view="world"] .chrome-btn {
      clearance is re-proved by tools/playroom-smoke.html's geometry report. */
   padding-bottom: calc(2.2% + 60px);
 }
+
+/* The room's back arrow never drops under the iPad's 44pt touch minimum. The
+   shared .round-btn clamps at 42px, which is what it measured at 768 wide
+   (5.4vw = 41.5px) on the 9.7" iPad in portrait — the size the kids use. */
+.stage--playroom .round-btn { width: clamp(44px, 5.4vw, 62px); height: clamp(44px, 5.4vw, 62px); }
 
 .topbar-spacer { flex: 1; }
 .banner--slim { flex: 0 1 auto; }

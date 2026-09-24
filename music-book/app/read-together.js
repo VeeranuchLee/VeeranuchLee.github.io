@@ -7,12 +7,15 @@
 // into Explore, which is why `chapterFor()` returns null for them rather than
 // this module inventing a chapter shape for 23 rooms nobody has designed.
 //
-// THIS IS A WIREFRAME. Scenes are CSS shapes standing in for four painted 4:3
-// plates. What is NOT a placeholder is the teaching layer: contours, the round,
-// the surprise, and the note-following all read the real scores in
+// Spread A ("The Doorway") is painted: a 4:3 plate with the lens, tags, plaque
+// and ribbon laid over it in plate percentages (owner concept, 2026-09-24).
+// Spreads B-D are STILL WIREFRAMES — CSS shapes standing in for their plates.
+// What is never a placeholder is the teaching layer: contours, the round, the
+// surprise, and the note-following all read the real scores in
 // `data/catalogue.js`. That split is the point — the art can be replaced without
 // touching a single musical claim, and no musical claim depends on a generated
-// image being counted correctly.
+// image being counted correctly. The painted plate carries no ribbon, no notes
+// and no words: the ribbon over it is the same score-derived contour.
 
 import { chapterFor } from '../data/read-together-room-01.js';
 import { trackBeats } from './player.js';
@@ -148,6 +151,38 @@ export function buildRoundScore(score) {
 const W = 240;
 const H = 78;
 
+// Painted plates, by scene. Every position is a percentage of the 4:3 plate
+// (== the 4:3 stage), so the overlays track the painting at any stage size.
+// Measured off the plate itself; re-measure if the plate is ever replaced.
+const PLATES = {
+  doorway: {
+    art: 'assets/backgrounds/r01-doorway-plate.webp',
+    // The painted lens: centre and radius (radius in % of plate WIDTH).
+    lens: { x: 50.8, y: 41, r: 11.6 },
+    // The score's contour: a band that enters from the doorway and runs
+    // through the lens glass (viewBox units: 1000 x 750).
+    ribbon: { x: 185, y: 262, w: 420, h: 96 },
+    // Where the ribbon leaves the glass (viewBox units).
+    exit: { x: 640, y: 308 },
+    // The three painted brass hooks, top to bottom (viewBox units). A tag
+    // hangs from each; the ribbon's branch meets the tag's eyelet.
+    hooks: [{ x: 884, y: 176 }, { x: 884, y: 296 }, { x: 884, y: 400 }]
+  }
+};
+
+const GUIDE_PORTRAITS = {
+  curious: 'assets/guides/mouse-curious.webp',
+  knowing: 'assets/guides/owl-knowing.webp'
+};
+
+// Small tag charms, drawn rather than typed so they read as pictures on the
+// parchment. Keyed by label id; anything unlisted falls back to its data charm.
+const TAG_ICONS = {
+  twinkle: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.7 6.1 6.6.6-5 4.4 1.5 6.5L12 16.7 6.2 20.1l1.5-6.5-5-4.4 6.6-.6z" fill="#f2c230" stroke="#b8860b" stroke-width="1.2" stroke-linejoin="round"/></svg>',
+  baa: '<svg viewBox="0 0 32 24" aria-hidden="true"><g fill="#fffdf6" stroke="#6b5a45" stroke-width="1.1"><circle cx="11" cy="10" r="4.2"/><circle cx="16" cy="8.6" r="4.4"/><circle cx="21" cy="10.4" r="4"/><circle cx="13.5" cy="13.6" r="4"/><circle cx="19" cy="13.8" r="4"/></g><ellipse cx="25.6" cy="11.2" rx="3.2" ry="2.7" fill="#3b3430"/><g stroke="#3b3430" stroke-width="1.8" stroke-linecap="round"><path d="M12 17v4.5M15.5 17.4v4.2M19 17.4v4.2M22 17v4.5"/></g></svg>',
+  abc: '<span class="rt-tag__abc" aria-hidden="true"><b>A</b><b>B</b><b>C</b></span>'
+};
+
 export function createChapter(deps) {
   const { stage, engine, player, journey, pieceById, companionById, exitToExplore, exitToWing,
     canPlaySound = () => true, atmosphere = () => {} } = deps;
@@ -274,6 +309,20 @@ export function createChapter(deps) {
       <p class="rt-line rt-line--${d.who}"><span class="rt-who">${d.who === 'curious' ? 'Curious' : 'Knowing'}</span>${esc(d.line)}</p>`).join('');
   }
 
+  // Painted spreads: a painted portrait and a speech bubble per line. The mouse
+  // and the owl come from the owner's Doorway concept (2026-09-24); the
+  // permanent guide cast is still formally open, so they live only here.
+  function paintedDialogueMarkup(lines) {
+    return lines.map((d) => `
+      <div class="rt-say rt-say--${d.who}">
+        <span class="rt-portrait" aria-hidden="true">
+          <img class="rt-portrait__img" src="${GUIDE_PORTRAITS[d.who]}" alt="">
+          <small>${d.who === 'curious' ? 'curious' : 'knowing'}</small>
+        </span>
+        <p class="rt-bubble"><span class="rt-sr">${d.who === 'curious' ? 'Curious' : 'Knowing'}: </span>${esc(d.line)}</p>
+      </div>`).join('');
+  }
+
   function contourMarkup(pieceId, which, { live = false, small = false } = {}) {
     const p = pieceById(pieceId);
     const score = scoreFor(p, which);
@@ -299,7 +348,16 @@ export function createChapter(deps) {
       if (!pieceId) return;
       const p = pieceById(pieceId);
       const score = scoreFor(p, which);
-      if (score) svg.__stops = contourStops(score.notes, W, H);
+      if (!score) return;
+      const d = svg.dataset;
+      if (d.cw) {
+        // A ribbon laid over a painted plate: same derivation, offset into place.
+        const ox = +d.cx0; const oy = +d.cy0;
+        svg.__stops = contourStops(score.notes, +d.cw, +d.ch)
+          .map((at) => (at ? { x: at.x + ox, y: at.y + oy } : null));
+      } else {
+        svg.__stops = contourStops(score.notes, W, H);
+      }
     });
   }
 
@@ -315,6 +373,82 @@ export function createChapter(deps) {
   function spreadA(spr) {
     const heard = state.heardOnce.has(`${spr.invite.pieceId}:${spr.invite.which}`);
     const active = spr.labels.find((l) => l.id === state.activeLabel);
+    const plate = PLATES[spr.scene];
+    if (!plate) return spreadAWireframe(spr, heard, active);
+
+    const p = pieceById(spr.invite.pieceId);
+    const score = scoreFor(p, spr.invite.which);
+    const rb = plate.ribbon;
+    const pts = score ? contourPoints(score.notes, rb.w, rb.h) : '';
+    const first = pts.split(' ')[0]?.split(',') || [0, 0];
+    const last = pts.split(' ').pop()?.split(',') || [0, 0];
+    const ex = plate.exit;
+    // From the doorway to the tune's first note, and from its last note out of
+    // the glass — decorative leads only; every bend between them is the score.
+    const leadIn = `M 60 ${rb.y + rb.h * 0.62} C 100 ${rb.y + rb.h * 0.62}, ${rb.x - 30} ${+first[1] + rb.y}, ${rb.x + +first[0]} ${+first[1] + rb.y}`;
+    const leadOut = `M ${rb.x + +last[0]} ${+last[1] + rb.y} C ${rb.x + +last[0] + 12} ${+last[1] + rb.y}, ${ex.x - 12} ${ex.y}, ${ex.x} ${ex.y}`;
+    const branches = plate.hooks.map((h, i) => {
+      const l = spr.labels[i];
+      const lit = heard && (!state.activeLabel || state.activeLabel === l?.id);
+      // The eyelet: the tag is 17% of the plate wide (170 units), centred on
+      // its hook, with its point at mid-height (12% of the plate tall, so 45).
+      const ey = h.y + 45;
+      const exx = h.x - 78;
+      return `<path class="rt-flow__branch${lit ? ' is-lit' : ''}" d="M ${ex.x} ${ex.y} C ${ex.x + 70} ${ex.y}, ${exx - 80} ${ey}, ${exx} ${ey}"></path>`;
+    }).join('');
+    const lens = plate.lens;
+
+    return `
+      <div class="rt-scene rt-scene--doorway rt-scene--painted${heard ? ' is-heard' : ''}" style="background-image:url(${plate.art})">
+        <svg class="rt-flow" viewBox="0 0 1000 750" aria-hidden="true">
+          <defs>
+            <filter id="rt-glow" x="-20%" y="-60%" width="140%" height="220%">
+              <feGaussianBlur stdDeviation="5" result="b"></feGaussianBlur>
+              <feMerge><feMergeNode in="b"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+          <g class="rt-flow__branches">${branches}</g>
+          <path class="rt-flow__lead" d="${leadIn}"></path>
+          <path class="rt-flow__lead" d="${leadOut}"></path>
+        </svg>
+        <svg class="rt-flow rt-flow--ribbon" viewBox="0 0 1000 750" role="img" data-lead-ribbon
+             aria-label="The shape of ${esc(p.shortTitle || p.title)}, drawn from its notes"
+             data-live-contour="c-${spr.invite.pieceId}-${spr.invite.which}"
+             data-cx0="${rb.x}" data-cy0="${rb.y}" data-cw="${rb.w}" data-ch="${rb.h}">
+          <g transform="translate(${rb.x} ${rb.y})">
+            <polyline class="rt-contour__halo" points="${pts}"></polyline>
+            <polyline class="rt-contour__line" points="${pts}"></polyline>
+          </g>
+          <circle class="rt-contour__dot" r="9" cx="-40" cy="-40"></circle>
+        </svg>
+
+        <button class="rt-lens rt-lens--painted" data-rt-invite data-rt-play="${spr.invite.pieceId}:${spr.invite.which}"
+                aria-label="${esc(spr.invite.label)}"
+                style="--lx:${lens.x}%;--ly:${lens.y}%;--lr:${lens.r}%">
+          <span class="rt-lens__glass"></span>
+          <span class="rt-lens__cap">${esc(spr.invite.label)}</span>
+        </button>
+
+        <div class="rt-tagrail" ${heard ? 'role="group" aria-label="Names for this tune"' : 'aria-hidden="true"'}>
+          ${plate.hooks.map((h, i) => {
+            const l = spr.labels[i];
+            const pos = `style="--tx:${h.x / 10}%;--ty:${h.y / 7.5}%"`;
+            if (!heard || !l) return `<span class="rt-hang rt-tagslot" ${pos}><span class="rt-hang__card"></span></span>`;
+            return `
+              <button class="rt-hang rt-tag${state.activeLabel === l.id ? ' is-current' : ''}" data-rt-label="${l.id}" ${pos}>
+                <span class="rt-hang__card">
+                  <span class="rt-tag__text">${esc(l.text)}</span>
+                  <span class="rt-tag__charm" aria-hidden="true">${TAG_ICONS[l.id] || l.charm}</span>
+                </span>
+              </button>`;
+          }).join('')}
+        </div>
+        ${active?.note ? `<p class="rt-note rt-note--slip">${esc(active.note)}</p>` : ''}
+      </div>`;
+  }
+
+  // The pre-plate layout, kept for a scene whose plate is not painted yet.
+  function spreadAWireframe(spr, heard, active) {
     return `
       <div class="rt-scene rt-scene--doorway">
         <div class="rt-door" aria-hidden="true"></div>
@@ -424,17 +558,25 @@ export function createChapter(deps) {
     const done = spreadDone();
     const body = { A: spreadA, B: spreadB, C: spreadC, D: spreadD }[spr.id](spr);
 
-    stage.className = 'stage stage--chapter';
+    const plate = PLATES[spr.scene];
+    const talk = done ? [...spr.dialogue.open, ...spr.dialogue.done] : spr.dialogue.open;
+
+    stage.className = `stage stage--chapter${plate ? ' stage--painted' : ''}`;
+    // The plate is painted on the scene box, not the stage: in landscape the box
+    // IS the stage; in portrait the stage fills the screen and the box is a 4:3
+    // band across it, so the overlays still track the painting (styles.css).
     stage.style.backgroundImage = '';
+    document.body.classList.toggle('rt-painted', !!plate);
     stage.innerHTML = `
-      <div class="rt">
+      <div class="rt${plate ? ' rt--painted' : ''}">
         <div class="rt-top">
           <button class="round-btn" data-rt-back aria-label="Back">←</button>
           <div class="rt-head">
             <h1>${esc(spr.title)}</h1>
             <p>${esc(spr.opening)}</p>
           </div>
-          <span class="rt-flag" title="Placeholder scenes: the painted plates are not made yet">wireframe</span>
+          ${plate ? '<span class="rt-top__balance" aria-hidden="true"></span>'
+            : '<span class="rt-flag" title="Placeholder scenes: the painted plates are not made yet">wireframe</span>'}
         </div>
 
         <ol class="rt-marks" aria-label="Where you are in this chapter">
@@ -447,7 +589,7 @@ export function createChapter(deps) {
         ${body}
 
         <div class="rt-talk">
-          ${dialogueMarkup(done ? [...spr.dialogue.open, ...spr.dialogue.done] : spr.dialogue.open)}
+          ${plate ? paintedDialogueMarkup(talk) : dialogueMarkup(talk)}
         </div>
 
         <div class="rt-foot">
@@ -555,7 +697,7 @@ export function createChapter(deps) {
       return true;
     },
     active() { return !!chapter; },
-    close() { stop(); chapter = null; },
+    close() { stop(); chapter = null; document.body.classList.remove('rt-painted'); },
     click,
     render
   };
