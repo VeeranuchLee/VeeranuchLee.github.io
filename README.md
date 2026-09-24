@@ -23,6 +23,7 @@ actually use.
 | [Planets & Moons](https://veeranuchlee.github.io/solar-system-game/) | Put the planets in order, give every planet its moons, then do the same for the dwarf planets |
 | [Animal Book](https://veeranuchlee.github.io/animal-book/) | A growing illustrated animal encyclopaedia |
 | [Shadow Matching](https://veeranuchlee.github.io/shadow-matching/) | Look at the picture, find its shadow |
+| [Our Maze](https://veeranuchlee.github.io/our-maze/) | Walk the maze to the flag |
 
 ## How these are made
 
@@ -61,7 +62,7 @@ The rest of this file is for whoever works on the site.
 The user Pages site. Three deliberately separate things live here:
 
     /                 a deliberately plain placeholder, reserved for professional use
-    /children-apps/   the children's games hub — one screen, nine cards
+    /children-apps/   the children's games hub — one screen, ten cards
     /test-apps/       an unlinked hub for apps being tested before main-hub promotion
 
 **Live:** `https://veeranuchlee.github.io/`
@@ -198,6 +199,10 @@ candidates at the real 96px and looking: the swan vanishes into the pale backgro
 the bicycle and rocket lose their silhouettes, the elephant and duck go muddy against
 black. The apple has the contrast, and its leaf survives into the silhouette, so the
 tile shows that a shadow keeps an object's *shape*. The teapot was the runner-up.
+
+`our-maze.webp` is a direct copy of the flag sprite Our Maze already ships, used as a
+rounded tile. The app asks a child to walk a maze to the flag, so the goal is the one
+sprite that says what the game is about; no new artwork was invented.
 
 **Two known art gaps**, both cosmetic and both inherited:
 
