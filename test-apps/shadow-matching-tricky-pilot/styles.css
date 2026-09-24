@@ -1,0 +1,169 @@
+/* Shadow Matching.
+ *
+ * Target device is a 9.7-inch iPad: 768 px portrait, 1024 landscape. Not a phone.
+ * Every control a child taps is at least 64 px, and the three shadow choices are far
+ * larger than that -- they are the answer, so they should be the biggest thing to hit.
+ *
+ * The stage is a light neutral on purpose. A shadow is read by its OUTLINE, and a busy or
+ * dark background is exactly what stops that working.
+ */
+*{box-sizing:border-box;margin:0;padding:0;touch-action:manipulation}
+body{
+  font-family:system-ui,-apple-system,'Nunito',sans-serif;
+  min-height:100vh;color:#24323d;
+  background:linear-gradient(170deg,#f3f7fb 0%,#e8eef5 60%,#dfe7f0 100%);
+}
+#app{max-width:1024px;margin:0 auto;padding:18px 16px 40px;display:flex;flex-direction:column;gap:18px}
+.loading{padding:40px;text-align:center;color:#6b7a88}
+
+.topline{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:64px}
+.hub{
+  display:inline-flex;align-items:center;min-height:64px;padding:0 22px;
+  border:none;border-radius:999px;background:#fff;color:#2d5d7c;
+  font:inherit;font-weight:800;text-decoration:none;cursor:pointer;
+  box-shadow:0 4px 0 #c9d6e2;
+}
+.progress{display:flex;gap:7px}
+.progress i{width:12px;height:12px;border-radius:50%;background:#c9d6e2}
+.progress i.on{background:#4b8fc0}
+.progress i.now{background:#2d5d7c;transform:scale(1.25)}
+
+.hero{text-align:center;padding:10px 0 4px}
+.hero h1{font-size:2.1rem;letter-spacing:-.5px}
+.hero p{color:#55646f;margin-top:6px;font-size:1.05rem}
+
+.sets{display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));gap:16px}
+.setcard{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  min-height:190px;padding:18px 14px;border:none;border-radius:24px;
+  background:#fff;color:inherit;font:inherit;text-align:center;cursor:pointer;
+  box-shadow:0 8px 0 #cfdae5,0 14px 26px rgba(70,95,120,.13);
+}
+.setcard strong{font-size:1.02rem;line-height:1.3}
+.setcard small{color:#6b7a88}
+.setart{width:78px;height:78px;object-fit:contain;opacity:.82}
+
+.stage{display:flex;flex-direction:column;align-items:center;gap:16px}
+.subject{
+  width:min(58vw,300px);height:min(58vw,300px);
+  display:flex;align-items:center;justify-content:center;
+  background:#fff;border-radius:28px;padding:14px;
+  box-shadow:0 8px 0 #cfdae5,0 16px 30px rgba(70,95,120,.14);
+}
+.subject img{max-width:100%;max-height:100%;object-fit:contain}
+.askline{font-size:1.18rem;font-weight:800;text-align:center;min-height:1.6em}
+
+/* A fixed two-column grid, not a wrapping row: at 768 px three 190 px tiles fit on one line,
+   so the old flex-wrap drew four choices as 3 + 1 on the very iPad it was meant for
+   (measured 2026-09-23, CG-184). OLDER-KID-SPEC.md section 16 asks for the 2x2. */
+.choices{display:grid;grid-template-columns:repeat(2,min(38vw,190px));justify-content:center;gap:16px;width:100%}
+.choice{
+  /* Four choices wrap to 2x2 on the iPad in portrait, which keeps each one big enough to
+     read a silhouette in and to hit without aiming. */
+  width:min(38vw,190px);height:min(38vw,190px);
+  display:flex;align-items:center;justify-content:center;
+  border:4px solid transparent;border-radius:24px;background:#fff;
+  padding:12px;cursor:pointer;
+  box-shadow:0 6px 0 #cfdae5;
+}
+.choice img{max-width:100%;max-height:100%;object-fit:contain}
+.choice:disabled{cursor:default}
+.choice.right{border-color:#3f9d5d;background:#eefaf1}
+.choice.wrong{border-color:#d9534f;opacity:.5}
+.choice.dim{opacity:.28}
+.choice.pop{animation:pop .45s ease}
+@keyframes pop{0%{transform:scale(1)}55%{transform:scale(1.09)}100%{transform:scale(1)}}
+
+.done{text-align:center;padding:30px 10px;display:flex;flex-direction:column;gap:14px;align-items:center}
+.done h2{font-size:1.8rem}
+.actions{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+.primary,.secondary{
+  min-height:64px;padding:0 26px;border:none;border-radius:999px;
+  font:inherit;font-weight:800;cursor:pointer;
+}
+.primary{background:#2d5d7c;color:#fff;box-shadow:0 5px 0 #1e4159}
+.secondary{background:#fff;color:#2d5d7c;box-shadow:0 5px 0 #c9d6e2}
+
+@media (prefers-reduced-motion:reduce){
+  .choice.pop{animation:none}
+  .progress i.now{transform:none}
+}
+
+/* ---- board mode ---------------------------------------------------------- */
+/* Two columns, six rows, on the iPad in portrait without scrolling. A board a child has
+   to scroll is a board they lose their place on. */
+.modes{display:flex;gap:10px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.mode{
+  min-height:64px;padding:0 22px;border:none;border-radius:999px;
+  background:#fff;color:#2d5d7c;font:inherit;font-weight:800;cursor:pointer;
+  box-shadow:0 4px 0 #c9d6e2;
+}
+.mode.on{background:#2d5d7c;color:#fff;box-shadow:0 4px 0 #1e4159}
+/* Regular | Tricky, under "One at a time" only. A two-part switch rather than two more
+   mode buttons, so it reads as HOW HARD rather than as another game. Same 64px floor. */
+.levels{display:inline-flex;margin-top:12px;border-radius:999px;background:#fff;
+  box-shadow:0 4px 0 #c9d6e2;padding:4px;gap:4px}
+.level{min-height:64px;min-width:124px;padding:0 20px;border:none;border-radius:999px;
+  background:transparent;color:#2d5d7c;font:inherit;font-weight:800;cursor:pointer}
+.level.on{background:#e3eef7;color:#1e4159;box-shadow:inset 0 0 0 3px #2d5d7c}
+.tally{font-weight:800;color:#55646f}
+
+.board{display:flex;gap:min(7vw,58px);justify-content:center;align-items:flex-start}
+.col{display:flex;flex-direction:column;gap:12px}
+.tile{
+  width:min(26vw,122px);height:min(20vw,96px);
+  display:flex;align-items:center;justify-content:center;
+  border:4px solid transparent;border-radius:18px;background:#fff;padding:8px;
+  cursor:pointer;box-shadow:0 5px 0 #cfdae5;
+}
+.tile img{max-width:100%;max-height:100%;object-fit:contain}
+.tile.chosen{border-color:#2d5d7c;transform:scale(1.04)}
+.tile.matched{border-color:#3f9d5d;background:#eefaf1;opacity:.72;cursor:default}
+.tile.nope{animation:nope .4s ease}
+@keyframes nope{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+@media (prefers-reduced-motion:reduce){
+  .tile.nope{animation:none;border-color:#d9534f}
+  .tile.chosen{transform:none}
+}
+
+/* ---- memory mode --------------------------------------------------------- */
+/* Twelve cards, 4x3 on the iPad in portrait. A card is 3:4 -- the shape a physical
+   memory card is, which is the shape the Math app's deck settled on for the same reason. */
+.deck{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+  max-width:560px;margin:0 auto;width:100%;
+}
+.card{
+  aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;
+  border:4px solid transparent;border-radius:18px;padding:8px;cursor:pointer;
+  background:linear-gradient(150deg,#5b86ad,#3d6b93);
+  box-shadow:0 5px 0 #2d5271;
+  /* The face-down back carries a faint shadow motif so a deck reads as THIS game's deck
+     rather than as generic blue rectangles. */
+  background-image:radial-gradient(circle at 50% 42%,rgba(255,255,255,.17) 0 26%,rgba(255,255,255,0) 27%),
+                   linear-gradient(150deg,#5b86ad,#3d6b93);
+}
+.card.up{background:#fff;background-image:none;box-shadow:0 5px 0 #cfdae5}
+.card.found{background:#eefaf1;background-image:none;border-color:#3f9d5d;opacity:.75;cursor:default}
+.card img{max-width:100%;max-height:100%;object-fit:contain}
+
+@media (max-width:420px){ .deck{grid-template-columns:repeat(3,1fr)} }
+
+/* ---- mirror match -------------------------------------------------------- */
+/* The mirrored twin is the SAME image reflected -- scaleX(-1) on the <img>, never on the
+   button, so a mirrored choice is exactly the size of every other and nothing about its box
+   gives it away. Not animated, so reduced motion has nothing to switch off here. */
+.choice img.mirrored{transform:scaleX(-1)}
+
+/* ---- the speaker --------------------------------------------------------- */
+/* Round, 64px, pushed to the right end of the top line so it never sits between Back and
+   the progress dots. Off is shown by the crossed icon and a quieter colour, never by
+   hiding the button. */
+.speaker{
+  flex:none;width:64px;height:64px;border:none;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;padding:0;
+  background:#fff;color:#2d5d7c;cursor:pointer;box-shadow:0 4px 0 #c9d6e2;
+}
+.speaker svg{width:32px;height:32px}
+.speaker.off{color:#8a98a5}

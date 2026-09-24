@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>Shadow Matching</title>
+<meta name="apple-mobile-web-app-title" content="Shadow Matching"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<link rel="manifest" href="./manifest.webmanifest"/>
+<link rel="stylesheet" href="./styles.css"/>
+</head>
+<body>
+<main id="app"><p class="loading">Getting the shapes ready…</p></main>
+<script src="./sound.js"></script>
+<script src="./app.js"></script>
+<script>
+  /* Registered only when served over http(s): a file:// preview has no service worker
+     scope and throws. */
+  if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+    addEventListener('load', function () { Promise.resolve() /* Test Hub staging: no service worker */; });
+  }
+</script>
+</body>
+</html>
