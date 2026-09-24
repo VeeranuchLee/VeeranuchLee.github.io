@@ -647,6 +647,18 @@
       }
       return;
     }
+    var dd = deepDiveById(state.activeDeepDiveId);
+    var p = dd && dd.pages[state.deepDivePageIndex];
+    /* On an asteroid body page reached from the belt menu, Back's promise is
+       "Back to belt": stepping back through Ceres, Pallas, ... is not what the
+       label says, and a child who chose Vesta from the menu did not choose the
+       page before it. Close already returns to the menu in this state; Back
+       must do the same. Other deep dives keep their in-book paging. */
+    if (p && p.layoutType === "asteroid-focus" && state.launchMenuId) {
+      openMenu(state.launchMenuId, state.menuParentId);
+      persist();
+      return;
+    }
     if (state.deepDiveHistory.length > 1) {
       state.deepDiveHistory.pop();
       state.deepDivePageIndex = state.deepDiveHistory[state.deepDiveHistory.length - 1];
@@ -717,11 +729,19 @@
     var canBack = canGoBack();
     /* With nothing to unwind and no page to step back to, Back's next move is
        the menu that opened this page — say that, not "one page", and use the
-       same word for the menu that Close does. */
+       same word for the menu that Close does. Asteroid body pages name the
+       belt menu explicitly because that is where the visible label says Back
+       goes. */
+    var asteroidBack = p.layoutType === "asteroid-focus" && state.launchMenuId;
     var backToMenu = canBack && state.launchMenuId &&
-                     state.deepDiveHistory.length <= 1 && state.deepDivePageIndex === 0;
+                     (asteroidBack ||
+                      (state.deepDiveHistory.length <= 1 && state.deepDivePageIndex === 0));
     var backLabel = "Back. This is the first page";
-    if (canBack) backLabel = backToMenu ? "Back to the choices" : "Back one page";
+    if (canBack) {
+      if (asteroidBack) backLabel = "Back to the belt";
+      else if (backToMenu) backLabel = "Back to the choices";
+      else backLabel = "Back one page";
+    }
     elBack.setAttribute("aria-disabled", canBack ? "false" : "true");
     elBack.setAttribute("aria-label", backLabel);
 
