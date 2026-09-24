@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Word clips shipped</title>
+<style>
+:root { --bg:#faf7f2; --fg:#2b2622; --muted:#6f655c; --card:#fff; --line:#e6dfd6; --old:#8a7f75; --new:#2f7d4f; --ctx:#3e5f8a; }
+@media (prefers-color-scheme: dark) { :root { --bg:#1d1b19; --fg:#efe9e2; --muted:#b0a69c; --card:#282522; --line:#3a3632; --old:#a39a90; --new:#5cbf85; --ctx:#7fa3d6; } }
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--fg); font:17px/1.45 -apple-system, system-ui, sans-serif; }
+main { max-width:720px; margin:0 auto; padding:24px 16px 48px; }
+h1 { font-size:26px; margin:0 0 6px; }
+.lede { color:var(--muted); margin:0 0 20px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; margin:0 0 14px; }
+h2 { margin:0 0 4px; font-size:24px; }
+.meta { margin:0 0 12px; color:var(--muted); font-size:15px; }
+.btns { display:flex; flex-wrap:wrap; gap:10px; }
+button { font:inherit; font-weight:600; min-height:52px; min-width:120px; padding:0 18px; border-radius:12px; border:2px solid currentColor; background:transparent; cursor:pointer; }
+button.old { color:var(--old); } button.new { color:var(--new); } button.ctx { color:var(--ctx); }
+button.old.playing { background:var(--old); color:var(--card); } button.new.playing { background:var(--new); color:var(--card); } button.ctx.playing { background:var(--ctx); color:var(--card); }
+.note { margin:12px 0 0; font-size:15px; border-left:3px solid var(--line); padding-left:10px; }
+footer { color:var(--muted); font-size:14px; margin-top:20px; }
+</style></head>
+<body><main>
+<h1>Word clips now in the Word Book</h1>
+<p class="lede">The seven words you picked on the round-3 page (2026-09-24). <b>Before</b> is the clip the card had; <b>Now</b> is the clip it has on this branch, your pick with its loudness levelled to the words around it. Not live in the app yet.</p>
+<section class="card">
+  <h2>arrive</h2>
+  <p class="meta">Your pick: <b>S1</b>, cut from &ldquo;We watch the big ship arrive.&rdquo; (soft edges)</p>
+  <div class="btns">
+    <button data-src="audio/arrive.old.m4a" class="old">Before</button>
+    <button data-src="audio/arrive.new.m4a" class="new">Now</button>
+    <button data-src="audio/arrive.sentence.m4a" class="ctx">Whole sentence</button>
+  </div>
+  
+</section><section class="card">
+  <h2>bake</h2>
+  <p class="meta">Your pick: <b>S3</b>, cut from &ldquo;It is fun to bake.&rdquo; (soft edges)</p>
+  <div class="btns">
+    <button data-src="audio/bake.old.m4a" class="old">Before</button>
+    <button data-src="audio/bake.new.m4a" class="new">Now</button>
+    <button data-src="audio/bake.sentence.m4a" class="ctx">Whole sentence</button>
+  </div>
+  
+</section><section class="card">
+  <h2>be</h2>
+  <p class="meta">Your pick: <b>R2 cut from &#x27;Let it be.&#x27;</b>, cut from &ldquo;Let it be.&rdquo; (plain edges)</p>
+  <div class="btns">
+    <button data-src="audio/be.old.m4a" class="old">Before</button>
+    <button data-src="audio/be.new.m4a" class="new">Now</button>
+    <button data-src="audio/be.sentence.m4a" class="ctx">Whole sentence</button>
+  </div>
+  
+</section><section class="card">
+  <h2>car</h2>
+  <p class="meta">Your pick: <b>S2</b>, cut from &ldquo;We all get in the car.&rdquo; (soft edges)</p>
+  <div class="btns">
+    <button data-src="audio/car.old.m4a" class="old">Before</button>
+    <button data-src="audio/car.new.m4a" class="new">Now</button>
+    <button data-src="audio/car.sentence.m4a" class="ctx">Whole sentence</button>
+  </div>
+  
+</section><section class="card">
+  <h2>care</h2>
+  <p class="meta">Your pick: <b>S2</b>, cut from &ldquo;I know that you care.&rdquo; (soft edges)</p>
+  <div class="btns">
+    <button data-src="audio/care.old.m4a" class="old">Before</button>
+    <button data-src="audio/care.new.m4a" class="new">Now</button>
+    <button data-src="audio/care.sentence.m4a" class="ctx">Whole sentence</button>
+  </div>
+  
+</section><section class="card">
+  <h2>dew</h2>
+  <p class="meta">Your pick: <b>S2</b>, cut from &ldquo;Each leaf is covered in dew.&rdquo; (soft edges)</p>
+  <div class="btns">
+    <button data-src="audio/dew.old.m4a" class="old">Before</button>
+    <button data-src="audio/dew.new.m4a" class="new">Now</button>
+    <button data-src="audio/dew.sentence.m4a" class="ctx">Whole sentence</button>
+  </div>
+  
+</section><section class="card">
+  <h2>explorer</h2>
+  <p class="meta">Your pick: <b>S1</b>, cut from &ldquo;She is a great explorer.&rdquo; (soft edges)</p>
+  <div class="btns">
+    <button data-src="audio/explorer.old.m4a" class="old">Before</button>
+    <button data-src="audio/explorer.new.m4a" class="new">Now</button>
+    <button data-src="audio/explorer.sentence.m4a" class="ctx">Whole sentence</button>
+  </div>
+  <p class="note">You said: &ldquo;the e sound in ex still soo short i mostly hear splorer&rdquo;. Shipped anyway as your pick; a longer &ldquo;ex-&rdquo; is on the open list for a later round.</p>
+</section>
+<footer>Not shipped yet, waiting on you: the 14 &ldquo;B soft&rdquo; rows you marked &ldquo;same to me&rdquo;. best, bone, bun and base already use their earlier cut.</footer>
+</main>
+<script>
+let cur = null, curBtn = null;
+document.querySelectorAll("button[data-src]").forEach(b => b.addEventListener("click", () => {
+  if (cur) { cur.pause(); curBtn && curBtn.classList.remove("playing"); }
+  const a = new Audio(b.dataset.src); cur = a; curBtn = b; b.classList.add("playing");
+  a.onended = a.onerror = () => b.classList.remove("playing");
+  a.play().catch(() => b.classList.remove("playing"));
+}));
+</script>
+</body></html>
