@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ari &amp; Dot · Page 3 — The Sun</title>
+<style>
+:root{color-scheme:dark;--navy:#07152f;--ink:#11315d;--gold:#ffc52b;--orange:#ff8318;--cyan:#8eeaff;--cream:#fff9ea}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#030711;color:#fff;font-family:ui-rounded,"Avenir Next","Segoe UI",system-ui,sans-serif;overscroll-behavior:none}
+button{font:inherit}.book{min-height:100vh;display:grid;place-items:center}.stage{position:relative;width:min(100vw,150vh,1536px);aspect-ratio:3/2;overflow:hidden;isolation:isolate;border-radius:15px;background:#071229;box-shadow:0 22px 80px #000b}
+.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;user-select:none}.warm-wash{position:absolute;inset:0;z-index:1;background:radial-gradient(circle at 74% 42%,rgba(255,124,15,.19),transparent 42%),linear-gradient(90deg,rgba(4,16,44,.15),transparent 60%);pointer-events:none}
+.story{position:absolute;z-index:20;left:2%;top:2%;width:31%;padding:14px 16px;border:1px solid #d7efff6b;border-radius:18px;background:linear-gradient(140deg,rgba(7,21,48,.91),rgba(18,36,69,.72));backdrop-filter:blur(9px);box-shadow:0 10px 32px #0008}.story-back{display:inline-flex;gap:4px;margin-bottom:5px;color:#bdeaff;text-decoration:none;font-size:clamp(8px,.85vw,12px);font-weight:900}.story h1{margin:0;color:var(--gold);font-size:clamp(22px,3.2vw,44px);line-height:1}.story h2{margin:3px 0 7px;color:#fff;font-size:clamp(11px,1.45vw,20px);line-height:1.08}.story p{margin:5px 0;font-size:clamp(12px,1.05vw,15px);line-height:1.35}.story-actions{display:flex;gap:7px;margin-top:9px}.story button,.toolbar button{border:1px solid #b9ddff66;background:#102c54e8;color:#fff;border-radius:999px;padding:6px 11px;font-weight:850;cursor:pointer}.story button.primary{background:#c7611f;border-color:#ffd38d}.story button:hover,.toolbar button:hover{background:#2c5d8a}
+
+/* Owner, 2026-08-27: "need to make sure ALL games has back icon to the hub".
+   Mirrors .page-nav's geometry on the opposite corner -- the book's whole chrome
+   lives top-right, and top-left, which was empty, is where the same arrow sits in
+   every other app the hub links to. --focus is defined on page 1 only, hence the
+   literal fallback the other pages already use for focus rings. */
+.story-hub{position:absolute;z-index:40;top:1.5%;left:1.5%;display:grid;place-items:center;height:32px;min-width:32px;padding:0 8px;border:1px solid rgba(255,255,255,.2);border-radius:8px;background:#16345c;color:#fff;font:inherit;font-weight:900;text-decoration:none}
+.story-hub:hover{background:#285b87}
+.story-hub:focus-visible{outline:3px solid var(--focus,#8eeaff);outline-offset:2px}
+.page-nav{position:absolute;z-index:34;top:1.5%;right:1.5%;display:flex;align-items:center;gap:4px;padding:4px;border:1px solid #b9ddff55;border-radius:13px;background:#07142de8;backdrop-filter:blur(7px)}.page-nav>a,.page-jump{display:grid;place-items:center;height:32px;min-width:32px;border:1px solid #b9ddff55;border-radius:9px;background:#16345c;color:#fff;text-decoration:none;font:inherit;font-weight:900;cursor:pointer}.page-jump{min-width:58px;padding:0 8px}.page-nav>a:hover,.page-jump:hover{background:#285b87}.page-nav [aria-disabled=true]{opacity:.35;pointer-events:none}.page-goto{position:absolute;right:calc(100% + 6px);top:0;display:flex;gap:4px;padding:7px;border:1px solid #b9ddff55;border-radius:10px;background:#0b1730;box-shadow:0 8px 24px #0008;white-space:nowrap}.page-goto[hidden]{display:none}.page-goto label{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:800}.page-goto input{width:45px;padding:4px;border:1px solid #8fe7ff88;border-radius:6px;background:#061126;color:#fff}.page-goto button{padding:4px 7px;border:0;border-radius:6px;background:var(--gold);color:#17203a;font-weight:900;cursor:pointer}
+.sun-area{position:absolute;z-index:4;left:35%;right:1.5%;top:4%;height:69%}.sun-button{position:absolute;left:55%;top:49%;width:66%;aspect-ratio:1;border:0;padding:0;background:none;transform:translate(-50%,-50%);cursor:pointer;border-radius:50%;filter:drop-shadow(0 0 12px #ffbf3f88)}.sun-button img{display:block;width:100%;height:100%;object-fit:contain}.sun-button::after{content:"";position:absolute;inset:8%;border:2px solid #fff1a875;border-radius:50%;opacity:0}.sun-button.active::after{animation:sunPulse 1.8s ease-out}@keyframes sunPulse{0%{opacity:.75;transform:scale(.8)}100%{opacity:0;transform:scale(1.35)}}
+.feature{position:absolute;z-index:11;border:1px solid #ffe58b9c;border-radius:999px;background:#0b1738d9;color:#fff;padding:5px 9px;font-size:clamp(8px,.88vw,12px);font-weight:900;cursor:pointer;box-shadow:0 3px 12px #0007}.feature::after{content:"";position:absolute;width:34px;height:1px;background:#ffe799aa;top:50%}.feature:hover,.feature[aria-pressed=true]{background:#9e4d1e;color:#fff5c6}.feature:focus-visible,.sun-button:focus-visible,.secret:focus-visible,.fact-card:focus-visible,.story button:focus-visible,.toolbar button:focus-visible,.page-nav *:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
+.feature.prominence{left:2%;top:8%}.feature.prominence::after{left:100%;transform:rotate(18deg);transform-origin:left}.feature.sunspot{left:5%;top:34%}.feature.sunspot::after{left:100%;transform:rotate(-3deg);transform-origin:left}.feature.granulation{right:1%;top:20%}.feature.granulation::after{right:100%;transform:rotate(-12deg);transform-origin:right}.feature.flare{left:7%;bottom:13%}.feature.flare::after{left:100%;transform:rotate(-16deg);transform-origin:left}
+.hint{position:absolute;z-index:10;left:2%;bottom:24.5%;padding:4px 11px;border-radius:999px;background:#07142dc7;color:#d8efff;font-size:clamp(8px,.8vw,11px);font-weight:800;white-space:nowrap;transition:opacity .22s}.hint.muted{opacity:0;pointer-events:none}
+.bubble{position:absolute;z-index:15;left:2.3%;bottom:24%;width:27%;height:36%;pointer-events:none;transition:opacity .25s,transform .45s}.bubble img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 9px 13px #0009)}.bubble.react{opacity:0;transform:translateY(5%) scale(.94)}.stage.reacting .bubble.rest{opacity:0}.stage.reacting .bubble.react{opacity:1;transform:none}
+.detail{position:absolute;z-index:25;right:2%;top:11%;width:24%;padding:10px;border:1px solid #ffe89f88;border-radius:16px;background:#07142dea;box-shadow:0 12px 35px #000a;backdrop-filter:blur(8px);opacity:0;transform:translateY(-8px) scale(.96);pointer-events:none;transition:.25s}.detail.show{opacity:1;transform:none;pointer-events:auto}.detail-head{display:flex;align-items:center;justify-content:space-between;gap:6px}.detail h3{margin:0;color:var(--gold);font-size:clamp(12px,1.3vw,18px)}.detail-close{border:0;border-radius:50%;width:26px;height:26px;background:#183a65;color:#fff;cursor:pointer}.detail-view{display:block;width:100%;aspect-ratio:1;border-radius:50%;object-fit:cover;border:3px solid #ffe58b;margin-top:7px}.detail p{margin:7px 2px 1px;font-size:clamp(8px,.9vw,12px);line-height:1.3}
+.secret{position:absolute;z-index:17;width:44px;height:44px;margin:-8px;border:0;border-radius:50%;background:transparent;color:#fff6c8;cursor:pointer}.secret::before{content:"✦";line-height:1;font-size:clamp(13px,1.05vw,15px);text-shadow:0 0 3px #ffffffaa,0 0 7px #ffc65eaa;animation:twinkle 4.6s ease-in-out infinite}.secret.helio{left:43%;top:7%}.secret.umbra{left:48%;top:36%}.secret.flicker{left:49%;top:54%}@keyframes twinkle{0%,100%{opacity:.2;transform:scale(.72)}45%{opacity:.92;transform:scale(1.08)}70%{opacity:.34;transform:scale(.85)}}
+.visitor{position:absolute;z-index:19;opacity:0;pointer-events:none;transition:opacity .4s,transform .75s ease}.visitor img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 7px 12px #000a)}.visitor.found{opacity:1;transform:none}.visitor.departing{opacity:0!important;transform:translateY(-24%) scale(.75)!important}.visitor.helio{left:38%;top:6%;width:16%;height:25%;transform:translateX(-30%) scale(.8)}.visitor.umbra{left:39%;top:28%;width:15%;height:29%;transform:translateX(-26%) scale(.8)}.visitor.flicker{left:38%;top:48%;width:18%;height:25%;transform:translateX(-30%) scale(.8)}.visitor-effect{position:absolute;z-index:18;inset:-12%;width:124%!important;height:124%!important;opacity:.78}
+.discoveries{position:absolute;z-index:26;left:2%;top:53%;padding:5px 9px;border:1px solid #ffe59077;border-radius:999px;background:#10274de6;font-size:clamp(8px,.85vw,12px);font-weight:900;opacity:0}.discoveries.show{opacity:1}
+.status{position:absolute;z-index:30;left:50%;bottom:30%;max-width:55%;transform:translate(-50%,10px);padding:7px 13px;border:1px solid #ffe69a7a;border-radius:12px;background:#07142deb;text-align:center;font-size:clamp(9px,1vw,14px);font-weight:800;opacity:0;transition:.25s;pointer-events:none}.status.show{opacity:1;transform:translate(-50%,0)}
+.fact-box{position:absolute;z-index:29;left:2%;right:2%;bottom:1.5%;height:22%;display:grid;grid-template-columns:repeat(5,1fr);overflow:hidden;border:3px solid #244b79;border-radius:28px;background:linear-gradient(#fffdf5,#fff6e3);box-shadow:0 8px 28px #0009;color:var(--ink)}.fact-card{position:relative;border:0;border-right:1px dashed #8c9aa8;background:transparent;color:inherit;padding:7px 9px 6px;display:grid;grid-template-rows:42% auto;place-items:center;text-align:center;cursor:pointer}.fact-card:last-child{border-right:0}.fact-card svg{height:100%;max-width:62px;overflow:visible}.fact-card span{font-size:clamp(12px,1.35vw,17px);line-height:1.2}.fact-card strong{color:#0a4a96;font-size:1.08em}.fact-card:hover,.fact-card[aria-pressed=true]{background:#ffe9ae}.fact-card[aria-pressed=true]::after{content:"🔊";position:absolute;right:7px;top:5px;font-size:11px}
+.toolbar{position:absolute;z-index:35;right:2%;bottom:24.5%;display:flex;gap:5px}.toolbar button{padding:5px 9px;font-size:clamp(8px,.9vw,12px)}
+@media(max-width:700px),(max-aspect-ratio:1/1){.feature.prominence{left:12%}.stage{border-radius:0}.story{width:38%;padding:8px 9px}.story h1{font-size:18px}.story button{padding:4px 7px;font-size:8px}.sun-area{left:34%;right:0;top:7%;height:59%}.sun-button{width:76%}.feature{padding:3px 5px}.feature::after{width:18px}.bubble{width:31%;height:27%;bottom:29%}.detail{width:30%;right:1%;top:12%;padding:6px}.fact-box{height:27%;grid-template-columns:repeat(5,1fr);border-radius:16px}.fact-card{padding:3px;grid-template-rows:37% auto}.fact-card span{font-size:12px}.fact-card svg{max-width:38px}.toolbar{bottom:29%;right:1%}.hint{left:auto;right:1%;bottom:29%;font-size:7px}.status{position:fixed;z-index:60;top:auto;bottom:10px;max-width:92%;font-size:11px}.discoveries{top:47%;font-size:7px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+.stage.reduce-motion .secret::before{animation:none}.stage.reduce-motion .visitor{transition:opacity .18s}.stage.reduce-motion .sun-button::after{animation:none}
+
+
+
+/* NAMEPLATES:CSS */
+.np{position:absolute;z-index:23;display:flex;flex-direction:column;align-items:center;
+gap:.32em;font-size:var(--np-size,clamp(12px,.9vw,15px));line-height:1;font-weight:900;
+white-space:nowrap}
+/* The drawing. No frame around it: a boxed avatar reads as an icon in a chip,
+   an unboxed one reads as a small world floating in the same sky as the big
+   ones, which on Pages 10 and 16 is exactly what it is. */
+.np-body{display:block;padding:0;border:0;background:transparent;cursor:pointer;
+border-radius:50%;transition:transform .18s;
+/* A cold rim light and a shadow. Without the rim a dark grey moon drawn on a
+   dark grey sky is a smudge at 30px -- the framed disc the old chip drew
+   around the avatar was doing this job, and taking the frame away took it. */
+filter:drop-shadow(0 0 2px #d6ecffcc) drop-shadow(0 4px 9px #000b)}
+.np-body:hover{transform:scale(1.1)}
+.np-body:active{transform:scale(.95)}
+.np-body:focus-visible{outline:3px solid #8eeaff;outline-offset:4px}
+.np .np-av{display:block;width:var(--np-av,clamp(24px,2.7vw,40px));
+height:var(--np-av,clamp(24px,2.7vw,40px))}
+.np .np-blush{fill:#ff8fa3;opacity:.5}
+.np-label{display:inline-flex;align-items:center;gap:.34em;padding:.2em .52em;
+border:2px solid #244b79;border-radius:999px;background:#fff8dff2;color:#15365f;
+font:inherit;cursor:pointer;box-shadow:0 3px 9px #0007;
+transition:background .16s,transform .16s,box-shadow .16s}
+.np-label:hover{background:#ffe9b8;transform:translateY(-1px)}
+.np-label:active{transform:translateY(1px) scale(.97)}
+.np-label:focus-visible{outline:3px solid #8eeaff;outline-offset:3px}
+.np-ear{flex:none;width:.9em;height:.9em;opacity:.55;transition:opacity .16s}
+.np-label:hover .np-ear,.np.np-on .np-ear{opacity:1}
+.np.np-on .np-label{background:#ffe08e;box-shadow:0 0 0 3px #ffc52b,0 3px 9px #0007}
+.np.np-on .np-av{animation:npPop .62s cubic-bezier(.34,1.56,.64,1)}
+@keyframes npPop{0%{transform:scale(1) rotate(0)}35%{transform:scale(1.28) rotate(-9deg)}
+65%{transform:scale(1.05) rotate(6deg)}100%{transform:scale(1) rotate(0)}}
+/* Leader line, so a plate can sit clear of the art and still point at it. It
+   leaves the drawing, not the middle of the stack, or it would appear to come
+   out of the label's ear glyph. */
+.np-lead::after{content:"";position:absolute;height:2px;background:#ffe9a8cc;
+box-shadow:0 0 4px #0009;top:calc(var(--np-av,clamp(24px,2.7vw,40px))/2);pointer-events:none}
+.np-lead-r::after{left:100%;width:var(--np-lead,34px);transform-origin:left;
+transform:rotate(var(--np-angle,0deg))}
+.np-lead-l::after{right:100%;width:var(--np-lead,34px);transform-origin:right;
+transform:rotate(var(--np-angle,0deg))}
+/* "You are here" -- the plate for the ground the reader is standing on. */
+.np-here .np-label{flex-direction:column;align-items:flex-start;gap:.18em;
+padding:.3em .62em;border-radius:1.05em;border-color:#ffc52b}
+.np-here .np-row{display:flex;align-items:center;gap:.34em}
+.np-here-tag{display:block;color:#a4501c;font-size:.74em;letter-spacing:.09em;
+text-transform:uppercase}
+/* A roster: one block of plates that flows itself, used where a page names a
+   family of small worlds at once. Ten hand-placed positions drift apart every
+   time the type size moves; one grid does not. */
+.np-roster{position:absolute;z-index:23;display:grid;
+grid-template-columns:repeat(var(--np-cols,4),1fr);gap:.7em .3em;
+justify-items:center;align-items:end}
+.np-roster .np{position:static}
+.stage.reduce-motion .np.np-on .np-av,.reduced .np.np-on .np-av,
+.stage.reduced .np.np-on .np-av{animation:none}
+@media(prefers-reduced-motion:reduce){.np.np-on .np-av{animation:none}}
+@media(max-width:700px),(max-aspect-ratio:1/1){.np-lead::after{display:none}}
+/* A roster is sized by the space the page has, and on a phone that space is
+   a third of 420px. Four columns of labels do not fit in 140px; two do. */
+@media(max-width:560px){.np-roster{--np-cols:2}}
+
+[data-np="p3-sun"]{left:50.5%;top:62.5%}
+@media(max-width:700px),(max-aspect-ratio:1/1){[data-np="p3-sun"]{inset:auto;left:56%;top:38%}}/* /NAMEPLATES:CSS */
+</style>
+  <style>
+  /* Touch hygiene -- owner 2026-09-15: a child's drag became a blue text selection,
+     and pinches zoomed the page. user-select and touch-callout stop the first;
+     touch-action: manipulation stops double-tap zoom without killing scroll. Pinch is never blocked: it is a zoomed-in child's only way back out (INTERACTION-DIRECTION.md). */
+  html { -webkit-text-size-adjust: 100%; touch-action: manipulation; }
+  body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; touch-action: manipulation; }
+  input, textarea, [contenteditable="true"] { -webkit-user-select: text; user-select: text; }
+  </style>
+</head>
+<body>
+<main class="book">
+<section class="stage" id="stage" aria-label="Interactive storybook page about the Sun">
+<!-- NAMEPLATES:HTML -->
+<div class="np" data-np="p3-sun"><button type="button" class="np-body" data-say="Sun. Our own star, a giant ball of hot glowing gas." aria-label="Sun. Hear about it"><svg class="np-av" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><clipPath id="npc-p3-sun"><circle cx="50" cy="50" r="32"/></clipPath></defs><path d="M50.0 3.0L56.6 16.7L68.0 6.6L68.9 21.7L83.2 16.8L78.3 31.1L93.4 32.0L83.3 43.4L97.0 50.0L83.3 56.6L93.4 68.0L78.3 68.9L83.2 83.2L68.9 78.3L68.0 93.4L56.6 83.3L50.0 97.0L43.4 83.3L32.0 93.4L31.1 78.3L16.8 83.2L21.7 68.9L6.6 68.0L16.7 56.6L3.0 50.0L16.7 43.4L6.6 32.0L21.7 31.1L16.8 16.8L31.1 21.7L32.0 6.6L43.4 16.7Z" fill="#ffab16"/><circle cx="50" cy="50" r="32" fill="#ffce3c"/><g clip-path="url(#npc-p3-sun)"><circle cx="50" cy="50" r="32" fill="#ffb01f" opacity=".35"/><circle cx="50" cy="50" r="26" fill="#ffdc63"/><ellipse cx="36" cy="30" rx="12" ry="6.5" fill="#fff" opacity=".26" transform="rotate(-30 36 30)"/></g><g transform="translate(8.00,11.00) scale(0.84)"><g class="np-face"><ellipse class="np-blush" cx="30" cy="58" rx="5.6" ry="3.4"/><ellipse class="np-blush" cx="70" cy="58" rx="5.6" ry="3.4"/><g class="np-eyes"><ellipse cx="39" cy="46" rx="7" ry="8.4" fill="#fff"/><ellipse cx="61" cy="46" rx="7" ry="8.4" fill="#fff"/><circle cx="39.6" cy="47.4" r="4.6" fill="#16233d"/><circle cx="61.6" cy="47.4" r="4.6" fill="#16233d"/><circle cx="41.4" cy="44.4" r="2" fill="#fff"/><circle cx="63.4" cy="44.4" r="2" fill="#fff"/></g><path d="M45 58.5q5 5.4 10 0" fill="none" stroke="#16233d" stroke-width="3" stroke-linecap="round"/></g></g></svg></button><button type="button" class="np-label" data-say="Sun" aria-label="Hear the name Sun"><span class="np-name">Sun</span><svg class="np-ear" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9h4l5-4v14l-5-4H4z" fill="#15365f"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="#15365f" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+<!-- /NAMEPLATES:HTML -->
+
+
+
+  <img class="bg" src="assets-runtime/standard/page-03/space-background.webp" alt="">
+  <div class="warm-wash"></div>
+
+  <article class="story">
+    <a class="story-back" id="back-page-2" href="page-02.html"><span aria-hidden="true">←</span> The moving family</a>
+    <h1>The Sun</h1><h2>Our busy, glowing star</h2>
+    <p>Ari and Dot floated close inside a super-strong shielded bubble. The Sun was not a quiet ball of fire—it was a giant sphere of hot, moving plasma.</p>
+    <p>Dark sunspots, bubbling granules and enormous loops showed that their star was always changing.</p>
+    <div class="story-actions"><button class="primary" id="start-sun">About the Sun</button><button id="listen">Listen</button></div>
+  </article>
+
+  <!-- Absolute URL on purpose: published, /solar-storybook-feedback/ and
+       /children-apps/ are siblings, but in the repo the hub lives under site/, so a
+       relative link would work live and 404 in every local preview. -->
+  <a class="story-hub" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games" title="Back to Children Games">←</a>
+  <nav class="page-nav" data-current-page="3" aria-label="Page navigation">
+    <a href="page-02.html" aria-label="Previous page" title="Previous page">‹</a>
+    <button class="page-jump" type="button" aria-label="Page 3 of 20. Press and hold to go to a page" title="Press and hold to go to a page">3 / 20</button>
+    <a href="page-04.html" aria-label="Next page" title="Next page">›</a>
+    <form class="page-goto" hidden><label>Go to <input type="number" min="1" max="20" value="3" inputmode="numeric" aria-label="Page number"></label><button type="submit">Go</button></form>
+  </nav>
+
+  <div class="sun-area">
+    <button class="sun-button" id="sun" aria-label="Hear about the living surface of the Sun"><img id="sun-image" src="assets-runtime/standard/page-03/sun-main-frame-01.webp" alt=""></button>
+    <button class="feature prominence" data-feature="prominence" aria-pressed="false">Prominence</button>
+    <button class="feature sunspot" data-feature="sunspot" aria-pressed="false">Sunspots</button>
+    <button class="feature granulation" data-feature="granulation" aria-pressed="false">Granulation</button>
+    <button class="feature flare" data-feature="flare" aria-pressed="false">Solar flare</button>
+    <div class="hint">Tap the glowing clues on the Sun.</div>
+  </div>
+
+  <div class="bubble rest"><img src="assets-runtime/standard/page-03/ari-dot-bubble-rest.webp" alt="Ari and Dot watching the Sun from a shielded bubble"></div>
+  <div class="bubble react"><img src="assets-runtime/standard/page-03/ari-dot-bubble-reaction.webp" alt=""></div>
+
+  <button class="secret helio" data-visitor="helio" aria-label="A glowing clue hiding Helio"></button>
+  <button class="secret umbra" data-visitor="umbra" aria-label="A glowing clue hiding Umbra"></button>
+  <button class="secret flicker" data-visitor="flicker" aria-label="A glowing clue hiding Flicker"></button>
+  <div class="visitor helio" id="helio"><img class="visitor-effect" src="assets-runtime/standard/page-03/effects/helio-shield-shimmer.svg" alt=""><img class="visitor-pose" src="assets-runtime/standard/page-03/helio-rest.webp" alt="Helio, a friendly heat-shield probe"></div>
+  <div class="visitor umbra" id="umbra"><img class="visitor-effect" src="assets-runtime/standard/page-03/effects/umbra-scan-rings.svg" alt=""><img class="visitor-pose" src="assets-runtime/standard/page-03/umbra-hidden.webp" alt="Umbra, a friendly sunspot observer"></div>
+  <div class="visitor flicker" id="flicker"><img class="visitor-effect" src="assets-runtime/standard/page-03/effects/flicker-arrival-sparks.svg" alt=""><img class="visitor-pose" src="assets-runtime/standard/page-03/flicker-arrival.webp" alt="Flicker, a friendly solar scout"></div>
+  <div class="discoveries" id="discoveries">Sun visitors: 0 of 3</div>
+
+  <aside class="detail" id="detail" aria-live="polite">
+    <div class="detail-head"><h3 id="detail-title">Sun feature</h3><button class="detail-close" id="detail-close" aria-label="Close detail">×</button></div>
+    <img class="detail-view" id="detail-image" src="assets-runtime/standard/page-03/granulation-closeup-frame-01.webp" alt="">
+    <p id="detail-copy"></p>
+  </aside>
+
+  <div class="status" id="status" role="status" aria-live="polite"></div>
+
+  <section class="fact-box" aria-label="Five facts about the Sun">
+    <button class="fact-card" data-fact="diameter" aria-pressed="false"><svg viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="71" r="39" fill="#ffb51d" stroke="#123e6d" stroke-width="7"/><circle cx="80" cy="71" r="25" fill="#ffd84a"/><path d="M31 127h98M31 127l12-9M31 127l12 9M129 127l-12-9M129 127l-12 9" fill="none" stroke="#1596c8" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><animate attributeName="d" begin="indefinite" dur="1.15s" values="M45 127h70M45 127l12-9M45 127l12 9M115 127l-12-9M115 127l-12 9;M21 127h118M21 127l12-9M21 127l12 9M139 127l-12-9M139 127l-12 9;M31 127h98M31 127l12-9M31 127l12 9M129 127l-12-9M129 127l-12 9"/></path></svg><span>Diameter:<br>about<br><strong>1.39 million km</strong><br>(about 109 Earths wide)</span></button>
+    <button class="fact-card" data-fact="surface" aria-pressed="false"><svg viewBox="0 0 160 160" aria-hidden="true"><path d="M67 29a18 18 0 0 1 36 0v67a32 32 0 1 1-36 0z" fill="#fff8df" stroke="#123e6d" stroke-width="7"/><circle cx="85" cy="118" r="20" fill="#ef5948"/><rect x="78" y="58" width="14" height="62" rx="7" fill="#ef5948"><animate attributeName="y" begin="indefinite" dur="1.1s" values="91;47;58"/><animate attributeName="height" begin="indefinite" dur="1.1s" values="29;73;62"/></rect><path d="M113 47h15M113 66h10M113 85h15" stroke="#ff9d1d" stroke-width="6" stroke-linecap="round"><animate attributeName="opacity" begin="indefinite" dur="1.1s" values=".2;1;.45"/></path></svg><span>Surface temperature:<br>about<br><strong>5,500°C</strong></span></button>
+    <button class="fact-card" data-fact="core" aria-pressed="false"><svg viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="80" r="56" fill="#ef6b17" stroke="#123e6d" stroke-width="7"/><circle cx="80" cy="80" r="42" fill="#ff9818"/><circle cx="80" cy="80" r="28" fill="#ffd42e"/><circle cx="80" cy="80" r="13" fill="#fff4a3"><animate attributeName="r" begin="indefinite" dur="1s" values="13;23;13"/><animate attributeName="opacity" begin="indefinite" dur="1s" values=".8;1;.8"/></circle><path d="M80 17v12M80 131v12M17 80h12M131 80h12" stroke="#ffbf2b" stroke-width="6" stroke-linecap="round"/></svg><span>Core temperature:<br>about<br><strong>15 million°C</strong></span></button>
+    <button class="fact-card" data-fact="light" aria-pressed="false"><svg viewBox="0 0 160 160" aria-hidden="true"><circle cx="32" cy="80" r="21" fill="#ffb51d" stroke="#123e6d" stroke-width="6"/><path d="M57 80h59" stroke="#71d6e9" stroke-width="5" stroke-linecap="round" stroke-dasharray="7 8"/><circle cx="64" cy="80" r="7" fill="#ffd84a" stroke="#fff" stroke-width="3"><animate attributeName="cx" begin="indefinite" dur="1.25s" values="57;116"/><animate attributeName="opacity" begin="indefinite" dur="1.25s" values="0;1;0"/></circle><circle cx="129" cy="80" r="20" fill="#1998c8" stroke="#123e6d" stroke-width="6"/><path d="M122 72q12 2 17 12q-9 9-20 4" fill="#7ebf55"/><path d="M129 50V39M129 121v-11" stroke="#ffb51d" stroke-width="5" stroke-linecap="round"/></svg><span>Sunlight takes<br>about <strong>8 minutes</strong><br>to reach Earth.</span></button>
+    <button class="fact-card" data-fact="gravity" aria-pressed="false"><svg viewBox="0 0 160 160" aria-hidden="true"><ellipse cx="80" cy="80" rx="64" ry="34" fill="none" stroke="#71d6e9" stroke-width="4" stroke-dasharray="8 7"/><circle cx="80" cy="80" r="26" fill="#ffb51d" stroke="#123e6d" stroke-width="6"/><g><circle cx="144" cy="80" r="9" fill="#1998c8" stroke="#123e6d" stroke-width="4"/><animateTransform attributeName="transform" type="rotate" begin="indefinite" dur="1.35s" values="0 80 80;360 80 80"/></g><g><circle cx="34" cy="58" r="7" fill="#7ebf55" stroke="#123e6d" stroke-width="3"/><animateTransform attributeName="transform" type="rotate" begin="indefinite" dur="1.35s" values="0 80 80;-360 80 80"/></g><circle cx="80" cy="80" r="34" fill="none" stroke="#ff9d1d" stroke-width="4" opacity=".4"><animate attributeName="r" begin="indefinite" dur="1.35s" values="45;28;34"/><animate attributeName="opacity" begin="indefinite" dur="1.35s" values="0;.75;0"/></circle></svg><span>The Sun’s gravity<br>helps keep the<br>solar system together.</span></button>
+  </section>
+
+  <div class="toolbar"><button id="sound" aria-pressed="true">Sound on</button><button id="motion" aria-pressed="false" title="Stop everything on the page from moving (reduced motion)">Calm mode</button><button id="reset">Replay</button><button id="fullscreen" type="button" aria-label="Full screen">Full screen</button><button id="quality" type="button" aria-pressed="false">Standard art</button></div>
+</section>
+</main>
+<!-- NARRATION:JS -->
+<script>
+window.__NARRATION = {
+ "Sun": "p02-narrator-05-sun.m4a",
+ "The Sun is a giant sphere of hot, moving plasma.": "p03-narrator-01-the-sun-is-a-giant-sphere.m4a",
+ "The Sun is our star. Its hot moving plasma makes sunspots, bubbling granules, prominences, and powerful solar flares.": "p03-narrator-02-the-sun-is-our-star-its.m4a",
+ "My shield helps protect me from the Sun's powerful heat.": "p03-visitor-03-my-shield-helps-protect-me-from.m4a",
+ "I found a cooler, darker sunspot!": "p03-visitor-04-i-found-a-cooler-darker-sunspot.m4a",
+ "That bright flash was a solar flare!": "p03-visitor-05-that-bright-flash-was-a-solar.m4a",
+ "A prominence is a huge loop of glowing plasma guided by the Sun's magnetic fields.": "p03-narrator-06-a-prominence-is-a-huge-loop.m4a",
+ "Sunspots look dark because they are cooler than the area around them.": "p03-narrator-07-sunspots-look-dark-because-they-are.m4a",
+ "Hot plasma rises, cools, and sinks, making the surface look bubbly.": "p03-narrator-08-hot-plasma-rises-cools-and-sinks.m4a",
+ "A solar flare is a sudden burst of energy from the Sun.": "p03-narrator-09-a-solar-flare-is-a-sudden.m4a",
+ "The Sun is about 1.39 million kilometres wide. About 109 Earths could fit across it.": "p03-narrator-10-the-sun-is-about-1-39.m4a",
+ "The Sun's visible surface is about 5,500 degrees Celsius.": "p03-narrator-11-the-sun-s-visible-surface-is.m4a",
+ "The Sun's core is about 15 million degrees Celsius.": "p03-narrator-12-the-sun-s-core-is-about.m4a",
+ "Sunlight takes about 8 minutes to reach Earth.": "p03-narrator-13-sunlight-takes-about-8-minutes-to.m4a",
+ "The Sun's gravity helps hold the solar system together.": "p03-narrator-14-the-sun-s-gravity-helps-hold.m4a",
+ "Sun. Our own star, a giant ball of hot glowing gas.": "p03-narrator-15-sun-our-own-star-a-giant.m4a"
+};
+window.__NARRATION_BASE = "assets-runtime/narration/";
+(function () {
+  /* Generated by tools/wire-narration.py. Do not edit by hand. */
+  var MAP = window.__NARRATION || {}, BASE = window.__NARRATION_BASE || "";
+  var synth = window.speechSynthesis;
+  if (!synth || !synth.speak) return;
+  var realSpeak = synth.speak.bind(synth), realCancel = synth.cancel.bind(synth);
+  var el = null, token = 0;
+
+  function stop() {
+    token++;
+    if (el) { el.onended = null; el.onerror = null; try { el.pause(); } catch (e) {} }
+  }
+
+  /* Muting calls cancel(). Without this an <audio> element keeps playing and the
+     tap appears to do nothing. */
+  synth.cancel = function () { stop(); realCancel(); };
+
+  synth.speak = function (utterance) {
+    var text = utterance && utterance.text ? String(utterance.text).trim() : "";
+    var file = MAP[text];
+    if (!file) return realSpeak(utterance);   /* no clip: the robot keeps the line */
+    stop();
+    var mine = ++token;
+    if (!el) el = new Audio();
+
+    /* A clip that cannot load must not leave a child in silence, so a failure
+       falls back to the very utterance we intercepted. The token stops a
+       superseded clip's late error from talking over whatever is playing now.
+
+       ONE RETRY BEFORE THE ROBOT (owner decision, 2026-09-09). A dropped request
+       on the wifi is indistinguishable here from a clip that does not exist, and
+       both used to go straight to the OS voice. The owner heard exactly that --
+       one page robotic, the rest in Ari's voice -- and a transient miss is the
+       only thing that explains a robot page that moves around, since every one of
+       the book's 405 lines is mapped, rendered and published. So a failure gets a
+       second attempt, cache-bypassed, before the fallback. The cost when a file is
+       genuinely gone is one extra request; the gain when the network hiccuped is a
+       child hearing Ari instead of an adult robot. AUDIO-DIRECTION.md: no OS
+       voices. */
+    var attempt = 0;
+    function play() {
+      if (mine !== token) return;
+      /* The retry must not be answered from the same failed cache entry. */
+      el.src = BASE + file + (attempt ? "?retry=" + attempt : "");
+      var played = el.play();
+      if (played && played.catch) played.catch(onFail);
+    }
+    function onFail() {
+      if (mine !== token) return;
+      if (attempt++ < 1) { play(); return; }
+      token++;
+      el.onerror = null;
+      realSpeak(utterance);
+    }
+    el.onerror = onFail;
+    play();
+  };
+})();
+</script>
+<!-- /NARRATION:JS -->
+<script>
+(()=>{"use strict";
+/* Runtime asset tiers. assets/ holds the masters and is never loaded by a page;
+   assets-runtime/{standard,high}/ hold the derivatives -- identical trees apart
+   from one path segment, so changing tier is a path swap. The markup ships
+   standard/, so the default costs no JS at all. rt() maps a master path onto
+   the ACTIVE tier for the handful of paths this page builds at runtime, and
+   retier() re-points what is already in the DOM when the tier changes. */
+let rtTier="standard";try{if(localStorage.getItem("sb-quality")==="high")rtTier="high"}catch(e){}
+const rt=p=>(p=String(p),p.startsWith("assets-runtime/")?p.replace(/^assets-runtime\/(standard|high)\//,"assets-runtime/"+rtTier+"/"):"assets-runtime/"+rtTier+"/"+p.replace(/^assets\//,"").replace(/\.png$/i,".webp"));
+const retier=()=>{const s=x=>x.replace(/assets-runtime\/(standard|high)\//g,"assets-runtime/"+rtTier+"/");document.querySelectorAll("img[src]").forEach(i=>{const o=i.getAttribute("src"),n=s(o);if(n!==o)i.setAttribute("src",n)});document.querySelectorAll("[style*='assets-runtime/']").forEach(e=>{const o=e.getAttribute("style"),n=s(o);if(n!==o)e.setAttribute("style",n)});document.querySelectorAll("style").forEach(e=>{const o=e.textContent;if(o.indexOf("assets-runtime/")<0)return;const n=s(o);if(n!==o)e.textContent=n})};
+/* The high tier is not always there. `assets-runtime/high/` is sidecar-only and
+   the public export ships standard alone, so "Sharper" used to repoint every
+   path at a tier with no files behind it and break every image on the page --
+   and localStorage kept the reader there across pages and sessions, so one tap
+   left a child with a broken book until they happened to tap back. Probe one
+   real asset before committing to the tier, and treat a STORED "high" the same
+   way, which is what rescues anyone already stranded by an older build.
+   Deliberately not a preload of the whole tier: one image answers the only
+   question that matters, and a miss costs one 404. */
+const probeHigh=()=>new Promise(res=>{const el=document.querySelector('img[src*="assets-runtime/"]');if(!el)return res(false);const im=new Image();im.onload=()=>res(true);im.onerror=()=>res(false);im.src=el.getAttribute("src").replace(/assets-runtime\/(standard|high)\//,"assets-runtime/high/")});
+let highTier=null;const highReady=async()=>{if(highTier===null)highTier=await probeHigh();return highTier};
+const forgetTier=()=>{try{localStorage.removeItem("sb-quality")}catch(e){}};
+if(rtTier==="high"){rtTier="standard";highReady().then(ok=>{if(ok){rtTier="high";retier()}else forgetTier();syncQuality()})}
+/* Narration. The map and base now come from the shared block that
+     tools/wire-narration.py writes above -- one AAC .m4a per line under
+     assets-runtime/narration/, keyed by the exact line text, which is why no
+     call site changed. narrate() returns false on a miss and the caller falls
+     through to speechSynthesis, so a line without a clip behaves as before.
+     Superseded 2026-08-28: this used to be MP3s under assets/audio/, which is
+     git-ignored and never shipped -- that is how the 2026-08-07 edge-tts render
+     became invisible. Those files are gone and the edge/azure note with them;
+     the voice is ElevenLabs now. Do not point this back. */
+const NARRATION = window.__NARRATION;
+const NARRATION_BASE = window.__NARRATION_BASE;
+let narrationAudio=null,narrationToken=0;
+const stopNarration=()=>{try{if(narrationAudio){narrationToken++;narrationAudio.onended=null;narrationAudio.onerror=null;narrationAudio.pause()}}catch(e){}};
+const narrate=(text,onend,fallback)=>{
+    /* Generated by tools/wire-narration.py. Do not edit by hand. */
+    const f = NARRATION[String(text).trim()];
+    if (!f) return false;                    /* no clip: the caller keeps the line */
+    try {
+      stopNarration();
+      if (!narrationAudio) narrationAudio = new Audio();
+      const my = ++narrationToken;
+      let attempt = 0;
+      /* One retry before the fallback, matching the shim -- see its comment. A
+         dropped request and a missing file look identical from here, and only one
+         of them should cost a child the recorded voice. */
+      const fail = () => {
+        if (my !== narrationToken) return;   /* superseded: stay quiet */
+        if (attempt++ < 1) { start(); return; }
+        narrationToken++;
+        narrationAudio.onended = null;
+        narrationAudio.onerror = null;
+        (fallback || onend || (() => {}))();
+      };
+      const start = () => {
+        if (my !== narrationToken) return;
+        narrationAudio.onended = () => { if (my === narrationToken && onend) onend(); };
+        narrationAudio.onerror = fail;
+        /* The retry must not be answered from the same failed cache entry. */
+        narrationAudio.src = NARRATION_BASE + f + (attempt ? "?retry=" + attempt : "");
+        const p = narrationAudio.play();
+        if (p && p.catch) p.catch(fail);
+      };
+      start();
+      return true;
+    } catch (e) { return false; }
+  };
+const syncQuality=()=>{const b=document.getElementById("quality");if(!b)return;b.textContent=rtTier==="high"?"Sharper art":"Standard art";b.setAttribute("aria-pressed",String(rtTier==="high"))};
+const qb=document.getElementById("quality");if(qb)qb.onclick=async()=>{if(rtTier==="high"){rtTier="standard";try{localStorage.setItem("sb-quality",rtTier)}catch(e){}retier();syncQuality();return}qb.disabled=true;const ok=await highReady();qb.disabled=false;if(!ok){forgetTier();qb.textContent="✦ Standard only";qb.title="Sharper pictures are not included in this build";setTimeout(()=>{qb.removeAttribute("title");syncQuality()},2600);return}rtTier="high";try{localStorage.setItem("sb-quality",rtTier)}catch(e){}retier();syncQuality()};
+syncQuality();
+const A="assets/page-03/",stage=document.getElementById("stage"),sun=document.getElementById("sun"),sunImage=document.getElementById("sun-image"),status=document.getElementById("status");
+const idleFrames=["sun-main-frame-01.png","sun-main-frame-02.png","sun-main-frame-03.png","sun-main-frame-04.png"].map(x=>rt(A+x));
+const eventFrames={prominence:[1,2,3,4,5].map(n=>rt(A+`prominence-frame-0${n}.png`)),flare:[1,2,3,4,5].map(n=>rt(A+`solar-flare-frame-0${n}.png`))};
+const features={
+  prominence:{title:"Prominence",speech:"A prominence is a huge loop of glowing plasma guided by the Sun's magnetic fields.",copy:"A prominence is a huge loop of glowing plasma guided by magnetic fields."},
+  sunspot:{title:"Sunspots",speech:"Sunspots look dark because they are cooler than the area around them.",copy:"Sunspots are cooler, darker regions shaped by powerful magnetic fields.",close:"sunspot-closeup-frame"},
+  granulation:{title:"Granulation",speech:"Hot plasma rises, cools, and sinks, making the surface look bubbly.",copy:"Hot plasma rises, cools and sinks, creating a constantly changing pattern.",close:"granulation-closeup-frame"},
+  flare:{title:"Solar flare",speech:"A solar flare is a sudden burst of energy from the Sun.",copy:"A solar flare is a sudden bright burst of energy and radiation."}
+};
+const facts={
+  diameter:"The Sun is about 1.39 million kilometres wide. About 109 Earths could fit across it.",
+  surface:"The Sun's visible surface is about 5,500 degrees Celsius.",
+  core:"The Sun's core is about 15 million degrees Celsius.",
+  light:"Sunlight takes about 8 minutes to reach Earth.",
+  gravity:"The Sun's gravity helps hold the solar system together."
+};
+const visitorData={
+  helio:{rest:"helio-rest.png",active:"helio-wave.png",speech:"My shield helps protect me from the Sun's powerful heat.",notes:[523.25,659.25,783.99],shape:"sine"},
+  umbra:{rest:"umbra-hidden.png",active:"umbra-revealed.png",speech:"I found a cooler, darker sunspot!",notes:[330,440,330],shape:"triangle"},
+  flicker:{rest:"flicker-arrival.png",active:"flicker-wave.png",speech:"That bright flash was a solar flare!",notes:[392,523.25,659.25],shape:"sine"}
+};
+let soundOn=true,reduced=false,sunActive=true,eventActive=false,idleIndex=0,idleTimer=0,eventTimers=[],detailTimer=0,detailCloseTimer=0,statusTimer=0,reactTimer=0,activeVisitor="",found=new Set(),speechVoices=[];
+function showStatus(text,ms=4200){clearTimeout(statusTimer);const hint=document.querySelector(".hint");status.textContent=text;status.classList.add("show");hint?.classList.add("muted");statusTimer=setTimeout(()=>{status.classList.remove("show");hint?.classList.remove("muted")},ms)}
+function refreshSpeechVoices(){if(!("speechSynthesis" in window))return;try{speechVoices=speechSynthesis.getVoices()||[]}catch(e){speechVoices=[]}}
+function preferredVoice(role){refreshSpeechVoices();const english=speechVoices.filter(v=>!v.lang||/^en[-_]/i.test(v.lang)),pool=english.length?english:speechVoices,choices=role==="visitor"?["Junior","Eddy","Reed","Rocko","Alex","Aaron","Arthur"]:["Daniel","Reed (English (US))","Reed","Eddy (English (US))","Eddy","Rocko (English (US))","Rocko","Alex","Aaron","Arthur","Junior"];for(const choice of choices){const voice=pool.find(v=>v.name===choice||v.name.startsWith(`${choice} (`));if(voice)return voice}return pool.find(v=>v.default)||pool[0]||null}
+function speak(text,role="narrator"){if(!soundOn)return;const synth=()=>{if(!("speechSynthesis" in window)||!("SpeechSynthesisUtterance" in window))return;try{const u=new SpeechSynthesisUtterance(text),voice=preferredVoice(role);if(voice)u.voice=voice;u.rate=role==="visitor"?1.02:.96;u.pitch=role==="visitor"?1.15:1.08;u.volume=.96;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}};if(narrate(text,null,synth))return;synth()}
+refreshSpeechVoices();try{speechSynthesis.addEventListener?.("voiceschanged",refreshSpeechVoices)}catch(e){}
+function cue(notes=[440],shape="sine"){if(!soundOn)return;const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)return;const ctx=cue.ctx||(cue.ctx=new Audio);ctx.resume?.();notes.forEach((freq,i)=>{const start=ctx.currentTime+i*.12,o=ctx.createOscillator(),g=ctx.createGain();o.type=shape;o.frequency.value=freq;g.gain.setValueAtTime(.001,start);g.gain.exponentialRampToValueAtTime(.055,start+.025);g.gain.exponentialRampToValueAtTime(.001,start+.2);o.connect(g).connect(ctx.destination);o.start(start);o.stop(start+.23)})}
+function idleStep(){clearTimeout(idleTimer);if(!sunActive||eventActive||reduced)return;idleIndex=(idleIndex+1)%idleFrames.length;sunImage.src=idleFrames[idleIndex];idleTimer=setTimeout(idleStep,460)}
+function describeSun(){sun.classList.remove("active");void sun.offsetWidth;sun.classList.add("active");cue([330,440,550]);speak("The Sun is a giant sphere of hot, moving plasma.");showStatus("The Sun is a giant sphere of hot, moving plasma.")}
+sun.onclick=describeSun;document.getElementById("start-sun").onclick=describeSun;
+function react(){clearTimeout(reactTimer);stage.classList.add("reacting");reactTimer=setTimeout(()=>stage.classList.remove("reacting"),2400)}
+function playEvent(kind){if(eventActive)return;eventActive=true;clearTimeout(idleTimer);const frames=eventFrames[kind];let i=0;sunImage.src=frames[0];if(reduced){sunImage.src=frames[Math.floor(frames.length/2)];eventTimers.push(setTimeout(()=>{eventActive=false;sunImage.src=idleFrames[idleIndex]},650));return}const next=()=>{i++;if(i<frames.length){sunImage.src=frames[i];eventTimers.push(setTimeout(next,340))}else{eventTimers.push(setTimeout(()=>{eventActive=false;sunImage.src=idleFrames[idleIndex];idleStep()},390))}};eventTimers.push(setTimeout(next,340))}
+const detail=document.getElementById("detail"),detailImage=document.getElementById("detail-image"),detailTitle=document.getElementById("detail-title"),detailCopy=document.getElementById("detail-copy");
+function closeDetail(){clearTimeout(detailTimer);clearTimeout(detailCloseTimer);detail.classList.remove("show")}
+function openDetail(kind){const f=features[kind];clearTimeout(detailTimer);clearTimeout(detailCloseTimer);detailTitle.textContent=f.title;detailCopy.textContent=f.copy;detailImage.alt=`Magnified ${f.title.toLowerCase()}`;let n=1;detailImage.src=rt(A+`${f.close}-01.png`);detail.classList.add("show");const step=()=>{if(!detail.classList.contains("show")||reduced)return;n=n%3+1;detailImage.src=rt(A+`${f.close}-0${n}.png`);detailTimer=setTimeout(step,520)};detailTimer=setTimeout(step,520);detailCloseTimer=setTimeout(closeDetail,7000)}
+document.getElementById("detail-close").onclick=closeDetail;
+document.querySelectorAll(".feature").forEach(b=>b.onclick=()=>{const kind=b.dataset.feature,f=features[kind];document.querySelectorAll(".feature").forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");react();cue(kind==="flare"?[392,523,659]:kind==="prominence"?[330,392,494]:[440,520]);speak(f.speech);showStatus(f.speech);if(kind==="flare"||kind==="prominence")playEvent(kind);else openDetail(kind);eventTimers.push(setTimeout(()=>b.setAttribute("aria-pressed","false"),1900))});
+document.querySelectorAll(".fact-card").forEach(b=>b.onclick=()=>{document.querySelectorAll(".fact-card").forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");if(!reduced)b.querySelectorAll("animate,animateTransform").forEach(a=>a.beginElement());cue([520,660]);speak(facts[b.dataset.fact]);showStatus(facts[b.dataset.fact]);eventTimers.push(setTimeout(()=>b.setAttribute("aria-pressed","false"),2200))});
+function revealVisitor(id){if(activeVisitor)return;activeVisitor=id;const d=visitorData[id],el=document.getElementById(id),pose=el.querySelector(".visitor-pose");if(!found.has(id))found.add(id);pose.src=rt(A+d.active);el.classList.remove("departing");el.classList.add("found");cue(d.notes,d.shape);speak(d.speech,"visitor");showStatus(`✦ ${d.speech}`);const count=document.getElementById("discoveries");count.textContent=`Sun visitors: ${found.size} of 3`;count.classList.add("show");eventTimers.push(setTimeout(()=>el.classList.add("departing"),3600));eventTimers.push(setTimeout(()=>{el.classList.remove("found","departing");pose.src=rt(A+d.rest);activeVisitor=""},4600))}
+document.querySelectorAll(".secret").forEach(b=>b.onclick=()=>revealVisitor(b.dataset.visitor));
+document.getElementById("listen").onclick=()=>{if(!soundOn){soundOn=true;syncSound()}speak("The Sun is our star. Its hot moving plasma makes sunspots, bubbling granules, prominences, and powerful solar flares.");showStatus("The Sun is our star—hot, active, and always changing.")};
+function syncSound(){const b=document.getElementById("sound");b.textContent=soundOn?"Sound on":"Sound off";b.setAttribute("aria-pressed",String(soundOn))}
+document.getElementById("sound").onclick=()=>{soundOn=!soundOn;if(!soundOn){stopNarration();try{speechSynthesis.cancel()}catch(e){}}syncSound()};
+document.getElementById("motion").onclick=e=>{reduced=!reduced;stage.classList.toggle("reduce-motion",reduced);e.currentTarget.textContent=reduced?"Full motion":"Calm mode";e.currentTarget.setAttribute("aria-pressed",String(reduced));clearTimeout(idleTimer);clearTimeout(detailTimer);if(!reduced){idleStep();if(detail.classList.contains("show")){const kind=detailTitle.textContent==="Sunspots"?"sunspot":"granulation";openDetail(kind)}}};
+document.getElementById("reset").onclick=()=>{clearTimeout(idleTimer);clearTimeout(detailTimer);clearTimeout(detailCloseTimer);clearTimeout(statusTimer);clearTimeout(reactTimer);eventTimers.forEach(clearTimeout);eventTimers=[];stopNarration();try{speechSynthesis.cancel()}catch(e){}sunActive=true;eventActive=false;idleIndex=0;activeVisitor="";found.clear();sunImage.src=idleFrames[0];sun.classList.remove("active");stage.classList.remove("reacting");closeDetail();document.querySelectorAll(".feature,.fact-card").forEach(x=>x.setAttribute("aria-pressed","false"));document.querySelectorAll(".visitor").forEach(el=>{el.classList.remove("found","departing");const id=el.id;el.querySelector(".visitor-pose").src=rt(A+visitorData[id].rest)});const count=document.getElementById("discoveries");count.textContent="Sun visitors: 0 of 3";count.classList.remove("show");showStatus("Ready to explore the Sun again.");idleStep()};
+document.getElementById("back-page-2").onclick=()=>{stopNarration();try{speechSynthesis.cancel()}catch(e){}};
+idleStep();
+
+
+
+
+
+/* NAMEPLATES:JS */
+/* Name boxes. Two targets, two answers: the drawing tells you what the world
+   is, the label tells you only what it is called. Both route through this
+   page's own narration helper so the sound toggle and status line keep working.
+   The leading semicolon is load-bearing: pages 7-10 end their last statement
+   without one, and a following line that opens with `(` is parsed as a call on
+   that statement's value -- `classList.add('reduced')(...)` -- which throws and
+   silently takes this whole block with it. The boxes still looked right and
+   simply never spoke. */
+;(()=>{const parts=[...document.querySelectorAll('.np-body,.np-label')];
+if(!parts.length)return;
+const tell=(typeof say==='function')?say
+:(typeof showStatus==='function'&&typeof speak==='function')?(t=>{showStatus(t);speak(t)})
+:(t=>{if(!window.speechSynthesis)return;speechSynthesis.cancel();
+const u=new SpeechSynthesisUtterance(t);u.rate=.92;u.pitch=1.06;speechSynthesis.speak(u)});
+/* The page's own picture of the body, made to speak the same sentence the
+   drawing in the plate speaks. A four-year-old aims at the planet, not at the
+   38px emblem beside it. Only plates that name an inert piece of art carry
+   `data-art`; anything the page already wired keeps its own behaviour. */
+document.querySelectorAll('.np[data-art]').forEach(p=>{
+const el=document.querySelector(p.dataset.art),src=p.querySelector('.np-body');
+if(!el||el.dataset.npArt)return;el.dataset.npArt='1';
+el.style.pointerEvents='auto';el.style.cursor='pointer';
+/* stopPropagation, because Page 6 nests the Moon inside the Earth group: a
+   tap on the Moon reached both handlers and the outer one, firing last, said
+   "Earth" over it. */
+el.addEventListener('click',e=>{e.stopPropagation();src.click()})});
+let offTimer;parts.forEach(b=>b.addEventListener('click',()=>{
+const plate=b.closest('.np');
+document.querySelectorAll('.np').forEach(x=>x.classList.toggle('np-on',x===plate));
+clearTimeout(offTimer);offTimer=setTimeout(()=>plate.classList.remove('np-on'),2600);
+tell(b.dataset.say)}))})();
+/* /NAMEPLATES:JS */
+})();
+</script>
+<script>
+(()=>{const nav=document.querySelector(".page-nav"),jump=nav.querySelector(".page-jump"),form=nav.querySelector(".page-goto"),input=form.querySelector("input");let timer=0,longPress=false;const open=()=>{longPress=true;form.hidden=false;input.select();input.focus()};jump.addEventListener("pointerdown",()=>{longPress=false;timer=setTimeout(open,650)});["pointerup","pointercancel","pointerleave"].forEach(type=>jump.addEventListener(type,()=>clearTimeout(timer)));jump.addEventListener("click",e=>{if(longPress)e.preventDefault()});jump.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();open()}});jump.addEventListener("contextmenu",e=>{e.preventDefault();open()});form.addEventListener("submit",e=>{e.preventDefault();const page=Number(input.value);if(page<1||page>19)return;try{speechSynthesis.cancel()}catch(err){}location.href=`page-${String(page).padStart(2,"0")}.html`});document.addEventListener("pointerdown",e=>{if(!nav.contains(e.target))form.hidden=true})})();
+
+/* Shared fullscreen toggle, ported from page 1 so every page has it. Fails
+   safe: the control hides itself where the API is unavailable or blocked
+   (older iOS Safari, some embedded webviews) rather than dead-clicking. */
+(()=>{const b=document.getElementById("fullscreen");if(!b)return;const t=document.documentElement;if(!t.requestFullscreen){b.hidden=true;return}b.addEventListener("click",()=>{if(document.fullscreenElement)document.exitFullscreen();else t.requestFullscreen().catch(()=>{})});})();
+
+/* Hide the picture-quality control unless the sharper tier is really there.
+   It is sidecar-only and unpublished, so on the live site it would otherwise be
+   a button that can only ever say "Standard only". Same rule the fullscreen
+   button already follows. The probe costs one 404 and re-shows the control the
+   moment the tier exists. */
+;(()=>{const q=document.getElementById('quality');if(!q)return;
+const el=document.querySelector('img[src*="assets-runtime/"]');if(!el){q.hidden=true;return}
+const im=new Image();im.onerror=()=>{q.hidden=true};
+im.src=el.getAttribute('src').replace(/assets-runtime\/(standard|high)\//,'assets-runtime/high/')})();
+</script>
+<!-- SERVICEWORKER:JS -->
+<script>
+/* Generated by tools/wire-service-worker.py. Do not edit by hand. */
+if ("serviceWorker" in navigator) {
+  addEventListener("load", function () {
+    Promise.resolve() /* Test Hub staging: no service worker */.catch(function () {});
+  });
+}
+</script>
+<!-- /SERVICEWORKER:JS -->
+  </body>
+</html>
