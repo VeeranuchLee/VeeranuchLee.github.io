@@ -1144,18 +1144,17 @@ body[data-view="world"] .chrome-btn {
    leaves for them. Only spread A has a plate so far.                          */
 .stage--chapter.stage--painted {
   container-type: size;
-  background-color: #f3e6c8;
-  background-size: 100% 100%;
+  background: linear-gradient(180deg, #fbf5e6, #f3e6c8);
 }
 .rt--painted { padding: 1.6% 2.2% 1.8%; gap: .9%; }
 .rt--painted::before, .rt--painted::after {
-  content: ''; position: absolute; left: 0; right: 0; pointer-events: none; z-index: 0;
+  content: ''; position: absolute; left: 0; right: 0; pointer-events: none; z-index: 1;
 }
 /* Soft parchment washes under the header band and the dialogue band. */
 .rt--painted::before { top: 0; height: 20%; background: linear-gradient(180deg, rgba(251, 245, 230, .92) 55%, rgba(251, 245, 230, 0)); }
-.rt--painted::after { bottom: 0; height: 30%; background: linear-gradient(0deg, rgba(251, 245, 230, .9) 45%, rgba(251, 245, 230, 0)); }
+.rt--painted::after { bottom: 0; height: 27%; background: linear-gradient(0deg, rgba(251, 245, 230, .9) 45%, rgba(251, 245, 230, 0)); }
 .rt--painted > * { position: relative; z-index: 2; }
-.rt--painted > .rt-scene { position: absolute; inset: 0; z-index: 1; }
+.rt--painted > .rt-scene { position: absolute; inset: 0; z-index: 0; }
 
 .rt--painted .rt-top { gap: 1.6cqw; }
 .rt--painted .rt-top .round-btn { flex: none; min-width: 48px; min-height: 48px; }
@@ -1168,7 +1167,9 @@ body[data-view="world"] .chrome-btn {
 .rt--painted .rt-marks { padding: 0 1cqw; }
 
 .rt-scene--painted {
-  border: 0; border-radius: 0; background: none; padding: 0; display: block; overflow: visible;
+  container-type: size;      /* in-plate cq units measure the plate, not the stage */
+  border: 0; border-radius: 0; padding: 0; display: block; overflow: visible;
+  background-color: #f3e6c8; background-size: 100% 100%; background-repeat: no-repeat;
 }
 .rt-flow { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
 .rt-flow__lead, .rt-flow__branch {
@@ -1287,14 +1288,11 @@ body[data-view="world"] .chrome-btn {
   flex: none; display: flex; flex-direction: column; align-items: center;
   width: clamp(40px, 6.2cqw, 62px);
 }
-.rt-portrait__face {
-  width: clamp(32px, 4.8cqw, 48px); aspect-ratio: 1; border-radius: 50%;
-  display: grid; place-content: center;
-  font-family: Georgia, serif; font-weight: 700; font-size: clamp(16px, 2.6cqw, 26px); color: #6b4d0f;
-  background: radial-gradient(circle at 38% 32%, #fffaf0, #f2e3bd);
+.rt-portrait__img {
+  display: block; width: clamp(34px, 5.2cqw, 52px); aspect-ratio: 1; object-fit: cover;
+  border-radius: 50%; background: #f6ecd4;
   box-shadow: 0 0 0 2.5px #c49a3a, 0 0 0 4px #fff6df, 0 2px 6px rgba(60, 40, 10, .35);
 }
-.rt-say--knowing .rt-portrait__face { color: #2f4f73; }
 .rt-portrait small {
   margin-top: 1px; font-size: clamp(9px, 1.15cqw, 12px); font-weight: 800; letter-spacing: .02em;
   color: #6b4d0f; line-height: 1.1;
@@ -1315,6 +1313,35 @@ body[data-view="world"] .chrome-btn {
 .rt--painted .rt-foot { min-height: 48px; }
 .rt--painted .rt-btn--quiet { font-family: Georgia, serif; color: #3a4a6a; min-height: 44px; padding: 8px 6px; }
 .rt--painted .rt-btn:not(.rt-btn--quiet) { font-family: Georgia, serif; min-width: 120px; min-height: 48px; }
+
+/* Portrait (the 9.7" iPad held upright): no letterbox. The stage and the chrome
+   fill the screen; the 4:3 plate becomes a full-width band between the header
+   and the dialogue, which use the extra height instead of overlaying the art. */
+@media (orientation: portrait) {
+  body.rt-painted .stage.stage--painted,
+  body.rt-painted #chrome { width: 100vw; height: 100vh; height: 100dvh; }
+  .rt--painted { justify-content: flex-start; gap: 1.2cqh; padding-top: 2.4cqh; padding-bottom: 1.6cqh; }
+  .rt--painted::before, .rt--painted::after { display: none; }
+  .rt--painted > .rt-scene {
+    position: relative; inset: auto; flex: none;
+    width: calc(100% + 2 * 2.2cqw); margin: 0 -2.2cqw; aspect-ratio: 4 / 3; height: auto;
+  }
+  .rt-scene--painted::before, .rt-scene--painted::after {
+    content: ''; position: absolute; left: 0; right: 0; height: 9%; pointer-events: none;
+  }
+  .rt-scene--painted::before { top: 0; background: linear-gradient(180deg, #fbf5e6, rgba(251, 245, 230, 0)); }
+  .rt-scene--painted::after { bottom: 0; background: linear-gradient(0deg, #f6ecd6, rgba(246, 236, 214, 0)); }
+  /* The dialogue rises onto the plate's own calm cream band (its bottom
+     quarter, below the desk edge) so three lines and the controls still fit. */
+  .rt--painted .rt-talk { max-width: none; margin-top: -14cqw; }
+  .rt--painted .rt-foot { margin-top: auto; }
+  .rt--painted .rt-bubble { font-size: clamp(14px, 2.2cqw, 20px); }
+  .rt--painted .rt-portrait { width: clamp(64px, 10cqw, 84px); }
+  .rt--painted .rt-portrait__img { width: clamp(56px, 8.4cqw, 72px); }
+  .rt--painted .rt-head h1 { font-size: clamp(26px, 5cqw, 40px); }
+  .rt--painted .rt-head p { font-size: clamp(14px, 2.2cqw, 19px); }
+  .rt--painted .rt-mark { font-size: clamp(11px, 1.7cqw, 14px); padding: 7px 4px; }
+}
 
 /* ── the Toy Piano room ──────────────────────────────────────────────────────
    Owner, 2026-08-27: a Usborne-style play room — song picture tiles, colored

@@ -170,6 +170,11 @@ const PLATES = {
   }
 };
 
+const GUIDE_PORTRAITS = {
+  curious: 'assets/guides/mouse-curious.webp',
+  knowing: 'assets/guides/owl-knowing.webp'
+};
+
 // Small tag charms, drawn rather than typed so they read as pictures on the
 // parchment. Keyed by label id; anything unlisted falls back to its data charm.
 const TAG_ICONS = {
@@ -304,14 +309,14 @@ export function createChapter(deps) {
       <p class="rt-line rt-line--${d.who}"><span class="rt-who">${d.who === 'curious' ? 'Curious' : 'Knowing'}</span>${esc(d.line)}</p>`).join('');
   }
 
-  // Painted spreads: a portrait medallion and a speech bubble per line. The
-  // medallions stay neutral (a question mark and a light) because the permanent
-  // guide cast is still an open owner decision; the role word is the caption.
+  // Painted spreads: a painted portrait and a speech bubble per line. The mouse
+  // and the owl come from the owner's Doorway concept (2026-09-24); the
+  // permanent guide cast is still formally open, so they live only here.
   function paintedDialogueMarkup(lines) {
     return lines.map((d) => `
       <div class="rt-say rt-say--${d.who}">
         <span class="rt-portrait" aria-hidden="true">
-          <span class="rt-portrait__face">${d.who === 'curious' ? '?' : '!'}</span>
+          <img class="rt-portrait__img" src="${GUIDE_PORTRAITS[d.who]}" alt="">
           <small>${d.who === 'curious' ? 'curious' : 'knowing'}</small>
         </span>
         <p class="rt-bubble"><span class="rt-sr">${d.who === 'curious' ? 'Curious' : 'Knowing'}: </span>${esc(d.line)}</p>
@@ -394,7 +399,7 @@ export function createChapter(deps) {
     const lens = plate.lens;
 
     return `
-      <div class="rt-scene rt-scene--doorway rt-scene--painted${heard ? ' is-heard' : ''}">
+      <div class="rt-scene rt-scene--doorway rt-scene--painted${heard ? ' is-heard' : ''}" style="background-image:url(${plate.art})">
         <svg class="rt-flow" viewBox="0 0 1000 750" aria-hidden="true">
           <defs>
             <filter id="rt-glow" x="-20%" y="-60%" width="140%" height="220%">
@@ -557,7 +562,11 @@ export function createChapter(deps) {
     const talk = done ? [...spr.dialogue.open, ...spr.dialogue.done] : spr.dialogue.open;
 
     stage.className = `stage stage--chapter${plate ? ' stage--painted' : ''}`;
-    stage.style.backgroundImage = plate ? `url(${plate.art})` : '';
+    // The plate is painted on the scene box, not the stage: in landscape the box
+    // IS the stage; in portrait the stage fills the screen and the box is a 4:3
+    // band across it, so the overlays still track the painting (styles.css).
+    stage.style.backgroundImage = '';
+    document.body.classList.toggle('rt-painted', !!plate);
     stage.innerHTML = `
       <div class="rt${plate ? ' rt--painted' : ''}">
         <div class="rt-top">
@@ -688,7 +697,7 @@ export function createChapter(deps) {
       return true;
     },
     active() { return !!chapter; },
-    close() { stop(); chapter = null; },
+    close() { stop(); chapter = null; document.body.classList.remove('rt-painted'); },
     click,
     render
   };
