@@ -1317,7 +1317,7 @@
     @keyframes ncWin{0%{transform:scale(1)}40%{transform:scale(1.04)}100%{transform:scale(1)}}
     .nc-cell{width:var(--nc-cell);height:var(--nc-cell);box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:calc(var(--nc-cell)*.4);border-radius:14px;position:relative;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;transition:box-shadow .15s,transform .12s,opacity .15s}
     .nc-none{visibility:hidden}
-    .nc-given{background:var(--nc-given-bg);color:var(--nc-given-ink);box-shadow:0 3px 0 var(--nc-given-shadow);cursor:pointer}
+    .nc-given{background:var(--nc-given-bg);color:var(--nc-given-ink);box-shadow:0 3px 0 var(--nc-given-shadow)}
     .nc-given-op,.nc-given-eq{background:transparent;box-shadow:none;color:var(--nc-sign-ink);font-size:calc(var(--nc-cell)*.5)}
     .nc-slot{cursor:pointer;background:var(--nc-slot-bg)}
     .nc-slot-num{border:3px dashed var(--nc-num-line);border-radius:14px}
@@ -12370,10 +12370,6 @@ function NumberCrosswordGame({onBack, flowers, gardenFull, setFlowers, setGarden
     if(e.target.closest&&e.target.closest('[data-nc-tile]'))return;
     if(sel&&cellOf[sel])toTray(sel);
   },[sel,cellOf,toTray]);
-  const readGiven=useCallback(c=>{
-    Sound.setMuted(muted);Sound.tap();
-    Voice.say(num(c.kind==='eq'?'equals':c.kind==='op'?CrosswordEngine.NC_OP_WORDS[c.value]:String(c.value)));
-  },[muted]);
   const clearBoard=useCallback(()=>{
     Sound.setMuted(muted);Sound.tap();
     if(won)return;
@@ -12514,8 +12510,12 @@ function NumberCrosswordGame({onBack, flowers, gardenFull, setFlowers, setGarden
     const state=won?'nc-good':lines.some(i=>flagged.indexOf(i)>=0)?'nc-bad':'';
     const focus=focusLine!=null&&lines.indexOf(focusLine)>=0?'nc-focus':'';
     if(!cell.blank){
+      /* Printed cells are print, not controls: nothing here speaks. A read-aloud was
+         tried and removed the same day (2026-09-24) -- the recorded voice has no clip for
+         21 of the numbers 1-100 or for the signs, and the robot (speechSynthesis) is not
+         a child-facing voice (AUDIO-DIRECTION.md). So no cursor, no tap. */
       cells.push(<div key={key} className={`nc-cell nc-given nc-given-${cell.kind} ${state} ${focus}`}
-        onClick={()=>readGiven(cell)} aria-label={cell.kind==='op'?CrosswordEngine.NC_OP_WORDS[cell.value]:String(cell.value)}>{cell.value}</div>);
+        aria-label={cell.kind==='op'?CrosswordEngine.NC_OP_WORDS[cell.value]:String(cell.value)}>{cell.value}</div>);
       continue;
     }
     const tid=placed[cell.id];
