@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>Our Maze</title>
+<meta name="apple-mobile-web-app-title" content="Our Maze"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="theme-color" content="#f6ead4"/>
+<link rel="icon" href="data:,"/>
+<link rel="stylesheet" href="./css/maze.css"/>
+</head>
+<body>
+<main id="app" aria-live="polite"><p class="loading">Building the maze…</p></main>
+<!-- v1 has no service worker and no web-app manifest on purpose: it is a Test Hub build,
+     and a staged copy must never register a worker (INTERACTION-DIRECTION.md). The
+     offline shell is added when the app is onboarded for publication. -->
+<script src="./assets/sprites/sprites.js"></script>
+<script src="./js/maze-core.js"></script>
+<script src="./js/maze-movement.js"></script>
+<script src="./js/maze-sound.js"></script>
+<script src="./js/maze-app.js"></script>
+</body>
+</html>
