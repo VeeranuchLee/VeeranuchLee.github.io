@@ -301,6 +301,15 @@ button {
   line-height: 1;
 }
 
+.icon img {
+  width: 1em;
+  height: 1em;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: middle;
+  pointer-events: none;
+}
+
 .element-tile .element-name {
   display: block;
   width: 100%;

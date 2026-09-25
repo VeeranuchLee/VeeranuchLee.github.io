@@ -82,7 +82,15 @@
     const icon = document.createElement("span");
     icon.className = "icon";
     icon.setAttribute("aria-hidden", "true");
-    icon.textContent = element.icon;
+    const iconImg = document.createElement("img");
+    iconImg.src = `icons/${String(element.atomicNumber).padStart(3, "0")}-${element.symbol}.webp`;
+    iconImg.alt = "";
+    iconImg.draggable = false;
+    iconImg.onerror = function () {
+      this.onerror = null;
+      this.parentNode.textContent = element.icon;
+    };
+    icon.append(iconImg);
     symbolLine.append(symbol, icon);
 
     const name = document.createElement("span");
@@ -170,7 +178,17 @@
     infoPreview.className = `info-preview ${categoryClass(element.category)}`;
     infoPreview.querySelector(".atomic-number").textContent = String(element.atomicNumber);
     infoPreview.querySelector(".symbol").textContent = element.symbol;
-    infoPreview.querySelector(".icon").textContent = element.icon;
+    const infoIcon = infoPreview.querySelector(".icon");
+    infoIcon.replaceChildren();
+    const infoIconImg = document.createElement("img");
+    infoIconImg.src = `icons/${String(element.atomicNumber).padStart(3, "0")}-${element.symbol}.webp`;
+    infoIconImg.alt = "";
+    infoIconImg.draggable = false;
+    infoIconImg.onerror = function () {
+      this.onerror = null;
+      this.parentNode.textContent = element.icon;
+    };
+    infoIcon.append(infoIconImg);
     infoPreview.querySelector(".element-name").textContent = element.name;
 
     const strong = document.createElement("strong");
