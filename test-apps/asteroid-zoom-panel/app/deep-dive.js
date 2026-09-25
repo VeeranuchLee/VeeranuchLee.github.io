@@ -1053,46 +1053,55 @@
 
      So the art carries the size, in two registers, and nothing else has to:
 
-       THE SIX BIG ONES ARE DRAWN AT TRUE RELATIVE SCALE. Every one of them is
-       `diameter_km x rk`, where `rk` is a single number for the whole screen.
-       They stand on one baseline, largest first, so the lineup itself is the
-       statement. Ceres really is drawn four times Psyche's width, because it
-       is four times Psyche's width.
+       THE SIX BIG ONES ARE DRAWN AT TRUE RELATIVE SCALE under the label
+       "Real size comparison". Every one of them is `diameter_km x rk`, where
+       `rk` is a single number for the whole screen. They stand on one
+       baseline, largest first, so the lineup itself is the statement: Ceres
+       really is drawn four times Psyche's width, because it is four times
+       Psyche's width. The label (owner, 2026-09-25) says in words what the
+       row already shows — and it is what lets the row give up vertical room
+       on a short viewport: `rk` shrinks UNIFORMLY (the relative scale never
+       changes, only the size of the picture), and the "Real size comparison"
+       label keeps the honest meaning the bigger art used to carry alone.
 
-       THE FOUR SMALL ONES SHARE ONE "ZOOMING IN" PANEL (owner, 2026-09-24).
-       At the same `rk` Gaspra is under four pixels — too small to draw and too
+       THE FOUR SMALL ONES SHARE ONE YELLOW-BORDERED "🔍 ZOOMED IN" PANEL
+       (owner, 2026-09-24; re-titled when layout (b) arrived 2026-09-25). At
+       the same `rk` Gaspra is under four pixels — too small to draw and too
        small to tap — so the four small worlds are shown enlarged together
-       inside a single rectangular panel across the bottom row of the menu. The
-       panel names the trick in words, where the old lenses had to suggest it
-       with pictures: a "🔍 Zooming in" label and a written note ("Smaller
-       asteroids, shown larger so you can see more details."). That sentence is
-       what stops the enlargement from reading as a size claim — nobody has to
-       subtract the magnification, because the panel says plainly that the
-       rocks were enlarged so you can see them.
+       inside a single rectangular panel across the bottom of the menu, with
+       a small yellow "🔍 Zoomed in" pill sitting on the panel's top-left
+       border like a tab.
 
-       These four had individual round magnifiers until 2026-09-24, each with
-       a TRUE-SCALE DOT beneath it tied by a short leader, so the honesty lived
-       in the picture: the lens said "enlarged", the dot said "this much", at
-       the same `km x rk` scale as the six big ones. The owner replaced the
-       whole idiom with the shared panel — the round glasses, their leader
-       lines and the scale dots are gone, and what the dots carried now lives
-       in the panel's note. The lens handles had already gone, removed
-       2026-09-23: four handles in a row each ended at the edge of the glass
-       before it and read as one white line threading the four worlds together
-       — a path, an order, a sequence — and there is none. Lutetia, Mathilde,
-       Ida and Gaspra are four separate worlds in no particular order, and the
-       panel has no place for that mistake either: the rocks are spaced apart
-       and nothing runs between them.
+       THE HONESTY LIVES IN THE PICTURE AGAIN. Under each enlarged rock's name
+       sits a faint circle holding that SAME asteroid drawn at the top row's
+       `rk` — its true size, exactly as if it were the sixth body of the
+       comparison — captioned "Actual size (same scale)". That is the round-1
+       true-scale dot, brought back in a new shape (owner, 2026-09-25): the
+       lens says "enlarged", the dot says "this much", at the same scale as
+       the six big ones, so nobody has to read a sentence to undo the
+       magnification — the dot does it in the picture. The old round lenses,
+       their handles and their leader lines stay gone: the dot is a faint
+       ring, not a second magnifier, and nothing runs between the four rocks
+       (Lutetia, Mathilde, Ida and Gaspra are four separate worlds in no
+       particular order — the 2026-09-23 handle removal settled that). The
+       note that carried the honesty in round 2 ("Smaller asteroids, shown
+       larger…") is gone: layout (b) restores the dots it replaced, and on a
+       short landscape viewport keeping both the note and the dots and the
+       owner's specified rock sizes would not fit one screen.
 
      HOW BIG, THEN? Each small rock is sized to a shared target height
      (ZOOM_TARGET below) that fitRoster() measures against the panel's width
-     the same way it measures the belt's `rk`. Inside the zoom panel no body is
-     compared with another, so four rocks of roughly the same size carry no
-     lie; the top row is the only place the picture compares sizes, and there
-     the six are drawn honestly. What the lenses had to solve individually —
-     one magnification that lifted Gaspra to 44px would put Lutetia at 366px —
-     the shared panel sidesteps entirely, because it does not pretend the rocks
-     are to scale with each other either.
+     the same way it measures the belt's `rk`. In landscape the four zoomed
+     rocks grow (zoomTargets() — owner 2026-09-24: "roughly 20-30%", plus the
+     2026-09-25 instruction that they should read ~20-25% bigger than the
+     round-1 ~96px art), and the belt row above gives up the vertical room
+     instead: the panel gets taller, and `rk` shrinks, so the six big bodies
+     keep their true relative scale to one another and stay fully visible.
+     The owner has explicitly allowed the enlarged small ones to draw as big
+     as, or bigger than, Vesta (2026-09-25) — the top row is the only place
+     the picture compares sizes, and there the six are drawn honestly; the
+     zoom panel makes no size claim of its own, and the tiny scale dots stop a
+     child from reading one.
 
      WHY THE SIZE IS COMPUTED AND NOT DECLARED. An earlier draft of this config
      carried a `size` token per body (`xxl`, `lg`, `zoom`). A token beside a
@@ -1108,14 +1117,24 @@
      button drawn over its bounds would eat taps that land nowhere near it and
      steal them from its neighbour. Instead the button itself is transparent to
      the pointer and the SILHOUETTE is the target: `hit` is the same outline
-     bodies.py clips the surface with, painted invisible, with a 14px
-     non-scaling stroke that widens it evenly by 7px all round. The smallest
-     rock on screen is held at 44px of visible art by `rkFloor()` below, and
-     each zoom rock holds a higher floor of its own (ZOOM_MIN below): the four
-     small worlds were drawn inside 102px of glass yesterday, so a target
-     smaller than that is a target that shrank. */
+     bodies.py clips the surface with, painted invisible, with a 28px
+     non-scaling stroke that widens it evenly by 14px all round. The stroke is
+     what makes the touch area an honest 64px: the owner's 2026-09-25 tap rule
+     is 64×64 CSS px, and the smallest visible rock (Psyche, held at
+     ROCK_MIN = 36px of art by `rkFloor()` below) plus 28px of stroke is
+     exactly that floor. Each zoom rock holds a higher floor of its own
+     (ZOOM_MIN below): the four small worlds were drawn inside 102px of glass
+     in round 1, so a target smaller than that is a target that shrank. */
 
-  var ROCK_MIN = 44;     // px of visible rock, on its shorter axis
+  var ROCK_MIN = 36;     // px of visible rock, on its shorter axis
+  /* 36, down from 44 on 2026-09-25, and the tap floor is met by the HIT, not
+     the art: the silhouette's 28px non-scaling stroke (was 14) adds 14px all
+     round, so Psyche's 36px of visible art is a 64px touch target, which is
+     the owner's 2026-09-25 rule. The art could not stay at 44 with a 14px
+     stroke — that was a 58px target — and it could not stay at 44 with the
+     floor raised, because layout (b)'s label, enlarged rocks and scale dots
+     would not fit the 1024×768 landscape. The six bodies keep their true
+     RELATIVE scale whatever this constant is; only the picture's size moves. */
   /* 8px, down from 10 on 2026-09-23. The name pills became tap targets that
      day and got wider with it, and at 768px — the iPad this book is drawn for
      — the six-body lineup then measured the panel's width to the pixel. Two
@@ -1133,13 +1152,34 @@
   /* THE ZOOM PANEL'S SIZE. Each of the four small rocks is drawn at a shared
      target height — the artist's-eye size that reads as "magnified" but still
      lets all four sit cleanly in one panel — and never smaller than ZOOM_MIN.
-     ZOOM_MIN is the art the round lenses showed yesterday: the glass measured
-     `max(102, round(940*rk*0.40))` and the drawing inside it was 82% of the
-     glass, so each world rendered at about 84–92px. A zoomed rock under that
-     is a tap target that shrank, and the panel scrolls before any rock does. */
-  var ZOOM_TARGET = 124;  // px of rock height the panel aims for
+     ZOOM_MIN is the art the round lenses showed in round 1: the glass
+     measured `max(102, round(940*rk*0.40))` and the drawing inside it was 82%
+     of the glass, so each world rendered at about 84–92px. A zoomed rock
+     under that is a tap target that shrank, and the panel scrolls before any
+     rock does. */
+  var ZOOM_TARGET = 124;  // px of rock height the panel aims for (portrait)
   var ZOOM_MIN = 96;      // px of rock height the panel never goes below
-  var ZOOM_GAP = 24;      // px between the four zoom cells — keep in step with .dd-roster-zoom-row
+  var ZOOM_GAP = 20;      // px between the four zoom cells — keep in step with .dd-roster-zoom-row
+  /* The zoom panel's per-orientation sizes (owner, 2026-09-24, adjusted
+     2026-09-25). Held upright the four rocks aim for ZOOM_TARGET. In
+     landscape they aim larger — the 2026-09-25 instruction is that they read
+     ~20-25% bigger than the round-1 ~96px art, i.e. 115–120px at 1024×768,
+     and at 1180×820 the WIP's 155px was already staged and accepted — and
+     fitRoster lets the belt row give up the room instead. The landscape MIN
+     stays at the round-1 floor: the 2026-09-24 "growth" min of 120 could not
+     fit the short landscape once layout (b) added its label, larger rocks and
+     scale dots, and a floor that forces overflow is a floor that lies. Verify
+     in the QC screenshots: zoomed rocks ~115-120px at 1024×768, comfortably
+     ≥ the 64px tap floor, and (owner 2026-09-25) they may draw as big as or
+     bigger than Vesta — the tiny scale dots carry the honesty. */
+  function zoomTargets() {
+    var landscape = document.documentElement.clientWidth >
+                    document.documentElement.clientHeight;
+    return landscape
+      ? { target: Math.round(ZOOM_TARGET * 1.25),
+          min:    ZOOM_MIN }
+      : { target: ZOOM_TARGET, min: ZOOM_MIN };
+  }
   var uidSeq = 0;
 
   /* Re-run after the panel is on screen and after any resize: `rk` is measured,
@@ -1282,10 +1322,10 @@
 
   /* One cell — a rock button and its name pill — for the belt row and for the
      zoom panel. `zoom` marks the four small worlds: they draw the art straight,
-     with no lens and no true-scale dot — the shared panel (and its written
-     note) does the honesty the magnifier used to do by hand — and carry a
-     per-rock `--rk` written by fitRoster() so all four land on one target
-     height. */
+     with no lens and no leader line — the shared panel, its pill and the tiny
+     true-scale dot do the honesty the magnifier used to do by hand — and
+     carry a per-rock `--rk` written by fitRoster() so all four land on one
+     target height. */
   function buildRock(a, zoom) {
     var f = rockFactors(a.key);
     var cell = el("div", "dd-rock-cell");
@@ -1319,6 +1359,26 @@
       pill.appendChild(el("span", "dd-rock-pill-name", a.name));
     }
     cell.appendChild(pill);
+
+    /* THE TRUE-SCALE DOT, ROUND 3 (owner, 2026-09-25). Under each enlarged
+       rock's name: a faint ring holding that SAME body drawn at the top row's
+       scene `rk` — its actual size, exactly as if it were a body of the "Real
+       size comparison" above — captioned "Actual size (same scale)". The ring
+       is not a second magnifier: it is a faint circle, it has no border tab
+       and nothing runs between the four rocks. Purely informational —
+       aria-hidden, not a tap target, never spoken (AUDIO-DIRECTION.md). It
+       carries the scene's inherited `--rk` until fitRoster() writes its own,
+       clamped so the tiniest dot (Gaspra, 12 km) never renders under 3px. */
+    if (zoom) {
+      var tiny = el("div", "dd-rock-tiny");
+      tiny.setAttribute("aria-hidden", "true");
+      var ring = el("span", "dd-rock-tiny-ring");
+      ring.appendChild(rockArt(a.key));
+      styleRock(ring.firstChild, f);
+      tiny.appendChild(ring);
+      tiny.appendChild(el("span", "dd-rock-tiny-cap", "Actual size (same scale)"));
+      cell.appendChild(tiny);
+    }
     return cell;
   }
 
@@ -1359,6 +1419,18 @@
       return;
     }
 
+    /* The head of the whole roster: the "Real size comparison" label over the
+       top row, and — on the same line, top-right — the optional "Tap an
+       asteroid" hint (owner, 2026-09-25: only if it fits and is not clutter).
+       On-screen text only: nothing here is spoken, no __NARRATION key, no
+       speechSynthesis (AUDIO-DIRECTION.md). */
+    var head = el("div", "dd-roster-head");
+    head.appendChild(el("span", "dd-roster-label", "Real size comparison"));
+    var hint = el("span", "dd-tap-hint", "Tap an asteroid");
+    hint.setAttribute("aria-hidden", "true");
+    head.appendChild(hint);
+    scene.appendChild(head);
+
     var belt = el("div", "dd-roster-belt");
     var zoom = el("div", "dd-roster-zoom");
     var zoomRow = el("div", "dd-roster-zoom-row");
@@ -1376,16 +1448,16 @@
       (isZoom ? zoomRow : belt).appendChild(node);
     });
 
-    /* The shared panel's header says what the old magnifier said with a shape:
-       these four are shown bigger so they can be seen, and the note is the
-       honesty. On-screen text only — nothing here is spoken, no __NARRATION
-       key, no speechSynthesis (AUDIO-DIRECTION.md). */
+    /* The shared panel's header: the small yellow "🔍 Zoomed in" pill as a tab
+       on the panel's top-left edge (owner 2026-09-24, re-titled 2026-09-25).
+       The note that sat beside it in rounds 1-2 is gone — layout (b) restores
+       the tiny true-scale dots, which carry the honesty in the picture instead
+       (see buildRock), and the 1024×768 landscape cannot hold the note, the
+       dots and the specified rock sizes on one screen. */
     if (zoomRow.children.length) {
-      var head = el("div", "dd-roster-zoom-head");
-      head.appendChild(el("div", "dd-roster-zoom-title", "🔍 Zooming in"));
-      head.appendChild(el("p", "dd-roster-zoom-note",
-        "Smaller asteroids, shown larger so you can see more details."));
-      zoom.appendChild(head);
+      var zHead = el("div", "dd-roster-zoom-head");
+      zHead.appendChild(el("span", "dd-zoom-pill", "🔍 Zoomed in"));
+      zoom.appendChild(zHead);
       zoom.appendChild(zoomRow);
     }
 
@@ -1448,48 +1520,52 @@
        shared `zH`. The name pill is a fixed width either way, so below a
        certain height the rock is not the wider item and the search stops
        shrinking, exactly as it does for the belt. */
+    var zs = zoomTargets();
     var zGaps = small.length > 1 ? (small.length - 1) * ZOOM_GAP : 0;
     small.forEach(function (it) {
       var pill = it.node.querySelector(".dd-rock-pill");
       it.pill = pill ? pill.offsetWidth : 0;
+      it.tiny = it.node.querySelector(".dd-rock-tiny");
+      it.tinyW = it.tiny ? it.tiny.offsetWidth : 0;
     });
     function zoomWidth(zH) {
       var w = zGaps;
       for (var i = 0; i < small.length; i++) {
-        w += Math.max(small[i].f.aw / small[i].f.ah * zH, small[i].pill);
+        /* A zoom cell is the wider of its rock, its name pill and its
+           "Actual size" strip — the strip's caption can out-width the pill,
+           and a row that ignores that wraps instead of shrinking. */
+        w += Math.max(small[i].f.aw / small[i].f.ah * zH,
+                      small[i].pill, small[i].tinyW || 0);
       }
       return w;
     }
     var zRoom = (zoomRow.clientWidth || 0) - ROW_SLACK;
-    var zH = ZOOM_TARGET;
+    var zH = zs.target;
     if (zRoom > 0 && zoomWidth(zH) > zRoom) {
-      var zLo = Math.min(ZOOM_MIN, ZOOM_TARGET), zHi = ZOOM_TARGET;
+      var zLo = Math.min(zs.min, zs.target), zHi = zs.target;
       for (var zi = 0; zi < 24; zi++) {
         var zMid = (zLo + zHi) / 2;
         if (zoomWidth(zMid) <= zRoom) zLo = zMid; else zHi = zMid;
       }
       zH = zLo;
     }
-    /* ZOOM_MIN wins last, exactly as the belt's rkFloor does: a zoomed rock
+    /* zs.min wins last, exactly as the belt's rkFloor does: a zoomed rock
        smaller than the lens art it replaced is a target that shrank, and the
        zoom row scrolls before any rock shrinks below it. (The per-rock `--rk`
        is written at the very end, after the vertical budget below has had its
        say.) */
-    zH = Math.max(zH, ZOOM_MIN);
+    zH = Math.max(zH, zs.min);
 
-    /* Height. The two budgets are solved in order — the zoom row first, then the
-       belt — because each one's "everything else" measurement excludes the row
-       it budgets. `used` counts the copy above the scene and the body's own
-       padding: an overflowed grid falls back to `start`, where that padding is
-       real space and eats the budget.
-
-       ZOOM ROW. `fixed` is the scene without the row: padding, gap, the whole
-       belt (measured live — the belt only ever shrinks from here, so the
-       budget can only grow once it settles; this is the conservative end) and
-       the zoom panel's own chrome, which is row-independent. The row's height
-       is exactly `zH + pill + cell gap`, so zH is clamped to what is left,
-       never below ZOOM_MIN: the body scrolls before a zoom rock shrinks under
-       the floor. */
+    /* Height. The two rows share ONE vertical budget and are solved together:
+       the zoom row claims its target first, the belt gets the remainder, and
+       the belt's floor wins last. Coupled, not sequential — a sequential
+       zoom-first solve floored the zoom row at ZOOM_MIN and handed the surplus
+       to the belt, which is how round 2 measured zH 96 (the floor) instead of
+       the ~115–120px the owner asked for at 1024×768. Here the zoom row is
+       allowed to reach its target and it is the belt that gives way, down to
+       its floor and never below. `used` counts the copy above the scene and
+       the body's own padding: an overflowed grid falls back to `start`, where
+       that padding is real space and eats the budget. */
     var used = 0;
     Array.prototype.forEach.call(elBody.children, function (c) {
       if (c !== scene) used += c.offsetHeight + 12;
@@ -1498,32 +1574,53 @@
     var bodyPad = (parseFloat(bodyCss.paddingTop) || 0) +
                   (parseFloat(bodyCss.paddingBottom) || 0);
     var pillBox = big[0].node.querySelector(".dd-rock-pill");
-    var cellChrome = (pillBox ? pillBox.offsetHeight : 64) + 6;  /* pill + cell gap */
-    var fixed = scene.offsetHeight - zoomRow.offsetHeight;
-    var room2 = elBody.clientHeight - bodyPad - used - fixed - 8;
-    if (room2 > 0) {
-      var zCap = room2 - cellChrome;
-      if (zCap < ZOOM_MIN) zCap = ZOOM_MIN;        /* the floor wins last */
+    var pillH = pillBox ? pillBox.offsetHeight : 64;
+    /* The two rows carry different fixed chrome. The belt cell is rock + pill
+       (the scale dot belongs to the zoom row only), so its fixed part is
+       `pillH + cell gap`. The zoom cell is rock + pill + the faint true-scale
+       dot under the name, so its fixed part adds the dot's flight: the cell's
+       own grid gap plus the dot's measured height. Both are measured live —
+       the cells are in the DOM from first paint — and each row's height is
+       exactly `chrome + rock`, so the scene divides into three measured,
+       non-guessing parts. */
+    var cellGap = 4;                        /* .dd-rock-cell's gap */
+    var tinyGap = 4;                        /* pill → dot, same cell gap */
+    var tinyH = 0;
+    small.forEach(function (it) {
+      if (it.tiny) tinyH = Math.max(tinyH, it.tiny.offsetHeight);
+    });
+    var beltChrome = pillH + cellGap;
+    var zRowChrome = pillH + cellGap + tinyGap + tinyH;
+    var fixedChrome = scene.offsetHeight - belt.offsetHeight -
+                      zoomRow.offsetHeight;   /* the scene minus both rows */
+    var vertBudget = elBody.clientHeight - bodyPad - used - fixedChrome - 8;
+
+    /* The belt is measured live at the CSS's current rk, and its height scales
+       linearly with rk — every SVG is `km x ah x rk` and the pill does not
+       scale — so the belt pinned at its floor is one exact division, and the
+       zoom row's cap is the budget with the floored belt already subtracted.
+       The zoom floor (ZOOM_MIN) wins last: the body scrolls before a zoom rock
+       shrinks under it. */
+    var beltNow = belt.offsetHeight;
+    var beltSvg = beltNow - beltChrome;
+    var rkNow = parseFloat(getComputedStyle(scene).getPropertyValue("--rk"));
+    if (!(rkNow > 0)) rkNow = 0.21;         /* the CSS fallback, first paint */
+    var beltAtFloor = beltChrome + beltSvg * (floor / rkNow);
+    if (beltSvg > 0 && vertBudget > 0) {
+      var zCap = vertBudget - beltAtFloor - zRowChrome;
       if (zH > zCap) zH = zCap;
     }
+    zH = Math.max(zH, zs.min);              /* the zoom floor wins last */
 
-    /* THE BELT. `chrome` is everything around the belt — scene padding and
-       gap, the copy's gap included above, and the zoom panel PREDICTED at the
-       zH just solved (the row's height is exact, so the prediction is not a
-       guess). The belt row's height then scales linearly with `rk`: every SVG
-       is `km x ah x rk` and the pill does not scale, so the largest scale that
-       fits is one division from one live measurement — no iteration, and the
-       slack inside the SVG view boxes is already IN the measurement rather
-       than missing from the estimate. */
-    var chrome = scene.offsetHeight - belt.offsetHeight -
-                 zoomRow.offsetHeight + (zH + cellChrome);
-    var beltNow = belt.offsetHeight;
-    var beltSvg = beltNow - cellChrome;
-    var rkNow = parseFloat(getComputedStyle(scene).getPropertyValue("--rk"));
-    if (!(rkNow > 0)) rkNow = 0.21;                /* the CSS fallback, first paint */
-    var beltMax = elBody.clientHeight - bodyPad - used - chrome - 8;
-    if (beltSvg > 0 && beltMax > cellChrome) {
-      var rkFit = rkNow * (beltMax - cellChrome) / beltSvg;
+    /* THE BELT comes second: the scale that fits the budget the solved zoom
+       row leaves over — again one division from one live measurement, no
+       iteration, and the slack inside the SVG view boxes is already IN the
+       measurement rather than missing from the estimate. The row's height at
+       the solved rk is `beltChrome + beltSvg * (rk / rkNow)`, the same row the
+       scene measured before, only shorter. */
+    var beltMax = vertBudget - (zH + zRowChrome);
+    if (beltSvg > 0 && beltMax > beltChrome) {
+      var rkFit = rkNow * (beltMax - beltChrome) / beltSvg;
       if (rkFit > 0) rk = Math.min(rk, rkFit);
     }
 
@@ -1538,6 +1635,19 @@
        vertical budget above settled zH. */
     small.forEach(function (it) {
       it.rock.style.setProperty("--rk", (zH / (it.f.km * it.f.ah)).toFixed(5));
+      /* The true-scale dot under the name uses the SCENE's `rk`, so it really
+         is "what the top row would draw" — floored at 3px of visible art so
+         Gaspra's sub-3px dot (12 km) stays findable. `data-clamped` marks the
+         one rock the floor moved, so a QA pass can see the honesty bend. */
+      if (it.tiny) {
+        var dot = it.tiny.querySelector(".dd-rock-svg");
+        if (dot) {
+          var dotMin = 3 / (it.f.km * Math.min(it.f.aw, it.f.ah));
+          var dotRk = Math.max(rk, dotMin);
+          dot.style.setProperty("--rk", dotRk.toFixed(5));
+          if (dotRk > rk) it.tiny.dataset.clamped = "true";
+        }
+      }
     });
   }
 

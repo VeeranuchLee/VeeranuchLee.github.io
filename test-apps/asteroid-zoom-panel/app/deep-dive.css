@@ -544,23 +544,32 @@ body.reduce-motion .dd-panel { animation: none; }
    The rules that matter here are about SIZE and about TAPPING, and both are
    explained at length in app/deep-dive.js above renderRoster(). In short:
 
-     Every true-scale rock is `diameter_km x --rk` and nothing else, so the six
-     big worlds are drawn in honest proportion to one another. `--rk` is a
-     single number written by fitRoster() after it measures the panel; the
-     arithmetic lives here so that one measured number governs the whole scene
-     and no rock can be sized by hand.
+     The six big worlds sit in one true-relative-scale row under the label
+     "Real size comparison". Every true-scale rock is `diameter_km x --rk` and
+     nothing else, so the six are drawn in honest proportion to one another.
+     `--rk` is a single number written by fitRoster() after it measures the
+     panel; on a short landscape viewport the row gives up height UNIFORMLY —
+     one number for every body, so the comparison never bends.
 
-     The four small worlds share one framed "Zooming in" panel (owner,
-     2026-09-24) whose header — a 🔍 label and a written note — says plainly
-     that they are enlarged so they can be seen. They used to sit one per round
-     magnifier with a true-scale dot beneath each; the lenses, the leader lines
-     and the dots are all gone from this menu. The body pages a7–a10 still show
-     their small world through a lens (see .dd-focus-lens): this is the menu's
-     rule only.
+     The four small worlds share one yellow-bordered "🔍 Zoomed in" panel
+     (owner, 2026-09-24; re-titled in layout (b), 2026-09-25) whose header is
+     a small yellow pill sitting on the panel's top-left edge like a tab. In
+     landscape the four zoomed rocks aim ~20-25% larger than round-1's ~96px
+     art (zoomTargets() in deep-dive.js); the belt row above keeps its true
+     relative scale and gives up the vertical room. Under each enlarged rock's
+     name is the true-scale dot that round 2's note replaced: a faint ring
+     holding that same body at the top row's `--rk`, captioned
+     "Actual size (same scale)" — the honesty lives in the picture again. The
+     round lenses, their handles, the leader lines and the old scale-dot
+     leaders are all gone from this menu. The body pages a7–a10 still show
+     their small world through a lens (see .dd-focus-lens): this is the
+     menu's rule only.
 
      A rock button is transparent to the pointer. The silhouette inside it is
-     the target, widened evenly by a non-scaling stroke, because a rectangle
-     over an irregular rock is mostly empty and eats its neighbour's taps.
+     the target, widened evenly by a 28px non-scaling stroke that makes the
+     smallest belt rock a 64px touch area — the owner's 2026-09-25 tap rule —
+     because a rectangle over an irregular rock is mostly empty and eats its
+     neighbour's taps.
    ============================================================ */
 
 .dd-roster {
@@ -569,14 +578,49 @@ body.reduce-motion .dd-panel { animation: none; }
   border: 1px solid var(--dd-line);
   background:
     radial-gradient(90% 120% at 20% 10%, #1d3f6d 0%, #0b1c36 60%, #071327 100%);
-  padding: 14px;
+  padding: 10px;                  /* was 14px: layout (b) buys its label and dots from the panel's own air */
   display: grid;
-  gap: 14px;                  /* was 16px: 2px of air for floor-bound short viewports */
+  gap: 10px;                      /* was 14px: same trade, on the short landscape viewport */
   justify-items: center;
   /* Fallback only. fitRoster() overwrites it as soon as the panel is on
      screen and can be measured; this keeps the scene sane for the one frame
      before that, and on a browser that never fires the callback. */
   --rk: 0.21;
+}
+
+/* ---- the roster's one-line head: the label, and the tap hint ----
+   "Real size comparison" names what the top row does (owner, 2026-09-25), and
+   the optional yellow "Tap an asteroid" hint sits on the same line, top-right
+   (owner: only if it fits and is not clutter). On-screen text only: nothing
+   here is spoken (AUDIO-DIRECTION.md). */
+.dd-roster-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.dd-roster-label {
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  font-size: clamp(10px, 1.15vw, 13px);
+  color: var(--dd-cream);
+  opacity: .92;
+}
+.dd-tap-hint {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(255, 216, 77, .92);   /* warm yellow, like the zoom pill */
+  color: #17203a;
+  font-weight: 800;
+  font-size: clamp(10px, 1.1vw, 12px);
+  line-height: 1.3;
+  white-space: nowrap;
+  opacity: .95;
 }
 
 /* ---- the six-body belt: one baseline, largest first ----
@@ -590,53 +634,81 @@ body.reduce-motion .dd-panel { animation: none; }
   width: 100%;
   flex-wrap: nowrap;                  /* one baseline is the size comparison */
   gap: 8px;                           /* ROCK_GAP in deep-dive.js — keep in step */
-  overflow-x: auto;                   /* the 44px art floor wins on narrower panels */
+  overflow-x: auto;                   /* the 36px art floor wins on narrower panels */
 }
 
-/* ---- the shared "Zooming in" panel (owner, 2026-09-24) ----
-   The four small worlds used to live in four round lenses with a true-scale
-   dot beneath each; the owner replaced the whole magnifier with one rectangular
-   panel that names the trick in words — "🔍 Zooming in / Smaller asteroids,
-   shown larger so you can see more details." The panel is a window onto four
-   separate worlds, not a new row of the size comparison: the rocks are spaced
-   apart and nothing runs between them, so it cannot read as a path or a
-   sequence (the mistake the 2026-09-23 lens-handle removal was about). */
+/* ---- the shared "🔍 Zoomed in" panel (owner, 2026-09-24; layout (b) re-titled 2026-09-25) ----
+   The four small worlds live in one rectangular panel that names the trick
+   with its yellow "Zoomed in" tab; under each enlarged rock's name, the tiny
+   true-scale dot (see .dd-rock-tiny) carries the "this much" honesty in the
+   picture. The panel is a window onto four separate worlds, not a new row of
+   the size comparison: the rocks are spaced apart and nothing runs between
+   them, so it cannot read as a path or a sequence (the mistake the 2026-09-23
+   lens-handle removal was about). */
 .dd-roster-zoom {
   position: relative;                 /* over .dd-scene-art */
   width: 100%;
+  /* The pill tab hangs above the panel's top border; this margin is the room
+     that buys it (belt bottom → pill top ≈ 12px). The fit math measures the
+     scene live, so this is seen by the vertical budget like any other chrome. */
+  margin-top: 12px;                   /* was 18px: layout (b) buys its label and dots from the panel's air */
   border-radius: 16px;
-  border: 2px solid rgba(141, 232, 255, .5);
+  border: 2px solid rgba(255, 216, 77, .8);   /* warm yellow, per layout (b) */
   background:
     linear-gradient(180deg, rgba(33, 70, 118, .8) 0%, rgba(9, 26, 52, .9) 100%);
   /* The bottom padding is air, and the head gap is too: a floor-bound zoom row
      on a short viewport (landscape iPad) cannot shrink its targets, so the
-     saved pixels are what stop the body from growing a scrollbar. */
-  padding: 10px 14px 8px;
+     saved pixels are what stop the body from growing a scrollbar. The top is
+     the head's own line — see .dd-roster-zoom-head. */
+  padding: 0 14px 8px;
   display: grid;
-  gap: 8px;
+  gap: 6px;
   justify-items: center;
 }
-.dd-roster-zoom-head { text-align: center; display: grid; gap: 0; }
-.dd-roster-zoom-title {
-  font-size: clamp(14px, 2vw, 20px);
-  font-weight: 900;
-  letter-spacing: .02em;
-  color: var(--dd-gold);
+
+/* ---- the panel's header: the yellow pill tab ----
+   Owner, 2026-09-24: a small yellow "Zooming in" pill from the mockup, as an
+   annotation sitting on the panel's top-left edge "like a tab/annotation
+   overlapping the panel border" (re-titled "🔍 Zoomed in" in layout (b),
+   2026-09-25). The head is pulled UP by its negative margin until the pill's
+   top half hangs over the border (the head's zero top padding lets it). The
+   note that sat beside the pill in rounds 1-2 is gone — the tiny true-scale
+   dots (see .dd-rock-tiny) carry that honesty in the picture, and the short
+   landscape viewport cannot hold both. The pill stays plain text: nothing
+   here is spoken (AUDIO-DIRECTION.md). */
+.dd-roster-zoom-head {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin-top: -12px;              /* pull the pill's top half over the border */
+  padding-top: 0;
 }
-.dd-roster-zoom-note {
-  margin: 0;
+.dd-zoom-pill {
+  flex: none;
+  align-self: flex-start;         /* the tab pokes up from the head's top edge */
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: #ffd84d;            /* warm yellow, from the owner's mockup */
+  color: #17203a;                 /* dark text on the pill */
+  font-weight: 900;
   font-size: clamp(11px, 1.3vw, 14px);
-  line-height: 1.3;
-  color: var(--dd-blue);
-  opacity: .95;
-  max-width: 48ch;
+  line-height: 1.25;
+  white-space: nowrap;
+  /* The pill reads as sitting ON the border against the dark art behind it. */
+  box-shadow: 0 2px 6px rgba(4, 12, 26, .35);
 }
 .dd-roster-zoom-row {
   position: relative;
   display: flex;
   align-items: flex-end;
   justify-content: safe center;
-  gap: 24px;                          /* ZOOM_GAP in deep-dive.js — keep in step */
+  gap: 20px;                          /* ZOOM_GAP in deep-dive.js — keep in step */
   width: 100%;
   overflow-x: auto;                   /* the ZOOM_MIN floor wins on narrow panels */
 }
@@ -650,7 +722,7 @@ body.reduce-motion .dd-panel { animation: none; }
   position: relative;
   display: grid;
   justify-items: center;
-  gap: 6px;
+  gap: 4px;                        /* layout (b): was 6px */
 }
 
 /* ---- one rock ----
@@ -694,12 +766,17 @@ body.reduce-motion .dd-panel { animation: none; }
 .dd-rock:hover .dd-rock-svg { transform: scale(1.06); }
 
 /* The silhouette, painted invisible, as the target. `non-scaling-stroke` is
-   what makes 14 mean 14 screen pixels on Ceres and on Gaspra alike — in user
-   units it would be a 30px halo on one and a 21px halo on the other. */
+   what makes 28 mean 28 screen pixels on Ceres and on Gaspra alike — in user
+   units it would be a 60px halo on one and a 42px halo on the other. The
+   stroke widened from 14 on 2026-09-25: the owner's tap rule is 64×64 CSS px,
+   and the smallest visible rock (Psyche, ROCK_MIN = 36) plus 28px of stroke
+   is exactly that floor — round-1's 44px art plus the old 14px stroke was a
+   58px target, which no longer clears the bar. The stroke is invisible and
+   eats taps only where a target already sits. */
 .dd-rock-hit > * {
   fill: transparent;
   stroke: transparent;
-  stroke-width: 14;
+  stroke-width: 28;
   vector-effect: non-scaling-stroke;
   pointer-events: all;
   cursor: pointer;
@@ -771,6 +848,52 @@ body.reduce-motion .dd-panel { animation: none; }
   min-width: 0;
   padding: 3px 11px;
   background: rgba(7, 22, 44, .9);
+}
+
+/* ---- the true-scale dot under each enlarged rock (owner, 2026-09-25) ----
+   A faint ring holding the SAME body at the top row's `--rk` — its actual
+   size, exactly as if it were a body of the "Real size comparison" — with the
+   caption "Actual size (same scale)" on its right. This is layout (b)'s
+   honesty: the enlarged rock says "zoomed in", the dot says "this much", the
+   caption says so in words. The ring must read as a CAREFUL LABEL, not a
+   second magnifier: faint fill, thin border, no glass shine, and nothing
+   runs between the four rocks. Purely informational — aria-hidden in
+   deep-dive.js, `pointer-events: none` here, so it can never eat a tap and
+   never looks like a button. */
+.dd-rock-tiny {
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: -2px;               /* pulls the strip up into the cell's air */
+}
+.dd-rock-tiny-ring {
+  flex: none;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px dashed rgba(206, 230, 255, .55);   /* faint ring, fine line */
+  background: rgba(206, 230, 255, .08);
+  box-shadow: none;
+}
+/* The dot is the top row's scale clipped to the ring: `--rk` is written by
+   fitRoster() from the SCENE's scale (floored at 3px of art), and the
+   ring just contains what the formula draws — the max keeps a wide body
+   (Ida & Dactyl) inside the circle without changing its scale. */
+.dd-rock-tiny-ring .dd-rock-svg {
+  max-width: 18px;
+  max-height: 18px;
+}
+.dd-rock-tiny-cap {
+  font-size: clamp(8px, .9vw, 10px);
+  line-height: 1.2;
+  color: var(--dd-blue);
+  opacity: .9;
+  white-space: nowrap;
 }
 
 /* ---- playback feedback ----
