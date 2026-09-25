@@ -1,10 +1,12 @@
 // flags-app/app.js — the game.
 //
-// Progression slice 1-2 from the expansion roadmap:
-//   Match the flag  — see a flag, tap the same one among 2-4 options.
-//   Which country?  — see a flag, tap the country it belongs to.
-// Every correct answer opens the knowledge card: flag, country, capital,
-// "look for" cue and ONE tiny fact, rotating across encounters.
+// Home modes from the expansion roadmap:
+//   Explore Flags  — browse all 39 flags and open a rotating country page.
+//   Which country? — see a flag, tap the country it belongs to.
+// Match the flag's engine is deliberately retained below but has no UI entry.
+// Owner decision, 2026-09-25: keep the engine for now; hide the mode rather
+// than delete working quiz code. Every correct quiz answer opens the original
+// knowledge card: flag, country, capital, "look for" cue and ONE tiny fact.
 //
 // Conventions carried over from the solar system game: a single tap is the
 // whole interaction; nothing is taken away for a wrong answer; after three
@@ -125,25 +127,29 @@
 
   // ---- state -----------------------------------------------------------
 
-  var screen = 'home'; // home | question | card | done
-  var mode = 'match';  // match | country
+  var screen = 'home'; // home | explore | country-info | question | card | done
+  var mode = 'match';  // match | country (Match is retained but UI-unreachable)
   var queue = [];
   var question = null; // current question object
   var sessionAnswered = [];
   var sessionIndex = 0;
+  var exploreScrollY = 0;
 
   function line(id) { return DATA.lines[id] || ''; }
 
   // AUDIO-DIRECTION: one sentence per utterance. Facts are stored as one
   // text for the card display; the robot voice splits them so each sentence
-  // gets a real pause. (A future rendered clip keys on the fact id and
-  // carries the whole text as one file — solar-game lines do the same.)
+  // gets a real pause. Every sentence keeps a stable line id (the first uses
+  // the fact id, later sentences use .2, .3, ...), so a later paid renderer
+  // can harvest every utterance from the data layer.
   // No regex lookbehind: the design floor includes older iOS Safari.
   function saySentences(text, lineId) {
     var parts = String(text).match(/[^.!?]+[.!?]+["']?\s*/g) || [String(text)];
     parts.forEach(function (part, i) {
       var trimmed = part.trim();
-      if (trimmed) SPEECH.say(trimmed, i === 0 ? lineId : null);
+      if (!trimmed) return;
+      var sentenceId = lineId + (i > 0 ? '.' + (i + 1) : '');
+      SPEECH.say(trimmed, sentenceId);
     });
   }
 
@@ -204,6 +210,19 @@
     while (VIEW.firstChild) VIEW.removeChild(VIEW.firstChild);
   }
 
+  function scrollPageTo(y) {
+    if (typeof window.scrollTo !== 'function') return;
+    try { window.scrollTo(0, y); } catch (e) { /* older embedded webviews */ }
+  }
+
+  function pulseControl(control) {
+    // Remove/reflow/add so a second tap visibly answers even when the same
+    // short status message is shown again. Audio can be off; feedback is not.
+    control.classList.remove('has-feedback');
+    void control.offsetWidth;
+    control.classList.add('has-feedback');
+  }
+
   function renderHome() {
     screen = 'home';
     /* The two share the corner and swap. renderCard and renderDone deliberately leave
@@ -212,6 +231,7 @@
     BTN_HUB.hidden = false;
     clearView();
     SPEECH.stop();
+    scrollPageTo(0);
 
     var showcase = shuffle(DATA.countries).slice(0, 3);
     var hero = el('section', { class: 'home-hero' }, [
@@ -235,10 +255,176 @@
     VIEW.appendChild(el('div', { class: 'home' }, [
       hero,
       el('section', { class: 'mode-row' }, [
-        modeCard('match', line('mode.match'), 'Tap the flag that is the same.', ['th', 'jp', 'br']),
+        // Owner decision, 2026-09-25: Match the flag is replaced here. Its
+        // full engine remains in this file for possible later restoration, but
+        // there is deliberately no UI element that can call startSession('match').
+        el('button', {
+          class: 'mode-card mode-explore',
+          type: 'button',
+          onclick: function () { renderExplore(false); }
+        }, [
+          el('div', { class: 'mode-art' }, ['th', 'jp', 'br'].map(function (code) {
+            return flagImg(byCode(code));
+          })),
+          el('h2', { class: 'mode-title', text: line('mode.explore') }),
+          el('p', { class: 'mode-blurb', text: 'Browse every flag and meet a country.' })
+        ]),
         modeCard('country', line('mode.country'), 'Whose flag is this?', ['fr', 'np', 'ke'])
       ]),
       el('p', { class: 'home-note', text: DATA.countries.length + ' countries to meet' })
+    ]));
+  }
+
+  function renderExplore(restoreScroll) {
+    screen = 'explore';
+    BTN_HOME.hidden = false;
+    BTN_HUB.hidden = true;
+    clearView();
+    SPEECH.stop();
+    scrollPageTo(restoreScroll ? exploreScrollY : 0);
+
+    var grid = el('div', {
+      class: 'explore-grid',
+      role: 'group',
+      'aria-label': 'All ' + DATA.countries.length + ' flags'
+    });
+    DATA.countries.forEach(function (country) {
+      var tile = el('button', {
+        class: 'explore-tile',
+        type: 'button',
+        'aria-label': 'Open ' + country.name,
+        onclick: function () {
+          exploreScrollY = typeof window.scrollY === 'number' ? window.scrollY : 0;
+          renderCountryInfo(country);
+        }
+      }, [
+        flagImg(country, 'explore-flag'),
+        el('span', { class: 'explore-country', text: country.name })
+      ]);
+      tile.dataset.code = country.code;
+      grid.appendChild(tile);
+    });
+
+    VIEW.appendChild(el('section', { class: 'explore' }, [
+      el('div', { class: 'explore-heading' }, [
+        el('h2', { class: 'explore-title', text: line('mode.explore') }),
+        el('p', {
+          class: 'explore-intro',
+          text: DATA.countries.length + ' flags — tap one to meet its country.'
+        })
+      ]),
+      grid
+    ]));
+
+    SPEECH.say(line('explore.intro'), 'explore.intro');
+  }
+
+  function renderCountryInfo(country) {
+    screen = 'country-info';
+    BTN_HOME.hidden = false;
+    BTN_HUB.hidden = true;
+    clearView();
+    SPEECH.stop();
+    scrollPageTo(0);
+
+    var factIndex = nextFactIndex(country);
+    factCursor[country.code] = factIndex;
+    save('factCursor', factCursor);
+
+    var lines = DATA.cardLines(country);
+    var fact = country.facts[factIndex];
+    var factText = el('dd', { class: 'info-fact-text', text: fact.text });
+    var factRow = el('div', { class: 'info-row info-fact-row' }, [
+      el('dt', { text: 'Tiny fact' }), factText
+    ]);
+    factRow.dataset.factIndex = String(factIndex);
+
+    var status = el('p', {
+      class: 'info-status',
+      role: 'status',
+      'aria-live': 'polite',
+      text: 'Choose Hear it or Another fact.'
+    });
+
+    function speakCurrentFact() {
+      saySentences(fact.text, 'card.' + country.code + '.fact' + (factIndex + 1));
+    }
+
+    var hearButton = el('button', {
+      class: 'btn btn-primary info-action info-hear',
+      type: 'button',
+      text: 'Hear it',
+      onclick: function () {
+        SFX.tap();
+        SPEECH.stop();
+        SPEECH.say(lines['card.' + country.code + '.name'], 'card.' + country.code + '.name');
+        SPEECH.say(lines['card.' + country.code + '.region'], 'card.' + country.code + '.region');
+        SPEECH.say(lines['card.' + country.code + '.capital'], 'card.' + country.code + '.capital');
+        SPEECH.say(lines['card.' + country.code + '.lookfor'], 'card.' + country.code + '.lookfor');
+        speakCurrentFact();
+        status.textContent = 'Reading ' + country.name + ' from top to bottom.';
+        pulseControl(hearButton);
+      }
+    });
+
+    var anotherButton = el('button', {
+      class: 'btn info-action info-another',
+      type: 'button',
+      text: 'Another fact',
+      onclick: function () {
+        SFX.tap();
+        SPEECH.stop();
+        factIndex = (factIndex + 1) % country.facts.length;
+        factCursor[country.code] = factIndex;
+        save('factCursor', factCursor);
+        fact = country.facts[factIndex];
+        factText.textContent = fact.text;
+        factRow.dataset.factIndex = String(factIndex);
+        status.textContent = 'Fact ' + (factIndex + 1) + ' of ' + country.facts.length + '.';
+        pulseControl(factRow);
+        pulseControl(anotherButton);
+        // An explicit Another fact tap speaks the newly shown fact, matching
+        // the existing tap-to-hear pattern. It is harmless when sound is off;
+        // the text change and status above remain the visible feedback.
+        speakCurrentFact();
+      }
+    });
+
+    var backButton = el('button', {
+      class: 'btn info-action info-back info-back-top',
+      type: 'button',
+      text: 'Back to flag browser',
+      onclick: function () { renderExplore(true); }
+    });
+
+    var info = el('article', {
+      class: 'country-info',
+      'data-code': country.code,
+      'aria-label': country.name + ' flag information'
+    }, [
+      el('div', { class: 'info-flag' }, [flagImg(country)]),
+      el('h2', { class: 'info-country', text: country.name }),
+      el('dl', { class: 'info-rows' }, [
+        el('div', { class: 'info-row' }, [
+          el('dt', { text: 'Region' }), el('dd', { class: 'info-region', text: country.region })
+        ]),
+        el('div', { class: 'info-row' }, [
+          el('dt', { text: 'Capital' }), el('dd', { class: 'info-capital', text: country.capital })
+        ]),
+        el('div', { class: 'info-row' }, [
+          el('dt', { text: 'Look for' }), el('dd', { class: 'info-lookfor', text: country.lookFor })
+        ]),
+        factRow
+      ])
+    ]);
+
+    VIEW.appendChild(el('div', { class: 'country-info-screen' }, [
+      backButton,
+      info,
+      el('div', { class: 'info-actions', role: 'group', 'aria-label': country.name + ' controls' }, [
+        hearButton, anotherButton
+      ]),
+      status
     ]));
   }
 
@@ -464,7 +650,8 @@
 
   BTN_HOME.addEventListener('click', function () {
     SPEECH.stop();
-    renderHome();
+    if (screen === 'country-info') renderExplore(true);
+    else renderHome();
   });
 
   // Warm the voice list (some browsers load voices asynchronously).

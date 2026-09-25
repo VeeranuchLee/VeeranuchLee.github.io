@@ -184,6 +184,199 @@ body {
   color: #A39A85;
 }
 
+/* ---- explore browser ----------------------------------------------------- */
+
+.explore {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 24px;
+}
+
+.explore-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 4px;
+}
+
+.explore-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(28px, 4.4vw, 38px);
+  margin: 0;
+  color: #4A4536;
+}
+
+.explore-intro {
+  margin: 0;
+  color: #7A7361;
+  font-weight: 700;
+  text-align: right;
+}
+
+/* Six columns on the 9.7-inch iPad in landscape, four in portrait. Every tile
+   remains well above the 64px touch-target floor, and the page owns the only
+   scroll axis: no horizontal scrolling is introduced. */
+.explore-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+.explore-tile {
+  min-width: 0;
+  min-height: 170px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 11px;
+  color: #4A4536;
+  background: #FFFFFF;
+  border: 3px solid #4A4536;
+  border-radius: 20px;
+  box-shadow: 0 4px 0 #4A4536;
+  cursor: pointer;
+  font: inherit;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.explore-tile:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #4A4536;
+}
+
+.explore-tile .explore-flag {
+  width: 100%;
+  flex: 1 1 auto;
+}
+
+.explore-country {
+  min-height: 2.4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow-wrap: normal;
+  word-break: normal;
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(16px, 1.8vw, 20px);
+  line-height: 1.2;
+}
+
+/* ---- country information ------------------------------------------------- */
+
+.country-info-screen {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding-bottom: 28px;
+}
+
+.country-info {
+  width: min(100%, 820px);
+  padding: 24px clamp(20px, 4vw, 42px) 28px;
+  background: #FFFFFF;
+  border: 3px solid #4A4536;
+  border-radius: 28px;
+  box-shadow: 0 5px 0 #4A4536;
+  text-align: center;
+}
+
+.info-flag {
+  width: min(62vw, 430px);
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.info-flag .flag-art {
+  width: auto;
+  max-width: 100%;
+  max-height: 300px;
+}
+
+.info-country {
+  font-family: 'Fredoka One', cursive;
+  font-size: clamp(30px, 5vw, 44px);
+  margin: 16px 0 18px;
+  color: #4A4536;
+}
+
+.info-rows {
+  margin: 0;
+  text-align: left;
+}
+
+.info-row {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: 14px;
+  padding: 11px 4px;
+  border-top: 2px dashed #E4DCCB;
+  align-items: baseline;
+}
+
+.info-row dt {
+  font-family: 'Fredoka One', cursive;
+  font-size: 15px;
+  color: #A39A85;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.info-row dd {
+  min-width: 0;
+  margin: 0;
+  color: #33302B;
+  font-size: clamp(17px, 2.4vw, 20px);
+  font-weight: 700;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.info-fact-row dd { color: #5A4E8A; }
+
+.info-actions {
+  width: min(100%, 820px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.info-action {
+  min-height: 64px;
+  padding: 12px 16px;
+  font-size: clamp(16px, 2.2vw, 19px);
+  white-space: normal;
+}
+
+.info-back { color: #FFFFFF; background: #6F6756; }
+.info-back-top { align-self: flex-start; min-width: 190px; }
+
+.info-status {
+  min-height: 28px;
+  margin: 0;
+  color: #7A7361;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.info-action.has-feedback,
+.info-fact-row.has-feedback { animation: control-feedback 0.28s ease; }
+
+@keyframes control-feedback {
+  0% { transform: translateY(0); }
+  45% { transform: translateY(2px) scale(0.98); }
+  100% { transform: translateY(0); }
+}
+
 /* ---- question ----------------------------------------------------------- */
 
 .question {
@@ -405,6 +598,12 @@ body {
   .options-flags { grid-template-columns: repeat(2, 1fr); }
   .options-names { grid-template-columns: 1fr; }
   .card-row { grid-template-columns: 92px 1fr; }
+  .explore-heading { display: block; }
+  .explore-intro { margin-top: 6px; text-align: left; }
+  .explore-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .explore-tile { min-height: 146px; padding: 10px; }
+  .info-row { grid-template-columns: 92px minmax(0, 1fr); }
+  .info-actions { grid-template-columns: 1fr; }
 }
 
 /* ----------------------------------------------------------- touch hygiene ---
@@ -426,7 +625,7 @@ body {
  * iOS 10, so the viewport meta does nothing. See the gesturestart guard in the
  * HTML.
  */
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; touch-action: manipulation; }
 
 body {
   -webkit-user-select: none;

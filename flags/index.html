@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
     <meta name="theme-color" content="#FAF6ED" />
-    <meta name="description" content="Flags — meet the flags of the world: match them, name them, and collect one tiny fact for every country." />
+    <meta name="description" content="Flags — explore the flags of the world, meet every country, and discover one tiny fact at a time." />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -31,8 +31,9 @@
              siblings, but in the repo the hub lives under site/, so a relative link would
              work live and 404 in every local preview. Carries `hub-btn` so the promotion
              check greps a class and not a URL — a card has moved hubs without its arrow
-             before. -->
-        <a id="btn-hub" class="btn btn-icon hub-btn" href="https://veeranuchlee.github.io/test-apps/" aria-label="Back to Test Apps">
+             before. 2026-09-25: promoted to the children's hub (owner: "promote the flag
+             to main hub"), so the arrow now goes to /children-apps/. -->
+        <a id="btn-hub" class="btn btn-icon hub-btn" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to the children's hub">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
         <button id="btn-home" class="btn btn-icon" type="button" aria-label="Back to the home screen" hidden>
@@ -62,12 +63,5 @@
         });
       }
     </script>
-    <script>
-  /* Pinch-zoom guard. iOS Safari ignores user-scalable=no (since iOS 10), so this is
-     the only thing that stops two small hands zooming the page mid-play. gesturestart
-     fires once per pinch; preventing it cancels the zoom and touches nothing else.
-     Other browsers never fire it, so this is inert there. */
-  document.addEventListener("gesturestart", function (e) { e.preventDefault(); }, { passive: false });
-  </script>
   </body>
 </html>

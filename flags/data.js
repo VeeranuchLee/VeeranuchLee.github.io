@@ -455,6 +455,8 @@ var FLAGS_DATA = (function () {
   var LINES = {
     'home.hello': 'Welcome to the Flags game!',
     'mode.match': 'Match the flag',
+    'mode.explore': 'Explore Flags',
+    'explore.intro': 'Explore the flags. Tap one to meet its country.',
     'mode.country': 'Which country?',
     'prompt.match': 'Tap the flag that is the same.',
     'prompt.match.reveal': 'Look carefully. Tap the flag that is the same.',
@@ -476,15 +478,29 @@ var FLAGS_DATA = (function () {
     'session.count': 'flags today'
   };
 
+  function splitSentences(text) {
+    return (String(text).match(/[^.!?]+[.!?]+["']?\s*/g) || [String(text)])
+      .map(function (part) { return part.trim(); })
+      .filter(Boolean);
+  }
+
   function cardLines(country) {
     // One line per sentence-shaped utterance, per AUDIO-DIRECTION playback
-    // rules. ids are stable: card.<code>.name / .capital / .lookfor / .factN
+    // rules. ids are stable: card.<code>.name / .region / .capital /
+    // .lookfor / .factN. A fact with several sentences continues as
+    // .factN.2, .factN.3, etc., so no interim or future rendered utterance
+    // ever reaches speech.js without a manifest-visible id.
     var lines = {};
     lines['card.' + country.code + '.name'] = country.name + '.';
+    lines['card.' + country.code + '.region'] = 'It is in the ' + country.region + ' region.';
     lines['card.' + country.code + '.capital'] = 'The capital is ' + country.capital + '.';
     lines['card.' + country.code + '.lookfor'] = 'Look for ' + country.lookFor + '.';
     country.facts.forEach(function (fact, i) {
-      lines['card.' + country.code + '.fact' + (i + 1)] = fact.text;
+      splitSentences(fact.text).forEach(function (part, sentenceIndex) {
+        var id = 'card.' + country.code + '.fact' + (i + 1);
+        if (sentenceIndex > 0) id += '.' + (sentenceIndex + 1);
+        lines[id] = part;
+      });
     });
     return lines;
   }

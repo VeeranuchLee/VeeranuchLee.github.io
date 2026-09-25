@@ -13,7 +13,9 @@
  *                   interim speechSynthesis narration.
  */
 
-const CACHE_NAME = "flags-v2";
+// v3 2026-09-22: zoom-trap fix -- the global gesturestart pinch blocker is
+//        gone estate-wide (INTERACTION-DIRECTION.md); this bump carries it.
+const CACHE_NAME = "flags-v3";
 
 const FLAG_CODES = [
   "th", "vn", "la", "kh", "my", "sg", "id", "ph",
