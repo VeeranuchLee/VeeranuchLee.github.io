@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+    <meta name="theme-color" content="#7857e8" />
+    <meta name="description" content="A simple, voice-guided coloring app made for young children." />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Little Color Garden" />
+    <title>Little Color Garden</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <!-- Top-level mode menu (owner brief, 2026-09-14): Pixel Mosaic and
+           coloring-book pages are different activity types and no longer share
+           one gallery. This is the app's first screen now, so the hub back
+           arrow moved here unchanged -- see the note on the arrow itself.
+           Card 3, Mosaic (CG-093, owner decision 2026-09-15), joins the row
+           the same way: its own door, its own sheets, and the coloring
+           screen's own tap-to-fill beyond them. -->
+      <section id="modeMenuScreen" class="screen mode-menu-screen" aria-label="Choose what to make">
+        <header class="gallery-header">
+          <!-- Owner, 2026-08-27: *"need to make sure ALL games has back icon to the hub"*
+               -- a 4-year-old could not get out of the app. The header was
+               [voice][brand][dead spacer]; the arrow takes the left slot, which is where
+               it lives in every other game here, and the voice button takes the spacer's
+               place instead of a slot that did nothing. Absolute URL on purpose:
+               published, /little-color-garden/ and /children-apps/ are siblings, but in
+               the repo the hub lives under site/, so a relative link would work live and
+               404 in every local preview. -->
+          <a class="round-button hub-button" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games">
+            <span aria-hidden="true">&larr;</span>
+          </a>
+
+          <div class="brand-mark" aria-hidden="true">
+            <span class="brand-star brand-star--one">✦</span>
+            <span class="brand-star brand-star--two">✦</span>
+            <div class="rainbow">
+              <i></i><i></i><i></i><i></i>
+            </div>
+            <div class="paint-smile"><span></span><span></span></div>
+          </div>
+
+          <button class="round-button sound-button" id="modeMenuVoice" type="button" aria-label="Hear what to do">
+            <span aria-hidden="true">🔊</span>
+          </button>
+        </header>
+
+        <h1 class="mode-title">What will you make?</h1>
+
+        <div class="mode-cards" role="group" aria-label="Pick a way to play">
+          <!-- Every preview is drawn from the app's own assets: the Pixel card
+               is rendered by pixel-mode.js through the board's card renderer
+               (fill in the canvas below), the Coloring card is one of the
+               existing coloring pages and the Mosaic card is one of the mosaic
+               sheets, both shown as line art. -->
+          <button class="mode-card" id="modePixel" type="button" aria-label="Pixel. Copy pictures with little tiles.">
+            <span class="mode-art"><canvas id="modePixelArt" width="240" height="180" aria-hidden="true"></canvas></span>
+            <b class="mode-name">Pixel</b>
+            <span class="mode-tag">Copy pictures with little tiles</span>
+          </button>
+          <button class="mode-card" id="modeColoring" type="button" aria-label="Colouring. Colour a picture, or draw your own.">
+            <span class="mode-art"><img src="./assets/pages/pink-princess.png" alt="" draggable="false" /></span>
+            <b class="mode-name">Coloring</b>
+            <span class="mode-tag">Colour a picture, or draw your own</span>
+          </button>
+          <button class="mode-card" id="modeMosaic" type="button" aria-label="Mosaic. Tap the shapes to fill them with colour.">
+            <span class="mode-art"><img src="./assets/mosaic/smiling-sunflower.png" alt="" draggable="false" /></span>
+            <b class="mode-name">Mosaic</b>
+            <span class="mode-tag">Tap the shapes to fill them with color</span>
+          </button>
+          <button class="mode-card" id="modeCbn" type="button" aria-label="Color by Number. Match each number to its color.">
+            <span class="mode-art"><img src="./assets/cbn/cbn-butterfly-finished.webp" alt="" draggable="false" /></span>
+            <b class="mode-name">Color by Number</b><span class="mode-tag">Match numbers and colors</span>
+          </button>
+          <button class="mode-card" id="modeStamp" type="button" aria-label="Stamping. Make a picture with stamps.">
+            <span class="mode-art mode-art--stamp"><img src="./assets/stamps/stamp-ladybug.webp" alt="" draggable="false" /></span>
+            <b class="mode-name">Stamping</b><span class="mode-tag">Make a picture with stamps</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- The Coloring gallery. No longer the first screen: its top-left arrow
+           goes back to the mode menu, and the hub arrow lives on that menu. -->
+      <section id="galleryScreen" class="screen gallery-screen" aria-label="Choose a coloring picture" hidden>
+        <div class="sky-blob sky-blob--one" aria-hidden="true"></div>
+        <div class="sky-blob sky-blob--two" aria-hidden="true"></div>
+        <div class="sky-blob sky-blob--three" aria-hidden="true"></div>
+
+        <header class="gallery-header">
+          <button class="round-button hub-button" id="galleryBackButton" type="button" aria-label="Back to the menu">
+            <span aria-hidden="true">&larr;</span>
+          </button>
+
+          <div class="brand-mark" aria-hidden="true">
+            <span class="brand-star brand-star--one">✦</span>
+            <span class="brand-star brand-star--two">✦</span>
+            <div class="rainbow">
+              <i></i><i></i><i></i><i></i>
+            </div>
+            <div class="paint-smile"><span></span><span></span></div>
+          </div>
+
+          <button class="round-button sound-button music-off" id="galleryMusicButton" type="button" aria-label="Play music" aria-pressed="false">
+            <span aria-hidden="true">♫</span>
+          </button>
+        </header>
+
+        <div id="pageGallery" class="page-gallery" role="group" aria-label="Pictures to color"></div>
+      </section>
+
+      <section id="coloringScreen" class="screen coloring-screen" aria-label="Coloring page" hidden>
+        <header class="top-toolbar">
+          <button class="tool-button tool-button--home" id="homeButton" type="button" aria-label="Go home">
+            <span aria-hidden="true">⌂</span>
+          </button>
+          <button class="tool-button tool-button--voice" id="voiceButton" type="button" aria-label="Hear what to do">
+            <span aria-hidden="true">🔊</span>
+          </button>
+          <button class="tool-button tool-button--peek" id="peekButton" type="button" aria-label="Show the finished picture next to yours" aria-pressed="false">
+            <span class="peek-glyph" aria-hidden="true">
+              <i></i><i></i><i></i>
+            </span>
+          </button>
+          <button class="tool-button tool-button--clear" id="clearButton" type="button" aria-label="Clean the whole picture">
+            <span aria-hidden="true">🧹</span>
+            <i class="arm-ring" aria-hidden="true"></i>
+          </button>
+          <button class="tool-button tool-button--finish" id="finishButton" type="button" aria-label="Celebrate my picture">
+            <span aria-hidden="true">★</span>
+          </button>
+        </header>
+
+        <div class="canvas-stage" id="canvasStage">
+          <figure class="reference-frame" aria-label="Finished picture example">
+            <img id="referenceImage" class="reference-image" alt="" draggable="false" />
+          </figure>
+          <div class="paper-frame">
+            <canvas id="paintCanvas" width="724" height="1086" aria-label="Coloring canvas"></canvas>
+            <div class="canvas-loader" id="canvasLoader" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="studio-tools" aria-label="Art tools">
+          <p class="studio-message" id="studioMessage" aria-live="polite"></p>
+          <div class="primary-tools" role="group" aria-label="Choose a tool">
+            <button class="primary-tool is-selected" data-tool="brush" type="button"><span aria-hidden="true">🖌️</span><b>Brush</b></button>
+            <button class="primary-tool" data-tool="fill" type="button"><span aria-hidden="true">🪣</span><b>Fill</b></button>
+            <button class="primary-tool" data-tool="gradient" type="button"><span aria-hidden="true">🌈</span><b>Gradient</b></button>
+            <button class="primary-tool" data-tool="stamp" type="button"><span aria-hidden="true">⭐</span><b>Stamp</b></button>
+            <button class="primary-tool" id="undoButton" type="button" aria-label="Undo last mark" disabled><span aria-hidden="true">↶</span><b>Undo</b></button>
+          </div>
+          <div class="secondary-tools" id="secondaryTools">
+            <div class="tool-options" data-options="brush" role="group" aria-label="Brush controls">
+              <button class="size-button" data-size="12" type="button" aria-label="Small brush"><i></i></button>
+              <button class="size-button is-selected" data-size="26" type="button" aria-label="Medium brush"><i></i></button>
+              <button class="size-button" data-size="48" type="button" aria-label="Big brush"><i></i></button>
+              <button class="eraser-button" id="eraserButton" type="button" aria-label="Eraser"><span aria-hidden="true"></span></button>
+            </div>
+            <div class="tool-options" data-options="fill" role="group" aria-label="Fill controls" hidden><span>Tap a space to fill it.</span></div>
+            <div class="tool-options gradient-options" data-options="gradient" role="group" aria-label="Gradient controls" hidden>
+              <label>From <input id="gradientStart" type="color" value="#f46eb3" aria-label="Gradient first color"></label>
+              <label>To <input id="gradientEnd" type="color" value="#3c83ef" aria-label="Gradient second color"></label>
+            </div>
+            <div class="tool-options stamp-options" data-options="stamp" role="group" aria-label="Stamp controls" hidden>
+              <button class="stamp-choice is-selected" data-stamp="★" type="button" aria-label="Star stamp">★</button>
+              <button class="stamp-choice" data-stamp="♥" type="button" aria-label="Heart stamp">♥</button>
+              <button class="stamp-choice" data-stamp="✿" type="button" aria-label="Flower stamp">✿</button>
+              <label>Size <input id="stampSize" type="range" min="36" max="140" value="72"></label>
+              <label>Turn <input id="stampRotation" type="range" min="-180" max="180" value="0"></label>
+            </div>
+          </div>
+          <!-- Landscape's reference card lives here, in flow below the tool
+               controls: the canvas column has no room beside the paper (the
+               arithmetic is in styles.css), and a card pinned over the art or
+               the shelf hides something a child is using. This is a second
+               copy of the stage's figure -- portrait draws that one beside
+               the paper, and no single parent serves both orientations --
+               so app.js mirrors the image src and the peek button's state
+               onto it. Portrait never shows this one. -->
+          <figure class="reference-frame" id="studioReference" aria-label="Finished picture example" hidden>
+            <img id="studioReferenceImage" class="reference-image" alt="" draggable="false" />
+          </figure>
+        </div>
+        <!-- The colours are their own band of the tool surface, never sharing
+             the tool row. It is a sibling of .studio-tools rather than a child
+             because the two orientations shape it differently: portrait stacks
+             it as the last band of the bottom surface, landscape stands it up
+             as a four-column shelf in its own right-hand column (the
+             arithmetic for both is in TWO-MODE-SPEC §3). -->
+        <div id="colorPalette" class="color-palette" role="group" aria-label="Colors"></div>
+
+        <div id="celebration" class="celebration" aria-hidden="true"></div>
+      </section>
+
+      <!-- Blank Page (owner brief, 2026-09-14): the first card of Coloring --
+           free drawing on a white page with exactly three things: brush,
+           eraser, clear. -->
+      <section id="blankScreen" class="screen coloring-screen blank-screen" aria-label="Blank page" hidden>
+        <header class="top-toolbar">
+          <button class="tool-button tool-button--home" id="blankHome" type="button" aria-label="Go back to the pictures">
+            <span aria-hidden="true">⌂</span>
+          </button>
+          <button class="tool-button tool-button--voice" id="blankVoice" type="button" aria-label="Hear what to do">
+            <span aria-hidden="true">🔊</span>
+          </button>
+          <button class="tool-button tool-button--clear" id="blankClear" type="button" aria-label="Clean the whole page">
+            <span aria-hidden="true">🧹</span>
+            <i class="arm-ring" aria-hidden="true"></i>
+          </button>
+        </header>
+
+        <div class="canvas-stage">
+          <div class="paper-frame">
+            <canvas id="blankCanvas" width="724" height="1086" aria-label="Blank page. Pick a color, then draw."></canvas>
+          </div>
+        </div>
+
+        <div class="studio-tools" aria-label="Drawing tools">
+          <p class="studio-message" id="blankMessage" aria-live="polite"></p>
+          <div class="primary-tools blank-tools" role="group" aria-label="Choose a tool">
+            <button class="primary-tool is-selected" id="blankBrush" type="button"><span aria-hidden="true">🖌️</span><b>Brush</b></button>
+            <button class="primary-tool" id="blankEraser" type="button"><span class="eraser-chip" aria-hidden="true"><i></i></span><b>Eraser</b></button>
+          </div>
+        </div>
+
+        <div id="blankPalette" class="color-palette" role="group" aria-label="Colors"></div>
+      </section>
+
+      <!-- Mosaic gallery, card 3 of the hub (owner decision, 2026-09-15).
+           Choosing a sheet works exactly like Coloring's gallery; the board
+           beyond a tap here is the coloring screen opened on a mosaic page
+           (app.js openPage, kind "mosaic") -- the fill, palette, undo, clear
+           and saving are that machinery, not a copy of it. No numbers
+           anywhere: that line belongs to card 4, not this one. -->
+      <section id="mosaicGalleryScreen" class="screen gallery-screen mosaic-gallery-screen" aria-label="Choose a mosaic picture" hidden>
+        <div class="sky-blob sky-blob--one" aria-hidden="true"></div>
+        <div class="sky-blob sky-blob--two" aria-hidden="true"></div>
+        <div class="sky-blob sky-blob--three" aria-hidden="true"></div>
+
+        <header class="gallery-header">
+          <button class="round-button hub-button" id="mosaicGalleryBack" type="button" aria-label="Back to the menu">
+            <span aria-hidden="true">&larr;</span>
+          </button>
+
+          <div class="brand-mark" aria-hidden="true">
+            <span class="brand-star brand-star--one">✦</span>
+            <span class="brand-star brand-star--two">✦</span>
+            <div class="rainbow">
+              <i></i><i></i><i></i><i></i>
+            </div>
+            <div class="paint-smile"><span></span><span></span></div>
+          </div>
+
+          <button class="round-button sound-button" id="mosaicGalleryVoice" type="button" aria-label="Hear what to do">
+            <span aria-hidden="true">🔊</span>
+          </button>
+        </header>
+
+        <div id="mosaicGallery" class="page-gallery page-gallery--mosaic" role="group" aria-label="Mosaic pictures to color"></div>
+      </section>
+
+      <section id="cbnGalleryScreen" class="screen activity-gallery" hidden>
+        <header class="activity-header">
+          <button id="cbnGalleryBack" class="round-button" type="button" aria-label="Back to the menu">←</button>
+          <h1>Color by Number</h1>
+        </header>
+        <div id="cbnGallery" class="activity-cards"></div>
+      </section>
+
+      <section id="cbnScreen" class="screen activity-workspace cbn-workspace" hidden>
+        <header class="activity-header">
+          <button id="cbnBack" class="round-button" type="button" aria-label="Back to Color by Number pictures">←</button>
+          <h1 id="cbnTitle">Color by Number</h1>
+          <div id="cbnCelebration" class="activity-message" aria-live="polite"></div>
+          <button id="cbnSave" class="round-button" type="button" aria-label="Save Color by Number picture">💾</button>
+        </header>
+        <div class="activity-board">
+          <div class="activity-stage">
+            <canvas id="cbnCanvas" aria-label="Numbered coloring picture"></canvas>
+          </div>
+          <div id="cbnPalette" class="cbn-palette" role="group" aria-label="Number colors"></div>
+        </div>
+      </section>
+
+      <section id="stampGalleryScreen" class="screen activity-gallery" hidden>
+        <header class="activity-header">
+          <button id="stampGalleryBack" class="round-button" type="button" aria-label="Back to the menu">←</button>
+          <h1>Stamping</h1>
+        </header>
+        <div id="stampGallery" class="activity-cards"></div>
+      </section>
+
+      <section id="stampScreen" class="screen activity-workspace stamp-workspace" hidden>
+        <header class="activity-header stamp-header">
+          <button id="stampBack" class="round-button" type="button" aria-label="Back to Stamping scenes">←</button>
+          <h1 id="stampTitle">Stamping</h1>
+          <div class="stamp-header-actions">
+            <button id="stampUndo" class="round-button" type="button" aria-label="Undo last stamp action">↶</button>
+            <button id="stampClear" class="round-button" type="button" aria-label="Clear all stamps">🧹</button>
+            <button id="stampSave" class="round-button" type="button" aria-label="Save stamped picture">💾</button>
+          </div>
+        </header>
+        <div class="activity-board stamp-board">
+          <div class="activity-stage">
+            <canvas id="stampCanvas" aria-label="Stamping canvas"></canvas>
+          </div>
+          <div class="stamp-controls">
+            <div id="stampTray" class="stamp-tray" role="group" aria-label="Choose a stamp"></div>
+            <div class="stamp-sizes" role="group" aria-label="Stamp size">
+              <button data-size="0.12" type="button" aria-label="Small stamp">Small</button>
+              <button class="is-selected" data-size="0.18" type="button" aria-label="Medium stamp">Medium</button>
+              <button data-size="0.26" type="button" aria-label="Large stamp">Large</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pixel Mosaic mode (owner concept, 2026-08-27): a pegboard-style tile
+           toy. Pick a pattern card, copy it on the big board. The palette is
+           exactly 36 colors in 3 rows x 12; cards use only those colors. -->
+      <section id="pixelGalleryScreen" class="screen px-gallery-screen" aria-label="Pixel mosaic pictures to copy" hidden>
+        <header class="gallery-header">
+          <button class="round-button hub-button" id="pixelGalleryBack" type="button" aria-label="Back to the menu">
+            <span aria-hidden="true">&larr;</span>
+          </button>
+          <div class="px-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <button class="round-button sound-button" id="pixelGalleryVoice" type="button" aria-label="Hear what to do">
+            <span aria-hidden="true">🔊</span>
+          </button>
+        </header>
+        <div id="pixelLevels" class="px-levels" role="group" aria-label="How much help"></div>
+        <div id="pixelCards" class="px-cards" role="group" aria-label="Pictures to copy"></div>
+      </section>
+
+      <section id="pixelBoardScreen" class="screen px-board-screen" aria-label="Pixel mosaic board" hidden>
+        <header class="top-toolbar">
+          <button class="tool-button tool-button--home" id="pixelHome" type="button" aria-label="Go back to the cards">
+            <span aria-hidden="true">⌂</span>
+          </button>
+          <button class="tool-button tool-button--voice" id="pixelVoice" type="button" aria-label="Hear what to do">
+            <span aria-hidden="true">🔊</span>
+          </button>
+          <button class="tool-button tool-button--undo" id="pixelUndo" type="button" aria-label="Undo last tiles" disabled>
+            <span aria-hidden="true">↶</span>
+          </button>
+          <button class="tool-button tool-button--clear" id="pixelClear" type="button" aria-label="Clean the whole board">
+            <span aria-hidden="true">🧹</span>
+            <i class="arm-ring" aria-hidden="true"></i>
+          </button>
+          <button class="tool-button tool-button--finish" id="pixelFinish" type="button" aria-label="Celebrate my mosaic">
+            <span aria-hidden="true">★</span>
+          </button>
+          <button class="px-thumb" id="pixelThumb" type="button" aria-label="Show the picture card big">
+            <canvas id="pixelThumbCanvas" width="160" height="120" aria-hidden="true"></canvas>
+          </button>
+        </header>
+
+        <div class="px-stage">
+          <div class="px-board-frame" id="pixelBoardFrame">
+            <canvas id="pixelBoard" aria-label="Pixel mosaic board. Tap a color, then tap or drag on squares."></canvas>
+          </div>
+        </div>
+
+        <div class="px-bottom" aria-label="Mosaic tools">
+          <button class="eraser-button" id="pixelEraser" type="button" aria-label="Eraser">
+            <span aria-hidden="true"></span>
+          </button>
+          <div id="pixelPalette" class="px-palette" role="group" aria-label="Colors"></div>
+        </div>
+
+        <div id="pixelCardOverlay" class="px-overlay" hidden>
+          <div class="px-overlay-card">
+            <canvas id="pixelCardOverlayCanvas" width="480" height="360" aria-label="The picture to copy"></canvas>
+          </div>
+        </div>
+        <div id="pixelCelebration" class="celebration" aria-hidden="true"></div>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+    <script src="./pixel-cards.js"></script>
+    <script src="./pixel-mode.js"></script>
+    <script src="./blank-page.js"></script>
+    <script src="./mosaic-mode.js"></script>
+    <script src="./cbn-mode.js"></script>
+    <script src="./stamp-mode.js"></script>
+    <!-- Do NOT re-add a document-level "gesturestart" preventDefault here. It blocks
+         every pinch, so a double-tap zoom (which iPadOS Safari still allows even with
+         touch-action: manipulation -- observed live on v19) becomes a trap with no way
+         out but reloading. The rule and its history: INTERACTION-DIRECTION.md. -->
+</body>
+</html>
