@@ -241,7 +241,6 @@ window.BOOK_NAV = {
           title: "Explore the Asteroid Belt",
           subtitle: "Choose one of ten worlds",
           layoutType: "asteroid-roster",
-          body: "Tap an asteroid to learn more about it!",
           /* `family` is the only thing declared here, and it is an editorial
              call, not a measurement: "big" means the body is large enough to
              draw at true scale beside Ceres, "small" means it would be a few

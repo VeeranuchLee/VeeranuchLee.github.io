@@ -1064,13 +1064,14 @@
        changes, only the size of the picture), and the "Real size comparison"
        label keeps the honest meaning the bigger art used to carry alone.
 
-       THE FOUR SMALL ONES SHARE ONE YELLOW-BORDERED "🔍 ZOOMED IN" PANEL
+       THE FOUR SMALL ONES SHARE ONE YELLOW-BORDERED "ZOOMED IN" PANEL
        (owner, 2026-09-24; re-titled when layout (b) arrived 2026-09-25). At
        the same `rk` Gaspra is under four pixels — too small to draw and too
        small to tap — so the four small worlds are shown enlarged together
        inside a single rectangular panel across the bottom of the menu, with
-       a small yellow "🔍 Zoomed in" pill sitting on the panel's top-left
-       border like a tab.
+       a small yellow "Zoomed in" pill sitting on the panel's top-left
+       border like a tab (polish round 2026-09-25: the magnifier is DRAWN in
+       the pill — see .dd-zoom-pill-icon — not the emoji).
 
        THE HONESTY LIVES IN THE PICTURE AGAIN. Under each enlarged rock's name
        sits a faint circle holding that SAME asteroid drawn at the top row's
@@ -1375,8 +1376,15 @@
       var ring = el("span", "dd-rock-tiny-ring");
       ring.appendChild(rockArt(a.key));
       styleRock(ring.firstChild, f);
+      /* Two short lines ("Actual size" / "same scale"), stacked and centred
+         under the ring — the polish round (2026-09-25) replaced the single
+         nowrap line: at ~8px it was unreadable, and the two-line form stays
+         ≥ 13px without out-widthing the cell. */
+      var tinyCap = el("div", "dd-rock-tiny-cap");
+      tinyCap.appendChild(el("span", null, "Actual size"));
+      tinyCap.appendChild(el("span", null, "same scale"));
       tiny.appendChild(ring);
-      tiny.appendChild(el("span", "dd-rock-tiny-cap", "Actual size (same scale)"));
+      tiny.appendChild(tinyCap);
       cell.appendChild(tiny);
     }
     return cell;
@@ -1448,15 +1456,32 @@
       (isZoom ? zoomRow : belt).appendChild(node);
     });
 
-    /* The shared panel's header: the small yellow "🔍 Zoomed in" pill as a tab
-       on the panel's top-left edge (owner 2026-09-24, re-titled 2026-09-25).
-       The note that sat beside it in rounds 1-2 is gone — layout (b) restores
-       the tiny true-scale dots, which carry the honesty in the picture instead
-       (see buildRock), and the 1024×768 landscape cannot hold the note, the
-       dots and the specified rock sizes on one screen. */
+    /* The shared panel's header: the large yellow "Zoomed in" pill as a tab
+       on the panel's top-left edge (owner 2026-09-24, re-titled 2026-09-25;
+       polish round 2026-09-25 made it a clearly readable ~20-22px label with
+       the magnifier DRAWN in the pill, per the owner's mockup). The note that
+       sat beside it in rounds 1-2 is gone — layout (b) restores the tiny
+       true-scale dots, which carry the honesty in the picture instead (see
+       buildRock), and the 1024×768 landscape cannot hold the note, the dots
+       and the specified rock sizes on one screen. */
     if (zoomRow.children.length) {
       var zHead = el("div", "dd-roster-zoom-head");
-      zHead.appendChild(el("span", "dd-zoom-pill", "🔍 Zoomed in"));
+      var zPill = el("span", "dd-zoom-pill");
+      /* The magnifier icon, drawn (not the emoji): one crisp glyph that
+         renders identically on macOS, Windows and iOS Safari, sized with the
+         pill's text. currentColor paints it the pill's dark ink. */
+      var zIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      zIcon.setAttribute("class", "dd-zoom-pill-icon");
+      zIcon.setAttribute("viewBox", "0 0 24 24");
+      zIcon.setAttribute("aria-hidden", "true");
+      zIcon.setAttribute("focusable", "false");
+      zIcon.innerHTML =
+        '<circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" ' +
+        'stroke-width="3.2"/><path d="M15.5 15.5 L21 21" stroke="currentColor" ' +
+        'stroke-width="3.4" stroke-linecap="round"/>';
+      zPill.appendChild(zIcon);
+      zPill.appendChild(el("span", "dd-zoom-pill-label", "Zoomed in"));
+      zHead.appendChild(zPill);
       zoom.appendChild(zHead);
       zoom.appendChild(zoomRow);
     }
@@ -1477,6 +1502,16 @@
     if (!scene.isConnected) { pendingFit = null; return; }
     var avail = belt.clientWidth;
     if (!avail) return;                     // still hidden; a later pass runs
+
+    /* Undo the previous portrait slack distribution (if any) before
+       measuring, so every pass sees the base chrome and never double-counts
+       the air it added last time. The two base values must track
+       .dd-roster's padding and .dd-roster-zoom's margin-top in deep-dive.css. */
+    if (scene._ddDist) {
+      scene.style.paddingBottom = "";
+      zoom.style.marginTop = "";
+      scene._ddDist = false;
+    }
 
     var big = items.filter(function (it) { return !it.zoom; });
     var small = items.filter(function (it) { return it.zoom; });
@@ -1649,6 +1684,38 @@
         }
       }
     });
+
+    /* ------------------------------------------------------------
+       PORTRAIT ONLY: FILL THE EMPTY BANDS (owner, 2026-09-25, polish
+       round: "fill the large empty bands using the height; no scrolling").
+
+       Held upright a 1024-viewport-high body leaves a dead band above and
+       below the roster — measured 375px of air on the 768x1024 iPad before
+       this existed. Neither row can grow into it: the belt is width-bound
+       (six true-scale rocks and their pills) and so is the zoom row (Ida &
+       Dactyl is ~2:1 wide), so the air is distributed INTENTIONALLY instead:
+       the zoom panel is pushed down with a larger margin-top and the scene's
+       padding-bottom grows by the rest. The scene then fills the body, the
+       space reads as deliberate rather than empty, and nothing scrolls.
+
+       The numbers must track deep-dive.css: `12` is .dd-roster-zoom's base
+       margin-top and `10` is .dd-roster's base padding. The reset at the top
+       of this function cleared the previous distribution (scene._ddDist), so
+       every pass measures the base chrome and re-distributes — the function
+       is idempotent, exactly like the rest of the fit. `slack` reuses the
+       vertical budget above: `vertBudget - beltH - zRowH` is the air left
+       once both rows sit at their solved sizes, and the guard (portrait +
+       slack > 60) keeps a near-fitting landscape-like layout untouched. */
+    var beltH = belt.offsetHeight;
+    var zRowH = zoomRow.offsetHeight;
+    var slack = vertBudget - beltH - zRowH;
+    var portrait = elBody.clientWidth < elBody.clientHeight;
+    if (portrait && slack > 60) {
+      var dist = Math.round(slack * 0.62);
+      zoom.style.marginTop = (12 + dist) + "px";
+      scene.style.paddingBottom = (10 + slack - dist) + "px";
+      scene._ddDist = true;
+    }
   }
 
   /* A body's own page. The six drawn at true scale keep it here too — one
