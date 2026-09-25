@@ -1,6 +1,6 @@
 /* CACHE_NAME is the variable the release pipeline's reader expects (publish-app.sh stage 5
    matches /CACHE_NAME\s*=/), and bumping it is what arms a release. Do not rename it. */
-const CACHE_NAME = 'our-maze-v1';
+const CACHE_NAME = 'our-maze-v2';
 
 /* The SHELL is everything needed to open the picker and play the first maze offline:
    the page, its scripts and styles, the manifest, the sprite roster, and every sprite
@@ -10,6 +10,7 @@ const SHELL = [
   './',
   './index.html',
   './css/maze.css',
+  './js/tap-zoom-guard.js',
   './js/maze-core.js',
   './js/maze-movement.js',
   './js/maze-sound.js',

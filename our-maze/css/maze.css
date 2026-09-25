@@ -74,7 +74,9 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
 @media (orientation:landscape){.stage{grid-template-rows:none;grid-template-columns:minmax(0,1fr) auto;align-items:center}}
 .board-wrap{min-width:0;min-height:0;height:100%;display:flex;align-items:center;justify-content:center}
 .board{
-  position:relative;touch-action:none;border-radius:18px;overflow:hidden;background:var(--cream-2);
+  /* pinch-zoom, not none (2026-09-25): one-finger drags stay the game's, but a two-finger
+     pinch reaches Safari, so a child zoomed in over the board can always zoom back out. */
+  position:relative;touch-action:pinch-zoom;border-radius:18px;overflow:hidden;background:var(--cream-2);
   box-shadow:0 6px 0 rgba(138,90,46,.25),0 14px 30px rgba(138,90,46,.15);
 }
 .board canvas{position:absolute;left:0;top:0;display:block}
