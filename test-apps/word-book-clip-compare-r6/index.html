@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Word Cuts Round 6 — ALL.</title>
+<!--
+  CG-250 round 6, prepared 2026-09-25. PRIVATE QA page; qa/** is [private].
+  The ALL. candidate is deliberately not rendered in this task. After the
+  controller runs the command recorded in manifest.js, this same page becomes
+  playable. There is no service worker here.
+-->
+<style>
+  :root{--ink:#2b2530;--muted:#6f6676;--line:#e3dce6;--bg:#fbf7fb;--card:#fff;--a:#7a4fb3;--pick:#f1e9f8;--warn:#8a5a00}
+  @media (prefers-color-scheme:dark){:root{--ink:#efe9f2;--muted:#b3a9b9;--line:#3d3542;--bg:#1d1a20;--card:#27232b;--a:#b394e0;--pick:#352c3d;--warn:#e0b25c}}
+  *{box-sizing:border-box}html,body{touch-action:manipulation}
+  body{margin:0;font:16px/1.5 ui-rounded,"Avenir Next",-apple-system,system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+  main{max-width:680px;margin:0 auto;padding:24px 16px 70px}h1{font-size:24px;margin:0 0 6px}
+  p{color:var(--muted)}code{font-family:ui-monospace,Menlo,monospace;font-size:.92em}
+  .grid{display:grid;gap:14px;margin-top:18px}.clip{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+  .clip h2{margin:0 0 4px;font-size:28px}.clip small{display:block;color:var(--muted);margin-bottom:14px}
+  button{font:inherit;min-height:48px;padding:9px 18px;border-radius:11px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+  button.primary{border-color:var(--a);background:var(--pick);font-weight:700}button:disabled{cursor:not-allowed;opacity:.65}
+  .pending{color:var(--warn);font-weight:700}.command{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;overflow:auto}
+  .command code{white-space:pre-wrap;word-break:break-word}.foot{font-size:14px;margin-top:24px}
+</style>
+</head>
+<body>
+<main>
+  <h1>Word cuts, round 6</h1>
+  <p>Compare the current Word Book A with one prepared isolated take. The candidate's spoken text is exactly <b>ALL.</b> — capital letters and a full stop.</p>
+  <p class="pending" id="state"></p>
+  <div class="grid" id="clips"></div>
+  <div class="command"><b>Controller command (not run here)</b><br><code id="cmd"></code></div>
+  <p class="foot">This is a private listening instrument. It changes no shipped app clip and has no service worker.</p>
+</main>
+<script src="manifest.js"></script>
+<script>
+(function(){
+  'use strict';
+  var data=window.ROUND6;
+  var clips=document.getElementById('clips');
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  if(!data){document.getElementById('state').textContent='Could not load manifest.js.';return;}
+  var audio=new Audio(), playing=null;
+  data.clips.forEach(function(c){
+    var box=document.createElement('section');box.className='clip';
+    var ready=c.status==='ready';
+    box.innerHTML='<h2>'+esc(c.label)+'</h2><small>'+esc(c.kind)+'</small>'+
+      '<button class="primary" '+(ready?'':'disabled')+'>▶ play</button>';
+    var b=box.querySelector('button');
+    b.addEventListener('click',function(){
+      if(playing)playing.classList.remove('on');
+      audio.pause();audio.src=c.file;audio.currentTime=0;var p=audio.play();if(p&&p.catch)p.catch(function(){});
+      playing=b;b.classList.add('on');
+    });
+    clips.appendChild(box);
+  });
+  audio.addEventListener('ended',function(){if(playing)playing.classList.remove('on');playing=null;});
+  var pending=data.clips.filter(function(c){return c.status!=='ready';}).length;
+  document.getElementById('state').textContent=pending?'A is ready. ALL. is prepared but not rendered yet; the controller command below will encode it.':'Both clips are ready.';
+  document.getElementById('cmd').textContent=data.render_command+'\n'+data.build_command;
+})();
+</script>
+</body>
+</html>

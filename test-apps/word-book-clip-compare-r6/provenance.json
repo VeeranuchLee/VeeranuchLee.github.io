@@ -1,0 +1,30 @@
+{
+ "what": "Provenance for the CG-250 round-6 A-versus-ALL. listening page.",
+ "shipped": false,
+ "rendered_in_this_task": false,
+ "A": {
+  "file": "word-book/qa/clip-compare-r6/audio/all.the-whole-group.A.m4a",
+  "source": "word-book/audio/words/all.m4a",
+  "sha256": "d960377e2d2ef4ad7736f3bdb7aba5cfe671c8316907cfa6616dca4e7d7f2358",
+  "note": "Existing Word Book A; copied byte-for-byte and not re-rendered."
+ },
+ "ALL.": {
+  "file": "word-book/qa/clip-compare-r6/audio/all.r6-1.m4a",
+  "master": "word-book/audio-source/word-candidates/all.r6-1.mp3",
+  "master_sha256": "762d3e74795e05d5b26d6e14d565e932a78c8f39cea8eb6b8f290fd7ba7eec00",
+  "alignment": "word-book/audio-alignment/word-candidates/all.r6-1.json",
+  "tool": "word-book/tools/render-word-candidates.py (ElevenLabs, AI-generated speech)",
+  "voice": "Alice - Clear, Engaging, Educational (British)",
+  "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+  "model": "eleven_multilingual_v2",
+  "output_format": "mp3_44100_128",
+  "text": "ALL.",
+  "char_count": 4,
+  "status": "ready",
+  "cut": "none — ALL. is the complete isolated candidate, not a sentence cut"
+ },
+ "controller_commands": [
+  "python3 word-book/tools/render-word-candidates.py --spec word-book/tools/word-candidates-r6/all.json --max-requests 1 --max-credits 4",
+  "python3 word-book/tools/build-r6-compare.py"
+ ]
+}
