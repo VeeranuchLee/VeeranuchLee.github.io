@@ -91,13 +91,15 @@
       this.parentNode.textContent = element.icon;
     };
     icon.append(iconImg);
-    symbolLine.append(symbol, icon);
+    symbolLine.append(symbol);
 
     const name = document.createElement("span");
     name.className = "element-name";
     name.textContent = element.name;
 
-    tile.append(number, symbolLine, name);
+    // The icon is a direct child of the tile so its inset:2px fills the whole
+    // cell (inside .symbol-line it only filled the 8px label: icon-first fix).
+    tile.append(icon, number, symbolLine, name);
     return tile;
   }
 
