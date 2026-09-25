@@ -50,6 +50,13 @@
     { n: 8, minSteps: 22, maxSteps: 63, braid: 0.15 },
   ];
 
+  // Plan Moves deliberately has one calm cap across the whole ladder. The strip owns the
+  // overflow: a child can build a longer route without making the page itself scroll.
+  var PLAN_CAP = 30;
+  var PLAN_PREVIEW_SLOTS = 5;
+  var SLOT_SIZE = 64;
+  var SLOT_GAP = 5;
+
   var MISSING = window.MAZE_SPRITES_MISSING || [];
   var SPRITE = function (id, kind) {
     return MISSING.indexOf(id) >= 0 && PLACEHOLDER[kind || "hero"] ? PLACEHOLDER[kind || "hero"] : "./assets/sprites/" + id + ".webp";
@@ -324,6 +331,7 @@
     draw(dpr);
     place(R.goal, S.round.goal, 0, 0);
     place(R.hero, S.state.cell, 0, 0, true);
+    if (S.mode === "plan") renderPlan();
   }
 
   function cellXY(i) {
@@ -415,7 +423,7 @@
     return intent(dir);
   }
 
-  function chipCap() { return S.rung < 2 ? 6 : S.rung === 2 ? 8 : 10; }
+  function chipCap() { return PLAN_CAP; }
   function arrowGlyph(dir) { return { up: "↑", right: "→", down: "↓", left: "←" }[dir]; }
 
   function wirePlan() {
@@ -439,6 +447,22 @@
     return true;
   }
 
+  function stripRowCapacity() {
+    var width = R.strip && R.strip.clientWidth;
+    if (!width) return PLAN_PREVIEW_SLOTS;
+    return Math.max(1, Math.floor((width - 6 + SLOT_GAP) / (SLOT_SIZE + SLOT_GAP)));
+  }
+
+  function previewSlotCount() {
+    var remaining = chipCap() - S.plan.length;
+    if (remaining <= 0) return 0;
+    // Show only enough quiet placeholders to finish the row the child is looking at.
+    // The fallback is used by the dependency-free mounted harness, which has no layout.
+    var row = Math.min(PLAN_PREVIEW_SLOTS, stripRowCapacity());
+    var usedInRow = S.plan.length % row;
+    return Math.min(remaining, usedInRow ? row - usedInRow : row);
+  }
+
   function renderPlan(statuses) {
     if (!R || !R.strip) return;
     if (statuses !== undefined) S.planStatuses = statuses;
@@ -451,12 +475,17 @@
       return '<button class="move-chip' + st + '" data-index="' + i + '" aria-label="Remove ' + dir + ' move">' +
         arrowGlyph(dir) + (hasQuestion ? '<span class="question">?</span>' : '') + '</button>';
     }).join("");
-    var slots = new Array(chipCap() - S.plan.length + 1).join('<span class="move-slot" aria-hidden="true"></span>');
+    var slotCount = previewSlotCount();
+    var slots = new Array(slotCount + 1).join('<span class="move-slot" aria-hidden="true"></span>');
+    var oldScroll = R.strip.scrollTop || 0;
     R.strip.innerHTML = chips + slots;
+    R.strip.setAttribute("aria-label", "Planned moves: " + S.plan.length + " of " + chipCap());
     if (R.count) R.count.textContent = S.plan.length + " / " + chipCap();
     Array.prototype.forEach.call(R.strip.querySelectorAll(".move-chip"), function (b) {
       b.onclick = function () { if (!S.running) { S.plan.splice(+b.getAttribute("data-index"), 1); renderPlan(); } };
     });
+    // Follow a newly appended chip, but do not yank the strip while GO is annotating chips.
+    R.strip.scrollTop = S.planStatuses ? oldScroll : R.strip.scrollHeight;
     var empty = !S.plan.length;
     R.undo.disabled = empty || S.running;
     R.clear.disabled = empty || S.running;
@@ -753,6 +782,7 @@
     get cellPx() { return R ? R.cellPx : 0; }, get rung() { return S.rung; },
     get mode() { return S.mode; }, get plan() { return S.plan.slice(); }, get wallAttempts() { return S.wallAttempts; },
     get running() { return S.running; }, get cap() { return chipCap(); },
+    get planCap() { return PLAN_CAP; }, get previewSlots() { return previewSlotCount(); },
     LADDER: LADDER, CAST: CAST,
   };
 
