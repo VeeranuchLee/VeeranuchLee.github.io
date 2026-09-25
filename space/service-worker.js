@@ -15,11 +15,11 @@
    handler below is cache-first for same-origin GETs already, so the bed joins the
    cache itself the first time a child plays it. Same reasoning as
    site/children-apps/index.html's own bed ("NOT PRECACHED"). */
-const CACHE_NAME='space-hub-v3';
+const CACHE_NAME='space-hub-v4';
 const SHELL=['./','./index.html','./fonts.css',
   './fonts/Nunito-latin.woff2','./fonts/Nunito-latin-ext.woff2','./fonts/FredokaOne-latin.woff2',
   './manifest.webmanifest',
-  './assets/ari-and-dot.webp','./assets/planets-and-moons.png','./assets/backdrop.webp',
+  './assets/ari-and-dot.webp','./assets/planets-and-moons.png','./assets/space-trivia.webp','./assets/backdrop.webp',
   './assets/icons/icon-192.png','./assets/icons/icon-512.png'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(SHELL))));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith('space-hub-v')&&k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
