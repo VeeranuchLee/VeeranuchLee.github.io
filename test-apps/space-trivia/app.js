@@ -111,7 +111,7 @@ function speak(text) {
   try {
     if (!voice.el) voice.el = new Audio();
     voice.el.pause();
-    voice.el.src = "./assets/audio/" + file;
+    voice.el.src = "./narration/clips/" + file;
     /* One missing file means the set was never rendered; stop asking. */
     voice.el.onerror = () => { voice.dead = true; };
     const played = voice.el.play();
