@@ -1,0 +1,597 @@
+[
+  {
+    "id": "sun-001",
+    "topic": "sun",
+    "subtopic": "identity",
+    "difficulty": 1,
+    "factGroup": "sun-only-star",
+    "factRef": "SF-008",
+
+    "questionText": "Which star do all the planets travel around?",
+    "questionVoiceText": "Which star do all the planets travel around?",
+
+    "answerMode": "LETTERS",
+    "correctAnswer": "Sun",
+    "choices": null,
+    "letterBank": ["N", "S", "U"],
+    "letterSlotCount": 3,
+
+    "imageType": "contextual",
+    "imageBrief": "Reuse sticker space-brights-08 (astronaut helmet with starfield visor) large and centred on a calm indigo night gradient, a few soft sparkle dots around it. Many stars, none singled out.",
+    "imagePrompt": "A cheerful white astronaut helmet with a rounded glass visor reflecting a whole field of tiny distant stars, floating centred on a calm deep-indigo night gradient with a few soft sparkles around it. Children's educational space illustration for a young-child trivia game: calm, friendly and uncluttered; soft indigo night palette with one warm accent; bold rounded shapes, gentle glow, flat sticker-book style; one centred subject with generous empty space; absolutely no letters, numerals, labels or watermarks; 4:3 landscape card.",
+    "imageMustNotReveal": [
+      "one star drawn larger or singled out from the others",
+      "planets shown circling one particular star",
+      "any letters, numerals or labels"
+    ],
+
+    "correctVoiceText": "That's right! The planets all travel around the Sun. The Sun is the only star in our solar system.",
+    "retryVoiceText": "Almost! Try again.",
+    "teachingFactText": "The Sun is the only star in our solar system.",
+
+    "source": "NASA Science — Sun Facts",
+    "sourceURL": "https://science.nasa.gov/sun/facts/",
+    "lastVerified": "2026-09-14",
+
+    "qa": { "fact": true, "language": true, "pedagogy": false, "image": false, "audio": false, "runtime": false },
+    "status": "written",
+    "pilot": true,
+    "notes": "Premise joins SF-008 (only star) with SF-002 (the planets orbit the Sun); teaching line is SF-008 verbatim in meaning, reinforcement carries SF-002. Sun capitalised per bank note. Short-answer case for the pilot: 3 letters. Bank hand-check: N,S,U vs S-U-N, one of each. Image: a picture of the Sun itself would hand a child who recognises it the identity being tested, so the brief shows many stars and no Sun."
+  },
+  {
+    "id": "solar-system-basics-001",
+    "topic": "solar-system-basics",
+    "subtopic": "planet-count",
+    "difficulty": 1,
+    "factGroup": "eight-planets",
+    "factRef": "SF-001",
+
+    "questionText": "How many planets travel around our Sun?",
+    "questionVoiceText": "How many planets travel around our Sun?",
+
+    "answerMode": "MC",
+    "correctAnswer": "8",
+    "choices": ["7", "8", "9", "10"],
+    "letterBank": null,
+    "letterSlotCount": null,
+
+    "imageType": "contextual",
+    "imageBrief": "Reuse sticker space-brights-23 (the smiling yellow Sun) glowing warmly at the left edge over an indigo night gradient with swirls of soft stardust. No planets anywhere in the frame — the Sun is context, and any countable set of planets would be the answer.",
+    "imagePrompt": "A warm smiling yellow Sun glowing at the left edge of the frame over a calm deep-indigo night gradient, gentle swirls of golden stardust curving away from it, soft scattered stars, and no planets anywhere. Children's educational space illustration for a young-child trivia game: calm, friendly and uncluttered; soft indigo night palette with one warm accent; bold rounded shapes, gentle glow, flat sticker-book style; one centred subject with generous empty space; absolutely no letters, numerals, labels or watermarks; 4:3 landscape card.",
+    "imageMustNotReveal": [
+      "any planet, or any group of similar objects a child could count",
+      "exactly eight of anything",
+      "any numerals or text"
+    ],
+
+    "correctVoiceText": "You got it! Eight planets travel around our Sun. Our solar system has eight planets, and Pluto is a dwarf planet, not one of the eight.",
+    "retryVoiceText": "Not quite. Have another try.",
+    "teachingFactText": "Our solar system has eight planets, and Pluto is a dwarf planet, not one of the eight.",
+
+    "source": "NASA Science — Solar System Facts",
+    "sourceURL": "https://science.nasa.gov/solar-system/solar-system-facts/",
+    "lastVerified": "2026-09-14",
+
+    "qa": { "fact": true, "language": true, "pedagogy": false, "image": false, "audio": false, "runtime": false },
+    "status": "written",
+    "pilot": true,
+    "notes": "Count from SF-001; premise verb from SF-002. Distractor 9 is the classic older-books Pluto count; the teaching line closes it with SF-046 (Pluto is a dwarf planet in the Kuiper Belt) — the bank's own advice to teach the current classification gently. Planets are not mixed with dwarf planets anywhere in the question. Numeric MC #1 of 3."
+  },
+  {
+    "id": "mercury-venus-001",
+    "topic": "mercury-venus",
+    "subtopic": "mercury",
+    "difficulty": 2,
+    "factGroup": "mercury-closest-sun",
+    "factRef": "SF-012",
+
+    "questionText": "Which planet is closest to the Sun?",
+    "questionVoiceText": "Which planet is closest to the Sun?",
+
+    "answerMode": "LETTERS",
+    "correctAnswer": "Mercury",
+    "choices": null,
+    "letterBank": ["R", "U", "M", "E", "R", "C", "Y"],
+    "letterSlotCount": 7,
+
+    "imageType": "contextual",
+    "imageBrief": "A small cheerful astronaut in a white suit floating at the right of frame, waving towards a big warm glowing Sun at the far left edge, soft stars scattered in deep indigo. No planets — the owner's own worked example of what this picture must not show (QA-PLAN.md §E2.1).",
+    "imagePrompt": "A small cheerful astronaut in a white spacesuit floating at the right of the frame, waving towards a big warm glowing yellow Sun at the far left edge, soft scattered stars in a deep indigo sky, and no planets anywhere. Children's educational space illustration for a young-child trivia game: calm, friendly and uncluttered; soft indigo night palette with one warm accent; bold rounded shapes, gentle glow, flat sticker-book style; one centred subject with generous empty space; absolutely no letters, numerals, labels or watermarks; 4:3 landscape card.",
+    "imageMustNotReveal": [
+      "any planet, especially a small one sitting nearest the Sun",
+      "a planet-order line-up or orbit diagram",
+      "the name Mercury or any other text"
+    ],
+
+    "correctVoiceText": "Yes! Mercury is the planet closest to the Sun. As well as being nearest to the Sun, Mercury is the smallest of all eight planets.",
+    "retryVoiceText": "Nearly there. One more go.",
+    "teachingFactText": "As well as being nearest to the Sun, Mercury is the smallest of all eight planets.",
+
+    "source": "NASA Science — Mercury Facts",
+    "sourceURL": "https://science.nasa.gov/mercury/facts/",
+    "lastVerified": "2026-09-14",
+
+    "qa": { "fact": true, "language": true, "pedagogy": false, "image": false, "audio": false, "runtime": false },
+    "status": "written",
+    "pilot": true,
+    "notes": "SF-012 answer; teaching line adds SF-013 with its note's closure — 'smallest of all eight planets' names the category, because Pluto is smaller but is a dwarf planet. THE duplicated-letter case the owner names: MERCURY = M,E,R,C,U,R,Y carries two Rs, and the authored bank has exactly two R tiles (positions 1 and 5). Longer-answer case (7 letters). The scaffold ladder's miss-2 hint ('It starts with M') and the two-R wrong-row reset are the runtime behaviours this question exists to exercise."
+  },
+  {
+    "id": "mercury-venus-002",
+    "topic": "mercury-venus",
+    "subtopic": "venus",
+    "difficulty": 2,
+    "factGroup": "venus-hottest",
+    "factRef": "SF-015",
+
+    "questionText": "The hottest planet is not the closest one to the Sun. Which planet is the hottest?",
+    "questionVoiceText": "The hottest planet is not the closest one to the Sun. Which planet is the hottest?",
+
+    "answerMode": "MC",
+    "correctAnswer": "Venus",
+    "choices": ["Mercury", "Venus", "Mars", "Jupiter"],
+    "letterBank": null,
+    "letterSlotCount": null,
+
+    "imageType": "contextual",
+    "imageBrief": "A jolly oversized cartoon thermometer with a smiling warm-red bulb, drifting through space with beads of soft orange glow and a few stars. No planet in frame: which planet is hottest is exactly what the picture must not decide.",
+    "imagePrompt": "A jolly oversized cartoon thermometer with a smiling warm-red rounded bulb, drifting through space surrounded by soft beads of orange glow and a few gentle stars, and no planets anywhere. Children's educational space illustration for a young-child trivia game: calm, friendly and uncluttered; soft indigo night palette with one warm accent; bold rounded shapes, gentle glow, flat sticker-book style; one centred subject with generous empty space; absolutely no letters, numerals, labels or watermarks; 4:3 landscape card.",
+    "imageMustNotReveal": [
+      "any planet shown glowing, red-hot or otherwise marked out as the hot one",
+      "Venus or its name",
+      "a planet placed beside the Sun",
+      "any numerals (including thermometer degrees) or text"
+    ],
+
+    "correctVoiceText": "Spot on! Venus is the hottest planet in our solar system. Venus is hotter than every other planet — even Mercury, which is nearer to the Sun.",
+    "retryVoiceText": "Have another go.",
+    "teachingFactText": "Venus is hotter than every other planet — even Mercury, which is nearer to the Sun.",
+
+    "source": "NASA Science — Venus Facts",
+    "sourceURL": "https://science.nasa.gov/venus/venus-facts/",
+    "lastVerified": "2026-09-14",
+
+    "qa": { "fact": true, "language": true, "pedagogy": false, "image": false, "audio": false, "runtime": false },
+    "status": "written",
+    "pilot": true,
+    "notes": "The bank's clearest trap row (SF-015: children choose Mercury because it is closest). CLOSED IN THE WORDING: the question's first sentence states outright that the hottest planet is not the closest one, removing the distance reasoning before the child answers; Mercury is kept as a distractor on purpose so the misconception is worked through rather than avoided, and the teaching line names it again (SF-015 + SF-012). The bank note suggests teaching that Venus's thick atmosphere traps the heat — that reason has no sourced row, so it is NOT used here and is listed in Gaps."
+  },
+  {
+    "id": "earth-moon-001",
+    "topic": "earth-moon",
+    "subtopic": "earth",
+    "difficulty": 2,
+    "factGroup": "earth-third-planet",
+    "factRef": "SF-017",
+
+    "questionText": "Which planet is third from the Sun?",
+    "questionVoiceText": "Which planet is third from the Sun?",
+
+    "answerMode": "LETTERS",
+    "correctAnswer": "Earth",
+    "choices": null,
+    "letterBank": ["T", "H", "E", "A", "R"],
+    "letterSlotCount": 5,
+
+    "imageType": "contextual",
+    "imageBrief": "Reuse sticker space-brights-04 (the red-finned rocket, launching) bursting upwards with a sparkle trail through an indigo starfield. An order question gets no order: no line-up, no orbit rings (so not space-holo-2-16), and not Earth — a child who recognises our blue-green planet must not be able to answer an order question from its portrait.",
+    "imagePrompt": "A small red-finned rocket bursting upwards with a trail of golden sparkles through a calm indigo starfield, stars scattered softly around it, and no planets anywhere. Children's educational space illustration for a young-child trivia game: calm, friendly and uncluttered; soft indigo night palette with one warm accent; bold rounded shapes, gentle glow, flat sticker-book style; one centred subject with generous empty space; absolutely no letters, numerals, labels or watermarks; 4:3 landscape card.",
+    "imageMustNotReveal": [
+      "a row or line-up of planets",
+      "Earth or any recognisably coloured planet",
+      "orbit rings, position markers or a diagram of the Solar System",
+      "numerals or text"
+    ],
+
+    "correctVoiceText": "Well done! Earth is number three from the Sun. Earth is the third planet from the Sun, and the biggest of the four rocky planets.",
+    "retryVoiceText": "Almost! Try again.",
+    "teachingFactText": "Earth is the third planet from the Sun, and the biggest of the four rocky planets.",
+
+    "source": "NASA Science — Earth Facts",
+    "sourceURL": "https://science.nasa.gov/earth/facts/",
+    "lastVerified": "2026-09-14",
+
+    "qa": { "fact": true, "language": true, "pedagogy": false, "image": false, "audio": false, "runtime": false },
+    "status": "written",
+    "pilot": true,
+    "notes": "SF-017 answer; teaching line adds SF-018 with its note's closure — 'biggest of the four rocky planets', because Jupiter is the largest planet overall. Bank hand-check: T,H,E,A,R vs E-A-R-T-H, one of each. The owner's seeded 'What planet do we live on?' was NOT used: the bank carries no 'we live on Earth' row, so this order question stands in for the Earth LETTERS slot (see Gaps)."
+  },
+  {
+    "id": "earth-moon-002",
+    "topic": "earth-moon",
+    "subtopic": "moons",
+    "difficulty": 1,
+    "factGroup": "earth-one-moon",
+    "factRef": "SF-020",
+
+    "questionText": "How many natural moons does Earth have?",
+    "questionVoiceText": "How many natural moons does Earth have?",
+
+    "answerMode": "MC",
+    "correctAnswer": "1",
+    "choices": ["1", "2", "3", "4"],
+    "letterBank": null,
+    "letterSlotCount": null,
+
+    "imageType": "contextual",
+    "imageBrief": "Reuse sticker space-brights-21 (soft lilac cloud) drifting across a calm indigo night sky with tiny stars. Nothing else in the sky: one visible moon would answer '1' outright, so the Moon sticker sheets are deliberately untouched for this card.",
+    "imagePrompt": "One soft lilac cloud drifting across a calm deep-indigo night sky dotted with tiny stars, and nothing else in the sky. Children's educational space illustration for a young-child trivia game: calm, friendly and uncluttered; soft indigo night palette with one warm accent; bold rounded shapes, gentle glow, flat sticker-book style; one centred subject with generous empty space; absolutely no letters, numerals, labels or watermarks; 4:3 landscape card.",
+    "imageMustNotReveal": [
+      "the Moon or any moon",
+      "anything countable in the sky",
+      "numerals or text"
+    ],
+
+    "correctVoiceText": "You got it! Earth has one natural moon. Earth has one natural moon — the Moon we see shining in our night sky.",
+    "retryVoiceText": "Not quite. Have another try.",
+    "teachingFactText": "Earth has one natural moon — the Moon we see shining in our night sky.",
+
+    "source": "NASA Science — Earth Facts",
+    "sourceURL": "https://science.nasa.gov/earth/facts/",
+    "lastVerified": "2026-09-14",
+
+    "qa": { "fact": true, "language": true, "pedagogy": false, "image": false, "audio": false, "runtime": false },
+    "status": "written",
+    "pilot": true,
+    "notes": "Owner §15 preferred fact. 'Natural' is in the question and teaching line per the bank note (NASA mentions temporarily captured asteroids; never say 'the only object orbiting Earth'). Numeric MC #2 of 3; one of the pilot's four moon questions."
+  },
+  {
+    "id": "mars-001",
+    "topic": "mars",
+    "subtopic": "moons",
+    "difficulty": 2,
+    "factGroup": "mars-two-moons",
+    "factRef": "SF-027",
+
+    "questionText": "How many moons does Mars have?",
+    "questionVoiceText": "How many moons does Mars have?",
+
+    "answerMode": "MC",
+    "correctAnswer": "2",
+    "choices": ["1", "2", "3", "4"],
+    "letterBank": null,
+    "letterSlotCount": null,
+
+    "imageType": "contextual",
+    "imageBrief": "Reuse sticker space-brights-16 (the boxy rover with camera mast) trundling over gently rolling rust-red ground under a dusty pink sky, a few pebbles, nothing in the sky. The owner's second worked leakage example: Mars with two countable moons would end the question (QA-PLAN.md §E2.2).",
+    "imagePrompt": "A small boxy six-wheeled rover with a camera mast trundling over gently rolling rust-red rocky ground under a soft dusty pink sky, a few smooth pebbles, and nothing at all in the sky. Children's educational space illustration for a young-child trivia game: calm, friendly and uncluttered; soft indigo night palette with one warm accent; bold rounded shapes, gentle glow, flat sticker-book style; one centred subject with generous empty space; absolutely no letters, numerals, labels or watermarks; 4:3 landscape card.",
+    "imageMustNotReveal": [
+      "any moon of Mars",
+      "anything countable above the horizon",
+      "numerals or text"
+    ],
+
+    "correctVoiceText": "Brilliant! Mars has two moons. Mars has two small moons, called Phobos and Deimos.",
+    "retryVoiceText": "Nearly there. One more go.",
+    "teachingFactText": "Mars has two small moons, called Phobos and Deimos.",
+
+    "source": "NASA Science — Mars Facts",
+    "sourceURL": "https://science.nasa.gov/mars/facts/",
+    "lastVerified": "2026-09-14",
+
+    "qa": { "fact": true, "language": true, "pedagogy": false, "image": false, "audio": false, "runtime": false },
+    "status": "written",
+    "pilot": true,
+    "notes": "The owner's own numeric example, kept verbatim. Count is stable per the bank (named moons, not a catalogue tally). Numeric MC #3 of 3. Pronunciation flags for the render manifest (not child-facing): Phobos = FOH-boss, Deimos = DYE-moss."
+  },
+  {
+    "id": "mars-002",
+    "topic": "mars",
+    "subtopic": "moons",
+    "difficulty": 3,
+    "factGroup": "phobos-larger",
+    "factRef": "SF-028",
+
+    "questionText": "What is Mars's larger moon called?",
+    "questionVoiceText": "What is Mars's larger moon called?",
+
+    "answerMode": "LETTERS",
+    "correctAnswer": "Phobos",
+    "choices": null,
+    "letterBank": ["B", "O", "P", "S", "H", "O"],
+    "letterSlotCount": 6,
+
+    "imageType": "contextual",
+    "imageBrief": "Reuse sticker space-brights-09 (the small white-and-lilac landing capsule) standing on softly rolling rust-red ground under an empty dusty-pink sky. Mars-mission equipment gives context without showing Mars or either moon; no text appears.",
+    "imagePrompt": "A small white-and-lilac landing capsule standing on softly rolling rust-red ground under an empty dusty-pink sky, with no moons and no other bodies anywhere. Children's educational space illustration for a young-child trivia game: calm, friendly and uncluttered; soft indigo night palette with one warm accent; bold rounded shapes, gentle glow, flat sticker-book style; one centred subject with generous empty space; absolutely no letters, numerals, labels or watermarks; 4:3 landscape card.",
+    "imageMustNotReveal": [
+      "any moon of Mars, of any size",
+      "two moons that could be compared",
+      "the name Phobos or any text"
+    ],
+
+    "correctVoiceText": "Yes! Phobos is Mars's larger moon. Phobos is a little larger than Deimos, so it is the larger of Mars's two moons.",
+    "retryVoiceText": "Have another go.",
+    "teachingFactText": "Phobos is a little larger than Deimos, so it is the larger of Mars's two moons.",
+
+    "source": "NASA Science — Mars Moons Facts",
+    "sourceURL": "https://science.nasa.gov/mars/moons/facts/",
+    "lastVerified": "2026-09-14",
+
+    "qa": { "fact": true, "language": true, "pedagogy": false, "image": false, "audio": false, "runtime": false },
+    "status": "written",
+    "pilot": true,
+    "notes": "The owner's own Level 3 example. Second duplicated-letter case: PHOBOS = P,H,O,B,O,S carries two Os; the authored bank has two O tiles (positions 2 and 6). Bank hand-check: B,O,P,S,H,O matches one each of P,H,B,S and two Os. Pronunciation flag for the render manifest: Phobos = FOH-boss. Second moon question of four."
+  },
+  {
+    "id": "jupiter-001",
+    "topic": "jupiter",
+    "subtopic": "size",
+    "difficulty": 2,
+    "factGroup": "jupiter-largest",
+    "factRef": "SF-031",
+
+    "questionText": "Which planet is the largest in our solar system?",
+    "questionVoiceText": "Which planet is the largest in our solar system?",
+
+    "answerMode": "MC",
+    "correctAnswer": "Jupiter",
+    "choices": ["Earth", "Mars", "Jupiter", "Neptune"],
+    "letterBank": null,
+    "letterSlotCount": null,
+
+    "imageType": "contextual",
+    "imageBrief": "Reuse sticker space-brights-07 (telescope on tripod) standing on a rounded hilltop, pointed up at a soft purple starry sky. The owner's third worked example: a to-scale line-up would be the answer to a size question (QA-PLAN.md §E2.3).",
+    "imagePrompt": "A sturdy telescope on a tripod standing on a rounded grassy hilltop, pointed up at a soft purple starry sky with a gentle crescent of moonlight on the horizon, and no planets anywhere. Children's educational space illustration for a young-child trivia game: calm, friendly and uncluttered; soft indigo night palette with one warm accent; bold rounded shapes, gentle glow, flat sticker-book style; one centred subject with generous empty space; absolutely no letters, numerals, labels or watermarks; 4:3 landscape card.",
+    "imageMustNotReveal": [
+      "any size comparison or to-scale line-up of planets",
+      "a single planet rendered so large it answers the question",
+      "Jupiter or its name"
+    ],
+
+    "correctVoiceText": "That's it! Jupiter is the largest planet in our solar system. It is the biggest of all eight planets.",
+    "retryVoiceText": "Almost! Try again.",
+    "teachingFactText": "Jupiter is the largest planet in our solar system.",
+
+    "source": "NASA Science — Jupiter Facts",
+    "sourceURL": "https://science.nasa.gov/jupiter/jupiter-facts/",
+    "lastVerified": "2026-09-14",
+
+    "qa": { "fact": true, "language": true, "pedagogy": false, "image": false, "audio": false, "runtime": false },
+    "status": "written",
+    "pilot": true,
+    "notes": "The owner's own conceptual example, choices verbatim from the brief. Bank note closed: the question says 'planet', keeping the Sun (largest object) out of scope. correctVoiceText contains teachingFactText verbatim -- checked by tools/check-questions.py, which caught the earlier em-dash form that did NOT contain it (the fact ends in a full stop; the dash replaced it)."
+  },
+  {
+    "id": "saturn-001",
+    "topic": "saturn",
+    "subtopic": "rings",
+    "difficulty": 1,
+    "factGroup": "saturn-rings",
+    "factRef": "SF-038",
+
+    "questionText": "Which planet is known for its rings?",
+    "questionVoiceText": "Which planet is known for its rings?",
+
+    "answerMode": "MC",
+    "correctAnswer": "Saturn",
+    "choices": ["Mercury", "Venus", "Earth", "Saturn"],
+    "letterBank": null,
+    "letterSlotCount": null,
+
+    "imageType": "contextual",
+    "imageBrief": "THE deliberately-withheld obvious illustration: the natural picture for this question is Saturn with its rings, and any ringed-planet sticker (space-brights-01, -17, -25; the holo ringed planets) would answer it on sight. The brief instead shows a playful astronaut in a white suit spinning a glowing golden hula-hoop around their middle, floating among soft stars — the ring idea as pure play, with no planet in frame.",
+    "imagePrompt": "A playful astronaut in a white spacesuit floating in space, joyfully spinning a glowing golden hula-hoop around their middle, soft stars scattered around, and no planets anywhere. Children's educational space illustration for a young-child trivia game: calm, friendly and uncluttered; soft indigo night palette with one warm accent; bold rounded shapes, gentle glow, flat sticker-book style; one centred subject with generous empty space; absolutely no letters, numerals, labels or watermarks; 4:3 landscape card.",
+    "imageMustNotReveal": [
+      "Saturn or any ringed planet",
+      "rings around any planet or moon",
+      "the name Saturn or any text"
+    ],
+
+    "correctVoiceText": "Spot on! Saturn is the planet known for its rings. Other planets have rings too, but none are as spectacular or as complex as Saturn's.",
+    "retryVoiceText": "Not quite. Have another try.",
+    "teachingFactText": "Other planets have rings too, but none are as spectacular or as complex as Saturn's.",
+
+    "source": "NASA Science — Saturn Facts",
+    "sourceURL": "https://science.nasa.gov/saturn/facts/",
+    "lastVerified": "2026-09-14",
+
+    "qa": { "fact": true, "language": true, "pedagogy": false, "image": false, "audio": false, "runtime": false },
+    "status": "written",
+    "pilot": true,
+    "notes": "Owner §15 preferred fact, wording is the owner's own seeded example. Distractors are Mercury, Venus and Earth: the bank itself warns 'other planets have rings' without naming them (SF-038), so Jupiter, Uranus and Neptune were kept OUT of the choices — the superlative makes them wrong too, but a ring-having distractor invites a pedantic second defence that a Level 1 question should not carry. Teaching line stays inside SF-038; Saturn's rings' composition (ice, rock) is NOT stated — no bank row (see Gaps)."
+  },
+  {
+    "id": "uranus-neptune-001",
+    "topic": "uranus-neptune",
+    "subtopic": "uranus",
+    "difficulty": 3,
+    "factGroup": "uranus-sideways",
+    "factRef": "SF-042",
+
+    "questionText": "Which planet spins on its side, like a rolling ball?",
+    "questionVoiceText": "Which planet spins on its side, like a rolling ball?",
+
+    "answerMode": "LETTERS",
+    "correctAnswer": "Uranus",
+    "choices": null,
+    "letterBank": ["A", "N", "U", "S", "U", "R"],
+    "letterSlotCount": 6,
+
+    "imageType": "contextual",
+    "imageBrief": "A striped blue-and-mint beach ball rolling through space with a short sparkle trail, stars around. The bank's own analogy ('rolls around the Sun almost like a ball on its side') drawn as play — no planet, no tilt axis, no rotation arrows.",
+    "imagePrompt": "A cheerful striped beach ball in blues and mint green rolling through space with a short trail of soft sparkles behind it, gentle stars scattered around, and no planets anywhere. Children's educational space illustration for a young-child trivia game: calm, friendly and uncluttered; soft indigo night palette with one warm accent; bold rounded shapes, gentle glow, flat sticker-book style; one centred subject with generous empty space; absolutely no letters, numerals, labels or watermarks; 4:3 landscape card.",
+    "imageMustNotReveal": [
+      "Uranus, or any planet shown tilted or rolling",
+      "a rotation axis, spin arrows or orbit paths",
+      "the name Uranus or any text"
+    ],
+
+    "correctVoiceText": "You got it! Uranus is the planet that spins on its side. Uranus is tilted so steeply that it appears to spin sideways as it rolls around the Sun.",
+    "retryVoiceText": "Nearly there. One more go.",
+    "teachingFactText": "Uranus is tilted so steeply that it appears to spin sideways as it rolls around the Sun.",
+
+    "source": "NASA Science — Uranus Facts",
+    "sourceURL": "https://science.nasa.gov/uranus/facts/",
+    "lastVerified": "2026-09-14",
+
+    "qa": { "fact": true, "language": true, "pedagogy": false, "image": false, "audio": false, "runtime": false },
+    "status": "written",
+    "pilot": true,
+    "notes": "Owner's own Level 3 example, moved from the content plan's proposed MC to LETTERS: the answer is one of the owner's twelve listed names, spelling URANUS is trivial for a child who knows it, and the pilot's mode balance wanted the sixth LETTERS item here. Bank note honoured: 'sideways' is kept as the appearance analogy it is ('appears to spin sideways'), never stated as literal orientation. Third duplicated-letter case: URANUS = U,R,A,N,U,S carries two Us; the authored bank has two U tiles (positions 3 and 5). Bank hand-check: A,N,U,S,U,R matches one each of R,A,N,S and two Us. PRONUNCIATION FLAG for the render manifest and iPad listening: Uranus = YOOR-uh-nuhs."
+  },
+  {
+    "id": "uranus-neptune-002",
+    "topic": "uranus-neptune",
+    "subtopic": "neptune",
+    "difficulty": 2,
+    "factGroup": "neptune-farthest",
+    "factRef": "SF-044",
+
+    "questionText": "Which planet is the farthest from the Sun?",
+    "questionVoiceText": "Which planet is the farthest from the Sun?",
+
+    "answerMode": "LETTERS",
+    "correctAnswer": "Neptune",
+    "choices": null,
+    "letterBank": ["P", "T", "E", "N", "E", "U", "N"],
+    "letterSlotCount": 7,
+
+    "imageType": "contextual",
+    "imageBrief": "Reuse sticker space-brights-12 (shooting star) skimming across a deep indigo sky with a long soft golden trail. An order question with no order in frame: no line-up, no orbit rings, no lone distant blue planet.",
+    "imagePrompt": "A golden shooting star with a friendly round head skimming across a deep indigo night sky, leaving a long soft golden trail, tiny stars scattered around, and no planets anywhere. Children's educational space illustration for a young-child trivia game: calm, friendly and uncluttered; soft indigo night palette with one warm accent; bold rounded shapes, gentle glow, flat sticker-book style; one centred subject with generous empty space; absolutely no letters, numerals, labels or watermarks; 4:3 landscape card.",
+    "imageMustNotReveal": [
+      "a planet-order line-up or orbit diagram",
+      "any single distant planet (especially a deep-blue one)",
+      "the name Neptune or any text",
+      "numerals"
+    ],
+
+    "correctVoiceText": "Yes! Neptune is the planet farthest from the Sun. Neptune is the eighth and most distant planet from the Sun.",
+    "retryVoiceText": "Have another go.",
+    "teachingFactText": "Neptune is the eighth and most distant planet from the Sun.",
+
+    "source": "NASA Science — Neptune Facts",
+    "sourceURL": "https://science.nasa.gov/neptune/neptune-facts/",
+    "lastVerified": "2026-09-14",
+
+    "qa": { "fact": true, "language": true, "pedagogy": false, "image": false, "audio": false, "runtime": false },
+    "status": "written",
+    "pilot": true,
+    "notes": "Bank note closed: the question says 'planet', which keeps Pluto out of scope even during the decades it is nearer the Sun than Neptune (SF-044's own caveat). Fourth duplicated-letter case, and the richest: NEPTUNE = N,E,P,T,U,N,E carries two Ns AND two Es; the authored bank has N at positions 4 and 7, E at positions 3 and 5. Bank hand-check: P,T,E,N,E,U,N matches one each of P,T,U and two Es, two Ns. Longer-answer case (7 letters)."
+  },
+  {
+    "id": "earth-moon-003",
+    "topic": "earth-moon",
+    "subtopic": "moon",
+    "difficulty": 3,
+    "factGroup": "moon-same-side",
+    "factRef": "SF-021",
+
+    "questionText": "Do we ever see the far side of the Moon from Earth?",
+    "questionVoiceText": "Do we ever see the far side of the Moon from Earth?",
+
+    "answerMode": "MC",
+    "correctAnswer": "No — the Moon keeps its same face towards us",
+    "choices": [
+      "No — the Moon keeps its same face towards us",
+      "Yes — once every month",
+      "Yes — every single night"
+    ],
+    "letterBank": null,
+    "letterSlotCount": null,
+
+    "imageType": "contextual",
+    "imageBrief": "Reuse sticker space-brights-03 (the sleepy pale-blue full moon) drifting high in a calm indigo sky above one soft lilac cloud. One moon, one side, no arrows: the concept being tested is exactly what must not be drawn.",
+    "imagePrompt": "A gentle pale-blue full moon with a sleepy face drifting high in a calm deep-indigo sky above one soft lilac cloud, tiny stars around it, shown from one side only. Children's educational space illustration for a young-child trivia game: calm, friendly and uncluttered; soft indigo night palette with one warm accent; bold rounded shapes, gentle glow, flat sticker-book style; one centred subject with generous empty space; absolutely no letters, numerals, labels or watermarks; 4:3 landscape card.",
+    "imageMustNotReveal": [
+      "the Moon shown from two sides, split down the middle or turning",
+      "rotation arrows or orbit paths",
+      "the Earth–Moon arrangement as a diagram",
+      "any text"
+    ],
+
+    "correctVoiceText": "That's right! We only ever see one side of the Moon. The Moon keeps the same face turned towards Earth, so we only ever see one side of it.",
+    "retryVoiceText": "Almost! Try again.",
+    "teachingFactText": "The Moon keeps the same face turned towards Earth, so we only ever see one side of it.",
+
+    "source": "NASA Science — Moon Facts",
+    "sourceURL": "https://science.nasa.gov/moon/facts/",
+    "lastVerified": "2026-09-14",
+
+    "qa": { "fact": true, "language": true, "pedagogy": false, "image": false, "audio": false, "runtime": false },
+    "status": "written",
+    "pilot": true,
+    "notes": "Trap row SF-021 CLOSED IN THE WORDING: the question says 'far side', never 'dark side' — the bank's explicit warning — and the correct choice carries the reason (same face towards us), so the misconception is answered rather than hinted. The true statement that the far side gets sunlight has no sourced row and is NOT used (see Gaps). Third moon question of four. Three choices, not four: a fourth yes-timing ('every week', 'in summer') would only pad."
+  },
+  {
+    "id": "wider-basics-001",
+    "topic": "wider-basics",
+    "subtopic": "asteroid-belt",
+    "difficulty": 3,
+    "factGroup": "asteroid-belt-location",
+    "factRef": "SF-050",
+
+    "questionText": "Most asteroids travel around the Sun between which two planets?",
+    "questionVoiceText": "Most asteroids travel around the Sun between which two planets?",
+
+    "answerMode": "MC",
+    "correctAnswer": "Mars and Jupiter",
+    "choices": ["Mars and Jupiter", "Earth and Mars", "Jupiter and Saturn", "Mercury and Venus"],
+    "letterBank": null,
+    "letterSlotCount": null,
+
+    "imageType": "contextual",
+    "imageBrief": "Reuse sticker space-brights-11 (grey cratered asteroid) as ONE friendly rock drifting centred among soft stars. A location question must not draw the location: no belt, no bracketing pair of planets.",
+    "imagePrompt": "One friendly grey asteroid with soft round craters drifting centred among gentle stars in a calm deep-indigo sky, and nothing else in frame. Children's educational space illustration for a young-child trivia game: calm, friendly and uncluttered; soft indigo night palette with one warm accent; bold rounded shapes, gentle glow, flat sticker-book style; one centred subject with generous empty space; absolutely no letters, numerals, labels or watermarks; 4:3 landscape card.",
+    "imageMustNotReveal": [
+      "a belt, ring or stream of asteroids",
+      "two planets with rocks between them",
+      "any planet-order arrangement",
+      "any text"
+    ],
+
+    "correctVoiceText": "Well done! Asteroids gather between Mars and Jupiter. Most asteroids orbit our Sun in the main belt between Mars and Jupiter.",
+    "retryVoiceText": "Not quite. Have another try.",
+    "teachingFactText": "Most asteroids orbit our Sun in the main belt between Mars and Jupiter.",
+
+    "source": "NASA Science — Asteroid Facts",
+    "sourceURL": "https://science.nasa.gov/solar-system/asteroids/facts/",
+    "lastVerified": "2026-09-14",
+
+    "qa": { "fact": true, "language": true, "pedagogy": false, "image": false, "audio": false, "runtime": false },
+    "status": "written",
+    "pilot": true,
+    "notes": "'Most' is kept in question and teaching line per the bank (not every asteroid is in the main belt) — it is the bank's own qualifier, not a hedge. All four choices are planet pairs in identical grammar. A single sticker shows one rock: singular on purpose, so nothing is countable and nothing is located."
+  },
+  {
+    "id": "wider-basics-002",
+    "topic": "wider-basics",
+    "subtopic": "dwarf-planets",
+    "difficulty": 3,
+    "factGroup": "ceres-largest-belt-object",
+    "factRef": "SF-048",
+
+    "questionText": "What is the largest object in the asteroid belt?",
+    "questionVoiceText": "What is the largest object in the asteroid belt?",
+
+    "answerMode": "MC",
+    "correctAnswer": "Ceres",
+    "choices": ["Ceres", "Pluto", "Titan", "Phobos"],
+    "letterBank": null,
+    "letterSlotCount": null,
+
+    "imageType": "contextual",
+    "imageBrief": "A cheerful cartoon magnifying glass with a curly handle drifting among soft stars, its lens catching one sparkle. Hunting for the biggest thing, without a single size shown: any rock drawn larger than its neighbours would answer a superlative question outright.",
+    "imagePrompt": "A cheerful oversized cartoon magnifying glass with a curly handle drifting through space among soft stars, its round lens catching a single gentle sparkle, and no planets or asteroids anywhere. Children's educational space illustration for a young-child trivia game: calm, friendly and uncluttered; soft indigo night palette with one warm accent; bold rounded shapes, gentle glow, flat sticker-book style; one centred subject with generous empty space; absolutely no letters, numerals, labels or watermarks; 4:3 landscape card.",
+    "imageMustNotReveal": [
+      "any size comparison between space rocks",
+      "one object drawn larger than others beside it",
+      "Ceres or its name",
+      "any text"
+    ],
+
+    "correctVoiceText": "Brilliant! The answer is Ceres. Ceres is the largest object in the asteroid belt, and it is a dwarf planet too.",
+    "retryVoiceText": "Nearly there. One more go.",
+    "teachingFactText": "Ceres is the largest object in the asteroid belt, and it is a dwarf planet too.",
+
+    "source": "NASA Science — Ceres Facts",
+    "sourceURL": "https://science.nasa.gov/dwarf-planets/ceres/facts/",
+    "lastVerified": "2026-09-14",
+
+    "qa": { "fact": true, "language": true, "pedagogy": false, "image": false, "audio": false, "runtime": false },
+    "status": "written",
+    "pilot": true,
+    "notes": "SF-048 answer; 'a dwarf planet too' is entailed by SF-049 (Ceres is the only dwarf planet in the inner solar system) without using the undefined phrase 'inner solar system' in child-facing text — the bank asks for that definition before assessment, so it is not assessed here. Distractors are all cleanly wrong by banked facts: Pluto is a dwarf planet beyond Neptune in the Kuiper Belt (SF-046), Titan is Saturn's largest moon (SF-040), Phobos is Mars's moon (SF-027). PRONUNCIATION FLAGS for the render manifest: Ceres = SEER-eez, Titan = TYE-tun."
+  }
+]
