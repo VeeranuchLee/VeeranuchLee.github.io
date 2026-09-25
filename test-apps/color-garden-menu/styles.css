@@ -794,20 +794,21 @@ button:disabled {
   padding: max(20px, env(safe-area-inset-top)) clamp(16px, 4vw, 42px) max(32px, env(safe-area-inset-bottom));
   background-color: #6f52d6;
   /* Codex garden art (art-source/menu-v2/, approved 2026-09-25) sits behind the
-     sparkle dots and the purple wash, which stay on top so the mode cards and
-     title keep reading clearly over any part of the photo (owner request,
-     2026-09-25: "coloring app need better bg"). Portrait is the default crop
-     -- the target device is a 9.7" iPad, which is portrait far more often --
-     and the orientation query below swaps in the landscape crop. */
+     sparkle dots. Controller review, 2026-09-25: the purple wash that used to
+     sit over the photo made the watercolour read as muddy purple instead of
+     its own pastel colours, so it is gone here -- the purple stays only on
+     the OTHER screens (gallery, activity workspaces), which never touched
+     this rule. Portrait is the default crop -- the target device is a 9.7"
+     iPad, which is portrait far more often -- and the orientation query
+     below swaps in the landscape crop. */
   background-image:
     radial-gradient(circle at 12% 16%, rgba(255,255,255,.55) 0 3px, transparent 4px),
     radial-gradient(circle at 82% 10%, rgba(255,255,255,.7) 0 4px, transparent 5px),
     radial-gradient(circle at 70% 32%, rgba(255,255,255,.45) 0 3px, transparent 4px),
-    linear-gradient(150deg, rgba(126,91,220,.55), rgba(82,56,184,.75)),
     url("./assets/menu/menu-bg-portrait.webp");
   background-position: center;
   background-repeat: no-repeat;
-  background-size: auto, auto, auto, cover, cover;
+  background-size: auto, auto, auto, cover;
 }
 
 @media (orientation: landscape) {
@@ -816,7 +817,6 @@ button:disabled {
       radial-gradient(circle at 12% 16%, rgba(255,255,255,.55) 0 3px, transparent 4px),
       radial-gradient(circle at 82% 10%, rgba(255,255,255,.7) 0 4px, transparent 5px),
       radial-gradient(circle at 70% 32%, rgba(255,255,255,.45) 0 3px, transparent 4px),
-      linear-gradient(150deg, rgba(126,91,220,.55), rgba(82,56,184,.75)),
       url("./assets/menu/menu-bg-landscape.webp");
   }
 }
@@ -829,7 +829,12 @@ button:disabled {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* Controller review, 2026-09-25: true centring in the remaining height put
+     the title+cards block in the lower-middle on tall desktop viewports,
+     with a big empty band under the header. flex-start plus a small,
+     viewport-scaled top margin (below) reads as upper-middle instead,
+     consistently across breakpoints. */
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
   min-height: 0;
@@ -838,13 +843,28 @@ button:disabled {
 .mode-title {
   position: relative;
   z-index: 1;
-  margin: 0 auto clamp(14px, 2.4vw, 24px);
+  margin: clamp(2px, 1.6vh, 28px) auto clamp(14px, 2.4vw, 24px);
   width: min(960px, 100%);
-  color: #fff;
+  padding: 0 0.6em;
+  /* Controller review, 2026-09-25: white-on-photo needs the purple wash for
+     contrast, and that wash is gone. The app's own dark ink colour (matching
+     the card labels) reads clearly on the pale garden sky without one, and
+     the soft white halo (::before, behind the text) keeps it reading over
+     the darker leaves lower in the frame too. */
+  color: #4c3e72;
   font-size: clamp(30px, 5vw, 52px);
   line-height: 1.15;
   text-align: center;
-  text-shadow: 0 4px 0 rgba(54, 36, 112, .25);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
+}
+
+.mode-title::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -6% -10%;
+  border-radius: 999px;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,.62), rgba(255,255,255,0) 72%);
 }
 
 .mode-cards {
@@ -1152,7 +1172,11 @@ button:disabled {
   .mode-menu-screen { padding-top: 10px; padding-bottom: 10px; }
   .mode-menu-screen .gallery-header { min-height: 82px; padding-top: 0; }
   .mode-menu-screen .brand-mark { transform: scale(.75); }
-  .mode-title { margin-bottom: 10px; font-size: 32px; }
+  /* Landscape is already the tight-space layout (tags hidden, smaller art
+     aspect ratio below); the upper-middle bias other breakpoints get from
+     the base rule's margin-top would push a short landscape viewport (the
+     1024x768 iPad size) into scrolling, so it is zeroed here. */
+  .mode-title { margin-top: 0; margin-bottom: 10px; font-size: 32px; }
   .mode-card { gap: 4px; padding: 8px; }
   .mode-art { aspect-ratio: 16 / 9; }
   .mode-tag { display: none; }
