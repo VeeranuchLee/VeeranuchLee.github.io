@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Music Book — song explanation pilot review</title>
+<title>Music Book — song-info pilot review (CG-315, Pass 3)</title>
 <style>
   :root {
     --ink: #2c2410; --gold: #c9a227; --plate: #fdf6e3; --plate-edge: #e9d9ae;
-    --feel: #ffb3c6; --facts: #e9d9ae; --ok: #7fae6a; --rewrite: #c96a4a; --note: #4a7fae;
+    --facts: #e9d9ae; --ok: #7fae6a; --rewrite: #c96a4a; --note: #4a7fae;
+    --muted: #7a6b40;
   }
   * { box-sizing: border-box; }
   body {
@@ -16,21 +17,32 @@
     line-height: 1.45;
   }
   h1 { font-size: 1.6rem; margin: 0 0 4px; }
-  .intro { max-width: 70ch; color: #55482a; margin-bottom: 24px; }
+  .intro { max-width: 72ch; color: #55482a; margin-bottom: 16px; }
+  .notice {
+    max-width: 72ch; background: #f3ead2; border: 1px solid var(--plate-edge);
+    border-left: 5px solid var(--gold); border-radius: 8px; padding: 10px 14px;
+    font-size: .9rem; color: #55482a; margin-bottom: 24px;
+  }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 20px; }
   .card {
     background: var(--plate); border: 2px solid var(--plate-edge); border-radius: 14px;
     padding: 16px 18px; box-shadow: 0 2px 6px rgba(0,0,0,.08);
   }
   .card__head h2 { margin: 0; font-size: 1.25rem; }
-  .card__byline { margin: 2px 0 12px; font-size: .85rem; color: #7a6b40; }
+  .card__byline { margin: 2px 0 12px; font-size: .85rem; color: var(--muted); }
   .card__section { margin-bottom: 14px; padding-top: 10px; border-top: 1px solid #eadfc0; }
   .card__section:first-of-type { border-top: none; padding-top: 0; }
   .card__section h3 { margin: 0 0 6px; font-size: .95rem; }
-  .card__section--feel { background: linear-gradient(180deg, rgba(255,179,198,.15), transparent); border-radius: 8px; padding: 10px 12px; }
   .card__section--facts { background: linear-gradient(180deg, rgba(233,217,174,.35), transparent); border-radius: 8px; padding: 10px 12px; }
   .features { font-size: .85rem; color: #55482a; }
   .explanation-text { font-size: 1rem; margin: 6px 0; }
+  .clip-slot { font-size: .78rem; color: #6b5c34; margin: 6px 0 2px; }
+  .clip-slot code { background: #f3ead2; border-radius: 4px; padding: 0 4px; }
+  .glossary { margin: 10px 0 4px; padding: 8px 10px; background: rgba(74,127,174,.07); border: 1px solid #d7e2ef; border-radius: 8px; }
+  .glossary h4 { margin: 0 0 6px; font-size: .85rem; color: #35536f; }
+  .glossary__line { margin-bottom: 10px; }
+  .glossary__line:last-child { margin-bottom: 0; }
+  .glossary__text { font-size: .92rem; margin: 2px 0 4px; }
   .reviewer-note { font-size: .82rem; color: #55482a; margin: 8px 0; }
   .sources { font-size: .78rem; margin: 4px 0 8px; padding-left: 18px; }
   .sources a { color: #4a5f8a; }
@@ -42,28 +54,29 @@
   .badge--rewrite { background: #f5ded4; color: var(--rewrite); }
   .owner-verdict { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: .85rem; margin-top: 8px; }
   .owner-verdict textarea { flex: 1 1 100%; min-height: 40px; font: inherit; padding: 4px 6px; border-radius: 6px; border: 1px solid var(--plate-edge); }
-  .shots { display: flex; flex-wrap: wrap; gap: 16px; margin: 12px 0 30px; }
-  .shots figure { margin: 0; }
-  .shots img { max-width: 360px; border: 2px solid var(--plate-edge); border-radius: 8px; display: block; }
-  .shots figcaption { font-size: .78rem; color: #7a6b40; margin-top: 4px; }
-  footer { margin-top: 30px; font-size: .8rem; color: #7a6b40; }
+  footer { margin-top: 30px; font-size: .8rem; color: var(--muted); }
+  footer code { background: #f3ead2; border-radius: 4px; padding: 0 4px; }
 </style>
 </head>
 <body>
-  <h1>Music Book — song explanation pilot (CG-315)</h1>
-  <p class="intro">Ten pieces, drafted with two explanations each — <strong>how it feels</strong>
-    (expressive: sound, tempo, melody, feeling) and <strong>a true story</strong> (checkable:
-    who/when/why/a surprising true thing, sourced). No audio has been rendered; every
-    <code>audio</code> field is <code>null</code>. Mark a verdict per explanation below — this page
-    makes no network calls and saves nothing outside your browser; copy your verdicts into the
-    task record or PR when you're done.</p>
-
-  <h2>Button screenshots (768&times;1024 and 1024&times;768)</h2>
-  <div class="shots">
-    <figure><img src="shots/explain-buttons-beethoven-door-two-eras-768x1024.png" alt=""><figcaption>Beethoven's Door Between Two Eras — 768&times;1024 (Ode to Joy, Moonlight Sonata both carry both buttons)</figcaption></figure>
-    <figure><img src="shots/explain-buttons-beethoven-door-two-eras-1024x768.png" alt=""><figcaption>Beethoven's Door Between Two Eras — 1024&times;768</figcaption></figure>
-    <figure><img src="shots/explain-buttons-songs-that-transform-768x1024.png" alt=""><figcaption>Songs That Transform — 768&times;1024 (Greensleeves, Hava Nagila)</figcaption></figure>
-    <figure><img src="shots/explain-buttons-songs-that-transform-1024x768.png" alt=""><figcaption>Songs That Transform — 1024&times;768</figcaption></figure>
+  <h1>Music Book — song-info pilot review (CG-315, Pass 3)</h1>
+  <p class="intro">Ten pieces, one <strong>💡 fact</strong> each (checkable: who/when/why/a surprising
+    true thing, sourced) plus the piece's <strong>shared-glossary lines</strong> — "other knowledge,
+    not specific to each song", per the owner's 2026-09-25 decision. Each line lists its planned
+    ElevenLabs narration clip, keyed by the exact spoken text
+    (<code>&lt;pieceId&gt;-facts.m4a</code>, <code>knowledge-&lt;id&gt;.m4a</code>); <strong>no audio
+    has been rendered</strong> — rendering is a later, owner-approved one-batch step (a required
+    <code>AUDIO-DIRECTION.md</code> decision-7 widening is recorded in the task record). Mark a
+    verdict per fact below — this page makes no network calls and saves nothing outside your browser;
+    copy your verdicts into the task record or PR when you're done.</p>
+  <div class="notice">
+    <strong>💗 Feel retired (owner, 2026-09-25):</strong> <em>"song info -> let's just use the fact and
+    not feel. however, add other knowledge (not specific to each song) when possible. make button ->
+    pop up text and voice."</em> The expressive "how it feels" layer, its two-button shape, and its
+    grounding lint rules are gone from the app and data; the history lives on in the discussion log,
+    the spec's superseded sections, <code>qa/explanations/pilot-review.json</code>, and git. This
+    page keeps only the facts layer and the new glossary ("more to know") lines. The stale
+    two-button screenshots section is removed; the shots remain in git for history only.
   </div>
 
   <div class="grid">
@@ -79,23 +92,21 @@
       <p class="features">tempo: medium (104 bpm) · melody shape: wave · pitch range: medium (9 semitones) · repeated notes: 44% of steps · mode: major · length: medium (27.7s)</p>
     </section>
 
-    <section class="card__section card__section--feel">
-      <h3>💗 How it feels</h3>
-      <p class="explanation-text">This tune moves at a steady, easy pace and keeps circling back to the same few notes, like a gentle little knock. The melody moves up and down in small, comfortable steps, never far from where it started.</p>
-      <p class="reviewer-note"><strong>Reviewer:</strong> Clean. Grounded in tempoBand=medium, contour=wave, repeatedNoteShare=0.439. <span class="badge badge--ok">reviewed</span></p>
-      <div class="owner-verdict" data-kind="feel" data-piece="twinkle">
-        <span>Owner verdict:</span>
-        <label><input type="radio" name="twinkle-feel" value="ok"> ok</label>
-        <label><input type="radio" name="twinkle-feel" value="rewrite"> rewrite</label>
-        <label><input type="radio" name="twinkle-feel" value="note"> note</label>
-        <textarea placeholder="Owner note (optional)"></textarea>
-      </div>
-    </section>
-
     <section class="card__section card__section--facts">
-      <h3>💡 A true story</h3>
+      <h3>💡 The fact</h3>
       <p class="explanation-text">The tune began as a French song called ‘Ah, vous dirai-je, Maman,’ printed in 1761 with no known composer. English poet Jane Taylor wrote the ‘Twinkle, Twinkle’ words in 1806, and the two were paired together later.</p>
       <ul class="sources"><li><a href="https://www.britannica.com/topic/Ah-vous-dirai-je-Maman" target="_blank" rel="noopener">melody first published 1761 as ‘Ah, vous dirai-je, Maman’, composer unknown</a> <span class="verified">verified</span></li><li><a href="https://en.wikipedia.org/wiki/Twinkle,_Twinkle,_Little_Star" target="_blank" rel="noopener">Jane Taylor wrote the ‘Twinkle, Twinkle, Little Star’ poem, published 1806</a> <span class="verified">verified</span></li></ul>
+      <p class="clip-slot">Narration: <code>twinkle-facts.m4a</code> — planned (205 chars), not rendered this pass</p>
+
+      <div class="glossary">
+        <h4>📖 More to know — not about this song alone</h4>
+        <div class="glossary__line">
+          <p class="glossary__text">A nursery rhyme is a short, simple song or poem for young children. Many are so old that nobody remembers who made them up first.</p>
+          <ul class="sources"><li><a href="https://www.britannica.com/art/nursery-rhyme" target="_blank" rel="noopener">a nursery rhyme is a short song or poem for young children</a> <span class="verified">verified</span></li></ul>
+          <p class="clip-slot">Narration: <code>knowledge-nursery-rhyme.m4a</code> — planned (129 chars), not rendered this pass</p>
+        </div>
+      </div>
+
       <p class="reviewer-note"><strong>Reviewer:</strong> Both claims checked against Britannica and Wikipedia during this task; both hold up. Genuinely surprising to a child that &#39;Twinkle Twinkle&#39; isn&#39;t one song but a French tune plus an English poem stitched together decades apart. <span class="badge badge--ok">reviewed</span></p>
       <div class="owner-verdict" data-kind="facts" data-piece="twinkle">
         <span>Owner verdict:</span>
@@ -115,27 +126,16 @@
 
     <section class="card__section">
       <h3>What the score actually does</h3>
-      <p class="features">tempo: fast (112 bpm) · melody shape: wave · pitch range: narrow (7 semitones) · repeated notes: 58% of steps · mode: minor · length: long (34.3s)</p>
-    </section>
-
-    <section class="card__section card__section--feel">
-      <h3>💗 How it feels</h3>
-      <p class="explanation-text">This song moves fast and never slows down, bouncing between just a few close notes again and again. It feels bright and eager, like it can barely wait to get where it&#39;s going.</p>
-      <p class="reviewer-note"><strong>Reviewer:</strong> Grounded in tempoBand=fast, pitchRangeBand=narrow, repeatedNoteShare=0.58. <span class="badge badge--ok">reviewed</span></p>
-      <div class="owner-verdict" data-kind="feel" data-piece="jingle-bells">
-        <span>Owner verdict:</span>
-        <label><input type="radio" name="jingle-bells-feel" value="ok"> ok</label>
-        <label><input type="radio" name="jingle-bells-feel" value="rewrite"> rewrite</label>
-        <label><input type="radio" name="jingle-bells-feel" value="note"> note</label>
-        <textarea placeholder="Owner note (optional)"></textarea>
-      </div>
+      <p class="features">tempo: fast (112 bpm) · melody shape: wave · pitch range: narrow (7 semitones) · repeated notes: 58% of steps · mode: major · length: long (34.3s)</p>
     </section>
 
     <section class="card__section card__section--facts">
-      <h3>💡 A true story</h3>
+      <h3>💡 The fact</h3>
       <p class="explanation-text">James Lord Pierpont wrote this song in 1857. He first called it ‘The One Horse Open Sleigh,’ and it only got its now-familiar name when it was published again two years later.</p>
       <ul class="sources"><li><a href="https://en.wikipedia.org/wiki/Jingle_Bells" target="_blank" rel="noopener">James Lord Pierpont wrote the song, published 1857 as ‘The One Horse Open Sleigh’, retitled ‘Jingle Bells’ on reissue</a> <span class="verified">verified</span></li></ul>
-      <p class="reviewer-note"><strong>Reviewer:</strong> Checked against Wikipedia. The renaming detail (it wasn&#39;t always called &#39;Jingle Bells&#39;) is the surprising hook. <span class="badge badge--ok">reviewed</span></p>
+      <p class="clip-slot">Narration: <code>jingle-bells-facts.m4a</code> — planned (175 chars), not rendered this pass</p>
+
+      <p class="reviewer-note"><strong>Reviewer:</strong> Checked against Wikipedia. The renaming detail (it wasn&#39;t always called &#39;Jingle Bells&#39;) is the surprising hook. This piece carries no shared-glossary line — the owner&#39;s 2026-09-25 rule allows 0-2, and its story stands on its own facts. Mode now reads <strong>major</strong>: Pass 3&#39;s <code>classifyMode()</code> fix (final-note tonic + first-downbeat weighting, tuning sweep 0.30/0.10) ends the Pass 1-2 E-minor misread. <span class="badge badge--ok">reviewed</span></p>
       <div class="owner-verdict" data-kind="facts" data-piece="jingle-bells">
         <span>Owner verdict:</span>
         <label><input type="radio" name="jingle-bells-facts" value="ok"> ok</label>
@@ -157,23 +157,21 @@
       <p class="features">tempo: medium (104 bpm) · melody shape: arch · pitch range: medium (14 semitones) · repeated notes: 13% of steps · mode: major · length: medium (18.5s)</p>
     </section>
 
-    <section class="card__section card__section--feel">
-      <h3>💗 How it feels</h3>
-      <p class="explanation-text">The melody climbs up in short, even steps, then turns around and comes right back down the same way. It moves at a steady, walking pace, like someone humming while circling a courtyard.</p>
-      <p class="reviewer-note"><strong>Reviewer:</strong> Grounded in tempoBand=medium, contour=arch. <span class="badge badge--ok">reviewed</span></p>
-      <div class="owner-verdict" data-kind="feel" data-piece="frere-jacques">
-        <span>Owner verdict:</span>
-        <label><input type="radio" name="frere-jacques-feel" value="ok"> ok</label>
-        <label><input type="radio" name="frere-jacques-feel" value="rewrite"> rewrite</label>
-        <label><input type="radio" name="frere-jacques-feel" value="note"> note</label>
-        <textarea placeholder="Owner note (optional)"></textarea>
-      </div>
-    </section>
-
     <section class="card__section card__section--facts">
-      <h3>💡 A true story</h3>
+      <h3>💡 The fact</h3>
       <p class="explanation-text">This French round is at least two hundred years old, and nobody knows for certain who wrote it. It is about a sleepy friar who needs waking to ring the morning bells.</p>
       <ul class="sources"><li><a href="https://en.wikipedia.org/wiki/Fr%C3%A8re_Jacques" target="_blank" rel="noopener">French round dating to the 17th-18th century, earliest printed version 1780, authorship uncertain</a> <span class="verified">verified</span></li></ul>
+      <p class="clip-slot">Narration: <code>frere-jacques-facts.m4a</code> — planned (166 chars), not rendered this pass</p>
+
+      <div class="glossary">
+        <h4>📖 More to know — not about this song alone</h4>
+        <div class="glossary__line">
+          <p class="glossary__text">A round is a song where two or more singers start the same tune at different times. They each keep going, and the parts fit together as one.</p>
+          <ul class="sources"><li><a href="https://en.wikipedia.org/wiki/Round_(music)" target="_blank" rel="noopener">a round is a song in which two or more voices sing the same melody with entries at different times</a> <span class="verified">verified</span></li></ul>
+          <p class="clip-slot">Narration: <code>knowledge-round.m4a</code> — planned (140 chars), not rendered this pass</p>
+        </div>
+      </div>
+
       <p class="reviewer-note"><strong>Reviewer:</strong> Checked against Wikipedia. Kept &#39;at least two hundred years old&#39; rather than a specific disputed year, since sources disagree on exact origin decade but agree it predates 1780. <span class="badge badge--ok">reviewed</span></p>
       <div class="owner-verdict" data-kind="facts" data-piece="frere-jacques">
         <span>Owner verdict:</span>
@@ -196,24 +194,27 @@
       <p class="features">tempo: fast (120 bpm) · melody shape: wave · pitch range: narrow (7 semitones) · repeated notes: 23% of steps · mode: major · length: long (32s)</p>
     </section>
 
-    <section class="card__section card__section--feel">
-      <h3>💗 How it feels</h3>
-      <p class="explanation-text">This tune moves quickly and stays close together, almost every note stepping right beside the last one. It moves up and down within a small space, again and again, like a happy chant everyone can join.</p>
-      <p class="reviewer-note"><strong>Reviewer:</strong> Grounded in tempoBand=fast, pitchRangeBand=narrow, contour=wave. <span class="badge badge--ok">reviewed</span></p>
-      <div class="owner-verdict" data-kind="feel" data-piece="ode-to-joy">
-        <span>Owner verdict:</span>
-        <label><input type="radio" name="ode-to-joy-feel" value="ok"> ok</label>
-        <label><input type="radio" name="ode-to-joy-feel" value="rewrite"> rewrite</label>
-        <label><input type="radio" name="ode-to-joy-feel" value="note"> note</label>
-        <textarea placeholder="Owner note (optional)"></textarea>
-      </div>
-    </section>
-
     <section class="card__section card__section--facts">
-      <h3>💡 A true story</h3>
+      <h3>💡 The fact</h3>
       <p class="explanation-text">Beethoven finished this symphony after he had gone completely deaf. At its first performance he could not hear the audience cheering, so someone turned him around to see them clapping.</p>
       <ul class="sources"><li><a href="https://en.wikipedia.org/wiki/Symphony_No._9_(Beethoven)" target="_blank" rel="noopener">Beethoven was completely deaf by the time the Ninth Symphony premiered in 1824</a> <span class="verified">verified</span></li><li><a href="https://www.cbsnews.com/news/the-defiance-of-ludwig-van-beethoven-and-his-ode-to-joy/" target="_blank" rel="noopener">Beethoven could not hear the applause and had to be alerted / turned to see it</a> <span class="verified">verified</span></li></ul>
-      <p class="reviewer-note"><strong>Reviewer:</strong> Shares the deafness THEME with Beethoven&#39;s composer-card summary (&#39;kept writing music after he went deaf... felt them&#39;), but the specific anecdote (turned around to see the audience clapping) is new information, not a repeat, so this passes the letter of the rubric. Flagged as a teaching note: two of the ten pilot pieces are Beethoven, and both facts touch on his deafness (this one and moonlight-sonata&#39;s, which is about the nickname instead). Worth watching in future batches so a child doesn&#39;t hear &#39;Beethoven was deaf&#39; as the only thing this book ever says about him — see &#39;Still open&#39; in the discussion-log entry for this task. <span class="badge badge--ok">reviewed, with a note</span></p>
+      <p class="clip-slot">Narration: <code>ode-to-joy-facts.m4a</code> — planned (184 chars), not rendered this pass</p>
+
+      <div class="glossary">
+        <h4>📖 More to know — not about this song alone</h4>
+        <div class="glossary__line">
+          <p class="glossary__text">A symphony is a long piece of music written for a whole orchestra, in several big sections called movements. This tune is part of one.</p>
+          <ul class="sources"><li><a href="https://www.britannica.com/art/symphony-music" target="_blank" rel="noopener">a symphony is a lengthy composition for orchestra, usually in several movements</a> <span class="verified">verified</span></li></ul>
+          <p class="clip-slot">Narration: <code>knowledge-symphony.m4a</code> — planned (134 chars), not rendered this pass</p>
+        </div>
+        <div class="glossary__line">
+          <p class="glossary__text">The Romantic era is the time in music history from about 1800 to about 1910. Beethoven’s final symphony belongs to this era.</p>
+          <ul class="sources"><li><a href="https://en.wikipedia.org/wiki/Romantic_music" target="_blank" rel="noopener">the Romantic era in music is about 1800 to 1910, the music of the nineteenth century</a> <span class="verified">verified</span></li></ul>
+          <p class="clip-slot">Narration: <code>knowledge-romantic-era.m4a</code> — planned (124 chars), not rendered this pass</p>
+        </div>
+      </div>
+
+      <p class="reviewer-note"><strong>Reviewer:</strong> Shares the deafness theme with Beethoven&#39;s composer-card summary (&#39;kept writing music after he went deaf... felt them&#39;), but the specific anecdote (turned around to see the audience clapping) is new information, not a repeat, so this passes the rubric&#39;s Beethoven cap (at most one facts text across the catalogue may mention deafness — this is that one). <span class="badge badge--ok">reviewed</span></p>
       <div class="owner-verdict" data-kind="facts" data-piece="ode-to-joy">
         <span>Owner verdict:</span>
         <label><input type="radio" name="ode-to-joy-facts" value="ok"> ok</label>
@@ -235,24 +236,27 @@
       <p class="features">tempo: slow (54 bpm) · melody shape: arch · pitch range: wide (18 semitones) · repeated notes: 0% of steps · mode: minor · length: long (31.1s)</p>
     </section>
 
-    <section class="card__section card__section--feel">
-      <h3>💗 How it feels</h3>
-      <p class="explanation-text">This piece moves slowly, one soft rolled shape after another. It quietly climbs and settles back down, with big leaps between low and high notes that make it feel like it&#39;s circling in the dark.</p>
-      <p class="reviewer-note"><strong>Reviewer:</strong> Grounded in tempoBand=slow, contour=arch, pitchRangeBand=wide. The Krumhansl-Schmuckler key finder now reads the excerpt&#39;s real key correctly (C-sharp minor), so the old engineering note here is resolved; the text still deliberately makes NO explicit major/minor claim, keeping with tempo/contour/range only. <span class="badge badge--ok">reviewed</span></p>
-      <div class="owner-verdict" data-kind="feel" data-piece="moonlight-sonata">
-        <span>Owner verdict:</span>
-        <label><input type="radio" name="moonlight-sonata-feel" value="ok"> ok</label>
-        <label><input type="radio" name="moonlight-sonata-feel" value="rewrite"> rewrite</label>
-        <label><input type="radio" name="moonlight-sonata-feel" value="note"> note</label>
-        <textarea placeholder="Owner note (optional)"></textarea>
-      </div>
-    </section>
-
     <section class="card__section card__section--facts">
-      <h3>💡 A true story</h3>
+      <h3>💡 The fact</h3>
       <p class="explanation-text">Beethoven did not name this piece ‘Moonlight’ himself. Years later, a poet said it reminded him of moonlight on a lake, and the name stayed ever since.</p>
       <ul class="sources"><li><a href="https://en.wikipedia.org/wiki/Piano_Sonata_No._14_(Beethoven)" target="_blank" rel="noopener">the ‘Moonlight’ nickname came from poet Ludwig Rellstab, not Beethoven, years after it was written</a> <span class="verified">verified</span></li></ul>
-      <p class="reviewer-note"><strong>Reviewer:</strong> Checked against Wikipedia. Deliberately vague on exactly how many years after composition the name appeared, since sources place Rellstab&#39;s remark at 1824 (three years before Beethoven&#39;s 1827 death) but the name&#39;s wide adoption in print at the late 1830s -- &#39;years later ... the name stayed ever since&#39; is accurate under either reading and avoids asserting a specific year the reviewer could not fully pin down. <span class="badge badge--ok">reviewed</span></p>
+      <p class="clip-slot">Narration: <code>moonlight-sonata-facts.m4a</code> — planned (151 chars), not rendered this pass</p>
+
+      <div class="glossary">
+        <h4>📖 More to know — not about this song alone</h4>
+        <div class="glossary__line">
+          <p class="glossary__text">A sonata is a piece of music written for one instrument, or for one instrument with a piano. This tune opens a sonata for solo piano.</p>
+          <ul class="sources"><li><a href="https://www.britannica.com/art/sonata" target="_blank" rel="noopener">a sonata is a composition usually for a solo instrument or a small number of instruments</a> <span class="verified">verified</span></li></ul>
+          <p class="clip-slot">Narration: <code>knowledge-sonata.m4a</code> — planned (133 chars), not rendered this pass</p>
+        </div>
+        <div class="glossary__line">
+          <p class="glossary__text">The Classical era is the time in music history from about 1750 to about 1820. Beethoven wrote this piece in 1801, near the end of that era.</p>
+          <ul class="sources"><li><a href="https://en.wikipedia.org/wiki/Classical_period_(music)" target="_blank" rel="noopener">the Classical era is roughly the period from 1750 to 1820</a> <span class="verified">verified</span></li></ul>
+          <p class="clip-slot">Narration: <code>knowledge-classical-era.m4a</code> — planned (139 chars), not rendered this pass</p>
+        </div>
+      </div>
+
+      <p class="reviewer-note"><strong>Reviewer:</strong> Checked against Wikipedia. Deliberately vague on exactly how many years after composition the name appeared, since sources place Rellstab&#39;s remark at 1824 (three years before Beethoven&#39;s 1827 death) but the name&#39;s wide adoption in print at the late 1830s — &#39;years later ... the name stayed ever since&#39; is accurate under either reading and avoids asserting a specific year the reviewer could not fully pin down. <span class="badge badge--ok">reviewed</span></p>
       <div class="owner-verdict" data-kind="facts" data-piece="moonlight-sonata">
         <span>Owner verdict:</span>
         <label><input type="radio" name="moonlight-sonata-facts" value="ok"> ok</label>
@@ -274,24 +278,27 @@
       <p class="features">tempo: fast (152 bpm) · melody shape: wave · pitch range: medium (13 semitones) · repeated notes: 50% of steps · mode: minor · length: short (4.1s)</p>
     </section>
 
-    <section class="card__section card__section--feel">
-      <h3>💗 How it feels</h3>
-      <p class="explanation-text">This piece races along without pausing, packed with fast, tumbling notes. It moves up and down again and again, like wind and thunder that will not sit still.</p>
-      <p class="reviewer-note"><strong>Reviewer:</strong> Grounded in tempoBand=fast, contour=wave, repeatedNoteShare=0.5. Note the underlying excerpt is very short (durationSeconds=4.1 in features.json) -- &#39;races along without pausing&#39; is true of the excerpt as scored, worth the owner knowing the excerpt itself is brief. <span class="badge badge--ok">reviewed</span></p>
-      <div class="owner-verdict" data-kind="feel" data-piece="vivaldi-summer-storm">
-        <span>Owner verdict:</span>
-        <label><input type="radio" name="vivaldi-summer-storm-feel" value="ok"> ok</label>
-        <label><input type="radio" name="vivaldi-summer-storm-feel" value="rewrite"> rewrite</label>
-        <label><input type="radio" name="vivaldi-summer-storm-feel" value="note"> note</label>
-        <textarea placeholder="Owner note (optional)"></textarea>
-      </div>
-    </section>
-
     <section class="card__section card__section--facts">
-      <h3>💡 A true story</h3>
+      <h3>💡 The fact</h3>
       <p class="explanation-text">Vivaldi printed this music together with a poem describing thunder and lightning in a summer storm. It was published in 1725 as part of a set called The Four Seasons.</p>
       <ul class="sources"><li><a href="https://en.wikipedia.org/wiki/The_Four_Seasons_(Vivaldi)" target="_blank" rel="noopener">The Four Seasons was published in 1725 with accompanying descriptive sonnets (poems)</a> <span class="verified">verified</span></li></ul>
-      <p class="reviewer-note"><strong>Reviewer:</strong> Checked against Wikipedia. Deliberately says Vivaldi &#39;printed this music together with a poem&#39; rather than &#39;Vivaldi wrote a poem&#39; -- scholarship is genuinely unsettled on whether Vivaldi personally wrote the sonnets, so the claim is scoped to what is certain (they were published together). <span class="badge badge--ok">reviewed</span></p>
+      <p class="clip-slot">Narration: <code>vivaldi-summer-storm-facts.m4a</code> — planned (166 chars), not rendered this pass</p>
+
+      <div class="glossary">
+        <h4>📖 More to know — not about this song alone</h4>
+        <div class="glossary__line">
+          <p class="glossary__text">A concerto is a piece where one solo instrument, such as a violin or a piano, plays against a whole orchestra. This tune is part of a violin concerto.</p>
+          <ul class="sources"><li><a href="https://www.britannica.com/art/concerto-music" target="_blank" rel="noopener">a concerto sets a solo instrument, often the piano or violin, against an orchestral ensemble</a> <span class="verified">verified</span></li><li><a href="https://www.britannica.com/art/violin" target="_blank" rel="noopener">the violin is a bowed string instrument used as a solo and orchestral instrument</a> <span class="verified">verified</span></li></ul>
+          <p class="clip-slot">Narration: <code>knowledge-concerto.m4a</code> — planned (150 chars), not rendered this pass</p>
+        </div>
+        <div class="glossary__line">
+          <p class="glossary__text">The Baroque era is the time in music history from about 1600 to about 1750. Vivaldi wrote in this era.</p>
+          <ul class="sources"><li><a href="https://www.britannica.com/art/Baroque-music" target="_blank" rel="noopener">the Baroque era in music runs from about 1600 to about 1750; Vivaldi is one of its composers</a> <span class="verified">verified</span></li></ul>
+          <p class="clip-slot">Narration: <code>knowledge-baroque-era.m4a</code> — planned (102 chars), not rendered this pass</p>
+        </div>
+      </div>
+
+      <p class="reviewer-note"><strong>Reviewer:</strong> Checked against Wikipedia. Deliberately says Vivaldi &#39;printed this music together with a poem&#39; rather than &#39;Vivaldi wrote a poem&#39; — scholarship is genuinely unsettled on whether Vivaldi personally wrote the sonnets, so the claim is scoped to what is certain (they were published together). <span class="badge badge--ok">reviewed</span></p>
       <div class="owner-verdict" data-kind="facts" data-piece="vivaldi-summer-storm">
         <span>Owner verdict:</span>
         <label><input type="radio" name="vivaldi-summer-storm-facts" value="ok"> ok</label>
@@ -313,23 +320,21 @@
       <p class="features">tempo: slow (72 bpm) · melody shape: wave · pitch range: wide (17 semitones) · repeated notes: 11% of steps · mode: major · length: long (50s)</p>
     </section>
 
-    <section class="card__section card__section--feel">
-      <h3>💗 How it feels</h3>
-      <p class="explanation-text">This carol moves slowly and gently, with long notes that seem to breathe. The melody drifts up and down in soft, wide steps, like a hush settling over a room.</p>
-      <p class="reviewer-note"><strong>Reviewer:</strong> Grounded in tempoBand=slow, contour=wave, pitchRangeBand=wide. <span class="badge badge--ok">reviewed</span></p>
-      <div class="owner-verdict" data-kind="feel" data-piece="silent-night">
-        <span>Owner verdict:</span>
-        <label><input type="radio" name="silent-night-feel" value="ok"> ok</label>
-        <label><input type="radio" name="silent-night-feel" value="rewrite"> rewrite</label>
-        <label><input type="radio" name="silent-night-feel" value="note"> note</label>
-        <textarea placeholder="Owner note (optional)"></textarea>
-      </div>
-    </section>
-
     <section class="card__section card__section--facts">
-      <h3>💡 A true story</h3>
+      <h3>💡 The fact</h3>
       <p class="explanation-text">This carol was first sung on Christmas Eve in 1818, in a small Austrian village called Oberndorf. Franz Gruber wrote the tune, and it was played on just a guitar.</p>
       <ul class="sources"><li><a href="https://en.wikipedia.org/wiki/Silent_Night" target="_blank" rel="noopener">first performed 24 December 1818 at St Nicholas Church, Oberndorf, Austria; music by Franz Gruber, words by Joseph Mohr; accompanied by guitar</a> <span class="verified">verified</span></li></ul>
+      <p class="clip-slot">Narration: <code>silent-night-facts.m4a</code> — planned (162 chars), not rendered this pass</p>
+
+      <div class="glossary">
+        <h4>📖 More to know — not about this song alone</h4>
+        <div class="glossary__line">
+          <p class="glossary__text">A carol is a song sung at Christmas. This one was written in a small village church, far from any famous stage.</p>
+          <ul class="sources"><li><a href="https://www.britannica.com/art/carol" target="_blank" rel="noopener">a carol is a song of the Christmas season</a> <span class="verified">verified</span></li></ul>
+          <p class="clip-slot">Narration: <code>knowledge-carol.m4a</code> — planned (111 chars), not rendered this pass</p>
+        </div>
+      </div>
+
       <p class="reviewer-note"><strong>Reviewer:</strong> Checked against Wikipedia. First performance 24 December 1818 at St Nicholas Church, Oberndorf, Austria — music by Franz Gruber, words by Joseph Mohr, accompanied by guitar. The widely told story that the church organ was broken is an unproven legend, so it is deliberately absent from the text and the claim. <span class="badge badge--ok">reviewed</span></p>
       <div class="owner-verdict" data-kind="facts" data-piece="silent-night">
         <span>Owner verdict:</span>
@@ -352,24 +357,22 @@
       <p class="features">tempo: slow (72 bpm) · melody shape: wave · pitch range: medium (12 semitones) · repeated notes: 14% of steps · mode: major · length: long (40.8s)</p>
     </section>
 
-    <section class="card__section card__section--feel">
-      <h3>💗 How it feels</h3>
-      <p class="explanation-text">This hymn moves slowly, with long notes that give each word room to breathe. The tune moves gently up and down in small steps that never leap far from one note to the next.</p>
-      <p class="reviewer-note"><strong>Reviewer:</strong> Grounded in tempoBand=slow, contour=wave. <span class="badge badge--ok">reviewed</span></p>
-      <div class="owner-verdict" data-kind="feel" data-piece="amazing-grace-new-britain">
-        <span>Owner verdict:</span>
-        <label><input type="radio" name="amazing-grace-new-britain-feel" value="ok"> ok</label>
-        <label><input type="radio" name="amazing-grace-new-britain-feel" value="rewrite"> rewrite</label>
-        <label><input type="radio" name="amazing-grace-new-britain-feel" value="note"> note</label>
-        <textarea placeholder="Owner note (optional)"></textarea>
-      </div>
-    </section>
-
     <section class="card__section card__section--facts">
-      <h3>💡 A true story</h3>
+      <h3>💡 The fact</h3>
       <p class="explanation-text">John Newton wrote these words in 1772, when he was a church minister in the English town of Olney. As a young man he had worked in the slave trade, and later in life he spoke out to help end it.</p>
       <ul class="sources"><li><a href="https://www.loc.gov/collections/amazing-grace/articles-and-essays/creation-of-amazing-grace/" target="_blank" rel="noopener">John Newton wrote the words in 1772 as curate of Olney; published with William Cowper in Olney Hymns (1779)</a> <span class="verified">verified</span></li><li><a href="https://en.wikipedia.org/wiki/John_Newton" target="_blank" rel="noopener">Newton worked in the Atlantic slave trade as a young man and later supported its abolition, publishing Thoughts upon the African Slave Trade (1788)</a> <span class="verified">verified</span></li></ul>
-      <p class="reviewer-note"><strong>Reviewer:</strong> ORIGINAL NOTE (kept for the record): teaching judgement, not a factual problem — the best-known, most &#39;surprising&#39; true fact is that Newton wrote these words after years captaining slave ships; the first draft deliberately used a gentler fact until the owner decided. OWNER DECISION 2026-09-24 (verbatim): &quot;Amazing Grace: briefly and gently mention that John Newton once worked in the slave trade and later supported abolition. Do not imply Amazing Grace itself was written about slavery.&quot; The text now reads exactly as directed; the LOC source is kept, the Wikipedia John Newton source (incl. Thoughts upon the African Slave Trade, 1788) is added, and the teaching judgement is resolved — this card is now reviewed, not note-for-owner. <span class="badge badge--ok">reviewed</span></p>
+      <p class="clip-slot">Narration: <code>amazing-grace-new-britain-facts.m4a</code> — planned (194 chars), not rendered this pass</p>
+
+      <div class="glossary">
+        <h4>📖 More to know — not about this song alone</h4>
+        <div class="glossary__line">
+          <p class="glossary__text">A hymn is a song of praise sung in church. Many hymns are sung by the whole congregation together, not by one singer alone.</p>
+          <ul class="sources"><li><a href="https://www.britannica.com/art/hymn" target="_blank" rel="noopener">a hymn is a song of praise used in Christian worship</a> <span class="verified">verified</span></li></ul>
+          <p class="clip-slot">Narration: <code>knowledge-hymn.m4a</code> — planned (123 chars), not rendered this pass</p>
+        </div>
+      </div>
+
+      <p class="reviewer-note"><strong>Reviewer:</strong> OWNER DECISION 2026-09-24 (verbatim): &quot;Amazing Grace: briefly and gently mention that John Newton once worked in the slave trade and later supported abolition. Do not imply Amazing Grace itself was written about slavery.&quot; The text reads exactly as directed; the LOC source is kept, the Wikipedia John Newton source (incl. Thoughts upon the African Slave Trade, 1788) is added. <span class="badge badge--ok">reviewed</span></p>
       <div class="owner-verdict" data-kind="facts" data-piece="amazing-grace-new-britain">
         <span>Owner verdict:</span>
         <label><input type="radio" name="amazing-grace-new-britain-facts" value="ok"> ok</label>
@@ -391,23 +394,21 @@
       <p class="features">tempo: medium (84 bpm) · melody shape: arch · pitch range: medium (13 semitones) · repeated notes: 2% of steps · mode: minor · length: long (34.3s)</p>
     </section>
 
-    <section class="card__section card__section--feel">
-      <h3>💗 How it feels</h3>
-      <p class="explanation-text">This melody rarely repeats a note, always stepping to somewhere new. It climbs up in a long, aching line and then comes back down the same way, like a sigh.</p>
-      <p class="reviewer-note"><strong>Reviewer:</strong> Grounded in repeatedNoteShare=0.023 (very low -- &#39;rarely repeats a note&#39; is precisely true here), contour=arch. mode=minor informed the choice of &#39;aching&#39; but is not asserted as a music-theory claim in the text itself, so there is nothing here for the lint to check against mode and nothing to misstate. <span class="badge badge--ok">reviewed</span></p>
-      <div class="owner-verdict" data-kind="feel" data-piece="greensleeves">
-        <span>Owner verdict:</span>
-        <label><input type="radio" name="greensleeves-feel" value="ok"> ok</label>
-        <label><input type="radio" name="greensleeves-feel" value="rewrite"> rewrite</label>
-        <label><input type="radio" name="greensleeves-feel" value="note"> note</label>
-        <textarea placeholder="Owner note (optional)"></textarea>
-      </div>
-    </section>
-
     <section class="card__section card__section--facts">
-      <h3>💡 A true story</h3>
+      <h3>💡 The fact</h3>
       <p class="explanation-text">Many people say King Henry VIII wrote this song for a woman he loved. That story cannot be true — the song was not printed until decades after he died.</p>
       <ul class="sources"><li><a href="https://www.classicfm.com/discover-music/greensleeves-did-henry-viii-write-song/" target="_blank" rel="noopener">the Henry VIII authorship story is a myth; earliest known publication is 1580, after his 1547 death</a> <span class="verified">verified</span></li></ul>
+      <p class="clip-slot">Narration: <code>greensleeves-facts.m4a</code> — planned (151 chars), not rendered this pass</p>
+
+      <div class="glossary">
+        <h4>📖 More to know — not about this song alone</h4>
+        <div class="glossary__line">
+          <p class="glossary__text">A folk song is a song that ordinary people pass on by ear, from one family or village to the next. Many are so old that nobody remembers who wrote them.</p>
+          <ul class="sources"><li><a href="https://www.britannica.com/art/folk-music" target="_blank" rel="noopener">folk music is passed down through families and communities and lives in oral tradition</a> <span class="verified">verified</span></li></ul>
+          <p class="clip-slot">Narration: <code>knowledge-folk-song.m4a</code> — planned (152 chars), not rendered this pass</p>
+        </div>
+      </div>
+
       <p class="reviewer-note"><strong>Reviewer:</strong> Checked against Classic FM and Wikipedia. Debunking a myth a child may already believe (Henry VIII wrote it) is a strong, age-appropriate hook. <span class="badge badge--ok">reviewed</span></p>
       <div class="owner-verdict" data-kind="facts" data-piece="greensleeves">
         <span>Owner verdict:</span>
@@ -430,23 +431,26 @@
       <p class="features">tempo: fast (120 bpm) · melody shape: arch · pitch range: medium (13 semitones) · repeated notes: 18% of steps · mode: minor · length: medium (18.5s)</p>
     </section>
 
-    <section class="card__section card__section--feel">
-      <h3>💗 How it feels</h3>
-      <p class="explanation-text">This tune builds and builds until it feels like it&#39;s racing. It climbs upward again and again, circling back to the same excited shape, like a dance speeding up.</p>
-      <p class="reviewer-note"><strong>Reviewer:</strong> Grounded in tempoBand=fast, contour=arch. Same note as greensleeves: mode=minor informed tone but is not verbally asserted. <span class="badge badge--ok">reviewed</span></p>
-      <div class="owner-verdict" data-kind="feel" data-piece="hava-nagila">
-        <span>Owner verdict:</span>
-        <label><input type="radio" name="hava-nagila-feel" value="ok"> ok</label>
-        <label><input type="radio" name="hava-nagila-feel" value="rewrite"> rewrite</label>
-        <label><input type="radio" name="hava-nagila-feel" value="note"> note</label>
-        <textarea placeholder="Owner note (optional)"></textarea>
-      </div>
-    </section>
-
     <section class="card__section card__section--facts">
-      <h3>💡 A true story</h3>
+      <h3>💡 The fact</h3>
       <p class="explanation-text">This tune began as a wordless melody sung in a Jewish community in Eastern Europe. A researcher named Abraham Idelsohn wrote it down in Jerusalem in 1918, and it became a song sung at celebrations everywhere.</p>
       <ul class="sources"><li><a href="https://en.wikipedia.org/wiki/Hava_Nagila" target="_blank" rel="noopener">began as a Hasidic wordless nigun, transcribed by Abraham Zvi Idelsohn in Jerusalem, set to words around 1918</a> <span class="verified">verified</span></li></ul>
+      <p class="clip-slot">Narration: <code>hava-nagila-facts.m4a</code> — planned (208 chars), not rendered this pass</p>
+
+      <div class="glossary">
+        <h4>📖 More to know — not about this song alone</h4>
+        <div class="glossary__line">
+          <p class="glossary__text">A folk song is a song that ordinary people pass on by ear, from one family or village to the next. Many are so old that nobody remembers who wrote them.</p>
+          <ul class="sources"><li><a href="https://www.britannica.com/art/folk-music" target="_blank" rel="noopener">folk music is passed down through families and communities and lives in oral tradition</a> <span class="verified">verified</span></li></ul>
+          <p class="clip-slot">Narration: <code>knowledge-folk-song.m4a</code> — planned (152 chars), not rendered this pass</p>
+        </div>
+        <div class="glossary__line">
+          <p class="glossary__text">A folk dance is a dance from the everyday life of a place or people, danced at celebrations. This tune began as a dance song.</p>
+          <ul class="sources"><li><a href="https://www.britannica.com/art/folk-dance" target="_blank" rel="noopener">a folk dance is a vernacular dance form, typically recreational, that reflects a culture's past or present</a> <span class="verified">verified</span></li></ul>
+          <p class="clip-slot">Narration: <code>knowledge-folk-dance.m4a</code> — planned (125 chars), not rendered this pass</p>
+        </div>
+      </div>
+
       <p class="reviewer-note"><strong>Reviewer:</strong> Checked against Wikipedia. Kept &#39;a Jewish community in Eastern Europe&#39; rather than naming the specific Sadigorer Hasidic group, judged appropriate specificity for the age band without oversimplifying to the point of inaccuracy. <span class="badge badge--ok">reviewed</span></p>
       <div class="owner-verdict" data-kind="facts" data-piece="hava-nagila">
         <span>Owner verdict:</span>
@@ -460,9 +464,12 @@
   </div>
 
   <footer>
-    Generated for task CG-315. Lint: <code>node music-book/tools/check-explanations.mjs</code>.
-    Rubric: <code>music-book/qa/explanations/RUBRIC.md</code>. Full independent-review detail:
-    <code>music-book/qa/explanations/pilot-review.json</code>.
+    Generated for task CG-315 (Pass 3, 2026-09-25). Lint: <code>node music-book/tools/check-explanations.mjs</code>
+    (facts + glossary + refs + manifest sync). Rubric: <code>music-book/qa/explanations/RUBRIC.md</code>.
+    Full independent-review detail (incl. the retired feel layer): <code>music-book/qa/explanations/pilot-review.json</code>.
+    Render plan: <code>music-book/audio/explain/manifest.json</code> (22 clips — 10 facts + 12 knowledge,
+    3334 chars — keyed by exact text; provably in sync via <code>--check</code>). No narrated clip exists yet;
+    the render batch needs an owner-approved <code>AUDIO-DIRECTION.md</code> decision-7 widening first.
   </footer>
 </body>
 </html>

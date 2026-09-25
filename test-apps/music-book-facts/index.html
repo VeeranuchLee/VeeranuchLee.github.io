@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Music Book</title>
+<link rel="stylesheet" href="app/styles.css">
+</head>
+<body>
+  <main id="stage" class="stage"></main>
+
+  <div id="chrome">
+    <button id="sound" class="chrome-btn" type="button" aria-pressed="true" aria-label="Sound on">Sound</button>
+  </div>
+
+  <div id="popup" hidden>
+    <div class="popup__card">
+      <button class="popup__close" data-close aria-label="Close">✕</button>
+      <div id="popup-body"></div>
+    </div>
+  </div>
+
+  <script type="module" src="app/app.js"></script>
+    <script>
+      /* Offline support. Best-effort on purpose: opened straight off the filesystem
+         the browser refuses to register a worker, and the book must still work. */
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          Promise.resolve() /* Test Hub staging: no service worker */.catch(function () {});
+        });
+      }
+    </script>
+</body>
+</html>
