@@ -3536,28 +3536,47 @@ function trySelect(cards, count, bounds, rng) {
 }
 
 function fallbackSelect(cards, count, bounds) {
-  /* A deterministic, evenly-spread safety net for a pathological RNG. It is
-   * still made of the same friendly rationals, not a fabricated answer key. */
-  const values = cards.all.slice().sort((a, b) => compare(a.value, b.value));
-  const selected = [];
-  const targets = count === 1 ? [0] : Array.from({ length: count }, (_, i) => i / (count - 1));
-  for (const target of targets) {
-    const wanted = ratFromFloat(bounds.min + (bounds.max - bounds.min) * target);
-    let best = null;
-    let bestDistance = null;
-    for (const card of values) {
-      if (selected.some(x => equals(x.value, card.value))) continue;
-      if (tooClose(selected.concat(card), bounds)) continue;
-      const distance = { n: Math.abs(card.value.n * wanted.d - wanted.n * card.value.d), d: card.value.d * wanted.d };
-      if (bestDistance === null || compare(distance, bestDistance) < 0) {
-        best = card;
-        bestDistance = distance;
+  /* A deterministic, bounded backtracking search for a pathological or
+   * exhausted RNG. It still chooses only the same friendly rational cards; the
+   * search is what guarantees that a constant RNG cannot leave the required
+   * whole/decimal/fraction mix uncovered. */
+  const unique = list => {
+    const seen = new Set();
+    return list.filter(card => {
+      const key = `${card.value.n}/${card.value.d}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    }).sort((a, b) => compare(a.value, b.value));
+  };
+  const pools = {
+    fraction: unique(cards.fractions),
+    decimal: unique(cards.decimals),
+    whole: unique(cards.wholes),
+    all: unique(cards.all),
+  };
+  let nodes = 0;
+  const search = selected => {
+    if (nodes++ > 20000) return null;
+    if (selected.length === count) return hasRequiredMix(selected, count) ? selected : null;
+    const kinds = new Set(selected.map(card => card.kind));
+    const choices = [];
+    if (!kinds.has('fraction')) choices.push(pools.fraction);
+    if (count >= 3 && !kinds.has('decimal')) choices.push(pools.decimal);
+    if (count >= 3 && !kinds.has('whole')) choices.push(pools.whole);
+    if (count === 2 && !kinds.has('decimal') && !kinds.has('whole')) choices.push(pools.decimal, pools.whole);
+    if (!choices.length) choices.push(pools.all);
+    for (const pool of choices) {
+      for (const card of pool) {
+        if (selected.some(seen => equals(seen.value, card.value))) continue;
+        if (tooClose(selected.concat(card), bounds)) continue;
+        const found = search(selected.concat(card));
+        if (found) return found;
       }
     }
-    if (best) selected.push(best);
-  }
-  return selected.length === count && !hasDuplicate(selected) && !tooClose(selected, bounds)
-    ? selected : null;
+    return null;
+  };
+  return search([]);
 }
 
 function hasRequiredMix(cards, count) {
