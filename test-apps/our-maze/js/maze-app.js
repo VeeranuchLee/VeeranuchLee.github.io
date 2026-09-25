@@ -27,7 +27,7 @@
  */
 (function () {
   "use strict";
-  var MC = window.MazeCore, MM = window.MazeMovement, MP = window.MazePlan, SND = window.MazeSound;
+  var MC = window.MazeCore, MM = window.MazeMovement, SND = window.MazeSound;
 
   /* ---------- data ------------------------------------------------------------------ */
 
@@ -49,13 +49,6 @@
     { n: 6, minSteps: 14, maxSteps: 35, braid: 0.12 },
     { n: 8, minSteps: 22, maxSteps: 63, braid: 0.15 },
   ];
-
-  // Plan Moves deliberately has one calm cap across the whole ladder. The strip owns the
-  // overflow: a child can build a longer route without making the page itself scroll.
-  var PLAN_CAP = 30;
-  var PLAN_PREVIEW_SLOTS = 5;
-  var SLOT_SIZE = 64;
-  var SLOT_GAP = 5;
 
   var MISSING = window.MAZE_SPRITES_MISSING || [];
   var SPRITE = function (id, kind) {
@@ -111,15 +104,11 @@
   var app = document.getElementById("app");
   var S = {
     hero: load("hero", null),
-    mode: load("mode", "walk") === "plan" ? "plan" : "walk",
     rung: Math.max(0, Math.min(LADDER.length - 1, load("rung", 0) | 0)),
-    doneWalk: load("done-walk", load("done", [])),
-    donePlan: load("done-plan", []),
+    done: load("done", []),
     round: null, state: null, cell: 0, locked: false, seed: 0,
-    plan: [], planStatuses: null, chunkStart: null, wallAttempts: 0, running: false,
   };
-  if (!Array.isArray(S.doneWalk)) S.doneWalk = [];
-  if (!Array.isArray(S.donePlan)) S.donePlan = [];
+  if (!Array.isArray(S.done)) S.done = [];
   if (S.hero && (!CAST.some(function (c) { return c.id === S.hero; }) || MISSING.indexOf(S.hero) >= 0)) S.hero = null;
 
   function speakerButton() {
@@ -182,19 +171,6 @@
     S.round = round;
     S.state = MM.initial(round);
     S.locked = false;
-    S.plan = [];
-    S.planStatuses = null;
-    S.chunkStart = S.state;
-    S.wallAttempts = 0;
-    S.running = false;
-
-    renderPlayScreen();
-  }
-
-  function renderPlayScreen() {
-    detachInput();
-
-    var done = S.mode === "plan" ? S.donePlan : S.doneWalk;
 
     app.className = "screen-play";
     app.innerHTML =
@@ -202,27 +178,24 @@
       '<button class="hub" id="back" aria-label="Pick a different friend">&larr; Friends</button>' +
       '<nav class="ladder" aria-label="Maze size">' +
       LADDER.map(function (l, i) {
-        var isDone = done.indexOf(i) >= 0;
-        return '<button class="rung' + (i === S.rung ? " now" : "") + (isDone ? " done" : "") + '" data-rung="' + i +
-          '" aria-label="' + l.n + " by " + l.n + " maze" + (isDone ? ", finished in " + S.mode + " mode" : "") + '"' + (i === S.rung ? ' aria-current="true"' : "") + ">" +
-          '<span class="dots" aria-hidden="true" style="--n:' + l.n + '">' + new Array(l.n * l.n + 1).join("<i></i>") + "</span>" + (isDone ? '<span class="star" aria-hidden="true">★</span>' : "") + "</button>";
+        var done = S.done.indexOf(i) >= 0;
+        return '<button class="rung' + (i === rung ? " now" : "") + (done ? " done" : "") + '" data-rung="' + i +
+          '" aria-label="' + l.n + " by " + l.n + " maze" + (done ? ", finished" : "") + '"' + (i === rung ? ' aria-current="true"' : "") + ">" +
+          '<span class="dots" aria-hidden="true" style="--n:' + l.n + '">' + new Array(l.n * l.n + 1).join("<i></i>") + "</span>" + (done ? '<span class="star" aria-hidden="true">★</span>' : "") + "</button>";
       }).join("") +
       "</nav>" + speakerButton() + "</header>" +
-      '<section class="stage ' + (S.mode === "plan" ? "stage-plan" : "stage-walk") + '">' +
+      '<section class="stage">' +
       '<div class="board-wrap"><div class="board" id="board">' +
       '<canvas id="walls"></canvas>' +
-      '<div class="plan-trail" id="trail" aria-hidden="true"></div>' +
       '<img class="marker goal" id="goal" data-ph="flag" src="' + SPRITE("flag", "flag") + '" alt="The flag"/>' +
       '<div class="bump" id="bump"></div>' +
       '<img class="hero" id="hero" data-ph="hero" src="' + SPRITE(S.hero) + '" alt=""/>' +
       '<img class="sparkles" id="sparkles" data-ph="sparkles" src="' + SPRITE("sparkles", "sparkles") + '" alt=""/>' +
       "</div></div>" +
-      '<div class="play-controls">' + modeToggle() +
-      (S.mode === "plan" ? planPanel() : '') +
-      '<div class="pad" role="group" aria-label="' + (S.mode === "plan" ? "Add a move" : "Move") + '">' +
+      '<div class="pad" role="group" aria-label="Move">' +
       padButton("up", "Up") + padButton("left", "Left") + '<span class="pad-hub" aria-hidden="true"></span>' +
       padButton("right", "Right") + padButton("down", "Down") +
-      "</div></div>" +
+      "</div>" +
       "</section>" +
       '<div class="finish" id="finish" hidden></div>';
     guardImages(app);
@@ -235,10 +208,6 @@
       bump: document.getElementById("bump"),
       sparkles: document.getElementById("sparkles"),
       finish: document.getElementById("finish"),
-      strip: document.getElementById("move-strip"),
-      count: document.getElementById("plan-count"),
-      undo: document.getElementById("undo"), clear: document.getElementById("clear-plan"), go: document.getElementById("go"),
-      trail: document.getElementById("trail"),
       px: 0, cellPx: 0,
     };
     var heroName = CAST.filter(function (c) { return c.id === S.hero; })[0];
@@ -247,9 +216,6 @@
     Array.prototype.forEach.call(app.querySelectorAll(".rung"), function (b) {
       b.onclick = function () { if (SND) SND.pick(); play(+b.getAttribute("data-rung")); };
     });
-    Array.prototype.forEach.call(app.querySelectorAll(".mode-toggle button"), function (b) {
-      b.onclick = function () { switchMode(b.getAttribute("data-mode")); };
-    });
     var refreshSpeaker = function () {
       var b = document.getElementById("speaker");
       if (b) b.outerHTML = speakerButton();
@@ -257,40 +223,8 @@
     };
     wireSpeaker(refreshSpeaker);
     wirePad();
-    if (S.mode === "plan") wirePlan(); else attachInput();
+    attachInput();
     layout();
-  }
-
-  function modeToggle() {
-    return '<div class="mode-toggle" role="group" aria-label="Choose how to move">' +
-      '<button data-mode="walk" class="' + (S.mode === "walk" ? "selected" : "") + '" aria-pressed="' + (S.mode === "walk") + '"><span aria-hidden="true">▶</span> Move Now</button>' +
-      '<button data-mode="plan" class="' + (S.mode === "plan" ? "selected" : "") + '" aria-pressed="' + (S.mode === "plan") + '"><span aria-hidden="true">☰</span> Plan Moves</button>' +
-      '</div>';
-  }
-
-  function switchMode(mode) {
-    if (S.running || mode === S.mode || (mode !== "walk" && mode !== "plan")) return;
-    if (SND) { SND.unlock(); SND.pick(); }
-    if (mode === "walk") S.plan = [];
-    S.mode = mode;
-    S.planStatuses = null;
-    S.chunkStart = S.state;
-    S.wallAttempts = 0;
-    save("mode", mode);
-    renderPlayScreen();
-  }
-
-  function planPanel() {
-    var hero = CAST.filter(function (c) { return c.id === S.hero; })[0];
-    var friendName = hero ? hero.name.toLowerCase() : "friend";
-    return '<aside class="plan-panel">' +
-      '<div class="plan-heading"><span><strong>Plan the moves</strong><small>Add arrows below, then press GO to move the ' + friendName + '!</small></span>' +
-      '<span class="plan-count" id="plan-count" aria-live="polite">0 / ' + chipCap() + '</span></div>' +
-      '<div class="sequence"><div class="move-strip" id="move-strip" aria-label="Planned moves"></div></div>' +
-      '<div class="plan-actions"><button id="undo" class="plan-action undo" disabled aria-label="Undo last move">↶<small>Undo</small></button>' +
-      '<button id="clear-plan" class="plan-action clear" disabled aria-label="Clear moves">✕<small>Clear</small></button>' +
-      '<button id="go" class="plan-action go" disabled><span aria-hidden="true">▶</span> GO</button></div>' +
-      '</aside>';
   }
 
   function padButton(dir, label) {
@@ -305,13 +239,6 @@
     if (!R) return;
     var wrap = R.board.parentNode;
     var w = wrap.clientWidth, h = wrap.clientHeight;
-    // clientWidth/Height include padding. The portrait plan row reserves a little space
-    // above the board so its shadow does not cover the ladder, so size from the content box.
-    if (window.getComputedStyle) {
-      var cs = window.getComputedStyle(wrap);
-      w -= parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
-      h -= parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
-    }
     // A DOM without layout (the node harness) measures 0; give it a stable square.
     var px = Math.floor(Math.min(w || 600, h || 600));
     R.px = px;
@@ -331,7 +258,6 @@
     draw(dpr);
     place(R.goal, S.round.goal, 0, 0);
     place(R.hero, S.state.cell, 0, 0, true);
-    if (S.mode === "plan") renderPlan();
   }
 
   function cellXY(i) {
@@ -418,193 +344,6 @@
     return true;
   }
 
-  function padIntent(dir) {
-    if (S.mode === "plan") return addMove(dir);
-    return intent(dir);
-  }
-
-  function chipCap() { return PLAN_CAP; }
-  function arrowGlyph(dir) { return { up: "↑", right: "→", down: "↓", left: "←" }[dir]; }
-
-  function wirePlan() {
-    R.undo.onclick = function () { if (!S.running && S.plan.length) { S.plan.pop(); clearPlanFeedback(); renderPlan(); } };
-    R.clear.onclick = function () { if (!S.running) { S.plan = []; clearPlanFeedback(); renderPlan(); } };
-    R.go.onclick = function () { if (!S.running && S.plan.length) startPlan(); };
-    renderPlan();
-  }
-
-  function addMove(dir) {
-    if (S.locked || S.running) return false;
-    if (S.plan.length >= chipCap()) {
-      var pad = app.querySelector(".pad");
-      pad.classList.remove("full"); void pad.offsetWidth; pad.classList.add("full");
-      return false;
-    }
-    S.plan.push(dir);
-    clearPlanFeedback();
-    renderPlan();
-    if (SND) SND.step(S.plan.length);
-    return true;
-  }
-
-  function stripRowCapacity() {
-    var width = R.strip && R.strip.clientWidth;
-    if (!width) return PLAN_PREVIEW_SLOTS;
-    return Math.max(1, Math.floor((width - 6 + SLOT_GAP) / (SLOT_SIZE + SLOT_GAP)));
-  }
-
-  function previewSlotCount() {
-    var remaining = chipCap() - S.plan.length;
-    if (remaining <= 0) return 0;
-    // Show only enough quiet placeholders to finish the row the child is looking at.
-    // The fallback is used by the dependency-free mounted harness, which has no layout.
-    var row = Math.min(PLAN_PREVIEW_SLOTS, stripRowCapacity());
-    var usedInRow = S.plan.length % row;
-    return Math.min(remaining, usedInRow ? row - usedInRow : row);
-  }
-
-  function renderPlan(statuses) {
-    if (!R || !R.strip) return;
-    if (statuses !== undefined) S.planStatuses = statuses;
-    statuses = S.planStatuses;
-    var chips = S.plan.map(function (dir, i) {
-      var st = statuses && statuses[i] ? " " + statuses[i] : "";
-      // `ask` marks the chip; `question` belongs only to the bubble. Reusing one class for
-      // both made the red chip inherit the bubble's 25px position and size.
-      var hasQuestion = st.indexOf("ask") >= 0;
-      return '<button class="move-chip' + st + '" data-index="' + i + '" aria-label="Remove ' + dir + ' move">' +
-        arrowGlyph(dir) + (hasQuestion ? '<span class="question">?</span>' : '') + '</button>';
-    }).join("");
-    var slotCount = previewSlotCount();
-    var slots = new Array(slotCount + 1).join('<span class="move-slot" aria-hidden="true"></span>');
-    var oldScroll = R.strip.scrollTop || 0;
-    R.strip.innerHTML = chips + slots;
-    R.strip.setAttribute("aria-label", "Planned moves: " + S.plan.length + " of " + chipCap());
-    if (R.count) R.count.textContent = S.plan.length + " / " + chipCap();
-    Array.prototype.forEach.call(R.strip.querySelectorAll(".move-chip"), function (b) {
-      b.onclick = function () { if (!S.running) { S.plan.splice(+b.getAttribute("data-index"), 1); renderPlan(); } };
-    });
-    // Follow a newly appended chip, but do not yank the strip while GO is annotating chips.
-    R.strip.scrollTop = S.planStatuses ? oldScroll : R.strip.scrollHeight;
-    var empty = !S.plan.length;
-    R.undo.disabled = empty || S.running;
-    R.clear.disabled = empty || S.running;
-    R.go.disabled = empty || S.running;
-  }
-
-  function controlsRunning(on) {
-    S.running = on;
-    Array.prototype.forEach.call(app.querySelectorAll(".arrow"), function (b) { b.disabled = on; });
-    renderPlan(S.planStatuses);
-    app.classList.toggle("plan-running", on);
-  }
-
-  function later(fn, ms) { setTimeout(fn, window.__MAZE_FAST__ ? 0 : ms); }
-
-  function startPlan() {
-    var result = MP.runPlan(S.round.maze, S.state, S.plan.slice());
-    var statuses = {};
-    S.planStatuses = statuses;
-    controlsRunning(true);
-    if (R.trail) R.trail.innerHTML = "";
-    Array.prototype.forEach.call(app.querySelectorAll(".arrow"), function (b) { b.classList.remove("hint"); });
-    function walk(i) {
-      if (i >= result.steps.length) return finishPlan(result, statuses);
-      var step = result.steps[i];
-      statuses[i] = "walking"; renderPlan(statuses);
-      if (step.moved) {
-        S.state = step.after;
-        if (SND) SND.step(S.state.steps);
-        place(R.hero, S.state.cell, 0, 0);
-        statuses[i] = "used"; renderPlan(statuses);
-        if (S.state.reached) return later(function () { finishPlan(result, statuses); }, 400);
-        later(function () { walk(i + 1); }, 400);
-      } else {
-        S.state = step.after;
-        refused(step.dir);
-        statuses[i] = "failed";
-        renderPlan(statuses);
-        finishPlan(result, statuses);
-      }
-    }
-    walk(0);
-  }
-
-  function finishPlan(result, statuses) {
-    if (result.outcome === "flag") {
-      controlsRunning(false);
-      finished();
-      return;
-    }
-    if (result.outcome === "ended") {
-      S.chunkStart = S.state;
-      S.wallAttempts = 0;
-      Object.keys(statuses).forEach(function (i) { statuses[i] = "used fading"; });
-      renderPlan(statuses);
-      later(function () {
-        S.plan = [];
-        S.planStatuses = null;
-        controlsRunning(false);
-        renderPlan();
-      }, 300);
-      return;
-    }
-    S.wallAttempts++;
-    var failed = result.failedIndex;
-    if (S.wallAttempts >= 2) {
-      statuses[failed] = "failed ask";
-      showTrail(result.steps.slice(0, failed));
-    }
-    if (S.wallAttempts >= 3) {
-      var d = directionToGoal(result.steps[failed].before.cell);
-      var hint = app.querySelector(".arrow-" + d);
-      if (hint) hint.classList.add("hint");
-    }
-    renderPlan(statuses);
-    later(function () { walkBack(result.steps.slice(0, failed).filter(function (s) { return s.moved; }).reverse(), 0); }, 1000);
-  }
-
-  function clearPlanFeedback() {
-    S.planStatuses = null;
-    if (R && R.trail) R.trail.innerHTML = "";
-    Array.prototype.forEach.call(app.querySelectorAll(".arrow.hint"), function (b) { b.classList.remove("hint"); });
-  }
-
-  function walkBack(steps, i) {
-    if (i >= steps.length) {
-      S.state = S.chunkStart;
-      place(R.hero, S.state.cell, 0, 0);
-      controlsRunning(false);
-      return;
-    }
-    S.state = steps[i].before;
-    place(R.hero, S.state.cell, 0, 0);
-    later(function () { walkBack(steps, i + 1); }, 180);
-  }
-
-  function showTrail(steps) {
-    if (!R.trail) return;
-    R.trail.innerHTML = steps.map(function (s) {
-      var xy = cellXY(s.after.cell);
-      return '<i style="left:' + (xy[0] + R.cellPx * .43) + 'px;top:' + (xy[1] + R.cellPx * .43) + 'px"></i>';
-    }).join("");
-  }
-
-  function directionToGoal(start) {
-    var q = [start], seen = {}; seen[start] = true;
-    var first = {}; first[start] = null;
-    while (q.length) {
-      var c = q.shift();
-      if (c === S.round.goal) return first[c];
-      MC.exitsAt(S.round.maze, c).forEach(function (d) {
-        var n = MC.neighbourOf(S.round.maze, c, d);
-        if (seen[n]) return;
-        seen[n] = true; first[n] = first[c] || d; q.push(n);
-      });
-    }
-    return null;
-  }
-
   function refused(dir) {
     if (SND) SND.bump();
     // Nudge toward the wall and back.
@@ -628,8 +367,7 @@
   function finished() {
     S.locked = true;
     detachInput();
-    var done = S.mode === "plan" ? S.donePlan : S.doneWalk;
-    if (done.indexOf(S.rung) < 0) { done.push(S.rung); save(S.mode === "plan" ? "done-plan" : "done-walk", done); }
+    if (S.done.indexOf(S.rung) < 0) { S.done.push(S.rung); save("done", S.done); }
     if (SND) SND.win();
     var g = cellXY(S.round.goal), cp = R.cellPx;
     R.sparkles.style.left = g[0] - cp * 0.4 + "px";
@@ -670,19 +408,19 @@
         viaPointer = true;
         if (SND) SND.unlock();
         b.classList.add("down");
-        padIntent(dir);
+        intent(dir);
         stop(); b.classList.add("down");
-        hold = setTimeout(function () { rep = setInterval(function () { if (!padIntent(dir)) stop(); }, 210); }, 420);
+        hold = setTimeout(function () { rep = setInterval(function () { if (!intent(dir)) stop(); }, 210); }, 420);
       });
       ["pointerup", "pointercancel", "pointerleave"].forEach(function (t) { b.addEventListener(t, stop); });
       // Keyboard or switch access presses a button with a click and no pointer.
-      b.addEventListener("click", function () { if (viaPointer) { viaPointer = false; return; } padIntent(dir); });
+      b.addEventListener("click", function () { if (viaPointer) { viaPointer = false; return; } intent(dir); });
     });
   }
 
   function onKey(e) {
     var map = { ArrowUp: "up", ArrowRight: "right", ArrowDown: "down", ArrowLeft: "left" };
-    if (map[e.key] && app.className.indexOf("screen-play") === 0) { e.preventDefault(); padIntent(map[e.key]); }
+    if (map[e.key] && app.className === "screen-play") { e.preventDefault(); intent(map[e.key]); }
   }
 
   /* ---------- the forgiving slide ---------------------------------------------------- */
@@ -780,9 +518,6 @@
   window.__maze = {
     get state() { return S.state; }, get round() { return S.round; },
     get cellPx() { return R ? R.cellPx : 0; }, get rung() { return S.rung; },
-    get mode() { return S.mode; }, get plan() { return S.plan.slice(); }, get wallAttempts() { return S.wallAttempts; },
-    get running() { return S.running; }, get cap() { return chipCap(); },
-    get planCap() { return PLAN_CAP; }, get previewSlots() { return previewSlotCount(); },
     LADDER: LADDER, CAST: CAST,
   };
 

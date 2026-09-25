@@ -84,8 +84,11 @@
  *                  an installed hub would open offline with a broken Space tile.
  *   v31 2026-09-24  Our Maze joins the hub. Its tile, `assets/our-maze.webp`, is added
  *                  to the shell so an installed hub sees the new card offline.
+ *   v32 2026-09-25  Flags joins the hub (owner: "promote the flag to main hub"). Its
+ *                  tile, `assets/flags.webp` (three of the app's own flag SVGs), joins
+ *                  the shell.
  */
-const CACHE_NAME = "children-apps-v31";
+const CACHE_NAME = "children-apps-v32";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
@@ -106,6 +109,7 @@ const SHELL = [
   "./assets/animal-book.webp",
   "./assets/shadow-matching.webp",
   "./assets/our-maze.webp",
+  "./assets/flags.webp",
   "./assets/app-192.png",
   "./assets/app-512.png",
 ];
