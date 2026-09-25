@@ -28,7 +28,9 @@
    fails as a unit -- one 404 and nothing is cached at all -- so an absent manifest would
    mean no offline copy of anything. The same reasoning keeps solar-system-game's
    audio-list.js committed while it is empty. */
-const CACHE_NAME = "space-trivia-v3";
+// v4 2026-09-22: zoom-trap fix -- the global gesturestart pinch blocker is
+//        gone estate-wide (INTERACTION-DIRECTION.md); this bump carries it.
+const CACHE_NAME = "space-trivia-v4";
 
 const APP_FILES = [
   "./",

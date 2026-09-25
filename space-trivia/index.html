@@ -181,20 +181,5 @@
 </main>
 
 <script src="./app.js"></script>
-<script>
-/* Pinch-zoom guard (the solar-system-game precedent): iOS Safari has ignored
-   user-scalable=no since iOS 10, and preventing gesturestart is the only
-   thing that stops two small hands zooming the page mid-play. */
-document.addEventListener("gesturestart", function (e) { e.preventDefault(); }, { passive: false });
-
-/* Offline support. The worker itself is the controller's to write; until it
-   exists the registration rejects and is quietly caught, and the app runs
-   uncached. Best-effort by design, exactly as in word-book/index.html. */
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", function () {
-    navigator.serviceWorker.register("./service-worker.js").catch(function () {});
-  });
-}
-</script>
 </body>
 </html>
