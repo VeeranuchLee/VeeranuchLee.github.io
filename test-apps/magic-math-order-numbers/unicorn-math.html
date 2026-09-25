@@ -3450,7 +3450,7 @@ function decimalCandidates(bounds) {
   for (let i = 0; i <= Math.round(bounds.max * 10); i++) add(i, 10);
   for (let i = 0; i <= Math.round(bounds.max * 5); i++) add(i, 5);
   for (let i = 0; i <= Math.round(bounds.max); i++) add(i, 1);
-  return out;
+  return out.filter(r => r.d !== 1);
 }
 
 function makeCard(value, kind) {
@@ -3512,9 +3512,17 @@ function trySelect(cards, count, bounds, rng) {
   /* The first choices make the activity genuinely mixed, rather than leaving
    * the type mix to a lucky shuffle. Two values can be only one fraction and
    * one non-fraction; from three upward there is room for all three families. */
-  for (let attempt = 0; attempt < 80 && selected.length < count; attempt++) add(cards.fractions);
-  if (count >= 3) for (let attempt = 0; attempt < 80 && selected.length < count; attempt++) add(cards.decimals);
-  if (count >= 3) for (let attempt = 0; attempt < 80 && selected.length < count; attempt++) add(cards.wholes);
+  const hasKind = kind => selected.some(card => card.kind === kind);
+  const required = count >= 3 ? ['fraction', 'decimal', 'whole'] : ['fraction', 'nonfraction'];
+  for (const kind of required) {
+    const pool = kind === 'fraction' ? cards.fractions
+      : kind === 'decimal' ? cards.decimals
+        : kind === 'whole' ? cards.wholes : cards.decimals.concat(cards.wholes);
+    for (let attempt = 0; attempt < 160 && (kind === 'nonfraction' ? !hasKind('decimal') && !hasKind('whole') : !hasKind(kind)); attempt++) {
+      if (add(pool)) break;
+    }
+    if (kind === 'nonfraction' ? !hasKind('decimal') && !hasKind('whole') : !hasKind(kind)) return null;
+  }
   while (selected.length < count) {
     const before = selected.length;
     add(cards.all);
@@ -3552,6 +3560,14 @@ function fallbackSelect(cards, count, bounds) {
     ? selected : null;
 }
 
+function hasRequiredMix(cards, count) {
+  const kinds = new Set(cards.map(card => card.kind));
+  if (!kinds.has('fraction')) return false;
+  return count >= 3
+    ? kinds.has('decimal') && kinds.has('whole')
+    : kinds.has('decimal') || kinds.has('whole');
+}
+
 function boundsForCount(count, rng) {
   const pool = count <= 4
     ? [ON_BOUNDS[0], ON_BOUNDS[0], ON_BOUNDS[1], ON_BOUNDS[1], ON_BOUNDS[2]]
@@ -3567,7 +3583,7 @@ function makeProblem(count, rng) {
     const cards = candidateCards(bounds);
     let selected = trySelect(cards, count, bounds, rng);
     if (!selected) selected = fallbackSelect(cards, count, bounds);
-    if (!selected) continue;
+    if (!selected || !hasRequiredMix(selected, count)) continue;
     const sorted = selected.slice().sort((a, b) => compare(a.value, b.value));
     const tray = shuffle(rng, sorted);
     return {
