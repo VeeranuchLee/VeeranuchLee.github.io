@@ -285,14 +285,13 @@
 
     var grid = el('div', {
       class: 'explore-grid',
-      role: 'list',
+      role: 'group',
       'aria-label': 'All ' + DATA.countries.length + ' flags'
     });
     DATA.countries.forEach(function (country) {
       var tile = el('button', {
         class: 'explore-tile',
         type: 'button',
-        role: 'listitem',
         'aria-label': 'Open ' + country.name,
         onclick: function () {
           exploreScrollY = typeof window.scrollY === 'number' ? window.scrollY : 0;
@@ -392,7 +391,7 @@
     });
 
     var backButton = el('button', {
-      class: 'btn info-action info-back',
+      class: 'btn info-action info-back info-back-top',
       type: 'button',
       text: 'Back to flag browser',
       onclick: function () { renderExplore(true); }
@@ -420,9 +419,10 @@
     ]);
 
     VIEW.appendChild(el('div', { class: 'country-info-screen' }, [
+      backButton,
       info,
       el('div', { class: 'info-actions', role: 'group', 'aria-label': country.name + ' controls' }, [
-        hearButton, anotherButton, backButton
+        hearButton, anotherButton
       ]),
       status
     ]));

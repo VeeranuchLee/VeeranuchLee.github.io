@@ -345,7 +345,7 @@ body {
 .info-actions {
   width: min(100%, 820px);
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
 }
 
@@ -357,6 +357,7 @@ body {
 }
 
 .info-back { color: #FFFFFF; background: #6F6756; }
+.info-back-top { align-self: flex-start; min-width: 190px; }
 
 .info-status {
   min-height: 28px;
