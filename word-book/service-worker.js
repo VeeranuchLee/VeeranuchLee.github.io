@@ -18,7 +18,7 @@
    joins SHELL here: dictionary.html fetches it at runtime and falls back to EVERY letter
    if that fetch fails, so precaching it is what keeps the A/B-only gate holding offline
    from the very first load, not only after one successful online fetch. */
-const CACHE_NAME='word-book-v3';
+const CACHE_NAME='word-book-v4';
 const SHELL=['./','./index.html','./dictionary.html','./fonts.css',
   './fonts/Nunito-latin.woff2','./fonts/Nunito-latin-ext.woff2','./fonts/FredokaOne-latin.woff2',
   './manifest.webmanifest','./data/dictionary.json','./data/letters.json','./word-audio.js',
