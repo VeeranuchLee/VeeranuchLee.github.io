@@ -42,6 +42,38 @@
     item("planet", "🪐", "planet", "a planet")
   ];
 
+  /* Painted-sprite replacement for the first-build emoji (owner, 2026-09-26: "delegate
+     more tasks to codex"; Codex drew 18 controller-reviewed sprites whose ids equal the
+     GARDEN_POOL / SPACE_POOL item ids). Each sprite is an <img> with the original emoji
+     kept as an onerror fallback, so a missing/broken WebP never blanks a tap target. */
+  var RULE_SPRITE = {
+    hearts: "heart-pink",
+    flowers: "flower-pink",
+    "pink-hearts": "heart-pink",
+    "not-broken": "heart-broken",
+    earth: "earth",
+    stars: "star",
+    "stars-not-asteroids": "asteroid",
+    "earth-not-moon": "moon"
+  };
+
+  function spriteNode(id, emoji, extraClass) {
+    var wrap = document.createElement("span");
+    wrap.className = "sprite-wrap" + (extraClass ? " " + extraClass : "");
+    var img = document.createElement("img");
+    img.className = "sprite-img";
+    img.src = "assets/sprites/" + id + ".webp";
+    img.alt = "";
+    img.draggable = false;
+    img.setAttribute("aria-hidden", "true");
+    img.addEventListener("error", function onSpriteError() {
+      img.removeEventListener("error", onSpriteError);
+      wrap.textContent = emoji;
+    });
+    wrap.appendChild(img);
+    return wrap;
+  }
+
   var THEMES = {
     garden: {
       label: "Garden",
@@ -168,8 +200,15 @@
       button.className = "rule-card";
       button.dataset.rule = entry.id;
       button.dataset.ruleIndex = String(index);
-      button.innerHTML = '<span class="rule-art" aria-hidden="true">' + entry.art + '</span><span><strong>' +
-        entry.title + '</strong><small>' + entry.hint + '</small></span>';
+      var artSpan = document.createElement("span");
+      artSpan.className = "rule-art";
+      artSpan.setAttribute("aria-hidden", "true");
+      var artSpriteId = RULE_SPRITE[entry.id];
+      if (artSpriteId) artSpan.appendChild(spriteNode(artSpriteId, entry.art, "rule-art-sprite"));
+      else artSpan.textContent = entry.art;
+      var textSpan = document.createElement("span");
+      textSpan.innerHTML = '<strong>' + entry.title + '</strong><small>' + entry.hint + '</small>';
+      button.replaceChildren(artSpan, textSpan);
       button.addEventListener("click", function () { Sound.unlock(); Sound.tap(); startRule(index); });
       dom["rule-grid"].appendChild(button);
     });
@@ -180,7 +219,10 @@
     dom["play-theme"].textContent = theme().label;
     dom["rule-text"].textContent = activeRule.title;
     dom["rule-hint"].textContent = activeRule.hint;
-    dom["rule-icon"].textContent = activeRule.icon;
+    dom["rule-icon"].replaceChildren();
+    var iconSpriteId = RULE_SPRITE[activeRule.id];
+    if (iconSpriteId) dom["rule-icon"].appendChild(spriteNode(iconSpriteId, activeRule.icon, "rule-icon-sprite"));
+    else dom["rule-icon"].textContent = activeRule.icon;
   }
 
   function renderStage(state) {
@@ -194,7 +236,7 @@
       button.dataset.slot = String(entry.slot);
       button.dataset.target = String(entry.target);
       button.setAttribute("aria-label", entry.item.label);
-      button.textContent = entry.item.emoji;
+      button.appendChild(spriteNode(entry.item.id, entry.item.emoji, "tap-wait-item-sprite"));
       button.addEventListener("click", function () {
         Sound.unlock();
         game.tap(entry);

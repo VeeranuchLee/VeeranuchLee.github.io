@@ -177,6 +177,13 @@ h2 { margin-bottom: 0; font-size: clamp(28px, 5vw, 48px); line-height: 1.05; }
   font-size: clamp(60px, 12vw, 112px); line-height: 1;
 }
 .tap-wait-item-label { pointer-events: none; }
+/* Painted sprites (Codex, 2026-09-26) replace the first-build emoji. The wrap
+   centers either the <img> or its onerror emoji-text fallback; the img never
+   intercepts the tap and is never draggable. */
+.sprite-wrap { display: inline-flex; align-items: center; justify-content: center; line-height: 1; }
+.sprite-img { pointer-events: none; -webkit-user-drag: none; user-drag: none; }
+.tap-wait-item-sprite .sprite-img { width: clamp(60px, 12vw, 112px); height: clamp(60px, 12vw, 112px); object-fit: contain; }
+.rule-art-sprite .sprite-img, .rule-icon-sprite .sprite-img { width: 1em; height: 1em; object-fit: contain; }
 .tap-wait-item.is-tapped { animation: correct-bounce .42s ease-out; }
 @keyframes correct-bounce { 45%{transform:scale(1.16) rotate(3deg)} 100%{transform:scale(1)} }
 .feedback { min-height: 30px; flex: none; margin: 0; color: var(--muted); text-align: center; font-size: 18px; }
