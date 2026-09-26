@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Word Cuts Round 7 — IPA phoneme test</title>
+<!--
+  CG-250 round 7, built 2026-09-26. PRIVATE QA page; qa/** is [private].
+  Compares the current shipped clip ("Now") against three new isolated takes per
+  word: an SSML IPA phoneme tag on eleven_turbo_v2, the same tag on eleven_flash_v2,
+  and a plain-text turbo control. Same Alice voice throughout. There is no service
+  worker here.
+-->
+<style>
+  :root{--ink:#2b2530;--muted:#6f6676;--line:#e3dce6;--bg:#fbf7fb;--card:#fff;--a:#7a4fb3;--pick:#f1e9f8;--warn:#8a5a00}
+  @media (prefers-color-scheme:dark){:root{--ink:#efe9f2;--muted:#b3a9b9;--line:#3d3542;--bg:#1d1a20;--card:#27232b;--a:#b394e0;--pick:#352c3d;--warn:#e0b25c}}
+  *{box-sizing:border-box}html,body{touch-action:manipulation}
+  body{margin:0;font:16px/1.5 ui-rounded,"Avenir Next",-apple-system,system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+  main{max-width:760px;margin:0 auto;padding:24px 16px 70px}h1{font-size:24px;margin:0 0 6px}
+  p{color:var(--muted)}code{font-family:ui-monospace,Menlo,monospace;font-size:.9em}
+  .word{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-top:18px}
+  .word h2{margin:0 0 2px;font-size:26px}.word .gloss{color:var(--muted);margin:0 0 14px;font-size:15px}
+  .row{display:grid;grid-template-columns:1fr;gap:10px}
+  @media (min-width:520px){.row{grid-template-columns:1fr 1fr}}
+  .take{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:12px}
+  .take b{display:block;font-size:16px;margin-bottom:2px}
+  .take small{display:block;color:var(--muted);margin-bottom:10px;word-break:break-word}
+  button{font:inherit;min-height:48px;width:100%;padding:10px 16px;border-radius:11px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;font-weight:700}
+  button.on{border-color:var(--a);background:var(--pick)}button:disabled{cursor:not-allowed;opacity:.55}
+  .pending{color:var(--warn);font-weight:700}
+  .command{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:18px;overflow:auto}
+  .command code{white-space:pre-wrap;word-break:break-word}.foot{font-size:14px;margin-top:24px}
+</style>
+</head>
+<body>
+<main>
+  <h1>Word cuts, round 7 — IPA phoneme test</h1>
+  <p>For each word: the clip the app plays now, then three new isolated takes — an SSML IPA
+  phoneme tag on <code>eleven_turbo_v2</code>, the same tag on <code>eleven_flash_v2</code>,
+  and a plain-text control on <code>eleven_turbo_v2</code>. Same Alice voice throughout.</p>
+  <div id="words"></div>
+  <div class="command"><b>Controller commands (already run for this page)</b><br><code id="cmd"></code></div>
+  <p class="foot">This is a private listening instrument. It changes no shipped app clip and has no service worker.</p>
+</main>
+<script src="manifest.js"></script>
+<script>
+(function(){
+  'use strict';
+  var data=window.ROUND7;
+  var wordsEl=document.getElementById('words');
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  if(!data){wordsEl.textContent='Could not load manifest.js.';return;}
+  var audio=new Audio(), playing=null;
+  data.words.forEach(function(w){
+    var sec=document.createElement('section');sec.className='word';
+    var head='<h2>'+esc(w.word)+'</h2><p class="gloss">'+esc(w.gloss)+(w.pending?' — <span class="pending">some takes not yet rendered</span>':'')+'</p>';
+    var row=document.createElement('div');row.className='row';
+    w.clips.forEach(function(c){
+      var ready=c.status==='ready';
+      var box=document.createElement('div');box.className='take';
+      box.innerHTML='<b>'+esc(c.label)+'</b><small>'+esc(c.text||c.kind)+'</small>'+
+        '<button '+(ready?'':'disabled')+'>▶ play</button>';
+      var b=box.querySelector('button');
+      b.addEventListener('click',function(){
+        if(playing)playing.classList.remove('on');
+        audio.pause();audio.src=c.file;audio.currentTime=0;var p=audio.play();if(p&&p.catch)p.catch(function(){});
+        playing=b;b.classList.add('on');
+      });
+      row.appendChild(box);
+    });
+    sec.innerHTML=head;sec.appendChild(row);wordsEl.appendChild(sec);
+  });
+  audio.addEventListener('ended',function(){if(playing)playing.classList.remove('on');playing=null;});
+  document.getElementById('cmd').textContent=data.render_commands.join('\n')+'\n'+data.build_command;
+})();
+</script>
+</body>
+</html>
