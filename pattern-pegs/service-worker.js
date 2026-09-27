@@ -18,12 +18,22 @@
  *                   reach installed devices, so it is the first one that matters.
  */
 
-const CACHE_NAME = "pattern-pegs-v5";
+// v6 2026-09-22: zoom-trap fix -- the global gesturestart pinch blocker is
+//        gone estate-wide (INTERACTION-DIRECTION.md); this bump carries it.
+// v7 2026-09-26: zoom fix C (method C, owner-approved 2026-09-25) -- the shared
+//        ./tap-zoom-guard.js stops the second quick tap's zoom and re-delivers
+//        the tap, while a multi-finger pinch is never touched. It has to be IN
+//        this list, not merely fetched at runtime: a shell list is only read when
+//        CACHE_NAME changes, so an offline install without it would have no guard.
+//        tools/check-shell.mjs enforces that: it reads this list and this page's
+//        own references, and fails on a file referenced but not listed.
+const CACHE_NAME = "pattern-pegs-v7";
 
 const SHELL = [
   "./",
   "./index.html",
   "./styles.css",
+  "./tap-zoom-guard.js",
   "./app.js",
   "./js/pattern-core.js",
   "./manifest.webmanifest",
