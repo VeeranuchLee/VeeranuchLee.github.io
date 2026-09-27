@@ -15,7 +15,12 @@
 .bslot.over{border-color:#e0559f;border-style:solid;background:#ffe1f0}
 .pool{display:flex;flex-wrap:wrap;justify-content:center;align-content:center;gap:clamp(6px,1.5vw,12px);min-height:78px;padding:12px;border-radius:26px;background:#ffffffa6;box-shadow:inset 0 2px 10px #5946831a}
 .pool.over{background:#fff;box-shadow:inset 0 0 0 3px #e0559f}
-.tile{border:0;border-radius:15px;background:linear-gradient(#fff,#ffeaf5);box-shadow:0 5px 0 #eec3dc;color:#8a2c74;font-weight:1000;font-size:clamp(1.1rem,3.4vw,1.85rem);min-width:clamp(44px,7vw,58px);height:clamp(44px,8vw,62px);touch-action:none;user-select:none;-webkit-user-select:none}
+/* Zoom fix C, 2026-09-27: the tile was `touch-action: none`. A tile is a letter a child
+   drags to a slot ONE AT A TIME -- startDrag captures a single pointerId and keeps one
+   `drag` record -- so `none` protected nothing that `pinch-zoom` does not protect, and it
+   cost the pinch. `pinch-zoom` suppresses the page pan exactly as `none` did, so the drag
+   is unchanged, and a two-finger pinch now reaches Safari. */
+.tile{border:0;border-radius:15px;background:linear-gradient(#fff,#ffeaf5);box-shadow:0 5px 0 #eec3dc;color:#8a2c74;font-weight:1000;font-size:clamp(1.1rem,3.4vw,1.85rem);min-width:clamp(44px,7vw,58px);height:clamp(44px,8vw,62px);touch-action:pinch-zoom;user-select:none;-webkit-user-select:none}
 .tile:active{transform:translateY(3px);box-shadow:0 2px 0 #eec3dc}
 .bslot .tile{width:100%;height:100%;min-width:0;border-radius:12px}
 .tile.fixed{background:linear-gradient(#fffaea,#ffe9b0);box-shadow:0 5px 0 #e6c684;color:#8a5a12}
@@ -126,14 +131,24 @@ body.scene-hall::before{background-image:url(assets/mermaid/bg-hall.webp)}
  *                          half, and it was missing from every app but one.
  * touch-action: manipulation  removes double-tap-to-zoom WITHOUT killing scroll.
  *                          Deliberately not `none`: that would stop scrolling.
- *                          Drawing surfaces set their own `touch-action: none`
- *                          and keep it -- a more specific rule still wins.
+ *                          The two drag surfaces set their own
+ *                          `touch-action: pinch-zoom` (.tile, .wpaper/.writesvg) and
+ *                          keep it -- a more specific rule still wins, and pinch-zoom
+ *                          still lets a two-finger pinch through.
  *
- * Pinch needs JavaScript, not CSS: iOS Safari has ignored user-scalable=no since
- * iOS 10, so the viewport meta does nothing. See the gesturestart guard in the
- * HTML.
+ * manipulation is not the whole answer on its own. iPadOS Safari still double-tap
+ * zooms with it in place (owner, 2026-09-25: "kids sometimes double tap, and on
+ * ipad it's zoom in, then they cant zoom out"), which is what ./tap-zoom-guard.js,
+ * loaded first in index.html, is for. It is NOT a gesturestart handler and must never
+ * become one: a document-level pinch blocker is the banned pattern in
+ * INTERACTION-DIRECTION.md, diagnosed in dollhouse-app on 2026-09-07.
+ *
+ * The sentence this block used to end with -- "See the gesturestart guard in the
+ * HTML" -- pointed at a blocker deleted estate-wide on 2026-09-22, so for a week it
+ * read to the next agent as a missing feature to restore. It is the fingerprint of
+ * the banned pattern re-entering, in comment form.
  */
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; touch-action: manipulation; }
 
 body {
   -webkit-user-select: none;
@@ -169,8 +184,18 @@ input, textarea, [contenteditable="true"] {
    100%, overscroll-behavior none): nothing can pan, so a touch that misses the
    line, or a second hand resting on the glass, drags nothing. The shell is toggled
    by renderWrite/writeDestroy in app.js, and the paper below carries
-   touch-action:none on the WHOLE paper, not only the svg, so the padding ring
-   around the line cannot start a drag either. */
+   touch-action:pinch-zoom on the WHOLE paper, not only the svg, so the padding ring
+   around the line cannot start a drag either -- pinch-zoom suppresses panning exactly
+   as `none` did, which is the whole reason it is safe here.
+   Zoom fix C, 2026-09-27: both were `none`, and the paper is the largest surface on
+   this screen, so a child who zoomed the page in could not zoom it back out -- the
+   dollhouse-app trap, and the owner has already reported a zoom trap in writing. The
+   paper does not need `none` to keep the page still: writing is one finger, the
+   engine captures a single pointer per stroke, and nothing in this app is played with
+   two hands. And a pinch here is harmless to the ink, because the engine maps each
+   point through the inverse CTM (`createSVGPoint` + `matrixTransform(ctm.inverse())`),
+   so a stroke lands under the finger at any page zoom rather than drifting off the
+   line. Symmetry is the requirement: whatever gets a child in must get them out. */
 body.wlock{overflow:hidden;overscroll-behavior:none}
 body.wlock #app{height:100svh;min-height:0;display:flex;flex-direction:column}
 body.wlock #app>.top{flex:0 0 auto}
@@ -203,9 +228,9 @@ body.wlock #app>.top{flex:0 0 auto}
 /* The paper. Near-opaque over the reef for the same reason the cards are: a painted
    background behind a child's own faint pencil line is contrast they cannot afford. */
 .wpaper{margin:12px 0;padding:8px clamp(8px,2vw,16px);border-radius:26px;background:#fffffff2;
-  box-shadow:0 12px 30px #53436b1f;height:clamp(200px,34vh,320px);flex:1 1 auto;min-height:150px;touch-action:none}
+  box-shadow:0 12px 30px #53436b1f;height:clamp(200px,34vh,320px);flex:1 1 auto;min-height:150px;touch-action:pinch-zoom}
 .wstage .wcontrols{flex:0 0 auto}
-.writesvg{display:block;width:100%;height:100%;touch-action:none;overflow:visible}
+.writesvg{display:block;width:100%;height:100%;touch-action:pinch-zoom;overflow:visible}
 .wcontrols{display:flex;justify-content:center;align-items:center;gap:clamp(6px,1.6vw,12px);flex-wrap:wrap;
   padding-bottom:max(4px,env(safe-area-inset-bottom))}
 .wcontrols .secondary,.wcontrols .primary{min-height:48px;padding:13px 20px}
