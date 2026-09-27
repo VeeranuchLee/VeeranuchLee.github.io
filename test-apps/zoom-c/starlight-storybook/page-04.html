@@ -1,0 +1,163 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ari &amp; Dot · Page 4 — Stars come in different sizes</title>
+<link rel="stylesheet" href="app/starlight.css">
+<style>
+.name{font:800 10px Nunito,system-ui,sans-serif;fill:#eaf6ff;paint-order:stroke;
+  stroke:#04101f;stroke-width:3;stroke-linejoin:round}
+.sub{font:700 8.5px Nunito,system-ui,sans-serif;fill:#a9c8e8}
+.disc{transition:r .8s cubic-bezier(.3,.8,.4,1),cx .8s cubic-bezier(.3,.8,.4,1),cy .8s cubic-bezier(.3,.8,.4,1)}
+.lead{stroke:#8eeaff;stroke-width:1;opacity:.75}
+.hint{color:#ffe6a8;font-weight:900;text-align:center;font-size:clamp(.6rem,.85vw,.9rem);min-height:1.2em}
+</style>
+</head>
+<body data-page="4" data-title="Stars come in different sizes">
+<main class="book"><section class="stage">
+  <div class="sky"><div class="starfield"></div></div>
+  <div class="frame">
+
+    <section class="story">
+      <p class="eyebrow">Page 4 · Mystery three</p>
+      <h1>Some stars are enormous<small>And ours is a middle one</small></h1>
+      <p>Bring the stars in one at a time and stand them side by side. Watch what happens to
+        <strong>our Sun</strong> as the bigger ones arrive.</p>
+      <p class="says" data-say="Wait. Where did our Sun go?" data-who="Ari">
+        <b>Ari:</b> “Wait. Where did our Sun <em>go</em>?”</p>
+      <div class="actions">
+        <button class="pill primary" id="listen" data-say="Our Sun did not shrink. The picture had to back away to fit the big ones in." data-who="Dot">▶ Listen</button>
+      </div>
+    </section>
+
+    <section class="instrument">
+      <div class="rig">
+        <svg id="rig" viewBox="0 0 400 250" preserveAspectRatio="xMidYMid meet"
+             role="img" aria-label="Stars compared by size">
+          <g id="row"></g>
+          <line x1="10" y1="222" x2="390" y2="222" stroke="#2c4d78" stroke-width="1.5"/>
+          <text class="sub" id="scaleNote" x="200" y="240" text-anchor="middle"></text>
+        </svg>
+      </div>
+      <div class="controls-row" id="adders">
+        <button class="tool" data-add="0">+ Red dwarf</button>
+        <button class="tool" data-add="1">+ Our Sun</button>
+        <button class="tool" data-add="2">+ A giant</button>
+        <button class="tool" data-add="3">+ A supergiant</button>
+      </div>
+      <p class="hint" id="hint">Start with our Sun, then add a bigger one.</p>
+    </section>
+
+    <div class="footer">
+      <div class="badges">
+        <button class="badge" data-kind="measured"
+          data-note="Star sizes are measured, not guessed — from how much light a star gives out and how hot it is, and for the nearest giants by measuring the star's width across the sky directly."></button>
+      </div>
+      <div class="status" aria-live="polite"></div>
+    </div>
+
+  </div>
+</section></main>
+<!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+     First, before the app, because it is a document-level listener and must be in
+     place before the page starts handling taps. It stops the ZOOM of a second quick
+     tap and re-delivers that tap; a multi-finger pinch is never touched, so a child
+     who is zoomed in can always pinch back out. One copy at the book root serves this
+     page: every page here sits in the same directory. -->
+<script src="tap-zoom-guard.js"></script>
+<script src="app/starlight.js"></script>
+<script>
+(function () {
+  var S = window.Starlight;
+  // Radii in Suns. Real values; the supergiant is "about" because measurements
+  // of Betelgeuse genuinely disagree with each other.
+  var STARS = [
+    { key: "dwarf", label: "Red dwarf",  sub: "Proxima Centauri · 0.15 Suns wide",
+      r: 0.15, c: "#ff7a52",
+      line: "A red dwarf. Small, cool and dim — and the most common kind of star there is." },
+    { key: "sun",   label: "Our Sun",    sub: "1 Sun wide",
+      r: 1, c: "#ffd457",
+      line: "Our Sun. An ordinary middle-sized star." },
+    { key: "giant", label: "A giant",    sub: "Aldebaran · 45 Suns wide",
+      r: 45, c: "#ff9d4d",
+      line: "A giant. Forty-five of our Suns would fit across it." },
+    { key: "super", label: "A supergiant", sub: "Betelgeuse · hundreds of Suns wide",
+      r: 750, c: "#ff5f43",
+      line: "A supergiant. Put it where our Sun is and it would swallow Mercury, Venus, Earth and Mars." }
+  ];
+
+  var row = document.getElementById("row");
+  var note = document.getElementById("scaleNote");
+  var hint = document.getElementById("hint");
+  var on = [1];   // our Sun is already standing there
+
+  function layout() {
+    row.innerHTML = "";
+    if (!on.length) { note.textContent = ""; hint.textContent = "Start with our Sun, then add a bigger one."; return; }
+    var picked = STARS.filter(function (s, i) { return on.indexOf(i) >= 0; });
+    var maxR = Math.max.apply(null, picked.map(function (s) { return s.r; }));
+    var k = 88 / maxR;                       // pixels per Sun-radius
+    var slotW = 380 / picked.length;
+
+    picked.forEach(function (s, n) {
+      var cx = 12 + slotW * (n + 0.5);
+      var r = s.r * k;
+      var tiny = r < 2.2;
+      var cy = 218 - Math.max(r, 1);
+      var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      g.innerHTML =
+        '<circle class="disc" cx="' + cx + '" cy="' + cy + '" r="' + Math.max(r, 0.9) +
+          '" fill="' + s.c + '"/>' +
+        (tiny ? '<line class="lead" x1="' + cx + '" y1="' + (cy - 4) + '" x2="' + cx +
+                '" y2="' + (cy - 26) + '"/>' : '') +
+        '<text class="name" x="' + cx + '" y="' + (tiny ? cy - 30 : Math.max(14, cy - r - 14)) +
+          '" text-anchor="middle">' + s.label + '</text>' +
+        '<text class="sub" x="' + cx + '" y="' + (tiny ? cy - 20 : Math.max(24, cy - r - 4)) +
+          '" text-anchor="middle">' + s.sub + '</text>';
+      row.appendChild(g);
+    });
+
+    note.textContent = "Everything drawn to the same scale · " +
+      (Math.round(1 / k * 10) / 10) + " Suns across each dot on screen";
+
+    var sunOn = on.indexOf(1) >= 0;
+    if (sunOn && maxR >= 45) {
+      var sunPx = (1 * k * 2).toFixed(2);
+      hint.textContent = "Our Sun is now " + sunPx + " screen dots wide. It did not shrink — the picture backed away.";
+    } else if (picked.length > 1) {
+      hint.textContent = "Add a bigger one and watch the small ones shrink.";
+    } else {
+      hint.textContent = "Now add another star beside it.";
+    }
+  }
+
+  document.getElementById("adders").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-add]");
+    if (!b) return;
+    var i = Number(b.dataset.add);
+    if (on.indexOf(i) >= 0) return;
+    on.push(i); on.sort(function (a, c) { return a - c; });
+    b.classList.add("on"); b.disabled = true;
+    S.sfx.pick();
+    layout();
+    S.say(STARS[i].line, "Dot");
+    if (on.length === 4) {
+      S.sfx.good();
+      setTimeout(function () {
+        S.say("All four, side by side, at the same scale. Our Sun is the ordinary one — and most stars are smaller still.", "Dot");
+      }, 1200);
+    }
+  });
+
+  S.onReplay(function () {
+    on = [1];
+    Array.prototype.forEach.call(document.querySelectorAll("[data-add]"), function (b) {
+      var isSun = b.dataset.add === "1";
+      b.classList.toggle("on", isSun); b.disabled = isSun;
+    });
+    layout();
+  });
+  var sunBtn = document.querySelector('[data-add="1"]');
+  sunBtn.classList.add("on"); sunBtn.disabled = true;
+  layout();
+})();
+</script>
+</body></html>

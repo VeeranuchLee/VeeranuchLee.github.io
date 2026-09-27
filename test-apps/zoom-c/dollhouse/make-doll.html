@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Make a Doll</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#FDF7F9">
+</head>
+<body>
+
+<div id="app" class="maker">
+
+  <div id="tools" role="toolbar" aria-label="Make a doll">
+    <a class="tool ghost" id="back" href="./">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M11.3 4.3 3.6 12l7.7 7.7 1.8-1.8L8.1 13.3H20v-2.6H8.1l5-4.6z"/>
+      </svg>
+      <span>Back</span>
+    </a>
+    <div class="spacer"></div>
+    <button class="tool done" id="done">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M9.6 17.5 4.4 12.3l1.8-1.8 3.4 3.4 8-8L19.4 7.7z"/>
+      </svg>
+      <span>Done</span>
+    </button>
+  </div>
+
+  <!-- She stays large and centred; the choices sit under her. -->
+  <div id="dollWrap">
+    <div id="dollStage"></div>
+  </div>
+
+  <!-- Category tabs, then that category's options. Built from the kit, so a
+       slot grows choices the moment its family grows variants. -->
+  <div id="slotBar" role="tablist" aria-label="What to change"></div>
+  <div id="optionWrap">
+    <div id="options" role="list"></div>
+  </div>
+
+</div>
+
+<!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+     This page is as exposed as the room itself: a child picks a doll by tapping
+     options, often twice in a row, and Make a Doll is where they are choosing
+     rather than playing. The guard stops the ZOOM of a second quick tap and
+     re-delivers that tap; a multi-finger pinch is never touched, so a child who
+     is zoomed in can always pinch back out. It is NOT a gesturestart handler and
+     must never become one -- see INTERACTION-DIRECTION.md. The same root copy
+     serves both pages: they sit beside each other here and beside each other
+     once published. -->
+<script src="./tap-zoom-guard.js"></script>
+
+<script src="assets/kit.js"></script>
+<script src="character.js"></script>
+<script src="make-doll.js"></script>
+<script>
+  if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+    addEventListener("load", () => Promise.resolve() /* Test Hub staging: no service worker */);
+  }
+</script>
+</body>
+</html>

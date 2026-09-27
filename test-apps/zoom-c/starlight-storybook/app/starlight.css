@@ -1,0 +1,240 @@
+/* ==========================================================================
+   Ari & Dot — Follow the Starlight : shared page chrome
+   --------------------------------------------------------------------------
+   One stylesheet for all twenty pages. Book 1 gave every page its own inline
+   copy, which drifted until generators had to be written to pull it back
+   together; this book starts where that ended up.
+
+   Palette and chrome geometry are Book 1's, deliberately: the back arrow sits
+   top-left, page navigation top-right, and the five controls bottom-right, in
+   the same places a child already found them in the first book.
+   ========================================================================== */
+
+:root{
+  --cream:#fff8e9; --ink:#18365e; --cyan:#71d6e9; --gold:#f3c86b;
+  --deep:#020815; --navy:#07152d; --edge:#365a84; --focus:#8eeaff;
+  --warm:#a44e32; --dim:#52657b;
+  --card:#fff8e9f2; --panel:#07152de8;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;
+  font-family:Nunito,"Avenir Next",ui-rounded,system-ui,sans-serif;
+  background:var(--deep);color:var(--ink);
+  -webkit-text-size-adjust:100%}
+button,a,input,select{font:inherit}
+
+/* ---------- touch hygiene : zoom fix C, 2026-09-27 ---------------------------
+ * This book had NO touch-action anywhere before this pass, so html and body were
+ * both `auto` and a child who double-tapped a light -- which on this book is
+ * exactly how a light gets picked, and how a page is turned twice in a row --
+ * zoomed the page in. Declared on BOTH surfaces, not body alone: a tap resolves
+ * against every ancestor, and the html surface must not stay `auto`.
+ *
+ * It is deliberately not `none`: that would stop scrolling, and pages that are
+ * taller than the frame (page 20's) do scroll. Only the instrument below
+ * overrides it, and only as `pinch-zoom`.
+ *
+ * `manipulation` is not the whole answer on its own. iPadOS Safari still
+ * double-tap zooms with it in place (owner, 2026-09-25: "kids sometimes double
+ * tap, and on ipad it's zoom in, then they cant zoom out"), which is what
+ * ./tap-zoom-guard.js, loaded first on every page, is for. It is NOT a
+ * gesturestart handler and must never become one: a document-level pinch blocker
+ * is the banned pattern in INTERACTION-DIRECTION.md, diagnosed in dollhouse-app
+ * on 2026-09-07. Whatever gets a child in must get them out.
+ *
+ * One declaration here covers the whole book, because all twenty pages and the
+ * cover link this one sheet and none of them overrides it -- the animal-book
+ * lesson was that a pass over files is not a pass over PAGES, and the sheet is
+ * what every page goes through. A new page that stops linking it does not.
+ */
+html,body{touch-action:manipulation}
+/* The UA stylesheet's [hidden] rule loses to an inline `display:` -- page 20 set
+   `style="display:grid"` on a stage it also marked hidden, and both stages showed
+   at once. Toggling `hidden` must actually hide. */
+[hidden]{display:none!important}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+
+.book{display:grid;place-items:center;width:100%;height:100%}
+
+/* The stage keeps Book 1's 3:2 frame so the two books cut together. */
+.stage{position:relative;width:min(100vw,150vh);height:min(100vh,66.667vw);
+  overflow:hidden;background:var(--deep);isolation:isolate}
+
+/* ---------- sky : a real night sky in CSS, replaced by art when it lands ---- */
+.sky{position:absolute;inset:0;z-index:0;
+  background:radial-gradient(120% 90% at 70% 15%,#10275a 0%,#061031 45%,#01060f 100%)}
+.sky img{width:100%;height:100%;object-fit:cover;display:block}
+.sky .starfield,.sky .starfield::before,.sky .starfield::after{position:absolute;inset:-4%}
+.sky .starfield{opacity:.9}
+.sky .starfield::before,.sky .starfield::after{content:"";background-repeat:repeat;
+  background-size:340px 260px;animation:drift 120s linear infinite}
+.sky .starfield::before{background-image:
+  radial-gradient(circle,#fff 0 1.1px,transparent 1.6px),
+  radial-gradient(circle,#bfe4ff 0 .9px,transparent 1.4px),
+  radial-gradient(circle,#ffe8bd 0 1px,transparent 1.5px);
+  background-position:18% 22%,61% 68%,84% 31%}
+.sky .starfield::after{opacity:.6;background-size:210px 180px;animation-duration:190s;
+  background-image:radial-gradient(circle,#fff 0 .7px,transparent 1.1px),
+  radial-gradient(circle,#a9d8ff 0 .6px,transparent 1px);
+  background-position:37% 51%,73% 12%}
+@keyframes drift{to{transform:translate3d(-340px,0,0)}}
+
+/* Art slots. A missing painting must look like a slot, never like a bug. */
+.scene{position:absolute;inset:0;z-index:1;pointer-events:none}
+.art{position:absolute;object-fit:contain}
+.art[data-missing]{display:grid;place-items:center;padding:6px;border:2px dashed #4d7fb4;
+  border-radius:14px;background:#0b1c3aa8;color:#9fc6ee;
+  font-size:clamp(8px,.78vw,11px);font-weight:900;text-align:center;line-height:1.25}
+
+/* ---------- the page frame -------------------------------------------------- */
+.frame{position:absolute;inset:0;z-index:10;display:grid;gap:clamp(6px,1vw,16px);
+  padding:clamp(46px,5.2vw,66px) clamp(10px,1.8vw,26px) clamp(10px,1.6vw,20px);
+  grid-template-columns:minmax(0,32fr) minmax(0,68fr);
+  grid-template-rows:minmax(0,1fr) auto;
+  grid-template-areas:"story instrument" "story footer"}
+
+/* ---------- story card ------------------------------------------------------ */
+.story{grid-area:story;align-self:start;max-height:100%;overflow:auto;
+  padding:clamp(.6rem,1.1vw,1.1rem) clamp(.7rem,1.2vw,1.25rem);
+  border:2px solid #ffffff88;border-radius:22px;background:var(--card);
+  box-shadow:0 12px 35px #0009}
+.eyebrow{margin:0;font-weight:900;color:#327990;letter-spacing:.08em;text-transform:uppercase;
+  font-size:clamp(8px,.78vw,11px)}
+.story h1{margin:.1rem 0 .35rem;line-height:1.02;color:#294d79;
+  font-size:clamp(1.15rem,2.4vw,2.5rem)}
+.story h1 small{display:block;margin-top:.15rem;color:var(--warm);font-weight:800;
+  font-size:clamp(.6rem,.95vw,1rem);letter-spacing:.02em}
+.story p{margin:.3rem 0;line-height:1.36;font-size:clamp(.72rem,1.02vw,1.08rem)}
+.story p strong{color:var(--warm)}
+.says{margin:.45rem 0 .1rem;padding:.4rem .55rem;border-radius:14px;background:#e8f6ff;
+  border:2px solid #b8e2f5;font-size:clamp(.68rem,.95vw,1rem);line-height:1.32}
+.says b{color:#1d6a8c}
+.says.dot{background:#fdf0dd;border-color:#f0cf9a}
+.says.dot b{color:#9a5a1c}
+
+/* ---------- buttons --------------------------------------------------------- */
+.pill,.tool,.fact,.badge,.ctrl{border:2px solid var(--edge);border-radius:999px;
+  background:#fffaf0;color:#243d62;font-weight:900;cursor:pointer;
+  box-shadow:0 4px 0 #193b5d;min-height:44px}
+.pill:active,.tool:active,.fact:active,.badge:active{transform:translateY(3px);box-shadow:0 1px 0 #193b5d}
+.pill[disabled],.tool[disabled]{opacity:.45;cursor:default;box-shadow:0 4px 0 #193b5d}
+.actions{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.5rem}
+.pill{padding:.4rem .8rem;font-size:clamp(.68rem,.92vw,.98rem)}
+.pill.primary{background:var(--gold)}
+.pill.on{background:#cdf3ff}
+
+/* ---------- instrument : where the teaching happens ------------------------- */
+.instrument{grid-area:instrument;position:relative;min-height:0;display:grid;
+  grid-template-rows:minmax(0,1fr) auto;gap:clamp(4px,.7vw,10px);
+  padding:clamp(.5rem,.9vw,.9rem);border:2px solid #ffffff2e;border-radius:22px;
+  background:#050f24b8;backdrop-filter:blur(2px)}
+.rig{position:relative;min-height:0;display:grid;place-items:center}
+/* Zoom fix C, 2026-09-27: the rig was `touch-action: none`, and the rig IS the
+   instrument -- it fills the frame on every page, so `none` here was the
+   dollhouse-app shape exactly: a child could zoom in, by double-tap or by
+   pinching a corner of the sky, and then could not get out, because the surface
+   under their fingers refused the pinch.
+
+   Neither surface needs `none` to be safe. The svg rigs are tap targets (tap the
+   light, walk the path, drag one slider knob) and the one canvas rig -- page 11,
+   where a cloud is pulled open -- keeps a SINGLE pointer record: pointerdown
+   captures one pointerId and pointermove reads one `pull`. Nothing in this book
+   is played with two fingers at once, so there is no two-finger gesture for
+   `none` to protect. `pinch-zoom` suppresses panning exactly as `none` did, so
+   the interaction is unchanged, and it gives the pinch back. */
+.rig svg{width:100%;height:100%;max-height:100%;display:block;touch-action:pinch-zoom}
+.rig canvas{width:100%;height:100%;display:block;touch-action:pinch-zoom}
+.controls-row{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;justify-content:center}
+.tool{padding:.35rem .7rem;font-size:clamp(.62rem,.85vw,.9rem)}
+.tool.on{background:#cdf3ff}
+
+/* a labelled slider, used on six pages */
+.slider{display:grid;gap:.15rem;min-width:min(320px,60%);color:#dbecff}
+.slider label{display:flex;justify-content:space-between;gap:.6rem;font-weight:900;
+  font-size:clamp(.6rem,.82vw,.86rem)}
+.slider label b{color:var(--gold)}
+.slider input[type=range]{width:100%;height:34px;accent-color:var(--cyan);cursor:pointer}
+.scale-ends{display:flex;justify-content:space-between;color:#9fc0e2;font-weight:800;
+  font-size:clamp(.55rem,.72vw,.76rem)}
+
+/* ---------- footer : evidence badges and the spoken line --------------------
+   Two rows, not one. On one row the spoken line ran underneath the absolutely
+   positioned control cluster and lost its last few words -- and the line is the
+   narration, so losing its end is losing the teaching. */
+.footer{grid-area:footer;display:grid;gap:.35rem;grid-template-rows:auto auto}
+.badges{display:flex;gap:.35rem;flex-wrap:wrap;padding-right:min(48%,430px)}
+.badge{display:inline-flex;align-items:center;gap:.3em;min-height:38px;padding:.25rem .6rem;
+  border-width:2px;background:#0e2545;color:#dff1ff;border-color:#4a7cb0;
+  box-shadow:0 3px 0 #08182e;font-size:clamp(.58rem,.78vw,.82rem)}
+.badge:hover{background:#17406e}
+.badge i{font-style:normal;font-size:1.15em;line-height:1}
+.badge[data-kind=seen]{border-color:#8fd39a;color:#dcf6df}
+.badge[data-kind=measured]{border-color:#7fc7ea;color:#ddf1fc}
+.badge[data-kind=inferred]{border-color:#e3b96a;color:#fbeed2}
+.badge[data-kind=model]{border-color:#c9a1e0;color:#f2e5fa}
+.status{min-height:38px;display:flex;align-items:center;padding:.35rem .75rem;
+  border-radius:14px;background:var(--panel);color:#eaf4ff;
+  font-size:clamp(.6rem,.85vw,.9rem);line-height:1.3;opacity:0;transition:opacity .25s}
+.status.show{opacity:1}
+.status .who{color:var(--gold);font-weight:900;margin-right:.35em}
+
+/* ---------- chrome ---------------------------------------------------------- */
+.hub{position:absolute;z-index:40;top:1.5%;left:1.5%;display:grid;place-items:center;
+  height:32px;min-width:32px;padding:0 8px;border:1px solid #ffffff33;border-radius:8px;
+  background:#16345c;color:#fff;font-weight:900;text-decoration:none}
+.hub:hover{background:#285b87}
+.page-nav{position:absolute;z-index:50;right:1.5%;top:1.5%;display:flex;align-items:center;
+  gap:4px;padding:4px;border:1px solid #71d6e966;border-radius:13px;background:#07152de8}
+.page-nav a,.page-jump{display:grid;place-items:center;height:32px;min-width:32px;
+  border:1px solid #71d6e966;border-radius:9px;background:#17496b;color:#fff;
+  text-decoration:none;font-weight:900;cursor:pointer}
+.page-nav a:hover,.page-jump:hover{background:#285b87}
+.page-jump{min-width:64px;padding:0 8px}
+.page-nav [aria-disabled=true]{opacity:.35;pointer-events:none}
+.page-goto{position:absolute;right:calc(100% + 6px);top:0;display:flex;gap:4px;padding:6px;
+  border-radius:10px;background:#07152d}
+.page-goto[hidden]{display:none}
+.page-goto input{width:52px}
+
+.page-controls{position:absolute;z-index:45;right:1.5%;bottom:1.5%;display:flex;gap:5px;
+  flex-wrap:wrap-reverse;justify-content:flex-end;max-width:56%}
+.ctrl{min-height:38px;padding:.3rem .6rem;border:1px solid var(--cyan);border-radius:999px;
+  background:#183957;color:#fff;box-shadow:none;font-size:clamp(.56rem,.76vw,.8rem)}
+.ctrl:hover{background:#285b87}
+.ctrl[aria-pressed=true]{background:#2b6f96}
+.ctrl[hidden]{display:none}
+
+/* ---------- drawers : the optional deeper layer ----------------------------- */
+.drawer{position:absolute;z-index:70;inset:auto 3% 3%;max-height:74%;overflow:auto;
+  display:none;padding:.9rem 1rem;border:3px solid var(--cyan);border-radius:22px;
+  background:var(--cream);box-shadow:0 18px 50px #000c}
+.drawer.open{display:block}
+.drawer h2{margin:.1rem 0 .3rem;font-size:clamp(.9rem,1.4vw,1.4rem);color:#294d79}
+.drawer p{margin:.3rem 0;font-size:clamp(.68rem,.95vw,1rem);line-height:1.4}
+.drawer .kind{display:inline-flex;align-items:center;gap:.35em;padding:.15rem .5rem;
+  border-radius:999px;background:#e6f4ff;border:2px solid #a9d6ef;font-weight:900;
+  font-size:clamp(.58rem,.78vw,.82rem)}
+.drawer-close{position:absolute;right:10px;top:10px;width:38px;height:38px;border:0;
+  border-radius:50%;background:var(--edge);color:#fff;font-size:1.2rem;font-weight:900;cursor:pointer}
+.note{margin-top:.5rem;color:var(--dim);font-size:clamp(.55rem,.75vw,.78rem)}
+
+/* ---------- portrait : stack, never squeeze --------------------------------- */
+@media (max-aspect-ratio:1/1){
+  .stage{width:100vw;height:100vh}
+  .frame{grid-template-columns:minmax(0,1fr);
+    grid-template-rows:auto minmax(0,1fr) auto;
+    grid-template-areas:"story" "instrument" "footer";
+    padding-top:clamp(44px,7vw,58px)}
+  .story{max-height:38vh}
+  .page-controls{max-width:70%}
+  .badges{padding-right:0}
+  .footer{padding-bottom:44px}
+}
+
+/* ---------- calm mode ------------------------------------------------------- */
+body.calm .sky .starfield::before,body.calm .sky .starfield::after{animation:none}
+body.calm .rig *{animation:none!important;transition:none!important}
+@media (prefers-reduced-motion:reduce){
+  .sky .starfield::before,.sky .starfield::after{animation:none}
+}

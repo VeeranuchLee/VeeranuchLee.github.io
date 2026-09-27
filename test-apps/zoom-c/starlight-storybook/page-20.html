@@ -1,0 +1,218 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ari &amp; Dot · Page 20 — Other stars have planets too</title>
+<link rel="stylesheet" href="app/starlight.css">
+<style>
+.nm{font:800 9px Nunito,system-ui,sans-serif;fill:#cfe4ff;paint-order:stroke;
+  stroke:#04101f;stroke-width:3;stroke-linejoin:round}
+.axis{stroke:#2c4d78;stroke-width:1}
+.curve{fill:none;stroke:#8eeaff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pick{cursor:pointer}
+.pick rect{fill:#0b1d38;stroke:#3c6796;stroke-width:1.5;rx:10}
+.pick:hover rect{stroke:#8eeaff}
+.pick.right rect{stroke:#8fd39a;stroke-width:3}
+.pick.wrong rect{stroke:#ef8f8f;stroke-width:3}
+.base{stroke:#3c6796;stroke-width:1;stroke-dasharray:3 4}
+.ending{margin:.5rem 0 .1rem;padding:.5rem .65rem;border-radius:16px;background:#fdf0dd;
+  border:2px solid #f0cf9a;font-size:clamp(.68rem,.95vw,1rem);line-height:1.34}
+.ending b{color:#9a5a1c}
+.next{display:inline-flex;align-items:center;gap:.35em;margin-top:.45rem}
+.quiz{text-align:center;color:#ffe6a8;font-weight:900;
+  font-size:clamp(.62rem,.9vw,.95rem);min-height:1.3em}
+</style>
+</head>
+<body data-page="20" data-title="Other stars have planets too">
+<main class="book"><section class="stage">
+  <div class="sky"><div class="starfield"></div></div>
+  <div class="frame">
+
+    <section class="story">
+      <p class="eyebrow">Page 20 · The last mystery</p>
+      <h1>Other stars have planets<small>And we found them without ever seeing one</small></h1>
+      <p>When a planet passes in front of its star, it blocks a <strong>tiny</strong> bit of the
+        light. Not enough to see. Just enough to <strong>measure</strong>.</p>
+      <p class="ending" data-say="But Dot, how can we know a planet is there if we cannot even see it? New mission accepted." data-who="Ari">
+        <b>Ari:</b> “But Dot… how can we <em>know</em> a planet is there if we can’t even see it?”<br>
+        <b>Dot:</b> “New mission accepted.”</p>
+      <div class="actions">
+        <button class="pill primary" id="listen" data-say="More than five thousand planets around other stars have been found this way. Almost none of them have ever been photographed." data-who="Dot">▶ Listen</button>
+        <button class="pill" id="quizBtn">Now you try</button>
+      </div>
+    </section>
+
+    <section class="instrument">
+      <div class="rig" style="place-items:stretch">
+        <div id="stage1" style="display:grid;align-content:center;gap:.3rem">
+          <svg id="rig" viewBox="0 0 340 170" preserveAspectRatio="xMidYMid meet"
+               role="img" aria-label="A planet crossing its star, and the light curve underneath">
+            <circle cx="82" cy="42" r="32" fill="#ffd457"/>
+            <circle id="planet" cx="30" cy="42" r="6.5" fill="#0b1730"/>
+            <text class="nm" x="82" y="86" text-anchor="middle">the star</text>
+            <line class="axis" x1="150" y1="24" x2="150" y2="140"/>
+            <line class="axis" x1="150" y1="140" x2="332" y2="140"/>
+            <text class="nm" x="146" y="30"  text-anchor="end">100%</text>
+            <text class="nm" x="146" y="118" text-anchor="end">99%</text>
+            <text class="nm" x="241" y="156" text-anchor="middle">time →</text>
+            <text class="nm" x="241" y="16"  text-anchor="middle">how bright the star looks</text>
+            <polyline class="curve" id="curve" points=""/>
+          </svg>
+        </div>
+        <div id="stage2" hidden style="display:grid;align-content:center;gap:.3rem">
+          <svg viewBox="0 0 340 170" preserveAspectRatio="xMidYMid meet"
+               role="group" aria-label="Three light curves. Which star has a planet?">
+            <g class="pick" id="q0" tabindex="0" role="button" aria-label="Star A"><rect x="6" y="18" width="104" height="128"/>
+              <text class="nm" x="58" y="36" text-anchor="middle">Star A</text>
+              <line class="base" x1="14" y1="60" x2="102" y2="60"/><polyline class="curve" id="c0" points=""/></g>
+            <g class="pick" id="q1" tabindex="0" role="button" aria-label="Star B"><rect x="118" y="18" width="104" height="128"/>
+              <text class="nm" x="170" y="36" text-anchor="middle">Star B</text>
+              <line class="base" x1="126" y1="60" x2="214" y2="60"/><polyline class="curve" id="c1" points=""/></g>
+            <g class="pick" id="q2" tabindex="0" role="button" aria-label="Star C"><rect x="230" y="18" width="104" height="128"/>
+              <text class="nm" x="282" y="36" text-anchor="middle">Star C</text>
+              <line class="base" x1="238" y1="60" x2="326" y2="60"/><polyline class="curve" id="c2" points=""/></g>
+          </svg>
+        </div>
+      </div>
+      <div class="controls-row">
+        <button class="tool" id="run">▶ Watch it cross</button>
+        <button class="tool" id="back" hidden>← Back to the star</button>
+      </div>
+      <p class="quiz" id="quiz"></p>
+    </section>
+
+    <div class="footer">
+      <div class="status" aria-live="polite"></div>
+      <div class="badges">
+        <button class="badge" data-kind="inferred"
+          data-note="We have never seen most of these planets. We saw the star get very slightly dimmer, at exactly the same interval, over and over — and that is the evidence."></button>
+        <button class="badge" data-kind="measured"
+          data-note="The dip is real and one part in a hundred for a big planet. The graph here is stretched so you can see it; the numbers on the side are the true ones."></button>
+      </div>
+    </div>
+
+  </div>
+</section></main>
+<!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+     First, before the app, because it is a document-level listener and must be in
+     place before the page starts handling taps. It stops the ZOOM of a second quick
+     tap and re-delivers that tap; a multi-finger pinch is never touched, so a child
+     who is zoomed in can always pinch back out. One copy at the book root serves this
+     page: every page here sits in the same directory. -->
+<script src="tap-zoom-guard.js"></script>
+<script src="app/starlight.js"></script>
+<script>
+(function () {
+  var S = window.Starlight;
+  var planet = document.getElementById("planet"), curve = document.getElementById("curve");
+  var run = document.getElementById("run"), quiz = document.getElementById("quiz");
+  var stage1 = document.getElementById("stage1"), stage2 = document.getElementById("stage2");
+  var back = document.getElementById("back"), quizBtn = document.getElementById("quizBtn");
+  var busy = false;
+
+  // The star's disc: cx 82, r 32. The planet crosses left to right.
+  function brightness(px) {
+    var d = Math.abs(px - 82);
+    if (d > 32 + 6.5) return 1;
+    if (d < 32 - 6.5) return 1 - 0.01;         // fully on the disc: a real 1% dip
+    var f = (32 + 6.5 - d) / 13;               // partly on: ingress and egress
+    return 1 - 0.01 * f;
+  }
+  // y axis spans 99% to 100% across 116 px — a real light curve is exactly this
+  // zoomed in, which is why a one percent dip looks enormous.
+  function y(b) { return 140 - (b - 0.99) / 0.01 * 116; }
+
+  function play() {
+    if (busy) return;
+    busy = true; curve.setAttribute("points", ""); S.sfx.sweep();
+    var t0 = performance.now(), DUR = 5200, pts = [];
+    (function step(now) {
+      var f = Math.min(1, (now - t0) / DUR);
+      var px = 20 + f * 124;
+      planet.setAttribute("cx", px);
+      pts.push((152 + f * 178).toFixed(1) + "," + y(brightness(px)).toFixed(1));
+      curve.setAttribute("points", pts.join(" "));
+      if (f < 1) { requestAnimationFrame(step); return; }
+      busy = false; S.sfx.good();
+      S.say("There it is. The star got one percent dimmer while the planet was in front of it, and then went back to normal. That dip is the whole discovery.", "Dot");
+      quiz.textContent = "That dip is how most planets around other stars were found.";
+    })(t0);
+  }
+  run.addEventListener("click", play);
+
+  // The puzzle: one clean dip, one steady star that is merely noisy, and one that
+  // slowly brightens and dims on its own. Star B used to be a neat zigzag, which
+  // reads as a signal; a steady star's line is flat with a little jitter, so that
+  // is what it does now.
+  function jitter(seed) {
+    var s = seed;
+    return function () { s = (s * 16807) % 2147483647; return (s / 2147483647 - 0.5); };
+  }
+  var nB = jitter(11);
+  var NOISE = []; for (var q = 0; q <= 92; q++) NOISE.push(nB() * 0.0009);
+  var CURVES = [
+    { id: "c0", x0: 12,  planet: true,
+      f: function (t, k) { return 1 - (t > .44 && t < .56 ? 0.0068 : 0) + NOISE[k] * .3; } },
+    { id: "c1", x0: 124, planet: false,
+      f: function (t, k) { return 1 + NOISE[k]; } },
+    { id: "c2", x0: 236, planet: false,
+      f: function (t, k) { return 1 - 0.0032 * (1 + Math.sin(t * 7.2)) + NOISE[k] * .3; } }
+  ];
+  var SAY = [
+    "Yes. One clean dip, then straight back to normal. That is a planet passing in front.",
+    "That star is steady — its line is flat. Nothing is crossing it.",
+    "That one slowly gets brighter and dimmer over and over. That is the star itself changing, not a planet crossing it."
+  ];
+
+  // One y mapping for all three, so "flatter" and "deeper" mean the same thing
+  // in each box. 99% sits on the floor of the box, 100% a little below the title.
+  function qy(b) { return 138 - (b - 0.99) / 0.01 * 78; }
+
+  function drawQuiz() {
+    CURVES.forEach(function (c, i) {
+      var pts = [];
+      for (var k = 0; k <= 92; k++) {
+        pts.push((c.x0 + 4 + (k / 92) * 84).toFixed(1) + "," + qy(c.f(k / 92, k)).toFixed(1));
+      }
+      document.getElementById(c.id).setAttribute("points", pts.join(" "));
+    });
+  }
+
+  function answer(i) {
+    var g = document.getElementById("q" + i);
+    if (g.classList.contains("right") || g.classList.contains("wrong")) return;
+    var ok = CURVES[i].planet;
+    g.classList.add(ok ? "right" : "wrong");
+    if (ok) { S.sfx.good(); quiz.textContent = "Star A has a planet."; }
+    else { S.sfx.pick(); quiz.textContent = "Look for one clean dip that goes down and comes straight back."; }
+    S.say(SAY[i], "Dot");
+  }
+  [0, 1, 2].forEach(function (i) {
+    var g = document.getElementById("q" + i);
+    g.addEventListener("click", function () { answer(i); });
+    g.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); answer(i); }
+    });
+  });
+
+  function toQuiz() {
+    stage1.hidden = true; stage2.hidden = false;
+    run.hidden = true; back.hidden = false; quizBtn.hidden = true;
+    drawQuiz();
+    quiz.textContent = "One of these three stars has a planet. Which?";
+    S.say("One of these three stars has a planet going round it. Look at the lines. Which one?", "Dot");
+  }
+  function toStar() {
+    stage1.hidden = false; stage2.hidden = true;
+    run.hidden = false; back.hidden = true; quizBtn.hidden = false;
+    quiz.textContent = "";
+  }
+  quizBtn.addEventListener("click", toQuiz);
+  back.addEventListener("click", toStar);
+
+  S.onReplay(function () {
+    busy = false; curve.setAttribute("points", ""); planet.setAttribute("cx", 20);
+    [0, 1, 2].forEach(function (i) { document.getElementById("q" + i).classList.remove("right", "wrong"); });
+    toStar();
+  });
+})();
+</script>
+</body></html>

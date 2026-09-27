@@ -1,0 +1,177 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ari &amp; Dot · Page 3 — What is a star?</title>
+<link rel="stylesheet" href="app/starlight.css">
+<style>
+.lay{transition:opacity .45s}
+.lbl{font:800 10px Nunito,system-ui,sans-serif;fill:#eaf6ff;paint-order:stroke;
+  stroke:#04101f;stroke-width:3;stroke-linejoin:round;opacity:0;transition:opacity .4s}
+.lbl.on{opacity:1}
+.arrow{stroke-linecap:round;opacity:0;transition:opacity .4s}
+.arrow.on{opacity:.95}
+#body,#coreG{transform-origin:150px 118px}
+.blow #body{animation:blow 2.6s ease-out forwards}
+.blow #coreG{animation:blow 2.6s ease-out forwards}
+@keyframes blow{to{transform:scale(3.2);opacity:0}}
+.crush #body,.crush #coreG{animation:crush 2.2s cubic-bezier(.6,0,.9,.4) forwards}
+@keyframes crush{to{transform:scale(.06)}}
+.verdict{color:#ffe6a8;font-weight:900;text-align:center;
+  font-size:clamp(.62rem,.88vw,.92rem);min-height:1.2em}
+</style>
+</head>
+<body data-page="3" data-title="What is a star?">
+<main class="book"><section class="stage">
+  <div class="sky"><div class="starfield"></div></div>
+  <div class="frame">
+
+    <section class="story">
+      <p class="eyebrow">Page 3 · Mystery two</p>
+      <h1>What is a star?<small>A hot ball that is winning a very long argument</small></h1>
+      <p>A star is an enormous ball of <strong>hot glowing gas</strong>. Its own weight squeezes
+        it inwards. Deep in the middle it is so squeezed and so hot that it makes new gas — and
+        pours out light that pushes back outwards.</p>
+      <p class="says dot" data-say="Look inside. Then try turning one of them off and see what happens." data-who="Dot">
+        <b>Dot:</b> “Look inside. Then try turning one of them off, and see what happens.”</p>
+      <div class="actions">
+        <button class="pill primary" id="listen" data-say="Gravity pulls a star inwards. The light from its core pushes outwards. A star is those two pushing against each other, evenly, for billions of years." data-who="Ari">▶ Listen</button>
+      </div>
+    </section>
+
+    <section class="instrument">
+      <div class="rig">
+        <svg id="rig" viewBox="0 0 300 240" preserveAspectRatio="xMidYMid meet"
+             role="img" aria-label="A star cut open">
+          <defs>
+            <radialGradient id="surf"><stop offset="0%" stop-color="#ffe27a"/>
+              <stop offset="80%" stop-color="#ffb02e"/><stop offset="100%" stop-color="#f07d1c"/></radialGradient>
+            <radialGradient id="mid"><stop offset="0%" stop-color="#fff3c2"/>
+              <stop offset="100%" stop-color="#ffcf5c"/></radialGradient>
+            <radialGradient id="core"><stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="60%" stop-color="#eaf6ff"/><stop offset="100%" stop-color="#9fdcff"/></radialGradient>
+          </defs>
+
+          <g id="body">
+            <circle class="lay" id="lSurf" cx="150" cy="118" r="78" fill="url(#surf)"/>
+            <circle class="lay" id="lMid"  cx="150" cy="118" r="58" fill="url(#mid)"  opacity="0"/>
+          </g>
+          <g id="coreG">
+            <circle class="lay" id="lCore" cx="150" cy="118" r="26" fill="url(#core)" opacity="0"/>
+            <g id="fuse" opacity="0">
+              <circle cx="141" cy="112" r="4.5" fill="#5ec8ff"/><circle cx="152" cy="124" r="4.5" fill="#5ec8ff"/>
+              <circle cx="160" cy="110" r="6"   fill="#ffd166"/>
+              <text class="lbl on" x="150" y="150" text-anchor="middle">two small bits → one bigger bit + light</text>
+            </g>
+          </g>
+
+          <!-- gravity in, light out -->
+          <g id="gIn" class="arrow" stroke="#7fc7ea" stroke-width="4" fill="none">
+            <path d="M150 14v26M150 222v-26M18 118h26M282 118h-26"/>
+            <path d="M144 34l6 8 6-8M144 202l6-8 6 8M38 112l8 6-8 6M262 112l-8 6 8 6" fill="#7fc7ea" stroke="none"/>
+            <text class="lbl on" x="150" y="10" text-anchor="middle">gravity squeezes in</text>
+          </g>
+          <g id="pOut" class="arrow" stroke="#ffffff" stroke-width="4" fill="none" style="filter:drop-shadow(0 0 3px #7a3a00)">
+            <path d="M150 74V52M150 162v22M104 118H82M196 118h22"/>
+            <path d="M144 58l6-8 6 8M144 178l6 8 6-8M88 112l-8 6 8 6M212 112l8 6-8 6" fill="#ffffff" stroke="none"/>
+          </g>
+
+          <text class="lbl" id="tSurf" x="150" y="228" text-anchor="middle">the surface — 5,500°C</text>
+          <text class="lbl" id="tMid"  x="150" y="228" text-anchor="middle">inside — hot gas churning like soup</text>
+          <text class="lbl" id="tCore" x="150" y="228" text-anchor="middle">the core — 15 million°C</text>
+        </svg>
+      </div>
+      <div class="controls-row">
+        <div class="slider">
+          <label><span>Look how deep?</span><b id="depthRead">The surface</b></label>
+          <input type="range" id="depth" min="0" max="2" step="1" value="0" aria-label="How deep to look">
+          <div class="scale-ends"><span>Surface</span><span>Inside</span><span>Core</span></div>
+        </div>
+        <button class="tool" id="offG">Turn gravity off</button>
+        <button class="tool" id="offC">Turn the core off</button>
+      </div>
+      <p class="verdict" id="verdict"></p>
+    </section>
+
+    <div class="footer">
+      <div class="badges">
+        <button class="badge" data-kind="inferred"
+          data-note="Nobody has been inside a star and nobody ever will. We know what must be happening in there because of the light and the tiny particles that come out."></button>
+        <button class="badge" data-kind="model"
+          data-note="This cut-open star is a drawing. A real star has no edge you could cut, and no lines around its layers."></button>
+      </div>
+      <div class="status" aria-live="polite"></div>
+    </div>
+
+  </div>
+</section></main>
+<!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+     First, before the app, because it is a document-level listener and must be in
+     place before the page starts handling taps. It stops the ZOOM of a second quick
+     tap and re-delivers that tap; a multi-finger pinch is never touched, so a child
+     who is zoomed in can always pinch back out. One copy at the book root serves this
+     page: every page here sits in the same directory. -->
+<script src="tap-zoom-guard.js"></script>
+<script src="app/starlight.js"></script>
+<script>
+(function () {
+  var S = window.Starlight;
+  var rig = document.getElementById("rig");
+  var depth = document.getElementById("depth");
+  var read = document.getElementById("depthRead");
+  var verdict = document.getElementById("verdict");
+  var offG = document.getElementById("offG"), offC = document.getElementById("offC");
+
+  var STOPS = [
+    { name: "The surface", mid: 0, core: 0, fuse: 0,
+      line: "This is the outside of a star. It is not a solid ball — it is gas, glowing at five and a half thousand degrees." },
+    { name: "Inside", mid: 1, core: 0, fuse: 0,
+      line: "Inside, hot gas rises, cools a little and sinks again, over and over, like very slow soup." },
+    { name: "The core", mid: 1, core: 1, fuse: 1,
+      line: "The core. Fifteen million degrees, and squeezed so hard that small bits of gas join into bigger bits and let go of light. That light is what you see." }
+  ];
+
+  function render(i) {
+    var s = STOPS[i];
+    document.getElementById("lMid").setAttribute("opacity", s.mid);
+    document.getElementById("lCore").setAttribute("opacity", s.core);
+    document.getElementById("fuse").setAttribute("opacity", s.fuse);
+    read.textContent = s.name;
+    ["tSurf", "tMid", "tCore"].forEach(function (id, k) {
+      document.getElementById(id).classList.toggle("on", k === i);
+    });
+    document.getElementById("gIn").classList.add("on");
+    document.getElementById("pOut").classList.toggle("on", i === 2);
+  }
+
+  depth.addEventListener("input", function () {
+    var i = Number(depth.value);
+    S.sfx.tick(); render(i); S.say(STOPS[i].line, "Dot");
+  });
+
+  function reset() {
+    rig.classList.remove("blow", "crush");
+    offG.disabled = offC.disabled = false;
+    offG.classList.remove("on"); offC.classList.remove("on");
+    verdict.textContent = "";
+  }
+
+  offG.addEventListener("click", function () {
+    reset(); offG.classList.add("on"); offG.disabled = offC.disabled = true;
+    rig.classList.add("blow"); S.sfx.sweep();
+    verdict.textContent = "Nothing holds it together. The star blows itself apart.";
+    S.say("With no gravity, nothing holds it together. The light pushes the whole star away into space.", "Dot");
+    setTimeout(function () { reset(); render(Number(depth.value)); }, 3400);
+  });
+
+  offC.addEventListener("click", function () {
+    reset(); offC.classList.add("on"); offG.disabled = offC.disabled = true;
+    rig.classList.add("crush"); S.sfx.boom();
+    verdict.textContent = "Nothing pushes back. The star falls in on itself.";
+    S.say("With no core making light, nothing pushes back. Gravity wins and the star falls in on itself.", "Dot");
+    setTimeout(function () { reset(); render(Number(depth.value)); }, 3000);
+  });
+
+  S.onReplay(function () { depth.value = 0; reset(); render(0); });
+  render(0);
+})();
+</script>
+</body></html>

@@ -1,0 +1,147 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ari &amp; Dot · Page 7 — Stars are extremely far away</title>
+<link rel="stylesheet" href="app/starlight.css">
+<style>
+.mile{display:grid;grid-template-columns:auto 1fr auto;gap:.4rem;align-items:center;
+  padding:.22rem .5rem;border-radius:11px;background:#0d2244;color:#9fc0e2;
+  font-weight:800;font-size:clamp(.56rem,.76vw,.8rem);opacity:.45;transition:.35s}
+.mile.hit{opacity:1;background:#17406e;color:#eaf6ff}
+.mile b{color:var(--gold);font-variant-numeric:tabular-nums}
+.miles{display:grid;gap:.22rem;width:100%;max-width:520px;margin:0 auto}
+.counter{text-align:center;color:#fff;font-weight:900;font-variant-numeric:tabular-nums;
+  font-size:clamp(1rem,2.4vw,2.1rem);line-height:1.05}
+.counter small{display:block;color:#9fc0e2;font-size:clamp(.55rem,.78vw,.8rem);font-weight:800}
+.walkbar{height:12px;border-radius:7px;background:#0d2244;border:1px solid #2c4d78;overflow:hidden}
+.walkbar i{display:block;height:100%;background:linear-gradient(90deg,#71d6e9,#ffd457);width:0}
+</style>
+</head>
+<body data-page="7" data-title="Stars are extremely far away">
+<main class="book"><section class="stage">
+  <div class="sky"><div class="starfield"></div></div>
+  <div class="frame">
+
+    <section class="story">
+      <p class="eyebrow">Page 7 · Mystery six</p>
+      <h1>How far is “far”?<small>Space is not big. It is much worse than big.</small></h1>
+      <p>Take one giant step, and that step is the whole way from Earth to the Sun.
+        Now hold the button and start walking to the nearest star.</p>
+      <p class="says" data-say="Dot, I have been walking for ages and the bar has not moved." data-who="Ari">
+        <b>Ari:</b> “Dot, I have been walking for <em>ages</em> and the bar has not moved.”</p>
+      <div class="actions">
+        <button class="pill primary" id="listen" data-say="Everything you know is in the first single step. Then there is nothing, for two hundred and sixty-eight thousand more." data-who="Dot">▶ Listen</button>
+      </div>
+    </section>
+
+    <section class="instrument">
+      <div class="rig" style="place-items:stretch">
+        <div style="display:grid;align-content:center;gap:.6rem;padding:.3rem">
+          <p class="counter" id="count">0<small>giant steps taken · one step = Earth to the Sun</small></p>
+          <div class="walkbar"><i id="bar"></i></div>
+          <div class="miles" id="miles"></div>
+        </div>
+      </div>
+      <div class="controls-row">
+        <button class="tool" id="walk" style="min-width:180px">👣 Hold to walk</button>
+        <button class="tool" id="rush">Skip ahead</button>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div class="status" aria-live="polite"></div>
+      <div class="badges">
+        <button class="badge" data-kind="measured"
+          data-note="The distance to the nearest stars is measured, not estimated. Earth moves around the Sun, so a nearby star shifts very slightly against the far ones — and that shift gives the distance."></button>
+      </div>
+    </div>
+
+  </div>
+</section></main>
+<!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+     First, before the app, because it is a document-level listener and must be in
+     place before the page starts handling taps. It stops the ZOOM of a second quick
+     tap and re-delivers that tap; a multi-finger pinch is never touched, so a child
+     who is zoomed in can always pinch back out. One copy at the book root serves this
+     page: every page here sits in the same directory. -->
+<script src="tap-zoom-guard.js"></script>
+<script src="app/starlight.js"></script>
+<script>
+(function () {
+  var S = window.Starlight;
+  // All in Earth-to-Sun distances. Real numbers.
+  var MILES = [
+    { at: 0.0026, name: "The Moon",        note: "not even a hundredth of one step" },
+    { at: 1,      name: "The Sun",         note: "one step" },
+    { at: 30,     name: "Neptune",         note: "30 steps" },
+    { at: 167,    name: "Voyager 1",       note: "167 steps — and it left in 1977" },
+    { at: 268770, name: "Proxima Centauri", note: "the nearest star of all" }
+  ];
+  var TARGET = 268770;
+
+  var box = document.getElementById("miles");
+  MILES.forEach(function (m, i) {
+    var d = document.createElement("div");
+    d.className = "mile"; d.dataset.i = i;
+    d.innerHTML = "<span>" + (i === MILES.length - 1 ? "★" : "•") + "</span><span>" +
+      m.name + "</span><b>" + (m.at < 1 ? m.at : S.fmt(Math.round(m.at))) + "</b>";
+    box.appendChild(d);
+  });
+
+  var steps = 0, held = false, raf = 0, last = 0, rate = 0, done = [];
+  var count = document.getElementById("count"), bar = document.getElementById("bar");
+
+  function show() {
+    var n = steps < 1 ? steps.toFixed(3) : S.fmt(Math.floor(steps));
+    count.innerHTML = n + "<small>giant steps taken · one step = Earth to the Sun</small>";
+    bar.style.width = Math.min(100, steps / TARGET * 100) + "%";
+    MILES.forEach(function (m, i) {
+      if (steps >= m.at && done.indexOf(i) < 0) {
+        done.push(i);
+        box.children[i].classList.add("hit");
+        S.sfx.tick();
+        if (i === MILES.length - 1) {
+          S.sfx.good();
+          S.say("You made it. The nearest star. Everything you have ever heard of was in the first three hundred steps.", "Dot");
+        } else {
+          S.say("Passed " + m.name + " — " + m.note + ".", "Dot");
+        }
+      }
+    });
+  }
+
+  function tick(t) {
+    if (!held) return;
+    if (!last) last = t;
+    var dt = Math.min(0.05, (t - last) / 1000); last = t;
+    rate = Math.min(40000, (rate + 1) * (1 + dt * 2.6));   // walking, then running, then hopeless
+    steps = Math.min(TARGET, steps + rate * dt);
+    show();
+    if (steps >= TARGET) { stop(); return; }
+    raf = requestAnimationFrame(tick);
+  }
+  function start() {
+    if (held || steps >= TARGET) return;
+    held = true; last = 0; rate = 0; S.sfx.sweep();
+    raf = requestAnimationFrame(tick);
+  }
+  function stop() { held = false; cancelAnimationFrame(raf); }
+
+  var walk = document.getElementById("walk");
+  ["pointerdown"].forEach(function (e) { walk.addEventListener(e, function (ev) { ev.preventDefault(); start(); }); });
+  ["pointerup", "pointerleave", "pointercancel"].forEach(function (e) { walk.addEventListener(e, stop); });
+  walk.addEventListener("keydown", function (e) { if (e.key === " " || e.key === "Enter") { e.preventDefault(); start(); } });
+  walk.addEventListener("keyup", stop);
+
+  document.getElementById("rush").addEventListener("click", function () {
+    steps = TARGET; show(); S.sfx.good();
+  });
+
+  S.onReplay(function () {
+    stop(); steps = 0; done = [];
+    Array.prototype.forEach.call(box.children, function (c) { c.classList.remove("hit"); });
+    show();
+  });
+  show();
+})();
+</script>
+</body></html>

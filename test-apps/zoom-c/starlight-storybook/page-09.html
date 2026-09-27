@@ -1,0 +1,212 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ari &amp; Dot · Page 9 — Pictures in the sky</title>
+<link rel="stylesheet" href="app/starlight.css">
+<style>
+.st{cursor:pointer}
+.st .core{fill:#fff}
+.st .ring{fill:none;stroke:#8eeaff;stroke-width:2;opacity:0}
+.st.next .ring{opacity:1;animation:pl 1.6s ease-in-out infinite}
+@keyframes pl{0%,100%{r:11;opacity:.35}50%{r:15;opacity:.95}}
+.st.done .core{fill:#ffe9a8}
+.join{stroke:#8eeaff;stroke-width:2.4;stroke-linecap:round;fill:none;
+  stroke-dasharray:var(--len);stroke-dashoffset:var(--len);animation:draw .5s ease-out forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.figure{fill:none;stroke:#ffd457;stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round;
+  opacity:0;transition:opacity .5s}
+.figure.on{opacity:.85}
+.figure .fillish{fill:#ffd45722;stroke:none}
+.nm{font:800 9.5px Nunito,system-ui,sans-serif;fill:#cfe4ff;paint-order:stroke;
+  stroke:#04101f;stroke-width:3;stroke-linejoin:round;pointer-events:none}
+.culture{text-align:center;color:#ffe6a8;font-weight:900;
+  font-size:clamp(.62rem,.9vw,.95rem);min-height:2.4em;line-height:1.3}
+.culture span{display:block;color:#bcd8ff;font-weight:700;font-size:.86em}
+</style>
+</head>
+<body data-page="9" data-title="Pictures in the sky">
+<main class="book"><section class="stage">
+  <div class="sky"><div class="starfield"></div></div>
+  <div class="frame">
+
+    <section class="story">
+      <p class="eyebrow">Page 9 · Mystery eight</p>
+      <h1>Pictures in the sky<small>People joined the dots long before you did</small></h1>
+      <p>Join these seven stars in order and you will draw one of the most famous shapes in the
+        sky. Then look at what <strong>other people</strong> saw in exactly the same seven stars.</p>
+      <p class="says dot" data-say="The lines are not really up there. People put them in, to remember the shapes and find their way." data-who="Dot">
+        <b>Dot:</b> “The lines are not really up there. People put them in — to remember the
+        shapes, and to find their way.”</p>
+      <div class="actions">
+        <button class="pill primary" id="listen" data-say="Seven stars. One sky. Many different pictures, depending on who was looking." data-who="Ari">▶ Listen</button>
+      </div>
+    </section>
+
+    <section class="instrument">
+      <div class="rig">
+        <svg id="rig" viewBox="0 0 340 210" preserveAspectRatio="xMidYMid meet"
+             role="group" aria-label="Seven stars to join up">
+          <g id="figs">
+            <g class="figure" id="f0"><path d="M52 46 L96 66 L140 82 L184 96 L196 148 L262 148 L252 84 L184 96"/>
+              <path class="fillish" d="M184 96 L196 148 L262 148 L252 84 Z"/>
+              <path d="M52 46 l-10 -12 l16 -4 z"/></g>
+            <g class="figure" id="f1"><path d="M52 46 Q84 40 118 62 T184 96"/>
+              <path d="M184 96 Q176 152 228 156 Q272 158 252 84"/>
+              <path class="fillish" d="M184 96 Q176 152 228 156 Q272 158 252 84 Z"/></g>
+            <g class="figure" id="f2"></g>
+          </g>
+          <g id="joins"></g>
+          <g id="stars"></g>
+        </svg>
+      </div>
+      <div class="controls-row">
+        <button class="tool" id="undo">↶ Undo a line</button>
+        <button class="tool" id="cycle" disabled>See it another way</button>
+      </div>
+      <p class="culture" id="culture">Tap the glowing star to start.</p>
+    </section>
+
+    <div class="footer">
+      <div class="status" aria-live="polite"></div>
+      <div class="badges">
+        <button class="badge" data-kind="model"
+          data-note="The lines and the pictures are not up in the sky. People drew them, and different peoples drew different ones from the very same stars."></button>
+      </div>
+    </div>
+
+  </div>
+</section></main>
+<!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+     First, before the app, because it is a document-level listener and must be in
+     place before the page starts handling taps. It stops the ZOOM of a second quick
+     tap and re-delivers that tap; a multi-finger pinch is never touched, so a child
+     who is zoomed in can always pinch back out. One copy at the book root serves this
+     page: every page here sits in the same directory. -->
+<script src="tap-zoom-guard.js"></script>
+<script src="app/starlight.js"></script>
+<script>
+(function () {
+  var S = window.Starlight;
+  // The seven stars of Ursa Major's bright figure, laid out as they sit in the sky.
+  var STARS = [
+    { id: "alkaid", n: "Alkaid", x: 52,  y: 46 },
+    { id: "mizar",  n: "Mizar",  x: 96,  y: 66 },
+    { id: "alioth", n: "Alioth", x: 140, y: 82 },
+    { id: "megrez", n: "Megrez", x: 184, y: 96 },
+    { id: "phecda", n: "Phecda", x: 196, y: 148 },
+    { id: "merak",  n: "Merak",  x: 262, y: 148 },
+    { id: "dubhe",  n: "Dubhe",  x: 252, y: 84 }
+  ];
+  // handle, then round the bowl and close it
+  var ORDER = [0, 1, 2, 3, 4, 5, 6, 3];
+
+  var CULTURES = [
+    { fig: "f0", name: "The Plough",
+      who: "Britain and Ireland — a farmer’s plough, blade and handle." },
+    { fig: "f1", name: "The Big Dipper",
+      who: "North America — a big ladle for scooping water." },
+    { fig: "f2", name: "Saptarishi, the Seven Sages",
+      who: "India — not an object at all. Seven wise people." }
+  ];
+
+  var gStars = document.getElementById("stars"), gJoin = document.getElementById("joins");
+  var culture = document.getElementById("culture");
+  var cycle = document.getElementById("cycle"), undo = document.getElementById("undo");
+  var step = 0, ci = -1;
+
+  // the seven sages: a small figure standing on each star
+  (function sages() {
+    var g = document.getElementById("f2");
+    STARS.forEach(function (s) {
+      g.innerHTML += '<g transform="translate(' + s.x + ',' + (s.y - 6) + ')">' +
+        '<circle cx="0" cy="-13" r="4"/><path d="M0 -9v10M-6 -4h12M-4 12l4-11 4 11"/></g>';
+    });
+  })();
+
+  function drawStars() {
+    STARS.forEach(function (s, i) {
+      var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      g.setAttribute("class", "st");
+      g.setAttribute("tabindex", "0");
+      g.setAttribute("role", "button");
+      g.setAttribute("aria-label", s.n);
+      g.dataset.i = i;
+      g.innerHTML = '<circle class="ring" cx="' + s.x + '" cy="' + s.y + '" r="11"/>' +
+        '<circle class="core" cx="' + s.x + '" cy="' + s.y + '" r="4.2"/>' +
+        '<circle cx="' + s.x + '" cy="' + s.y + '" r="15" fill="transparent"/>' +
+        '<text class="nm" x="' + s.x + '" y="' + (s.y + 22) + '" text-anchor="middle">' + s.n + '</text>';
+      g.addEventListener("click", function () { tap(i); });
+      g.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); tap(i); }
+      });
+      gStars.appendChild(g);
+    });
+  }
+
+  function highlight() {
+    Array.prototype.forEach.call(gStars.children, function (g, i) {
+      g.classList.toggle("next", step < ORDER.length && ORDER[step] === i);
+      g.classList.toggle("done", ORDER.slice(0, step).indexOf(i) >= 0);
+    });
+  }
+
+  function tap(i) {
+    if (step >= ORDER.length) return;
+    if (ORDER[step] !== i) {
+      S.sfx.pick();
+      S.say("Not that one yet. The glowing star is next.", "Dot");
+      return;
+    }
+    if (step > 0) {
+      var a = STARS[ORDER[step - 1]], b = STARS[i];
+      var len = Math.hypot(b.x - a.x, b.y - a.y);
+      var l = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      l.setAttribute("class", "join");
+      l.setAttribute("x1", a.x); l.setAttribute("y1", a.y);
+      l.setAttribute("x2", b.x); l.setAttribute("y2", b.y);
+      l.style.setProperty("--len", len);
+      gJoin.appendChild(l);
+    }
+    step++;
+    S.sfx.tick();
+    highlight();
+    if (step === ORDER.length) {
+      S.sfx.good();
+      cycle.disabled = false;
+      culture.innerHTML = "You drew it. Now — what is it?";
+      S.say("You drew it. Now press the button and see what other people made of exactly these seven stars.", "Dot");
+    } else {
+      culture.textContent = "Line " + (step - 1) + " of " + (ORDER.length - 1) + " drawn.";
+    }
+  }
+
+  undo.addEventListener("click", function () {
+    if (step === 0) return;
+    if (gJoin.lastChild) gJoin.removeChild(gJoin.lastChild);
+    step--; cycle.disabled = true;
+    CULTURES.forEach(function (c) { document.getElementById(c.fig).classList.remove("on"); });
+    highlight(); S.sfx.pick();
+    culture.textContent = step === 0 ? "Tap the glowing star to start."
+      : "Line " + (step - 1) + " of " + (ORDER.length - 1) + " drawn.";
+  });
+
+  cycle.addEventListener("click", function () {
+    CULTURES.forEach(function (c) { document.getElementById(c.fig).classList.remove("on"); });
+    ci = (ci + 1) % CULTURES.length;
+    var c = CULTURES[ci];
+    document.getElementById(c.fig).classList.add("on");
+    S.sfx.pick();
+    culture.innerHTML = c.name + "<span>" + c.who + "</span>";
+    S.say(c.name + ". " + c.who + " Same seven stars. Nothing up there moved.", "Dot");
+  });
+
+  S.onReplay(function () {
+    gJoin.innerHTML = ""; step = 0; ci = -1; cycle.disabled = true;
+    CULTURES.forEach(function (c) { document.getElementById(c.fig).classList.remove("on"); });
+    culture.textContent = "Tap the glowing star to start.";
+    highlight();
+  });
+
+  drawStars(); highlight();
+})();
+</script>
+</body></html>

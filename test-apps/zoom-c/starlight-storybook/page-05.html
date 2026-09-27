@@ -1,0 +1,186 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ari &amp; Dot · Page 5 — Stars come in different colours</title>
+<link rel="stylesheet" href="app/starlight.css">
+<style>
+.wrongway{margin:.45rem 0 .1rem;padding:.45rem .6rem;border-radius:14px;background:#fdecec;
+  border:2px solid #f0b6b6;font-size:clamp(.66rem,.92vw,.98rem);line-height:1.32}
+.wrongway b{color:#a8342f}
+.ramp{width:100%;height:14px;border-radius:8px;border:1px solid #2c4d78;
+  background:linear-gradient(90deg,#ff5b32,#ff9b46,#ffd35e,#fff6e0,#e6f0ff,#a8c8ff,#8fb2ff)}
+.tag{font:900 12px Nunito,system-ui,sans-serif;fill:#eaf6ff;paint-order:stroke;
+  stroke:#04101f;stroke-width:3.5;stroke-linejoin:round}
+.sub{font:700 9.5px Nunito,system-ui,sans-serif;fill:#a9c8e8}
+.marker{color:#ffe6a8;font-weight:900;font-size:clamp(.58rem,.8vw,.84rem)}
+</style>
+</head>
+<body data-page="5" data-title="Stars come in different colours">
+<main class="book"><section class="stage">
+  <div class="sky"><div class="starfield"></div></div>
+  <div class="frame">
+
+    <section class="story">
+      <p class="eyebrow">Page 5 · Mystery four</p>
+      <h1>Colour is temperature<small>And it works the opposite way round to taps</small></h1>
+      <p>A star’s colour tells you how <strong>hot</strong> it is. Slide the temperature and watch
+        the star change.</p>
+      <p class="wrongway" data-say="On a tap, red means hot and blue means cold. Stars are the other way round. Blue stars are the hottest and red stars are the coolest." data-who="Dot">
+        <b>Careful!</b> On a tap, red means hot and blue means cold.
+        <b>Stars are the other way round.</b> Blue stars are the <b>hottest</b>. Red stars are the
+        <b>coolest</b>.</p>
+      <div class="actions">
+        <button class="pill primary" id="listen" data-say="Slide towards blue and you are sliding towards hotter. Slide towards red and you are cooling the star down." data-who="Ari">▶ Listen</button>
+        <button class="pill" id="findSun">Find our Sun</button>
+        <button class="pill" data-drawer="#deep">Are stars really these colours?</button>
+      </div>
+    </section>
+
+    <section class="instrument">
+      <div class="rig">
+        <svg id="rig" viewBox="0 0 320 230" preserveAspectRatio="xMidYMid meet"
+             role="img" aria-label="A star that changes colour with temperature">
+          <defs>
+            <radialGradient id="starG"><stop id="gs0" offset="0%"  stop-color="#fff"/>
+              <stop id="gs1" offset="55%" stop-color="#ffd457"/>
+              <stop id="gs2" offset="100%" stop-color="#ff9d2e"/></radialGradient>
+            <radialGradient id="haloG"><stop id="hs0" offset="0%" stop-color="#ffd77a" stop-opacity=".6"/>
+              <stop id="hs1" offset="100%" stop-color="#ffb347" stop-opacity="0"/></radialGradient>
+          </defs>
+          <circle id="halo" cx="160" cy="98" r="94" fill="url(#haloG)"/>
+          <circle id="star" cx="160" cy="98" r="58" fill="url(#starG)"/>
+          <text class="tag" id="kind" x="160" y="196" text-anchor="middle"></text>
+          <text class="sub" id="egs"  x="160" y="212" text-anchor="middle"></text>
+          <text class="sub" id="tempLbl" x="160" y="226" text-anchor="middle"></text>
+        </svg>
+      </div>
+      <div class="controls-row">
+        <div class="slider">
+          <label><span>How hot is this star?</span><b id="tRead"></b></label>
+          <input type="range" id="tempRange" min="2500" max="30000" step="1" value="5772"
+                 aria-label="Star temperature in degrees">
+          <div class="ramp" aria-hidden="true"></div>
+          <div class="scale-ends"><span>2,500° — coolest, red</span><span>30,000° — hottest, blue</span></div>
+        </div>
+      </div>
+      <p class="marker" id="marker" style="text-align:center"></p>
+    </section>
+
+    <div class="footer">
+      <div class="badges">
+        <button class="badge" data-kind="measured"
+          data-note="We split a star's light into a rainbow with a prism. Where the rainbow is brightest tells us the temperature, to within a few degrees."></button>
+      </div>
+      <div class="status" aria-live="polite"></div>
+    </div>
+
+  </div>
+
+  <section class="drawer" id="deep">
+    <h2>Are stars really these colours?</h2>
+    <p>Not this strongly. Real starlight is much paler — a red star is more of a deep orange,
+      and our Sun is very nearly <strong>white</strong>. It looks yellow from the ground because
+      our air scatters some of the blue away.</p>
+    <p>The colours on this page are <strong>deepened on purpose</strong>, the way a star chart
+      does it, so you can see the difference between one temperature and the next. The order is
+      real. The strength is not.</p>
+  </section>
+</section></main>
+<!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+     First, before the app, because it is a document-level listener and must be in
+     place before the page starts handling taps. It stops the ZOOM of a second quick
+     tap and re-delivers that tap; a multi-finger pinch is never touched, so a child
+     who is zoomed in can always pinch back out. One copy at the book root serves this
+     page: every page here sits in the same directory. -->
+<script src="tap-zoom-guard.js"></script>
+<script src="app/starlight.js"></script>
+<script>
+(function () {
+  var S = window.Starlight;
+  var slider = document.getElementById("tempRange");
+  var star = document.getElementById("star"), halo = document.getElementById("halo");
+  var kind = document.getElementById("kind"), egs = document.getElementById("egs");
+  var tRead = document.getElementById("tRead"), marker = document.getElementById("marker");
+  var tempLbl = document.getElementById("tempLbl");
+
+  // Blackbody colour, Tanner Helland's approximation. Good enough that the
+  // yellow-to-blue turn happens where a physicist would expect it.
+  function bb(k) {
+    var t = k / 100, r, g, b;
+    if (t <= 66) { r = 255; g = 99.47 * Math.log(t) - 161.12; }
+    else { r = 329.7 * Math.pow(t - 60, -0.1332); g = 288.12 * Math.pow(t - 60, -0.0755); }
+    if (t >= 66) b = 255;
+    else if (t <= 19) b = 0;
+    else b = 138.52 * Math.log(t - 10) - 305.04;
+    var c = function (v) { return Math.max(0, Math.min(255, Math.round(v))); };
+    return [c(r), c(g), c(b)];
+  }
+  // Real star colours are very pale — our Sun is white, not yellow. Left true,
+  // this slider would run from cream to slightly bluer cream and teach nothing.
+  // The tint is deepened 3.4x away from white, and the drawer says so out loud.
+  var DEEPEN = 3.4;
+  function deepen(a) {
+    return a.map(function (v) { return Math.max(0, Math.min(255, 255 - (255 - v) * DEEPEN)); });
+  }
+  function rgb(a, mix) {
+    var m = mix == null ? 0 : mix, d = deepen(a);
+    return "rgb(" + d.map(function (v) { return Math.round(v + (255 - v) * m); }).join(",") + ")";
+  }
+
+  var TYPES = [
+    { max: 3700,  name: "A red star",          eg: "like Proxima Centauri" },
+    { max: 5200,  name: "An orange star",      eg: "like Aldebaran" },
+    { max: 6000,  name: "A yellow star",       eg: "like our own Sun" },
+    { max: 7500,  name: "A yellow-white star", eg: "like Procyon" },
+    { max: 10000, name: "A white star",        eg: "like Sirius" },
+    { max: 99999, name: "A blue-white star",   eg: "like Rigel" }
+  ];
+
+  function render() {
+    var k = Number(slider.value);
+    var c = bb(k);
+    document.getElementById("gs0").setAttribute("stop-color", rgb(c, .75));
+    document.getElementById("gs1").setAttribute("stop-color", rgb(c, .08));
+    document.getElementById("gs2").setAttribute("stop-color", rgb(c, 0));
+    document.getElementById("hs0").setAttribute("stop-color", rgb(c, .3));
+    document.getElementById("hs1").setAttribute("stop-color", rgb(c, 0));
+    // Size is deliberately fixed. One page, one variable: this page is about
+    // colour, and a star that also changed size would blur it into Page 4.
+    var r = 58;
+    star.setAttribute("r", r);
+    halo.setAttribute("r", r * 1.62);
+
+    var t = TYPES.find(function (x) { return k < x.max; });
+    kind.textContent = t.name;
+    egs.textContent = t.eg;
+    tempLbl.textContent = S.fmt(k) + "°C at the surface";
+    tRead.textContent = S.fmt(k) + "°";
+
+    var near = Math.abs(k - 5772) < 150;
+    marker.textContent = near ? "★ That is our Sun — 5,772°" : "";
+    return near;
+  }
+
+  var moved = false, saidCool = false, saidHot = false;
+  slider.addEventListener("input", function () {
+    var wasSun = render();
+    if (!moved) { moved = true; S.sfx.sweep(); }
+    var k = Number(slider.value);
+    if (k > 20000 && !saidHot) {
+      saidHot = true; S.say("Blue. This star is over twenty thousand degrees — far hotter than our Sun.", "Dot");
+    }
+    if (k < 3200 && !saidCool) {
+      saidCool = true; S.say("Deep red. This is a cool star. Cool for a star still means two and a half thousand degrees.", "Dot");
+    }
+    if (wasSun) S.sfx.tick();
+  });
+
+  document.getElementById("findSun").addEventListener("click", function () {
+    slider.value = 5772; render(); S.sfx.good();
+    S.say("Our Sun sits here — five thousand seven hundred and seventy-two degrees. Yellow. Right in the middle.", "Dot");
+  });
+
+  S.onReplay(function () { slider.value = 5772; saidHot = saidCool = moved = false; render(); });
+  render();
+})();
+</script>
+</body></html>

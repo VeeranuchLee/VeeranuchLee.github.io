@@ -1,0 +1,157 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ari &amp; Dot · Page 8 — Light takes time</title>
+<link rel="stylesheet" href="app/starlight.css">
+<style>
+.nm{font:800 10px Nunito,system-ui,sans-serif;fill:#eaf6ff;paint-order:stroke;
+  stroke:#04101f;stroke-width:3;stroke-linejoin:round}
+.clock{text-align:center;color:#fff;font-weight:900;font-variant-numeric:tabular-nums;
+  font-size:clamp(1.05rem,2.5vw,2.2rem);line-height:1.05}
+.clock small{display:block;color:#9fc0e2;font-size:clamp(.55rem,.78vw,.8rem);font-weight:800}
+.ly{margin-top:.4rem;padding:.45rem .6rem;border-radius:14px;background:#123a2a;
+  border:2px solid #4e9d76;color:#d7f5e4;font-weight:800;
+  font-size:clamp(.6rem,.85vw,.9rem);line-height:1.3;display:none}
+.ly.show{display:block}
+.ly b{color:#a9f0c8}
+</style>
+</head>
+<body data-page="8" data-title="Light takes time">
+<main class="book"><section class="stage">
+  <div class="sky"><div class="starfield"></div></div>
+  <div class="frame">
+
+    <section class="story">
+      <p class="eyebrow">Page 8 · Mystery seven</p>
+      <h1>Light takes time<small>Looking far away is looking into the past</small></h1>
+      <p>Light is fast — but it is not instant. Send a flash and time it.</p>
+      <p class="says dot" data-say="Sunlight you feel on your face left the Sun eight minutes ago. If the Sun went out, you would not know for eight minutes." data-who="Dot">
+        <b>Dot:</b> “The sunlight on your face left the Sun <em>eight minutes ago</em>. If the Sun
+        went out, you would not know for eight minutes.”</p>
+      <div class="actions">
+        <button class="pill primary" id="listen" data-say="A light-year is not an amount of time. It is a distance: how far light gets in one whole year." data-who="Ari">▶ Listen</button>
+        <button class="pill" data-drawer="#deep">Is a light-year a year?</button>
+      </div>
+    </section>
+
+    <section class="instrument">
+      <div class="rig" style="place-items:stretch">
+        <div style="display:grid;align-content:center;gap:.5rem">
+          <svg id="rig" viewBox="0 0 400 120" preserveAspectRatio="xMidYMid meet"
+               role="img" aria-label="A flash of light travelling">
+            <line x1="42" y1="60" x2="366" y2="60" stroke="#24456d" stroke-width="2" stroke-dasharray="5 6"/>
+            <circle cx="30" cy="60" r="13" fill="#2f8fd0"/>
+            <path d="M20 55q7-5 12 1t9-2" stroke="#5ec87a" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <text class="nm" x="30" y="90" text-anchor="middle">Earth</text>
+            <circle id="dest" cx="372" cy="60" r="14" fill="#ffd457"/>
+            <text class="nm" id="destName" x="372" y="90" text-anchor="middle">?</text>
+            <circle id="pulse" cx="30" cy="60" r="5" fill="#fff" opacity="0"/>
+            <circle id="pulseGlow" cx="30" cy="60" r="12" fill="#8eeaff" opacity="0"/>
+          </svg>
+          <p class="clock" id="clock">—<small>press a journey to send a flash of light</small></p>
+          <div class="ly" id="lyBox">
+            <b>A light-year</b> is how far light gets in one whole year. It is a
+            <b>distance</b>, like a kilometre — a very, very long one.
+          </div>
+        </div>
+      </div>
+      <div class="controls-row">
+        <button class="tool" data-go="0">→ To the Moon</button>
+        <button class="tool" data-go="1">→ To the Sun</button>
+        <button class="tool" data-go="2">→ To the nearest star</button>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div class="status" aria-live="polite"></div>
+      <div class="badges">
+        <button class="badge" data-kind="measured"
+          data-note="The speed of light is measured, extremely precisely. We bounce laser light off mirrors that astronauts left on the Moon and time how long it takes to come back."></button>
+      </div>
+    </div>
+
+  </div>
+
+  <section class="drawer" id="deep">
+    <h2>A light-year is not a year</h2>
+    <p>It sounds like a length of time, and it is not. A light-year is a <strong>distance</strong>:
+      how far light travels in one year. Nine and a half <em>trillion</em> kilometres.</p>
+    <p>So when we say the nearest star is 4.2 light-years away, we mean it is 4.2 light-years
+      <em>far</em>. And the light you see from it left 4.2 years ago — so you are looking at
+      what it was doing back then, not what it is doing now.</p>
+  </section>
+</section></main>
+<!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+     First, before the app, because it is a document-level listener and must be in
+     place before the page starts handling taps. It stops the ZOOM of a second quick
+     tap and re-delivers that tap; a multi-finger pinch is never touched, so a child
+     who is zoomed in can always pinch back out. One copy at the book root serves this
+     page: every page here sits in the same directory. -->
+<script src="tap-zoom-guard.js"></script>
+<script src="app/starlight.js"></script>
+<script>
+(function () {
+  var S = window.Starlight;
+  var TRIPS = [
+    { name: "The Moon", play: 1.28, real: 1.28, unit: "s", colour: "#dedad2",
+      fmt: function (t) { return t.toFixed(2) + " seconds"; },
+      done: "One and a quarter seconds. Close enough to talk to, almost.",
+      note: "Light reaches the Moon in 1.28 seconds — you could nearly hold a conversation." },
+    { name: "The Sun", play: 8, real: 499, unit: "s", colour: "#ffd457",
+      fmt: function (t) { var m = Math.floor(t / 60); return m + " min " + Math.floor(t % 60) + " s"; },
+      done: "Eight minutes and nineteen seconds.",
+      note: "Light takes 8 minutes 19 seconds to reach us from the Sun." },
+    { name: "Proxima Centauri", play: 12, real: 4.2465, unit: "y", colour: "#ff7a52",
+      fmt: function (t) { return t.toFixed(2) + " years"; },
+      done: "Four years and three months. And that is the NEAREST one.",
+      note: "Light from the nearest star takes 4.25 years to get here." }
+  ];
+
+  var pulse = document.getElementById("pulse"), glow = document.getElementById("pulseGlow");
+  var clock = document.getElementById("clock"), dest = document.getElementById("dest");
+  var destName = document.getElementById("destName"), lyBox = document.getElementById("lyBox");
+  var running = false, seen = [];
+
+  function fly(i) {
+    if (running) return;
+    var T = TRIPS[i];
+    running = true;
+    dest.setAttribute("fill", T.colour);
+    destName.textContent = T.name;
+    S.sfx.sweep();
+    var t0 = performance.now();
+    pulse.setAttribute("opacity", 1); glow.setAttribute("opacity", .45);
+
+    function step(now) {
+      var f = Math.min(1, (now - t0) / (T.play * 1000));
+      var x = 30 + f * 342;
+      pulse.setAttribute("cx", x); glow.setAttribute("cx", x);
+      var shown = T.real * f;
+      clock.innerHTML = T.fmt(shown) +
+        "<small>light travelling from Earth to " + T.name + "</small>";
+      if (f < 1) { requestAnimationFrame(step); return; }
+      pulse.setAttribute("opacity", 0); glow.setAttribute("opacity", 0);
+      running = false;
+      S.sfx.good();
+      clock.innerHTML = T.fmt(T.real) + "<small>light from Earth to " + T.name + "</small>";
+      S.say(T.note + " " + T.done, "Dot");
+      if (seen.indexOf(i) < 0) seen.push(i);
+      if (seen.length === 3) lyBox.classList.add("show");
+    }
+    requestAnimationFrame(step);
+  }
+
+  document.querySelector(".controls-row").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-go]");
+    if (b) fly(Number(b.dataset.go));
+  });
+
+  S.onReplay(function () {
+    running = false; seen = []; lyBox.classList.remove("show");
+    pulse.setAttribute("opacity", 0); glow.setAttribute("opacity", 0);
+    pulse.setAttribute("cx", 30); glow.setAttribute("cx", 30);
+    destName.textContent = "?"; dest.setAttribute("fill", "#ffd457");
+    clock.innerHTML = "—<small>press a journey to send a flash of light</small>";
+  });
+})();
+</script>
+</body></html>

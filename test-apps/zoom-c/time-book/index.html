@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#16213e" />
+    <meta name="description" content="Learn to read any clock in the world — hours, minutes, past and to, and faces with no numbers at all." />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Time Book" />
+    <title>Time Book</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./assets/icons/icon-192.png" />
+    <link rel="stylesheet" href="./fonts.css" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main id="screen"></main>
+
+    <!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+         First, before even the clock engine: it is a document-level listener and must be
+         in place before anything handles a tap. It stops the ZOOM of a second quick tap
+         and re-delivers that tap; a multi-finger pinch is never touched, so a child who
+         is zoomed in over a full-width clock can always pinch back out. -->
+    <script src="./tap-zoom-guard.js"></script>
+
+    <!-- The clock engine loads first: app.js reads window.TimeBookClock at startup. -->
+    <script src="./clock.js"></script>
+    <script src="./worldclock.js"></script>
+    <script src="./elapsed.js"></script>
+    <script src="./app.js"></script>
+    <script>
+      /* Offline support. Best-effort on purpose: opened straight off the filesystem
+         the browser refuses to register a worker, and the book must still work. */
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          Promise.resolve() /* Test Hub staging: no service worker */.catch(function () {});
+        });
+      }
+    </script>
+  </body>
+</html>

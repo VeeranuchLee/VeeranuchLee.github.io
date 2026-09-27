@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zoom fix check</title>
+  <style>
+    html, body { touch-action: manipulation; margin: 0; padding: 0; }
+    html { font-size: 18px; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background: #0f2b5a; color: #f8f9fa; min-height: 100vh; padding: 24px; box-sizing: border-box;
+    }
+    h1 { font-size: 1.6rem; margin: 0 0 6px; }
+    .instr { font-size: 1.05rem; line-height: 1.45; margin: 0 0 24px; opacity: 0.92; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(232px, 1fr));
+      gap: 14px; max-width: 860px; margin: 0 auto;
+    }
+    .card {
+      display: block; background: #ffffff1a; border: 2px solid #ffffff2a; border-radius: 14px;
+      padding: 18px 12px; color: #f8f9fa; text-decoration: none; font-size: 1.05rem; font-weight: 600;
+      text-align: center; touch-action: manipulation;
+    }
+    .card:hover, .card:focus { border-color: #ffd166; background: #ffffff24; outline: none; }
+    footer { margin-top: 32px; opacity: .7; font-size: .85rem; text-align: center; }
+  </style>
+</head>
+<body>
+  <h1>Zoom fix check</h1>
+  <p class="instr">Double-tap anywhere should NOT zoom;<br>pinch in then pinch out must work;<br>drag play surfaces still drag.</p>
+  <div class="grid">
+    <a class="card" href="./flags/">Flags</a>
+    <a class="card" href="./shadow-matching/">Shadow Matching</a>
+    <a class="card" href="./toy-keyboard/">Toy Keyboard</a>
+    <a class="card" href="./time-book/">Time Book</a>
+    <a class="card" href="./animal-book/">Animal Book</a>
+    <a class="card" href="./solar-system-game/">Solar System Game</a>
+    <a class="card" href="./space-hub/">Space Hub</a>
+    <a class="card" href="./pattern-blocks/">Pattern Blocks</a>
+    <a class="card" href="./pattern-pegs/">Pattern Pegs</a>
+    <a class="card" href="./dollhouse/">Dollhouse</a>
+    <a class="card" href="./writing-book/">Writing Book</a>
+    <a class="card" href="./starlight-storybook/">Starlight Storybook</a>
+    <a class="card" href="./flower-shooter/">Flower Shooter</a>
+    <a class="card" href="./spelling-exam/">Spelling Exam</a>
+    <a class="card" href="./toy-room/">Toy Room</a>
+  </div>
+  <footer>No service worker on this page. Staging QA copy.</footer>
+</body>
+</html>

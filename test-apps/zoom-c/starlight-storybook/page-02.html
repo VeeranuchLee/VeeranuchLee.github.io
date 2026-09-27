@@ -1,0 +1,203 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ari &amp; Dot · Page 2 — Our Sun is a star</title>
+<link rel="stylesheet" href="app/starlight.css">
+<style>
+.dist{font:900 13px Nunito,system-ui,sans-serif;fill:#ffe6a8}
+.cand{cursor:pointer}
+.cand .halo{fill:none;stroke:#8eeaff;stroke-width:2;stroke-dasharray:4 3;opacity:0;transition:opacity .3s}
+.hunting .cand .halo{opacity:.9;animation:sp 9s linear infinite}
+@keyframes sp{to{stroke-dashoffset:-70}}
+.cand.right .halo{stroke:#8fd39a;opacity:1;stroke-dasharray:none;stroke-width:3}
+.cand.wrong .halo{stroke:#ef8f8f;opacity:1;stroke-dasharray:none}
+</style>
+</head>
+<body data-page="2" data-title="Our Sun is a star">
+<main class="book"><section class="stage">
+  <div class="sky"><div class="starfield"></div></div>
+  <div class="frame">
+
+    <section class="story">
+      <p class="eyebrow">Page 2 · Mystery one</p>
+      <h1>Our Sun is a star<small>It only looks different because it is close</small></h1>
+      <p>Dot flies Ari away from the Sun. Not to another planet — <strong>much</strong> further
+        than that.</p>
+      <p class="says dot" data-say="Watch what happens to the Sun as we go. I am not making it smaller. We are just getting further away." data-who="Dot">
+        <b>Dot:</b> “Watch what happens to the Sun as we go. I am not making it smaller. We are
+        just getting further away.”</p>
+      <div class="actions">
+        <button class="pill primary" id="listen" data-say="The Sun looks huge and bright because it is close. Every other star is a sun too, seen from very far away." data-who="Ari">▶ Listen</button>
+        <button class="pill" data-drawer="#deep">Why does it get dimmer so fast?</button>
+      </div>
+    </section>
+
+    <section class="instrument">
+      <div class="rig">
+        <svg id="rig" viewBox="0 0 400 250" preserveAspectRatio="xMidYMid meet"
+             role="img" aria-label="The Sun seen from further and further away">
+          <defs>
+            <radialGradient id="sunGrad">
+              <stop offset="0%" stop-color="#fffbe8"/><stop offset="45%" stop-color="#ffd457"/>
+              <stop offset="100%" stop-color="#ff9d2e"/>
+            </radialGradient>
+            <radialGradient id="sunGlow">
+              <stop offset="0%" stop-color="#ffd77a" stop-opacity=".85"/>
+              <stop offset="100%" stop-color="#ffb347" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <g id="field"></g>
+          <circle id="glow" cx="200" cy="118" r="150" fill="url(#sunGlow)"/>
+          <circle id="sun"  cx="200" cy="118" r="70"  fill="url(#sunGrad)"/>
+          <g id="cands"></g>
+          <text class="dist" x="200" y="238" text-anchor="middle" id="distLabel"></text>
+        </svg>
+      </div>
+      <div class="controls-row">
+        <div class="slider">
+          <label><span>How far away are we?</span><b id="dRead">1 × Earth’s distance</b></label>
+          <input type="range" id="dist" min="0" max="1000" value="0"
+                 aria-label="Distance from the Sun">
+          <div class="scale-ends"><span>Right beside Earth</span><span>The nearest star</span></div>
+        </div>
+        <button class="tool" id="hunt" disabled>Which one is our Sun?</button>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div class="badges">
+        <button class="badge" data-kind="measured"
+          data-note="We measured how far the nearest stars are, so we can work out exactly how our Sun would look from there. It would be an ordinary bright star."></button>
+      </div>
+      <div class="status" aria-live="polite"></div>
+    </div>
+
+  </div>
+
+  <section class="drawer" id="deep">
+    <h2>Spreading out</h2>
+    <p>Light leaves the Sun in every direction at once. Go twice as far away and the same light
+      has to cover <strong>four times</strong> as much sky, so it looks four times fainter. Go ten
+      times as far and it is a hundred times fainter.</p>
+    <p>That is why the Sun fades so quickly here, and why the other stars — which are just as
+      bright as the Sun, or brighter — are only tiny points.</p>
+    <p class="note">Distances on this page are real. The Sun’s size on screen is not to scale
+      once it becomes a dot, or you would not be able to see it at all.</p>
+  </section>
+</section></main>
+<!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+     First, before the app, because it is a document-level listener and must be in
+     place before the page starts handling taps. It stops the ZOOM of a second quick
+     tap and re-delivers that tap; a multi-finger pinch is never touched, so a child
+     who is zoomed in can always pinch back out. One copy at the book root serves this
+     page: every page here sits in the same directory. -->
+<script src="tap-zoom-guard.js"></script>
+<script src="app/starlight.js"></script>
+<script>
+(function () {
+  var S = window.Starlight;
+  var AU_PER_LY = 63241;
+  var FAR = 268770;                     // Proxima Centauri, in Earth-distances
+  var sun = document.getElementById("sun");
+  var glow = document.getElementById("glow");
+  var field = document.getElementById("field");
+  var cands = document.getElementById("cands");
+  var slider = document.getElementById("dist");
+  var read = document.getElementById("dRead");
+  var label = document.getElementById("distLabel");
+  var hunt = document.getElementById("hunt");
+  var rig = document.getElementById("rig");
+
+  // A fixed background of other stars, so the Sun can join them.
+  var BG = [[46,44],[96,196],[132,62],[168,132],[236,58],[262,204],[318,96],[352,166],
+            [78,112],[292,150],[204,36],[144,214]];
+  BG.forEach(function (p, i) {
+    var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    c.setAttribute("cx", p[0]); c.setAttribute("cy", p[1]);
+    c.setAttribute("r", 1.4 + (i % 3) * 0.5);
+    c.setAttribute("fill", ["#fff","#cfe4ff","#ffe3c0"][i % 3]);
+    c.setAttribute("opacity", .85);
+    field.appendChild(c);
+  });
+
+  function distance(t) { return Math.pow(FAR, t / 1000); }   // 1 → 268,770
+
+  function words(d) {
+    if (d < 2) return "1 × Earth’s distance";
+    if (d < 1000) return Math.round(d) + " × Earth’s distance";
+    if (d < AU_PER_LY) return S.fmt(Math.round(d)) + " × Earth’s distance";
+    return (d / AU_PER_LY).toFixed(2) + " light-years away";
+  }
+
+  var atEnd = false;
+  function render() {
+    var d = distance(Number(slider.value));
+    var r = Math.max(1.5, 70 / d);
+    sun.setAttribute("r", r);
+    glow.setAttribute("r", Math.max(3, r * 2.6));
+    glow.setAttribute("opacity", r > 3 ? 1 : 0.55);
+    if (r <= 1.9) sun.setAttribute("fill", "#fff8e0");
+    else sun.setAttribute("fill", "url(#sunGrad)");
+    read.textContent = words(d);
+    label.textContent = d < 2 ? "" : words(d);
+
+    var nowEnd = Number(slider.value) > 940;
+    if (nowEnd !== atEnd) {
+      atEnd = nowEnd;
+      hunt.disabled = !atEnd;
+      if (atEnd) S.say("From out here the Sun is one dot among the others. Can you still tell which one it is?", "Dot");
+    }
+  }
+
+  var moved = false;
+  slider.addEventListener("input", function () {
+    render();
+    if (!moved) { moved = true; S.sfx.sweep(); }
+  });
+  slider.addEventListener("change", function () { S.sfx.tick(); });
+
+  // The challenge: three candidates, one of them really is the Sun.
+  hunt.addEventListener("click", function () {
+    if (rig.classList.contains("hunting")) return;
+    rig.classList.add("hunting");
+    S.sfx.pick();
+    cands.innerHTML = "";
+    var picks = [[168,132], [200,118], [236,58]];   // middle one is the Sun's position
+    picks.forEach(function (p, i) {
+      var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      g.setAttribute("class", "cand");
+      g.setAttribute("tabindex", "0");
+      g.setAttribute("role", "button");
+      g.setAttribute("aria-label", "Is this our Sun?");
+      g.innerHTML = '<circle class="halo" cx="' + p[0] + '" cy="' + p[1] + '" r="13"/>' +
+                    '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="16" fill="transparent"/>';
+      function choose() {
+        if (g.classList.contains("right") || g.classList.contains("wrong")) return;
+        var correct = (i === 1);
+        g.classList.add(correct ? "right" : "wrong");
+        rig.classList.remove("hunting");
+        if (correct) {
+          S.sfx.good();
+          S.say("That is our Sun. But you could not really tell, could you? It looks exactly like the others now.", "Dot");
+        } else {
+          S.sfx.pick();
+          S.say("Not that one — and nobody could have told. That is the answer. From far enough away our Sun is just another star.", "Dot");
+        }
+        cands.querySelector(".cand:nth-child(2)").classList.add("right");
+      }
+      g.addEventListener("click", choose);
+      g.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); choose(); }
+      });
+      cands.appendChild(g);
+    });
+    S.say("One of these three is our Sun. Which?", "Dot");
+  });
+
+  S.onReplay(function () {
+    slider.value = 0; atEnd = false; hunt.disabled = true;
+    cands.innerHTML = ""; rig.classList.remove("hunting"); moved = false; render();
+  });
+  render();
+})();
+</script>
+</body></html>

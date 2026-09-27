@@ -1,0 +1,145 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ari &amp; Dot · Page 12 — A baby star</title>
+<link rel="stylesheet" href="app/starlight.css">
+<style>
+.nm{font:800 10px Nunito,system-ui,sans-serif;fill:#eaf6ff;paint-order:stroke;
+  stroke:#04101f;stroke-width:3;stroke-linejoin:round}
+.therm{font-variant-numeric:tabular-nums}
+.big{text-align:center;color:#fff;font-weight:900;font-variant-numeric:tabular-nums;
+  font-size:clamp(1rem,2.3vw,2rem);line-height:1.05}
+.big small{display:block;color:#9fc0e2;font-size:clamp(.55rem,.78vw,.8rem);font-weight:800}
+#ball{transition:none}
+.lit #flash{animation:fl 1.1s ease-out forwards}
+@keyframes fl{0%{r:6;opacity:1}100%{r:120;opacity:0}}
+</style>
+</head>
+<body data-page="12" data-title="A baby star">
+<main class="book"><section class="stage">
+  <div class="sky"><div class="starfield"></div></div>
+  <div class="frame">
+
+    <section class="story">
+      <p class="eyebrow">Page 12 · Mystery eleven</p>
+      <h1>Squeeze it until it lights<small>Nothing happens. Nothing happens. Then everything.</small></h1>
+      <p>Gravity keeps pulling the cloud inwards. Squeezing something makes it <strong>hot</strong>.
+        And at <strong>ten million degrees</strong>, the middle finally catches.</p>
+      <p class="says" data-say="Dot, it is not doing anything." data-who="Ari">
+        <b>Ari:</b> “Dot, it is not doing <em>anything</em>.”</p>
+      <p class="says dot" data-say="Keep holding. It never looks like it is working, right up until it works." data-who="Dot">
+        <b>Dot:</b> “Keep holding. It never looks like it is working — right up until it works.”</p>
+      <div class="actions">
+        <button class="pill primary" id="listen" data-say="A real star takes millions of years to do this. Hold the button for eight seconds instead." data-who="Dot">▶ Listen</button>
+      </div>
+    </section>
+
+    <section class="instrument">
+      <div class="rig" style="place-items:stretch">
+        <div style="display:grid;align-content:center;gap:.45rem">
+          <svg id="rig" viewBox="0 0 300 150" preserveAspectRatio="xMidYMid meet"
+               role="img" aria-label="A cloud being squeezed into a star">
+            <defs>
+              <radialGradient id="babyG"><stop id="b0" offset="0%" stop-color="#8b7fd0"/>
+                <stop id="b1" offset="100%" stop-color="#2b2a5c"/></radialGradient>
+            </defs>
+            <circle id="flash" cx="150" cy="72" r="6" fill="#fff" opacity="0"/>
+            <circle id="ball" cx="150" cy="72" r="60" fill="url(#babyG)"/>
+            <g id="arrows" stroke="#7fc7ea" stroke-width="3.4" fill="none" stroke-linecap="round" opacity=".9">
+              <path d="M150 4v16M150 140v-16M14 72h16M286 72h-16M54 24l11 11M246 24l-11 11M54 120l11-11M246 120l-11-11"/>
+            </g>
+          </svg>
+          <p class="big therm" id="temp">300 °C<small>temperature in the middle</small></p>
+        </div>
+      </div>
+      <div class="controls-row">
+        <button class="tool" id="squeeze" style="min-width:200px">✋ Hold to squeeze</button>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div class="status" aria-live="polite"></div>
+      <div class="badges">
+        <button class="badge" data-kind="inferred"
+          data-note="We cannot watch one star do this — it takes millions of years. We work it out by finding many clouds and many young stars, all caught at different points, and putting them in order."></button>
+      </div>
+    </div>
+
+  </div>
+</section></main>
+<!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+     First, before the app, because it is a document-level listener and must be in
+     place before the page starts handling taps. It stops the ZOOM of a second quick
+     tap and re-delivers that tap; a multi-finger pinch is never touched, so a child
+     who is zoomed in can always pinch back out. One copy at the book root serves this
+     page: every page here sits in the same directory. -->
+<script src="tap-zoom-guard.js"></script>
+<script src="app/starlight.js"></script>
+<script>
+(function () {
+  var S = window.Starlight;
+  var rig = document.getElementById("rig"), ball = document.getElementById("ball");
+  var tempEl = document.getElementById("temp"), btn = document.getElementById("squeeze");
+  var held = false, t = 0, raf = 0, last = 0, lit = false, nudged = false;
+  var HOLD = 8;                                     // seconds to ignition
+
+  function render() {
+    var f = t / HOLD;
+    // temperature climbs the way it really does: slowly, then violently
+    var K = 300 + Math.pow(f, 3.1) * 10000000;
+    tempEl.innerHTML = (K < 1000000 ? S.fmt(Math.round(K)) : (K / 1000000).toFixed(1) + " million") +
+      " °C<small>temperature in the middle</small>";
+    ball.setAttribute("r", 60 - 46 * f);
+    var hot = Math.min(1, f * 1.15);
+    document.getElementById("b0").setAttribute("stop-color",
+      lit ? "#ffffff" : "rgb(" + Math.round(139 + 116 * hot) + "," + Math.round(127 + 90 * hot) + "," + Math.round(208 - 130 * hot) + ")");
+    document.getElementById("b1").setAttribute("stop-color",
+      lit ? "#ff9d2e" : "rgb(" + Math.round(43 + 180 * hot) + "," + Math.round(42 + 80 * hot) + "," + Math.round(92 - 60 * hot) + ")");
+    if (!nudged && f > 0.42) {
+      nudged = true;
+      S.say("Still nothing. Keep going — this is exactly what it feels like from the outside.", "Dot");
+    }
+  }
+
+  function ignite() {
+    lit = true; held = false;
+    rig.classList.add("lit");
+    document.getElementById("arrows").setAttribute("opacity", "0");
+    ball.setAttribute("r", 26);
+    S.sfx.ignite();
+    tempEl.innerHTML = "10 million °C<small>a star. It is a star now.</small>";
+    document.getElementById("b0").setAttribute("stop-color", "#fffbe8");
+    document.getElementById("b1").setAttribute("stop-color", "#ff9d2e");
+    btn.textContent = "★ It lit";
+    S.say("There. It lit. From now on it makes its own light, and it will keep going for billions of years.", "Dot");
+  }
+
+  function tick(now) {
+    if (!held) return;
+    if (!last) last = now;
+    t = Math.min(HOLD, t + (now - last) / 1000); last = now;
+    render();
+    if (t >= HOLD) { ignite(); return; }
+    raf = requestAnimationFrame(tick);
+  }
+  function start() { if (held || lit) return; held = true; last = 0; S.sfx.sweep(); raf = requestAnimationFrame(tick); }
+  function stop() {
+    held = false; cancelAnimationFrame(raf);
+    if (!lit && t > 0) S.say("Let go and it stops squeezing. A real cloud never lets go.", "Dot");
+  }
+
+  btn.addEventListener("pointerdown", function (e) { e.preventDefault(); start(); });
+  ["pointerup", "pointerleave", "pointercancel"].forEach(function (t2) { btn.addEventListener(t2, stop); });
+  btn.addEventListener("keydown", function (e) { if (e.key === " " || e.key === "Enter") { e.preventDefault(); start(); } });
+  btn.addEventListener("keyup", stop);
+
+  S.onReplay(function () {
+    stop(); t = 0; lit = false; nudged = false;
+    rig.classList.remove("lit");
+    document.getElementById("arrows").setAttribute("opacity", ".9");
+    btn.textContent = "✋ Hold to squeeze";
+    render();
+  });
+  render();
+})();
+</script>
+</body></html>

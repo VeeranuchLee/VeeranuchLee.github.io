@@ -1,0 +1,189 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ari &amp; Dot · Page 1 — The lights outside</title>
+<link rel="stylesheet" href="app/starlight.css">
+<style>
+.win-frame{fill:#2a1a12;stroke:#4a2f20;stroke-width:3}
+.win-sky{fill:url(#nightsky)}
+.light{cursor:pointer}
+.light .halo{fill:#fff;opacity:0}
+.light.done .halo{opacity:.16}
+.light .ring{fill:none;stroke:#8eeaff;stroke-width:2.5;opacity:0}
+.light.done .ring{opacity:.9}
+.light .hit{fill:transparent}
+.twinkle{animation:tw 3.4s ease-in-out infinite}
+@keyframes tw{0%,100%{opacity:.55}45%{opacity:1}}
+.tag{font:700 11px Nunito,system-ui,sans-serif;fill:#eaf6ff;paint-order:stroke;
+  stroke:#04101f;stroke-width:3.5;stroke-linejoin:round;pointer-events:none;opacity:0;
+  transition:opacity .25s}
+.light.done .tag{opacity:1}
+.tally{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;color:#dbecff;
+  font-weight:900;font-size:clamp(.6rem,.85vw,.88rem)}
+.tally b{color:var(--gold)}
+.tally .un b{color:#ff9d9d}
+</style>
+</head>
+<body data-page="1" data-title="The lights outside">
+<main class="book"><section class="stage">
+  <div class="sky"><div class="starfield"></div></div>
+  <div class="frame">
+
+    <section class="story">
+      <p class="eyebrow">Page 1 · A new mission</p>
+      <h1>The lights outside<small>What are all those lights?</small></h1>
+      <p>Ari cannot sleep. The window is full of tiny lights, and tonight she knows
+        <strong>some</strong> of them.</p>
+      <p class="says" data-say="Dot — I know some of those! That bright one is a planet. But the others… I don't know what the others are at all." data-who="Ari">
+        <b>Ari:</b> “I know some of those! That bright one is a planet. But the others… I don’t
+        know what the others are at all.”</p>
+      <p class="says dot" data-say="Then tap every light in the window, and tell me which ones you know." data-who="Dot">
+        <b>Dot:</b> “Then tap every light in the window, and tell me which ones you know.”</p>
+      <div class="actions">
+        <button class="pill primary" id="listen" data-say="Ari cannot sleep. The window is full of tiny lights, and tonight she knows some of them." data-who="Ari">▶ Listen</button>
+        <a class="pill" id="onward" href="page-02.html" hidden>Start the mission →</a>
+      </div>
+    </section>
+
+    <section class="instrument">
+      <div class="rig">
+        <svg id="rig" viewBox="0 0 400 250" preserveAspectRatio="xMidYMid meet"
+             role="group" aria-label="A window full of lights. Tap each light.">
+          <defs>
+            <radialGradient id="nightsky" cx="70%" cy="20%">
+              <stop offset="0%" stop-color="#173265"/><stop offset="60%" stop-color="#08163a"/>
+              <stop offset="100%" stop-color="#020a1c"/>
+            </radialGradient>
+          </defs>
+          <rect x="8" y="6" width="384" height="238" rx="14" class="win-frame"/>
+          <rect x="20" y="16" width="360" height="218" rx="8" class="win-sky"/>
+          <g id="lights"></g>
+          <rect x="196" y="16" width="8" height="218" fill="#3a2418"/>
+          <rect x="20" y="121" width="360" height="8" fill="#3a2418"/>
+          <path d="M20 205h360v29H20z" fill="#0d1c33" opacity=".85"/>
+          <path d="M34 205l14-16 12 16zM74 205l22-26 20 26zM128 205l16-19 15 19z
+                   M246 205l18-22 17 22zM300 205l24-28 22 28z" fill="#050d1c"/>
+          <g fill="#ffd98a" opacity=".8">
+            <rect x="80" y="192" width="7" height="7" rx="1"/>
+            <rect x="256" y="190" width="6" height="6" rx="1"/>
+            <rect x="312" y="186" width="7" height="7" rx="1"/>
+          </g>
+        </svg>
+      </div>
+      <div class="controls-row">
+        <p class="tally" id="tally"></p>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div class="badges">
+        <button class="badge" data-kind="seen"
+          data-note="Every light in this window is one you could go outside and see yourself, on a clear dark night."></button>
+      </div>
+      <div class="status" aria-live="polite"></div>
+    </div>
+
+  </div>
+</section></main>
+<!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+     First, before the app, because it is a document-level listener and must be in
+     place before the page starts handling taps. It stops the ZOOM of a second quick
+     tap and re-delivers that tap; a multi-finger pinch is never touched, so a child
+     who is zoomed in can always pinch back out. One copy at the book root serves this
+     page: every page here sits in the same directory. -->
+<script src="tap-zoom-guard.js"></script>
+<script src="app/starlight.js"></script>
+<script>
+(function () {
+  var S = window.Starlight;
+  // Three she met in Book 1, eleven she has never been told about. The child
+  // discovers the ratio by tapping; nobody announces it first.
+  var LIGHTS = [
+    {x: 92,  y: 58,  r: 6,   c: "#fff4d2", kind: "planet", name: "Venus",
+     line: "Venus! You know this one. It is a planet, close to us, shining with the Sun's light."},
+    {x: 306, y: 84,  r: 4.6, c: "#ffb88a", kind: "planet", name: "Mars",
+     line: "Mars. Another planet — the rusty red one you walked on in the first book."},
+    {x: 148, y: 176, r: 5.2, c: "#ffe9b0", kind: "planet", name: "Jupiter",
+     line: "Jupiter. The biggest planet of all, and still only a planet."},
+    {x: 52,  y: 100, r: 2.4, c: "#cfe6ff", kind: "star"},
+    {x: 128, y: 44,  r: 2.0, c: "#ffffff", kind: "star"},
+    {x: 176, y: 96,  r: 2.6, c: "#bcd8ff", kind: "star"},
+    {x: 238, y: 40,  r: 2.2, c: "#ffe7c9", kind: "star"},
+    {x: 268, y: 148, r: 2.8, c: "#ffffff", kind: "star"},
+    {x: 340, y: 52,  r: 2.1, c: "#c8dcff", kind: "star"},
+    {x: 356, y: 152, r: 2.5, c: "#ffd9b8", kind: "star"},
+    {x: 70,  y: 160, r: 2.2, c: "#ffffff", kind: "star"},
+    {x: 216, y: 186, r: 2.3, c: "#d6e6ff", kind: "star"},
+    {x: 108, y: 132, r: 1.9, c: "#ffffff", kind: "star"},
+    {x: 292, y: 108, r: 2.4, c: "#e8f0ff", kind: "star"}
+  ];
+
+  var STAR_LINES = [
+    "Unknown. Dot has no name for this one.",
+    "Unknown. It is not a planet — it does not move like one.",
+    "Unknown. Very small, very far, and very bright to still reach us.",
+    "Unknown. Dot's scanner just says: too far to measure from here."
+  ];
+
+  var g = document.getElementById("lights");
+  var tally = document.getElementById("tally");
+  var onward = document.getElementById("onward");
+  var known = 0, unknown = 0, done = 0, si = 0;
+
+  function draw() {
+    LIGHTS.forEach(function (L, i) {
+      var el = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      el.setAttribute("class", "light");
+      el.setAttribute("tabindex", "0");
+      el.setAttribute("role", "button");
+      el.setAttribute("aria-label", "A light in the sky. Tap to ask Dot what it is.");
+      var big = L.r * 3.4;
+      el.innerHTML =
+        '<circle class="halo" cx="' + L.x + '" cy="' + L.y + '" r="' + big + '"/>' +
+        '<circle class="glow twinkle" cx="' + L.x + '" cy="' + L.y + '" r="' + (L.r * 1.9) +
+          '" fill="' + L.c + '" opacity=".28" style="animation-delay:' + (-i * 0.37) + 's"/>' +
+        '<circle class="core twinkle" cx="' + L.x + '" cy="' + L.y + '" r="' + L.r +
+          '" fill="' + L.c + '" style="animation-delay:' + (-i * 0.37) + 's"/>' +
+        '<circle class="ring" cx="' + L.x + '" cy="' + L.y + '" r="' + (L.r + 6) + '"/>' +
+        '<text class="tag" x="' + L.x + '" y="' + (L.y - L.r - 9) + '" text-anchor="middle">' +
+          (L.kind === "planet" ? L.name : "?") + '</text>' +
+        '<circle class="hit" cx="' + L.x + '" cy="' + L.y + '" r="15"/>';
+      el.addEventListener("click", function () { hit(L, el); });
+      el.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); hit(L, el); }
+      });
+      g.appendChild(el);
+    });
+  }
+
+  function hit(L, el) {
+    if (!el.classList.contains("done")) {
+      el.classList.add("done");
+      done++;
+      if (L.kind === "planet") { known++; S.sfx.good(); }
+      else { unknown++; S.sfx.pick(); }
+      update();
+    }
+    if (L.kind === "planet") S.say(L.line, "Dot");
+    else { S.say(STAR_LINES[si % STAR_LINES.length], "Dot"); si++; }
+  }
+
+  function update() {
+    tally.innerHTML =
+      '<span>Lights checked <b>' + done + ' / ' + LIGHTS.length + '</b></span>' +
+      '<span>You know <b>' + known + '</b></span>' +
+      '<span class="un">You don\'t know <b>' + unknown + '</b></span>';
+    if (done === LIGHTS.length) {
+      onward.hidden = false;
+      S.sfx.good();
+      S.say("Three you know. Eleven you do not. Mission accepted: find out what all those other lights are.", "Dot");
+    }
+  }
+
+  draw(); update();
+  S.onReplay(function () {
+    Array.prototype.forEach.call(g.querySelectorAll(".light"), function (e) { e.classList.remove("done"); });
+    known = unknown = done = si = 0; onward.hidden = true; update();
+  });
+})();
+</script>
+</body></html>

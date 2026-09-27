@@ -1,0 +1,136 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ari &amp; Dot · Page 14 — The Sun will become a red giant</title>
+<link rel="stylesheet" href="app/starlight.css">
+<style>
+.orb{fill:none;stroke:#3d6ea0;stroke-width:1;stroke-dasharray:3 4}
+.pl{transition:opacity .6s}
+.pl.gone{opacity:.12}
+.nm{font:800 9.5px Nunito,system-ui,sans-serif;fill:#cfe4ff;paint-order:stroke;
+  stroke:#04101f;stroke-width:3;stroke-linejoin:round}
+.calmnote{margin:.45rem 0 .1rem;padding:.45rem .6rem;border-radius:14px;background:#e8f6ff;
+  border:2px solid #b8e2f5;font-size:clamp(.66rem,.92vw,.98rem);line-height:1.32}
+.calmnote b{color:#1d6a8c}
+.verdict{text-align:center;color:#ffe6a8;font-weight:900;
+  font-size:clamp(.62rem,.9vw,.95rem);min-height:2.3em;line-height:1.3}
+.verdict span{display:block;color:#bcd8ff;font-weight:700;font-size:.86em}
+</style>
+</head>
+<body data-page="14" data-title="The Sun will become a red giant">
+<main class="book"><section class="stage">
+  <div class="sky"><div class="starfield"></div></div>
+  <div class="frame">
+
+    <section class="story">
+      <p class="eyebrow">Page 14 · Mystery thirteen</p>
+      <h1>One day the Sun will swell<small>In five billion years</small></h1>
+      <p>When the Sun finally runs low on fuel in its core, it does something strange: it gets
+        <strong>much bigger</strong> and <strong>much redder</strong>.</p>
+      <p class="calmnote" data-say="This is five billion years away. Nobody alive will see it, and nor will their great great grandchildren, five hundred million times over." data-who="Dot">
+        <b>Dot:</b> “Five billion years away. Nobody alive will see it — and nor will their
+        great-great-grandchildren, five hundred million times over.”</p>
+      <div class="actions">
+        <button class="pill primary" id="listen" data-say="The Sun is not going to explode. It is going to swell up, very slowly, a very long time from now." data-who="Ari">▶ Listen</button>
+      </div>
+    </section>
+
+    <section class="instrument">
+      <div class="rig">
+        <svg id="rig" viewBox="0 0 320 200" preserveAspectRatio="xMidYMid meet"
+             role="img" aria-label="The Sun growing into a red giant">
+          <defs><radialGradient id="gg"><stop id="g0" offset="0%" stop-color="#fffbe8"/>
+            <stop id="g1" offset="60%" stop-color="#ffd457"/>
+            <stop id="g2" offset="100%" stop-color="#ff9d2e"/></radialGradient></defs>
+          <circle class="orb" cx="40" cy="100" r="47"/>
+          <circle class="orb" cx="40" cy="100" r="86"/>
+          <circle class="orb" cx="40" cy="100" r="120"/>
+          <circle id="sun" cx="40" cy="100" r="9" fill="url(#gg)"/>
+          <g class="pl" id="pMercury"><circle cx="87" cy="100" r="3.4" fill="#b9a893"/>
+            <text class="nm" x="87" y="88" text-anchor="middle">Mercury</text></g>
+          <g class="pl" id="pVenus"><circle cx="126" cy="100" r="5" fill="#e8c98b"/>
+            <text class="nm" x="126" y="86" text-anchor="middle">Venus</text></g>
+          <g class="pl" id="pEarth"><circle cx="160" cy="100" r="5.3" fill="#3f92da"/>
+            <text class="nm" x="160" y="85" text-anchor="middle">Earth</text></g>
+          <g class="pl" id="pMars"><circle cx="196" cy="100" r="4" fill="#c9603f"/>
+            <text class="nm" x="196" y="87" text-anchor="middle">Mars</text></g>
+        </svg>
+      </div>
+      <div class="controls-row">
+        <div class="slider">
+          <label><span>Turn the clock forward</span><b id="tRead">today</b></label>
+          <input type="range" id="clock" min="0" max="100" step="1" value="0"
+                 aria-label="How far into the future">
+          <div class="scale-ends"><span>today</span><span>7 billion years from now</span></div>
+        </div>
+      </div>
+      <p class="verdict" id="verdict"></p>
+    </section>
+
+    <div class="footer">
+      <div class="status" aria-live="polite"></div>
+      <div class="badges">
+        <button class="badge" data-kind="inferred"
+          data-note="We have never watched a star do this. We know it happens because the sky is full of red giants — stars that used to be ordinary ones like the Sun."></button>
+      </div>
+    </div>
+
+  </div>
+</section></main>
+<!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+     First, before the app, because it is a document-level listener and must be in
+     place before the page starts handling taps. It stops the ZOOM of a second quick
+     tap and re-delivers that tap; a multi-finger pinch is never touched, so a child
+     who is zoomed in can always pinch back out. One copy at the book root serves this
+     page: every page here sits in the same directory. -->
+<script src="tap-zoom-guard.js"></script>
+<script src="app/starlight.js"></script>
+<script>
+(function () {
+  var S = window.Starlight;
+  var sun = document.getElementById("sun"), clock = document.getElementById("clock");
+  var read = document.getElementById("tRead"), verdict = document.getElementById("verdict");
+  var ORB = { pMercury: 47, pVenus: 86, pEarth: 120 };   // Mars stays outside on this drawing
+  var eaten = {};
+
+  function render() {
+    var f = Number(clock.value) / 100;
+    var years = f * 7;
+    // the swelling is slow, then sudden — the last billion years do most of it
+    var r = 9 + 118 * Math.pow(f, 3.4);
+    sun.setAttribute("r", r);
+    var heat = Math.min(1, Math.pow(f, 2.2));
+    document.getElementById("g0").setAttribute("stop-color", heat > .5 ? "#ffd9c0" : "#fffbe8");
+    document.getElementById("g1").setAttribute("stop-color",
+      "rgb(255," + Math.round(212 - 90 * heat) + "," + Math.round(87 - 5 * heat) + ")");
+    document.getElementById("g2").setAttribute("stop-color",
+      "rgb(255," + Math.round(157 - 110 * heat) + "," + Math.round(46 + 6 * heat) + ")");
+
+    read.textContent = years < 0.05 ? "today"
+      : "+" + years.toFixed(1) + " billion years";
+
+    Object.keys(ORB).forEach(function (id) {
+      var g = document.getElementById(id);
+      var swallowed = r > ORB[id];
+      g.classList.toggle("gone", swallowed);
+      if (swallowed && !eaten[id]) {
+        eaten[id] = 1; S.sfx.tick();
+        if (id === "pEarth") {
+          S.say("And Earth. Whether the Earth is actually swallowed or just scorched is genuinely still argued about — the Sun loses weight as it swells, and the Earth drifts outwards a little.", "Dot");
+        } else {
+          S.say(id.slice(1) + " is inside the Sun now.", "Dot");
+        }
+      }
+      if (!swallowed) eaten[id] = 0;
+    });
+
+    if (f < 0.05) verdict.innerHTML = "Today.<span>The Sun as you have always known it.</span>";
+    else if (r < 47) verdict.innerHTML = "Growing.<span>Slowly. There is no hurry about any of this.</span>";
+    else if (r < 120) verdict.innerHTML = "A red giant.<span>Mercury and Venus are gone.</span>";
+    else verdict.innerHTML = "Bigger than Earth’s orbit.<span>Scientists still argue about whether Earth survives this.</span>";
+  }
+  clock.addEventListener("input", render);
+  S.onReplay(function () { clock.value = 0; eaten = {}; render(); });
+  render();
+})();
+</script>
+</body></html>

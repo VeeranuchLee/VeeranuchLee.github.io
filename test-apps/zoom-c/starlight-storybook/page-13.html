@@ -1,0 +1,137 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ari &amp; Dot · Page 13 — A star’s long middle age</title>
+<link rel="stylesheet" href="app/starlight.css">
+<style>
+.nm{font:800 9.5px Nunito,system-ui,sans-serif;fill:#cfe4ff;paint-order:stroke;
+  stroke:#04101f;stroke-width:3;stroke-linejoin:round}
+.era{fill:#173a63}
+.era.mainseq{fill:#2a6a4b}
+.here{stroke:#ffd457;stroke-width:2.5}
+.stagebox{text-align:center;color:#ffe6a8;font-weight:900;
+  font-size:clamp(.66rem,.95vw,1rem);line-height:1.3;min-height:2.4em}
+.stagebox span{display:block;color:#bcd8ff;font-weight:700;font-size:.86em}
+</style>
+</head>
+<body data-page="13" data-title="A star’s long middle age">
+<main class="book"><section class="stage">
+  <div class="sky"><div class="starfield"></div></div>
+  <div class="frame">
+
+    <section class="story">
+      <p class="eyebrow">Page 13 · Mystery twelve</p>
+      <h1>Mostly, nothing happens<small>And that is the good part</small></h1>
+      <p>A star spends almost its whole life in <strong>one steady stage</strong>, burning quietly
+        and hardly changing. For our Sun that stage lasts ten billion years.</p>
+      <p class="says dot" data-say="Slide along the Sun's whole life. The green part is the calm part, and we are right in the middle of it." data-who="Dot">
+        <b>Dot:</b> “Slide along the Sun’s whole life. The green part is the calm part — and we
+        are right in the middle of it.”</p>
+      <div class="actions">
+        <button class="pill primary" id="listen" data-say="The Sun is four and a half billion years old, and it has five billion years of calm still to go." data-who="Ari">▶ Listen</button>
+        <button class="pill" id="now">Go to today</button>
+      </div>
+    </section>
+
+    <section class="instrument">
+      <div class="rig" style="place-items:stretch">
+        <div style="display:grid;align-content:center;gap:.5rem;justify-items:center">
+          <svg id="rig" viewBox="0 0 340 170" preserveAspectRatio="xMidYMid meet"
+               role="img" aria-label="The Sun at one point in its life">
+            <defs><radialGradient id="sg"><stop id="s0" offset="0%" stop-color="#fffbe8"/>
+              <stop id="s1" offset="55%" stop-color="#ffd457"/>
+              <stop id="s2" offset="100%" stop-color="#ff9d2e"/></radialGradient></defs>
+            <circle id="sun" cx="170" cy="66" r="42" fill="url(#sg)"/>
+            <!-- the life strip -->
+            <rect class="era" x="14" y="128" width="6"   height="18" rx="3"/>
+            <rect class="era mainseq" x="20" y="128" width="252" height="18" rx="3"/>
+            <rect class="era" x="272" y="128" width="26" height="18" rx="3"/>
+            <rect class="era" x="298" y="128" width="28" height="18" rx="3"/>
+            <text class="nm" x="146" y="122" text-anchor="middle">calm middle age · 10 billion years</text>
+            <line id="hereLine" class="here" x1="120" y1="122" x2="120" y2="152"/>
+            <text class="nm" id="hereLbl" x="120" y="164" text-anchor="middle">you are here</text>
+            <text class="nm" x="16"  y="162">born</text>
+            <text class="nm" x="326" y="162" text-anchor="end">gone</text>
+          </svg>
+          <p class="stagebox" id="stage"></p>
+        </div>
+      </div>
+      <div class="controls-row">
+        <div class="slider">
+          <label><span>How old is the Sun?</span><b id="ageRead">4.6 billion years</b></label>
+          <input type="range" id="age" min="0" max="130" step="1" value="46"
+                 aria-label="The Sun's age in hundreds of millions of years">
+          <div class="scale-ends"><span>born</span><span>13 billion years old</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div class="status" aria-live="polite"></div>
+      <div class="badges">
+        <button class="badge" data-kind="inferred"
+          data-note="Nobody has watched one star grow old. We know the order because we can see millions of stars at once, all at different ages, and work out which comes after which."></button>
+      </div>
+    </div>
+
+  </div>
+</section></main>
+<!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+     First, before the app, because it is a document-level listener and must be in
+     place before the page starts handling taps. It stops the ZOOM of a second quick
+     tap and re-delivers that tap; a multi-finger pinch is never touched, so a child
+     who is zoomed in can always pinch back out. One copy at the book root serves this
+     page: every page here sits in the same directory. -->
+<script src="tap-zoom-guard.js"></script>
+<script src="app/starlight.js"></script>
+<script>
+(function () {
+  var S = window.Starlight;
+  // Ages in hundreds of millions of years, so the slider steps are honest.
+  var STAGES = [
+    { to: 1,   name: "Just lit",        note: "A brand new star settling down.",
+      r: 34, c: ["#fffbe8", "#ffe27a", "#ffb02e"] },
+    { to: 100, name: "Calm middle age", note: "Steady, bright and hardly changing. Life on Earth happens here.",
+      r: 42, c: ["#fffbe8", "#ffd457", "#ff9d2e"] },
+    { to: 112, name: "Swelling up",     note: "The calm is over. The Sun starts to grow and redden.",
+      r: 66, c: ["#fff0d0", "#ffa257", "#ef5b3c"] },
+    { to: 120, name: "A red giant",     note: "Huge, red and unsteady. The inner planets are in trouble.",
+      r: 92, c: ["#ffd9c0", "#ff7a52", "#c9351f"] },
+    { to: 131, name: "A white dwarf",   note: "The outer layers have gone. Only the hot little core is left.",
+      r: 12, c: ["#ffffff", "#eaf6ff", "#9fdcff"] }
+  ];
+
+  var age = document.getElementById("age"), read = document.getElementById("ageRead");
+  var sun = document.getElementById("sun"), box = document.getElementById("stage");
+  var line = document.getElementById("hereLine"), lbl = document.getElementById("hereLbl");
+  var lastName = "";
+
+  function render() {
+    var a = Number(age.value);
+    var st = STAGES.find(function (s) { return a < s.to; }) || STAGES[STAGES.length - 1];
+    read.textContent = (a / 10).toFixed(1) + " billion years";
+    sun.setAttribute("r", st.r);
+    ["s0", "s1", "s2"].forEach(function (id, i) {
+      document.getElementById(id).setAttribute("stop-color", st.c[i]);
+    });
+    var x = 14 + (a / 130) * 312;
+    line.setAttribute("x1", x); line.setAttribute("x2", x);
+    lbl.setAttribute("x", Math.max(34, Math.min(306, x)));
+    var isNow = Math.abs(a - 46) < 1;
+    lbl.textContent = isNow ? "you are here" : (a / 10).toFixed(1) + " bn";
+    box.innerHTML = st.name + "<span>" + st.note + "</span>";
+    if (st.name !== lastName) {
+      lastName = st.name;
+      S.sfx.tick();
+      S.say(st.name + ". " + st.note, "Dot");
+    }
+  }
+  age.addEventListener("input", render);
+  document.getElementById("now").addEventListener("click", function () {
+    age.value = 46; render(); S.sfx.good();
+    S.say("Today. Four and a half billion years old, and halfway through the calm part.", "Dot");
+  });
+  S.onReplay(function () { age.value = 46; lastName = ""; render(); });
+  render();
+})();
+</script>
+</body></html>

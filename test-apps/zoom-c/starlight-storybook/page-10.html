@@ -1,0 +1,174 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ari &amp; Dot · Page 10 — The stars are not really connected</title>
+<link rel="stylesheet" href="app/starlight.css">
+<style>
+.nm{font:800 9px Nunito,system-ui,sans-serif;fill:#cfe4ff;paint-order:stroke;
+  stroke:#04101f;stroke-width:3;stroke-linejoin:round;pointer-events:none}
+.wrongway{margin:.45rem 0 .1rem;padding:.45rem .6rem;border-radius:14px;background:#fdecec;
+  border:2px solid #f0b6b6;font-size:clamp(.66rem,.92vw,.98rem);line-height:1.32}
+.wrongway b{color:#a8342f}
+.angle{text-align:center;color:#ffe6a8;font-weight:900;
+  font-size:clamp(.6rem,.85vw,.9rem);min-height:1.2em}
+</style>
+</head>
+<body data-page="10" data-title="The stars are not really connected">
+<main class="book"><section class="stage">
+  <div class="sky"><div class="starfield"></div></div>
+  <div class="frame">
+
+    <section class="story">
+      <p class="eyebrow">Page 10 · Mystery nine</p>
+      <h1>They are not neighbours<small>The picture only works from here</small></h1>
+      <p>Those seven stars look like they belong together. They do not. Some are nearly
+        <strong>twice as far away</strong> as others — they only line up because of where we
+        happen to be standing.</p>
+      <p class="wrongway" data-say="A constellation is not a group of stars near each other. It is a chance line-up, seen from one place in the whole universe: ours." data-who="Dot">
+        <b>Careful!</b> A constellation is <b>not</b> a group of stars near each other.
+        It is a chance line-up, seen from <b>one place</b> in the whole universe. Ours.</p>
+      <div class="actions">
+        <button class="pill primary" id="listen" data-say="Step sideways in space, and the picture falls apart." data-who="Ari">▶ Listen</button>
+        <button class="pill" id="home">Back to Earth’s view</button>
+      </div>
+    </section>
+
+    <section class="instrument">
+      <div class="rig">
+        <svg id="rig" viewBox="0 0 340 210" preserveAspectRatio="xMidYMid meet"
+             role="img" aria-label="The same seven stars, seen from a moving viewpoint">
+          <g id="joins"></g>
+          <g id="stars"></g>
+        </svg>
+      </div>
+      <div class="controls-row">
+        <div class="slider">
+          <label><span>Walk sideways in space</span><b id="aRead">Earth’s view</b></label>
+          <input type="range" id="ang" min="0" max="80" step="0.5" value="0"
+                 aria-label="Move your viewpoint sideways">
+          <div class="scale-ends"><span>Standing on Earth</span><span>A long way to the side</span></div>
+        </div>
+      </div>
+      <p class="angle" id="angle"></p>
+    </section>
+
+    <div class="footer">
+      <div class="status" aria-live="polite"></div>
+      <div class="badges">
+        <button class="badge" data-kind="measured"
+          data-note="Every distance on this page is a real measurement. Megrez is 58 light-years away and Dubhe is 123 — more than twice as far — yet they sit side by side in the picture."></button>
+        <button class="badge" data-kind="model"
+          data-note="Nobody has ever gone sideways and taken this photograph. The sideways views are worked out from the measured distances."></button>
+      </div>
+    </div>
+
+  </div>
+</section></main>
+<!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+     First, before the app, because it is a document-level listener and must be in
+     place before the page starts handling taps. It stops the ZOOM of a second quick
+     tap and re-delivers that tap; a multi-finger pinch is never touched, so a child
+     who is zoomed in can always pinch back out. One copy at the book root serves this
+     page: every page here sits in the same directory. -->
+<script src="tap-zoom-guard.js"></script>
+<script src="app/starlight.js"></script>
+<script>
+(function () {
+  var S = window.Starlight;
+  // Sky positions as on Page 9; distances in light-years, all real.
+  var STARS = [
+    { n: "Alkaid", x: 52,  y: 46,  d: 103.9 },
+    { n: "Mizar",  x: 96,  y: 66,  d: 82.9 },
+    { n: "Alioth", x: 140, y: 82,  d: 82.6 },
+    { n: "Megrez", x: 184, y: 96,  d: 58.4 },
+    { n: "Phecda", x: 196, y: 148, d: 83.2 },
+    { n: "Merak",  x: 262, y: 148, d: 79.7 },
+    { n: "Dubhe",  x: 252, y: 84,  d: 123.0 }
+  ];
+  var LINKS = [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,3]];
+  var CX = 170, CY = 105;
+  var Z0 = STARS.reduce(function (a, s) { return a + s.d; }, 0) / STARS.length;
+
+  var gS = document.getElementById("stars"), gJ = document.getElementById("joins");
+  var ang = document.getElementById("ang"), aRead = document.getElementById("aRead");
+  var angle = document.getElementById("angle");
+
+  // Build each star's real position in space from where it appears in the sky
+  // and how far away it is, then look at that from somewhere else.
+  function project(th) {
+    var c = Math.cos(th), s = Math.sin(th);
+    return STARS.map(function (st) {
+      var X = (st.x - CX) * st.d, Y = (st.y - CY) * st.d, Z = st.d;
+      var dz = Z - Z0;
+      var X2 = X * c + dz * s * 260;          // 260: how far sideways one radian carries us
+      var Z2 = (-X / 260) * s + dz * c + Z0;
+      if (Z2 < 6) Z2 = 6;
+      return { x: CX + X2 / Z2, y: CY + Y / Z2, d: st.d, n: st.n, z: Z2 };
+    });
+  }
+
+  LINKS.forEach(function () {
+    var l = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    l.setAttribute("stroke", "#8eeaff"); l.setAttribute("stroke-width", "2.2");
+    l.setAttribute("stroke-linecap", "round"); l.setAttribute("opacity", ".8");
+    gJ.appendChild(l);
+  });
+  STARS.forEach(function (st) {
+    var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    g.innerHTML = '<circle class="core" r="4.2" fill="#fff"/>' +
+      '<text class="nm" text-anchor="middle" dy="17"></text>';
+    gS.appendChild(g);
+  });
+
+  // Swinging round throws the far stars off the edge of the picture. Rather than
+  // stopping the swing short -- the scramble is the whole lesson -- the view
+  // backs off to keep every star, and its name, inside the frame.
+  function fit(p) {
+    var mx = 1;
+    p.forEach(function (q) {
+      mx = Math.max(mx, Math.abs(q.x - CX) / 148, Math.abs(q.y - CY) / 84);
+    });
+    if (mx <= 1) return p;
+    return p.map(function (q) {
+      return { x: CX + (q.x - CX) / mx, y: CY + (q.y - CY) / mx, d: q.d, n: q.n, z: q.z };
+    });
+  }
+
+  function render() {
+    var deg = Number(ang.value);
+    var p = fit(project(deg * Math.PI / 180));
+    LINKS.forEach(function (L, i) {
+      var l = gJ.children[i];
+      l.setAttribute("x1", p[L[0]].x); l.setAttribute("y1", p[L[0]].y);
+      l.setAttribute("x2", p[L[1]].x); l.setAttribute("y2", p[L[1]].y);
+    });
+    p.forEach(function (q, i) {
+      var g = gS.children[i];
+      g.setAttribute("transform", "translate(" + q.x.toFixed(1) + "," + q.y.toFixed(1) + ")");
+      // nearer stars are drawn a touch bigger, so the depth reads
+      g.querySelector("circle").setAttribute("r", (3.1 + 190 / q.z).toFixed(2));
+      g.querySelector("text").textContent = q.n + " · " + q.d + " ly";
+    });
+    aRead.textContent = deg < 0.5 ? "Earth’s view" : deg.toFixed(0) + "° to the side";
+    if (deg < 0.5) angle.textContent = "From Earth, the shape is perfect.";
+    else if (deg < 25) angle.textContent = "Already bending…";
+    else angle.textContent = "Nothing moved. You did.";
+  }
+
+  var told = false;
+  ang.addEventListener("input", function () {
+    render();
+    if (!told && Number(ang.value) > 30) {
+      told = true; S.sfx.sweep();
+      S.say("Not one star has moved. You moved. From out here nobody would ever call this a plough.", "Dot");
+    }
+  });
+  document.getElementById("home").addEventListener("click", function () {
+    ang.value = 0; render(); S.sfx.good();
+    S.say("Back to Earth. The only place in the universe where those seven stars make that shape.", "Dot");
+  });
+
+  S.onReplay(function () { ang.value = 0; told = false; render(); });
+  render();
+})();
+</script>
+</body></html>

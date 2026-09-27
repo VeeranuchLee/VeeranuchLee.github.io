@@ -1,0 +1,175 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ari &amp; Dot · Page 19 — Billions of stars make a galaxy</title>
+<link rel="stylesheet" href="app/starlight.css">
+<style>
+.nm{font:800 9.5px Nunito,system-ui,sans-serif;fill:#cfe4ff;paint-order:stroke;
+  stroke:#04101f;stroke-width:3;stroke-linejoin:round}
+.stop{opacity:0;transition:opacity .7s;pointer-events:none}
+.stop.on{opacity:1}
+.count{text-align:center;color:#fff;font-weight:900;font-variant-numeric:tabular-nums;
+  font-size:clamp(.95rem,2.1vw,1.85rem);line-height:1.08}
+.count small{display:block;color:#9fc0e2;font-size:clamp(.55rem,.78vw,.82rem);font-weight:800}
+.here{stroke:#ffd457;stroke-width:2;fill:none}
+</style>
+</head>
+<body data-page="19" data-title="Billions of stars make a galaxy">
+<main class="book"><section class="stage">
+  <div class="sky"><div class="starfield"></div></div>
+  <div class="frame">
+
+    <section class="story">
+      <p class="eyebrow">Page 19 · Mystery eighteen</p>
+      <h1>Stars live in crowds<small>And ours lives in the Milky Way</small></h1>
+      <p>Keep backing away. One star becomes a handful of neighbours, then a whole
+        neighbourhood, then something so big it has a shape.</p>
+      <p class="says" data-say="Dot, this is where the first book stopped. We came back to it from the other side." data-who="Ari">
+        <b>Ari:</b> “Dot — this is where our <em>first</em> book stopped. We came back to it from
+        the other side.”</p>
+      <div class="actions">
+        <button class="pill primary" id="listen" data-say="Every one of those specks is a sun. Most of them have planets. We have only just started." data-who="Dot">▶ Listen</button>
+      </div>
+    </section>
+
+    <section class="instrument">
+      <div class="rig" style="place-items:stretch">
+        <div style="display:grid;align-content:center;gap:.4rem">
+          <svg id="rig" viewBox="0 0 340 170" preserveAspectRatio="xMidYMid meet"
+               role="img" aria-label="Zooming out from the Sun to the whole galaxy">
+            <defs><radialGradient id="sunZ"><stop offset="0%" stop-color="#fffbe8"/>
+              <stop offset="55%" stop-color="#ffd457"/><stop offset="100%" stop-color="#ff9d2e"/></radialGradient>
+              <radialGradient id="core"><stop offset="0%" stop-color="#fff3cf" stop-opacity=".95"/>
+              <stop offset="100%" stop-color="#ffb347" stop-opacity="0"/></radialGradient></defs>
+            <g class="stop on" id="s0">
+              <circle cx="170" cy="82" r="46" fill="url(#sunZ)"/>
+              <text class="nm" x="170" y="150" text-anchor="middle">our Sun</text>
+            </g>
+            <g class="stop" id="s1"></g>
+            <g class="stop" id="s2"></g>
+            <g class="stop" id="s3"></g>
+          </svg>
+          <p class="count" id="count">1<small>star in view · our own</small></p>
+        </div>
+      </div>
+      <div class="controls-row">
+        <button class="tool" id="in">＋ Closer</button>
+        <button class="tool" id="out" style="min-width:150px">− Back away</button>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div class="status" aria-live="polite"></div>
+      <div class="badges">
+        <button class="badge" data-kind="measured"
+          data-note="A spacecraft called Gaia measured the positions and distances of nearly two billion stars, which is how we know the shape of our own neighbourhood."></button>
+        <button class="badge" data-kind="model"
+          data-note="Nobody has ever photographed the Milky Way from outside it. We are inside it. Its shape was worked out from the inside, like mapping a forest from one tree."></button>
+      </div>
+    </div>
+
+  </div>
+</section></main>
+<!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+     First, before the app, because it is a document-level listener and must be in
+     place before the page starts handling taps. It stops the ZOOM of a second quick
+     tap and re-delivers that tap; a multi-finger pinch is never touched, so a child
+     who is zoomed in can always pinch back out. One copy at the book root serves this
+     page: every page here sits in the same directory. -->
+<script src="tap-zoom-guard.js"></script>
+<script src="app/starlight.js"></script>
+<script>
+(function () {
+  var S = window.Starlight;
+  function rnd(seed) { var s = seed; return function () { s = (s * 16807) % 2147483647; return s / 2147483647; }; }
+
+  // Stop 2 — the nearest stars, with their real distances in light-years.
+  (function neighbours() {
+    var g = document.getElementById("s1");
+    var N = [
+      { n: "Proxima", d: 4.2,  x: 118, y: 58,  c: "#ff7a52", r: 3 },
+      { n: "α Centauri", d: 4.4, x: 104, y: 74, c: "#ffd457", r: 4.4 },
+      { n: "Barnard’s Star", d: 6.0, x: 236, y: 44, c: "#ff8f5e", r: 3 },
+      { n: "Wolf 359",  d: 7.9,  x: 254, y: 116, c: "#ff6f4d", r: 2.6 },
+      { n: "Lalande 21185", d: 8.3, x: 74, y: 122, c: "#ff9d6b", r: 3 },
+      { n: "Sirius",    d: 8.6,  x: 216, y: 138, c: "#dff2ff", r: 5.4 },
+      { n: "Luyten 726-8", d: 8.7, x: 292, y: 78, c: "#ff7a52", r: 2.4 },
+      { n: "Ross 154",  d: 9.7,  x: 52,  y: 52,  c: "#ff8f5e", r: 2.6 }
+    ];
+    g.innerHTML = '<circle cx="170" cy="86" r="6" fill="url(#sunZ)"/>' +
+      '<circle class="here" cx="170" cy="86" r="13"/>' +
+      '<text class="nm" x="170" y="112" text-anchor="middle">our Sun</text>';
+    N.forEach(function (s) {
+      g.innerHTML += '<circle cx="' + s.x + '" cy="' + s.y + '" r="' + s.r + '" fill="' + s.c + '"/>' +
+        '<text class="nm" x="' + s.x + '" y="' + (s.y - s.r - 5) + '" text-anchor="middle">' +
+        s.n + ' · ' + s.d + ' ly</text>';
+    });
+  })();
+
+  // Stop 3 — a patch of the local arm.
+  (function patch() {
+    var g = document.getElementById("s2"), r = rnd(7);
+    var out = "";
+    for (var i = 0; i < 520; i++) {
+      var x = 8 + r() * 324, y = 8 + r() * 154;
+      var rad = 0.5 + r() * 1.5;
+      var c = ["#fff", "#cfe4ff", "#ffd9b8", "#ffe9c0", "#bcd8ff"][Math.floor(r() * 5)];
+      out += '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + rad.toFixed(2) +
+             '" fill="' + c + '" opacity="' + (0.4 + r() * 0.6).toFixed(2) + '"/>';
+    }
+    g.innerHTML = out + '<circle cx="170" cy="86" r="2.4" fill="#ffd457"/>' +
+      '<circle class="here" cx="170" cy="86" r="11"/>' +
+      '<text class="nm" x="170" y="112" text-anchor="middle">our Sun is in here</text>';
+  })();
+
+  // Stop 4 — the Milky Way, four arms wound out of many small points.
+  (function galaxy() {
+    var g = document.getElementById("s3"), r = rnd(19);
+    var out = '<ellipse cx="170" cy="86" rx="60" ry="26" fill="url(#core)"/>';
+    for (var arm = 0; arm < 4; arm++) {
+      var off = arm * Math.PI / 2;
+      for (var i = 0; i < 340; i++) {
+        var t = 0.28 + (i / 340) * 2.5;
+        var a = off + t * 2.1 + (r() - 0.5) * 0.32;
+        var rad = t * 52 + (r() - 0.5) * 15;
+        var x = 170 + Math.cos(a) * rad, y = 86 + Math.sin(a) * rad * 0.42;
+        if (x < 4 || x > 336 || y < 4 || y > 166) continue;
+        out += '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' +
+          (0.5 + r() * 1.2).toFixed(2) + '" fill="' +
+          ["#fff", "#cfe4ff", "#ffe9c0", "#a9d8ff"][Math.floor(r() * 4)] +
+          '" opacity="' + (0.35 + r() * 0.55).toFixed(2) + '"/>';
+      }
+    }
+    g.innerHTML = out +
+      '<circle cx="244" cy="112" r="2.6" fill="#ffd457"/>' +
+      '<circle class="here" cx="244" cy="112" r="12"/>' +
+      '<text class="nm" x="244" y="136" text-anchor="middle">we are here</text>';
+  })();
+
+  var STOPS = [
+    { n: "1", note: "star in view · our own",
+      say: "One star. Ours." },
+    { n: "12", note: "stars within 10 light-years",
+      say: "Back away ten light-years and we have twelve stars, counting our own." },
+    { n: "250,000", note: "stars within 250 light-years",
+      say: "Two hundred and fifty light-years out, and there are a quarter of a million suns around us." },
+    { n: "a few hundred billion", note: "stars in the Milky Way · we are on one arm",
+      say: "And this is all of it. A few hundred billion stars, wound into arms, and our Sun is one speck out on the edge of one of them." }
+  ];
+
+  var at = 0, count = document.getElementById("count");
+  function show(i) {
+    at = Math.max(0, Math.min(3, i));
+    for (var k = 0; k < 4; k++) document.getElementById("s" + k).classList.toggle("on", k === at);
+    count.innerHTML = STOPS[at].n + "<small>" + STOPS[at].note + "</small>";
+    document.getElementById("in").disabled = at === 0;
+    document.getElementById("out").disabled = at === 3;
+    S.say(STOPS[at].say, "Dot");
+    if (at === 3) S.sfx.good(); else S.sfx.sweep();
+  }
+  document.getElementById("out").addEventListener("click", function () { show(at + 1); });
+  document.getElementById("in").addEventListener("click", function () { show(at - 1); });
+  S.onReplay(function () { show(0); });
+  document.getElementById("in").disabled = true;
+})();
+</script>
+</body></html>

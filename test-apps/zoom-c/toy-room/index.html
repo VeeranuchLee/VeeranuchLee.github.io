@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#FAF6ED" />
+    <meta name="description" content="Toy Box — a shelf of gentle learning toys. Pick a toy and play." />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Toy Box" />
+    <title>Toy Box</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./assets/icons/icon-192.png" />
+    <link rel="stylesheet" href="./fonts.css" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <!-- The shelf. One screen, no toy runtime: every tappable card is a plain
+         link to that toy's own standalone app (see shelf.js). Adding a toy is
+         adding a shelf entry plus an app folder — nothing here changes. -->
+    <main id="room" class="screen">
+      <!-- Owner, 2026-08-26: "add back button to test hub for the test apps too." The
+           shelf is carded on the Test Hub without one, and it is the worst place for the
+           gap: Pattern Blocks and Pattern Pegs both send a child HERE when they finish, so
+           the whole toy branch dead-ends on this screen. Same chevron the toys use for
+           their own way back, so it is one arrow the child learns once. Absolute URL on
+           purpose: published, /toy-room/ and /test-apps/ are siblings, but in the repo the
+           hub lives under site/, so a relative link would work live and 404 in every local
+           preview. Carries `hub-btn` so the promotion check greps a class and not a URL —
+           a card has moved hubs without its arrow before. -->
+      <a id="hub-back" class="hub-btn" href="https://veeranuchlee.github.io/test-apps/" aria-label="Back to Test Apps">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <header class="room-head">
+        <h1>Toy Box</h1>
+        <p class="room-sub">Pick a toy and play</p>
+      </header>
+      <nav id="room-grid" class="room-grid" aria-label="Toys"></nav>
+    </main>
+
+    <!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+         First, before the shelf scripts, because it is a document-level listener and must
+         be in place before the page starts handling taps. It stops the ZOOM of a second
+         quick tap -- and a shelf is picked by tapping a card, which a child often does
+         twice -- and re-delivers that tap; a multi-finger pinch is never touched, so a
+         child who is zoomed in can always pinch back out. It is NOT a gesturestart handler
+         and must never become one: a document-level pinch blocker is the banned pattern
+         in INTERACTION-DIRECTION.md. -->
+    <script src="./tap-zoom-guard.js"></script>
+    <script src="./shelf.js"></script>
+    <script src="./app.js"></script>
+    <script>
+      /* Offline support. Best-effort on purpose (time-book pattern): straight
+         off the filesystem a worker will not register, and the shelf must
+         still work. */
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          Promise.resolve() /* Test Hub staging: no service worker */.catch(function () {});
+        });
+      }
+    </script>
+  </body>
+</html>
