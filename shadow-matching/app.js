@@ -44,6 +44,7 @@ var SIGS = null;               /* silhouette signatures, for Memory's fairness r
 var MEM_MIN_DISTANCE = 0.15;   /* see the note above memChoosePairs */
 var $ = function (s, r) { return (r || document).querySelector(s); };
 var MIRROR = null;             /* measured mirror eligibility, for Mirror Match -- see below */
+var TRICKY = null;             /* the lookalike families, for Tricky only -- see lookalikeGroups() */
 
 /* Regular | Tricky, kept the same way the speaker setting is: a plain localStorage read/write,
    each wrapped so blocked storage degrades to "this visit only" rather than a broken app.
@@ -190,11 +191,12 @@ function home() {
     /* A set with no mirror-eligible object has nothing to ask in Mirror Match. None does
        today (the fewest is three), but a set card that opens nothing would be a dead tap. */
     if (!done) return '';
-    return '<button class="setcard" data-set="' + g.id + '">' +
-      '<img class="setart" src="' + ART + g.items[0].id + '/shadow.webp" alt="" aria-hidden="true">' +
-      '<strong>' + g.title + '</strong>' +
-      '<small>' + done + ' to find</small></button>';
+    return setCard(g, done);
   }).join('');
+  /* The lookalike families belong to Tricky alone, so their card is shown only there --
+     first, because they are what Tricky is now for. Regular, Board, Memory and Mirror never
+     see them. */
+  if (trickyFind()) cards = lookalikeGroups().map(function (g) { return setCard(g, g.items.length); }).join('') + cards;
   screen(
     '<header class="topline"><a class="hub" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games">&larr; All games</a>' +
     soundButton() + '</header>' +
@@ -227,6 +229,51 @@ function home() {
   Array.prototype.forEach.call(document.querySelectorAll('.level'), function (b) {
     b.onclick = function () { state.level = b.dataset.level; saveLevel(state.level); home(); };
   });
+}
+
+function setCard(g, n) {
+  return '<button class="setcard" data-set="' + g.id + '">' +
+    '<img class="setart" src="' + artOf(g.items[0]) + g.items[0].id + '/shadow.webp" alt="" aria-hidden="true">' +
+    '<strong>' + g.title + '</strong>' +
+    '<small>' + n + ' to find</small></button>';
+}
+
+/* Where an object's pictures live: the hundred under ART, the lookalikes under their own. */
+function artOf(it) { return (it && it.art) || ART; }
+
+function trickyFind() { return state.mode === 'find' && state.level === 'tricky' && !!TRICKY; }
+
+/* THE LOOKALIKE FAMILIES (TRICKY-SET-PLAN.md, owner 2026-09-24: "for tricky, i think we need
+   to make new set of images"). The hundred were drawn to be DIFFERENT, so no ranking of them
+   makes a hard question: only 24 of 300 nearest-three distractors are truly confusable. A
+   family is four familiar things drawn in one body, one view, one pose, differing only in one
+   small part of the outline -- teapot, kettle, watering can, jug. Each is asked with its OWN
+   three siblings as the distractors, so naming the picture no longer answers it: the child has
+   to find the spout or the handle. Still four choices. The file is optional: without it the
+   card is simply not offered. */
+function lookalikeGroups() {
+  if (!TRICKY || !TRICKY.families) return [];
+  var fam = {};
+  TRICKY.families.forEach(function (f) { fam[f.id] = f; });
+  /* Families are dealt as cards of two (eight questions, like the pilot), so a round stays
+     short; a file without "cards" gets one card holding every family. */
+  var cards = TRICKY.cards || [{ id: 'lookalikes', title: TRICKY.title || 'Lookalikes',
+                                 families: TRICKY.families.map(function (f) { return f.id; }) }];
+  return cards.map(function (c) {
+    var items = [];
+    c.families.forEach(function (id) {
+      if (!fam[id]) return;
+      fam[id].items.forEach(function (it) {
+        items.push({ id: it.id, label: it.label, status: 'complete', family: id,
+                     art: 'assets-runtime/tricky/' });
+      });
+    });
+    return { id: c.id, title: c.title, items: items };
+  }).filter(function (g) { return g.items.length; });
+}
+
+function siblings(answer, pool) {
+  return pool.filter(function (it) { return it.family === answer.family && it.id !== answer.id; });
 }
 
 /* TRICKY: the same four choices, harder ones. Regular asks "which object is this?"; Tricky
@@ -284,7 +331,7 @@ function mirrorChoices(answer, pool) {
 }
 
 function startSet(id) {
-  var g = roster.groups.filter(function (x) { return x.id === id; })[0];
+  var g = lookalikeGroups().concat(roster.groups).filter(function (x) { return x.id === id; })[0];
   state.set = g;
   state.queue = shuffle(playable(g).slice());
   state.i = 0; state.done = 0; state.pairs = 0; state.pick = null;
@@ -306,8 +353,9 @@ function ask() {
   if (mirror) {
     choices = mirrorChoices(answer, pool);
   } else {
-    var others = state.level === 'tricky' ? nearestOthers(answer, pool, 3) : shuffle(pool).slice(0, 3);
-    choices = shuffle([answer].concat(others)).map(function (it) { return { id: it.id, flip: false }; });
+    var others = answer.family ? siblings(answer, pool)
+      : state.level === 'tricky' ? nearestOthers(answer, pool, 3) : shuffle(pool).slice(0, 3);
+    choices = shuffle([answer].concat(others)).map(function (it) { return { id: it.id, flip: false, art: artOf(it) }; });
   }
 
   screen(
@@ -317,11 +365,11 @@ function ask() {
       return '<i class="' + (n < state.i ? 'on' : n === state.i ? 'now' : '') + '"></i>';
     }).join('') + '</span>' + soundButton() + '</header>' +
     '<section class="stage">' +
-      '<div class="subject"><img src="' + ART + answer.id + '/picture.webp" alt="' + answer.label + '"></div>' +
+      '<div class="subject"><img src="' + artOf(answer) + answer.id + '/picture.webp" alt="' + answer.label + '"></div>' +
       '<p class="askline" id="askline">' + LINES[mirror ? 'mirrorAsk' : 'findAsk'] + '</p>' +
       '<div class="choices">' + choices.map(function (c) {
         return '<button class="choice" data-id="' + c.id + '" data-flip="' + (c.flip ? 1 : 0) + '" aria-label="shadow choice">' +
-          '<img src="' + ART + c.id + '/shadow.webp" alt=""' + (c.flip ? ' class="mirrored"' : '') + '></button>';
+          '<img src="' + (c.art || ART) + c.id + '/shadow.webp" alt=""' + (c.flip ? ' class="mirrored"' : '') + '></button>';
       }).join('') + '</div>' +
     '</section>');
 
@@ -503,6 +551,98 @@ function boardDone() {
  */
 
 var MEM_PAIRS = 6;             /* 12 cards, 4x3 on the iPad in portrait */
+var MEM_HISTORY_PREFIX = 'shadow-matching-memory-history-v1:';
+var MEM_LAYOUT = '4x3';
+
+function memHistoryKey() {
+  return MEM_HISTORY_PREFIX + MEM_PAIRS + '-pairs-' + MEM_LAYOUT;
+}
+
+function memLoadHistory() {
+  try {
+    var saved = JSON.parse(window.localStorage.getItem(memHistoryKey()) || '[]');
+    if (!Array.isArray(saved)) return [];
+    return saved.filter(function (n) { return typeof n === 'number' && isFinite(n) && n >= 0; }).slice(0, 3);
+  } catch (e) { return []; }
+}
+
+function memSaveTime(seconds) {
+  var history = [seconds].concat(memLoadHistory()).slice(0, 3);
+  try { window.localStorage.setItem(memHistoryKey(), JSON.stringify(history)); return history; }
+  catch (e) { return []; } /* blocked storage: keep the game working and show placeholders */
+}
+
+function memFormatTime(seconds) {
+  seconds = Math.max(0, Math.floor(seconds));
+  var minutes = Math.floor(seconds / 60);
+  var remainder = String(seconds % 60);
+  return (minutes < 10 ? '0' : '') + minutes + ':' + (remainder.length < 2 ? '0' : '') + remainder;
+}
+
+function memElapsedSeconds() {
+  var timer = state.mem && state.mem.timer;
+  if (!timer || timer.startedAt === null) return null;
+  var elapsed = timer.elapsedMs + (timer.running ? Date.now() - timer.startedAt : 0);
+  return Math.floor(Math.max(0, elapsed) / 1000);
+}
+
+function memTimerTick() {
+  var value = $('#memory-time');
+  var seconds = memElapsedSeconds();
+  if (value && seconds !== null) value.textContent = memFormatTime(seconds);
+}
+
+function memTimerStart() {
+  var timer = state.mem && state.mem.timer;
+  if (!timer || timer.startedAt !== null) return;
+  timer.startedAt = Date.now(); timer.running = true;
+  timer.interval = setInterval(memTimerTick, 250);
+  memTimerTick();
+}
+
+function memTimerPause() {
+  var timer = state.mem && state.mem.timer;
+  if (!timer || !timer.running) return;
+  timer.elapsedMs += Math.max(0, Date.now() - timer.startedAt);
+  timer.running = false;
+  if (timer.interval !== null) clearInterval(timer.interval);
+  timer.interval = null;
+}
+
+function memTimerResume() {
+  var timer = state.mem && state.mem.timer;
+  if (!timer || timer.startedAt === null || timer.running || timer.completed) return;
+  timer.startedAt = Date.now(); timer.running = true;
+  timer.interval = setInterval(memTimerTick, 250);
+}
+
+function memTimerAbandon() {
+  var timer = state.mem && state.mem.timer;
+  if (timer && timer.interval !== null) clearInterval(timer.interval);
+  if (timer) { timer.interval = null; timer.running = false; }
+}
+
+function memTimerComplete() {
+  var timer = state.mem.timer;
+  if (timer.completed) return;
+  memTimerPause();
+  timer.completed = true;
+  timer.seconds = memElapsedSeconds();
+  timer.history = memSaveTime(timer.seconds);
+  memTimerTick();
+}
+
+function memTimerPanel(timer) {
+  var seconds = timer && timer.startedAt !== null ? memElapsedSeconds() : null;
+  var history = timer && timer.history ? timer.history : memLoadHistory();
+  var rows = [];
+  for (var i = 0; i < 3; i++) {
+    rows.push('<li>' + (history[i] === undefined ? '<span aria-hidden="true">—</span><span class="sr-only">No recent time</span>' : memFormatTime(history[i])) + '</li>');
+  }
+  return '<aside class="memory-timer" aria-label="Elapsed time and recent completed games">' +
+    '<h2>Time</h2><output id="memory-time" aria-live="off">' + (seconds === null ? '--:--' : memFormatTime(seconds)) + '</output>' +
+    '<h2>Recent</h2><ol>' + rows.join('') + '</ol></aside>';
+}
 
 function sigDistance(a, b) {
   var x = SIGS[a], y = SIGS[b];
@@ -549,10 +689,13 @@ function memDeal(pairs) {
 }
 
 function memory() {
+  memTimerAbandon();
   var pool = state.set.items.filter(function (it) { return it.status === 'complete'; });
   var pairs = memChoosePairs(pool, MEM_PAIRS);
   state.mem = { cards: memDeal(pairs), faceUp: [], solved: {}, resolving: false, turns: 0,
-                solvedCount: 0, total: pairs.length };
+                solvedCount: 0, total: pairs.length,
+                timer: { startedAt: null, elapsedMs: 0, running: false, interval: null,
+                         completed: false, seconds: null, history: memLoadHistory() } };
   renderMemory();
 }
 
@@ -562,11 +705,11 @@ function renderMemory() {
     '<header class="topline"><button class="hub" id="back">&larr; Sets</button>' +
     '<span class="tally" id="tally">' + m.solvedCount + ' of ' + m.total + ' found</span>' + soundButton() + '</header>' +
     '<p class="askline" id="askline">' + LINES.memAsk + '</p>' +
-    '<section class="deck">' + m.cards.map(function (c) {
+    '<div class="memory-layout"><section class="deck">' + m.cards.map(function (c) {
       return '<button class="card" data-card="' + c.cardId + '" aria-label="face-down card"></button>';
-    }).join('') + '</section>');
+    }).join('') + '</section>' + memTimerPanel(m.timer) + '</div>');
   wireSoundButton();
-  $('#back').onclick = home;
+  $('#back').onclick = function () { memTimerAbandon(); home(); };
   Array.prototype.forEach.call(document.querySelectorAll('.card'), function (b) {
     b.onclick = function () { memFlip(b.dataset.card); };
   });
@@ -595,6 +738,7 @@ function memFlip(cardId) {
   if (m.solved[c.pairId]) return;
   if (m.faceUp.indexOf(cardId) >= 0) return;         /* already up */
 
+  memTimerStart();
   m.faceUp.push(cardId);
   paintCard(c);
   if (m.faceUp.length < 2) {
@@ -614,7 +758,7 @@ function memFlip(cardId) {
     $('#tally').textContent = m.solvedCount + ' of ' + m.total + ' found';
     say(m.solvedCount === m.total ? 'memAll' : 'memPair');
     sfx('correct');
-    if (m.solvedCount === m.total) later(memDone, 900);
+    if (m.solvedCount === m.total) { memTimerComplete(); later(memDone, 900); }
     return;
   }
 
@@ -645,10 +789,10 @@ function memResolve() {
 function memDone() {
   screen(
     '<header class="topline"><button class="hub" id="back">&larr; Sets</button>' + soundButton() + '</header>' +
-    '<section class="done"><h2>' + LINES.memDone + '</h2>' +
+    '<div class="memory-finish"><section class="done"><h2>' + LINES.memDone + '</h2>' +
     '<p>' + state.mem.total + ' pictures and their shadows, in ' + state.mem.turns + ' turns.</p>' +
     '<div class="actions"><button class="primary" id="again">New cards</button>' +
-    '<button class="secondary" id="pick">Choose another set</button></div></section>');
+    '<button class="secondary" id="pick">Choose another set</button></div></section>' + memTimerPanel(state.mem.timer) + '</div>');
   wireSoundButton();
   sfx('complete');
   $('#back').onclick = home;
@@ -656,6 +800,12 @@ function memDone() {
   $('#again').onclick = function () { memory(); };
   $('#pick').onclick = home;
 }
+
+document.addEventListener('visibilitychange', function () {
+  if (!state.mem || !state.mem.timer || state.mem.timer.completed) return;
+  if (document.hidden) memTimerPause();
+  else memTimerResume();
+});
 
 function finished() {
   screen(
@@ -681,10 +831,14 @@ Promise.all([
   /* Mirror eligibility is only needed by Mirror Match. Without it the mode is simply not
      offered -- never offered with a guess about which shapes are symmetric. */
   fetch('assets-runtime/mirror-eligibility.json').then(function (r) { return r.json(); })
+    .catch(function () { return null; }),
+  /* The lookalike families are only needed by Tricky. Without them Tricky is what it was. */
+  fetch('tricky-families.json').then(function (r) { return r.json(); })
     .catch(function () { return null; })
 ]).then(function (res) {
   roster = res[0]; SIGS = res[1].signatures || {};
   MIRROR = res[2] && res[2].objects ? res[2].objects : null;
+  TRICKY = res[3] && res[3].families ? res[3] : null;
   home();
 }).catch(function () {
   document.getElementById('app').textContent = 'Could not load the shapes.';
