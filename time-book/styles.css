@@ -52,7 +52,13 @@ h1, h2 { font-family: 'Fredoka One', 'Nunito', sans-serif; font-weight: 400; lin
  * The clock
  * ------------------------------------------------------------------ */
 
-.clock { width: 100%; height: auto; display: block; touch-action: none; }
+/* pinch-zoom, not `none` (2026-09-26, method C). The hands are a real drag surface --
+   clock.js captures the pointer and preventDefaults, and `none` is what stopped a drag
+   turning into a page scroll -- and `pinch-zoom` suppresses panning just as well. What it
+   gives back is the pinch: a child who double-tap zoomed over a full-width clock could
+   otherwise not pinch out again. Whatever gets a child in must get them out
+   (INTERACTION-DIRECTION.md). */
+.clock { width: 100%; height: auto; display: block; touch-action: pinch-zoom; }
 
 .clock-rim  { fill: #e6dcc4; }
 .clock-dial { fill: var(--dial); }
@@ -926,14 +932,19 @@ body.no-voice .voice-button { opacity: .65; }
  *                          half, and it was missing from every app but one.
  * touch-action: manipulation  removes double-tap-to-zoom WITHOUT killing scroll.
  *                          Deliberately not `none`: that would stop scrolling.
- *                          Drawing surfaces set their own `touch-action: none`
- *                          and keep it -- a more specific rule still wins.
+ *                          Drag surfaces set their own `touch-action: pinch-zoom`
+ *                          and keep it -- a more specific rule still wins, and
+ *                          pinch-zoom still lets a two-finger pinch through.
  *
- * Pinch needs JavaScript, not CSS: iOS Safari has ignored user-scalable=no since
- * iOS 10, so the viewport meta does nothing. See the gesturestart guard in the
- * HTML.
+ * manipulation is not the whole answer on its own. iPadOS Safari still
+ * double-tap zooms with `manipulation` on html and body (owner, 2026-09-25: "kids
+ * sometimes double tap, and on ipad it's zoom in, then they cant zoom out"). The
+ * second half of the fix is ./tap-zoom-guard.js, loaded first in index.html. It is
+ * NOT a gesturestart handler and must never become one: a document-level pinch
+ * blocker is the banned pattern in INTERACTION-DIRECTION.md, diagnosed in
+ * dollhouse-app on 2026-09-07 and re-entered across 17 apps on 2026-09-18.
  */
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; touch-action: manipulation; }
 
 body {
   -webkit-user-select: none;

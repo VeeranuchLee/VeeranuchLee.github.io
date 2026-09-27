@@ -52,7 +52,14 @@
  *                   precached -- see the header above.
  */
 
-const CACHE_NAME = "time-book-v8";
+// v9 2026-09-22: zoom-trap fix -- the global gesturestart pinch blocker is
+//        gone estate-wide (INTERACTION-DIRECTION.md); this bump carries it.
+// v10 2026-09-26: zoom fix C (method C, owner-approved 2026-09-25) -- the shared
+//        ./tap-zoom-guard.js stops the second quick tap's zoom and re-delivers the
+//        tap, while a multi-finger pinch is never touched. It has to be IN this
+//        list, not merely fetched at runtime: a shell list is only read when
+//        CACHE_NAME changes, so an offline install without it would have no guard.
+const CACHE_NAME = "time-book-v10";
 
 const SHELL = [
   "./",
@@ -60,6 +67,7 @@ const SHELL = [
   "./manifest.webmanifest",
   "./styles.css",
   "./fonts.css",
+  "./tap-zoom-guard.js",
   "./clock.js",
   "./worldclock.js",
   "./elapsed.js",

@@ -18,6 +18,13 @@
   <body>
     <main id="screen"></main>
 
+    <!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+         First, before even the clock engine: it is a document-level listener and must be
+         in place before anything handles a tap. It stops the ZOOM of a second quick tap
+         and re-delivers that tap; a multi-finger pinch is never touched, so a child who
+         is zoomed in over a full-width clock can always pinch back out. -->
+    <script src="./tap-zoom-guard.js"></script>
+
     <!-- The clock engine loads first: app.js reads window.TimeBookClock at startup. -->
     <script src="./clock.js"></script>
     <script src="./worldclock.js"></script>
@@ -32,12 +39,5 @@
         });
       }
     </script>
-    <script>
-  /* Pinch-zoom guard. iOS Safari ignores user-scalable=no (since iOS 10), so this is
-     the only thing that stops two small hands zooming the page mid-play. gesturestart
-     fires once per pinch; preventing it cancels the zoom and touches nothing else.
-     Other browsers never fire it, so this is inert there. */
-  document.addEventListener("gesturestart", function (e) { e.preventDefault(); }, { passive: false });
-  </script>
   </body>
 </html>
