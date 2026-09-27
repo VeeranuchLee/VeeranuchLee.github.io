@@ -32,6 +32,10 @@ let bedTune = null;
 // its piece popup opens. Without this the child lands in a new room with no
 // sign of what they followed to get there.
 let pendingPopupPieceId = null;
+// One arrangement choice per room for this in-memory journey. It deliberately
+// does not go into localStorage: returning to a room remembers the choice,
+// while starting the book afresh starts in the simplest, melody-only mode.
+const roomModes = new Map();
 // Rooms whose companion greeting has already shown once this journey. A
 // character who speaks after every tap stops being a character and becomes a
 // notification.
@@ -249,34 +253,88 @@ const ROOM_BACKGROUND = {
     // Owner, 2026-09-16: "place the bubble over the part of the bg that most
     // relate to the bubble ... mcdonald song over the barn, row your boat near
     // water". Piloted in this room only (owner, 2026-09-24); see roomAnchors() below.
-    'mulberry-bush': { x: 21, y: 29 },          // the bush on the fence line beside the big tree
-    'row-row-row-your-boat': { x: 52, y: 31 },  // on the stream, at the foot of the bridge
-    'old-macdonald': { x: 75, y: 28 },          // over the red barn
+    'mulberry-bush': { x: 21, y: 33 },          // the bush on the fence line beside the big tree
+    'row-row-row-your-boat': { x: 52, y: 34 },  // on the stream, at the foot of the bridge
+    'old-macdonald': { x: 72, y: 33 },          // over the red barn
     'farmer-in-dell': { x: 30, y: 62 },         // down in the open grass field (the dell)
     'bingo': { x: 72, y: 63 }                   // on the dirt path that runs up to the farm
   } },
-  'steps-beats-marches': { background: 'assets/backgrounds/r03-steps-beats-marches-background.webp', focus: '50% 45%' },
-  'home-distance-belonging': { background: 'assets/backgrounds/r04-home-distance-belonging-background.webp', focus: '50% 45%' },
-  'gardens-season-memory': { background: 'assets/backgrounds/r05-gardens-season-memory-background.webp', focus: '50% 45%' },
-  'southeast-asian-courtyard': { background: 'assets/backgrounds/r06-southeast-asian-courtyard-background.webp', focus: '50% 45%' },
-  'roads-prayer-city-sea': { background: 'assets/backgrounds/r07-roads-prayer-city-sea-background.webp', focus: '50% 45%' },
-  'songs-that-transform': { background: 'assets/backgrounds/r08-songs-that-transform-background.webp', focus: '50% 45%' },
-  'when-song-means-home': { background: 'assets/backgrounds/r09-when-a-song-means-home-background.webp', focus: '50% 45%' },
-  'celebration-square': { background: 'assets/backgrounds/r10-celebration-square-background.webp', focus: '50% 45%' },
-  'winter-lanterns': { background: 'assets/backgrounds/r11-winter-lanterns-background.webp', focus: '50% 45%' },
-  'baroque-pattern-workshop': { background: 'assets/backgrounds/r12-baroque-pattern-workshop-background.webp', focus: '50% 45%' },
-  'baroque-stage-seasons-water-fireworks': { background: 'assets/backgrounds/r13-baroque-stage-seasons-water-fireworks-background.webp', focus: '50% 45%' },
+  // Owner, 2026-09-27: one disc per song and one arrangement switch for the
+  // room. Anchors remain all-or-nothing; seven-song Rooms 14 and 17 cannot fit
+  // their full grid-sized discs around the fixed rails, so they stay grids.
+  'steps-beats-marches': { background: 'assets/backgrounds/r03-steps-beats-marches-background.webp', focus: '50% 45%', anchors: {
+    'mary-had-little-lamb': { x: 16, y: 35 }, 'hot-cross-buns': { x: 43, y: 35 },
+    'this-old-man': { x: 69, y: 35 }, 'skip-to-my-lou': { x: 30, y: 64 },
+    'when-saints-go-marching': { x: 66, y: 63 }
+  } },
+  'home-distance-belonging': { background: 'assets/backgrounds/r04-home-distance-belonging-background.webp', focus: '50% 45%', anchors: {
+    'rock-a-bye-baby': { x: 16, y: 35 }, 'amazing-grace-new-britain': { x: 43, y: 35 },
+    'simple-gifts': { x: 69, y: 35 }, 'my-bonnie': { x: 30, y: 64 }, 'home-on-range': { x: 64, y: 64 }
+  } },
+  'gardens-season-memory': { background: 'assets/backgrounds/r05-gardens-season-memory-background.webp', focus: '50% 45%', anchors: {
+    'sakura-sakura': { x: 13, y: 43 }, 'arirang': { x: 40, y: 43 }, 'mo-li-hua': { x: 67, y: 43 }
+  } },
+  'southeast-asian-courtyard': { background: 'assets/backgrounds/r06-southeast-asian-courtyard-background.webp', focus: '50% 45%', anchors: {
+    'rasa-sayang': { x: 22, y: 35 }, 'burung-kakak-tua': { x: 66, y: 35 },
+    'leron-leron-sinta': { x: 30, y: 64 }, 'lao-duang-duen': { x: 64, y: 64 }
+  } },
+  'roads-prayer-city-sea': { background: 'assets/backgrounds/r07-roads-prayer-city-sea-background.webp', focus: '50% 45%', anchors: {
+    'uskudara-gider-iken': { x: 14, y: 42 },   // the hillside town and road along the coast, the road to the city
+    'raghupati-raghava': { x: 40, y: 42 },     // the sunset sky beyond the arch, a prayer chant's stillness
+    'misirlou': { x: 69, y: 42 }               // the open sea itself — its own piece is importance-3 (a bigger disc), placed last so its extra width has the info rail's margin to spend
+  } },
+  'songs-that-transform': { background: 'assets/backgrounds/r08-songs-that-transform-background.webp', focus: '50% 45%', anchors: {
+    'hava-nagila': { x: 22, y: 35 }, 'kalinka': { x: 66, y: 35 }, 'shchedryk': { x: 30, y: 64 }, 'greensleeves': { x: 64, y: 64 }
+  } },
+  'when-song-means-home': { background: 'assets/backgrounds/r09-when-a-song-means-home-background.webp', focus: '50% 45%', anchors: {
+    'nkosi-sikelel-iafrika': { x: 22, y: 35 }, 'waltzing-matilda': { x: 66, y: 35 }, 'el-condor-pasa': { x: 30, y: 64 }, 'la-bamba': { x: 64, y: 64 }
+  } },
+  'celebration-square': { background: 'assets/backgrounds/r10-celebration-square-background.webp', focus: '50% 45%', anchors: {
+    'happy-birthday': { x: 16, y: 35 }, 'jolly-good-fellow': { x: 43, y: 35 }, 'jingle-bells': { x: 69, y: 35 }, 'joy-to-world': { x: 30, y: 64 }, 'auld-lang-syne': { x: 64, y: 64 }
+  } },
+  'winter-lanterns': { background: 'assets/backgrounds/r11-winter-lanterns-background.webp', focus: '50% 45%', anchors: {
+    'silent-night': { x: 16, y: 35 }, 'o-tannenbaum': { x: 43, y: 35 }, 'deck-the-hall': { x: 69, y: 35 }, 'we-wish-merry-christmas': { x: 30, y: 64 }, 'first-noel': { x: 64, y: 64 }
+  } },
+  'baroque-pattern-workshop': { background: 'assets/backgrounds/r12-baroque-pattern-workshop-background.webp', focus: '50% 45%', anchors: {
+    'bach-prelude-c-major-bwv-846': { x: 16, y: 35 }, 'bach-air-orchestral-suite-3': { x: 43, y: 35 }, 'bach-jesu-joy': { x: 69, y: 35 }, 'bach-cello-suite-1-prelude': { x: 30, y: 64 }, 'pachelbel-canon-d': { x: 64, y: 64 }
+  } },
+  'baroque-stage-seasons-water-fireworks': { background: 'assets/backgrounds/r13-baroque-stage-seasons-water-fireworks-background.webp', focus: '50% 45%', anchors: {
+    'vivaldi-spring-1': { x: 16, y: 35 }, 'vivaldi-summer-storm': { x: 43, y: 35 }, 'vivaldi-winter-1': { x: 70, y: 35 },
+    'handel-hallelujah-chorus': { x: 16, y: 63 }, 'handel-water-music-hornpipe': { x: 43, y: 63 }, 'handel-royal-fireworks-rejouissance': { x: 70, y: 63 }
+  } },
   'vienna-classical-city': { background: 'assets/backgrounds/r14-vienna-classical-city-background.webp', focus: '50% 45%' },
-  'beethoven-door-two-eras': { background: 'assets/backgrounds/r15-beethoven-door-two-eras-background.webp', focus: '50% 45%' },
-  'music-learns-to-sing': { background: 'assets/backgrounds/r16-music-learns-to-sing-background.webp', focus: '50% 45%' },
+  'beethoven-door-two-eras': { background: 'assets/backgrounds/r15-beethoven-door-two-eras-background.webp', focus: '50% 45%', anchors: {
+    'symphony-5-opening': { x: 16, y: 35 }, 'fur-elise': { x: 43, y: 35 }, 'moonlight-sonata': { x: 69, y: 35 }, 'beethoven-symphony-7-2': { x: 30, y: 64 }, 'ode-to-joy': { x: 64, y: 64 }
+  } },
+  'music-learns-to-sing': { background: 'assets/backgrounds/r16-music-learns-to-sing-background.webp', focus: '50% 45%', anchors: {
+    'schubert-ave-maria': { x: 16, y: 35 }, 'schubert-die-forelle': { x: 43, y: 35 }, 'mendelssohn-wedding-march': { x: 69, y: 35 }, 'mendelssohn-spring-song': { x: 30, y: 64 }, 'mendelssohn-violin-concerto-opening': { x: 64, y: 64 }
+  } },
   'piano-diary': { background: 'assets/backgrounds/r17-piano-diary-background.webp', focus: '50% 45%' },
-  'home-memory-dance': { background: 'assets/backgrounds/r18-home-memory-dance-background.webp', focus: '50% 45%' },
-  'ballet-kingdom': { background: 'assets/backgrounds/r19-ballet-kingdom-background.webp', focus: '50% 45%' },
-  'when-music-storybook': { background: 'assets/backgrounds/r20-when-music-storybook-background.webp', focus: '50% 45%' },
-  'pictures-legends-russian-colour': { background: 'assets/backgrounds/r21-pictures-legends-russian-colour-background.webp', focus: '50% 45%' },
-  'three-theatre-cities': { background: 'assets/backgrounds/r22-three-theatre-cities-background.webp', focus: '50% 45%' },
-  'painting-with-sound': { background: 'assets/backgrounds/r23-painting-with-sound-background.webp', focus: '50% 45%' },
-  'new-century-many-sounds': { background: 'assets/backgrounds/r24-new-century-many-sounds-background.webp', focus: '50% 45%' }
+  'home-memory-dance': { background: 'assets/backgrounds/r18-home-memory-dance-background.webp', focus: '50% 45%', anchors: {
+    'brahms-lullaby': { x: 16, y: 35 }, 'brahms-hungarian-dance-5': { x: 43, y: 35 }, 'brahms-waltz-op39-no15': { x: 69, y: 35 },
+    'dvorak-new-world-largo': { x: 16, y: 63 }, 'dvorak-humoresque-7': { x: 43, y: 63 }, 'dvorak-slavonic-dance-8': { x: 70, y: 63 }
+  } },
+  'ballet-kingdom': { background: 'assets/backgrounds/r19-ballet-kingdom-background.webp', focus: '50% 45%', anchors: {
+    'swan-lake-theme': { x: 16, y: 35 }, 'tchaikovsky-sugar-plum-fairy': { x: 43, y: 35 }, 'tchaikovsky-waltz-flowers': { x: 69, y: 35 },
+    'tchaikovsky-nutcracker-march': { x: 16, y: 63 }, 'tchaikovsky-trepak': { x: 43, y: 63 }, 'tchaikovsky-piano-concerto-1-opening': { x: 70, y: 63 }
+  } },
+  'when-music-storybook': { background: 'assets/backgrounds/r20-when-music-storybook-background.webp', focus: '50% 45%', anchors: {
+    'saint-saens-the-swan': { x: 16, y: 35 }, 'saint-saens-aquarium': { x: 43, y: 35 }, 'saint-saens-danse-macabre': { x: 69, y: 35 },
+    'grieg-morning-mood': { x: 16, y: 63 }, 'grieg-mountain-king': { x: 43, y: 63 }, 'grieg-anitras-dance': { x: 70, y: 63 }
+  } },
+  'pictures-legends-russian-colour': { background: 'assets/backgrounds/r21-pictures-legends-russian-colour-background.webp', focus: '50% 45%', anchors: {
+    'mussorgsky-promenade': { x: 16, y: 35 }, 'mussorgsky-unhatched-chicks': { x: 43, y: 35 }, 'mussorgsky-night-bald-mountain': { x: 69, y: 35 }, 'rimsky-flight-bumblebee': { x: 30, y: 64 }, 'rimsky-scheherazade-opening': { x: 64, y: 64 }
+  } },
+  'three-theatre-cities': { background: 'assets/backgrounds/r22-three-theatre-cities-background.webp', focus: '50% 45%', anchors: {
+    'strauss-blue-danube': { x: 16, y: 35 }, 'strauss-tritsch-tratsch-polka': { x: 43, y: 35 }, 'bizet-habanera': { x: 69, y: 35 },
+    'bizet-toreador-song': { x: 16, y: 63 }, 'rossini-william-tell-finale': { x: 43, y: 63 }, 'rossini-barber-seville-overture': { x: 70, y: 63 }
+  } },
+  'painting-with-sound': { background: 'assets/backgrounds/r23-painting-with-sound-background.webp', focus: '50% 45%', anchors: {
+    'debussy-clair-de-lune': { x: 22, y: 35 }, 'debussy-arabesque-1': { x: 66, y: 35 }, 'debussy-little-shepherd': { x: 30, y: 64 }, 'satie-gymnopedie-1': { x: 64, y: 64 }
+  } },
+  'new-century-many-sounds': { background: 'assets/backgrounds/r24-new-century-many-sounds-background.webp', focus: '50% 45%', anchors: {
+    'joplin-entertainer': { x: 22, y: 35 }, 'joplin-maple-leaf-rag': { x: 66, y: 35 }, 'holst-jupiter': { x: 30, y: 64 }, 'holst-mars': { x: 64, y: 64 }
+  } }
 };
 
 // ── anchored song bubbles (pilot) ────────────────────────────────────────────
@@ -547,6 +605,8 @@ function renderRoom() {
   journey.page = Math.min(Math.max(0, journey.page), pages - 1);
   const shown = pieces.slice(journey.page * PAGE_SIZE, journey.page * PAGE_SIZE + PAGE_SIZE);
   const anchors = roomAnchors(art, shown);
+  const hasBass = pieces.some((p) => p.piano);
+  const roomMode = hasBass ? (roomModes.get(room.id) || 'melody') : 'melody';
 
   stage.className = 'stage stage--room';
   // With a painting the focus is its own; without one the position goes back
@@ -559,11 +619,21 @@ function renderRoom() {
       <div class="topbar">
         <button class="round-btn" data-go="wing" aria-label="Back to ${wing.title}">←</button>
         <div class="banner banner--room"><h1>${room.title}</h1><p>${room.subtitle}</p></div>
-        <div class="guide-badge"><img src="${c.art}" alt=""><span>${c.name}</span></div>
+        <div class="room-tools">
+          <div class="room-mode" role="group" aria-label="Song arrangement">
+            <button class="room-mode__choice${roomMode === 'melody' ? ' is-current' : ''}" data-room-mode="melody" aria-pressed="${roomMode === 'melody'}" aria-label="Play melody only">
+              <span class="room-mode__picture" aria-hidden="true">♪</span><small>Melody</small>
+            </button>
+            <button class="room-mode__choice${roomMode === 'piano' ? ' is-current' : ''}" data-room-mode="piano" aria-pressed="${roomMode === 'piano'}" aria-label="Play melody with bass"${hasBass ? '' : ' disabled'}>
+              <span class="room-mode__picture" aria-hidden="true">♪<b>𝄢</b></span><small>${hasBass ? 'Melody + bass' : 'Melody only'}</small>
+            </button>
+          </div>
+          <div class="guide-badge"><img src="${c.art}" alt=""><span>${c.name}</span></div>
+        </div>
       </div>
 
       <div class="room-body">
-        <div class="bubble-field${anchors ? ' bubble-field--anchored' : ''}">
+        <div class="bubble-field">
           ${shown.map((p) => bubbleMarkup(p, anchors && anchors[p.id])).join('')}
         </div>
         <aside class="info-rail">
@@ -594,6 +664,36 @@ function renderRoom() {
       ${companionCorner(greetedRooms.has(room.id) ? null : c.greeting)}
     </div>`;
 
+  // Measure the ordinary grid first, then use those exact disc sizes for the
+  // anchored layout. This keeps the owner's no-shrinking rule true when the
+  // grid changes: anchors have no parallel size formula that can drift stale.
+  if (anchors) {
+    const field = stage.querySelector('.bubble-field');
+    const gridDiscSizes = new Map([...field.querySelectorAll('.bubble')].map((bubble) => [
+      bubble.dataset.pieceWrap,
+      bubble.querySelector('.bubble__disc').getBoundingClientRect().height
+    ]));
+    for (const bubble of field.querySelectorAll('.bubble')) {
+      bubble.style.setProperty('--disc', `${gridDiscSizes.get(bubble.dataset.pieceWrap)}px`);
+    }
+    field.classList.add('bubble-field--anchored');
+
+    // Anchor percentages describe the painting, but the connection strip is
+    // ordinary content whose rendered height changes with the viewport. Keep
+    // the authored x/y point unless the complete bubble (including its name
+    // pill) would enter a picture door; then lift it only far enough to leave
+    // the same 3px clearance required by check-bubble-anchors.mjs.
+    const linkTops = [...stage.querySelectorAll('.room-link')]
+      .map((link) => link.getBoundingClientRect().top);
+    if (linkTops.length) {
+      const safeBottom = Math.min(...linkTops) - 3;
+      for (const bubble of field.querySelectorAll('.bubble')) {
+        const nameBottom = bubble.querySelector('.bubble__name').getBoundingClientRect().bottom;
+        bubble.style.setProperty('--anchor-lift', `${Math.max(0, nameBottom - safeBottom)}px`);
+      }
+    }
+  }
+
   greetedRooms.add(room.id);
 
   if (pendingPopupPieceId) {
@@ -609,17 +709,6 @@ function bubbleMarkup(p, anchor) {
   const art = p.art
     ? `<img class="bubble__art" src="${p.art}" alt="">`
     : `<span class="bubble__art bubble__art--none">♪</span>`;
-  // The second score is the melody plus a root-fifth bass, played on whichever
-  // companion the child chose at the landing page -- the instrument never changes
-  // mid-journey (2026-08-21: "the companion IS the instrument"). So this control
-  // must name the arrangement, never an instrument: labelling it "Piano" promised
-  // a piano to a child on a Flute journey, and "Piano" is also a companion name.
-  const modes = p.piano
-    ? `<div class="bubble__modes">
-         <button class="bubble__mode" data-play="${p.id}" data-which="melody">Melody</button>
-         <button class="bubble__mode" data-play="${p.id}" data-which="piano">Melody + bass</button>
-       </div>`
-    : '';
   return `
     <div class="bubble${big ? ' bubble--large' : ''}" data-piece-wrap="${p.id}"${anchor ? ` style="--ax:${anchor.x}%;--ay:${anchor.y}%"` : ''}>
       <button class="bubble__disc" data-play="${p.id}" aria-label="Play ${p.title}">
@@ -627,13 +716,22 @@ function bubbleMarkup(p, anchor) {
         <span class="bubble__pulse"></span>
       </button>
       <button class="bubble__name" data-say="${p.id}">${p.shortTitle || p.title}</button>
-      ${modes}
     </div>`;
 }
 
-// The connections strip: where this room leads. Cross-room links navigate;
-// the single within-room link (toRoomId null, scope 'within-room') stays on
-// the page as a hint rather than pretending to go somewhere.
+// The connections strip: where this room leads. Owner, 2026-09-27: "we have
+// button but it goes to another page, to a child who can't read, this is very
+// confusing" — the adult sentence ("A repeating frame in a play song can
+// prepare the ear for...") used to be the only content on the card. Decided
+// "A. Picture doors": each cross-room link now shows the DESTINATION room's
+// own painting (the same `ROOM_CARD` thumbnail the wing's room-grid and the
+// Wing Map landmark are painted from, so a child recognises the place) in a
+// rounded frame, with only the short room name printed under it — nothing to
+// read to know where the door goes. The adult sentence moves to that room's
+// Learn More popup (knowledgePopup below); it is not deleted, only relocated
+// off the child-facing card. Cross-room links still navigate on tap; the
+// single within-room link (toRoomId null, scope 'within-room') stays a
+// non-tappable hint, since it does not lead through a door at all.
 function roomLinksMarkup(room) {
   if (!room.connections.length) return '';
   return `
@@ -641,10 +739,15 @@ function roomLinksMarkup(room) {
       ${room.connections.map((conn) => {
         const target = conn.toRoomId ? roomById(conn.toRoomId) : null;
         if (target) {
+          const card = ROOM_CARD[target.id];
           return `
-          <button class="room-link" data-connection="${conn.toRoomId}">
-            <span class="room-link__label">${conn.label}</span>
-            <span class="room-link__target">➜ ${target.title}</span>
+          <button class="room-link room-link--door" data-connection="${conn.toRoomId}" aria-label="Go to ${target.title}">
+            <span class="room-link__frame">
+              ${card
+                ? `<img class="room-link__art" src="${cardArtUrl(card.card)}" alt="" style="object-position:${card.focus}">`
+                : `<span class="room-link__art room-link__art--none" aria-hidden="true">🎵</span>`}
+            </span>
+            <span class="room-link__name">${target.title}</span>
           </button>`;
         }
         return `
@@ -677,6 +780,11 @@ function composerPopup(id) {
 function knowledgePopup(room) {
   const origins = originLine(room);
   const roomClip = roomClipId(room);
+  // The adult connection sentences that used to sit on the child-facing picture
+  // doors (owner, 2026-09-27, "A. Picture doors") live here instead, for the
+  // grown-up reading over a child's shoulder — not spoken, not part of the
+  // room's own child-level script.
+  const crossRoomConnections = room.connections.filter((c) => c.toRoomId);
   openPopup(`
     <h2>${room.title}</h2>
     <p class="popup__meta">${room.openingQuestion}</p>
@@ -687,7 +795,12 @@ function knowledgePopup(room) {
       return clipId
         ? `<button class="vocab-chip vocab-chip--spoken" data-learnmore-say="${clipId}" aria-label="Hear what ${v} means">${v}<span aria-hidden="true">🔊</span></button>`
         : `<span class="vocab-chip">${v}</span>`;
-    }).join('')}</div>`);
+    }).join('')}</div>
+    ${crossRoomConnections.length ? `
+    <div class="popup__connections">
+      <strong>Where this room leads.</strong>
+      ${crossRoomConnections.map((conn) => `<p class="popup__connection">${conn.label} <em>➜ ${roomById(conn.toRoomId)?.title || ''}</em></p>`).join('')}
+    </div>` : ''}`);
   if (sound.on && roomClip) {
     stopTitle();
     speakLearnMore(roomClip);
@@ -775,7 +888,7 @@ function playPiece(id, which) {
   // a chapter cannot leave Explore driving a contour that is no longer drawn.
   player.onNote = () => {};
 
-  if (playingPieceId === id && playingWhich === resolved && player.playing) {
+  if (playingPieceId === id && player.playing) {
     stopPiece();
     return;
   }
@@ -797,12 +910,10 @@ function pieceFinished() {
 function setPlayingUI(id, which) {
   playingPieceId = id;
   playingWhich = which;
+  if (id && which) stage.dataset.playingMode = which;
+  else delete stage.dataset.playingMode;
   stage.querySelectorAll('[data-piece-wrap]').forEach((node) => {
     node.classList.toggle('is-playing', node.dataset.pieceWrap === id);
-  });
-  stage.querySelectorAll('.bubble__mode').forEach((btn) => {
-    const on = btn.dataset.play === id && btn.dataset.which === which;
-    btn.classList.toggle('is-current', on);
   });
 }
 
@@ -906,6 +1017,7 @@ stage.addEventListener('click', (event) => {
 
   const companion = t.closest('[data-companion]');
   if (companion) {
+    roomModes.clear();
     journey.start(companion.dataset.companion);
     unlockAudio();                        // first gesture: unlock audio
     engine.setInstrument(companionById(journey.companionId));
@@ -923,7 +1035,25 @@ stage.addEventListener('click', (event) => {
   if (nav) { go(nav.dataset.go); return; }
 
   const play = t.closest('[data-play]');
-  if (play) { playPiece(play.dataset.play, play.dataset.which); return; }
+  if (play) {
+    const p = pieceById(play.dataset.play);
+    const wanted = roomModes.get(journey.roomId) || 'melody';
+    playPiece(play.dataset.play, wanted === 'piano' && p?.piano ? 'piano' : 'melody');
+    return;
+  }
+
+  const mode = t.closest('[data-room-mode]');
+  if (mode && !mode.disabled) {
+    roomModes.set(journey.roomId, mode.dataset.roomMode);
+    stage.querySelectorAll('[data-room-mode]').forEach((button) => {
+      const current = button.dataset.roomMode === mode.dataset.roomMode;
+      button.classList.toggle('is-current', current);
+      button.setAttribute('aria-pressed', String(current));
+    });
+    // A mode choice affects the next disc tap; it never restarts a tune under
+    // the child's finger or turns a no-bass song into a silent control.
+    return;
+  }
 
   if (handleSay(t)) return;
 

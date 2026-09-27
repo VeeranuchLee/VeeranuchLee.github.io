@@ -247,6 +247,28 @@ body {
 .guide-badge img { width: clamp(30px, 3.6vw, 46px); height: auto; }
 .guide-badge span { font-size: clamp(10px, 1.3vw, 15px); font-weight: 700; }
 
+/* The companion badge already owns the room's top-right corner. The one
+   arrangement choice for the whole room sits immediately beside it: pictures
+   lead, while the small words preserve grown-up clarity and accessible names. */
+.room-tools { flex: 0 0 auto; display: flex; align-items: flex-start; gap: 8px; }
+.room-mode {
+  display: flex; gap: 4px; padding: 3px;
+  border-radius: 16px;
+  background: rgba(255,250,238,.92);
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+}
+.room-mode__choice {
+  min-width: 48px; min-height: 46px; padding: 3px 6px;
+  display: grid; place-items: center;
+  border: 0; border-radius: 12px;
+  background: transparent; color: var(--ink); cursor: pointer;
+}
+.room-mode__choice.is-current { background: linear-gradient(180deg, #fff3c9, #ffe08a); box-shadow: inset 0 0 0 2px var(--gold); }
+.room-mode__choice:disabled { cursor: default; opacity: .55; }
+.room-mode__picture { min-height: 22px; font: 800 clamp(19px, 2.2vw, 25px)/1 Georgia, serif; }
+.room-mode__picture b { margin-left: 1px; font-size: .82em; }
+.room-mode__choice small { max-width: 8ch; font-family: inherit; font-size: clamp(7px, .82vw, 10px); font-weight: 700; line-height: 1.05; }
+
 /* ── music world (the six wings) ────────────────────────────────────────────
    The source painting is 4:3 and all six islands matter. On a 3:4 portrait
    screen, `cover` would remove half the map's width and either the mountain,
@@ -626,7 +648,7 @@ body[data-view="world"] .chrome-btn {
 
 /* The name plate and the mode buttons are what a child aims a finger at, so
    they are never shrunk — `flex: 0 0 auto` takes them out of the shrink pass. */
-.bubble__name, .bubble__modes { flex: 0 0 auto; }
+.bubble__name { flex: 0 0 auto; }
 
 .bubble__disc {
   position: relative;
@@ -681,72 +703,39 @@ body[data-view="world"] .chrome-btn {
 .bubble__name:hover { transform: translateY(-2px); }
 .bubble__name.is-speaking { background: linear-gradient(180deg, #fff3c9, #ffe08a); transform: translateY(-2px); }
 
-.bubble__modes {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 6px;
-  max-width: 140%;
-  z-index: 1;
-}
-.bubble__mode {
-  min-height: 44px;
-  padding: 6px 12px;
-  border: 0;
-  border-radius: 999px;
-  background: linear-gradient(180deg, var(--plate), #ecdcb4);
-  box-shadow: 0 0 0 2px var(--plate-edge), var(--shadow);
-  color: var(--ink);
-  font: inherit;
-  font-size: clamp(10px, 1.3vw, 15px);
-  font-weight: 700;
-  cursor: pointer;
-}
-.bubble__mode.is-current {
-  background: linear-gradient(180deg, #fff3c9, #ffe08a);
-  box-shadow: 0 0 0 2.5px var(--gold), var(--shadow);
-}
-
-/* ── anchored bubbles (pilot: Playground of Patterns, owner 2026-09-24) ───────
+/* ── anchored bubbles (all painted Explore rooms, owner 2026-09-27) ──────────
    A room with anchor data (app.js, ROOM_BACKGROUND[..].anchors) sets each
    bubble's disc centre on the painting instead of in the grid above. This gives
    up the grid's `minmax(0, 1fr)` guarantee on purpose, so the guarantee is
    bought back by measurement: tools/check-bubble-anchors.mjs proves at 768×1024,
    1024×768 and 1440×900 that no disc, name plate or mode button touches another
    bubble, the back arrow, the banner, the guide badge, the Learn More rail, the
-   connections strip, the companion corner or the Sound button.
+   connections strip, the companion corner, the room switch or Sound button.
 
    Positions are % of the scrim, whose box is the stage, which is the painted
    image (see roomAnchors() in app.js). The field stays in the flow as an empty
    flex:1 box so the info rail keeps its place on the right.
 
-   Sizes are never smaller than the grid's at the same viewport: the grid's
-   discs are min(19vh, column) and min(23vh, column) for a large piece; here the
-   column is replaced by a share of the stage width. The two mode buttons sit
-   side by side rather than stacked, so a bubble is short enough for two tiers
-   of songs to fit between the banner and the connections strip.
+   Sizes are never smaller than the grid's at the same viewport: renderRoom()
+   lays the bubbles out as the ordinary grid, measures every disc, then applies
+   those exact pixel sizes while switching this class on. There is deliberately
+   no second sizing formula here that can drift away from the grid again.
 
    Below an iPad-sized stage (700 × 525) the positions would no longer leave
    room for fixed 44px buttons, so the media query lets the grid take over. */
 @media (min-width: 700px) and (min-height: 525px) {
   .bubble-field--anchored {
     display: block;
-    --stage-w: min(100vw, calc(100vh * 4 / 3));
-    --disc: min(19vh, calc(var(--stage-w) * .143));
   }
-  .bubble-field--anchored .bubble--large { --disc: min(23vh, calc(var(--stage-w) * .1725)); }
   .bubble-field--anchored .bubble {
     position: absolute;
     left: var(--ax); top: var(--ay);
     width: var(--disc); height: auto;
     justify-content: flex-start;
-    transform: translate(-50%, calc(var(--disc) / -2));
+    transform: translate(-50%, calc(var(--disc) / -2 - var(--anchor-lift, 0px)));
   }
   .bubble-field--anchored .bubble__disc { flex: 0 0 auto; height: var(--disc); }
   .bubble-field--anchored .bubble__name { max-width: none; white-space: nowrap; }
-  .bubble-field--anchored .bubble__modes { flex-wrap: nowrap; max-width: none; }
-  .bubble-field--anchored .bubble__mode { white-space: nowrap; }
 }
 
 /* ── info objects ─────────────────────────────────────────────────────────── */
@@ -895,6 +884,46 @@ body[data-view="world"] .chrome-btn {
 .room-link--hint { cursor: default; box-shadow: 0 0 0 2px rgba(216,191,134,.5); }
 .room-link--hint .room-link__target { color: var(--ink-soft); }
 
+/* ── picture doors (owner, 2026-09-27: "A. Picture doors") ───────────────────
+   A card used to be an adult sentence plus "➜ Room Name" — unreadable to a
+   pre-reader and, per the owner, "very confusing" even tapped blind. A door
+   now shows the destination room's own painting (the same ROOM_CARD thumbnail
+   used on the wing's room-grid) in a rounded frame, with only the room's name
+   printed underneath — nothing to read to know where it goes. The box is the
+   same tap target as the plain .room-link (never shrunk), just laid out as a
+   picture over a caption instead of two lines of text. */
+/* Sized to keep the whole connections strip close to the height the old
+   text-only card left it (2026-09-27 measurement: a taller strip eats into
+   the approved Playground pilot's anchored bubbles below it, since the strip
+   and the anchored bubbles both live in the same fixed-height stage — see
+   the long comment above ROOM_BACKGROUND in app.js). The frame is a small
+   fixed square rather than a scaling one, and the name is a single line with
+   an ellipsis rather than wrapping to two, so this can't silently grow. */
+.room-link--door {
+  flex-direction: column; align-items: center;
+  gap: 5px;
+  max-width: none;
+  padding: 6px 9px;
+}
+.room-link__frame {
+  flex: 0 0 auto;
+  width: clamp(64px, 10.4vw, 96px); height: clamp(64px, 10.4vw, 96px);
+  border-radius: 50%; overflow: hidden;
+  box-shadow: 0 0 0 2px var(--gold);
+  background: color-mix(in srgb, var(--accent, #22385a) 40%, #1d2544);
+}
+.room-link__art {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.room-link__art--none {
+  display: flex; align-items: center; justify-content: center;
+  height: 100%; font-size: 16px;
+}
+.room-link__name {
+  font-size: clamp(9px, 1.05vw, 12px); font-weight: 800; text-align: center; line-height: 1.15;
+  max-width: 22vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
 /* ── pop-up ───────────────────────────────────────────────────────────────── */
 
 #popup {
@@ -943,6 +972,13 @@ body[data-view="world"] .chrome-btn {
 }
 .vocab-chip--spoken span { margin-left: .25em; opacity: .65; }
 .vocab-chip--spoken:active { transform: scale(.97); }
+
+/* The adult connection sentences relocated off the child-facing picture doors
+   (owner, 2026-09-27: "A. Picture doors"). Grown-up reading, in Learn More. */
+.popup__connections { margin-top: 14px; }
+.popup__connections > strong { font-size: clamp(12px, 1.4vw, 15px); }
+.popup__connection { margin: 6px 0 0; font-size: clamp(12px, 1.4vw, 15px); }
+.popup__connection em { font-style: normal; font-weight: 700; color: var(--ink-soft); }
 
 /* Compare links inside a piece popup: the same A/B journey the room teaches,
    offered from the piece that starts it. */
