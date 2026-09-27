@@ -34,11 +34,20 @@
  * assets is an app that half-works on a plane. The version stays here and stays
  * manual: listing files is bookkeeping, deciding that installed iPads must throw
  * away their cache is a judgement.
+ *
+ * v7 2026-09-26: zoom fix C (method C, owner-approved 2026-09-25) -- the shared
+ * ./tap-zoom-guard.js stops the second quick tap's zoom and re-delivers the tap,
+ * while a multi-finger pinch is never touched. Both pages load it, so it belongs
+ * in the GENERATED list: tools/build-runtime-assets.py writes that line, and a
+ * shell list is only read when CACHE_NAME changes, so an offline install without
+ * it has a page that asks for a guard the cache never got. In the app whose own
+ * full-screen `touch-action: none` was the original zoom trap, of all places to
+ * skip it.
  */
 
 importScripts("./assets/shell.js");
 
-const CACHE_NAME = "dollhouse-v5";
+const CACHE_NAME = "dollhouse-v7";
 const SHELL = self.SHELL_ASSETS;
 
 self.addEventListener("install", (event) => {

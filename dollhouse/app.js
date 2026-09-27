@@ -1,236 +1,146 @@
-/* Dollhouse — bedroom pilot.
+/* Dollhouse — bedroom play (pilot v2).
  *
- * What this is for: to find out whether the three verbs in CONCEPT.md 24 --
- * MOVE IT, POWER IT, CHANGE IT -- are understood by a child without being
- * explained.
+ * THE ROOM IS A PLACE, NOT AN EDITOR. That is the whole of the v2 refactor.
  *
- * THE INVARIANT THIS FILE EXISTS TO PROTECT: Change alters appearance, never
- * placement. Every variant of a family is registered onto one shared canvas by
- * tools/cut-sheet.py, so a sprite swap physically cannot move, resize or shift
- * anything -- the geometry lives in the asset pipeline, not in per-object
- * positioning code here. tools/check-variant-alignment.py is the proof, and it
- * fails the build if a future sheet drifts.
+ * A doll is made in Make a Doll and arrives here as ONE object: the scene holds
+ * `{type:"character", characterId}` and asks character.js to draw it. The room
+ * has no idea what a dress is, cannot equip one, and never has to land a shoe on
+ * a foot. Every bug that came out of the old design -- a shoe sticker that had
+ * to be snapped by hand, a Change that hit the wrong layer, an outline that
+ * swallowed taps meant for a worn item -- was a room being asked to do a
+ * creator's job.
  *
- * Because of that, there is exactly one Change implementation for every object
- * in the app. A television, a bed and a dress all cycle through
- * `variants[variantIndex]` and nothing knows what any of them is.
+ * What the room does:
+ *   MOVE          drag anything anywhere; picked up comes to the front
+ *   BATTERY       in / out, per placed object, from a small behaviour library
+ *   ATMOSPHERE    day <-> night, which changes the light and NOTHING else
+ *   START AGAIN   clears this room. It never touches My Dolls.
  *
- * NOT IN THE PILOT, ON PURPOSE:
- *   - Sound of any kind. CONCEPT.md 10 wants a music bed per room and that is
- *     an open licence question (see README.md); a silent pilot does not
- *     prejudge it, and the three verbs can be judged without it.
- *   - Screenshot capture, more rooms, resize and flip.
- *   - Layer reordering beyond "what you last touched comes to the front",
- *     which is what a sticker book does anyway.
+ * There is deliberately no Change here any more. Object customisation belongs
+ * in a maker screen -- Make a Doll today, a Toy Workshop later -- so the bed's
+ * four bedspreads, the window's four views, the television's four channels, the
+ * rug's four motifs and the lamp's three colours are currently fixed at their
+ * first variant. That is a real, visible loss of content and it is recorded in
+ * the README; restoring it means building the workshop, not re-adding a button.
+ *
+ * Still no sound of any kind: CONCEPT.md 10 wants a bed per room and that is an
+ * open licence question, untouched.
  */
 
 const KIT = window.KIT;
+const C = window.Character;
 const SAVE_KEY = "dollhouse.pilot.bedroom";
-/* Bump when the shape of a saved scene changes; old saves are then dropped
- * rather than half-read, and replaced. A child's scene is the most valuable
- * thing this app holds, so this went in on day one -- it costs nothing then and
- * cannot be retrofitted. 1 -> 2 added the room, 2 -> 3 added variants. */
-const SAVE_SCHEMA = 4;
+/* 1 room, 2 variants, 3 variants+worn, 4 wear slots, 5 -> objects are typed and
+ * a doll is a reference into My Dolls rather than a sticker with clothes on. */
+const SAVE_SCHEMA = 5;
 
 const byId = Object.fromEntries(KIT.stickers.map((s) => [s.id, s]));
 const ROOMS = KIT.rooms;
-const DOLL = KIT.stickers.find((s) => s.role === "doll");
-/* The order the doll's worn things are drawn in, which is also their layering:
- * the outfit over her body, the shoes over her feet, the bag over the outfit's
- * edge, the bow on top of everything. A slot holds at most one thing, so
- * dropping a second pair of shoes on her replaces the first -- which is what a
- * child expects and what makes "one of each" need no explaining. */
-const SLOTS = ["outfit", "feet", "hand", "hair"];
+/* Only families with a `category` are placeable. Anything with a `slot` belongs
+ * to a character and is unreachable from here by construction. */
+const PLACEABLE = KIT.stickers.filter((s) => s.category);
+const CATEGORIES = [
+  { id: "dolls", label: "Dolls" },
+  { id: "furniture", label: "Furniture" },
+  { id: "toys", label: "Toys" },
+  { id: "decor", label: "Decor" },
+];
 
 const stage = document.getElementById("stage");
 const placed = document.getElementById("placed");
 const tray = document.getElementById("tray");
+const trayTabs = document.getElementById("trayTabs");
 const trayWrap = document.getElementById("trayWrap");
 const hintEl = document.getElementById("hint");
 
 let tool = "move";
-let scene = [];          // [{ uid, assetId, variantIndex, x, y, on, worn: {slot: ref} }]
+let scene = [];   // [{uid, type, characterId|assetId, x, y, on}]
 let room = 0;
 let seq = 1;
-
-/* ----------------------------------------------------------------- variants
- * A "ref" is anything that names an asset and a chosen variant: a placed
- * instance, or the garment a doll is wearing. Everything below works on refs,
- * which is what keeps one implementation for every object type.
- */
-
-function assetOf(ref) {
-  return byId[ref.assetId];
-}
-
-function srcOf(ref) {
-  const a = assetOf(ref);
-  return a.variants[ref.variantIndex % a.variants.length].src;
-}
-
-function variantName(ref) {
-  const a = assetOf(ref);
-  return a.variants[ref.variantIndex % a.variants.length].name;
-}
-
-/* WHICH ref a Change acts on. The doll herself has one variant, so tapping her
- * has to mean something she is wearing -- and now that she can wear four things
- * at once, it means the one you actually touched. `slot` comes from the layer
- * under the finger; without one (her body, her hair) it falls back to the
- * outfit, which keeps "tap the girl, the dress changes" true.
- *
- * This is still the only place the doll is special, and it is only about which
- * ref to hand over. cycleVariant below does not know a dress from a duvet. */
-function changeTarget(item, slot) {
-  if (!item.worn) return item;
-  if (slot && item.worn[slot]) return item.worn[slot];
-  if (item.worn.outfit) return item.worn.outfit;
-  for (const s of SLOTS) if (item.worn[s]) return item.worn[s];
-  return item;
-}
-
-function cycleVariant(ref) {
-  const n = assetOf(ref).variants.length;
-  if (n < 2) return false;
-  ref.variantIndex = (ref.variantIndex + 1) % n;
-  return true;
-}
-
-function newRef(assetId, variantIndex) {
-  return { assetId, variantIndex: variantIndex || 0 };
-}
-
-/* Where a worn thing sits on the doll. The garments share one measured fit
- * because they are drawn to one scale on the sheet; the shoes, bag and bow each
- * carry their own, because they attach to her feet, her hand and her crown. */
-function fitOf(asset) {
-  return asset.fit || KIT.wearFit;
-}
+let category = "dolls";
 
 /* ------------------------------------------------------------------ state */
 
-function blank() {
-  scene = [];
-  seq = 1;
-  room = 0;
-}
+function blank() { scene = []; seq = 1; room = 0; }
 
 function save() {
   try {
-    localStorage.setItem(SAVE_KEY, JSON.stringify(
-      { schema: SAVE_SCHEMA, seq, room: ROOMS[room].id, scene }));
-  } catch (e) {
-    /* A private window, or storage turned off. The scene still works while the
-       page is open; losing it later beats failing now. */
-  }
+    localStorage.setItem(SAVE_KEY, JSON.stringify({
+      schema: SAVE_SCHEMA, seq, environmentVariant: ROOMS[room].id, objects: scene,
+    }));
+  } catch (e) { /* private window, or storage off */ }
 }
 
-function clampVariant(ref) {
-  const a = byId[ref.assetId];
-  if (!a) return false;
-  ref.variantIndex = Math.min(Math.max(ref.variantIndex | 0, 0), a.variants.length - 1);
-  return true;
-}
-
-function sane(item) {
-  if (!clampVariant(item)) return false;
-  if (assetOf(item).role === "doll") {
-    const worn = {};
-    for (const slot of SLOTS) {
-      const ref = item.worn && item.worn[slot];
-      // A slot naming an asset this kit no longer has, or a thing whose family
-      // has moved to a different slot, is dropped rather than drawn somewhere
-      // nobody chose.
-      if (ref && clampVariant(ref) && byId[ref.assetId].wear === slot) worn[slot] = ref;
-    }
-    item.worn = worn;
-  } else {
-    delete item.worn;
+/* An object naming a character or an asset this app no longer has is dropped,
+ * never guessed at. A doll deleted from My Dolls simply stops appearing. */
+function sane(it) {
+  if (it.type === "character") return !!C.get(it.characterId);
+  if (it.type === "asset") {
+    const a = byId[it.assetId];
+    return !!a && !!a.category;
   }
-  return true;
+  return false;
 }
 
 function load() {
   let raw;
-  try {
-    raw = localStorage.getItem(SAVE_KEY);
-  } catch (e) {
-    return false;
-  }
+  try { raw = localStorage.getItem(SAVE_KEY); } catch (e) { return false; }
   if (!raw) return false;
-  let data;
-  try {
-    data = JSON.parse(raw);
-  } catch (e) {
-    return false;
-  }
-  if (!data || data.schema !== SAVE_SCHEMA) return false;
-  // Anything naming an asset or variant this kit no longer has is dropped or
-  // clamped, never guessed at.
-  scene = (data.scene || []).filter(sane);
-  seq = data.seq || scene.length + 1;
-  // Saved by name, not by index, so inserting a room in the middle of the list
-  // cannot silently move somebody's scene to a different time of day.
-  const at = ROOMS.findIndex((r) => r.id === data.room);
+  let d;
+  try { d = JSON.parse(raw); } catch (e) { return false; }
+  if (!d || d.schema !== SAVE_SCHEMA) return false;
+  scene = (d.objects || []).filter(sane);
+  seq = d.seq || scene.length + 1;
+  const at = ROOMS.findIndex((r) => r.id === d.environmentVariant);
   room = at < 0 ? 0 : at;
   return true;
 }
 
 /* ------------------------------------------------------------------ layout
- * Stickers are positioned and sized in percentages of the room, so a scene
- * survives a resize, a rotation, and the gap between this screen and an iPad's.
- * A sticker's width is its family's registered canvas width as a share of the
- * room's -- one number for every variant, which is the other half of why a
- * Change cannot resize anything.
- */
+ * Percentages of the room, so a scene survives a resize, a rotation and the gap
+ * between a laptop and an iPad. A doll is sized from the BODY, which is what
+ * makes her one box however many layers she is made of. */
 
-function widthPct(a) {
-  return (a.w / KIT.roomSize.w) * 100;
+function boxOf(it) {
+  if (it.type === "character") return C.bodySize();
+  const a = byId[it.assetId];
+  return { w: a.w, h: a.h };
 }
 
-function heightPct(a) {
-  return (a.h / KIT.roomSize.h) * 100;
-}
+const wPct = (it) => (boxOf(it).w / KIT.roomSize.w) * 100;
+const hPct = (it) => (boxOf(it).h / KIT.roomSize.h) * 100;
 
 /* --------------------------------------------------------------- rendering */
 
-function behaviourLayers(item, el) {
-  const a = assetOf(item);
-  const b = a.battery;
-  if (b) {
-    if (b.behaviour === "spin") {
-      const head = document.createElement("div");
-      head.className = "spin-head";
-      const [px, py] = b.pivot;
-      head.style.clipPath = `circle(${b.radius}% at ${px}% ${py}%)`;
-      head.style.transformOrigin = `${px}% ${py}%`;
-      const img = document.createElement("img");
-      img.src = srcOf(item);
-      img.alt = "";
-      head.appendChild(img);
-      el.appendChild(head);
-    } else {
-      const halo = document.createElement("div");
-      halo.className = "glow-halo";
-      const [gx, gy] = b.at;
-      halo.style.background =
-        `radial-gradient(circle at ${gx}% ${gy}%, ${b.colour} 0%, ${b.colour}00 62%)`;
-      el.appendChild(halo);
-    }
+function behaviourLayers(it, el) {
+  const a = byId[it.assetId];
+  const b = a && a.battery;
+  if (!b) return;
+  if (b.behaviour === "spin") {
+    const head = document.createElement("div");
+    head.className = "spin-head";
+    const [px, py] = b.pivot;
+    head.style.clipPath = `circle(${b.radius}% at ${px}% ${py}%)`;
+    head.style.transformOrigin = `${px}% ${py}%`;
+    const img = document.createElement("img");
+    img.src = a.variants[0].src;
+    img.alt = "";
+    head.appendChild(img);
+    el.appendChild(head);
+  } else {
+    const halo = document.createElement("div");
+    halo.className = "glow-halo";
+    const [gx, gy] = b.at;
+    halo.style.background =
+      `radial-gradient(circle at ${gx}% ${gy}%, ${b.colour} 0%, ${b.colour}00 62%)`;
+    el.appendChild(halo);
   }
-  // A screen goes dark when the battery is out and KEEPS ITS CHANNEL: the
-  // channel is the variant, the power is a separate flag, and neither touches
-  // the other. The rectangle was measured off the art -- it is exactly where
-  // the four channels differ from each other -- and because all four are
-  // registered onto one canvas, one rectangle serves every channel.
   if (a.screen) {
     const off = document.createElement("div");
     off.className = "screen-off";
     const [l, t, w, h] = a.screen.rect;
-    off.style.left = l + "%";
-    off.style.top = t + "%";
-    off.style.width = w + "%";
-    off.style.height = h + "%";
+    off.style.left = l + "%"; off.style.top = t + "%";
+    off.style.width = w + "%"; off.style.height = h + "%";
     off.style.borderRadius = a.screen.radius + "%";
     el.appendChild(off);
   }
@@ -238,47 +148,25 @@ function behaviourLayers(item, el) {
 
 function draw() {
   placed.textContent = "";
-  for (const item of scene) {
-    const a = assetOf(item);
+  for (const it of scene) {
     const el = document.createElement("div");
-    el.className = "sticker" + (item.on ? " on beh-" + a.battery.behaviour : "");
-    el.dataset.uid = item.uid;
-    el.style.left = item.x + "%";
-    el.style.top = item.y + "%";
-    el.style.width = widthPct(a) + "%";
-    el.style.height = heightPct(a) + "%";
+    const a = it.type === "asset" ? byId[it.assetId] : null;
+    el.className = "sticker" + (it.on && a ? " on beh-" + a.battery.behaviour : "");
+    el.dataset.uid = it.uid;
+    el.style.left = it.x + "%";
+    el.style.top = it.y + "%";
+    el.style.width = wPct(it) + "%";
+    el.style.height = hPct(it) + "%";
 
-    const img = document.createElement("img");
-    img.src = srcOf(item);
-    img.alt = a.label || a.id;
-    el.appendChild(img);
-
-    behaviourLayers(item, el);
-
-    // A worn garment is drawn inside the doll's own box, so she and her clothes
-    // are one thing to pick up, to drag and to save. Because every colourway of
-    // a garment shares one registered canvas, this fit serves all of them and a
-    // Change cannot move a hem.
-    if (item.worn) {
-      for (const slot of SLOTS) {
-        const ref = item.worn[slot];
-        if (!ref) continue;
-        const g = assetOf(ref);
-        const f = fitOf(g);
-        const worn = document.createElement("img");
-        worn.className = "worn";
-        worn.dataset.slot = slot;
-        worn.src = srcOf(ref);
-        worn.alt = g.label;
-        const wPct = (g.w * f.scale) / a.w * 100;
-        const hPct = (g.h * f.scale) / a.h * 100;
-        worn.style.width = wPct + "%";
-        worn.style.height = hPct + "%";
-        worn.style.left = f.cx - wPct / 2 + "%";
-        if (f.bottom !== undefined) worn.style.top = f.bottom * 100 - hPct + "%";
-        else worn.style.top = f.top * 100 + "%";
-        el.appendChild(worn);
-      }
+    if (it.type === "character") {
+      const ch = C.get(it.characterId);
+      el.appendChild(C.element(ch, { className: "in-room" }));
+    } else {
+      const img = document.createElement("img");
+      img.src = a.variants[0].src;
+      img.alt = a.label || a.id;
+      el.appendChild(img);
+      behaviourLayers(it, el);
     }
     placed.appendChild(el);
   }
@@ -286,29 +174,62 @@ function draw() {
   drawTray();
 }
 
-function drawTray() {
-  const wornIds = new Set();
-  for (const it of scene) {
-    for (const slot of SLOTS) {
-      if (it.worn && it.worn[slot]) wornIds.add(it.worn[slot].assetId);
-    }
-  }
-  for (const chip of tray.children) {
-    const id = chip.dataset.id;
-    const used = scene.some((i) => i.assetId === id) || wornIds.has(id);
-    // The doll and her clothes are one-of-a-kind. The furniture is not, and a
-    // dollhouse with unlimited copies is one of the reasons to be digital --
-    // it is also what lets two televisions show two different channels.
-    const unique = id === DOLL.id || !!byId[id].wear;
-    // Boolean() rather than a bare `&&`: `wear` is absent on furniture, and
-    // classList.toggle(c, undefined) counts as "no second argument" and FLIPS
-    // the class instead of clearing it.
-    chip.classList.toggle("spent", Boolean(unique && used));
+/* ------------------------------------------------------------------- tray */
+
+function buildTabs() {
+  trayTabs.textContent = "";
+  for (const c of CATEGORIES) {
+    const b = document.createElement("button");
+    b.className = "tray-tab" + (c.id === category ? " is-on" : "");
+    b.setAttribute("role", "tab");
+    b.setAttribute("aria-selected", String(c.id === category));
+    b.dataset.cat = c.id;
+    b.textContent = c.label;
+    b.addEventListener("click", () => { category = c.id; buildTabs(); buildTray(); });
+    trayTabs.appendChild(b);
   }
 }
 
 function buildTray() {
-  for (const a of KIT.stickers) {
+  tray.textContent = "";
+  if (category === "dolls") {
+    for (const ch of C.loadAll()) {
+      const chip = document.createElement("button");
+      chip.className = "chip doll-chip";
+      chip.dataset.characterId = ch.id;
+      chip.setAttribute("role", "listitem");
+      /* The thumbnail is the assembled doll, rendered from her own layers --
+         so no artwork has to exist for any particular combination. */
+      const thumb = C.element(ch, { className: "thumb" });
+      const size = C.bodySize();
+      thumb.style.aspectRatio = `${size.w} / ${size.h}`;
+      chip.appendChild(thumb);
+      /* Two verbs on one chip: the doll places her, the footer changes her.
+         The footer is the ONLY route to a dress colour once a doll is made, so
+         it is a full-width 44px bar rather than the 17px corner pencil it was --
+         a four-year-old cannot hit a 17px glyph, and the thing behind it was
+         unreachable in practice. */
+      const edit = document.createElement("a");
+      edit.className = "chip-edit";
+      edit.href = "make-doll.html?edit=" + encodeURIComponent(ch.id);
+      edit.title = "Change this doll";
+      const pen = document.createElement("b");
+      pen.textContent = "✎";
+      edit.append(pen, "Change");
+      chip.appendChild(edit);
+      tray.appendChild(chip);
+    }
+    const make = document.createElement("a");
+    make.className = "chip make-chip";
+    make.href = "make-doll.html";
+    make.innerHTML = '<span class="plus">+</span>';
+    const cap = document.createElement("span");
+    cap.textContent = "Make a doll";
+    make.appendChild(cap);
+    tray.appendChild(make);
+    return;
+  }
+  for (const a of PLACEABLE.filter((s) => s.category === category)) {
     const chip = document.createElement("button");
     chip.className = "chip";
     chip.dataset.id = a.id;
@@ -319,39 +240,38 @@ function buildTray() {
     const cap = document.createElement("span");
     cap.textContent = a.label || a.id;
     chip.append(img, cap);
-    if (a.variants.length > 1) {
-      const dot = document.createElement("b");
-      dot.className = "many";
-      dot.textContent = a.variants.length;
-      chip.appendChild(dot);
-    }
     tray.appendChild(chip);
   }
 }
 
-/* ------------------------------------------------------------------ rooms */
+function drawTray() {
+  if (category !== "dolls") return;
+  /* A doll is one-of-a-kind in the room for the pilot: placing her twice would
+     mean two of the same child in one bedroom, which reads as a bug. */
+  const inRoom = new Set(scene.filter((i) => i.type === "character").map((i) => i.characterId));
+  for (const chip of tray.querySelectorAll(".doll-chip")) {
+    chip.classList.toggle("spent", inRoom.has(chip.dataset.characterId));
+  }
+}
+
+/* ------------------------------------------------------------ environment */
 
 function drawRoom() {
   const r = ROOMS[room];
   document.getElementById("room").src = r.src;
-  // The room lights the things standing in it. A toy that is switched on lights
-  // itself and is exempt (see styles.css), which is the reward for the Battery
-  // verb after dark.
   placed.style.setProperty("--room-dim", r.dim);
   placed.style.setProperty("--room-drain", r.drain);
-  for (const b of document.querySelectorAll(".room-pick")) {
-    const on = +b.dataset.room === room;
-    b.classList.toggle("is-on", on);
-    b.setAttribute("aria-pressed", String(on));
-  }
+  const b = document.getElementById("atmos");
+  const night = r.id.endsWith("night");
+  b.innerHTML = (night ? MOON : SUN) + "<span></span>";
+  b.lastChild.textContent = r.label;
+  b.classList.toggle("is-on", night);
 }
 
-function setRoom(next) {
-  if (next === room) return;
-  room = next;
-  // Nothing else is touched. CONCEPT.md 9: the environment changes around the
-  // child's story, and every sticker, position, layer, outfit, variant and
-  // battery keeps exactly what it had.
+function cycleRoom() {
+  room = (room + 1) % ROOMS.length;
+  /* Nothing else is touched. Positions, layer order, battery states and every
+     doll's appearance are untouched by construction: they are not stored here. */
   drawRoom();
   save();
   say(ROOMS[room].id.endsWith("night") ? "Now it is night time" : "Now it is day time");
@@ -359,28 +279,18 @@ function setRoom(next) {
 
 /* ------------------------------------------------------------------- tools */
 
-function canAct(item) {
-  const a = assetOf(item);
-  if (tool === "battery-in") return !!a.battery && !item.on;
-  if (tool === "battery-out") return !!a.battery && item.on;
-  if (tool === "change") {
-    // She is a candidate if ANY of the things on her can change, not just the
-    // one a default tap would reach.
-    if (item.worn) {
-      for (const slot of SLOTS) {
-        const r = item.worn[slot];
-        if (r && assetOf(r).variants.length > 1) return true;
-      }
-    }
-    return assetOf(changeTarget(item)).variants.length > 1;
-  }
+function canAct(it) {
+  if (it.type !== "asset") return false;
+  const a = byId[it.assetId];
+  if (tool === "battery-in") return !!a.battery && !it.on;
+  if (tool === "battery-out") return !!a.battery && it.on;
   return false;
 }
 
 function markCandidates() {
   for (const el of placed.children) {
-    const item = scene.find((i) => i.uid === +el.dataset.uid);
-    el.classList.toggle("candidate", !!item && canAct(item));
+    const it = scene.find((i) => i.uid === +el.dataset.uid);
+    el.classList.toggle("candidate", !!it && canAct(it));
   }
 }
 
@@ -400,32 +310,24 @@ function setTool(next) {
     b.setAttribute("aria-pressed", String(on));
   }
   markCandidates();
-  placed.classList.toggle("picking", next === "change");
   if (next === "battery-in") say("Tap a toy to put a battery in");
   if (next === "battery-out") say("Tap a toy to take its battery out");
-  if (next === "change") say("Tap something to change how it looks");
 }
 
-function useTool(item, slot) {
-  const a = assetOf(item);
-  if (tool === "battery-in" || tool === "battery-out") {
-    if (!a.battery) return false;
-    const want = tool === "battery-in";
-    if (item.on === want) return false;
-    item.on = want;
-    return true;
-  }
-  if (tool === "change") {
-    // One implementation, every object. Nothing here knows whether it is
-    // changing a dress, a duvet, a television channel or the weather.
-    return cycleVariant(changeTarget(item, slot));
-  }
-  return false;
+function useTool(it) {
+  if (it.type !== "asset") return false;
+  const a = byId[it.assetId];
+  if (!a.battery) return false;
+  const want = tool === "battery-in";
+  if (it.on === want) return false;
+  it.on = want;   // per placed object, never per asset
+  return true;
 }
 
 /* ------------------------------------------------------------------ moving */
 
 let drag = null;
+const clamp = (v, lo, hi) => (v < lo ? lo : v > hi ? hi : v);
 
 function stagePct(ev) {
   const r = stage.getBoundingClientRect();
@@ -437,13 +339,19 @@ function stagePct(ev) {
   };
 }
 
-function flyer(a) {
+function flyer(it) {
   const r = stage.getBoundingClientRect();
-  const el = document.createElement("img");
+  const el = document.createElement("div");
   el.id = "flying";
-  el.src = a.variants[0].src;
-  el.alt = "";
-  el.style.width = (widthPct(a) / 100) * r.width + "px";
+  el.style.width = (wPct(it) / 100) * r.width + "px";
+  el.style.aspectRatio = `${boxOf(it).w} / ${boxOf(it).h}`;
+  if (it.type === "character") el.appendChild(C.element(C.get(it.characterId)));
+  else {
+    const img = document.createElement("img");
+    img.src = byId[it.assetId].variants[0].src;
+    img.alt = "";
+    el.appendChild(img);
+  }
   document.body.appendChild(el);
   return el;
 }
@@ -457,9 +365,12 @@ function moveFlyer(ev) {
 function onTrayDown(ev) {
   const chip = ev.target.closest(".chip");
   if (!chip || chip.classList.contains("spent")) return;
+  if (chip.classList.contains("make-chip") || ev.target.closest(".chip-edit")) return;  // links
   ev.preventDefault();
-  const a = byId[chip.dataset.id];
-  drag = { from: "tray", assetId: a.id, moved: false, flying: flyer(a) };
+  const proto = chip.dataset.characterId
+    ? { type: "character", characterId: chip.dataset.characterId }
+    : { type: "asset", assetId: chip.dataset.id };
+  drag = { from: "tray", proto, moved: false, flying: flyer(proto) };
   moveFlyer(ev);
   window.addEventListener("pointermove", onMove);
   window.addEventListener("pointerup", onUp, { once: true });
@@ -469,63 +380,35 @@ function onStageDown(ev) {
   const el = ev.target.closest(".sticker");
   if (!el) return;
   ev.preventDefault();
-  const item = scene.find((i) => i.uid === +el.dataset.uid);
-  if (!item) return;
-
+  const it = scene.find((i) => i.uid === +el.dataset.uid);
+  if (!it) return;
   if (tool !== "move") {
-    // `.worn` layers only accept the pointer while Change is armed (styles.css),
-    // so in Move mode she and her clothes stay one thing to pick up.
-    const layer = ev.target.closest(".worn");
-    if (useTool(item, layer && layer.dataset.slot)) {
-      draw();
-      save();
-    }
+    if (useTool(it)) { draw(); save(); }
     return;
   }
   const p = stagePct(ev);
-  drag = { from: "stage", uid: item.uid, moved: false,
-           dx: item.x - p.x, dy: item.y - p.y, el };
-  // Picked up means on top, which is what a sticker book does.
-  scene.splice(scene.indexOf(item), 1);
-  scene.push(item);
+  drag = { from: "stage", uid: it.uid, dx: it.x - p.x, dy: it.y - p.y, el };
+  scene.splice(scene.indexOf(it), 1);
+  scene.push(it);           // picked up comes to the front
   el.classList.add("dragging");
   placed.appendChild(el);
   window.addEventListener("pointermove", onMove);
   window.addEventListener("pointerup", onUp, { once: true });
 }
 
-function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
-
 function onMove(ev) {
   if (!drag) return;
   drag.moved = true;
-  if (drag.from === "tray") {
-    moveFlyer(ev);
-    return;
-  }
+  if (drag.from === "tray") { moveFlyer(ev); return; }
   const p = stagePct(ev);
-  const item = scene.find((i) => i.uid === drag.uid);
-  if (!item) return;
-  item.x = clamp(p.x + drag.dx, 0, 100);
-  item.y = clamp(p.y + drag.dy, 0, 100);
-  drag.el.style.left = item.x + "%";
-  drag.el.style.top = item.y + "%";
+  const it = scene.find((i) => i.uid === drag.uid);
+  if (!it) return;
+  it.x = clamp(p.x + drag.dx, 0, 100);
+  it.y = clamp(p.y + drag.dy, 0, 100);
+  drag.el.style.left = it.x + "%";
+  drag.el.style.top = it.y + "%";
   trayWrap.classList.toggle(
     "armed", trayWrap.contains(document.elementFromPoint(ev.clientX, ev.clientY)));
-}
-
-/* Where a garment is dropped decides what happens to it: on the girl, she puts
-   it on; anywhere else it lies on the floor like any other sticker. */
-function dollUnder(x, y, skipUid) {
-  for (let i = scene.length - 1; i >= 0; i--) {
-    const it = scene[i];
-    if (it.uid === skipUid || assetOf(it).role !== "doll") continue;
-    const a = assetOf(it);
-    if (Math.abs(x - it.x) <= widthPct(a) / 2 && Math.abs(y - it.y) <= heightPct(a) / 2) {
-      return it;
-    }
-  }
-  return null;
 }
 
 function onUp(ev) {
@@ -538,47 +421,22 @@ function onUp(ev) {
   if (d.from === "tray") {
     d.flying.remove();
     const p = stagePct(ev);
-    if (d.moved && !p.inside) return;          // dropped outside: put it back
-    // A tap, rather than a drag, still puts the sticker somewhere sensible.
-    const x = d.moved ? p.x : 50;
-    const y = d.moved ? p.y : 62;
-    const a = byId[d.assetId];
-    const host = a.wear ? dollUnder(x, y, null) : null;
-    if (host) {
-      host.worn[a.wear] = newRef(a.id, 0);
-    } else {
-      scene.push({
-        uid: seq++, assetId: a.id, variantIndex: 0,
-        x: clamp(x, 0, 100), y: clamp(y, 0, 100),
-        on: false, worn: a.role === "doll" ? {} : undefined,
-      });
-    }
+    if (d.moved && !p.inside) return;
+    scene.push(Object.assign({}, d.proto, {
+      uid: seq++, on: false,
+      x: clamp(d.moved ? p.x : 50, 0, 100),
+      y: clamp(d.moved ? p.y : 62, 0, 100),
+    }));
     draw();
     save();
     return;
   }
 
   d.el.classList.remove("dragging");
-  const item = scene.find((i) => i.uid === d.uid);
-  if (!item) return;
-
-  // Dropped on the tray: put it away.
+  const it = scene.find((i) => i.uid === d.uid);
+  if (!it) return;
   if (trayWrap.contains(document.elementFromPoint(ev.clientX, ev.clientY))) {
-    scene.splice(scene.indexOf(item), 1);
-    draw();
-    save();
-    return;
-  }
-  // Anything she can wear, dropped on her, is worn -- and keeps the colour it
-  // had. Shoes, the bag and the bow snap exactly the way a garment does; that
-  // they did not was the whole point of this change.
-  const dropped = assetOf(item);
-  if (dropped.wear) {
-    const host = dollUnder(item.x, item.y, item.uid);
-    if (host) {
-      host.worn[dropped.wear] = newRef(item.assetId, item.variantIndex);
-      scene.splice(scene.indexOf(item), 1);
-    }
+    scene.splice(scene.indexOf(it), 1);   // dropped on the tray: put it away
   }
   draw();
   save();
@@ -594,95 +452,46 @@ const MOON = '<svg viewBox="0 0 24 24" aria-hidden="true">' +
   '<path d="M20.4 14.6A8.6 8.6 0 0 1 9.4 3.6a8.6 8.6 0 1 0 11 11z"/>' +
   '<circle cx="17.6" cy="5.4" r="1.5"/><circle cx="20.6" cy="9" r="1"/></svg>';
 
-function buildRooms() {
-  const host = document.getElementById("rooms");
-  ROOMS.forEach((r, i) => {
-    const b = document.createElement("button");
-    b.className = "tool room-pick";
-    b.dataset.room = i;
-    b.setAttribute("aria-pressed", "false");
-    b.innerHTML = (r.id.endsWith("night") ? MOON : SUN) + "<span></span>";
-    b.lastChild.textContent = r.label;
-    host.appendChild(b);
-  });
-}
-
 function start() {
-  buildRooms();
-  buildTray();
-  if (!load()) {
-    // Either nothing was saved, or what was saved is from an older schema and
-    // was dropped rather than half-read. Write the empty scene back either way,
-    // so storage never holds a record the app has already refused.
-    blank();
-    save();
-  }
+  document.getElementById("room").src = ROOMS[0].src;
+  buildTabs();
+  if (!load()) { blank(); save(); }
   drawRoom();
+  buildTray();
   draw();
+
+  /* Straight back from the creator: show the Dolls shelf so the doll she just
+     made is the first thing she sees. */
+  const made = new URLSearchParams(location.search).get("doll");
+  if (made) { category = "dolls"; buildTabs(); buildTray(); drawTray(); say("Your doll is ready"); }
 
   tray.addEventListener("pointerdown", onTrayDown);
   stage.addEventListener("pointerdown", onStageDown);
   for (const b of document.querySelectorAll(".tool[data-tool]")) {
     b.addEventListener("click", () => {
-      // Tapping an armed tool a second time puts it away and goes back to Move.
-      // Move is the resting state -- it is what the child is doing most of the
-      // time -- and before this the only way out of Battery or Change was to
-      // find the Move button, which is a thing to remember rather than a thing
-      // to discover. Tapping the same button again is the gesture everybody
-      // already tries.
       const armed = b.dataset.tool === tool && tool !== "move";
       setTool(armed ? "move" : b.dataset.tool);
     });
   }
-  for (const b of document.querySelectorAll(".room-pick")) {
-    b.addEventListener("click", () => setRoom(+b.dataset.room));
-  }
+  document.getElementById("atmos").addEventListener("click", cycleRoom);
   document.getElementById("reset").addEventListener("click", () => {
+    /* Clears THIS ROOM. My Dolls is a different persistence scope and is not
+       touched -- a child who tidies the bedroom has not lost her dolls. */
     blank();
     drawRoom();
+    buildTray();
     draw();
     save();
     setTool("move");
   });
-  /* THERE IS DELIBERATELY NO `gesturestart` PREVENTDEFAULT HERE.
-   *
-   * There was, to stop the page pinch-zooming mid-drag, and on a real iPad it
-   * made the app a trap: once it had zoomed in by any other route the child
-   * could never pinch back out, because every following pinch was cancelled at
-   * gesturestart. You could get in and not out, which is the worst shape a bug
-   * can have on a device handed to a seven-year-old.
-   *
-   * iOS has ignored `user-scalable=no` and `maximum-scale` since iOS 10, on
-   * purpose -- zoom is an accessibility feature and a page does not get to take
-   * it away. So zoom WILL happen, and the only safe design is one where it is
-   * symmetric: whatever gets you in gets you out.
-   *
-   * What replaces it is narrower and is in styles.css: `touch-action:
-   * manipulation` kills double-tap-to-zoom, which is what a child rapidly
-   * tapping stickers actually triggers by accident, while leaving pinch alone
-   * in both directions. The drag surfaces keep `touch-action: none`, which stops
-   * the browser panning or zooming for a touch that STARTS on a sticker -- that
-   * is what protects a drag, and it never blocks a pinch elsewhere.
-   */
-
-  // Handy in the console, and what the acceptance run drives.
-  window.DOLLHOUSE = {
-    get scene() { return scene; },
-    get room() { return ROOMS[room].id; },
-    variantOf: (uid, slot) => {
-      const it = scene.find((i) => i.uid === uid);
-      return it && variantName(changeTarget(it, slot));
-    },
-    wornOn: (uid) => {
-      const it = scene.find((i) => i.uid === uid);
-      if (!it || !it.worn) return null;
-      const out = {};
-      for (const slot of SLOTS) {
-        if (it.worn[slot]) out[slot] = it.worn[slot].assetId + ":" + variantName(it.worn[slot]);
-      }
-      return out;
-    },
-  };
 }
 
 start();
+
+window.DOLLHOUSE = {
+  get scene() { return scene; },
+  get room() { return ROOMS[room].id; },
+  get category() { return category; },
+  setCategory: (c) => { category = c; buildTabs(); buildTray(); drawTray(); },
+  characters: () => C.loadAll(),
+};

@@ -47,17 +47,11 @@
       </svg>
       <span>Battery out</span>
     </button>
-    <button class="tool" data-tool="change" aria-pressed="false">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M4 9.4A8 8 0 0 1 18.2 6.6M20 14.6A8 8 0 0 1 5.8 17.4" fill="none" stroke-width="2.1" stroke-linecap="round"/>
-        <path d="M17.4 2.6 19 7.2l-4.7-.7zM6.6 21.4 5 16.8l4.7.7z"/>
-      </svg>
-      <span>Change</span>
-    </button>
     <div class="spacer"></div>
-    <!-- Day / night. Filled in from the kit at boot so the toolbar cannot drift
-         out of step with what is actually painted. -->
-    <div id="rooms" class="group" role="group" aria-label="Time of day"></div>
+    <!-- ONE atmosphere button that cycles, not a Change tool. Environment is a
+         property of the room, not something a child edits object by object --
+         and switching it must never disturb what they built. -->
+    <button class="tool" id="atmos" aria-label="Time of day"></button>
     <button class="tool ghost" id="reset" aria-pressed="false">
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M12 5V2.2L7.8 6 12 9.8V7a5 5 0 1 1-5 5H4.6A7.4 7.4 0 1 0 12 5z"/>
@@ -78,12 +72,23 @@
 
   <!-- The kit. Drag a sticker in, or tap it. -->
   <div id="trayWrap">
+    <div id="trayTabs" role="tablist" aria-label="What to add"></div>
     <div id="tray" role="list"></div>
   </div>
 
 </div>
 
+<!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+     First, before any app script, because it is a document-level listener and must be in
+     place before the room starts handling taps. It stops the ZOOM of a second quick tap
+     and re-delivers that tap; a multi-finger pinch is never touched, so a child who is
+     zoomed in can always pinch back out. It is NOT a gesturestart handler -- this app is
+     the one that HAD one, on 2026-09-07, and its removal is the whole history of the
+     file. See INTERACTION-DIRECTION.md. -->
+<script src="./tap-zoom-guard.js"></script>
+
 <script src="assets/kit.js"></script>
+<script src="character.js"></script>
 <script src="app.js"></script>
 <script>
   /* Cache-first, no auto-reload: an update reaches an open app only once it is

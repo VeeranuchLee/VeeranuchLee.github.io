@@ -6,17 +6,25 @@ window.KIT = {
       "id": "doll-girl",
       "label": "Girl",
       "role": "doll",
+      "slot": "body",
+      "$slot": [
+        "The character's BODY layer. Its variants are skin tones, and there is",
+        "exactly one until the art exists -- skin, eyes and hair are all baked",
+        "into this single flat drawing. Adding tone-2..tone-5 as variants here",
+        "is all the creator needs to offer the choice; no code changes."
+      ],
       "w": 322,
       "h": 582,
       "variants": [
         {
-          "name": "girl",
-          "src": "assets/stickers/doll-girl/girl.webp"
+          "name": "tone-1",
+          "src": "assets/stickers/doll-girl/tone-1.webp"
         }
       ]
     },
     {
       "id": "teddy",
+      "category": "toys",
       "label": "Teddy bear",
       "w": 211,
       "h": 242,
@@ -29,6 +37,7 @@ window.KIT = {
     },
     {
       "id": "side-table",
+      "category": "furniture",
       "label": "Side table",
       "w": 217,
       "h": 212,
@@ -41,6 +50,7 @@ window.KIT = {
     },
     {
       "id": "fan",
+      "category": "toys",
       "label": "Fan",
       "battery": {
         "behaviour": "spin",
@@ -61,6 +71,7 @@ window.KIT = {
     },
     {
       "id": "floral-dress",
+      "slot": "outfit",
       "label": "Floral dress",
       "wear": "outfit",
       "w": 266,
@@ -86,6 +97,7 @@ window.KIT = {
     },
     {
       "id": "pyjamas",
+      "slot": "outfit",
       "label": "Pyjamas",
       "wear": "outfit",
       "w": 251,
@@ -111,6 +123,7 @@ window.KIT = {
     },
     {
       "id": "skirt-outfit",
+      "slot": "outfit",
       "label": "Skirt outfit",
       "wear": "outfit",
       "w": 248,
@@ -136,6 +149,7 @@ window.KIT = {
     },
     {
       "id": "handbag",
+      "slot": "accessory",
       "label": "Handbag",
       "wear": "hand",
       "$fit": [
@@ -171,6 +185,7 @@ window.KIT = {
     },
     {
       "id": "bow",
+      "slot": "accessory",
       "label": "Hair bow",
       "wear": "hair",
       "$fit": [
@@ -206,6 +221,7 @@ window.KIT = {
     },
     {
       "id": "shoes",
+      "slot": "shoes",
       "label": "Shoes",
       "wear": "feet",
       "$fit": [
@@ -269,6 +285,7 @@ window.KIT = {
     },
     {
       "id": "bed",
+      "category": "furniture",
       "label": "Bed",
       "w": 351,
       "h": 318,
@@ -293,6 +310,7 @@ window.KIT = {
     },
     {
       "id": "window",
+      "category": "decor",
       "label": "Window",
       "w": 340,
       "h": 282,
@@ -317,6 +335,7 @@ window.KIT = {
     },
     {
       "id": "tv",
+      "category": "toys",
       "label": "Television",
       "battery": {
         "behaviour": "screenGlow",
@@ -365,6 +384,7 @@ window.KIT = {
     },
     {
       "id": "rug",
+      "category": "decor",
       "label": "Rug",
       "w": 360,
       "h": 126,
@@ -389,6 +409,7 @@ window.KIT = {
     },
     {
       "id": "lamp",
+      "category": "furniture",
       "label": "Lamp",
       "battery": {
         "behaviour": "glow",
@@ -417,6 +438,7 @@ window.KIT = {
     },
     {
       "id": "picture-tulip",
+      "category": "decor",
       "label": "Tulip",
       "w": 121,
       "h": 167,
@@ -429,6 +451,7 @@ window.KIT = {
     },
     {
       "id": "picture-heart",
+      "category": "decor",
       "label": "Heart",
       "w": 111,
       "h": 145,
@@ -441,6 +464,7 @@ window.KIT = {
     },
     {
       "id": "picture-bunny",
+      "category": "decor",
       "label": "Bunny",
       "w": 116,
       "h": 147,
