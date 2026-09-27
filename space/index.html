@@ -13,6 +13,21 @@
   <meta name="apple-mobile-web-app-title" content="Space"/>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
+    /* Touch hygiene (2026-09-26, zoom fix C). This page had NO touch-action at all,
+       so both surfaces were `auto`: a child who double-tapped a card, which is
+       exactly what picking one out of three is, zoomed the hub in. `manipulation`
+       on BOTH html and body -- not body alone, because a tap resolves against every
+       ancestor and the html surface must not stay `auto`. It is deliberately not
+       `none`: that would stop scrolling, and this page has nothing to drag. Nothing
+       here overrides it -- there is no drag surface on a front door.
+
+       manipulation is not the whole answer on its own: iPadOS Safari still double-tap
+       zooms with it in place (owner, 2026-09-25: "kids sometimes double tap, and on
+       ipad it's zoom in, then they cant zoom out"), which is what ./tap-zoom-guard.js
+       below is for. It is NOT a gesturestart handler and must never become one: a
+       document-level pinch blocker is the banned pattern in INTERACTION-DIRECTION.md.
+       Whatever gets a child in must get them out. */
+    html,body{touch-action:manipulation}
     /* A night sky, in the space violet proposed for the SPACE card on Children Games
        (HUB-SPEC.md §2) -- dark like Planets & Moons' deliberate night, so the two
        card colours below sit inside it rather than fighting it. The gradient stays as
@@ -239,6 +254,15 @@
 
   <footer>Made with love for little learners</footer>
 </div>
+
+<!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+     First, before the script below, because it is a document-level listener and must
+     be in place before the page starts handling taps. It stops the ZOOM of a second
+     quick tap -- and on a front door that is the gesture, because a child picks a card
+     by tapping it and often taps twice -- and re-delivers that tap. A multi-finger
+     pinch is never touched, so a child who is zoomed in can always pinch back out. -->
+<script src="./tap-zoom-guard.js"></script>
+
 <script>
   /* Offline support. Registration is best-effort: opened straight from a file the
      browser refuses it, and the page must still open. */

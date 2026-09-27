@@ -15,8 +15,13 @@
    handler below is cache-first for same-origin GETs already, so the bed joins the
    cache itself the first time a child plays it. Same reasoning as
    site/children-apps/index.html's own bed ("NOT PRECACHED"). */
-const CACHE_NAME='space-hub-v4';
-const SHELL=['./','./index.html','./fonts.css',
+/* space-hub-v5 2026-09-26: zoom fix C (method C, owner-approved 2026-09-25) -- the
+   shared ./tap-zoom-guard.js stops the second quick tap's zoom and re-delivers the
+   tap, while a multi-finger pinch is never touched. index.html IS precached, and a
+   shell list is only read when CACHE_NAME changes, so the file has to be in SHELL
+   for an offline install to have the guard at all. */
+const CACHE_NAME='space-hub-v5';
+const SHELL=['./','./index.html','./fonts.css','./tap-zoom-guard.js',
   './fonts/Nunito-latin.woff2','./fonts/Nunito-latin-ext.woff2','./fonts/FredokaOne-latin.woff2',
   './manifest.webmanifest',
   './assets/ari-and-dot.webp','./assets/planets-and-moons.png','./assets/space-trivia.webp','./assets/backdrop.webp',
