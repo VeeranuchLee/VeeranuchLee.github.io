@@ -18,8 +18,7 @@
     { id:'gem', icon:'◆', label:'Gem' }, { id:'accessories', icon:'🎀', label:'Accessories' }
   ];
   const polish = ['#f15b9c','#f58aaa','#ff9c87','#ffb35c','#ffd267','#72d8cd','#65bceb','#a989e9','#e9685e','#d8205d','#372d3b','#f3efe9'];
-  const stickers = ['flower','heart','star','strawberry','rainbow','cat','butterfly','tulip'];
-  const stickerIcon = {flower:'🌼',heart:'💗',star:'⭐',strawberry:'🍓',rainbow:'🌈',cat:'🐱',butterfly:'🦋',tulip:'🌷'};
+  const stickers = ['daisy','bow','strawberry','star','heart','rainbow','kitten','cherries'];
   const gems = [{id:'ruby',art:'gem-heart'},{id:'aqua',art:'gem-blue'},{id:'violet',art:'gem-flower'},{id:'pearl',art:'gem-pearl'},{id:'gold',art:'gem-star'},{id:'mint',art:null}];
   let activeTab = 'polish';
   let audio;
@@ -84,10 +83,9 @@
   }
   function renderAccessories(){
     accessoryLayer.replaceChildren();
-    if(state.accessories.includes('heart-ring')) accessoryLayer.append(el('image',{href:'./assets/icons/accessory-heart-ring.webp',x:354,y:326,width:76,height:76}));
-    if(state.accessories.includes('star-ring')) accessoryLayer.append(el('image',{href:'./assets/icons/gem-star.webp',x:294,y:318,width:58,height:58}));
-    if(state.accessories.includes('pearl-bracelet')) accessoryLayer.append(el('image',{href:'./assets/icons/accessory-pearl-bracelet.webp',x:232,y:505,width:160,height:110,preserveAspectRatio:'xMidYMid meet'}));
-    if(state.accessories.includes('bow-bracelet')) accessoryLayer.append(el('image',{href:'./assets/icons/accessory-bow.webp',x:258,y:515,width:108,height:88,preserveAspectRatio:'xMidYMid meet'}));
+    if(state.accessories.includes('heart-ring')) accessoryLayer.append(el('image',{href:'./assets/icons/accessory-heart-ring.webp',x:352,y:323,width:86,height:58,preserveAspectRatio:'xMidYMid meet'}));
+    if(state.accessories.includes('pink-bow')) accessoryLayer.append(el('image',{href:'./assets/icons/accessory-bow.webp',x:270,y:486,width:88,height:76,preserveAspectRatio:'xMidYMid meet'}));
+    if(state.accessories.includes('pearl-bracelet')) accessoryLayer.append(el('image',{href:'./assets/icons/accessory-pearl-bracelet.webp',x:232,y:514,width:164,height:98,preserveAspectRatio:'xMidYMid meet'}));
   }
   function renderTabs(){tabsRoot.innerHTML=tabs.map(t=>`<button data-tab="${t.id}" class="${t.id===activeTab?'active':''}" aria-label="${t.label}" aria-pressed="${t.id===activeTab}"><span>${t.icon}</span>${t.label}</button>`).join('');tabsRoot.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{activeTab=b.dataset.tab;renderTabs();renderTray();}));}
   function choice(html,handler,selected=false,label=''){const b=document.createElement('button');b.className='choice'+(selected?' selected':'');b.innerHTML=html;b.setAttribute('aria-label',label);b.addEventListener('click',()=>{handler();renderNails();renderTray();});tray.append(b);}
@@ -99,7 +97,7 @@
       ['short','long'].forEach(id=>choice(`<i class="shape-icon shape-round ${id==='long'?'shape-long':''}"></i><small>${id==='short'?'↔':'↕'}</small>`,()=>S.update(state,{length:id}),nail.length===id,id+' nails'));
     } else if(activeTab==='polish'){
       polish.forEach(c=>choice(`<i class="polish-dot" style="--color:${c}"></i>`,()=>S.update(state,{polish:c,finish:'solid'}),nail.polish===c&&nail.finish==='solid','polish color'));
-      [['glitter','url(#glitter)','✨'],['shimmer','linear-gradient(135deg,#76dfe5,#fff,#d28ae7)','🫧'],['chrome','linear-gradient(90deg,#777,#fff,#9aa,#fff,#777)','⚡']].forEach(([id,bg,icon])=>choice(`<i class="polish-dot" style="--color:${bg}"></i><small>${icon}</small>`,()=>S.update(state,{finish:id}),nail.finish===id,id));
+      ['glitter','shimmer','chrome'].forEach(id=>choice(`<img class="finish-art" src="./assets/icons/finish-${id}.webp" alt="">`,()=>S.update(state,{finish:id}),nail.finish===id,id));
     } else if(activeTab==='pattern'){
       ['none','stripes','dots','french','hearts','gradient'].forEach(id=>choice(id==='none'?'○':`<i class="pattern-icon pattern-${id}"></i>`,()=>S.update(state,{pattern:id}),nail.pattern===id,id));
     } else if(activeTab==='sticker'){
@@ -109,7 +107,7 @@
       gems.forEach(g=>choice(g.art?`<img src="./assets/icons/${g.art}.webp" alt="">`:'<i class="gem gem-emerald"></i>',()=>S.addDecoration(state,'gem',g.id),false,g.id+' gem'));
       addDecorationPips(nail.gems.length,'gems');
     } else {
-      [['heart-ring','accessory-heart-ring'],['star-ring','gem-star'],['pearl-bracelet','accessory-pearl-bracelet'],['bow-bracelet','accessory-bow']].forEach(([id,art])=>choice(`<img src="./assets/icons/${art}.webp" alt="">`,()=>S.setAccessories(state,id),state.accessories.includes(id),id));
+      [['heart-ring','accessory-heart-ring'],['pink-bow','accessory-bow'],['pearl-bracelet','accessory-pearl-bracelet']].forEach(([id,art])=>choice(`<img src="./assets/icons/${art}.webp" alt="">`,()=>S.setAccessories(state,id),state.accessories.includes(id),id));
     }
   }
   function markFeedback(target){target.classList.remove('feedback');void target.offsetWidth;target.classList.add('feedback');}
