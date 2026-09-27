@@ -39,6 +39,15 @@
       <nav id="room-grid" class="room-grid" aria-label="Toys"></nav>
     </main>
 
+    <!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+         First, before the shelf scripts, because it is a document-level listener and must
+         be in place before the page starts handling taps. It stops the ZOOM of a second
+         quick tap -- and a shelf is picked by tapping a card, which a child often does
+         twice -- and re-delivers that tap; a multi-finger pinch is never touched, so a
+         child who is zoomed in can always pinch back out. It is NOT a gesturestart handler
+         and must never become one: a document-level pinch blocker is the banned pattern
+         in INTERACTION-DIRECTION.md. -->
+    <script src="./tap-zoom-guard.js"></script>
     <script src="./shelf.js"></script>
     <script src="./app.js"></script>
     <script>
@@ -51,12 +60,5 @@
         });
       }
     </script>
-    <script>
-  /* Pinch-zoom guard. iOS Safari ignores user-scalable=no (since iOS 10), so this is
-     the only thing that stops two small hands zooming the page mid-play. gesturestart
-     fires once per pinch; preventing it cancels the zoom and touches nothing else.
-     Other browsers never fire it, so this is inert there. */
-  document.addEventListener("gesturestart", function (e) { e.preventDefault(); }, { passive: false });
-  </script>
   </body>
 </html>

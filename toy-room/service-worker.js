@@ -14,11 +14,21 @@
  *                   publish set, still v1 because nothing shipped before.
  */
 
-const CACHE_NAME = "toy-box-v2";
+// v3 2026-09-22: zoom-trap fix -- the global gesturestart pinch blocker is
+//        gone estate-wide (INTERACTION-DIRECTION.md); this bump carries it.
+// v4 2026-09-27: zoom fix C (method C, owner-approved 2026-09-25) -- the shared
+//        ./tap-zoom-guard.js stops the ZOOM of a second quick single-finger tap and
+//        re-delivers that tap, while a multi-finger pinch is never touched. It is in
+//        SHELL because a shell list is only read when CACHE_NAME changes: listing the
+//        file without the bump caches nothing, and index.html is precached, so an
+//        offline install would otherwise have a page that asks for a guard the cache
+//        never got. v3 was itself never published, so this rides an unpublished bump.
+const CACHE_NAME = "toy-box-v4";
 
 const SHELL = [
   "./",
   "./index.html",
+  "./tap-zoom-guard.js",
   "./manifest.webmanifest",
   "./styles.css",
   "./fonts.css",
