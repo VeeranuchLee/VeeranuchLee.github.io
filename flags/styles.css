@@ -618,12 +618,18 @@ body {
  *                          half, and it was missing from every app but one.
  * touch-action: manipulation  removes double-tap-to-zoom WITHOUT killing scroll.
  *                          Deliberately not `none`: that would stop scrolling.
- *                          Drawing surfaces set their own `touch-action: none`
- *                          and keep it -- a more specific rule still wins.
+ *                          Drag surfaces set their own `touch-action: pinch-zoom`
+ *                          and keep it -- a more specific rule still wins, and
+ *                          pinch-zoom still lets a two-finger pinch through.
  *
- * Pinch needs JavaScript, not CSS: iOS Safari has ignored user-scalable=no since
- * iOS 10, so the viewport meta does nothing. See the gesturestart guard in the
- * HTML.
+ * manipulation is not the whole answer on its own. iPadOS Safari still
+ * double-tap zooms with `manipulation` on html and body (observed live, and
+ * again in the owner notes 2026-09-25: "kids sometimes double tap, and on ipad
+ * it's zoom in, then they cant zoom out"). The second half of the fix is
+ * ./tap-zoom-guard.js, loaded first in index.html. It is NOT a gesturestart
+ * handler and must never become one: a document-level pinch blocker is the
+ * banned pattern in INTERACTION-DIRECTION.md, diagnosed in dollhouse-app on
+ * 2026-09-07 and re-entered across 17 apps on 2026-09-18.
  */
 html { -webkit-text-size-adjust: 100%; touch-action: manipulation; }
 
