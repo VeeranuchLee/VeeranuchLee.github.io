@@ -50,6 +50,44 @@
 
   var collected = load();
 
+  /* Grader evidence, per tracing tier (owner-commissioned 2026-09-19): the parked
+     level-tolerance decision will one day be made from what actually rejected the
+     children on this device, not from argument. Same shape as the Spelling Exam's
+     db.grader, so the two stores read side by side. Counted in onStroke, shown as a
+     muted adult line on the sticker screen; nothing here touches grading itself. */
+  if (!collected.grader) {
+    collected.grader = { accepted: 0, rejected: {
+      1: { start: 0, direction: 0, coverage: 0, accuracy: 0 },
+      2: { start: 0, direction: 0, coverage: 0, accuracy: 0 },
+      3: { start: 0, direction: 0, coverage: 0, accuracy: 0 } } };
+  }
+  function graderLine() {
+    var g = collected.grader;
+    var parts = ['start', 'direction', 'coverage', 'accuracy'].map(function (key) {
+      var n = 0;
+      [1, 2, 3].forEach(function (L) { n += g.rejected[L][key]; });
+      return n ? key + ' ' + n : null;
+    }).filter(Boolean);
+    if (!g.accepted && !parts.length) return '';
+    return 'Grown-ups — grader on this device: ' + g.accepted + ' accepted' +
+      (parts.length ? ' · rejected: ' + parts.join(' · ') : '');
+  }
+
+  /* The grown-up reset, 2026-09-19: zeroes the EVIDENCE and nothing else. Stickers,
+     collected words and every other key in this store survive; the grading thresholds
+     live in strokes.js and are never read here. The Exam Prep app carries the same
+     reset behind the same kind of small grey ✕ (its evidence lives in a store of its
+     own). The ✕ beside the line is the only door to it. */
+  function resetGraderEvidence() {
+    collected.grader = { accepted: 0, rejected: {
+      1: { start: 0, direction: 0, coverage: 0, accuracy: 0 },
+      2: { start: 0, direction: 0, coverage: 0, accuracy: 0 },
+      3: { start: 0, direction: 0, coverage: 0, accuracy: 0 } } };
+    save(collected);
+    var row = document.querySelector('.gline-row');
+    if (row) row.parentNode.removeChild(row);
+  }
+
   function collectedIn(level) {
     return collected[String(level)] || [];
   }
@@ -368,11 +406,17 @@
         onStroke: function (result) {
           if (result.pass) {
             failures = 0;
+            collected.grader.accepted++;
+            save(collected);
             Sound.play('strokeGood');
             tell(pick(PRAISE), true);
             return;
           }
           failures++;
+          if (result.reason && collected.grader.rejected[tracing][result.reason] != null) {
+            collected.grader.rejected[tracing][result.reason]++;
+            save(collected);
+          }
           Sound.play('strokeRetry');
           tell(NUDGE[result.reason] || NUDGE.tooShort);
           /* Two misses on the same stroke and the app shows the child how,
@@ -465,6 +509,8 @@
         '  <h2>Page complete!</h2>' +
         '  <p>Here is your sticker.</p>' +
         '  <img class="sticker" id="sticker" src="' + Words.card(won.slug) + '" alt="' + won.word + '">' +
+        (graderLine() ? '<p class="gline-row"><span class="gline">' + graderLine() + '</span>' +
+          '<button class="greset" id="greset" aria-label="Reset grader evidence for a fresh session">✕</button></p>' : '') +
         /* All three ways on from here. Without the third, a child who wanted a
            different page had to go via the sticker book to find one. */
         '  <div class="controls">' +
@@ -476,6 +522,7 @@
       window.setTimeout(function () { Sound.play('stickerReveal'); }, 260);
       window.setTimeout(function () { Sound.voice.word(won.slug); }, 900);
       on('#sticker', function () { Sound.voice.word(won.slug); });
+      on('#greset', function () { resetGraderEvidence(); });
     }
 
     on('#again', function () { Sound.play('tap'); startSession(page.level); });

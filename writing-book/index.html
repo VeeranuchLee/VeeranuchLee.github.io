@@ -14,16 +14,17 @@
   <body>
     <main id="screen"></main>
 
+    <!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+         First, before any app script, because it is a document-level listener and must be
+         in place before the book starts handling taps. It stops the ZOOM of a second
+         quick tap and re-delivers that tap; a multi-finger pinch is never touched, so a
+         child who is zoomed in can always pinch back out. It is NOT a gesturestart
+         handler and must never become one: a document-level pinch blocker is the banned
+         pattern in INTERACTION-DIRECTION.md. -->
+
     <!-- Load order matters. letters.js is the geometry every other file reads;
          strokes.js reads it at call time, app.js at startup. -->
-    <script>
-      /* Pinch-zoom guard. iOS Safari ignores user-scalable=no (since iOS 10), so
-         this is the only thing that stops two small hands zooming the page mid
-         stroke. gesturestart fires once per pinch; preventing it cancels the zoom
-         without touching scrolling or any single-finger gesture. Non-Safari
-         browsers never fire it, so this is inert there. */
-      document.addEventListener("gesturestart", function (e) { e.preventDefault(); }, { passive: false });
-    </script>
+    <script src="./tap-zoom-guard.js"></script>
     <script src="./letters.js"></script>
     <script src="./strokes.js"></script>
     <script src="./words.js"></script>

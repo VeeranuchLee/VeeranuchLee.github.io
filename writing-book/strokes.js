@@ -45,6 +45,34 @@
  * (CONCEPT.md §4), widened again for a finger over a stylus. All of it is in
  * LEVELS below — one table, so tuning the difficulty never means reading this
  * file.
+ *
+ * OPTIONS FOR A SECOND CONSUMER. Spelling Exam Prep writes with this engine too
+ * (spelling-exam-app/WRITING-EXPERIENCE-SPEC.md §3.2), and it needs behaviour
+ * this book does not want. Every one of those is an option on create() with a
+ * default that reproduces exactly what this book already did, and the Writing
+ * Book passes none of them:
+ *
+ *   mode: 'free'      a writing surface with no target and no grading — ruled
+ *                     lines and the child's ink, nothing else. The exam app's
+ *                     COPY and WRITE-from-memory stages, where drawing the
+ *                     dotted word would BE the answer it is withholding.
+ *   keepInk           an accepted gesture's ink stays on screen instead of
+ *                     fading out under the clean stroke. The exam owner's rule
+ *                     is "preserve the child's actual strokes; do not
+ *                     auto-beautify handwriting" — the opposite of what this
+ *                     book wants, which is the tidied letter.
+ *   palmRejection     once a pen has touched THIS surface, touch pointers on it
+ *                     are ignored for the rest of the sitting, so a hand resting
+ *                     on the iPad beside an Apple Pencil does not draw.
+ *   onInk             every finished gesture's own points, in viewBox units,
+ *                     handed to the page. This engine otherwise discards them
+ *                     with the path.
+ *   undoStroke/clear  take back the last gesture, or all of them. The internals
+ *                     existed; nothing exposed them.
+ *
+ * Under the defaults each of those is dead: mode is 'trace' or 'model', keepInk
+ * and palmRejection are false, onInk is a no-op, and undoStroke/clear are
+ * methods this book never calls.
  */
 (function (global) {
   'use strict';
@@ -95,6 +123,14 @@
      had its say and stands — so a child who traces the bowl and then scribbles
      cannot bank the bowl. */
   var MIN_RUN = 2;
+
+  /* How wide a free surface is when the page does not say, in letter-box units.
+     It is deliberately NOT derived from the word: in the exam app's WRITE stage
+     the word is the thing being withheld, and a strip that grew with the answer
+     would hand a child its length — the same leak Letter Blocks' fixed nine
+     slots exist to close. Wide enough that the strip's height, not its width,
+     is what scales the box (see the spec's §8.1 x-height requirement). */
+  var FREE_WIDTH = 640;
 
   var SAMPLE_SPACING = 2;   // letter units between samples, target and child alike
   var MIN_SAMPLES = 16;
@@ -491,24 +527,34 @@
     var svg = options.svg;
     var word = options.word;
     var level = options.level || 1;
-    var mode = options.mode === 'model' ? 'model' : 'trace';
-    var wantGuides = options.guides !== false && mode === 'trace';
+    var mode = options.mode === 'model' ? 'model' : options.mode === 'free' ? 'free' : 'trace';
+    var wantGuides = options.guides !== false && mode !== 'model';
+    var keepInk = options.keepInk === true;
+    var palmRejection = options.palmRejection === true;
     var handlers = {
       onStroke: options.onStroke || function () {},
       onLetter: options.onLetter || function () {},
       onWord: options.onWord || function () {},
-      onProgress: options.onProgress || function () {}
+      onProgress: options.onProgress || function () {},
+      onInk: options.onInk || function () {}
     };
+    /* Asked, not assumed: a page that wants no ink back never pays for the copy
+       inkRecord makes of every gesture. */
+    var wantInk = typeof options.onInk === 'function';
 
-    var layout = L.layout(word);
+    /* A free surface draws no letters at all, so it lays none out. */
+    var layout = L.layout(mode === 'free' ? '' : word);
+    var boxWidth = mode === 'free' ? (options.width || FREE_WIDTH) : layout.width;
     var strokes = [];       // flat, in teaching order, across the whole word
     var current = 0;
     var drawing = null;
     var pointerIsPen = false;
+    var penSeen = false;    // palmRejection: has a pen touched THIS surface yet
+    var inkTrail = [];      // gestures kept on screen, oldest first
     var demoTimer = null;
     var demoChain = null;
     var watchdog = null;
-    var active = mode === 'trace';
+    var active = mode !== 'model';
     var finished = false;
 
     /* ---- build the surface -------------------------------------------- */
@@ -518,7 +564,7 @@
        element, and replacing the attribute drops it. */
     svg.classList.add('wb', 'wb--' + mode);
     svg.setAttribute('viewBox', [
-      -PAD, L.ASCENDER - PAD, layout.width + PAD * 2, (L.DESCENDER - L.ASCENDER) + PAD * 2
+      -PAD, L.ASCENDER - PAD, boxWidth + PAD * 2, (L.DESCENDER - L.ASCENDER) + PAD * 2
     ].join(' '));
     svg.setAttribute('preserveAspectRatio', 'xMinYMid meet');
 
@@ -528,7 +574,7 @@
         .forEach(function (row) {
           lines.appendChild(el('line', {
             class: 'wb-guide wb-guide--' + row[1],
-            x1: -PAD, y1: row[0], x2: layout.width + PAD, y2: row[0]
+            x1: -PAD, y1: row[0], x2: boxWidth + PAD, y2: row[0]
           }));
         });
       svg.appendChild(lines);
@@ -673,7 +719,17 @@
     /* ---- drawing ------------------------------------------------------- */
 
     function beginDraw(event) {
-      if (!active || finished || current >= strokes.length) return;
+      if (!active || finished) return;
+      /* A free surface has no targets to run out of; a trace surface stops when
+         the word is written. */
+      if (mode !== 'free' && current >= strokes.length) return;
+      /* Palm rejection, off unless the page asks. The latch arms only when a pen
+         has actually touched THIS surface, so a child writing with a finger is
+         never locked out, and it lives in memory — a new surface starts open. */
+      if (palmRejection) {
+        if (event.pointerType === 'pen') penSeen = true;
+        else if (penSeen) return;
+      }
       stopDemo();
       /* Capture keeps the trail alive when a finger slides off the paper. It is
          not essential, and it throws for pointer ids the browser is not tracking,
@@ -701,11 +757,46 @@
       drawing.path.setAttribute('d', d);
     }
 
+    /* One finished gesture, in the coordinates it was drawn in. viewBox units are
+       the whole point: the SVG rescales them on resize and rotation, so a stored
+       stroke re-renders at any later size without being recomputed. Rounded to
+       one decimal, the same precision renderInk draws at, so what is handed back
+       is what was on the glass. */
+    function inkRecord(attempt, completed) {
+      return {
+        points: attempt.points.map(function (p) {
+          return { x: Math.round(p.x * 10) / 10, y: Math.round(p.y * 10) / 10 };
+        }),
+        completed: completed,
+        box: {
+          x: -PAD, y: L.ASCENDER - PAD,
+          w: boxWidth + PAD * 2, h: (L.DESCENDER - L.ASCENDER) + PAD * 2
+        }
+      };
+    }
+
+    /* Leave the child's own line where they drew it, and remember it so undo and
+       clear have something to take back. */
+    function keepGesture(attempt, completed) {
+      attempt.path.classList.add('is-kept');
+      attempt.completed = completed;
+      inkTrail.push(attempt);
+    }
+
     function endDraw(event) {
       if (!drawing || event.pointerId !== drawing.pointerId) return;
       var attempt = drawing;
       drawing = null;
       try { svg.releasePointerCapture(event.pointerId); } catch (e) { /* already gone */ }
+
+      /* Free mode grades nothing, so there is nothing to accept or reject: the
+         gesture IS the answer and it stays, whatever keepInk says. Removing it
+         would leave a child looking at the blank line they just wrote on. */
+      if (mode === 'free') {
+        keepGesture(attempt, 0);
+        if (wantInk) handlers.onInk(inkRecord(attempt, 0));
+        return;
+      }
 
       var stroke = strokes[current];
       var run = letterRun();
@@ -718,12 +809,19 @@
       result.strokes = read.completed;
 
       if (read.completed) {
-        /* The child's own wobble fades as the clean stroke draws itself in —
-           they see what they made, tidied, rather than a red mark. */
-        attempt.path.classList.add('is-accepted');
-        window.setTimeout(function () {
-          if (attempt.path.parentNode) attempt.path.parentNode.removeChild(attempt.path);
-        }, 320);
+        if (keepInk) {
+          /* Asked for by a page that must not beautify: the child's line stays
+             exactly where their hand put it, and the clean stroke draws in
+             alongside rather than over the top of it. */
+          keepGesture(attempt, read.completed);
+        } else {
+          /* The child's own wobble fades as the clean stroke draws itself in —
+             they see what they made, tidied, rather than a red mark. */
+          attempt.path.classList.add('is-accepted');
+          window.setTimeout(function () {
+            if (attempt.path.parentNode) attempt.path.parentNode.removeChild(attempt.path);
+          }, 320);
+        }
         for (var n = 0; n < read.completed; n++) completeStroke();
       } else {
         attempt.path.classList.add('is-rejected');
@@ -734,9 +832,10 @@
         window.setTimeout(function () { startDot.classList.remove('is-nudging'); }, 700);
       }
       handlers.onStroke(result);
+      if (wantInk) handlers.onInk(inkRecord(attempt, read.completed));
     }
 
-    if (mode === 'trace') {
+    if (mode !== 'model') {
       svg.addEventListener('pointerdown', beginDraw);
       svg.addEventListener('pointermove', moveDraw);
       svg.addEventListener('pointerup', endDraw);
@@ -849,6 +948,7 @@
        This is what the "how to" row does when it is tapped. */
     function demoWord(speed) {
       stopDemo();
+      if (!strokes.length) return;   // a free surface has nothing to demonstrate
       /* requestAnimationFrame does not fire while the document is hidden — a
          backgrounded app, or a preview pane. Blanking the word and waiting for
          frames that never arrive would leave the row empty, so skip straight to
@@ -883,9 +983,60 @@
       next();
     }
 
+    /* ---- taking it back ------------------------------------------------
+     *
+     * Undo and clear are the exam app's controls (spec §3.2.3). The Writing Book
+     * calls neither: there, a stroke the child has earned is theirs, and the only
+     * help is a slow demonstration. Everything below is built out of what the
+     * engine already did to itself — hideInk and showCurrent — so an undone row
+     * is bit-for-bit a row that was never written on. */
+
+    /* Step the trace back over `n` accepted target strokes. */
+    function rewindStrokes(n) {
+      var wasFinished = finished;
+      current = Math.max(0, current - (n || 0));
+      for (var i = current; i < strokes.length; i++) {
+        strokes[i].guide.classList.remove('is-finished');
+        strokes[i].ghost.classList.remove('is-finished');
+      }
+      hideInk(current);
+      if (wasFinished && current < strokes.length) {
+        finished = false;
+        active = mode !== 'model';
+        svg.classList.remove('is-finished');
+      }
+      showCurrent();
+    }
+
+    /* The last gesture, undone: its ink leaves the page and the targets it was
+       credited with go back to waiting. Returns false when there is nothing left
+       to take back, so a page can grey its own button. */
+    function undoStroke() {
+      var last = inkTrail.pop();
+      if (!last) {
+        /* Nothing of the child's hand is being kept — the default — so the only
+           record of the last stroke is the target it inked in. */
+        if (mode === 'trace' && current > 0) { rewindStrokes(1); return true; }
+        return false;
+      }
+      if (last.path.parentNode) last.path.parentNode.removeChild(last.path);
+      rewindStrokes(last.completed);
+      return true;
+    }
+
+    /* The whole word, back to blank. A crossed-out attempt is legitimate on
+       paper, and so is starting the line again. */
+    function clear() {
+      if (drawing && drawing.path.parentNode) drawing.path.parentNode.removeChild(drawing.path);
+      drawing = null;
+      inkTrail.length = 0;
+      while (inkLayer.firstChild) inkLayer.removeChild(inkLayer.firstChild);
+      rewindStrokes(current);
+    }
+
     function destroy() {
       stopDemo();
-      if (mode === 'trace') {
+      if (mode !== 'model') {
         svg.removeEventListener('pointerdown', beginDraw);
         svg.removeEventListener('pointermove', moveDraw);
         svg.removeEventListener('pointerup', endDraw);
@@ -939,7 +1090,24 @@
       giveStroke: function () {
         if (current < strokes.length) completeStroke();
       },
-      setLevel: function (next) { level = next; }
+      setLevel: function (next) { level = next; },
+
+      /* ---- the options' surface (spec §3.2), inert under the defaults ---- */
+      undoStroke: undoStroke,
+      clear: clear,
+      /* Every gesture still on the page, oldest first, in viewBox units. Empty
+         unless the page asked for the ink to be kept. */
+      ink: function () {
+        return inkTrail.map(function (entry) { return inkRecord(entry, entry.completed); });
+      },
+      inkCount: function () { return inkTrail.length; },
+      /* The coordinate space those points live in. */
+      box: function () {
+        return {
+          x: -PAD, y: L.ASCENDER - PAD,
+          w: boxWidth + PAD * 2, h: (L.DESCENDER - L.ASCENDER) + PAD * 2
+        };
+      }
     };
   }
 

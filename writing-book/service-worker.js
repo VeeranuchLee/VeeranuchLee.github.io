@@ -92,7 +92,15 @@
 
 /* CACHE_NAME is the variable the release pipeline reads (publish-app.sh matches
    /CACHE_NAME\s*=/). Do not rename it; see release/registry.json, writing-book. */
-const CACHE_NAME = "writing-book-v2";
+// v3 2026-09-22: zoom-trap fix -- the global gesturestart pinch blocker is
+//        gone estate-wide (INTERACTION-DIRECTION.md); this bump carries it.
+// v4 2026-09-26: zoom fix C (method C, owner-approved 2026-09-25) -- the shared
+//        ./tap-zoom-guard.js stops the second quick tap's zoom and re-delivers
+//        the tap, while a multi-finger pinch is never touched. It has to be IN
+//        SHELL, not merely fetched at runtime: a shell list is only read when
+//        CACHE_NAME changes, so an offline install without it would have a page
+//        that asks for a guard the cache never got.
+const CACHE_NAME = "writing-book-v4";
 
 /* words.js is the single source of truth for the hundred words and the four papers.
    See THE SHELL above for why this is an import and not a copied list. */
@@ -104,6 +112,9 @@ const SHELL = [
   "./",
   "./index.html",
   "./styles.css",
+
+  // Zoom fix C, ahead of the load order below, exactly as index.html declares it.
+  "./tap-zoom-guard.js",
 
   // Load order as index.html declares it. letters.js is the geometry the rest read.
   "./letters.js",

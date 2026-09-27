@@ -1,8 +1,14 @@
 /* Writing Book — prototype styles.
  *
  * Target device is a 9.7" iPad, 768 px wide, held in portrait. Not a phone.
- * Every tap target below is at least 64 px, and the writing area is sized for a
- * child's finger rather than a cursor.
+ * Most tap targets below are at least 64 px, and the writing area is sized for a
+ * child's finger rather than a cursor. TWO ARE NOT, measured 2026-09-18: the
+ * say-badge is 44x44 (.wordcard__say) and the "watch how" button is 42x42
+ * (.playrow), both under the ~48 px this project aims at. This line used to claim
+ * EVERY target was 64 px, which was false in its own file. The sizes are the thing
+ * to fix -- see coordination/qa/2026-09-18-ipad-reachability-audit.md -- but the
+ * claim was fixed first, because a comment that lies is worse than a small button:
+ * the button inconveniences a child once, the comment stops anyone looking.
  *
  * CONCEPT.md §25: one primary task per screen. On the writing screen the word
  * is the largest thing on the paper and the controls are deliberately quiet.
@@ -201,7 +207,13 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   left: 50px; top: 0;
   width: calc(100% - 50px);
   height: 100%;
-  touch-action: none;
+  /* Zoom fix C, 2026-09-26: was `none`, and the comment below it said a drawing
+     surface "wants every gesture". That was true of panning and false of pinch: a
+     stroke is traced with one finger (strokes.js takes a single point per move) and
+     `none` here meant a child who zoomed the book in could not zoom it out. This is
+     the near-full-width tracing row, so it covered most of the screen. `pinch-zoom`
+     suppresses panning exactly as `none` did and gives the pinch back. */
+  touch-action: pinch-zoom;
   overflow: visible;
 }
 
@@ -690,14 +702,22 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
  *
  * `touch-action: manipulation` removes the 300ms double-tap-to-zoom without
  * removing scrolling or panning. It is deliberately NOT `none`: that would kill
- * scrolling everywhere. The tracing surface sets its own `touch-action: none`
- * (.rowsvg above) and must keep it -- a drawing surface wants every gesture.
+ * scrolling everywhere. The tracing surface sets its own
+ * `touch-action: pinch-zoom` (.rowsvg above) and keeps it -- a more specific rule
+ * still wins, and pinch-zoom still lets a two-finger pinch through, which `none`
+ * did not.
  *
- * Pinch-zoom needs JavaScript, not CSS: iOS Safari has ignored
- * `user-scalable=no` since iOS 10, so a viewport meta alone does nothing. See the
- * gesturestart guard in index.html.
+ * manipulation is not the whole answer on its own. iPadOS Safari still double-tap
+ * zooms with it in place (owner, 2026-09-25: "kids sometimes double tap, and on
+ * ipad it's zoom in, then they cant zoom out"), which is what ./tap-zoom-guard.js,
+ * loaded first in index.html, is for. It is NOT a gesturestart handler and must
+ * never become one: a document-level pinch blocker is the banned pattern in
+ * INTERACTION-DIRECTION.md, diagnosed in dollhouse-app on 2026-09-07. A book is
+ * the most tap-heavy app in the estate -- every card is tapped to hear a word, and
+ * a child working along a row taps again straight away -- so the quick-second-tap
+ * the guard cancels is close to the normal rhythm of play here.
  */
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; touch-action: manipulation; }
 
 body {
   -webkit-user-select: none;
@@ -712,3 +732,14 @@ input, textarea, [contenteditable="true"] {
   -webkit-user-select: text;
   user-select: text;
 }
+
+/* The grader evidence line on the sticker screen (2026-09-19): small, muted, for the
+   adult over the shoulder -- the sticker stays the child's moment. */
+.gline{margin:8px auto 0;font-size:.78rem;color:#9aa3ae;font-weight:700}
+
+/* The grown-ups evidence row on the sticker screen: the muted line plus a small grey
+   ✕ that resets the grader EVIDENCE only (2026-09-19) -- stickers and collected
+   words survive, the thresholds never knew it happened. */
+.gline-row{margin:8px auto 0;display:flex;align-items:center;justify-content:center;gap:8px}
+.greset{border:0;background:none;color:#b6bec9;font-size:.85rem;min-width:26px;min-height:26px;padding:0 4px;cursor:pointer}
+.greset:active{color:#8a93a0}
