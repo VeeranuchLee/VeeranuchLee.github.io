@@ -1,0 +1,99 @@
+:root{font-family:Nunito,"Avenir Next",system-ui,sans-serif;color:#60446f;background:#ffdce9;touch-action:manipulation;--panel:#fff9fd;--pink:#f753a8;--purple:#8a71ed;--blue:#56bde9}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;touch-action:manipulation}
+body{min-height:100svh;background:#f8cade;overflow-x:hidden}
+.app{width:min(100%,1100px);min-height:100svh;margin:auto;display:grid;grid-template-rows:auto minmax(380px,1fr) auto;padding:max(10px,env(safe-area-inset-top)) 12px max(10px,env(safe-area-inset-bottom));gap:8px}
+.topbar{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:3}
+.logo{display:flex;align-items:center;gap:5px;transform:rotate(-2deg);text-shadow:0 2px #fff}
+.logo span{font-size:36px}
+.logo b,.logo em{font-size:clamp(24px,4vw,42px);font-style:normal;color:#ed4e9c}
+.logo em{color:#8265e7}
+.actions{display:flex;gap:8px}
+.action,.tabs button,.choice{border:0;font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.action{width:64px;height:58px;border-radius:22px;color:white;font-weight:900;font-size:29px;border:3px solid #fff;box-shadow:0 5px 12px #99547838;display:grid;place-items:center;line-height:1}
+.action small{font-size:13px;margin-top:-9px}
+.action:active,.choice:active,.tabs button:active{transform:scale(.94)}
+.action:disabled{opacity:.45}
+.pink{background:linear-gradient(#ff70bd,#e93c95)}
+.purple{background:linear-gradient(#a895ff,#7961db)}
+.blue{background:linear-gradient(#75d4f4,#3aaad8)}
+.salon-stage{position:relative;min-height:0;display:grid;place-items:center;border-radius:38px;background:url("./assets/art/salon-portrait.webp") center/cover no-repeat;overflow:hidden;border:3px solid #fff8;box-shadow:inset 0 -30px 60px #f9acd333,0 8px 24px #a15d8230}
+.salon-stage:before,.salon-stage:after{content:"";position:absolute;border-radius:50%;background:#fff8;filter:blur(2px)}
+.salon-stage:before{width:170px;height:170px;left:-50px;top:-50px}
+.salon-stage:after{width:120px;height:120px;right:-20px;top:30px}
+.sparkles{position:absolute;top:12%;left:8%;font-size:35px;color:white;text-shadow:180px 65px #fff,480px 10px #fff;z-index:2}
+#handSvg{width:min(97%,650px);height:100%;max-height:610px;overflow:visible;touch-action:manipulation;filter:drop-shadow(0 10px 12px #8c4c7040)}
+.painted-hand{pointer-events:none}
+.nail-hit{fill:transparent;stroke:transparent;stroke-width:18;cursor:pointer;pointer-events:stroke fill}
+.nail-base{stroke:none;filter:drop-shadow(0 1px 1px #7c405a45)}
+.nail-rim{fill:none;stroke:#8e4f696b;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.nail-selected{fill:none;stroke:#68dff4;stroke-width:4;stroke-linejoin:round;filter:drop-shadow(0 0 5px #fff);animation:pulse 1.3s ease-in-out infinite}
+.nail-shine{fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;opacity:.46;pointer-events:none}
+.nail-pattern{pointer-events:none}
+.decoration{pointer-events:none;filter:drop-shadow(0 2px 2px #843d6266)}
+@keyframes pulse{50%{stroke-width:6;opacity:.62}
+}
+.tap-burst{position:absolute;font-size:38px;color:#fff;opacity:0;pointer-events:none;text-shadow:0 0 9px #ef4da8}
+.tap-burst.go{animation:burst .4s ease-out}
+@keyframes burst{0%{opacity:1;transform:scale(.4)}
+100%{opacity:0;transform:scale(1.8) rotate(35deg)}
+}
+.studio{position:relative;z-index:4}
+.tabs{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
+.tabs button{min-height:64px;border-radius:22px 22px 8px 8px;background:linear-gradient(#fff,#eee4ff);box-shadow:inset 0 0 0 3px #fff,0 -2px 9px #8f6ab333;color:#68548c;font-weight:900;font-size:12px;display:flex;align-items:center;justify-content:center;gap:4px;flex-direction:column}
+.tabs button span{font-size:25px}
+.tabs button span img{width:34px;height:34px;object-fit:contain}
+.tabs button.active{background:linear-gradient(#ff75bd,#f344a1);color:white;transform:translateY(-3px)}
+.tray{min-height:116px;background:#fff9fd;border:3px solid #fff;border-radius:24px;box-shadow:0 7px 22px #964b8030;padding:10px;display:flex;align-items:center;gap:10px;overflow-x:auto;scrollbar-width:none}
+.tray::-webkit-scrollbar{display:none}
+.choice{flex:0 0 76px;height:82px;border-radius:18px;background:#f7eafa;box-shadow:inset 0 0 0 2px #fff,0 3px 8px #80516920;color:#6a4c7e;display:grid;place-items:center;padding:5px;font-size:28px;font-weight:900;position:relative}
+.choice.selected{outline:5px solid #ef5bab;background:#fff}
+.choice img{width:65px;height:65px;object-fit:contain}
+.choice small{font-size:10px;line-height:1}
+.polish-dot{width:50px;height:65px;border-radius:24px 24px 18px 18px;background:var(--color);box-shadow:inset 8px 4px 8px #fff7,inset -5px -5px 7px #703b6c22}
+.shape-icon{width:34px;height:59px;background:#ef91bb;border:2px solid #a85a7d;box-shadow:inset 5px 2px 6px #fff7;clip-path:polygon(12% 100%,4% 70%,5% 24%,12% 10%,25% 3%,75% 3%,88% 10%,95% 24%,96% 70%,88% 100%,62% 86%,38% 86%)}
+.shape-round{border-radius:50% 50% 18% 18%}
+.shape-square{border-radius:7px 7px 13px 13px;clip-path:polygon(15% 100%,5% 72%,5% 12%,13% 4%,87% 4%,95% 12%,95% 72%,85% 100%,62% 87%,38% 87%)}
+.shape-almond{border-radius:50% 50% 18% 18%;clip-path:polygon(50% 0,72% 13%,90% 38%,96% 72%,86% 100%,62% 87%,38% 87%,14% 100%,4% 72%,10% 38%,28% 13%)}
+.shape-oval{border-radius:50% 50% 18% 18%;clip-path:ellipse(48% 56% at 50% 48%)}
+.shape-long{height:70px}
+.pattern-icon{width:54px;height:65px;border-radius:23px;background-color:#f38aae;border:3px solid white}
+.pattern-stripes{background:repeating-linear-gradient(45deg,#f38aae 0 9px,#fff 9px 15px)}
+.pattern-dots{background-color:#8ddfe0;background-image:radial-gradient(#fff 25%,transparent 27%);background-size:17px 17px}
+.pattern-french{background:linear-gradient(#f1b5a6 65%,#fff 66%)}
+.pattern-hearts{background-color:#f4a4ca;background-image:radial-gradient(circle at 35% 38%,#fff 0 6px,transparent 7px),radial-gradient(circle at 65% 38%,#fff 0 6px,transparent 7px)}
+.pattern-gradient{background:linear-gradient(#ff69ad,#9476ff)}
+.gem{width:50px;height:50px;clip-path:polygon(50% 0,90% 23%,78% 80%,50% 100%,22% 80%,10% 23%);background:linear-gradient(135deg,#fff 0 12%,var(--gem) 15% 55%,#fff 58% 65%,var(--gem) 70%);filter:drop-shadow(0 3px 2px #6d477066)}
+.gem-emerald{--gem:#42c891;clip-path:polygon(25% 5%,75% 5%,96% 35%,72% 94%,28% 94%,4% 35%);box-shadow:inset 0 0 0 5px #a9f5d2}
+.accessory{font-size:48px}
+.hint-chip{min-width:70px;grid-template-columns:repeat(2,12px);grid-template-rows:repeat(2,12px);gap:8px;align-content:center;justify-content:center}
+.decoration-pip{width:12px;height:12px;border-radius:50%;background:#ddcbe8;box-shadow:inset 0 1px 2px #795d9133,0 1px 0 #fff}
+.decoration-pip.filled{background:linear-gradient(135deg,#fff 0 12%,#f154a8 22% 58%,#9c72e8 68%);box-shadow:0 0 0 2px #fff,0 2px 4px #8e4b7a55}
+.feedback{animation:feedback .25s ease-out}
+@keyframes feedback{50%{filter:brightness(1.25)}
+}
+
+@media (orientation:landscape){.app{height:100svh;grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto;padding:8px;gap:6px}
+.topbar{position:absolute;top:8px;left:18px;right:18px;z-index:6;pointer-events:none}
+.topbar>*{pointer-events:auto}
+.salon-stage{grid-row:1;grid-column:1;background-image:url("./assets/art/salon-landscape.webp");border-radius:32px}
+.studio{grid-row:2;grid-column:1;display:block;min-width:0}
+.tabs{grid-template-columns:repeat(6,1fr);grid-template-rows:none}
+.tabs button{min-height:52px;border-radius:18px 18px 7px 7px;flex-direction:row;font-size:11px}
+.tabs button span{font-size:22px}
+.tabs button span img{width:29px;height:29px}
+.tray{height:96px;min-height:96px;padding:7px 10px;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden}
+.choice{flex-basis:70px;height:76px}
+#handSvg{width:min(100%,690px);height:100%;max-height:none}
+}
+
+@media (max-width:600px){.app{padding-left:6px;padding-right:6px}
+.logo em{display:none}
+.tabs button{font-size:0}
+.tabs button span{font-size:29px}
+.choice{flex-basis:70px}
+.tray{min-height:108px}
+}
+
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important}
+}
