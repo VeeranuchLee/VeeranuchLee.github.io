@@ -2,7 +2,7 @@
    LETTERS engine (Phase 3, PRODUCT-SPEC.md §5) and the MC + mission loop of
    Phase 4: mission selection and persistence (PRODUCT-SPEC.md §9), the
    question screen and both answer modes with their 1/2/3 scaffolding ladders
-   (§5.4, §6.1), the after-correct sequence with its wait-for-voice beat and
+   (§5.4, §6.1), the after-correct sequence with its short feedback beat and
    Mission Complete (§5.5, §8). The narration player is cloned from Planets &
    Moons (solar-system-game/app.js:576-614) over an EMPTY manifest -- no clip
    exists yet, and the player must stay quiet and correct when a line has no
@@ -117,6 +117,12 @@ function speak(text) {
     const played = voice.el.play();
     if (played && played.catch) played.catch(() => {});
   } catch (e) { voice.dead = true; }
+}
+
+function stopVoice() {
+  if (!voice.el) return;
+  voice.el.pause();
+  try { voice.el.currentTime = 0; } catch (e) {}
 }
 
 /* ------------------------------------------------------------------- sfx ---
@@ -658,6 +664,7 @@ function startMission() {
 function renderQuestion() {
   const q = state.queue[state.i];
   if (!q) return;
+  clearTimeout(nextTimer);
 
   /* The answer UI mounts FIRST, before one pixel of this screen changes, and
      each mount owns clearing #answer-area. A mount that throws therefore
@@ -702,6 +709,11 @@ function renderQuestion() {
 function nextQuestion() {
   clearTimeout(askTimer);
   clearTimeout(beatTimer);
+  clearTimeout(nextTimer);
+  /* Next may arrive while the correct-answer line is still speaking. Stop
+     the shared player before mounting the next question so its voice cannot
+     overlap the next question's chime or narration. */
+  stopVoice();
   state.i += 1;
   state.attempts = 0;
   state.hinted = false;
@@ -940,9 +952,11 @@ function onCorrectAnswer(q) {
   setFeedback(q.teachingFactText);  /* readable without sound (§5.5.4) */
   speak(q.correctVoiceText);
   recordResult(q);
-  /* Next appears only when the voice is done (the beat): the child continues
-     when they choose, never on a timer. */
-  nextBeat(1400, mountNext);
+  /* The success chime's last note ends at about 0.68s. Show Next just after
+     that feedback lands, without waiting for the full narration; advancing
+     remains the child's choice. */
+  clearTimeout(nextTimer);
+  nextTimer = setTimeout(mountNext, 800);
 }
 
 function mountNext() {
@@ -992,9 +1006,8 @@ function celebrate() {
 }
 
 /* ------------------------------------------------------------- the beat ---
-   Anything scheduled after a spoken line waits for the voice (§5.5.3): the
-   retry line must finish before the question replays, and Next does not
-   appear until the correct line is done. Cloned from Planets & Moons
+   Retry lines wait for the voice before the question replays. Cloned from
+   Planets & Moons
    (solar-system-game/app.js:616-662), policy intact: polling, not the
    `ended` event -- a clip that 404s, a device that refused playback and a
    backgrounded tab all leave `ended` unfired, and the game must never sit
@@ -1005,6 +1018,7 @@ const QUIET = 700;         /* silence between a line ending and the next thing *
 const SPEAK_CAP = 15000;   /* a stalled clip must not hold the game up forever */
 let askTimer = null;
 let beatTimer = null;
+let nextTimer = null;
 
 function nextBeat(floor, fn) {
   clearTimeout(beatTimer);
@@ -1415,10 +1429,11 @@ $("#back").onclick = () => {
      a miss would otherwise fire after the child had gone. */
   clearTimeout(askTimer);
   clearTimeout(beatTimer);
+  clearTimeout(nextTimer);
   /* ...and the line already playing. Clearing the timers stops the NEXT
      sound; a retry line or question still mid-word would otherwise talk on
      over the Start screen once clips exist (silent today, so unseen). */
-  if (voice.el) voice.el.pause();
+  stopVoice();
   cancelDrag();   /* a second finger on Back must not leave a letter floating over Start */
   showScreen("start");
 };
