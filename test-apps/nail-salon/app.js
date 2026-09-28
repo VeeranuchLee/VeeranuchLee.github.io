@@ -15,12 +15,21 @@
   const tabs = [
     { id:'shape', icon:'▰', label:'Shape' }, { id:'polish', icon:'<img src="./assets/icons/polish-bottle.webp" alt="">', label:'Polish' },
     { id:'pattern', icon:'✿', label:'Pattern' }, { id:'sticker', icon:'★', label:'Sticker' },
-    { id:'gem', icon:'◆', label:'Gem' }, { id:'accessories', icon:'🎀', label:'Accessories' }
+    { id:'gem', icon:'◆', label:'Gem' }, { id:'sparkle', icon:'✦', label:'Sparkle' }, { id:'accessories', icon:'🎀', label:'Accessories' }
   ];
   const polish = ['#f15b9c','#f58aaa','#ff9c87','#ffb35c','#ffd267','#72d8cd','#65bceb','#a989e9','#e9685e','#d8205d','#372d3b','#f3efe9'];
-  const stickers = ['daisy','bow','strawberry','star','heart','rainbow','kitten','cherries'];
+  const stickerPacks = {
+    favourites:{icon:'★',items:['daisy','bow','strawberry','star','heart','rainbow','kitten','cherries'],legacy:true},
+    sweets:{icon:'🧁',items:['cupcake','ice-cream','lollipop','donut','macaron','candy']},
+    animals:{icon:'🐰',items:['bunny','puppy','panda','bear','duck','fox']},
+    garden:{icon:'🌷',items:['tulip','rose','sunflower','leaf','butterfly','ladybird']},
+    sky:{icon:'🌙',items:['moon','planet','rocket','cloud','sun','shooting-star']},
+    ocean:{icon:'🐚',items:['shell','starfish','fish','whale','octopus','pearl']}
+  };
+  const singlePatterns = new Set(['stripes','dots','hearts','stars','checks','flowers','waves','glitter-tip','moon-stars']);
   const gems = [{id:'ruby',art:'gem-heart'},{id:'aqua',art:'gem-blue'},{id:'violet',art:'gem-flower'},{id:'pearl',art:'gem-pearl'},{id:'gold',art:'gem-star'},{id:'mint',art:null}];
   let activeTab = 'polish';
+  let activePack = 'favourites';
   let audio;
 
   function el(name, attrs={}) { const n=document.createElementNS(svgNS,name); Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v)); return n; }
@@ -42,7 +51,7 @@
     const d=nailPath(m,shape);
     return d.slice(0,d.lastIndexOf(' Q'))+` Q${m.cx} ${m.baseY+2} ${m.x+1.5} ${m.baseY-4}`;
   }
-  function fillFor(nail){ if(nail.finish==='glitter')return 'url(#glitter)'; if(nail.finish==='shimmer')return 'url(#shimmer)'; if(nail.finish==='chrome')return 'url(#chrome)'; if(nail.pattern==='gradient')return 'url(#polishGradient)'; return nail.polish; }
+  function fillFor(nail){ if(nail.finish==='glitter')return 'url(#glitter)'; if(nail.finish==='shimmer')return 'url(#shimmer)'; if(nail.finish==='chrome')return 'url(#chrome)'; return nail.polish; }
   function renderNails(){
     nailsRoot.replaceChildren();
     state.nails.forEach((nail,index)=>{
@@ -55,6 +64,7 @@
       addDecorations(decorGroup,nail.stickers,'sticker',m);
       addDecorations(decorGroup,nail.gems,'gem',m);
       group.append(decorGroup);
+      addSparkle(group,nail,m,clipId,index);
       group.append(el('path',{class:'nail-rim',d:rimPath(m,nail.shape)}));
       group.append(el('path',{class:'nail-shine',d:`M${m.x+m.w*.3} ${m.y+11} C${m.x+m.w*.22} ${m.y+m.h*.34} ${m.x+m.w*.25} ${m.y+m.h*.58} ${m.x+m.w*.34} ${m.y+m.h*.7}`}));
       if(index===state.selected) group.append(el('path',{class:'nail-selected',d}));
@@ -67,13 +77,27 @@
     renderAccessories(); undoButton.disabled=!state.history.length;
   }
   function addPattern(group,nail,m,clipId){
-    if(nail.pattern==='none'||nail.pattern==='gradient')return;
+    if(nail.pattern==='none')return;
     const p=el('g',{class:'nail-pattern','clip-path':`url(#${clipId})`});
-    if(nail.pattern==='stripes') for(let x=m.x-50;x<m.x+m.w+60;x+=18)p.append(el('line',{x1:x,y1:m.y+m.h,x2:x+65,y2:m.y,stroke:'#fff','stroke-width':8,opacity:.78}));
-    if(nail.pattern==='dots') for(let y=m.y+18;y<m.y+m.h;y+=22)for(let x=m.x+14;x<m.x+m.w;x+=24)p.append(el('circle',{cx:x,cy:y,r:5,fill:'#fff',opacity:.9}));
-    if(nail.pattern==='french')p.append(el('path',{d:`M${m.x-3} ${m.y+18} Q${m.x+m.w/2} ${m.y+34} ${m.x+m.w+3} ${m.y+18} L${m.x+m.w+3} ${m.y-3} L${m.x-3} ${m.y-3}Z`,fill:'#fff'}));
-    if(nail.pattern==='hearts')p.append(el('text',{x:m.x+m.w/2,y:m.y+m.h*.62,'text-anchor':'middle','font-size':30,fill:'#fff'})).textContent='♥';
+    const c=nail.patternColor||'#fff';
+    if(nail.pattern==='stripes'||nail.pattern==='rainbow') for(let x=m.x-55,i=0;x<m.x+m.w+65;x+=12,i++)p.append(el('line',{x1:x,y1:m.y+m.h,x2:x+68,y2:m.y,stroke:nail.pattern==='rainbow'?['#ff557d','#ffb84d','#ffe45e','#55d7a2','#55aef1','#9b72e8'][i%6]:c,'stroke-width':7,opacity:.9}));
+    if(nail.pattern==='dots'||nail.pattern==='leopard') for(let y=m.y+12;y<m.y+m.h;y+=17)for(let x=m.x+9;x<m.x+m.w;x+=17){p.append(el('circle',{cx:x,cy:y,r:nail.pattern==='leopard'?6:4,fill:nail.pattern==='leopard'?'#d99a52':c,stroke:nail.pattern==='leopard'?'#5f3b35':'none','stroke-width':2}));}
+    if(nail.pattern==='glitter-tip')p.append(el('path',{d:`M${m.x-3} ${m.y+20} Q${m.cx} ${m.y+34} ${m.x+m.w+3} ${m.y+20}V${m.y-4}H${m.x-3}Z`,fill:c,opacity:.88}));
+    if(['hearts','stars','flowers','moon-stars'].includes(nail.pattern)){const chars={hearts:'♥',stars:'★',flowers:'✿','moon-stars':'☾✦'};for(let y=m.y+22;y<m.y+m.h;y+=25){const t=el('text',{x:m.cx,y,'text-anchor':'middle','font-size':16,fill:c});t.textContent=chars[nail.pattern];p.append(t);}}
+    if(nail.pattern==='checks')for(let y=m.y;y<m.y+m.h;y+=14)for(let x=m.x;x<m.x+m.w;x+=14)if(((x+y)/14)%2<1)p.append(el('rect',{x,y,width:14,height:14,fill:c,opacity:.8}));
+    if(nail.pattern==='waves')for(let y=m.y+14;y<m.y+m.h;y+=18)p.append(el('path',{d:`M${m.x-5} ${y}q10-10 20 0t20 0t20 0`,fill:'none',stroke:c,'stroke-width':5}));
+    if(nail.pattern==='marble')for(let i=0;i<4;i++)p.append(el('path',{d:`M${m.x-8} ${m.y+12+i*18} C${m.cx-8} ${m.y+i*14},${m.cx+7} ${m.y+28+i*12},${m.x+m.w+8} ${m.y+8+i*18}`,fill:'none',stroke:['#fff','#bb83dc','#71d9d3','#ffd2e4'][i],'stroke-width':5,opacity:.8}));
+    if(nail.pattern==='ombre')p.append(el('rect',{x:m.x,y:m.y,width:m.w,height:m.h,fill:'url(#polishGradient)',opacity:.88}));
     group.append(p);
+  }
+  function addSparkle(group,nail,m,clipId,index){
+    if(!nail.sparkle||nail.sparkle==='none')return;
+    const g=el('g',{class:`topcoat topcoat-${nail.sparkle}`,'data-sparkle-effect':nail.sparkle,'clip-path':`url(#${clipId})`});
+    if(nail.sparkle==='glitter')for(let i=0;i<24;i++)g.append(el('circle',{class:'glitter-fleck',cx:m.x+4+(i*17)%Math.max(8,m.w-8),cy:m.y+5+(i*23)%Math.max(12,m.h-10),r:i%4===0?2.8:i%2===0?1.9:1.25,fill:['#fff','#ffe46d','#8df5ef','#ff8bd1'][i%4],stroke:i%4===0?'#d99635':'none','stroke-width':.5}));
+    if(nail.sparkle==='shine'){g.append(el('path',{class:'shine-streak',d:`M${m.x+m.w*.25} ${m.y+7} Q${m.x+m.w*.08} ${m.y+m.h*.42} ${m.x+m.w*.27} ${m.y+m.h*.72}`,fill:'none',stroke:'#fff','stroke-width':8,opacity:.92,'stroke-linecap':'round'}));g.append(el('ellipse',{cx:m.x+m.w*.68,cy:m.y+m.h*.22,rx:m.w*.12,ry:m.h*.07,fill:'#fff',opacity:.76}));}
+    if(nail.sparkle==='twinkles')[[.27,.25,9],[.72,.48,8],[.42,.73,7]].forEach(([x,y,r],i)=>{const cx=m.x+m.w*x,cy=m.y+m.h*y;g.append(el('circle',{class:'twinkle-halo',cx,cy,r:r*.72}));g.append(el('path',{class:'twinkle-star',d:`M${cx} ${cy-r} L${cx+r*.28} ${cy-r*.28} L${cx+r} ${cy} L${cx+r*.28} ${cy+r*.28} L${cx} ${cy+r} L${cx-r*.28} ${cy+r*.28} L${cx-r} ${cy} L${cx-r*.28} ${cy-r*.28} Z`,fill:'#ffe35b','data-star':i}));});
+    if(nail.sparkle==='holo'){g.append(el('rect',{class:'holo-sheen',x:m.x,y:m.y,width:m.w,height:m.h,fill:'url(#holoTopcoat)',opacity:.68}));g.append(el('path',{d:`M${m.x-5} ${m.y+m.h*.72} L${m.x+m.w+5} ${m.y+m.h*.28}`,stroke:'#fff','stroke-width':9,opacity:.38}));}
+    group.append(g);
   }
   const layouts={1:[[.5,.5,30]],2:[[.35,.43,22],[.66,.65,22]],3:[[.5,.28,19],[.31,.65,19],[.7,.65,19]],4:[[.31,.3,17],[.69,.3,17],[.31,.7,17],[.69,.7,17]]};
   const gemLayouts={1:[[.5,.76,21]],2:[[.28,.72,17],[.72,.72,17]],3:[[.25,.72,15],[.5,.53,15],[.75,.72,15]],4:[[.22,.7,13],[.43,.55,13],[.64,.7,13],[.79,.48,13]]};
@@ -83,10 +107,28 @@
   }
   function renderAccessories(){
     accessoryLayer.replaceChildren();
-    if(state.accessories.includes('heart-ring')) accessoryLayer.append(el('image',{href:'./assets/icons/accessory-heart-ring.webp',x:352,y:323,width:86,height:58,preserveAspectRatio:'xMidYMid meet'}));
-    if(state.accessories.includes('pink-bow')) accessoryLayer.append(el('image',{href:'./assets/icons/accessory-bow.webp',x:270,y:486,width:88,height:76,preserveAspectRatio:'xMidYMid meet'}));
-    if(state.accessories.includes('pearl-bracelet')) accessoryLayer.append(el('image',{href:'./assets/icons/accessory-pearl-bracelet.webp',x:232,y:514,width:164,height:98,preserveAspectRatio:'xMidYMid meet'}));
+    if(state.accessories.includes('heart-ring')){const g=el('g',{class:'worn-accessory',transform:'rotate(2 405 304)'});g.append(el('path',{d:'M382 305 Q405 315 428 305',fill:'none',stroke:'#e7a82b','stroke-width':8,'stroke-linecap':'round'}));g.append(el('text',{x:405,y:307,'text-anchor':'middle','font-size':23,fill:'#f04a9c',stroke:'#fff','stroke-width':1.5}));g.lastChild.textContent='♥';accessoryLayer.append(g);}
+    if(state.accessories.includes('pearl-bracelet')){const g=el('g',{class:'worn-accessory','data-accessory':'pearl-bracelet'});g.append(el('path',{class:'bracelet-band',d:'M228 526 Q310 574 392 526'}));for(let x=238;x<=382;x+=18){const cy=535+Math.abs(310-x)*.2;g.append(el('circle',{class:'bracelet-pearl',cx:x,cy,r:10}));g.append(el('circle',{class:'bracelet-highlight',cx:x-3,cy:cy-3,r:3}));}g.append(el('path',{d:'M299 566 Q310 554 321 566 Q321 577 310 584 Q299 577 299 566Z',fill:'#f04a9c',stroke:'#873b70','stroke-width':3}));accessoryLayer.append(g);}
+    if(state.accessories.includes('pink-bow')){const g=el('g',{class:'worn-accessory','data-accessory':'pink-bow',transform:'translate(354 505) rotate(-10 36 34)'});g.append(el('path',{class:'wrist-bow-loop',d:'M35 30 C16 2 -8 8 4 35 C13 51 27 43 37 35 C47 43 62 52 72 35 C84 8 58 2 39 30Z'}));g.append(el('path',{class:'wrist-bow-loop',d:'M27 40 L13 68 L38 54 L60 70 L48 40Z'}));g.append(el('circle',{class:'wrist-bow-knot',cx:37,cy:34,r:12}));accessoryLayer.append(g);}
+    accessoryLayer.parentNode.append(accessoryLayer);
   }
+
+  async function accessoryPixelCheck() {
+    const clone=document.querySelector('#handSvg').cloneNode(true);
+    clone.querySelector('.painted-hand')?.remove(); clone.querySelector('#nails')?.remove();
+    clone.setAttribute('width','620'); clone.setAttribute('height','690');
+    const blob=new Blob([new XMLSerializer().serializeToString(clone)],{type:'image/svg+xml'});
+    const url=URL.createObjectURL(blob);
+    const img=new Image();
+    await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=()=>reject(new Error('accessory SVG failed to load'));img.src=url;});
+    const canvas=document.createElement('canvas'); canvas.width=620;canvas.height=690;
+    const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,620,690);URL.revokeObjectURL(url);
+    const pixels=ctx.getImageData(220,500,190,100).data;let painted=0;
+    for(let i=3;i<pixels.length;i+=4)if(pixels[i]>16)painted++;
+    if(painted<250)throw new Error(`Accessory pixel check failed: ${painted} painted pixels in wrist box`);
+    return painted;
+  }
+  window.__nailSalonAccessoryPixelCheck=accessoryPixelCheck;
   function renderTabs(){tabsRoot.innerHTML=tabs.map(t=>`<button data-tab="${t.id}" class="${t.id===activeTab?'active':''}" aria-label="${t.label}" aria-pressed="${t.id===activeTab}"><span>${t.icon}</span>${t.label}</button>`).join('');tabsRoot.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{activeTab=b.dataset.tab;renderTabs();renderTray();}));}
   function choice(html,handler,selected=false,label=''){const b=document.createElement('button');b.className='choice'+(selected?' selected':'');b.innerHTML=html;b.setAttribute('aria-label',label);b.addEventListener('click',()=>{handler();renderNails();renderTray();});tray.append(b);}
   function addDecorationPips(count,kind){const pips=document.createElement('div');pips.className='choice hint-chip';pips.setAttribute('role','img');pips.setAttribute('aria-label',`${count} ${kind} on this nail, up to 4`);for(let i=0;i<4;i+=1){const pip=document.createElement('i');pip.className='decoration-pip'+(i<count?' filled':'');pips.append(pip);}tray.append(pips);}
@@ -99,13 +141,17 @@
       polish.forEach(c=>choice(`<i class="polish-dot" style="--color:${c}"></i>`,()=>S.update(state,{polish:c,finish:'solid'}),nail.polish===c&&nail.finish==='solid','polish color'));
       ['glitter','shimmer','chrome'].forEach(id=>choice(`<img class="finish-art" src="./assets/icons/finish-${id}.webp" alt="">`,()=>S.update(state,{finish:id}),nail.finish===id,id));
     } else if(activeTab==='pattern'){
-      ['none','stripes','dots','french','hearts','gradient'].forEach(id=>choice(id==='none'?'○':`<i class="pattern-icon pattern-${id}"></i>`,()=>S.update(state,{pattern:id}),nail.pattern===id,id));
+      ['none','stripes','dots','hearts','stars','checks','rainbow','marble','flowers','waves','ombre','glitter-tip','moon-stars','leopard'].forEach(id=>choice(id==='none'?'○':`<i class="pattern-icon pattern-${id}" style="--base:${nail.polish};--pattern:${nail.patternColor}"></i>`,()=>S.update(state,{pattern:id}),nail.pattern===id,id));
+      if(singlePatterns.has(nail.pattern)){const row=document.createElement('div');row.className='pattern-colours';row.setAttribute('aria-label','Pattern colour');['#ffffff','#ff4f9e','#ffcf45','#55d7a2','#55aef1','#8a62df','#2f2740'].forEach(c=>{const b=document.createElement('button');b.className='pattern-colour'+(nail.patternColor===c?' selected':'');b.style.setProperty('--swatch',c);b.setAttribute('aria-label','Choose pattern colour');b.addEventListener('click',()=>{S.update(state,{patternColor:c});renderNails();renderTray();});row.append(b);});tray.append(row);}
     } else if(activeTab==='sticker'){
-      stickers.forEach(id=>choice(`<img src="./assets/stickers/${id}.webp" alt="">`,()=>S.addDecoration(state,'sticker',id),false,id));
+      const switcher=document.createElement('div');switcher.className='pack-switcher';Object.entries(stickerPacks).forEach(([id,p])=>{const b=document.createElement('button');b.className=id===activePack?'selected':'';b.textContent=p.icon;b.setAttribute('aria-label',`${id} sticker pack`);b.addEventListener('click',()=>{activePack=id;renderTray();});switcher.append(b);});tray.append(switcher);
+      const pack=stickerPacks[activePack];pack.items.forEach(id=>choice(`<img src="./assets/stickers/${pack.legacy?'':'v2/'}${id}.webp" alt="">`,()=>S.addDecoration(state,'sticker',`${pack.legacy?'':'v2/'}${id}`),false,id));
       addDecorationPips(nail.stickers.length,'stickers');
     } else if(activeTab==='gem'){
       gems.forEach(g=>choice(g.art?`<img src="./assets/icons/${g.art}.webp" alt="">`:'<i class="gem gem-emerald"></i>',()=>S.addDecoration(state,'gem',g.id),false,g.id+' gem'));
       addDecorationPips(nail.gems.length,'gems');
+    } else if(activeTab==='sparkle'){
+      ['none','glitter','shine','twinkles','holo'].forEach(id=>choice(`<i class="sparkle-choice sparkle-${id}" data-preview="${id}"><b></b></i>`,()=>S.update(state,{sparkle:id}),nail.sparkle===id,id));
     } else {
       [['heart-ring','accessory-heart-ring'],['pink-bow','accessory-bow'],['pearl-bracelet','accessory-pearl-bracelet']].forEach(([id,art])=>choice(`<img src="./assets/icons/${art}.webp" alt="">`,()=>S.setAccessories(state,id),state.accessories.includes(id),id));
     }
