@@ -19,18 +19,16 @@
        the art in assets/images/ and the clips are still Phase 5's, and a precache
        that names a file which does not exist caches nothing at all.
 
-   The list is written out by hand rather than generated, unlike solar-system-game's,
-   because there are no sprites and no clips to fall behind yet. When Phase 5 brings
-   the art and narration bundles it brings a generated list with them; until then a
-   hand-written list of eight files is honest about what exists.
+   The explicit list includes the generated live-question bundle and every question
+   image so owner-review missions remain available offline. Keep it in sync with
+   data/questions.json; the cache version remains release-controller owned.
 
-   narration/clips.json is on the list and is committed holding an empty map. cache.addAll
-   fails as a unit -- one 404 and nothing is cached at all -- so an absent manifest would
-   mean no offline copy of anything. The same reasoning keeps solar-system-game's
-   audio-list.js committed while it is empty. */
+   narration/clips.json is on the list because it resolves every spoken line to its
+   rendered clip. cache.addAll fails as a unit -- one 404 and nothing is cached at all --
+   so the manifest and every explicitly listed runtime file must exist together. */
 // v4 2026-09-22: zoom-trap fix -- the global gesturestart pinch blocker is
 //        gone estate-wide (INTERACTION-DIRECTION.md); this bump carries it.
-const CACHE_NAME = "space-trivia-v4";
+const CACHE_NAME = "space-trivia-v5";
 
 const APP_FILES = [
   "./",
@@ -41,6 +39,67 @@ const APP_FILES = [
   "./fonts/Nunito-latin.woff2",
   "./manifest.webmanifest",
   "./narration/clips.json",
+  "./data/questions.json",
+  "./assets/images/earth-moon-001.webp",
+  "./assets/images/earth-moon-002.webp",
+  "./assets/images/earth-moon-003.webp",
+  "./assets/images/earth-moon-004.webp",
+  "./assets/images/earth-moon-005.webp",
+  "./assets/images/earth-moon-006.webp",
+  "./assets/images/earth-moon-007.webp",
+  "./assets/images/earth-moon-008.webp",
+  "./assets/images/jupiter-001.webp",
+  "./assets/images/jupiter-002.webp",
+  "./assets/images/jupiter-003.webp",
+  "./assets/images/jupiter-004.webp",
+  "./assets/images/jupiter-005.webp",
+  "./assets/images/jupiter-006.webp",
+  "./assets/images/mars-001.webp",
+  "./assets/images/mars-002.webp",
+  "./assets/images/mars-003.webp",
+  "./assets/images/mars-004.webp",
+  "./assets/images/mars-005.webp",
+  "./assets/images/mars-006.webp",
+  "./assets/images/mars-007.webp",
+  "./assets/images/mars-008.webp",
+  "./assets/images/mercury-venus-001.webp",
+  "./assets/images/mercury-venus-002.webp",
+  "./assets/images/mercury-venus-003.webp",
+  "./assets/images/mercury-venus-004.webp",
+  "./assets/images/mercury-venus-005.webp",
+  "./assets/images/mercury-venus-006.webp",
+  "./assets/images/saturn-001.webp",
+  "./assets/images/saturn-002.webp",
+  "./assets/images/saturn-003.webp",
+  "./assets/images/saturn-004.webp",
+  "./assets/images/saturn-005.webp",
+  "./assets/images/saturn-006.webp",
+  "./assets/images/solar-system-basics-001.webp",
+  "./assets/images/solar-system-basics-002.webp",
+  "./assets/images/solar-system-basics-003.webp",
+  "./assets/images/solar-system-basics-004.webp",
+  "./assets/images/solar-system-basics-005.webp",
+  "./assets/images/solar-system-basics-006.webp",
+  "./assets/images/solar-system-basics-007.webp",
+  "./assets/images/solar-system-basics-008.webp",
+  "./assets/images/sun-001.webp",
+  "./assets/images/sun-002.webp",
+  "./assets/images/sun-003.webp",
+  "./assets/images/sun-004.webp",
+  "./assets/images/sun-005.webp",
+  "./assets/images/sun-006.webp",
+  "./assets/images/uranus-neptune-001.webp",
+  "./assets/images/uranus-neptune-002.webp",
+  "./assets/images/uranus-neptune-003.webp",
+  "./assets/images/uranus-neptune-004.webp",
+  "./assets/images/uranus-neptune-005.webp",
+  "./assets/images/uranus-neptune-006.webp",
+  "./assets/images/wider-basics-001.webp",
+  "./assets/images/wider-basics-002.webp",
+  "./assets/images/wider-basics-003.webp",
+  "./assets/images/wider-basics-004.webp",
+  "./assets/images/wider-basics-005.webp",
+  "./assets/images/wider-basics-006.webp",
 ];
 
 self.addEventListener("install", (event) => {

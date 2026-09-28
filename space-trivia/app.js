@@ -2,7 +2,7 @@
    LETTERS engine (Phase 3, PRODUCT-SPEC.md §5) and the MC + mission loop of
    Phase 4: mission selection and persistence (PRODUCT-SPEC.md §9), the
    question screen and both answer modes with their 1/2/3 scaffolding ladders
-   (§5.4, §6.1), the after-correct sequence with its wait-for-voice beat and
+   (§5.4, §6.1), the after-correct sequence with its short feedback beat and
    Mission Complete (§5.5, §8). The narration player is cloned from Planets &
    Moons (solar-system-game/app.js:576-614) over an EMPTY manifest -- no clip
    exists yet, and the player must stay quiet and correct when a line has no
@@ -119,6 +119,12 @@ function speak(text) {
   } catch (e) { voice.dead = true; }
 }
 
+function stopVoice() {
+  if (!voice.el) return;
+  voice.el.pause();
+  try { voice.el.currentTime = 0; } catch (e) {}
+}
+
 /* ------------------------------------------------------------------- sfx ---
    The interaction-sound bed, synthesised at runtime and never a file
    (spec §10 audio principles; the redistribution reasoning is
@@ -167,189 +173,288 @@ const sfx = {
 
 /* ----------------------------------------------------------- the questions ---
    The bank a mission draws from. These are the pilot questions' own records
-   (content/PILOT-QUESTIONS.md -- the authoring source), trimmed to the
-   runtime field list of SCHEMA.md §5, because the pipeline that would carry
-   them does not exist yet: questions/questions.json is authoring source and
-   data/questions.json (generated, status:"live" records only, SCHEMA.md §1)
-   is Phase 5's. The fetch below adopts that bundle the moment it is real;
-   until then the pilot fifteen are the whole world. Spec §9's "live"
+   (questions/questions.json), trimmed to the runtime field list of SCHEMA.md
+   §5. data/questions.json carries every status:"live" record; this embedded
+   set remains the fifteen-question network/offline fallback if that generated
+   bundle cannot be loaded. Spec §9's "live"
    eligibility is enforced where it lives, in that build's record filter --
    at runtime everything in the bank is eligible.
 
    Narration: every spoken line below is one of the records' own texts, keyed
-   exactly. narration/clips.json is EMPTY today (audioReady:false), so every
-   one of them plays silently and the chime and the on-screen words carry the
-   moment -- the empty-manifest case this shell ships in. The voice runner's
-   dispatch renders them on this exact text; nothing here may reword a line,
-   because a reworded line is a line without a clip. */
+   exactly, and narration/clips.json resolves the complete rendered set. Nothing
+   here may reword a line independently, because a reworded line is a line
+   without a clip. */
 const PILOT_QUESTIONS = [
   {
-    id: "sun-001", topic: "sun", subtopic: "identity",
-    difficulty: 1, factGroup: "sun-only-star",
+    id: "sun-001",
+    topic: "sun",
+    subtopic: "identity",
+    difficulty: 1,
+    factGroup: "sun-only-star",
     questionText: "Which star do all the planets travel around?",
     questionVoiceText: "Which star do all the planets travel around?",
-    answerMode: "LETTERS", correctAnswer: "Sun", choices: null,
-    letterBank: ["N", "S", "U"], letterSlotCount: 3, imageType: "contextual",
+    answerMode: "LETTERS",
+    correctAnswer: "Sun",
+    choices: null,
+    letterBank: ["N", "S", "U"],
+    letterSlotCount: 3,
+    imageType: "contextual",
     correctVoiceText: "That's right! The planets all travel around the Sun. The Sun is the only star in our solar system.",
     retryVoiceText: "Almost! Try again.",
-    teachingFactText: "The Sun is the only star in our solar system.",
+    teachingFactText: "The Sun is the only star in our solar system."
   },
   {
-    id: "solar-system-basics-001", topic: "solar-system-basics", subtopic: "planet-count",
-    difficulty: 1, factGroup: "eight-planets",
+    id: "solar-system-basics-001",
+    topic: "solar-system-basics",
+    subtopic: "planet-count",
+    difficulty: 1,
+    factGroup: "eight-planets",
     questionText: "How many planets travel around our Sun?",
     questionVoiceText: "How many planets travel around our Sun?",
-    answerMode: "MC", correctAnswer: "8", choices: ["7", "8", "9", "10"],
-    letterBank: null, letterSlotCount: null, imageType: "contextual",
+    answerMode: "MC",
+    correctAnswer: "8",
+    choices: ["7", "8", "9", "10"],
+    letterBank: null,
+    letterSlotCount: null,
+    imageType: "contextual",
     correctVoiceText: "You got it! Eight planets travel around our Sun. Our solar system has eight planets, and Pluto is a dwarf planet, not one of the eight.",
     retryVoiceText: "Not quite. Have another try.",
-    teachingFactText: "Our solar system has eight planets, and Pluto is a dwarf planet, not one of the eight.",
+    teachingFactText: "Our solar system has eight planets, and Pluto is a dwarf planet, not one of the eight."
   },
   {
-    id: "mercury-venus-001", topic: "mercury-venus", subtopic: "mercury",
-    difficulty: 2, factGroup: "mercury-closest-sun",
+    id: "mercury-venus-001",
+    topic: "mercury-venus",
+    subtopic: "mercury",
+    difficulty: 2,
+    factGroup: "mercury-closest-sun",
     questionText: "Which planet is closest to the Sun?",
     questionVoiceText: "Which planet is closest to the Sun?",
-    answerMode: "LETTERS", correctAnswer: "Mercury", choices: null,
-    letterBank: ["R", "U", "M", "E", "R", "C", "Y"], letterSlotCount: 7, imageType: "contextual",
+    answerMode: "LETTERS",
+    correctAnswer: "Mercury",
+    choices: null,
+    letterBank: ["R", "U", "M", "E", "R", "C", "Y"],
+    letterSlotCount: 7,
+    imageType: "contextual",
     correctVoiceText: "Yes! Mercury is the planet closest to the Sun. As well as being nearest to the Sun, Mercury is the smallest of all eight planets.",
     retryVoiceText: "Nearly there. One more go.",
-    teachingFactText: "As well as being nearest to the Sun, Mercury is the smallest of all eight planets.",
+    teachingFactText: "As well as being nearest to the Sun, Mercury is the smallest of all eight planets."
   },
   {
-    id: "mercury-venus-002", topic: "mercury-venus", subtopic: "venus",
-    difficulty: 2, factGroup: "venus-hottest",
+    id: "mercury-venus-002",
+    topic: "mercury-venus",
+    subtopic: "venus",
+    difficulty: 2,
+    factGroup: "venus-hottest",
     questionText: "The hottest planet is not the closest one to the Sun. Which planet is the hottest?",
     questionVoiceText: "The hottest planet is not the closest one to the Sun. Which planet is the hottest?",
-    answerMode: "MC", correctAnswer: "Venus", choices: ["Mercury", "Venus", "Mars", "Jupiter"],
-    letterBank: null, letterSlotCount: null, imageType: "contextual",
+    answerMode: "LETTERS",
+    correctAnswer: "Venus",
+    choices: null,
+    letterBank: ["V", "E", "N", "U", "S"],
+    letterSlotCount: 5,
+    imageType: "contextual",
     correctVoiceText: "Spot on! Venus is the hottest planet in our solar system. Venus is hotter than every other planet — even Mercury, which is nearer to the Sun.",
     retryVoiceText: "Have another go.",
-    teachingFactText: "Venus is hotter than every other planet — even Mercury, which is nearer to the Sun.",
+    teachingFactText: "Venus is hotter than every other planet — even Mercury, which is nearer to the Sun."
   },
   {
-    id: "earth-moon-001", topic: "earth-moon", subtopic: "earth",
-    difficulty: 2, factGroup: "earth-third-planet",
+    id: "earth-moon-001",
+    topic: "earth-moon",
+    subtopic: "earth",
+    difficulty: 2,
+    factGroup: "earth-third-planet",
     questionText: "Which planet is third from the Sun?",
     questionVoiceText: "Which planet is third from the Sun?",
-    answerMode: "LETTERS", correctAnswer: "Earth", choices: null,
-    letterBank: ["T", "H", "E", "A", "R"], letterSlotCount: 5, imageType: "contextual",
+    answerMode: "LETTERS",
+    correctAnswer: "Earth",
+    choices: null,
+    letterBank: ["T", "H", "E", "A", "R"],
+    letterSlotCount: 5,
+    imageType: "contextual",
     correctVoiceText: "Well done! Earth is number three from the Sun. Earth is the third planet from the Sun, and the biggest of the four rocky planets.",
     retryVoiceText: "Almost! Try again.",
-    teachingFactText: "Earth is the third planet from the Sun, and the biggest of the four rocky planets.",
+    teachingFactText: "Earth is the third planet from the Sun, and the biggest of the four rocky planets."
   },
   {
-    id: "earth-moon-002", topic: "earth-moon", subtopic: "moons",
-    difficulty: 1, factGroup: "earth-one-moon",
+    id: "earth-moon-002",
+    topic: "earth-moon",
+    subtopic: "moons",
+    difficulty: 1,
+    factGroup: "earth-one-moon",
     questionText: "How many natural moons does Earth have?",
     questionVoiceText: "How many natural moons does Earth have?",
-    answerMode: "MC", correctAnswer: "1", choices: ["1", "2", "3", "4"],
-    letterBank: null, letterSlotCount: null, imageType: "contextual",
+    answerMode: "MC",
+    correctAnswer: "1",
+    choices: ["1", "2", "3", "4"],
+    letterBank: null,
+    letterSlotCount: null,
+    imageType: "contextual",
     correctVoiceText: "You got it! Earth has one natural moon. Earth has one natural moon — the Moon we see shining in our night sky.",
     retryVoiceText: "Not quite. Have another try.",
-    teachingFactText: "Earth has one natural moon — the Moon we see shining in our night sky.",
+    teachingFactText: "Earth has one natural moon — the Moon we see shining in our night sky."
   },
   {
-    id: "mars-001", topic: "mars", subtopic: "moons",
-    difficulty: 2, factGroup: "mars-two-moons",
+    id: "mars-001",
+    topic: "mars",
+    subtopic: "moons",
+    difficulty: 2,
+    factGroup: "mars-two-moons",
     questionText: "How many moons does Mars have?",
     questionVoiceText: "How many moons does Mars have?",
-    answerMode: "MC", correctAnswer: "2", choices: ["1", "2", "3", "4"],
-    letterBank: null, letterSlotCount: null, imageType: "contextual",
+    answerMode: "MC",
+    correctAnswer: "2",
+    choices: ["1", "2", "3", "4"],
+    letterBank: null,
+    letterSlotCount: null,
+    imageType: "contextual",
     correctVoiceText: "Brilliant! Mars has two moons. Mars has two small moons, called Phobos and Deimos.",
     retryVoiceText: "Nearly there. One more go.",
-    teachingFactText: "Mars has two small moons, called Phobos and Deimos.",
+    teachingFactText: "Mars has two small moons, called Phobos and Deimos."
   },
   {
-    id: "mars-002", topic: "mars", subtopic: "moons",
-    difficulty: 3, factGroup: "phobos-larger",
+    id: "mars-002",
+    topic: "mars",
+    subtopic: "moons",
+    difficulty: 3,
+    factGroup: "phobos-larger",
     questionText: "What is Mars's larger moon called?",
     questionVoiceText: "What is Mars's larger moon called?",
-    answerMode: "LETTERS", correctAnswer: "Phobos", choices: null,
-    letterBank: ["B", "O", "P", "S", "H", "O"], letterSlotCount: 6, imageType: "contextual",
+    answerMode: "LETTERS",
+    correctAnswer: "Phobos",
+    choices: null,
+    letterBank: ["B", "O", "P", "S", "H", "O"],
+    letterSlotCount: 6,
+    imageType: "contextual",
     correctVoiceText: "Yes! Phobos is Mars's larger moon. Phobos is a little larger than Deimos, so it is the larger of Mars's two moons.",
     retryVoiceText: "Have another go.",
-    teachingFactText: "Phobos is a little larger than Deimos, so it is the larger of Mars's two moons.",
+    teachingFactText: "Phobos is a little larger than Deimos, so it is the larger of Mars's two moons."
   },
   {
-    id: "jupiter-001", topic: "jupiter", subtopic: "size",
-    difficulty: 2, factGroup: "jupiter-largest",
+    id: "jupiter-001",
+    topic: "jupiter",
+    subtopic: "size",
+    difficulty: 2,
+    factGroup: "jupiter-largest",
     questionText: "Which planet is the largest in our solar system?",
     questionVoiceText: "Which planet is the largest in our solar system?",
-    answerMode: "MC", correctAnswer: "Jupiter", choices: ["Earth", "Mars", "Jupiter", "Neptune"],
-    letterBank: null, letterSlotCount: null, imageType: "contextual",
+    answerMode: "MC",
+    correctAnswer: "Jupiter",
+    choices: ["Earth", "Mars", "Jupiter", "Neptune"],
+    letterBank: null,
+    letterSlotCount: null,
+    imageType: "contextual",
     correctVoiceText: "That's it! Jupiter is the largest planet in our solar system. It is the biggest of all eight planets.",
     retryVoiceText: "Almost! Try again.",
-    teachingFactText: "Jupiter is the largest planet in our solar system.",
+    teachingFactText: "Jupiter is the largest planet in our solar system."
   },
   {
-    id: "saturn-001", topic: "saturn", subtopic: "rings",
-    difficulty: 1, factGroup: "saturn-rings",
+    id: "saturn-001",
+    topic: "saturn",
+    subtopic: "rings",
+    difficulty: 1,
+    factGroup: "saturn-rings",
     questionText: "Which planet is known for its rings?",
     questionVoiceText: "Which planet is known for its rings?",
-    answerMode: "MC", correctAnswer: "Saturn", choices: ["Mercury", "Venus", "Earth", "Saturn"],
-    letterBank: null, letterSlotCount: null, imageType: "contextual",
+    answerMode: "LETTERS",
+    correctAnswer: "Saturn",
+    choices: null,
+    letterBank: ["S", "A", "T", "U", "R", "N"],
+    letterSlotCount: 6,
+    imageType: "contextual",
     correctVoiceText: "Spot on! Saturn is the planet known for its rings. Other planets have rings too, but none are as spectacular or as complex as Saturn's.",
     retryVoiceText: "Not quite. Have another try.",
-    teachingFactText: "Other planets have rings too, but none are as spectacular or as complex as Saturn's.",
+    teachingFactText: "Other planets have rings too, but none are as spectacular or as complex as Saturn's."
   },
   {
-    id: "uranus-neptune-001", topic: "uranus-neptune", subtopic: "uranus",
-    difficulty: 3, factGroup: "uranus-sideways",
+    id: "uranus-neptune-001",
+    topic: "uranus-neptune",
+    subtopic: "uranus",
+    difficulty: 3,
+    factGroup: "uranus-sideways",
     questionText: "Which planet spins on its side, like a rolling ball?",
     questionVoiceText: "Which planet spins on its side, like a rolling ball?",
-    answerMode: "LETTERS", correctAnswer: "Uranus", choices: null,
-    letterBank: ["A", "N", "U", "S", "U", "R"], letterSlotCount: 6, imageType: "contextual",
+    answerMode: "LETTERS",
+    correctAnswer: "Uranus",
+    choices: null,
+    letterBank: ["A", "N", "U", "S", "U", "R"],
+    letterSlotCount: 6,
+    imageType: "contextual",
     correctVoiceText: "You got it! Uranus is the planet that spins on its side. Uranus is tilted so steeply that it appears to spin sideways as it rolls around the Sun.",
     retryVoiceText: "Nearly there. One more go.",
-    teachingFactText: "Uranus is tilted so steeply that it appears to spin sideways as it rolls around the Sun.",
+    teachingFactText: "Uranus is tilted so steeply that it appears to spin sideways as it rolls around the Sun."
   },
   {
-    id: "uranus-neptune-002", topic: "uranus-neptune", subtopic: "neptune",
-    difficulty: 2, factGroup: "neptune-farthest",
+    id: "uranus-neptune-002",
+    topic: "uranus-neptune",
+    subtopic: "neptune",
+    difficulty: 2,
+    factGroup: "neptune-farthest",
     questionText: "Which planet is the farthest from the Sun?",
     questionVoiceText: "Which planet is the farthest from the Sun?",
-    answerMode: "LETTERS", correctAnswer: "Neptune", choices: null,
-    letterBank: ["P", "T", "E", "N", "E", "U", "N"], letterSlotCount: 7, imageType: "contextual",
+    answerMode: "LETTERS",
+    correctAnswer: "Neptune",
+    choices: null,
+    letterBank: ["P", "T", "E", "N", "E", "U", "N"],
+    letterSlotCount: 7,
+    imageType: "contextual",
     correctVoiceText: "Yes! Neptune is the planet farthest from the Sun. Neptune is the eighth and most distant planet from the Sun.",
     retryVoiceText: "Have another go.",
-    teachingFactText: "Neptune is the eighth and most distant planet from the Sun.",
+    teachingFactText: "Neptune is the eighth and most distant planet from the Sun."
   },
   {
-    id: "earth-moon-003", topic: "earth-moon", subtopic: "moon",
-    difficulty: 3, factGroup: "moon-same-side",
+    id: "earth-moon-003",
+    topic: "earth-moon",
+    subtopic: "moon",
+    difficulty: 3,
+    factGroup: "moon-same-side",
     questionText: "Do we ever see the far side of the Moon from Earth?",
     questionVoiceText: "Do we ever see the far side of the Moon from Earth?",
-    answerMode: "MC", correctAnswer: "No — the Moon keeps its same face towards us",
+    answerMode: "MC",
+    correctAnswer: "No — the Moon keeps its same face towards us",
     choices: ["No — the Moon keeps its same face towards us", "Yes — once every month", "Yes — every single night"],
-    letterBank: null, letterSlotCount: null, imageType: "contextual",
+    letterBank: null,
+    letterSlotCount: null,
+    imageType: "contextual",
     correctVoiceText: "That's right! We only ever see one side of the Moon. The Moon keeps the same face turned towards Earth, so we only ever see one side of it.",
     retryVoiceText: "Almost! Try again.",
-    teachingFactText: "The Moon keeps the same face turned towards Earth, so we only ever see one side of it.",
+    teachingFactText: "The Moon keeps the same face turned towards Earth, so we only ever see one side of it."
   },
   {
-    id: "wider-basics-001", topic: "wider-basics", subtopic: "asteroid-belt",
-    difficulty: 3, factGroup: "asteroid-belt-location",
+    id: "wider-basics-001",
+    topic: "wider-basics",
+    subtopic: "asteroid-belt",
+    difficulty: 3,
+    factGroup: "asteroid-belt-location",
     questionText: "Most asteroids travel around the Sun between which two planets?",
     questionVoiceText: "Most asteroids travel around the Sun between which two planets?",
-    answerMode: "MC", correctAnswer: "Mars and Jupiter",
+    answerMode: "MC",
+    correctAnswer: "Mars and Jupiter",
     choices: ["Mars and Jupiter", "Earth and Mars", "Jupiter and Saturn", "Mercury and Venus"],
-    letterBank: null, letterSlotCount: null, imageType: "contextual",
+    letterBank: null,
+    letterSlotCount: null,
+    imageType: "contextual",
     correctVoiceText: "Well done! Asteroids gather between Mars and Jupiter. Most asteroids orbit our Sun in the main belt between Mars and Jupiter.",
     retryVoiceText: "Not quite. Have another try.",
-    teachingFactText: "Most asteroids orbit our Sun in the main belt between Mars and Jupiter.",
+    teachingFactText: "Most asteroids orbit our Sun in the main belt between Mars and Jupiter."
   },
   {
-    id: "wider-basics-002", topic: "wider-basics", subtopic: "dwarf-planets",
-    difficulty: 3, factGroup: "ceres-largest-belt-object",
+    id: "wider-basics-002",
+    topic: "wider-basics",
+    subtopic: "dwarf-planets",
+    difficulty: 3,
+    factGroup: "ceres-largest-belt-object",
     questionText: "What is the largest object in the asteroid belt?",
     questionVoiceText: "What is the largest object in the asteroid belt?",
-    answerMode: "MC", correctAnswer: "Ceres", choices: ["Ceres", "Pluto", "Titan", "Phobos"],
-    letterBank: null, letterSlotCount: null, imageType: "contextual",
+    answerMode: "MC",
+    correctAnswer: "Ceres",
+    choices: ["Ceres", "Pluto", "Titan", "Phobos"],
+    letterBank: null,
+    letterSlotCount: null,
+    imageType: "contextual",
     correctVoiceText: "Brilliant! The answer is Ceres. Ceres is the largest object in the asteroid belt, and it is a dwarf planet too.",
     retryVoiceText: "Nearly there. One more go.",
-    teachingFactText: "Ceres is the largest object in the asteroid belt, and it is a dwarf planet too.",
-  },
+    teachingFactText: "Ceres is the largest object in the asteroid belt, and it is a dwarf planet too."
+  }
 ];
 
 let questionBank = null;
@@ -559,6 +664,7 @@ function startMission() {
 function renderQuestion() {
   const q = state.queue[state.i];
   if (!q) return;
+  clearTimeout(nextTimer);
 
   /* The answer UI mounts FIRST, before one pixel of this screen changes, and
      each mount owns clearing #answer-area. A mount that throws therefore
@@ -603,6 +709,11 @@ function renderQuestion() {
 function nextQuestion() {
   clearTimeout(askTimer);
   clearTimeout(beatTimer);
+  clearTimeout(nextTimer);
+  /* Next may arrive while the correct-answer line is still speaking. Stop
+     the shared player before mounting the next question so its voice cannot
+     overlap the next question's chime or narration. */
+  stopVoice();
   state.i += 1;
   state.attempts = 0;
   state.hinted = false;
@@ -841,9 +952,11 @@ function onCorrectAnswer(q) {
   setFeedback(q.teachingFactText);  /* readable without sound (§5.5.4) */
   speak(q.correctVoiceText);
   recordResult(q);
-  /* Next appears only when the voice is done (the beat): the child continues
-     when they choose, never on a timer. */
-  nextBeat(1400, mountNext);
+  /* The success chime's last note ends at about 0.68s. Show Next just after
+     that feedback lands, without waiting for the full narration; advancing
+     remains the child's choice. */
+  clearTimeout(nextTimer);
+  nextTimer = setTimeout(mountNext, 800);
 }
 
 function mountNext() {
@@ -893,9 +1006,8 @@ function celebrate() {
 }
 
 /* ------------------------------------------------------------- the beat ---
-   Anything scheduled after a spoken line waits for the voice (§5.5.3): the
-   retry line must finish before the question replays, and Next does not
-   appear until the correct line is done. Cloned from Planets & Moons
+   Retry lines wait for the voice before the question replays. Cloned from
+   Planets & Moons
    (solar-system-game/app.js:616-662), policy intact: polling, not the
    `ended` event -- a clip that 404s, a device that refused playback and a
    backgrounded tab all leave `ended` unfired, and the game must never sit
@@ -906,6 +1018,7 @@ const QUIET = 700;         /* silence between a line ending and the next thing *
 const SPEAK_CAP = 15000;   /* a stalled clip must not hold the game up forever */
 let askTimer = null;
 let beatTimer = null;
+let nextTimer = null;
 
 function nextBeat(floor, fn) {
   clearTimeout(beatTimer);
@@ -1316,10 +1429,11 @@ $("#back").onclick = () => {
      a miss would otherwise fire after the child had gone. */
   clearTimeout(askTimer);
   clearTimeout(beatTimer);
+  clearTimeout(nextTimer);
   /* ...and the line already playing. Clearing the timers stops the NEXT
      sound; a retry line or question still mid-word would otherwise talk on
      over the Start screen once clips exist (silent today, so unseen). */
-  if (voice.el) voice.el.pause();
+  stopVoice();
   cancelDrag();   /* a second finger on Back must not leave a letter floating over Start */
   showScreen("start");
 };
