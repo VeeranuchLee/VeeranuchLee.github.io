@@ -127,10 +127,61 @@
       .card{transition:none}
       .card:hover{transform:none}
     }
+
+    /* ── Music toggle ──
+       AUDIO-DIRECTION.md decision 10a: this hub gets a bed (word-bed.m4a, rendered
+       2026-09-18 and committed since, only now wired to a control). Top-right and fixed,
+       the same placement Children Games and the Space Hub use, so the control is where a
+       child already expects it. Off by default and remembered -- a page that starts
+       playing the first time it opens is a thing you turn off, not enjoy. */
+    .music-btn{
+      position:fixed;z-index:50;
+      top:calc(12px + env(safe-area-inset-top));
+      right:calc(12px + env(safe-area-inset-right));
+      width:60px;height:60px;border-radius:50%;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg,#fff,#ffe9f1);border:3px solid #e59bbb;
+      box-shadow:0 4px 0 #e59bbb,0 8px 18px rgba(43,22,38,.35);
+      cursor:pointer;padding:0;
+      -webkit-tap-highlight-color:transparent;
+      transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease;
+    }
+    .music-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #e59bbb,0 4px 10px rgba(43,22,38,.3)}
+    .music-btn:focus-visible{outline:5px solid #ffd54f;outline-offset:4px}
+    .music-btn svg{width:30px;height:30px;display:block}
+    /* The note is dim and struck through when off, berry-pink and clear when on -- two
+       signals, not one, because colour alone is not a state a child reads reliably. */
+    .music-btn .note{fill:#c98aa4;transition:fill .16s ease}
+    .music-btn .slash{stroke:#c98aa4;stroke-width:2.6;stroke-linecap:round}
+    .music-btn[aria-pressed="true"]{border-color:#a8386a}
+    .music-btn[aria-pressed="true"] .note{fill:#a8386a}
+    .music-btn[aria-pressed="true"] .slash{display:none}
+    .music-btn.playing{animation:musicPulse 2.2s ease-in-out infinite}
+    @keyframes musicPulse{
+      0%,100%{box-shadow:0 4px 0 #e59bbb,0 8px 18px rgba(43,22,38,.35)}
+      50%    {box-shadow:0 4px 0 #e59bbb,0 8px 26px rgba(168,56,106,.55)}
+    }
+    @media (prefers-reduced-motion:reduce){
+      .music-btn{transition:none}
+      .music-btn.playing{animation:none}
+    }
+    @media (max-width:420px){
+      .music-btn{width:52px;height:52px}
+      .music-btn svg{width:26px;height:26px}
+    }
   </style>
 </head>
 <body>
 <div class="backdrop"></div>
+
+<!-- Starts as "off" in the markup and is corrected by the script below the moment it
+     runs, so a remembered preference never renders as the wrong state. -->
+<button class="music-btn" id="musicBtn" type="button" aria-pressed="false" aria-label="Play music">
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path class="note" d="M20 3.5v11.2a3.3 3.3 0 1 1-2-3V7.9l-7 1.6v8.2a3.3 3.3 0 1 1-2-3V6.3l11-2.8z"/>
+    <line class="slash" x1="3.4" y1="3.4" x2="20.6" y2="20.6"/>
+  </svg>
+</button>
 
 <!-- The URL is absolute for the same reason every game's arrow is: published, the hub is
      a sibling of this app (/word-book/ -> /children-apps/), but in the repo it lives
@@ -200,6 +251,117 @@
       navigator.serviceWorker.register('./service-worker.js').catch(function () {});
     });
   }
+
+  /* ══ HUB MUSIC ══
+     One generated instrumental bed (audio/word-bed.m4a, rendered 2026-09-18 -- see
+     work_progress_and_other_discussion.md), looping quietly under the page a child is
+     choosing from. AUDIO-DIRECTION.md decision 10a: a hub is a front door, browsed not
+     played, and gets a bed; the dictionary, spelling, writing and exam pages it leads to
+     stay quiet -- none of them load this script or this file.
+
+     Ported from site/children-apps/index.html's own player, which is the reference this
+     copies rather than reinvents: same arm-on-first-tap shape for the iOS autoplay rule,
+     same off-by-default remembered preference, same fade rather than a hard cut. Its own
+     localStorage key (`wb_music`) so it cannot read or fight the main hub's `ca_music`.
+
+     THE AUTOPLAY PROBLEM, AND WHY `arm` EXISTS. A browser will not let a page start audio
+     before the user has interacted with it, so on a fresh load play() rejects even though
+     the child turned music on last time. The rejection instead arms a one-shot listener
+     on the next pointerdown anywhere on the page, per the task: "start on the first tap
+     anywhere on the hub".
+
+     NOT PRECACHED. The service worker's fetch handler is cache-first for same-origin GETs
+     and stores what it fetches (the generic branch, not the range-aware word/sentence
+     one), so the bed joins the cache the first time it plays, with no change to SHELL --
+     matching word-book/.publish-manifest's own reasoning for the pictures and clips. */
+  var Music = (function () {
+    var SRC = './audio/word-bed.m4a';
+    var KEY = 'wb_music';
+    var FULL = 0.28;             /* resting level: present in a quiet room, never in front */
+    var RAMP_MS = 900, STEP_MS = 50;
+    var el = null, ramp = 0, armed = false, pref = false;
+    try { pref = localStorage.getItem(KEY) === '1'; } catch (e) {}
+
+    var btn = document.getElementById('musicBtn');
+    if (!btn) return null;
+
+    function paint() {
+      btn.setAttribute('aria-pressed', pref ? 'true' : 'false');
+      btn.setAttribute('aria-label', pref ? 'Stop music' : 'Play music');
+      btn.classList.toggle('playing', !!(el && !el.paused));
+    }
+
+    function fadeTo(v, thenPause) {
+      if (!el) return;
+      if (ramp) { clearInterval(ramp); ramp = 0; }
+      var from = el.volume, steps = Math.max(1, Math.round(RAMP_MS / STEP_MS)), i = 0;
+      ramp = setInterval(function () {
+        i++;
+        try { el.volume = Math.max(0, Math.min(1, from + (v - from) * (i / steps))); } catch (e) {}
+        if (i >= steps) {
+          clearInterval(ramp); ramp = 0;
+          if (thenPause && el) { try { el.pause(); } catch (e) {} }
+          paint();
+        }
+      }, STEP_MS);
+    }
+
+    function arm() {
+      if (armed) return;
+      armed = true;
+      var go = function () {
+        window.removeEventListener('pointerdown', go, true);
+        armed = false;
+        apply();
+      };
+      window.addEventListener('pointerdown', go, true);
+    }
+
+    function apply() {
+      if (!pref) {
+        if (el && !el.paused) fadeTo(0, true); else paint();
+        return;
+      }
+      if (!el) {
+        try { el = new Audio(SRC); } catch (e) { return; }
+        el.loop = true;
+        el.preload = 'none';
+        el.volume = 0;
+        el.addEventListener('playing', paint);
+        el.addEventListener('pause', paint);
+      }
+      el.volume = 0;
+      var p;
+      try { p = el.play(); } catch (e) { arm(); return; }
+      if (p && p.then) p.then(function () { fadeTo(FULL, false); paint(); }).catch(arm);
+      else { fadeTo(FULL, false); paint(); }
+    }
+
+    /* Leaving the hub (a card tap navigates away) unloads the page and the element with
+       it, so no explicit stop is needed there -- but pause explicitly on the bfcache
+       hide/pagehide path too, so a browser that keeps the page alive in back/forward
+       cache does not leave music running behind a different page. */
+    window.addEventListener('pagehide', function () { if (el) { try { el.pause(); } catch (e) {} } });
+
+    btn.addEventListener('click', function () {
+      pref = !pref;
+      try { localStorage.setItem(KEY, pref ? '1' : '0'); } catch (e) {}
+      /* The click itself is the user gesture, so this is the one path where play() is
+         reliably allowed. */
+      apply();
+      paint();
+    });
+
+    paint();
+    apply();
+
+    /* Read-only, for verification -- e.g. window.__wbMusic().state(). */
+    return { state: function () {
+      return { pref: pref, exists: !!el, playing: !!(el && !el.paused),
+               volume: el ? +el.volume.toFixed(3) : null, armed: armed, src: SRC };
+    } };
+  })();
+  window.__wbMusic = function () { return Music; };
 </script>
 </body>
 </html>

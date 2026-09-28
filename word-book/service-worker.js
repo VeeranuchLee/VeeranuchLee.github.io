@@ -17,8 +17,16 @@
    (data/letters.json {"enabled":["a","b"]}, wired by commit f6534e0b). data/letters.json
    joins SHELL here: dictionary.html fetches it at runtime and falls back to EVERY letter
    if that fetch fails, so precaching it is what keeps the A/B-only gate holding offline
-   from the very first load, not only after one successful online fetch. */
-const CACHE_NAME='word-book-v4';
+   from the very first load, not only after one successful online fetch.
+
+   v4 -> v5, 2026-09-26: the hub's music bed (audio/word-bed.m4a, rendered 2026-09-18) is
+   wired to index.html for the first time -- AUDIO-DIRECTION.md decision 10a. A worker
+   bump only; nothing here publishes on its own. The bed itself does NOT join SHELL: it
+   is off by default, so precaching it would add 864 KB to every child's first install to
+   serve a feature most will never turn on. It is cached the first time it actually plays,
+   by the fetch handler's generic same-origin branch below (the comment on that branch
+   already names this exact file). */
+const CACHE_NAME='word-book-v5';
 const SHELL=['./','./index.html','./dictionary.html','./fonts.css',
   './fonts/Nunito-latin.woff2','./fonts/Nunito-latin-ext.woff2','./fonts/FredokaOne-latin.woff2',
   './manifest.webmanifest','./data/dictionary.json','./data/letters.json','./word-audio.js',
