@@ -1,0 +1,12 @@
+{
+  "datePrepared": "2026-09-28",
+  "sourceCommit": "302019b90924acd626cee0b8c53d6672dd990f7b",
+  "purpose": "Owner review of the Animal Book Farm room (FA-01) now that all 18 headwords carry owner-approved Thai names and the missing-thai-on-page QA gate is clear. Not yet publishable: narration has not been rendered for this room.",
+  "included": {
+    "pages": ["index.html (animal-book/rooms/farm/page-13.html)"],
+    "runtime": ["tap-zoom-guard.js (byte-identical to maze-app/js/tap-zoom-guard.js)"],
+    "assets": "The room's own plate (assets/page.webp) and its three tap-guide frames (assets/guides/pair-0.webp, pair-1.webp, pair-2.webp)."
+  },
+  "selection": "Every file here is the same one that ships in the private repository's animal-book/rooms/farm/, copied verbatim; no service worker is present.",
+  "publishStatus": "Not publishable per animal-book/rooms/farm/readiness.json: rendered_narration is still missing. This is a staging preview only."
+}
