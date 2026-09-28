@@ -20,8 +20,7 @@ html,body{touch-action:manipulation}
 
 /* One unit tied to the stage, so every label scales with the picture instead of with
    the window. The stage width is a known expression, so this needs no container query. */
-:root{--sw:min(100vw,133.333vh);--fs:calc(var(--sw)*0.0175);--guide-w:16.229%;
-  --gfade:60ms}
+:root{--sw:min(100vw,133.333vh);--fs:calc(var(--sw)*0.0175)}
 
 .stage{position:relative;width:var(--sw);aspect-ratio:4/3;overflow:hidden;
   background:#172018 url("assets/page.webp") center/100% 100% no-repeat}
@@ -41,42 +40,6 @@ html,body{touch-action:manipulation}
 .patch.on{opacity:1}
 .patch.fading{transition:opacity .45s ease-out}
 
-/* The two guides. Three frames of the same pair; pressing them swaps the frame.
-
-   Decision 21 fixes a guide at 8% of the stage and says to ship it as one variable; the
-   owner's frames hold both children in one picture, so --guide-w is the pair and
-   tools/build-guides.py scales it so each CHILD lands at 8% - measured, not assumed.
-
-   They are three independent renders, not one drawing with a part changed, so what swaps
-   is a pose and an expression rather than a blink; decision 21 allows exactly that for a
-   guide, and warns against it for animals. At this size the faces are ~20px, so it is the
-   arms and the laugh that read.
-
-   Where they stand is room.json's `guides.at`, and tools/room-guides.py asserts they are
-   clear of every animal. The corner is the same in every room on purpose: children who stand
-   in the same place on every page are two guides, and children who move are a surprise.
-
-   Decision 21 says a guide is tappable, and until now these were scenery. The press target
-   is the pair's own rectangle, trimmed clear of any tap square it clips, and it is the one
-   on the page that answers with a picture instead of a voice. */
-.guides{position:absolute;left:83.080%;top:2.762%;width:16.229%;z-index:3;
-  height:auto;pointer-events:none;opacity:0;transition:opacity var(--gfade) linear;
-  transform-origin:50% 100%;filter:drop-shadow(0 6px 10px #0006)}
-.guides.on{opacity:1}
-.gtap{position:absolute;z-index:6;margin:0;padding:0;border:0;background:transparent;
-  cursor:pointer;border-radius:14px;-webkit-appearance:none}
-.gtap:focus-visible{outline:3px solid #ffe9a3;outline-offset:2px}
-/* The bounce that marks the press. It is applied to all three frames at once, not to the
-   one becoming visible, or a frame swap mid-animation would cut it short. It exists because
-   the owner could not see a press register at all: at 8% of the stage, in the corner of a
-   busy page, the change of expression needs something that says "look here" at the moment
-   the finger lands. */
-@keyframes guidehop{0%{transform:scale(1) translateY(0)}
-  35%{transform:scale(1.075) translateY(-3.2%)}
-  70%{transform:scale(0.995) translateY(0.4%)}
-  100%{transform:scale(1) translateY(0)}}
-.guides.hop{animation:guidehop .46s cubic-bezier(.3,1.5,.5,1)}
-
 /* the finger target: a marker placed ON the animal, nothing to do with the video rect.
    Almost every one is the same 140x140 page px square, because it is a marker and not a
    description - a target sized to each animal's bounding box lets a big animal swallow a
@@ -95,7 +58,7 @@ html,body{touch-action:manipulation}
 /* The name box. The button is 44 CSS px tall for the finger; the pill inside it is 25,
    because the rule here is to shrink the mark and never the tap target. Placed by
    tools/room-names.py, which proves each one clears every tap target, every other box,
-   the guides and the sound button. */
+   and the sound button. */
 .name{position:absolute;z-index:6;display:grid;place-items:center;margin:0;padding:0;
   border:0;background:transparent;cursor:pointer;-webkit-appearance:none;font:inherit}
 .name>span{display:block;padding:.28em .7em;border:2px solid #2d4a1c;border-radius:999px;
@@ -182,7 +145,7 @@ html,body{touch-action:manipulation}
 .t-beef-cattle{left:8.978%;top:53.407%;width:9.669%;height:12.891%}
 .t-buffalo{left:86.326%;top:29.466%;width:9.669%;height:12.891%}
 .t-sheep{left:29.696%;top:63.536%;width:9.669%;height:12.891%}
-.t-lamb{left:40.055%;top:78.269%;width:9.669%;height:12.891%}
+.t-lamb{left:34.530%;top:78.269%;width:9.669%;height:12.891%}
 .t-goat{left:51.105%;top:63.536%;width:9.669%;height:12.891%}
 .t-kid{left:60.773%;top:71.823%;width:9.669%;height:12.891%}
 .t-pig{left:85.290%;top:65.378%;width:9.669%;height:12.891%}
@@ -214,10 +177,6 @@ body.debug .name{outline:2px solid #35c8ff}
 
 <div class="stage" id="stage">
 
-  <img class="guides gf0" src="assets/guides/pair-0.webp" alt="" data-first="1">
-  <img class="guides gf1" src="assets/guides/pair-1.webp" alt="">
-  <img class="guides gf2" src="assets/guides/pair-2.webp" alt="">
-  <button class="gtap" style="left:83.080%;top:2.762%;width:16.229%;height:15.470%" aria-label="The two children - press them"></button>
   <button class="tap t-cow" data-a="cow" aria-label="Hear the name cow"></button>
   <button class="tap t-bull" data-a="bull" aria-label="Hear the name bull"></button>
   <button class="tap t-ox" data-a="ox" aria-label="Hear the name ox"></button>
@@ -473,46 +432,6 @@ addEventListener('keydown', e => {
   if (e.key === 'd') document.body.classList.toggle('debug');
   if (e.key === 'Escape' && openFor) closeSheet();
 });
-
-/* The guides play a short animation when a child presses them - the owner's call, after
-   a timed cycle and then a one-frame-per-press swap.
-
-   The timing is the point. The in-between frame is held for HALF as long as the others
-   (210ms against 420ms), which is what makes the sequence read as a blink and a laugh
-   rather than as three pictures shown in turn: real eyes pass through half-closed quickly
-   and dwell at the ends. It runs out and back - rest, mid, peak, mid, rest - so the
-   children always finish where they started, the same "play once and return to rest" the
-   animal patches follow.
-
-   All of it comes from assets/guides/frames.json, so the timing is data: a genuinely
-   half-lidded frame could be added as another `mid` with no change here.
-
-   A re-press restarts cleanly rather than stacking timers. */
-const GUIDE_SEQ  = [{"frame": 1, "ms": 320}, {"frame": 2, "ms": 640}, {"frame": 1, "ms": 320}];
-const GUIDE_IDLE = 0;
-const guideFrames = [...document.querySelectorAll('.guides')];
-let guideTimer = null;
-
-if (guideFrames.length) {
-  const show = i => guideFrames.forEach((g, n) => g.classList.toggle('on', n === i));
-  show(GUIDE_IDLE);
-  const play = () => {
-    clearTimeout(guideTimer);
-    // restart the bounce on every press, on all three frames at once
-    guideFrames.forEach(g => g.classList.remove('hop'));
-    void guideFrames[0].offsetWidth;
-    guideFrames.forEach(g => g.classList.add('hop'));
-    let step = 0;
-    const next = () => {
-      if (step >= GUIDE_SEQ.length) { show(GUIDE_IDLE); guideTimer = null; return; }
-      const s = GUIDE_SEQ[step++];
-      show(s.frame);
-      guideTimer = setTimeout(next, s.ms);
-    };
-    next();
-  };
-  document.querySelector('.gtap').addEventListener('click', play);
-}
 
 // warm the clips one at a time once the page has settled, so a child's first
 // tap on any animal plays at once instead of waiting on a download
