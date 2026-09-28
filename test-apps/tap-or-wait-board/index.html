@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>Tap or Wait</title>
+  <meta name="apple-mobile-web-app-title" content="Tap or Wait"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="theme-color" content="#f8d9e7"/>
+  <link rel="icon" href="./icon-192.png"/>
+  <link rel="manifest" href="./manifest.webmanifest"/>
+  <link rel="stylesheet" href="./css/tap-wait.css"/>
+</head>
+<body>
+  <main id="app" aria-live="polite">
+    <section id="home" class="screen home-screen" data-screen="home">
+      <div class="home-copy">
+        <p class="eyebrow">A gentle noticing game</p>
+        <h1>Tap <span>or</span> Wait</h1>
+        <p class="intro">Tap the ones that match.<br/>Wait when they do not.</p>
+      </div>
+      <div class="theme-grid" aria-label="Choose a theme">
+        <button class="theme-card garden-card" data-theme="garden" type="button">
+          <span class="theme-art" aria-hidden="true">🌸<br/>💗<br/>🦋</span>
+          <span class="theme-name">Garden</span>
+          <span class="theme-subtitle">Hearts &amp; flowers</span>
+        </button>
+        <button class="theme-card space-card" data-theme="space" type="button">
+          <span class="theme-art" aria-hidden="true">🌍<br/>⭐<br/>🚀</span>
+          <span class="theme-name">Space</span>
+          <span class="theme-subtitle">Planets &amp; stars</span>
+        </button>
+      </div>
+      <p class="tiny-note">One tap at a time. There is no hurry.</p>
+    </section>
+
+    <section id="theme-picker" class="screen picker-screen" data-screen="theme" hidden>
+      <div class="topbar">
+        <button class="back-button" data-action="home" type="button" aria-label="Back to themes">‹</button>
+        <div>
+          <p id="theme-kicker" class="eyebrow">Garden</p>
+          <h2 id="theme-title">What do you notice?</h2>
+        </div>
+      </div>
+      <div id="rule-grid" class="rule-grid"></div>
+    </section>
+
+    <section id="play" class="screen play-screen" data-screen="play" hidden>
+      <div class="play-top">
+        <button class="back-button" data-action="theme" type="button" aria-label="Back to rules">‹</button>
+        <div class="play-heading">
+          <p id="play-theme" class="eyebrow">Garden</p>
+          <h2 id="rule-text">Tap the hearts!</h2>
+        </div>
+        <div class="score-pill" aria-label="Score and streak">
+          <span id="score">0</span><small>points</small>
+          <span id="streak" class="streak">🔥 0</span>
+        </div>
+      </div>
+      <div class="rule-strip">
+        <span class="rule-icon" id="rule-icon" aria-hidden="true">💗</span>
+        <span id="rule-hint" class="rule-hint">Find the hearts.</span>
+        <span id="progress" class="progress">1 / 12</span>
+      </div>
+      <div id="stage" class="item-stage" aria-label="Tap or wait area"></div>
+      <p id="feedback" class="feedback" aria-live="polite">Take your time.</p>
+    </section>
+
+    <section id="finish" class="screen finish-screen" data-screen="finish" hidden>
+      <div class="finish-card">
+        <div id="finish-stars" class="finish-stars" aria-label="Round result">⭐ ⭐ ⭐</div>
+        <h2>Nice looking!</h2>
+        <p id="finish-copy">You noticed some good ones.</p>
+        <div class="finish-score"><strong id="finish-score">0</strong><span>points</span></div>
+        <div class="finish-buttons">
+          <button id="again" class="big-button again-button" type="button">Again</button>
+          <button id="harder" class="big-button harder-button" type="button">Harder <span aria-hidden="true">›</span></button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Method C: the pilot tap guard is deliberately the first script. It only suppresses
+       a quick second single-finger tap; a multi-finger pinch is always left to Safari. -->
+  <script src="./js/tap-zoom-guard.js"></script>
+  <script src="./js/tap-wait-engine.js"></script>
+  <script src="./js/tap-wait-sound.js"></script>
+  <script src="./js/tap-wait-app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {
+      addEventListener("load", function () { Promise.resolve() /* Test Hub staging: no service worker */; });
+    }
+  </script>
+</body>
+</html>
