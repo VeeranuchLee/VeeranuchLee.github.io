@@ -4,6 +4,7 @@
   const state = S.createState();
   const svgNS = 'http://www.w3.org/2000/svg';
   const nailsRoot = document.querySelector('#nails');
+  const accessoryBackLayer = document.querySelector('#accessoryBackLayer');
   const accessoryLayer = document.querySelector('#accessoryLayer');
   const tray = document.querySelector('#tray');
   const tabsRoot = document.querySelector('#tabs');
@@ -31,8 +32,11 @@
   let activeTab = 'polish';
   let activePack = 'favourites';
   let audio;
+  let handAnchors;
+  let accessoryMetrics;
 
   function el(name, attrs={}) { const n=document.createElementNS(svgNS,name); Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v)); return n; }
+  function sparkleEffect(id){return id==='twinkles'?'glints':id;}
   function shapeMetrics(nail, g) {
     const extension=nail.length==='long'?20:0;
     return {x:g.x,y:g.y-extension,w:g.w,h:g.h+extension,cx:g.x+g.w/2,baseY:g.y+g.h};
@@ -91,12 +95,16 @@
     group.append(p);
   }
   function addSparkle(group,nail,m,clipId,index){
-    if(!nail.sparkle||nail.sparkle==='none')return;
-    const g=el('g',{class:`topcoat topcoat-${nail.sparkle}`,'data-sparkle-effect':nail.sparkle,'clip-path':`url(#${clipId})`});
-    if(nail.sparkle==='glitter')for(let i=0;i<24;i++)g.append(el('circle',{class:'glitter-fleck',cx:m.x+4+(i*17)%Math.max(8,m.w-8),cy:m.y+5+(i*23)%Math.max(12,m.h-10),r:i%4===0?2.8:i%2===0?1.9:1.25,fill:['#fff','#ffe46d','#8df5ef','#ff8bd1'][i%4],stroke:i%4===0?'#d99635':'none','stroke-width':.5}));
-    if(nail.sparkle==='shine'){g.append(el('path',{class:'shine-streak',d:`M${m.x+m.w*.25} ${m.y+7} Q${m.x+m.w*.08} ${m.y+m.h*.42} ${m.x+m.w*.27} ${m.y+m.h*.72}`,fill:'none',stroke:'#fff','stroke-width':8,opacity:.92,'stroke-linecap':'round'}));g.append(el('ellipse',{cx:m.x+m.w*.68,cy:m.y+m.h*.22,rx:m.w*.12,ry:m.h*.07,fill:'#fff',opacity:.76}));}
-    if(nail.sparkle==='twinkles')[[.27,.25,9],[.72,.48,8],[.42,.73,7]].forEach(([x,y,r],i)=>{const cx=m.x+m.w*x,cy=m.y+m.h*y;g.append(el('circle',{class:'twinkle-halo',cx,cy,r:r*.72}));g.append(el('path',{class:'twinkle-star',d:`M${cx} ${cy-r} L${cx+r*.28} ${cy-r*.28} L${cx+r} ${cy} L${cx+r*.28} ${cy+r*.28} L${cx} ${cy+r} L${cx-r*.28} ${cy+r*.28} L${cx-r} ${cy} L${cx-r*.28} ${cy-r*.28} Z`,fill:'#ffe35b','data-star':i}));});
-    if(nail.sparkle==='holo'){g.append(el('rect',{class:'holo-sheen',x:m.x,y:m.y,width:m.w,height:m.h,fill:'url(#holoTopcoat)',opacity:.68}));g.append(el('path',{d:`M${m.x-5} ${m.y+m.h*.72} L${m.x+m.w+5} ${m.y+m.h*.28}`,stroke:'#fff','stroke-width':9,opacity:.38}));}
+    const effect=sparkleEffect(nail.sparkle);
+    if(!effect||effect==='none')return;
+    const g=el('g',{class:`topcoat topcoat-${effect}`,'data-sparkle-effect':effect,'data-saved-effect':nail.sparkle,'clip-path':`url(#${clipId})`});
+    if(effect==='glitter'){
+      g.append(el('rect',{class:'glitter-texture',x:m.x,y:m.y,width:m.w,height:m.h,fill:'url(#glitterTopcoat)'}));
+      [[.22,.2,1.8],[.74,.31,1.4],[.38,.61,1.5],[.7,.8,1.8]].forEach(([x,y,r],i)=>g.append(el('circle',{class:'glitter-bright',cx:m.x+m.w*x,cy:m.y+m.h*y,r,opacity:i%2?.72:.95})));
+    }
+    if(effect==='glints')[[.28,.27,7],[.7,.5,6],[.43,.75,5]].forEach(([x,y,r],i)=>{const cx=m.x+m.w*x,cy=m.y+m.h*y,glint=el('g',{class:`light-glint glint-${i+1}`});glint.append(el('circle',{class:'glint-halo',cx,cy,r,fill:'url(#glintGlow)'}));glint.append(el('path',{class:'glint-flare',d:`M${cx-r*.72} ${cy}H${cx+r*.72}M${cx} ${cy-r}V${cy+r}`}));g.append(glint);});
+    if(effect==='shine')g.append(el('rect',{class:'shine-band',x:m.x-m.w*.8,y:m.y-8,width:m.w*.72,height:m.h+16,rx:m.w*.3,fill:'url(#shineBand)',transform:`rotate(9 ${m.cx} ${m.y+m.h/2})`}));
+    if(effect==='holo'){const sheen=el('g',{class:'holo-drift'});sheen.append(el('rect',{class:'holo-sheen',x:m.x-m.w*.5,y:m.y,width:m.w*2,height:m.h,fill:'url(#holoTopcoat)'}));sheen.append(el('path',{class:'holo-light',d:`M${m.x-m.w*.4} ${m.y+m.h*.78} L${m.x+m.w*1.5} ${m.y+m.h*.2}`}));g.append(sheen);}
     group.append(g);
   }
   const layouts={1:[[.5,.5,30]],2:[[.35,.43,22],[.66,.65,22]],3:[[.5,.28,19],[.31,.65,19],[.7,.65,19]],4:[[.31,.3,17],[.69,.3,17],[.31,.7,17],[.69,.7,17]]};
@@ -106,10 +114,24 @@
     list.forEach((id,i)=>{const [px,py,size]=poses[i];if(kind==='sticker'){root.append(el('image',{class:'decoration',href:`./assets/stickers/${id}.webp`,x:m.x+m.w*px-size/2,y:m.y+m.h*py-size/2,width:size,height:size,preserveAspectRatio:'xMidYMid meet'}));}else{const gem=gems.find(g=>g.id===id)||gems[0];if(gem.art){root.append(el('image',{class:'decoration',href:`./assets/icons/${gem.art}.webp`,x:m.x+m.w*px-size/2,y:m.y+m.h*py-size/2,width:size,height:size,preserveAspectRatio:'xMidYMid meet'}));}else{const cx=m.x+m.w*px,cy=m.y+m.h*py;root.append(el('path',{class:'decoration',d:`M${cx-size*.34} ${cy-size*.42}H${cx+size*.34}L${cx+size*.5} ${cy-size*.12}L${cx+size*.27} ${cy+size*.45}H${cx-size*.27}L${cx-size*.5} ${cy-size*.12}Z`,fill:'#42c891',stroke:'#d8ffed','stroke-width':2}));}}});
   }
   function renderAccessories(){
+    accessoryBackLayer.replaceChildren();
     accessoryLayer.replaceChildren();
-    if(state.accessories.includes('heart-ring')){const g=el('g',{class:'worn-accessory',transform:'rotate(2 405 304)'});g.append(el('path',{d:'M382 305 Q405 315 428 305',fill:'none',stroke:'#e7a82b','stroke-width':8,'stroke-linecap':'round'}));g.append(el('text',{x:405,y:307,'text-anchor':'middle','font-size':23,fill:'#f04a9c',stroke:'#fff','stroke-width':1.5}));g.lastChild.textContent='♥';accessoryLayer.append(g);}
-    if(state.accessories.includes('pearl-bracelet')){const g=el('g',{class:'worn-accessory','data-accessory':'pearl-bracelet'});g.append(el('path',{class:'bracelet-band',d:'M228 526 Q310 574 392 526'}));for(let x=238;x<=382;x+=18){const cy=535+Math.abs(310-x)*.2;g.append(el('circle',{class:'bracelet-pearl',cx:x,cy,r:10}));g.append(el('circle',{class:'bracelet-highlight',cx:x-3,cy:cy-3,r:3}));}g.append(el('path',{d:'M299 566 Q310 554 321 566 Q321 577 310 584 Q299 577 299 566Z',fill:'#f04a9c',stroke:'#873b70','stroke-width':3}));accessoryLayer.append(g);}
-    if(state.accessories.includes('pink-bow')){const g=el('g',{class:'worn-accessory','data-accessory':'pink-bow',transform:'translate(354 505) rotate(-10 36 34)'});g.append(el('path',{class:'wrist-bow-loop',d:'M35 30 C16 2 -8 8 4 35 C13 51 27 43 37 35 C47 43 62 52 72 35 C84 8 58 2 39 30Z'}));g.append(el('path',{class:'wrist-bow-loop',d:'M27 40 L13 68 L38 54 L60 70 L48 40Z'}));g.append(el('circle',{class:'wrist-bow-knot',cx:37,cy:34,r:12}));accessoryLayer.append(g);}
+    if(!handAnchors)return;
+    const specs={
+      'heart-ring':{anchor:'ringFingerBase',heightAnchor:'ringFingerBase',heightRatio:440/640,offsetY:0},
+      'pearl-bracelet':{anchor:'wrist',heightAnchor:'wrist',heightRatio:440/640,offsetY:0},
+      'pink-bow':{anchor:'upperWrist',heightAnchor:'wrist',heightRatio:400/640,offsetY:0}
+    };
+    Object.entries(specs).forEach(([id,spec])=>{
+      if(!state.accessories.includes(id))return;
+      const a=handAnchors.anchors[spec.anchor].svg,coverage=accessoryMetrics.wrapCoverage[id],w=a.width/coverage.visibleSpanFraction,h=handAnchors.anchors[spec.heightAnchor].svg.width*spec.heightRatio,x=a.centreX-w/2,bandY=a.row+spec.offsetY,y=bandY-h*.43;
+      const transform=`rotate(${a.bandAngleDegrees} ${a.centreX} ${bandY})`;
+      const attrs={class:'worn-accessory',x,y,width:w,height:h,preserveAspectRatio:'none',transform,'data-accessory':id,'data-left':a.left,'data-right':a.right};
+      accessoryBackLayer.append(el('image',{...attrs,href:`./assets/accessories/${id}-back.webp`,mask:'url(#handSkinMask)'}));
+      const front=el('image',{...attrs,href:`./assets/accessories/${id}-front.webp`});
+      front.setAttribute('mask','url(#handSkinMask)');
+      accessoryLayer.append(front);
+    });
     accessoryLayer.parentNode.append(accessoryLayer);
   }
 
@@ -117,6 +139,16 @@
     const clone=document.querySelector('#handSvg').cloneNode(true);
     clone.querySelector('.painted-hand')?.remove(); clone.querySelector('#nails')?.remove();
     clone.setAttribute('width','620'); clone.setAttribute('height','690');
+    const baseUrl=new URL('.',location.href).href;
+    for(const img of clone.querySelectorAll('image')){
+      let href=img.getAttribute('href'); if(!href) continue;
+      if(!/^[a-z][a-z0-9+.-]*:/i.test(href)) href=new URL(href,baseUrl).href;
+      try{
+        const blob=await (await fetch(href,{mode:'cors'})).blob();
+        const dataUrl=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(blob);});
+        img.setAttribute('href',dataUrl);
+      }catch(e){throw new Error(`Failed to inline ${href}: ${e.message}`);}
+    }
     const blob=new Blob([new XMLSerializer().serializeToString(clone)],{type:'image/svg+xml'});
     const url=URL.createObjectURL(blob);
     const img=new Image();
@@ -151,7 +183,7 @@
       gems.forEach(g=>choice(g.art?`<img src="./assets/icons/${g.art}.webp" alt="">`:'<i class="gem gem-emerald"></i>',()=>S.addDecoration(state,'gem',g.id),false,g.id+' gem'));
       addDecorationPips(nail.gems.length,'gems');
     } else if(activeTab==='sparkle'){
-      ['none','glitter','shine','twinkles','holo'].forEach(id=>choice(`<i class="sparkle-choice sparkle-${id}" data-preview="${id}"><b></b></i>`,()=>S.update(state,{sparkle:id}),nail.sparkle===id,id));
+      ['none','glitter','glints','shine','holo'].forEach(id=>choice(`<i class="sparkle-choice sparkle-${id}" data-preview="${id}"><b></b></i>`,()=>S.update(state,{sparkle:id}),sparkleEffect(nail.sparkle)===id,id));
     } else {
       [['heart-ring','accessory-heart-ring'],['pink-bow','accessory-bow'],['pearl-bracelet','accessory-pearl-bracelet']].forEach(([id,art])=>choice(`<img src="./assets/icons/${art}.webp" alt="">`,()=>S.setAccessories(state,id),state.accessories.includes(id),id));
     }
@@ -164,5 +196,11 @@
   document.querySelector('#applyAll').addEventListener('click',()=>{S.applyAll(state);renderNails();renderTray();});
   undoButton.addEventListener('click',()=>{S.undo(state);renderNails();renderTray();});
   document.querySelector('#reset').addEventListener('click',()=>{S.resetNail(state);renderNails();renderTray();});
-  renderTabs();renderNails();renderTray();
+  async function start(){
+    const [anchorResponse,metricResponse]=await Promise.all([fetch('./assets/art/hand-anchors.json'),fetch('./assets/accessories/provenance.json')]);
+    if(!anchorResponse.ok||!metricResponse.ok)throw new Error(`Accessory geometry failed to load: ${anchorResponse.status}/${metricResponse.status}`);
+    [handAnchors,accessoryMetrics]=await Promise.all([anchorResponse.json(),metricResponse.json()]);
+    renderTabs();renderNails();renderTray();
+  }
+  start().catch(error=>{console.error(error);renderTabs();renderNails();renderTray();});
 })();
