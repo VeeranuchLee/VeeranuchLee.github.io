@@ -1,0 +1,67 @@
+{
+  "_comment": "Word clips round 8 -- Magic Math spelling IPA phoneme re-render candidates. Owner 2026-09-29: 'go ahead with the 6 word re-renders', approving ~/.local/state/children-games/spend/word-clips-r8-proposal.md. Voice corrected by the controller before render: Magic Math Narrator (syTCOMrIG987VoS0EmlL), not the proposal document's mistaken 'Alice' -- see AUDIO-DIRECTION.md and math-app/narration/spelling.json provenance. NOT SHIPPED: these are candidates on a private owner listening page only; the shipped sp-w-* clips are untouched.",
+  "tool": "math-app/tools/render-spelling-candidates.py",
+  "endpoint": "/v1/text-to-speech/{voice_id}/with-timestamps",
+  "model": "eleven_turbo_v2",
+  "voiceId": "syTCOMrIG987VoS0EmlL",
+  "voiceName": "Magic Math Narrator",
+  "outputFormat": "mp3_44100_128",
+  "renderedOn": "2026-09-29",
+  "transcodedBy": "afconvert -f m4af -d aac@24000 -c 1 -b 32000 (matches math-app/tools/build-runtime-audio.py: 24 kHz mono 32 kbps AAC, same as every shipped Magic Math narration clip)",
+  "clips": {
+    "ate": {
+      "text": "<phoneme alphabet=\"ipa\" ph=\"eɪt\">ate</phoneme>.",
+      "master_mp3": "math-app/narration/rendered/word-candidates-r8/sp-w-ate.ipa-turbo.mp3",
+      "master_mp3_sha256": "30b785f6b9e1f44bd02aa2b9f1108be8744856aaf34782fe856e7d20e473ff6d",
+      "staged_new_m4a": "site/test-apps/audio-check-0929/audio/new/ate.m4a",
+      "staged_new_m4a_sha256": "7038a4b3f8d410efef4d66c8f880f1422d2e3382439aabd8e31d34d340da1e69",
+      "current_shipped_m4a": "math-app/assets-runtime/narration/spelling/sp-w-ate.m4a",
+      "current_shipped_m4a_sha256": "3d0340c49370f3785cd5213ea581c01ff4570e921726b75c392c114c8c34100e"
+    },
+    "face": {
+      "text": "<phoneme alphabet=\"ipa\" ph=\"feɪs\">face</phoneme>.",
+      "master_mp3": "math-app/narration/rendered/word-candidates-r8/sp-w-face.ipa-turbo.mp3",
+      "master_mp3_sha256": "0c9a381e9582dd83c9e2dc29dfb6f094c38ead23e447c83fa578991d1019ba7d",
+      "staged_new_m4a": "site/test-apps/audio-check-0929/audio/new/face.m4a",
+      "staged_new_m4a_sha256": "bdb85de60f4ed3b7bbba5363465ddaae4b8518726ae9df4f523f591be920ec82",
+      "current_shipped_m4a": "math-app/assets-runtime/narration/spelling/sp-w-face.m4a",
+      "current_shipped_m4a_sha256": "dd53e227042c9ede06a5bef7f0e5e13821458e7cef586bef27a745e223c73863"
+    },
+    "our": {
+      "text": "<phoneme alphabet=\"ipa\" ph=\"aʊə\">our</phoneme>.",
+      "master_mp3": "math-app/narration/rendered/word-candidates-r8/sp-w-our.ipa-turbo.mp3",
+      "master_mp3_sha256": "2e01f99e9028d28ad81ff5afcf09d602f7ffdd3a70059d8480b378913dbcdd01",
+      "staged_new_m4a": "site/test-apps/audio-check-0929/audio/new/our.m4a",
+      "staged_new_m4a_sha256": "de0437a679ef11938101e0e5e606bfd6e2a22830f6e0166cdc14479e65226b5b",
+      "current_shipped_m4a": "math-app/assets-runtime/narration/spelling/sp-w-our.m4a",
+      "current_shipped_m4a_sha256": "7e38bcd9709723ec2f31bfb28bd68bdbde5bce0c5a114023ff12b62c085c68f0"
+    },
+    "pet": {
+      "text": "<phoneme alphabet=\"ipa\" ph=\"pɛt\">pet</phoneme>.",
+      "master_mp3": "math-app/narration/rendered/word-candidates-r8/sp-w-pet.ipa-turbo.mp3",
+      "master_mp3_sha256": "2ceb9c053f1f46d38dc9349d4f827951431795521c59d0687d70d5986ffee59c",
+      "staged_new_m4a": "site/test-apps/audio-check-0929/audio/new/pet.m4a",
+      "staged_new_m4a_sha256": "6471cd761f3d87352c2a15be0a427d58d9a35481257306d4e90bf35e72feea17",
+      "current_shipped_m4a": "math-app/assets-runtime/narration/spelling/sp-w-pet.m4a",
+      "current_shipped_m4a_sha256": "24438d4ec6230d1a851030aedb7c6eac3c6449e2fb41cc65a5ec0ce987c36b89"
+    },
+    "rat": {
+      "text": "<phoneme alphabet=\"ipa\" ph=\"ræt\">rat</phoneme>.",
+      "master_mp3": "math-app/narration/rendered/word-candidates-r8/sp-w-rat.ipa-turbo.mp3",
+      "master_mp3_sha256": "9546356e5addb98c8d67699088a735ccc4a4dc4d875691ac0329e7cd9cd530a1",
+      "staged_new_m4a": "site/test-apps/audio-check-0929/audio/new/rat.m4a",
+      "staged_new_m4a_sha256": "1657d415a5f4cfcac6f883ce9347c8415f261bcaf78797084d6e71023abd5c5d",
+      "current_shipped_m4a": "math-app/assets-runtime/narration/spelling/sp-w-rat.m4a",
+      "current_shipped_m4a_sha256": "b167fa51e7b83b4d98eae6e62be333454cf2bca1e7e1b7875a2da394ae4de855"
+    },
+    "thank": {
+      "text": "<phoneme alphabet=\"ipa\" ph=\"θæŋk\">thank</phoneme>.",
+      "master_mp3": "math-app/narration/rendered/word-candidates-r8/sp-w-thank.ipa-turbo.mp3",
+      "master_mp3_sha256": "adfcd96c2492f392247d83c38a0d301d90507321dc4e0b9368ea2bc3990fa2c9",
+      "staged_new_m4a": "site/test-apps/audio-check-0929/audio/new/thank.m4a",
+      "staged_new_m4a_sha256": "80189a73cf4ab91422ec20cbf1c28778a3588ae6ee0e24b047d1ee56f45486dd",
+      "current_shipped_m4a": "math-app/assets-runtime/narration/spelling/sp-w-thank.m4a",
+      "current_shipped_m4a_sha256": "29264bcbdaf99bb3d758f6d5cb71134800eedda5dcf07936425740c10e44f953"
+    }
+  }
+}
