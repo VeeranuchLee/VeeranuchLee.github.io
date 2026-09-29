@@ -1,0 +1,19 @@
+[
+  {
+    "file": "menu-bed.m4a",
+    "tool": "ElevenLabs Music API /v1/music",
+    "model": "music_v1",
+    "outputFormat": "pcm_44100",
+    "prompt": "Calm, gentle instrumental background music for a cosy children's nail salon and spa scene. A soft, warm music box melody with light celesta and a delicate glockenspiel, gentle brushed felt piano touches and a warm, airy pad underneath. Relaxing and soothing, slow and unhurried, in a major key, very soft and even dynamics throughout. No drums, no percussion, no vocals, no singing, no voices, no choir, no lyrics, no sound effects, no sudden changes or swells. Even level from start to end with no build-up and no ending, so it can loop quietly underneath a page without ever drawing attention to itself.",
+    "lengthRequestedSeconds": 75,
+    "lengthReceivedSeconds": 75.0,
+    "loopLengthSeconds": 71.0,
+    "generatedOn": "2026-09-29",
+    "wiredToPageOn": "2026-09-29",
+    "sourceMaster": "nail-salon-app/audio-source/menu-bed-master.wav (paid master, git-ignored; rendered from candidate B, chosen over candidate A for closer loudness match to other shipped beds and tighter loop seam — see coordination/tasks/2026-09-29-1100-claudecode-nail-salon-music.md and nail-salon-app/work_progress_and_other_discussion.md 2026-09-29 entry). Paid masters backed up at ~/.local/state/children-games/paid-backup/2026-09-29-nail-salon-music/.",
+    "loopAndEncodeSteps": "nail-salon-app/tools/render-menu-bed.py -> WAV master; math-app/tools/build-menu-bed.py -> trimmed loop with equal-power tail-into-head crossfade; afconvert (macOS) -> stereo AAC .m4a.",
+    "sha256": "a00d16999590a2f66099f7fd02747494a932734d6b66391b0b647812953a416f",
+    "termsCheckedForPublicRedistribution": true,
+    "termsNote": "AUDIO-DIRECTION.md, 'Redistribution: what ElevenLabs' terms actually allow'. Creator plan, free and unmonetised, single platform, so 'Studio Games' does not apply. Owner requested this bed by name for Nail Salon on 2026-09-29 as a per-app exception to decision 10a, same shape as Spelling Exam's sea bed (decision 10); recorded in nail-salon-app/work_progress_and_other_discussion.md."
+  }
+]
