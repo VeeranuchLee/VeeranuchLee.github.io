@@ -1,0 +1,71 @@
+{
+ "sense": "cashier.occupation",
+ "word": "cashier",
+ "sentence": "The cashier gives Mum her change.",
+ "char_span": [
+  4,
+  11
+ ],
+ "word_index": 1,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.197,
+  0.557
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.151,
+  "next_char_start": 0.627
+ },
+ "energy_dbfs_at_raw_edges": [
+  -29.4,
+  -21.1
+ ],
+ "quietest_near_start": {
+  "t": 0.1845,
+  "dbfs": -63.5
+ },
+ "quietest_near_end": {
+  "t": 0.637,
+  "dbfs": -71.1
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip",
+  "dip"
+ ],
+ "cut_s": [
+  0.1818,
+  0.6421
+ ],
+ "edge_shift_ms_vs_raw": [
+  -15.2,
+  85.1
+ ],
+ "energy_dbfs_at_cut": [
+  -58.6,
+  -61.5
+ ],
+ "word_audio_s": 0.4603,
+ "lead_tail_silence_s": [
+  0.07,
+  0.311
+ ],
+ "gain_db": 0.52,
+ "peak_dbfs_after": -8.55,
+ "level_to": "word-book/audio/words/cashier.m4a",
+ "out": "word-book/qa/2026-09-29-c-variants/audio/cashier.occupation.sentcut.m4a",
+ "master": "word-book/audio-source/sentences/cashier.occupation.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": false,
+ "fades_ms": [
+  6.0,
+  6.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  0.0
+ ],
+ "flags": []
+}

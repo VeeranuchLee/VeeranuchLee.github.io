@@ -1,0 +1,76 @@
+{
+ "sense": "cashew.nut",
+ "word": "cashew",
+ "sentence": "I pick a cashew from the bowl.",
+ "char_span": [
+  9,
+  15
+ ],
+ "word_index": 3,
+ "words_in_sentence": 7,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.418,
+  0.789
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.372,
+  "next_char_start": 0.824
+ },
+ "energy_dbfs_at_raw_edges": [
+  -37.9,
+  -24.7
+ ],
+ "quietest_near_start": {
+  "t": 0.4055,
+  "dbfs": -60.2
+ },
+ "quietest_near_end": {
+  "t": 0.854,
+  "dbfs": -33.7
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip",
+  "gap-min"
+ ],
+ "cut_s": [
+  0.405,
+  0.809
+ ],
+ "edge_shift_ms_vs_raw": [
+  -13.0,
+  20.0
+ ],
+ "energy_dbfs_at_cut": [
+  -59.3,
+  -33.6
+ ],
+ "word_audio_s": 0.404,
+ "lead_tail_silence_s": [
+  0.085,
+  0.153
+ ],
+ "gain_db": -3.21,
+ "peak_dbfs_after": -9.01,
+ "level_to": "word-book/audio/words/cashew.m4a",
+ "out": "word-book/qa/2026-09-29-c-variants/audio/cashew.nut.sentcut.m4a",
+ "master": "word-book/audio-source/sentences/cashew.nut.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": false,
+ "fades_ms": [
+  6.0,
+  6.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -33.6 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}
