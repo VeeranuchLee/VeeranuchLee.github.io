@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Word clips round 9 -- owner listening page</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: -apple-system, system-ui, sans-serif; max-width: 720px; margin: 0 auto; padding: 24px 16px 64px; background: #fafafa; color: #1a1a1a; }
+  h1 { font-size: 1.3rem; }
+  p.lead { color: #444; line-height: 1.5; }
+  .word { border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin: 20px 0; background: #fff; }
+  .word h2 { margin: 0 0 4px; font-size: 1.5rem; text-transform: none; }
+  .word .ipa { color: #666; font-size: 0.95rem; margin-bottom: 12px; }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; }
+  button.play { font-size: 1.05rem; padding: 14px 18px; border-radius: 10px; border: 1px solid #bbb; background: #f0f0f0; cursor: pointer; min-width: 120px; }
+  button.play.now { background: #e8f0ff; border-color: #99b8ee; }
+  button.play:active { background: #d8d8d8; }
+  .cand-label { display: block; font-size: 0.75rem; color: #666; margin-top: 2px; }
+  .approach { font-size: 0.72rem; color: #888; }
+  footer { margin-top: 40px; font-size: 0.8rem; color: #777; }
+  @media (prefers-color-scheme: dark) {
+    body { background: #16181c; color: #eee; }
+    .word { background: #202329; border-color: #333; }
+    button.play { background: #2a2d33; border-color: #444; color: #eee; }
+    button.play.now { background: #1d2a44; border-color: #345; }
+  }
+</style>
+</head>
+<body>
+<h1>Word clips round 9 -- listening page (private, staging only)</h1>
+<p class="lead">
+  Round 8 verdict, 2026-09-29: face/pet were good, rat/thank were "better, use new for
+  now, but try render more", and ate/our need another try. rat/thank/ate/our each have
+  three new candidates below plus the clip now shipping in the app.
+  This page is untracked Test Hub staging -- no service worker, nothing here is published.
+</p>
+
+<div id="words"></div>
+
+<footer>site/test-apps/audio-check-0929b/ &middot; round 9 &middot; 2026-09-29</footer>
+
+<script>
+const WORDS = [
+  { word: "rat", ipa: "1: /ræt/ flash &middot; 2: /ˈræt/ turbo &middot; 3: plain + context, multilingual" },
+  { word: "thank", ipa: "1: /θæŋk/ flash &middot; 2: /ˈθæŋk/ turbo &middot; 3: plain + context, multilingual" },
+  { word: "ate", ipa: "1: /eɪt/ flash &middot; 2: /ˈeɪt/ turbo &middot; 3: plain + context, multilingual" },
+  { word: "our", ipa: "1: /aʊə/ flash &middot; 2: /ˈaʊə/ turbo &middot; 3: plain + context, multilingual" },
+];
+
+function playFile(src) {
+  const a = new Audio(src);
+  a.play().catch(() => {});
+}
+
+const root = document.getElementById("words");
+for (const w of WORDS) {
+  const div = document.createElement("div");
+  div.className = "word";
+  div.innerHTML = `
+    <h2>${w.word}</h2>
+    <div class="ipa">${w.ipa}</div>
+    <div class="row">
+      <button class="play now" data-src="audio/now/${w.word}.m4a">Now in the app</button>
+      <button class="play" data-src="audio/candidates/${w.word}-1.m4a">Take 1<span class="cand-label">flash / IPA</span></button>
+      <button class="play" data-src="audio/candidates/${w.word}-2.m4a">Take 2<span class="cand-label">turbo / stress IPA</span></button>
+      <button class="play" data-src="audio/candidates/${w.word}-3.m4a">Take 3<span class="cand-label">multilingual / context</span></button>
+    </div>`;
+  root.appendChild(div);
+}
+root.addEventListener("click", (e) => {
+  const b = e.target.closest("button.play");
+  if (b) playFile(b.dataset.src);
+});
+</script>
+</body>
+</html>
