@@ -1,0 +1,76 @@
+{
+ "sense": "ear.body-part",
+ "word": "ear",
+ "sentence": "Vanilla turns one ear towards the rustling leaves.",
+ "char_span": [
+  18,
+  21
+ ],
+ "word_index": 3,
+ "words_in_sentence": 8,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  1.126,
+  1.3
+ ],
+ "neighbours_s": {
+  "previous_char_end": 1.091,
+  "next_char_start": 1.37
+ },
+ "energy_dbfs_at_raw_edges": [
+  -16.9,
+  -23.0
+ ],
+ "quietest_near_start": {
+  "t": 1.081,
+  "dbfs": -23.6
+ },
+ "quietest_near_end": {
+  "t": 1.3825,
+  "dbfs": -70.4
+ },
+ "refined": true,
+ "edge_rule": [
+  "gap-min",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  1.091,
+  1.3949
+ ],
+ "edge_shift_ms_vs_raw": [
+  -35.0,
+  94.9
+ ],
+ "energy_dbfs_at_cut": [
+  -20.6,
+  -60.1
+ ],
+ "word_audio_s": 0.3038,
+ "lead_tail_silence_s": [
+  0.025,
+  0.309
+ ],
+ "gain_db": 3.32,
+ "peak_dbfs_after": -5.56,
+ "level_to": "word-book/audio/words/ear.m4a",
+ "out": "word-book/qa/2026-09-29-de-variants/audio/ear.body-part.sentcut.m4a",
+ "master": "word-book/audio-source/sentences/ear.body-part.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  8.5
+ ],
+ "soft_move_ms": [
+  0.0,
+  2.5
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -20.6 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

@@ -1,0 +1,1075 @@
+{
+ "app": "word-book (candidates only -- HELD, not shipped)",
+ "generated": "2026-09-29",
+ "voice": "Alice - Clear, Engaging, Educational (British)",
+ "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+ "owner_request": "digit, do, door -> need to fix the voice, maybe render sentence and cut it as option too. | each, ear, early, escalator, even, explorer -> render other variants to see if we can improve. maybe cut from sentence?",
+ "words": {
+  "digit.number-symbol": {
+   "sense": "digit.number-symbol",
+   "headword": "digit",
+   "ipa": "<phoneme alphabet=\"ipa\" ph=\"ˈdɪdʒɪt\">digit</phoneme>.",
+   "sentence": "I write each digit on a little paper rocket.",
+   "takes": {
+    "Now in the app": {
+     "file": "word-book/audio/words/digit.m4a",
+     "sha256": "e63644a76fefdd1097f429161a067c5e5907a7a4fdbbac614b8803febef13d70",
+     "note": "existing shipped clip; copied byte-for-byte"
+    },
+    "IPA phoneme tag (eleven_turbo_v2)": {
+     "file": "word-book/audio-source/word-candidates/digit.number-symbol.ipa-turbo.mp3",
+     "master_sha256": "f3a20cb0f97e04f2298fc9b532d5341f31d118ae1d2a37e52fbd87eb200da40c",
+     "alignment": "word-book/audio-alignment/word-candidates/digit.number-symbol.ipa-turbo.json",
+     "tool": "word-book/tools/render-word-candidates.py (ElevenLabs, AI-generated speech)",
+     "voice": "Alice - Clear, Engaging, Educational (British)",
+     "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+     "model": "eleven_turbo_v2",
+     "text": "<phoneme alphabet=\"ipa\" ph=\"ˈdɪdʒɪt\">digit</phoneme>.",
+     "char_count": 53,
+     "rendered_at": "2026-09-29T13:14:28Z"
+    },
+    "Cut from example sentence": {
+     "file": "word-book/qa/2026-09-29-de-variants/audio/digit.number-symbol.sentcut.m4a",
+     "sha256": "72bc35fdb7ab4a415325a40a7d459140790b2a1b4bbb8a002ef684c38f21f617",
+     "master": "word-book/audio-source/sentences/digit.number-symbol.mp3",
+     "master_sha256": "1e7ebaae3dc59c9822dd8b08dff5511975468cd6549b9fad3c4b0ae6223d7999",
+     "tool": "word-book/tools/extract-sentence-word.py (free -- cut of an already-paid sentence master)",
+     "voice": "Alice - Clear, Engaging, Educational (British)",
+     "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+     "model": "eleven_multilingual_v2",
+     "sentence": "I write each digit on a little paper rocket.",
+     "sentence_master_rendered_at": "2026-09-29T03:23:56Z",
+     "sentence_master_reused_from": "agent/wordbook-sentences-cd worktree (PR #1075, already paid)",
+     "report": {
+      "sense": "digit.number-symbol",
+      "word": "digit",
+      "sentence": "I write each digit on a little paper rocket.",
+      "char_span": [
+       13,
+       18
+      ],
+      "word_index": 3,
+      "words_in_sentence": 9,
+      "sentence_final": false,
+      "raw_alignment_span_s": [
+       0.639,
+       0.975
+      ],
+      "neighbours_s": {
+       "previous_char_end": 0.58,
+       "next_char_start": 1.045
+      },
+      "energy_dbfs_at_raw_edges": [
+       -76.3,
+       -34.3
+      ],
+      "quietest_near_start": {
+       "t": 0.6465,
+       "dbfs": -84.7
+      },
+      "quietest_near_end": {
+       "t": 1.04,
+       "dbfs": -75.7
+      },
+      "refined": true,
+      "edge_rule": [
+       "dip+soft-reach",
+       "dip+soft-reach"
+      ],
+      "cut_s": [
+       0.6064,
+       1.055
+      ],
+      "edge_shift_ms_vs_raw": [
+       -32.6,
+       80.0
+      ],
+      "energy_dbfs_at_cut": [
+       -49.1,
+       -47.4
+      ],
+      "word_audio_s": 0.4486,
+      "lead_tail_silence_s": [
+       0.03,
+       0.248
+      ],
+      "gain_db": 1.18,
+      "peak_dbfs_after": -7.4,
+      "level_to": "word-book/audio/words/digit.m4a",
+      "out": "word-book/qa/2026-09-29-de-variants/audio/digit.number-symbol.sentcut.m4a",
+      "master": "word-book/audio-source/sentences/digit.number-symbol.mp3",
+      "fade_ms": 6.0,
+      "pad_ms": 10.0,
+      "soft": true,
+      "fades_ms": [
+       36.0,
+       13.5
+      ],
+      "soft_move_ms": [
+       -30.0,
+       7.5
+      ],
+      "flags": []
+     }
+    }
+   }
+  },
+  "do.perform-an-action": {
+   "sense": "do.perform-an-action",
+   "headword": "do",
+   "ipa": "<phoneme alphabet=\"ipa\" ph=\"duː\">do</phoneme>.",
+   "sentence": "We do our homework before dinner.",
+   "takes": {
+    "Now in the app": {
+     "file": "word-book/audio/words/do.m4a",
+     "sha256": "8d718c9a84f029a2f4ee011f706e819d34b2d7c45667119982a63639fc250443",
+     "note": "existing shipped clip; copied byte-for-byte"
+    },
+    "IPA phoneme tag (eleven_turbo_v2)": {
+     "file": "word-book/audio-source/word-candidates/do.perform-an-action.ipa-turbo.mp3",
+     "master_sha256": "5f6ce981c3740e94c86041f9988c5169f24fefd92a5e5619901bd9dd1a797d98",
+     "alignment": "word-book/audio-alignment/word-candidates/do.perform-an-action.ipa-turbo.json",
+     "tool": "word-book/tools/render-word-candidates.py (ElevenLabs, AI-generated speech)",
+     "voice": "Alice - Clear, Engaging, Educational (British)",
+     "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+     "model": "eleven_turbo_v2",
+     "text": "<phoneme alphabet=\"ipa\" ph=\"duː\">do</phoneme>.",
+     "char_count": 46,
+     "rendered_at": "2026-09-29T13:14:34Z"
+    },
+    "Cut from example sentence": {
+     "file": "word-book/qa/2026-09-29-de-variants/audio/do.perform-an-action.sentcut.m4a",
+     "sha256": "e0825bed6ad1d76a7f1649a9aa7a72d10776121a7fa6cefc8cdb36057a800046",
+     "master": "word-book/audio-source/sentences/do.perform-an-action.mp3",
+     "master_sha256": "49a0fd375bda78e904c75c3e103273f58bcc6e6bf1665143578eb3da4b1864b8",
+     "tool": "word-book/tools/extract-sentence-word.py (free -- cut of an already-paid sentence master)",
+     "voice": "Alice - Clear, Engaging, Educational (British)",
+     "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+     "model": "eleven_multilingual_v2",
+     "sentence": "We do our homework before dinner.",
+     "sentence_master_rendered_at": "2026-09-29T03:24:12Z",
+     "sentence_master_reused_from": "agent/wordbook-sentences-cd worktree (PR #1075, already paid)",
+     "report": {
+      "sense": "do.perform-an-action",
+      "word": "do",
+      "sentence": "We do our homework before dinner.",
+      "char_span": [
+       3,
+       5
+      ],
+      "word_index": 1,
+      "words_in_sentence": 6,
+      "sentence_final": false,
+      "raw_alignment_span_s": [
+       0.232,
+       0.313
+      ],
+      "neighbours_s": {
+       "previous_char_end": 0.186,
+       "next_char_start": 0.383
+      },
+      "energy_dbfs_at_raw_edges": [
+       -37.9,
+       -17.6
+      ],
+      "quietest_near_start": {
+       "t": 0.237,
+       "dbfs": -42.3
+      },
+      "quietest_near_end": {
+       "t": 0.3405,
+       "dbfs": -19.5
+      },
+      "refined": true,
+      "edge_rule": [
+       "dip",
+       "raw"
+      ],
+      "cut_s": [
+       0.2373,
+       0.3127
+      ],
+      "edge_shift_ms_vs_raw": [
+       5.3,
+       -0.3
+      ],
+      "energy_dbfs_at_cut": [
+       -42.5,
+       -17.7
+      ],
+      "word_audio_s": 0.0754,
+      "lead_tail_silence_s": [
+       0.175,
+       0.285
+      ],
+      "gain_db": 3.05,
+      "peak_dbfs_after": -7.53,
+      "level_to": "word-book/audio/words/do.m4a",
+      "out": "word-book/qa/2026-09-29-de-variants/audio/do.perform-an-action.sentcut.m4a",
+      "master": "word-book/audio-source/sentences/do.perform-an-action.mp3",
+      "fade_ms": 6.0,
+      "pad_ms": 10.0,
+      "soft": true,
+      "fades_ms": [
+       6.0,
+       40.0
+      ],
+      "soft_move_ms": [
+       -0.0,
+       0.0
+      ],
+      "flags": [
+       {
+        "flag": "function-word",
+        "why": "a closed-class word; in a sentence it is often a weak, reduced form"
+       },
+       {
+        "flag": "edge-in-speech",
+        "why": "the end cut sits at -17.7 dBFS, above -35: inside speech, so clipped or smeared"
+       }
+      ]
+     }
+    },
+    "Extra: bare word + sentence-neighbour context": {
+     "file": "word-book/audio-source/word-candidates/do.perform-an-action.bare-context.mp3",
+     "master_sha256": "d9ade670b52c7045e8637aba39190e1be00a0993a25cb01d63ea0c55c441fc71",
+     "alignment": "word-book/audio-alignment/word-candidates/do.perform-an-action.bare-context.json",
+     "tool": "word-book/tools/render-word-candidates.py (ElevenLabs, AI-generated speech)",
+     "voice": "Alice - Clear, Engaging, Educational (British)",
+     "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+     "model": "eleven_multilingual_v2",
+     "text": "do",
+     "previous_text": "We",
+     "next_text": "our homework before dinner.",
+     "rendered_at": "2026-09-29T13:15:24Z"
+    }
+   }
+  },
+  "door.entrance-panel": {
+   "sense": "door.entrance-panel",
+   "headword": "door",
+   "ipa": "<phoneme alphabet=\"ipa\" ph=\"dɔː\">door</phoneme>.",
+   "sentence": "Please close the door behind you.",
+   "takes": {
+    "Now in the app": {
+     "file": "word-book/audio/words/door.m4a",
+     "sha256": "d89d5967e1cf44c8977390feb38d29e6abb9c02512af91a400513acddb0676b5",
+     "note": "existing shipped clip; copied byte-for-byte"
+    },
+    "IPA phoneme tag (eleven_turbo_v2)": {
+     "file": "word-book/audio-source/word-candidates/door.entrance-panel.ipa-turbo.mp3",
+     "master_sha256": "63dad6ebe86848db377b198ecfe68fe3f06120ae5f64d42e78990ca8a53e48af",
+     "alignment": "word-book/audio-alignment/word-candidates/door.entrance-panel.ipa-turbo.json",
+     "tool": "word-book/tools/render-word-candidates.py (ElevenLabs, AI-generated speech)",
+     "voice": "Alice - Clear, Engaging, Educational (British)",
+     "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+     "model": "eleven_turbo_v2",
+     "text": "<phoneme alphabet=\"ipa\" ph=\"dɔː\">door</phoneme>.",
+     "char_count": 48,
+     "rendered_at": "2026-09-29T13:14:40Z"
+    },
+    "Cut from example sentence": {
+     "file": "word-book/qa/2026-09-29-de-variants/audio/door.entrance-panel.sentcut.m4a",
+     "sha256": "1a1c44c27132e788bb58110c744a6b89e54f42daa46e333c1655ff4bdd4d7965",
+     "master": "word-book/audio-source/sentences/door.entrance-panel.mp3",
+     "master_sha256": "7a811888222efcb2b4ea09c9b29939d7c38441d38bfe259525acfcc4652475dd",
+     "tool": "word-book/tools/extract-sentence-word.py (free -- cut of an already-paid sentence master)",
+     "voice": "Alice - Clear, Engaging, Educational (British)",
+     "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+     "model": "eleven_multilingual_v2",
+     "sentence": "Please close the door behind you.",
+     "sentence_master_rendered_at": "2026-09-29T03:24:21Z",
+     "sentence_master_reused_from": "agent/wordbook-sentences-cd worktree (PR #1075, already paid)",
+     "report": {
+      "sense": "door.entrance-panel",
+      "word": "door",
+      "sentence": "Please close the door behind you.",
+      "char_span": [
+       17,
+       21
+      ],
+      "word_index": 3,
+      "words_in_sentence": 6,
+      "sentence_final": false,
+      "raw_alignment_span_s": [
+       0.906,
+       1.068
+      ],
+      "neighbours_s": {
+       "previous_char_end": 0.871,
+       "next_char_start": 1.126
+      },
+      "energy_dbfs_at_raw_edges": [
+       -59.9,
+       -31.9
+      ],
+      "quietest_near_start": {
+       "t": 0.9035,
+       "dbfs": -60.8
+      },
+      "quietest_near_end": {
+       "t": 1.1055,
+       "dbfs": -64.0
+      },
+      "refined": true,
+      "edge_rule": [
+       "dip+soft-reach",
+       "dip+soft-reach"
+      ],
+      "cut_s": [
+       0.8905,
+       1.1156
+      ],
+      "edge_shift_ms_vs_raw": [
+       -15.5,
+       47.6
+      ],
+      "energy_dbfs_at_cut": [
+       -47.6,
+       -47.3
+      ],
+      "word_audio_s": 0.2251,
+      "lead_tail_silence_s": [
+       0.21,
+       0.333
+      ],
+      "gain_db": 2.24,
+      "peak_dbfs_after": -7.21,
+      "level_to": "word-book/audio/words/door.m4a",
+      "out": "word-book/qa/2026-09-29-de-variants/audio/door.entrance-panel.sentcut.m4a",
+      "master": "word-book/audio-source/sentences/door.entrance-panel.mp3",
+      "fade_ms": 6.0,
+      "pad_ms": 10.0,
+      "soft": true,
+      "fades_ms": [
+       13.5,
+       13.5
+      ],
+      "soft_move_ms": [
+       -7.5,
+       7.5
+      ],
+      "flags": []
+     }
+    }
+   }
+  },
+  "each.every-one-separately": {
+   "sense": "each.every-one-separately",
+   "headword": "each",
+   "ipa": "<phoneme alphabet=\"ipa\" ph=\"iːtʃ\">each</phoneme>.",
+   "sentence": "Each child chooses a different colour.",
+   "takes": {
+    "Now in the app": {
+     "file": "word-book/audio/words/each.m4a",
+     "sha256": "187aa95b9b30b4608757fbfe6c5821bd10974c1fd66c418061eb3015fc76e8e5",
+     "note": "existing shipped clip; copied byte-for-byte"
+    },
+    "IPA phoneme tag (eleven_turbo_v2)": {
+     "file": "word-book/audio-source/word-candidates/each.every-one-separately.ipa-turbo.mp3",
+     "master_sha256": "6385b5ae6a10bb81bc64d0b1519aaf6434ea4e25693398c7a86621dcdbebabf3",
+     "alignment": "word-book/audio-alignment/word-candidates/each.every-one-separately.ipa-turbo.json",
+     "tool": "word-book/tools/render-word-candidates.py (ElevenLabs, AI-generated speech)",
+     "voice": "Alice - Clear, Engaging, Educational (British)",
+     "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+     "model": "eleven_turbo_v2",
+     "text": "<phoneme alphabet=\"ipa\" ph=\"iːtʃ\">each</phoneme>.",
+     "char_count": 49,
+     "rendered_at": "2026-09-29T13:14:47Z"
+    },
+    "Cut from example sentence": {
+     "file": "word-book/qa/2026-09-29-de-variants/audio/each.every-one-separately.sentcut.m4a",
+     "sha256": "02360eb1dc44a46bb13e3c2467b2776f643e77d6dda6ed071ee2f92757d6e822",
+     "master": "word-book/audio-source/sentences/each.every-one-separately.mp3",
+     "master_sha256": "474618c58108b0cfa5d26076cef415032b605660cc7e8d2e1e64b2384079344c",
+     "tool": "word-book/tools/extract-sentence-word.py (free -- cut of an already-paid sentence master)",
+     "voice": "Alice - Clear, Engaging, Educational (British)",
+     "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+     "model": "eleven_multilingual_v2",
+     "sentence": "Each child chooses a different colour.",
+     "sentence_master_rendered_at": "2026-09-29T13:11:40Z",
+     "sentence_master_reused_from": "newly rendered this task (--master-only)",
+     "report": {
+      "sense": "each.every-one-separately",
+      "word": "each",
+      "sentence": "Each child chooses a different colour.",
+      "char_span": [
+       0,
+       4
+      ],
+      "word_index": 0,
+      "words_in_sentence": 6,
+      "sentence_final": false,
+      "raw_alignment_span_s": [
+       0.0,
+       0.29
+      ],
+      "neighbours_s": {
+       "previous_char_end": 0.0,
+       "next_char_start": 0.348
+      },
+      "energy_dbfs_at_raw_edges": [
+       -180.0,
+       -22.6
+      ],
+      "quietest_near_start": {
+       "t": 0.0,
+       "dbfs": -180.0
+      },
+      "quietest_near_end": {
+       "t": 0.35,
+       "dbfs": -51.1
+      },
+      "refined": true,
+      "edge_rule": [
+       "dip",
+       "dip+soft-reach"
+      ],
+      "cut_s": [
+       0.0,
+       0.3625
+      ],
+      "edge_shift_ms_vs_raw": [
+       0.0,
+       72.5
+      ],
+      "energy_dbfs_at_cut": [
+       -180.0,
+       -46.0
+      ],
+      "word_audio_s": 0.3625,
+      "lead_tail_silence_s": [
+       0.085,
+       0.215
+      ],
+      "gain_db": -0.75,
+      "peak_dbfs_after": -7.8,
+      "level_to": "word-book/audio/words/each.m4a",
+      "out": "word-book/qa/2026-09-29-de-variants/audio/each.every-one-separately.sentcut.m4a",
+      "master": "word-book/audio-source/sentences/each.every-one-separately.mp3",
+      "fade_ms": 6.0,
+      "pad_ms": 10.0,
+      "soft": true,
+      "fades_ms": [
+       6.0,
+       18.5
+      ],
+      "soft_move_ms": [
+       -0.0,
+       12.5
+      ],
+      "flags": []
+     }
+    },
+    "Extra: bare word + sentence-neighbour context": {
+     "file": "word-book/audio-source/word-candidates/each.every-one-separately.bare-context.mp3",
+     "master_sha256": "0f2fef3ae3d7bbe4b87e93f58a91b820046b22008a7c6eea1ebdaa5538dd471e",
+     "alignment": "word-book/audio-alignment/word-candidates/each.every-one-separately.bare-context.json",
+     "tool": "word-book/tools/render-word-candidates.py (ElevenLabs, AI-generated speech)",
+     "voice": "Alice - Clear, Engaging, Educational (British)",
+     "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+     "model": "eleven_multilingual_v2",
+     "text": "Each",
+     "previous_text": null,
+     "next_text": "child chooses a different colour.",
+     "rendered_at": "2026-09-29T13:15:31Z"
+    }
+   }
+  },
+  "ear.body-part": {
+   "sense": "ear.body-part",
+   "headword": "ear",
+   "ipa": "<phoneme alphabet=\"ipa\" ph=\"ɪə\">ear</phoneme>.",
+   "sentence": "Vanilla turns one ear towards the rustling leaves.",
+   "takes": {
+    "Now in the app": {
+     "file": "word-book/audio/words/ear.m4a",
+     "sha256": "ab889bce619e114664d3f6a499aa98c3a081a8b222876832c4c8f393759b803f",
+     "note": "existing shipped clip; copied byte-for-byte"
+    },
+    "IPA phoneme tag (eleven_turbo_v2)": {
+     "file": "word-book/audio-source/word-candidates/ear.body-part.ipa-turbo.mp3",
+     "master_sha256": "57d850901113eac11e17c9e706bc0b1750f93f57e1f827c23029fc7b47391e79",
+     "alignment": "word-book/audio-alignment/word-candidates/ear.body-part.ipa-turbo.json",
+     "tool": "word-book/tools/render-word-candidates.py (ElevenLabs, AI-generated speech)",
+     "voice": "Alice - Clear, Engaging, Educational (British)",
+     "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+     "model": "eleven_turbo_v2",
+     "text": "<phoneme alphabet=\"ipa\" ph=\"ɪə\">ear</phoneme>.",
+     "char_count": 46,
+     "rendered_at": "2026-09-29T13:14:53Z"
+    },
+    "Cut from example sentence": {
+     "file": "word-book/qa/2026-09-29-de-variants/audio/ear.body-part.sentcut.m4a",
+     "sha256": "3ccf5545a5f51d210493d2ce7660abed4252cf739eb32f6a7b386eddb3f2bea4",
+     "master": "word-book/audio-source/sentences/ear.body-part.mp3",
+     "master_sha256": "da13a4bd0aa392ba4877ab314f4fd61961f4ccd3a6eb83a9892c123e42f4b959",
+     "tool": "word-book/tools/extract-sentence-word.py (free -- cut of an already-paid sentence master)",
+     "voice": "Alice - Clear, Engaging, Educational (British)",
+     "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+     "model": "eleven_multilingual_v2",
+     "sentence": "Vanilla turns one ear towards the rustling leaves.",
+     "sentence_master_rendered_at": "2026-09-29T13:11:41Z",
+     "sentence_master_reused_from": "newly rendered this task (--master-only)",
+     "report": {
+      "sense": "ear.body-part",
+      "word": "ear",
+      "sentence": "Vanilla turns one ear towards the rustling leaves.",
+      "char_span": [
+       18,
+       21
+      ],
+      "word_index": 3,
+      "words_in_sentence": 8,
+      "sentence_final": false,
+      "raw_alignment_span_s": [
+       1.126,
+       1.3
+      ],
+      "neighbours_s": {
+       "previous_char_end": 1.091,
+       "next_char_start": 1.37
+      },
+      "energy_dbfs_at_raw_edges": [
+       -16.9,
+       -23.0
+      ],
+      "quietest_near_start": {
+       "t": 1.081,
+       "dbfs": -23.6
+      },
+      "quietest_near_end": {
+       "t": 1.3825,
+       "dbfs": -70.4
+      },
+      "refined": true,
+      "edge_rule": [
+       "gap-min",
+       "dip+soft-reach"
+      ],
+      "cut_s": [
+       1.091,
+       1.3949
+      ],
+      "edge_shift_ms_vs_raw": [
+       -35.0,
+       94.9
+      ],
+      "energy_dbfs_at_cut": [
+       -20.6,
+       -60.1
+      ],
+      "word_audio_s": 0.3038,
+      "lead_tail_silence_s": [
+       0.025,
+       0.309
+      ],
+      "gain_db": 3.32,
+      "peak_dbfs_after": -5.56,
+      "level_to": "word-book/audio/words/ear.m4a",
+      "out": "word-book/qa/2026-09-29-de-variants/audio/ear.body-part.sentcut.m4a",
+      "master": "word-book/audio-source/sentences/ear.body-part.mp3",
+      "fade_ms": 6.0,
+      "pad_ms": 10.0,
+      "soft": true,
+      "fades_ms": [
+       15.0,
+       8.5
+      ],
+      "soft_move_ms": [
+       0.0,
+       2.5
+      ],
+      "flags": [
+       {
+        "flag": "edge-in-speech",
+        "why": "the start cut sits at -20.6 dBFS, above -35: inside speech, so clipped or smeared"
+       }
+      ]
+     }
+    },
+    "Extra: bare word + sentence-neighbour context": {
+     "file": "word-book/audio-source/word-candidates/ear.body-part.bare-context.mp3",
+     "master_sha256": "03f128c64a0551a978a214cb352eebf3894613ef1cd58754a6f84dc605156018",
+     "alignment": "word-book/audio-alignment/word-candidates/ear.body-part.bare-context.json",
+     "tool": "word-book/tools/render-word-candidates.py (ElevenLabs, AI-generated speech)",
+     "voice": "Alice - Clear, Engaging, Educational (British)",
+     "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+     "model": "eleven_multilingual_v2",
+     "text": "ear",
+     "previous_text": "Vanilla turns one",
+     "next_text": "towards the rustling leaves.",
+     "rendered_at": "2026-09-29T13:15:37Z"
+    }
+   }
+  },
+  "early.before-usual-time": {
+   "sense": "early.before-usual-time",
+   "headword": "early",
+   "ipa": "<phoneme alphabet=\"ipa\" ph=\"ˈɜːli\">early</phoneme>.",
+   "sentence": "We arrive early and choose our seats.",
+   "takes": {
+    "Now in the app": {
+     "file": "word-book/audio/words/early.m4a",
+     "sha256": "28a803b808b14c258f29339118c61ff531867404eb7d2f9ce570632d3dac1f86",
+     "note": "existing shipped clip; copied byte-for-byte"
+    },
+    "IPA phoneme tag (eleven_turbo_v2)": {
+     "file": "word-book/audio-source/word-candidates/early.before-usual-time.ipa-turbo.mp3",
+     "master_sha256": "9eff1160dcec719a262dc9b032c6327985a0206bdf0bc5571d73c8ef31962730",
+     "alignment": "word-book/audio-alignment/word-candidates/early.before-usual-time.ipa-turbo.json",
+     "tool": "word-book/tools/render-word-candidates.py (ElevenLabs, AI-generated speech)",
+     "voice": "Alice - Clear, Engaging, Educational (British)",
+     "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+     "model": "eleven_turbo_v2",
+     "text": "<phoneme alphabet=\"ipa\" ph=\"ˈɜːli\">early</phoneme>.",
+     "char_count": 51,
+     "rendered_at": "2026-09-29T13:14:58Z"
+    },
+    "Cut from example sentence": {
+     "file": "word-book/qa/2026-09-29-de-variants/audio/early.before-usual-time.sentcut.m4a",
+     "sha256": "480bb5609c2978ede27d159cd5cbf443ea85ab1c29d7c634f609b4a724fd078a",
+     "master": "word-book/audio-source/sentences/early.before-usual-time.mp3",
+     "master_sha256": "1a7fd2ba433f84655b5ad98fa2fa7b1d377c6af5fa73561c3ad73a432cc80530",
+     "tool": "word-book/tools/extract-sentence-word.py (free -- cut of an already-paid sentence master)",
+     "voice": "Alice - Clear, Engaging, Educational (British)",
+     "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+     "model": "eleven_multilingual_v2",
+     "sentence": "We arrive early and choose our seats.",
+     "sentence_master_rendered_at": "2026-09-29T13:11:42Z",
+     "sentence_master_reused_from": "newly rendered this task (--master-only)",
+     "report": {
+      "sense": "early.before-usual-time",
+      "word": "early",
+      "sentence": "We arrive early and choose our seats.",
+      "char_span": [
+       10,
+       15
+      ],
+      "word_index": 2,
+      "words_in_sentence": 7,
+      "sentence_final": false,
+      "raw_alignment_span_s": [
+       0.534,
+       0.755
+      ],
+      "neighbours_s": {
+       "previous_char_end": 0.488,
+       "next_char_start": 0.801
+      },
+      "energy_dbfs_at_raw_edges": [
+       -17.2,
+       -21.3
+      ],
+      "quietest_near_start": {
+       "t": 0.4815,
+       "dbfs": -36.0
+      },
+      "quietest_near_end": {
+       "t": 0.83,
+       "dbfs": -30.5
+      },
+      "refined": true,
+      "edge_rule": [
+       "gap-min+soft-valley",
+       "raw"
+      ],
+      "cut_s": [
+       0.4805,
+       0.7551
+      ],
+      "edge_shift_ms_vs_raw": [
+       -53.5,
+       0.1
+      ],
+      "energy_dbfs_at_cut": [
+       -36.0,
+       -21.3
+      ],
+      "word_audio_s": 0.2746,
+      "lead_tail_silence_s": [
+       0.05,
+       0.277
+      ],
+      "gain_db": 3.31,
+      "peak_dbfs_after": -5.28,
+      "level_to": "word-book/audio/words/early.m4a",
+      "out": "word-book/qa/2026-09-29-de-variants/audio/early.before-usual-time.sentcut.m4a",
+      "master": "word-book/audio-source/sentences/early.before-usual-time.mp3",
+      "fade_ms": 6.0,
+      "pad_ms": 10.0,
+      "soft": true,
+      "fades_ms": [
+       15.0,
+       40.0
+      ],
+      "soft_move_ms": [
+       -7.5,
+       0.0
+      ],
+      "flags": [
+       {
+        "flag": "edge-in-speech",
+        "why": "the end cut sits at -21.3 dBFS, above -35: inside speech, so clipped or smeared"
+       }
+      ]
+     }
+    }
+   }
+  },
+  "escalator.moving-stairs": {
+   "sense": "escalator.moving-stairs",
+   "headword": "escalator",
+   "ipa": "<phoneme alphabet=\"ipa\" ph=\"ˈɛskəleɪtə\">escalator</phoneme>.",
+   "sentence": "I hold the rail on the escalator.",
+   "takes": {
+    "Now in the app": {
+     "file": "word-book/audio/words/escalator.m4a",
+     "sha256": "c859328fdb188430b5c9f99b2d0256d0ad4f86a4e071203bd7b0d28048dc0055",
+     "note": "existing shipped clip; copied byte-for-byte"
+    },
+    "IPA phoneme tag (eleven_turbo_v2)": {
+     "file": "word-book/audio-source/word-candidates/escalator.moving-stairs.ipa-turbo.mp3",
+     "master_sha256": "dfda52cd2ef2a63705edc3a4a286e43da2267b4d9c15cd42d787d6fae57d6486",
+     "alignment": "word-book/audio-alignment/word-candidates/escalator.moving-stairs.ipa-turbo.json",
+     "tool": "word-book/tools/render-word-candidates.py (ElevenLabs, AI-generated speech)",
+     "voice": "Alice - Clear, Engaging, Educational (British)",
+     "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+     "model": "eleven_turbo_v2",
+     "text": "<phoneme alphabet=\"ipa\" ph=\"ˈɛskəleɪtə\">escalator</phoneme>.",
+     "char_count": 60,
+     "rendered_at": "2026-09-29T13:15:05Z"
+    },
+    "Cut from example sentence": {
+     "file": "word-book/qa/2026-09-29-de-variants/audio/escalator.moving-stairs.sentcut.m4a",
+     "sha256": "2fa93b1e95519342fd83e5e9e6387d0233aaa3b1a4f3ec12c934b0db32e7497e",
+     "master": "word-book/audio-source/sentences/escalator.moving-stairs.mp3",
+     "master_sha256": "6c15207d11b1cff9dd8f217edfff208666176ab9db6ab82c1a187ad11dc1cbe8",
+     "tool": "word-book/tools/extract-sentence-word.py (free -- cut of an already-paid sentence master)",
+     "voice": "Alice - Clear, Engaging, Educational (British)",
+     "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+     "model": "eleven_multilingual_v2",
+     "sentence": "I hold the rail on the escalator.",
+     "sentence_master_rendered_at": "2026-09-29T13:11:43Z",
+     "sentence_master_reused_from": "newly rendered this task (--master-only)",
+     "report": {
+      "sense": "escalator.moving-stairs",
+      "word": "escalator",
+      "sentence": "I hold the rail on the escalator.",
+      "char_span": [
+       23,
+       32
+      ],
+      "word_index": 6,
+      "words_in_sentence": 7,
+      "sentence_final": true,
+      "raw_alignment_span_s": [
+       1.033,
+       1.66
+      ],
+      "neighbours_s": {
+       "previous_char_end": 0.987,
+       "next_char_start": 1.66
+      },
+      "energy_dbfs_at_raw_edges": [
+       -21.0,
+       -36.0
+      ],
+      "quietest_near_start": {
+       "t": 1.063,
+       "dbfs": -23.1
+      },
+      "quietest_near_end": {
+       "t": 1.69,
+       "dbfs": -53.9
+      },
+      "refined": true,
+      "edge_rule": [
+       "raw",
+       "decay+soft-reach"
+      ],
+      "cut_s": [
+       1.0326,
+       1.7412
+      ],
+      "edge_shift_ms_vs_raw": [
+       -0.4,
+       81.2
+      ],
+      "energy_dbfs_at_cut": [
+       -21.2,
+       -78.8
+      ],
+      "word_audio_s": 0.7086,
+      "lead_tail_silence_s": [
+       0.04,
+       0.106
+      ],
+      "gain_db": 1.66,
+      "peak_dbfs_after": -2.78,
+      "level_to": "word-book/audio/words/escalator.m4a",
+      "out": "word-book/qa/2026-09-29-de-variants/audio/escalator.moving-stairs.sentcut.m4a",
+      "master": "word-book/audio-source/sentences/escalator.moving-stairs.mp3",
+      "fade_ms": 6.0,
+      "pad_ms": 10.0,
+      "soft": true,
+      "fades_ms": [
+       15.0,
+       36.0
+      ],
+      "soft_move_ms": [
+       0.0,
+       30.0
+      ],
+      "flags": [
+       {
+        "flag": "sentence-final",
+        "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+       },
+       {
+        "flag": "edge-in-speech",
+        "why": "the start cut sits at -21.2 dBFS, above -35: inside speech, so clipped or smeared"
+       }
+      ]
+     }
+    }
+   }
+  },
+  "even.divisible-by-two": {
+   "sense": "even.divisible-by-two",
+   "headword": "even",
+   "ipa": "<phoneme alphabet=\"ipa\" ph=\"ˈiːvən\">even</phoneme>.",
+   "sentence": "Six is an even number.",
+   "takes": {
+    "Now in the app": {
+     "file": "word-book/audio/words/even.m4a",
+     "sha256": "62c629afaade4433bd40ab72f5ace95ddc8f1ea3574223c9aa6ed44c0f868cad",
+     "note": "existing shipped clip; copied byte-for-byte"
+    },
+    "IPA phoneme tag (eleven_turbo_v2)": {
+     "file": "word-book/audio-source/word-candidates/even.divisible-by-two.ipa-turbo.mp3",
+     "master_sha256": "a8e29b6f37d32741ed3c336b3fdb81867e70afb9e404c060a95a170303f276e4",
+     "alignment": "word-book/audio-alignment/word-candidates/even.divisible-by-two.ipa-turbo.json",
+     "tool": "word-book/tools/render-word-candidates.py (ElevenLabs, AI-generated speech)",
+     "voice": "Alice - Clear, Engaging, Educational (British)",
+     "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+     "model": "eleven_turbo_v2",
+     "text": "<phoneme alphabet=\"ipa\" ph=\"ˈiːvən\">even</phoneme>.",
+     "char_count": 51,
+     "rendered_at": "2026-09-29T13:15:11Z"
+    },
+    "Cut from example sentence": {
+     "file": "word-book/qa/2026-09-29-de-variants/audio/even.divisible-by-two.sentcut.m4a",
+     "sha256": "13c6d23be49536cacffe68ef993a7fbf756fcfb4a3023217cbae4ed365a1ac6f",
+     "master": "word-book/audio-source/sentences/even.divisible-by-two.mp3",
+     "master_sha256": "dc25df2aa5d3f7ab273a25a1d5785cd0ca2864eeb736e72029d2a20d6151917e",
+     "tool": "word-book/tools/extract-sentence-word.py (free -- cut of an already-paid sentence master)",
+     "voice": "Alice - Clear, Engaging, Educational (British)",
+     "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+     "model": "eleven_multilingual_v2",
+     "sentence": "Six is an even number.",
+     "sentence_master_rendered_at": "2026-09-29T13:11:44Z",
+     "sentence_master_reused_from": "newly rendered this task (--master-only)",
+     "report": {
+      "sense": "even.divisible-by-two",
+      "word": "even",
+      "sentence": "Six is an even number.",
+      "char_span": [
+       10,
+       14
+      ],
+      "word_index": 3,
+      "words_in_sentence": 5,
+      "sentence_final": false,
+      "raw_alignment_span_s": [
+       0.708,
+       1.033
+      ],
+      "neighbours_s": {
+       "previous_char_end": 0.615,
+       "next_char_start": 1.091
+      },
+      "energy_dbfs_at_raw_edges": [
+       -39.7,
+       -22.9
+      ],
+      "quietest_near_start": {
+       "t": 0.6955,
+       "dbfs": -79.0
+      },
+      "quietest_near_end": {
+       "t": 1.0705,
+       "dbfs": -24.1
+      },
+      "refined": true,
+      "edge_rule": [
+       "dip+soft-reach",
+       "raw"
+      ],
+      "cut_s": [
+       0.6585,
+       1.033
+      ],
+      "edge_shift_ms_vs_raw": [
+       -49.5,
+       -0.0
+      ],
+      "energy_dbfs_at_cut": [
+       -45.1,
+       -22.9
+      ],
+      "word_audio_s": 0.3745,
+      "lead_tail_silence_s": [
+       0.03,
+       0.325
+      ],
+      "gain_db": -0.95,
+      "peak_dbfs_after": -8.49,
+      "level_to": "word-book/audio/words/even.m4a",
+      "out": "word-book/qa/2026-09-29-de-variants/audio/even.divisible-by-two.sentcut.m4a",
+      "master": "word-book/audio-source/sentences/even.divisible-by-two.mp3",
+      "fade_ms": 6.0,
+      "pad_ms": 10.0,
+      "soft": true,
+      "fades_ms": [
+       33.5,
+       40.0
+      ],
+      "soft_move_ms": [
+       -27.5,
+       0.0
+      ],
+      "flags": [
+       {
+        "flag": "edge-in-speech",
+        "why": "the end cut sits at -22.9 dBFS, above -35: inside speech, so clipped or smeared"
+       }
+      ]
+     }
+    },
+    "Extra: bare word + sentence-neighbour context": {
+     "file": "word-book/audio-source/word-candidates/even.divisible-by-two.bare-context.mp3",
+     "master_sha256": "2bc10e90ed6a465ed20d53492eaf2790e34ee6faf58a1bcda1117c4836d03806",
+     "alignment": "word-book/audio-alignment/word-candidates/even.divisible-by-two.bare-context.json",
+     "tool": "word-book/tools/render-word-candidates.py (ElevenLabs, AI-generated speech)",
+     "voice": "Alice - Clear, Engaging, Educational (British)",
+     "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+     "model": "eleven_multilingual_v2",
+     "text": "even",
+     "previous_text": "Six is an",
+     "next_text": "number.",
+     "rendered_at": "2026-09-29T13:15:44Z"
+    }
+   }
+  },
+  "explorer.traveller": {
+   "sense": "explorer.traveller",
+   "headword": "explorer",
+   "ipa": "<phoneme alphabet=\"ipa\" ph=\"ɪkˈsplɔːrə\">explorer</phoneme>.",
+   "sentence": "The explorer follows the river on the map.",
+   "takes": {
+    "Now in the app": {
+     "file": "word-book/audio/words/explorer.m4a",
+     "sha256": "75f798def449b6721103e81f766038ce6dadd2c1c8e59e6c857beb0b063d79f7",
+     "note": "existing shipped clip; copied byte-for-byte"
+    },
+    "IPA phoneme tag (eleven_turbo_v2)": {
+     "file": "word-book/audio-source/word-candidates/explorer.traveller.ipa-turbo.mp3",
+     "master_sha256": "1c45692a373f05908e4152abab0f45456e0453f7e0c352455a22845cddc323b2",
+     "alignment": "word-book/audio-alignment/word-candidates/explorer.traveller.ipa-turbo.json",
+     "tool": "word-book/tools/render-word-candidates.py (ElevenLabs, AI-generated speech)",
+     "voice": "Alice - Clear, Engaging, Educational (British)",
+     "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+     "model": "eleven_turbo_v2",
+     "text": "<phoneme alphabet=\"ipa\" ph=\"ɪkˈsplɔːrə\">explorer</phoneme>.",
+     "char_count": 59,
+     "rendered_at": "2026-09-29T13:15:17Z"
+    },
+    "Cut from example sentence": {
+     "file": "word-book/qa/2026-09-29-de-variants/audio/explorer.traveller.sentcut.m4a",
+     "sha256": "47940c88012a80e1afc00f80041673428d102bda09c5ab25ec59fef60f7982ff",
+     "master": "word-book/audio-source/sentences/explorer.traveller.mp3",
+     "master_sha256": "84aafc59f5c9249f42b44e01e2ad097cdd8e85a5d059ca8a8542349d80701ef8",
+     "tool": "word-book/tools/extract-sentence-word.py (free -- cut of an already-paid sentence master)",
+     "voice": "Alice - Clear, Engaging, Educational (British)",
+     "voice_id": "Xb7hH8MSUJpSbSDYk0k2",
+     "model": "eleven_multilingual_v2",
+     "sentence": "The explorer follows the river on the map.",
+     "sentence_master_rendered_at": "2026-09-29T13:11:45Z",
+     "sentence_master_reused_from": "newly rendered this task (--master-only)",
+     "report": {
+      "sense": "explorer.traveller",
+      "word": "explorer",
+      "sentence": "The explorer follows the river on the map.",
+      "char_span": [
+       4,
+       12
+      ],
+      "word_index": 1,
+      "words_in_sentence": 8,
+      "sentence_final": false,
+      "raw_alignment_span_s": [
+       0.197,
+       0.673
+      ],
+      "neighbours_s": {
+       "previous_char_end": 0.151,
+       "next_char_start": 0.731
+      },
+      "energy_dbfs_at_raw_edges": [
+       -20.0,
+       -25.5
+      ],
+      "quietest_near_start": {
+       "t": 0.2245,
+       "dbfs": -47.6
+      },
+      "quietest_near_end": {
+       "t": 0.743,
+       "dbfs": -40.5
+      },
+      "refined": true,
+      "edge_rule": [
+       "dip",
+       "dip"
+      ],
+      "cut_s": [
+       0.2243,
+       0.743
+      ],
+      "edge_shift_ms_vs_raw": [
+       27.3,
+       70.0
+      ],
+      "energy_dbfs_at_cut": [
+       -46.7,
+       -40.5
+      ],
+      "word_audio_s": 0.5188,
+      "lead_tail_silence_s": [
+       0.045,
+       0.256
+      ],
+      "gain_db": -1.38,
+      "peak_dbfs_after": -8.9,
+      "level_to": "word-book/audio/words/explorer.m4a",
+      "out": "word-book/qa/2026-09-29-de-variants/audio/explorer.traveller.sentcut.m4a",
+      "master": "word-book/audio-source/sentences/explorer.traveller.mp3",
+      "fade_ms": 6.0,
+      "pad_ms": 10.0,
+      "soft": true,
+      "fades_ms": [
+       6.0,
+       6.0
+      ],
+      "soft_move_ms": [
+       -0.0,
+       0.0
+      ],
+      "flags": []
+     }
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,76 @@
+{
+ "sense": "early.before-usual-time",
+ "word": "early",
+ "sentence": "We arrive early and choose our seats.",
+ "char_span": [
+  10,
+  15
+ ],
+ "word_index": 2,
+ "words_in_sentence": 7,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.534,
+  0.755
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.488,
+  "next_char_start": 0.801
+ },
+ "energy_dbfs_at_raw_edges": [
+  -17.2,
+  -21.3
+ ],
+ "quietest_near_start": {
+  "t": 0.4815,
+  "dbfs": -36.0
+ },
+ "quietest_near_end": {
+  "t": 0.83,
+  "dbfs": -30.5
+ },
+ "refined": true,
+ "edge_rule": [
+  "gap-min+soft-valley",
+  "raw"
+ ],
+ "cut_s": [
+  0.4805,
+  0.7551
+ ],
+ "edge_shift_ms_vs_raw": [
+  -53.5,
+  0.1
+ ],
+ "energy_dbfs_at_cut": [
+  -36.0,
+  -21.3
+ ],
+ "word_audio_s": 0.2746,
+ "lead_tail_silence_s": [
+  0.05,
+  0.277
+ ],
+ "gain_db": 3.31,
+ "peak_dbfs_after": -5.28,
+ "level_to": "word-book/audio/words/early.m4a",
+ "out": "word-book/qa/2026-09-29-de-variants/audio/early.before-usual-time.sentcut.m4a",
+ "master": "word-book/audio-source/sentences/early.before-usual-time.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  40.0
+ ],
+ "soft_move_ms": [
+  -7.5,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -21.3 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

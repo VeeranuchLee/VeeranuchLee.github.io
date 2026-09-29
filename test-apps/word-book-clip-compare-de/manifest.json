@@ -1,0 +1,1062 @@
+{
+ "why": "Build the Word Book letter D/E voice-variant listening page, in the round-4 layout.",
+ "task": "Word Book D/E voice variants, 2026-09-29",
+ "groups": {
+  "words": [
+   {
+    "sense": "digit.number-symbol",
+    "word": "digit",
+    "sentence": "I write each digit on a little paper rocket.",
+    "clips": [
+     {
+      "file": "audio/digit.number-symbol.now.m4a",
+      "label": "Now",
+      "kind": "the clip the app plays now",
+      "sha256": "e63644a76fefdd1097f429161a067c5e5907a7a4fdbbac614b8803febef13d70",
+      "source": "word-book/audio/words/digit.m4a"
+     },
+     {
+      "file": "audio/digit.number-symbol.ipa.m4a",
+      "label": "IPA",
+      "kind": "SSML IPA phoneme tag, eleven_turbo_v2",
+      "sha256": "ab6bcac2da6fb751c90b5878c2b9b76e76548ebd4443a45c03d53b3cad31135d",
+      "text": "<phoneme alphabet=\"ipa\" ph=\"ˈdɪdʒɪt\">digit</phoneme>.",
+      "why": "Owner, 2026-09-29: 'digit, do, door -> need to fix the voice, maybe render sentence and cut it as option too.' British RP IPA tag on eleven_turbo_v2, the model this repo has confirmed honours phoneme tags (CG-250 round 7)."
+     },
+     {
+      "file": "audio/digit.number-symbol.sentcut.m4a",
+      "label": "Sentence cut",
+      "kind": "cut from the card's own example sentence",
+      "sha256": "72bc35fdb7ab4a415325a40a7d459140790b2a1b4bbb8a002ef684c38f21f617",
+      "report": {
+       "sense": "digit.number-symbol",
+       "word": "digit",
+       "sentence": "I write each digit on a little paper rocket.",
+       "char_span": [
+        13,
+        18
+       ],
+       "word_index": 3,
+       "words_in_sentence": 9,
+       "sentence_final": false,
+       "raw_alignment_span_s": [
+        0.639,
+        0.975
+       ],
+       "neighbours_s": {
+        "previous_char_end": 0.58,
+        "next_char_start": 1.045
+       },
+       "energy_dbfs_at_raw_edges": [
+        -76.3,
+        -34.3
+       ],
+       "quietest_near_start": {
+        "t": 0.6465,
+        "dbfs": -84.7
+       },
+       "quietest_near_end": {
+        "t": 1.04,
+        "dbfs": -75.7
+       },
+       "refined": true,
+       "edge_rule": [
+        "dip+soft-reach",
+        "dip+soft-reach"
+       ],
+       "cut_s": [
+        0.6064,
+        1.055
+       ],
+       "edge_shift_ms_vs_raw": [
+        -32.6,
+        80.0
+       ],
+       "energy_dbfs_at_cut": [
+        -49.1,
+        -47.4
+       ],
+       "word_audio_s": 0.4486,
+       "lead_tail_silence_s": [
+        0.03,
+        0.248
+       ],
+       "gain_db": 1.18,
+       "peak_dbfs_after": -7.4,
+       "level_to": "word-book/audio/words/digit.m4a",
+       "out": "word-book/qa/2026-09-29-de-variants/audio/digit.number-symbol.sentcut.m4a",
+       "master": "word-book/audio-source/sentences/digit.number-symbol.mp3",
+       "fade_ms": 6.0,
+       "pad_ms": 10.0,
+       "soft": true,
+       "fades_ms": [
+        36.0,
+        13.5
+       ],
+       "soft_move_ms": [
+        -30.0,
+        7.5
+       ],
+       "flags": []
+      },
+      "master": "word-book/audio-source/sentences/digit.number-symbol.mp3",
+      "master_sha256": "1e7ebaae3dc59c9822dd8b08dff5511975468cd6549b9fad3c4b0ae6223d7999",
+      "sentence_file": "audio/digit.number-symbol.sentence.m4a"
+     },
+     {
+      "file": "audio/digit.number-symbol.sentence.m4a",
+      "label": "sentence",
+      "kind": "the card's own example sentence",
+      "sha256": "25a81bcae75608158b791778c62fe8121dda1c4a5cec3670600037887e53263a",
+      "sentence_button": true
+     }
+    ]
+   },
+   {
+    "sense": "do.perform-an-action",
+    "word": "do",
+    "sentence": "We do our homework before dinner.",
+    "clips": [
+     {
+      "file": "audio/do.perform-an-action.now.m4a",
+      "label": "Now",
+      "kind": "the clip the app plays now",
+      "sha256": "8d718c9a84f029a2f4ee011f706e819d34b2d7c45667119982a63639fc250443",
+      "source": "word-book/audio/words/do.m4a"
+     },
+     {
+      "file": "audio/do.perform-an-action.ipa.m4a",
+      "label": "IPA",
+      "kind": "SSML IPA phoneme tag, eleven_turbo_v2",
+      "sha256": "17885af5f233c419a32dd6681def0608b254cec2f68d154a155f5615e6c17245",
+      "text": "<phoneme alphabet=\"ipa\" ph=\"duː\">do</phoneme>.",
+      "why": "Owner, 2026-09-29 variant round. British RP IPA, strong lexical-verb form (the card sense is do.perform-an-action, not the unstressed auxiliary)."
+     },
+     {
+      "file": "audio/do.perform-an-action.sentcut.m4a",
+      "label": "Sentence cut",
+      "kind": "cut from the card's own example sentence",
+      "sha256": "e0825bed6ad1d76a7f1649a9aa7a72d10776121a7fa6cefc8cdb36057a800046",
+      "report": {
+       "sense": "do.perform-an-action",
+       "word": "do",
+       "sentence": "We do our homework before dinner.",
+       "char_span": [
+        3,
+        5
+       ],
+       "word_index": 1,
+       "words_in_sentence": 6,
+       "sentence_final": false,
+       "raw_alignment_span_s": [
+        0.232,
+        0.313
+       ],
+       "neighbours_s": {
+        "previous_char_end": 0.186,
+        "next_char_start": 0.383
+       },
+       "energy_dbfs_at_raw_edges": [
+        -37.9,
+        -17.6
+       ],
+       "quietest_near_start": {
+        "t": 0.237,
+        "dbfs": -42.3
+       },
+       "quietest_near_end": {
+        "t": 0.3405,
+        "dbfs": -19.5
+       },
+       "refined": true,
+       "edge_rule": [
+        "dip",
+        "raw"
+       ],
+       "cut_s": [
+        0.2373,
+        0.3127
+       ],
+       "edge_shift_ms_vs_raw": [
+        5.3,
+        -0.3
+       ],
+       "energy_dbfs_at_cut": [
+        -42.5,
+        -17.7
+       ],
+       "word_audio_s": 0.0754,
+       "lead_tail_silence_s": [
+        0.175,
+        0.285
+       ],
+       "gain_db": 3.05,
+       "peak_dbfs_after": -7.53,
+       "level_to": "word-book/audio/words/do.m4a",
+       "out": "word-book/qa/2026-09-29-de-variants/audio/do.perform-an-action.sentcut.m4a",
+       "master": "word-book/audio-source/sentences/do.perform-an-action.mp3",
+       "fade_ms": 6.0,
+       "pad_ms": 10.0,
+       "soft": true,
+       "fades_ms": [
+        6.0,
+        40.0
+       ],
+       "soft_move_ms": [
+        -0.0,
+        0.0
+       ],
+       "flags": [
+        {
+         "flag": "function-word",
+         "why": "a closed-class word; in a sentence it is often a weak, reduced form"
+        },
+        {
+         "flag": "edge-in-speech",
+         "why": "the end cut sits at -17.7 dBFS, above -35: inside speech, so clipped or smeared"
+        }
+       ]
+      },
+      "master": "word-book/audio-source/sentences/do.perform-an-action.mp3",
+      "master_sha256": "49a0fd375bda78e904c75c3e103273f58bcc6e6bf1665143578eb3da4b1864b8",
+      "sentence_file": "audio/do.perform-an-action.sentence.m4a"
+     },
+     {
+      "file": "audio/do.perform-an-action.extra.m4a",
+      "label": "Extra",
+      "kind": "bare word conditioned on its own sentence neighbours",
+      "sha256": "eda1a675ba139160be6e3aee3c5cf0e4cf6db4b2c8883c578465de1b9ff664c1",
+      "text": "do",
+      "previous_text": "We",
+      "next_text": "our homework before dinner.",
+      "why": "Extra cheap variant for a short/hard word (owner named do among the words needing a voice fix). Same model as the shipped word clip, but the bare word is conditioned on its own card-sentence neighbours (be.a1-card-context precedent, CG-185 round 2) instead of rendered in isolation -- previous_text/next_text are not billed."
+     },
+     {
+      "file": "audio/do.perform-an-action.sentence.m4a",
+      "label": "sentence",
+      "kind": "the card's own example sentence",
+      "sha256": "c80f10450a6bf6df5d1cd3cc2bdabd04c0384485322ea647825f674762af955f",
+      "sentence_button": true
+     }
+    ]
+   },
+   {
+    "sense": "door.entrance-panel",
+    "word": "door",
+    "sentence": "Please close the door behind you.",
+    "clips": [
+     {
+      "file": "audio/door.entrance-panel.now.m4a",
+      "label": "Now",
+      "kind": "the clip the app plays now",
+      "sha256": "d89d5967e1cf44c8977390feb38d29e6abb9c02512af91a400513acddb0676b5",
+      "source": "word-book/audio/words/door.m4a"
+     },
+     {
+      "file": "audio/door.entrance-panel.ipa.m4a",
+      "label": "IPA",
+      "kind": "SSML IPA phoneme tag, eleven_turbo_v2",
+      "sha256": "26032940c4afc36ea6d86a0ea4c41503dd5881f6d658ef6d346a2ebb127c0c6c",
+      "text": "<phoneme alphabet=\"ipa\" ph=\"dɔː\">door</phoneme>.",
+      "why": "Owner, 2026-09-29 variant round. British RP IPA (non-rhotic)."
+     },
+     {
+      "file": "audio/door.entrance-panel.sentcut.m4a",
+      "label": "Sentence cut",
+      "kind": "cut from the card's own example sentence",
+      "sha256": "1a1c44c27132e788bb58110c744a6b89e54f42daa46e333c1655ff4bdd4d7965",
+      "report": {
+       "sense": "door.entrance-panel",
+       "word": "door",
+       "sentence": "Please close the door behind you.",
+       "char_span": [
+        17,
+        21
+       ],
+       "word_index": 3,
+       "words_in_sentence": 6,
+       "sentence_final": false,
+       "raw_alignment_span_s": [
+        0.906,
+        1.068
+       ],
+       "neighbours_s": {
+        "previous_char_end": 0.871,
+        "next_char_start": 1.126
+       },
+       "energy_dbfs_at_raw_edges": [
+        -59.9,
+        -31.9
+       ],
+       "quietest_near_start": {
+        "t": 0.9035,
+        "dbfs": -60.8
+       },
+       "quietest_near_end": {
+        "t": 1.1055,
+        "dbfs": -64.0
+       },
+       "refined": true,
+       "edge_rule": [
+        "dip+soft-reach",
+        "dip+soft-reach"
+       ],
+       "cut_s": [
+        0.8905,
+        1.1156
+       ],
+       "edge_shift_ms_vs_raw": [
+        -15.5,
+        47.6
+       ],
+       "energy_dbfs_at_cut": [
+        -47.6,
+        -47.3
+       ],
+       "word_audio_s": 0.2251,
+       "lead_tail_silence_s": [
+        0.21,
+        0.333
+       ],
+       "gain_db": 2.24,
+       "peak_dbfs_after": -7.21,
+       "level_to": "word-book/audio/words/door.m4a",
+       "out": "word-book/qa/2026-09-29-de-variants/audio/door.entrance-panel.sentcut.m4a",
+       "master": "word-book/audio-source/sentences/door.entrance-panel.mp3",
+       "fade_ms": 6.0,
+       "pad_ms": 10.0,
+       "soft": true,
+       "fades_ms": [
+        13.5,
+        13.5
+       ],
+       "soft_move_ms": [
+        -7.5,
+        7.5
+       ],
+       "flags": []
+      },
+      "master": "word-book/audio-source/sentences/door.entrance-panel.mp3",
+      "master_sha256": "7a811888222efcb2b4ea09c9b29939d7c38441d38bfe259525acfcc4652475dd",
+      "sentence_file": "audio/door.entrance-panel.sentence.m4a"
+     },
+     {
+      "file": "audio/door.entrance-panel.sentence.m4a",
+      "label": "sentence",
+      "kind": "the card's own example sentence",
+      "sha256": "538515c59ffbe8f3c15427763947204ae562d1fbe87d89d71f7862463a7cfcef",
+      "sentence_button": true
+     }
+    ]
+   },
+   {
+    "sense": "each.every-one-separately",
+    "word": "each",
+    "sentence": "Each child chooses a different colour.",
+    "clips": [
+     {
+      "file": "audio/each.every-one-separately.now.m4a",
+      "label": "Now",
+      "kind": "the clip the app plays now",
+      "sha256": "187aa95b9b30b4608757fbfe6c5821bd10974c1fd66c418061eb3015fc76e8e5",
+      "source": "word-book/audio/words/each.m4a"
+     },
+     {
+      "file": "audio/each.every-one-separately.ipa.m4a",
+      "label": "IPA",
+      "kind": "SSML IPA phoneme tag, eleven_turbo_v2",
+      "sha256": "f50876de7762412e38d8cc61b27acd9011e3905b891aa8966decc206422c346b",
+      "text": "<phoneme alphabet=\"ipa\" ph=\"iːtʃ\">each</phoneme>.",
+      "why": "Owner, 2026-09-29: 'each, ear, early, escalator, even, explorer -> render other variants to see if we can improve.' British RP IPA."
+     },
+     {
+      "file": "audio/each.every-one-separately.sentcut.m4a",
+      "label": "Sentence cut",
+      "kind": "cut from the card's own example sentence",
+      "sha256": "02360eb1dc44a46bb13e3c2467b2776f643e77d6dda6ed071ee2f92757d6e822",
+      "report": {
+       "sense": "each.every-one-separately",
+       "word": "each",
+       "sentence": "Each child chooses a different colour.",
+       "char_span": [
+        0,
+        4
+       ],
+       "word_index": 0,
+       "words_in_sentence": 6,
+       "sentence_final": false,
+       "raw_alignment_span_s": [
+        0.0,
+        0.29
+       ],
+       "neighbours_s": {
+        "previous_char_end": 0.0,
+        "next_char_start": 0.348
+       },
+       "energy_dbfs_at_raw_edges": [
+        -180.0,
+        -22.6
+       ],
+       "quietest_near_start": {
+        "t": 0.0,
+        "dbfs": -180.0
+       },
+       "quietest_near_end": {
+        "t": 0.35,
+        "dbfs": -51.1
+       },
+       "refined": true,
+       "edge_rule": [
+        "dip",
+        "dip+soft-reach"
+       ],
+       "cut_s": [
+        0.0,
+        0.3625
+       ],
+       "edge_shift_ms_vs_raw": [
+        0.0,
+        72.5
+       ],
+       "energy_dbfs_at_cut": [
+        -180.0,
+        -46.0
+       ],
+       "word_audio_s": 0.3625,
+       "lead_tail_silence_s": [
+        0.085,
+        0.215
+       ],
+       "gain_db": -0.75,
+       "peak_dbfs_after": -7.8,
+       "level_to": "word-book/audio/words/each.m4a",
+       "out": "word-book/qa/2026-09-29-de-variants/audio/each.every-one-separately.sentcut.m4a",
+       "master": "word-book/audio-source/sentences/each.every-one-separately.mp3",
+       "fade_ms": 6.0,
+       "pad_ms": 10.0,
+       "soft": true,
+       "fades_ms": [
+        6.0,
+        18.5
+       ],
+       "soft_move_ms": [
+        -0.0,
+        12.5
+       ],
+       "flags": []
+      },
+      "master": "word-book/audio-source/sentences/each.every-one-separately.mp3",
+      "master_sha256": "474618c58108b0cfa5d26076cef415032b605660cc7e8d2e1e64b2384079344c",
+      "sentence_file": "audio/each.every-one-separately.sentence.m4a"
+     },
+     {
+      "file": "audio/each.every-one-separately.extra.m4a",
+      "label": "Extra",
+      "kind": "bare word conditioned on its own sentence neighbours",
+      "sha256": "0bfdb2579c9e7d92283042541a2206d6c2f18c52b1d00930f24f3ec93aaf1c93",
+      "text": "Each",
+      "previous_text": null,
+      "next_text": "child chooses a different colour.",
+      "why": "Extra cheap variant for a short/hard word. Bare word conditioned on its own card-sentence continuation (sentence-initial, capitalised as the card shows it); previous_text/next_text are not billed."
+     },
+     {
+      "file": "audio/each.every-one-separately.sentence.m4a",
+      "label": "sentence",
+      "kind": "the card's own example sentence",
+      "sha256": "5dce21d81b579fca8cbabef4d2f5f1bc894c30c07851b8ed069ef4db680ae7b2",
+      "sentence_button": true
+     }
+    ]
+   },
+   {
+    "sense": "ear.body-part",
+    "word": "ear",
+    "sentence": "Vanilla turns one ear towards the rustling leaves.",
+    "clips": [
+     {
+      "file": "audio/ear.body-part.now.m4a",
+      "label": "Now",
+      "kind": "the clip the app plays now",
+      "sha256": "ab889bce619e114664d3f6a499aa98c3a081a8b222876832c4c8f393759b803f",
+      "source": "word-book/audio/words/ear.m4a"
+     },
+     {
+      "file": "audio/ear.body-part.ipa.m4a",
+      "label": "IPA",
+      "kind": "SSML IPA phoneme tag, eleven_turbo_v2",
+      "sha256": "2f2d7728a15abd9a79cda2e24fc2dc8c2734c6d154f8f33f753ba12ad453f42e",
+      "text": "<phoneme alphabet=\"ipa\" ph=\"ɪə\">ear</phoneme>.",
+      "why": "Owner, 2026-09-29 variant round. British RP IPA (non-rhotic centring diphthong)."
+     },
+     {
+      "file": "audio/ear.body-part.sentcut.m4a",
+      "label": "Sentence cut",
+      "kind": "cut from the card's own example sentence",
+      "sha256": "3ccf5545a5f51d210493d2ce7660abed4252cf739eb32f6a7b386eddb3f2bea4",
+      "report": {
+       "sense": "ear.body-part",
+       "word": "ear",
+       "sentence": "Vanilla turns one ear towards the rustling leaves.",
+       "char_span": [
+        18,
+        21
+       ],
+       "word_index": 3,
+       "words_in_sentence": 8,
+       "sentence_final": false,
+       "raw_alignment_span_s": [
+        1.126,
+        1.3
+       ],
+       "neighbours_s": {
+        "previous_char_end": 1.091,
+        "next_char_start": 1.37
+       },
+       "energy_dbfs_at_raw_edges": [
+        -16.9,
+        -23.0
+       ],
+       "quietest_near_start": {
+        "t": 1.081,
+        "dbfs": -23.6
+       },
+       "quietest_near_end": {
+        "t": 1.3825,
+        "dbfs": -70.4
+       },
+       "refined": true,
+       "edge_rule": [
+        "gap-min",
+        "dip+soft-reach"
+       ],
+       "cut_s": [
+        1.091,
+        1.3949
+       ],
+       "edge_shift_ms_vs_raw": [
+        -35.0,
+        94.9
+       ],
+       "energy_dbfs_at_cut": [
+        -20.6,
+        -60.1
+       ],
+       "word_audio_s": 0.3038,
+       "lead_tail_silence_s": [
+        0.025,
+        0.309
+       ],
+       "gain_db": 3.32,
+       "peak_dbfs_after": -5.56,
+       "level_to": "word-book/audio/words/ear.m4a",
+       "out": "word-book/qa/2026-09-29-de-variants/audio/ear.body-part.sentcut.m4a",
+       "master": "word-book/audio-source/sentences/ear.body-part.mp3",
+       "fade_ms": 6.0,
+       "pad_ms": 10.0,
+       "soft": true,
+       "fades_ms": [
+        15.0,
+        8.5
+       ],
+       "soft_move_ms": [
+        0.0,
+        2.5
+       ],
+       "flags": [
+        {
+         "flag": "edge-in-speech",
+         "why": "the start cut sits at -20.6 dBFS, above -35: inside speech, so clipped or smeared"
+        }
+       ]
+      },
+      "master": "word-book/audio-source/sentences/ear.body-part.mp3",
+      "master_sha256": "da13a4bd0aa392ba4877ab314f4fd61961f4ccd3a6eb83a9892c123e42f4b959",
+      "sentence_file": "audio/ear.body-part.sentence.m4a"
+     },
+     {
+      "file": "audio/ear.body-part.extra.m4a",
+      "label": "Extra",
+      "kind": "bare word conditioned on its own sentence neighbours",
+      "sha256": "41f8d7636e5ddf1bcba0156396eba1a7886e97be2a01e31226fab35f06cbec48",
+      "text": "ear",
+      "previous_text": "Vanilla turns one",
+      "next_text": "towards the rustling leaves.",
+      "why": "Extra cheap variant for a short/hard word. Bare word conditioned on its own card-sentence neighbours; previous_text/next_text are not billed."
+     },
+     {
+      "file": "audio/ear.body-part.sentence.m4a",
+      "label": "sentence",
+      "kind": "the card's own example sentence",
+      "sha256": "56a27fd47d9af7d72e6c89c73634d49408bf54d69cc124f1731f4f3c456bd206",
+      "sentence_button": true
+     }
+    ]
+   },
+   {
+    "sense": "early.before-usual-time",
+    "word": "early",
+    "sentence": "We arrive early and choose our seats.",
+    "clips": [
+     {
+      "file": "audio/early.before-usual-time.now.m4a",
+      "label": "Now",
+      "kind": "the clip the app plays now",
+      "sha256": "28a803b808b14c258f29339118c61ff531867404eb7d2f9ce570632d3dac1f86",
+      "source": "word-book/audio/words/early.m4a"
+     },
+     {
+      "file": "audio/early.before-usual-time.ipa.m4a",
+      "label": "IPA",
+      "kind": "SSML IPA phoneme tag, eleven_turbo_v2",
+      "sha256": "2732998a9d63b3f2ac44e98cf7aaa6b72efb0d50f4a9de597385184fc350db64",
+      "text": "<phoneme alphabet=\"ipa\" ph=\"ˈɜːli\">early</phoneme>.",
+      "why": "Owner, 2026-09-29 variant round. British RP IPA."
+     },
+     {
+      "file": "audio/early.before-usual-time.sentcut.m4a",
+      "label": "Sentence cut",
+      "kind": "cut from the card's own example sentence",
+      "sha256": "480bb5609c2978ede27d159cd5cbf443ea85ab1c29d7c634f609b4a724fd078a",
+      "report": {
+       "sense": "early.before-usual-time",
+       "word": "early",
+       "sentence": "We arrive early and choose our seats.",
+       "char_span": [
+        10,
+        15
+       ],
+       "word_index": 2,
+       "words_in_sentence": 7,
+       "sentence_final": false,
+       "raw_alignment_span_s": [
+        0.534,
+        0.755
+       ],
+       "neighbours_s": {
+        "previous_char_end": 0.488,
+        "next_char_start": 0.801
+       },
+       "energy_dbfs_at_raw_edges": [
+        -17.2,
+        -21.3
+       ],
+       "quietest_near_start": {
+        "t": 0.4815,
+        "dbfs": -36.0
+       },
+       "quietest_near_end": {
+        "t": 0.83,
+        "dbfs": -30.5
+       },
+       "refined": true,
+       "edge_rule": [
+        "gap-min+soft-valley",
+        "raw"
+       ],
+       "cut_s": [
+        0.4805,
+        0.7551
+       ],
+       "edge_shift_ms_vs_raw": [
+        -53.5,
+        0.1
+       ],
+       "energy_dbfs_at_cut": [
+        -36.0,
+        -21.3
+       ],
+       "word_audio_s": 0.2746,
+       "lead_tail_silence_s": [
+        0.05,
+        0.277
+       ],
+       "gain_db": 3.31,
+       "peak_dbfs_after": -5.28,
+       "level_to": "word-book/audio/words/early.m4a",
+       "out": "word-book/qa/2026-09-29-de-variants/audio/early.before-usual-time.sentcut.m4a",
+       "master": "word-book/audio-source/sentences/early.before-usual-time.mp3",
+       "fade_ms": 6.0,
+       "pad_ms": 10.0,
+       "soft": true,
+       "fades_ms": [
+        15.0,
+        40.0
+       ],
+       "soft_move_ms": [
+        -7.5,
+        0.0
+       ],
+       "flags": [
+        {
+         "flag": "edge-in-speech",
+         "why": "the end cut sits at -21.3 dBFS, above -35: inside speech, so clipped or smeared"
+        }
+       ]
+      },
+      "master": "word-book/audio-source/sentences/early.before-usual-time.mp3",
+      "master_sha256": "1a7fd2ba433f84655b5ad98fa2fa7b1d377c6af5fa73561c3ad73a432cc80530",
+      "sentence_file": "audio/early.before-usual-time.sentence.m4a"
+     },
+     {
+      "file": "audio/early.before-usual-time.sentence.m4a",
+      "label": "sentence",
+      "kind": "the card's own example sentence",
+      "sha256": "047a98de0b65fe007916d37b95ac40e3ba8b6662df488fe6fd7ccb9b69338b1d",
+      "sentence_button": true
+     }
+    ]
+   },
+   {
+    "sense": "escalator.moving-stairs",
+    "word": "escalator",
+    "sentence": "I hold the rail on the escalator.",
+    "clips": [
+     {
+      "file": "audio/escalator.moving-stairs.now.m4a",
+      "label": "Now",
+      "kind": "the clip the app plays now",
+      "sha256": "c859328fdb188430b5c9f99b2d0256d0ad4f86a4e071203bd7b0d28048dc0055",
+      "source": "word-book/audio/words/escalator.m4a"
+     },
+     {
+      "file": "audio/escalator.moving-stairs.ipa.m4a",
+      "label": "IPA",
+      "kind": "SSML IPA phoneme tag, eleven_turbo_v2",
+      "sha256": "1cad26fed082c8210f69911d14f35b4e54294dcf13ff7c0de049b4d8c238a3e0",
+      "text": "<phoneme alphabet=\"ipa\" ph=\"ˈɛskəleɪtə\">escalator</phoneme>.",
+      "why": "Owner, 2026-09-29 variant round. British RP IPA (non-rhotic final schwa)."
+     },
+     {
+      "file": "audio/escalator.moving-stairs.sentcut.m4a",
+      "label": "Sentence cut",
+      "kind": "cut from the card's own example sentence",
+      "sha256": "2fa93b1e95519342fd83e5e9e6387d0233aaa3b1a4f3ec12c934b0db32e7497e",
+      "report": {
+       "sense": "escalator.moving-stairs",
+       "word": "escalator",
+       "sentence": "I hold the rail on the escalator.",
+       "char_span": [
+        23,
+        32
+       ],
+       "word_index": 6,
+       "words_in_sentence": 7,
+       "sentence_final": true,
+       "raw_alignment_span_s": [
+        1.033,
+        1.66
+       ],
+       "neighbours_s": {
+        "previous_char_end": 0.987,
+        "next_char_start": 1.66
+       },
+       "energy_dbfs_at_raw_edges": [
+        -21.0,
+        -36.0
+       ],
+       "quietest_near_start": {
+        "t": 1.063,
+        "dbfs": -23.1
+       },
+       "quietest_near_end": {
+        "t": 1.69,
+        "dbfs": -53.9
+       },
+       "refined": true,
+       "edge_rule": [
+        "raw",
+        "decay+soft-reach"
+       ],
+       "cut_s": [
+        1.0326,
+        1.7412
+       ],
+       "edge_shift_ms_vs_raw": [
+        -0.4,
+        81.2
+       ],
+       "energy_dbfs_at_cut": [
+        -21.2,
+        -78.8
+       ],
+       "word_audio_s": 0.7086,
+       "lead_tail_silence_s": [
+        0.04,
+        0.106
+       ],
+       "gain_db": 1.66,
+       "peak_dbfs_after": -2.78,
+       "level_to": "word-book/audio/words/escalator.m4a",
+       "out": "word-book/qa/2026-09-29-de-variants/audio/escalator.moving-stairs.sentcut.m4a",
+       "master": "word-book/audio-source/sentences/escalator.moving-stairs.mp3",
+       "fade_ms": 6.0,
+       "pad_ms": 10.0,
+       "soft": true,
+       "fades_ms": [
+        15.0,
+        36.0
+       ],
+       "soft_move_ms": [
+        0.0,
+        30.0
+       ],
+       "flags": [
+        {
+         "flag": "sentence-final",
+         "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+        },
+        {
+         "flag": "edge-in-speech",
+         "why": "the start cut sits at -21.2 dBFS, above -35: inside speech, so clipped or smeared"
+        }
+       ]
+      },
+      "master": "word-book/audio-source/sentences/escalator.moving-stairs.mp3",
+      "master_sha256": "6c15207d11b1cff9dd8f217edfff208666176ab9db6ab82c1a187ad11dc1cbe8",
+      "sentence_file": "audio/escalator.moving-stairs.sentence.m4a"
+     },
+     {
+      "file": "audio/escalator.moving-stairs.sentence.m4a",
+      "label": "sentence",
+      "kind": "the card's own example sentence",
+      "sha256": "3172a2f248bfc39bacd1319fb4d87230f20d0cd6d9b8b46d2eea1bf54f8a3a93",
+      "sentence_button": true
+     }
+    ]
+   },
+   {
+    "sense": "even.divisible-by-two",
+    "word": "even",
+    "sentence": "Six is an even number.",
+    "clips": [
+     {
+      "file": "audio/even.divisible-by-two.now.m4a",
+      "label": "Now",
+      "kind": "the clip the app plays now",
+      "sha256": "62c629afaade4433bd40ab72f5ace95ddc8f1ea3574223c9aa6ed44c0f868cad",
+      "source": "word-book/audio/words/even.m4a"
+     },
+     {
+      "file": "audio/even.divisible-by-two.ipa.m4a",
+      "label": "IPA",
+      "kind": "SSML IPA phoneme tag, eleven_turbo_v2",
+      "sha256": "3cb55ab6ea1735c948e30a5e12979c11d6dd2135b1353f973f5368c51bf6d58d",
+      "text": "<phoneme alphabet=\"ipa\" ph=\"ˈiːvən\">even</phoneme>.",
+      "why": "Owner, 2026-09-29 variant round. British RP IPA."
+     },
+     {
+      "file": "audio/even.divisible-by-two.sentcut.m4a",
+      "label": "Sentence cut",
+      "kind": "cut from the card's own example sentence",
+      "sha256": "13c6d23be49536cacffe68ef993a7fbf756fcfb4a3023217cbae4ed365a1ac6f",
+      "report": {
+       "sense": "even.divisible-by-two",
+       "word": "even",
+       "sentence": "Six is an even number.",
+       "char_span": [
+        10,
+        14
+       ],
+       "word_index": 3,
+       "words_in_sentence": 5,
+       "sentence_final": false,
+       "raw_alignment_span_s": [
+        0.708,
+        1.033
+       ],
+       "neighbours_s": {
+        "previous_char_end": 0.615,
+        "next_char_start": 1.091
+       },
+       "energy_dbfs_at_raw_edges": [
+        -39.7,
+        -22.9
+       ],
+       "quietest_near_start": {
+        "t": 0.6955,
+        "dbfs": -79.0
+       },
+       "quietest_near_end": {
+        "t": 1.0705,
+        "dbfs": -24.1
+       },
+       "refined": true,
+       "edge_rule": [
+        "dip+soft-reach",
+        "raw"
+       ],
+       "cut_s": [
+        0.6585,
+        1.033
+       ],
+       "edge_shift_ms_vs_raw": [
+        -49.5,
+        -0.0
+       ],
+       "energy_dbfs_at_cut": [
+        -45.1,
+        -22.9
+       ],
+       "word_audio_s": 0.3745,
+       "lead_tail_silence_s": [
+        0.03,
+        0.325
+       ],
+       "gain_db": -0.95,
+       "peak_dbfs_after": -8.49,
+       "level_to": "word-book/audio/words/even.m4a",
+       "out": "word-book/qa/2026-09-29-de-variants/audio/even.divisible-by-two.sentcut.m4a",
+       "master": "word-book/audio-source/sentences/even.divisible-by-two.mp3",
+       "fade_ms": 6.0,
+       "pad_ms": 10.0,
+       "soft": true,
+       "fades_ms": [
+        33.5,
+        40.0
+       ],
+       "soft_move_ms": [
+        -27.5,
+        0.0
+       ],
+       "flags": [
+        {
+         "flag": "edge-in-speech",
+         "why": "the end cut sits at -22.9 dBFS, above -35: inside speech, so clipped or smeared"
+        }
+       ]
+      },
+      "master": "word-book/audio-source/sentences/even.divisible-by-two.mp3",
+      "master_sha256": "dc25df2aa5d3f7ab273a25a1d5785cd0ca2864eeb736e72029d2a20d6151917e",
+      "sentence_file": "audio/even.divisible-by-two.sentence.m4a"
+     },
+     {
+      "file": "audio/even.divisible-by-two.extra.m4a",
+      "label": "Extra",
+      "kind": "bare word conditioned on its own sentence neighbours",
+      "sha256": "4deae615438088888c4a7105edcec14e50807a93991c7be4b6e542716e9f5a5f",
+      "text": "even",
+      "previous_text": "Six is an",
+      "next_text": "number.",
+      "why": "Extra cheap variant for a short/hard word. Bare word conditioned on its own card-sentence neighbours; previous_text/next_text are not billed."
+     },
+     {
+      "file": "audio/even.divisible-by-two.sentence.m4a",
+      "label": "sentence",
+      "kind": "the card's own example sentence",
+      "sha256": "1a042226e1fdd625beba0c0ce5d204f117a46530ee89c12246ab9ac40bcddffc",
+      "sentence_button": true
+     }
+    ]
+   },
+   {
+    "sense": "explorer.traveller",
+    "word": "explorer",
+    "sentence": "The explorer follows the river on the map.",
+    "clips": [
+     {
+      "file": "audio/explorer.traveller.now.m4a",
+      "label": "Now",
+      "kind": "the clip the app plays now",
+      "sha256": "75f798def449b6721103e81f766038ce6dadd2c1c8e59e6c857beb0b063d79f7",
+      "source": "word-book/audio/words/explorer.m4a"
+     },
+     {
+      "file": "audio/explorer.traveller.ipa.m4a",
+      "label": "IPA",
+      "kind": "SSML IPA phoneme tag, eleven_turbo_v2",
+      "sha256": "1a9b8ae8d081a0b0753cf06136033f8ba7daf9578eb63fd49891c0e8202fb2c9",
+      "text": "<phoneme alphabet=\"ipa\" ph=\"ɪkˈsplɔːrə\">explorer</phoneme>.",
+      "why": "Owner, 2026-09-29 variant round. British RP IPA (non-rhotic final schwa)."
+     },
+     {
+      "file": "audio/explorer.traveller.sentcut.m4a",
+      "label": "Sentence cut",
+      "kind": "cut from the card's own example sentence",
+      "sha256": "47940c88012a80e1afc00f80041673428d102bda09c5ab25ec59fef60f7982ff",
+      "report": {
+       "sense": "explorer.traveller",
+       "word": "explorer",
+       "sentence": "The explorer follows the river on the map.",
+       "char_span": [
+        4,
+        12
+       ],
+       "word_index": 1,
+       "words_in_sentence": 8,
+       "sentence_final": false,
+       "raw_alignment_span_s": [
+        0.197,
+        0.673
+       ],
+       "neighbours_s": {
+        "previous_char_end": 0.151,
+        "next_char_start": 0.731
+       },
+       "energy_dbfs_at_raw_edges": [
+        -20.0,
+        -25.5
+       ],
+       "quietest_near_start": {
+        "t": 0.2245,
+        "dbfs": -47.6
+       },
+       "quietest_near_end": {
+        "t": 0.743,
+        "dbfs": -40.5
+       },
+       "refined": true,
+       "edge_rule": [
+        "dip",
+        "dip"
+       ],
+       "cut_s": [
+        0.2243,
+        0.743
+       ],
+       "edge_shift_ms_vs_raw": [
+        27.3,
+        70.0
+       ],
+       "energy_dbfs_at_cut": [
+        -46.7,
+        -40.5
+       ],
+       "word_audio_s": 0.5188,
+       "lead_tail_silence_s": [
+        0.045,
+        0.256
+       ],
+       "gain_db": -1.38,
+       "peak_dbfs_after": -8.9,
+       "level_to": "word-book/audio/words/explorer.m4a",
+       "out": "word-book/qa/2026-09-29-de-variants/audio/explorer.traveller.sentcut.m4a",
+       "master": "word-book/audio-source/sentences/explorer.traveller.mp3",
+       "fade_ms": 6.0,
+       "pad_ms": 10.0,
+       "soft": true,
+       "fades_ms": [
+        6.0,
+        6.0
+       ],
+       "soft_move_ms": [
+        -0.0,
+        0.0
+       ],
+       "flags": []
+      },
+      "master": "word-book/audio-source/sentences/explorer.traveller.mp3",
+      "master_sha256": "84aafc59f5c9249f42b44e01e2ad097cdd8e85a5d059ca8a8542349d80701ef8",
+      "sentence_file": "audio/explorer.traveller.sentence.m4a"
+     },
+     {
+      "file": "audio/explorer.traveller.sentence.m4a",
+      "label": "sentence",
+      "kind": "the card's own example sentence",
+      "sha256": "c0b9904d1a2a0166423cc611b3e7e9567794dffeab5f2a9feb2964f847ceeba7",
+      "sentence_button": true
+     }
+    ]
+   }
+  ]
+ }
+}
