@@ -8,7 +8,15 @@ export const FIVE_SUMS_MODES = Object.freeze({
 });
 
 export function seeded(seed=1){ let s=(seed>>>0)||1; return ()=>((s=Math.imul(s^s>>>15,1|s),s^=s+Math.imul(s^s>>>7,61|s),((s^s>>>14)>>>0)/4294967296)); }
-export function makeBag(seed=1,count=80){ const r=seeded(seed), a=[]; for(let i=0;i<count;i++)a.push(1+Math.floor(r()*9)); return a; }
+/* The highest tile value that can ever contribute to this mode's target. A
+ * lone tile can never satisfy a target on its own (every valid line is 2+
+ * tiles), so for Make 5 -- the only mode whose target is smaller than the
+ * biggest single-digit tile -- values 5-9 are dead weight a child can never
+ * place: 5 needs a 0 partner that does not exist, and 6-9 already exceed the
+ * target. Restrict the bag to 1-4 there; every other mode's target is large
+ * enough that every 1-9 tile can take part in some valid line. */
+export function tileMax(modeId){ return modeId==='make5' ? 4 : 9; }
+export function makeBag(seed=1,count=80,modeId='make5'){ const r=seeded(seed), max=tileMax(modeId), a=[]; for(let i=0;i<count;i++)a.push(1+Math.floor(r()*max)); return a; }
 export function draw(bag,n){ return {tiles:bag.slice(0,n),bag:bag.slice(n)}; }
 export function key(r,c){return r+','+c;}
 export function emptyBoard(size=7){return {size,cells:{}};}
