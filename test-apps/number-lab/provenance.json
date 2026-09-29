@@ -1,8 +1,8 @@
 {
   "datePrepared": "2026-09-29",
-  "sourceCommit": "db60a0537f8f04856e39d13238e683973dab242e",
+  "sourceCommit": "127f96f4",
   "sourceBranch": "agent/number-lab-frames",
-  "purpose": "Owner review of Number Lab's visual code redesign (shape carries family, one dominant colour plate carries tier, a dark medallion with a white numeral confirms, glow is state-only), including a controller-caught follow-up fix: the renderer's atlas position map keyed Family B by ASCII tier labels (B1/B3/B9/B27) instead of the tile's actual Thai-numeral tier value, so every Family-B tile in NEXT/HOLD/the board silently fell back to the Family-A tier-1 cell and rendered in the square frame instead of the round lotus frame.",
+  "purpose": "Owner review of the corrected Number Lab rare-piece visual code: A81 is fully frame-contained with brushed gold leaf, A243 is a faceted gem, A729 is crowned, A2187 uses ceremonial double rings, and A6561 uses pearl/rainbow enamel. Same-hue rare/common pairs pass a deterministic blurred-image-distance gate. Prepared on agent/number-lab-frames after controller review of 127f96f4.",
   "included": {
     "pages": ["index.html (number-lab-app/index.html)"],
     "runtime": ["styles.css", "tap-zoom-guard.js (byte-identical to number-lab-app/tap-zoom-guard.js)", "js/app.js", "js/balance-config.js", "js/cpu-player.js", "js/game-state.js", "js/queue-engine.js", "js/renderer.js", "js/rules-engine.js", "js/shop-engine.js"],
