@@ -203,4 +203,113 @@
     renderTabs();renderNails();renderTray();
   }
   start().catch(error=>{console.error(error);renderTabs();renderNails();renderTray();});
+
+  /* ══ SALON MUSIC ══
+     Owner, 2026-09-29, verbatim: "nail salon -> pls add calm music bed (salon feel)".
+     Same shape as the math-app menu bed and the coloring-app mode-menu bed: one
+     generated instrumental loop, off by default, remembered per device, behind its own
+     toggle, starting only on a real user gesture because a browser will not start audio
+     before one -- and this app's very first screen IS the salon, so there is no separate
+     "menu" moment to arm against; the first tap anywhere (including the toggle itself)
+     is the gesture.
+
+     LOW, UNDER THE TAP SOUND. `sound()` above peaks its WebAudio gain at .055 for a
+     12ms blip; FULL here is a steady-state HTML5 <audio> volume, a different scale, but
+     it is deliberately set low enough that a tap's chime is never masked by the bed --
+     .16 rather than the worlds' .20, because this app has no narration to duck under
+     and the bed should read as room tone, not a soundtrack.
+
+     NO PLAYHEAD PERSISTENCE. Magic Math's hub/world pages park the bed's currentTime in
+     localStorage because a child crosses page boundaries and a restarted intro would be
+     audible. Nail Salon is one screen for the whole session -- nothing to hand off to --
+     so that mechanism does not apply here. */
+  var Music=(function(){
+    var SRC='./assets/audio/menu-bed.m4a';
+    var KEY='ns_music';
+    var FULL=0.16;
+    var RAMP_MS=420, STEP_MS=40;
+    var el=null, ramp=0, armed=false;
+    var pref=(function(){try{return localStorage.getItem(KEY)==='1';}catch(e){return false;}})();
+
+    function fadeTo(v,thenPause){
+      if(!el)return;
+      if(ramp){clearInterval(ramp);ramp=0;}
+      var from=el.volume, steps=Math.max(1,Math.round(RAMP_MS/STEP_MS)), i=0;
+      ramp=setInterval(function(){
+        i++;
+        try{el.volume=Math.max(0,Math.min(1,from+(v-from)*(i/steps)));}catch(e){}
+        if(i>=steps){
+          clearInterval(ramp);ramp=0;
+          if(thenPause&&el){try{el.pause();}catch(e){}}
+        }
+      },STEP_MS);
+    }
+
+    /* Arms the next real tap anywhere on the page. Needed when a returning child has
+       music on from a previous visit: the page loads silent (autoplay is blocked) and
+       this is what starts it on their very first touch, same as the worlds do. */
+    function arm(){
+      if(armed)return;
+      armed=true;
+      var go=function(){
+        window.removeEventListener('pointerdown',go,true);
+        armed=false;
+        apply();
+      };
+      window.addEventListener('pointerdown',go,true);
+    }
+
+    function apply(){
+      if(!pref){
+        if(el&&!el.paused)fadeTo(0,true);
+        return;
+      }
+      if(!el){
+        try{el=new Audio(SRC);}catch(e){return;}
+        el.loop=true; el.preload='none'; el.volume=0;
+      }
+      if(document.hidden)return;
+      el.volume=0;
+      var p;
+      try{p=el.play();}catch(e){arm();return;}
+      if(p&&p.then)p.then(function(){fadeTo(FULL,false);}).catch(arm);
+      else fadeTo(FULL,false);
+    }
+
+    return{
+      init:function(){apply();},
+      enabled:function(){return pref;},
+      /* The toggle's own click is the one user gesture on this page that is reliably
+         allowed to start playback immediately. */
+      setEnabled:function(v){pref=!!v;try{localStorage.setItem(KEY,pref?'1':'0');}catch(e){}apply();},
+      /* iPadOS suspends nothing on its own when the tab is hidden, so a music bed left
+         playing under a locked screen or a backgrounded Safari tab keeps sounding --
+         pause explicitly and resume (silently, needing no new gesture, since play()
+         already succeeded once) when the child comes back. */
+      onHidden:function(){if(el&&!el.paused){try{el.pause();}catch(e){}}},
+      onVisible:function(){if(pref&&el&&el.paused){var p;try{p=el.play();}catch(e){return;}if(p&&p.catch)p.catch(function(){});}}
+    };
+  })();
+
+  (function(){
+    var btn=document.querySelector('#musicToggle');
+    if(!btn)return;
+    function paint(){
+      var on=Music.enabled();
+      btn.classList.toggle('music-off',!on);
+      btn.setAttribute('aria-label',on?'Salon music on':'Salon music off');
+      var label=btn.querySelector('small');
+      if(label)label.textContent=on?'Music':'Off';
+    }
+    btn.addEventListener('click',function(e){
+      e.stopPropagation();
+      Music.setEnabled(!Music.enabled());
+      paint();
+    });
+    paint();
+    Music.init();
+    document.addEventListener('visibilitychange',function(){
+      if(document.hidden)Music.onHidden();else Music.onVisible();
+    });
+  })();
 })();
