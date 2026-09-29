@@ -64,10 +64,40 @@
       var game = new Engine.Game(makeConfig(), { seed: props.seed == null ? Date.now() : props.seed });
       gameRef.current = game;
       root.__tapWaitMathGame = game;
+      /* Browser QA must exercise the real React click path without racing the
+         randomized spawner.  This test-only hook pauses automatic timers and
+         installs one exact event; production never calls it. */
+      root.__tapWaitMathTest = {
+        force: function (spec) {
+          spec = spec || {};
+          game.clearTimer();
+          game.auto = false;
+          var now = game.clock.now();
+          var entry = {
+            id: "qa-" + String(spec.slot == null ? 4 : spec.slot) + "-" + String(spec.item == null ? 17 : spec.item),
+            item: spec.item == null ? 17 : spec.item,
+            target: spec.target !== false,
+            slot: spec.slot == null ? 4 : spec.slot,
+            tapped: false
+          };
+          game.state.phase = "showing";
+          game.state.current = { index: game.state.eventIndex, items: [entry] };
+          game.state.nextAt = null;
+          game.state.visibleUntil = now + 60000;
+          game.state.lastFeedback = null;
+          game.emit("show", { itemEvent: game.state.current, now: now });
+          game.emit("change", { now: now });
+          return { slot: entry.slot, item: String(entry.item), target: entry.target };
+        },
+        expire: function () {
+          game.tick(game.state.visibleUntil + 1);
+          return game.getState();
+        }
+      };
       var update = function () { setView(game.getState()); };
       var offs = [game.on("change", update), game.on("correct", function () { var p = propsRef.current; if (typeof p.setScore === "function") p.setScore(function (v) { return v + 1; }); if (typeof p.onCorrect === "function") p.onCorrect(); signal("correct"); }), game.on("wrong", function () { signal("wrong"); }), game.on("waited", function () { signal("waited"); }), game.on("missed", function () { signal("missed"); }), game.on("roundEnd", function (d) { if (typeof propsRef.current.onRoundEnd === "function") propsRef.current.onRoundEnd(d.summary); })];
       game.start(); update();
-      return function () { offs.forEach(function (off) { off(); }); clearTimeout(flashTimer.current); game.destroy(); gameRef.current = null; if (root.__tapWaitMathGame === game) delete root.__tapWaitMathGame; };
+      return function () { offs.forEach(function (off) { off(); }); clearTimeout(flashTimer.current); game.destroy(); gameRef.current = null; if (root.__tapWaitMathGame === game) delete root.__tapWaitMathGame; delete root.__tapWaitMathTest; };
     }, []);
 
     var state = view || { phase: "loading", score: 0, streak: 0, wrong: 0, eventIndex: 0, roundLength: 12, current: null };
