@@ -24,6 +24,8 @@ actually use.
 | [Animal Book](https://veeranuchlee.github.io/animal-book/) | A growing illustrated animal encyclopaedia |
 | [Shadow Matching](https://veeranuchlee.github.io/shadow-matching/) | Look at the picture, find its shadow |
 | [Our Maze](https://veeranuchlee.github.io/our-maze/) | Walk the maze to the flag |
+| [Periodic Table](https://veeranuchlee.github.io/periodic-table/) | Explore every element, then play Find It, Symbol Match and Atomic Number |
+| [Nail Salon](https://veeranuchlee.github.io/nail-salon/) | Paint, decorate and sparkle your own nails |
 
 ## How these are made
 
@@ -106,6 +108,8 @@ each of those was onboarded. The registry, not this paragraph, is the list.
 | Planets & Moons | `../solar-system-game/` | `solar-system-game` |
 | Our Animal Book | `../animal-book/` | `animal-book` |
 | Shadow Matching | `../shadow-matching/` | this repo, top level (onboarded 2026-09-20) |
+| Periodic Table | `../periodic-table/` | this repo, top level (onboarded 2026-09-28) |
+| Nail Salon | `../nail-salon/` | this repo, top level (onboarded 2026-09-29) |
 
 The test publish additionally places apps at the top level of the public Pages
 repository — Spelling Exam at `../spelling-exam/`, Music Book at `../music-book/`, Clock Game at `../time-book/`, Pattern Pegs
@@ -204,6 +208,18 @@ tile shows that a shadow keeps an object's *shape*. The teapot was the runner-up
 rounded tile. The app asks a child to walk a maze to the flag, so the goal is the one
 sprite that says what the game is about; no new artwork was invented.
 
+`periodic-table.webp` is built by `children-apps/tools/build-periodic-table-card.py`
+from Periodic Table Learning App's own approved square app icon
+(`periodic-table-app/icon-512.png`), resized to the hub's 96px tile — the same
+"own app icon as a square tile" precedent as `planets-and-moons.png`, since the app
+has 118 small per-element icons rather than one cut-out sprite to crop.
+
+`nail-salon.webp` is built by `children-apps/tools/build-nail-salon-card.py` from
+Nail Salon's own existing shipped art: the polish-bottle icon
+(`nail-salon-app/assets/icons/polish-bottle.webp`) centred on a soft, blurred
+background sampled from the app's own salon portrait
+(`nail-salon-app/assets/art/salon-portrait.webp`). No new artwork is invented.
+
 **Two known art gaps**, both cosmetic and both inherited:
 
 - **Classical Music** uses the rainbow, as the old index did. It is not a musical
@@ -228,7 +244,8 @@ list of directories rather than a claim about how many there are. That list
 today: `math-app`, `coloring-app`, `flower-shooter`, `animal-book`,
 `solar-storybook`, `solar-system-game`, `music-book`, `time-book`,
 `writing-book`, `pattern-pegs-app`, `toy-room`, `pattern-blocks-app`,
-`toy-keyboard-app`, `flags-app`, `spelling-exam-app`, `shadow-matching-app`.
+`toy-keyboard-app`, `flags-app`, `spelling-exam-app`, `shadow-matching-app`,
+`nail-salon-app`.
 
 **Why it is a manifest and not a sentence.** This directory is not only the site:
 `work_progress_and_other_discussion.md` lives here too, because discussion logs

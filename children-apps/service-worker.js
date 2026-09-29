@@ -87,8 +87,15 @@
  *   v32 2026-09-25  Flags joins the hub (owner: "promote the flag to main hub"). Its
  *                  tile, `assets/flags.webp` (three of the app's own flag SVGs), joins
  *                  the shell.
+ *   v33 2026-09-28  Periodic Table joins the hub (owner: "I want it live on main hub").
+ *                  Its tile, `assets/periodic-table.webp` (the app's own approved icon,
+ *                  resized), joins the shell.
+ *   v34 2026-09-29  Nail Salon joins the hub (owner: "promote nail salon to publish in
+ *                  main hub"). Its tile, `assets/nail-salon.webp`, is composed from the
+ *                  app's own polish-bottle icon on a soft background sampled from its
+ *                  salon portrait — no new artwork.
  */
-const CACHE_NAME = "children-apps-v32";
+const CACHE_NAME = "children-apps-v34";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
@@ -110,6 +117,8 @@ const SHELL = [
   "./assets/shadow-matching.webp",
   "./assets/our-maze.webp",
   "./assets/flags.webp",
+  "./assets/periodic-table.webp",
+  "./assets/nail-salon.webp",
   "./assets/app-192.png",
   "./assets/app-512.png",
 ];
