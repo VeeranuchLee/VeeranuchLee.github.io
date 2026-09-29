@@ -1,4 +1,4 @@
-/* Number Whack — shared Space/Unicorn collecting shell. Rules and scoring stay
+/* Number Catch — shared Space/Unicorn collecting shell. Rules and scoring stay
  * in TapWaitEngine; this adapter owns the painted board, feedback and controls. */
 (function (root) {
   "use strict";
@@ -6,7 +6,7 @@
   var h = React && React.createElement;
   if (!React || !h || !Engine) return;
 
-  var SCREEN_TITLE = "Number Whack";
+  var SCREEN_TITLE = "Number Catch";
   /* Measured by colour-region detection from the nine pad/soil interiors in the
      1024x768 painted boards. These are image-space fractions, not an inferred
      grid: both paintings have perspective. */
