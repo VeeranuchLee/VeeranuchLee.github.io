@@ -1,0 +1,76 @@
+{
+ "sense": "kettle.water-container",
+ "word": "kettle",
+ "sentence": "Mum fills the kettle with water.",
+ "char_span": [
+  14,
+  20
+ ],
+ "word_index": 3,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.743,
+  1.022
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.708,
+  "next_char_start": 1.057
+ },
+ "energy_dbfs_at_raw_edges": [
+  -34.1,
+  -28.9
+ ],
+ "quietest_near_start": {
+  "t": 0.7205,
+  "dbfs": -59.4
+ },
+ "quietest_near_end": {
+  "t": 1.047,
+  "dbfs": -35.0
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "gap-min"
+ ],
+ "cut_s": [
+  0.7029,
+  1.0479
+ ],
+ "edge_shift_ms_vs_raw": [
+  -40.1,
+  25.9
+ ],
+ "energy_dbfs_at_cut": [
+  -45.0,
+  -34.3
+ ],
+ "word_audio_s": 0.345,
+ "lead_tail_silence_s": [
+  0.12,
+  0.313
+ ],
+ "gain_db": 3.15,
+ "peak_dbfs_after": -5.88,
+ "level_to": "word-book/audio/words/kettle.m4a",
+ "out": "word-book/qa/2026-09-29-jk-variants/audio/kettle.water-container.sentcut.m4a",
+ "master": "word-book/audio-source/sentences/kettle.water-container.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  23.5,
+  40.0
+ ],
+ "soft_move_ms": [
+  -17.5,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -34.3 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

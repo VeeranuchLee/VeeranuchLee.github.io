@@ -1,0 +1,76 @@
+{
+ "sense": "door.entrance-panel",
+ "word": "door",
+ "sentence": "The word is door.",
+ "char_span": [
+  12,
+  16
+ ],
+ "word_index": 3,
+ "words_in_sentence": 4,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.592,
+  0.952
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.522,
+  "next_char_start": 0.952
+ },
+ "energy_dbfs_at_raw_edges": [
+  -86.9,
+  -39.4
+ ],
+ "quietest_near_start": {
+  "t": 0.5995,
+  "dbfs": -88.0
+ },
+ "quietest_near_end": {
+  "t": 0.982,
+  "dbfs": -58.8
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.5594,
+  1.0185
+ ],
+ "edge_shift_ms_vs_raw": [
+  -32.6,
+  66.5
+ ],
+ "energy_dbfs_at_cut": [
+  -73.1,
+  -73.4
+ ],
+ "word_audio_s": 0.4591,
+ "lead_tail_silence_s": [
+  0.21,
+  0.333
+ ],
+ "gain_db": 5.67,
+ "peak_dbfs_after": -7.21,
+ "level_to": "word-book/audio/words/door.m4a",
+ "out": "word-book/qa/2026-09-29-jk-variants/audio/door.entrance-panel.carriercut.m4a",
+ "master": "word-book/audio-source/word-candidates/door.entrance-panel.carrier-phrase.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  36.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  -30.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}

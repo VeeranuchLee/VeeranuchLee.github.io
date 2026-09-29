@@ -1,0 +1,71 @@
+{
+ "sense": "kayak.small-paddled-boat",
+ "word": "kayak",
+ "sentence": "Dad paddles a yellow kayak on the lake.",
+ "char_span": [
+  21,
+  26
+ ],
+ "word_index": 4,
+ "words_in_sentence": 8,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  1.138,
+  1.474
+ ],
+ "neighbours_s": {
+  "previous_char_end": 1.068,
+  "next_char_start": 1.544
+ },
+ "energy_dbfs_at_raw_edges": [
+  -34.6,
+  -69.5
+ ],
+ "quietest_near_start": {
+  "t": 1.113,
+  "dbfs": -67.9
+ },
+ "quietest_near_end": {
+  "t": 1.4715,
+  "dbfs": -71.3
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "dip"
+ ],
+ "cut_s": [
+  1.0854,
+  1.479
+ ],
+ "edge_shift_ms_vs_raw": [
+  -52.6,
+  5.0
+ ],
+ "energy_dbfs_at_cut": [
+  -45.2,
+  -43.6
+ ],
+ "word_audio_s": 0.3936,
+ "lead_tail_silence_s": [
+  0.185,
+  0.445
+ ],
+ "gain_db": 1.82,
+ "peak_dbfs_after": -2.46,
+ "level_to": "word-book/audio/words/kayak.m4a",
+ "out": "word-book/qa/2026-09-29-jk-variants/audio/kayak.small-paddled-boat.sentcut.m4a",
+ "master": "word-book/audio-source/sentences/kayak.small-paddled-boat.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  23.5,
+  6.0
+ ],
+ "soft_move_ms": [
+  -17.5,
+  0.0
+ ],
+ "flags": []
+}

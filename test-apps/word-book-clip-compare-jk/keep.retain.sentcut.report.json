@@ -1,0 +1,78 @@
+{
+ "sense": "keep.retain",
+ "word": "keep",
+ "sentence": "I keep my favourite drawings in a folder.",
+ "char_span": [
+  2,
+  6
+ ],
+ "word_index": 1,
+ "words_in_sentence": 8,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.209,
+  0.418
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.093,
+  "next_char_start": 0.488
+ },
+ "energy_dbfs_at_raw_edges": [
+  -63.1,
+  -44.7
+ ],
+ "quietest_near_start": {
+  "t": 0.2165,
+  "dbfs": -72.3
+ },
+ "quietest_near_end": {
+  "t": 0.4305,
+  "dbfs": -62.8
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "dip"
+ ],
+ "cut_s": [
+  0.1889,
+  0.4332
+ ],
+ "edge_shift_ms_vs_raw": [
+  -20.1,
+  15.2
+ ],
+ "energy_dbfs_at_cut": [
+  -45.7,
+  -46.9
+ ],
+ "word_audio_s": 0.2443,
+ "lead_tail_silence_s": [
+  0.035,
+  0.049
+ ],
+ "gain_db": 10.7,
+ "peak_dbfs_after": -3.64,
+ "level_to": "word-book/audio/words/keep.m4a",
+ "out": "word-book/qa/2026-09-29-jk-variants/audio/keep.retain.sentcut.m4a",
+ "master": "word-book/audio-source/sentences/keep.retain.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  23.5,
+  6.0
+ ],
+ "soft_move_ms": [
+  -17.5,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "unreleased-stop",
+   "why": "ends in a stop before 'my' (a consonant): usually unreleased in connected speech",
+   "release_measured": true,
+   "measurement": "release at 0.296 s (-22 dBFS over a -38 dBFS closure)"
+  }
+ ]
+}
