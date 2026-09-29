@@ -1,6 +1,11 @@
 import {BalanceConfig as C} from './balance-config.js';
-const pos={A1:[0,0],A3:[1,0],A9:[2,0],A27:[3,0],A81:[4,0],A243:[0,1],A729:[1,1],A2187:[2,1],A6561:[3,1],B1:[0,2],B3:[1,2],B9:[2,2],B27:[3,2],Wsmall:[4,2],Wlarge:[0,3]};
-export function tileHTML(t,extra=''){if(!t)return '';const k=t.family+t.tier,[x,y]=pos[k]||[0,0],family=t.family==='A'?'family-a':t.family==='B'?'family-b':'family-waste';return `<span class="tile ${family} ${extra}" style="--x:${x};--y:${y}"><b>${t.family==='W'?'':t.tier}</b></span>`}
+// Keys are family+tier using the SAME tier value the game stores on the tile
+// (BalanceConfig.familyA/.familyB digit strings — Family B's are Thai
+// numerals, not "1"/"3"/"9"/"27"). A key that doesn't match the live tier
+// value silently falls back to [0,0], i.e. the Family-A tier-1 cell, which is
+// how a Family-B tile previously rendered inside the square Family-A frame.
+const pos={A1:[0,0],A3:[1,0],A9:[2,0],A27:[3,0],A81:[4,0],A243:[0,1],A729:[1,1],A2187:[2,1],A6561:[3,1],'B๑':[0,2],'B๓':[1,2],'B๙':[2,2],'B๒๗':[3,2],Wsmall:[4,2],Wlarge:[0,3]};
+export function tileHTML(t,extra=''){if(!t)return '';const k=t.family+t.tier,[x,y]=pos[k]||[0,0],family=t.family==='A'?'family-a':t.family==='B'?'family-b':'family-waste';return `<span class="tile ${family} ${extra}" data-family="${t.family}" data-tier="${t.tier}" data-pos="${x},${y}" style="--x:${x};--y:${y}"><b>${t.family==='W'?'':t.tier}</b></span>`}
 export class Renderer{
   constructor(app){this.a=app;this.board=document.querySelector('#board')}
   mergeReady(){const s=this.a.s,t=this.a.q.active,out=new Set;if(!t||!['A','B'].includes(t.family))return out;for(let i=0;i<s.board.length;i++){if(s.board[i])continue;const same=this.a.r.neighbors(i).filter(n=>s.board[n]?.family===t.family&&s.board[n]?.tier===t.tier);if(same.length<2)continue;const connected=new Set;for(const n of same)this.a.r.component(n,x=>x?.family===t.family&&x?.tier===t.tier).forEach(x=>connected.add(x));if(connected.size>=2)connected.forEach(x=>out.add(x))}return out}
