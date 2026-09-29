@@ -1,0 +1,76 @@
+{
+ "sense": "garage.car-building",
+ "word": "garage",
+ "sentence": "Dad parks the car in the garage.",
+ "char_span": [
+  25,
+  31
+ ],
+ "word_index": 6,
+ "words_in_sentence": 7,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  1.289,
+  1.788
+ ],
+ "neighbours_s": {
+  "previous_char_end": 1.254,
+  "next_char_start": 1.788
+ },
+ "energy_dbfs_at_raw_edges": [
+  -41.8,
+  -38.1
+ ],
+ "quietest_near_start": {
+  "t": 1.2765,
+  "dbfs": -65.6
+ },
+ "quietest_near_end": {
+  "t": 1.818,
+  "dbfs": -56.5
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  1.2657,
+  1.8607
+ ],
+ "edge_shift_ms_vs_raw": [
+  -23.3,
+  72.7
+ ],
+ "energy_dbfs_at_cut": [
+  -47.0,
+  -64.2
+ ],
+ "word_audio_s": 0.5951,
+ "lead_tail_silence_s": [
+  0.11,
+  0.273
+ ],
+ "gain_db": 2.1,
+ "peak_dbfs_after": -4.57,
+ "level_to": "word-book/audio/words/garage.m4a",
+ "out": "word-book/qa/2026-09-29-gh-variants/audio/garage.car-building.sentcut.m4a",
+ "master": "word-book/audio-source/sentences/garage.car-building.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  13.5,
+  36.0
+ ],
+ "soft_move_ms": [
+  -7.5,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}

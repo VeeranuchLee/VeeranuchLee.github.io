@@ -1,0 +1,71 @@
+{
+ "sense": "half.one-of-two-equal-parts",
+ "word": "half",
+ "sentence": "Half of the ten paper stars are blue.",
+ "char_span": [
+  0,
+  4
+ ],
+ "word_index": 0,
+ "words_in_sentence": 8,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.0,
+  0.255
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.0,
+  "next_char_start": 0.313
+ },
+ "energy_dbfs_at_raw_edges": [
+  -180.0,
+  -28.5
+ ],
+ "quietest_near_start": {
+  "t": 0.0,
+  "dbfs": -180.0
+ },
+ "quietest_near_end": {
+  "t": 0.2875,
+  "dbfs": -35.1
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip",
+  "gap-min"
+ ],
+ "cut_s": [
+  0.0,
+  0.2875
+ ],
+ "edge_shift_ms_vs_raw": [
+  0.0,
+  32.5
+ ],
+ "energy_dbfs_at_cut": [
+  -180.0,
+  -35.1
+ ],
+ "word_audio_s": 0.2875,
+ "lead_tail_silence_s": [
+  0.02,
+  0.24
+ ],
+ "gain_db": 1.61,
+ "peak_dbfs_after": -4.03,
+ "level_to": "word-book/audio/words/half.m4a",
+ "out": "word-book/qa/2026-09-29-gh-variants/audio/half.one-of-two-equal-parts.sentcut.m4a",
+ "master": "word-book/audio-source/sentences/half.one-of-two-equal-parts.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  6.0,
+  40.0
+ ],
+ "soft_move_ms": [
+  -0.0,
+  0.0
+ ],
+ "flags": []
+}

@@ -1,0 +1,76 @@
+{
+ "sense": "gardener.occupation",
+ "word": "gardener",
+ "sentence": "The gardener waters the young trees.",
+ "char_span": [
+  4,
+  12
+ ],
+ "word_index": 1,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.209,
+  0.546
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.151,
+  "next_char_start": 0.604
+ },
+ "energy_dbfs_at_raw_edges": [
+  -25.0,
+  -23.7
+ ],
+ "quietest_near_start": {
+  "t": 0.1965,
+  "dbfs": -46.9
+ },
+ "quietest_near_end": {
+  "t": 0.571,
+  "dbfs": -34.1
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "gap-min"
+ ],
+ "cut_s": [
+  0.1939,
+  0.5719
+ ],
+ "edge_shift_ms_vs_raw": [
+  -15.1,
+  25.9
+ ],
+ "energy_dbfs_at_cut": [
+  -45.7,
+  -33.5
+ ],
+ "word_audio_s": 0.378,
+ "lead_tail_silence_s": [
+  0.195,
+  0.398
+ ],
+ "gain_db": -3.81,
+ "peak_dbfs_after": -7.62,
+ "level_to": "word-book/audio/words/gardener.m4a",
+ "out": "word-book/qa/2026-09-29-gh-variants/audio/gardener.occupation.sentcut.m4a",
+ "master": "word-book/audio-source/sentences/gardener.occupation.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  8.5,
+  40.0
+ ],
+ "soft_move_ms": [
+  -2.5,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -33.5 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}
