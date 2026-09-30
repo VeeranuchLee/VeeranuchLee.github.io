@@ -34,7 +34,7 @@ function melodyBeats(notes) {
   return notes.reduce((total, note) => total + note.d, 0);
 }
 
-/** [tonic, mode, beatsPerBar] */
+/** [tonic, mode, beatsPerBar, pickupBeats?] */
 const KEYS = {
   'ode-to-joy': ['C', 'major', 4],
   'fur-elise': ['A', 'minor', 1.5],
@@ -46,7 +46,10 @@ const KEYS = {
   'frere-jacques': ['C', 'major', 4],
   'row-row-row-your-boat': ['C', 'major', 3],
   'old-macdonald': ['G', 'major', 4],
-  bingo: ['G', 'major', 4],
+  // G major, 4/4, and the first note is a 1-beat pickup ("There"). Without the
+  // pickup the bass would start a beat early and every bar change would land
+  // between two melody notes, which is how it read before this was added.
+  bingo: ['G', 'major', 4, 1],
   'london-bridge': ['C', 'major', 4],
   'pop-goes-weasel': ['C', 'major', 3],
   'three-blind-mice': ['C', 'major', 4],
@@ -158,7 +161,7 @@ const KEYS = {
   'holst-mars': ['G', 'minor', 5]
 };
 
-function leftHand(totalBeats, tonic, mode, beatsPerBar) {
+function leftHand(totalBeats, tonic, mode, beatsPerBar, pickupBeats = 0) {
   const I = pitch(PC[tonic] ?? 0, 3);
   const V = addSemitones(I, 7);
   const IV = addSemitones(I, 5);
@@ -166,6 +169,16 @@ function leftHand(totalBeats, tonic, mode, beatsPerBar) {
   const notes = [];
   let t = 0;
   let bar = 0;
+  // A pickup is the tail of a bar that was never written down, so it gets a
+  // single root under the melody's first note and is NOT counted as a bar of the
+  // cycle: the first full bar still starts on cycle[0]. BINGO prints its pickup
+  // as a plain quarter, and without this the bass changed chord one beat ahead of
+  // the words ("There" got the downbeat's chord, "was" did not).
+  if (pickupBeats > 0) {
+    const pickup = Math.min(pickupBeats, totalBeats);
+    notes.push({ n: cycle[0], d: pickup });
+    t += pickup;
+  }
   while (t < totalBeats - 1e-9) {
     const barLen = Math.min(beatsPerBar, totalBeats - t);
     const root = cycle[bar % 4];
@@ -188,16 +201,18 @@ function leftHand(totalBeats, tonic, mode, beatsPerBar) {
 }
 
 export function buildPianoScore(melodyScore, spec) {
-  const [tonic, mode, beatsPerBar] = spec;
+  const [tonic, mode, beatsPerBar, pickupBeats = 0] = spec;
   const total = melodyBeats(melodyScore.notes);
   return {
     tempo: melodyScore.tempo,
     verified: false,
     sourceType: 'derived-piano-reduction',
-    sourceReference: `Two-hand teaching reduction: right hand is the catalogue melody; left hand is a root–fifth bass in ${tonic} ${mode}, ${beatsPerBar} beats to the bar. Not a concert edition.`,
+    sourceReference: `Two-hand teaching reduction: right hand is the catalogue melody; left hand is a root–fifth bass in ${tonic} ${mode}, ${beatsPerBar} beats to the bar` +
+      (pickupBeats ? ` after a ${pickupBeats}-beat pickup, which carries the first chord without counting as a bar` : '') +
+      '. Not a concert edition.',
     tracks: [
       { id: 'right-hand', notes: melodyScore.notes, gain: 1 },
-      { id: 'left-hand', notes: leftHand(total, tonic, mode, beatsPerBar), gain: 0.42 }
+      { id: 'left-hand', notes: leftHand(total, tonic, mode, beatsPerBar, pickupBeats), gain: 0.42 }
     ]
   };
 }

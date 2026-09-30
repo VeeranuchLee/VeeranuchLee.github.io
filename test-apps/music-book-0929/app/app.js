@@ -11,6 +11,7 @@ import { speakTitle, stopTitle, configureTitles } from './titles.js';
 import { configureLearnMore, placeMeaningBubble, roomClipId, roomScript, speakLearnMore, stopLearnMore, vocabClipId, vocabMeaning } from './learnmore.js';
 import { createChapter } from './read-together.js';
 import { renderPlayroom, leavePlayroom, PITCHES, NOTE_COLORS, BLACK_KEYS, BLACK_COLORS } from './playroom.js';
+import { CATALOGUE_TO_PLAYALONG } from '../data/playalong-songs.js';
 
 const engine = new AudioEngine();
 const player = new Player(engine);
@@ -608,6 +609,11 @@ function renderRoom() {
   const hasBass = pieces.some((p) => p.piano);
   const roomMode = hasBass ? (roomModes.get(room.id) || 'melody') : 'melody';
 
+  // Which of this room's songs have a play-along arrangement on the toy keyboard.
+  const roomPlayalongIds = room.pieceIds
+    .map((pid) => CATALOGUE_TO_PLAYALONG[pid])
+    .filter(Boolean);
+
   stage.className = 'stage stage--room';
   // With a painting the focus is its own; without one the position goes back
   // to the stylesheet, whose `center` is exactly what the wing wash has always
@@ -629,6 +635,7 @@ function renderRoom() {
             </button>
           </div>
           <div class="guide-badge"><img src="${c.art}" alt=""><span>${c.name}</span></div>
+          ${roomPlayalongIds.length ? `<button class="toy-bubble toy-bubble--room" data-go="playroom" aria-label="Toy Piano">${toyKeysFaceMarkup()}</button>` : ''}
         </div>
       </div>
 
@@ -969,7 +976,7 @@ function go(view) {
     // Sets currentView first, so the atmosphere stopPiece() restores is the
     // room's own: page tune stopped, nothing started.
     stopPiece();
-    renderPlayroom({ stage, engine, player, journeyCompanionId: journey.companionId });
+    renderPlayroom({ stage, engine, player, journeyCompanionId: journey.companionId, roomId: journey.roomId });
   }
 }
 

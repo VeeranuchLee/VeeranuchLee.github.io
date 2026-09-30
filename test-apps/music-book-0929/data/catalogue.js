@@ -609,39 +609,47 @@ export const PIECES = [
     featured: false,
     playbackMode: 'full',
     tuneFamilyId: 'bingo-family',
+    // Read note by note from three published scores on 2026-09-29, not written
+    // from memory: itsybitsykidsmusic's 2018 sheet and Mother Goose Club's 2010
+    // edition are note-for-note identical, and SongsForTeaching's 2008 edition
+    // differs only in bar 1. The previous line in this file was not the tune —
+    // it spelled the letters on repeated G4s that no printed edition contains —
+    // which is what the melody audit found. One bar per line, because the
+    // 1-beat pickup and the short final bar are both real and both load-bearing.
+    // `verified` stays false: the reading is well corroborated but it is a
+    // reading of notation, not a verification, and every traditional entry here
+    // keeps that flag false. Full sources, method and confidence:
+    // curation/2026-09-29-bingo-transcription.md.
+    //
+    // Bar 12 sums to three beats. All three editions print a half note plus a
+    // quarter there and stop, so that is reproduced rather than "corrected".
     full: {
       tempo: 112,
       verified: false,
       sourceType: 'traditional',
-      sourceReference: 'Traditional children’s song, first complete verse in G major (letters still sung, not yet clapped away); own transcription',
+      sourceReference: 'Traditional children’s song, first complete verse in G major with a 1-beat pickup, every letter sung (not yet clapped away); transcribed note-by-note 2026-09-29 from three published scores — itsybitsykidsmusic 2018 and Mother Goose Club 2010 agree note for note, SongsForTeaching 2008 differs only in bar 1. Sources, method and confidence: curation/2026-09-29-bingo-transcription.md',
       notes: [
-        { n: 'G4', d: 1 }, { n: 'G4', d: 1 }, { n: 'G4', d: 1 },
-        { n: 'D4', d: 1 }, { n: 'D4', d: 1 }, { n: 'D4', d: 1 },
-        { n: 'E4', d: 1 }, { n: 'E4', d: 1 }, { n: 'E4', d: 1 }, { n: 'D4', d: 1 },
-        { n: 'B4', d: 1 }, { n: 'B4', d: 1 }, { n: 'A4', d: 1 }, { n: 'A4', d: 1 },
-        { n: 'G4', d: 2 },
-        { n: 'G4', d: 1 }, { n: 'G4', d: 1 }, { n: 'G4', d: 2 },
-        { n: 'G4', d: 1 }, { n: 'G4', d: 1 }, { n: 'G4', d: 2 },
-        { n: 'G4', d: 1 }, { n: 'G4', d: 1 }, { n: 'G4', d: 2 },
-        { n: 'D4', d: 1 }, { n: 'D4', d: 1 }, { n: 'D4', d: 2 },
-        { n: 'E4', d: 1 }, { n: 'E4', d: 1 }, { n: 'D4', d: 2 },
-        { n: 'G4', d: 1 }, { n: 'G4', d: 1 }, { n: 'G4', d: 2 },
-        { n: 'G4', d: 1 }, { n: 'G4', d: 1 }, { n: 'G4', d: 2 },
-        { n: 'G4', d: 1 }, { n: 'G4', d: 1 }, { n: 'G4', d: 2 },
-        { n: 'D4', d: 1 }, { n: 'D4', d: 1 }, { n: 'D4', d: 2 },
-        { n: 'E4', d: 1 }, { n: 'E4', d: 1 }, { n: 'D4', d: 2 },
-        { n: 'G4', d: 1 }, { n: 'G4', d: 1 }, { n: 'G4', d: 2 },
-        { n: 'G4', d: 1 }, { n: 'G4', d: 1 }, { n: 'G4', d: 2 },
-        { n: 'G4', d: 1 }, { n: 'G4', d: 1 }, { n: 'G4', d: 2 },
-        { n: 'D4', d: 1 }, { n: 'D4', d: 1 }, { n: 'D4', d: 2 },
-        { n: 'E4', d: 1 }, { n: 'E4', d: 1 }, { n: 'D4', d: 2 },
-        { n: 'B4', d: 1 }, { n: 'B4', d: 1 }, { n: 'A4', d: 1 }, { n: 'A4', d: 1 },
-        { n: 'G4', d: 2 }
+        { n: 'D4', d: 1 },
+        { n: 'G4', d: 1 }, { n: 'G4', d: 1 }, { n: 'D4', d: 1 }, { n: 'D4', d: 1 },
+        { n: 'E4', d: 1 }, { n: 'E4', d: 1 }, { n: 'D4', d: 1 }, { n: 'D4', d: 1 },
+        { n: 'G4', d: 1 }, { n: 'G4', d: 1 }, { n: 'A4', d: 1 }, { n: 'A4', d: 1 },
+        { n: 'B4', d: 2 }, { n: 'G4', d: 2 },
+        { n: 'B4', d: 2 }, { n: 'B4', d: 2 },
+        { n: 'C5', d: 1 }, { n: 'C5', d: 1 }, { n: 'C5', d: 2 },
+        { n: 'A4', d: 2 }, { n: 'A4', d: 2 },
+        { n: 'B4', d: 1 }, { n: 'B4', d: 1 }, { n: 'B4', d: 2 },
+        { n: 'G4', d: 2 }, { n: 'G4', d: 2 },
+        { n: 'A4', d: 1 }, { n: 'A4', d: 1 }, { n: 'A4', d: 1 }, { n: 'G4', d: 1 },
+        { n: 'F#4', d: 1 }, { n: 'D4', d: 1 }, { n: 'E4', d: 1 }, { n: 'F#4', d: 1 },
+        { n: 'G4', d: 2 }, { n: 'G4', d: 1 }
       ]
     },
     info: {
       shortDescription: 'A farmer’s dog whose name is spelled out loud.',
-      listenFor: 'The spelled letters sit on the same three notes, over and over.',
+      // Rewritten with the melody: the old line described the repeated G4s that
+      // the audit found were not the tune. Each letter now has its own note, and
+      // each time the name comes back it starts a step lower.
+      listenFor: 'Each letter of the name is sung on its own note, and the name comes back three times, a step lower each time.',
       whyItMatters: 'Later verses clap a letter away. The first time through, every letter is still sung.',
       guideDialogue: [
         { speaker: 'curious', line: 'B-I-N-G-O!' },
