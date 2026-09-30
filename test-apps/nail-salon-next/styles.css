@@ -1,0 +1,183 @@
+:root{font-family:Nunito,"Avenir Next",system-ui,sans-serif;color:#60446f;background:#ffdce9;touch-action:manipulation;--panel:#fff9fd;--pink:#f753a8;--purple:#8a71ed;--blue:#56bde9}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;touch-action:manipulation}
+body{min-height:100svh;background:#f8cade;overflow-x:hidden}
+.app{width:min(100%,1100px);min-height:100svh;margin:auto;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(380px,1fr) auto;padding:max(10px,env(safe-area-inset-top)) 12px max(10px,env(safe-area-inset-bottom));gap:8px}
+.topbar{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:3}
+.logo{display:flex;align-items:center;gap:5px;transform:rotate(-2deg);text-shadow:0 2px #fff}
+.logo span{font-size:36px}
+.logo b,.logo em{font-size:clamp(24px,4vw,42px);font-style:normal;color:#ed4e9c}
+.logo em{color:#8265e7}
+.actions{display:flex;gap:8px}
+.action,.tabs button,.choice{border:0;font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.action{width:64px;height:64px;border-radius:22px;color:white;font-weight:900;font-size:29px;border:3px solid #fff;box-shadow:0 5px 12px #99547838;display:grid;place-items:center;line-height:1}
+.action small{font-size:13px;margin-top:-9px}
+.action:active,.choice:active,.tabs button:active{transform:scale(.94)}
+.action:disabled{opacity:.45}
+.pink{background:linear-gradient(#ff70bd,#e93c95)}
+.purple{background:linear-gradient(#a895ff,#7961db)}
+.blue{background:linear-gradient(#75d4f4,#3aaad8)}
+.gold{background:linear-gradient(#ffd876,#f2a23d)}
+/* Music toggle's off state: dimmed and desaturated, same treatment the other apps'
+   note button uses, plus the <small> label swaps text (Music/Off) so the state reads
+   even without colour. A silent control that looks the same on and off is a defect. */
+.action.music-off{opacity:.5;filter:grayscale(.7)}
+.salon-stage{position:relative;min-height:0;min-width:0;display:grid;grid-template-rows:minmax(0,1fr);grid-template-columns:minmax(0,1fr);place-items:center;border-radius:38px;background:url("./assets/art/salon-portrait.webp") center/cover no-repeat;overflow:hidden;border:3px solid #fff8;box-shadow:inset 0 -30px 60px #f9acd333,0 8px 24px #a15d8230}
+.salon-stage:before,.salon-stage:after{content:"";position:absolute;border-radius:50%;background:#fff8;filter:blur(2px)}
+.salon-stage:before{width:170px;height:170px;left:-50px;top:-50px}
+.salon-stage:after{width:120px;height:120px;right:-20px;top:30px}
+.sparkles{position:absolute;top:12%;left:8%;font-size:35px;color:white;text-shadow:180px 65px #fff,480px 10px #fff;z-index:2}
+#handSvg{width:min(97%,650px);height:100%;max-height:610px;overflow:visible;touch-action:manipulation;filter:drop-shadow(0 10px 12px #8c4c7040)}
+.painted-hand{pointer-events:none}
+.nail-hit{fill:transparent;stroke:transparent;stroke-width:18;cursor:pointer;pointer-events:stroke fill}
+.nail-base{stroke:none;filter:drop-shadow(0 1px 1px #7c405a45)}
+.nail-rim{fill:none;stroke:#8e4f696b;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.nail-selected{fill:none;stroke:#68dff4;stroke-width:4;stroke-linejoin:round;filter:drop-shadow(0 0 5px #fff);animation:pulse 1.3s ease-in-out infinite}
+.nail-shine{fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;opacity:.46;pointer-events:none}
+.nail-pattern{pointer-events:none}
+.decoration{pointer-events:none;filter:drop-shadow(0 2px 2px #843d6266)}
+@keyframes pulse{50%{stroke-width:6;opacity:.62}
+}
+.tap-burst{position:absolute;font-size:38px;color:#fff;opacity:0;pointer-events:none;text-shadow:0 0 9px #ef4da8}
+.tap-burst.go{animation:burst .4s ease-out}
+@keyframes burst{0%{opacity:1;transform:scale(.4)}
+100%{opacity:0;transform:scale(1.8) rotate(35deg)}
+}
+.studio{position:relative;z-index:4;min-width:0}
+.tabs{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;overscroll-behavior-inline:contain}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{min-height:64px;border-radius:22px 22px 8px 8px;background:linear-gradient(#fff,#eee4ff);box-shadow:inset 0 0 0 3px #fff,0 -2px 9px #8f6ab333;color:#68548c;font-weight:900;font-size:12px;display:flex;align-items:center;justify-content:center;gap:4px;flex-direction:column}
+.tabs button{flex:1 0 96px;min-width:96px}
+.tabs button span{font-size:25px}
+.tabs button span img{width:34px;height:34px;object-fit:contain}
+.tabs button.active{background:linear-gradient(#ff75bd,#f344a1);color:white;transform:translateY(-3px)}
+.tray{min-height:116px;background:#fff9fd;border:3px solid #fff;border-radius:24px;box-shadow:0 7px 22px #964b8030;padding:10px;display:flex;align-items:center;gap:10px;overflow-x:auto;scrollbar-width:none}
+.tray.tray--pattern{display:flex;flex-direction:column;gap:8px;overflow-x:visible}
+.tray.tray--pattern .pattern-choices{display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;flex:0 0 auto}
+.tray.tray--pattern .pattern-choices::-webkit-scrollbar{display:none}
+.tray::-webkit-scrollbar{display:none}
+.choice{flex:0 0 76px;height:82px;border-radius:18px;background:#f7eafa;box-shadow:inset 0 0 0 2px #fff,0 3px 8px #80516920;color:#6a4c7e;display:grid;place-items:center;padding:5px;font-size:28px;font-weight:900;position:relative}
+.choice.selected{outline:5px solid #ef5bab;background:#fff}
+.choice img{width:65px;height:65px;object-fit:contain}
+.choice img.finish-art{width:58px;height:70px}
+.choice small{font-size:10px;line-height:1}
+.polish-dot{width:50px;height:65px;border-radius:24px 24px 18px 18px;background:var(--color);box-shadow:inset 8px 4px 8px #fff7,inset -5px -5px 7px #703b6c22}
+.shape-icon{width:34px;height:59px;background:#ef91bb;border:2px solid #a85a7d;box-shadow:inset 5px 2px 6px #fff7;clip-path:polygon(12% 100%,4% 70%,5% 24%,12% 10%,25% 3%,75% 3%,88% 10%,95% 24%,96% 70%,88% 100%,62% 86%,38% 86%)}
+.shape-round{border-radius:50% 50% 18% 18%}
+.shape-square{border-radius:7px 7px 13px 13px;clip-path:polygon(15% 100%,5% 72%,5% 12%,13% 4%,87% 4%,95% 12%,95% 72%,85% 100%,62% 87%,38% 87%)}
+.shape-almond{border-radius:50% 50% 18% 18%;clip-path:polygon(50% 0,72% 13%,90% 38%,96% 72%,86% 100%,62% 87%,38% 87%,14% 100%,4% 72%,10% 38%,28% 13%)}
+.shape-oval{border-radius:50% 50% 18% 18%;clip-path:ellipse(48% 56% at 50% 48%)}
+.shape-long{height:70px}
+.pattern-icon{width:54px;height:65px;border-radius:23px;background-color:var(--base,#f38aae);border:3px solid white;box-shadow:inset 6px 3px 8px #fff6}
+.pattern-stripes{background:repeating-linear-gradient(45deg,var(--base) 0 9px,var(--pattern) 9px 15px)}
+.pattern-dots{background-color:var(--base);background-image:radial-gradient(var(--pattern) 25%,transparent 27%);background-size:17px 17px}
+.pattern-french{background:linear-gradient(#f1b5a6 65%,#fff 66%)}
+.pattern-hearts,.pattern-stars,.pattern-flowers,.pattern-moon-stars{background-color:var(--base);background-image:radial-gradient(circle at 35% 38%,var(--pattern) 0 6px,transparent 7px),radial-gradient(circle at 65% 65%,var(--pattern) 0 6px,transparent 7px)}
+.pattern-checks{background-color:var(--base);background-image:conic-gradient(var(--pattern) 25%,transparent 0 50%,var(--pattern) 0 75%,transparent 0);background-size:18px 18px}
+.pattern-rainbow{background:repeating-linear-gradient(45deg,#ff557d 0 7px,#ffc34d 7px 14px,#ffe75b 14px 21px,#55d7a2 21px 28px,#55aef1 28px 35px,#9b72e8 35px 42px)}
+.pattern-marble{background:radial-gradient(ellipse at 20% 30%,#fff 0 8%,transparent 10%),linear-gradient(135deg,var(--base),#c990df,#7ce0dc,var(--base))}
+.pattern-waves{background-color:var(--base);background-image:repeating-radial-gradient(ellipse at 0 0,transparent 0 8px,var(--pattern) 9px 12px)}
+.pattern-ombre{background:linear-gradient(#ff69ad,#9476ff)}
+.pattern-glitter-tip{background:linear-gradient(var(--pattern) 0 30%,var(--base) 32%)}
+.pattern-leopard{background-color:#e2ad68;background-image:radial-gradient(circle,#5b3a32 0 4px,#d8974d 5px 8px,transparent 9px);background-size:20px 20px}
+.pattern-colours{display:flex;gap:8px;align-items:center;padding:7px 10px;border-radius:20px;background:#eedcf4;width:100%;flex:0 0 auto}
+.pattern-colour{width:64px;height:64px;min-width:64px;border:3px solid white;border-radius:50%;background:var(--swatch);box-shadow:0 2px 6px #73516d55}
+.pattern-colour.selected{outline:4px solid #ef5bab}
+.pack-switcher{display:flex;gap:5px;align-self:stretch;padding-right:8px;border-right:3px solid #edd9eb;position:sticky;left:0;background:#fff9fd;z-index:2}
+.pack-switcher button{min-width:64px;width:64px;height:64px;align-self:center;border:3px solid white;border-radius:18px;background:#efe2f7;font-size:29px;flex:0 0 64px}
+.pack-switcher button.selected{outline:4px solid #ef5bab;background:#fff}
+.sparkle-choice{width:52px;height:68px;display:block;position:relative;overflow:hidden;border-radius:48% 48% 20% 20%;background:#ef7caf;border:2px solid #a65b80;box-shadow:inset 7px 3px 7px #fff7;font-style:normal}
+.sparkle-choice b{position:absolute;inset:0;display:block}
+.sparkle-none:after{content:"×";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:42px;text-shadow:0 2px 3px #9d557b}
+.sparkle-glitter b{background-image:radial-gradient(circle,#fff 0 .8px,transparent 1.4px),radial-gradient(circle,#fff4b0 0 1.2px,transparent 1.8px),radial-gradient(circle,#dffcff 0 .65px,transparent 1.2px);background-size:7px 8px,11px 13px,9px 10px;background-position:1px 2px,4px 7px,6px 1px}
+.sparkle-glitter b:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 25% 22%,#fff 0 1.7px,transparent 2.6px),radial-gradient(circle at 72% 38%,#fff 0 1.4px,transparent 2.2px),radial-gradient(circle at 42% 72%,#fff 0 1.7px,transparent 2.6px)}
+.sparkle-glints b{background:radial-gradient(circle at 28% 27%,#fff 0 2px,#fff8 3px,transparent 9px),radial-gradient(circle at 70% 52%,#fff 0 1.5px,#fff7 2.5px,transparent 8px),radial-gradient(circle at 42% 75%,#fff 0 1px,#fff6 2px,transparent 6px)}
+.sparkle-glints b:after{content:"";position:absolute;left:7px;top:18px;width:15px;height:1px;background:#fff;border-radius:50%;box-shadow:28px 17px 0 -0.2px #fff,8px 32px 0 -0.2px #fff;filter:drop-shadow(7px -7px 0 #fff) drop-shadow(14px 14px 0 #fff)}
+.sparkle-shine b:before{content:"";position:absolute;left:-22px;top:-5px;width:20px;height:80px;border-radius:50%;background:linear-gradient(90deg,transparent,#fff3,#fffd,#fff3,transparent);transform:rotate(10deg);animation:preview-shine 3.8s ease-in-out infinite}
+.sparkle-holo b{width:150%;left:-25%;background:linear-gradient(135deg,#ff7fb444,#fff2a855 22%,#7affe655 43%,#78cfff55 64%,#b58aff55 82%,#ff8ec744);mix-blend-mode:screen;animation:preview-holo 5.8s ease-in-out infinite}
+.topcoat{pointer-events:none}
+.glitter-texture{opacity:.86;mix-blend-mode:screen}
+.glitter-bright{fill:#fff;filter:drop-shadow(0 0 1.3px #fff)}
+.light-glint{transform-box:fill-box;transform-origin:center;animation:light-twinkle 3.2s ease-in-out infinite}
+.glint-2{animation-delay:-1.1s}.glint-3{animation-delay:-2.2s}
+.glint-halo{opacity:.75}.glint-flare{fill:none;stroke:#fff;stroke-width:.75;stroke-linecap:round;opacity:.95}
+.shine-band{mix-blend-mode:screen;animation:shine-drift 4.2s ease-in-out infinite}
+.holo-drift{mix-blend-mode:screen;animation:holo-drift 6s ease-in-out infinite}
+.holo-sheen{opacity:.72}.holo-light{fill:none;stroke:#fff;stroke-width:5;opacity:.2}
+@keyframes light-twinkle{0%,72%,100%{opacity:.48;transform:scale(.72)}78%,86%{opacity:1;transform:scale(1)}}
+@keyframes shine-drift{0%,15%{opacity:.5;transform:translateX(0)}50%,85%{opacity:.9;transform:translateX(190%)}}
+@keyframes holo-drift{0%,100%{opacity:.65;transform:translateX(-18%)}50%{opacity:.92;transform:translateX(18%)}}
+@keyframes preview-shine{0%,15%{opacity:.5;transform:translateX(0) rotate(10deg)}50%,85%{opacity:1;transform:translateX(84px) rotate(10deg)}}
+@keyframes preview-holo{0%,100%{opacity:.7;transform:translateX(-10%)}50%{opacity:1;transform:translateX(10%)}}
+.accessory-layer{display:inline;visibility:visible;opacity:1;pointer-events:none}
+.worn-accessory{display:inline;visibility:visible;opacity:1;pointer-events:none}
+.gem{width:50px;height:50px;clip-path:polygon(50% 0,90% 23%,78% 80%,50% 100%,22% 80%,10% 23%);background:linear-gradient(135deg,#fff 0 12%,var(--gem) 15% 55%,#fff 58% 65%,var(--gem) 70%);filter:drop-shadow(0 3px 2px #6d477066)}
+.gem-emerald{--gem:#42c891;clip-path:polygon(25% 5%,75% 5%,96% 35%,72% 94%,28% 94%,4% 35%);box-shadow:inset 0 0 0 5px #a9f5d2}
+.accessory{font-size:48px}
+.hint-chip{min-width:70px;grid-template-columns:repeat(2,12px);grid-template-rows:repeat(2,12px);gap:8px;align-content:center;justify-content:center}
+.decoration-pip{width:12px;height:12px;border-radius:50%;background:#ddcbe8;box-shadow:inset 0 1px 2px #795d9133,0 1px 0 #fff}
+.decoration-pip.filled{background:linear-gradient(135deg,#fff 0 12%,#f154a8 22% 58%,#9c72e8 68%);box-shadow:0 0 0 2px #fff,0 2px 4px #8e4b7a55}
+.feedback{animation:feedback .25s ease-out}
+@keyframes feedback{50%{filter:brightness(1.25)}
+}
+
+/* Clear All button */
+.action.clear{background:linear-gradient(#e86a96,#d8205d)}
+.action.clear.confirming{background:linear-gradient(#ffb35c,#ff9c20)}
+.action.clear.confirming small{font-size:11px}
+
+/* History drawer ("My nails") */
+.history-drawer{position:absolute;bottom:8px;left:50%;width:min(calc(100% - 20px),560px);transform:translateX(-50%);background:#fff9fdeb;border:3px solid #fff;border-radius:24px;box-shadow:0 7px 22px #964b8030;padding:6px 10px;display:none;align-items:center;gap:8px;z-index:5;overflow:hidden}
+.history-label{display:flex;align-items:center;gap:4px;font-weight:900;color:#60446f;flex:0 0 auto}
+.history-label span{font-size:22px}
+.history-label small{font-size:13px}
+.history-previews{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px}
+.history-previews::-webkit-scrollbar{display:none}
+.history-preview{width:64px;height:64px;min-width:64px;border:2px solid #fff;border-radius:14px;background:#f7eafa;box-shadow:inset 0 0 0 2px #fff;cursor:pointer;transition:transform .1s;flex:0 0 64px;padding:0}
+.history-preview:hover{transform:scale(1.08)}
+.history-preview:focus{outline:3px solid #ef5bab;outline-offset:2px}
+
+/* Accessory removal hit-area */
+.accessory-hit{fill:transparent;stroke:none;cursor:pointer;pointer-events:visibleFill}
+.accessory-hit:focus{outline:3px solid #ef5bab;outline-offset:2px}
+.accessory-lift{animation:accessoryLift 300ms ease-out forwards;pointer-events:none}
+@keyframes accessoryLift{to{opacity:0;transform:translateY(-12px)}}
+
+/* Shinier selection sparkle */
+.select-sparkle-burst{position:fixed;width:4px;height:4px;border-radius:50%;background:#ffd75f;box-shadow:0 0 8px #fff,0 0 12px #fff;pointer-events:none;z-index:20;animation:sparkleBurst 600ms ease-out}
+.select-glint-sweep{position:fixed;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.7) 50%,transparent);pointer-events:none;z-index:20;animation:glintSweep 600ms ease-out}
+.select-particle{position:fixed;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 4px #fff;pointer-events:none;z-index:21;animation:selectFloat 600ms ease-out}
+.select-glow{animation:selectGlow 700ms ease-out}
+@keyframes sparkleBurst{0%{width:4px;height:4px;opacity:1;transform:scale(.4);box-shadow:0 0 4px #fff}50%{transform:scale(1);opacity:.9;width:6px;height:6px}100%{width:8px;height:8px;opacity:0;transform:scale(2);box-shadow:0 0 12px #fff}}
+@keyframes glintSweep{0%{transform:translateX(0);opacity:0}5%{opacity:1}50%{transform:translateX(100%);opacity:.8}100%{opacity:0}}
+@keyframes selectFloat{0%{transform:translate(0,0);opacity:1}100%{transform:translate(var(--px),var(--py));opacity:0}}
+@keyframes selectGlow{0%{filter:drop-shadow(0 0 8px #fff)}70%{filter:drop-shadow(0 0 22px #fff) drop-shadow(0 0 14px #ffd75f)}100%{filter:drop-shadow(0 0 0 rgba(255,255,255,0))}}
+
+@media (orientation:landscape){.app{height:100svh;grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto;padding:8px;gap:6px}
+.topbar{position:absolute;top:8px;left:18px;right:18px;z-index:6;pointer-events:none}
+.topbar>*{pointer-events:auto}
+.salon-stage{grid-row:1;grid-column:1;background-image:url("./assets/art/salon-landscape.webp");border-radius:32px}
+.studio{grid-row:2;grid-column:1;display:block;min-width:0}
+.tabs{display:flex}
+.tabs button{min-height:64px;border-radius:18px 18px 7px 7px;flex-direction:row;font-size:11px}
+.tabs button span{font-size:22px}
+.tabs button span img{width:29px;height:29px}
+.tray{min-height:96px;height:auto;padding:7px 10px;flex-wrap:nowrap;overflow-x:auto;overflow-y:visible}
+.choice{flex-basis:70px;height:76px}
+#handSvg{width:min(100%,690px);height:100%;max-height:none}
+}
+
+@media (max-width:600px){.app{padding-left:6px;padding-right:6px}
+.logo em{display:none}
+.tabs button{font-size:0}
+.tabs button span{font-size:29px}
+.choice{flex-basis:70px}
+.tray{min-height:170px}
+.actions{flex-wrap:wrap;justify-content:flex-end;row-gap:6px}
+}
+
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important}
+.light-glint,.shine-band,.holo-drift,.sparkle-shine b:before,.sparkle-holo b{animation:none!important}
+.light-glint{opacity:.88;transform:none}.shine-band{opacity:.78;transform:translateX(90%)}.holo-drift{opacity:.82;transform:none}
+.select-glow{animation:none!important;filter:drop-shadow(0 0 8px #fff) drop-shadow(0 0 5px #ffd75f)}
+}
