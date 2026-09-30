@@ -42,11 +42,19 @@
       if (ctx && ctx.state === "suspended" && ctx.resume) ctx.resume();
     },
     tap: function () { note("triangle", 440, 0, 0, .08, .08); },
+    appear: function () {
+      note("sine", 330, 520, 0, .09, .045);
+      note("triangle", 660, 0, .045, .07, .035);
+    },
     correct: function () {
       note("triangle", 523.25, 783.99, 0, .16, .11);
       note("sine", 1046.5, 0, .12, .24, .06);
     },
     wrong: function () { note("sine", 220, 165, 0, .16, .09); },
+    streak: function () {
+      note("triangle", 659.25, 0, .08, .13, .055);
+      note("triangle", 880, 0, .16, .16, .05);
+    },
     missed: function () { note("sine", 196, 147, 0, .22, .055); },
     roundEnd: function () {
       [523.25, 659.25, 783.99].forEach(function (frequency, index) {

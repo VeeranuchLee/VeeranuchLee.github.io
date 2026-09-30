@@ -134,7 +134,7 @@
       ruleText: selectedTheme.rules[0].title,
       ruleHint: selectedTheme.rules[0].hint,
       roundLength: ROUND_LENGTH,
-      spawn: { mode: "single", visibleMs: 2200, gapMs: 300 },
+      spawn: { mode: "single", slots: [0, 1, 2, 3], visibleMs: 2200, gapMs: 300 },
       difficultyLevels: levels,
       scoring: { streak: true, basePoints: 10, streakStep: 2, maxStreakBonus: 10 },
       feedback: {
@@ -159,7 +159,11 @@
         colors: currentThemeKey === "space" ? ["#172b62", "#a9dcff"] : ["#f8d4e6", "#fff7ce"]
       },
       audio: {
-        correct: function () { Sound.correct(); },
+        show: function () { Sound.appear(); },
+        correct: function (payload) {
+          Sound.correct();
+          if (payload && payload.streak > 1 && payload.streak % 3 === 0) Sound.streak();
+        },
         wrong: function () { Sound.wrong(); },
         missed: function () { Sound.missed(); },
         roundEnd: function () { Sound.roundEnd(); }
@@ -228,20 +232,29 @@
   function renderStage(state) {
     dom.stage.replaceChildren();
     dom.stage.classList.remove("wrong-shake", "celebrate", "missed-float");
-    if (state.phase !== "showing" || !state.current) return;
-    state.current.items.forEach(function (entry) {
-      var button = document.createElement("button");
-      button.type = "button";
-      button.className = "tap-wait-item";
-      button.dataset.slot = String(entry.slot);
-      button.dataset.target = String(entry.target);
-      button.setAttribute("aria-label", entry.item.label);
-      button.appendChild(spriteNode(entry.item.id, entry.item.emoji, "tap-wait-item-sprite"));
-      button.addEventListener("click", function () {
-        Sound.unlock();
-        game.tap(entry);
-      });
-      dom.stage.appendChild(button);
+    var activeItems = state.phase === "showing" && state.current ? state.current.items : [];
+    [0, 1, 2, 3].forEach(function (slotIndex) {
+      var slot = document.createElement("div");
+      var entry = activeItems.find(function (candidate) { return candidate.slot === slotIndex; });
+      slot.className = "watch-slot" + (entry ? " occupied" : "");
+      if (!entry) {
+        slot.setAttribute("aria-label", "Empty slot");
+        slot.innerHTML = '<span class="slot-glow" aria-hidden="true"></span>';
+      } else {
+        var button = document.createElement("button");
+        button.type = "button";
+        button.className = "tap-wait-item";
+        button.dataset.slot = String(entry.slot);
+        button.dataset.target = String(entry.target);
+        button.setAttribute("aria-label", entry.item.label);
+        button.appendChild(spriteNode(entry.item.id, entry.item.emoji, "tap-wait-item-sprite"));
+        button.addEventListener("click", function () {
+          Sound.unlock();
+          game.tap(entry);
+        });
+        slot.appendChild(button);
+      }
+      dom.stage.appendChild(slot);
     });
   }
 

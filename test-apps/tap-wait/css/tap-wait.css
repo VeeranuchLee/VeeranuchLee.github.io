@@ -159,9 +159,11 @@ h2 { margin-bottom: 0; font-size: clamp(28px, 5vw, 48px); line-height: 1.05; }
 .rule-hint { flex: 1; color: var(--muted); font-size: 17px; }
 .progress { color: var(--pink-dark); font-size: 17px; white-space: nowrap; }
 .item-stage {
-  position: relative; min-height: 0; flex: 1; display: flex; align-items: center; justify-content: center;
-  gap: clamp(14px, 4vw, 42px); padding: 16px; border-radius: 30px;
-  background: rgba(255,255,255,.46); border: 3px dashed rgba(62,48,68,.12);
+  position: relative; width: min(680px, 100%); min-height: 0; flex: 1; align-self: center;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: clamp(10px, 2.2vw, 18px); padding: clamp(12px, 2.5vw, 20px); border-radius: 30px;
+  background: rgba(255,255,255,.56); border: 3px solid rgba(62,48,68,.14);
+  box-shadow: inset 0 -8px 0 rgba(62,48,68,.06), 0 7px 0 rgba(62,48,68,.1);
   touch-action: manipulation; overflow: hidden;
 }
 .item-stage.wrong-shake { animation: gentle-shake .34s ease-in-out; }
@@ -170,11 +172,25 @@ h2 { margin-bottom: 0; font-size: clamp(28px, 5vw, 48px); line-height: 1.05; }
 @keyframes gentle-shake { 0%,100%{transform:translateX(0)} 30%{transform:translateX(-7px)} 65%{transform:translateX(6px)} }
 @keyframes stage-pop { 50%{transform:scale(1.025);box-shadow:0 0 0 8px rgba(255,215,107,.35)} }
 @keyframes float-away { to { transform: translateY(-24px) scale(.92); opacity: .15; } }
+.watch-slot {
+  position: relative; min-width: 0; min-height: 88px; display: grid; place-items: center;
+  border: 3px solid rgba(62,48,68,.12); border-radius: 28px;
+  background: radial-gradient(ellipse at 50% 65%,rgba(91,61,102,.24),rgba(126,88,137,.08) 52%,rgba(255,255,255,.38) 54%);
+  box-shadow: inset 0 8px 14px rgba(62,48,68,.11), inset 0 -3px 0 rgba(255,255,255,.62);
+}
+body[data-theme="space"] .watch-slot {
+  border-color: rgba(169,220,255,.22);
+  background: radial-gradient(ellipse at 50% 65%,rgba(10,21,66,.55),rgba(32,55,116,.24) 52%,rgba(150,195,255,.11) 54%);
+}
+.slot-glow {
+  width: 32%; aspect-ratio: 1; border-radius: 50%; background: rgba(255,255,255,.24); box-shadow: 0 0 20px rgba(255,255,255,.3);
+}
 .tap-wait-item {
-  width: clamp(112px, 23vw, 190px); height: clamp(112px, 23vw, 190px); min-height: 112px; padding: 12px;
+  width: min(78%, 160px); height: min(78%, 160px); min-width: 88px; min-height: 88px; padding: 10px;
   display: grid; place-items: center; border: 4px solid rgba(255,255,255,.95); border-radius: 32px;
   background: var(--paper); box-shadow: 0 9px 0 var(--shadow), 0 15px 28px rgba(62,48,68,.12);
-  font-size: clamp(60px, 12vw, 112px); line-height: 1;
+  font-size: clamp(48px, 8vw, 88px); line-height: 1;
+  animation: item-appear .2s cubic-bezier(.2,.9,.25,1.2);
 }
 .tap-wait-item-label { pointer-events: none; }
 /* Painted sprites (Codex, 2026-09-26) replace the first-build emoji. The wrap
@@ -182,10 +198,11 @@ h2 { margin-bottom: 0; font-size: clamp(28px, 5vw, 48px); line-height: 1.05; }
    intercepts the tap and is never draggable. */
 .sprite-wrap { display: inline-flex; align-items: center; justify-content: center; line-height: 1; }
 .sprite-img { pointer-events: none; -webkit-user-drag: none; user-drag: none; }
-.tap-wait-item-sprite .sprite-img { width: clamp(60px, 12vw, 112px); height: clamp(60px, 12vw, 112px); object-fit: contain; }
+.tap-wait-item-sprite .sprite-img { width: clamp(48px, 8vw, 88px); height: clamp(48px, 8vw, 88px); object-fit: contain; }
 .rule-art-sprite .sprite-img, .rule-icon-sprite .sprite-img { width: 1em; height: 1em; object-fit: contain; }
 .tap-wait-item.is-tapped { animation: correct-bounce .42s ease-out; }
 @keyframes correct-bounce { 45%{transform:scale(1.16) rotate(3deg)} 100%{transform:scale(1)} }
+@keyframes item-appear { from{transform:translateY(12px) scale(.68);opacity:.15} }
 .feedback { min-height: 30px; flex: none; margin: 0; color: var(--muted); text-align: center; font-size: 18px; }
 #rule-text.pulse { animation: rule-pulse .42s ease-out; }
 @keyframes rule-pulse { 50%{color:var(--pink-dark);transform:scale(1.035)} }
