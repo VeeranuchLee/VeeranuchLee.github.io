@@ -1,12 +1,12 @@
 /* CACHE_NAME is the variable the release pipeline's reader expects (publish-app.sh stage 5
    matches /CACHE_NAME\s*=/), and bumping it is what arms a release. Do not rename it. */
 
-// v6 2026-09-26: zoom fix C (method C, owner-approved 2026-09-25) -- the shared
-// ./tap-zoom-guard.js stops the second quick tap's zoom and re-delivers the tap, while
-// a multi-finger pinch is never touched. It has to be IN this list, not merely fetched at
-// runtime: a shell list is only read when CACHE_NAME changes, so an offline install
-// without it would have no guard.
-const CACHE_NAME = 'shadow-matching-v6';
+// v7 2026-09-28: Tricky lookalikes are offered in every mode. app.js and measured mirror
+// eligibility changed, and tricky-families.json joins the shell so those cards remain
+// reachable when an installed iPad starts offline.
+// v8 2026-09-30: The Regular | Tricky switch appears in every mode (not just One at a time),
+// and the chosen level is shared across modes via LEVEL_KEY.
+const CACHE_NAME = 'shadow-matching-v8';
 
 /* The SHELL is the app and the roster -- everything needed to show the set picker. The
    OBJECT ART IS NOT PRECACHED: 100 objects at two images each is several megabytes, and a
@@ -14,7 +14,7 @@ const CACHE_NAME = 'shadow-matching-v6';
    is cache-first for same-origin GETs, so each shadow and picture is stored the first time
    it is actually shown. Same trade the hub beds and the dictionary pictures make. */
 const SHELL = ['./', './index.html', './tap-zoom-guard.js', './sound.js', './app.js', './styles.css',
-  './manifest.webmanifest', './asset-roster.json',
+  './manifest.webmanifest', './asset-roster.json', './tricky-families.json',
   /* 160 KB, and Memory mode cannot build a fair board without it. */
   './assets-runtime/silhouette-signatures.json',
   /* 6 KB. Without it Mirror Match is not offered, so an offline iPad must hold it. */

@@ -44,7 +44,7 @@ var SIGS = null;               /* silhouette signatures, for Memory's fairness r
 var MEM_MIN_DISTANCE = 0.15;   /* see the note above memChoosePairs */
 var $ = function (s, r) { return (r || document).querySelector(s); };
 var MIRROR = null;             /* measured mirror eligibility, for Mirror Match -- see below */
-var TRICKY = null;             /* the lookalike families, for Tricky only -- see lookalikeGroups() */
+var TRICKY = null;             /* the lookalike families -- see lookalikeGroups() */
 
 /* Regular | Tricky, kept the same way the speaker setting is: a plain localStorage read/write,
    each wrapped so blocked storage degrades to "this visit only" rather than a broken app.
@@ -193,10 +193,16 @@ function home() {
     if (!done) return '';
     return setCard(g, done);
   }).join('');
-  /* The lookalike families belong to Tricky alone, so their card is shown only there --
-     first, because they are what Tricky is now for. Regular, Board, Memory and Mirror never
-     see them. */
-  if (trickyFind()) cards = lookalikeGroups().map(function (g) { return setCard(g, g.items.length); }).join('') + cards;
+  /* The approved lookalike families are the Tricky choice in every mode. The Regular | Tricky
+     switch decides whether they appear in all four modes: Regular shows only the ten category
+     cards; Tricky shows the lookalike families for that mode. Mirror counts only measured
+     asymmetric items, because a symmetric shadow cannot have one fair exact-orientation answer. */
+  /* In One at a time, Tricky also makes the ten Regular sets harder (nearest-shape
+     distractors), so they stay listed under the lookalikes. The other modes have no harder
+     version of a Regular set, so Tricky there offers the lookalike families only. */
+  if (showLookalikes()) cards = lookalikeGroups().map(function (g) {
+    return setCard(g, playable(g).length);
+  }).join('') + (state.mode === 'find' ? cards : '');
   screen(
     '<header class="topline"><a class="hub" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games">&larr; All games</a>' +
     soundButton() + '</header>' +
@@ -209,14 +215,13 @@ function home() {
          offered at all, rather than offered and unable to start. */
       (MIRROR ? '<button class="mode' + (state.mode === 'mirror' ? ' on' : '') + '" data-mode="mirror">Mirror Match</button>' : '') +
     '</div>' +
-    /* Tricky belongs to "One at a time" only, so the choice is shown only there. Regular is
-       the default and is today's game exactly. */
-    (state.mode === 'find'
-      ? '<div class="levels" role="group" aria-label="How tricky">' +
-          '<button class="level' + (state.level === 'regular' ? ' on' : '') + '" data-level="regular" aria-pressed="' + (state.level === 'regular') + '">Regular</button>' +
-          '<button class="level' + (state.level === 'tricky' ? ' on' : '') + '" data-level="tricky" aria-pressed="' + (state.level === 'tricky') + '">Tricky</button>' +
-        '</div>'
-      : '') +
+    /* The Regular | Tricky switch chooses the difficulty in every mode. Regular shows only
+       the ten category cards; Tricky shows the lookalike families for that mode. Regular is
+       the default and is remembered across modes and visits via LEVEL_KEY. */
+    '<div class="levels" role="group" aria-label="How tricky">' +
+      '<button class="level' + (state.level === 'regular' ? ' on' : '') + '" data-level="regular" aria-pressed="' + (state.level === 'regular') + '">Regular</button>' +
+      '<button class="level' + (state.level === 'tricky' ? ' on' : '') + '" data-level="tricky" aria-pressed="' + (state.level === 'tricky') + '">Tricky</button>' +
+    '</div>' +
     '</section>' +
     '<section class="sets">' + cards + '</section>');
   wireSoundButton();
@@ -241,7 +246,7 @@ function setCard(g, n) {
 /* Where an object's pictures live: the hundred under ART, the lookalikes under their own. */
 function artOf(it) { return (it && it.art) || ART; }
 
-function trickyFind() { return state.mode === 'find' && state.level === 'tricky' && !!TRICKY; }
+function showLookalikes() { return !!TRICKY && state.level === 'tricky'; }
 
 /* THE LOOKALIKE FAMILIES (TRICKY-SET-PLAN.md, owner 2026-09-24: "for tricky, i think we need
    to make new set of images"). The hundred were drawn to be DIFFERENT, so no ranking of them
@@ -274,6 +279,29 @@ function lookalikeGroups() {
 
 function siblings(answer, pool) {
   return pool.filter(function (it) { return it.family === answer.family && it.id !== answer.id; });
+}
+
+/* Board and Memory keep their normal six-pair size. A lookalike card contains two families
+   of four, so dealing three from each puts several close siblings on the same board/grid;
+   a generic round-robin fallback keeps that invariant if a future card has another shape. */
+function trickyRoundItems(items, n) {
+  var byFamily = {}, families = [];
+  items.filter(function (it) { return it.status === 'complete'; }).forEach(function (it) {
+    if (!byFamily[it.family]) { byFamily[it.family] = []; families.push(it.family); }
+    byFamily[it.family].push(it);
+  });
+  families = shuffle(families);
+  families.forEach(function (id) { byFamily[id] = shuffle(byFamily[id]); });
+  var out = [], pass = 0;
+  while (out.length < n) {
+    var added = false;
+    for (var i = 0; i < families.length && out.length < n; i++) {
+      if (byFamily[families[i]][pass]) { out.push(byFamily[families[i]][pass]); added = true; }
+    }
+    if (!added) break;
+    pass++;
+  }
+  return out;
 }
 
 /* TRICKY: the same four choices, harder ones. Regular asks "which object is this?"; Tricky
@@ -324,6 +352,13 @@ function playable(g) {
 }
 
 function mirrorChoices(answer, pool) {
+  if (answer.family) {
+    return shuffle([{ id: answer.id, flip: false, art: artOf(answer) },
+      { id: answer.id, flip: true, art: artOf(answer) }].concat(
+      shuffle(siblings(answer, pool)).slice(0, 2).map(function (it) {
+        return { id: it.id, flip: Math.random() < 0.5, art: artOf(it) };
+      })));
+  }
   return shuffle([{ id: answer.id, flip: false }, { id: answer.id, flip: true }].concat(
     nearestOthers(answer, pool, 2).map(function (it) {
       return { id: it.id, flip: Math.random() < 0.5 };
@@ -432,9 +467,11 @@ function pick(btn, answer) {
 var BOARD_PAIRS = 6;
 
 function board() {
-  var items = shuffle(state.set.items.filter(function (it) {
+  var pool = state.set.items.filter(function (it) {
     return it.status === 'complete';
-  })).slice(0, BOARD_PAIRS);
+  });
+  var items = pool[0] && pool[0].family ? trickyRoundItems(pool, BOARD_PAIRS)
+    : shuffle(pool).slice(0, BOARD_PAIRS);
   state.queue = items;
   state.pairs = 0;
   state.pick = null;
@@ -454,11 +491,11 @@ function board() {
     '<section class="board">' +
       '<div class="col">' + left.map(function (it) {
         return '<button class="tile pic" data-id="' + it.id + '" aria-label="' + it.label + '">' +
-          '<img src="' + ART + it.id + '/picture.webp" alt=""></button>';
+          '<img src="' + artOf(it) + it.id + '/picture.webp" alt=""></button>';
       }).join('') + '</div>' +
       '<div class="col">' + right.map(function (it) {
         return '<button class="tile sh" data-id="' + it.id + '" aria-label="a shadow">' +
-          '<img src="' + ART + it.id + '/shadow.webp" alt=""></button>';
+          '<img src="' + artOf(it) + it.id + '/shadow.webp" alt=""></button>';
       }).join('') + '</div>' +
     '</section>');
 
@@ -691,7 +728,11 @@ function memDeal(pairs) {
 function memory() {
   memTimerAbandon();
   var pool = state.set.items.filter(function (it) { return it.status === 'complete'; });
-  var pairs = memChoosePairs(pool, MEM_PAIRS);
+  /* Regular Memory avoids confusing silhouettes. Tricky deliberately does the opposite:
+     several siblings from each family share one grid, so remembering "the fork" is not
+     enough without also reading its exact outline. */
+  var pairs = pool[0] && pool[0].family ? trickyRoundItems(pool, MEM_PAIRS)
+    : memChoosePairs(pool, MEM_PAIRS);
   state.mem = { cards: memDeal(pairs), faceUp: [], solved: {}, resolving: false, turns: 0,
                 solvedCount: 0, total: pairs.length,
                 timer: { startedAt: null, elapsedMs: 0, running: false, interval: null,
@@ -727,7 +768,8 @@ function paintCard(c) {
   if (!el) return;
   el.classList.add('up');
   el.setAttribute('aria-label', c.type === 'picture' ? c.label : 'a shadow');
-  el.innerHTML = '<img src="' + ART + c.pairId + '/' +
+  var item = state.set.items.filter(function (it) { return it.id === c.pairId; })[0];
+  el.innerHTML = '<img src="' + artOf(item) + c.pairId + '/' +
     (c.type === 'picture' ? 'picture' : 'shadow') + '.webp" alt="">';
 }
 
