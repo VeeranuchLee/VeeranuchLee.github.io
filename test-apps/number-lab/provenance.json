@@ -1,11 +1,24 @@
 {
-  "datePrepared": "2026-09-29",
-  "sourceCommit": "127f96f4",
-  "sourceBranch": "agent/number-lab-frames",
-  "purpose": "Owner review of the corrected Number Lab rare-piece visual code: A81 is fully frame-contained with brushed gold leaf, A243 is a faceted gem, A729 is crowned, A2187 uses ceremonial double rings, and A6561 uses pearl/rainbow enamel. Same-hue rare/common pairs pass a deterministic blurred-image-distance gate. Prepared on agent/number-lab-frames after controller review of 127f96f4.",
+  "datePrepared": "2026-09-30",
+  "sourceCommit": "(this branch)",
+  "sourceBranch": "agent/number-lab-sound",
+  "purpose": "Owner review of Number Lab sound on iPad: gesture-bound AudioContext unlock, audible synthesised arcade SFX and a quiet synthesised music loop (no audio files). Visuals unchanged from the accepted 127f96f4 candidate.",
   "included": {
-    "pages": ["index.html (number-lab-app/index.html)"],
-    "runtime": ["styles.css", "tap-zoom-guard.js (byte-identical to number-lab-app/tap-zoom-guard.js)", "js/app.js", "js/balance-config.js", "js/cpu-player.js", "js/game-state.js", "js/queue-engine.js", "js/renderer.js", "js/rules-engine.js", "js/shop-engine.js"],
+    "pages": [
+      "index.html (number-lab-app/index.html)"
+    ],
+    "runtime": [
+      "styles.css",
+      "tap-zoom-guard.js (byte-identical to number-lab-app/tap-zoom-guard.js)",
+      "js/app.js",
+      "js/balance-config.js",
+      "js/cpu-player.js",
+      "js/game-state.js",
+      "js/queue-engine.js",
+      "js/renderer.js",
+      "js/rules-engine.js",
+      "js/shop-engine.js"
+    ],
     "assets": "assets/tile-atlas.webp"
   },
   "selection": "Every file here is copied from number-lab-app/'s runtime ship list; service-worker.js is omitted and the registration call in index.html has been neutralised so the staged copy registers no service worker.",
