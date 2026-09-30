@@ -738,7 +738,7 @@
       var clipId = 'map-lens-' + index;
       var defs = svg.querySelector('defs');
       if (!defs) { defs = svgEl('defs'); svg.insertBefore(defs, svg.firstChild); }
-      var clip = svgEl('clipPath', { id: clipId });
+      var clip = svgEl('clipPath', { id: clipId, clipPathUnits: 'userSpaceOnUse' });
       clip.appendChild(svgEl('circle', { cx: lens.lx, cy: lens.ly, r: lens.lr - 8 }));
       defs.appendChild(clip);
       var group = svgEl('g', {
@@ -762,12 +762,14 @@
       group.appendChild(svgEl('circle', {
         cx: lens.lx, cy: lens.ly, r: lens.lr, class: 'lens-glass', 'data-id': lens.id
       }));
+      var art = svgEl('g', { 'clip-path': 'url(#' + clipId + ')', class: 'lens-art' });
       var outline = svgEl('path', {
         d: lens.d || entry.d,
         transform: 'translate(' + lens.lx + ' ' + lens.ly + ') scale(' + lens.s + ') translate(' + (-lens.fx) + ' ' + (-lens.fy) + ')',
-        'clip-path': 'url(#' + clipId + ')', class: 'lens-outline', 'data-id': lens.id
+        class: 'lens-outline', 'data-id': lens.id
       });
-      group.appendChild(outline);
+      art.appendChild(outline);
+      group.appendChild(art);
       stateNodes[lens.id].push(group);
       svg.appendChild(group);
     });
