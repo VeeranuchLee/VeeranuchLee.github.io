@@ -1,10 +1,14 @@
 {
-  "datePrepared": "2026-09-29",
-  "sourceCommit": "working tree agent/animal-farm-v3-layouts off 16463c410d5c655497006ba7d951c1cd68a864df",
-  "purpose": "Owner review of Animal Book Farm room v3 (FA-01): the owner's ChatGPT-generated plate, locally cleaned by Codex and fully remeasured, then cleaned up (no-guides made permanent in room.json, the top tag band moved clear of the back/sound buttons). Not yet publishable: narration has not been rendered for this room.",
+  "datePrepared": "2026-09-30",
+  "sourceCommit": "working tree agent/farm-tap-areas off origin/main 75c64164",
+  "purpose": "Owner review of Animal Book Farm room v3 (FA-01): the owner's ChatGPT-generated plate, locally cleaned by Codex and fully remeasured, then cleaned up (no-guides made permanent in room.json, the top tag band moved clear of the back/sound buttons). Not yet publishable: narration has not been rendered for this room. 2026-09-30: cow and beef-cattle tap areas corrected (cow = foreground Holstein, beef cattle = rear brown herd).",
   "included": {
-    "pages": ["index.html (animal-book/rooms/farm/page-13.html)"],
-    "runtime": ["tap-zoom-guard.js (byte-identical to maze-app/js/tap-zoom-guard.js)"],
+    "pages": [
+      "index.html (animal-book/rooms/farm/page-13.html)"
+    ],
+    "runtime": [
+      "tap-zoom-guard.js (byte-identical to maze-app/js/tap-zoom-guard.js)"
+    ],
     "assets": "The owner's Farm plate after Codex removed baked labels, farmer, cropped chicken, and the ox's incorrect udder (assets/page.webp). room.json's `guides` is now null (a supported, permanent no-guides state honoured by room-page.py/room-names.py/room-guides.py/validate_output) so a rebuild can no longer reintroduce the child-guide overlay."
   },
   "selection": "Every file here is the same one that ships in the private repository's animal-book/rooms/farm/, copied verbatim; no service worker is present.",
