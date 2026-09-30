@@ -138,13 +138,20 @@
     if(!handAnchors)return;
     const specs={
       'heart-ring':{anchor:'ringFingerBase',heightAnchor:'ringFingerBase',heightRatio:440/640,offsetY:0},
+      'flower-ring':{anchor:'ringFingerBase',heightAnchor:'ringFingerBase',heightRatio:440/640,offsetY:0},
+      'star-ring':{anchor:'ringFingerBase',heightAnchor:'ringFingerBase',heightRatio:440/640,offsetY:0},
+      'rainbow-band-ring':{anchor:'ringFingerBase',heightAnchor:'ringFingerBase',heightRatio:440/640,offsetY:0},
+      'gem-solitaire-ring':{anchor:'ringFingerBase',heightAnchor:'ringFingerBase',heightRatio:440/640,offsetY:0},
       'pearl-bracelet':{anchor:'wrist',heightAnchor:'wrist',heightRatio:440/640,offsetY:0},
       'friendship-thread-bracelet':{anchor:'wrist',heightAnchor:'wrist',heightRatio:440/640,offsetY:0},
+      'moon-star-charm-bracelet':{anchor:'wrist',heightAnchor:'wrist',heightRatio:440/640,offsetY:0},
+      'rainbow-bangle-bracelet':{anchor:'wrist',heightAnchor:'wrist',heightRatio:440/640,offsetY:0},
+      'daisy-chain-bracelet':{anchor:'wrist',heightAnchor:'wrist',heightRatio:440/640,offsetY:0},
       'pink-bow':{anchor:'upperWrist',heightAnchor:'wrist',heightRatio:400/640,offsetY:0}
     };
     Object.entries(specs).forEach(([id,spec])=>{
       if(!state.accessories.includes(id))return;
-      const a=handAnchors.anchors[spec.anchor].svg,coverage=accessoryMetrics.wrapCoverage[id],w=a.width/coverage.visibleSpanFraction,h=handAnchors.anchors[spec.heightAnchor].svg.width*spec.heightRatio,x=a.centreX-w/2,bandY=a.row+spec.offsetY,y=bandY-h*.43;
+      const a=handAnchors.anchors[spec.anchor].svg,coverage=accessoryMetrics.wrapCoverage[id],w=a.width/coverage.visibleSpanFraction,h=handAnchors.anchors[spec.heightAnchor].svg.width*spec.heightRatio,curved=coverage.splitRow!=null,x=curved?a.left-coverage.visibleLeft/640*w:a.centreX-w/2,bandY=a.row+spec.offsetY,y=bandY-h*(curved?coverage.splitRow/440:.43);
       const transform=`rotate(${a.bandAngleDegrees} ${a.centreX} ${bandY})`;
       const attrs={class:'worn-accessory',x,y,width:w,height:h,preserveAspectRatio:'none',transform,'data-accessory':id,'data-left':a.left,'data-right':a.right};
       accessoryBackLayer.append(el('image',{...attrs,href:`./assets/accessories/${id}-back.webp`,mask:'url(#handSkinMask)'}));
@@ -266,7 +273,10 @@
       [
         ['heart-ring','accessory-heart-ring'],['pink-bow','accessory-bow'],
         ['pearl-bracelet','accessory-pearl-bracelet'],
-        ['friendship-thread-bracelet','accessory-friendship-thread-bracelet']
+        ['friendship-thread-bracelet','accessory-friendship-thread-bracelet'],
+        ['flower-ring','accessory-flower-ring'],['star-ring','accessory-star-ring'],
+        ['rainbow-band-ring','accessory-rainbow-band-ring'],['gem-solitaire-ring','accessory-gem-solitaire-ring'],
+        ['moon-star-charm-bracelet','accessory-moon-star-charm-bracelet']
       ].forEach(([id,art])=>choice(`<img src="./assets/icons/${art}.webp" alt="">`,()=>S.setAccessories(state,id),state.accessories.includes(id),id));
     }
   }
