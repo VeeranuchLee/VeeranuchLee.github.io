@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Shadow Matching — Expert pilot review</title>
+<style>
+  :root{
+    --bg:#fbf3e6; --card:#ffffff; --ink:#241d16; --muted:#6b5f4e;
+    --accent:#2f6f68; --line:#e7dcc8; --shadowbg:#f3efe4;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;}
+  body{padding:16px 16px 48px;max-width:900px;margin:0 auto;}
+  a.back{display:inline-block;margin-bottom:14px;color:var(--accent);
+    text-decoration:none;font-weight:700;}
+  a.back:focus-visible{outline:3px solid var(--accent);outline-offset:3px;}
+  h1{font-size:22px;margin:0 0 4px;}
+  p.lede{color:var(--muted);margin:0 0 24px;font-size:14px;}
+  section.family{margin-bottom:36px;}
+  h2.family-title{font-size:18px;margin:0 0 2px;}
+  p.lookfor{margin:0 0 14px;font-size:14px;color:var(--accent);font-weight:700;}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+  @media (min-width:600px){.grid{grid-template-columns:repeat(4,1fr);}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:10px;text-align:center;}
+  .pair{display:flex;align-items:center;justify-content:center;gap:4px;}
+  .pair img{width:44%;max-width:120px;height:auto;display:block;}
+  .shadow-wrap{background:var(--shadowbg);border-radius:8px;padding:4px;}
+  .label{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.3;}
+  footer{margin-top:32px;font-size:12px;color:var(--muted);border-top:1px solid var(--line);
+    padding-top:12px;}
+</style>
+</head>
+<body>
+<a class="back" href="../">← Test Apps</a>
+<h1>Shadow Matching — Expert pilot review</h1>
+<p class="lede">Owner review only. Two families, sixteen objects: each picture beside its exact-alpha
+shadow. Not wired into the game yet — plan and full pairwise-distance table are in
+<code>shadow-matching-app/EXPERT-SET-PLAN.md</code> on branch <code>agent/shadow-expert</code>.</p>
+
+<section class="family">
+  <h2 class="family-title">Teapots</h2>
+  <p class="lookfor">Look for: Look at the spout shape and the little knob on top.</p>
+  <div class="grid">
+    <div class="card">
+      <div class="pair">
+        <img src="assets/expert-teapot-round-high-s/picture.webp" alt="Teapot with a round knob and a high S-curved spout">
+        <div class="shadow-wrap"><img src="assets/expert-teapot-round-high-s/shadow.webp" alt="Its shadow"></div>
+      </div>
+      <div class="label">Round knob + high S-spout</div>
+    </div>
+    <div class="card">
+      <div class="pair">
+        <img src="assets/expert-teapot-cone-high-straight/picture.webp" alt="Teapot with a cone knob and a high straight spout">
+        <div class="shadow-wrap"><img src="assets/expert-teapot-cone-high-straight/shadow.webp" alt="Its shadow"></div>
+      </div>
+      <div class="label">Cone knob + high straight spout</div>
+    </div>
+    <div class="card">
+      <div class="pair">
+        <img src="assets/expert-teapot-ball-low-s/picture.webp" alt="Teapot with a ball knob and a low S-curved spout">
+        <div class="shadow-wrap"><img src="assets/expert-teapot-ball-low-s/shadow.webp" alt="Its shadow"></div>
+      </div>
+      <div class="label">Ball knob + low S-spout</div>
+    </div>
+    <div class="card">
+      <div class="pair">
+        <img src="assets/expert-teapot-flat-low-straight/picture.webp" alt="Teapot with a flat knob and a low straight spout">
+        <div class="shadow-wrap"><img src="assets/expert-teapot-flat-low-straight/shadow.webp" alt="Its shadow"></div>
+      </div>
+      <div class="label">Flat knob + low straight spout</div>
+    </div>
+    <div class="card">
+      <div class="pair">
+        <img src="assets/expert-teapot-ring-short-upturned/picture.webp" alt="Teapot with a ring knob and a short upturned spout">
+        <div class="shadow-wrap"><img src="assets/expert-teapot-ring-short-upturned/shadow.webp" alt="Its shadow"></div>
+      </div>
+      <div class="label">Ring knob + short upturned spout</div>
+    </div>
+    <div class="card">
+      <div class="pair">
+        <img src="assets/expert-teapot-acorn-long-upturned/picture.webp" alt="Teapot with an acorn knob and a long upturned spout">
+        <div class="shadow-wrap"><img src="assets/expert-teapot-acorn-long-upturned/shadow.webp" alt="Its shadow"></div>
+      </div>
+      <div class="label">Acorn knob + long upturned spout</div>
+    </div>
+    <div class="card">
+      <div class="pair">
+        <img src="assets/expert-teapot-t-short-level/picture.webp" alt="Teapot with a T-shaped knob and a short level spout">
+        <div class="shadow-wrap"><img src="assets/expert-teapot-t-short-level/shadow.webp" alt="Its shadow"></div>
+      </div>
+      <div class="label">T-knob + short level spout</div>
+    </div>
+    <div class="card">
+      <div class="pair">
+        <img src="assets/expert-teapot-loop-long-level/picture.webp" alt="Teapot with a loop knob and a long level spout">
+        <div class="shadow-wrap"><img src="assets/expert-teapot-loop-long-level/shadow.webp" alt="Its shadow"></div>
+      </div>
+      <div class="label">Loop knob + long level spout</div>
+    </div>
+  </div>
+</section>
+
+<section class="family">
+  <h2 class="family-title">Keys</h2>
+  <p class="lookfor">Look for: Look at the hole end and the little steps at the tip.</p>
+  <div class="grid">
+    <div class="card">
+      <div class="pair">
+        <img src="assets/expert-key-round-one-tooth/picture.webp" alt="Key with a round bow and one square tooth">
+        <div class="shadow-wrap"><img src="assets/expert-key-round-one-tooth/shadow.webp" alt="Its shadow"></div>
+      </div>
+      <div class="label">Round bow + 1 square tooth</div>
+    </div>
+    <div class="card">
+      <div class="pair">
+        <img src="assets/expert-key-oval-two-teeth/picture.webp" alt="Key with an oval bow and two separated teeth">
+        <div class="shadow-wrap"><img src="assets/expert-key-oval-two-teeth/shadow.webp" alt="Its shadow"></div>
+      </div>
+      <div class="label">Oval bow + 2 separated teeth</div>
+    </div>
+    <div class="card">
+      <div class="pair">
+        <img src="assets/expert-key-square-notch/picture.webp" alt="Key with a square bow and one notch">
+        <div class="shadow-wrap"><img src="assets/expert-key-square-notch/shadow.webp" alt="Its shadow"></div>
+      </div>
+      <div class="label">Square bow + 1 notch</div>
+    </div>
+    <div class="card">
+      <div class="pair">
+        <img src="assets/expert-key-square-two-teeth/picture.webp" alt="Key with a square bow and two teeth">
+        <div class="shadow-wrap"><img src="assets/expert-key-square-two-teeth/shadow.webp" alt="Its shadow"></div>
+      </div>
+      <div class="label">Square bow + 2 teeth</div>
+    </div>
+    <div class="card">
+      <div class="pair">
+        <img src="assets/expert-key-heart-center-notch/picture.webp" alt="Key with a heart bow and a deep centre notch">
+        <div class="shadow-wrap"><img src="assets/expert-key-heart-center-notch/shadow.webp" alt="Its shadow"></div>
+      </div>
+      <div class="label">Heart bow + deep centre notch</div>
+    </div>
+    <div class="card">
+      <div class="pair">
+        <img src="assets/expert-key-clover-three-step/picture.webp" alt="Key with a clover bow and stepped teeth">
+        <div class="shadow-wrap"><img src="assets/expert-key-clover-three-step/shadow.webp" alt="Its shadow"></div>
+      </div>
+      <div class="label">Clover bow + stepped teeth</div>
+    </div>
+    <div class="card">
+      <div class="pair">
+        <img src="assets/expert-key-triangle-zigzag/picture.webp" alt="Key with a triangle bow and a zigzag bit">
+        <div class="shadow-wrap"><img src="assets/expert-key-triangle-zigzag/shadow.webp" alt="Its shadow"></div>
+      </div>
+      <div class="label">Triangle bow + zigzag bit</div>
+    </div>
+    <div class="card">
+      <div class="pair">
+        <img src="assets/expert-key-diamond-three-level/picture.webp" alt="Key with a diamond bow and a three-level bit">
+        <div class="shadow-wrap"><img src="assets/expert-key-diamond-three-level/shadow.webp" alt="Its shadow"></div>
+      </div>
+      <div class="label">Diamond bow + three-level bit</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Shadow Matching Expert pilot — plan + 2 of 10 families (16 of 80 objects). PASS/REJECT review and
+  the pairwise silhouette-distance table live in <code>shadow-matching-app/EXPERT-SET-PLAN.md</code>
+  and <code>shadow-matching-app/qa/2026-09-30-expert-pilot/distances.json</code> on branch
+  <code>agent/shadow-expert</code>. Nothing here changes the live Shadow Matching game.
+</footer>
+</body>
+</html>
