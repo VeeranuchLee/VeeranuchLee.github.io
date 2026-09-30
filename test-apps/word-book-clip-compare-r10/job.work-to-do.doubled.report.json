@@ -1,0 +1,76 @@
+{
+ "sense": "job.work-to-do",
+ "word": "job",
+ "sentence": ", job.",
+ "char_span": [
+  2,
+  5
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.395,
+  0.731
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.36,
+  "next_char_start": 0.731
+ },
+ "energy_dbfs_at_raw_edges": [
+  -40.1,
+  -48.6
+ ],
+ "quietest_near_start": {
+  "t": 0.38,
+  "dbfs": -67.5
+ },
+ "quietest_near_end": {
+  "t": 0.746,
+  "dbfs": -53.0
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.3464,
+  1.091
+ ],
+ "edge_shift_ms_vs_raw": [
+  -48.6,
+  360.0
+ ],
+ "energy_dbfs_at_cut": [
+  -43.5,
+  -180.0
+ ],
+ "word_audio_s": 0.7446,
+ "lead_tail_silence_s": [
+  0.175,
+  0.25
+ ],
+ "gain_db": 4.21,
+ "peak_dbfs_after": -6.19,
+ "level_to": "word-book/audio/words/job.m4a",
+ "out": "word-book/qa/2026-09-30-r10-variants/audio/job.work-to-do.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/job.work-to-do.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  28.5,
+  36.0
+ ],
+ "soft_move_ms": [
+  -22.5,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}

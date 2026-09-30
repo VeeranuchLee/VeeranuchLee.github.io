@@ -1,0 +1,76 @@
+{
+ "sense": "explorer.traveller",
+ "word": "explorer",
+ "sentence": "I want to be an explorer.",
+ "char_span": [
+  16,
+  24
+ ],
+ "word_index": 5,
+ "words_in_sentence": 6,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.685,
+  1.265
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.639,
+  "next_char_start": 1.265
+ },
+ "energy_dbfs_at_raw_edges": [
+  -30.4,
+  -49.0
+ ],
+ "quietest_near_start": {
+  "t": 0.715,
+  "dbfs": -59.1
+ },
+ "quietest_near_end": {
+  "t": 1.295,
+  "dbfs": -73.5
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.703,
+  1.3164
+ ],
+ "edge_shift_ms_vs_raw": [
+  18.0,
+  51.4
+ ],
+ "energy_dbfs_at_cut": [
+  -48.0,
+  -79.4
+ ],
+ "word_audio_s": 0.6135,
+ "lead_tail_silence_s": [
+  0.045,
+  0.256
+ ],
+ "gain_db": 2.22,
+ "peak_dbfs_after": -8.9,
+ "level_to": "word-book/audio/words/explorer.m4a",
+ "out": "word-book/qa/2026-09-30-r10-variants/audio/explorer.traveller.altcut.m4a",
+ "master": "word-book/audio-source/word-candidates/explorer.traveller.alt-sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  18.5,
+  36.0
+ ],
+ "soft_move_ms": [
+  -12.5,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}
