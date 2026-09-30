@@ -6,7 +6,8 @@
 // reachable when an installed iPad starts offline.
 // v8 2026-09-30: The Regular | Tricky switch appears in every mode (not just One at a time),
 // and the chosen level is shared across modes via LEVEL_KEY.
-const CACHE_NAME = 'shadow-matching-v8';
+// v9 2026-09-30: the magnifying-glass shadow's lens was see-through (it showed a grey smudge); it is now a solid silhouette.
+const CACHE_NAME = 'shadow-matching-v9';
 
 /* The SHELL is the app and the roster -- everything needed to show the set picker. The
    OBJECT ART IS NOT PRECACHED: 100 objects at two images each is several megabytes, and a
