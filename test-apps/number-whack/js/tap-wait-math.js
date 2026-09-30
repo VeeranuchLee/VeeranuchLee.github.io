@@ -42,12 +42,12 @@
       scoring: { streak: true, basePoints: 10, waitPoints: 5, streakStep: 2, maxStreakBonus: 10 },
       feedback: {},
       audio: {
-        show: function () { sound("hop"); },
-        correct: function (p) { sound("ding"); if (p && p.streak > 1 && p.streak % 3 === 0) setTimeout(function () { sound("twinkle"); }, 160); },
-        wrong: function () { sound("wrong"); },
-        waited: function () { sound("hop"); },
-        missed: function () { sound("wrong"); },
-        roundEnd: function () { sound("celebrate"); }
+        show: function () { sound("arcadePop"); },
+        correct: function (p) { var s = root.Sound; if (s && typeof s.arcadeCatch === "function") s.arcadeCatch(p && p.streak || 1); setTimeout(function () { sound("arcadeJar"); }, 150); },
+        wrong: function () { sound("arcadeWrong"); },
+        waited: function () { sound("arcadeFade"); },
+        missed: function () { sound("arcadeFade"); },
+        roundEnd: function () { sound("arcadeRound"); }
       }
     };
   }

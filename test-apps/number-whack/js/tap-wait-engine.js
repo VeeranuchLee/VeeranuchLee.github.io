@@ -339,7 +339,11 @@
     if (!this.auto || !this.clock.setTimeout) return;
     var self = this;
     this.clearTimer();
-    this.timer = this.clock.setTimeout(function () {
+    /* Call the saved timer as a plain function. WebKit and older Chromium builds can
+       reject host timer functions invoked with the engine clock object as `this`,
+       leaving the board permanently between events after the first catch. */
+    var setTimer = this.clock.setTimeout;
+    this.timer = setTimer(function () {
       self.timer = null;
       callback();
     }, Math.max(0, delay));
