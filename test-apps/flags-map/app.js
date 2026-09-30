@@ -666,10 +666,10 @@
   // taps Brazil is tapping where Brazil is. Nothing is lettered on the map;
   // a country's name appears only as a brief label after a tap.
   //
-  // The tiniest places also get a wordless magnifier: a ring at the real
-  // location, leader, glass-and-handle lens, and their real enlarged outline.
-  // Both ends are direct targets. Other small shapes retain the 64px proximity
-  // target. Pinch zoom is never blocked here or anywhere else.
+  // Dense places open as a whole region. At world scale a clear, large country
+  // remains directly tappable; a small country or the faint region cue opens
+  // that region. Zoomed regions add child-sized targets at small-country
+  // centroids. Pinch zoom is never blocked here or anywhere else.
 
   var SVGNS = 'http://www.w3.org/2000/svg';
   var TAP_MIN = 64;
@@ -718,6 +718,18 @@
     var stateNodes = {};
     var entries = {};
     var dots = [];
+    var regionNodes = {};
+    var targetNodes = {};
+    var regionByCountry = {};
+    (MAP.regions || []).forEach(function (region) {
+      region.members.forEach(function (id) { regionByCountry[id] = region; });
+      var cue = svgEl('polygon', {
+        points: region.p.map(function (point) { return point.join(','); }).join(' '),
+        class: 'map-region-cue', 'data-region': region.id, 'aria-hidden': 'true'
+      });
+      regionNodes[region.id] = cue;
+      svg.appendChild(cue);
+    });
     MAP.shapes.forEach(function (s) {
       var p = svgEl('path', { d: s.d, class: 'land c-' + s.c + (s.g ? ' in-set' : ''), 'data-id': s.id });
       nodes[s.id] = p; stateNodes[s.id] = [p]; entries[s.id] = s;
@@ -729,57 +741,53 @@
       nodes[e.id] = dot; stateNodes[e.id] = [dot]; entries[e.id] = e; dots.push(dot);
       svg.appendChild(dot);
     });
-    (MAP.lens || []).forEach(function (lens, index) {
-      var entry = entries[lens.id];
-      if (!entry) return;
-      var dx = lens.lx - lens.x; var dy = lens.ly - lens.y;
-      var distance = Math.sqrt(dx * dx + dy * dy) || 1;
-      var ux = dx / distance; var uy = dy / distance;
-      var clipId = 'map-lens-' + index;
-      var defs = svg.querySelector('defs');
-      if (!defs) { defs = svgEl('defs'); svg.insertBefore(defs, svg.firstChild); }
-      var clip = svgEl('clipPath', { id: clipId, clipPathUnits: 'userSpaceOnUse' });
-      clip.appendChild(svgEl('circle', { cx: lens.lx, cy: lens.ly, r: lens.lr - 8 }));
-      defs.appendChild(clip);
-      var group = svgEl('g', {
-        class: 'map-lens in-set c-' + entry.c,
-        'data-id': lens.id,
-        'aria-label': byCode(lens.id).name + ' close-up'
+    (MAP.regions || []).forEach(function (region) {
+      var radius = 32 * region.v[2] / 728;
+      region.members.forEach(function (id) {
+        var entry = entries[id];
+        if (!entry) return;
+        var group = svgEl('g', { class: 'map-zoom-target', 'data-id': id, 'data-region': region.id });
+        group.appendChild(svgEl('circle', { cx: entry.x, cy: entry.y, r: radius, class: 'map-hit', 'data-id': id }));
+        group.appendChild(svgEl('circle', { cx: entry.x, cy: entry.y, r: Math.max(7, radius * 0.3), class: 'map-target-ring', 'data-id': id }));
+        targetNodes[id] = group;
+        stateNodes[id].push(group);
+        svg.appendChild(group);
       });
-      group.appendChild(svgEl('line', {
-        x1: lens.x + ux * lens.rr, y1: lens.y + uy * lens.rr,
-        x2: lens.lx - ux * lens.lr, y2: lens.ly - uy * lens.lr,
-        class: 'lens-leader', 'data-id': lens.id
-      }));
-      group.appendChild(svgEl('circle', {
-        cx: lens.x, cy: lens.y, r: lens.rr, class: 'lens-location', 'data-id': lens.id
-      }));
-      group.appendChild(svgEl('line', {
-        x1: lens.lx + ux * (lens.lr - 5), y1: lens.ly + uy * (lens.lr - 5),
-        x2: lens.lx + ux * (lens.lr + 62), y2: lens.ly + uy * (lens.lr + 62),
-        class: 'lens-handle', 'data-id': lens.id
-      }));
-      group.appendChild(svgEl('circle', {
-        cx: lens.lx, cy: lens.ly, r: lens.lr, class: 'lens-glass', 'data-id': lens.id
-      }));
-      var art = svgEl('g', { 'clip-path': 'url(#' + clipId + ')', class: 'lens-art' });
-      var outline = svgEl('path', {
-        d: lens.d || entry.d,
-        transform: 'translate(' + lens.lx + ' ' + lens.ly + ') scale(' + lens.s + ') translate(' + (-lens.fx) + ' ' + (-lens.fy) + ')',
-        class: 'lens-outline', 'data-id': lens.id
-      });
-      art.appendChild(outline);
-      group.appendChild(art);
-      stateNodes[lens.id].push(group);
-      svg.appendChild(group);
     });
     var toast = el('div', { class: 'map-toast', role: 'status', 'aria-live': 'polite' });
+    var worldButton = el('button', {
+      class: 'map-world-button', type: 'button', 'aria-label': 'Show the whole world', hidden: 'hidden'
+    });
+    var globe = svgEl('svg', { viewBox: '0 0 24 24', 'aria-hidden': 'true' });
+    globe.appendChild(svgEl('circle', { cx: 12, cy: 12, r: 9 }));
+    globe.appendChild(svgEl('path', { d: 'M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18' }));
+    worldButton.appendChild(globe);
     area.appendChild(svg);
     area.appendChild(toast);
+    area.appendChild(worldButton);
 
     var toastTimer = null;
+    function pointInPolygon(x, y, polygon) {
+      var inside = false;
+      for (var i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+        var xi = polygon[i][0]; var yi = polygon[i][1];
+        var xj = polygon[j][0]; var yj = polygon[j][1];
+        if (((yi > y) !== (yj > y)) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) inside = !inside;
+      }
+      return inside;
+    }
+    function moveViewBox(to) {
+      var from = svg.getAttribute('viewBox');
+      if (!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        var animate = svgEl('animate', { attributeName: 'viewBox', from: from, to: to, dur: '0.4s', fill: 'freeze' });
+        svg.appendChild(animate);
+        if (animate.beginElement) animate.beginElement();
+        setTimeout(function () { if (animate.parentNode) animate.parentNode.removeChild(animate); }, 430);
+      }
+      svg.setAttribute('viewBox', to);
+    }
     var view = {
-      area: area, svg: svg, nodes: nodes, entries: entries, locked: false,
+      area: area, svg: svg, nodes: nodes, entries: entries, locked: false, activeRegion: null,
       scale: function () {
         var ctm = svg.getScreenCTM ? svg.getScreenCTM() : null;
         return ctm ? ctm : null;
@@ -788,6 +796,32 @@
         var ctm = view.scale();
         if (!ctm || !ctm.a) return;
         dots.forEach(function (dot) { dot.setAttribute('r', String(Math.max(7, 9 / ctm.a))); });
+      },
+      regionFor: function (id) { return regionByCountry[id] || null; },
+      zoomRegion: function (regionOrId) {
+        var region = typeof regionOrId === 'string'
+          ? (MAP.regions || []).filter(function (item) { return item.id === regionOrId; })[0]
+          : regionOrId;
+        if (!region) return;
+        var to = region.v.join(' ');
+        view.activeRegion = region;
+        svg.classList.add('is-region-zoom');
+        svg.setAttribute('data-region', region.id);
+        Object.keys(targetNodes).forEach(function (id) {
+          targetNodes[id].classList.toggle('is-active', region.members.indexOf(id) >= 0);
+        });
+        worldButton.hidden = false;
+        moveViewBox(to);
+        view.layout();
+      },
+      zoomWorld: function () {
+        view.activeRegion = null;
+        svg.classList.remove('is-region-zoom');
+        svg.removeAttribute('data-region');
+        Object.keys(targetNodes).forEach(function (id) { targetNodes[id].classList.remove('is-active'); });
+        worldButton.hidden = true;
+        moveViewBox('0 0 ' + MAP.w + ' ' + MAP.h);
+        view.layout();
       },
       // Which country did this tap mean? What you touch is what you get,
       // except that specks (extras and countries under TAP_MIN/2 px) own a
@@ -800,7 +834,19 @@
         if (!ctm || !isFinite(ev.clientX) || !isFinite(ev.clientY) || !ctm.a) return target;
         var direct = target && inSet(target) ? entries[target] : null;
         function dim(e) { return e.w === undefined ? 0 : Math.max(e.w, e.h) * ctm.a; }
-        if (direct && dim(direct) < TAP_MIN) return target; // a tap on a small country itself
+        if (!view.activeRegion && direct && dim(direct) < TAP_MIN && regionByCountry[target]) return 'region:' + regionByCountry[target].id;
+        if (view.activeRegion && target && view.activeRegion.members.indexOf(target) >= 0) return target;
+        if (!view.activeRegion && direct && dim(direct) >= TAP_MIN) return target;
+        // The cue sits below the land so geography remains legible. Resolve
+        // the tap by map coordinates too: otherwise a quiet, non-game country
+        // over the cue would swallow the child's attempt to open the region.
+        if (!view.activeRegion) {
+          var mx = (ev.clientX - ctm.e) / ctm.a;
+          var my = (ev.clientY - ctm.f) / ctm.d;
+          for (var r = 0; r < (MAP.regions || []).length; r++) {
+            if (pointInPolygon(mx, my, MAP.regions[r].p)) return 'region:' + MAP.regions[r].id;
+          }
+        }
         var radius = TAP_MIN / 2;
         var best = null; var bestDist = radius + 1;
         DATA.countries.forEach(function (c) {
@@ -815,7 +861,7 @@
           var dist = Math.sqrt((ev.clientX - sx) * (ev.clientX - sx) + (ev.clientY - sy) * (ev.clientY - sy));
           if (dist <= radius && dist < bestDist) { best = c.code; bestDist = dist; }
         });
-        if (best) return best;
+        if (best && view.activeRegion) return best;
         return target;
       },
       mark: function (id, cls, on) {
@@ -848,9 +894,13 @@
     };
     svg.addEventListener('click', function (ev) {
       if (view.locked) return;
+      var regionId = ev.target && ev.target.getAttribute ? ev.target.getAttribute('data-region') : null;
+      if (!view.activeRegion && regionId) { view.zoomRegion(regionId); return; }
       var id = view.resolve(ev);
+      if (id && id.indexOf('region:') === 0) { view.zoomRegion(id.slice(7)); return; }
       if (id) onTap(id, ev);
     });
+    worldButton.addEventListener('click', view.zoomWorld);
     mapView = view;
     // measure once it is laid out, and again whenever the window changes
     if (typeof window.requestAnimationFrame === 'function') window.requestAnimationFrame(view.layout);
@@ -938,6 +988,8 @@
 
   function mapReveal() {
     // Third miss: the country itself pulses gold. Gold always means "here it is".
+    var region = mapView.regionFor(mapQ.target.code);
+    if (region) mapView.zoomRegion(region);
     mapView.mark(mapQ.target.code, 'is-gold', true);
     var goldFlag = VIEW.querySelector('.map-options .option[data-code="' + mapQ.target.code + '"]');
     if (goldFlag) goldFlag.classList.add('is-gold');
@@ -1050,7 +1102,11 @@
         }))],
       [el('div', { class: 'map-foot', 'aria-live': 'polite' })])));
 
-    if (!isFind) view.mark(q.target.code, 'is-glow', true);
+    if (!isFind) {
+      var targetRegion = view.regionFor(q.target.code);
+      if (targetRegion) view.zoomRegion(targetRegion);
+      view.mark(q.target.code, 'is-glow', true);
+    }
     SPEECH.say(line(promptId), promptId);
   }
 
