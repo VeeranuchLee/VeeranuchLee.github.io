@@ -193,13 +193,16 @@ function home() {
     if (!done) return '';
     return setCard(g, done);
   }).join('');
-  /* The approved lookalike families are the Tricky choice in every mode. In Find the
-     existing Regular | Tricky switch still decides whether they appear; the other modes
-     offer them directly as category cards. Mirror counts only measured asymmetric items,
-     because a symmetric shadow cannot have one fair exact-orientation answer. */
+  /* The approved lookalike families are the Tricky choice in every mode. The Regular | Tricky
+     switch decides whether they appear in all four modes: Regular shows only the ten category
+     cards; Tricky shows the lookalike families for that mode. Mirror counts only measured
+     asymmetric items, because a symmetric shadow cannot have one fair exact-orientation answer. */
+  /* In One at a time, Tricky also makes the ten Regular sets harder (nearest-shape
+     distractors), so they stay listed under the lookalikes. The other modes have no harder
+     version of a Regular set, so Tricky there offers the lookalike families only. */
   if (showLookalikes()) cards = lookalikeGroups().map(function (g) {
     return setCard(g, playable(g).length);
-  }).join('') + cards;
+  }).join('') + (state.mode === 'find' ? cards : '');
   screen(
     '<header class="topline"><a class="hub" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games">&larr; All games</a>' +
     soundButton() + '</header>' +
@@ -212,14 +215,13 @@ function home() {
          offered at all, rather than offered and unable to start. */
       (MIRROR ? '<button class="mode' + (state.mode === 'mirror' ? ' on' : '') + '" data-mode="mirror">Mirror Match</button>' : '') +
     '</div>' +
-    /* Tricky belongs to "One at a time" only, so the choice is shown only there. Regular is
-       the default and is today's game exactly. */
-    (state.mode === 'find'
-      ? '<div class="levels" role="group" aria-label="How tricky">' +
-          '<button class="level' + (state.level === 'regular' ? ' on' : '') + '" data-level="regular" aria-pressed="' + (state.level === 'regular') + '">Regular</button>' +
-          '<button class="level' + (state.level === 'tricky' ? ' on' : '') + '" data-level="tricky" aria-pressed="' + (state.level === 'tricky') + '">Tricky</button>' +
-        '</div>'
-      : '') +
+    /* The Regular | Tricky switch chooses the difficulty in every mode. Regular shows only
+       the ten category cards; Tricky shows the lookalike families for that mode. Regular is
+       the default and is remembered across modes and visits via LEVEL_KEY. */
+    '<div class="levels" role="group" aria-label="How tricky">' +
+      '<button class="level' + (state.level === 'regular' ? ' on' : '') + '" data-level="regular" aria-pressed="' + (state.level === 'regular') + '">Regular</button>' +
+      '<button class="level' + (state.level === 'tricky' ? ' on' : '') + '" data-level="tricky" aria-pressed="' + (state.level === 'tricky') + '">Tricky</button>' +
+    '</div>' +
     '</section>' +
     '<section class="sets">' + cards + '</section>');
   wireSoundButton();
@@ -244,8 +246,7 @@ function setCard(g, n) {
 /* Where an object's pictures live: the hundred under ART, the lookalikes under their own. */
 function artOf(it) { return (it && it.art) || ART; }
 
-function trickyFind() { return state.mode === 'find' && state.level === 'tricky' && !!TRICKY; }
-function showLookalikes() { return !!TRICKY && (state.mode !== 'find' || trickyFind()); }
+function showLookalikes() { return !!TRICKY && state.level === 'tricky'; }
 
 /* THE LOOKALIKE FAMILIES (TRICKY-SET-PLAN.md, owner 2026-09-24: "for tricky, i think we need
    to make new set of images"). The hundred were drawn to be DIFFERENT, so no ranking of them
