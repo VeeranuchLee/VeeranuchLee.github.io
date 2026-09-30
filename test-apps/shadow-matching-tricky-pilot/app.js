@@ -44,7 +44,7 @@ var SIGS = null;               /* silhouette signatures, for Memory's fairness r
 var MEM_MIN_DISTANCE = 0.15;   /* see the note above memChoosePairs */
 var $ = function (s, r) { return (r || document).querySelector(s); };
 var MIRROR = null;             /* measured mirror eligibility, for Mirror Match -- see below */
-var TRICKY = null;             /* the lookalike families, for Tricky only -- see lookalikeGroups() */
+var TRICKY = null;             /* the lookalike families -- see lookalikeGroups() */
 
 /* Regular | Tricky, kept the same way the speaker setting is: a plain localStorage read/write,
    each wrapped so blocked storage degrades to "this visit only" rather than a broken app.
@@ -193,10 +193,13 @@ function home() {
     if (!done) return '';
     return setCard(g, done);
   }).join('');
-  /* The lookalike families belong to Tricky alone, so their card is shown only there --
-     first, because they are what Tricky is now for. Regular, Board, Memory and Mirror never
-     see them. */
-  if (trickyFind()) cards = lookalikeGroups().map(function (g) { return setCard(g, g.items.length); }).join('') + cards;
+  /* The approved lookalike families are the Tricky choice in every mode. In Find the
+     existing Regular | Tricky switch still decides whether they appear; the other modes
+     offer them directly as category cards. Mirror counts only measured asymmetric items,
+     because a symmetric shadow cannot have one fair exact-orientation answer. */
+  if (showLookalikes()) cards = lookalikeGroups().map(function (g) {
+    return setCard(g, playable(g).length);
+  }).join('') + cards;
   screen(
     '<header class="topline"><a class="hub" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games">&larr; All games</a>' +
     soundButton() + '</header>' +
@@ -242,6 +245,7 @@ function setCard(g, n) {
 function artOf(it) { return (it && it.art) || ART; }
 
 function trickyFind() { return state.mode === 'find' && state.level === 'tricky' && !!TRICKY; }
+function showLookalikes() { return !!TRICKY && (state.mode !== 'find' || trickyFind()); }
 
 /* THE LOOKALIKE FAMILIES (TRICKY-SET-PLAN.md, owner 2026-09-24: "for tricky, i think we need
    to make new set of images"). The hundred were drawn to be DIFFERENT, so no ranking of them
@@ -274,6 +278,29 @@ function lookalikeGroups() {
 
 function siblings(answer, pool) {
   return pool.filter(function (it) { return it.family === answer.family && it.id !== answer.id; });
+}
+
+/* Board and Memory keep their normal six-pair size. A lookalike card contains two families
+   of four, so dealing three from each puts several close siblings on the same board/grid;
+   a generic round-robin fallback keeps that invariant if a future card has another shape. */
+function trickyRoundItems(items, n) {
+  var byFamily = {}, families = [];
+  items.filter(function (it) { return it.status === 'complete'; }).forEach(function (it) {
+    if (!byFamily[it.family]) { byFamily[it.family] = []; families.push(it.family); }
+    byFamily[it.family].push(it);
+  });
+  families = shuffle(families);
+  families.forEach(function (id) { byFamily[id] = shuffle(byFamily[id]); });
+  var out = [], pass = 0;
+  while (out.length < n) {
+    var added = false;
+    for (var i = 0; i < families.length && out.length < n; i++) {
+      if (byFamily[families[i]][pass]) { out.push(byFamily[families[i]][pass]); added = true; }
+    }
+    if (!added) break;
+    pass++;
+  }
+  return out;
 }
 
 /* TRICKY: the same four choices, harder ones. Regular asks "which object is this?"; Tricky
@@ -324,6 +351,13 @@ function playable(g) {
 }
 
 function mirrorChoices(answer, pool) {
+  if (answer.family) {
+    return shuffle([{ id: answer.id, flip: false, art: artOf(answer) },
+      { id: answer.id, flip: true, art: artOf(answer) }].concat(
+      shuffle(siblings(answer, pool)).slice(0, 2).map(function (it) {
+        return { id: it.id, flip: Math.random() < 0.5, art: artOf(it) };
+      })));
+  }
   return shuffle([{ id: answer.id, flip: false }, { id: answer.id, flip: true }].concat(
     nearestOthers(answer, pool, 2).map(function (it) {
       return { id: it.id, flip: Math.random() < 0.5 };
@@ -432,9 +466,11 @@ function pick(btn, answer) {
 var BOARD_PAIRS = 6;
 
 function board() {
-  var items = shuffle(state.set.items.filter(function (it) {
+  var pool = state.set.items.filter(function (it) {
     return it.status === 'complete';
-  })).slice(0, BOARD_PAIRS);
+  });
+  var items = pool[0] && pool[0].family ? trickyRoundItems(pool, BOARD_PAIRS)
+    : shuffle(pool).slice(0, BOARD_PAIRS);
   state.queue = items;
   state.pairs = 0;
   state.pick = null;
@@ -454,11 +490,11 @@ function board() {
     '<section class="board">' +
       '<div class="col">' + left.map(function (it) {
         return '<button class="tile pic" data-id="' + it.id + '" aria-label="' + it.label + '">' +
-          '<img src="' + ART + it.id + '/picture.webp" alt=""></button>';
+          '<img src="' + artOf(it) + it.id + '/picture.webp" alt=""></button>';
       }).join('') + '</div>' +
       '<div class="col">' + right.map(function (it) {
         return '<button class="tile sh" data-id="' + it.id + '" aria-label="a shadow">' +
-          '<img src="' + ART + it.id + '/shadow.webp" alt=""></button>';
+          '<img src="' + artOf(it) + it.id + '/shadow.webp" alt=""></button>';
       }).join('') + '</div>' +
     '</section>');
 
@@ -551,6 +587,98 @@ function boardDone() {
  */
 
 var MEM_PAIRS = 6;             /* 12 cards, 4x3 on the iPad in portrait */
+var MEM_HISTORY_PREFIX = 'shadow-matching-memory-history-v1:';
+var MEM_LAYOUT = '4x3';
+
+function memHistoryKey() {
+  return MEM_HISTORY_PREFIX + MEM_PAIRS + '-pairs-' + MEM_LAYOUT;
+}
+
+function memLoadHistory() {
+  try {
+    var saved = JSON.parse(window.localStorage.getItem(memHistoryKey()) || '[]');
+    if (!Array.isArray(saved)) return [];
+    return saved.filter(function (n) { return typeof n === 'number' && isFinite(n) && n >= 0; }).slice(0, 3);
+  } catch (e) { return []; }
+}
+
+function memSaveTime(seconds) {
+  var history = [seconds].concat(memLoadHistory()).slice(0, 3);
+  try { window.localStorage.setItem(memHistoryKey(), JSON.stringify(history)); return history; }
+  catch (e) { return []; } /* blocked storage: keep the game working and show placeholders */
+}
+
+function memFormatTime(seconds) {
+  seconds = Math.max(0, Math.floor(seconds));
+  var minutes = Math.floor(seconds / 60);
+  var remainder = String(seconds % 60);
+  return (minutes < 10 ? '0' : '') + minutes + ':' + (remainder.length < 2 ? '0' : '') + remainder;
+}
+
+function memElapsedSeconds() {
+  var timer = state.mem && state.mem.timer;
+  if (!timer || timer.startedAt === null) return null;
+  var elapsed = timer.elapsedMs + (timer.running ? Date.now() - timer.startedAt : 0);
+  return Math.floor(Math.max(0, elapsed) / 1000);
+}
+
+function memTimerTick() {
+  var value = $('#memory-time');
+  var seconds = memElapsedSeconds();
+  if (value && seconds !== null) value.textContent = memFormatTime(seconds);
+}
+
+function memTimerStart() {
+  var timer = state.mem && state.mem.timer;
+  if (!timer || timer.startedAt !== null) return;
+  timer.startedAt = Date.now(); timer.running = true;
+  timer.interval = setInterval(memTimerTick, 250);
+  memTimerTick();
+}
+
+function memTimerPause() {
+  var timer = state.mem && state.mem.timer;
+  if (!timer || !timer.running) return;
+  timer.elapsedMs += Math.max(0, Date.now() - timer.startedAt);
+  timer.running = false;
+  if (timer.interval !== null) clearInterval(timer.interval);
+  timer.interval = null;
+}
+
+function memTimerResume() {
+  var timer = state.mem && state.mem.timer;
+  if (!timer || timer.startedAt === null || timer.running || timer.completed) return;
+  timer.startedAt = Date.now(); timer.running = true;
+  timer.interval = setInterval(memTimerTick, 250);
+}
+
+function memTimerAbandon() {
+  var timer = state.mem && state.mem.timer;
+  if (timer && timer.interval !== null) clearInterval(timer.interval);
+  if (timer) { timer.interval = null; timer.running = false; }
+}
+
+function memTimerComplete() {
+  var timer = state.mem.timer;
+  if (timer.completed) return;
+  memTimerPause();
+  timer.completed = true;
+  timer.seconds = memElapsedSeconds();
+  timer.history = memSaveTime(timer.seconds);
+  memTimerTick();
+}
+
+function memTimerPanel(timer) {
+  var seconds = timer && timer.startedAt !== null ? memElapsedSeconds() : null;
+  var history = timer && timer.history ? timer.history : memLoadHistory();
+  var rows = [];
+  for (var i = 0; i < 3; i++) {
+    rows.push('<li>' + (history[i] === undefined ? '<span aria-hidden="true">—</span><span class="sr-only">No recent time</span>' : memFormatTime(history[i])) + '</li>');
+  }
+  return '<aside class="memory-timer" aria-label="Elapsed time and recent completed games">' +
+    '<h2>Time</h2><output id="memory-time" aria-live="off">' + (seconds === null ? '--:--' : memFormatTime(seconds)) + '</output>' +
+    '<h2>Recent</h2><ol>' + rows.join('') + '</ol></aside>';
+}
 
 function sigDistance(a, b) {
   var x = SIGS[a], y = SIGS[b];
@@ -597,10 +725,17 @@ function memDeal(pairs) {
 }
 
 function memory() {
+  memTimerAbandon();
   var pool = state.set.items.filter(function (it) { return it.status === 'complete'; });
-  var pairs = memChoosePairs(pool, MEM_PAIRS);
+  /* Regular Memory avoids confusing silhouettes. Tricky deliberately does the opposite:
+     several siblings from each family share one grid, so remembering "the fork" is not
+     enough without also reading its exact outline. */
+  var pairs = pool[0] && pool[0].family ? trickyRoundItems(pool, MEM_PAIRS)
+    : memChoosePairs(pool, MEM_PAIRS);
   state.mem = { cards: memDeal(pairs), faceUp: [], solved: {}, resolving: false, turns: 0,
-                solvedCount: 0, total: pairs.length };
+                solvedCount: 0, total: pairs.length,
+                timer: { startedAt: null, elapsedMs: 0, running: false, interval: null,
+                         completed: false, seconds: null, history: memLoadHistory() } };
   renderMemory();
 }
 
@@ -610,11 +745,11 @@ function renderMemory() {
     '<header class="topline"><button class="hub" id="back">&larr; Sets</button>' +
     '<span class="tally" id="tally">' + m.solvedCount + ' of ' + m.total + ' found</span>' + soundButton() + '</header>' +
     '<p class="askline" id="askline">' + LINES.memAsk + '</p>' +
-    '<section class="deck">' + m.cards.map(function (c) {
+    '<div class="memory-layout"><section class="deck">' + m.cards.map(function (c) {
       return '<button class="card" data-card="' + c.cardId + '" aria-label="face-down card"></button>';
-    }).join('') + '</section>');
+    }).join('') + '</section>' + memTimerPanel(m.timer) + '</div>');
   wireSoundButton();
-  $('#back').onclick = home;
+  $('#back').onclick = function () { memTimerAbandon(); home(); };
   Array.prototype.forEach.call(document.querySelectorAll('.card'), function (b) {
     b.onclick = function () { memFlip(b.dataset.card); };
   });
@@ -632,7 +767,8 @@ function paintCard(c) {
   if (!el) return;
   el.classList.add('up');
   el.setAttribute('aria-label', c.type === 'picture' ? c.label : 'a shadow');
-  el.innerHTML = '<img src="' + ART + c.pairId + '/' +
+  var item = state.set.items.filter(function (it) { return it.id === c.pairId; })[0];
+  el.innerHTML = '<img src="' + artOf(item) + c.pairId + '/' +
     (c.type === 'picture' ? 'picture' : 'shadow') + '.webp" alt="">';
 }
 
@@ -643,6 +779,7 @@ function memFlip(cardId) {
   if (m.solved[c.pairId]) return;
   if (m.faceUp.indexOf(cardId) >= 0) return;         /* already up */
 
+  memTimerStart();
   m.faceUp.push(cardId);
   paintCard(c);
   if (m.faceUp.length < 2) {
@@ -662,7 +799,7 @@ function memFlip(cardId) {
     $('#tally').textContent = m.solvedCount + ' of ' + m.total + ' found';
     say(m.solvedCount === m.total ? 'memAll' : 'memPair');
     sfx('correct');
-    if (m.solvedCount === m.total) later(memDone, 900);
+    if (m.solvedCount === m.total) { memTimerComplete(); later(memDone, 900); }
     return;
   }
 
@@ -693,10 +830,10 @@ function memResolve() {
 function memDone() {
   screen(
     '<header class="topline"><button class="hub" id="back">&larr; Sets</button>' + soundButton() + '</header>' +
-    '<section class="done"><h2>' + LINES.memDone + '</h2>' +
+    '<div class="memory-finish"><section class="done"><h2>' + LINES.memDone + '</h2>' +
     '<p>' + state.mem.total + ' pictures and their shadows, in ' + state.mem.turns + ' turns.</p>' +
     '<div class="actions"><button class="primary" id="again">New cards</button>' +
-    '<button class="secondary" id="pick">Choose another set</button></div></section>');
+    '<button class="secondary" id="pick">Choose another set</button></div></section>' + memTimerPanel(state.mem.timer) + '</div>');
   wireSoundButton();
   sfx('complete');
   $('#back').onclick = home;
@@ -704,6 +841,12 @@ function memDone() {
   $('#again').onclick = function () { memory(); };
   $('#pick').onclick = home;
 }
+
+document.addEventListener('visibilitychange', function () {
+  if (!state.mem || !state.mem.timer || state.mem.timer.completed) return;
+  if (document.hidden) memTimerPause();
+  else memTimerResume();
+});
 
 function finished() {
   screen(
