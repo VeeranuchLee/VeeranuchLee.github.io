@@ -19,7 +19,7 @@
       "file": "audio/capital.main-city.carrier.m4a",
       "label": "Carrier phrase cut",
       "kind": "cut from the phrase 'The word is ...'",
-      "sha256": "02784323d886c0de9f2bd3600a9170cb7d9a223449057d0e206c2ffbdc8cdde0",
+      "sha256": "2fc03fd570325a338163985f3d4cfba526fa43f7263924283a4237b0b1d57ae0",
       "text": "The word is capital.",
       "why": "C2 round candidate 1 of 3 for capital.main-city: carrier-phrase cut. Renders 'The word is capital.' as a master, then word-book/tools/extract-sentence-word.py cuts the word 'capital' from it via the carrier= parameter. Tests whether a neutral carrier phrase improves pronunciation over a bare or sentence-context render."
      },
@@ -27,7 +27,7 @@
       "file": "audio/capital.main-city.ipa-multi.m4a",
       "label": "IPA (multilingual)",
       "kind": "SSML IPA phoneme tag, eleven_multilingual_v2",
-      "sha256": "e5debd47a831bf13a652376112e1a138aaca02240114590ecb1b6ca3d757ac92",
+      "sha256": "d54215ae99c5ea39257360421838ab424a8304f3f85a5527101fd69eb5749caf",
       "text": "<phoneme alphabet=\"ipa\" ph=\"ˈkæpɪtl\">capital</phoneme>.",
       "why": "C2 round candidate 2 of 3 for capital.main-city: IPA phoneme tag on eleven_multilingual_v2 (the other model from the 2026-09-29 C-round's eleven_turbo_v2). Same British RP IPA /ˈkæpɪtl/ as the C-round, different model."
      },
@@ -35,7 +35,7 @@
       "file": "audio/capital.main-city.high-stability.m4a",
       "label": "High stability / low style",
       "kind": "stability 0.8, style 0.1",
-      "sha256": "adda246a5f7cf64aaa03c69d3629546e0eef27ac672d3e64841d1a2d3f7da848",
+      "sha256": "390fd43c9c4cb2fd2e7bbd8ac884a94dd9a58d3b0827021e1bfce304ae3683e9",
       "text": "Capital.",
       "why": "C2 round candidate 3 of 3 for capital.main-city: high-stability re-render with stability 0.8 and style 0.1 on eleven_multilingual_v2. Tests whether reduced variability improves the clip for children."
      },
@@ -43,7 +43,7 @@
       "file": "audio/capital.main-city.sentence.m4a",
       "label": "sentence",
       "kind": "the card's own example sentence",
-      "sha256": "3e0ec6dc598f2fbe16d8633fb2df2fc893e04417fe306342ac308c82d588b73a",
+      "sha256": "f36261a22ad3abbb46e98bf4386e3b155d50f6d85e07dcaa23d4089d9fc9d1cf",
       "sentence_button": true
      }
     ]
@@ -64,7 +64,7 @@
       "file": "audio/carpenter.occupation.carrier.m4a",
       "label": "Carrier phrase cut",
       "kind": "cut from the phrase 'The word is ...'",
-      "sha256": "1e84000a9ba101b72823be81d6ce0d39c458c970fa5a32271d1148b9fc7b8023",
+      "sha256": "3050d99bb7ffd589b7afb6c67d9d8e9cb9032d670d8148185ab19b15741c77de",
       "text": "The word is carpenter.",
       "why": "C2 round candidate 1 of 3 for carpenter.occupation: carrier-phrase cut. Renders 'The word is carpenter.' as a master, then word-book/tools/extract-sentence-word.py cuts the word 'carpenter' from it via the carrier= parameter."
      },
@@ -72,7 +72,7 @@
       "file": "audio/carpenter.occupation.ipa-multi.m4a",
       "label": "IPA (multilingual)",
       "kind": "SSML IPA phoneme tag, eleven_multilingual_v2",
-      "sha256": "d979dc35d28695c76a01b8e02ddcf04640f919c29658d4691aeb6a00a71439b2",
+      "sha256": "450651c6890ab9e1d7f8a0d8df456347f7e91d76840375108ecc95aa6afaa631",
       "text": "<phoneme alphabet=\"ipa\" ph=\"ˈkɑːpɪntə\">carpenter</phoneme>.",
       "why": "C2 round candidate 2 of 3 for carpenter.occupation: IPA phoneme tag on eleven_multilingual_v2. Same British RP IPA /ˈkɑːpɪntə/ as the C-round, different model."
      },
@@ -80,7 +80,7 @@
       "file": "audio/carpenter.occupation.high-stability.m4a",
       "label": "High stability / low style",
       "kind": "stability 0.8, style 0.1",
-      "sha256": "abc7606d605a70c8c1873076df01db6e68c13f56b9909fad6b29e5a9834e7f22",
+      "sha256": "47f85a707a6c03f47673c221288eee6f327f8865415aa8e9a832d3e6c1521060",
       "text": "Carpenter.",
       "why": "C2 round candidate 3 of 3 for carpenter.occupation: high-stability re-render with stability 0.8 and style 0.1 on eleven_multilingual_v2."
      },
@@ -88,7 +88,7 @@
       "file": "audio/carpenter.occupation.sentence.m4a",
       "label": "sentence",
       "kind": "the card's own example sentence",
-      "sha256": "1a8f3c7becb132605393eaf2edcb21afb260fb8a627f8eefa1461d21b4e6448c",
+      "sha256": "836ec8968900f46d4fefe1523cfaca802625e525525ec9f9406d4e448aabb033",
       "sentence_button": true
      }
     ]
@@ -116,7 +116,7 @@
       "file": "audio/cotton.fibre.sentence.m4a",
       "label": "sentence",
       "kind": "the card's own example sentence",
-      "sha256": "2c99e4f29fd260a020abad7159034774e64daac7e2a87e5a8bf839230a8fd0b9",
+      "sha256": "d2651d5861f99d0d44e28c2731e60ac8b8e9dd5b5ad6738a4a4ec96a2bc93a48",
       "sentence_button": true
      }
     ]
