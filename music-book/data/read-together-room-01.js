@@ -15,6 +15,13 @@
 // typed in by hand is a claim nobody re-checks when the score changes. The only
 // musical facts written down here are prose the owner can read and argue with.
 
+export const MAP_BRIDGE_PENDING_VOICE_LINES = Object.freeze({
+  intro: 'Listen to one tune. Then tap its shape.',
+  correct: 'Yes. That shape follows this tune.',
+  retry: 'Not that one yet. Listen once more, then try another shape.',
+  complete: 'You matched every tune to its shape.'
+});
+
 export const ROOM_01_CHAPTER = {
   roomId: 'melody-detective-workshop',
 
@@ -170,20 +177,11 @@ export const ROOM_01_CHAPTER = {
       opening: 'What did you notice?',
       dialogue: {
         open: [
-          { who: 'curious', line: 'So a title can change, and the tune still gives itself away.' },
-          { who: 'knowing', line: 'Listen for its shape: where it moves, what repeats, and when it surprises you.' }
+          { who: 'curious', line: 'Can I match each tune to the path its notes take?' },
+          { who: 'knowing', line: MAP_BRIDGE_PENDING_VOICE_LINES.intro }
         ],
         done: [
           { who: 'knowing', line: 'Take that with you. It works on every tune in this book.' }
-        ]
-      },
-      card: {
-        line: 'Listen for the shape before the title.',
-        cues: [
-          { id: 'same', text: 'Same tune, new name', pieceIds: ['twinkle'] },
-          { id: 'down', text: 'A path that walks down', pieceIds: ['london-bridge', 'three-blind-mice'] },
-          { id: 'surprise', text: 'A surprise saved for the end', pieceIds: ['pop-goes-weasel'] },
-          { id: 'round', text: 'One tune, starting twice', pieceIds: ['frere-jacques'] }
         ]
       },
       // Every Room 1 piece returns as evidence. Nothing plays on entry.
@@ -194,7 +192,7 @@ export const ROOM_01_CHAPTER = {
         { pieceId: 'pop-goes-weasel', text: 'Pop Goes the Weasel', which: 'melody' },
         { pieceId: 'frere-jacques', text: 'Frère Jacques', which: 'melody' }
       ],
-      requires: { cardPlaced: true }
+      requires: { mapMatches: 5 }
     }
   ]
 };

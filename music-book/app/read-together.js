@@ -9,7 +9,8 @@
 //
 // Spread A ("The Doorway") is painted: a 4:3 plate with the lens, tags, plaque
 // and ribbon laid over it in plate percentages (owner concept, 2026-09-24).
-// Spreads B-D are STILL WIREFRAMES — CSS shapes standing in for their plates.
+// Spreads B-D are painted the same way (C and D since 2026-09-27); each still
+// keeps its wireframe as the fallback for a scene whose plate is not made.
 // What is never a placeholder is the teaching layer: contours, the round, the
 // surprise, and the note-following all read the real scores in
 // `data/catalogue.js`. That split is the point — the art can be replaced without
@@ -17,9 +18,11 @@
 // image being counted correctly. The painted plate carries no ribbon, no notes
 // and no words: the ribbon over it is the same score-derived contour.
 
-import { chapterFor } from '../data/read-together-room-01.js';
+import { chapterFor, MAP_BRIDGE_PENDING_VOICE_LINES } from '../data/read-together-room-01.js';
 import { trackBeats } from './player.js';
 import { noteToFrequency } from './audio-engine.js';
+import { MAP_BRIDGE_CLIP_TEXTS } from './mapbridge-clips.js';
+import { configureMapBridge, speakMapBridgeClip, stopMapBridgeClip } from './mapbridge.js';
 
 // ── deriving the teaching layer from the scores ──────────────────────────────
 
@@ -167,6 +170,102 @@ const PLATES = {
     // The three painted brass hooks, top to bottom (viewBox units). A tag
     // hangs from each; the ribbon's branch meets the tag's eyelet.
     hooks: [{ x: 884, y: 176 }, { x: 884, y: 296 }, { x: 884, y: 400 }]
+  },
+  lane: {
+    art: 'assets/backgrounds/r01-meet-sounds-plate.webp',
+    // One continuous ribbon, two halves (viewBox units: 1000 x 750). Each half
+    // is its own tune's contour from the score: London Bridge rides above the
+    // painted bridge, Three Blind Mice descends along the painted brass rail.
+    // Neither half is drawn by hand; only the joins between them are.
+    ribbons: {
+      bridge: { x: 95, y: 150, w: 380, h: 60 },
+      lanterns: { x: 530, y: 175, w: 430, h: 85 }
+    },
+    // Tap areas over the painted objects (plate %), and the lantern glows.
+    hits: {
+      bridge: { x: 9, y: 19, w: 40, h: 36 },
+      lanterns: { x: 52, y: 32, w: 45, h: 30 }
+    },
+    lanterns: [{ x: 61.5, y: 43 }, { x: 73, y: 48 }, { x: 85, y: 53.5 }],
+    // The two painted console panels (plate %), in station order.
+    panels: [{ x: 20.4, y: 63.3, w: 25.7, h: 10.5 }, { x: 53.7, y: 63.3, w: 25.9, h: 10.5 }]
+  },
+  // Spread C, measured on a 1600x1200 plate and checked against
+  // `curation/ROOM-01-PLATES-C-D-PROMPTS.md`'s recorded tap targets. Two
+  // bands rule the layout: the landscape header reaches plate-y 14.2 and the
+  // dialogue wash starts at 73, so every label lives in 19..72.5. Recorded
+  // numbers are the floor, never the ceiling — each tap area is the union of
+  // what the plate records and what the plate actually paints, because a tap
+  // area smaller than its prop is a tap that misses.
+  machines: {
+    art: 'assets/backgrounds/r01-spread-c-plate.webp',
+    // The pop. The painted closed box is replaced by the open sprite at the
+    // placement its own provenance records (ROOM-01-C-SPRITES-PROMPTS.md,
+    // pixel (25, 20, 764, 694) on the 1600x1200 plate). The open sprite shows
+    // the box and the spring but NOT the weasel — the weasel was composited at
+    // plate x 19.5-24.8, y 18.6-24.8, which is ~40px on a 1024px stage: too
+    // small to read, so the controller rejected it. The weasel is a SEPARATE
+    // element (`r01-c-weasel.webp`), sized large and placed on top of the
+    // spring so it pops up clearly when the highest note plays.
+    pop: { art: 'assets/read-together/r01-c-box-open.webp', x: 1.56, y: 1.67, w: 47.75, h: 57.83 },
+    // The weasel on top of the spring. The spring sits at plate x ~26-34, y ~6-10
+    // (center of the open-box cavity); the weasel (269x640, aspect 0.42) is
+    // sized at ~12% wide / ~29% tall so the head is clearly visible as it rises.
+    // y=0 lets the head clear the top of the plate; the tail emerges from the
+    // spring area at plate y ~20-29%.  Verified with box-open-placement.py: the
+    // weasel's bottom third covers the spring, not the plate's painted text.
+    popWeasel: { art: 'assets/read-together/r01-c-weasel.webp', x: 25.5, y: 9, w: 8.2, h: 26 },
+    // Recorded: crank handle and shaft (1, 42, 20, 15), box body and closed lid
+    // (15, 31, 36, 31); painted: body top rim y 28, right edge x 47, crank
+    // x 12-23, y 35-60. Union, in plate %: x 1-51, y 28-62.
+    hits: {
+      crank: { x: 1, y: 28, w: 50, h: 34 },
+      // Recorded: echo turntable including brass rim (57, 38, 36, 24);
+      // composition line: x 55-92, y 27-69; painted disc x 56.5-88.5 with its
+      // top edge at 32.5 and its bottom rim band ending at 53.6.
+      turntable: { x: 55, y: 28, w: 38, h: 35 }
+    },
+    // Each machine's name on the blank wall above it. Both sit in the clear band
+    // under the header, over the same wall the open lid rises against.
+    plaques: {
+      crank: { x: 5, y: 19, w: 19, h: 6.5 },
+      turntable: { x: 57, y: 19, w: 36, h: 6.5 }
+    },
+    // The turntable's two grooves are code: the plate's own are not separately
+    // resolvable at this size. Centre and radii in plate % (rx of plate WIDTH,
+    // ry of plate HEIGHT), taken as the middle of the recorded box, the
+    // composition box and the measured disc. Invisible at rest; each lights
+    // with the voice that is singing it, which is what makes a round look like
+    // one melody twice.
+    grooves: { x: 73, y: 46, rx: 17.5, ry: 11.5, inner: 0.68 },
+    // What the child noticed, one slip each, laid along the painted evidence
+    // rail (recorded group 20, 64, 66, 12; the five painted rest centres
+    // measured 26.5, 41, 56.5, 70.5, 82.5). Three zones across it, no overlap,
+    // all above the dialogue wash. The round's tab and then its note share the
+    // last zone, so hearing the round visibly replaces the offer with the fact.
+    slips: {
+      crank: { x: 20, y: 64.5, w: 22, h: 7.5 },
+      turntable: { x: 43, y: 64.5, w: 22, h: 7.5 },
+      round: { x: 66, y: 64.5, w: 20, h: 7.5 }
+    }
+  },
+  // Spread D, same two rules. Recorded: five evidence rests (12, 51, 14, 10)
+  // and friends — their centres measured 19, 34, 49, 65, 80, which is the
+  // recorded box exactly, so the recorded numbers are used as they stand.
+  mapdesk: {
+    art: 'assets/backgrounds/r01-spread-d-plate.webp',
+    // The five painted token trays, grown a percent for the rims actually
+    // painted around each blank interior. These are LEFT edges, as recorded.
+    trays: { x: [12, 27, 42, 58, 73], y: 50, w: 14, h: 11.5 },
+    // The card, over the desk's own bright recess (recorded 33, 61, 34, 15),
+    // stopped at the dialogue wash, and the tab that puts it on the map —
+    // beside the card on the blank desk, because the desk has nothing below it.
+    card: { x: 33, y: 62, w: 34, h: 11 },
+    placeTab: { x: 6, y: 62, w: 24, h: 11 }
+    // The two exit routes ("Back to the map", "Explore this workshop") are
+    // rendered as compact footer buttons once the card is placed — see render()'s
+    // rt-foot. They were originally plate-positioned pills but the controller
+    // rejected them for covering the painted plate.
   }
 };
 
@@ -187,6 +286,8 @@ export function createChapter(deps) {
   const { stage, engine, player, journey, pieceById, companionById, exitToExplore, exitToWing,
     canPlaySound = () => true, atmosphere = () => {} } = deps;
 
+  configureMapBridge({ engine });
+
   let chapter = null;
   let spreadIndex = 0;
   let state = null;
@@ -197,9 +298,16 @@ export function createChapter(deps) {
     activeLabel: null,
     stationsHeard: new Set(),
     roundHeard: false,
-    cardPlaced: false,
+    mapIndex: 0,
+    mapCorrect: false,
+    mapFeedback: '',
+    mapMisses: 0,
+    mapWrongPiece: '',
+    mapWrongSequence: 0,
     heardOnce: new Set(),
-    noteFor: null
+    noteFor: null,
+    mapIntroSpoken: false,
+    mapCompleteSpoken: false
   });
 
   const spread = () => chapter.spreads[spreadIndex];
@@ -216,6 +324,7 @@ export function createChapter(deps) {
     engine.duck('piece', false);
     playing = null;
     paintPlaying();
+    stopMapBridgeClip();
     atmosphere();               // the page's tune comes back
   }
 
@@ -258,8 +367,14 @@ export function createChapter(deps) {
   // The moving highlight. Driven by the player's own AudioContext-derived
   // timeline, so the picture cannot slide out of step with the sound.
   function onNote(slot) {
-    const host = stage.querySelector('[data-live-contour]');
-    if (host) {
+    // Every drawing of the playing tune follows it (a painted spread can show
+    // one tune twice: on the ribbon and in its console strip); a page with a
+    // single contour keeps its old behaviour.
+    const all = [...stage.querySelectorAll('[data-live-contour]')];
+    const mine = playing ? all.filter((h) => h.dataset.liveContour === `c-${playing.pieceId}-${playing.which}`) : [];
+    const hosts = mine.length ? mine : all.slice(0, 1);
+    all.forEach((h) => { if (!hosts.includes(h)) { const d = h.querySelector('.rt-contour__dot'); if (d) d.style.opacity = '0'; } });
+    for (const host of hosts) {
       const dot = host.querySelector('.rt-contour__dot');
       const stops = host.__stops || [];
       const at = slot && slot.track !== 'voice-2' ? stops[slot.index] : null;
@@ -277,6 +392,9 @@ export function createChapter(deps) {
 
     if (playing && playing.popIndex >= 0 && slot && slot.index === playing.popIndex && !playing.popped) {
       playing.popped = true;
+      // Remembered on the spread state so a re-render (the tune ending) keeps the
+      // box open and the weasel up, instead of snapping shut the moment it popped.
+      if (state) state.boxPopped = true;
       stage.querySelector('[data-popbox]')?.classList.add('is-open');
     }
   }
@@ -287,6 +405,7 @@ export function createChapter(deps) {
       el.classList.toggle('is-playing', !!playing && playing.pieceId === id && playing.which === which);
     });
     stage.classList.toggle('is-listening', !!playing);
+    stage.dataset.playing = playing ? playing.pieceId : '';
   }
 
   // ── progress ───────────────────────────────────────────────────────────────
@@ -296,7 +415,7 @@ export function createChapter(deps) {
     if (need.labelsTried && state.labelsTried.size < need.labelsTried) return false;
     if (need.stationsHeard && state.stationsHeard.size < need.stationsHeard) return false;
     if (need.roundHeard && !state.roundHeard) return false;
-    if (need.cardPlaced && !state.cardPlaced) return false;
+    if (need.mapMatches && state.mapIndex < need.mapMatches) return false;
     return true;
   }
 
@@ -433,7 +552,7 @@ export function createChapter(deps) {
           ${plate.hooks.map((h, i) => {
             const l = spr.labels[i];
             const pos = `style="--tx:${h.x / 10}%;--ty:${h.y / 7.5}%"`;
-            if (!heard || !l) return `<span class="rt-hang rt-tagslot" ${pos}><span class="rt-hang__card"></span></span>`;
+            if (!heard || !l) return `<span class="rt-hang rt-tagslot" ${pos}><span class="rt-hang__card"><span class="rt-tagslot__placeholder" aria-hidden="true"><span>♪</span><span>?</span></span></span></span>`;
             return `
               <button class="rt-hang rt-tag${state.activeLabel === l.id ? ' is-current' : ''}" data-rt-label="${l.id}" ${pos}>
                 <span class="rt-hang__card">
@@ -486,7 +605,111 @@ export function createChapter(deps) {
       </div>`;
   }
 
+  // A contour laid into a painted place: the same derivation as contourMarkup,
+  // with the geometry the stop table needs to follow it.
+  function placedContour(pieceId, which, box, { dotR = 9 } = {}) {
+    const p = pieceById(pieceId);
+    const score = scoreFor(p, which);
+    const pts = score ? contourPoints(score.notes, box.w, box.h) : '';
+    return {
+      pts,
+      first: (pts.split(' ')[0] || '0,0').split(',').map(Number),
+      last: (pts.split(' ').pop() || '0,0').split(',').map(Number),
+      attrs: `data-live-contour="c-${pieceId}-${which}" data-cx0="${box.x}" data-cy0="${box.y}" data-cw="${box.w}" data-ch="${box.h}"`,
+      dotR
+    };
+  }
+
+  // A smooth ribbon through the score's own points: every note is still a
+  // point the curve passes through (and where the dot lands); only the
+  // corners between notes are rounded, so it reads as a ribbon, not a graph.
+  function ribbonPath(pts) {
+    const p = pts.split(' ').filter(Boolean).map((xy) => xy.split(',').map(Number));
+    if (p.length < 2) return '';
+    let d = `M ${p[0][0]} ${p[0][1]}`;
+    for (let i = 0; i < p.length - 1; i++) {
+      const p0 = p[i - 1] || p[i]; const p1 = p[i]; const p2 = p[i + 1]; const p3 = p[i + 2] || p2;
+      const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
+      const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+      d += ` C ${c1[0].toFixed(1)} ${c1[1].toFixed(1)}, ${c2[0].toFixed(1)} ${c2[1].toFixed(1)}, ${p2[0]} ${p2[1]}`;
+    }
+    return d;
+  }
+
   function spreadB(spr) {
+    const plate = PLATES[spr.scene];
+    if (!plate) return spreadBWireframe(spr);
+    const [lb, tbm] = spr.stations;
+    const R = plate.ribbons;
+    const a = placedContour(lb.pieceId, lb.which, R[lb.id]);
+    const b = placedContour(tbm.pieceId, tbm.which, R[tbm.id]);
+    const ax = (i) => R[lb.id].x + a[i][0]; const ay = (i) => R[lb.id].y + a[i][1];
+    const bx = (i) => R[tbm.id].x + b[i][0]; const by = (i) => R[tbm.id].y + b[i][1];
+    const leadIn = `M 0 ${ay('first') + 30} C 30 ${ay('first') + 30}, ${ax('first') - 30} ${ay('first')}, ${ax('first')} ${ay('first')}`;
+    const join = `M ${ax('last')} ${ay('last')} C ${ax('last') + 40} ${ay('last')}, ${bx('first') - 40} ${by('first')}, ${bx('first')} ${by('first')}`;
+    const leadOut = `M ${bx('last')} ${by('last')} C ${bx('last') + 20} ${by('last')}, 990 ${by('last') + 10}, 1010 ${by('last') + 14}`;
+    const half = (st, c) => `
+      <svg class="rt-flow rt-flow--ribbon rt-flow--${st.id}" viewBox="0 0 1000 750" role="img" ${c.attrs}
+           aria-label="The shape of ${esc(st.label)}, drawn from its notes">
+        <g transform="translate(${R[st.id].x} ${R[st.id].y})">
+          <path class="rt-contour__halo" d="${ribbonPath(c.pts)}"></path>
+          <path class="rt-contour__line" d="${ribbonPath(c.pts)}" data-points="${c.pts}"></path>
+        </g>
+        <circle class="rt-contour__dot" r="9" cx="-40" cy="-40"></circle>
+      </svg>`;
+    const hit = (st) => {
+      const h = plate.hits[st.id];
+      const done = state.stationsHeard.has(st.id);
+      return `
+        <div class="rt-station rt-station--painted${done ? ' is-done' : ''}" style="left:${h.x}%;top:${h.y}%;width:${h.w}%;height:${h.h}%">
+          <button class="rt-station__hit" data-rt-station="${st.id}" data-rt-play="${st.pieceId}:${st.which}"
+                  aria-label="Play ${esc(st.label)}"></button>
+        </div>`;
+    };
+    const panel = (st, i) => {
+      const box = plate.panels[i];
+      const heard = state.stationsHeard.has(st.id);
+      const pos = `style="left:${box.x}%;top:${box.y}%;width:${box.w}%;height:${box.h}%"`;
+      const plaque = `<span class="rt-panel__plaque">${esc(st.label)}</span>`;
+      if (!heard) return `<div class="rt-panel rt-panel--${st.id}" ${pos}>${plaque}</div>`;
+      const c = placedContour(st.pieceId, st.which, { x: 0, y: 0, w: 300, h: 70 });
+      return `
+        <button class="rt-panel rt-panel--${st.id} rt-strip" data-rt-play="${st.pieceId}:${st.which}" ${pos}
+                aria-label="Play ${esc(st.label)} again">
+          ${plaque}
+          <svg class="rt-contour rt-panel__contour" viewBox="-6 -6 312 82" preserveAspectRatio="none" ${c.attrs} aria-hidden="true">
+            <polyline class="rt-contour__line" points="${c.pts}"></polyline>
+            <circle class="rt-contour__dot" r="5" cx="-40" cy="-40"></circle>
+          </svg>
+        </button>
+        <p class="rt-panel__note" style="left:${box.x}%;top:${box.y + box.h + 1.2}%;width:${box.w}%">${esc(st.note)}</p>`;
+    };
+    return `
+      <div class="rt-scene rt-scene--lane rt-scene--painted" style="background-image:url(${plate.art})">
+        <svg class="rt-flow" viewBox="0 0 1000 750" aria-hidden="true">
+          <defs>
+            <filter id="rt-glow" x="-20%" y="-60%" width="140%" height="220%">
+              <feGaussianBlur stdDeviation="5" result="b"></feGaussianBlur>
+              <feMerge><feMergeNode in="b"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+            </filter>
+          </defs>
+          <path class="rt-flow__lead" d="${leadIn}"></path>
+          <path class="rt-flow__lead" d="${join}"></path>
+          <path class="rt-flow__lead" d="${leadOut}"></path>
+        </svg>
+        ${half(lb, a)}
+        ${half(tbm, b)}
+        <div class="rt-lanterns" aria-hidden="true">
+          ${plate.lanterns.map((l, i) => `<span class="rt-lantern" style="left:${l.x}%;top:${l.y}%;--i:${i}"></span>`).join('')}
+        </div>
+        ${spr.stations.map(hit).join('')}
+        <div class="rt-console" aria-label="What you have noticed so far">
+          ${spr.stations.map(panel).join('')}
+        </div>
+      </div>`;
+  }
+
+  function spreadBWireframe(spr) {
     return `
       <div class="rt-scene rt-scene--lane">
         <div class="rt-channel" aria-hidden="true"></div>
@@ -505,6 +728,71 @@ export function createChapter(deps) {
   }
 
   function spreadC(spr) {
+    const plate = PLATES[spr.scene];
+    if (!plate) return spreadCWireframe(spr);
+    const crank = spr.stations[0];
+    const turn = spr.stations[1];
+    const p = pieceById(turn.pieceId);
+    const canRound = !!buildRoundScore(scoreFor(p, turn.which));
+    const offerRound = state.stationsHeard.has(turn.id) && canRound;
+    const box = (b) => `left:${b.x}%;top:${b.y}%;width:${b.w}%;height:${b.h}%`;
+
+    // The two grooves, as rings on the measured rim: the outer one IS the rim,
+    // the inner one 0.68 of it. Neither is drawn until its voice sings, so a
+    // still turntable is just the painted one.
+    const ring = (k) => {
+      const g = plate.grooves;
+      return `left:${g.x - g.rx * k}%;top:${g.y - g.ry * k}%;width:${g.rx * 2 * k}%;height:${g.ry * 2 * k}%`;
+    };
+
+    const hit = (st) => {
+      const done = state.stationsHeard.has(st.id);
+      return `
+        <div class="rt-station rt-station--painted${done ? ' is-done' : ''}" style="${box(plate.hits[st.id])}">
+          <button class="rt-station__hit" data-rt-station="${st.id}" data-rt-play="${st.pieceId}:${st.which}"
+                  aria-label="Play ${esc(st.label)}"></button>
+        </div>`;
+    };
+    // The machine's own name, on the blank wall above it.
+    const plaque = (st) => `<span class="rt-plaque" style="${box(plate.plaques[st.id])}">${esc(st.label)}</span>`;
+    // What the child noticed, on a slip laid on the painted evidence rail.
+    // `pointer-events: none` in CSS: a slip is a consequence, not a control,
+    // and one that swallowed taps would steal them from the machine above it.
+    const slip = (st) => state.stationsHeard.has(st.id)
+      ? `<p class="rt-slip" style="${box(plate.slips[st.id])}">${esc(st.note)}</p>` : '';
+    const roundZone = box(plate.slips.round);
+    // The round's offer, and then the round's own note, in the same place on the
+    // rail: the tab is where the thought goes, so hearing it fills the tab in
+    // rather than adding a fourth thing to a spread that has no room for one.
+    const roundMarkup = state.roundHeard
+      ? `<p class="rt-slip" style="${roundZone}">${esc(spr.round.note)}</p>`
+      : offerRound
+        ? `<button class="rt-echo-tab rt-echo-tab--painted" data-rt-round style="${roundZone}"
+                   aria-label="${esc(spr.round.tab)}">${esc(spr.round.tab)}</button>`
+        : '';
+
+    return `
+      <div class="rt-scene rt-scene--machines rt-scene--painted" style="background-image:url(${plate.art})">
+        <div class="rt-turntable rt-turntable--painted" aria-hidden="true">
+          <span class="rt-groove rt-groove--lead" style="${ring(1)}" data-lead-ribbon></span>
+          <span class="rt-groove rt-groove--echo${state.roundHeard ? '' : ' is-dim'}" style="${ring(plate.grooves.inner)}" data-echo-ribbon></span>
+        </div>
+        <div class="rt-popbox rt-popbox--painted${state.boxPopped ? ' is-open' : ''}" data-popbox aria-hidden="true">
+          <img class="rt-popbox__spring" src="${plate.pop.art}" alt="" decoding="async"
+               style="${box(plate.pop)}">
+          <img class="rt-popbox__weasel" src="${plate.popWeasel.art}" alt="" decoding="async"
+               style="${box(plate.popWeasel)}">
+        </div>
+        ${[crank, turn].map(plaque).join('')}
+        ${[crank, turn].map(hit).join('')}
+        ${slip(crank)}
+        ${slip(turn)}
+        ${roundMarkup}
+      </div>`;
+  }
+
+  // The pre-plate layout, kept for a scene whose plate is not painted yet.
+  function spreadCWireframe(spr) {
     const crank = spr.stations[0];
     const turn = spr.stations[1];
     const p = pieceById(turn.pieceId);
@@ -527,6 +815,42 @@ export function createChapter(deps) {
   }
 
   function spreadD(spr) {
+    const plate = PLATES[spr.scene];
+    if (!plate) return spreadDWireframe(spr);
+    const box = (b) => `left:${b.x}%;top:${b.y}%;width:${b.w}%;height:${b.h}%`;
+    const complete = state.mapIndex >= spr.tokens.length;
+    const current = spr.tokens[Math.min(state.mapIndex, spr.tokens.length - 1)];
+    // Keep three deterministic choices without teaching "always tap the first
+    // card". The correct contour moves left, middle, right across questions.
+    const choiceOffsets = [[0, 1, 2], [1, 0, 2], [1, 2, 0]][state.mapIndex % 3];
+    const choices = complete ? [] : choiceOffsets.map((offset) => spr.tokens[(state.mapIndex + offset) % spr.tokens.length]);
+    const choice = (t, i) => {
+      const isAnswer = t.pieceId === current.pieceId;
+      const classes = [
+        'rt-map-choice',
+        state.mapCorrect && isAnswer ? 'is-correct' : '',
+        !state.mapCorrect && state.mapWrongPiece === t.pieceId ? 'is-wrong' : '',
+        !state.mapCorrect && state.mapMisses === 2 && isAnswer ? 'is-hint' : '',
+        !state.mapCorrect && state.mapMisses >= 3 && isAnswer ? 'is-revealed' : ''
+      ].filter(Boolean).join(' ');
+      return `<button class="${classes}"
+      data-rt-map-choice="${t.pieceId}" style="${box({ x: [15, 39, 63][i], y: 48, w: 22, h: 18 })}"
+      aria-label="Choose the shape of ${esc(t.text)}${state.mapMisses >= 3 && isAnswer ? ' — this is the matching shape' : ''}" ${state.mapCorrect ? 'disabled' : ''}>
+      ${contourMarkup(t.pieceId, t.which, { small: true })}<span>${esc(t.text)}</span></button>`;
+    };
+    return `
+      <div class="rt-scene rt-scene--mapdesk rt-scene--painted" style="background-image:url(${plate.art})">
+        ${complete ? `<p class="rt-map-complete" style="${box({ x: 25, y: 43, w: 50, h: 22 })}">${esc(MAP_BRIDGE_CLIP_TEXTS['mapbridge-complete'])}</p>` : `
+          <p class="rt-map-question">Which shape matches this tune? <span>${state.mapIndex + 1} of ${spr.tokens.length}</span></p>
+          <button class="rt-map-hear" data-rt-play="${current.pieceId}:${current.which}">▶ Hear the tune</button>
+          <div class="rt-map-choices" role="group" aria-label="Choose one shape">${choices.map(choice).join('')}</div>
+          <p class="rt-map-feedback" aria-live="polite">${esc(state.mapFeedback)}</p>
+          ${state.mapCorrect ? '<button class="rt-map-next" data-rt-map-next>Next tune</button>' : ''}`}
+      </div>`;
+  }
+
+  // The pre-plate layout, kept for a scene whose plate is not painted yet.
+  function spreadDWireframe(spr) {
     return `
       <div class="rt-scene rt-scene--mapdesk">
         <div class="rt-desk" aria-hidden="true"></div>
@@ -568,7 +892,7 @@ export function createChapter(deps) {
     stage.style.backgroundImage = '';
     document.body.classList.toggle('rt-painted', !!plate);
     stage.innerHTML = `
-      <div class="rt${plate ? ' rt--painted' : ''}">
+      <div class="rt${plate ? ` rt--painted rt--${spr.scene}` : ''}">
         <div class="rt-top">
           <button class="round-btn" data-rt-back aria-label="Back">←</button>
           <div class="rt-head">
@@ -593,7 +917,10 @@ export function createChapter(deps) {
         </div>
 
         <div class="rt-foot">
-          <button class="rt-btn rt-btn--quiet" data-rt-explore>Skip to Explore</button>
+          ${spr.scene === 'mapdesk' && spreadDone()
+            ? `<button class="rt-btn rt-btn--quiet" data-rt-exit="wing">Back to the map</button>
+               <button class="rt-btn" data-rt-exit="explore">Explore this workshop</button>`
+            : `<button class="rt-btn rt-btn--quiet" data-rt-explore>Skip to Explore</button>`}
           ${spreadIndex < chapter.spreads.length - 1
             ? `<button class="rt-btn${done ? ' is-ready' : ''}" data-rt-next>Continue</button>`
             : ''}
@@ -601,6 +928,20 @@ export function createChapter(deps) {
       </div>`;
     bindContours();
     paintPlaying();
+
+    // Map Bridge voice lines: intro on first entry, correct/try-again on tap,
+    // complete when the last match is made. The bubble text is already rendered,
+    // so a missing clip is a silent audio failure, not a silent control.
+    if (spr.scene === 'mapdesk') {
+      const complete = state.mapIndex >= spr.tokens.length;
+      if (complete && !state.mapCompleteSpoken) {
+        state.mapCompleteSpoken = true;
+        if (canPlaySound()) speakMapBridgeClip('mapbridge-complete');
+      } else if (!complete && !state.mapIntroSpoken) {
+        state.mapIntroSpoken = true;
+        if (canPlaySound()) speakMapBridgeClip('mapbridge-intro');
+      }
+    }
   }
 
   // ── clicks ─────────────────────────────────────────────────────────────────
@@ -650,15 +991,34 @@ export function createChapter(deps) {
       return true;
     }
 
-    if (target.closest('[data-rt-place]')) { state.cardPlaced = true; render(); return true; }
-
-    const cue = target.closest('[data-rt-cue]');
-    if (cue) {
-      const c = spr.card.cues.find((x) => x.id === cue.dataset.rtCue);
-      stage.querySelectorAll('[data-rt-token]').forEach((el) => {
-        el.classList.toggle('is-cued', c.pieceIds.includes(el.dataset.rtToken));
-      });
+    const mapChoice = target.closest('[data-rt-map-choice]');
+    if (mapChoice) {
+      const current = spr.tokens[state.mapIndex];
+      state.mapCorrect = mapChoice.dataset.rtMapChoice === current.pieceId;
+      state.mapFeedback = state.mapCorrect ? MAP_BRIDGE_CLIP_TEXTS['mapbridge-correct'] : MAP_BRIDGE_CLIP_TEXTS['mapbridge-try-again'];
+      if (canPlaySound()) {
+        speakMapBridgeClip(state.mapCorrect ? 'mapbridge-correct' : 'mapbridge-try-again');
+      }
+      if (state.mapCorrect) {
+        state.mapWrongPiece = '';
+      } else {
+        state.mapMisses += 1;
+        state.mapWrongPiece = mapChoice.dataset.rtMapChoice;
+        const sequence = ++state.mapWrongSequence;
+        const index = state.mapIndex;
+        setTimeout(() => {
+          if (state.mapWrongSequence !== sequence || state.mapIndex !== index || state.mapCorrect) return;
+          state.mapWrongPiece = '';
+          render();
+        }, 1000);
+      }
+      render();
       return true;
+    }
+    if (target.closest('[data-rt-map-next]')) {
+      state.mapIndex += 1; state.mapCorrect = false; state.mapFeedback = '';
+      state.mapMisses = 0; state.mapWrongPiece = ''; state.mapWrongSequence += 1;
+      render(); return true;
     }
 
     const hit = target.closest('[data-rt-play]');

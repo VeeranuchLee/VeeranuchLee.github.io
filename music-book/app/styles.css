@@ -218,6 +218,17 @@ body {
   box-shadow: inset 0 0 0 1.5px var(--plate-edge), inset 0 -3px 6px rgba(31, 43, 69, .16);
   overflow: hidden;
 }
+
+/* Inside a room's topbar the bubble travels with the room-tools, so it never
+   overlaps the banner, the Learn More diamond, the song bubbles, the companion
+   corner, or the Sound button. It reuses the same face icon as the landing. */
+.toy-bubble--room {
+  position: relative;
+  right: auto;
+  top: auto;
+  width: clamp(44px, 6vw, 64px);
+  flex: 0 0 auto;
+}
 .toy-face__key { position: relative; }
 .toy-face__key--black {
   position: absolute; top: 0;
@@ -236,8 +247,7 @@ body {
 }
 .banner h1 { margin: 0; font-size: clamp(18px, 3.2vw, 38px); letter-spacing: .01em; }
 .banner p { margin: 1px 0 0; font-size: clamp(10px, 1.4vw, 16px); color: var(--ink-soft); }
-/* Wing taglines are full sentences, not one-liners like a room subtitle. */
-.banner--wing p { font-size: clamp(9px, 1.15vw, 13.5px); max-width: 58ch; margin-inline: auto; line-height: 1.3; }
+.banner--wing { align-self: flex-start; }
 
 .guide-badge {
   flex: 0 0 auto; display: flex; align-items: center; gap: 6px;
@@ -247,6 +257,28 @@ body {
 }
 .guide-badge img { width: clamp(30px, 3.6vw, 46px); height: auto; }
 .guide-badge span { font-size: clamp(10px, 1.3vw, 15px); font-weight: 700; }
+
+/* The companion badge already owns the room's top-right corner. The one
+   arrangement choice for the whole room sits immediately beside it: pictures
+   lead, while the small words preserve grown-up clarity and accessible names. */
+.room-tools { flex: 0 0 auto; display: flex; align-items: flex-start; gap: 8px; }
+.room-mode {
+  display: flex; gap: 4px; padding: 3px;
+  border-radius: 16px;
+  background: rgba(255,250,238,.92);
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+}
+.room-mode__choice {
+  min-width: 48px; min-height: 46px; padding: 3px 6px;
+  display: grid; place-items: center;
+  border: 0; border-radius: 12px;
+  background: transparent; color: var(--ink); cursor: pointer;
+}
+.room-mode__choice.is-current { background: linear-gradient(180deg, #fff3c9, #ffe08a); box-shadow: inset 0 0 0 2px var(--gold); }
+.room-mode__choice:disabled { cursor: default; opacity: .55; }
+.room-mode__picture { min-height: 22px; font: 800 clamp(19px, 2.2vw, 25px)/1 Georgia, serif; }
+.room-mode__picture b { margin-left: 1px; font-size: .82em; }
+.room-mode__choice small { max-width: 8ch; font-family: inherit; font-size: clamp(7px, .82vw, 10px); font-weight: 700; line-height: 1.05; }
 
 /* ── music world (the six wings) ────────────────────────────────────────────
    The source painting is 4:3 and all six islands matter. On a 3:4 portrait
@@ -465,6 +497,49 @@ body[data-view="world"] .chrome-btn {
   background: radial-gradient(ellipse at 50% 42%, rgba(255,252,244,.62) 0%, rgba(255,252,244,.34) 48%, rgba(255,252,244,.08) 78%);
 }
 
+/* A mapped wing is one complete 4:3 painting. The stage already letterboxes at
+   4:3, exactly like the World page's inner map, so percentages stay attached to
+   the artwork in portrait as well as landscape. Only the top furniture carries
+   a scrim; the scene itself stays clear. */
+.stage--wing .wing-map-page { background: none; }
+.wing-map-page .topbar { position: relative; z-index: 4; }
+.wing-map-page .banner--wing {
+  flex: 0 1 auto;
+  min-width: min(58%, 520px);
+  margin-inline: auto;
+  padding: .8% 3%;
+}
+.wing-landmarks { position: absolute; inset: 0; }
+
+/* Same transparent ellipse, light feedback and button semantics as the World
+   map one tier up. The geometry table is intentionally generous: even its
+   smallest ellipse is far larger than the app's 44px minimum at every checked
+   viewport, and it is never shrunk to the painted landmark. */
+.room-landmark { z-index: 2; }
+.room-landmark__name {
+  position: absolute;
+  left: 50%; top: calc(100% + 6px);
+  translate: -50% 0;
+  width: max-content;
+  max-width: min(30cqw, 220px);
+  padding: 5px 10px 6px;
+  border-radius: 11px;
+  background: rgba(255, 249, 230, .96);
+  color: var(--ink);
+  box-shadow: 0 0 0 2px var(--gold), 0 3px 10px rgba(20, 26, 45, .35);
+  font-size: clamp(9.5px, 1.35cqw, 13px);
+  font-weight: 800;
+  line-height: 1.08;
+  text-align: center;
+  text-wrap: balance;
+  white-space: normal;
+  pointer-events: none;
+}
+.room-landmark--left .room-landmark__name { left: 0; translate: 0 0; }
+.room-landmark--right .room-landmark__name { left: auto; right: 0; translate: 0 0; }
+
+.stage--wing .companion-corner { z-index: 4; }
+
 .room-grid {
   flex: 1;
   display: grid;
@@ -584,7 +659,7 @@ body[data-view="world"] .chrome-btn {
 
 /* The name plate and the mode buttons are what a child aims a finger at, so
    they are never shrunk — `flex: 0 0 auto` takes them out of the shrink pass. */
-.bubble__name, .bubble__modes { flex: 0 0 auto; }
+.bubble__name { flex: 0 0 auto; }
 
 .bubble__disc {
   position: relative;
@@ -609,6 +684,36 @@ body[data-view="world"] .chrome-btn {
 .bubble__art--none {
   display: flex; align-items: center; justify-content: center;
   width: 100%; height: 100%; font-size: 3rem; color: #8a7f66;
+}
+
+/* ── per-song explanation button (CG-315) ────────────────────────────────────
+   One small sibling of the room-level .info-diamond, present only for pieces
+   with a facts entry. Never bigger than .bubble__disc (the play target must
+   stay the largest, easiest thing on the bubble) and never smaller than the
+   repository's 44px iPad tap-target floor. `flex: 0 0 auto` keeps this row out
+   of the same shrink pass as .bubble__disc, matching .bubble__name/.bubble__modes
+   above. The former 💗 feel button (and its --feel style) was retired by the
+   owner's 2026-09-25 decision: "let's just use the fact and not feel." */
+.bubble__explain-row {
+  display: flex; flex: 0 0 auto;
+  gap: 8px; margin-top: 6px; z-index: 1;
+}
+.bubble__explain {
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  border: 0; border-radius: 50%;
+  font-size: 20px; line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 0 0 2.5px var(--plate-edge), var(--shadow);
+  transition: transform .12s ease;
+}
+.bubble__explain:hover { transform: scale(1.06); }
+.bubble__explain:active { transform: scale(.95); }
+/* A warm lamp distinct from the gold room-level info-diamond, so a child never
+   confuses "a true story about this song" with the room's Learn More lamp. */
+.bubble__explain--facts {
+  background: linear-gradient(180deg, #fdf6e3, #e9d9ae);
+  box-shadow: 0 0 0 2.5px var(--gold), var(--shadow);
 }
 
 /* A ring that breathes while the piece plays — the only "now playing" cue the
@@ -639,72 +744,96 @@ body[data-view="world"] .chrome-btn {
 .bubble__name:hover { transform: translateY(-2px); }
 .bubble__name.is-speaking { background: linear-gradient(180deg, #fff3c9, #ffe08a); transform: translateY(-2px); }
 
-.bubble__modes {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 6px;
-  max-width: 140%;
-  z-index: 1;
+/* ── painted room scene pilot (Room 4, owner 2026-09-28) ───────────────────
+   The room becomes one place in exactly the way a Wing Map does: transparent
+   oval buttons outline landmarks in the painting and small cream labels name
+   them. Geometry is authored as percentages of the complete 4:3 plate, which
+   the stage letterboxes rather than crops at both target iPad orientations.
+   The top bar, Learn More diamond and picture doors remain the existing real
+   controls; this layer changes only how the five songs are reached. */
+.stage--room-scene .scrim { background: none; }
+.room-scene-page .topbar { position: relative; z-index: 4; }
+.room-body--scene { position: absolute; inset: 0; padding: 0; display: block; }
+.room-scene-landmarks { position: absolute; inset: 0; }
+.room-scene-landmark {
+  position: absolute;
+  left: var(--x); top: var(--y);
+  width: var(--w); height: var(--h);
+  z-index: 2;
+  border: 2px solid rgba(255, 249, 225, .82);
+  border-radius: 50%;
+  background: rgba(255, 246, 211, .025);
+  box-shadow: 0 0 0 1px rgba(53, 68, 91, .24), 0 0 13px rgba(255, 240, 181, .28);
+  color: var(--ink); font: inherit; cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition: border-color .15s ease, background .15s ease, box-shadow .15s ease, transform .15s ease;
 }
-.bubble__mode {
-  min-height: 44px;
-  padding: 6px 12px;
-  border: 0;
-  border-radius: 999px;
-  background: linear-gradient(180deg, var(--plate), #ecdcb4);
-  box-shadow: 0 0 0 2px var(--plate-edge), var(--shadow);
-  color: var(--ink);
-  font: inherit;
-  font-size: clamp(10px, 1.3vw, 15px);
-  font-weight: 700;
-  cursor: pointer;
+.room-scene-landmark:hover, .room-scene-landmark:focus-visible {
+  outline: none; border-color: #fff8d9; background: rgba(255, 239, 174, .12);
+  box-shadow: 0 0 0 2px var(--gold), 0 0 18px rgba(255, 233, 147, .7);
 }
-.bubble__mode.is-current {
-  background: linear-gradient(180deg, #fff3c9, #ffe08a);
-  box-shadow: 0 0 0 2.5px var(--gold), var(--shadow);
+.room-scene-landmark:active { transform: translate(-50%, -50%) scale(.98); }
+.room-scene-landmark.is-playing {
+  border-color: #fff4bc;
+  background: rgba(255, 231, 139, .16);
+  box-shadow: 0 0 0 3px var(--gold), 0 0 28px 9px rgba(255, 220, 103, .58);
+  animation: scene-landmark-pulse 1.5s ease-in-out infinite;
 }
+@keyframes scene-landmark-pulse {
+  50% { box-shadow: 0 0 0 5px #ffe99e, 0 0 32px 12px rgba(255, 220, 103, .68); }
+}
+.room-scene-landmark__name {
+  position: absolute; left: 50%; top: calc(100% + 6px); translate: -50% 0;
+  width: max-content; max-width: min(28cqw, 220px);
+  padding: 5px 10px 6px; border-radius: 11px;
+  background: rgba(255, 249, 230, .96);
+  box-shadow: 0 0 0 2px var(--gold), 0 3px 10px rgba(20, 26, 45, .35);
+  font-size: clamp(9.5px, 1.35cqw, 13px); font-weight: 800; line-height: 1.08;
+  text-align: center; white-space: nowrap; pointer-events: none;
+}
+.room-scene-landmark--label-above .room-scene-landmark__name {
+  top: auto; bottom: calc(100% + 6px);
+}
+.room-scene-info {
+  position: absolute; z-index: 4; right: 2.7%; top: 35%;
+  width: clamp(76px, 11vw, 130px); height: clamp(92px, 14vw, 132px);
+}
+.stage--room-scene .room-links { position: relative; z-index: 4; margin-top: auto; }
+.stage--room-scene .companion-corner { z-index: 5; }
 
-/* ── anchored bubbles (pilot: Playground of Patterns, owner 2026-09-24) ───────
+/* ── anchored bubbles (all painted Explore rooms, owner 2026-09-27) ──────────
    A room with anchor data (app.js, ROOM_BACKGROUND[..].anchors) sets each
    bubble's disc centre on the painting instead of in the grid above. This gives
    up the grid's `minmax(0, 1fr)` guarantee on purpose, so the guarantee is
    bought back by measurement: tools/check-bubble-anchors.mjs proves at 768×1024,
    1024×768 and 1440×900 that no disc, name plate or mode button touches another
    bubble, the back arrow, the banner, the guide badge, the Learn More rail, the
-   connections strip, the companion corner or the Sound button.
+   connections strip, the companion corner, the room switch or Sound button.
 
    Positions are % of the scrim, whose box is the stage, which is the painted
    image (see roomAnchors() in app.js). The field stays in the flow as an empty
    flex:1 box so the info rail keeps its place on the right.
 
-   Sizes are never smaller than the grid's at the same viewport: the grid's
-   discs are min(19vh, column) and min(23vh, column) for a large piece; here the
-   column is replaced by a share of the stage width. The two mode buttons sit
-   side by side rather than stacked, so a bubble is short enough for two tiers
-   of songs to fit between the banner and the connections strip.
+   Sizes are never smaller than the grid's at the same viewport: renderRoom()
+   lays the bubbles out as the ordinary grid, measures every disc, then applies
+   those exact pixel sizes while switching this class on. There is deliberately
+   no second sizing formula here that can drift away from the grid again.
 
    Below an iPad-sized stage (700 × 525) the positions would no longer leave
    room for fixed 44px buttons, so the media query lets the grid take over. */
 @media (min-width: 700px) and (min-height: 525px) {
   .bubble-field--anchored {
     display: block;
-    --stage-w: min(100vw, calc(100vh * 4 / 3));
-    --disc: min(19vh, calc(var(--stage-w) * .143));
   }
-  .bubble-field--anchored .bubble--large { --disc: min(23vh, calc(var(--stage-w) * .1725)); }
   .bubble-field--anchored .bubble {
     position: absolute;
     left: var(--ax); top: var(--ay);
     width: var(--disc); height: auto;
     justify-content: flex-start;
-    transform: translate(-50%, calc(var(--disc) / -2));
+    transform: translate(-50%, calc(var(--disc) / -2 - var(--anchor-lift, 0px)));
   }
   .bubble-field--anchored .bubble__disc { flex: 0 0 auto; height: var(--disc); }
   .bubble-field--anchored .bubble__name { max-width: none; white-space: nowrap; }
-  .bubble-field--anchored .bubble__modes { flex-wrap: nowrap; max-width: none; }
-  .bubble-field--anchored .bubble__mode { white-space: nowrap; }
 }
 
 /* ── info objects ─────────────────────────────────────────────────────────── */
@@ -853,6 +982,46 @@ body[data-view="world"] .chrome-btn {
 .room-link--hint { cursor: default; box-shadow: 0 0 0 2px rgba(216,191,134,.5); }
 .room-link--hint .room-link__target { color: var(--ink-soft); }
 
+/* ── picture doors (owner, 2026-09-27: "A. Picture doors") ───────────────────
+   A card used to be an adult sentence plus "➜ Room Name" — unreadable to a
+   pre-reader and, per the owner, "very confusing" even tapped blind. A door
+   now shows the destination room's own painting (the same ROOM_CARD thumbnail
+   used on the wing's room-grid) in a rounded frame, with only the room's name
+   printed underneath — nothing to read to know where it goes. The box is the
+   same tap target as the plain .room-link (never shrunk), just laid out as a
+   picture over a caption instead of two lines of text. */
+/* Sized to keep the whole connections strip close to the height the old
+   text-only card left it (2026-09-27 measurement: a taller strip eats into
+   the approved Playground pilot's anchored bubbles below it, since the strip
+   and the anchored bubbles both live in the same fixed-height stage — see
+   the long comment above ROOM_BACKGROUND in app.js). The frame is a small
+   fixed square rather than a scaling one, and the name is a single line with
+   an ellipsis rather than wrapping to two, so this can't silently grow. */
+.room-link--door {
+  flex-direction: column; align-items: center;
+  gap: 5px;
+  max-width: none;
+  padding: 6px 9px;
+}
+.room-link__frame {
+  flex: 0 0 auto;
+  width: clamp(64px, 10.4vw, 96px); height: clamp(64px, 10.4vw, 96px);
+  border-radius: 50%; overflow: hidden;
+  box-shadow: 0 0 0 2px var(--gold);
+  background: color-mix(in srgb, var(--accent, #22385a) 40%, #1d2544);
+}
+.room-link__art {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.room-link__art--none {
+  display: flex; align-items: center; justify-content: center;
+  height: 100%; font-size: 16px;
+}
+.room-link__name {
+  font-size: clamp(9px, 1.05vw, 12px); font-weight: 800; text-align: center; line-height: 1.15;
+  max-width: 22vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
 /* ── pop-up ───────────────────────────────────────────────────────────────── */
 
 #popup {
@@ -886,16 +1055,41 @@ body[data-view="world"] .chrome-btn {
 .popup__say-cue { margin-left: .35em; font-size: .8em; opacity: .55; }
 .popup__say.is-speaking { background: linear-gradient(180deg, #fff3c9, #ffe08a); border-radius: 6px; }
 .popup__meta { color: var(--ink-soft); font-weight: 700; }
+.popup__child-script { font-size: clamp(17px, 2vw, 22px) !important; font-weight: 700; line-height: 1.45 !important; }
 
 /* Room knowledge: the words this room teaches, as chips rather than a sentence,
    so they read as things to collect rather than a glossary to read. */
-.popup__vocab { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.popup__vocab { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; align-items: flex-start; }
+.vocab-item { position: relative; display: inline-flex; }
 .vocab-chip {
-  padding: 3px 12px; border-radius: 999px;
+  min-height: 64px; padding: 10px 18px; border-radius: 999px;
   background: linear-gradient(180deg, #fff3c9, #ffe08a);
   box-shadow: 0 0 0 2px var(--gold);
   font-size: clamp(11px, 1.3vw, 14px); font-weight: 700;
 }
+.vocab-chip--spoken {
+  border: 0; font: inherit; color: inherit; cursor: pointer;
+}
+.vocab-chip--spoken span { margin-left: .25em; opacity: .65; }
+.vocab-chip--spoken:active { transform: scale(.97); }
+.vocab-meaning {
+  position: fixed; z-index: 23; box-sizing: border-box;
+  width: min(280px, calc(100vw - 24px)); padding: 12px 14px; border-radius: 16px;
+  background: #fffdf6; box-shadow: 0 0 0 3px var(--gold), 0 8px 20px rgba(30, 24, 10, .28);
+  font-size: clamp(14px, 1.7vw, 18px); font-weight: 700; line-height: 1.35;
+}
+.vocab-meaning::before { content: ''; position: absolute; left: var(--meaning-arrow-x, 50%); width: 18px; height: 18px; translate: -50% 0; rotate: 45deg; background: #fffdf6; }
+.vocab-meaning--below::before { top: -9px; border-left: 3px solid var(--gold); border-top: 3px solid var(--gold); }
+.vocab-meaning--above::before { bottom: -9px; border-right: 3px solid var(--gold); border-bottom: 3px solid var(--gold); }
+.popup__grownups { margin-top: 20px; border-top: 2px solid rgba(181,138,46,.35); padding-top: 12px; }
+.popup__grownups summary { min-height: 64px; display: flex; align-items: center; cursor: pointer; font-weight: 800; color: var(--ink-soft); }
+
+/* The adult connection sentences relocated off the child-facing picture doors
+   (owner, 2026-09-27: "A. Picture doors"). Grown-up reading, in Learn More. */
+.popup__connections { margin-top: 14px; }
+.popup__connections > strong { font-size: clamp(12px, 1.4vw, 15px); }
+.popup__connection { margin: 6px 0 0; font-size: clamp(12px, 1.4vw, 15px); }
+.popup__connection em { font-style: normal; font-weight: 700; color: var(--ink-soft); }
 
 /* Compare links inside a piece popup: the same A/B journey the room teaches,
    offered from the piece that starts it. */
@@ -910,11 +1104,41 @@ body[data-view="world"] .chrome-btn {
 }
 .popup__compare-link:hover { transform: translateY(-2px); }
 
+/* The facts-and-knowledge popup (CG-315): the facts paragraph, then one shared
+   glossary line per referenced knowledge card, each with its own Listen control.
+   The Listen control plays a PRE-RENDERED clip built by id (app/explain-audio.js)
+   and stays silent when the render task has not produced it yet (spec section 5). */
+.popup__listen {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 10px;
+  padding: 8px 16px; border: 0; border-radius: 999px;
+  background: linear-gradient(180deg, #fdf6e3, #e9d9ae);
+  box-shadow: 0 0 0 2px var(--gold), var(--shadow);
+  color: var(--ink); font: inherit; font-weight: 800;
+  font-size: clamp(12px, 1.5vw, 16px); cursor: pointer;
+}
+.popup__listen:hover { transform: translateY(-2px); }
+.popup__listen:active { transform: scale(.96); }
+.popup__glossary {
+  margin-top: 16px; padding-top: 12px;
+  border-top: 2px dashed rgba(30,43,69,.15);
+  display: flex; flex-direction: column; gap: 10px;
+}
+.popup__glossary-line {
+  display: flex; align-items: flex-start; gap: 8px;
+  margin: 0;
+}
+.popup__glossary-cue { flex: 0 0 auto; font-size: 16px; line-height: 1.5; }
+.popup__glossary-text { flex: 1 1 auto; }
+.popup__glossary-line .popup__listen { margin-top: 0; padding: 4px 12px; font-size: clamp(11px, 1.3vw, 14px); }
+
 .popup__close {
   position: absolute; top: 10px; right: 12px;
-  width: 40px; height: 40px; border: 0; border-radius: 50%;
-  background: rgba(30,43,69,.1); font-size: 20px; cursor: pointer;
+  width: 56px; height: 56px; border: 0; border-radius: 50%;
+  background: rgba(30,43,69,.14); font-size: 26px; cursor: pointer;
+  color: var(--ink); line-height: 1;
 }
+.popup__close:hover { background: rgba(30,43,69,.22); }
 
 /* ── Read Together: the guided chapter ──────────────────────────────────────
    Scenes here are deliberately flat placeholder plates. Four painted 4:3 plates
@@ -950,12 +1174,18 @@ body[data-view="world"] .chrome-btn {
 
 /* Page orientation, not a score: four marks, no numbers, no streak. One quiet
    pill per spread; only the current one is lit (owner, 2026-09-24). */
-.rt-marks { display: flex; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.rt-marks { display: flex; gap: 18px; margin: 0; padding: 0; list-style: none; }
 .rt-mark {
   flex: 1; text-align: center; font-size: clamp(9px, 1.15vw, 13px); font-weight: 700;
   color: var(--ink-soft); padding: 5px 4px; border-radius: 999px;
   background: rgba(255, 252, 243, .78); box-shadow: inset 0 0 0 1px rgba(216, 191, 134, .7);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  white-space: nowrap; position: relative;
+}
+.rt-mark span { display: block; overflow: hidden; text-overflow: ellipsis; }
+/* A small bead between neighbouring pills: one path, four stops. */
+.rt-mark + .rt-mark::before {
+  content: ''; position: absolute; left: -9px; top: 50%; translate: -50% -50%;
+  width: 5px; height: 5px; border-radius: 50%; background: #9a7a32; opacity: .75;
 }
 .rt-mark.is-current {
   color: var(--ink); background: linear-gradient(180deg, #fff3c9, #ffe08a);
@@ -1299,6 +1529,14 @@ body[data-view="world"] .chrome-btn {
   background: #6b4d14; box-shadow: 0 0 0 2px #d4a93c;
 }
 .rt-tagslot { opacity: 1; }
+.rt-tagslot__placeholder {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  gap: .45em; color: currentColor; font-family: Georgia, "Iowan Old Style", serif;
+  font-size: clamp(20px, 3.2cqw, 32px); font-weight: 800; opacity: .72;
+}
+.rt-tagslot:nth-child(1) { color: #9d3d38; }
+.rt-tagslot:nth-child(2) { color: #356491; }
+.rt-tagslot:nth-child(3) { color: #477a43; }
 .rt-tag.rt-hang { cursor: pointer; }
 .rt-tag.rt-hang:active { scale: .97; }
 .rt-tag.rt-hang.is-current { background: none; box-shadow: none; filter: drop-shadow(0 0 7px rgba(255, 205, 70, .95)) drop-shadow(0 3px 4px rgba(60, 40, 10, .35)); }
@@ -1355,6 +1593,282 @@ body[data-view="world"] .chrome-btn {
 .rt--painted .rt-btn--quiet { font-family: Georgia, serif; color: #3a4a6a; min-height: 44px; padding: 8px 6px; }
 .rt--painted .rt-btn:not(.rt-btn--quiet) { font-family: Georgia, serif; min-width: 120px; min-height: 48px; }
 
+/* Spread B on its plate: one machine — bridge, ribbon, lantern carts, console. */
+.rt-flow--lanterns .rt-contour__line { stroke: #bfe6ff; filter: drop-shadow(0 0 4px rgba(120, 200, 255, .95)); }
+.rt-flow--lanterns .rt-contour__halo { stroke: rgba(150, 215, 255, .4); }
+.rt-flow--lanterns .rt-contour__dot { stroke: #5aa9df; filter: drop-shadow(0 0 8px rgba(140, 210, 255, 1)); }
+.stage[data-playing="london-bridge"] .rt-flow--bridge .rt-contour__line,
+.stage[data-playing="three-blind-mice"] .rt-flow--lanterns .rt-contour__line { stroke-width: 7.5; }
+
+.rt-station--painted { position: absolute; max-width: none; display: block; }
+.rt-station--painted .rt-station__hit {
+  position: absolute; inset: 0; width: 100%; height: 100%; min-height: 44px;
+  border-radius: 24px; transition: box-shadow .25s ease, background .25s ease;
+}
+.rt-station--painted .rt-station__hit:focus-visible,
+.rt-station--painted .rt-station__hit:hover { box-shadow: inset 0 0 0 3px rgba(255, 224, 138, .75); }
+.rt-station--painted .rt-station__hit.is-playing {
+  background: radial-gradient(ellipse at 50% 55%, rgba(255, 232, 150, .28), rgba(255, 232, 150, 0) 70%);
+}
+
+/* The painted lanterns wake while their tune plays, one after another. */
+.rt-lanterns { position: absolute; inset: 0; pointer-events: none; }
+.rt-lantern {
+  position: absolute; width: 6.2%; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 244, 190, .95), rgba(255, 214, 102, .45) 45%, rgba(255, 214, 102, 0) 72%);
+  opacity: 0; transition: opacity .3s ease;
+}
+.stage[data-playing="three-blind-mice"] .rt-lantern { animation: rt-lantern 1.8s ease-in-out infinite; animation-delay: calc(var(--i) * .3s); }
+@keyframes rt-lantern { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+
+/* The console: two framed strips painted into the bench front. The frame is
+   paint; the name plaque, the contour and the note are HTML. */
+.rt-console { position: absolute; inset: 0; pointer-events: none; }
+.rt-panel {
+  position: absolute; pointer-events: auto; box-sizing: border-box;
+  display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start;
+  gap: .4cqh; padding: 0 3% 2%; margin: 0; border: 0; border-radius: 10px; background: none;
+  font: inherit; color: #2a2114; text-align: left; box-shadow: none; width: auto; min-height: 0;
+}
+button.rt-panel { cursor: pointer; }
+.rt-panel.rt-strip:not(.is-playing) { box-shadow: none; }
+.rt-panel.is-playing { box-shadow: 0 0 0 3px rgba(255, 214, 102, .8), 0 0 18px rgba(255, 214, 102, .55); }
+.rt-panel__plaque {
+  align-self: flex-start; translate: 0 -55%;
+  font-family: Georgia, "Iowan Old Style", serif; font-weight: 700; font-size: clamp(11px, 1.7cqw, 18px);
+  padding: .5cqh 1.6cqw; border-radius: 999px; color: #2e2412;
+  background: linear-gradient(180deg, #fbf1d6, #ead6a4);
+  box-shadow: 0 0 0 1.5px #b58a2e, 0 2px 5px rgba(60, 40, 10, .3);
+  white-space: nowrap;
+}
+.rt-panel__contour { position: absolute; left: 5%; top: 24%; width: 90%; height: 64%; }
+.rt-panel__contour .rt-contour__line {
+  stroke: #e9ae1f; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; fill: none;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 3px rgba(255, 200, 60, .8));
+}
+.rt-panel--lanterns .rt-panel__contour .rt-contour__line { stroke: #3fa3e0; filter: drop-shadow(0 0 3px rgba(90, 180, 255, .8)); }
+.rt-panel__contour .rt-contour__dot { fill: #fffbe8; stroke: #c98f10; stroke-width: 3; }
+.rt-panel--lanterns .rt-panel__contour .rt-contour__dot { stroke: #2f86c2; }
+/* What the child noticed, on a slip tucked under its strip. */
+.rt-panel__note {
+  position: absolute; margin: 0; box-sizing: border-box; pointer-events: none;
+  font-family: Georgia, "Iowan Old Style", serif; font-size: clamp(10px, 1.35cqw, 14px); line-height: 1.2;
+  color: #3a2e18; text-align: center;
+  padding: .5cqh 1cqw; border-radius: 6px;
+  background: rgba(253, 246, 225, .95); box-shadow: 0 0 0 1px #d8bf86, 0 2px 5px rgba(60, 40, 10, .25);
+}
+
+/* Spread C on its plate: two machines on a workshop wall. The box, the
+   turntable and the rests are paint; the name plaques, the round's tab, the two
+   grooves and the slips are HTML, in plate percentages (spreads A and B above).
+   Nothing here is a wireframe any more, and nothing here is new teaching: the
+   pop still fires on the score's own highest note and the two rings still light
+   with the voice that is singing. */
+.rt-plaque {
+  position: absolute; box-sizing: border-box; pointer-events: none; margin: 0;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  padding: 0 .8cqw; border-radius: 999px; color: #2e2412;
+  font-family: Georgia, "Iowan Old Style", serif; font-weight: 700;
+  font-size: clamp(11px, 1.55cqw, 17px); line-height: 1.05;
+  background: linear-gradient(180deg, #fbf1d6, #ead6a4);
+  box-shadow: 0 0 0 1.5px #b58a2e, 0 2px 5px rgba(60, 40, 10, .3);
+}
+/* What the child noticed, on a slip laid on the painted evidence rail.
+   `pointer-events: none` because it is a consequence, not a control: a slip that
+   swallowed taps would steal them from the machine above it. */
+.rt-slip {
+  position: absolute; box-sizing: border-box; pointer-events: none; margin: 0;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  padding: .2cqh .7cqw; border-radius: 8px; color: #3a2e18;
+  font-family: Georgia, "Iowan Old Style", serif;
+  font-size: clamp(9px, 1.15cqw, 13px); line-height: 1.15;
+  background: rgba(253, 246, 225, .95);
+  box-shadow: 0 0 0 1.2px #d8bf86, 0 3px 8px rgba(60, 40, 10, .25);
+}
+
+/* The turntable's two grooves are code: the plate's own grooves are not
+   separately resolvable at this size, so both rings are invisible at rest and
+   each lights with its own voice — the first tune on the rim, the second entry
+   on the inner ring. A still turntable is just the painted one. */
+.rt-turntable--painted { position: absolute; inset: 0; pointer-events: none; }
+.rt-turntable--painted .rt-groove {
+  inset: auto; box-sizing: border-box; border-color: rgba(201, 162, 39, 0);
+  transition: border-color .3s ease, box-shadow .3s ease;
+}
+.rt-turntable--painted .rt-groove.is-lit { border-color: #ffd766; box-shadow: 0 0 14px rgba(255, 214, 102, .75); }
+.rt-turntable--painted .rt-groove.is-dim { opacity: .3; }
+
+/* The pop. The painted closed box is simply covered by the open sprite, placed
+   exactly where its own provenance records it — so what a child sees when the
+   box opens is the box they were tapping, opened, not a new picture laid over
+   the old one. The spring is the surprise: it rises past where it rests and
+   settles back, which is the one piece of theatre this spread owns. The weasel
+   is a SEPARATE sprite on top of the spring — the controller rejected the old
+   composited-in weasel as invisible, so the weasel now pops up large and clear. */
+.rt-popbox--painted { position: absolute; inset: 0; width: auto; aspect-ratio: auto; margin-top: 0; pointer-events: none; }
+/* The popped weasel stands on the spring, which reaches up past the station label:
+   it must be drawn over the label, never hidden under it. */
+.rt-popbox--painted .rt-popbox__weasel { z-index: 5; }
+.rt-popbox__spring,
+.rt-popbox__weasel {
+  position: absolute; display: block; opacity: 0; pointer-events: none;
+  transform-origin: 50% 100%;
+}
+.rt-popbox__spring {
+  transition: opacity .1s linear, translate .34s cubic-bezier(.2, 1.7, .4, 1), scale .34s cubic-bezier(.2, 1.7, .4, 1);
+}
+.rt-popbox__weasel {
+  /* Staggered 0.1s behind the spring so the weasel rides the spring's rise. */
+  transition: opacity .1s linear .1s, translate .34s cubic-bezier(.2, 1.7, .4, 1) .1s, scale .34s cubic-bezier(.2, 1.7, .4, 1) .1s;
+}
+.rt-popbox--painted.is-open .rt-popbox__spring,
+.rt-popbox--painted.is-open .rt-popbox__weasel { opacity: 1; translate: 0 0; scale: 1; }
+.rt-popbox--painted:not(.is-open) .rt-popbox__spring,
+.rt-popbox--painted:not(.is-open) .rt-popbox__weasel { translate: 0 7%; scale: .9; }
+
+.rt-echo-tab--painted, .rt-card__place--painted {
+  position: absolute; box-sizing: border-box; margin: 0; min-height: 44px;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  padding: .4cqh 1cqw; line-height: 1.15; cursor: pointer;
+  font-family: Georgia, "Iowan Old Style", serif; font-weight: 800;
+  font-size: clamp(11px, 1.5cqw, 16px); color: #2e2412;
+  background: linear-gradient(180deg, #fff3c9, #ffe08a);
+  box-shadow: 0 0 0 2px var(--gold), 0 3px 9px rgba(60, 40, 10, .35);
+  transition: box-shadow .2s ease, scale .12s ease;
+}
+.rt-echo-tab--painted:hover, .rt-echo-tab--painted:focus-visible,
+.rt-card__place--painted:hover, .rt-card__place--painted:focus-visible {
+  box-shadow: 0 0 0 3px rgba(255, 214, 102, .9), 0 3px 12px rgba(60, 40, 10, .4);
+}
+.rt-echo-tab--painted:active, .rt-card__place--painted:active { scale: .97; }
+
+/* Spread D's exit routes are compact footer buttons (rt-btn / rt-btn--quiet),
+   not plate overlaid pills — see render()'s rt-foot. */
+
+/* Spread D on its plate: five token trays, the card, and the desk. Each token
+   sits in its measured tray, while the card sits in the desk recess. */
+.rt-tokens--painted { position: absolute; inset: 0; pointer-events: none; }
+.rt-token--painted {
+  position: absolute; box-sizing: border-box; pointer-events: auto; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: .2cqh; min-height: 0; width: auto; min-width: 0; margin: 0;
+  padding: .3cqh .3cqw; border: 0; border-radius: 10px; line-height: 1.1; text-align: center;
+  font-family: Georgia, "Iowan Old Style", serif; font-weight: 700;
+  font-size: clamp(8px, 1.05cqw, 12px); color: var(--ink);
+  background: linear-gradient(180deg, rgba(255, 253, 246, .95), rgba(240, 228, 198, .92));
+  box-shadow: 0 0 0 1.5px #b58a2e, 0 2px 6px rgba(60, 40, 10, .3);
+  transition: box-shadow .2s ease, background .2s ease;
+}
+/* The contour is the token's picture, so it gets the room and the caption gets
+   the rest; a 42% cap keeps the two from crowding each other in a 14%-wide tray. */
+.rt-token--painted .rt-contour { max-height: 42%; }
+.rt-token--painted .rt-contour__line { stroke: #e9ae1f; fill: none; }
+.rt-token--painted:hover, .rt-token--painted:focus-visible { box-shadow: 0 0 0 2.5px rgba(255, 214, 102, .9), 0 2px 8px rgba(60, 40, 10, .35); }
+.rt-token--painted.is-cued { background: linear-gradient(180deg, #fff3c9, #ffe08a); box-shadow: 0 0 0 2.5px var(--gold), 0 2px 8px rgba(60, 40, 10, .35); }
+
+.rt-card--painted {
+  position: absolute; box-sizing: border-box; width: auto; min-height: 0; margin: 0;
+  display: flex; flex-direction: column; align-items: stretch; justify-content: center;
+  gap: .4cqh; padding: .3cqh .8cqw; text-align: center; z-index: 1;
+  background: linear-gradient(180deg, rgba(255, 253, 246, .97), rgba(244, 233, 206, .95));
+  box-shadow: 0 0 0 2px #b58a2e, 0 3px 10px rgba(60, 40, 10, .3);
+  transition: box-shadow .2s ease;
+}
+.rt-card--painted.is-placed { box-shadow: 0 0 0 3px var(--gold), 0 3px 12px rgba(60, 40, 10, .35); }
+.rt-card--painted .rt-card__line {
+  margin: 0; font-family: Georgia, "Iowan Old Style", serif;
+  font-size: clamp(11px, 1.5cqw, 18px); font-weight: 800; line-height: 1.15; color: var(--ink);
+}
+/* Four cues in one row: the card's own recess is a band, not a page, and a cue
+   that wrapped to three lines would push the row taller than the recess. */
+.rt-card--painted .rt-card__cues { display: flex; flex-wrap: nowrap; gap: .3cqw; margin: 0; padding: 0; list-style: none; }
+.rt-card--painted .rt-card__cues li {
+  position: relative; flex: 1 1 0; min-width: 0; min-height: 32px; margin: 0;
+  padding: .15cqh .25cqw; display: flex; align-items: center; justify-content: center;
+  text-align: center; line-height: 1.1; cursor: pointer; font-weight: 700;
+  border-radius: 999px; background: var(--plate);
+  font-family: Georgia, "Iowan Old Style", serif; font-size: clamp(8px, 1.05cqw, 12px);
+  box-shadow: inset 0 0 0 1.5px var(--plate-edge);
+  transition: box-shadow .2s ease, background .2s ease;
+}
+/* The card is a painted recess — a band, not a page — so the pills stay short
+   and the tap is the pill plus 6px of reach above and below: 32px of ink, 44px
+   of finger. The reach is a pseudo-element, so it enlarges the hit area without
+   moving anything a child can see. */
+.rt-card--painted .rt-card__cues li::after { content: ''; position: absolute; inset: -6px -3px; }
+.rt-card--painted .rt-card__cues li:hover { box-shadow: 0 0 0 2.5px var(--gold), inset 0 0 0 1.5px var(--plate-edge); }
+
+.rt-card__place--painted { line-height: 1.2; }
+.rt-map-question { position: absolute; left: 20%; top: 18%; width: 60%; margin: 0; text-align: center; font-size: clamp(16px, 2.2cqw, 24px); font-weight: 900; }
+.rt-map-question span { display: block; font-size: .65em; color: var(--ink-soft); }
+.rt-map-hear, .rt-map-next { position: absolute; min-width: 180px; min-height: 64px; border: 0; border-radius: 999px; background: linear-gradient(#fff3c9,#ffe08a); box-shadow: 0 0 0 3px var(--gold); color: var(--ink); font: inherit; font-weight: 900; cursor: pointer; }
+.rt-map-hear { left: 50%; top: 29%; translate: -50% 0; }
+.rt-map-next { right: 8%; top: 68%; }
+.rt-map-choice { position: absolute; min-height: 64px; border: 0; border-radius: 16px; padding: 8px; background: rgba(255,253,246,.96); box-shadow: 0 0 0 2px #b58a2e, 0 3px 10px rgba(60,40,10,.3); color: var(--ink); font: inherit; font-weight: 800; cursor: pointer; transition: opacity .2s ease, filter .2s ease, box-shadow .2s ease, background .2s ease; }
+.rt-map-choice .rt-contour { height: 58%; }
+.rt-map-choice.is-correct { background: #fff3c9; box-shadow: 0 0 0 4px var(--gold), 0 0 20px rgba(255,211,82,.7); }
+.rt-map-choice.is-correct::after, .rt-map-choice.is-revealed::after, .rt-map-choice.is-wrong::after {
+  position: absolute; right: -9px; top: -9px; width: 28px; height: 28px; border-radius: 50%;
+  display: grid; place-items: center; color: #fff; font-size: 19px; font-weight: 900;
+  box-shadow: 0 2px 6px rgba(45,31,12,.35);
+}
+.rt-map-choice.is-correct::after, .rt-map-choice.is-revealed::after { content: '\2713'; background: #39724a; }
+.rt-map-choice.is-wrong { opacity: .48; filter: saturate(.55); animation: rt-map-gentle-shake .34s ease-in-out 2; }
+.rt-map-choice.is-wrong::after { content: '\00d7'; background: #8a4b45; }
+/* After two misses the matching contour quietly glows; after three, the tick
+   reveals it. These states teach, then answer, without changing the pending
+   spoken/visible feedback line. */
+.rt-map-choice.is-hint { box-shadow: 0 0 0 3px #5f86a8, 0 0 16px rgba(120,184,224,.75); }
+.rt-map-choice.is-hint .rt-contour { animation: rt-map-hint 1s ease-in-out infinite alternate; }
+.rt-map-choice.is-revealed { background: #fff3c9; box-shadow: 0 0 0 4px var(--gold), 0 0 20px rgba(255,211,82,.7); }
+@keyframes rt-map-gentle-shake { 0%,100% { translate: 0 0; } 35% { translate: -4px 0; } 70% { translate: 4px 0; } }
+@keyframes rt-map-hint { to { filter: drop-shadow(0 0 5px #5f86a8); } }
+.rt-map-feedback {
+  position: absolute; box-sizing: border-box; left: 8%; top: 68%; width: 56%; min-height: 64px;
+  margin: 0; padding: 10px 16px; display: flex; align-items: center;
+  border-radius: 16px; color: #1f2638; background: #fffdf6;
+  box-shadow: 0 0 0 2px #d8bf86, 0 3px 10px rgba(60,40,10,.28);
+  font-family: Georgia, "Iowan Old Style", serif; font-weight: 800; line-height: 1.25;
+}
+.rt-map-feedback:empty { visibility: hidden; }
+.rt-map-feedback:not(:empty)::before {
+  content: ''; position: absolute; left: 24px; bottom: 100%;
+  border: 8px solid transparent; border-bottom-color: #fffdf6; border-top: 0;
+}
+.rt-map-complete { position: absolute; display: flex; align-items: center; justify-content: center; margin: 0; border-radius: 20px; background: rgba(255,253,246,.96); box-shadow: 0 0 0 3px var(--gold); font-size: clamp(18px,2.4cqw,28px); font-weight: 900; text-align: center; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rt-map-choice.is-wrong, .rt-map-choice.is-hint .rt-contour { animation: none; }
+}
+
+/* Landscape: the plate leaves only its floor band, so the dialogue takes its
+   left side and the three controls share its right. */
+.rt--lane .rt-talk {
+  position: absolute; left: 2.2%; bottom: 1.8%; max-width: 58%; margin: 0; gap: .5cqh;
+  align-items: flex-start;
+}
+.rt--lane .rt-say { max-width: 100%; }
+.rt--lane .rt-foot { margin-top: auto; justify-content: flex-end; }
+.rt--lane .rt-portrait { width: clamp(34px, 5cqw, 50px); }
+.rt--lane .rt-portrait__img { width: clamp(28px, 4cqw, 40px); }
+.rt--lane .rt-portrait small { display: none; }
+.rt--lane .rt-bubble { padding: .6cqh 1.6cqw; font-size: clamp(10px, 1.45cqw, 15px); }
+/* The workshop wall and the desk are the same problem in a different shape: two
+   machines under a header, or a desk under one, and the dialogue has to clear
+   the plate's floor. Landscape keeps the foot on the right, like spread B, so a
+   wide Continue never sits on top of the bubble. */
+.rt--machines .rt-talk, .rt--mapdesk .rt-talk {
+  position: absolute; left: 2.2%; bottom: 1.8%; max-width: 58%; margin: 0; gap: .5cqh;
+  align-items: flex-start;
+}
+.rt--machines .rt-say, .rt--mapdesk .rt-say { max-width: 100%; }
+.rt--machines .rt-foot, .rt--mapdesk .rt-foot { margin-top: auto; justify-content: flex-end; }
+.rt--machines .rt-portrait, .rt--mapdesk .rt-portrait { width: clamp(34px, 5cqw, 50px); }
+.rt--machines .rt-portrait__img, .rt--mapdesk .rt-portrait__img { width: clamp(28px, 4cqw, 40px); }
+.rt--machines .rt-portrait small, .rt--mapdesk .rt-portrait small { display: none; }
+.rt--machines .rt-bubble, .rt--mapdesk .rt-bubble { padding: .6cqh 1.6cqw; font-size: clamp(10px, 1.45cqw, 15px); }
+
 /* Portrait (the 9.7" iPad held upright): no letterbox. The stage and the chrome
    fill the screen; the 4:3 plate becomes a full-width band between the header
    and the dialogue, which use the extra height instead of overlaying the art. */
@@ -1382,6 +1896,27 @@ body[data-view="world"] .chrome-btn {
   .rt--painted .rt-head h1 { font-size: clamp(26px, 5cqw, 40px); }
   .rt--painted .rt-head p { font-size: clamp(14px, 2.2cqw, 19px); }
   .rt--painted .rt-mark { font-size: clamp(11px, 1.7cqw, 14px); padding: 7px 4px; }
+  /* Portrait has room below the plate: every painted spread's dialogue returns
+     to the flow, and the foot goes back to sharing the row. */
+  .rt--lane .rt-talk, .rt--machines .rt-talk, .rt--mapdesk .rt-talk {
+    position: relative; left: auto; bottom: auto; max-width: none; margin-top: -3cqw; gap: .8cqh; align-items: stretch;
+  }
+  .rt--lane .rt-say, .rt--machines .rt-say, .rt--mapdesk .rt-say { max-width: none; }
+  .rt--lane .rt-portrait, .rt--machines .rt-portrait, .rt--mapdesk .rt-portrait { width: clamp(64px, 10cqw, 84px); }
+  .rt--lane .rt-portrait__img, .rt--machines .rt-portrait__img, .rt--mapdesk .rt-portrait__img { width: clamp(56px, 8.4cqw, 72px); }
+  .rt--lane .rt-portrait small, .rt--machines .rt-portrait small, .rt--mapdesk .rt-portrait small { display: block; }
+  .rt--lane .rt-bubble, .rt--machines .rt-bubble, .rt--mapdesk .rt-bubble { padding: 1cqh 2cqw; font-size: clamp(14px, 2.2cqw, 20px); }
+  .rt--lane .rt-foot, .rt--machines .rt-foot, .rt--mapdesk .rt-foot { justify-content: space-between; }
+  /* The workshop wall and the desk keep their plate percentages — the band is
+     the same 4:3 either way — and the height portrait has to spare is spent on
+     reading rather than on fitting: a name and a note are the whole vocabulary
+     here, and shrinking them to save pixels is how a plate stops being read. */
+  .rt--machines .rt-plaque, .rt--mapdesk .rt-plaque { font-size: clamp(12px, 1.75cqw, 18px); }
+  .rt--machines .rt-slip, .rt--mapdesk .rt-slip { font-size: clamp(9px, 1.3cqw, 14px); }
+  .rt--machines .rt-echo-tab--painted, .rt--mapdesk .rt-card__place--painted { font-size: clamp(11px, 1.6cqw, 17px); }
+  .rt--mapdesk .rt-token--painted { font-size: clamp(9px, 1.25cqw, 13px); }
+  .rt--mapdesk .rt-card--painted .rt-card__cues li { font-size: clamp(9px, 1.25cqw, 13px); }
+  .rt--mapdesk .rt-card--painted .rt-card__line { font-size: clamp(12px, 1.6cqw, 18px); }
 }
 
 /* ── the Toy Piano room ──────────────────────────────────────────────────────
@@ -1422,6 +1957,15 @@ body[data-view="world"] .chrome-btn {
   display: flex; flex-direction: column;
   gap: 2cqh;
   padding-top: 1cqh;
+}
+
+.toy-room-heading {
+  margin: 0;
+  text-align: center;
+  font-size: clamp(14px, 2vw, 22px);
+  font-weight: 700;
+  color: var(--ink);
+  text-shadow: 0 1px 2px rgba(255,255,255,.8);
 }
 
 .song-grid {

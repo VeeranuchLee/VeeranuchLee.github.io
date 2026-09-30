@@ -30,7 +30,10 @@
 // and both pages are HTML+CSS+SVG like every other screen in this book.
 
 import { COMPANIONS, companionById } from '../data/instruments.js';
-import { PLAYALONG_SONGS, playalongSongById } from '../data/playalong-songs.js';
+import { PLAYALONG_SONGS, playalongSongById, CATALOGUE_TO_PLAYALONG } from '../data/playalong-songs.js';
+import { ROOMS } from '../data/rooms.js';
+
+const roomById = (id) => ROOMS.find((r) => r.id === id);
 
 // The toy's whole keyboard, low to high. The staff and the keys are both drawn
 // from this one list, so they can never disagree. Exported for the world card.
@@ -73,6 +76,9 @@ let instrumentId = null;
 let songId = null;
 let mode = 'idle';          // 'idle' | 'listen' | 'turn'
 let turnIndex = -1;         // index into the song's notes of the note being waited for
+
+let roomId = null;          // when opened from a Music World room, filter to that room's songs
+let roomFilteredIds = null; // ordered list of play-along ids for the current room filter
 
 function readStore() {
   try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch { return {}; }
@@ -221,8 +227,15 @@ function keysMarkup() {
 //   buttons: ▶ to hear it, ↺ to start your turn over. Your turn begins by
 //   itself — the first note is already waiting.
 
+function songsToShow() {
+  if (roomFilteredIds) {
+    return PLAYALONG_SONGS.filter((s) => roomFilteredIds.includes(s.id));
+  }
+  return PLAYALONG_SONGS;
+}
+
 function songTilesMarkup() {
-  return PLAYALONG_SONGS.map((s) => `
+  return songsToShow().map((s) => `
     <button class="song-tile${s.id === songId ? ' is-current' : ''}" data-song="${s.id}"
             aria-label="Song: ${s.title}" title="${s.title}">
       ${s.art
@@ -245,17 +258,23 @@ function renderSelect() {
   turnIndex = -1;
   stage.className = 'stage stage--playroom stage--toy-select';
   stage.style.backgroundImage = 'url(assets/backgrounds/garden-pastel.webp)';
+  const room = roomId ? roomById(roomId) : null;
+  const backDest = room ? 'room' : 'world';
+  const roomHeading = room
+    ? `<p class="toy-room-heading">${room.title}</p>`
+    : '';
   stage.innerHTML = `
     <div class="scrim">
       <div class="topbar">
-        <!-- "Back", not "Back to Music World": the room is entered from the
-             landing with no companion chosen, and app.js's go('world') guard
-             sends this arrow back to the landing — label the destination it
-             actually reaches. -->
-        <button class="round-btn" data-go="world" aria-label="Back">←</button>
+        <!-- From the landing the room is entered with no companion chosen, so
+             app.js's go('world') guard sends the arrow back to the landing.
+             From a Music World room, the arrow returns to that room. -->
+        <button class="round-btn" data-go="${backDest}" aria-label="Back">←</button>
         <div class="banner banner--slim"><h1>🎹 Toy Piano</h1></div>
         <span class="topbar-spacer"></span>
       </div>
+
+      ${roomHeading}
 
       <div class="toy-select">
         <div class="song-grid" id="toy-songs">${songTilesMarkup()}</div>
@@ -309,12 +328,26 @@ export function renderPlayroom(ctx) {
   active = true;
   mode = 'idle';
   turnIndex = -1;
+  roomId = ctx.roomId || null;
+
+  const room = roomId ? roomById(roomId) : null;
+  if (room) {
+    roomFilteredIds = room.pieceIds
+      .map((pid) => CATALOGUE_TO_PLAYALONG[pid])
+      .filter(Boolean);
+  } else {
+    roomFilteredIds = null;
+  }
 
   const stored = readStore();
   // First visit: start the child on the song with fewest decisions (the easiest
   // one in the book), holding the friend they already chose for the journey.
   instrumentId = stored.instrumentId || ctx.journeyCompanionId || 'piano';
-  songId = stored.songId && playalongSongById(stored.songId) ? stored.songId : PLAYALONG_SONGS[0].id;
+  const available = songsToShow();
+  const storedSong = playalongSongById(stored.songId);
+  songId = (storedSong && available.some((s) => s.id === stored.songId))
+    ? stored.songId
+    : (available[0] ? available[0].id : PLAYALONG_SONGS[0].id);
   writeStore();
 
   renderSelect();

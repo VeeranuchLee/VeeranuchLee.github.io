@@ -39,6 +39,10 @@
 //                 v2 cache for an unchanged name to leave stale. What D3 added
 //                 is a test, music-book/tools/check-offline-scope.mjs, which runs
 //                 this worker, and a refreshed art census in the next paragraph.
+// v3  2026-09-27  Room 1 C/D plates and the shipped-code changes around the
+//                 completed four-spread chapter.
+// v4  2026-09-28  the one-room scene pilot adds Room 4's painting to the
+//                 navigation shell and changes its room renderer.
 //
 // WHY ONLY THE SHELL IS PRECACHED — OWNER DECISION D3, 2026-09-22, OPTION A
 //
@@ -54,19 +58,22 @@
 // has visited once works offline afterwards, and no child waits out an eleven-
 // megabyte first load to open one room.
 //
-// Measured again after the 2026-09-22 background tranche (#862): the art is
+// Measured again after the 2026-09-22 background tranche (#862): the art was
 // 209 files, 12,215,083 bytes (11.65 MB) under assets/ — 29 backgrounds (the
 // landing garden, the world map and the room paintings), 24 room cards, 117
 // song bubbles, six companions, eight playalong songs, 24 composer portraits
-// and an index — and the shell is 27 files, 1,008,434 bytes (0.96 MB). Option
-// B's cost only grows as art lands; option A's does not. Measured numbers in a
-// comment go stale silently (this one said 146 files and 83 bubbles until
-// 2026-09-22), so check-offline-scope.mjs re-measures the shell on every run
-// and fails at a 1.5 MB budget. Eight of the art files are shell: the landing
-// garden (64 KB), the six companions (208 KB together) and the world map. The
-// map is the one piece of heavy art precached on purpose — it is the second
-// screen and the book's actual menu, each wing a tappable region of the
-// painting — and it is 207 KB.
+// and an index — and the shell was 27 files, 1,008,434 bytes (0.96 MB).
+// v3  2026-09-27  the approved wing maps became the next tier of navigation, so
+//                 their six WebPs joined the shell by explicit build instruction. The measured
+//                 shell is now 33 files and 2,511,562 bytes (2.40 MB); room paintings, cards,
+//                 bubbles and portraits still remain visit-cached under option A. Measured
+//                 numbers in a comment go stale silently, so check-offline-scope.mjs re-measures
+//                 the shell on every run and fails at 3 MB, far below option B's 10+ MB.
+// v4  2026-09-28  Map Bridge feedback voice lines ship as .m4a and the runtime clip
+//                 map (app/mapbridge-clips.js) plus its player (app/mapbridge.js,
+//                 split the same way learnmore.js / learnmore-clips.js are) joined
+//                 the shell. Audio files stay online-only, matching the title and
+//                 Learn More precedent.
 //
 // WHAT A CHILD GETS AND DOES NOT GET, OFFLINE. Everything the book reads and
 // plays is shell: the room text, the room graph, and the music itself, which is
@@ -98,10 +105,11 @@
 
 /* CACHE_NAME is the variable the release pipeline reads (publish-app.sh matches
    /CACHE_NAME\s*=/). Do not rename it; see release/registry.json, music-book. */
-const CACHE_NAME = 'music-book-v2';
+const CACHE_NAME = 'music-book-v5';
 
-// Everything the app needs to START, plus the two screens a child sees before
-// any room. The app is one ES module graph — index.html loads app/app.js and
+// Everything the app needs to START, plus every navigation screen a child sees
+// before a room: landing, World map, and the six wing maps. The app is one ES
+// module graph — index.html loads app/app.js and
 // the imports cascade from it — so every code file below is load-bearing: one
 // missing module is a blank page, not a missing feature. There are no dynamic
 // imports to miss.
@@ -118,6 +126,10 @@ const APP_FILES = [
   './app/ambience.js',
   './app/journey.js',
   './app/titles.js',
+  './app/learnmore.js',
+  './app/learnmore-clips.js',
+  './app/mapbridge.js',
+  './app/mapbridge-clips.js',
   './app/read-together.js',
   './app/playroom.js',
   './data/instruments.js',
@@ -132,6 +144,23 @@ const APP_FILES = [
   // The landing (garden plus companions) and the map, which is the menu.
   './assets/backgrounds/garden-pastel.webp',
   './assets/backgrounds/music-world-map.webp',
+  // The six wing paintings are the journey's second-tier maps, not room art:
+  // once a child chooses an island these are the menu used to reach every room.
+  './assets/wings/w1-map.webp',
+  './assets/wings/w2-map.webp',
+  './assets/wings/w3-map.webp',
+  './assets/wings/w4-map.webp',
+  './assets/wings/w5-map.webp',
+  './assets/wings/w6-map.webp',
+  // One-room scene pilot: Room 4 uses this painting as its song map. It is
+  // navigation art, not an optional medallion, so a cached app must carry it.
+  './assets/room-scenes/r04-home-distance-belonging-scene.webp',
+  // Batch 1 (agent, 2026-09-30): rooms 1, 2, 3, 5 and 6 also became painted
+  // scenes, but their five paintings are NOT added here. Precaching them
+  // pushed the shell to 5.67 MB, over the 3.00 MB budget, and broke
+  // check-offline-scope.mjs — the opposite of decision D3 (owner,
+  // 2026-09-22): art caches room by room on first visit, not in the shell.
+  // Room 4 was already a spent one-image exception; it is not extended.
   './assets/companions/flute.webp',
   './assets/companions/glockenspiel.webp',
   './assets/companions/music-box.webp',

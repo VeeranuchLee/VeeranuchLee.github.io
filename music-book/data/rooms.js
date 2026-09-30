@@ -401,7 +401,7 @@ export const ROOMS = [
       "Malay Archipelago traditional song",
       "Indonesian/Maluku traditional song",
       "Filipino traditional song",
-      "Prince Benbadhanabongse / Thai classical song tradition"
+      "Thai classical song tradition"
     ],
     "connections": [
       {
@@ -437,7 +437,7 @@ export const ROOMS = [
     "title": "Roads of Prayer, City, and Sea",
     "subtitle": "A melody can cross borders and collect new uses without losing its history.",
     "openingQuestion": "When a song travels, what stays recognisable and what changes?",
-    "thesis": "Songs may move through religious practice, urban life, trade routes, migration, print, theatre, and recording. The app must distinguish documented history from an attractive travel story.",
+    "thesis": "These songs have different documented contexts: Indian devotional tradition, Istanbul urban tradition, and an Eastern Mediterranean melody tradition. The room does not claim one travel route between them.",
     "era": "Older roots -> named versions -> modern circulation",
     "keyVocabulary": [
       "route",
@@ -485,7 +485,7 @@ export const ROOMS = [
     "title": "Songs That Transform",
     "subtitle": "A tune can become a dance, a celebration, a carol, or a symbol.",
     "openingQuestion": "Is a song still the same song after people give it new words, a new setting, or a new social purpose?",
-    "thesis": "Musical identity has layers: base melody, named composer or adapter, lyrics, arrangement, performance practice, and later cultural use.",
+    "thesis": "This room uses an interpretive framework that separates melody, words, arrangement, performance, and later use. For Shchedryk, the Ukrainian song and Leontovych's setting precede the later English words and arrangements.",
     "era": "Source layer -> named shaping -> later public identity",
     "keyVocabulary": [
       "melody layer",
@@ -538,7 +538,7 @@ export const ROOMS = [
     "title": "When a Song Means Home",
     "subtitle": "Some melodies grow into public symbols, but they began in particular histories.",
     "openingQuestion": "How does a song become connected with a place, a people, or a shared memory?",
-    "thesis": "A song may become a civic, national, regional, or diasporic symbol through repeated public use. That later role should not erase its composer, local tradition, or earlier form.",
+    "thesis": "Public meanings grow through particular histories, not repetition alone. Nkosi Sikelel' iAfrika moved from hymn to liberation, pan-African, and anthem uses; El Cóndor Pasa began as Daniel Alomía Robles's 1913 work before later adaptations.",
     "era": "Creation or tradition -> circulation -> public symbol",
     "keyVocabulary": [
       "public symbol",
@@ -609,7 +609,7 @@ export const ROOMS = [
     ],
     "composers": [],
     "traditions": [
-      "Patty Hill and Mildred J. Hill / historical birthday song",
+      "Tune of Patty and Mildred J. Hill's 'Good Morning to All'; later birthday words separately documented",
       "Traditional tune family",
       "James Lord Pierpont",
       "Lowell Mason setting / Isaac Watts text lineage",
@@ -972,8 +972,8 @@ export const ROOMS = [
     "wingId": "the-romantic-century",
     "title": "Music Learns to Sing Without Words",
     "subtitle": "Voice-like melody moves from song to piano, violin, ceremony, and spring scene.",
-    "openingQuestion": "What makes an instrument sound as if it is singing even when there are no words?",
-    "thesis": "Early Romantic composers often foreground long, memorable melodic lines and characterful scenes. Schubert and Mendelssohn provide different routes from songfulness to instrumental storytelling.",
+    "openingQuestion": "How can a melody sound voice-like when an instrumental arrangement has no words?",
+    "thesis": "Ave Maria and Die Forelle are songs written with words; this app plays them as instrumental arrangements. Schubert and Mendelssohn then offer different paths from songful melody to instrumental character and storytelling.",
     "era": "Early to mid-nineteenth century",
     "keyVocabulary": [
       "songful line",
@@ -1107,12 +1107,12 @@ export const ROOMS = [
     "title": "Home, Memory, and Dance",
     "subtitle": "Brahms and Dvorak connect private song, regional dance, friendship, travel, and symphonic scale.",
     "openingQuestion": "How can composers carry memories of home while working in cities, publishing networks, and places far away?",
-    "thesis": "Nineteenth-century concert music could draw on lullaby, dance, local identity, mentorship, and travel. Brahms and Dvorak are connected by documented professional support, but they remain distinct composers.",
+    "thesis": "Nineteenth-century concert music could draw on lullaby, dance, local identity, publishing, and travel. Brahms recommended Dvorak's work to his publisher Simrock and supported his career; they remained distinct composers.",
     "era": "Mid- to late-nineteenth century",
     "keyVocabulary": [
       "lullaby",
       "dance",
-      "mentor/supporter",
+      "professional support",
       "publisher",
       "symphony"
     ],
@@ -1308,7 +1308,7 @@ export const ROOMS = [
     "title": "Pictures, Legends, and Russian Colour",
     "subtitle": "A walk through images becomes chicks, night, a bee, and a ship at sea.",
     "openingQuestion": "How do composers turn pictures, legends, and fast motion into musical structure?",
-    "thesis": "Mussorgsky and Rimsky-Korsakov provide different paths through nineteenth-century Russian art music: one through gallery pictures and stark character, another through orchestral colour, legend, and virtuoso motion.",
+    "thesis": "Mussorgsky builds these works from gallery pictures and sharply contrasted characters; Rimsky-Korsakov uses orchestral timbre, legend, and virtuoso motion. Their documented networks connect them without making nationality one audible musical property.",
     "era": "Late nineteenth century",
     "keyVocabulary": [
       "promenade",
@@ -1439,7 +1439,7 @@ export const ROOMS = [
     "title": "Painting with Sound",
     "subtitle": "Moonlight, curves, empty space, and small gestures reshape the listening room.",
     "openingQuestion": "What happens when colour, spacing, resonance, and atmosphere matter as much as a singable tune?",
-    "thesis": "Debussy and Satie offer different Paris-centred alternatives to late Romantic density: one often explores colour and flowing sonority, while the other can use sparseness, repetition, and restraint. They should not be collapsed into one Impressionist label.",
+    "thesis": "As a curatorial comparison, this room hears colour and flowing sonority in the named Debussy pieces, and sparseness, repetition, and restraint in Satie's First Gymnopédie. 'Impressionist' is a debated label, especially for Satie.",
     "era": "Late nineteenth to early twentieth century",
     "keyVocabulary": [
       "sonority",
@@ -1498,7 +1498,7 @@ export const ROOMS = [
     "title": "A New Century, More Than One New Sound",
     "subtitle": "Missouri syncopation and British orchestral planets share a timeline but not one style.",
     "openingQuestion": "If two composers live in the same broad era, why can their music sound as if it comes from different worlds?",
-    "thesis": "Time alone does not determine style. Place, community, instrument, venue, publishing, race, class, artistic purpose, and genre all shape musical possibilities. Joplin and Holst make the final contrast explicit.",
+    "thesis": "Joplin's published piano rags use syncopated treble over steady bass and contrasting strains; Holst's The Planets uses a large orchestra for contrasting character pieces. Their overlapping dates do not imply one style or mutual influence.",
     "era": "Late nineteenth to early twentieth century",
     "keyVocabulary": [
       "ragtime",
