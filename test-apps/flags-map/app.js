@@ -666,12 +666,10 @@
   // taps Brazil is tapping where Brazil is. Nothing is lettered on the map;
   // a country's name appears only as a brief label after a tap.
   //
-  // Tap targets: a country whose largest piece is under TAP_MIN px on screen
-  // (Singapore, Mauritius, Tonga, the Caribbean islands, small European
-  // countries...) gets an INVISIBLE circle of TAP_MIN px diameter around a
-  // point inside it. The svg has one click handler that resolves the tap
-  // itself, so overlapping circles pick the nearest centre instead of the
-  // last one drawn. Pinch zoom is never blocked here or anywhere else.
+  // The tiniest places also get a wordless magnifier: a ring at the real
+  // location, leader, glass-and-handle lens, and their real enlarged outline.
+  // Both ends are direct targets. Other small shapes retain the 64px proximity
+  // target. Pinch zoom is never blocked here or anywhere else.
 
   var SVGNS = 'http://www.w3.org/2000/svg';
   var TAP_MIN = 64;
@@ -717,18 +715,61 @@
     });
     svg.appendChild(svgEl('path', { d: MAP.ocean, class: 'map-ocean' }));
     var nodes = {};
+    var stateNodes = {};
     var entries = {};
     var dots = [];
     MAP.shapes.forEach(function (s) {
       var p = svgEl('path', { d: s.d, class: 'land c-' + s.c + (s.g ? ' in-set' : ''), 'data-id': s.id });
-      nodes[s.id] = p; entries[s.id] = s;
+      nodes[s.id] = p; stateNodes[s.id] = [p]; entries[s.id] = s;
       svg.appendChild(p);
     });
     MAP.extra.forEach(function (e) {
       // too small for the 110m coastline: a visible dot; its circle is invisible
       var dot = svgEl('circle', { cx: e.x, cy: e.y, r: 12, class: 'land dot in-set c-' + e.c, 'data-id': e.id });
-      nodes[e.id] = dot; entries[e.id] = e; dots.push(dot);
+      nodes[e.id] = dot; stateNodes[e.id] = [dot]; entries[e.id] = e; dots.push(dot);
       svg.appendChild(dot);
+    });
+    (MAP.lens || []).forEach(function (lens, index) {
+      var entry = entries[lens.id];
+      if (!entry) return;
+      var dx = lens.lx - lens.x; var dy = lens.ly - lens.y;
+      var distance = Math.sqrt(dx * dx + dy * dy) || 1;
+      var ux = dx / distance; var uy = dy / distance;
+      var clipId = 'map-lens-' + index;
+      var defs = svg.querySelector('defs');
+      if (!defs) { defs = svgEl('defs'); svg.insertBefore(defs, svg.firstChild); }
+      var clip = svgEl('clipPath', { id: clipId });
+      clip.appendChild(svgEl('circle', { cx: lens.lx, cy: lens.ly, r: lens.lr - 8 }));
+      defs.appendChild(clip);
+      var group = svgEl('g', {
+        class: 'map-lens in-set c-' + entry.c,
+        'data-id': lens.id,
+        'aria-label': byCode(lens.id).name + ' close-up'
+      });
+      group.appendChild(svgEl('line', {
+        x1: lens.x + ux * lens.rr, y1: lens.y + uy * lens.rr,
+        x2: lens.lx - ux * lens.lr, y2: lens.ly - uy * lens.lr,
+        class: 'lens-leader', 'data-id': lens.id
+      }));
+      group.appendChild(svgEl('circle', {
+        cx: lens.x, cy: lens.y, r: lens.rr, class: 'lens-location', 'data-id': lens.id
+      }));
+      group.appendChild(svgEl('line', {
+        x1: lens.lx + ux * (lens.lr - 5), y1: lens.ly + uy * (lens.lr - 5),
+        x2: lens.lx + ux * (lens.lr + 62), y2: lens.ly + uy * (lens.lr + 62),
+        class: 'lens-handle', 'data-id': lens.id
+      }));
+      group.appendChild(svgEl('circle', {
+        cx: lens.lx, cy: lens.ly, r: lens.lr, class: 'lens-glass', 'data-id': lens.id
+      }));
+      var outline = svgEl('path', {
+        d: lens.d || entry.d,
+        transform: 'translate(' + lens.lx + ' ' + lens.ly + ') scale(' + lens.s + ') translate(' + (-lens.fx) + ' ' + (-lens.fy) + ')',
+        'clip-path': 'url(#' + clipId + ')', class: 'lens-outline', 'data-id': lens.id
+      });
+      group.appendChild(outline);
+      stateNodes[lens.id].push(group);
+      svg.appendChild(group);
     });
     var toast = el('div', { class: 'map-toast', role: 'status', 'aria-live': 'polite' });
     area.appendChild(svg);
@@ -775,13 +816,17 @@
         if (best) return best;
         return target;
       },
-      mark: function (id, cls, on) { flag(nodes[id], cls, on); },
+      mark: function (id, cls, on) {
+        (stateNodes[id] || []).forEach(function (node) { flag(node, cls, on); });
+      },
       clearMarks: function (cls) {
-        Object.keys(nodes).forEach(function (id) { flag(nodes[id], cls, false); });
+        Object.keys(stateNodes).forEach(function (id) {
+          stateNodes[id].forEach(function (node) { flag(node, cls, false); });
+        });
       },
       markContinent: function (cont, cls, on) {
-        Object.keys(nodes).forEach(function (id) {
-          if (entries[id].c === cont) flag(nodes[id], cls, on);
+        Object.keys(stateNodes).forEach(function (id) {
+          if (entries[id].c === cont) stateNodes[id].forEach(function (node) { flag(node, cls, on); });
         });
       },
       say: function (text, ev) {
