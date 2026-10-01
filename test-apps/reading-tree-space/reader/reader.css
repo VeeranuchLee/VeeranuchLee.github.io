@@ -1,0 +1,228 @@
+/* Reading Tree reader. Portrait 9.7" iPad first (768 x 1024), fine at 1024 x 768.
+   Spec section 14: illustration ~65-70% of the height, reading area ~30-35%.
+   Fonts are self-hosted copies of the repository's Nunito + Fredoka One (SIL OFL 1.1). */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url(./fonts/Nunito-latin.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Fredoka One';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(./fonts/FredokaOne-latin.woff2) format('woff2');
+}
+
+:root {
+  --paper: #f7f0e1;        /* watercolour paper; also the missing-art placeholder */
+  --paper-deep: #efe4cd;
+  --ink: #2f3a4d;
+  --ink-soft: #6a7488;
+  --accent: #3f6fb5;       /* speaker + nav */
+  --accent-press: #2d568f;
+  --glow: #ffe08a;         /* the word being read */
+  --glow-edge: #f2b632;
+  --text-size: clamp(32px, 4.9vmin, 46px);
+  --title-size: clamp(44px, 7.2vmin, 68px);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+/* INTERACTION-DIRECTION.md method C, layer 1: manipulation on BOTH html and body. */
+html, body { touch-action: manipulation; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Nunito', system-ui, sans-serif;
+  -webkit-user-select: none;
+  user-select: none;
+  overflow: hidden;
+}
+
+.book {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+/* ---- illustration ---- */
+.art {
+  flex: 0 0 67%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.2vmin 2.2vmin 0;
+}
+.frame {
+  position: relative;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  /* Missing art = this plain cream square. The image is only revealed once it has loaded,
+     so a page whose art has not landed yet shows the placeholder, never a broken icon. */
+  background: var(--paper-deep);
+  box-shadow: 0 2px 10px rgba(47, 58, 77, .08);
+}
+.frame img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.frame img.loaded { opacity: 1; }
+
+/* ---- reading area ---- */
+.reading {
+  flex: 1 1 33%;
+  min-height: 0;
+  position: relative;
+  display: grid;
+  grid-template-columns: 76px 1fr 76px;
+  align-items: center;
+  gap: 1.5vmin;
+  padding: 1.5vmin 2.2vmin 4vmin;
+}
+.reading-mid {
+  display: flex;
+  align-items: center;
+  gap: 2.4vmin;
+  min-width: 0;
+  max-height: 100%;
+}
+
+.text {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: var(--text-size);
+  font-weight: 700;
+  line-height: 1.42;
+  overflow-wrap: normal;
+  max-height: 100%;
+  overflow: visible;
+}
+.text.title {
+  font-family: 'Fredoka One', 'Nunito', sans-serif;
+  font-weight: 400;
+  font-size: var(--title-size);
+  line-height: 1.15;
+  text-align: center;
+  color: #27406b;
+}
+
+.word {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  margin: 0;
+  padding: 0 .06em;
+  border-radius: .22em;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background-color .12s ease, transform .12s ease, box-shadow .12s ease;
+}
+.word:active { background: rgba(63, 111, 181, .14); }
+.word.reading-now {
+  background: var(--glow);
+  box-shadow: 0 0 0 .06em var(--glow-edge) inset;
+  transform: translateY(-.03em);
+}
+.word.failed { animation: nudge .3s ease; }
+.chunk { white-space: nowrap; }
+.punct { pointer-events: none; }
+
+/* ---- controls ---- */
+button { font: inherit; }
+
+.speaker, .nav {
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+  display: grid;
+  place-items: center;
+  transition: transform .1s ease, background-color .15s ease, box-shadow .15s ease;
+}
+.speaker {
+  flex: 0 0 auto;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 5px 0 var(--accent-press), 0 8px 18px rgba(47, 58, 77, .18);
+}
+.speaker svg { width: 56px; height: 56px; }
+.speaker .cone { fill: #fff; }
+.speaker .wave { fill: none; stroke: #fff; stroke-width: 5; stroke-linecap: round; }
+.speaker .icon-stop { display: none; }
+.speaker .icon-stop rect { fill: #fff; }
+.speaker[data-state="playing"] .icon-speak { display: none; }
+.speaker[data-state="playing"] .icon-stop { display: block; }
+.speaker[data-state="playing"] { background: #c4553f; box-shadow: 0 5px 0 #9a3e2c, 0 8px 18px rgba(47, 58, 77, .18); }
+.speaker[data-state="playing"] .w1 { animation: pulse 1s ease-in-out infinite; }
+.speaker:active, .nav:active { transform: translateY(4px) scale(.96); }
+.speaker:active { box-shadow: 0 1px 0 var(--accent-press); }
+
+.nav {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 4px 0 #d9ccb0, 0 6px 14px rgba(47, 58, 77, .12);
+}
+.nav:active { box-shadow: 0 1px 0 #d9ccb0; background: #fdf6e6; }
+.nav svg { width: 40px; height: 40px; fill: none; stroke: var(--accent); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+.nav[hidden] { display: grid; visibility: hidden; }
+.nav .icon-again { display: none; }
+.nav.again .icon-next { display: none; }
+.nav.again .icon-again { display: block; }
+
+.dots {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 1.4vmin;
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+}
+.dots span { width: 9px; height: 9px; border-radius: 50%; background: #d9ccb0; transition: background-color .2s; }
+.dots span.on { background: var(--accent); }
+
+/* Page turn: a short fade so prev/next visibly answers the tap. */
+.book.turning .frame img, .book.turning .text { opacity: .25; transition: opacity .12s ease; }
+
+.load-error { position: fixed; inset: auto 0 40% 0; text-align: center; font-size: 28px; font-weight: 700; }
+
+@keyframes pulse { 50% { opacity: .35; } }
+@keyframes nudge { 25% { transform: translateX(-3px); } 75% { transform: translateX(3px); } }
+
+/* Landscape (1024 x 768): the same column, a shorter reading strip but a much wider one. */
+@media (orientation: landscape) {
+  .art { flex-basis: 68%; }
+  .reading { grid-template-columns: 76px 1fr 76px; padding-bottom: 3.2vmin; }
+}
+
+/* Narrow screens are not the target, but must not break. */
+@media (max-width: 560px) {
+  .reading { grid-template-columns: 54px 1fr 54px; gap: 8px; padding: 8px 10px 22px; }
+  .nav { width: 52px; height: 52px; }
+  .nav svg { width: 30px; height: 30px; }
+  .speaker { width: 64px; height: 64px; }
+  .speaker svg { width: 44px; height: 44px; }
+  .reading-mid { gap: 10px; }
+  :root { --text-size: 26px; --title-size: 38px; }
+}
