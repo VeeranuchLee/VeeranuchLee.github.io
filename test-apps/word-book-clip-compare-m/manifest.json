@@ -1,0 +1,952 @@
+{
+ "why": "Build the Word Book letter-M voice listening page, round-4/r10 layout.",
+ "task": "Word Book letter-M voice variants (Flash + Doubled), 2026-10-01",
+ "groups": {
+  "words": [
+   {
+    "sense": "mangosteen.fruit",
+    "word": "mangosteen",
+    "sentence": "We open a purple mangosteen.",
+    "clips": [
+     {
+      "file": "audio/mangosteen.fruit.now.m4a",
+      "label": "Now",
+      "kind": "the clip the app plays now",
+      "sha256": "8423d06760115985d00dac8c9d64436091c819513ac792af3ca10df66f44f13e",
+      "source": "word-book/audio/words/mangosteen.m4a"
+     },
+     {
+      "file": "audio/mangosteen.fruit.flash.m4a",
+      "label": "Flash",
+      "kind": "plain word + full stop, eleven_flash_v2_5",
+      "sha256": "f471eb925262a0d018102c025e85b87c10558df0fb63ba2066fc5ee602f7ca2b",
+      "text": "mangosteen.",
+      "why": "plain word + full stop on eleven_flash_v2_5, the kind that won 8 of 9 round-10 words and the whole E-J flash round; the most literal model is what a word-clip needs"
+     },
+     {
+      "file": "audio/mangosteen.fruit.doubled.m4a",
+      "label": "Doubled",
+      "kind": "the clearer second of 'mangosteen, mangosteen.'",
+      "sha256": "a9dc0f7d3ccd2bc2053a6236687a5bb849298f3fb72e09c3e1fc3294d5593212",
+      "report": {
+       "sense": "mangosteen.fruit",
+       "word": "mangosteen",
+       "sentence": ", mangosteen.",
+       "char_span": [
+        2,
+        12
+       ],
+       "word_index": 1,
+       "words_in_sentence": 2,
+       "sentence_final": true,
+       "raw_alignment_span_s": [
+        0.743,
+        1.416
+       ],
+       "neighbours_s": {
+        "previous_char_end": 0.673,
+        "next_char_start": 1.416
+       },
+       "energy_dbfs_at_raw_edges": [
+        -81.0,
+        -31.8
+       ],
+       "quietest_near_start": {
+        "t": 0.7405,
+        "dbfs": -81.9
+       },
+       "quietest_near_end": {
+        "t": 1.446,
+        "dbfs": -54.9
+       },
+       "refined": true,
+       "edge_rule": [
+        "dip+soft-reach",
+        "decay+soft-reach"
+       ],
+       "cut_s": [
+        0.7,
+        1.481
+       ],
+       "edge_shift_ms_vs_raw": [
+        -43.0,
+        65.0
+       ],
+       "energy_dbfs_at_cut": [
+        -55.6,
+        -55.4
+       ],
+       "word_audio_s": 0.781,
+       "lead_tail_silence_s": [
+        0.04,
+        0.143
+       ],
+       "gain_db": 0.41,
+       "peak_dbfs_after": -4.19,
+       "level_to": "word-book/audio/words/mangosteen.m4a",
+       "out": "word-book/qa/2026-10-01-m-variants/audio/mangosteen.fruit.doubled.m4a",
+       "master": "word-book/audio-source/word-candidates/mangosteen.fruit.doubled.mp3",
+       "fade_ms": 6.0,
+       "pad_ms": 10.0,
+       "soft": true,
+       "fades_ms": [
+        36.0,
+        36.0
+       ],
+       "soft_move_ms": [
+        -30.0,
+        30.0
+       ],
+       "flags": [
+        {
+         "flag": "sentence-final",
+         "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+        }
+       ]
+      },
+      "master": "word-book/audio-source/word-candidates/mangosteen.fruit.doubled.mp3",
+      "master_sha256": "9186a0906d428d578051001f1b58b3d8c4ecc2ae53f2b624138c49d7bd3080b2",
+      "why": "the word said twice; the clearer second (sentence-final) occurrence is cut out, levelled to the shipped clip -- the other kind the owner picked in round 10",
+      "sentence_file": "audio/mangosteen.fruit.sentence.m4a"
+     },
+     {
+      "file": "audio/mangosteen.fruit.sentence.m4a",
+      "label": "sentence",
+      "kind": "the card's own example sentence",
+      "sha256": "242b512eda3ddaa71f3fb08ea885adb5605324f2d33df420734f1436884dc5fc",
+      "sentence_button": true
+     }
+    ]
+   },
+   {
+    "sense": "many.a-large-number",
+    "word": "many",
+    "sentence": "Many birds visit our garden.",
+    "clips": [
+     {
+      "file": "audio/many.a-large-number.now.m4a",
+      "label": "Now",
+      "kind": "the clip the app plays now",
+      "sha256": "2e0fbb3376ce2677577672b05e29111306f021b128efdfcee4d3be784a70bbd7",
+      "source": "word-book/audio/words/many.m4a"
+     },
+     {
+      "file": "audio/many.a-large-number.flash.m4a",
+      "label": "Flash",
+      "kind": "plain word + full stop, eleven_flash_v2_5",
+      "sha256": "a322692faf459af31ea6a7183e5e0d6c83484ec9d5c7b736299cefbc2a6a70d7",
+      "text": "many.",
+      "why": "plain word + full stop on eleven_flash_v2_5, the kind that won 8 of 9 round-10 words and the whole E-J flash round"
+     },
+     {
+      "file": "audio/many.a-large-number.doubled.m4a",
+      "label": "Doubled",
+      "kind": "the clearer second of 'many, many.'",
+      "sha256": "729196e2838077728350530a25feee0666666546f2c9e710706f21b03dbf0f1a",
+      "report": {
+       "sense": "many.a-large-number",
+       "word": "many",
+       "sentence": ", many.",
+       "char_span": [
+        2,
+        6
+       ],
+       "word_index": 1,
+       "words_in_sentence": 2,
+       "sentence_final": true,
+       "raw_alignment_span_s": [
+        0.36,
+        0.708
+       ],
+       "neighbours_s": {
+        "previous_char_end": 0.325,
+        "next_char_start": 0.708
+       },
+       "energy_dbfs_at_raw_edges": [
+        -28.5,
+        -24.2
+       ],
+       "quietest_near_start": {
+        "t": 0.325,
+        "dbfs": -29.6
+       },
+       "quietest_near_end": {
+        "t": 0.738,
+        "dbfs": -41.3
+       },
+       "refined": true,
+       "edge_rule": [
+        "raw",
+        "decay+soft-reach"
+       ],
+       "cut_s": [
+        0.3597,
+        0.798
+       ],
+       "edge_shift_ms_vs_raw": [
+        -0.3,
+        90.0
+       ],
+       "energy_dbfs_at_cut": [
+        -28.5,
+        -46.8
+       ],
+       "word_audio_s": 0.4384,
+       "lead_tail_silence_s": [
+        0.035,
+        0.26
+       ],
+       "gain_db": -1.28,
+       "peak_dbfs_after": -5.06,
+       "level_to": "word-book/audio/words/many.m4a",
+       "out": "word-book/qa/2026-10-01-m-variants/audio/many.a-large-number.doubled.m4a",
+       "master": "word-book/audio-source/word-candidates/many.a-large-number.doubled.mp3",
+       "fade_ms": 6.0,
+       "pad_ms": 10.0,
+       "soft": true,
+       "fades_ms": [
+        15.0,
+        36.0
+       ],
+       "soft_move_ms": [
+        0.0,
+        30.0
+       ],
+       "flags": [
+        {
+         "flag": "sentence-final",
+         "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+        },
+        {
+         "flag": "edge-in-speech",
+         "why": "the start cut sits at -28.5 dBFS, above -35: inside speech, so clipped or smeared"
+        }
+       ]
+      },
+      "master": "word-book/audio-source/word-candidates/many.a-large-number.doubled.mp3",
+      "master_sha256": "85756c668257f858e53b844226b1928848c4314bdf6d1ac80fa36a462a85f7c0",
+      "why": "the word said twice; the clearer second (sentence-final) occurrence is cut out, levelled to the shipped clip -- the other kind the owner picked in round 10",
+      "sentence_file": "audio/many.a-large-number.sentence.m4a"
+     },
+     {
+      "file": "audio/many.a-large-number.sentence.m4a",
+      "label": "sentence",
+      "kind": "the card's own example sentence",
+      "sha256": "e806a4cedc395a5733ff08d7588d59763e2b98efbe1f21fe562644e14b0c110d",
+      "sentence_button": true
+     }
+    ]
+   },
+   {
+    "sense": "mean.have-a-meaning",
+    "word": "mean",
+    "sentence": "What does this new word mean?",
+    "clips": [
+     {
+      "file": "audio/mean.have-a-meaning.now.m4a",
+      "label": "Now",
+      "kind": "the clip the app plays now",
+      "sha256": "77908256f7ae1518650f114d13fc58bcda3408df579d1e83555a22d6462cc6a8",
+      "source": "word-book/audio/words/mean.m4a"
+     },
+     {
+      "file": "audio/mean.have-a-meaning.flash.m4a",
+      "label": "Flash",
+      "kind": "plain word + full stop, eleven_flash_v2_5",
+      "sha256": "4e1b5ebe497ab730a8437a8900dea1602e24f0b41107174323e029a8b2dd7d67",
+      "text": "mean.",
+      "why": "plain word + full stop on eleven_flash_v2_5, the kind that won 8 of 9 round-10 words and the whole E-J flash round"
+     },
+     {
+      "file": "audio/mean.have-a-meaning.doubled.m4a",
+      "label": "Doubled",
+      "kind": "the clearer second of 'mean, mean.'",
+      "sha256": "d80ef25e4356d29f99978ce9b43626a5421b59e36bcbd043b6d007c37e80fb07",
+      "report": {
+       "sense": "mean.have-a-meaning",
+       "word": "mean",
+       "sentence": ", mean.",
+       "char_span": [
+        2,
+        6
+       ],
+       "word_index": 1,
+       "words_in_sentence": 2,
+       "sentence_final": true,
+       "raw_alignment_span_s": [
+        0.464,
+        0.882
+       ],
+       "neighbours_s": {
+        "previous_char_end": 0.418,
+        "next_char_start": 0.882
+       },
+       "energy_dbfs_at_raw_edges": [
+        -23.4,
+        -28.0
+       ],
+       "quietest_near_start": {
+        "t": 0.409,
+        "dbfs": -26.2
+       },
+       "quietest_near_end": {
+        "t": 0.887,
+        "dbfs": -29.8
+       },
+       "refined": true,
+       "edge_rule": [
+        "raw",
+        "decay+soft-reach"
+       ],
+       "cut_s": [
+        0.4631,
+        1.057
+       ],
+       "edge_shift_ms_vs_raw": [
+        -0.9,
+        175.0
+       ],
+       "energy_dbfs_at_cut": [
+        -23.1,
+        -75.1
+       ],
+       "word_audio_s": 0.5939,
+       "lead_tail_silence_s": [
+        0.259,
+        0.267
+       ],
+       "gain_db": -0.83,
+       "peak_dbfs_after": -10.84,
+       "level_to": "word-book/audio/words/mean.m4a",
+       "out": "word-book/qa/2026-10-01-m-variants/audio/mean.have-a-meaning.doubled.m4a",
+       "master": "word-book/audio-source/word-candidates/mean.have-a-meaning.doubled.mp3",
+       "fade_ms": 6.0,
+       "pad_ms": 10.0,
+       "soft": true,
+       "fades_ms": [
+        15.0,
+        36.0
+       ],
+       "soft_move_ms": [
+        0.0,
+        30.0
+       ],
+       "flags": [
+        {
+         "flag": "sentence-final",
+         "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+        },
+        {
+         "flag": "edge-in-speech",
+         "why": "the start cut sits at -23.1 dBFS, above -35: inside speech, so clipped or smeared"
+        }
+       ]
+      },
+      "master": "word-book/audio-source/word-candidates/mean.have-a-meaning.doubled.mp3",
+      "master_sha256": "9d6ed1c15899d7128928258702ee7bb893c374eb189ae1f79906721125641c4c",
+      "why": "the word said twice; the clearer second (sentence-final) occurrence is cut out, levelled to the shipped clip -- the other kind the owner picked in round 10",
+      "sentence_file": "audio/mean.have-a-meaning.sentence.m4a"
+     },
+     {
+      "file": "audio/mean.have-a-meaning.sentence.m4a",
+      "label": "sentence",
+      "kind": "the card's own example sentence",
+      "sha256": "fa0cb3d99e6890aa1ebad9b3f3244883015a5ae1fc77621c5ffeb1cc1a5fa28c",
+      "sentence_button": true
+     }
+    ]
+   },
+   {
+    "sense": "metre.length-unit",
+    "word": "metre",
+    "sentence": "Our ribbon is one metre long.",
+    "clips": [
+     {
+      "file": "audio/metre.length-unit.now.m4a",
+      "label": "Now",
+      "kind": "the clip the app plays now",
+      "sha256": "eafcc4152c4ff6ff487d9bf1629315a944307df12c8368a498a2f6e0b50f0f05",
+      "source": "word-book/audio/words/metre.m4a"
+     },
+     {
+      "file": "audio/metre.length-unit.flash.m4a",
+      "label": "Flash",
+      "kind": "plain word + full stop, eleven_flash_v2_5",
+      "sha256": "6a7d85569ce6b9b52e2105cbb4966967ec0ba81a7ba20d25917f780dd1b2abe7",
+      "text": "metre.",
+      "why": "plain word + full stop on eleven_flash_v2_5, the kind that won 8 of 9 round-10 words and the whole E-J flash round"
+     },
+     {
+      "file": "audio/metre.length-unit.doubled.m4a",
+      "label": "Doubled",
+      "kind": "the clearer second of 'metre, metre.'",
+      "sha256": "913b18c842bbdcbaae435741d479d1d0e661188e35ccd322de664baef4653695",
+      "report": {
+       "sense": "metre.length-unit",
+       "word": "metre",
+       "sentence": ", metre.",
+       "char_span": [
+        2,
+        7
+       ],
+       "word_index": 1,
+       "words_in_sentence": 2,
+       "sentence_final": true,
+       "raw_alignment_span_s": [
+        0.488,
+        0.906
+       ],
+       "neighbours_s": {
+        "previous_char_end": 0.453,
+        "next_char_start": 0.906
+       },
+       "energy_dbfs_at_raw_edges": [
+        -24.2,
+        -45.0
+       ],
+       "quietest_near_start": {
+        "t": 0.4505,
+        "dbfs": -27.2
+       },
+       "quietest_near_end": {
+        "t": 0.936,
+        "dbfs": -60.2
+       },
+       "refined": true,
+       "edge_rule": [
+        "raw",
+        "decay+soft-reach"
+       ],
+       "cut_s": [
+        0.4885,
+        0.9684
+       ],
+       "edge_shift_ms_vs_raw": [
+        0.5,
+        62.4
+       ],
+       "energy_dbfs_at_cut": [
+        -24.7,
+        -70.2
+       ],
+       "word_audio_s": 0.48,
+       "lead_tail_silence_s": [
+        0.16,
+        0.224
+       ],
+       "gain_db": -0.82,
+       "peak_dbfs_after": -4.43,
+       "level_to": "word-book/audio/words/metre.m4a",
+       "out": "word-book/qa/2026-10-01-m-variants/audio/metre.length-unit.doubled.m4a",
+       "master": "word-book/audio-source/word-candidates/metre.length-unit.doubled.mp3",
+       "fade_ms": 6.0,
+       "pad_ms": 10.0,
+       "soft": true,
+       "fades_ms": [
+        15.0,
+        36.0
+       ],
+       "soft_move_ms": [
+        0.0,
+        30.0
+       ],
+       "flags": [
+        {
+         "flag": "sentence-final",
+         "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+        },
+        {
+         "flag": "edge-in-speech",
+         "why": "the start cut sits at -24.7 dBFS, above -35: inside speech, so clipped or smeared"
+        }
+       ]
+      },
+      "master": "word-book/audio-source/word-candidates/metre.length-unit.doubled.mp3",
+      "master_sha256": "897b3eca2bdd22eaeab6b7db47144d54310f0e1ba943ad101da781015ab3aefb",
+      "why": "the word said twice; the clearer second (sentence-final) occurrence is cut out, levelled to the shipped clip -- the other kind the owner picked in round 10",
+      "sentence_file": "audio/metre.length-unit.sentence.m4a"
+     },
+     {
+      "file": "audio/metre.length-unit.sentence.m4a",
+      "label": "sentence",
+      "kind": "the card's own example sentence",
+      "sha256": "f436bffc5369002b776b4b1e9a246b70b31bde02a411ea9dc07711de167a9a69",
+      "sentence_button": true
+     }
+    ]
+   },
+   {
+    "sense": "middle.central-part",
+    "word": "middle",
+    "sentence": "The red bead sits in the middle of the string.",
+    "clips": [
+     {
+      "file": "audio/middle.central-part.now.m4a",
+      "label": "Now",
+      "kind": "the clip the app plays now",
+      "sha256": "df935d8c6aeb2f7f47512e095836bc5572834c44a661f1b5cc1d160d11a684de",
+      "source": "word-book/audio/words/middle.m4a"
+     },
+     {
+      "file": "audio/middle.central-part.flash.m4a",
+      "label": "Flash",
+      "kind": "plain word + full stop, eleven_flash_v2_5",
+      "sha256": "ed9324b3f992567a5169dc77d33a21afbc3b05061dae8ea5374449421f917ed0",
+      "text": "middle.",
+      "why": "plain word + full stop on eleven_flash_v2_5, the kind that won 8 of 9 round-10 words and the whole E-J flash round"
+     },
+     {
+      "file": "audio/middle.central-part.doubled.m4a",
+      "label": "Doubled",
+      "kind": "the clearer second of 'middle, middle.'",
+      "sha256": "4900afb022da0a5db341d7e5b95c7766d4f489492e1fb95fecce12e911912a20",
+      "report": {
+       "sense": "middle.central-part",
+       "word": "middle",
+       "sentence": ", middle.",
+       "char_span": [
+        2,
+        8
+       ],
+       "word_index": 1,
+       "words_in_sentence": 2,
+       "sentence_final": true,
+       "raw_alignment_span_s": [
+        0.43,
+        0.801
+       ],
+       "neighbours_s": {
+        "previous_char_end": 0.395,
+        "next_char_start": 0.801
+       },
+       "energy_dbfs_at_raw_edges": [
+        -25.8,
+        -32.8
+       ],
+       "quietest_near_start": {
+        "t": 0.425,
+        "dbfs": -26.3
+       },
+       "quietest_near_end": {
+        "t": 0.831,
+        "dbfs": -57.6
+       },
+       "refined": true,
+       "edge_rule": [
+        "raw",
+        "decay+soft-reach"
+       ],
+       "cut_s": [
+        0.4293,
+        0.8759
+       ],
+       "edge_shift_ms_vs_raw": [
+        -0.7,
+        74.9
+       ],
+       "energy_dbfs_at_cut": [
+        -26.2,
+        -74.5
+       ],
+       "word_audio_s": 0.4466,
+       "lead_tail_silence_s": [
+        0.03,
+        0.355
+       ],
+       "gain_db": -7.17,
+       "peak_dbfs_after": -11.89,
+       "level_to": "word-book/audio/words/middle.m4a",
+       "out": "word-book/qa/2026-10-01-m-variants/audio/middle.central-part.doubled.m4a",
+       "master": "word-book/audio-source/word-candidates/middle.central-part.doubled.mp3",
+       "fade_ms": 6.0,
+       "pad_ms": 10.0,
+       "soft": true,
+       "fades_ms": [
+        15.0,
+        36.0
+       ],
+       "soft_move_ms": [
+        0.0,
+        30.0
+       ],
+       "flags": [
+        {
+         "flag": "sentence-final",
+         "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+        },
+        {
+         "flag": "edge-in-speech",
+         "why": "the start cut sits at -26.2 dBFS, above -35: inside speech, so clipped or smeared"
+        }
+       ]
+      },
+      "master": "word-book/audio-source/word-candidates/middle.central-part.doubled.mp3",
+      "master_sha256": "f8e7f1e1f43eb98df30f2f71430491095b481ec9510963d10954c35d7b5fa678",
+      "why": "the word said twice; the clearer second (sentence-final) occurrence is cut out, levelled to the shipped clip -- the other kind the owner picked in round 10",
+      "sentence_file": "audio/middle.central-part.sentence.m4a"
+     },
+     {
+      "file": "audio/middle.central-part.sentence.m4a",
+      "label": "sentence",
+      "kind": "the card's own example sentence",
+      "sha256": "02d809b62f27048aa0d6d004a8e69ca5b6b9cc280572ad05932640b64ef7d36e",
+      "sentence_button": true
+     }
+    ]
+   },
+   {
+    "sense": "mirror.reflecting-object",
+    "word": "mirror",
+    "sentence": "The mermaid checks her flower crown in a mirror.",
+    "clips": [
+     {
+      "file": "audio/mirror.reflecting-object.now.m4a",
+      "label": "Now",
+      "kind": "the clip the app plays now",
+      "sha256": "c17ff357bb1cb289eabe3de3f7b0f8941b61993e287ff5cdd00e9f2864937f6f",
+      "source": "word-book/audio/words/mirror.m4a"
+     },
+     {
+      "file": "audio/mirror.reflecting-object.flash.m4a",
+      "label": "Flash",
+      "kind": "plain word + full stop, eleven_flash_v2_5",
+      "sha256": "519dc423bbd107bf21bccca61f994ea6e01f5dc207fb6454f1d98660da3e0542",
+      "text": "mirror.",
+      "why": "plain word + full stop on eleven_flash_v2_5, the kind that won 8 of 9 round-10 words and the whole E-J flash round"
+     },
+     {
+      "file": "audio/mirror.reflecting-object.doubled.m4a",
+      "label": "Doubled",
+      "kind": "the clearer second of 'mirror, mirror.'",
+      "sha256": "ea2f2ed24268bd19f8ff5719617788c6b2b52ca118d5aaaff9c936d94a6464ae",
+      "report": {
+       "sense": "mirror.reflecting-object",
+       "word": "mirror",
+       "sentence": ", mirror.",
+       "char_span": [
+        2,
+        8
+       ],
+       "word_index": 1,
+       "words_in_sentence": 2,
+       "sentence_final": true,
+       "raw_alignment_span_s": [
+        0.499,
+        0.952
+       ],
+       "neighbours_s": {
+        "previous_char_end": 0.43,
+        "next_char_start": 0.952
+       },
+       "energy_dbfs_at_raw_edges": [
+        -25.6,
+        -34.7
+       ],
+       "quietest_near_start": {
+        "t": 0.454,
+        "dbfs": -81.1
+       },
+       "quietest_near_end": {
+        "t": 0.982,
+        "dbfs": -52.0
+       },
+       "refined": true,
+       "edge_rule": [
+        "dip+soft-reach",
+        "decay+soft-reach"
+       ],
+       "cut_s": [
+        0.4141,
+        1.0415
+       ],
+       "edge_shift_ms_vs_raw": [
+        -84.9,
+        89.5
+       ],
+       "energy_dbfs_at_cut": [
+        -51.9,
+        -84.1
+       ],
+       "word_audio_s": 0.6273,
+       "lead_tail_silence_s": [
+        0.035,
+        0.313
+       ],
+       "gain_db": 0.24,
+       "peak_dbfs_after": -6.88,
+       "level_to": "word-book/audio/words/mirror.m4a",
+       "out": "word-book/qa/2026-10-01-m-variants/audio/mirror.reflecting-object.doubled.m4a",
+       "master": "word-book/audio-source/word-candidates/mirror.reflecting-object.doubled.mp3",
+       "fade_ms": 6.0,
+       "pad_ms": 10.0,
+       "soft": true,
+       "fades_ms": [
+        36.0,
+        36.0
+       ],
+       "soft_move_ms": [
+        -30.0,
+        30.0
+       ],
+       "flags": [
+        {
+         "flag": "sentence-final",
+         "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+        }
+       ]
+      },
+      "master": "word-book/audio-source/word-candidates/mirror.reflecting-object.doubled.mp3",
+      "master_sha256": "7e2673cd5920a158d5855e538b80c27c73da09ebc45cf393477f232f46cb73ac",
+      "why": "the word said twice; the clearer second (sentence-final) occurrence is cut out, levelled to the shipped clip -- the other kind the owner picked in round 10",
+      "sentence_file": "audio/mirror.reflecting-object.sentence.m4a"
+     },
+     {
+      "file": "audio/mirror.reflecting-object.sentence.m4a",
+      "label": "sentence",
+      "kind": "the card's own example sentence",
+      "sha256": "98e81f2efa0a6e55c2c43e8808b5518fa7b2de511cdff43d0738771887accddc",
+      "sentence_button": true
+     }
+    ]
+   },
+   {
+    "sense": "motor.movement-machine",
+    "word": "motor",
+    "sentence": "The small motor turns our model wheel.",
+    "clips": [
+     {
+      "file": "audio/motor.movement-machine.now.m4a",
+      "label": "Now",
+      "kind": "the clip the app plays now",
+      "sha256": "6b73c302e47125a13c50f3f7354e9f1ee36e61b3b7d4bfda4f119efffe7c998b",
+      "source": "word-book/audio/words/motor.m4a"
+     },
+     {
+      "file": "audio/motor.movement-machine.flash.m4a",
+      "label": "Flash",
+      "kind": "plain word + full stop, eleven_flash_v2_5",
+      "sha256": "a667c2aee349459839db9c134a3f7749651cd01483b3ec512096258acef39c68",
+      "text": "motor.",
+      "why": "plain word + full stop on eleven_flash_v2_5, the kind that won 8 of 9 round-10 words and the whole E-J flash round"
+     },
+     {
+      "file": "audio/motor.movement-machine.doubled.m4a",
+      "label": "Doubled",
+      "kind": "the clearer second of 'motor, motor.'",
+      "sha256": "53db24728866b58614e99bdf4c6aee29f28b9f90c36430b0605b848dd46220bf",
+      "report": {
+       "sense": "motor.movement-machine",
+       "word": "motor",
+       "sentence": ", motor.",
+       "char_span": [
+        2,
+        7
+       ],
+       "word_index": 1,
+       "words_in_sentence": 2,
+       "sentence_final": true,
+       "raw_alignment_span_s": [
+        0.58,
+        1.091
+       ],
+       "neighbours_s": {
+        "previous_char_end": 0.546,
+        "next_char_start": 1.091
+       },
+       "energy_dbfs_at_raw_edges": [
+        -23.7,
+        -57.1
+       ],
+       "quietest_near_start": {
+        "t": 0.54,
+        "dbfs": -33.1
+       },
+       "quietest_near_end": {
+        "t": 1.121,
+        "dbfs": -71.7
+       },
+       "refined": true,
+       "edge_rule": [
+        "gap-min",
+        "decay+soft-reach"
+       ],
+       "cut_s": [
+        0.5469,
+        1.1471
+       ],
+       "edge_shift_ms_vs_raw": [
+        -33.1,
+        56.1
+       ],
+       "energy_dbfs_at_cut": [
+        -30.6,
+        -82.1
+       ],
+       "word_audio_s": 0.6001,
+       "lead_tail_silence_s": [
+        0.185,
+        0.096
+       ],
+       "gain_db": 4.38,
+       "peak_dbfs_after": -4.48,
+       "level_to": "word-book/audio/words/motor.m4a",
+       "out": "word-book/qa/2026-10-01-m-variants/audio/motor.movement-machine.doubled.m4a",
+       "master": "word-book/audio-source/word-candidates/motor.movement-machine.doubled.mp3",
+       "fade_ms": 6.0,
+       "pad_ms": 10.0,
+       "soft": true,
+       "fades_ms": [
+        15.0,
+        36.0
+       ],
+       "soft_move_ms": [
+        0.0,
+        30.0
+       ],
+       "flags": [
+        {
+         "flag": "sentence-final",
+         "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+        },
+        {
+         "flag": "edge-in-speech",
+         "why": "the start cut sits at -30.6 dBFS, above -35: inside speech, so clipped or smeared"
+        }
+       ]
+      },
+      "master": "word-book/audio-source/word-candidates/motor.movement-machine.doubled.mp3",
+      "master_sha256": "f98fea67647a6d48b8b015a89fe9e51ffd80df3379b29bf3dc2b5b6529452c2c",
+      "why": "the word said twice; the clearer second (sentence-final) occurrence is cut out, levelled to the shipped clip -- the other kind the owner picked in round 10",
+      "sentence_file": "audio/motor.movement-machine.sentence.m4a"
+     },
+     {
+      "file": "audio/motor.movement-machine.sentence.m4a",
+      "label": "sentence",
+      "kind": "the card's own example sentence",
+      "sha256": "0db6f63973379ae04645bcd756104c12d43f89002b730ee38f824186953f4017",
+      "sentence_button": true
+     }
+    ]
+   },
+   {
+    "sense": "mushroom.fungus",
+    "word": "mushroom",
+    "sentence": "A mushroom grows beside the old log.",
+    "clips": [
+     {
+      "file": "audio/mushroom.fungus.now.m4a",
+      "label": "Now",
+      "kind": "the clip the app plays now",
+      "sha256": "5b662bd4614f097f5bd14663757838bfce0ae8b9bafcada65ab0852a1218835d",
+      "source": "word-book/audio/words/mushroom.m4a"
+     },
+     {
+      "file": "audio/mushroom.fungus.flash.m4a",
+      "label": "Flash",
+      "kind": "plain word + full stop, eleven_flash_v2_5",
+      "sha256": "097f1f6771527bb6dc4bb51f2ed09ed9524f8eaba58e2bd63e93b06bb5d8079a",
+      "text": "mushroom.",
+      "why": "plain word + full stop on eleven_flash_v2_5, the kind that won 8 of 9 round-10 words and the whole E-J flash round"
+     },
+     {
+      "file": "audio/mushroom.fungus.doubled.m4a",
+      "label": "Doubled",
+      "kind": "the clearer second of 'mushroom, mushroom.'",
+      "sha256": "be0a5719e504226f08fe205ec95d5eb698b24a0270e090d246f82aaeb1f94bff",
+      "report": {
+       "sense": "mushroom.fungus",
+       "word": "mushroom",
+       "sentence": ", mushroom.",
+       "char_span": [
+        2,
+        10
+       ],
+       "word_index": 1,
+       "words_in_sentence": 2,
+       "sentence_final": true,
+       "raw_alignment_span_s": [
+        0.58,
+        1.126
+       ],
+       "neighbours_s": {
+        "previous_char_end": 0.546,
+        "next_char_start": 1.126
+       },
+       "energy_dbfs_at_raw_edges": [
+        -24.8,
+        -32.2
+       ],
+       "quietest_near_start": {
+        "t": 0.535,
+        "dbfs": -29.2
+       },
+       "quietest_near_end": {
+        "t": 1.156,
+        "dbfs": -53.0
+       },
+       "refined": true,
+       "edge_rule": [
+        "gap-min",
+        "decay+soft-reach"
+       ],
+       "cut_s": [
+        0.5559,
+        1.4518
+       ],
+       "edge_shift_ms_vs_raw": [
+        -24.1,
+        325.8
+       ],
+       "energy_dbfs_at_cut": [
+        -28.7,
+        -88.6
+       ],
+       "word_audio_s": 0.8959,
+       "lead_tail_silence_s": [
+        0.175,
+        0.265
+       ],
+       "gain_db": 1.4,
+       "peak_dbfs_after": -5.61,
+       "level_to": "word-book/audio/words/mushroom.m4a",
+       "out": "word-book/qa/2026-10-01-m-variants/audio/mushroom.fungus.doubled.m4a",
+       "master": "word-book/audio-source/word-candidates/mushroom.fungus.doubled.mp3",
+       "fade_ms": 6.0,
+       "pad_ms": 10.0,
+       "soft": true,
+       "fades_ms": [
+        15.0,
+        36.0
+       ],
+       "soft_move_ms": [
+        0.0,
+        30.0
+       ],
+       "flags": [
+        {
+         "flag": "sentence-final",
+         "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+        },
+        {
+         "flag": "edge-in-speech",
+         "why": "the start cut sits at -28.7 dBFS, above -35: inside speech, so clipped or smeared"
+        }
+       ]
+      },
+      "master": "word-book/audio-source/word-candidates/mushroom.fungus.doubled.mp3",
+      "master_sha256": "a0ce11ca3a1d9a4a0ecf0c8b1c29459c7dc9b85cf25e2516976f69fc8265b8bf",
+      "why": "the word said twice; the clearer second (sentence-final) occurrence is cut out, levelled to the shipped clip -- the other kind the owner picked in round 10",
+      "sentence_file": "audio/mushroom.fungus.sentence.m4a"
+     },
+     {
+      "file": "audio/mushroom.fungus.sentence.m4a",
+      "label": "sentence",
+      "kind": "the card's own example sentence",
+      "sha256": "45d6f4a04c7c7f9d7c5db7817b8d685566fbde4a22dda425f8e016437e91de60",
+      "sentence_button": true
+     }
+    ]
+   }
+  ]
+ }
+}

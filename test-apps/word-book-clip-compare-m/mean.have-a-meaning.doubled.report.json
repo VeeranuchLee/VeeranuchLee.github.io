@@ -1,0 +1,80 @@
+{
+ "sense": "mean.have-a-meaning",
+ "word": "mean",
+ "sentence": ", mean.",
+ "char_span": [
+  2,
+  6
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.464,
+  0.882
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.418,
+  "next_char_start": 0.882
+ },
+ "energy_dbfs_at_raw_edges": [
+  -23.4,
+  -28.0
+ ],
+ "quietest_near_start": {
+  "t": 0.409,
+  "dbfs": -26.2
+ },
+ "quietest_near_end": {
+  "t": 0.887,
+  "dbfs": -29.8
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.4631,
+  1.057
+ ],
+ "edge_shift_ms_vs_raw": [
+  -0.9,
+  175.0
+ ],
+ "energy_dbfs_at_cut": [
+  -23.1,
+  -75.1
+ ],
+ "word_audio_s": 0.5939,
+ "lead_tail_silence_s": [
+  0.259,
+  0.267
+ ],
+ "gain_db": -0.83,
+ "peak_dbfs_after": -10.84,
+ "level_to": "word-book/audio/words/mean.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/mean.have-a-meaning.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/mean.have-a-meaning.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -23.1 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

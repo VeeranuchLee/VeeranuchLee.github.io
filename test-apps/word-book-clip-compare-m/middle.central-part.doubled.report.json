@@ -1,0 +1,80 @@
+{
+ "sense": "middle.central-part",
+ "word": "middle",
+ "sentence": ", middle.",
+ "char_span": [
+  2,
+  8
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.43,
+  0.801
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.395,
+  "next_char_start": 0.801
+ },
+ "energy_dbfs_at_raw_edges": [
+  -25.8,
+  -32.8
+ ],
+ "quietest_near_start": {
+  "t": 0.425,
+  "dbfs": -26.3
+ },
+ "quietest_near_end": {
+  "t": 0.831,
+  "dbfs": -57.6
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.4293,
+  0.8759
+ ],
+ "edge_shift_ms_vs_raw": [
+  -0.7,
+  74.9
+ ],
+ "energy_dbfs_at_cut": [
+  -26.2,
+  -74.5
+ ],
+ "word_audio_s": 0.4466,
+ "lead_tail_silence_s": [
+  0.03,
+  0.355
+ ],
+ "gain_db": -7.17,
+ "peak_dbfs_after": -11.89,
+ "level_to": "word-book/audio/words/middle.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/middle.central-part.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/middle.central-part.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -26.2 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}
