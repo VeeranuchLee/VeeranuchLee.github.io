@@ -15,5 +15,22 @@
     "sha256": "a00d16999590a2f66099f7fd02747494a932734d6b66391b0b647812953a416f",
     "termsCheckedForPublicRedistribution": true,
     "termsNote": "AUDIO-DIRECTION.md, 'Redistribution: what ElevenLabs' terms actually allow'. Creator plan, free and unmonetised, single platform, so 'Studio Games' does not apply. Owner requested this bed by name for Nail Salon on 2026-09-29 as a per-app exception to decision 10a, same shape as Spelling Exam's sea bed (decision 10); recorded in nail-salon-app/work_progress_and_other_discussion.md."
+  },
+  {
+    "file": "clear-confirmation.m4a",
+    "tool": "ElevenLabs Text-to-Speech /v1/text-to-speech/{voice}",
+    "voice": "Alice - Clear, Engaging, Educational (British)",
+    "voiceId": "Xb7hH8MSUJpSbSDYk0k2",
+    "model": "eleven_multilingual_v2",
+    "outputFormat": "mp3_44100_128",
+    "text": "Tap again to clear.",
+    "characterCount": 19,
+    "renderedOn": "2026-09-30T02:57:52Z",
+    "master": "audio-source/clear-confirmation.mp3 (git-ignored; backed up at ~/.local/state/children-games/paid-backup/2026-09-30-nail-salon-voice/ with SHA256SUMS.txt)",
+    "encoding": "afconvert -f m4af -d aac -c 1 -b 64000, matching word-book/audio/words/",
+    "creditSpent": 8,
+    "creditNote": "Rendered via nail-salon-app/tools/render-voice.py. Measured at 8 credits against the ~11 estimate (0.54 credits/char). Under the 30-credit hard cap. See AUDIO-DIRECTION.md decision 13.",
+    "termsCheckedForPublicRedistribution": true,
+    "termsNote": "AUDIO-DIRECTION.md, 'Redistribution: what ElevenLabs terms actually allow'. Speech is clear: paid-plan output carries a perpetual commercial licence. One pre-rendered confirmation clip embedded in its own app's published tree. No API key ships; no live call from the app (under-13 rule: decision 5). Rendered offline from a single manifest line; the child never touches the service."
   }
 ]

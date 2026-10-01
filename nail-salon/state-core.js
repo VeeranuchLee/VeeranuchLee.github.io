@@ -21,7 +21,8 @@
   }
   function applyAll(state) { snapshot(state); const design = clone(state.nails[state.selected]); state.nails = state.nails.map(() => clone(design)); return state; }
   function resetNail(state) { snapshot(state); state.nails[state.selected] = freshNail(); return state; }
+  function resetAll(state) { snapshot(state); state.nails = Array.from({ length: NAIL_COUNT }, freshNail); state.accessories = []; state.history = []; return state; }
   function setAccessories(state, id) { snapshot(state); state.accessories = state.accessories.includes(id) ? state.accessories.filter(x => x !== id) : state.accessories.concat(id); return state; }
   function undo(state) { const previous = state.history.pop(); if (previous) { state.selected = previous.selected; state.nails = previous.nails; state.accessories = previous.accessories; } return state; }
-  return { NAIL_COUNT, createState, select, update, addDecoration, applyAll, resetNail, setAccessories, undo, clone };
+  return { NAIL_COUNT, createState, select, update, addDecoration, applyAll, resetNail, resetAll, setAccessories, undo, clone };
 }));

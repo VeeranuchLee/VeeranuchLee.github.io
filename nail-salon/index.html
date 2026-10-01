@@ -16,6 +16,7 @@
         <button id="applyAll" class="action pink" aria-label="Apply this nail design to all nails"><span>✨</span><small>All</small></button>
         <button id="undo" class="action purple" aria-label="Undo"><span>↶</span></button>
         <button id="reset" class="action blue" aria-label="Reset selected nail"><span>↻</span></button>
+        <button id="clearAll" class="action clear" type="button" aria-label="Clear all designs"><span>🧹</span><small>Clear all</small></button>
       </div>
     </header>
 
@@ -56,6 +57,7 @@
       <div id="tray" class="tray" aria-live="polite"></div>
     </section>
   </main>
+  <audio id="clearVoice" src="./assets/audio/clear-confirmation.m4a" preload="auto" hidden></audio>
   <script src="./tap-zoom-guard.js"></script>
   <script src="./state-core.js"></script>
   <script src="./app.js"></script>
