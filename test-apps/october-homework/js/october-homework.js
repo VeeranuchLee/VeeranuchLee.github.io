@@ -93,6 +93,8 @@
     var m = missionById(id);
     state.screen = "mission"; state.missionId = id; state.missionDone = false;
     state.qi = qi != null ? qi : Math.max(0, firstOpen(m, 0));
+    // A finished mission opens on its "done" card, which offers ทำงานนี้ใหม่ (redo this one).
+    if (qi == null && firstOpen(m, 0) < 0) state.missionDone = true;
     freshQuestion(); render();
     window.scrollTo(0, 0);
   }
@@ -245,11 +247,14 @@
       "</header>" +
       '<p class="note"><b>** จงแสดงวิธีทำลงในสมุดและลอกโจทย์ทุกครั้ง</b><span>ทำในสมุดก่อน แล้วมาเช็กคำตอบที่นี่</span></p>' +
       (all === 200 ? '<p class="note all-done">ทำครบ 200 ข้อแล้ว เก่งที่สุดเลย!</p>' : "") +
+      // Owner 2026-10-01: "make clear all button ... so kids can redo" -- in plain sight under the
+      // counter instead of below all 20 stops; still two taps so a stray tap cannot wipe the work.
+      '<div class="clear-row"><button class="reset' + (state.resetArmed ? " armed" : "") + '" data-act="reset">' +
+      (state.resetArmed ? "แตะอีกครั้ง เพื่อล้างทั้งหมด" : "ล้างทั้งหมด ทำใหม่") + "</button></div>" +
       '<div class="map" style="grid-template-columns:repeat(' + cols + ',1fr);grid-template-rows:repeat(' + rows + ',auto)">' +
       '<svg class="path" viewBox="0 0 ' + cols + " " + rows + '" preserveAspectRatio="none" aria-hidden="true">' +
       '<polyline points="' + pts.join(" ") + '"/></svg>' + stops + "</div>" +
-      '<footer class="foot"><button class="reset' + (state.resetArmed ? " armed" : "") + '" data-act="reset">' +
-      (state.resetArmed ? "แตะอีกครั้ง เพื่อลบทั้งหมด" : "เริ่มใหม่") + "</button></footer>";
+      '';
   }
 
   function columnHint(a, b, op) {
@@ -358,6 +363,7 @@
       html += '<div class="done-cover"><div class="done-box"><img src="' + ART.star + '" alt="">' +
         "<h2>งาน " + m.id + " เสร็จแล้ว!</h2><p>" + totalDone() + " / 200</p>" +
         (nid ? '<button class="next" data-act="open" data-id="' + nid + '">ไปงาน ' + nid + " →</button>" : "<p>ทำครบทุกงานแล้ว!</p>") +
+        '<button class="ghost" data-act="redo" data-id="' + m.id + '">ทำงานนี้ใหม่</button>' +
         '<button class="ghost" data-act="map">แผนที่</button></div></div>';
     }
     return html;
@@ -383,6 +389,11 @@
     else if (act === "piece") addPiece(el.getAttribute("data-piece"));
     else if (act === "undo") undoPiece();
     else if (act === "tile") pickTile(Number(el.getAttribute("data-tile")), el);
+    else if (act === "redo") {
+      var rm = missionById(Number(el.getAttribute("data-id")));
+      rm.questions.forEach(function (q) { delete progress.done[q.id]; });
+      saveProgress(); openMission(rm.id, 0);
+    }
     else if (act === "reset") {
       if (!state.resetArmed) {
         state.resetArmed = true; render();
