@@ -1,0 +1,124 @@
+{
+  "$comment": "Engine sample only (two lessons, SPEC format). The app loads lessons.json when it exists and falls back to this file; ?lessons=sample forces it. Day ids 1 (copy) and 9 (complete) so two writing types are exercised. Hero images are placeholders.",
+  "version": 1,
+  "lessons": [
+    {
+      "id": 1,
+      "slug": "penguins-huddle",
+      "title": "Why Penguins Huddle",
+      "topic": "animals",
+      "image": { "src": "images/sample-penguins.webp", "alt": "Emperor penguins standing close together on the ice in a snowy wind." },
+      "sentences": [
+        { "id": "s1", "text": "Emperor penguins live in Antarctica, the coldest place on Earth." },
+        { "id": "s2", "text": "In winter, the wind is icy and the air can be colder than minus forty degrees." },
+        { "id": "s3", "text": "To stay warm, thousands of penguins stand close together in a big group called a huddle." },
+        { "id": "s4", "text": "Each penguin is warmed by the bodies around it, and the group loses much less heat than one bird alone." },
+        { "id": "s5", "text": "The penguins on the outside get the coldest wind." },
+        { "id": "s6", "text": "So the huddle slowly shuffles, and birds take turns moving into the warm middle." },
+        { "id": "s7", "text": "This way, every penguin gets a chance to warm up." }
+      ],
+      "vocabulary": [
+        { "word": "huddle", "meaning": "a group standing very close together", "dictSense": null, "image": null },
+        { "word": "Antarctica", "meaning": "the icy land around the South Pole", "dictSense": null, "image": null },
+        { "word": "shuffle", "meaning": "to move slowly with small steps, feet close to the ground", "dictSense": null, "image": null }
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "prompt": "Why do emperor penguins huddle together?",
+          "choices": [
+            { "id": "a", "text": "To keep warm" },
+            { "id": "b", "text": "To find fish" },
+            { "id": "c", "text": "To build nests" }
+          ],
+          "answer": "a",
+          "hint": "The bodies around each penguin keep it warm, so the group stands close together.",
+          "skill": "cause"
+        },
+        {
+          "id": "q2",
+          "prompt": "Why do the penguins take turns in the middle?",
+          "choices": [
+            { "id": "a", "text": "The food is in the middle" },
+            { "id": "b", "text": "The outside of the huddle is the coldest place" },
+            { "id": "c", "text": "They are playing a game" }
+          ],
+          "answer": "b",
+          "hint": "The penguins on the outside get the coldest wind, so they take turns in the warm middle.",
+          "skill": "inference"
+        },
+        {
+          "id": "q3",
+          "prompt": "What is this reading mostly about?",
+          "choices": [
+            { "id": "a", "text": "How penguins swim fast" },
+            { "id": "b", "text": "How penguins share warmth in the cold" },
+            { "id": "c", "text": "What penguins like to eat" }
+          ],
+          "answer": "b",
+          "hint": "Almost every sentence tells how penguins keep warm together in the icy winter.",
+          "skill": "main-idea"
+        }
+      ],
+      "writing": {
+        "type": "copy",
+        "prompt": "Copy this sentence on the lines.",
+        "model": "Penguins huddle together to keep warm."
+      },
+      "reward": { "name": "Penguin badge", "icon": null }
+    },
+    {
+      "id": 9,
+      "slug": "why-shadows-change",
+      "title": "Why Shadows Change",
+      "topic": "science",
+      "image": { "src": "images/sample-shadows.webp", "alt": "A child standing on grass in the sunshine, with a long shadow stretching away from the Sun." },
+      "sentences": [
+        { "id": "s1", "text": "A shadow forms when something blocks light." },
+        { "id": "s2", "text": "Light travels in straight lines, so it cannot bend around you to fill the space behind you." },
+        { "id": "s3", "text": "That dark space on the ground is your shadow." },
+        { "id": "s4", "text": "In the morning, the Sun is low in the sky, and your shadow is long." },
+        { "id": "s5", "text": "At midday, the Sun is high above you, so your shadow is short." },
+        { "id": "s6", "text": "In the evening, the Sun is low again, and your shadow stretches out the other way." },
+        { "id": "s7", "text": "Your shadow always points away from the Sun." }
+      ],
+      "vocabulary": [
+        { "word": "shadow", "meaning": "a dark shape made when something blocks light", "dictSense": "shadow.dark-shape", "image": "images/words/shadow.webp" },
+        { "word": "block", "meaning": "to stop something from getting through", "dictSense": null, "image": null },
+        { "word": "midday", "meaning": "the middle of the day, around twelve o'clock", "dictSense": null, "image": null }
+      ],
+      "questions": [
+        {
+          "id": "q1",
+          "prompt": "What makes a shadow?",
+          "choices": [
+            { "id": "a", "text": "Something blocks the light" },
+            { "id": "b", "text": "The ground gets wet" },
+            { "id": "c", "text": "The wind blows" }
+          ],
+          "answer": "a",
+          "hint": "A shadow forms when something blocks light, so the space behind it stays dark.",
+          "skill": "cause"
+        },
+        {
+          "id": "q2",
+          "prompt": "When is your shadow shortest?",
+          "choices": [
+            { "id": "a", "text": "In the morning" },
+            { "id": "b", "text": "At midday" },
+            { "id": "c", "text": "In the evening" }
+          ],
+          "answer": "b",
+          "hint": "When the Sun is high above you, your shadow is short. The Sun is highest at midday.",
+          "skill": "connect"
+        }
+      ],
+      "writing": {
+        "type": "complete",
+        "prompt": "Finish the sentence on the lines.",
+        "frame": "My shadow is short at midday because ___."
+      },
+      "reward": { "name": "Sundial star", "icon": null }
+    }
+  ]
+}
