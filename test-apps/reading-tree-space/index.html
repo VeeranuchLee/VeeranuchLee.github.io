@@ -2,10 +2,21 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Reading Tree</title>
-<meta http-equiv="refresh" content="0; url=./reader/">
-<style>html,body{margin:0;background:#f7f0e1;color:#2f3a4d;font:700 24px system-ui,sans-serif;touch-action:manipulation}a{color:#3f6fb5}p{text-align:center;margin-top:40vh}</style>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Bookshelf</title>
+<link rel="stylesheet" href="./shelf/shelf.css">
+<script src="./shelf/tap-zoom-guard.js"></script>
 </head>
-<body><p><a href="./reader/">Open the book</a></p></body>
+<body>
+<div class="wall" aria-hidden="true"></div>
+<header class="top">
+  <a class="back" id="back" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back">
+    <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M30 10 L16 24 L30 38" /></svg>
+  </a>
+  <h1 class="title">Bookshelf</h1>
+</header>
+<main class="shelves" id="shelves" aria-label="Books"></main>
+<p class="load-error" id="load-error" hidden>The bookshelf could not be opened.</p>
+<script src="./shelf/shelf.js"></script>
+</body>
 </html>

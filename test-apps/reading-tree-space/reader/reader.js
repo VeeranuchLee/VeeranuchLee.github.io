@@ -31,7 +31,8 @@
     prev: document.getElementById("prev"),
     next: document.getElementById("next"),
     dots: document.getElementById("dots"),
-    error: document.getElementById("load-error")
+    error: document.getElementById("load-error"),
+    shelfBack: document.getElementById("shelf-back")
   };
 
   var book = null;
@@ -254,7 +255,7 @@
       // Warm the clips for this page and the next.
       wordButtons.forEach(function (b) { load(b.getAttribute("data-word")); });
       el.book.classList.remove("turning");
-      try { history.replaceState(null, "", "?book=" + encodeURIComponent(book.id) + "&page=" + index); } catch (e) { /* file: */ }
+      try { history.replaceState(null, "", "?book=" + encodeURIComponent(book.id) + "&page=" + index + fromQuery); } catch (e) { /* file: */ }
     };
     if (animate) {
       el.book.classList.add("turning");
@@ -296,6 +297,11 @@
   }
 
   var params = new URLSearchParams(location.search);
+  // ?from=wordbook rides along so the bookshelf's back arrow still returns to Our Word Book.
+  var from = params.get("from") === "wordbook" ? "wordbook" : "";
+  var fromQuery = from ? "&from=" + from : "";
+  el.shelfBack.href = "../index.html" + (from ? "?from=" + from : "");
+  el.shelfBack.addEventListener("click", stopAll);
   fetch(BOOKS + "index.json")
     .then(function (r) { if (!r.ok) throw new Error("books/index.json " + r.status); return r.json(); })
     .then(function (list) {

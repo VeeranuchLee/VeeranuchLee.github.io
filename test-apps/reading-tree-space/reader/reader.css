@@ -85,6 +85,33 @@ html, body {
 }
 .frame img.loaded { opacity: 1; }
 
+/* ---- back to bookshelf ----
+   Top-left of every page, over the art's top-left corner (portrait) or in the cream margin
+   beside it (landscape), on a cream disc so it never sits bare on a picture. */
+.art { position: relative; }
+.shelf-back {
+  position: absolute;
+  z-index: 2;
+  left: max(1.6vmin, 10px);
+  top: max(1.6vmin, 10px);
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--paper);
+  border: 3px solid #fff;
+  box-shadow: 0 4px 0 #d9ccb0, 0 6px 14px rgba(47, 58, 77, .18);
+  touch-action: manipulation;
+  transition: transform .1s ease, box-shadow .15s ease;
+}
+.shelf-back svg { width: 40px; height: 40px; }
+.shelf-back .b1 { fill: var(--accent); }
+.shelf-back .b2 { fill: #c4553f; }
+.shelf-back .b3 { fill: var(--glow-edge); }
+.shelf-back .ledge { fill: none; stroke: #8a5a31; stroke-width: 4; stroke-linecap: round; }
+.shelf-back:active { transform: translateY(4px) scale(.96); box-shadow: 0 1px 0 #d9ccb0; background: var(--paper-deep); }
+
 /* ---- reading area ---- */
 .reading {
   flex: 1 1 33%;
@@ -222,6 +249,8 @@ button { font: inherit; }
   .nav { width: 52px; height: 52px; }
   .nav svg { width: 30px; height: 30px; }
   .speaker { width: 64px; height: 64px; }
+  .shelf-back { width: 56px; height: 56px; }
+  .shelf-back svg { width: 34px; height: 34px; }
   .speaker svg { width: 44px; height: 44px; }
   .reading-mid { gap: 10px; }
   :root { --text-size: 26px; --title-size: 38px; }
