@@ -1,0 +1,80 @@
+{
+ "sense": "none.not-one",
+ "word": "none",
+ "sentence": ", none.",
+ "char_span": [
+  2,
+  6
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.453,
+  0.824
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.395,
+  "next_char_start": 0.824
+ },
+ "energy_dbfs_at_raw_edges": [
+  -20.7,
+  -23.4
+ ],
+ "quietest_near_start": {
+  "t": 0.3955,
+  "dbfs": -24.7
+ },
+ "quietest_near_end": {
+  "t": 0.854,
+  "dbfs": -25.7
+ },
+ "refined": true,
+ "edge_rule": [
+  "gap-min",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.3951,
+  0.964
+ ],
+ "edge_shift_ms_vs_raw": [
+  -57.9,
+  140.0
+ ],
+ "energy_dbfs_at_cut": [
+  -24.7,
+  -81.7
+ ],
+ "word_audio_s": 0.5689,
+ "lead_tail_silence_s": [
+  0.155,
+  0.363
+ ],
+ "gain_db": -0.72,
+ "peak_dbfs_after": -7.27,
+ "level_to": "word-book/audio/words/none.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/none.not-one.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/none.not-one.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -24.7 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

@@ -1,0 +1,80 @@
+{
+ "sense": "noon.midday",
+ "word": "noon",
+ "sentence": ", noon.",
+ "char_span": [
+  2,
+  6
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.453,
+  0.743
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.418,
+  "next_char_start": 0.743
+ },
+ "energy_dbfs_at_raw_edges": [
+  -22.8,
+  -25.6
+ ],
+ "quietest_near_start": {
+  "t": 0.443,
+  "dbfs": -23.1
+ },
+ "quietest_near_end": {
+  "t": 0.773,
+  "dbfs": -49.9
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.454,
+  0.8254
+ ],
+ "edge_shift_ms_vs_raw": [
+  1.0,
+  82.4
+ ],
+ "energy_dbfs_at_cut": [
+  -22.6,
+  -49.8
+ ],
+ "word_audio_s": 0.3715,
+ "lead_tail_silence_s": [
+  0.035,
+  0.327
+ ],
+ "gain_db": 0.82,
+ "peak_dbfs_after": -8.83,
+ "level_to": "word-book/audio/words/noon.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/noon.midday.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/noon.midday.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -22.6 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

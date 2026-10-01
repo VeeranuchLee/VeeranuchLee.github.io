@@ -1,0 +1,80 @@
+{
+ "sense": "narrator.story-voice",
+ "word": "narrator",
+ "sentence": ", narrator.",
+ "char_span": [
+  2,
+  10
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.639,
+  1.184
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.604,
+  "next_char_start": 1.184
+ },
+ "energy_dbfs_at_raw_edges": [
+  -19.5,
+  -42.0
+ ],
+ "quietest_near_start": {
+  "t": 0.579,
+  "dbfs": -33.4
+ },
+ "quietest_near_end": {
+  "t": 1.214,
+  "dbfs": -62.1
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.6395,
+  1.2535
+ ],
+ "edge_shift_ms_vs_raw": [
+  0.5,
+  69.5
+ ],
+ "energy_dbfs_at_cut": [
+  -19.6,
+  -78.4
+ ],
+ "word_audio_s": 0.614,
+ "lead_tail_silence_s": [
+  0.165,
+  0.241
+ ],
+ "gain_db": -0.48,
+ "peak_dbfs_after": -5.41,
+ "level_to": "word-book/audio/words/narrator.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/narrator.story-voice.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/narrator.story-voice.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -19.6 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

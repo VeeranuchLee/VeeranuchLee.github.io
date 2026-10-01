@@ -4,13 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Word Book: Letter-M Voice Variants</title>
+<title>Word Book: M and N words</title>
 <!--
-  Word Book letter-M voice-variant page, 2026-10-01. Built by word-book/tools/build-m-compare.py.
-  Layout is a copy of word-book/tools/r10-compare.html (the round-4 format the owner named
-  as easiest to give feedback on). PRIVATE QA instrument (word-book/.publish-manifest lists
-  qa/** under [private]); staged on the Test Hub with NO service worker. Nothing on this
-  page changes the app.
+  Word Book "M and N words" voice-variant page, 2026-10-01. Built by
+  word-book/tools/build-mn-compare.py: the letter-M page from this morning's round with
+  the six letter-N words ADDED below the M rows, in the same directory and the same Test
+  Hub slot. Layout is a copy of word-book/tools/m-compare.html (the round-4 format the
+  owner named as easiest to give feedback on). PRIVATE QA instrument
+  (word-book/.publish-manifest lists qa/** under [private]); staged on the Test Hub with
+  NO service worker. Nothing on this page changes the app. The localStorage key is
+  deliberately unchanged from the M-only page, so answers already tapped there survive.
 -->
 <style>
   :root{
@@ -63,8 +66,10 @@
 </head>
 <body>
 <main>
-  <h1>Word Book: letter-M voice variants</h1>
-  <p class="sub">Eight letter-M words with new voice takes: <b>mangosteen, many, mean, metre, middle, mirror, motor, mushroom</b>.
+  <h1>Word Book: M and N words</h1>
+  <p class="sub">Fourteen words with new voice takes: the eight <b>M</b> words
+    (<b>mangosteen, many, mean, metre, middle, mirror, motor, mushroom</b>) and, below them, the six
+    <b>N</b> words (<b>narrator, nature, niece, none, noon, number</b>).
     <b>Now</b> is the clip the app plays today; <b>Flash</b> is the plain word on the eleven_flash_v2_5 model;
     <b>Doubled</b> is the clearer second of the word said twice. Both new kinds are the ones you picked in
     round 10. Tap "whole sentence" to hear the card's sentence for context. Pick one answer per word, then
@@ -81,8 +86,8 @@
 <script>
 (function(){
   'use strict';
-  var KEY = 'wordbook-m-variants-answers';
-  var data = window.M_VARIANTS;
+  var KEY = 'wordbook-m-variants-answers';   /* unchanged from the M-only page: answers already tapped there survive */
+  var data = window.MN_VARIANTS;
   if (!data) { document.getElementById('g-words').innerHTML = '<p class="err">Could not load manifest.js. Keep this page next to its files.</p>'; return; }
   var saved = {}; try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) {}
   function persist(){ try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {} }
@@ -146,7 +151,7 @@
   });
   count();
   function results(){
-    var lines = ['Word Book letter-M voice variants (' + new Date().toISOString().slice(0, 10) + ')'], ans = [];
+    var lines = ['Word Book M and N voice variants (' + new Date().toISOString().slice(0, 10) + ')'], ans = [];
     ['words'].forEach(function(g){
       data.groups[g].forEach(function(r){
         var s = saved[g + ':' + r.sense] || {};
@@ -154,7 +159,7 @@
         ans.push({ group: g, sense: r.sense, pick: s.pick || null, note: s.note || '' });
       });
     });
-    return lines.join('\n') + '\n\n' + JSON.stringify({ task: 'wordbook-m-variants', page: 'word-book/qa/2026-10-01-m-variants/index.html', answers: ans }, null, 1);
+    return lines.join('\n') + '\n\n' + JSON.stringify({ task: 'wordbook-mn-variants', page: 'word-book/qa/2026-10-01-m-variants/index.html', answers: ans }, null, 1);
   }
   document.getElementById('copy').addEventListener('click', function(){
     var t = results(), out = document.getElementById('out'); out.value = t; out.style.display = 'block';
@@ -167,7 +172,7 @@
   document.getElementById('download').addEventListener('click', function(){
     var a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([results()], { type: 'text/plain' }));
-    a.download = 'wordbook-m-variants-results.txt'; a.click();
+    a.download = 'wordbook-mn-variants-results.txt'; a.click();
   });
 })();
 </script>
