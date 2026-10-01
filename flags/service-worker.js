@@ -20,7 +20,10 @@
 //        tap, while a multi-finger pinch is never touched. It has to be IN this
 //        list, not merely fetched at runtime: a shell list is only read when
 //        CACHE_NAME changes, so an offline install without it would have no guard.
-const CACHE_NAME = "flags-v4";
+// v5 2026-09-30: 30 more countries (69) and the world map -- assets/map/world.js is a
+//        new shell file, the new flag SVGs are in FLAG_CODES, and the home gains a
+//        World map card with three ways to relate a country to the map.
+const CACHE_NAME = "flags-v5";
 
 const FLAG_CODES = [
   "th", "vn", "la", "kh", "my", "sg", "id", "ph",
@@ -31,6 +34,13 @@ const FLAG_CODES = [
   "br", "ar",
   "tr",
   "eg", "za", "ng", "ke",
+  // 2026-09-30: thirty more
+  "sa", "pk", "bd", "mn", "kz", "bt", "qa", "uz",
+  "at", "al", "lt",
+  "ma", "et", "tz", "bw", "mg", "zm", "ug", "zw", "mu",
+  "cu", "jm", "pa", "do", "ht",
+  "co", "gy", "sr",
+  "pg", "to",
 ];
 
 const SHELL = [
@@ -43,6 +53,7 @@ const SHELL = [
   "./data.js",
   "./speech.js",
   "./app.js",
+  "./assets/map/world.js",
   "./service-worker.js",
 
   "./fonts/Nunito-latin.woff2",

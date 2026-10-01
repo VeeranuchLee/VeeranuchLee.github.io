@@ -139,8 +139,8 @@ body {
 
 .mode-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 22px;
+  grid-template-columns: repeat(auto-fit, minmax(205px, 1fr));
+  gap: 18px;
 }
 
 .mode-card {
@@ -584,6 +584,129 @@ body {
 }
 
 .done-row { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+
+
+/* ---- world map ------------------------------------------------------------- */
+/* 2026-09-30. Soft colours, no text on the map. Continents share a tint so the
+   hint at the second miss ("look in this colour") has something to point at;
+   countries the game does not cover stay a quiet sand. */
+
+.map-menu-title { text-align: center; margin: 0 0 4px; }
+.mode-map .mode-art, .map-mode-explore .mode-art { width: 92%; }
+.mini-map { display: block; width: 100%; height: auto; border-radius: 10px; }
+.mini-map .map-ocean { fill: #CFE6F2; }
+
+.map-ocean { fill: #CFE6F2; }
+.land { fill: #E9E2D2; stroke: #FAF6ED; stroke-width: 1.4; stroke-linejoin: round; cursor: default; transition: fill 0.2s ease; }
+.land.in-set { cursor: pointer; stroke-width: 1.6; }
+.land.in-set.c-as { fill: #F5CD8E; }
+.land.in-set.c-eu { fill: #A9CDEE; }
+.land.in-set.c-af { fill: #F1A99A; }
+.land.in-set.c-na { fill: #B5DBA0; }
+.land.in-set.c-sa { fill: #DDB5E2; }
+.land.in-set.c-oc { fill: #9BDCCD; }
+.land.dot { stroke: #FFFFFF; stroke-width: 2; }
+
+/* Wordless region-open cues at world scale. They disappear after opening so
+   the zoomed geography stays clean. Small-country targets then gain an
+   invisible 64px circle plus a soft visible ring at the real centroid. */
+.map-region-cue { fill: rgba(255,255,255,0.06); stroke: rgba(54,94,104,0.42); stroke-width: 4; stroke-dasharray: 13 12; cursor: zoom-in; }
+.map-svg.is-region-zoom .map-region-cue { display: none; }
+.map-zoom-target { display: none; cursor: pointer; }
+.map-zoom-target.is-active { display: block; }
+.map-hit { fill: transparent; stroke: none; }
+.map-target-ring { fill: rgba(255,255,255,0.2); stroke: rgba(54,94,104,0.72); stroke-width: 3; vector-effect: non-scaling-stroke; pointer-events: none; }
+
+/* the hint region: same tint, lifted so the whole continent reads */
+.land.is-hint { stroke: #F4B942; stroke-width: 3; }
+.map-zoom-target.is-hint .map-target-ring { stroke: #F4B942; }
+.land.is-wrong { fill: #F6A6A0 !important; }
+.map-zoom-target.is-wrong .map-target-ring { fill: rgba(246,166,160,0.75); stroke: #A84942; }
+.land.is-solved { fill: #67C587 !important; stroke: #2E8A55; stroke-width: 3; }
+.map-zoom-target.is-solved .map-target-ring { fill: rgba(103,197,135,0.72); stroke: #2E8A55; }
+.land.is-selected { stroke: #4A4536; stroke-width: 3.5; }
+.map-zoom-target.is-selected .map-target-ring { stroke: #4A4536; stroke-width: 5; }
+
+/* the glowing country of Map to flag: always visible even with motion off */
+.land.is-glow { fill: #FF8A3D !important; stroke: #B94E00; stroke-width: 4; animation: map-glow 1.1s ease-in-out infinite; }
+.map-zoom-target.is-glow .map-target-ring { fill: rgba(255,138,61,0.78); stroke: #B94E00; animation: map-glow 1.1s ease-in-out infinite; }
+@keyframes map-glow { 0%, 100% { fill: #FF8A3D; } 50% { fill: #FFC08A; } }
+
+/* Gold always means "here it is". */
+.land.is-gold { fill: #F4B942 !important; stroke: #8A5A00; stroke-width: 4; animation: map-gold 0.9s ease-in-out infinite; }
+.map-zoom-target.is-gold .map-target-ring { fill: rgba(244,185,66,0.82); stroke: #8A5A00; animation: map-gold 0.9s ease-in-out infinite; }
+@keyframes map-gold { 0%, 100% { fill: #F4B942; } 50% { fill: #FFE08A; } }
+
+.screen.is-map { height: 100vh; height: 100dvh; min-height: 0; padding-bottom: 10px; }
+.is-map .view-root { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.is-map .topbar { padding-bottom: 6px; }
+
+.map-screen {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.map-head { display: flex; align-items: center; justify-content: center; gap: 14px; width: 100%; }
+.map-head .prompt { font-size: clamp(19px, 3vw, 26px); text-align: left; }
+.map-ask { width: 92px; flex: 0 0 auto; padding: 6px; background: #FFFFFF; border: 3px solid #4A4536; border-radius: 14px; }
+.map-ask .flag-art { width: 100%; box-shadow: none; border-radius: 6px; }
+
+.map-area { position: relative; width: 100%; }
+.map-svg { display: block; width: 100%; height: auto; max-height: calc(100dvh - var(--map-reserve, 310px)); }
+.map-world-button {
+  position: absolute; top: 10px; right: 10px; width: 64px; height: 64px; padding: 10px;
+  border: 3px solid #365E68; border-radius: 50%; background: rgba(255,255,255,0.94);
+  color: #365E68; box-shadow: 0 3px 0 #365E68; cursor: pointer;
+}
+.map-world-button svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+/* what the rest of each screen needs: topbar + padding + head + answers + foot */
+.map-screen-find { --map-reserve: 312px; }
+.map-screen-pick { --map-reserve: 396px; }
+.map-screen-explore { --map-reserve: 268px; }
+
+.map-toast {
+  position: absolute;
+  transform: translateX(-50%);
+  pointer-events: none;
+  background: #4A4536;
+  color: #FFFFFF;
+  font-family: 'Fredoka One', cursive;
+  font-size: 19px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.map-toast.is-shown { opacity: 1; }
+.map-toast:empty { display: none; }
+
+.map-options { display: flex; gap: 14px; justify-content: center; }
+.map-options .option-flag { width: clamp(108px, 22vw, 190px); min-height: 0; padding: 8px; justify-content: center; }
+.map-options .flag-art { box-shadow: none; width: auto; max-width: 100%; max-height: 104px; margin: 0 auto; }
+.map-options .option.is-right { background: #DDF3E4; border-color: #2E8A55; }
+
+.map-foot, .map-panel { min-height: 72px; display: flex; align-items: center; justify-content: center; gap: 18px; width: 100%; }
+.map-panel { flex-wrap: wrap; }
+.map-panel-hint { margin: 0; font-weight: 800; font-size: 19px; color: #7A7361; }
+.map-found { display: flex; align-items: center; gap: 14px; }
+.map-found-flag { width: 86px; flex: 0 0 auto; }
+.map-found-text { display: flex; flex-direction: column; text-align: left; }
+.map-found-name { font-family: 'Fredoka One', cursive; font-size: 26px; color: #4A4536; font-weight: 400; }
+.map-found-capital { font-weight: 800; font-size: 17px; color: #7A7361; }
+.map-next { padding: 10px 26px; }
+
+@media (max-width: 560px) {
+  .map-screen-find { --map-reserve: 290px; }
+  .map-screen-pick { --map-reserve: 370px; }
+  .map-ask { width: 72px; }
+}
 
 /* ---- motion manners -------------------------------------------------------- */
 

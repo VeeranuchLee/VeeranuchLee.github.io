@@ -3,6 +3,12 @@
 // Home modes from the expansion roadmap:
 //   Explore Flags  — browse all 39 flags and open a rotating country page.
 //   Which country? — see a flag, tap the country it belongs to.
+//   World map      — three ways to relate a country <-> the map (2026-09-30,
+//                    owner: "add world map and ability to tap and relate
+//                    country <-> map"): flag -> tap it on the map, glowing
+//                    country -> pick its flag of 3, and explore (tap a country
+//                    to meet its flag and name). Natural Earth geometry in
+//                    assets/map/world.js; no text is ever drawn on the map.
 // Match the flag's engine is deliberately retained below but has no UI entry.
 // Owner decision, 2026-09-25: keep the engine for now; hide the mode rather
 // than delete working quiz code. Every correct quiz answer opens the original
@@ -20,6 +26,7 @@
 
   var DATA = window.FLAGS_DATA;
   var SPEECH = window.FlagsSpeech;
+  var MAP = window.FLAGS_MAP || null;
 
   var VIEW = document.getElementById('view-root');
   var BTN_HOME = document.getElementById('btn-home');
@@ -71,6 +78,7 @@
 
   var seenCounts = load('seen', {});   // code -> encounters completed
   var factCursor = load('factCursor', {}); // code -> index of last fact shown
+  var mapSeen = load('mapSeen', {});       // code -> map rounds completed
 
   // ---- confusability ---------------------------------------------------
 
@@ -127,7 +135,7 @@
 
   // ---- state -----------------------------------------------------------
 
-  var screen = 'home'; // home | explore | country-info | question | card | done
+  var screen = 'home'; // home | explore | country-info | question | card | done | map-menu | map-quiz | map-explore
   var mode = 'match';  // match | country (Match is retained but UI-unreachable)
   var queue = [];
   var question = null; // current question object
@@ -159,12 +167,13 @@
     return (last + 1) % facts.length;
   }
 
-  function buildQueue() {
+  function buildQueue(counts) {
     // Least-seen first, shuffled within equal counts, so every country gets
     // its card before favourites repeat.
+    counts = counts || seenCounts;
     var bySeen = {};
     DATA.countries.forEach(function (c) {
-      var n = seenCounts[c.code] || 0;
+      var n = counts[c.code] || 0;
       (bySeen[n] = bySeen[n] || []).push(c);
     });
     queue = [];
@@ -206,8 +215,13 @@
     });
   }
 
+  var APP_ROOT = document.getElementById('app-root');
   function clearView() {
     while (VIEW.firstChild) VIEW.removeChild(VIEW.firstChild);
+    // Map screens fit the viewport (no page scroll); every other screen is
+    // the normal scrolling layout. Map screens turn this on after clearing.
+    if (APP_ROOT) APP_ROOT.classList.remove('is-map');
+    mapView = null;
   }
 
   function scrollPageTo(y) {
@@ -270,7 +284,17 @@
           el('p', { class: 'mode-blurb', text: 'Browse every flag and meet a country.' })
         ]),
         modeCard('country', line('mode.country'), 'Whose flag is this?', ['fr', 'np', 'ke'])
-      ]),
+      ].concat(MAP ? [
+        el('button', {
+          class: 'mode-card mode-map',
+          type: 'button',
+          onclick: renderMapMenu
+        }, [
+          el('div', { class: 'mode-art' }, [miniMap()]),
+          el('h2', { class: 'mode-title', text: line('mode.map') }),
+          el('p', { class: 'mode-blurb', text: 'Find each flag on the world map.' })
+        ])
+      ] : [])),
       el('p', { class: 'home-note', text: DATA.countries.length + ' countries to meet' })
     ]));
   }
@@ -605,7 +629,7 @@
       el('div', { class: 'done-row' }, [
         el('button', {
           class: 'btn btn-primary', type: 'button', text: 'Play again',
-          onclick: function () { startSession(mode); }
+          onclick: function () { replay(); }
         }),
         el('button', {
           class: 'btn', type: 'button', text: 'Home',
@@ -617,7 +641,10 @@
     SPEECH.say(line('session.done'));
   }
 
+  var replay = function () { renderHome(); };
+
   function startSession(modeKey) {
+    replay = function () { startSession(modeKey); };
     mode = modeKey;
     sessionIndex = 0;
     sessionAnswered = [];
@@ -631,6 +658,491 @@
       if (DATA.countries[i].code === code) return DATA.countries[i];
     }
     return DATA.countries[0];
+  }
+
+  // ---- world map -------------------------------------------------------
+  //
+  // The geometry is real (Natural Earth 1:110m, public domain) so a child who
+  // taps Brazil is tapping where Brazil is. Nothing is lettered on the map;
+  // a country's name appears only as a brief label after a tap.
+  //
+  // Dense places open as a whole region. At world scale a clear, large country
+  // remains directly tappable; a small country or the faint region cue opens
+  // that region. Zoomed regions add child-sized targets at small-country
+  // centroids. Pinch zoom is never blocked here or anywhere else.
+
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  var TAP_MIN = 64;
+  var mapView = null;
+  var CONTINENT_NAME = {
+    as: 'Asia', eu: 'Europe', af: 'Africa', na: 'North America', sa: 'South America', oc: 'Australia and the Pacific'
+  };
+
+  function svgEl(tag, attrs) {
+    var node = document.createElementNS(SVGNS, tag);
+    Object.keys(attrs || {}).forEach(function (key) { node.setAttribute(key, attrs[key]); });
+    return node;
+  }
+
+  function flag(node, cls, on) {
+    if (!node) return;
+    if (on) node.classList.add(cls); else node.classList.remove(cls);
+  }
+
+  function inSet(id) {
+    for (var i = 0; i < DATA.countries.length; i++) if (DATA.countries[i].code === id) return true;
+    return false;
+  }
+
+  // A small decorative world for the home and menu cards: only the countries
+  // in the game, no interaction.
+  function miniMap() {
+    var svg = svgEl('svg', { viewBox: '0 0 ' + MAP.w + ' ' + MAP.h, class: 'mini-map', 'aria-hidden': 'true' });
+    svg.appendChild(svgEl('path', { d: MAP.ocean, class: 'map-ocean' }));
+    MAP.shapes.forEach(function (s) {
+      svg.appendChild(svgEl('path', { d: s.d, class: 'land c-' + s.c + (s.g ? ' in-set' : '') }));
+    });
+    return svg;
+  }
+
+  function buildMap(onTap) {
+    var area = el('div', { class: 'map-area' });
+    var svg = svgEl('svg', {
+      viewBox: '0 0 ' + MAP.w + ' ' + MAP.h,
+      class: 'map-svg',
+      role: 'img',
+      'aria-label': 'Map of the world'
+    });
+    svg.appendChild(svgEl('path', { d: MAP.ocean, class: 'map-ocean' }));
+    var nodes = {};
+    var stateNodes = {};
+    var entries = {};
+    var dots = [];
+    var regionNodes = {};
+    var targetNodes = {};
+    var regionByCountry = {};
+    (MAP.regions || []).forEach(function (region) {
+      region.members.forEach(function (id) { regionByCountry[id] = region; });
+      var cue = svgEl('polygon', {
+        points: region.p.map(function (point) { return point.join(','); }).join(' '),
+        class: 'map-region-cue', 'data-region': region.id, 'aria-hidden': 'true'
+      });
+      regionNodes[region.id] = cue;
+      svg.appendChild(cue);
+    });
+    MAP.shapes.forEach(function (s) {
+      var p = svgEl('path', { d: s.d, class: 'land c-' + s.c + (s.g ? ' in-set' : ''), 'data-id': s.id });
+      nodes[s.id] = p; stateNodes[s.id] = [p]; entries[s.id] = s;
+      svg.appendChild(p);
+    });
+    MAP.extra.forEach(function (e) {
+      // too small for the 110m coastline: a visible dot; its circle is invisible
+      var dot = svgEl('circle', { cx: e.x, cy: e.y, r: 12, class: 'land dot in-set c-' + e.c, 'data-id': e.id });
+      nodes[e.id] = dot; stateNodes[e.id] = [dot]; entries[e.id] = e; dots.push(dot);
+      svg.appendChild(dot);
+    });
+    (MAP.regions || []).forEach(function (region) {
+      var radius = 32 * region.v[2] / 728;
+      region.members.forEach(function (id) {
+        var entry = entries[id];
+        if (!entry) return;
+        var group = svgEl('g', { class: 'map-zoom-target', 'data-id': id, 'data-region': region.id });
+        group.appendChild(svgEl('circle', { cx: entry.x, cy: entry.y, r: radius, class: 'map-hit', 'data-id': id }));
+        group.appendChild(svgEl('circle', { cx: entry.x, cy: entry.y, r: Math.max(7, radius * 0.3), class: 'map-target-ring', 'data-id': id }));
+        targetNodes[id] = group;
+        stateNodes[id].push(group);
+        svg.appendChild(group);
+      });
+    });
+    var toast = el('div', { class: 'map-toast', role: 'status', 'aria-live': 'polite' });
+    var worldButton = el('button', {
+      class: 'map-world-button', type: 'button', 'aria-label': 'Show the whole world', hidden: 'hidden'
+    });
+    var globe = svgEl('svg', { viewBox: '0 0 24 24', 'aria-hidden': 'true' });
+    globe.appendChild(svgEl('circle', { cx: 12, cy: 12, r: 9 }));
+    globe.appendChild(svgEl('path', { d: 'M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18' }));
+    worldButton.appendChild(globe);
+    area.appendChild(svg);
+    area.appendChild(toast);
+    area.appendChild(worldButton);
+
+    var toastTimer = null;
+    function pointInPolygon(x, y, polygon) {
+      var inside = false;
+      for (var i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+        var xi = polygon[i][0]; var yi = polygon[i][1];
+        var xj = polygon[j][0]; var yj = polygon[j][1];
+        if (((yi > y) !== (yj > y)) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) inside = !inside;
+      }
+      return inside;
+    }
+    function moveViewBox(to) {
+      var from = svg.getAttribute('viewBox');
+      if (!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        var animate = svgEl('animate', { attributeName: 'viewBox', from: from, to: to, dur: '0.4s', fill: 'freeze' });
+        svg.appendChild(animate);
+        if (animate.beginElement) animate.beginElement();
+        setTimeout(function () { if (animate.parentNode) animate.parentNode.removeChild(animate); }, 430);
+      }
+      svg.setAttribute('viewBox', to);
+    }
+    var view = {
+      area: area, svg: svg, nodes: nodes, entries: entries, locked: false, activeRegion: null,
+      scale: function () {
+        var ctm = svg.getScreenCTM ? svg.getScreenCTM() : null;
+        return ctm ? ctm : null;
+      },
+      layout: function () {
+        var ctm = view.scale();
+        if (!ctm || !ctm.a) return;
+        dots.forEach(function (dot) { dot.setAttribute('r', String(Math.max(7, 9 / ctm.a))); });
+      },
+      regionFor: function (id) { return regionByCountry[id] || null; },
+      zoomRegion: function (regionOrId) {
+        var region = typeof regionOrId === 'string'
+          ? (MAP.regions || []).filter(function (item) { return item.id === regionOrId; })[0]
+          : regionOrId;
+        if (!region) return;
+        var to = region.v.join(' ');
+        view.activeRegion = region;
+        svg.classList.add('is-region-zoom');
+        svg.setAttribute('data-region', region.id);
+        Object.keys(targetNodes).forEach(function (id) {
+          targetNodes[id].classList.toggle('is-active', region.members.indexOf(id) >= 0);
+        });
+        worldButton.hidden = false;
+        moveViewBox(to);
+        view.layout();
+      },
+      zoomWorld: function () {
+        view.activeRegion = null;
+        svg.classList.remove('is-region-zoom');
+        svg.removeAttribute('data-region');
+        Object.keys(targetNodes).forEach(function (id) { targetNodes[id].classList.remove('is-active'); });
+        worldButton.hidden = true;
+        moveViewBox('0 0 ' + MAP.w + ' ' + MAP.h);
+        view.layout();
+      },
+      // Which country did this tap mean? What you touch is what you get,
+      // except that specks (extras and countries under TAP_MIN/2 px) own a
+      // TAP_MIN-px circle that wins over a big neighbour, and mid-sized small
+      // countries (under TAP_MIN px) own the same circle over open sea and
+      // countries the game does not cover. The nearest centre wins.
+      resolve: function (ev) {
+        var ctm = view.scale();
+        var target = ev.target && ev.target.getAttribute ? ev.target.getAttribute('data-id') : null;
+        if (!ctm || !isFinite(ev.clientX) || !isFinite(ev.clientY) || !ctm.a) return target;
+        var direct = target && inSet(target) ? entries[target] : null;
+        function dim(e) { return e.w === undefined ? 0 : Math.max(e.w, e.h) * ctm.a; }
+        if (!view.activeRegion && direct && dim(direct) < TAP_MIN && regionByCountry[target]) return 'region:' + regionByCountry[target].id;
+        if (view.activeRegion && target && view.activeRegion.members.indexOf(target) >= 0) return target;
+        if (!view.activeRegion && direct && dim(direct) >= TAP_MIN) return target;
+        // The cue sits below the land so geography remains legible. Resolve
+        // the tap by map coordinates too: otherwise a quiet, non-game country
+        // over the cue would swallow the child's attempt to open the region.
+        if (!view.activeRegion) {
+          var mx = (ev.clientX - ctm.e) / ctm.a;
+          var my = (ev.clientY - ctm.f) / ctm.d;
+          for (var r = 0; r < (MAP.regions || []).length; r++) {
+            if (pointInPolygon(mx, my, MAP.regions[r].p)) return 'region:' + MAP.regions[r].id;
+          }
+        }
+        var radius = TAP_MIN / 2;
+        var best = null; var bestDist = radius + 1;
+        DATA.countries.forEach(function (c) {
+          var e = entries[c.code];
+          if (!e) return;
+          var d = dim(e);
+          if (d >= TAP_MIN) return;
+          // specks reach into a big neighbour; mid-sized small countries only
+          // claim open sea and countries the game does not cover
+          if (d >= TAP_MIN / 2 && direct) return;
+          var sx = ctm.a * e.x + ctm.e; var sy = ctm.d * e.y + ctm.f;
+          var dist = Math.sqrt((ev.clientX - sx) * (ev.clientX - sx) + (ev.clientY - sy) * (ev.clientY - sy));
+          if (dist <= radius && dist < bestDist) { best = c.code; bestDist = dist; }
+        });
+        if (best && view.activeRegion) return best;
+        return target;
+      },
+      mark: function (id, cls, on) {
+        (stateNodes[id] || []).forEach(function (node) { flag(node, cls, on); });
+      },
+      clearMarks: function (cls) {
+        Object.keys(stateNodes).forEach(function (id) {
+          stateNodes[id].forEach(function (node) { flag(node, cls, false); });
+        });
+      },
+      markContinent: function (cont, cls, on) {
+        Object.keys(stateNodes).forEach(function (id) {
+          if (entries[id].c === cont) stateNodes[id].forEach(function (node) { flag(node, cls, on); });
+        });
+      },
+      say: function (text, ev) {
+        if (!text) return;
+        toast.textContent = text;
+        var rect = area.getBoundingClientRect();
+        var x = ev && isFinite(ev.clientX) ? ev.clientX - rect.left : rect.width / 2;
+        var y = ev && isFinite(ev.clientY) ? ev.clientY - rect.top : rect.height / 2;
+        toast.style.left = Math.max(70, Math.min(rect.width - 70, x)) + 'px';
+        toast.style.top = Math.max(24, y - 34) + 'px';
+        toast.classList.remove('is-shown');
+        void toast.offsetWidth;
+        toast.classList.add('is-shown');
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () { toast.classList.remove('is-shown'); }, 1500);
+      }
+    };
+    svg.addEventListener('click', function (ev) {
+      if (view.locked) return;
+      var regionId = ev.target && ev.target.getAttribute ? ev.target.getAttribute('data-region') : null;
+      if (!view.activeRegion && regionId) { view.zoomRegion(regionId); return; }
+      var id = view.resolve(ev);
+      if (id && id.indexOf('region:') === 0) { view.zoomRegion(id.slice(7)); return; }
+      if (id) onTap(id, ev);
+    });
+    worldButton.addEventListener('click', view.zoomWorld);
+    mapView = view;
+    // measure once it is laid out, and again whenever the window changes
+    if (typeof window.requestAnimationFrame === 'function') window.requestAnimationFrame(view.layout);
+    return view;
+  }
+
+  if (typeof window.addEventListener === 'function') {
+    window.addEventListener('resize', function () { if (mapView) mapView.layout(); });
+  }
+
+  function beginMapScreen(name) {
+    screen = name;
+    BTN_HOME.hidden = false;
+    BTN_HUB.hidden = true;
+    clearView();
+    SPEECH.stop();
+    scrollPageTo(0);
+  }
+
+  function renderMapMenu() {
+    beginMapScreen('map-menu');
+    function card(cls, title, blurb, art, action) {
+      return el('button', { class: 'mode-card ' + cls, type: 'button', onclick: action }, [
+        el('div', { class: 'mode-art' }, art),
+        el('h2', { class: 'mode-title', text: title }),
+        el('p', { class: 'mode-blurb', text: blurb })
+      ]);
+    }
+    VIEW.appendChild(el('div', { class: 'home map-menu' }, [
+      el('h2', { class: 'explore-title map-menu-title', text: line('mode.map') }),
+      el('section', { class: 'mode-row' }, [
+        card('map-mode-find', line('mode.mapFind'), 'See a flag. Tap its country.', [flagImg(byCode('br')), flagImg(byCode('jp'))],
+          function () { startMapSession('find'); }),
+        card('map-mode-pick', line('mode.mapPick'), 'A country glows. Pick its flag.', [flagImg(byCode('ke')), flagImg(byCode('mx'))],
+          function () { startMapSession('pick'); }),
+        card('map-mode-explore', line('mode.mapExplore'), 'Tap any country to meet it.', [miniMap()],
+          renderMapExplore)
+      ])
+    ]));
+    SPEECH.say(line('map.menu.intro'), 'map.menu.intro');
+  }
+
+  // ---- map quiz (flag -> map, map -> flag) -----------------------------
+
+  var mapMode = 'find'; // find | pick
+  var mapQ = null;
+
+  function pickDistinctOptions(target, count) {
+    // Distinct flags: never a confusable partner of the target or of each
+    // other, so a child is choosing between looks, not squinting.
+    var chosen = [target];
+    var pool = shuffle(DATA.countries.filter(function (c) { return c.code !== target.code; }));
+    for (var i = 0; i < pool.length && chosen.length < count; i++) {
+      var ok = chosen.every(function (c) { return !confusableMap[c.code][pool[i].code]; });
+      if (ok) chosen.push(pool[i]);
+    }
+    return shuffle(chosen);
+  }
+
+  function makeMapQuestion() {
+    if (queue.length === 0) buildQueue(mapSeen);
+    var target = queue.shift();
+    return {
+      target: target, tries: 0, done: false,
+      options: mapMode === 'pick' ? pickDistinctOptions(target, 3) : null
+    };
+  }
+
+  function startMapSession(modeKey) {
+    replay = function () { startMapSession(modeKey); };
+    mapMode = modeKey;
+    sessionIndex = 0;
+    sessionAnswered = [];
+    queue = [];
+    mapQ = makeMapQuestion();
+    renderMapQuiz();
+  }
+
+  function mapHint() {
+    // Second miss: teach the region, not the answer (two-threshold hint rule).
+    mapView.markContinent(mapView.entries[mapQ.target.code].c, 'is-hint', true);
+    SPEECH.say(line('map.hint'), 'map.hint');
+    mapView.say('Look in ' + CONTINENT_NAME[mapView.entries[mapQ.target.code].c] + '.', null);
+  }
+
+  function mapReveal() {
+    // Third miss: the country itself pulses gold. Gold always means "here it is".
+    var region = mapView.regionFor(mapQ.target.code);
+    if (region) mapView.zoomRegion(region);
+    mapView.mark(mapQ.target.code, 'is-gold', true);
+    var goldFlag = VIEW.querySelector('.map-options .option[data-code="' + mapQ.target.code + '"]');
+    if (goldFlag) goldFlag.classList.add('is-gold');
+    SFX.reveal();
+    SPEECH.say(line('answer.reveal'), 'answer.reveal');
+    SPEECH.say(mapQ.target.name + '.', 'card.' + mapQ.target.code + '.name');
+  }
+
+  function mapMiss(country, ev, tappedId) {
+    var q = mapQ;
+    q.tries += 1;
+    SFX.retry();
+    if (q.tries === REVEAL_AFTER_TRIES) { mapReveal(); return; }
+    if (country) {
+      SPEECH.stop();
+      SPEECH.say(country.name + '.', 'card.' + country.code + '.name');
+    }
+    if (q.tries === 1) SPEECH.say(line('answer.retry.' + (1 + Math.floor(Math.random() * 2))));
+    if (q.tries === 2) mapHint();
+  }
+
+  function mapSolved() {
+    var q = mapQ;
+    q.done = true;
+    mapView.clearMarks('is-hint');
+    mapView.mark(q.target.code, 'is-gold', false);
+    mapView.mark(q.target.code, 'is-glow', false);
+    mapView.mark(q.target.code, 'is-solved', true);
+    SFX.correct();
+    mapSeen[q.target.code] = (mapSeen[q.target.code] || 0) + 1;
+    save('mapSeen', mapSeen);
+    sessionAnswered.push(q.target);
+    var foot = VIEW.querySelector('.map-foot');
+    while (foot.firstChild) foot.removeChild(foot.firstChild);
+    foot.appendChild(el('div', { class: 'map-found' }, [
+      el('span', { class: 'map-found-flag' }, [flagImg(q.target)]),
+      el('span', { class: 'map-found-text' }, [
+        el('strong', { class: 'map-found-name', text: q.target.name }),
+        el('span', { class: 'map-found-capital', text: 'Capital: ' + q.target.capital })
+      ])
+    ]));
+    foot.appendChild(el('button', {
+      class: 'btn btn-primary map-next', type: 'button', text: line('card.next'),
+      onclick: nextAfterMap
+    }));
+    // Praise and the country's name speak AFTER stop(): the order is load-bearing.
+    SPEECH.stop();
+    SPEECH.say(q.target.name + '.', 'card.' + q.target.code + '.name');
+    SPEECH.say(line('answer.correct.' + (1 + Math.floor(Math.random() * 4))));
+  }
+
+  function nextAfterMap() {
+    sessionIndex += 1;
+    if (sessionIndex >= QUESTIONS_PER_SESSION) {
+      renderDone();
+    } else {
+      mapQ = makeMapQuestion();
+      renderMapQuiz();
+    }
+  }
+
+  function renderMapQuiz() {
+    beginMapScreen('map-quiz');
+    APP_ROOT.classList.add('is-map');
+    var q = mapQ;
+    var isFind = mapMode === 'find';
+
+    var pill = el('span', { class: 'progress-pill', text: (sessionIndex + 1) + ' / ' + QUESTIONS_PER_SESSION });
+    var promptId = isFind ? 'map.find.prompt' : 'map.pick.prompt';
+    var prompt = el('p', { class: 'prompt map-prompt', text: line(promptId) });
+    var head = el('div', { class: 'map-head' }, [pill]);
+    if (isFind) {
+      var askFlag = flagImg(q.target, 'map-ask-flag');
+      askFlag.dataset.code = q.target.code;
+      head.appendChild(el('div', { class: 'map-ask' }, [askFlag]));
+    }
+    head.appendChild(prompt);
+
+    var view = buildMap(function (id, ev) {
+      if (q.done) return;
+      var entry = view.entries[id];
+      var country = inSet(id) ? byCode(id) : null;
+      if (isFind) {
+        if (id === q.target.code) { mapSolved(); return; }
+        view.mark(id, 'is-wrong', true);
+        setTimeout(function () { view.mark(id, 'is-wrong', false); }, 600);
+        // the tapped country shows its own name for a moment (no label at all
+        // where a name would be disputed or the app has nothing to say)
+        view.say(entry && entry.n ? entry.n : null, ev);
+        mapMiss(country, ev, id);
+      }
+    });
+
+    VIEW.appendChild(el('div', { class: 'map-screen map-screen-' + mapMode }, [head, view.area].concat(
+      isFind ? [] : [el('div', { class: 'map-options', role: 'group', 'aria-label': 'Choose the flag' },
+        q.options.map(function (country) {
+          var option = el('button', { class: 'option option-flag', type: 'button', 'aria-label': 'Flag choice' }, [flagImg(country)]);
+          option.dataset.code = country.code;
+          option.addEventListener('click', function () {
+            if (q.done) return;
+            if (country.code === q.target.code) {
+              option.classList.add('is-right');
+              mapSolved();
+              return;
+            }
+            option.classList.add('is-dimmed');
+            mapMiss(country, null, country.code);
+          });
+          return option;
+        }))],
+      [el('div', { class: 'map-foot', 'aria-live': 'polite' })])));
+
+    if (!isFind) {
+      var targetRegion = view.regionFor(q.target.code);
+      if (targetRegion) view.zoomRegion(targetRegion);
+      view.mark(q.target.code, 'is-glow', true);
+    }
+    SPEECH.say(line(promptId), promptId);
+  }
+
+  // ---- explore the map ---------------------------------------------------
+
+  function renderMapExplore() {
+    beginMapScreen('map-explore');
+    APP_ROOT.classList.add('is-map');
+    var panel = el('div', { class: 'map-panel', 'aria-live': 'polite' }, [
+      el('p', { class: 'map-panel-hint', text: line('map.explore.hint') })
+    ]);
+    var view = buildMap(function (id) {
+      if (!inSet(id)) return; // drawn but quiet: the country is not in the game
+      var country = byCode(id);
+      view.clearMarks('is-selected');
+      view.mark(id, 'is-selected', true);
+      while (panel.firstChild) panel.removeChild(panel.firstChild);
+      var shownFlag = flagImg(country, 'map-panel-flag');
+      panel.appendChild(el('div', { class: 'map-found', 'data-code': id }, [
+        el('span', { class: 'map-found-flag' }, [shownFlag]),
+        el('span', { class: 'map-found-text' }, [
+          el('strong', { class: 'map-found-name', text: country.name }),
+          el('span', { class: 'map-found-capital', text: 'Capital: ' + country.capital })
+        ])
+      ]));
+      SFX.tap();
+      SPEECH.stop();
+      SPEECH.say(country.name + '.', 'card.' + id + '.name');
+      SPEECH.say('The capital is ' + country.capital + '.', 'card.' + id + '.capital');
+    });
+    VIEW.appendChild(el('div', { class: 'map-screen map-screen-explore' }, [
+      el('p', { class: 'prompt map-prompt', text: line('map.explore.prompt') }),
+      view.area,
+      panel
+    ]));
+    SPEECH.say(line('map.explore.prompt'), 'map.explore.prompt');
   }
 
   // ---- chrome ----------------------------------------------------------
@@ -651,6 +1163,7 @@
   BTN_HOME.addEventListener('click', function () {
     SPEECH.stop();
     if (screen === 'country-info') renderExplore(true);
+    else if (screen === 'map-quiz' || screen === 'map-explore') renderMapMenu();
     else renderHome();
   });
 

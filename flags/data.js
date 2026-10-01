@@ -29,7 +29,18 @@ var FLAGS_DATA = (function () {
     ['dk', 'se'],     // Nordic cross layout
     ['fr', 'nl'],     // same three colours, vertical vs horizontal
     ['vn', 'cn'],     // red field with yellow star(s)
-    ['my', 'us']      // stripes plus a canton
+    ['my', 'us'],     // stripes plus a canton
+    // 2026-09-30 additions: pairs among the 30 new countries and the old ones
+    // that a young child could mix up. The 30 were chosen to be distinct, so
+    // these are the closest remaining resemblances, kept out of the same
+    // question rather than treated as identical.
+    ['at', 'pl', 'id'], // horizontal red and white bands
+    ['bd', 'jp'],       // one red disc
+    ['ma', 'vn', 'cn'], // red field with a single star
+    ['co', 'ua'],       // yellow and blue bands
+    ['lt', 'et'],       // yellow, green and red bands
+    ['cu', 'pa'],       // blue and red with a white star
+    ['to', 'ch']        // red with a white cross
   ];
 
   var COUNTRIES = [
@@ -444,7 +455,281 @@ var FLAGS_DATA = (function () {
         { id: 'ke-f3', text: 'Many of the world\u2019s best long-distance runners come from Kenya\u2019s highlands.', src: 'Britannica, Kenya \u2014 Sports' },
         { id: 'ke-f4', text: 'Lions and giraffes roam a national park right beside Nairobi, with city buildings in the background!', src: 'Kenya Wildlife Service, Nairobi National Park' }
       ]
+    },
+    // ---- 2026-09-30: thirty more countries (flag-icons 086f7e97, sources in qc/2026-09-30-facts-sources.md) ----
+    {
+      code: 'sa', name: 'Saudi Arabia', region: 'Middle East', capital: 'Riyadh',
+      lookFor: 'the white writing above a white sword, on green',
+      facts: [
+        { id: 'sa-f1', text: 'Saudi Arabia covers most of the Arabian Peninsula, and much of it is sandy desert.', src: 'Britannica, Saudi Arabia' },
+        { id: 'sa-f2', text: 'Mecca and Medina, two holy cities of Islam, are in Saudi Arabia.', src: 'Britannica, Mecca; Britannica, Medina' },
+        { id: 'sa-f3', text: 'Camels have carried people across the Arabian deserts for thousands of years.', src: 'Britannica, dromedary' }
+      ]
+    },
+    {
+      code: 'pk', name: 'Pakistan', region: 'South Asia', capital: 'Islamabad',
+      lookFor: 'the white crescent and star on dark green, beside a white stripe',
+      facts: [
+        { id: 'pk-f1', text: 'K2, the second-highest mountain in the world, rises in the mountains on Pakistan\u2019s border.', src: 'Britannica, K2' },
+        { id: 'pk-f2', text: 'The Indus River flows through Pakistan from the mountains all the way to the Arabian Sea.', src: 'Britannica, Indus River' },
+        { id: 'pk-f3', text: 'Cricket is the most popular sport in Pakistan.', src: 'Britannica, Pakistan \u2014 Sports and recreation' },
+        { id: 'pk-f4', text: 'Many trucks in Pakistan are painted with bright, colourful pictures.', src: 'Wikipedia, Truck art in Pakistan' }
+      ]
+    },
+    {
+      code: 'bd', name: 'Bangladesh', region: 'South Asia', capital: 'Dhaka',
+      lookFor: 'the red circle on green',
+      facts: [
+        { id: 'bd-f1', text: 'The red circle on Bangladesh\u2019s flag stands for the rising sun.', src: 'Britannica, flag of Bangladesh' },
+        { id: 'bd-f2', text: 'Bangladesh is a low, flat land crossed by many rivers.', src: 'Britannica, Bangladesh' },
+        { id: 'bd-f3', text: 'The Bengal tiger is Bangladesh\u2019s national animal.', src: 'Britannica, Bangladesh \u2014 national symbols; Britannica, Sundarbans' },
+        { id: 'bd-f4', text: 'The Sundarbans, a great forest beside the sea, is a home for tigers.', src: 'Britannica, Sundarbans' }
+      ]
+    },
+    {
+      code: 'mn', name: 'Mongolia', region: 'East Asia', capital: 'Ulaanbaatar',
+      lookFor: 'the golden symbol on the left red stripe, with blue in the middle',
+      facts: [
+        { id: 'mn-f1', text: 'Mongolia has wide, open grasslands, and many families live in round tents called gers.', src: 'Britannica, Mongolia' },
+        { id: 'mn-f2', text: 'Every summer Mongolia holds the Naadam festival, with horse racing, wrestling and archery.', src: 'Britannica, Naadam' },
+        { id: 'mn-f3', text: 'Mongolia has no sea coast. It lies between Russia and China.', src: 'Britannica, Mongolia' }
+      ]
+    },
+    {
+      code: 'kz', name: 'Kazakhstan', region: 'Central Asia', capital: 'Astana',
+      lookFor: 'the golden sun and eagle on sky blue',
+      facts: [
+        { id: 'kz-f1', text: 'Kazakhstan is the biggest country in the world with no sea coast.', src: 'Britannica, Kazakhstan' },
+        { id: 'kz-f2', text: 'Some hunters in Kazakhstan train golden eagles to hunt with them.', src: 'Britannica, Kazakhstan \u2014 Cultural life; Wikipedia, Eagle hunting' },
+        { id: 'kz-f3', text: 'Wild apple trees grow in the mountains of Kazakhstan, and garden apples come from trees like them.', src: 'Britannica, apple' }
+      ]
+    },
+    {
+      code: 'bt', name: 'Bhutan', region: 'South Asia', capital: 'Thimphu',
+      lookFor: 'the white dragon on yellow and orange',
+      facts: [
+        { id: 'bt-f1', text: 'Bhutan is called the Land of the Thunder Dragon, and a dragon flies across its flag.', src: 'Britannica, flag of Bhutan; Britannica, Bhutan' },
+        { id: 'bt-f2', text: 'Bhutan is a small mountain country in the Himalayas.', src: 'Britannica, Bhutan' },
+        { id: 'bt-f3', text: 'Archery is the national sport of Bhutan.', src: 'Britannica, Bhutan \u2014 Sports and recreation' }
+      ]
+    },
+    {
+      code: 'qa', name: 'Qatar', region: 'Middle East', capital: 'Doha',
+      lookFor: 'the zigzag white edge on maroon',
+      facts: [
+        { id: 'qa-f1', text: 'Qatar\u2019s flag has a zigzag edge with nine points.', src: 'Britannica, flag of Qatar' },
+        { id: 'qa-f2', text: 'Qatar is a small country that sticks out into the Persian Gulf.', src: 'Britannica, Qatar' },
+        { id: 'qa-f3', text: 'Qatar hosted the FIFA World Cup in 2022.', src: 'FIFA, 2022 FIFA World Cup Qatar' }
+      ]
+    },
+    {
+      code: 'uz', name: 'Uzbekistan', region: 'Central Asia', capital: 'Tashkent',
+      lookFor: 'the crescent and stars on blue, white and green stripes',
+      facts: [
+        { id: 'uz-f1', text: 'Samarkand, a city in Uzbekistan, was a famous stop on the Silk Road, the old trading road between Asia and Europe.', src: 'Britannica, Samarkand' },
+        { id: 'uz-f2', text: 'Many old buildings in Uzbekistan are covered in beautiful blue tiles.', src: 'Britannica, Samarkand \u2014 Registan' },
+        { id: 'uz-f3', text: 'Uzbekistan has no sea coast, and every country around it has no sea coast either.', src: 'Britannica, Uzbekistan' }
+      ]
+    },
+    {
+      code: 'at', name: 'Austria', region: 'Europe', capital: 'Vienna',
+      lookFor: 'a white stripe between two red stripes',
+      facts: [
+        { id: 'at-f1', text: 'Mozart, the famous composer, was born in Salzburg, Austria.', src: 'Britannica, Wolfgang Amadeus Mozart' },
+        { id: 'at-f2', text: 'The Alps cover much of Austria, and it is a great place to ski.', src: 'Britannica, Austria' },
+        { id: 'at-f3', text: 'In Vienna, white Lipizzaner horses perform graceful dances at the Spanish Riding School.', src: 'Britannica, Spanish Riding School' }
+      ]
+    },
+    {
+      code: 'al', name: 'Albania', region: 'Europe', capital: 'Tirana',
+      lookFor: 'the black two-headed eagle on red',
+      facts: [
+        { id: 'al-f1', text: 'The black eagle on Albania\u2019s flag has two heads.', src: 'Britannica, flag of Albania' },
+        { id: 'al-f2', text: 'Albania has a long sea coast and many mountains.', src: 'Britannica, Albania' },
+        { id: 'al-f3', text: 'Albania is in southeastern Europe.', src: 'Britannica, Albania' }
+      ]
+    },
+    {
+      code: 'lt', name: 'Lithuania', region: 'Europe', capital: 'Vilnius',
+      lookFor: 'three stripes: yellow, green and red',
+      facts: [
+        { id: 'lt-f1', text: 'Lithuania is one of three Baltic countries beside the Baltic Sea.', src: 'Britannica, Lithuania' },
+        { id: 'lt-f2', text: 'Pieces of amber, a golden gem made from ancient tree sap, wash up on the Baltic beaches.', src: 'Britannica, amber' },
+        { id: 'lt-f3', text: 'Basketball is a favourite sport in Lithuania.', src: 'Britannica, Lithuania \u2014 Sports and recreation' }
+      ]
+    },
+    {
+      code: 'ma', name: 'Morocco', region: 'Africa', capital: 'Rabat',
+      lookFor: 'the green star on red',
+      facts: [
+        { id: 'ma-f1', text: 'Morocco is in the north-west corner of Africa, with coasts on the Atlantic Ocean and the Mediterranean Sea.', src: 'Britannica, Morocco' },
+        { id: 'ma-f2', text: 'Snow covers the tops of Morocco\u2019s Atlas Mountains in winter.', src: 'Britannica, Atlas Mountains' },
+        { id: 'ma-f3', text: 'In Morocco, goats climb argan trees to eat the fruit.', src: 'Britannica, argan tree; National Geographic, Tree-climbing goats of Morocco' }
+      ]
+    },
+    {
+      code: 'et', name: 'Ethiopia', region: 'Africa', capital: 'Addis Ababa',
+      lookFor: 'the blue circle with a star, on green, yellow and red',
+      facts: [
+        { id: 'et-f1', text: 'Coffee plants first grew wild in Ethiopia.', src: 'Britannica, coffee' },
+        { id: 'et-f2', text: 'Amharic, a language spoken in Ethiopia, is written with the old Ge\u2019ez alphabet.', src: 'Britannica, Ethiopia \u2014 Languages; Britannica, Ge\u2019ez language' },
+        { id: 'et-f3', text: 'Gelada monkeys live in the high Simien Mountains of Ethiopia.', src: 'Britannica, gelada' }
+      ]
+    },
+    {
+      code: 'tz', name: 'Tanzania', region: 'Africa', capital: 'Dodoma',
+      lookFor: 'the black stripe edged with yellow, across green and blue',
+      facts: [
+        { id: 'tz-f1', text: 'Mount Kilimanjaro, the tallest mountain in Africa, is in Tanzania.', src: 'Britannica, Mount Kilimanjaro' },
+        { id: 'tz-f2', text: 'Every year, herds of wildebeest and zebras cross the Serengeti grasslands in Tanzania.', src: 'Britannica, Serengeti' },
+        { id: 'tz-f3', text: 'Zanzibar, a group of spice islands, is part of Tanzania.', src: 'Britannica, Zanzibar' }
+      ]
+    },
+    {
+      code: 'bw', name: 'Botswana', region: 'Africa', capital: 'Gaborone',
+      lookFor: 'a black stripe with white edges across light blue',
+      facts: [
+        { id: 'bw-f1', text: 'In the Okavango Delta in Botswana, a river spreads out into a huge wetland full of animals.', src: 'Britannica, Okavango Delta' },
+        { id: 'bw-f2', text: 'Much of Botswana is covered by the sandy Kalahari.', src: 'Britannica, Botswana' },
+        { id: 'bw-f3', text: 'Botswana\u2019s money is called the pula, a word that means rain.', src: 'Britannica, Botswana \u2014 Currency' }
+      ]
+    },
+    {
+      code: 'mg', name: 'Madagascar', region: 'Africa', capital: 'Antananarivo',
+      lookFor: 'a white stripe, then red above green',
+      facts: [
+        { id: 'mg-f1', text: 'Madagascar is a giant island off the east coast of Africa.', src: 'Britannica, Madagascar' },
+        { id: 'mg-f2', text: 'Ring-tailed lemurs live wild only on the island of Madagascar.', src: 'Britannica, ring-tailed lemur' },
+        { id: 'mg-f3', text: 'Giant baobab trees stand in a row along a famous dirt road in Madagascar.', src: 'Britannica, baobab; Wikipedia, Avenue of the Baobabs' }
+      ]
+    },
+    {
+      code: 'zm', name: 'Zambia', region: 'Africa', capital: 'Lusaka',
+      lookFor: 'an eagle above red, black and orange stripes, on green',
+      facts: [
+        { id: 'zm-f1', text: 'Victoria Falls, one of the biggest waterfalls in the world, is on the border of Zambia and Zimbabwe.', src: 'Britannica, Victoria Falls' },
+        { id: 'zm-f2', text: 'The bird on Zambia\u2019s flag is an African fish eagle.', src: 'Britannica, flag of Zambia' },
+        { id: 'zm-f3', text: 'Zambia has no sea coast.', src: 'Britannica, Zambia' }
+      ]
+    },
+    {
+      code: 'ug', name: 'Uganda', region: 'Africa', capital: 'Kampala',
+      lookFor: 'a white crane in a circle, on black, yellow and red stripes',
+      facts: [
+        { id: 'ug-f1', text: 'The grey crowned crane on Uganda\u2019s flag is the country\u2019s national bird.', src: 'Britannica, flag of Uganda' },
+        { id: 'ug-f2', text: 'Mountain gorillas live in Uganda\u2019s forests.', src: 'Britannica, mountain gorilla; Britannica, Bwindi Impenetrable National Park' },
+        { id: 'ug-f3', text: 'Lake Victoria, the biggest lake in Africa, touches Uganda.', src: 'Britannica, Lake Victoria' }
+      ]
+    },
+    {
+      code: 'zw', name: 'Zimbabwe', region: 'Africa', capital: 'Harare',
+      lookFor: 'the white triangle with a red star and a bird',
+      facts: [
+        { id: 'zw-f1', text: 'The bird on Zimbabwe\u2019s flag is the Zimbabwe Bird, which was carved in stone long ago.', src: 'Britannica, Great Zimbabwe; Britannica, flag of Zimbabwe' },
+        { id: 'zw-f2', text: 'Great Zimbabwe is an old city of huge stone walls.', src: 'Britannica, Great Zimbabwe' },
+        { id: 'zw-f3', text: 'Hwange National Park in Zimbabwe is home to many elephants.', src: 'Britannica, Hwange National Park' }
+      ]
+    },
+    {
+      code: 'mu', name: 'Mauritius', region: 'Africa', capital: 'Port Louis',
+      lookFor: 'four stripes: red, blue, yellow and green',
+      facts: [
+        { id: 'mu-f1', text: 'Mauritius is an island in the Indian Ocean.', src: 'Britannica, Mauritius' },
+        { id: 'mu-f2', text: 'The dodo was a big bird that could not fly. It lived only on Mauritius, and it is gone now.', src: 'Britannica, dodo' },
+        { id: 'mu-f3', text: 'Mauritius has beautiful beaches and coral reefs.', src: 'Britannica, Mauritius' }
+      ]
+    },
+    {
+      code: 'cu', name: 'Cuba', region: 'Caribbean', capital: 'Havana',
+      lookFor: 'blue and white stripes with a red triangle and a white star',
+      facts: [
+        { id: 'cu-f1', text: 'Cuba is the biggest island in the Caribbean Sea.', src: 'Britannica, Cuba' },
+        { id: 'cu-f2', text: 'Many old, brightly painted cars from the 1950s still drive on Cuba\u2019s streets.', src: 'Britannica, Cuba \u2014 Transportation' },
+        { id: 'cu-f3', text: 'The bee hummingbird from Cuba is the smallest bird in the world.', src: 'Britannica, bee hummingbird' }
+      ]
+    },
+    {
+      code: 'jm', name: 'Jamaica', region: 'Caribbean', capital: 'Kingston',
+      lookFor: 'a gold X with green and black triangles',
+      facts: [
+        { id: 'jm-f1', text: 'Usain Bolt, one of the fastest runners ever, comes from Jamaica.', src: 'Britannica, Usain Bolt' },
+        { id: 'jm-f2', text: 'Reggae music began in Jamaica.', src: 'Britannica, reggae' },
+        { id: 'jm-f3', text: 'Coffee from the Blue Mountains of Jamaica is famous around the world.', src: 'Britannica, Blue Mountains, Jamaica' }
+      ]
+    },
+    {
+      code: 'pa', name: 'Panama', region: 'Central America', capital: 'Panama City',
+      lookFor: 'a blue star and a red star in white, blue and red squares',
+      facts: [
+        { id: 'pa-f1', text: 'The Panama Canal is a waterway that lets ships sail between the Atlantic and Pacific oceans.', src: 'Britannica, Panama Canal' },
+        { id: 'pa-f2', text: 'Ships climb through the Panama Canal on giant water steps called locks.', src: 'Britannica, lock' },
+        { id: 'pa-f3', text: 'Panama joins North America to South America.', src: 'Britannica, Panama' }
+      ]
+    },
+    {
+      code: 'do', name: 'Dominican Republic', region: 'Caribbean', capital: 'Santo Domingo',
+      lookFor: 'a white cross with blue and red squares',
+      facts: [
+        { id: 'do-f1', text: 'The Dominican Republic shares an island called Hispaniola with Haiti.', src: 'Britannica, Hispaniola' },
+        { id: 'do-f2', text: 'Pico Duarte, the tallest mountain in the Caribbean, is in the Dominican Republic.', src: 'Britannica, Duarte Peak' },
+        { id: 'do-f3', text: 'Baseball is a favourite sport in the Dominican Republic.', src: 'Britannica, Dominican Republic \u2014 Sports and recreation' }
+      ]
+    },
+    {
+      code: 'ht', name: 'Haiti', region: 'Caribbean', capital: 'Port-au-Prince',
+      lookFor: 'blue over red with a white square in the middle',
+      facts: [
+        { id: 'ht-f1', text: 'Haiti shares the island of Hispaniola with the Dominican Republic.', src: 'Britannica, Hispaniola' },
+        { id: 'ht-f2', text: 'The name Haiti comes from an old word that means land of high mountains.', src: 'Britannica, Haiti \u2014 Name' },
+        { id: 'ht-f3', text: 'Haitian artists are famous for their bright, colourful paintings.', src: 'Britannica, Haiti \u2014 Cultural life' }
+      ]
+    },
+    {
+      code: 'co', name: 'Colombia', region: 'South America', capital: 'Bogot\u00e1',
+      lookFor: 'a wide yellow stripe over blue and red',
+      facts: [
+        { id: 'co-f1', text: 'The Andes mountains run through western Colombia.', src: 'Britannica, Colombia' },
+        { id: 'co-f2', text: 'Colombia has coasts on both the Pacific Ocean and the Caribbean Sea.', src: 'Britannica, Colombia' },
+        { id: 'co-f3', text: 'Colourful poison frogs live in Colombia\u2019s rainforests.', src: 'Britannica, poison frog' }
+      ]
+    },
+    {
+      code: 'gy', name: 'Guyana', region: 'South America', capital: 'Georgetown',
+      lookFor: 'a yellow arrow with a red arrow on green',
+      facts: [
+        { id: 'gy-f1', text: 'Kaieteur Falls in Guyana drops from a very high cliff into the rainforest.', src: 'Britannica, Kaieteur Falls' },
+        { id: 'gy-f2', text: 'Rainforest covers most of Guyana.', src: 'Britannica, Guyana \u2014 Plant and animal life' },
+        { id: 'gy-f3', text: 'Guyana is the only country in South America where English is the official language.', src: 'Britannica, Guyana \u2014 Languages' }
+      ]
+    },
+    {
+      code: 'sr', name: 'Suriname', region: 'South America', capital: 'Paramaribo',
+      lookFor: 'a yellow star in the middle of a wide red stripe',
+      facts: [
+        { id: 'sr-f1', text: 'Suriname is the only country in South America where Dutch is the official language.', src: 'Britannica, Suriname \u2014 Languages' },
+        { id: 'sr-f2', text: 'Most of Suriname is covered in rainforest.', src: 'Britannica, Suriname \u2014 Plant and animal life' },
+        { id: 'sr-f3', text: 'Suriname is the smallest independent country in South America.', src: 'Britannica, Suriname' }
+      ]
+    },
+    {
+      code: 'pg', name: 'Papua New Guinea', region: 'Australia and the Pacific', capital: 'Port Moresby',
+      lookFor: 'a yellow bird of paradise on red, and white stars on black',
+      facts: [
+        { id: 'pg-f1', text: 'The bird of paradise on the flag has beautiful, colourful feathers, and it lives in Papua New Guinea.', src: 'Britannica, bird of paradise; Britannica, flag of Papua New Guinea' },
+        { id: 'pg-f2', text: 'More languages are spoken in Papua New Guinea than in any other country.', src: 'Britannica, Papua New Guinea \u2014 Languages' },
+        { id: 'pg-f3', text: 'Mountains and thick rainforest cover much of Papua New Guinea.', src: 'Britannica, Papua New Guinea' }
+      ]
+    },
+    {
+      code: 'to', name: 'Tonga', region: 'Australia and the Pacific', capital: 'Nuku\u2019alofa',
+      lookFor: 'a red cross on a white square, on red',
+      facts: [
+        { id: 'to-f1', text: 'Tonga is made up of many islands in the Pacific Ocean.', src: 'Britannica, Tonga' },
+        { id: 'to-f2', text: 'Tonga has both coral islands and islands made by volcanoes.', src: 'Britannica, Tonga' },
+        { id: 'to-f3', text: 'Every year, humpback whales swim to Tonga to have their babies.', src: 'Britannica, humpback whale; Britannica, Tonga' }
+      ]
     }
+
   ];
 
   // Spoken lines with stable ids. When a designed voice replaces the interim
@@ -458,6 +743,16 @@ var FLAGS_DATA = (function () {
     'mode.explore': 'Explore Flags',
     'explore.intro': 'Explore the flags. Tap one to meet its country.',
     'mode.country': 'Which country?',
+    'mode.map': 'World map',
+    'mode.mapFind': 'Flag to map',
+    'mode.mapPick': 'Map to flag',
+    'mode.mapExplore': 'Explore the map',
+    'map.menu.intro': 'Pick a map game.',
+    'map.find.prompt': 'Tap this country on the map.',
+    'map.pick.prompt': 'Which flag belongs to the glowing country?',
+    'map.hint': 'Here is a clue. Look in the coloured part of the map.',
+    'map.explore.prompt': 'Tap a coloured country to meet it.',
+    'map.explore.hint': 'Tap a coloured country.',
     'prompt.match': 'Tap the flag that is the same.',
     'prompt.match.reveal': 'Look carefully. Tap the flag that is the same.',
     'prompt.country': 'Which country does this flag belong to?',
