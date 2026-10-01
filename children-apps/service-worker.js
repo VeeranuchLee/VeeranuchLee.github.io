@@ -94,8 +94,11 @@
  *                  main hub"). Its tile, `assets/nail-salon.webp`, is composed from the
  *                  app's own polish-bottle icon on a soft background sampled from its
  *                  salon portrait — no new artwork.
+ *   v35 2026-10-01  The ป.2 October homework card joins the hub (owner: "publish on main
+ *                  hub pls"). Its tile, `assets/october-homework.webp`, is the page's own
+ *                  robot-reader art on a soft backing — no new artwork.
  */
-const CACHE_NAME = "children-apps-v34";
+const CACHE_NAME = "children-apps-v35";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
@@ -119,6 +122,7 @@ const SHELL = [
   "./assets/flags.webp",
   "./assets/periodic-table.webp",
   "./assets/nail-salon.webp",
+  "./assets/october-homework.webp",
   "./assets/app-192.png",
   "./assets/app-512.png",
 ];

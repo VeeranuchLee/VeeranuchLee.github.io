@@ -75,6 +75,11 @@ The user Pages site. Three deliberately separate things live here:
 `/children-apps/`. Share its direct URL with test users. Promotion is a separate owner
 decision; adding something here never implies adding it to the main hub.
 
+Test Hub cards are defined in `test-apps/slots.json`. For every new or refreshed
+slot, set `updated` to the current ICT date and time in `YYYY-MM-DD HH:MM` format;
+generate it with `TZ=Asia/Bangkok date "+%Y-%m-%d %H:%M"`. Historical date-only
+`YYYY-MM-DD` values remain valid and sort as midnight.
+
 ## Why the games are in a subdirectory
 
 The owner is keeping the root for professional use later. Putting the children's

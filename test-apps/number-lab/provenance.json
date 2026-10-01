@@ -1,24 +1,11 @@
 {
-  "datePrepared": "2026-09-30",
-  "sourceCommit": "c72c3664",
-  "sourceBranch": "agent/number-lab-waste",
-  "purpose": "Owner review of Number Lab waste placement: each successful Family-A evolution independently rolls the configured 65% chance and, when successful, places level-1 waste in a random empty orthogonal neighbor of the evolved tile. The existing sound work from agent/number-lab-sound is retained.",
+  "datePrepared": "2026-09-29",
+  "sourceCommit": "127f96f4",
+  "sourceBranch": "agent/number-lab-frames",
+  "purpose": "Owner review of the corrected Number Lab rare-piece visual code: A81 is fully frame-contained with brushed gold leaf, A243 is a faceted gem, A729 is crowned, A2187 uses ceremonial double rings, and A6561 uses pearl/rainbow enamel. Same-hue rare/common pairs pass a deterministic blurred-image-distance gate. Prepared on agent/number-lab-frames after controller review of 127f96f4.",
   "included": {
-    "pages": [
-      "index.html (number-lab-app/index.html)"
-    ],
-    "runtime": [
-      "styles.css",
-      "tap-zoom-guard.js (byte-identical to number-lab-app/tap-zoom-guard.js)",
-      "js/app.js",
-      "js/balance-config.js",
-      "js/cpu-player.js",
-      "js/game-state.js",
-      "js/queue-engine.js",
-      "js/renderer.js",
-      "js/rules-engine.js",
-      "js/shop-engine.js"
-    ],
+    "pages": ["index.html (number-lab-app/index.html)"],
+    "runtime": ["styles.css", "tap-zoom-guard.js (byte-identical to number-lab-app/tap-zoom-guard.js)", "js/app.js", "js/balance-config.js", "js/cpu-player.js", "js/game-state.js", "js/queue-engine.js", "js/renderer.js", "js/rules-engine.js", "js/shop-engine.js"],
     "assets": "assets/tile-atlas.webp"
   },
   "selection": "Every file here is copied from number-lab-app/'s runtime ship list; service-worker.js is omitted and the registration call in index.html has been neutralised so the staged copy registers no service worker.",
