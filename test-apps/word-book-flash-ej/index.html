@@ -44,6 +44,7 @@
   .head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:0 0 6px}
   .head h2{font-size:26px;margin:0} .head .n{color:var(--muted);font-size:14px}
   .sentence{font-size:18px;margin:0 0 8px}
+  .chk{margin:.2rem 0 .5rem;padding:.35rem .6rem;border-left:4px solid var(--warn);color:var(--warn);font-weight:600}
   .sentence mark{background:var(--pick);color:inherit;border-radius:4px;padding:0 3px;font-weight:700}
   .said{font-size:14px;color:var(--muted);margin:0 0 10px}
   .plays{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:0 0 12px}
@@ -109,6 +110,8 @@
   var rows = data.groups.words, total = rows.length, byLetter = {};
   rows.forEach(function(r){ (byLetter[r.letter] = byLetter[r.letter] || []).push(r); });
   var letters = Object.keys(byLetter).sort();
+  var toCheck = rows.filter(function(r){ return r.check; });
+  if (toCheck.length) { byLetter['!'] = toCheck; letters.unshift('!'); }
   var current = letters[0];
   function count(){
     var n = Object.keys(saved).filter(function(k){ return saved[k] && saved[k].pick; }).length;
@@ -122,7 +125,7 @@
   function renderLetters(){
     var el = document.getElementById('letters');
     el.innerHTML = letters.map(function(L){
-      return '<button data-l="' + L + '"' + (L === current ? ' class="on"' : '') + '>' + L.toUpperCase() +
+      return '<button data-l="' + L + '"' + (L === current ? ' class="on"' : '') + '>' + (L === '!' ? 'To check' : L.toUpperCase()) +
              '<small id="lc-' + L + '">' + letterCount(L) + '</small></button>';
     }).join('');
     el.querySelectorAll('button').forEach(function(b){
@@ -135,6 +138,7 @@
   var container = document.getElementById('g-words');
   rows.forEach(function(r, i){
     var sec = document.createElement('section'); sec.className = 'cardrow'; sec.setAttribute('data-letter', r.letter);
+    if (r.check) sec.setAttribute('data-check', '1');
     var clips = r.clips.map(function(c){
       return '<div class="clip"><button class="main" data-src="' + esc(c.file) + '"><b>' + esc(c.label) +
              '</b><small>' + esc(c.kind) + '</small></button></div>';
@@ -148,6 +152,7 @@
     sec.innerHTML = '<div class="head"><h2>' + esc(r.word) + '</h2><span class="n">' + (i + 1) + ' of ' + rows.length +
       ' &middot; ' + r.letter.toUpperCase() + more + '</span></div>' +
       '<p class="sentence">' + marked(r.sentence, r.word) + '</p>' +
+      (r.check ? '<p class="chk">Listen closely: ' + esc(r.check) + '</p>' : '') +
       '<div class="plays">' + clips + '</div><p class="q">Which is best?</p><div class="opts">' + opts + '</div>' +
       '<textarea placeholder="Note (optional)">' + esc(s.note || '') + '</textarea>';
     sec.querySelectorAll('button[data-src]').forEach(function(b){
@@ -161,7 +166,7 @@
   });
   function show(){
     container.querySelectorAll('section[data-letter]').forEach(function(sec){
-      sec.classList.toggle('hide', sec.getAttribute('data-letter') !== current);
+      sec.classList.toggle('hide', current === '!' ? !sec.hasAttribute('data-check') : sec.getAttribute('data-letter') !== current);
     });
   }
   renderLetters(); show(); count();
