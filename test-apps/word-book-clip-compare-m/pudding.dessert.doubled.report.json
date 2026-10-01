@@ -1,0 +1,76 @@
+{
+ "sense": "pudding.dessert",
+ "word": "pudding",
+ "sentence": ", pudding.",
+ "char_span": [
+  2,
+  9
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.464,
+  0.894
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.441,
+  "next_char_start": 0.894
+ },
+ "energy_dbfs_at_raw_edges": [
+  -72.2,
+  -24.7
+ ],
+ "quietest_near_start": {
+  "t": 0.474,
+  "dbfs": -79.6
+ },
+ "quietest_near_end": {
+  "t": 0.919,
+  "dbfs": -50.2
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.4382,
+  0.9772
+ ],
+ "edge_shift_ms_vs_raw": [
+  -25.8,
+  83.2
+ ],
+ "energy_dbfs_at_cut": [
+  -46.1,
+  -78.9
+ ],
+ "word_audio_s": 0.539,
+ "lead_tail_silence_s": [
+  0.185,
+  0.388
+ ],
+ "gain_db": 4.02,
+ "peak_dbfs_after": -6.77,
+ "level_to": "word-book/audio/words/pudding.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/pudding.dessert.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/pudding.dessert.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  30.999999999999996,
+  36.0
+ ],
+ "soft_move_ms": [
+  -25.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}

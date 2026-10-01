@@ -1,0 +1,76 @@
+{
+ "sense": "pet.kept-animal",
+ "word": "pet",
+ "sentence": ", pet.",
+ "char_span": [
+  2,
+  5
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.534,
+  0.906
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.464,
+  "next_char_start": 0.906
+ },
+ "energy_dbfs_at_raw_edges": [
+  -69.8,
+  -35.3
+ ],
+ "quietest_near_start": {
+  "t": 0.549,
+  "dbfs": -76.7
+ },
+ "quietest_near_end": {
+  "t": 0.936,
+  "dbfs": -59.8
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.5059,
+  0.981
+ ],
+ "edge_shift_ms_vs_raw": [
+  -28.1,
+  75.0
+ ],
+ "energy_dbfs_at_cut": [
+  -55.4,
+  -70.2
+ ],
+ "word_audio_s": 0.4751,
+ "lead_tail_silence_s": [
+  0.08,
+  0.043
+ ],
+ "gain_db": -1.09,
+ "peak_dbfs_after": -6.4,
+ "level_to": "word-book/audio/words/pet.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/pet.kept-animal.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/pet.kept-animal.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  36.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  -30.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}

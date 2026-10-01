@@ -1,0 +1,80 @@
+{
+ "sense": "on.touching-the-top",
+ "word": "on",
+ "sentence": ", on.",
+ "char_span": [
+  2,
+  4
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.476,
+  0.755
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.395,
+  "next_char_start": 0.755
+ },
+ "energy_dbfs_at_raw_edges": [
+  -86.1,
+  -24.9
+ ],
+ "quietest_near_start": {
+  "t": 0.471,
+  "dbfs": -86.7
+ },
+ "quietest_near_end": {
+  "t": 0.785,
+  "dbfs": -26.0
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.4271,
+  0.9076
+ ],
+ "edge_shift_ms_vs_raw": [
+  -48.9,
+  152.6
+ ],
+ "energy_dbfs_at_cut": [
+  -70.2,
+  -77.5
+ ],
+ "word_audio_s": 0.4805,
+ "lead_tail_silence_s": [
+  0.035,
+  0.287
+ ],
+ "gain_db": -5.49,
+ "peak_dbfs_after": -10.52,
+ "level_to": "word-book/audio/words/on.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/on.touching-the-top.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/on.touching-the-top.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  36.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  -30.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  },
+  {
+   "flag": "function-word",
+   "why": "a closed-class word; in a sentence it is often a weak, reduced form"
+  }
+ ]
+}

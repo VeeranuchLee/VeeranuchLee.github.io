@@ -1,0 +1,71 @@
+{
+ "sense": "problem.question-to-solve",
+ "word": "problem",
+ "sentence": "We solve the maths problem together.",
+ "char_span": [
+  19,
+  26
+ ],
+ "word_index": 4,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  1.2,
+  1.52
+ ],
+ "neighbours_s": {
+  "previous_char_end": 1.12,
+  "next_char_start": 1.6
+ },
+ "energy_dbfs_at_raw_edges": [
+  -61.7,
+  -25.1
+ ],
+ "quietest_near_start": {
+  "t": 1.1925,
+  "dbfs": -86.7
+ },
+ "quietest_near_end": {
+  "t": 1.615,
+  "dbfs": -61.2
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  1.1524,
+  1.62
+ ],
+ "edge_shift_ms_vs_raw": [
+  -47.6,
+  100.0
+ ],
+ "energy_dbfs_at_cut": [
+  -48.0,
+  -55.1
+ ],
+ "word_audio_s": 0.4676,
+ "lead_tail_silence_s": [
+  0.045,
+  0.228
+ ],
+ "gain_db": 2.24,
+ "peak_dbfs_after": -5.13,
+ "level_to": "word-book/audio/words/problem.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/problem.question-to-solve.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/problem.question-to-solve.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  36.0,
+  8.5
+ ],
+ "soft_move_ms": [
+  -30.0,
+  2.5
+ ],
+ "flags": []
+}

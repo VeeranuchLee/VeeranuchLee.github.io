@@ -1,0 +1,76 @@
+{
+ "sense": "panda.animal",
+ "word": "panda",
+ "sentence": ", panda.",
+ "char_span": [
+  2,
+  7
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.72,
+  1.219
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.673,
+  "next_char_start": 1.219
+ },
+ "energy_dbfs_at_raw_edges": [
+  -68.0,
+  -46.6
+ ],
+ "quietest_near_start": {
+  "t": 0.7425,
+  "dbfs": -72.4
+ },
+ "quietest_near_end": {
+  "t": 1.2465,
+  "dbfs": -70.8
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.6999,
+  1.2771
+ ],
+ "edge_shift_ms_vs_raw": [
+  -20.1,
+  58.1
+ ],
+ "energy_dbfs_at_cut": [
+  -52.7,
+  -66.9
+ ],
+ "word_audio_s": 0.5773,
+ "lead_tail_silence_s": [
+  0.085,
+  0.251
+ ],
+ "gain_db": 1.14,
+ "peak_dbfs_after": -5.73,
+ "level_to": "word-book/audio/words/panda.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/panda.animal.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/panda.animal.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  36.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  -30.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}

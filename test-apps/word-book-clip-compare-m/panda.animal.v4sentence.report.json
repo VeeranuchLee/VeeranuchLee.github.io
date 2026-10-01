@@ -1,0 +1,76 @@
+{
+ "sense": "panda.animal",
+ "word": "panda",
+ "sentence": "A panda sits beside some bamboo.",
+ "char_span": [
+  2,
+  7
+ ],
+ "word_index": 1,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.2,
+  0.64
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.16,
+  "next_char_start": 0.8
+ },
+ "energy_dbfs_at_raw_edges": [
+  -65.9,
+  -24.3
+ ],
+ "quietest_near_start": {
+  "t": 0.2175,
+  "dbfs": -69.6
+ },
+ "quietest_near_end": {
+  "t": 0.75,
+  "dbfs": -29.2
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "gap-min"
+ ],
+ "cut_s": [
+  0.1773,
+  0.7499
+ ],
+ "edge_shift_ms_vs_raw": [
+  -22.7,
+  109.9
+ ],
+ "energy_dbfs_at_cut": [
+  -45.1,
+  -29.2
+ ],
+ "word_audio_s": 0.5726,
+ "lead_tail_silence_s": [
+  0.085,
+  0.251
+ ],
+ "gain_db": 2.82,
+ "peak_dbfs_after": -5.73,
+ "level_to": "word-book/audio/words/panda.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/panda.animal.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/panda.animal.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  36.0,
+  40.0
+ ],
+ "soft_move_ms": [
+  -30.0,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -29.2 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

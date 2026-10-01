@@ -1,0 +1,76 @@
+{
+ "sense": "pot.cooking-container",
+ "word": "pot",
+ "sentence": "The soup bubbles in the pot.",
+ "char_span": [
+  24,
+  27
+ ],
+ "word_index": 5,
+ "words_in_sentence": 6,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  1.52,
+  1.92
+ ],
+ "neighbours_s": {
+  "previous_char_end": 1.44,
+  "next_char_start": 1.92
+ },
+ "energy_dbfs_at_raw_edges": [
+  -44.2,
+  -24.6
+ ],
+ "quietest_near_start": {
+  "t": 1.4825,
+  "dbfs": -81.5
+ },
+ "quietest_near_end": {
+  "t": 1.95,
+  "dbfs": -29.1
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  1.4431,
+  2.0848
+ ],
+ "edge_shift_ms_vs_raw": [
+  -76.9,
+  164.8
+ ],
+ "energy_dbfs_at_cut": [
+  -51.5,
+  -85.3
+ ],
+ "word_audio_s": 0.6417,
+ "lead_tail_silence_s": [
+  0.21,
+  0.271
+ ],
+ "gain_db": 6.09,
+ "peak_dbfs_after": -3.49,
+ "level_to": "word-book/audio/words/pot.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/pot.cooking-container.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/pot.cooking-container.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  36.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  -30.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}

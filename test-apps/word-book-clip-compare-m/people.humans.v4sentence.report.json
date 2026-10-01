@@ -1,0 +1,76 @@
+{
+ "sense": "people.humans",
+ "word": "people",
+ "sentence": "People wave as the parade goes past.",
+ "char_span": [
+  0,
+  6
+ ],
+ "word_index": 0,
+ "words_in_sentence": 7,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.0,
+  0.4
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.0,
+  "next_char_start": 0.48
+ },
+ "energy_dbfs_at_raw_edges": [
+  -180.0,
+  -19.0
+ ],
+ "quietest_near_start": {
+  "t": 0.0,
+  "dbfs": -180.0
+ },
+ "quietest_near_end": {
+  "t": 0.4575,
+  "dbfs": -27.0
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip",
+  "gap-min"
+ ],
+ "cut_s": [
+  0.0,
+  0.4586
+ ],
+ "edge_shift_ms_vs_raw": [
+  0.0,
+  58.6
+ ],
+ "energy_dbfs_at_cut": [
+  -180.0,
+  -26.9
+ ],
+ "word_audio_s": 0.4586,
+ "lead_tail_silence_s": [
+  0.085,
+  0.242
+ ],
+ "gain_db": -4.44,
+ "peak_dbfs_after": -14.36,
+ "level_to": "word-book/audio/words/people.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/people.humans.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/people.humans.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  6.0,
+  40.0
+ ],
+ "soft_move_ms": [
+  -0.0,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -26.9 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

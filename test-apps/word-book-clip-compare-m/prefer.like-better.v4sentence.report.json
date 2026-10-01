@@ -1,0 +1,76 @@
+{
+ "sense": "prefer.like-better",
+ "word": "prefer",
+ "sentence": "I prefer the blue kite to the red one.",
+ "char_span": [
+  2,
+  8
+ ],
+ "word_index": 1,
+ "words_in_sentence": 9,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.32,
+  0.64
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.24,
+  "next_char_start": 0.68
+ },
+ "energy_dbfs_at_raw_edges": [
+  -59.8,
+  -17.6
+ ],
+ "quietest_near_start": {
+  "t": 0.305,
+  "dbfs": -70.9
+ },
+ "quietest_near_end": {
+  "t": 0.7025,
+  "dbfs": -33.5
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "gap-min"
+ ],
+ "cut_s": [
+  0.2749,
+  0.6809
+ ],
+ "edge_shift_ms_vs_raw": [
+  -45.1,
+  40.9
+ ],
+ "energy_dbfs_at_cut": [
+  -45.2,
+  -31.4
+ ],
+ "word_audio_s": 0.406,
+ "lead_tail_silence_s": [
+  0.085,
+  0.05
+ ],
+ "gain_db": -1.1,
+ "peak_dbfs_after": -8.77,
+ "level_to": "word-book/audio/words/prefer.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/prefer.like-better.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/prefer.like-better.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  26.0,
+  40.0
+ ],
+ "soft_move_ms": [
+  -20.0,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -31.4 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

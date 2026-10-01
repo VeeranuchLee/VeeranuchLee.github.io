@@ -1,0 +1,76 @@
+{
+ "sense": "often.many-times",
+ "word": "often",
+ "sentence": ", often.",
+ "char_span": [
+  2,
+  7
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.488,
+  0.882
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.441,
+  "next_char_start": 0.882
+ },
+ "energy_dbfs_at_raw_edges": [
+  -22.5,
+  -30.9
+ ],
+ "quietest_near_start": {
+  "t": 0.468,
+  "dbfs": -53.6
+ },
+ "quietest_near_end": {
+  "t": 0.912,
+  "dbfs": -43.8
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.4604,
+  1.2049
+ ],
+ "edge_shift_ms_vs_raw": [
+  -27.6,
+  322.9
+ ],
+ "energy_dbfs_at_cut": [
+  -45.6,
+  -83.7
+ ],
+ "word_audio_s": 0.7444,
+ "lead_tail_silence_s": [
+  0.025,
+  0.312
+ ],
+ "gain_db": -0.92,
+ "peak_dbfs_after": -7.45,
+ "level_to": "word-book/audio/words/often.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/often.many-times.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/often.many-times.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  13.5,
+  36.0
+ ],
+ "soft_move_ms": [
+  -7.5,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}

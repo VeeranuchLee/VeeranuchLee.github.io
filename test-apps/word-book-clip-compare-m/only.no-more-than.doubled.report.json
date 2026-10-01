@@ -1,0 +1,76 @@
+{
+ "sense": "only.no-more-than",
+ "word": "only",
+ "sentence": ", only.",
+ "char_span": [
+  2,
+  6
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.476,
+  0.871
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.418,
+  "next_char_start": 0.871
+ },
+ "energy_dbfs_at_raw_edges": [
+  -16.2,
+  -29.0
+ ],
+ "quietest_near_start": {
+  "t": 0.451,
+  "dbfs": -54.8
+ },
+ "quietest_near_end": {
+  "t": 0.901,
+  "dbfs": -30.7
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.446,
+  1.0059
+ ],
+ "edge_shift_ms_vs_raw": [
+  -30.0,
+  134.9
+ ],
+ "energy_dbfs_at_cut": [
+  -45.4,
+  -80.3
+ ],
+ "word_audio_s": 0.5599,
+ "lead_tail_silence_s": [
+  0.01,
+  0.058
+ ],
+ "gain_db": -4.64,
+ "peak_dbfs_after": -7.99,
+ "level_to": "word-book/audio/words/only.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/only.no-more-than.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/only.no-more-than.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  11.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  -5.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}

@@ -1,0 +1,76 @@
+{
+ "sense": "pet.kept-animal",
+ "word": "pet",
+ "sentence": "Vanilla is our pet, and we love her.",
+ "char_span": [
+  15,
+  18
+ ],
+ "word_index": 3,
+ "words_in_sentence": 8,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.96,
+  1.36
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.88,
+  "next_char_start": 1.36
+ },
+ "energy_dbfs_at_raw_edges": [
+  -35.1,
+  -24.7
+ ],
+ "quietest_near_start": {
+  "t": 0.9225,
+  "dbfs": -86.2
+ },
+ "quietest_near_end": {
+  "t": 1.39,
+  "dbfs": -29.0
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "raw"
+ ],
+ "cut_s": [
+  0.8825,
+  1.36
+ ],
+ "edge_shift_ms_vs_raw": [
+  -77.5,
+  0.0
+ ],
+ "energy_dbfs_at_cut": [
+  -57.0,
+  -24.7
+ ],
+ "word_audio_s": 0.4775,
+ "lead_tail_silence_s": [
+  0.08,
+  0.043
+ ],
+ "gain_db": 1.86,
+ "peak_dbfs_after": -6.4,
+ "level_to": "word-book/audio/words/pet.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/pet.kept-animal.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/pet.kept-animal.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  36.0,
+  40.0
+ ],
+ "soft_move_ms": [
+  -30.0,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -24.7 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

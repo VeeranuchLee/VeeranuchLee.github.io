@@ -1,0 +1,76 @@
+{
+ "sense": "pie.food",
+ "word": "pie",
+ "sentence": ", pie.",
+ "char_span": [
+  2,
+  5
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.406,
+  0.639
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.36,
+  "next_char_start": 0.639
+ },
+ "energy_dbfs_at_raw_edges": [
+  -59.9,
+  -21.0
+ ],
+ "quietest_near_start": {
+  "t": 0.416,
+  "dbfs": -67.7
+ },
+ "quietest_near_end": {
+  "t": 0.649,
+  "dbfs": -25.1
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.3767,
+  0.834
+ ],
+ "edge_shift_ms_vs_raw": [
+  -29.3,
+  195.0
+ ],
+ "energy_dbfs_at_cut": [
+  -51.4,
+  -180.0
+ ],
+ "word_audio_s": 0.4573,
+ "lead_tail_silence_s": [
+  0.08,
+  0.272
+ ],
+ "gain_db": 2.34,
+ "peak_dbfs_after": -5.66,
+ "level_to": "word-book/audio/words/pie.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/pie.food.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/pie.food.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  36.0,
+  21.0
+ ],
+ "soft_move_ms": [
+  -30.0,
+  15.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}

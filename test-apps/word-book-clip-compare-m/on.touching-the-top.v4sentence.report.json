@@ -1,0 +1,84 @@
+{
+ "sense": "on.touching-the-top",
+ "word": "on",
+ "sentence": "My book is on the table.",
+ "char_span": [
+  11,
+  13
+ ],
+ "word_index": 3,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.96,
+  1.04
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.88,
+  "next_char_start": 1.08
+ },
+ "energy_dbfs_at_raw_edges": [
+  -26.2,
+  -24.9
+ ],
+ "quietest_near_start": {
+  "t": 0.9,
+  "dbfs": -27.5
+ },
+ "quietest_near_end": {
+  "t": 1.0425,
+  "dbfs": -25.0
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "raw"
+ ],
+ "cut_s": [
+  0.9598,
+  1.0402
+ ],
+ "edge_shift_ms_vs_raw": [
+  -0.2,
+  0.2
+ ],
+ "energy_dbfs_at_cut": [
+  -26.2,
+  -24.9
+ ],
+ "word_audio_s": 0.0803,
+ "lead_tail_silence_s": [
+  0.035,
+  0.287
+ ],
+ "gain_db": 0.54,
+ "peak_dbfs_after": -10.52,
+ "level_to": "word-book/audio/words/on.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/on.touching-the-top.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/on.touching-the-top.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  40.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "function-word",
+   "why": "a closed-class word; in a sentence it is often a weak, reduced form"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -26.2 dBFS, above -35: inside speech, so clipped or smeared"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -24.9 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

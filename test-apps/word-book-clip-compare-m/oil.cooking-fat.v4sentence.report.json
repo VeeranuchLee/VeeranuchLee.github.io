@@ -1,0 +1,71 @@
+{
+ "sense": "oil.cooking-fat",
+ "word": "oil",
+ "sentence": "Mum pours oil into the pan.",
+ "char_span": [
+  10,
+  13
+ ],
+ "word_index": 2,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.88,
+  1.2
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.72,
+  "next_char_start": 1.28
+ },
+ "energy_dbfs_at_raw_edges": [
+  -15.3,
+  -19.2
+ ],
+ "quietest_near_start": {
+  "t": 0.84,
+  "dbfs": -92.2
+ },
+ "quietest_near_end": {
+  "t": 1.2775,
+  "dbfs": -59.3
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  0.7999,
+  1.2899
+ ],
+ "edge_shift_ms_vs_raw": [
+  -80.1,
+  89.9
+ ],
+ "energy_dbfs_at_cut": [
+  -72.0,
+  -48.6
+ ],
+ "word_audio_s": 0.49,
+ "lead_tail_silence_s": [
+  0.03,
+  0.24
+ ],
+ "gain_db": 2.69,
+ "peak_dbfs_after": -6.25,
+ "level_to": "word-book/audio/words/oil.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/oil.cooking-fat.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/oil.cooking-fat.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  36.0,
+  18.5
+ ],
+ "soft_move_ms": [
+  -30.0,
+  12.5
+ ],
+ "flags": []
+}

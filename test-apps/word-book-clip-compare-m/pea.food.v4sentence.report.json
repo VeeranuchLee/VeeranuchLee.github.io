@@ -1,0 +1,76 @@
+{
+ "sense": "pea.food",
+ "word": "pea",
+ "sentence": "A green pea rolls across my plate.",
+ "char_span": [
+  8,
+  11
+ ],
+ "word_index": 2,
+ "words_in_sentence": 7,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.64,
+  0.96
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.56,
+  "next_char_start": 1.12
+ },
+ "energy_dbfs_at_raw_edges": [
+  -67.0,
+  -25.2
+ ],
+ "quietest_near_start": {
+  "t": 0.65,
+  "dbfs": -67.9
+ },
+ "quietest_near_end": {
+  "t": 1.1,
+  "dbfs": -32.8
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "gap-min"
+ ],
+ "cut_s": [
+  0.6093,
+  1.0995
+ ],
+ "edge_shift_ms_vs_raw": [
+  -30.7,
+  139.5
+ ],
+ "energy_dbfs_at_cut": [
+  -56.0,
+  -32.1
+ ],
+ "word_audio_s": 0.4902,
+ "lead_tail_silence_s": [
+  0.065,
+  0.26
+ ],
+ "gain_db": 2.29,
+ "peak_dbfs_after": -8.32,
+ "level_to": "word-book/audio/words/pea.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/pea.food.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/pea.food.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  36.0,
+  40.0
+ ],
+ "soft_move_ms": [
+  -30.0,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -32.1 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

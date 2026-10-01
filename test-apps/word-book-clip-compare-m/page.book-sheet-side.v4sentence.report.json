@@ -1,0 +1,76 @@
+{
+ "sense": "page.book-sheet-side",
+ "word": "page",
+ "sentence": "A dragon fills the whole page.",
+ "char_span": [
+  25,
+  29
+ ],
+ "word_index": 5,
+ "words_in_sentence": 6,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  1.76,
+  2.4
+ ],
+ "neighbours_s": {
+  "previous_char_end": 1.68,
+  "next_char_start": 2.4
+ },
+ "energy_dbfs_at_raw_edges": [
+  -76.3,
+  -24.7
+ ],
+ "quietest_near_start": {
+  "t": 1.765,
+  "dbfs": -81.5
+ },
+ "quietest_near_end": {
+  "t": 2.43,
+  "dbfs": -28.4
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  1.7448,
+  2.5398
+ ],
+ "edge_shift_ms_vs_raw": [
+  -15.2,
+  139.8
+ ],
+ "energy_dbfs_at_cut": [
+  -47.7,
+  -83.6
+ ],
+ "word_audio_s": 0.7949,
+ "lead_tail_silence_s": [
+  0.13,
+  0.258
+ ],
+ "gain_db": 5.86,
+ "peak_dbfs_after": -7.49,
+ "level_to": "word-book/audio/words/page.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/page.book-sheet-side.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/page.book-sheet-side.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  16.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  -10.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}

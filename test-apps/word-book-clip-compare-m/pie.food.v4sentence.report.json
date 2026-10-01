@@ -1,0 +1,76 @@
+{
+ "sense": "pie.food",
+ "word": "pie",
+ "sentence": "The apple pie smells delicious.",
+ "char_span": [
+  10,
+  13
+ ],
+ "word_index": 2,
+ "words_in_sentence": 5,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.64,
+  0.96
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.56,
+  "next_char_start": 1.12
+ },
+ "energy_dbfs_at_raw_edges": [
+  -68.9,
+  -26.3
+ ],
+ "quietest_near_start": {
+  "t": 0.65,
+  "dbfs": -73.6
+ },
+ "quietest_near_end": {
+  "t": 1.025,
+  "dbfs": -33.7
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "gap-min"
+ ],
+ "cut_s": [
+  0.6098,
+  1.0248
+ ],
+ "edge_shift_ms_vs_raw": [
+  -30.2,
+  64.8
+ ],
+ "energy_dbfs_at_cut": [
+  -59.8,
+  -33.8
+ ],
+ "word_audio_s": 0.415,
+ "lead_tail_silence_s": [
+  0.08,
+  0.272
+ ],
+ "gain_db": 6.15,
+ "peak_dbfs_after": -5.66,
+ "level_to": "word-book/audio/words/pie.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/pie.food.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/pie.food.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  36.0,
+  40.0
+ ],
+ "soft_move_ms": [
+  -30.0,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -33.8 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}
