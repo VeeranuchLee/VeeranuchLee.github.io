@@ -349,6 +349,9 @@
     }).join("");
     var card = q.kind === "arith" ? arithCard(q) : q.kind === "place" ? placeCard(q) : thaiCard(q);
     var pad = q.kind === "arith" ? arithPad() : q.kind === "place" ? placePad() : thaiPad(q);
+    // Owner 2026-10-01: "add 'clear' on each question too" -- empties what the child built on this
+    // question and, if it was already answered, reopens it so it can be done again.
+    pad += '<button class="clear-q" data-act="clearq">ล้างข้อนี้</button>';
     var next = state.solved ? '<button class="next" data-act="next">ข้อต่อไป →</button>' : "";
     var html = '<header class="bar">' +
       '<button class="round" data-act="map" aria-label="แผนที่">←</button>' +
@@ -389,6 +392,11 @@
     else if (act === "piece") addPiece(el.getAttribute("data-piece"));
     else if (act === "undo") undoPiece();
     else if (act === "tile") pickTile(Number(el.getAttribute("data-tile")), el);
+    else if (act === "clearq") {
+      var cq = currentQ();
+      if (progress.done[cq.id]) { delete progress.done[cq.id]; saveProgress(); }
+      freshQuestion(); render();
+    }
     else if (act === "redo") {
       var rm = missionById(Number(el.getAttribute("data-id")));
       rm.questions.forEach(function (q) { delete progress.done[q.id]; });
