@@ -1,4 +1,5 @@
-const CACHE_NAME = 'nail-salon-v7';
+// v8 2026-10-01: the pointed almond nail shape is removed (owner: "it's dangerous in real life").
+const CACHE_NAME = 'nail-salon-v8';
 const CACHE_PREFIX = 'nail-salon-v';
 const SHELL = ['./','./index.html','./styles.css','./state-core.js','./app.js','./tap-zoom-guard.js',
   './assets/art/hand.webp','./assets/art/hand-anchors.json','./assets/art/salon-landscape.webp','./assets/art/salon-portrait.webp',

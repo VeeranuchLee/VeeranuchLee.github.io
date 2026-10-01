@@ -65,9 +65,11 @@
     const sides={
       round:`M${left} ${b-4} C${x-.5} ${b-h*.28} ${x} ${y+14} ${x+3} ${y+10} C${x+6} ${y+3} ${cx-7} ${y+1} ${cx} ${y+1} C${cx+7} ${y+1} ${x+w-6} ${y+3} ${x+w-3} ${y+10} C${x+w} ${y+14} ${x+w+.5} ${b-h*.28} ${right} ${b-4}`,
       square:`M${left} ${b-4} C${x-.5} ${b-h*.3} ${x+.5} ${y+9} ${x+4} ${y+5} Q${x+7} ${y+2} ${x+11} ${y+2} L${x+w-11} ${y+2} Q${x+w-7} ${y+2} ${x+w-4} ${y+5} C${x+w-.5} ${y+9} ${x+w+.5} ${b-h*.3} ${right} ${b-4}`,
-      almond:`M${left} ${b-4} C${x} ${b-h*.28} ${x+3} ${y+18} ${cx} ${y} C${x+w-3} ${y+18} ${x+w} ${b-h*.28} ${right} ${b-4}`,
       oval:`M${left} ${b-4} C${x-.5} ${b-h*.3} ${x+1} ${y+17} ${x+7} ${y+8} C${x+12} ${y+1} ${cx-5} ${y} ${cx} ${y} C${cx+5} ${y} ${x+w-12} ${y+1} ${x+w-7} ${y+8} C${x+w-1} ${y+17} ${x+w+.5} ${b-h*.3} ${right} ${b-4}`
     };
+    // Owner 2026-10-01: the pointed almond/stiletto shape is removed ("it's dangerous in real
+    // life"); a design saved with it before then draws as oval.
+    if(shape==='almond') shape='oval';
     return `${sides[shape]||sides.round} Q${cx} ${cuticleY} ${left} ${b-4} Z`;
   }
   function rimPath(m,shape){
@@ -250,7 +252,7 @@
     tray.className=activeTab==='pattern'?'tray tray--pattern':'tray';
     const nail=state.nails[state.selected];
     if(activeTab==='shape'){
-      ['round','square','almond','oval'].forEach(id=>choice(`<i class="shape-icon shape-${id}"></i>`,()=>S.update(state,{shape:id}),nail.shape===id,id+' nail'));
+      ['round','square','oval'].forEach(id=>choice(`<i class="shape-icon shape-${id}"></i>`,()=>S.update(state,{shape:id}),nail.shape===id,id+' nail'));
       ['short','long'].forEach(id=>choice(`<i class="shape-icon shape-round ${id==='long'?'shape-long':''}"></i><small>${id==='short'?'↔':'↕'}</small>`,()=>S.update(state,{length:id}),nail.length===id,id+' nails'));
     } else if(activeTab==='polish'){
       polish.forEach(c=>choice(`<i class="polish-dot" style="--color:${c}"></i>`,()=>S.update(state,{polish:c,finish:'solid'}),nail.polish===c&&nail.finish==='solid','polish color'));
