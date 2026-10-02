@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>New Word Pictures</title>
+<link rel="stylesheet" href="./fonts.css">
+<!--
+  STAGING-ONLY REVIEW PAGE. Never shipped: it lives in word-book/qa/, which the app's
+  .publish-manifest marks [private], and word-book/tools/stage-testhub-next.py copies it
+  into the Test Hub slot as new-art.html beside the staged dictionary. new-art.json, which
+  that script writes, lists the cards to review.
+
+  WHY IT EXISTS (owner, 2026-09-23): "it's better to check how it look with the voice and
+  sentence rather than check alone." A picture judged alone proves nothing about the card.
+  So this page does not show the picture as a picture: tapping a thumbnail opens the REAL
+  dictionary.html in the frame below, types the word into its own search box, and scrolls
+  to that card. The speaker, the Thai line and the sentence are the shipped page's own.
+  dictionary.html has no deep links, and the shipped app is not changed for review.
+-->
+<style>
+  :root{
+    --ink:#3a1e33; --muted:#7a6474; --line:#ecdbe6; --bg:#fdf6ff; --card:#fff;
+    --well:#faf0f6; --accent:#b83280; --seen:#2f7d57; --bar:#3a1e33; --bar-ink:#fff;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:'Nunito',ui-rounded,-apple-system,system-ui,sans-serif}
+  header{max-width:1000px;margin:0 auto;padding:22px 16px 6px}
+  h1{font-size:26px;margin:0 0 6px}
+  .sub{color:var(--muted);margin:0 0 8px;font-size:15px;line-height:1.5}
+  .sub b{color:var(--ink)}
+  .tally{font-size:14px;color:var(--muted);margin:8px 0 0}
+  main{max-width:1000px;margin:0 auto;padding:10px 16px 60px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
+  .t{appearance:none;border:1px solid var(--line);background:var(--card);border-radius:14px;
+     padding:0;overflow:hidden;cursor:pointer;text-align:left;color:inherit;font:inherit;
+     display:flex;flex-direction:column;position:relative}
+  .t:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .t .w{aspect-ratio:4/3;background:var(--well);display:flex;align-items:center;justify-content:center}
+  .t img{max-width:100%;max-height:100%;display:block}
+  .t .cap{padding:8px 10px 10px}
+  .t .word{font-weight:800;font-size:17px}
+  .t .thai{font-size:14px;color:var(--muted)}
+  .t .word,.t .thai,.t .why{display:block}
+  .t .why{font-size:11px;margin-top:4px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+  .t.seen .w::after{content:"✓";position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:50%;
+     background:var(--seen);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center}
+  h2{font-size:20px;margin:28px 0 12px;scroll-margin-top:12px}
+  .jump{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 0}
+  .jump a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:12px;
+     background:var(--card);border:1px solid var(--line);color:var(--ink);font-weight:800;text-decoration:none}
+  .t .note{display:block;font-size:12px;line-height:1.35;margin-top:6px;color:#a8341f;font-weight:700}
+  .vbar .here em{display:block;font-style:normal;font-size:12px;color:#ffd1c4;white-space:normal}
+  .removed{margin-top:26px;font-size:14px;color:var(--muted)}
+  .blurb{color:var(--muted);margin:-4px 0 12px;font-size:14px;line-height:1.45;max-width:760px}
+  .none{color:var(--muted)}
+
+  /* The card view: the real dictionary in a frame, under a bar that steps through the list. */
+  #view{position:fixed;inset:0;display:none;flex-direction:column;background:var(--bg);z-index:5}
+  #view.on{display:flex}
+  .vbar{display:flex;align-items:center;gap:10px;padding:10px 12px;padding-top:max(10px,env(safe-area-inset-top));
+        background:var(--bar);color:var(--bar-ink)}
+  .vbar button{appearance:none;border:0;border-radius:12px;background:rgba(255,255,255,.14);color:inherit;
+        font:inherit;font-weight:800;font-size:16px;min-height:48px;padding:0 16px;cursor:pointer}
+  .vbar button:disabled{opacity:.35;cursor:default}
+  .vbar .here{flex:1;min-width:0;text-align:center;line-height:1.2}
+  .vbar .here b{display:block;font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .vbar .here span{font-size:13px;opacity:.8}
+  #frame{flex:1;width:100%;border:0;background:var(--bg)}
+</style>
+</head>
+<body>
+<header>
+  <h1>New Word Pictures</h1>
+  <p class="sub">Everything that changed in Word Book since the live version: new pictures,
+  merged cards, every redraw grouped by where it came from, and the new sentence
+  speakers. Tap a picture to open its <b>real card</b> in the dictionary, with its speaker,
+  its Thai and its sentence. Use <b>Next</b> to step through them all.</p>
+  <p class="sub" id="sentences"></p>
+  <p class="tally" id="tally">Loading the list…</p>
+</header>
+<main>
+  <nav class="jump" id="jump" aria-label="Sections"></nav>
+  <div id="grid"></div>
+  <p class="removed" id="removed" hidden></p>
+</main>
+
+<section id="view" aria-label="Card in the dictionary">
+  <div class="vbar">
+    <button type="button" id="back" aria-label="Back to all pictures">← All</button>
+    <button type="button" id="prev" aria-label="Previous picture">‹</button>
+    <div class="here"><b id="hereWord"></b><span id="hereN"></span><em id="hereNote"></em></div>
+    <button type="button" id="next" aria-label="Next picture">Next ›</button>
+  </div>
+  <iframe id="frame" title="Our Dictionary"></iframe>
+</section>
+
+<script>
+(function () {
+  'use strict';
+  var sections = [], cards = [], at = -1, frameReady = null;
+  var grid = document.getElementById('grid'), tally = document.getElementById('tally');
+  var view = document.getElementById('view'), frame = document.getElementById('frame');
+  var SEEN_KEY = 'word-book-next:new-art-seen';
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  /* A per-viewer convenience only: which cards this device has opened. */
+  function readSeen() { try { return JSON.parse(localStorage.getItem(SEEN_KEY) || '{}') || {}; } catch (e) { return {}; } }
+  function markSeen(sense) {
+    var s = readSeen(); s[sense] = 1;
+    try { localStorage.setItem(SEEN_KEY, JSON.stringify(s)); } catch (e) {}
+  }
+
+  function seenKey(c) { return c.why + ':' + c.sense; }
+  /* One line under a section heading, where the section needs saying. */
+  var BLURB = {
+    'Merged cards': 'Words that had two or more cards now have one, with each meaning underneath. ' +
+      'A merged card shows only its main meaning\u2019s picture: a red note on a tile means that ' +
+      'picture is never seen on the card. correct and test now show their new pictures.',
+    'Sentence speakers (A and B)': 'These cards gained a speaker beside the sentence. Open the card ' +
+      'and tap the speaker next to the sentence to hear it.'
+  };
+  function heading(sec) {
+    var n = sec.cards.length;
+    return n <= 3 ? sec.title + ': ' + sec.cards.map(function (c) { return c.word; }).join(', ')
+                  : sec.title + ' (' + n + ')';
+  }
+
+  /* One grid per section; `cards` is the flat list Next steps through, section by section. */
+  function paint() {
+    var seen = readSeen(), n = 0, i = 0;
+    grid.innerHTML = sections.map(function (sec, si) {
+      var blurb = BLURB[sec.title] || '';
+      return '<h2 id="sec' + si + '">' + esc(heading(sec)) + '</h2>' +
+        (blurb ? '<p class="blurb">' + esc(blurb) + '</p>' : '') + '<div class="grid">' +
+        sec.cards.map(function (c) {
+          var k = i++;
+          if (seen[seenKey(c)]) n++;
+          return '<button type="button" class="t' + (seen[seenKey(c)] ? ' seen' : '') + '" data-i="' + k + '">' +
+            '<span class="w">' + (c.pic ? '<img src="' + esc(c.pic) + '" alt="" loading="lazy" decoding="async">' : '') + '</span>' +
+            '<span class="cap"><span class="word">' + esc(c.word) + '</span>' +
+            '<span class="thai" lang="th">' + esc(c.thai) + '</span>' +
+            (c.pos ? '<span class="why">' + esc(c.pos.join(' + ')) + '</span>' : '') +
+            (c.sentenceClip ? '<span class="why">sentence speaker</span>' : '') +
+            (c.note ? '<span class="note">' + esc(c.note) + '</span>' : '') +
+            '</span></button>';
+        }).join('') + '</div>';
+    }).join('');
+    document.getElementById('jump').innerHTML = sections.length > 1 ? sections.map(function (sec, si) {
+      return '<a href="#sec' + si + '">' + esc(heading(sec)) + '</a>';
+    }).join('') : '';
+    tally.textContent = cards.length + ' cards to look at' + (n ? ' · ' + n + ' opened on this device' : '');
+  }
+
+  /* The frame loads dictionary.html once. It is ready when its own data has arrived,
+     which is when its grid holds a card or says it could not open. */
+  function loadFrame() {
+    if (frameReady) return frameReady;
+    frameReady = new Promise(function (resolve, reject) {
+      frame.addEventListener('load', function () {
+        var tries = 0;
+        (function poll() {
+          var d = frame.contentDocument;
+          if (d && d.querySelector('#grid article.card')) {
+            var st = d.createElement('style');
+            st.textContent = 'article.card.review-here{outline:5px solid #b83280;outline-offset:3px;' +
+              'box-shadow:0 0 0 12px rgba(184,50,128,.18)}';
+            d.head.appendChild(st);
+            return resolve(d);
+          }
+          if (++tries > 300) { frameReady = null; return reject(new Error('dictionary did not open')); }
+          setTimeout(poll, 50);
+        })();
+      }, { once: true });
+      frame.src = 'dictionary.html';
+    });
+    return frameReady;
+  }
+
+  /* Drive the real page the way a person would: type the word into its search box. */
+  function show(i) {
+    at = i;
+    var c = cards[i];
+    document.getElementById('hereWord').textContent = c.word;
+    document.getElementById('hereN').textContent = (i + 1) + ' of ' + cards.length + ' · ' + c.why + ' · ' + c.thai;
+    document.getElementById('hereNote').textContent = c.note ||
+      (c.sentenceClip ? 'Tap the speaker beside the sentence.' : '');
+    document.getElementById('prev').disabled = i === 0;
+    document.getElementById('next').disabled = i === cards.length - 1;
+    view.classList.add('on');
+    markSeen(seenKey(c));
+    loadFrame().then(function (d) {
+      var q = d.getElementById('q');
+      q.value = c.word;
+      q.dispatchEvent(new Event('input', { bubbles: true }));
+      var hit = null;
+      /* A merged card marks each sense block with data-sense: that is the exact card. */
+      var block = d.querySelector('#grid li.sense[data-sense="' + ((c.senses && c.senses[0]) || c.sense) + '"]');
+      if (block) hit = block.closest('article.card');
+      if (!hit) Array.prototype.forEach.call(d.querySelectorAll('#grid article.card'), function (a) {
+        var img = a.querySelector('img');
+        if (!hit && img && img.getAttribute('src') === c.pic) hit = a;
+      });
+      if (!hit) {
+        /* No picture on the card (e.g. a merged card still waiting for art): fall back to
+           the card whose headword and Thai match. */
+        Array.prototype.forEach.call(d.querySelectorAll('#grid article.card'), function (a) {
+          var w = a.querySelector('.word'), t = a.querySelector('.thai');
+          if (!hit && w && t && w.textContent === c.word && t.textContent === c.thai) hit = a;
+        });
+      }
+      if (hit) {
+        hit.classList.add('review-here');
+        hit.scrollIntoView({ block: 'center' });
+      }
+    }, function () {
+      document.getElementById('hereN').textContent = 'The dictionary did not open. Tap ← All and try again.';
+    });
+  }
+
+  grid.addEventListener('click', function (e) {
+    var b = e.target.closest('button.t');
+    if (b) show(Number(b.getAttribute('data-i')));
+  });
+  document.getElementById('back').addEventListener('click', function () {
+    view.classList.remove('on'); paint();
+    var b = grid.querySelector('[data-i="' + at + '"]');
+    if (b) b.scrollIntoView({ block: 'center' });
+  });
+  document.getElementById('prev').addEventListener('click', function () { if (at > 0) show(at - 1); });
+  document.getElementById('next').addEventListener('click', function () { if (at < cards.length - 1) show(at + 1); });
+
+  fetch('new-art.json').then(function (r) { return r.json(); }).then(function (d) {
+    sections = (d.sections || (d.cards ? [{ title: 'New pictures', cards: d.cards }] : []))
+      .filter(function (sec) { return sec.cards && sec.cards.length; });
+    cards = [];
+    sections.forEach(function (sec) { cards = cards.concat(sec.cards); });
+    if (d.sentenceNote) document.getElementById('sentences').textContent = d.sentenceNote;
+    if (!cards.length) { grid.innerHTML = '<p class="none">Nothing new to look at in this copy.</p>'; tally.textContent = ''; return; }
+    paint();
+    if (d.removed && d.removed.length) {
+      var r = document.getElementById('removed');
+      r.hidden = false;
+      r.textContent = 'Cards no longer in the dictionary: ' + d.removed.map(function (x) { return x.word + ' (' + x.sense + ')'; }).join(', ') + '.';
+    }
+  }).catch(function () { tally.textContent = 'The list did not load. Reload the page.'; });
+})();
+</script>
+</body>
+</html>
