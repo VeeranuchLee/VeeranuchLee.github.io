@@ -7,7 +7,7 @@
  * category page as a card; new art only for a new category; a Toy box object opens the card
  * view (everything)"). So there are two lists, and no page names a game:
  *
- *   CATEGORIES — the objects in the room, in keyboard order. `boxes` are
+ *   CATEGORIES — the category objects in the room, in keyboard order. `boxes` are
  *     [left, top, width, height] in percent of the picture, drawn round the object with a
  *     little padding; a fifth item "ellipse" makes that tap area the ellipse inside its box
  *     (the rug). One category may own several objects: one door, one keyboard stop, several
@@ -17,6 +17,8 @@
  *                                            page, rendered by playroom/category.js;
  *                                            tools/check-playroom.py fails if it is missing);
  *       - `view: "cards"`                 -> the toy box: opens the card view of every app.
+ *   DIRECT DOORS — room objects that open one named app even when that app also belongs to a
+ *     multi-app category. `app` is an APPS id; its name, description and href come from there.
  *   APPS — every game, in card-view order (index.html's card order). `category` places it in
  *     the room. Names and descriptions are the live hub card's, word for word. `tile` is the
  *     card art (./assets/ as on index.html; `cutout: true` for a sprite that is not a square
@@ -25,7 +27,7 @@
  *   NEW APP: one APPS entry with an existing `category` — it appears in the card view and on
  *     that category's page (or turns a one-app category into a page). No new art.
  *   NEW CATEGORY: a CATEGORIES entry plus its object painted into a spare spot in the room
- *     (qa/playroom/ART-BRIEF.md keeps two free), plus its ./<id>.html shell once it has two apps.
+ *     (qa/playroom/ART-BRIEF.md notes the free spots), plus its ./<id>.html shell once it has two apps.
  *   NEW BACKGROUND: change `image` (and `width`/`height`); the boxes are percent, so a 4:3
  *     master of any size keeps them, provided each object stays inside its box.
  *
@@ -36,7 +38,7 @@
  */
 window.PLAYROOM = {
   base: "https://veeranuchlee.github.io/children-apps/",
-  image: "./playroom/scene-concept.webp",
+  image: "./playroom/scene.webp",
   width: 1448,
   height: 1086,
   /* The hub bed — the same file and the same remembered preference as index.html. */
@@ -44,35 +46,40 @@ window.PLAYROOM = {
 
   categories: [
     { id: "maths", name: "Maths", tagline: "Numbers, shapes and sums",
-      boxes: [[6.3, 11, 12.5, 19.5]] },                           /* the purple book, top shelf */
+      boxes: [[6.6, 11.8, 12.1, 16.6]] },                         /* the MAGIC MATH book, top shelf */
     { id: "words", name: "Words", tagline: "Read, spell and write",
-      boxes: [[18.8, 13, 11.7, 18]] },                            /* the pink book, top shelf */
-    /* Two objects, one door: the open animal picture book on the floor stand, and (in the
-       concept only) the tiger book on the middle shelf, which carries a painted dot and must
-       not be a dead button. Owner 2026-10-02 on the staged page: "pls check all button, i
-       can't get this one to work" — that was the floor book, before it had a door. */
-    { id: "books", name: "Stories & Books", tagline: "Picture books to read and hear",
-      boxes: [[53.5, 50.5, 18.5, 14.5], [3.5, 31.5, 14.8, 18]] },
+      boxes: [[19.2, 15.2, 10.8, 15.9]] },                        /* the OUR WORD BOOK, top shelf */
+    /* The row of spines on the middle shelf (Knowledge ... Sciences) is the Books hub. The open
+       floor book is a separate, direct Our Animal Book door below. */
+    { id: "books", name: "Books", tagline: "Picture books to read and hear",
+      boxes: [[4.1, 32.4, 13.8, 16.6]] },
     { id: "homework", name: "การบ้านปิดเทอม", tagline: "Holiday homework",
-      boxes: [[18.3, 31.5, 12.2, 18]] },                          /* the clipboard */
-    /* The maze rug, plus the Shadow Match box on the bottom shelf (it carries a painted dot). */
+      boxes: [[18.8, 33.6, 10.6, 15.2]] },                        /* the "20 MISSIONS" clipboard */
+    /* The maze rug (with the toy car), plus the SHADOW MATCH box on the bottom shelf. */
     { id: "puzzles", name: "Puzzles", tagline: "Mazes and matching",
-      boxes: [[22, 68, 54, 25, "ellipse"], [1, 50.5, 15.8, 14.5]] },
-    /* The periodic-table poster, plus the flags box on the bottom shelf (painted dot). */
+      boxes: [[23.5, 68.1, 51.1, 22.6, "ellipse"], [2.1, 52.9, 14.0, 11.6]] },
+    /* The PERIODIC TABLE poster, plus the flags box on the bottom shelf. */
     { id: "science-world", name: "Science & World", tagline: "Elements, flags and the world",
-      boxes: [[34, 18.5, 20, 20], [16.8, 50.5, 10.2, 14.5]] },
+      boxes: [[34.4, 19.2, 19.1, 18.8], [16.4, 51.7, 9.3, 11.6]] },
     { id: "art", name: "Art", tagline: "Colour and paint",
-      boxes: [[34, 38.5, 19, 27.5]] },                            /* the easel */
+      boxes: [[34.5, 38.2, 15.2, 22.6]] },                        /* the easel with the rainbow */
     { id: "space", name: "Space", tagline: "Planets, moons and stars",
-      boxes: [[56, 13, 16.5, 37]] },                              /* the mobile + telescope */
+      boxes: [[58.0, 17.0, 14.8, 13.8], [57.2, 31.1, 11.0, 18.9]] }, /* the planet mobile + the telescope */
     { id: "play", name: "Play", tagline: "Games to play",
-      boxes: [[72.5, 22, 26.5, 19.5]] },                          /* the window flowers */
+      boxes: [[73.2, 26.2, 23.8, 14.3]] },                        /* the window flower box + watering can */
     { id: "music", name: "Music", tagline: "Play, listen & explore",
-      boxes: [[72.5, 42, 25.5, 18]] },                            /* the toy piano */
+      boxes: [[71.1, 42.5, 26.2, 18.4]] },                        /* the pink toy piano */
     { id: "dress-up", name: "Dress-up", tagline: "Nails, sparkles and style",
-      boxes: [[76, 60.5, 24, 27.5]] },                            /* the vanity */
+      boxes: [[75.3, 61.2, 23.5, 27.6]] },                        /* the vanity: mirror + nail polish */
+    /* The toy blocks, bottom-left. The only object with no painted dot: a tap lifts it like the
+       others and opens the card view of every game. */
     { id: "toy-box", name: "Toy box", tagline: "Every game", view: "cards",
-      boxes: [[0.5, 82, 21.5, 18]] }                              /* the toy blocks (a toy chest in the final art) */
+      boxes: [[1.4, 82.4, 21.4, 17.6]] }
+  ],
+
+  directDoors: [
+    { id: "animal-book", app: "animal-book",
+      boxes: [[54.6, 50.5, 16.4, 14.5]] }                       /* the open parrot-and-elephant book on the floor stand */
   ],
 
   apps: [

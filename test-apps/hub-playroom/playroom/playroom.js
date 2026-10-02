@@ -17,9 +17,16 @@
   document.documentElement.style.setProperty('--ar', String(R.width / R.height));
   document.getElementById('backdrop').style.backgroundImage = cssUrl(imageUrl);
 
-  /* ── THE ROOM: one door per category, one tap area per object ── */
-  R.categories.forEach(function (c) {
-    var door = L.door(c);
+  /* ── THE ROOM: category doors plus explicit one-app doors ── */
+  var roomDoors = R.categories.slice();
+  (R.directDoors || []).forEach(function (d) {
+    var app = R.apps.filter(function (a) { return a.id === d.app; })[0];
+    if (!app) return;
+    roomDoors.push({ id: d.id, name: app.name, boxes: d.boxes,
+      _door: { kind: 'app', href: L.app(app.href), app: app } });
+  });
+  roomDoors.forEach(function (c) {
+    var door = c._door || L.door(c);
     /* What the door says to a screen reader: the category, and what is behind it. */
     var label = c.name + ' — ' + (door.kind === 'app' ? door.app.name + ': ' + door.app.desc
               : door.kind === 'page' ? door.apps.map(function (a) { return a.name; }).join(', ')
