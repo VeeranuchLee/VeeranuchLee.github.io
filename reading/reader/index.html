@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Reading Tree</title>
+<link rel="stylesheet" href="./reader.css">
+<script src="./js/tap-zoom-guard.js"></script>
+</head>
+<body>
+<main class="book" id="book" aria-live="off">
+  <section class="art" id="art">
+    <a class="shelf-back" id="shelf-back" href="../index.html" aria-label="Back to bookshelf">
+      <svg viewBox="5 5 40 38" aria-hidden="true">
+        <rect class="b1" x="9" y="12" width="7" height="24" rx="1.5" />
+        <rect class="b2" x="18" y="9" width="7" height="27" rx="1.5" />
+        <rect class="b3" x="27.5" y="14" width="6" height="22" rx="1.5" transform="rotate(-14 30.5 36)" />
+        <path class="ledge" d="M6 38.5 H42" />
+      </svg>
+    </a>
+    <div class="frame" id="frame"><img id="art-img" alt="" decoding="async"></div>
+  </section>
+  <section class="reading" id="reading">
+    <button class="nav nav-prev" id="prev" type="button" aria-label="Previous page">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M30 10 L16 24 L30 38" /></svg>
+    </button>
+    <div class="reading-mid">
+      <button class="speaker" id="speaker" type="button" aria-label="Read this page aloud" data-state="idle">
+        <svg class="icon-speak" viewBox="0 0 64 64" aria-hidden="true">
+          <path class="cone" d="M10 25 h9 l13 -11 v36 l-13 -11 h-9 z" />
+          <path class="wave w1" d="M40 24 q6 8 0 16" />
+          <path class="wave w2" d="M46 18 q11 14 0 28" />
+        </svg>
+        <svg class="icon-stop" viewBox="0 0 64 64" aria-hidden="true">
+          <rect x="19" y="19" width="26" height="26" rx="5" />
+        </svg>
+      </button>
+      <div class="text" id="text"></div>
+    </div>
+    <button class="nav nav-next" id="next" type="button" aria-label="Next page">
+      <svg class="icon-next" viewBox="0 0 48 48" aria-hidden="true"><path d="M18 10 L32 24 L18 38" /></svg>
+      <svg class="icon-again" viewBox="0 0 48 48" aria-hidden="true"><path d="M36 26 a12 12 0 1 1 -4 -11" /><path d="M33 7 L33 16 L24 16" /></svg>
+    </button>
+    <div class="dots" id="dots" aria-hidden="true"></div>
+  </section>
+</main>
+<p class="load-error" id="load-error" hidden>This book could not be opened.</p>
+<script src="./reader.js"></script>
+<script>
+// Offline worker, published copy only: a Test Hub copy has it stripped (testhub-service-worker.py).
+if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+  addEventListener('load', function () { navigator.serviceWorker.register('../service-worker.js'); });
+}
+</script>
+</body>
+</html>
