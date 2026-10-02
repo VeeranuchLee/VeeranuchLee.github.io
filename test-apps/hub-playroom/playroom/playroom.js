@@ -1,65 +1,74 @@
-/* The playroom hub: draws the doors listed in destinations.js over the room picture, and the
-   same doors as the card grid (the Cards view).
-   Nothing in here names a game. See destinations.js to add one or to replace the art. */
+/* The playroom hub: draws the CATEGORIES in destinations.js as doors over the room picture,
+   and every APP as the card grid (the Cards view). Nothing in here names a game or a category. */
 (function () {
   'use strict';
-  var R = window.PLAYROOM;
+  var R = window.PLAYROOM, L = R.lib;
   var scene = document.getElementById('scene');
   var img = document.getElementById('sceneImg');
   var grid = document.getElementById('cardGrid');
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var THAI = /[\u0E00-\u0E7F]/;
 
-  function resolve(href) {
-    try { return new URL(href, R.base || document.baseURI).href; } catch (e) { return href; }
-  }
   function cssUrl(u) { return 'url("' + String(u).replace(/"/g, '%22') + '")'; }
 
   /* The picture and its shape. Everything else is in percent of it. */
-  var imageUrl = new URL(R.image, document.baseURI).href;
+  var imageUrl = L.abs(R.image);
   img.src = imageUrl;
   document.documentElement.style.setProperty('--ar', String(R.width / R.height));
   document.getElementById('backdrop').style.backgroundImage = cssUrl(imageUrl);
 
-  R.destinations.forEach(function (d) {
-    var x = d.box[0], y = d.box[1], w = d.box[2], h = d.box[3];
-    var href = resolve(d.href);
+  /* ── THE ROOM: one door per category, one tap area per object ── */
+  R.categories.forEach(function (c) {
+    var door = L.door(c);
+    /* What the door says to a screen reader: the category, and what is behind it. */
+    var label = c.name + ' — ' + (door.kind === 'app' ? door.app.name + ': ' + door.app.desc
+              : door.kind === 'page' ? door.apps.map(function (a) { return a.name; }).join(', ')
+              : c.tagline);
+    c.boxes.forEach(function (bx, k) {
+      var x = bx[0], y = bx[1], w = bx[2], h = bx[3];
+      var a = document.createElement('a');
+      a.className = 'spot' + (bx[4] === 'ellipse' ? ' ellipse' : '');
+      a.href = door.href;
+      a.id = 'spot-' + c.id + (k ? '-' + (k + 1) : '');
+      a.dataset.id = c.id;
+      a.dataset.kind = door.kind;
+      a.setAttribute('aria-label', label);
+      /* A second object of the same category is a second tap area, not a second door:
+         keyboard and screen reader meet each category once, at its first object. */
+      if (k) { a.tabIndex = -1; a.setAttribute('aria-hidden', 'true'); }
+      if (THAI.test(c.name)) a.lang = 'th';
+      a.style.left = x + '%'; a.style.top = y + '%';
+      a.style.width = w + '%'; a.style.height = h + '%';
 
-    var a = document.createElement('a');
-    a.className = 'spot' + (d.shape === 'ellipse' ? ' ellipse' : '');
-    a.href = href;
-    a.id = 'spot-' + d.id;
-    a.dataset.id = d.id;
-    a.setAttribute('aria-label', d.name + ' — ' + d.desc);
-    if (/[\u0E00-\u0E7F]/.test(d.name)) a.lang = 'th';
-    a.style.left = x + '%'; a.style.top = y + '%';
-    a.style.width = w + '%'; a.style.height = h + '%';
+      /* The object itself, cut from the same picture so it can rise when touched. */
+      var lift = document.createElement('span');
+      lift.className = 'lift';
+      lift.setAttribute('aria-hidden', 'true');
+      lift.style.backgroundImage = cssUrl(imageUrl);
+      lift.style.backgroundSize = (10000 / w) + '% ' + (10000 / h) + '%';
+      lift.style.backgroundPosition = (w >= 100 ? 0 : x / (100 - w) * 100) + '% ' +
+                                      (h >= 100 ? 0 : y / (100 - h) * 100) + '%';
+      a.appendChild(lift);
 
-    /* The object itself, cut from the same picture so it can rise when touched. */
-    var lift = document.createElement('span');
-    lift.className = 'lift';
-    lift.setAttribute('aria-hidden', 'true');
-    lift.style.backgroundImage = cssUrl(imageUrl);
-    lift.style.backgroundSize = (10000 / w) + '% ' + (10000 / h) + '%';
-    lift.style.backgroundPosition = (w >= 100 ? 0 : x / (100 - w) * 100) + '% ' +
-                                    (h >= 100 ? 0 : y / (100 - h) * 100) + '%';
-    a.appendChild(lift);
+      /* The name, near the object. Above it, unless the object is at the top of the room;
+         pinned to its left or right edge when centring it would run off the picture. */
+      var b = document.createElement('span');
+      b.className = 'bubble' + (y < 12 ? ' below' : '') +
+                    (x + w / 2 < 12 ? ' start' : (x + w / 2 > 88 ? ' end' : ''));
+      b.setAttribute('aria-hidden', 'true');
+      b.lang = THAI.test(c.name) ? 'th' : 'en';
+      b.textContent = c.name;
+      a.appendChild(b);
 
-    /* The name, near the object. Above it, unless the object is at the top of the room;
-       pinned to its left or right edge when centring it would run off the picture. */
-    var b = document.createElement('span');
-    b.className = 'bubble' + (y < 12 ? ' below' : '') +
-                  (x + w / 2 < 12 ? ' start' : (x + w / 2 > 88 ? ' end' : ''));
-    b.setAttribute('aria-hidden', 'true');
-    b.lang = /[฀-๿]/.test(d.name) ? 'th' : 'en';
-    b.textContent = d.name;
-    a.appendChild(b);
+      scene.appendChild(a);
+    });
+  });
 
-    scene.appendChild(a);
-
-    /* The same door as a card, exactly as index.html draws one. */
+  /* ── THE CARDS: every app, exactly as index.html draws a card ── */
+  R.apps.forEach(function (d) {
     var c = document.createElement('a');
     c.className = 'card';
-    c.href = href;
+    c.href = L.app(d.href);
     c.id = 'card-' + d.id;
     c.dataset.id = d.id;
     if (d.tone) {
@@ -71,7 +80,7 @@
     art.className = 'art';
     if (d.tile) {
       var t = document.createElement('img');
-      t.src = resolve(d.tile);   /* like the hrefs: the Test Hub copy shows the live tiles */
+      t.src = L.app(d.tile);
       t.alt = ''; t.width = 96; t.height = 96;
       t.loading = 'lazy'; t.decoding = 'async';
       if (!d.cutout) t.className = 'tile';
@@ -80,7 +89,7 @@
     var n = document.createElement('span');
     n.className = 'name';
     n.textContent = d.name;
-    if (/[\u0E00-\u0E7F]/.test(d.name)) n.lang = 'th';
+    if (THAI.test(d.name)) n.lang = 'th';
     var ds = document.createElement('span');
     ds.className = 'desc';
     ds.textContent = d.desc;
@@ -88,42 +97,9 @@
     grid.appendChild(c);
   });
 
-  /* ── PRESS, THEN GO ──
-     A child must never need two taps: the first tap opens the game. But a tap that navigates
-     instantly is never seen to land, so the object lights, bounces and names itself first,
-     and the page goes a moment later. Modified clicks (new tab) and keyboard activation are
-     left to the browser. */
-  var going = false;
-  function clear() {
-    going = false;
-    Array.prototype.forEach.call(scene.querySelectorAll('.spot.on'), function (s) { s.classList.remove('on'); });
-  }
-  scene.addEventListener('pointerdown', function (e) {
-    var s = e.target.closest && e.target.closest('.spot');
-    if (!s || going) return;
-    clear();
-    s.classList.add('on');
-  });
-  scene.addEventListener('pointercancel', function () { if (!going) clear(); });
-  scene.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse' && !going) clear(); });
-  scene.addEventListener('click', function (e) {
-    var s = e.target.closest && e.target.closest('.spot');
-    if (!s) return;
-    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    if (e.detail === 0) return;          /* keyboard Enter: go straight away */
-    e.preventDefault();
-    if (going) return;
-    going = true;
-    s.classList.add('on');
-    var href = s.href;
-    setTimeout(function () { window.location.assign(href); }, reduced ? 120 : 320);
-  });
-  /* Coming Back from a game restores this page from the back-forward cache, lit as it was left. */
-  window.addEventListener('pageshow', function (e) { if (e.persisted) clear(); });
-
   /* ── ROOM OR CARDS ── owner, 2026-10-02: "add the 'card view' too pls." The room is the
-     default; the last choice is remembered on this device, and the page works the same when
-     storage is unavailable (private mode) — it just starts in the room every time. */
+     default; the last choice made with the switch is remembered on this device, and the page
+     works the same when storage is unavailable (private mode) — it just starts in the room. */
   var VIEW_KEY = 'ca_hub_view';
   var room = document.getElementById('roomView');
   var cards = document.getElementById('cardsView');
@@ -145,8 +121,49 @@
   try { saved = localStorage.getItem(VIEW_KEY); } catch (e) {}
   show(saved, false);
 
-  /* Read-only, for verification: the boxes as the page drew them. */
-  window.Playroom = { destinations: R.destinations, resolve: resolve, show: show };
+  /* ── PRESS, THEN GO ──
+     A child must never need two taps: the first tap opens the door. But a tap that navigates
+     instantly is never seen to land, so the object lights, bounces and names itself first,
+     and the page goes a moment later. Modified clicks (new tab) are left to the browser; a
+     keyboard Enter goes at once. The toy box does not navigate: it opens the card view (and
+     does not change the remembered choice — the room stays home). */
+  var going = false;
+  function clear() {
+    going = false;
+    Array.prototype.forEach.call(scene.querySelectorAll('.spot.on'), function (s) { s.classList.remove('on'); });
+  }
+  scene.addEventListener('pointerdown', function (e) {
+    var s = e.target.closest && e.target.closest('.spot');
+    if (!s || going) return;
+    clear();
+    s.classList.add('on');
+  });
+  scene.addEventListener('pointercancel', function () { if (!going) clear(); });
+  scene.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse' && !going) clear(); });
+  scene.addEventListener('click', function (e) {
+    var s = e.target.closest && e.target.closest('.spot');
+    if (!s) return;
+    var toCards = s.dataset.kind === 'cards';
+    if (!toCards && (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey)) return;
+    if (e.detail === 0) {                 /* keyboard Enter: at once */
+      if (toCards) { e.preventDefault(); show('cards', false); }
+      return;
+    }
+    e.preventDefault();
+    if (going) return;
+    going = true;
+    s.classList.add('on');
+    var href = s.href;
+    setTimeout(function () {
+      if (toCards) { clear(); show('cards', false); }
+      else window.location.assign(href);
+    }, reduced ? 120 : 320);
+  });
+  /* Coming Back from a game restores this page from the back-forward cache, lit as it was left. */
+  window.addEventListener('pageshow', function (e) { if (e.persisted) clear(); });
+
+  /* Read-only, for verification. */
+  window.Playroom = { data: R, show: show };
 })();
 
 /* ══ HUB MUSIC ══ — the code from index.html, unchanged except that the file's path comes from

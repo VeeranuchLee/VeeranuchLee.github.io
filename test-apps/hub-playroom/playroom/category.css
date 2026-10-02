@@ -1,0 +1,66 @@
+/* A category page of the playroom hub (books.html, puzzles.html, science-world.html, ...):
+   the main hub's card look on homework.html's page shape — back arrow, title, a small
+   centred grid. Shared by every category page; playroom/category.js fills it. */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#3b2a52;--ink-soft:#6b5a84;--card:#ffffff}
+/* INTERACTION-DIRECTION.md method C layer 1 on html AND body; layer 3 is ./tap-zoom-guard.js beside each page. */
+html{-webkit-text-size-adjust:100%;touch-action:manipulation}
+body{
+  font-family:'Nunito',system-ui,sans-serif;color:var(--ink);
+  min-height:100svh;display:flex;flex-direction:column;
+  touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
+  overflow-x:hidden;
+  background:
+    radial-gradient(1100px 620px at 12% -8%,  #ffe1f2 0%, rgba(255,225,242,0) 62%),
+    radial-gradient(980px  560px at 90% 4%,   #dfeaff 0%, rgba(223,234,255,0) 60%),
+    radial-gradient(900px  620px at 50% 108%, #e5fbf1 0%, rgba(229,251,241,0) 62%),
+    linear-gradient(170deg,#fdf6ff 0%,#f3f6ff 52%,#fdf8f4 100%);
+  background-attachment:fixed;
+  padding:calc(28px + env(safe-area-inset-top)) calc(20px + env(safe-area-inset-right))
+          calc(28px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-left));
+}
+.backrow{width:100%;max-width:1080px;margin:0 auto 18px}
+.back{
+  display:inline-flex;align-items:center;gap:10px;min-height:52px;
+  padding:12px 20px 12px 16px;border-radius:999px;
+  background:#fff;border:3px solid #e6e0f2;
+  box-shadow:0 5px 0 #ded6ee,0 10px 20px rgba(72,48,104,.12);
+  font-weight:900;color:#4a3168;text-decoration:none;font-size:1rem;
+  -webkit-tap-highlight-color:transparent;
+}
+.back:active{transform:translateY(3px);box-shadow:0 2px 0 #ded6ee}
+.back:focus-visible{outline:5px solid #7c4dff;outline-offset:4px}
+.back svg{width:20px;height:20px;flex:none}
+.wrap{width:100%;max-width:1080px;margin:auto}
+.wrap header{text-align:center;margin:6px 0 30px}
+h1{
+  font-family:'Fredoka One','Nunito',sans-serif;font-weight:400;
+  font-size:clamp(2rem,7vw,3.4rem);line-height:1.1;letter-spacing:.5px;
+  color:#4a3168;text-shadow:0 3px 0 rgba(255,255,255,.9);
+}
+h1:lang(th){font-family:system-ui,-apple-system,'Thonburi',sans-serif;font-weight:800;letter-spacing:0}
+.tagline{margin-top:10px;font-weight:800;font-size:clamp(.95rem,2.6vw,1.15rem);color:var(--ink-soft)}
+/* homework.html's grid: card-sized columns, centred; one column below 640px. */
+.grid{display:grid;gap:20px;grid-template-columns:repeat(var(--cols,2),minmax(196px,280px));justify-content:center}
+@media (max-width:640px){.grid{grid-template-columns:minmax(220px,340px)}}
+.card{
+  position:relative;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  gap:12px;padding:26px 18px 22px;min-height:250px;
+  border-radius:30px;background:var(--card);
+  text-decoration:none;color:var(--ink);
+  border:3px solid var(--edge,#eee);
+  box-shadow:0 9px 0 var(--shadow,#e6e6f0), 0 16px 30px rgba(72,48,104,.14);
+  transition:transform .16s ease, box-shadow .16s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.card:hover{transform:translateY(-6px);box-shadow:0 15px 0 var(--shadow,#e6e6f0),0 24px 40px rgba(72,48,104,.2)}
+.card:active{transform:translateY(5px);box-shadow:0 4px 0 var(--shadow,#e6e6f0),0 8px 16px rgba(72,48,104,.18)}
+.card:focus-visible{outline:5px solid #7c4dff;outline-offset:4px}
+.card .art{width:124px;height:124px;display:grid;place-items:center;border-radius:26px;background:var(--tint,#f6f4ff);flex:none}
+.card .art img{width:96px;height:96px;object-fit:contain;filter:drop-shadow(0 5px 9px rgba(60,40,90,.25))}
+.card .art img.tile{border-radius:20px}
+.card .name{font-weight:900;font-size:1.22rem;line-height:1.15}
+.card .desc{font-weight:700;font-size:.86rem;color:var(--ink-soft);line-height:1.35;max-width:20ch}
+.missing{text-align:center;font-weight:800;color:var(--ink-soft)}
+@media (prefers-reduced-motion:reduce){.card{transition:none}.card:hover{transform:none}}

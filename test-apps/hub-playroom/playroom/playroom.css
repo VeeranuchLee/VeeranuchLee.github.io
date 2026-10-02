@@ -266,12 +266,15 @@ body{
   .music-btn svg{width:24px;height:24px}
   .view-btn{min-height:44px;min-width:56px;font-size:13px;padding:0 10px 0 8px}
 }
-/* A phone on its side: top-left would cover the top shelf (Magic Math), so the toggle moves
-   to the bottom-left corner, which in the room is cushions and blocks — no door there. */
+/* A phone on its side: the room is letterboxed with bands left and right, so the switch stands
+   upright in the left band, clear of every door (top-left would cover the top shelf, and the
+   bottom-left corner is the toy box). */
 @media (max-height:500px){
-  .view-toggle{top:auto;bottom:calc(8px + env(safe-area-inset-bottom));left:calc(8px + env(safe-area-inset-left));padding:3px}
+  .view-toggle{top:50%;transform:translateY(-50%);flex-direction:column;padding:3px}
+  .view-btn{flex-direction:column;gap:2px;min-width:0;width:60px;padding:6px 2px;font-size:12px;border-radius:20px}
   .cards-view header{padding-top:0}
-  .cards-view{padding-bottom:calc(80px + env(safe-area-inset-bottom))}
+  .cards-view{padding-left:calc(92px + env(safe-area-inset-left))}
+}
 }
 
 @media (prefers-reduced-motion:reduce){

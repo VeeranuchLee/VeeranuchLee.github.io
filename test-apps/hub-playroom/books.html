@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Stories &amp; Books — Children Games</title>
+  <link rel="stylesheet" href="https://veeranuchlee.github.io/children-apps/fonts.css"/>
+  <meta name="theme-color" content="#f7d9ec"/>
+  <link rel="apple-touch-icon" href="https://veeranuchlee.github.io/children-apps/assets/app-192.png"/>
+  <link rel="icon" href="https://veeranuchlee.github.io/children-apps/assets/app-192.png"/>
+  <link rel="stylesheet" href="./playroom/category.css"/>
+  <!-- A CATEGORY PAGE of the playroom hub (prototype, 2026-10-02). Every category page is this
+       same shell; only data-category differs. Its cards come from playroom/destinations.js. -->
+</head>
+<body data-category="books">
+  <div class="backrow">
+    <a class="back" id="back" href="./" aria-label="Back to Children Games">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7"/></svg>
+      <span>Children Games</span>
+    </a>
+  </div>
+  <div class="wrap">
+    <header>
+      <h1 id="catTitle">Stories &amp; Books</h1>
+      <p class="tagline" id="catLine"></p>
+    </header>
+    <main class="grid" id="catGrid"></main>
+  </div>
+  <noscript><p class="missing">These games need JavaScript. <a href="./">Back to Children Games</a>.</p></noscript>
+  <script src="./tap-zoom-guard.js"></script>
+  <script src="./playroom/destinations.js"></script>
+  <script src="./playroom/category.js"></script>
+</body>
+</html>
