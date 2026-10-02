@@ -1,11 +1,12 @@
-/* The playroom hub: draws the doors listed in destinations.js over the room picture.
+/* The playroom hub: draws the doors listed in destinations.js over the room picture, and the
+   same doors as the card grid (the Cards view).
    Nothing in here names a game. See destinations.js to add one or to replace the art. */
 (function () {
   'use strict';
   var R = window.PLAYROOM;
   var scene = document.getElementById('scene');
   var img = document.getElementById('sceneImg');
-  var list = document.getElementById('listItems');
+  var grid = document.getElementById('cardGrid');
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function resolve(href) {
@@ -55,14 +56,36 @@
 
     scene.appendChild(a);
 
-    var li = document.createElement('li');
-    var la = document.createElement('a');
-    la.href = href;
-    la.innerHTML = '<span class="n"></span><span class="d"></span>';
-    la.firstChild.textContent = d.name;
-    la.lastChild.textContent = d.desc;
-    li.appendChild(la);
-    list.appendChild(li);
+    /* The same door as a card, exactly as index.html draws one. */
+    var c = document.createElement('a');
+    c.className = 'card';
+    c.href = href;
+    c.id = 'card-' + d.id;
+    c.dataset.id = d.id;
+    if (d.tone) {
+      c.style.setProperty('--edge', d.tone[0]);
+      c.style.setProperty('--shadow', d.tone[1]);
+      c.style.setProperty('--tint', d.tone[2]);
+    }
+    var art = document.createElement('span');
+    art.className = 'art';
+    if (d.tile) {
+      var t = document.createElement('img');
+      t.src = resolve(d.tile);   /* like the hrefs: the Test Hub copy shows the live tiles */
+      t.alt = ''; t.width = 96; t.height = 96;
+      t.loading = 'lazy'; t.decoding = 'async';
+      if (!d.cutout) t.className = 'tile';
+      art.appendChild(t);
+    }
+    var n = document.createElement('span');
+    n.className = 'name';
+    n.textContent = d.name;
+    if (/[\u0E00-\u0E7F]/.test(d.name)) n.lang = 'th';
+    var ds = document.createElement('span');
+    ds.className = 'desc';
+    ds.textContent = d.desc;
+    c.appendChild(art); c.appendChild(n); c.appendChild(ds);
+    grid.appendChild(c);
   });
 
   /* ── PRESS, THEN GO ──
@@ -98,24 +121,32 @@
   /* Coming Back from a game restores this page from the back-forward cache, lit as it was left. */
   window.addEventListener('pageshow', function (e) { if (e.persisted) clear(); });
 
-  /* ── ALL GAMES LIST ── */
-  var btn = document.getElementById('listBtn');
-  var panel = document.getElementById('listPanel');
-  function setOpen(open) {
-    panel.hidden = !open;
-    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    if (open) { var f = panel.querySelector('a'); if (f) f.focus(); }
+  /* ── ROOM OR CARDS ── owner, 2026-10-02: "add the 'card view' too pls." The room is the
+     default; the last choice is remembered on this device, and the page works the same when
+     storage is unavailable (private mode) — it just starts in the room every time. */
+  var VIEW_KEY = 'ca_hub_view';
+  var room = document.getElementById('roomView');
+  var cards = document.getElementById('cardsView');
+  var buttons = document.querySelectorAll('.view-btn');
+  function show(view, remember) {
+    if (view !== 'cards') view = 'room';
+    room.hidden = view !== 'room';
+    cards.hidden = view !== 'cards';
+    Array.prototype.forEach.call(buttons, function (b) {
+      b.setAttribute('aria-pressed', b.dataset.view === view ? 'true' : 'false');
+    });
+    document.documentElement.setAttribute('data-view', view);
+    if (remember) { try { localStorage.setItem(VIEW_KEY, view); } catch (e) {} }
   }
-  btn.addEventListener('click', function () { setOpen(panel.hidden); });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && !panel.hidden) { setOpen(false); btn.focus(); }
+  Array.prototype.forEach.call(buttons, function (b) {
+    b.addEventListener('click', function () { show(b.dataset.view, true); });
   });
-  document.addEventListener('pointerdown', function (e) {
-    if (!panel.hidden && !panel.contains(e.target) && !btn.contains(e.target)) setOpen(false);
-  });
+  var saved = null;
+  try { saved = localStorage.getItem(VIEW_KEY); } catch (e) {}
+  show(saved, false);
 
   /* Read-only, for verification: the boxes as the page drew them. */
-  window.Playroom = { destinations: R.destinations, resolve: resolve };
+  window.Playroom = { destinations: R.destinations, resolve: resolve, show: show };
 })();
 
 /* ══ HUB MUSIC ══ — the code from index.html, unchanged except that the file's path comes from

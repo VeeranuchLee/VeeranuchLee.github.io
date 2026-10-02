@@ -27,7 +27,7 @@
 <!-- The picture already says "Children Games / Pick a game to play" in the concept art; the
      final art carries no painted text, so the real heading is here, read by screen readers. -->
 <h1 class="sr-only">Children Games</h1>
-<p class="sr-only">Pick a game to play: every object in the room is a game. Tap one to open it.</p>
+<p class="sr-only">Pick a game to play.</p>
 
 <!-- The hub's own music control, unchanged from index.html: same place, same states. -->
 <button class="music-btn" id="musicBtn" type="button" aria-pressed="false" aria-label="Play music">
@@ -39,28 +39,46 @@
 
 <div class="backdrop" id="backdrop" aria-hidden="true"></div>
 
-<main class="stage">
+<main class="stage" id="roomView">
   <nav class="scene" id="scene" aria-label="Games in the playroom">
     <img class="scene-img" id="sceneImg" alt="" draggable="false"/>
     <!-- hotspots are added here from destinations.js -->
   </nav>
 </main>
 
-<!-- Everything reachable without the picture: the same links as a plain list. -->
-<button class="list-btn" id="listBtn" type="button" aria-expanded="false" aria-controls="listPanel">
-  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-    <rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/>
-    <rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/>
-  </svg>
-  <span>All games</span>
-</button>
-<div class="list-panel" id="listPanel" role="dialog" aria-modal="false" aria-labelledby="listTitle" hidden>
-  <h2 id="listTitle">All games</h2>
-  <ul id="listItems"></ul>
-  <p class="disclosure">Made with love for little learners. The voices and the background music we
-    made for these games are AI-generated — no voice here is a recording of a real person, and no
-    music is a recording of real players. Some games use your device’s own built-in speech instead.</p>
+<!-- ROOM or CARDS. Owner, 2026-10-02: "add the 'card view' too pls." Two big picture-and-word
+     buttons, top-left, opposite the music button; the pressed one is the view on screen. The room
+     is the default; the last choice is remembered on this device. -->
+<div class="view-toggle" role="group" aria-label="How to show the games">
+  <button type="button" class="view-btn" id="viewRoom" data-view="room" aria-pressed="true">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 11.2 12 4l9 7.2V20a1 1 0 0 1-1 1h-5.2v-5.6H9.2V21H4a1 1 0 0 1-1-1z"/></svg>
+    <span>Room</span>
+  </button>
+  <button type="button" class="view-btn" id="viewCards" data-view="cards" aria-pressed="false">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/>
+      <rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/>
+    </svg>
+    <span>Cards</span>
+  </button>
 </div>
+
+<!-- THE CARD VIEW: index.html's grid, drawn from the same destinations.js. It is also the plain
+     list of every door for anyone the picture does not suit. -->
+<section class="cards-view" id="cardsView" aria-labelledby="cardsTitle" hidden>
+  <div class="wrap">
+    <header>
+      <h2 class="cards-title" id="cardsTitle">Children <em>Games</em></h2>
+      <p class="tagline">Pick a game to play</p>
+    </header>
+    <div class="grid" id="cardGrid"></div>
+    <footer>Made with love for little learners
+      <span class="disclosure">The voices and the background music we made for these games are
+        AI-generated — no voice here is a recording of a real person, and no music is a
+        recording of real players. Some games use your device’s own built-in speech instead.</span>
+    </footer>
+  </div>
+</section>
 
 <noscript><p class="noscript">This room needs JavaScript. <a href="https://veeranuchlee.github.io/children-apps/">Open the games list</a>.</p></noscript>
 
