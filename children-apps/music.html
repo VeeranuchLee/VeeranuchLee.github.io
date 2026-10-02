@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>Music — Children Games</title>
-  <meta name="description" content="Music for children — listen and guess with Classical Music, or play and make music on the Toy Keyboard."/>
+  <meta name="description" content="Music for children — listen and guess with Classical Music, play and make music on the Toy Keyboard, or explore songs in the Music Book."/>
   <link rel="stylesheet" href="./fonts.css"/>
   <meta name="theme-color" content="#f7d9ec"/>
   <link rel="apple-touch-icon" href="./assets/app-192.png"/>
@@ -204,22 +204,32 @@
     /* ---- the Music hub, and only what it needs beyond the main hub ----------
        The style block above is the main hub's, copied verbatim so the two pages
        cannot drift into looking like different products. Everything below is the
-       difference: a back arrow, and a grid that holds TWO cards without looking
-       like a page that lost its other four.
+       difference: a back arrow, a music bed, a backdrop hook, and a grid that holds
+       THREE cards without looking like a page that lost its other eight.
 
        WHY THE GRID IS CAPPED RATHER THAN auto-fit.
        The hub's grid is `repeat(auto-fit,minmax(220px,1fr))`, which is right for
        eleven cards and wrong for two: on a wide tablet it stretches two cards to
        half the screen each and the page reads as unfinished. Capping the track
        count at the number of cards and centring the whole grid keeps them card-
-       sized and deliberate. Adding Music Book later means changing 2 to 3 in one
-       place -- `--cards` -- and nothing else. */
+       sized and deliberate. `--cards` on the <main> sets the track count.
+
+       RETUNED FOR THREE, 2026-10-01, when Music Book joined. The old 220px floor
+       made three tracks need 700px plus 40px of page padding -- 740px, which fits a
+       768px-wide iPad in portrait with 28px to spare and nothing at all for a split
+       view. 196px is the narrowest a card can be before "Play and make music" wraps
+       to three lines; three of those plus two gaps is 628px, so the row holds at
+       any width the 640px breakpoint below lets it reach. The 290px ceiling keeps
+       three cards (910px) inside the 1080px wrap at 1024px landscape without them
+       growing into slabs. */
     .music-grid{
-      grid-template-columns:repeat(var(--cards,2),minmax(220px,300px));
+      grid-template-columns:repeat(var(--cards,3),minmax(196px,290px));
       justify-content:center;
     }
 
-    /* TWO CARDS MUST NOT LOOK LIKE A PAGE THAT LOST ITS OTHER NINE.
+    /* A SHORT ROW OF CARDS MUST NOT LOOK LIKE A PAGE THAT LOST ITS OTHER NINE.
+       (Written for two cards; still true with three -- one row of three is the same
+       height as one row of two.)
        The main hub has eleven cards and fills the screen on its own. This page has
        two, and left at the top of a 1024px-tall tablet they sit above roughly half a
        screen of nothing -- which reads as unfinished rather than focused. So the page
@@ -263,6 +273,50 @@
        (.c-music above); this is its partner on the same screen, warm against that
        cool so the pair reads as two different things rather than one thing twice. */
     .c-keys{--edge:#e08a2e;--shadow:#b06616;--tint:#fff1dd}
+    /* Music Book's colour, added 2026-10-01. Violet: cool like Classical Music's teal
+       and warm-leaning like Toy Keyboard's orange without being either, so three
+       cards read as three different doors. The main hub's Magic Math card is a
+       pinker purple (#a855c7) on a different page; this one is bluer. */
+    .c-book{--edge:#7c5ce0;--shadow:#5a3cb8;--tint:#efeaff}
+
+    /* ── The painted backdrop: wired, not yet painted (2026-10-01) ──
+       The owner asked for "nice bg to match too". The painting is tomorrow's image
+       job (brief: children-apps/qa/music-hub-bg-brief.md, private); this is the hook
+       it lands in, built the way the word hub and the Space hub wire theirs -- a
+       fixed .backdrop layer under everything, the page gradient left exactly where
+       it is underneath -- with two differences, both on purpose:
+
+       1. IT IS SWITCHED BY A CLASS, NOT BY THE FILE EXISTING. `<html>` gets
+          `has-backdrop` only when the art has landed. Until then the layer has no
+          image, so the page is today's gradient and floating shapes, and no browser
+          asks for a file that is not there (a CSS url() to a missing file is a 404
+          on every load, on the live site, forever, if nobody comes back). Landing
+          the art is: add the two .webp files to assets/, add `has-backdrop` to the
+          <html> tag, add both files to the worker's SHELL, bump the cache.
+       2. TWO CROPS, NOT ONE. The word hub found that `cover` on a 16:9 picture in a
+          3:4 portrait iPad crops away the decorated edges and leaves only the empty
+          middle. So landscape and portrait each get a picture painted for them.
+
+       The veil is LIGHT, not the word hub's dark vignette: this page is pastel with
+       dark ink text, so the middle is lifted toward white to keep the cards calm,
+       and the edges keep the painting's colour. */
+    .backdrop{position:fixed;inset:0;z-index:0;pointer-events:none;display:none}
+    .has-backdrop .backdrop{
+      display:block;
+      background-image:url('./assets/music-backdrop-landscape.webp');
+      background-size:cover;background-position:center;background-repeat:no-repeat;
+    }
+    @media (orientation:portrait){
+      .has-backdrop .backdrop{background-image:url('./assets/music-backdrop-portrait.webp')}
+    }
+    .has-backdrop .backdrop::after{
+      content:'';position:absolute;inset:0;
+      background:radial-gradient(ellipse at center,
+        rgba(255,255,255,.55) 0%, rgba(255,255,255,.28) 48%, rgba(255,255,255,0) 100%);
+    }
+    /* The blurred shapes stand in for a painting; once there is one they would only
+       smudge it. */
+    .has-backdrop .sky{display:none}
 
     /* Touch hygiene, matching the other apps (2026-09-15). A child drags and rests
        fingers; the browser reads that as selection and as zoom. */
@@ -270,7 +324,17 @@
   </style>
 </head>
 <body>
+  <div class="backdrop" aria-hidden="true"></div>
   <div class="sky" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <!-- The main hub's music button, same markup, same corner. Starts "off" and is
+       corrected by the script below the moment it runs. -->
+  <button class="music-btn" id="musicBtn" type="button" aria-pressed="false" aria-label="Play music">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path class="note" d="M20 3.5v11.2a3.3 3.3 0 1 1-2-3V7.9l-7 1.6v8.2a3.3 3.3 0 1 1-2-3V6.3l11-2.8z"/>
+      <line class="slash" x1="3.4" y1="3.4" x2="20.6" y2="20.6"/>
+    </svg>
+  </button>
 
   <div class="backrow">
     <a class="back" href="./" aria-label="Back to Children Games">
@@ -285,11 +349,13 @@
       <p class="tagline">Play, listen &amp; explore</p>
     </header>
 
-    <!-- TWO CARDS TODAY, THREE LATER. Music Book is deliberately absent rather than
+    <!-- THREE CARDS. Music Book was deliberately absent until it was live rather than
          shown disabled: a card a child can see and cannot open is a promise the app
-         breaks every time they try it. When it is ready it is one more <a> here and
-         `--cards:3` on the grid. -->
-    <main class="grid music-grid" style="--cards:2">
+         breaks every time they try it. It joined on 2026-10-01 (owner: "pls also
+         prepare to promote musicbook to main hub, on this hub") once
+         https://veeranuchlee.github.io/music-book/ was serving the same index.html
+         and music-book-v5 worker as private main. -->
+    <main class="grid music-grid" style="--cards:3">
       <a class="card c-music" href="../magic-math/classical-music.html">
         <span class="art"><img src="./assets/classical-music.webp" alt="" width="96" height="96"/></span>
         <span class="name">Classical Music</span>
@@ -301,8 +367,124 @@
         <span class="name">Toy Keyboard</span>
         <span class="desc">Play and make music</span>
       </a>
+
+      <!-- The art is Music Book's own music-box companion (music-book/assets/
+           companions/music-box.webp), trimmed and centred on a 192px canvas -- no new
+           artwork. A cut-out sprite, so no `tile` class, like Petal Kingdom's. -->
+      <a class="card c-book" href="../music-book/">
+        <span class="art"><img src="./assets/music-book.webp" alt="" width="96" height="96"/></span>
+        <span class="name">Music Book</span>
+        <span class="desc">Explore songs</span>
+      </a>
     </main>
   </div>
 
+<script>
+  /* NO SERVICE WORKER REGISTRATION HERE, deliberately unchanged: the main hub's
+     index.html registers ./service-worker.js, whose scope is this whole directory, so
+     this page is already controlled by it once the hub has been opened once.
+
+     ══ MUSIC HUB BED ══ (2026-10-01, owner: "make music bed for this hub")
+     The main hub's player, copied rather than shared so neither page can break the
+     other, with two changes: its own bed and its own level. Everything its comments
+     say holds here too -- off by default, remembered, armed on the next tap when a
+     remembered "on" meets the autoplay rule, and not precached (the worker stores it
+     on first play). AUDIO-DIRECTION.md decision 10a: a hub gets a bed, a game does
+     not; Classical Music, Toy Keyboard and Music Book behind these cards stay as
+     they are.
+
+     THE SAME `ca_music` PREFERENCE AS THE MAIN HUB, on purpose. Same origin, same
+     button in the same corner one tap apart: a child who switched music off on the
+     front page should not find it playing on the next one, and the reverse. Each
+     page plays its own bed under that one switch. */
+  var Music = (function () {
+    var SRC = './audio/music-hub-bed.m4a';
+    var KEY = 'ca_music';
+    /* 0.30, not the main hub's 0.22: this bed measures -18.9 dBFS RMS against hub-bed's
+       -15.6, so 0.30 lands it at the same loudness a child just heard one page up
+       (0.22 x 10^(3.3/20) = 0.32, rounded down to stay behind the room). */
+    var FULL = 0.30;
+    var RAMP_MS = 900, STEP_MS = 50;
+    var el = null, ramp = 0, armed = false, pref = false;
+    try { pref = localStorage.getItem(KEY) === '1'; } catch (e) {}
+
+    var btn = document.getElementById('musicBtn');
+
+    function paint() {
+      btn.setAttribute('aria-pressed', pref ? 'true' : 'false');
+      btn.setAttribute('aria-label', pref ? 'Stop music' : 'Play music');
+      /* The pulse tracks what is AUDIBLE, not what is preferred: while a remembered
+         preference is still waiting on a first tap, the note is pink but nothing throbs,
+         which is the truth of that moment. */
+      btn.classList.toggle('playing', !!(el && !el.paused));
+    }
+
+    function fadeTo(v, thenPause) {
+      if (!el) return;
+      if (ramp) { clearInterval(ramp); ramp = 0; }
+      var from = el.volume, steps = Math.max(1, Math.round(RAMP_MS / STEP_MS)), i = 0;
+      ramp = setInterval(function () {
+        i++;
+        try { el.volume = Math.max(0, Math.min(1, from + (v - from) * (i / steps))); } catch (e) {}
+        if (i >= steps) {
+          clearInterval(ramp); ramp = 0;
+          if (thenPause && el) { try { el.pause(); } catch (e) {} }
+          paint();
+        }
+      }, STEP_MS);
+    }
+
+    function arm() {
+      if (armed) return;
+      armed = true;
+      var go = function () {
+        window.removeEventListener('pointerdown', go, true);
+        armed = false;
+        apply();
+      };
+      window.addEventListener('pointerdown', go, true);
+    }
+
+    function apply() {
+      if (!pref) {
+        if (el && !el.paused) fadeTo(0, true); else paint();
+        return;
+      }
+      if (!el) {
+        try { el = new Audio(SRC); } catch (e) { return; }
+        el.loop = true;
+        el.preload = 'none';
+        el.volume = 0;
+        el.addEventListener('playing', paint);
+        el.addEventListener('pause', paint);
+      }
+      el.volume = 0;
+      var p;
+      try { p = el.play(); } catch (e) { arm(); return; }
+      if (p && p.then) p.then(function () { fadeTo(FULL, false); paint(); }).catch(arm);
+      else { fadeTo(FULL, false); paint(); }
+    }
+
+    btn.addEventListener('click', function () {
+      pref = !pref;
+      try { localStorage.setItem(KEY, pref ? '1' : '0'); } catch (e) {}
+      /* The click itself is the user gesture, so this is the one path where play() is
+         reliably allowed. */
+      apply();
+      paint();
+    });
+
+    paint();
+    apply();
+
+    /* Read-only, for verification. The element is never added to the document, so there
+       is otherwise no way to tell from outside whether the bed is actually playing or
+       merely intended to be. */
+    return { state: function () {
+      return { pref: pref, exists: !!el, playing: !!(el && !el.paused),
+               volume: el ? +el.volume.toFixed(3) : null, armed: armed, src: SRC };
+    } };
+  })();
+</script>
 </body>
 </html>

@@ -97,8 +97,15 @@
  *   v35 2026-10-01  The ป.2 October homework card joins the hub (owner: "publish on main
  *                  hub pls"). Its tile, `assets/october-homework.webp`, is the page's own
  *                  robot-reader art on a soft backing — no new artwork.
+ *   v36 2026-10-01  The Music hub (music.html) gains its third card, Music Book (owner:
+ *                  "pls also prepare to promote musicbook to main hub, on this hub"), its
+ *                  own music bed `audio/music-hub-bed.m4a` behind the same off-by-default
+ *                  button as the main hub, and a class-switched hook for a painted
+ *                  backdrop that is not painted yet. SHELL is unchanged on purpose:
+ *                  music.html and its card art were never precached (they are cached on
+ *                  first visit by the fetch handler below), and the bed is off by default.
  */
-const CACHE_NAME = "children-apps-v35";
+const CACHE_NAME = "children-apps-v36";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
