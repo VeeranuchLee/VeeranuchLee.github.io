@@ -104,8 +104,12 @@
  *                  backdrop that is not painted yet. SHELL is unchanged on purpose:
  *                  music.html and its card art were never precached (they are cached on
  *                  first visit by the fetch handler below), and the bed is off by default.
+ *   v37 2026-10-02  The Read & Write card joins the hub beside the October homework (owner:
+ *                  "also, promote การบ้านปิดเทอม read&write to main hub pls."), linking the
+ *                  new app at /read-write/. Its tile, `assets/read-write.webp`, is the app's
+ *                  own day 1 hero (the penguin huddle) resized — no new artwork.
  */
-const CACHE_NAME = "children-apps-v36";
+const CACHE_NAME = "children-apps-v37";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
@@ -130,6 +134,7 @@ const SHELL = [
   "./assets/periodic-table.webp",
   "./assets/nail-salon.webp",
   "./assets/october-homework.webp",
+  "./assets/read-write.webp",
   "./assets/app-192.png",
   "./assets/app-512.png",
 ];
