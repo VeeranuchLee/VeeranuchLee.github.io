@@ -55,7 +55,8 @@
       margin-top:-14px;text-align:center;text-shadow:0 2px 8px rgba(0,0,0,.5);
     }
 
-    /* FOUR SECTIONS, and room for the next one. Auto-fit, so a themed word game --
+    /* FOUR SECTIONS (five since 2026-10-01; see FIVE CARDS, BALANCED below), and room for
+       the next one. Auto-fit, so a themed word game --
        Mermaid Words is the one on the roadmap -- is a card added below and nothing
        else: Children Games does not have to be touched, republished, or even know. */
     .cards{
@@ -88,6 +89,28 @@
     .c-spell {background:linear-gradient(160deg,#a78bfa,#7c3aed);box-shadow:0 8px 0 #5b21b6,0 14px 28px rgba(124,58,237,.35)}
     .c-write {background:linear-gradient(160deg,#f0c14b,#c98a10);box-shadow:0 8px 0 #96650a,0 14px 28px rgba(201,138,16,.35)}
     .c-exam  {background:linear-gradient(160deg,#f79172,#e05a34);box-shadow:0 8px 0 #ad4022,0 14px 28px rgba(224,90,52,.35)}
+    /* Bookshelf (owner, 2026-10-01): Reading Tree's daily picture books. Deep teal, so it
+       stands apart from the berry, violet, gold and coral above. */
+    .c-books {background:linear-gradient(160deg,#3fb6a8,#17786f);box-shadow:0 8px 0 #0f544e,0 14px 28px rgba(23,120,111,.35)}
+
+    /* FIVE CARDS, BALANCED. auto-fit alone leaves the fifth card an orphan: 2+2+1 on a
+       768px iPad, 3+2 hard-left at 1024. So, from two columns up, the layout is set by hand:
+       two columns with the Bookshelf card wide across the bottom (icon beside its words), and
+       on a wide screen three over two with the lower pair centred. A sixth card means
+       revisiting these two rules. */
+    .card-words{display:contents}
+    @media (min-width:560px){
+      .cards{grid-template-columns:repeat(2,1fr)}
+      .c-books{grid-column:1 / -1;flex-direction:row;justify-content:center;gap:22px;min-height:150px;text-align:left}
+      .c-books .card-words{display:flex;flex-direction:column;gap:8px}
+    }
+    @media (min-width:940px){
+      .cards{grid-template-columns:repeat(6,1fr)}
+      .cards .card{grid-column:span 2}
+      .cards .c-exam{grid-column:2 / span 2}
+      .c-books{flex-direction:column;justify-content:flex-start;gap:12px;min-height:190px;text-align:center}
+      .c-books .card-words{align-items:center}
+    }
 
     footer{font-size:.8rem;font-weight:700;opacity:.72;text-align:center;max-width:44ch;line-height:1.5}
 
@@ -238,6 +261,16 @@
       <img src="assets/icons/spelling-exam.webp" alt="" width="104" height="104"/>
       Spelling Exam
       <small>See the picture, build the word, then spell it</small>
+    </a>
+
+    <!-- BOOKSHELF (owner, 2026-10-01: "pls also promote the bookshelf to the main hub, put it
+         on this hub"). Opens Reading Tree's Bookshelf (reading-app/, published at /reading/);
+         ?from=wordbook makes its back arrow return here. Absolute, like the two cards above,
+         because it is a separate deploy in the same public repository. -->
+    <a class="card c-books" href="https://veeranuchlee.github.io/reading/?from=wordbook">
+      <img src="assets/icons/bookshelf.webp" alt="" width="104" height="104"/>
+      <span class="card-words">Bookshelf
+      <small>Read a picture book every day</small></span>
     </a>
   </div>
 

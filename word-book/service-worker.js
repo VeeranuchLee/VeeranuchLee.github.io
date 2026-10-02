@@ -25,15 +25,46 @@
    is off by default, so precaching it would add 864 KB to every child's first install to
    serve a feature most will never turn on. It is cached the first time it actually plays,
    by the fetch handler's generic same-origin branch below (the comment on that branch
-   already names this exact file). */
-const CACHE_NAME='word-book-v5';
+   already names this exact file).
+
+   v5 -> v6, 2026-09-28: CG-250 round 7 owner verdicts landed. Only bow.ribbon-knot's
+   clip changed (ships the IPA-turbo take; among/all/and/ago keep their current shipped
+   clip unchanged, no file touched) -- coordination/tasks/2026-09-28-2029-claude-word-
+   clips-r7-verdicts.md. A worker bump only; this arms a release candidate but does not
+   publish it -- production publish still needs the owner's separate, SHA-bound
+   approval.
+
+   v6 -> v7, 2026-09-29: the owner lifted the Word Book freeze for exactly PR #1074 and
+   #1075 ("lift C and D pls") -- coordination/tasks/2026-09-29-2026-claude-wordbook-
+   merge-cd.md. #1074 shipped the letter-C verdict clips (7 IPA takes + 1 sentence cut);
+   #1075 shipped sentence audio for the rest of C and all of D (105 clips). Neither PR
+   bumped CACHE_NAME on its own branch (the held PR #1073 was going to carry v6->v7, but
+   it stays held and unmerged), so installed devices would keep the old word/sentence
+   clips without this bump. A worker bump only; this arms a release candidate but does
+   not publish it -- production publish still needs the owner's separate, SHA-bound
+   approval.
+
+   NOT BUMPED FOR THE 2026-10-01 BOOKSHELF CARD. assets/icons/bookshelf.webp joins SHELL
+   (the hub's fifth card, linking to Reading Tree at /reading/), but v7 has never been
+   published -- live /word-book/ served word-book-v5 when this was written -- so v7 is
+   already ahead of live and one unpublished version is enough, the same reasoning as the
+   2026-09-22 word clips above.
+
+   v7 -> v8, 2026-10-02: letters C and D are enabled (data/letters.json), owner, verbatim:
+   "today's goal : i want C and D to be finished." 47 C/D pictures, 7 C/D word clips, the
+   new click card's sentence clip and data/dictionary.json all change under unchanged URLs
+   -- coordination/tasks/2026-10-02-0812-claude-wordbook-cd-release.md. v7 was never
+   published either, so this is belt and braces: it marks the C/D candidate as its own
+   cache generation. A worker bump only; this arms a release candidate but does not
+   publish it -- production publish still needs the owner's separate, SHA-bound approval. */
+const CACHE_NAME='word-book-v8';
 const SHELL=['./','./index.html','./dictionary.html','./fonts.css',
   './fonts/Nunito-latin.woff2','./fonts/Nunito-latin-ext.woff2','./fonts/FredokaOne-latin.woff2',
   './manifest.webmanifest','./data/dictionary.json','./data/letters.json','./word-audio.js',
   './sentence-audio.js','./audio/sentences/rendered.json',
   './assets/icons/dictionary.webp','./assets/icons/spelling.webp',
   './assets/icons/writing-book.webp','./assets/icons/spelling-exam.webp',
-  './assets/backdrop.webp'];
+  './assets/icons/bookshelf.webp','./assets/backdrop.webp'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(SHELL))));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith('word-book-v')&&k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 /* THE SPOKEN WORDS (audio/words/*.m4a, 2,020 clips, 26 MB) -- cached on first play,
