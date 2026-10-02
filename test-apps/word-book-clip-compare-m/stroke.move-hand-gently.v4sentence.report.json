@@ -1,0 +1,82 @@
+{
+ "sense": "stroke.move-hand-gently",
+ "word": "stroke",
+ "sentence": "I gently stroke Vanilla's back.",
+ "char_span": [
+  9,
+  15
+ ],
+ "word_index": 2,
+ "words_in_sentence": 5,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.8,
+  1.2
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.72,
+  "next_char_start": 1.28
+ },
+ "energy_dbfs_at_raw_edges": [
+  -24.7,
+  -52.6
+ ],
+ "quietest_near_start": {
+  "t": 0.755,
+  "dbfs": -28.0
+ },
+ "quietest_near_end": {
+  "t": 1.225,
+  "dbfs": -72.8
+ },
+ "refined": true,
+ "edge_rule": [
+  "gap-min",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  0.755,
+  1.2449
+ ],
+ "edge_shift_ms_vs_raw": [
+  -45.0,
+  44.9
+ ],
+ "energy_dbfs_at_cut": [
+  -28.0,
+  -56.2
+ ],
+ "word_audio_s": 0.4899,
+ "lead_tail_silence_s": [
+  0.135,
+  0.283
+ ],
+ "gain_db": 5.21,
+ "peak_dbfs_after": -3.93,
+ "level_to": "word-book/audio/words/stroke.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/stroke.move-hand-gently.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/stroke.move-hand-gently.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  18.5
+ ],
+ "soft_move_ms": [
+  0.0,
+  12.5
+ ],
+ "flags": [
+  {
+   "flag": "unreleased-stop",
+   "why": "ends in a stop before \"Vanilla's\" (a consonant): usually unreleased in connected speech",
+   "release_measured": true,
+   "measurement": "release at 0.927 s (-42 dBFS over a -71 dBFS closure)"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -28.0 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

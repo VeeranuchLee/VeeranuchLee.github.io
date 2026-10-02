@@ -1,0 +1,71 @@
+{
+ "sense": "several.more-than-two",
+ "word": "several",
+ "sentence": "Several butterflies settle on the flowers.",
+ "char_span": [
+  0,
+  7
+ ],
+ "word_index": 0,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.0,
+  0.4
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.0,
+  "next_char_start": 0.48
+ },
+ "energy_dbfs_at_raw_edges": [
+  -180.0,
+  -18.5
+ ],
+ "quietest_near_start": {
+  "t": 0.0,
+  "dbfs": -180.0
+ },
+ "quietest_near_end": {
+  "t": 0.51,
+  "dbfs": -59.3
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  0.0,
+  0.5395
+ ],
+ "edge_shift_ms_vs_raw": [
+  0.0,
+  139.5
+ ],
+ "energy_dbfs_at_cut": [
+  -180.0,
+  -62.1
+ ],
+ "word_audio_s": 0.5395,
+ "lead_tail_silence_s": [
+  0.145,
+  0.333
+ ],
+ "gain_db": 1.57,
+ "peak_dbfs_after": -5.13,
+ "level_to": "word-book/audio/words/several.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/several.more-than-two.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/several.more-than-two.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  6.0,
+  26.0
+ ],
+ "soft_move_ms": [
+  -0.0,
+  20.0
+ ],
+ "flags": []
+}

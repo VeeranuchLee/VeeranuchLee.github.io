@@ -1,0 +1,76 @@
+{
+ "sense": "thousand.number",
+ "word": "thousand",
+ "sentence": ", thousand.",
+ "char_span": [
+  2,
+  10
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.743,
+  1.393
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.65,
+  "next_char_start": 1.393
+ },
+ "energy_dbfs_at_raw_edges": [
+  -84.3,
+  -33.4
+ ],
+ "quietest_near_start": {
+  "t": 0.708,
+  "dbfs": -86.2
+ },
+ "quietest_near_end": {
+  "t": 1.423,
+  "dbfs": -39.5
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.6659,
+  1.498
+ ],
+ "edge_shift_ms_vs_raw": [
+  -77.1,
+  105.0
+ ],
+ "energy_dbfs_at_cut": [
+  -73.0,
+  -63.8
+ ],
+ "word_audio_s": 0.8321,
+ "lead_tail_silence_s": [
+  0.07,
+  0.143
+ ],
+ "gain_db": 2.23,
+ "peak_dbfs_after": -4.46,
+ "level_to": "word-book/audio/words/thousand.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/thousand.number.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/thousand.number.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  36.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  -30.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}

@@ -1,0 +1,80 @@
+{
+ "sense": "sea.salt-water",
+ "word": "sea",
+ "sentence": ", sea.",
+ "char_span": [
+  2,
+  5
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.546,
+  0.952
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.488,
+  "next_char_start": 0.952
+ },
+ "energy_dbfs_at_raw_edges": [
+  -29.3,
+  -26.0
+ ],
+ "quietest_near_start": {
+  "t": 0.501,
+  "dbfs": -32.5
+ },
+ "quietest_near_end": {
+  "t": 0.982,
+  "dbfs": -28.7
+ },
+ "refined": true,
+ "edge_rule": [
+  "gap-min",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.5032,
+  1.0921
+ ],
+ "edge_shift_ms_vs_raw": [
+  -42.8,
+  140.1
+ ],
+ "energy_dbfs_at_cut": [
+  -32.3,
+  -81.0
+ ],
+ "word_audio_s": 0.5889,
+ "lead_tail_silence_s": [
+  0.15,
+  0.287
+ ],
+ "gain_db": -2.03,
+ "peak_dbfs_after": -5.51,
+ "level_to": "word-book/audio/words/sea.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/sea.salt-water.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/sea.salt-water.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -32.3 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

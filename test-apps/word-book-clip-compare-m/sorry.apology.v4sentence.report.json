@@ -1,0 +1,80 @@
+{
+ "sense": "sorry.apology",
+ "word": "sorry",
+ "sentence": "I say sorry for spilling water on your picture.",
+ "char_span": [
+  6,
+  11
+ ],
+ "word_index": 2,
+ "words_in_sentence": 9,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.56,
+  0.96
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.4,
+  "next_char_start": 1.04
+ },
+ "energy_dbfs_at_raw_edges": [
+  -26.0,
+  -23.9
+ ],
+ "quietest_near_start": {
+  "t": 0.57,
+  "dbfs": -26.9
+ },
+ "quietest_near_end": {
+  "t": 1.0225,
+  "dbfs": -34.5
+ },
+ "refined": true,
+ "edge_rule": [
+  "gap-min",
+  "gap-min"
+ ],
+ "cut_s": [
+  0.4207,
+  1.0225
+ ],
+ "edge_shift_ms_vs_raw": [
+  -139.3,
+  62.5
+ ],
+ "energy_dbfs_at_cut": [
+  -29.7,
+  -34.5
+ ],
+ "word_audio_s": 0.6018,
+ "lead_tail_silence_s": [
+  0.03,
+  0.228
+ ],
+ "gain_db": 3.41,
+ "peak_dbfs_after": -5.9,
+ "level_to": "word-book/audio/words/sorry.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/sorry.apology.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/sorry.apology.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  40.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -29.7 dBFS, above -35: inside speech, so clipped or smeared"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -34.5 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

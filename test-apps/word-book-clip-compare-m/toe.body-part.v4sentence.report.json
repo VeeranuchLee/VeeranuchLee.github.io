@@ -1,0 +1,76 @@
+{
+ "sense": "toe.body-part",
+ "word": "toe",
+ "sentence": "I wiggle one toe in the sand.",
+ "char_span": [
+  13,
+  16
+ ],
+ "word_index": 3,
+ "words_in_sentence": 7,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  1.04,
+  1.44
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.96,
+  "next_char_start": 1.52
+ },
+ "energy_dbfs_at_raw_edges": [
+  -60.4,
+  -25.8
+ ],
+ "quietest_near_start": {
+  "t": 1.05,
+  "dbfs": -71.2
+ },
+ "quietest_near_end": {
+  "t": 1.5325,
+  "dbfs": -26.6
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "raw"
+ ],
+ "cut_s": [
+  1.0302,
+  1.4406
+ ],
+ "edge_shift_ms_vs_raw": [
+  -9.8,
+  0.6
+ ],
+ "energy_dbfs_at_cut": [
+  -48.1,
+  -25.8
+ ],
+ "word_audio_s": 0.4104,
+ "lead_tail_silence_s": [
+  0.185,
+  0.361
+ ],
+ "gain_db": 2.9,
+ "peak_dbfs_after": -7.63,
+ "level_to": "word-book/audio/words/toe.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/toe.body-part.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/toe.body-part.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  16.0,
+  40.0
+ ],
+ "soft_move_ms": [
+  -10.0,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -25.8 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

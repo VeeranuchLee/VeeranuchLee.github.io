@@ -1,0 +1,76 @@
+{
+ "sense": "tape.sticky-strip",
+ "word": "tape",
+ "sentence": "We fix the torn map with tape.",
+ "char_span": [
+  25,
+  29
+ ],
+ "word_index": 6,
+ "words_in_sentence": 7,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  1.76,
+  2.16
+ ],
+ "neighbours_s": {
+  "previous_char_end": 1.68,
+  "next_char_start": 2.16
+ },
+ "energy_dbfs_at_raw_edges": [
+  -44.2,
+  -36.7
+ ],
+ "quietest_near_start": {
+  "t": 1.7375,
+  "dbfs": -84.1
+ },
+ "quietest_near_end": {
+  "t": 2.14,
+  "dbfs": -80.3
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  1.6976,
+  2.1524
+ ],
+ "edge_shift_ms_vs_raw": [
+  -62.4,
+  -7.6
+ ],
+ "energy_dbfs_at_cut": [
+  -76.8,
+  -55.8
+ ],
+ "word_audio_s": 0.4549,
+ "lead_tail_silence_s": [
+  0.09,
+  0.256
+ ],
+ "gain_db": 1.32,
+ "peak_dbfs_after": -9.86,
+ "level_to": "word-book/audio/words/tape.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/tape.sticky-strip.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/tape.sticky-strip.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  36.0,
+  11.0
+ ],
+ "soft_move_ms": [
+  -30.0,
+  5.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}

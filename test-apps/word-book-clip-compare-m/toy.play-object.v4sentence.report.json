@@ -1,0 +1,71 @@
+{
+ "sense": "toy.play-object",
+ "word": "toy",
+ "sentence": "Vanilla brings her favourite toy to our reading corner.",
+ "char_span": [
+  29,
+  32
+ ],
+ "word_index": 4,
+ "words_in_sentence": 9,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  1.68,
+  2.0
+ ],
+ "neighbours_s": {
+  "previous_char_end": 1.6,
+  "next_char_start": 2.08
+ },
+ "energy_dbfs_at_raw_edges": [
+  -40.8,
+  -23.5
+ ],
+ "quietest_near_start": {
+  "t": 1.6575,
+  "dbfs": -84.3
+ },
+ "quietest_near_end": {
+  "t": 2.0925,
+  "dbfs": -68.3
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  1.6174,
+  2.1025
+ ],
+ "edge_shift_ms_vs_raw": [
+  -62.6,
+  102.5
+ ],
+ "energy_dbfs_at_cut": [
+  -69.5,
+  -50.6
+ ],
+ "word_audio_s": 0.4851,
+ "lead_tail_silence_s": [
+  0.05,
+  0.228
+ ],
+ "gain_db": -0.02,
+ "peak_dbfs_after": -8.28,
+ "level_to": "word-book/audio/words/toy.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/toy.play-object.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/toy.play-object.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  36.0,
+  11.0
+ ],
+ "soft_move_ms": [
+  -30.0,
+  5.0
+ ],
+ "flags": []
+}

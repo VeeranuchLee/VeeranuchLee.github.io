@@ -1,0 +1,76 @@
+{
+ "sense": "science.school-subject",
+ "word": "science",
+ "sentence": ", science.",
+ "char_span": [
+  2,
+  9
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.673,
+  1.254
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.58,
+  "next_char_start": 1.254
+ },
+ "energy_dbfs_at_raw_edges": [
+  -28.2,
+  -28.3
+ ],
+ "quietest_near_start": {
+  "t": 0.613,
+  "dbfs": -75.5
+ },
+ "quietest_near_end": {
+  "t": 1.284,
+  "dbfs": -47.9
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.5713,
+  1.3341
+ ],
+ "edge_shift_ms_vs_raw": [
+  -101.7,
+  80.1
+ ],
+ "energy_dbfs_at_cut": [
+  -68.0,
+  -51.8
+ ],
+ "word_audio_s": 0.7628,
+ "lead_tail_silence_s": [
+  0.19,
+  0.313
+ ],
+ "gain_db": 4.17,
+ "peak_dbfs_after": -4.13,
+ "level_to": "word-book/audio/words/science.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/science.school-subject.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/science.school-subject.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  36.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  -30.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}

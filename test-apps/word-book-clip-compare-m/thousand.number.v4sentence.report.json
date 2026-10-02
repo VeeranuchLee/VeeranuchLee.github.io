@@ -1,0 +1,78 @@
+{
+ "sense": "thousand.number",
+ "word": "thousand",
+ "sentence": "This big puzzle has a thousand pieces.",
+ "char_span": [
+  22,
+  30
+ ],
+ "word_index": 5,
+ "words_in_sentence": 7,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  1.76,
+  2.24
+ ],
+ "neighbours_s": {
+  "previous_char_end": 1.68,
+  "next_char_start": 2.32
+ },
+ "energy_dbfs_at_raw_edges": [
+  -57.3,
+  -27.9
+ ],
+ "quietest_near_start": {
+  "t": 1.7425,
+  "dbfs": -60.7
+ },
+ "quietest_near_end": {
+  "t": 2.3325,
+  "dbfs": -82.9
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  1.71,
+  2.36
+ ],
+ "edge_shift_ms_vs_raw": [
+  -50.0,
+  120.0
+ ],
+ "energy_dbfs_at_cut": [
+  -60.0,
+  -57.6
+ ],
+ "word_audio_s": 0.65,
+ "lead_tail_silence_s": [
+  0.07,
+  0.143
+ ],
+ "gain_db": 3.62,
+ "peak_dbfs_after": -4.46,
+ "level_to": "word-book/audio/words/thousand.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/thousand.number.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/thousand.number.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  36.0,
+  23.5
+ ],
+ "soft_move_ms": [
+  -30.0,
+  17.5
+ ],
+ "flags": [
+  {
+   "flag": "unreleased-stop",
+   "why": "ends in a stop before 'pieces' (a consonant): usually unreleased in connected speech",
+   "release_measured": false,
+   "measurement": "68 ms of closure before the cut, no release above it"
+  }
+ ]
+}

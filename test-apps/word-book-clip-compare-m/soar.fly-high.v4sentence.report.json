@@ -1,0 +1,80 @@
+{
+ "sense": "soar.fly-high",
+ "word": "soar",
+ "sentence": "The eagles soar above the mountain.",
+ "char_span": [
+  11,
+  15
+ ],
+ "word_index": 2,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.96,
+  1.28
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.8,
+  "next_char_start": 1.36
+ },
+ "energy_dbfs_at_raw_edges": [
+  -28.6,
+  -20.0
+ ],
+ "quietest_near_start": {
+  "t": 0.98,
+  "dbfs": -28.9
+ },
+ "quietest_near_end": {
+  "t": 1.3275,
+  "dbfs": -24.2
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "gap-min"
+ ],
+ "cut_s": [
+  0.96,
+  1.3278
+ ],
+ "edge_shift_ms_vs_raw": [
+  0.0,
+  47.8
+ ],
+ "energy_dbfs_at_cut": [
+  -28.6,
+  -23.7
+ ],
+ "word_audio_s": 0.3678,
+ "lead_tail_silence_s": [
+  0.01,
+  0.351
+ ],
+ "gain_db": 3.63,
+ "peak_dbfs_after": -6.42,
+ "level_to": "word-book/audio/words/soar.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/soar.fly-high.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/soar.fly-high.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  40.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -28.6 dBFS, above -35: inside speech, so clipped or smeared"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -23.7 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

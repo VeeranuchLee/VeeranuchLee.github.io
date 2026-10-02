@@ -1,0 +1,82 @@
+{
+ "sense": "separate.put-apart",
+ "word": "separate",
+ "sentence": "I separate the red beads from the blue ones.",
+ "char_span": [
+  2,
+  10
+ ],
+ "word_index": 1,
+ "words_in_sentence": 9,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.24,
+  0.64
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.16,
+  "next_char_start": 0.72
+ },
+ "energy_dbfs_at_raw_edges": [
+  -23.6,
+  -29.0
+ ],
+ "quietest_near_start": {
+  "t": 0.2075,
+  "dbfs": -27.4
+ },
+ "quietest_near_end": {
+  "t": 0.72,
+  "dbfs": -75.7
+ },
+ "refined": true,
+ "edge_rule": [
+  "gap-min",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  0.2075,
+  0.7375
+ ],
+ "edge_shift_ms_vs_raw": [
+  -32.5,
+  97.5
+ ],
+ "energy_dbfs_at_cut": [
+  -27.4,
+  -45.6
+ ],
+ "word_audio_s": 0.53,
+ "lead_tail_silence_s": [
+  0.01,
+  0.273
+ ],
+ "gain_db": 0.94,
+ "peak_dbfs_after": -8.01,
+ "level_to": "word-book/audio/words/separate.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/separate.put-apart.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/separate.put-apart.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  16.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  10.0
+ ],
+ "flags": [
+  {
+   "flag": "unreleased-stop",
+   "why": "ends in a stop before 'the' (a consonant): usually unreleased in connected speech",
+   "release_measured": true,
+   "measurement": "release at 0.424 s (-43 dBFS over a -78 dBFS closure)"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -27.4 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

@@ -1,0 +1,76 @@
+{
+ "sense": "tear.eye-drop",
+ "word": "tear",
+ "sentence": ", tear.",
+ "char_span": [
+  2,
+  6
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.395,
+  0.755
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.372,
+  "next_char_start": 0.755
+ },
+ "energy_dbfs_at_raw_edges": [
+  -63.6,
+  -29.4
+ ],
+ "quietest_near_start": {
+  "t": 0.39,
+  "dbfs": -69.3
+ },
+ "quietest_near_end": {
+  "t": 0.7825,
+  "dbfs": -34.0
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.3656,
+  0.8763
+ ],
+ "edge_shift_ms_vs_raw": [
+  -29.4,
+  121.3
+ ],
+ "energy_dbfs_at_cut": [
+  -49.0,
+  -76.7
+ ],
+ "word_audio_s": 0.5108,
+ "lead_tail_silence_s": [
+  0.03,
+  0.026
+ ],
+ "gain_db": -3.51,
+ "peak_dbfs_after": -9.71,
+ "level_to": "word-book/audio/words/tear.eye-drop.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/tear.eye-drop.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/tear.eye-drop.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  21.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  -15.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}

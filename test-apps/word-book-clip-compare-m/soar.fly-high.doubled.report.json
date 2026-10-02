@@ -1,0 +1,76 @@
+{
+ "sense": "soar.fly-high",
+ "word": "soar",
+ "sentence": ", soar.",
+ "char_span": [
+  2,
+  6
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.708,
+  1.115
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.592,
+  "next_char_start": 1.115
+ },
+ "energy_dbfs_at_raw_edges": [
+  -30.5,
+  -38.6
+ ],
+ "quietest_near_start": {
+  "t": 0.648,
+  "dbfs": -40.4
+ },
+ "quietest_near_end": {
+  "t": 1.145,
+  "dbfs": -48.6
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.6479,
+  1.2134
+ ],
+ "edge_shift_ms_vs_raw": [
+  -60.1,
+  98.4
+ ],
+ "energy_dbfs_at_cut": [
+  -40.4,
+  -79.8
+ ],
+ "word_audio_s": 0.5654,
+ "lead_tail_silence_s": [
+  0.01,
+  0.351
+ ],
+ "gain_db": 1.68,
+ "peak_dbfs_after": -6.42,
+ "level_to": "word-book/audio/words/soar.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/soar.fly-high.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/soar.fly-high.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  6.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  -0.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}

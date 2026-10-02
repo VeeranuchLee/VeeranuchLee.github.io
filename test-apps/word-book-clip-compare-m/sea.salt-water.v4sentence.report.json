@@ -1,0 +1,80 @@
+{
+ "sense": "sea.salt-water",
+ "word": "sea",
+ "sentence": "The mermaid sings beside the sea.",
+ "char_span": [
+  29,
+  32
+ ],
+ "word_index": 5,
+ "words_in_sentence": 6,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  2.0,
+  2.32
+ ],
+ "neighbours_s": {
+  "previous_char_end": 1.84,
+  "next_char_start": 2.32
+ },
+ "energy_dbfs_at_raw_edges": [
+  -25.6,
+  -37.5
+ ],
+ "quietest_near_start": {
+  "t": 2.03,
+  "dbfs": -29.1
+ },
+ "quietest_near_end": {
+  "t": 2.35,
+  "dbfs": -54.9
+ },
+ "refined": true,
+ "edge_rule": [
+  "gap-min",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  1.9025,
+  2.445
+ ],
+ "edge_shift_ms_vs_raw": [
+  -97.5,
+  125.0
+ ],
+ "energy_dbfs_at_cut": [
+  -30.2,
+  -73.8
+ ],
+ "word_audio_s": 0.5425,
+ "lead_tail_silence_s": [
+  0.15,
+  0.287
+ ],
+ "gain_db": 6.07,
+ "peak_dbfs_after": -5.51,
+ "level_to": "word-book/audio/words/sea.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/sea.salt-water.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/sea.salt-water.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -30.2 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

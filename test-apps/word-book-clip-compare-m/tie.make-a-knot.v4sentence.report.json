@@ -1,0 +1,76 @@
+{
+ "sense": "tie.make-a-knot",
+ "word": "tie",
+ "sentence": "I tie my shoelaces before running.",
+ "char_span": [
+  2,
+  5
+ ],
+ "word_index": 1,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.24,
+  0.4
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.16,
+  "next_char_start": 0.48
+ },
+ "energy_dbfs_at_raw_edges": [
+  -23.8,
+  -22.0
+ ],
+ "quietest_near_start": {
+  "t": 0.21,
+  "dbfs": -67.2
+ },
+ "quietest_near_end": {
+  "t": 0.46,
+  "dbfs": -26.8
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "gap-min"
+ ],
+ "cut_s": [
+  0.1851,
+  0.4593
+ ],
+ "edge_shift_ms_vs_raw": [
+  -54.9,
+  59.3
+ ],
+ "energy_dbfs_at_cut": [
+  -49.2,
+  -26.7
+ ],
+ "word_audio_s": 0.2742,
+ "lead_tail_silence_s": [
+  0.14,
+  0.248
+ ],
+ "gain_db": 4.92,
+ "peak_dbfs_after": -6.33,
+ "level_to": "word-book/audio/words/tie.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/tie.make-a-knot.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/tie.make-a-knot.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  21.0,
+  40.0
+ ],
+ "soft_move_ms": [
+  -15.0,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -26.7 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

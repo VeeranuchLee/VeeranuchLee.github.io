@@ -1,0 +1,84 @@
+{
+ "sense": "she.female-subject",
+ "word": "she",
+ "sentence": "Mum waves as she walks towards us.",
+ "char_span": [
+  13,
+  16
+ ],
+ "word_index": 3,
+ "words_in_sentence": 7,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  1.12,
+  1.28
+ ],
+ "neighbours_s": {
+  "previous_char_end": 1.04,
+  "next_char_start": 1.4
+ },
+ "energy_dbfs_at_raw_edges": [
+  -25.5,
+  -29.5
+ ],
+ "quietest_near_start": {
+  "t": 1.0825,
+  "dbfs": -28.0
+ },
+ "quietest_near_end": {
+  "t": 1.305,
+  "dbfs": -32.4
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "raw"
+ ],
+ "cut_s": [
+  1.12,
+  1.2816
+ ],
+ "edge_shift_ms_vs_raw": [
+  0.0,
+  1.6
+ ],
+ "energy_dbfs_at_cut": [
+  -25.5,
+  -29.3
+ ],
+ "word_audio_s": 0.1615,
+ "lead_tail_silence_s": [
+  0.145,
+  0.32
+ ],
+ "gain_db": 0.03,
+ "peak_dbfs_after": -8.09,
+ "level_to": "word-book/audio/words/she.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/she.female-subject.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/she.female-subject.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  40.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "function-word",
+   "why": "a closed-class word; in a sentence it is often a weak, reduced form"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -25.5 dBFS, above -35: inside speech, so clipped or smeared"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -29.3 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

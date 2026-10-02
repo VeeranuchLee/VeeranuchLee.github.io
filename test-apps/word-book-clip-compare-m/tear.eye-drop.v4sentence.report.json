@@ -1,0 +1,76 @@
+{
+ "sense": "tear.eye-drop",
+ "word": "tear",
+ "sentence": "A tear rolls down the sad dragon's cheek.",
+ "char_span": [
+  2,
+  6
+ ],
+ "word_index": 1,
+ "words_in_sentence": 8,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.16,
+  0.6
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.08,
+  "next_char_start": 0.72
+ },
+ "energy_dbfs_at_raw_edges": [
+  -19.6,
+  -19.8
+ ],
+ "quietest_near_start": {
+  "t": 0.1875,
+  "dbfs": -49.9
+ },
+ "quietest_near_end": {
+  "t": 0.7425,
+  "dbfs": -25.2
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "gap-min"
+ ],
+ "cut_s": [
+  0.1821,
+  0.7057
+ ],
+ "edge_shift_ms_vs_raw": [
+  22.1,
+  105.7
+ ],
+ "energy_dbfs_at_cut": [
+  -44.9,
+  -24.7
+ ],
+ "word_audio_s": 0.5236,
+ "lead_tail_silence_s": [
+  0.03,
+  0.026
+ ],
+ "gain_db": 0.35,
+ "peak_dbfs_after": -9.71,
+ "level_to": "word-book/audio/words/tear.eye-drop.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/tear.eye-drop.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/tear.eye-drop.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  11.0,
+  40.0
+ ],
+ "soft_move_ms": [
+  -5.0,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -24.7 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

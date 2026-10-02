@@ -1,0 +1,76 @@
+{
+ "sense": "tell.give-information",
+ "word": "tell",
+ "sentence": "Please tell me a story about the moon.",
+ "char_span": [
+  7,
+  11
+ ],
+ "word_index": 1,
+ "words_in_sentence": 8,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.4,
+  0.56
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.32,
+  "next_char_start": 0.6
+ },
+ "energy_dbfs_at_raw_edges": [
+  -63.4,
+  -24.9
+ ],
+ "quietest_near_start": {
+  "t": 0.3975,
+  "dbfs": -65.4
+ },
+ "quietest_near_end": {
+  "t": 0.5775,
+  "dbfs": -26.6
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "raw"
+ ],
+ "cut_s": [
+  0.3825,
+  0.56
+ ],
+ "edge_shift_ms_vs_raw": [
+  -17.5,
+  0.0
+ ],
+ "energy_dbfs_at_cut": [
+  -47.9,
+  -24.9
+ ],
+ "word_audio_s": 0.1775,
+ "lead_tail_silence_s": [
+  0.08,
+  0.317
+ ],
+ "gain_db": 10.85,
+ "peak_dbfs_after": -5.12,
+ "level_to": "word-book/audio/words/tell.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/tell.give-information.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/tell.give-information.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  13.5,
+  40.0
+ ],
+ "soft_move_ms": [
+  -7.5,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -24.9 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

@@ -1,0 +1,76 @@
+{
+ "sense": "stale.not-fresh",
+ "word": "stale",
+ "sentence": "The stale bread is too dry for my sandwich.",
+ "char_span": [
+  4,
+  9
+ ],
+ "word_index": 1,
+ "words_in_sentence": 9,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.24,
+  0.56
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.16,
+  "next_char_start": 0.64
+ },
+ "energy_dbfs_at_raw_edges": [
+  -24.0,
+  -18.7
+ ],
+ "quietest_near_start": {
+  "t": 0.2125,
+  "dbfs": -27.6
+ },
+ "quietest_near_end": {
+  "t": 0.67,
+  "dbfs": -65.5
+ },
+ "refined": true,
+ "edge_rule": [
+  "gap-min",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  0.2125,
+  0.6875
+ ],
+ "edge_shift_ms_vs_raw": [
+  -27.5,
+  127.5
+ ],
+ "energy_dbfs_at_cut": [
+  -27.6,
+  -61.3
+ ],
+ "word_audio_s": 0.475,
+ "lead_tail_silence_s": [
+  0.14,
+  0.263
+ ],
+ "gain_db": 2.43,
+ "peak_dbfs_after": -9.41,
+ "level_to": "word-book/audio/words/stale.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/stale.not-fresh.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/stale.not-fresh.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  13.5
+ ],
+ "soft_move_ms": [
+  0.0,
+  7.5
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -27.6 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

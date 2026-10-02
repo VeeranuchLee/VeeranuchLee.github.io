@@ -1,0 +1,76 @@
+{
+ "sense": "tie.make-a-knot",
+ "word": "tie",
+ "sentence": ", tie.",
+ "char_span": [
+  2,
+  5
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.534,
+  0.836
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.36,
+  "next_char_start": 0.836
+ },
+ "energy_dbfs_at_raw_edges": [
+  -75.0,
+  -63.6
+ ],
+ "quietest_near_start": {
+  "t": 0.5465,
+  "dbfs": -88.7
+ },
+ "quietest_near_end": {
+  "t": 0.866,
+  "dbfs": -82.4
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.5062,
+  0.8651
+ ],
+ "edge_shift_ms_vs_raw": [
+  -27.8,
+  29.1
+ ],
+ "energy_dbfs_at_cut": [
+  -73.8,
+  -82.4
+ ],
+ "word_audio_s": 0.3588,
+ "lead_tail_silence_s": [
+  0.14,
+  0.248
+ ],
+ "gain_db": 2.07,
+ "peak_dbfs_after": -6.33,
+ "level_to": "word-book/audio/words/tie.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/tie.make-a-knot.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/tie.make-a-knot.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  36.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  -30.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}

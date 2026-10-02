@@ -1,0 +1,76 @@
+{
+ "sense": "sprout.young-shoot",
+ "word": "sprout",
+ "sentence": ", sprout.",
+ "char_span": [
+  2,
+  8
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.499,
+  0.998
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.476,
+  "next_char_start": 0.998
+ },
+ "energy_dbfs_at_raw_edges": [
+  -25.1,
+  -29.5
+ ],
+ "quietest_near_start": {
+  "t": 0.4465,
+  "dbfs": -52.1
+ },
+ "quietest_near_end": {
+  "t": 1.028,
+  "dbfs": -36.0
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.4442,
+  1.1054
+ ],
+ "edge_shift_ms_vs_raw": [
+  -54.8,
+  107.4
+ ],
+ "energy_dbfs_at_cut": [
+  -46.1,
+  -64.4
+ ],
+ "word_audio_s": 0.6611,
+ "lead_tail_silence_s": [
+  0.015,
+  0.256
+ ],
+ "gain_db": 3.48,
+ "peak_dbfs_after": -2.73,
+ "level_to": "word-book/audio/words/sprout.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/sprout.young-shoot.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/sprout.young-shoot.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  8.5,
+  36.0
+ ],
+ "soft_move_ms": [
+  -2.5,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}

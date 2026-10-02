@@ -1,0 +1,80 @@
+{
+ "sense": "she.female-subject",
+ "word": "she",
+ "sentence": ", she.",
+ "char_span": [
+  2,
+  5
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.453,
+  0.778
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.406,
+  "next_char_start": 0.778
+ },
+ "energy_dbfs_at_raw_edges": [
+  -33.0,
+  -26.0
+ ],
+ "quietest_near_start": {
+  "t": 0.4155,
+  "dbfs": -62.8
+ },
+ "quietest_near_end": {
+  "t": 0.808,
+  "dbfs": -51.5
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.398,
+  0.863
+ ],
+ "edge_shift_ms_vs_raw": [
+  -55.0,
+  85.0
+ ],
+ "energy_dbfs_at_cut": [
+  -48.0,
+  -45.1
+ ],
+ "word_audio_s": 0.465,
+ "lead_tail_silence_s": [
+  0.145,
+  0.32
+ ],
+ "gain_db": 0.95,
+ "peak_dbfs_after": -8.09,
+ "level_to": "word-book/audio/words/she.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/she.female-subject.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/she.female-subject.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  18.5,
+  33.5
+ ],
+ "soft_move_ms": [
+  -12.5,
+  27.5
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  },
+  {
+   "flag": "function-word",
+   "why": "a closed-class word; in a sentence it is often a weak, reduced form"
+  }
+ ]
+}

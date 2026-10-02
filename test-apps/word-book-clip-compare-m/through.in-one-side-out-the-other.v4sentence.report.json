@@ -1,0 +1,71 @@
+{
+ "sense": "through.in-one-side-out-the-other",
+ "word": "through",
+ "sentence": "The train travels through the tunnel.",
+ "char_span": [
+  18,
+  25
+ ],
+ "word_index": 3,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  1.2,
+  1.36
+ ],
+ "neighbours_s": {
+  "previous_char_end": 1.12,
+  "next_char_start": 1.44
+ },
+ "energy_dbfs_at_raw_edges": [
+  -55.2,
+  -21.0
+ ],
+ "quietest_near_start": {
+  "t": 1.1975,
+  "dbfs": -55.9
+ },
+ "quietest_near_end": {
+  "t": 1.4425,
+  "dbfs": -46.3
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  1.185,
+  1.445
+ ],
+ "edge_shift_ms_vs_raw": [
+  -15.0,
+  85.0
+ ],
+ "energy_dbfs_at_cut": [
+  -47.7,
+  -45.4
+ ],
+ "word_audio_s": 0.26,
+ "lead_tail_silence_s": [
+  0.2,
+  0.226
+ ],
+ "gain_db": 4.19,
+ "peak_dbfs_after": -5.35,
+ "level_to": "word-book/audio/words/through.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/through.in-one-side-out-the-other.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/through.in-one-side-out-the-other.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  18.5,
+  8.5
+ ],
+ "soft_move_ms": [
+  -12.5,
+  2.5
+ ],
+ "flags": []
+}

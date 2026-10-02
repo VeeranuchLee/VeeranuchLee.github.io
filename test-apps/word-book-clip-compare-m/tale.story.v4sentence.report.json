@@ -1,0 +1,71 @@
+{
+ "sense": "tale.story",
+ "word": "tale",
+ "sentence": "Grandma tells a tale about a clever rabbit.",
+ "char_span": [
+  16,
+  20
+ ],
+ "word_index": 3,
+ "words_in_sentence": 8,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  1.12,
+  1.44
+ ],
+ "neighbours_s": {
+  "previous_char_end": 1.04,
+  "next_char_start": 1.6
+ },
+ "energy_dbfs_at_raw_edges": [
+  -23.4,
+  -22.6
+ ],
+ "quietest_near_start": {
+  "t": 1.07,
+  "dbfs": -80.5
+ },
+ "quietest_near_end": {
+  "t": 1.625,
+  "dbfs": -62.3
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  1.0404,
+  1.635
+ ],
+ "edge_shift_ms_vs_raw": [
+  -79.6,
+  195.0
+ ],
+ "energy_dbfs_at_cut": [
+  -47.2,
+  -46.2
+ ],
+ "word_audio_s": 0.5946,
+ "lead_tail_silence_s": [
+  0.2,
+  0.311
+ ],
+ "gain_db": 7.25,
+ "peak_dbfs_after": -3.58,
+ "level_to": "word-book/audio/words/tale.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/tale.story.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/tale.story.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  26.0,
+  11.0
+ ],
+ "soft_move_ms": [
+  -20.0,
+  5.0
+ ],
+ "flags": []
+}

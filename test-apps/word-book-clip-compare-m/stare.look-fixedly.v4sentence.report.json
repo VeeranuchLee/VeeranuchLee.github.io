@@ -1,0 +1,80 @@
+{
+ "sense": "stare.look-fixedly",
+ "word": "stare",
+ "sentence": "We stare at the enormous model dinosaur.",
+ "char_span": [
+  3,
+  8
+ ],
+ "word_index": 1,
+ "words_in_sentence": 7,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.32,
+  0.72
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.24,
+  "next_char_start": 0.8
+ },
+ "energy_dbfs_at_raw_edges": [
+  -26.1,
+  -21.7
+ ],
+ "quietest_near_start": {
+  "t": 0.345,
+  "dbfs": -28.8
+ },
+ "quietest_near_end": {
+  "t": 0.795,
+  "dbfs": -25.3
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "gap-min"
+ ],
+ "cut_s": [
+  0.32,
+  0.7951
+ ],
+ "edge_shift_ms_vs_raw": [
+  -0.0,
+  75.1
+ ],
+ "energy_dbfs_at_cut": [
+  -26.1,
+  -25.1
+ ],
+ "word_audio_s": 0.4751,
+ "lead_tail_silence_s": [
+  0.01,
+  0.296
+ ],
+ "gain_db": 3.64,
+ "peak_dbfs_after": -6.86,
+ "level_to": "word-book/audio/words/stare.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/stare.look-fixedly.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/stare.look-fixedly.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  40.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -26.1 dBFS, above -35: inside speech, so clipped or smeared"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -25.1 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

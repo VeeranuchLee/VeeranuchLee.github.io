@@ -4,18 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Word Book: M to R words</title>
+<title>Word Book: M to T words</title>
 <!--
-  Word Book "M to R words" voice-variant page, 2026-10-01. Built by
-  word-book/tools/build-mtor-compare.py: the M/N/O/P page from earlier in the evening
-  with the fourteen letter-R words ADDED below the P rows, in the same directory and the
-  same Test Hub slot. Layout is a copy of word-book/tools/mn-compare.html (the round-4
-  format the owner named as easiest to give feedback on). PRIVATE QA instrument
-  (word-book/.publish-manifest lists qa/** under [private]); staged on the Test Hub with
-  NO service worker. Nothing on this page changes the app. The localStorage key is
-  deliberately unchanged from the M-only page, so answers already tapped there survive.
-  The O/P and R rows carry two extra kinds: v4 (the plain word on the eleven_v4 model)
-  and v4 sentence (the word cut out of that card's own sentence rendered on eleven_v4).
+  Word Book "M to T words" voice-variant page, 2026-10-02. Built by
+  word-book/tools/build-mtot-compare.py: the M–R page from 2026-10-01 with the
+  sixteen S words and fourteen T senses ADDED below the R rows, in the same
+  directory and the same Test Hub slot. Layout is a copy of
+  word-book/tools/mtor-compare.html (the round-4 format the owner named as
+  easiest to give feedback on). PRIVATE QA instrument
+  (word-book/.publish-manifest lists qa/** under [private]); staged on the Test
+  Hub with NO service worker. Nothing on this page changes the app. The
+  localStorage key is deliberately unchanged from the M-only page, so answers
+  already tapped there survive. The O/P, R, S and T rows carry two extra kinds:
+  v4 (the plain word on the eleven_v4 model) and v4 sentence (the word cut out
+  of that card's own sentence rendered on eleven_v4).
 -->
 <style>
   :root{
@@ -68,20 +70,25 @@
 </head>
 <body>
 <main>
-  <h1>Word Book: M to R words</h1>
-  <p class="sub">Forty-seven words with new voice takes: the eight <b>M</b> words
+  <h1>Word Book: M to T words</h1>
+  <p class="sub">Sixty-one words with new voice takes: the eight <b>M</b> words
     (<b>mangosteen, many, mean, metre, middle, mirror, motor, mushroom</b>), the six
     <b>N</b> words (<b>narrator, nature, niece, none, noon, number</b>), the
     nineteen <b>O and P</b> words (<b>often, oil, on, only, or, ordinary, page, pan, panda, pea,
-    people, pet, photograph, pie, pot, pram, prefer, problem, pudding</b>) and, below them,
-    the fourteen <b>R</b> words (<b>rabbit, racket, railway, rake, rare, rat, referee, repair,
-    repeat, restaurant, roller skate, rose, rude, rule</b>).
+    people, pet, photograph, pie, pot, pram, prefer, problem, pudding</b>), the fourteen
+    <b>R</b> words (<b>rabbit, racket, railway, rake, rare, rat, referee, repair,
+    repeat, restaurant, roller skate, rose, rude, rule</b>), the sixteen <b>S</b> words
+    (<b>science, sea, separate, setting, several, she, show, soar, sorry, spade, spend,
+    sprout, stale, stare, stroke, sweet potato</b>) and, below them, the fourteen
+    <b>T</b> senses (<b>tale, tape, tear (two senses), tell, tennis, tent, thousand,
+    through, tie, toe, toy, trampoline, twenty</b>).
     <b>Now</b> is the clip the app plays today; <b>Flash</b> is the plain word on the
-    eleven_flash_v2_5 model; <b>Doubled</b> is the clearer second of the word said twice. The O/P
-    and R rows add two more: <b>v4</b>, the plain word on the eleven_v4 model, and
-    <b>v4 sentence</b>, the word cut out of that card's own sentence spoken by eleven_v4. Tap
-    "whole sentence" to hear the card's sentence for context. Pick one answer per word, then
-    press <b>Copy results</b> at the bottom and paste them back. Nothing here changes the app.</p>
+    eleven_flash_v2_5 model; <b>Doubled</b> is the clearer second of the word said twice.
+    The O/P, R, S and T rows add two more: <b>v4</b>, the plain word on the eleven_v4
+    model, and <b>v4 sentence</b>, the word cut out of that card's own sentence spoken
+    by eleven_v4. Tap "whole sentence" to hear the card's sentence for context. Pick
+    one answer per word, then press <b>Copy results</b> at the bottom and paste them
+    back. Nothing here changes the app.</p>
   <p class="progress"><b id="count"></b></p>
   <div id="g-words"></div>
   <div class="actions">
@@ -95,7 +102,7 @@
 (function(){
   'use strict';
   var KEY = 'wordbook-m-variants-answers';   /* unchanged from the M-only page: answers already tapped there survive */
-  var data = window.MTOR_VARIANTS;
+    var data = window.MTOR_VARIANTS;
   if (!data) { document.getElementById('g-words').innerHTML = '<p class="err">Could not load manifest.js. Keep this page next to its files.</p>'; return; }
   var saved = {}; try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) {}
   function persist(){ try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {} }
@@ -159,7 +166,7 @@
   });
   count();
   function results(){
-    var lines = ['Word Book M to R voice variants (' + new Date().toISOString().slice(0, 10) + ')'], ans = [];
+    var lines = ['Word Book M to T voice variants (' + new Date().toISOString().slice(0, 10) + ')'], ans = [];
     ['words'].forEach(function(g){
       data.groups[g].forEach(function(r){
         var s = saved[g + ':' + r.sense] || {};
@@ -167,7 +174,7 @@
         ans.push({ group: g, sense: r.sense, pick: s.pick || null, note: s.note || '' });
       });
     });
-    return lines.join('\n') + '\n\n' + JSON.stringify({ task: 'wordbook-mtor-variants', page: 'word-book/qa/2026-10-01-m-variants/index.html', answers: ans }, null, 1);
+    return lines.join('\n') + '\n\n' + JSON.stringify({ task: 'wordbook-mtot-variants', page: 'word-book/qa/2026-10-01-m-variants/index.html', answers: ans }, null, 1);
   }
   document.getElementById('copy').addEventListener('click', function(){
     var t = results(), out = document.getElementById('out'); out.value = t; out.style.display = 'block';
@@ -180,7 +187,7 @@
   document.getElementById('download').addEventListener('click', function(){
     var a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([results()], { type: 'text/plain' }));
-    a.download = 'wordbook-mtor-variants-results.txt'; a.click();
+    a.download = 'wordbook-mtot-variants-results.txt'; a.click();
   });
 })();
 </script>

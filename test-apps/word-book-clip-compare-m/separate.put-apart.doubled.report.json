@@ -1,0 +1,76 @@
+{
+ "sense": "separate.put-apart",
+ "word": "separate",
+ "sentence": ", separate.",
+ "char_span": [
+  2,
+  10
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.65,
+  1.207
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.592,
+  "next_char_start": 1.207
+ },
+ "energy_dbfs_at_raw_edges": [
+  -28.3,
+  -38.8
+ ],
+ "quietest_near_start": {
+  "t": 0.59,
+  "dbfs": -33.4
+ },
+ "quietest_near_end": {
+  "t": 1.237,
+  "dbfs": -61.3
+ },
+ "refined": true,
+ "edge_rule": [
+  "gap-min+soft-valley",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.577,
+  1.2694
+ ],
+ "edge_shift_ms_vs_raw": [
+  -73.0,
+  62.4
+ ],
+ "energy_dbfs_at_cut": [
+  -43.1,
+  -45.6
+ ],
+ "word_audio_s": 0.6924,
+ "lead_tail_silence_s": [
+  0.01,
+  0.273
+ ],
+ "gain_db": -0.68,
+ "peak_dbfs_after": -8.01,
+ "level_to": "word-book/audio/words/separate.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/separate.put-apart.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/separate.put-apart.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  28.5
+ ],
+ "soft_move_ms": [
+  -15.0,
+  22.5
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}
