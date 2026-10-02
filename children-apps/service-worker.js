@@ -108,8 +108,17 @@
  *                  "also, promote การบ้านปิดเทอม read&write to main hub pls."), linking the
  *                  new app at /read-write/. Its tile, `assets/read-write.webp`, is the app's
  *                  own day 1 hero (the penguin huddle) resized — no new artwork.
+ *   v38 2026-10-02  The two homework cards become ONE, a Homework category card opening
+ *                  the new sub-hub homework.html (owner: "I think for the 'homework' we
+ *                  should have the 'homework hub'"), which carries both cards unchanged.
+ *                  Handled exactly as music.html is: homework.html is NOT in SHELL (it is
+ *                  cached on first visit by the fetch handler below). SHELL is unchanged:
+ *                  `october-homework.webp` is still the main hub card's tile, and
+ *                  `read-write.webp` stays precached the way `classical-music.webp` stayed
+ *                  when Classical Music moved down to music.html -- 16 KB that lets the
+ *                  sub-hub open offline with its art.
  */
-const CACHE_NAME = "children-apps-v37";
+const CACHE_NAME = "children-apps-v38";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */

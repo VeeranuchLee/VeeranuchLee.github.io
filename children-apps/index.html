@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>Children Games</title>
-  <meta name="description" content="All of our games in one place — maths, spelling, writing, music, colouring, flowers, a space story, the planets and their moons, and an animal book."/>
+  <meta name="description" content="All of our games in one place — maths, spelling, writing, music, colouring, flowers, a space story, the planets and their moons, an animal book, and holiday homework."/>
   <link rel="manifest" href="./manifest.webmanifest"/>
   <link rel="stylesheet" href="./fonts.css"/>
   <meta name="theme-color" content="#f7d9ec"/>
@@ -135,8 +135,11 @@
     .c-flags   {--edge:#c0392b;--shadow:#8e2a20;--tint:#fdecea}
     .c-periodic{--edge:#6a3fa0;--shadow:#4a2b73;--tint:#f1e8fa}
     .c-nails   {--edge:#c8558a;--shadow:#9a3a63;--tint:#fce8f1}
-    .c-homework{--edge:#5a6fd6;--shadow:#3a4aa0;--tint:#e8ecff}
-    .c-readwrite{--edge:#2f8f9d;--shadow:#1d6570;--tint:#e3f5f7}
+    /* Homework is a category card since 2026-10-02 (see the card's comment). Warm gold,
+       not either homework app's colour: those two -- periwinkle and teal -- now live one
+       level down on homework.html, and gold is distinct from the oranges and browns of
+       Our Animal Book and Our Maze nearby. */
+    .c-homework{--edge:#d9a514;--shadow:#a67c06;--tint:#fff6d8}
 
     footer{
       margin-top:34px;text-align:center;
@@ -330,22 +333,18 @@
       <span class="desc">Explore every element, then play Find It, Symbol Match and Atomic Number</span>
     </a>
 
-    <!-- Owner 2026-10-01: "publish on main hub pls" -- the ป.2 October school-break
-         worksheet (20 งาน x 10). The page lives inside Magic Math; its tile is the page's
-         own robot-reader art on a soft backing (no new artwork). -->
-    <a class="card c-homework" href="../magic-math/october-homework.html">
+    <!-- HOMEWORK IS A CATEGORY, not an app -- the same move Music made on 2026-09-15.
+         Owner, 2026-10-02: "I think for the 'homework' we should have the 'homework hub'".
+         Until then two cards sat here side by side: the ป.2 October maths homework (added
+         2026-10-01, "publish on main hub pls", a page inside Magic Math) and School-Break
+         Read & Write (added 2026-10-02, "also, promote การบ้านปิดเทอม read&write to main hub
+         pls.", its own app at /read-write/). Both now live one level down on homework.html,
+         each card unchanged, and the next homework app costs nothing here. The tile is the
+         October homework's own robot-reader art -- no new artwork. -->
+    <a class="card c-homework" href="./homework.html">
       <span class="art"><img class="tile" src="./assets/october-homework.webp" alt="" width="96" height="96"/></span>
-      <span class="name">การบ้านปิดเทอม ป.2</span>
-      <span class="desc">October homework: 20 missions, 200 answers</span>
-    </a>
-
-    <!-- Owner 2026-10-02: "also, promote การบ้านปิดเทอม read&write to main hub pls." -- the
-         20-day School-Break Read & Write homework, its own app at /read-write/, beside the maths
-         homework card. Its tile is the app's own day 1 hero (the penguin huddle), no new artwork. -->
-    <a class="card c-readwrite" href="../read-write/">
-      <span class="art"><img class="tile" src="./assets/read-write.webp" alt="" width="96" height="96"/></span>
-      <span class="name">การบ้านปิดเทอม Read &amp; Write</span>
-      <span class="desc">School-break homework: 20 days of reading and writing</span>
+      <span class="name">การบ้านปิดเทอม</span>
+      <span class="desc">Holiday homework: October maths + Read &amp; Write</span>
     </a>
 
     <a class="card c-nails" href="../nail-salon/">

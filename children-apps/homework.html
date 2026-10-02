@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>การบ้านปิดเทอม — Holiday Homework — Children Games</title>
+  <meta name="description" content="Holiday homework for the school break — October maths missions and 20 days of Read &amp; Write."/>
+  <link rel="stylesheet" href="./fonts.css"/>
+  <meta name="theme-color" content="#f7d9ec"/>
+  <link rel="apple-touch-icon" href="./assets/app-192.png"/>
+  <link rel="icon" href="./assets/app-192.png"/>
+  <style>
+
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    :root{
+      --ink:#3b2a52;
+      --ink-soft:#6b5a84;
+      --card:#ffffff;
+      --radius:30px;
+    }
+
+    html{-webkit-text-size-adjust:100%;touch-action:manipulation}
+
+    body{
+      font-family:'Nunito',system-ui,sans-serif;
+      color:var(--ink);
+      min-height:100svh;
+      background:
+        radial-gradient(1100px 620px at 12% -8%,  #ffe1f2 0%, rgba(255,225,242,0) 62%),
+        radial-gradient(980px  560px at 90% 4%,   #dfeaff 0%, rgba(223,234,255,0) 60%),
+        radial-gradient(900px  620px at 50% 108%, #e5fbf1 0%, rgba(229,251,241,0) 62%),
+        linear-gradient(170deg,#fdf6ff 0%,#f3f6ff 52%,#fdf8f4 100%);
+      background-attachment:fixed;
+      padding:
+        calc(28px + env(safe-area-inset-top)) 20px
+        calc(28px + env(safe-area-inset-bottom));
+    }
+
+    /* Soft floating shapes. Purely decorative, and cheap: three blurred circles. */
+    .sky{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+    .sky i{position:absolute;border-radius:50%;filter:blur(46px);opacity:.5}
+    .sky i:nth-child(1){width:280px;height:280px;left:-70px;top:16%;background:#ffc9e6}
+    .sky i:nth-child(2){width:330px;height:330px;right:-90px;top:44%;background:#c9dcff}
+    .sky i:nth-child(3){width:240px;height:240px;left:38%;bottom:-90px;background:#c8f2dd}
+
+    .wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto}
+
+    header{text-align:center;margin-bottom:30px}
+    h1{
+      font-family:'Fredoka One','Nunito',sans-serif;
+      font-weight:400;
+      font-size:clamp(2rem,7vw,3.4rem);
+      line-height:1.1;
+      letter-spacing:.5px;
+      color:#4a3168;
+      text-shadow:0 3px 0 rgba(255,255,255,.9);
+    }
+    h1 em{font-style:normal;color:#e5559a}
+    .tagline{
+      margin-top:10px;font-weight:800;font-size:clamp(.95rem,2.6vw,1.15rem);
+      color:var(--ink-soft);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:20px;
+    }
+
+    .card{
+      position:relative;
+      display:flex;flex-direction:column;align-items:center;text-align:center;
+      gap:12px;
+      padding:26px 18px 22px;
+      min-height:250px;
+      border-radius:var(--radius);
+      background:var(--card);
+      text-decoration:none;color:var(--ink);
+      border:3px solid var(--edge,#eee);
+      box-shadow:0 9px 0 var(--shadow,#e6e6f0), 0 16px 30px rgba(72,48,104,.14);
+      transition:transform .16s ease, box-shadow .16s ease;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .card:hover{transform:translateY(-6px);box-shadow:0 15px 0 var(--shadow,#e6e6f0),0 24px 40px rgba(72,48,104,.2)}
+    .card:active{transform:translateY(5px);box-shadow:0 4px 0 var(--shadow,#e6e6f0),0 8px 16px rgba(72,48,104,.18)}
+    .card:focus-visible{outline:5px solid #7c4dff;outline-offset:4px}
+
+    .art{
+      width:124px;height:124px;
+      display:grid;place-items:center;
+      border-radius:26px;
+      background:var(--tint,#f6f4ff);
+      flex:none;
+    }
+    .art img{
+      width:96px;height:96px;object-fit:contain;
+      filter:drop-shadow(0 5px 9px rgba(60,40,90,.25));
+    }
+    /* Some games only have a square app icon rather than a cut-out sprite.
+       Rounding it makes it read as a deliberate tile instead of a pasted square. */
+    .art img.tile{border-radius:20px}
+
+    .name{font-weight:900;font-size:1.22rem;line-height:1.15}
+    .desc{font-weight:700;font-size:.86rem;color:var(--ink-soft);line-height:1.35;max-width:20ch}
+
+    /* The two maths cards were blue (#3f6fe0) and pink (#e5559a) until 2026-09-09,
+       when they merged into one. Their card wears the colour between them, which is
+       the same thing the artwork does: one blue doorway, one pink one. Distinct from
+       Our Word Book's berry, which is the nearest card on the page -- until 2026-09-09
+       that sentence named Magic Spelling's blue-violet, which is now a section colour
+       one level down rather than a card here. */
+    .c-magic   {--edge:#a855c7;--shadow:#7b3a90;--tint:#f8e8fb}
+    /* The three language cards were blue-violet (Magic Spelling), pencil-gold (Writing
+       Book) and coral (Spelling Exam) until 2026-09-09, when they merged into one. Berry
+       sits between them in warmth and is none of them, which is the same thing the Magic
+       Math card did with its two. Distinct from Magic Math's purple immediately before it
+       and from Petal Kingdom's lighter pink. Each of the three keeps its own colour one
+       level down, on its section card inside Our Word Book. */
+    .c-word    {--edge:#c2557d;--shadow:#93325a;--tint:#ffe9f1}
+    .c-music   {--edge:#17a2b8;--shadow:#0d7c8e;--tint:#e2f7fa}
+    .c-petal   {--edge:#f0699b;--shadow:#c04574;--tint:#ffecf3}
+    .c-colour  {--edge:#34a853;--shadow:#217a3a;--tint:#e6f7ea}
+    .c-story   {--edge:#5b64c9;--shadow:#3b429c;--tint:#eceeff}
+    .c-animal  {--edge:#d97a16;--shadow:#a55606;--tint:#fff1de}
+    /* The darkest card on the page, deliberately: its art is a night sky, and the
+       three cards already in blue are all lighter than this. */
+    .c-planets {--edge:#26306e;--shadow:#151c46;--tint:#e6eaff}
+
+    footer{
+      margin-top:34px;text-align:center;
+      font-weight:800;font-size:.85rem;color:var(--ink-soft);
+    }
+    /* The AI-voice disclosure. Deliberately quieter than the line above it — it is
+       for the adult who looks, not a warning aimed at the child who is here to play.
+       It claims only the voices we render ourselves. Magic Math and Planets & Moons
+       ship designed voices; the rest speak through the browser’s built-in speech,
+       and some vendors build those OS voices from a real speaker’s recordings — so a
+       blanket "every voice here is AI" would overclaim on games we do not control. */
+    footer .disclosure{
+      display:block;margin-top:8px;
+      font-weight:600;font-size:.72rem;opacity:.72;line-height:1.45;
+    }
+
+    @media (max-width:420px){
+      .grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+      .card{min-height:212px;padding:20px 12px 18px;border-radius:24px}
+      .art{width:96px;height:96px;border-radius:22px}
+      .art img{width:74px;height:74px}
+      .name{font-size:1.04rem}
+      .desc{font-size:.78rem}
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      .card{transition:none}
+      .card:hover{transform:none}
+    }
+
+
+    /* ---- the Homework hub, and only what it needs beyond the main hub --------
+       Owner, 2026-10-02: "I think for the 'homework' we should have the 'homework
+       hub'". Built the way music.html is: the style block above is the main hub's,
+       copied verbatim so the pages cannot drift into looking like different
+       products, and everything below is the difference -- a back arrow, a capped
+       grid, the vertical centring, and the two homework cards' colours.
+
+       WHAT IS DELIBERATELY NOT HERE.
+       - No music button and no bed. The owner asked for a hub, not a soundtrack,
+         and this task was briefed "do NOT add a new music bed, reuse nothing paid".
+         A button that played nothing would be a silent control, which is a defect
+         here, so there is no button at all. If a bed is ever wanted, music.html's
+         player is the one to copy, under the same `ca_music` preference.
+       - No painted-backdrop hook. music.html carries one because a painting is
+         briefed for it; nothing is briefed for this page, and an unused hook is
+         just code to misread.
+       - No tap-zoom guard script, matching music.html and the main hub: both rely on
+         `touch-action:manipulation` on html AND body (INTERACTION-DIRECTION.md layer 1),
+         and this page has no drag surface at all.
+
+       THE GRID HOLDS TWO TODAY AND GROWS TO FOUR WITHOUT A REDESIGN.
+       `--cols` on the <main> is the column count. Set it to the number of cards for
+       two or three, and to 2 for four (a 2x2 block). Three columns at the 196px floor
+       are 628px wide, which fits a 768px portrait iPad with room to spare; four would
+       need 844px and overflow it, which is why four goes 2x2 rather than 4x1. 280px is
+       the ceiling, so two cards stay card-sized at 1024px landscape instead of
+       stretching into half-screen slabs (the reason music.html caps its grid). Below
+       640px every count falls to one column. */
+    .hw-grid{
+      grid-template-columns:repeat(var(--cols,2),minmax(196px,280px));
+      justify-content:center;
+    }
+    @media (max-width:640px){
+      .hw-grid{grid-template-columns:minmax(220px,340px)}
+    }
+
+    /* Two cards above half a screen of nothing reads as unfinished, so the page
+       centres itself vertically when there is room -- music.html's rule, verbatim in
+       effect; see the comment there for why 100svh and not 100vh. */
+    body{display:flex;flex-direction:column;min-height:100svh}
+    .wrap{margin-block:auto}
+    .wrap header{margin-top:6px}
+
+    /* The arrow back to the main hub. Relative, because this page is a sibling of
+       index.html in the same published directory. width:100% because body is a flex
+       column: without it the row shrink-wraps and centres the arrow. */
+    .backrow{position:relative;z-index:1;width:100%;max-width:1080px;margin:0 auto 18px}
+    .back{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:12px 20px 12px 16px;border-radius:999px;
+      background:#fff;border:3px solid #e6e0f2;
+      box-shadow:0 5px 0 #ded6ee,0 10px 20px rgba(72,48,104,.12);
+      font-weight:900;color:#4a3168;text-decoration:none;font-size:1rem;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .back:active{transform:translateY(3px);box-shadow:0 2px 0 #ded6ee}
+    .back:focus-visible{outline:5px solid #7c4dff;outline-offset:4px}
+    .back svg{width:20px;height:20px;flex:none}
+
+    /* The two cards keep the colours they wore on the main hub (2026-10-01 and
+       2026-10-02), so a child who knew them there finds the same doors here: maths
+       homework in periwinkle, Read & Write in teal -- cool against cool but clearly
+       two hues. The main hub's single Homework card wears a warm gold instead
+       (`.c-homework` in index.html, the same class name with its own values there), distinct from both. */
+    .c-homework {--edge:#5a6fd6;--shadow:#3a4aa0;--tint:#e8ecff}
+    .c-readwrite{--edge:#2f8f9d;--shadow:#1d6570;--tint:#e3f5f7}
+
+    /* The Thai title in Fredoka One would fall back glyph by glyph; Nunito carries no
+       Thai either, so the system font draws it. Say so explicitly rather than let the
+       heading's letter-spacing and shadow tuned for Latin smear the Thai. */
+    h1 .th{font-family:system-ui,-apple-system,'Thonburi',sans-serif;font-weight:800;letter-spacing:0}
+
+    /* Touch hygiene, matching the other hub pages (2026-09-15). */
+    body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:manipulation}
+  </style>
+</head>
+<body>
+  <div class="sky" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="backrow">
+    <a class="back" href="./" aria-label="Back to Children Games">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 5 8 12l7 7"/></svg>
+      <span>Children Games</span>
+    </a>
+  </div>
+
+  <div class="wrap">
+    <header>
+      <h1><span class="th" lang="th">การบ้านปิดเทอม</span></h1>
+      <p class="tagline">Holiday Homework</p>
+    </header>
+
+    <!-- TWO CARDS, each exactly as it stood on the main hub before 2026-10-02 (name,
+         line, tile, link), moved one level down. Both links are relative to this page,
+         which sits beside index.html, so they resolve to the same public paths the
+         main hub's cards used. A third homework app joins as a third card here and
+         `--cols` becomes 3; the main hub does not change. -->
+    <main class="grid hw-grid" style="--cols:2">
+      <a class="card c-homework" href="../magic-math/october-homework.html">
+        <span class="art"><img class="tile" src="./assets/october-homework.webp" alt="" width="96" height="96"/></span>
+        <span class="name" lang="th">การบ้านปิดเทอม ป.2</span>
+        <span class="desc">October homework: 20 missions, 200 answers</span>
+      </a>
+
+      <a class="card c-readwrite" href="../read-write/">
+        <span class="art"><img class="tile" src="./assets/read-write.webp" alt="" width="96" height="96"/></span>
+        <span class="name"><span lang="th">การบ้านปิดเทอม</span> Read &amp; Write</span>
+        <span class="desc">School-break homework: 20 days of reading and writing</span>
+      </a>
+    </main>
+  </div>
+
+  <!-- NO SERVICE WORKER REGISTRATION HERE, as on music.html: the main hub registers
+       ./service-worker.js, whose scope is this whole directory, so this page is
+       controlled by it once the hub has been opened, and is cached on first visit. -->
+</body>
+</html>
