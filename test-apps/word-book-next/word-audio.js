@@ -34,8 +34,8 @@
      word. When a clip is rendered, delete its line here; the coverage gate refuses an
      entry whose file already exists, so a stale exception cannot linger.
 
-     It is EMPTY as of 2026-09-22: every one of the 2,098 cards speaks. The mechanism stays
-     because the next unrendered card needs it -- an empty table is the goal, not dead code.
+     The 30 concepts selected on 2026-10-01 are listed until their paid render step. The
+     earlier 2,098 cards all speak; these additions honestly show no speaker meanwhile.
 
    Loaded by dictionary.html as a plain <script> (it defines window.WordAudio) and by
    Node as CommonJS. Shipped, so it is in .publish-manifest [ship] and the worker SHELL. */
@@ -54,8 +54,36 @@
   var SENSE_KEYED = ['bow', 'close', 'tear', 'wind'];
 
   var UNRENDERED = {
-    /* Empty since 2026-09-22: the eight homograph senses (bow, close, tear, wind) were
-       rendered on owner approval, one listened-to test clip first. */
+    'angry.feeling-cross': 'new card added 2026-10-01; word-audio render pending',
+    'dinosaur.prehistoric-reptile': 'new card added 2026-10-01; word-audio render pending',
+    'medicine.cure-for-illness': 'new card added 2026-10-01; word-audio render pending',
+    'tummy.stomach-informal': 'new card added 2026-10-01; word-audio render pending',
+    'plaster.small-sticking-bandage': 'new card added 2026-10-01; word-audio render pending',
+    'bandage.protective-wrapping': 'new card added 2026-10-01; word-audio render pending',
+    'candle.wax-light': 'new card added 2026-10-01; word-audio render pending',
+    'fireworks.sky-display': 'new card added 2026-10-01; word-audio render pending',
+    'wedding.marriage-celebration': 'new card added 2026-10-01; word-audio render pending',
+    'decorate.make-pretty': 'new card added 2026-10-01; word-audio render pending',
+    'celebration.happy-special-event': 'new card added 2026-10-01; word-audio render pending',
+    'sunny.full-of-sunshine': 'new card added 2026-10-01; word-audio render pending',
+    'rainy.with-lots-of-rain': 'new card added 2026-10-01; word-audio render pending',
+    'windy.with-strong-wind': 'new card added 2026-10-01; word-audio render pending',
+    'cloudy.covered-with-clouds': 'new card added 2026-10-01; word-audio render pending',
+    'snowy.covered-with-snow': 'new card added 2026-10-01; word-audio render pending',
+    'bell.ringing-instrument': 'new card added 2026-10-01; word-audio render pending',
+    'playtime.school-break-time': 'new card added 2026-10-01; word-audio render pending',
+    'board game.tabletop-game': 'new card added 2026-10-01; word-audio render pending',
+    'hide-and-seek.classic-hiding-game': 'new card added 2026-10-01; word-audio render pending',
+    'yo-yo.spinning-toy-on-string': 'new card added 2026-10-01; word-audio render pending',
+    'bounce.spring-off-a-surface': 'new card added 2026-10-01; word-audio render pending',
+    'alien.being-from-another-planet': 'new card added 2026-10-01; word-audio render pending',
+    'vacuum cleaner.carpet-cleaning-machine': 'new card added 2026-10-01; word-audio render pending',
+    'queue.stand-in-line': 'new card added 2026-10-01; word-audio render pending',
+    'lost.cannot-find-way': 'new card added 2026-10-01; word-audio render pending',
+    'X-ray.inside-body-photo': 'new card added 2026-10-01; word-audio render pending',
+    'Christmas.december-festival': 'new card added 2026-10-01; word-audio render pending',
+    'T-rex.giant-meat-eating-dinosaur': 'new card added 2026-10-01; word-audio render pending',
+    'bunny.pet-rabbit-child-word': 'new card added 2026-10-01; word-audio render pending'
   };
 
   function slug(word) {
