@@ -1,0 +1,80 @@
+{
+ "sense": "railway.train-route",
+ "word": "railway",
+ "sentence": "The railway runs beside the coast.",
+ "char_span": [
+  4,
+  11
+ ],
+ "word_index": 1,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.16,
+  0.64
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.08,
+  "next_char_start": 0.72
+ },
+ "energy_dbfs_at_raw_edges": [
+  -22.4,
+  -20.6
+ ],
+ "quietest_near_start": {
+  "t": 0.185,
+  "dbfs": -24.6
+ },
+ "quietest_near_end": {
+  "t": 0.75,
+  "dbfs": -28.3
+ },
+ "refined": true,
+ "edge_rule": [
+  "gap-min+soft-valley",
+  "gap-min"
+ ],
+ "cut_s": [
+  0.0696,
+  0.72
+ ],
+ "edge_shift_ms_vs_raw": [
+  -90.4,
+  80.0
+ ],
+ "energy_dbfs_at_cut": [
+  -33.0,
+  -25.4
+ ],
+ "word_audio_s": 0.6503,
+ "lead_tail_silence_s": [
+  0.055,
+  0.233
+ ],
+ "gain_db": -0.51,
+ "peak_dbfs_after": -5.4,
+ "level_to": "word-book/audio/words/railway.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/railway.train-route.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/railway.train-route.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  40.0
+ ],
+ "soft_move_ms": [
+  -10.0,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -33.0 dBFS, above -35: inside speech, so clipped or smeared"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -25.4 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

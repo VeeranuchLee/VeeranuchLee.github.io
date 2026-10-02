@@ -1,0 +1,82 @@
+{
+ "sense": "rabbit.animal",
+ "word": "rabbit",
+ "sentence": "The rabbit hops past the flowers.",
+ "char_span": [
+  4,
+  10
+ ],
+ "word_index": 1,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.24,
+  0.56
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.16,
+  "next_char_start": 0.72
+ },
+ "energy_dbfs_at_raw_edges": [
+  -25.0,
+  -17.6
+ ],
+ "quietest_near_start": {
+  "t": 0.2675,
+  "dbfs": -26.7
+ },
+ "quietest_near_end": {
+  "t": 0.625,
+  "dbfs": -48.2
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  0.2401,
+  0.6325
+ ],
+ "edge_shift_ms_vs_raw": [
+  0.1,
+  72.5
+ ],
+ "energy_dbfs_at_cut": [
+  -25.1,
+  -46.8
+ ],
+ "word_audio_s": 0.3925,
+ "lead_tail_silence_s": [
+  0.18,
+  0.268
+ ],
+ "gain_db": 2.89,
+ "peak_dbfs_after": -3.39,
+ "level_to": "word-book/audio/words/rabbit.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/rabbit.animal.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/rabbit.animal.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  13.5
+ ],
+ "soft_move_ms": [
+  0.0,
+  7.5
+ ],
+ "flags": [
+  {
+   "flag": "unreleased-stop",
+   "why": "ends in a stop before 'hops' (a consonant): usually unreleased in connected speech",
+   "release_measured": true,
+   "measurement": "release at 0.467 s (-32 dBFS over a -50 dBFS closure)"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -25.1 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

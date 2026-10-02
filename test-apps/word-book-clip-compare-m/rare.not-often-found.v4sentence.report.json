@@ -1,0 +1,76 @@
+{
+ "sense": "rare.not-often-found",
+ "word": "rare",
+ "sentence": "The collector shows us a rare coin.",
+ "char_span": [
+  25,
+  29
+ ],
+ "word_index": 5,
+ "words_in_sentence": 7,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  1.6,
+  1.84
+ ],
+ "neighbours_s": {
+  "previous_char_end": 1.52,
+  "next_char_start": 1.92
+ },
+ "energy_dbfs_at_raw_edges": [
+  -32.8,
+  -43.6
+ ],
+ "quietest_near_start": {
+  "t": 1.5875,
+  "dbfs": -33.2
+ },
+ "quietest_near_end": {
+  "t": 1.9,
+  "dbfs": -77.4
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  1.6,
+  1.9199
+ ],
+ "edge_shift_ms_vs_raw": [
+  -0.0,
+  79.9
+ ],
+ "energy_dbfs_at_cut": [
+  -32.8,
+  -54.7
+ ],
+ "word_audio_s": 0.3199,
+ "lead_tail_silence_s": [
+  0.015,
+  0.285
+ ],
+ "gain_db": 5.18,
+ "peak_dbfs_after": -5.79,
+ "level_to": "word-book/audio/words/rare.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/rare.not-often-found.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/rare.not-often-found.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  21.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  15.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -32.8 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

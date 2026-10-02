@@ -1,0 +1,82 @@
+{
+ "sense": "rat.animal",
+ "word": "rat",
+ "sentence": "The rat runs behind the bin.",
+ "char_span": [
+  4,
+  7
+ ],
+ "word_index": 1,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.24,
+  0.56
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.16,
+  "next_char_start": 0.72
+ },
+ "energy_dbfs_at_raw_edges": [
+  -25.3,
+  -43.7
+ ],
+ "quietest_near_start": {
+  "t": 0.2275,
+  "dbfs": -25.9
+ },
+ "quietest_near_end": {
+  "t": 0.5725,
+  "dbfs": -55.3
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  0.2394,
+  0.58
+ ],
+ "edge_shift_ms_vs_raw": [
+  -0.6,
+  20.0
+ ],
+ "energy_dbfs_at_cut": [
+  -26.0,
+  -45.1
+ ],
+ "word_audio_s": 0.3407,
+ "lead_tail_silence_s": [
+  0.01,
+  0.149
+ ],
+ "gain_db": -2.79,
+ "peak_dbfs_after": -6.05,
+ "level_to": "word-book/audio/words/rat.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/rat.animal.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/rat.animal.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  13.5
+ ],
+ "soft_move_ms": [
+  0.0,
+  7.5
+ ],
+ "flags": [
+  {
+   "flag": "unreleased-stop",
+   "why": "ends in a stop before 'runs' (a consonant): usually unreleased in connected speech",
+   "release_measured": false,
+   "measurement": "38 ms of closure before the cut, no release above it"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -26.0 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

@@ -1,0 +1,80 @@
+{
+ "sense": "rule.requirement",
+ "word": "rule",
+ "sentence": "Our game has one simple rule.",
+ "char_span": [
+  24,
+  28
+ ],
+ "word_index": 5,
+ "words_in_sentence": 6,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  1.92,
+  2.32
+ ],
+ "neighbours_s": {
+  "previous_char_end": 1.84,
+  "next_char_start": 2.32
+ },
+ "energy_dbfs_at_raw_edges": [
+  -30.3,
+  -33.9
+ ],
+ "quietest_near_start": {
+  "t": 1.9425,
+  "dbfs": -31.5
+ },
+ "quietest_near_end": {
+  "t": 2.3475,
+  "dbfs": -61.3
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  1.9215,
+  2.3873
+ ],
+ "edge_shift_ms_vs_raw": [
+  1.5,
+  67.3
+ ],
+ "energy_dbfs_at_cut": [
+  -30.3,
+  -64.1
+ ],
+ "word_audio_s": 0.4657,
+ "lead_tail_silence_s": [
+  0.175,
+  0.303
+ ],
+ "gain_db": 0.84,
+ "peak_dbfs_after": -9.07,
+ "level_to": "word-book/audio/words/rule.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/rule.requirement.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/rule.requirement.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -30.3 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

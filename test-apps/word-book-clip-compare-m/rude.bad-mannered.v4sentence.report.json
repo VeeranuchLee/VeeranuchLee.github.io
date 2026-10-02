@@ -1,0 +1,82 @@
+{
+ "sense": "rude.bad-mannered",
+ "word": "rude",
+ "sentence": "The rude goblin interrupts the storyteller.",
+ "char_span": [
+  4,
+  8
+ ],
+ "word_index": 1,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.24,
+  0.56
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.16,
+  "next_char_start": 0.64
+ },
+ "energy_dbfs_at_raw_edges": [
+  -22.3,
+  -24.6
+ ],
+ "quietest_near_start": {
+  "t": 0.265,
+  "dbfs": -24.9
+ },
+ "quietest_near_end": {
+  "t": 0.6375,
+  "dbfs": -72.0
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  0.2408,
+  0.6575
+ ],
+ "edge_shift_ms_vs_raw": [
+  0.8,
+  97.5
+ ],
+ "energy_dbfs_at_cut": [
+  -22.7,
+  -51.7
+ ],
+ "word_audio_s": 0.4167,
+ "lead_tail_silence_s": [
+  0.035,
+  0.248
+ ],
+ "gain_db": 3.98,
+ "peak_dbfs_after": -6.35,
+ "level_to": "word-book/audio/words/rude.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/rude.bad-mannered.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/rude.bad-mannered.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  16.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  10.0
+ ],
+ "flags": [
+  {
+   "flag": "unreleased-stop",
+   "why": "ends in a stop before 'goblin' (a consonant): usually unreleased in connected speech",
+   "release_measured": true,
+   "measurement": "release at 0.550 s (-30 dBFS over a -46 dBFS closure)"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -22.7 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

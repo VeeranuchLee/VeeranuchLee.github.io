@@ -1,0 +1,80 @@
+{
+ "sense": "railway.train-route",
+ "word": "railway",
+ "sentence": ", railway.",
+ "char_span": [
+  2,
+  9
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.639,
+  1.161
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.592,
+  "next_char_start": 1.161
+ },
+ "energy_dbfs_at_raw_edges": [
+  -30.4,
+  -39.8
+ ],
+ "quietest_near_start": {
+  "t": 0.6215,
+  "dbfs": -32.8
+ },
+ "quietest_near_end": {
+  "t": 1.191,
+  "dbfs": -67.4
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.6389,
+  1.221
+ ],
+ "edge_shift_ms_vs_raw": [
+  -0.1,
+  60.0
+ ],
+ "energy_dbfs_at_cut": [
+  -30.4,
+  -51.5
+ ],
+ "word_audio_s": 0.5821,
+ "lead_tail_silence_s": [
+  0.055,
+  0.233
+ ],
+ "gain_db": 1.18,
+ "peak_dbfs_after": -5.4,
+ "level_to": "word-book/audio/words/railway.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/railway.train-route.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/railway.train-route.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -30.4 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

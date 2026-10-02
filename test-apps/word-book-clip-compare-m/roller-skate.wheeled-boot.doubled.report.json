@@ -1,0 +1,76 @@
+{
+ "sense": "roller-skate.wheeled-boot",
+ "word": "roller skate",
+ "sentence": ", roller skate.",
+ "char_span": [
+  2,
+  14
+ ],
+ "word_index": 1,
+ "words_in_sentence": 3,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.848,
+  1.579
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.755,
+  "next_char_start": 1.579
+ },
+ "energy_dbfs_at_raw_edges": [
+  -49.9,
+  -51.4
+ ],
+ "quietest_near_start": {
+  "t": 0.828,
+  "dbfs": -77.2
+ },
+ "quietest_near_end": {
+  "t": 1.609,
+  "dbfs": -79.4
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.7878,
+  1.629
+ ],
+ "edge_shift_ms_vs_raw": [
+  -60.2,
+  50.0
+ ],
+ "energy_dbfs_at_cut": [
+  -48.0,
+  -81.4
+ ],
+ "word_audio_s": 0.8411,
+ "lead_tail_silence_s": [
+  0.135,
+  0.223
+ ],
+ "gain_db": 0.79,
+ "peak_dbfs_after": -5.65,
+ "level_to": "word-book/audio/words/roller-skate.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/roller-skate.wheeled-boot.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/roller-skate.wheeled-boot.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  36.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  -30.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}

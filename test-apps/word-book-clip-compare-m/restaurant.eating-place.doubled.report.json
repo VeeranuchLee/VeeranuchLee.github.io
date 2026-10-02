@@ -1,0 +1,76 @@
+{
+ "sense": "restaurant.eating-place",
+ "word": "restaurant",
+ "sentence": ", restaurant.",
+ "char_span": [
+  2,
+  12
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.929,
+  1.602
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.755,
+  "next_char_start": 1.602
+ },
+ "energy_dbfs_at_raw_edges": [
+  -25.3,
+  -62.4
+ ],
+ "quietest_near_start": {
+  "t": 0.869,
+  "dbfs": -28.6
+ },
+ "quietest_near_end": {
+  "t": 1.6295,
+  "dbfs": -74.8
+ },
+ "refined": true,
+ "edge_rule": [
+  "gap-min+soft-reach",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.7712,
+  1.6418
+ ],
+ "edge_shift_ms_vs_raw": [
+  -157.8,
+  39.8
+ ],
+ "energy_dbfs_at_cut": [
+  -80.2,
+  -74.3
+ ],
+ "word_audio_s": 0.8706,
+ "lead_tail_silence_s": [
+  0.185,
+  0.264
+ ],
+ "gain_db": -0.23,
+ "peak_dbfs_after": -3.86,
+ "level_to": "word-book/audio/words/restaurant.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/restaurant.eating-place.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/restaurant.eating-place.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  36.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  -30.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}

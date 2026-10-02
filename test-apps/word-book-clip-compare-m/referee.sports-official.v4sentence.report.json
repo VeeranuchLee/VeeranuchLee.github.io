@@ -1,0 +1,76 @@
+{
+ "sense": "referee.sports-official",
+ "word": "referee",
+ "sentence": "The referee blows a whistle.",
+ "char_span": [
+  4,
+  11
+ ],
+ "word_index": 1,
+ "words_in_sentence": 5,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.28,
+  0.72
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.16,
+  "next_char_start": 0.8
+ },
+ "energy_dbfs_at_raw_edges": [
+  -14.2,
+  -22.6
+ ],
+ "quietest_near_start": {
+  "t": 0.2225,
+  "dbfs": -24.4
+ },
+ "quietest_near_end": {
+  "t": 0.83,
+  "dbfs": -55.6
+ },
+ "refined": true,
+ "edge_rule": [
+  "gap-min",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  0.1899,
+  0.87
+ ],
+ "edge_shift_ms_vs_raw": [
+  -90.1,
+  150.0
+ ],
+ "energy_dbfs_at_cut": [
+  -25.8,
+  -83.0
+ ],
+ "word_audio_s": 0.6801,
+ "lead_tail_silence_s": [
+  0.18,
+  0.308
+ ],
+ "gain_db": 0.38,
+ "peak_dbfs_after": -4.63,
+ "level_to": "word-book/audio/words/referee.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/referee.sports-official.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/referee.sports-official.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -25.8 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

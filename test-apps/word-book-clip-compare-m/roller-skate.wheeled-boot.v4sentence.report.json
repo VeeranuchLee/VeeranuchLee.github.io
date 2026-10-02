@@ -1,0 +1,82 @@
+{
+ "sense": "roller-skate.wheeled-boot",
+ "word": "roller skate",
+ "sentence": "One wheel on my roller skate needs fixing.",
+ "char_span": [
+  16,
+  28
+ ],
+ "word_index": 4,
+ "words_in_sentence": 8,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  1.12,
+  1.6
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.96,
+  "next_char_start": 1.68
+ },
+ "energy_dbfs_at_raw_edges": [
+  -22.2,
+  -23.7
+ ],
+ "quietest_near_start": {
+  "t": 1.1475,
+  "dbfs": -23.9
+ },
+ "quietest_near_end": {
+  "t": 1.65,
+  "dbfs": -55.2
+ },
+ "refined": true,
+ "edge_rule": [
+  "gap-min",
+  "dip"
+ ],
+ "cut_s": [
+  1.0339,
+  1.6496
+ ],
+ "edge_shift_ms_vs_raw": [
+  -86.1,
+  49.6
+ ],
+ "energy_dbfs_at_cut": [
+  -32.0,
+  -55.3
+ ],
+ "word_audio_s": 0.6158,
+ "lead_tail_silence_s": [
+  0.135,
+  0.223
+ ],
+ "gain_db": -0.01,
+ "peak_dbfs_after": -5.65,
+ "level_to": "word-book/audio/words/roller-skate.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/roller-skate.wheeled-boot.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/roller-skate.wheeled-boot.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  6.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "unreleased-stop",
+   "why": "ends in a stop before 'needs' (a consonant): usually unreleased in connected speech",
+   "release_measured": true,
+   "measurement": "release at 1.448 s (-48 dBFS over a -73 dBFS closure)"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -32.0 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

@@ -1,0 +1,71 @@
+{
+ "sense": "rose.flower",
+ "word": "rose",
+ "sentence": "A pink rose grows beside the unicorn's gate.",
+ "char_span": [
+  7,
+  11
+ ],
+ "word_index": 2,
+ "words_in_sentence": 8,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.56,
+  1.04
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.48,
+  "next_char_start": 1.12
+ },
+ "energy_dbfs_at_raw_edges": [
+  -37.2,
+  -22.3
+ ],
+ "quietest_near_start": {
+  "t": 0.51,
+  "dbfs": -61.3
+ },
+ "quietest_near_end": {
+  "t": 1.1375,
+  "dbfs": -75.7
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  0.4856,
+  1.1475
+ ],
+ "edge_shift_ms_vs_raw": [
+  -74.4,
+  107.5
+ ],
+ "energy_dbfs_at_cut": [
+  -47.8,
+  -46.6
+ ],
+ "word_audio_s": 0.662,
+ "lead_tail_silence_s": [
+  0.04,
+  0.037
+ ],
+ "gain_db": 3.31,
+ "peak_dbfs_after": -5.92,
+ "level_to": "word-book/audio/words/rose.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/rose.flower.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/rose.flower.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  28.5,
+  8.5
+ ],
+ "soft_move_ms": [
+  -22.5,
+  2.5
+ ],
+ "flags": []
+}

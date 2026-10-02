@@ -1,0 +1,82 @@
+{
+ "sense": "racket.sports-tool",
+ "word": "racket",
+ "sentence": "I hold my tennis racket with both hands.",
+ "char_span": [
+  17,
+  23
+ ],
+ "word_index": 4,
+ "words_in_sentence": 8,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  1.04,
+  1.44
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.96,
+  "next_char_start": 1.56
+ },
+ "energy_dbfs_at_raw_edges": [
+  -28.7,
+  -58.1
+ ],
+ "quietest_near_start": {
+  "t": 1.065,
+  "dbfs": -35.3
+ },
+ "quietest_near_end": {
+  "t": 1.535,
+  "dbfs": -70.7
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw+soft-valley",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  1.055,
+  1.545
+ ],
+ "edge_shift_ms_vs_raw": [
+  15.0,
+  105.0
+ ],
+ "energy_dbfs_at_cut": [
+  -32.5,
+  -50.9
+ ],
+ "word_audio_s": 0.49,
+ "lead_tail_silence_s": [
+  0.045,
+  0.345
+ ],
+ "gain_db": 0.83,
+ "peak_dbfs_after": -4.25,
+ "level_to": "word-book/audio/words/racket.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/racket.sports-tool.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/racket.sports-tool.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  11.0
+ ],
+ "soft_move_ms": [
+  15.0,
+  5.0
+ ],
+ "flags": [
+  {
+   "flag": "unreleased-stop",
+   "why": "ends in a stop before 'with' (a consonant): usually unreleased in connected speech",
+   "release_measured": true,
+   "measurement": "release at 1.242 s (-48 dBFS over a -67 dBFS closure)"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -32.5 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

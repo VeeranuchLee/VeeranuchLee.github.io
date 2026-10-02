@@ -1,0 +1,76 @@
+{
+ "sense": "repair.fix-damage",
+ "word": "repair",
+ "sentence": "The princess helps repair the little wooden bridge.",
+ "char_span": [
+  19,
+  25
+ ],
+ "word_index": 3,
+ "words_in_sentence": 8,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  1.12,
+  1.52
+ ],
+ "neighbours_s": {
+  "previous_char_end": 1.08,
+  "next_char_start": 1.6
+ },
+ "energy_dbfs_at_raw_edges": [
+  -27.8,
+  -21.2
+ ],
+ "quietest_near_start": {
+  "t": 1.06,
+  "dbfs": -38.6
+ },
+ "quietest_near_end": {
+  "t": 1.6225,
+  "dbfs": -47.5
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw+soft-valley",
+  "dip"
+ ],
+ "cut_s": [
+  1.135,
+  1.6225
+ ],
+ "edge_shift_ms_vs_raw": [
+  15.0,
+  102.5
+ ],
+ "energy_dbfs_at_cut": [
+  -31.2,
+  -47.5
+ ],
+ "word_audio_s": 0.4875,
+ "lead_tail_silence_s": [
+  0.04,
+  0.333
+ ],
+ "gain_db": 0.78,
+ "peak_dbfs_after": -7.26,
+ "level_to": "word-book/audio/words/repair.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/repair.fix-damage.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/repair.fix-damage.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  6.0
+ ],
+ "soft_move_ms": [
+  15.0,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -31.2 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

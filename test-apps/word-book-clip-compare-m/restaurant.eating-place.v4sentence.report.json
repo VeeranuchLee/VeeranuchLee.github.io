@@ -1,0 +1,78 @@
+{
+ "sense": "restaurant.eating-place",
+ "word": "restaurant",
+ "sentence": "The restaurant has a table beside the window.",
+ "char_span": [
+  4,
+  14
+ ],
+ "word_index": 1,
+ "words_in_sentence": 8,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.44,
+  0.72
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.16,
+  "next_char_start": 0.8
+ },
+ "energy_dbfs_at_raw_edges": [
+  -51.8,
+  -24.4
+ ],
+ "quietest_near_start": {
+  "t": 0.4325,
+  "dbfs": -54.4
+ },
+ "quietest_near_end": {
+  "t": 0.7025,
+  "dbfs": -44.3
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "dip"
+ ],
+ "cut_s": [
+  0.425,
+  0.7029
+ ],
+ "edge_shift_ms_vs_raw": [
+  -15.0,
+  -17.1
+ ],
+ "energy_dbfs_at_cut": [
+  -46.5,
+  -44.2
+ ],
+ "word_audio_s": 0.2779,
+ "lead_tail_silence_s": [
+  0.185,
+  0.264
+ ],
+ "gain_db": 4.93,
+ "peak_dbfs_after": -3.86,
+ "level_to": "word-book/audio/words/restaurant.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/restaurant.eating-place.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/restaurant.eating-place.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  13.5,
+  6.0
+ ],
+ "soft_move_ms": [
+  -7.5,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "unreleased-stop",
+   "why": "ends in a stop before 'has' (a consonant): usually unreleased in connected speech",
+   "release_measured": true,
+   "measurement": "release at 0.470 s (-30 dBFS over a -45 dBFS closure)"
+  }
+ ]
+}
