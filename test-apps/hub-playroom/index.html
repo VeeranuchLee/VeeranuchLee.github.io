@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <!-- No user-scalable / maximum-scale: INTERACTION-DIRECTION.md layer 4. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Children Games — playroom (Test Hub)</title>
+  <meta name="description" content="All of our games in one place — maths, spelling, writing, music, colouring, flowers, a space story, the planets and their moons, and an animal book."/>
+  <link rel="manifest" href="https://veeranuchlee.github.io/children-apps/manifest.webmanifest"/>
+  <link rel="stylesheet" href="https://veeranuchlee.github.io/children-apps/fonts.css"/>
+  <meta name="theme-color" content="#f7d9ec"/>
+  <link rel="apple-touch-icon" href="https://veeranuchlee.github.io/children-apps/assets/app-192.png"/>
+  <link rel="icon" href="https://veeranuchlee.github.io/children-apps/assets/app-192.png"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+  <meta name="apple-mobile-web-app-title" content="Games"/>
+  <link rel="stylesheet" href="./playroom/playroom.css"/>
+  <!--
+    THE PLAYROOM HUB — prototype, 2026-10-02. Not the live hub: index.html is unchanged and
+    this page is not in the service worker's SHELL. One painted room, and every game is an
+    object in it. The doors are transparent links laid over the picture; what they are and
+    where they sit lives in ./playroom/destinations.js, which is the only file to edit when a
+    game is added or the background art is replaced.
+  -->
+</head>
+<body>
+<!-- The picture already says "Children Games / Pick a game to play" in the concept art; the
+     final art carries no painted text, so the real heading is here, read by screen readers. -->
+<h1 class="sr-only">Children Games</h1>
+<p class="sr-only">Pick a game to play: every object in the room is a game. Tap one to open it.</p>
+
+<!-- The hub's own music control, unchanged from index.html: same place, same states. -->
+<button class="music-btn" id="musicBtn" type="button" aria-pressed="false" aria-label="Play music">
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path class="note" d="M20 3.5v11.2a3.3 3.3 0 1 1-2-3V7.9l-7 1.6v8.2a3.3 3.3 0 1 1-2-3V6.3l11-2.8z"/>
+    <line class="slash" x1="3.4" y1="3.4" x2="20.6" y2="20.6"/>
+  </svg>
+</button>
+
+<div class="backdrop" id="backdrop" aria-hidden="true"></div>
+
+<main class="stage">
+  <nav class="scene" id="scene" aria-label="Games in the playroom">
+    <img class="scene-img" id="sceneImg" alt="" draggable="false"/>
+    <!-- hotspots are added here from destinations.js -->
+  </nav>
+</main>
+
+<!-- Everything reachable without the picture: the same links as a plain list. -->
+<button class="list-btn" id="listBtn" type="button" aria-expanded="false" aria-controls="listPanel">
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/>
+    <rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/>
+  </svg>
+  <span>All games</span>
+</button>
+<div class="list-panel" id="listPanel" role="dialog" aria-modal="false" aria-labelledby="listTitle" hidden>
+  <h2 id="listTitle">All games</h2>
+  <ul id="listItems"></ul>
+  <p class="disclosure">Made with love for little learners. The voices and the background music we
+    made for these games are AI-generated — no voice here is a recording of a real person, and no
+    music is a recording of real players. Some games use your device’s own built-in speech instead.</p>
+</div>
+
+<noscript><p class="noscript">This room needs JavaScript. <a href="https://veeranuchlee.github.io/children-apps/">Open the games list</a>.</p></noscript>
+
+<script src="./tap-zoom-guard.js"></script>
+<script src="./playroom/destinations.js"></script>
+<script src="./playroom/playroom.js"></script>
+</body>
+</html>
