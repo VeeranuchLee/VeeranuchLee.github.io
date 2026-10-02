@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Space Trivia</title>
+<meta name="description" content="Hear each space question, find the answer, and learn one new thing."/>
+<!-- The controller writes manifest.webmanifest, service-worker.js and
+     .publish-manifest (IMPLEMENTATION-PLAN.md §2, Phase 2). Both links below
+     are deliberate references to files that arrive with that dispatch: the
+     registration is caught, so until then the app simply runs uncached. -->
+<link rel="manifest" href="./manifest.webmanifest"/>
+<!-- fonts.css is the per-app font-copy convention (solar-system-game does the
+     same): the controller copies Nunito-latin.woff2 into ./fonts/ and writes
+     fonts.css. Without it the fallback stack carries the app. -->
+<link rel="stylesheet" href="./fonts.css"/>
+<link rel="stylesheet" href="./styles.css"/>
+<meta name="theme-color" content="#151c46"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Space Trivia"/>
+</head>
+<body>
+<main id="app">
+
+  <!-- ================================================== START (spec §3.1) ===
+       App name, one friendly space illustration, one large Play button, and
+       the way-out arrow. Nothing else: no mode picker, no difficulty picker,
+       no stats. The illustration is inline SVG so the screen carries no
+       asset and no dependency; a shared-art/space-stickers scene can replace
+       it when art lands (§11), and nothing here depends on which it is. -->
+  <section class="screen" id="screen-start">
+
+    <!-- The way out, on the Start screen only (the Spelling Exam
+         arrangement: the in-mission arrow goes to Start, never out of the
+         app mid-mission). The href is set from the HUB_URL constant in
+         app.js -- the ONE place the undecided back-arrow destination lives
+         (owner decision #5) -- so there is never a second copy of it here. -->
+    <a id="hub-link" class="hub-btn" aria-label="Back to the Space Hub">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+        <path d="M15 5 8 12l7 7"/>
+      </svg>
+      <span>Space Hub</span>
+    </a>
+
+    <h1 class="app-title">Space Trivia</h1>
+
+    <div class="start-art" aria-hidden="true">
+      <svg viewBox="0 0 320 230">
+        <!-- a friendly planet, one band and one smile -->
+        <circle cx="110" cy="64" r="40" fill="#b7a6f2"/>
+        <path d="M82 44c8-6 18-9 28-9s20 3 28 9" fill="none" stroke="#9c86ea" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="98" cy="60" r="4" fill="#2c2460"/>
+        <circle cx="122" cy="60" r="4" fill="#2c2460"/>
+        <path d="M100 70q10 8 20 0" fill="none" stroke="#2c2460" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="87" cy="70" r="4.5" fill="#ff9e6d" opacity=".5"/>
+        <circle cx="133" cy="70" r="4.5" fill="#ff9e6d" opacity=".5"/>
+        <!-- a small ringed planet, no face: faces stay sparing (spec §11) -->
+        <circle cx="262" cy="54" r="24" fill="#7fb4e8"/>
+        <ellipse cx="262" cy="57" rx="38" ry="10" fill="none" stroke="#eaf1ff" stroke-width="5"
+                 opacity=".85" transform="rotate(-18 262 57)"/>
+        <!-- the rocket -->
+        <path d="M148 178c2 16 12 30 12 30s10-14 12-30z" fill="#ffd479"/>
+        <path d="M154 178c1 10 6 18 6 18s5-8 6-18z" fill="#ff9e6d"/>
+        <path d="M138 152c-16 8-24 22-26 36l26-10z" fill="#ffd479"/>
+        <path d="M182 152c16 8 24 22 26 36l-26-10z" fill="#ffd479"/>
+        <path d="M160 96c-14 20-22 50-22 82h44c0-32-8-62-22-82z" fill="#fff6e6"/>
+        <rect x="139" y="166" width="42" height="12" rx="6" fill="#333c86"/>
+        <circle cx="160" cy="136" r="14" fill="#7fe3ff" stroke="#333c86" stroke-width="4"/>
+        <!-- stars -->
+        <path d="M36 34l4 8 8 4-8 4-4 8-4-8-8-4 8-4z" fill="#ffd479" opacity=".9"/>
+        <path d="M210 30l3 6 6 3-6 3-3 6-3-6-6-3 6-3z" fill="#eaf1ff" opacity=".8"/>
+        <path d="M300 128l3.5 7 7 3.5-7 3.5-3.5 7-3.5-7-7-3.5 7-3.5z" fill="#7fe3ff" opacity=".7"/>
+        <path d="M16 176l3 6 6 3-6 3-3 6-3-6-6-3 6-3z" fill="#ffd479" opacity=".7"/>
+        <circle cx="68" cy="128" r="2.5" fill="#eaf1ff" opacity=".6"/>
+        <circle cx="170" cy="26" r="2" fill="#eaf1ff" opacity=".5"/>
+        <circle cx="248" cy="160" r="2.5" fill="#eaf1ff" opacity=".6"/>
+        <circle cx="298" cy="192" r="2" fill="#eaf1ff" opacity=".5"/>
+        <circle cx="30" cy="92" r="2" fill="#eaf1ff" opacity=".5"/>
+      </svg>
+    </div>
+
+    <button class="play" id="play" type="button">Play</button>
+  </section>
+
+  <!-- ============================== QUESTION SCREEN SKELETON (spec §3.2, §4) ===
+       The shell owns the fixed parts: the header bar (back arrow to Start,
+       title, progress pill), and the slots down the page in spec §4's order.
+       Every dynamic element is an empty container Phase 4 fills; the answer
+       area is the mount point for both modes (mountLettersBoard, Phase 3;
+       the MC buttons, Phase 4). -->
+  <section class="screen" id="screen-question" hidden>
+    <header class="top">
+      <!-- To Start, never out of the app mid-mission (spec §4): the way out
+           is the arrow on the Start screen. Wired in app.js. -->
+      <button class="back" id="back" type="button" aria-label="Back to Start">&larr;</button>
+      <h1>Space Trivia</h1>
+      <span class="pill" id="pill" hidden></span>
+    </header>
+
+    <h2 class="q-text" id="q-text"></h2>
+
+    <!-- The replay. Persistent, min 50x50 (the house .sound floor), available
+         mid-answer and after correct (spec §4). Behaviour is the Phase 4 seam
+         replayQuestionNarration(). -->
+    <button class="sound" id="sound" type="button" aria-label="Play the question again">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M4 9h3l5-4v14l-5-4H4z" fill="currentColor"/>
+        <path d="M16 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <div class="q-art" id="q-art"></div>
+
+    <!-- SEAM: the answer's ground -- a near-white card (spec §11). Phase 3
+         mounts the letter slots and bank here; Phase 4 mounts the choice
+         buttons and the Next button. -->
+    <div class="answer-card" id="answer-area"></div>
+
+    <p class="q-feedback" id="q-feedback" aria-live="polite"></p>
+  </section>
+
+  <!-- ============================= MISSION COMPLETE (spec §3.4, §8) ===
+       Warm, one screen: a calm celebratory illustration, "Mission
+       complete!", "You explored 10 questions.", up to three tappable Things
+       we learned cards, and the two ways on -- New mission (a fresh draw;
+       quitting and replaying are free, nothing punitive) and Space Hub (the
+       way out, same HUB_URL as the Start screen's arrow -- one constant, two
+       doors, both set in app.js). The skeleton is static; app.js fills the
+       count and the cards (renderMissionComplete). The illustration is inline
+       SVG for the same reason the Start screen's is (spec §11): a
+       shared-art/space-stickers scene can replace it when art lands, and
+       nothing here depends on which it is. -->
+  <section class="screen" id="screen-complete" hidden>
+
+    <div class="done-art" aria-hidden="true">
+      <svg viewBox="0 0 320 230">
+        <!-- the proud end of a mission: a smiling ringed planet, flag planted -->
+        <circle cx="160" cy="126" r="64" fill="#b7a6f2"/>
+        <path d="M110 98c14-11 32-16 50-16s36 5 50 16" fill="none" stroke="#9c86ea" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="140" cy="120" r="5" fill="#2c2460"/>
+        <circle cx="180" cy="120" r="5" fill="#2c2460"/>
+        <path d="M144 138q16 12 32 0" fill="none" stroke="#2c2460" stroke-width="3.5" stroke-linecap="round"/>
+        <circle cx="122" cy="134" r="6" fill="#ff9e6d" opacity=".5"/>
+        <circle cx="198" cy="134" r="6" fill="#ff9e6d" opacity=".5"/>
+        <ellipse cx="160" cy="140" rx="120" ry="26" fill="none" stroke="#eaf1ff" stroke-width="5"
+                 opacity=".8" transform="rotate(-10 160 140)"/>
+        <path d="M160 62V20" fill="none" stroke="#eaf1ff" stroke-width="5" stroke-linecap="round"/>
+        <path d="M160 20l36 11-36 11z" fill="#ffd479"/>
+        <!-- sparkle stars -->
+        <path d="M44 44l4 8 8 4-8 4-4 8-4-8-8-4 8-4z" fill="#ffd479" opacity=".9"/>
+        <path d="M272 40l3.5 7 7 3.5-7 3.5-3.5 7-3.5-7-7-3.5 7-3.5z" fill="#7fe3ff" opacity=".8"/>
+        <path d="M286 168l3 6 6 3-6 3-3 6-3-6-6-3 6-3z" fill="#eaf1ff" opacity=".7"/>
+        <circle cx="60" cy="168" r="2.5" fill="#eaf1ff" opacity=".6"/>
+        <circle cx="252" cy="96" r="2" fill="#eaf1ff" opacity=".5"/>
+        <circle cx="30" cy="104" r="2" fill="#ffd479" opacity=".6"/>
+      </svg>
+    </div>
+
+    <h2 class="done-title">Mission complete!</h2>
+    <p class="done-sub" id="done-sub"></p>
+
+    <div class="learned">
+      <h3>Things we learned</h3>
+      <div class="learned-cards" id="learned-cards"></div>
+    </div>
+
+    <button class="play" id="again" type="button">New mission</button>
+
+    <a id="complete-hub" class="hub-btn done-hub" aria-label="Back to the Space Hub">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+        <path d="M15 5 8 12l7 7"/>
+      </svg>
+      <span>Space Hub</span>
+    </a>
+  </section>
+
+</main>
+
+<script src="./app.js"></script>
+</body>
+</html>

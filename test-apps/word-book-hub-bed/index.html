@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Word Book — Test Hub staging: hub music bed</title>
+  <!-- Staged for owner listening only (AGENTS.md Test Hub rules): manifest and the
+       apple-touch icon are dropped since this staging copy carries no service worker
+       and no installable-app icons -- see the [ship] classification in
+       word-book/.publish-manifest for what the real published tree includes. -->
+  <link rel="stylesheet" href="./fonts.css"/>
+  <meta name="theme-color" content="#3a1e33"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Our Word Book"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'Nunito',sans-serif;min-height:100vh;color:#fff;
+      background:linear-gradient(170deg,#4a2340 0%,#3a1e33 55%,#2b1626 100%);
+    }
+
+    /* The owner's backdrop -- books, letters and pencils framing an empty centre -- sits
+       behind everything as its own layer, so the scrim below can dim it without touching
+       the gradient underneath. The gradient STAYS: it is what shows through wherever the
+       art does not reach, and it is what the card colours were chosen against.
+       background-attachment stays the default (scroll): iOS Safari handles fixed
+       backgrounds badly, and this page does not scroll on the target iPad. */
+    .backdrop{
+      position:fixed;inset:0;z-index:0;
+      background-image:url('./assets/backdrop.webp');
+      background-size:cover;background-position:center;background-repeat:no-repeat;
+    }
+    /* A soft vignette, the same reasoning as the Space hub's. The art is busiest and
+       brightest at its edges -- stacked books bottom-left, an open book and pencil
+       right, letters across the top -- and emptiest in the middle, which is the
+       opposite of what the cards need: they sit centred on a phone and spread toward
+       the edges on the 9.7-inch iPad. This keeps the middle clear for the heading and
+       quietly darkens the busy edges so white card text stays readable over them. */
+    .backdrop::after{
+      content:'';position:absolute;inset:0;
+      background:radial-gradient(ellipse at center,
+        rgba(43,22,38,0) 0%, rgba(43,22,38,.18) 52%, rgba(43,22,38,.55) 100%);
+    }
+    .wrap{
+      position:relative;z-index:1;min-height:100vh;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:26px;padding:32px 20px;
+    }
+    h1{font-weight:900;font-size:clamp(1.8rem,6vw,3rem);text-shadow:0 4px 12px rgba(0,0,0,.5);text-align:center}
+    h1 span{color:#ffd54f}
+    /* The same words the Our Word Book card on Children Games promises, so the page a
+       child lands on says what the card they tapped said it would -- the rule the Magic
+       Math front door set. */
+    .sub{
+      font-weight:800;font-size:clamp(1rem,3.4vw,1.3rem);opacity:.92;
+      margin-top:-14px;text-align:center;text-shadow:0 2px 8px rgba(0,0,0,.5);
+    }
+
+    /* FOUR SECTIONS, and room for the next one. Auto-fit, so a themed word game --
+       Mermaid Words is the one on the roadmap -- is a card added below and nothing
+       else: Children Games does not have to be touched, republished, or even know. */
+    .cards{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:20px;width:100%;max-width:900px;
+    }
+    .card{
+      display:flex;flex-direction:column;align-items:center;gap:12px;
+      padding:26px 18px 22px;border-radius:28px;
+      text-decoration:none;color:#fff;font-weight:900;font-size:1.2rem;text-align:center;
+      transition:transform .15s ease,box-shadow .15s ease;
+      text-shadow:0 2px 4px rgba(0,0,0,.35);
+      -webkit-tap-highlight-color:transparent;
+      /* 9.7" iPad portrait is 768px, so two cards sit side by side and a child's finger
+         gets a target well past 44px in both directions. Checked in pixels, not assumed. */
+      min-height:190px;
+    }
+    .card:hover{transform:translateY(-6px) scale(1.03)}
+    .card:active{transform:translateY(2px)}
+    .card:focus-visible{outline:5px solid #ffd54f;outline-offset:4px}
+    .card img{width:104px;height:104px;object-fit:contain;filter:drop-shadow(0 6px 12px rgba(0,0,0,.35))}
+    .card small{font-weight:700;font-size:.82rem;opacity:.92;max-width:22ch}
+
+    /* EACH SECTION KEEPS THE COLOUR ITS OLD HUB CARD WORE. Until 2026-09-09 Magic
+       Spelling was blue-violet, Writing Book pencil-gold and Spelling Exam coral on
+       Children Games. A child who knew those three cards finds the same three colours
+       here, one level down, which is the cheapest possible way to say "they are not
+       gone, they moved". Our Dictionary is new and takes the book's own berry. */
+    .c-dict  {background:linear-gradient(160deg,#d4739a,#a8386a);box-shadow:0 8px 0 #7b2049,0 14px 28px rgba(168,56,106,.35)}
+    .c-spell {background:linear-gradient(160deg,#a78bfa,#7c3aed);box-shadow:0 8px 0 #5b21b6,0 14px 28px rgba(124,58,237,.35)}
+    .c-write {background:linear-gradient(160deg,#f0c14b,#c98a10);box-shadow:0 8px 0 #96650a,0 14px 28px rgba(201,138,16,.35)}
+    .c-exam  {background:linear-gradient(160deg,#f79172,#e05a34);box-shadow:0 8px 0 #ad4022,0 14px 28px rgba(224,90,52,.35)}
+
+    footer{font-size:.8rem;font-weight:700;opacity:.72;text-align:center;max-width:44ch;line-height:1.5}
+
+    /* ── Back to Children Games ──
+       Top-left, 60px tall, arrow AND words -- the shape every app in this project uses,
+       copied deliberately from math-app/index.html rather than reinvented. The arrow is
+       for the child who cannot read yet and already knows what it does; the words are
+       for the one who can and wants to know where it goes. */
+    .hub-btn{
+      position:fixed;z-index:9;
+      top:calc(14px + env(safe-area-inset-top));
+      left:calc(14px + env(safe-area-inset-left));
+      display:inline-flex;align-items:center;gap:9px;
+      min-height:60px;padding:0 20px 0 16px;
+      border-radius:50px;
+      background:linear-gradient(135deg,#fff,#ffe9f1);
+      border:2.5px solid #e59bbb;box-shadow:0 4px 0 #e59bbb;
+      color:#a8386a;text-decoration:none;
+      font-family:inherit;font-weight:900;font-size:1rem;line-height:1;
+      white-space:nowrap;-webkit-tap-highlight-color:transparent;
+      transition:transform .1s;
+    }
+    .hub-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #e59bbb}
+    .hub-btn:focus-visible{outline:4px solid #ffd54f;outline-offset:3px}
+    .hub-btn svg{width:24px;height:24px;flex:none}
+    /* Narrow phones get the arrow alone. The words are the first thing to go, not the
+       target: the button keeps its height and the tap area with it. */
+    @media (max-width:420px){
+      .hub-btn{padding:0;width:60px;justify-content:center;gap:0}
+      .hub-btn span{display:none}
+    }
+    /* The heading clears the button on a narrow screen, where they would otherwise
+       share the top line. */
+    .wrap{padding-top:max(32px,calc(86px + env(safe-area-inset-top)))}
+
+    @media (prefers-reduced-motion:reduce){
+      .card{transition:none}
+      .card:hover{transform:none}
+    }
+
+    /* ── Music toggle ──
+       AUDIO-DIRECTION.md decision 10a: this hub gets a bed (word-bed.m4a, rendered
+       2026-09-18 and committed since, only now wired to a control). Top-right and fixed,
+       the same placement Children Games and the Space Hub use, so the control is where a
+       child already expects it. Off by default and remembered -- a page that starts
+       playing the first time it opens is a thing you turn off, not enjoy. */
+    .music-btn{
+      position:fixed;z-index:50;
+      top:calc(12px + env(safe-area-inset-top));
+      right:calc(12px + env(safe-area-inset-right));
+      width:60px;height:60px;border-radius:50%;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg,#fff,#ffe9f1);border:3px solid #e59bbb;
+      box-shadow:0 4px 0 #e59bbb,0 8px 18px rgba(43,22,38,.35);
+      cursor:pointer;padding:0;
+      -webkit-tap-highlight-color:transparent;
+      transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease;
+    }
+    .music-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #e59bbb,0 4px 10px rgba(43,22,38,.3)}
+    .music-btn:focus-visible{outline:5px solid #ffd54f;outline-offset:4px}
+    .music-btn svg{width:30px;height:30px;display:block}
+    /* The note is dim and struck through when off, berry-pink and clear when on -- two
+       signals, not one, because colour alone is not a state a child reads reliably. */
+    .music-btn .note{fill:#c98aa4;transition:fill .16s ease}
+    .music-btn .slash{stroke:#c98aa4;stroke-width:2.6;stroke-linecap:round}
+    .music-btn[aria-pressed="true"]{border-color:#a8386a}
+    .music-btn[aria-pressed="true"] .note{fill:#a8386a}
+    .music-btn[aria-pressed="true"] .slash{display:none}
+    .music-btn.playing{animation:musicPulse 2.2s ease-in-out infinite}
+    @keyframes musicPulse{
+      0%,100%{box-shadow:0 4px 0 #e59bbb,0 8px 18px rgba(43,22,38,.35)}
+      50%    {box-shadow:0 4px 0 #e59bbb,0 8px 26px rgba(168,56,106,.55)}
+    }
+    @media (prefers-reduced-motion:reduce){
+      .music-btn{transition:none}
+      .music-btn.playing{animation:none}
+    }
+    @media (max-width:420px){
+      .music-btn{width:52px;height:52px}
+      .music-btn svg{width:26px;height:26px}
+    }
+  </style>
+</head>
+<body>
+<div class="backdrop"></div>
+
+<!-- Starts as "off" in the markup and is corrected by the script below the moment it
+     runs, so a remembered preference never renders as the wrong state. -->
+<button class="music-btn" id="musicBtn" type="button" aria-pressed="false" aria-label="Play music">
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path class="note" d="M20 3.5v11.2a3.3 3.3 0 1 1-2-3V7.9l-7 1.6v8.2a3.3 3.3 0 1 1-2-3V6.3l11-2.8z"/>
+    <line class="slash" x1="3.4" y1="3.4" x2="20.6" y2="20.6"/>
+  </svg>
+</button>
+
+<!-- The URL is absolute for the same reason every game's arrow is: published, the hub is
+     a sibling of this app (/word-book/ -> /children-apps/), but in the repo it lives
+     under site/, so a relative link would work live and 404 in every local preview. -->
+<a class="hub-btn" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <path d="M15 5 8 12l7 7"/>
+  </svg>
+  <span>Children Games</span>
+</a>
+
+<div class="wrap">
+  <h1>Our <span>Word Book</span></h1>
+  <p class="sub">Read, spell, write and discover words</p>
+
+  <div class="cards">
+    <!-- OUR DICTIONARY IS THE SOURCE OF TRUTH, not a fourth activity. Every word the
+         other three teach is a card in here, joined by sense ID -- see
+         shared-data/dictionary/README.md. It is listed first because it is what the
+         other three are about. -->
+    <a class="card c-dict" href="dictionary.html">
+      <img src="assets/icons/dictionary.webp" alt="" width="104" height="104"/>
+      Our Dictionary
+      <small>Every word, in English and Thai</small>
+    </a>
+
+    <!-- STILL LIVES IN THE MATHS APP, and that is temporary.
+         Magic Spelling was never its own app: it is a page inside math-app/, shipping as
+         /magic-math/magic-spelling.html. The owner decided on 2026-09-09 that it moves here
+         and leaves a redirect behind -- which finishes their own 2026-08-26 line, "the url
+         say math app ... we shouldn't have the spelling there".
+         The move is specified and not yet done: it carries 740 tracked, PAID narration
+         clips, vendored React and Babel, the word list and three gates, and it needs
+         `word-book/narration/rendered` added to six hand-written paid-master path lists
+         BEFORE anything re-renders there. Sequenced deliberately rather than rushed --
+         see coordination/tasks/2026-09-09-1530-claudecode-our-word-book.md.
+         Until then this points at where the page actually is, so no child meets a 404.
+         When it moves, this href becomes `spelling.html` and nothing else here changes. -->
+    <a class="card c-spell" href="https://veeranuchlee.github.io/magic-math/magic-spelling.html">
+      <img src="assets/icons/spelling.webp" alt="" width="104" height="104"/>
+      Spelling
+      <small>Letters and words, grade by grade</small>
+    </a>
+
+    <!-- The two apps below are separate deploys in the same public repository, so their
+         links are absolute for the same reason the back arrow's is. -->
+    <a class="card c-write" href="https://veeranuchlee.github.io/writing-book/">
+      <img src="assets/icons/writing-book.webp" alt="" width="104" height="104"/>
+      Writing Book
+      <small>Trace words and fill your sticker book</small>
+    </a>
+
+    <a class="card c-exam" href="https://veeranuchlee.github.io/spelling-exam/">
+      <img src="assets/icons/spelling-exam.webp" alt="" width="104" height="104"/>
+      Spelling Exam
+      <small>See the picture, build the word, then spell it</small>
+    </a>
+  </div>
+
+  <footer>Made with love for little learners</footer>
+</div>
+<script>
+  /* Offline support. Registration is best-effort: opened straight from a file the
+     browser refuses it, and the book must still open. */
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      Promise.resolve() /* Test Hub staging: no service worker */.catch(function () {});
+    });
+  }
+
+  /* ══ HUB MUSIC ══
+     One generated instrumental bed (audio/word-bed.m4a, rendered 2026-09-18 -- see
+     work_progress_and_other_discussion.md), looping quietly under the page a child is
+     choosing from. AUDIO-DIRECTION.md decision 10a: a hub is a front door, browsed not
+     played, and gets a bed; the dictionary, spelling, writing and exam pages it leads to
+     stay quiet -- none of them load this script or this file.
+
+     Ported from site/children-apps/index.html's own player, which is the reference this
+     copies rather than reinvents: same arm-on-first-tap shape for the iOS autoplay rule,
+     same off-by-default remembered preference, same fade rather than a hard cut. Its own
+     localStorage key (`wb_music`) so it cannot read or fight the main hub's `ca_music`.
+
+     THE AUTOPLAY PROBLEM, AND WHY `arm` EXISTS. A browser will not let a page start audio
+     before the user has interacted with it, so on a fresh load play() rejects even though
+     the child turned music on last time. The rejection instead arms a one-shot listener
+     on the next pointerdown anywhere on the page, per the task: "start on the first tap
+     anywhere on the hub".
+
+     NOT PRECACHED. The service worker's fetch handler is cache-first for same-origin GETs
+     and stores what it fetches (the generic branch, not the range-aware word/sentence
+     one), so the bed joins the cache the first time it plays, with no change to SHELL --
+     matching word-book/.publish-manifest's own reasoning for the pictures and clips. */
+  var Music = (function () {
+    var SRC = './audio/word-bed.m4a';
+    var KEY = 'wb_music';
+    var FULL = 0.28;             /* resting level: present in a quiet room, never in front */
+    var RAMP_MS = 900, STEP_MS = 50;
+    var el = null, ramp = 0, armed = false, pref = false;
+    try { pref = localStorage.getItem(KEY) === '1'; } catch (e) {}
+
+    var btn = document.getElementById('musicBtn');
+    if (!btn) return null;
+
+    function paint() {
+      btn.setAttribute('aria-pressed', pref ? 'true' : 'false');
+      btn.setAttribute('aria-label', pref ? 'Stop music' : 'Play music');
+      btn.classList.toggle('playing', !!(el && !el.paused));
+    }
+
+    function fadeTo(v, thenPause) {
+      if (!el) return;
+      if (ramp) { clearInterval(ramp); ramp = 0; }
+      var from = el.volume, steps = Math.max(1, Math.round(RAMP_MS / STEP_MS)), i = 0;
+      ramp = setInterval(function () {
+        i++;
+        try { el.volume = Math.max(0, Math.min(1, from + (v - from) * (i / steps))); } catch (e) {}
+        if (i >= steps) {
+          clearInterval(ramp); ramp = 0;
+          if (thenPause && el) { try { el.pause(); } catch (e) {} }
+          paint();
+        }
+      }, STEP_MS);
+    }
+
+    function arm() {
+      if (armed) return;
+      armed = true;
+      var go = function () {
+        window.removeEventListener('pointerdown', go, true);
+        armed = false;
+        apply();
+      };
+      window.addEventListener('pointerdown', go, true);
+    }
+
+    function apply() {
+      if (!pref) {
+        if (el && !el.paused) fadeTo(0, true); else paint();
+        return;
+      }
+      if (!el) {
+        try { el = new Audio(SRC); } catch (e) { return; }
+        el.loop = true;
+        el.preload = 'none';
+        el.volume = 0;
+        el.addEventListener('playing', paint);
+        el.addEventListener('pause', paint);
+      }
+      el.volume = 0;
+      var p;
+      try { p = el.play(); } catch (e) { arm(); return; }
+      if (p && p.then) p.then(function () { fadeTo(FULL, false); paint(); }).catch(arm);
+      else { fadeTo(FULL, false); paint(); }
+    }
+
+    /* Leaving the hub (a card tap navigates away) unloads the page and the element with
+       it, so no explicit stop is needed there -- but pause explicitly on the bfcache
+       hide/pagehide path too, so a browser that keeps the page alive in back/forward
+       cache does not leave music running behind a different page. */
+    window.addEventListener('pagehide', function () { if (el) { try { el.pause(); } catch (e) {} } });
+
+    btn.addEventListener('click', function () {
+      pref = !pref;
+      try { localStorage.setItem(KEY, pref ? '1' : '0'); } catch (e) {}
+      /* The click itself is the user gesture, so this is the one path where play() is
+         reliably allowed. */
+      apply();
+      paint();
+    });
+
+    paint();
+    apply();
+
+    /* Read-only, for verification -- e.g. window.__wbMusic().state(). */
+    return { state: function () {
+      return { pref: pref, exists: !!el, playing: !!(el && !el.paused),
+               volume: el ? +el.volume.toFixed(3) : null, armed: armed, src: SRC };
+    } };
+  })();
+  window.__wbMusic = function () { return Music; };
+</script>
+</body>
+</html>

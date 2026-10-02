@@ -117,8 +117,16 @@
  *                  `read-write.webp` stays precached the way `classical-music.webp` stayed
  *                  when Classical Music moved down to music.html -- 16 KB that lets the
  *                  sub-hub open offline with its art.
+ *   v39 2026-10-02  THE PLAYROOM BECOMES THE HUB (owner: "Playroom hub -> approved."). index.html
+ *                  is now the painted playroom; the old card grid is its Cards view (the toy
+ *                  box and the Room / Cards switch). SHELL gains what the room needs to open
+ *                  offline: its stylesheet, script, data, the room picture, the Bookshelf
+ *                  card art and tap-zoom-guard.js. The category pages (books.html,
+ *                  puzzles.html, science-world.html) are NOT in SHELL: like music.html and
+ *                  homework.html they are cached on first visit by the fetch handler, and
+ *                  their playroom/category.* files are cached the same way.
  */
-const CACHE_NAME = "children-apps-v38";
+const CACHE_NAME = "children-apps-v39";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
@@ -144,6 +152,12 @@ const SHELL = [
   "./assets/nail-salon.webp",
   "./assets/october-homework.webp",
   "./assets/read-write.webp",
+  "./playroom/playroom.css",
+  "./playroom/playroom.js",
+  "./playroom/destinations.js",
+  "./playroom/scene.webp",
+  "./playroom/tiles/bookshelf.webp",
+  "./tap-zoom-guard.js",
   "./assets/app-192.png",
   "./assets/app-512.png",
 ];
