@@ -31,6 +31,10 @@
 // subject per song, no text in any of them — the players are pre-readers.
 // Every render was visually reviewed before being resized to 640px WebP.
 // Full prompts and the download log: raw-downloads/2026-08-27-song-tiles/PROMPTS.md.
+// The nine big-piano additions were generated on 2026-10-03 with Codex built-in
+// image generation in the same watercolor brief and reviewed at full size; prompts,
+// accepted-source mapping and PASS verdicts are recorded in the task record
+// coordination/tasks/2026-10-03-1756-codex-bigpiano-tiles.md.
 
 export const PLAYALONG_SONGS = [
   {
@@ -1182,7 +1186,7 @@ export const PLAYALONG_SONGS = [
     id: 'fur-elise',
     title: 'Für Elise',
     emoji: '✉️',
-    art: null,
+    art: 'assets/songs/fur-elise.webp',
     tempo: 66,
     keyboard: 'big',
     verified: true,
@@ -1207,7 +1211,7 @@ export const PLAYALONG_SONGS = [
     id: 'minuet-in-g',
     title: 'Minuet in G',
     emoji: '💃',
-    art: null,
+    art: 'assets/songs/minuet-in-g.webp',
     tempo: 112,
     keyboard: 'big',
     verified: true,
@@ -1240,7 +1244,7 @@ export const PLAYALONG_SONGS = [
     id: 'morning-mood',
     title: 'Morning Mood',
     emoji: '🌅',
-    art: null,
+    art: 'assets/songs/morning-mood.webp',
     tempo: 72,
     keyboard: 'big',
     verified: true,
@@ -1262,7 +1266,7 @@ export const PLAYALONG_SONGS = [
     id: 'swan-lake',
     title: 'Swan Lake',
     emoji: '🦢',
-    art: null,
+    art: 'assets/songs/swan-lake.webp',
     tempo: 72,
     keyboard: 'big',
     verified: false,
@@ -1284,7 +1288,7 @@ export const PLAYALONG_SONGS = [
     id: 'canon-in-d',
     title: 'Canon in D',
     emoji: '⛵',
-    art: null,
+    art: 'assets/songs/canon-in-d.webp',
     tempo: 72,
     keyboard: 'big',
     verified: true,
@@ -1304,7 +1308,7 @@ export const PLAYALONG_SONGS = [
     id: 'eine-kleine-nachtmusik',
     title: 'Eine kleine Nachtmusik',
     emoji: '🌙',
-    art: null,
+    art: 'assets/songs/eine-kleine-nachtmusik.webp',
     tempo: 120,
     keyboard: 'big',
     verified: true,
@@ -1326,7 +1330,7 @@ export const PLAYALONG_SONGS = [
     id: 'entertainer',
     title: 'The Entertainer',
     emoji: '🎩',
-    art: null,
+    art: 'assets/songs/the-entertainer.webp',
     tempo: 80,
     keyboard: 'big',
     verified: true,
@@ -1363,7 +1367,7 @@ export const PLAYALONG_SONGS = [
     id: 'can-can',
     title: 'Can-Can',
     emoji: '🐔',
-    art: null,
+    art: 'assets/songs/can-can.webp',
     tempo: 104,
     keyboard: 'small',
     verified: true,
@@ -1387,7 +1391,7 @@ export const PLAYALONG_SONGS = [
     id: 'brahms-lullaby',
     title: 'Brahms\' Lullaby',
     emoji: '👶',
-    art: null,
+    art: 'assets/songs/brahms-lullaby.webp',
     tempo: 76,
     keyboard: 'big',
     verified: true,
