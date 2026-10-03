@@ -943,6 +943,137 @@ body[data-view="world"] .chrome-btn {
     + var(--companion-gap) + var(--companion-bubble-cap));
 }
 
+
+/* ── word scroll: the room's bottom panel (owner, 2026-10-03) ────────────────
+   "instead of door to other room, we have this instead" — a parchment scroll
+   with one heading line and a row of big word cards. Each card is a speaker,
+   a small picture and one word; a tap pops the companion up with the word's
+   meaning and plays its narrator clip. The heading carries the same speaker
+   and plays the room's own Learn More script. It sits exactly where the
+   picture-door strip sat (bottom of the stage, after the companion's lane),
+   so the painted room and its song hotspots above it keep their geometry. */
+.word-scroll {
+  position: relative; z-index: 4;
+  flex: 0 0 auto; margin-top: auto;
+  display: flex; flex-direction: column; gap: 2px;
+  /* the companion's lane on the left, the fixed Sound button on the right */
+  margin-left: max(0px, calc(var(--companion-left) + var(--companion-figure) + var(--companion-gap) - 3vw));
+  margin-right: 84px;
+  /* sits a little into the scrim's bottom padding: every pixel of height
+     the scroll gives back is painting the song places keep */
+  margin-bottom: -8px;
+  padding: 4px 12px 4px;
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgba(255,246,222,.97), rgba(246,229,190,.97));
+  box-shadow: 0 0 0 2px rgba(176,132,68,.75), inset 0 0 18px rgba(176,132,68,.28), 0 4px 12px rgba(20,26,45,.35);
+}
+/* the rolled ends of the scroll */
+.word-scroll::before, .word-scroll::after {
+  content: ''; position: absolute; top: -3px; bottom: -3px; width: 12px;
+  border-radius: 7px;
+  background: linear-gradient(90deg, #c99a58, #f3d9a2 45%, #b8843f);
+  box-shadow: 0 2px 5px rgba(20,26,45,.35);
+}
+.word-scroll::before { left: -7px; }
+.word-scroll::after { right: -7px; }
+.word-scroll__heading {
+  align-self: flex-start;
+  display: flex; align-items: center; gap: 8px;
+  min-height: 18px; padding: 0 10px 0 4px;
+  border: 0; border-radius: 10px; background: transparent;
+  color: #5a3d17; font: inherit; cursor: pointer; text-align: left;
+  font-size: clamp(13px, 1.6vw, 18px); font-weight: 800; line-height: 1.1;
+}
+.word-scroll__heading:active { transform: scale(.98); }
+.word-scroll__cards {
+  display: flex; gap: 8px;
+}
+.word-card {
+  flex: 1 1 0; min-width: 64px; max-width: 168px;
+  min-height: 64px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  padding: 4px 6px 5px;
+  border: 0; border-radius: 12px;
+  background: rgba(255,252,242,.96);
+  box-shadow: 0 0 0 2px var(--gold), 0 3px 8px rgba(20,26,45,.22);
+  color: var(--ink); font: inherit; cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.word-card:active { transform: scale(.96); }
+.word-card[aria-pressed="true"] {
+  box-shadow: 0 0 0 3px var(--gold), 0 0 16px 4px rgba(255,220,103,.6);
+}
+.word-card__top { display: flex; align-items: center; gap: 4px; }
+.word-card__speaker, .word-scroll__speaker {
+  font-size: clamp(14px, 1.8vw, 20px); line-height: 1;
+}
+.word-card__picture {
+  width: clamp(28px, 4vw, 42px); height: clamp(28px, 4vw, 42px);
+  display: flex; align-items: center; justify-content: center;
+  font-size: clamp(21px, 2.9vw, 31px); line-height: 1;
+}
+.word-card__picture img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.word-card__word {
+  font-size: clamp(11px, 1.45vw, 16px); font-weight: 800; line-height: 1.1;
+  text-align: center; overflow-wrap: anywhere;
+}
+.word-scroll__grownups {
+  position: absolute; right: 12px; top: 2px;
+  min-height: 20px; padding: 1px 10px;
+  border: 0; border-radius: 9px;
+  background: rgba(255,252,242,.7); box-shadow: 0 0 0 1.5px rgba(176,132,68,.6);
+  color: #6b5330; font: inherit; font-size: clamp(9px, 1.05vw, 12px); font-weight: 700; cursor: pointer;
+}
+
+/* The room companion is a button (it plays the room's script). The figure
+   keeps its size; the button only guarantees a 64px tap target around it. */
+.companion-corner--room { pointer-events: none; }
+.companion-corner.is-hidden { opacity: 0; }
+.companion-corner.is-hidden .companion-tap { pointer-events: none; }
+.companion-tap {
+  pointer-events: auto;
+  display: flex; align-items: flex-end; justify-content: center;
+  min-width: 64px; min-height: 64px; padding: 0;
+  border: 0; background: transparent; cursor: pointer;
+}
+.companion-tap:active { transform: scale(.96); }
+
+/* The companion explainer: the figure pops up above the scroll with the
+   meaning in a speech bubble while the narrator reads it. */
+.companion-explainer {
+  position: absolute; z-index: 6;
+  left: var(--companion-left); bottom: var(--word-scroll-rise, 22%);
+  display: flex; align-items: flex-end; gap: var(--companion-gap);
+  max-width: min(62%, 560px);
+  pointer-events: none;
+  opacity: 0; transform: translateY(12px) scale(.96);
+  transition: opacity .25s ease, transform .25s ease;
+}
+.companion-explainer[hidden] { display: none; }
+.companion-explainer.is-visible { opacity: 1; transform: translateY(0) scale(1); }
+.companion-explainer__figure { flex: 0 0 auto; width: var(--companion-figure); height: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,.3)); }
+.companion-explainer__bubble {
+  position: relative; flex: 1 1 auto;
+  margin: 0 0 12px 0; padding: 10px 16px;
+  background: rgba(255,251,240,.97); border-radius: 18px;
+  box-shadow: 0 0 0 2.5px var(--plate-edge), var(--shadow);
+  font-size: clamp(14px, 1.7vw, 19px); font-weight: 700; line-height: 1.35; color: var(--ink);
+}
+.companion-explainer__bubble::before {
+  content: ''; position: absolute; left: -12px; bottom: 16px;
+  border-top: 10px solid transparent; border-bottom: 10px solid transparent;
+  border-right: 12px solid var(--plate-edge);
+}
+.companion-explainer__bubble::after {
+  content: ''; position: absolute; left: -9px; bottom: 17px;
+  border-top: 9px solid transparent; border-bottom: 9px solid transparent;
+  border-right: 10px solid rgba(255,251,240,.97);
+}
+@media (prefers-reduced-motion: reduce) {
+  .companion-explainer { transition: none; transform: none; }
+}
+
 /* ── pager ────────────────────────────────────────────────────────────────── */
 
 .pager { display: flex; justify-content: center; gap: 10px; padding: 1% 0 .4%; }
@@ -1968,12 +2099,24 @@ button.rt-panel { cursor: pointer; }
   text-shadow: 0 1px 2px rgba(255,255,255,.8);
 }
 
+/* 39 songs no longer fit one page of rows (they were squeezed into strips),
+   so the pictures keep their shape — about 4:3, five across — and the grid scrolls.
+   A swipe through a picture book of songs is the iPad gesture children
+   already use; the chosen song is scrolled into view when the page opens. */
 .song-grid {
   flex: 1; min-height: 0;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: minmax(0, 1fr);
-  gap: 2cqh 2.2cqw;
+  grid-template-columns: repeat(5, 1fr);
+  /* ≈ 4:3 tiles: a column is ~17cqw wide (five across the stage), so a
+     12.4cqw row keeps each picture's shape at every stage size. */
+  grid-auto-rows: 12.4cqw;
+  align-content: start;
+  gap: 2cqh 2cqw;
+  padding: 8px 8px 10px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  position: relative;
+  -webkit-overflow-scrolling: touch;
 }
 
 .song-tile {
@@ -2091,18 +2234,33 @@ button.rt-panel { cursor: pointer; }
 .staff-note.is-done { opacity: .45; }
 
 /* The keys. Sized from the stage (cqh of the room container): at the portrait
-   worst case, 768×576, 27cqh is 155px and every white key is ~88px wide; the
-   black keys are 58px wide and 62% as tall — everything a child taps clears
-   the 44px floor with room to spare. */
+   worst case, 768×576, 27cqh is 155px and every white key of the Small and
+   Medium piano is ~88px wide.
+
+   THE PIANO GROWS (owner, 2026-10-03). The keyboard is always fifteen
+   white-key slots (C4–C6); a song's size switches slots on and off and the
+   slots animate their share of the width, so the child sees the piano widen
+   to two octaves for a Big song and shrink back for a small one. Each black
+   key lives inside the slot it rises from, pinned to the slot's right edge,
+   so it rides the animation instead of being re-placed by arithmetic. */
 .toy-keys {
   position: relative;
   flex: 0 0 auto;
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  gap: .7%;
+  display: flex;
   height: clamp(112px, 27cqh, 208px);
   min-height: 112px;
 }
+.toy-slot {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  margin: 0 .35%;
+  transition: flex-grow .6s cubic-bezier(.2, .8, .2, 1), margin .6s cubic-bezier(.2, .8, .2, 1);
+}
+.toy-slot.is-off { flex-grow: 0; margin: 0; }
+.toy-slot > .toy-key:first-child { flex: 1 1 auto; min-width: 0; }
+
 .toy-key {
   position: relative;
   min-width: 44px;
@@ -2111,7 +2269,11 @@ button.rt-panel { cursor: pointer; }
   background: linear-gradient(180deg, #fffdf6, #f1e9d4);
   box-shadow: inset 0 -4px 0 rgba(31, 43, 69, .12), 0 3px 0 rgba(31, 43, 69, .18);
   cursor: pointer;
+  transition: opacity .45s ease;
 }
+/* A folded-away key: invisible, untappable, and out of the way while its slot
+   collapses (its band text would otherwise hold the slot open). */
+.toy-key.is-off { opacity: 0; pointer-events: none; overflow: hidden; }
 /* The colored band IS the key's identity: same color as its note-head, letter
    for the child who knows a few. */
 .toy-key__band {
@@ -2125,19 +2287,21 @@ button.rt-panel { cursor: pointer; }
   text-shadow: 0 1px 2px rgba(0, 0, 0, .35);
 }
 
-/* The black keys straddle their white-key boundaries (left comes inline from
-   playroom.js, in eighths of the keyboard). Absolutely positioned, so the grid
-   lays out the eight white keys and these ride on top. */
+/* The black keys straddle the boundary after their white key: pinned to the
+   right edge of their slot and centred on it. 64% of a slot is the width the
+   old eight-key grid gave them (8% of the keyboard); never under 44px. */
 .toy-key--black {
-  position: absolute; top: 0;
-  width: 8%; height: 62%;
+  position: absolute; top: 0; right: 0;
+  width: 64%; height: 62%;
   min-width: 44px;
-  transform: translateX(-50%);
+  transform: translateX(50%);
   border-radius: 0 0 8px 8px;
   background: linear-gradient(180deg, #2b3247, #171d2e);
   box-shadow: 0 4px 0 rgba(0, 0, 0, .3), inset 0 0 0 2px rgba(255, 255, 255, .07);
   z-index: 2;
+  transition: opacity .45s ease, transform .45s ease;
 }
+.toy-key--black.is-off { transform: translateX(50%) scaleY(.4); transform-origin: top; }
 .toy-key--black .toy-key__band {
   left: 12%; right: 12%; bottom: 7%;
   min-height: 32%;
@@ -2145,20 +2309,94 @@ button.rt-panel { cursor: pointer; }
   font-size: clamp(11px, 2cqw, 16px);
 }
 
-/* Xylophone mode: colored bars, longest at the low end — real bar instruments
-   have no black bars, which is exactly why the songs stay diatonic. */
-.toy-keys--bars { align-items: end; }
+/* Big piano: fifteen white keys must stay at least ~48px wide on the 768px
+   portrait stage, so the play page gives up most of its side margin and the
+   key labels shrink to fit. */
+.stage--toy-big .scrim { padding-left: 1%; padding-right: 1%; }
+.toy-keys--big .toy-slot { margin: 0 .15%; }
+.toy-keys--big .toy-key__band { font-size: clamp(11px, 1.7cqw, 18px); left: 7%; right: 7%; }
+.toy-keys--big .toy-key--black .toy-key__band { font-size: clamp(10px, 1.3cqw, 14px); left: 8%; right: 8%; }
+
+/* Xylophone mode: colored bars, longest at the low end. A Medium or Big song's
+   accidentals are a raised second row of shorter bars — a real chromatic
+   xylophone — so the white-row bars give up the top third of the height. */
+.toy-keys--bars .toy-slot { align-items: flex-end; }
 .toy-key--bar {
   height: var(--bar-h);
   border-radius: 10px 10px 12px 12px;
   background: linear-gradient(180deg,
     color-mix(in srgb, var(--key-color) 78%, #fff), var(--key-color));
   box-shadow: inset 0 0 0 3px rgba(255, 255, 255, .25), 0 3px 0 rgba(31, 43, 69, .25);
+  transition: opacity .45s ease, height .6s cubic-bezier(.2, .8, .2, 1);
 }
+.toy-keys--bars.has-sharps .toy-key--bar { height: calc(var(--bar-h) * .64); }
 .toy-key--bar .toy-key__band {
   left: 6%; right: 6%; bottom: 5%;
   min-height: 24%;
   border-radius: 999px;
+}
+.toy-key--accbar {
+  position: absolute; top: 0; right: 0;
+  width: 60%; height: 31%;
+  min-width: 44px; min-height: 44px;
+  transform: translateX(50%);
+  border-radius: 10px;
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--key-color) 70%, #fff), var(--key-color));
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, .22), 0 3px 0 rgba(31, 43, 69, .3);
+  z-index: 2;
+  transition: opacity .45s ease;
+}
+.toy-key--accbar .toy-key__band {
+  left: 8%; right: 8%; top: 12%; bottom: 12%;
+  min-height: 0;
+  border-radius: 999px;
+  font-size: clamp(10px, 1.5cqw, 15px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toy-slot, .toy-key, .toy-key--black, .toy-key--bar, .toy-key--accbar { transition: none; }
+}
+
+/* The select page's hint: a tiny keyboard in the tile's corner, drawn at the
+   size the song will open — picture only. */
+.song-tile { position: relative; }
+.song-tile__size {
+  position: absolute; top: 6%; right: 5%;
+  width: 34%; max-width: 64px; min-width: 26px;
+  padding: 3px 4px;
+  border-radius: 7px;
+  background: rgba(255, 253, 246, .94);
+  box-shadow: 0 0 0 2px var(--gold), 0 2px 5px rgba(0, 0, 0, .18);
+  line-height: 0;
+  pointer-events: none;
+}
+.song-tile__size--medium { width: 22%; max-width: 40px; }
+.song-tile__size svg { width: 100%; height: auto; display: block; }
+/* No painting yet: the emoji on a dashed tile, plainly a placeholder. */
+.song-tile--placeholder { background: repeating-linear-gradient(135deg, #fffdf6 0 12px, #f6eedb 12px 24px); }
+.song-tile--placeholder .song-tile__emoji { outline: 3px dashed rgba(185, 168, 126, .8); outline-offset: -10px; border-radius: 12px; }
+
+/* Portrait + Big song: a small "turn me" card over the staff. Never blocks —
+   it covers a corner of the staff, not the keys, and one tap sends it away. */
+.toy-rotate {
+  position: absolute; top: 8px; right: 8px; z-index: 3;
+  width: clamp(64px, 14cqh, 96px); aspect-ratio: 1;
+  padding: 6px;
+  border: 0; border-radius: 18px;
+  background: rgba(255, 253, 246, .96);
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+  cursor: pointer;
+}
+.toy-rotate svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.toy-rotate__tablet { transform-origin: 32px 34px; animation: toy-rotate-turn 2.8s ease-in-out infinite; }
+@keyframes toy-rotate-turn {
+  0%, 25% { transform: rotate(0deg); }
+  55%, 85% { transform: rotate(-90deg); }
+  100% { transform: rotate(0deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .toy-rotate__tablet { animation: none; transform: rotate(-90deg); }
 }
 
 /* One tap, one answer. The strike is a glow ring on the key's own box, not a

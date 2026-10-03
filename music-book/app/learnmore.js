@@ -50,20 +50,26 @@ export function stopLearnMore() {
   if (engine) engine.duck('voice', false);
 }
 
-export function speakLearnMore(clipId) {
+// `onEnd` runs once when THIS clip finishes or fails — never for a clip that a
+// later call already stopped, so a word tapped after another cannot be closed
+// early by the first clip's ending.
+export function speakLearnMore(clipId, onEnd) {
   stopLearnMore();
   if (!clipId || typeof Audio === 'undefined') return false;
-  audio = new Audio(`audio/learnmore/${clipId}.m4a`);
+  const clip = new Audio(`audio/learnmore/${clipId}.m4a`);
+  audio = clip;
   if (engine) {
-    engine.connectVoice(audio);
+    engine.connectVoice(clip);
     engine.duck('voice', true);
   }
   const release = () => {
+    if (audio !== clip) return;
     if (engine) engine.duck('voice', false);
     audio = null;
+    if (onEnd) onEnd();
   };
-  audio.addEventListener('ended', release, { once: true });
-  audio.addEventListener('error', release, { once: true });
-  audio.play().catch(release);
+  clip.addEventListener('ended', release, { once: true });
+  clip.addEventListener('error', release, { once: true });
+  clip.play().catch(release);
   return true;
 }

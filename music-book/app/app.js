@@ -11,7 +11,8 @@ import { motifFor, PARADE } from '../data/motifs.js';
 import { journey } from './journey.js';
 import { speakTitle, stopTitle, configureTitles } from './titles.js';
 import { speakExplain, stopExplain, configureExplain } from './explain-audio.js';
-import { configureLearnMore, placeMeaningBubble, roomClipId, roomScript, speakLearnMore, stopLearnMore, vocabClipId, vocabMeaning } from './learnmore.js';
+import { configureLearnMore, roomClipId, speakLearnMore, stopLearnMore, vocabClipId } from './learnmore.js';
+import { LEARN_MORE_ROOM_SCRIPTS, LEARN_MORE_WORD_MEANINGS } from './learnmore-clips.js';
 import { createChapter } from './read-together.js';
 import { renderPlayroom, leavePlayroom, PITCHES, NOTE_COLORS, BLACK_KEYS, BLACK_COLORS } from './playroom.js';
 import { CATALOGUE_TO_PLAYALONG } from '../data/playalong-songs.js';
@@ -41,10 +42,6 @@ let pendingPopupPieceId = null;
 // does not go into localStorage: returning to a room remembers the choice,
 // while starting the book afresh starts in the simplest, melody-only mode.
 const roomModes = new Map();
-// Rooms whose companion greeting has already shown once this journey. A
-// character who speaks after every tap stops being a character and becomes a
-// notification.
-const greetedRooms = new Set();
 
 const PAGE_SIZE = 6;
 
@@ -52,6 +49,9 @@ const PAGE_SIZE = 6;
 // room id and cleared on every room change, so Read Together stays the default
 // door into a room rather than something you opt back into.
 let exploreOverride = null;
+// The companion explainer above the word scroll: one bubble at a time.
+let stripExplainer = null;
+let stripExplainerTimer = null;
 
 const pieceById = (id) => PIECES.find((p) => p.id === id);
 const wingById = (id) => WINGS.find((w) => w.id === id);
@@ -260,7 +260,7 @@ const ROOM_BACKGROUND = {
       'twinkle': { x: 16, y: 27, w: 20, h: 20 },
       'frere-jacques': { x: 82, y: 24, w: 18, h: 14 },
       'london-bridge': { x: 51, y: 51, w: 27, h: 19, label: 'above' },
-      'pop-goes-weasel': { x: 14, y: 66, w: 20, h: 24 },
+      'pop-goes-weasel': { x: 14, y: 65.5, w: 20, h: 24 },
       'three-blind-mice': { x: 79, y: 70, w: 20, h: 12, label: 'above' }
     }
   },
@@ -292,7 +292,7 @@ const ROOM_BACKGROUND = {
   'home-distance-belonging': {
     background: 'assets/room-scenes/r04-home-distance-belonging-scene.webp', focus: '50% 50%',
     scene: {
-      'rock-a-bye-baby': { x: 17, y: 27, w: 23, h: 20 },
+      'rock-a-bye-baby': { x: 17, y: 29, w: 23, h: 20 },
       'amazing-grace-new-britain': { x: 43, y: 39, w: 19, h: 14, label: 'above' },
       'simple-gifts': { x: 20, y: 57, w: 22, h: 20 },
       'my-bonnie': { x: 63, y: 59, w: 18, h: 17 },
@@ -302,7 +302,7 @@ const ROOM_BACKGROUND = {
   // Anchors superseded by the room-scene painting (agent, 2026-09-30).
   'gardens-season-memory': { background: 'assets/room-scenes/r05-gardens-season-memory-scene.webp', focus: '50% 50%', scene: {
     'sakura-sakura': { x: 18, y: 40, w: 27, h: 27 },
-    'arirang': { x: 62, y: 32, w: 25, h: 28 },
+    'arirang': { x: 62, y: 34, w: 25, h: 28 },
     'mo-li-hua': { x: 80, y: 64, w: 20, h: 19, label: 'above' }
   } },
   // Anchors superseded by the room-scene painting (agent, 2026-09-30).
@@ -336,14 +336,14 @@ const ROOM_BACKGROUND = {
     'jolly-good-fellow': { x: 77, y: 30, w: 21, h: 19 },
     'jingle-bells': { x: 18, y: 56, w: 25, h: 18 },
     'joy-to-world': { x: 76, y: 58, w: 20, h: 18 },
-    'auld-lang-syne': { x: 18.5, y: 75, w: 17, h: 12 }
+    'auld-lang-syne': { x: 18.5, y: 71.5, w: 17, h: 12 }
   } },
   'winter-lanterns': { background: 'assets/room-scenes/r11-winter-lanterns-scene.webp', focus: '50% 50%', scene: {
     'silent-night': { x: 18, y: 29, w: 25, h: 20 },
     'o-tannenbaum': { x: 78, y: 26, w: 23, h: 20 },
     'deck-the-hall': { x: 20, y: 54, w: 25, h: 18 },
     'we-wish-merry-christmas': { x: 75, y: 58, w: 20.5, h: 20 },
-    'first-noel': { x: 16.5, y: 76, w: 21, h: 16, label: 'above' }
+    'first-noel': { x: 16.5, y: 75, w: 21, h: 14, label: 'above' }
   } },
   'baroque-pattern-workshop': { background: 'assets/backgrounds/r12-baroque-pattern-workshop-background.webp', focus: '50% 45%', anchors: {
     'bach-prelude-c-major-bwv-846': { x: 16, y: 35 }, 'bach-air-orchestral-suite-3': { x: 43, y: 35 }, 'bach-jesu-joy': { x: 69, y: 35 }, 'bach-cello-suite-1-prelude': { x: 30, y: 64 }, 'pachelbel-canon-d': { x: 64, y: 64 }
@@ -469,6 +469,21 @@ const cardArtUrl = (path) => new URL(path, document.baseURI).href;
 
 // ── companion presence ───────────────────────────────────────────────────────
 
+// In a room the companion figure is itself a control (owner, 2026-09-29: the
+// room explanation moves to a tap on the companion): it plays the room's
+// Learn More script through the same explainer as the word cards. No greeting
+// bubble here — it would sit on the word scroll's cards; the wing page greets.
+function roomCompanionMarkup(room) {
+  const c = companionById(journey.companionId);
+  const roomClip = roomClipId(room);
+  return `
+    <div class="companion-corner companion-corner--room">
+      <button class="companion-tap" ${roomClip ? `data-room-say="${roomClip}"` : ''} aria-label="${c.name}: hear about this room" aria-pressed="false">
+        <img class="companion-figure" src="${c.art}" alt="">
+      </button>
+    </div>`;
+}
+
 function companionCorner(line) {
   const c = companionById(journey.companionId);
   return `
@@ -476,6 +491,166 @@ function companionCorner(line) {
       ${line ? `<p class="companion-bubble">${line}</p>` : ''}
       <img class="companion-figure" src="${c.art}" alt="${c.name}">
     </div>`;
+}
+
+// ── the room's word scroll (owner, 2026-10-03) ───────────────────────────────
+
+// Owner, 2026-10-03, with a mockup of Playground of Patterns: "remember the
+// music book, i asked to have this new design for the bottom part? like
+// instead of door to other room, we have this instead." The bottom of every
+// room is a parchment scroll: one heading line and a row of big word cards,
+// each a speaker, a small picture and one word. A tap on a card pops the
+// child's companion up with the word's meaning while the narrator's existing
+// Learn More clip plays (the 2026-09-29 "companion shows it, narrator says it"
+// decision). The heading carries the same speaker and plays the room's own
+// Learn More script, which is how the room explanation stays reachable now
+// that the Learn More diamond is gone (owner, 2026-09-29).
+//
+// Only words with a rendered meaning clip become cards: a card that cannot
+// speak would be a silent control. The others wait in the room data until
+// their line is written and rendered, and then appear on their own.
+
+// One heading per room, in the voice of the owner's own line for Room 2 (taken
+// from the first sentence of that room's approved script). Visible only — the
+// speaker beside it plays the room's rendered script, not this line.
+const ROOM_SCROLL_HEADING = {
+  'melody-detective-workshop': 'Hear one tune wear different words',
+  'playground-of-patterns': 'Hear the parts that make a song easy to join',
+  'steps-beats-marches': 'Hear the beat that guides your feet',
+  'home-distance-belonging': 'Hear songs about someone far away',
+  'gardens-season-memory': 'Hear flower songs from different countries',
+  'southeast-asian-courtyard': 'Hear the tunes of nearby places',
+  'roads-prayer-city-sea': 'Hear a song travel and change',
+  'songs-that-transform': 'Hear a tune keep its notes and change its words',
+  'when-song-means-home': 'Hear songs that sound like home',
+  'celebration-square': 'Hear songs for special days',
+  'winter-lanterns': 'Hear how winter songs begin',
+  'baroque-pattern-workshop': 'Hear the low part that repeats',
+  'baroque-stage-seasons-water-fireworks': 'Hear instruments paint the weather',
+  'vienna-classical-city': 'Hear a tune come back changed',
+  'beethoven-door-two-eras': 'Hear a few notes grow into a big piece',
+  'music-learns-to-sing': 'Hear an instrument sing without words',
+  'piano-diary': 'Hear one note paint a picture',
+  'home-memory-dance': 'Hear dance beats move into the music hall',
+  'ballet-kingdom': 'Hear music that tells dancers how to move',
+  'when-music-storybook': 'Hear music make a creature appear',
+  'pictures-legends-russian-colour': 'Hear fast notes fly',
+  'three-theatre-cities': 'Hear music race a show to its end',
+  'painting-with-sound': 'Hear the quiet gaps in the music',
+  'new-century-many-sounds': 'Hear two very different new sounds'
+};
+
+// The small picture on each word card. `art` is a painted icon and wins when
+// present; until one is painted the card shows the placeholder glyph, so no
+// card is ever blank. Keyed by the word's Learn More clip id. Paint each as
+// assets/word-icons/<clip id>.webp and add `art` here.
+const WORD_PICTURE = {
+  'chip-melody': { art: 'assets/word-icons/chip-melody.webp' },
+  'chip-tune-family': { art: 'assets/word-icons/chip-tune-family.webp' },
+  'chip-repeat': { art: 'assets/word-icons/chip-repeat.webp' },
+  'chip-up-down': { art: 'assets/word-icons/chip-up-down.webp' },
+  'chip-round': { art: 'assets/word-icons/chip-round.webp' },
+  'chip-pattern': { art: 'assets/word-icons/chip-pattern.webp' },
+  'chip-refrain': { art: 'assets/word-icons/chip-refrain.webp' },
+  'chip-verse': { art: 'assets/word-icons/chip-verse.webp' },
+  'chip-call-and-response': { art: 'assets/word-icons/chip-call-and-response.webp' },
+  'chip-pulse': { art: 'assets/word-icons/chip-pulse.webp' },
+  'chip-rhythm': { art: 'assets/word-icons/chip-rhythm.webp' },
+  'chip-dance': { art: 'assets/word-icons/chip-dance.webp' },
+  'chip-lullaby': { art: 'assets/word-icons/chip-lullaby.webp' },
+  'chip-phrase': { art: 'assets/word-icons/chip-phrase.webp' },
+  'chip-lyrics': { art: 'assets/word-icons/chip-lyrics.webp' },
+  'chip-arrangement': { art: 'assets/word-icons/chip-arrangement.webp' },
+  'chip-bass-line': { art: 'assets/word-icons/chip-bass-line.webp' },
+  'chip-concerto': { art: 'assets/word-icons/chip-concerto.webp' },
+  'chip-contrast': { art: 'assets/word-icons/chip-contrast.webp' },
+  'chip-question-and-answer': { art: 'assets/word-icons/chip-question-and-answer.webp' },
+  'chip-variation': { art: 'assets/word-icons/chip-variation.webp' },
+  'chip-motif': { art: 'assets/word-icons/chip-motif.webp' },
+  'chip-symphony': { art: 'assets/word-icons/chip-symphony.webp' },
+  'chip-scale': { art: 'assets/word-icons/chip-scale.webp' },
+  'chip-accompaniment': { art: 'assets/word-icons/chip-accompaniment.webp' },
+  'chip-waltz': { art: 'assets/word-icons/chip-waltz.webp' },
+  'chip-texture': { art: 'assets/word-icons/chip-texture.webp' },
+  'chip-ballet': { art: 'assets/word-icons/chip-ballet.webp' },
+  'chip-march': { art: 'assets/word-icons/chip-march.webp' },
+  'chip-register': { art: 'assets/word-icons/chip-register.webp' }
+};
+
+function wordPictureMarkup(clipId) {
+  const pic = WORD_PICTURE[clipId] || { glyph: '🎵' };
+  return pic.art
+    ? `<span class="word-card__picture"><img src="${pic.art}" alt=""></span>`
+    : `<span class="word-card__picture word-card__picture--placeholder" aria-hidden="true">${pic.glyph}</span>`;
+}
+
+function wordScrollMarkup(room) {
+  const words = room.keyVocabulary
+    .map((label) => ({ label, clipId: vocabClipId(label) }))
+    .filter((w) => w.clipId);
+  const roomClip = roomClipId(room);
+  const heading = ROOM_SCROLL_HEADING[room.id] || room.title;
+  return `
+    <section class="word-scroll" aria-label="Words to hear">
+      <button class="word-scroll__heading" ${roomClip ? `data-room-say="${roomClip}"` : ''} aria-label="${heading}. Hear about this room">
+        <span class="word-scroll__speaker" aria-hidden="true">🔊</span><span>${heading}</span>
+      </button>
+      ${words.length ? `<div class="word-scroll__cards">
+        ${words.map(({ label, clipId }) => `
+          <button class="word-card" data-strip-say="${clipId}" aria-label="Hear what ${label} means" aria-pressed="false">
+            <span class="word-card__top"><span class="word-card__speaker" aria-hidden="true">🔊</span>${wordPictureMarkup(clipId)}</span>
+            <span class="word-card__word">${label}</span>
+          </button>`).join('')}
+      </div>` : ''}
+      <button class="word-scroll__grownups" data-knowledge="${room.id}" aria-label="For grown-ups: about this room">For grown-ups</button>
+    </section>`;
+}
+
+
+// The companion explainer: the child's companion pops up above the word scroll
+// with a speech bubble while the narrator's clip plays (owner, 2026-09-29:
+// "visually companion speak, but the voice reader is the narrator"). One
+// bubble at a time; it leaves two seconds after the clip ends, on the next
+// tap anywhere, or when the page changes. With Sound off the bubble still
+// shows its words and the Sound button nudges, so no tap is ever silent.
+function companionExplainerMarkup() {
+  const c = companionById(journey.companionId);
+  return `
+    <div class="companion-explainer" role="status" aria-live="polite" aria-atomic="true" hidden>
+      <img class="companion-explainer__figure" src="${c.art}" alt="">
+      <p class="companion-explainer__bubble"></p>
+    </div>`;
+}
+
+function hideStripExplainer() {
+  if (stripExplainerTimer) { clearTimeout(stripExplainerTimer); stripExplainerTimer = null; }
+  if (!stripExplainer) return;
+  if (!stripExplainer.hidden) stopLearnMore();
+  stripExplainer.classList.remove('is-visible');
+  stripExplainer.hidden = true;
+  stage.querySelectorAll('[data-strip-say], [data-room-say]').forEach((button) => button.setAttribute('aria-pressed', 'false'));
+  stage.querySelector('.companion-corner')?.classList.remove('is-hidden');
+}
+
+function showStripExplainer(control, clipId, text) {
+  if (!stripExplainer || !text) return;
+  if (stripExplainerTimer) { clearTimeout(stripExplainerTimer); stripExplainerTimer = null; }
+  stopTitle();
+  stripExplainer.querySelector('.companion-explainer__bubble').textContent = text;
+  stripExplainer.hidden = false;
+  void stripExplainer.offsetWidth;            // restart the pop-in transition
+  stripExplainer.classList.add('is-visible');
+  stage.querySelector('.companion-corner')?.classList.add('is-hidden');
+  stage.querySelectorAll('[data-strip-say], [data-room-say]').forEach((button) => {
+    button.setAttribute('aria-pressed', String(button === control));
+  });
+  const linger = () => { stripExplainerTimer = setTimeout(hideStripExplainer, 2000); };
+  if (!sound.on) {
+    nudgeSound();
+    stripExplainerTimer = setTimeout(hideStripExplainer, Math.max(3500, text.length * 70));
+    return;
+  }
+  if (!speakLearnMore(clipId, linger)) linger();
 }
 
 // ── page 1: choose a companion ───────────────────────────────────────────────
@@ -636,6 +811,8 @@ function renderRoom() {
   currentView = 'room';
   document.body.dataset.view = currentView;
   stopPiece();                  // sets currentView first so the tune it restores is this page's
+  hideStripExplainer();
+  stripExplainer = null;
   const room = roomById(journey.roomId);
   if (!room) { renderWorld(); return; }
   document.body.setAttribute('data-open-room', room.id);   // which room is open, for QA (never data-room: taps use closest('[data-room]'))
@@ -712,14 +889,10 @@ function renderRoom() {
               <span class="info-square__label"><span class="info-square__line">About</span> <span class="info-square__line">${composer.shortName}</span></span>
             </button>`;
           }).join('')}
-          <button class="info-diamond" data-knowledge="${room.id}" aria-label="About this room">
-            <span class="info-diamond__inner"><span>💡</span></span>
-            <span class="info-diamond__label">Learn More</span>
-          </button>
         </aside>
       </div>
 
-      ${roomLinksMarkup(room)}
+      ${wordScrollMarkup(room)}
 
       ${pages > 1 ? `
         <div class="pager">
@@ -728,7 +901,8 @@ function renderRoom() {
           ).join('')}
         </div>` : ''}
 
-      ${companionCorner(greetedRooms.has(room.id) ? null : c.greeting)}
+      ${roomCompanionMarkup(room)}
+      ${companionExplainerMarkup()}
     </div>`;
 
   // Measure the ordinary grid first, then use those exact disc sizes for the
@@ -745,13 +919,13 @@ function renderRoom() {
     }
     field.classList.add('bubble-field--anchored');
 
-    // Anchor percentages describe the painting, but the connection strip is
+    // Anchor percentages describe the painting, but the word scroll is
     // ordinary content whose rendered height changes with the viewport. Keep
     // the authored x/y point unless the complete bubble (including its name
-    // pill) would enter a picture door; then lift it only far enough to leave
+    // pill) would enter the scroll; then lift it only far enough to leave
     // the same 3px clearance required by check-bubble-anchors.mjs.
-    const linkTops = [...stage.querySelectorAll('.room-link')]
-      .map((link) => link.getBoundingClientRect().top);
+    const linkTops = [...stage.querySelectorAll('.word-scroll')]
+      .map((scroll) => scroll.getBoundingClientRect().top);
     if (linkTops.length) {
       const safeBottom = Math.min(...linkTops) - 3;
       for (const bubble of field.querySelectorAll('.bubble')) {
@@ -761,7 +935,15 @@ function renderRoom() {
     }
   }
 
-  greetedRooms.add(room.id);
+  stripExplainer = stage.querySelector('.companion-explainer');
+  // The explainer stands on the scroll's top edge, measured rather than
+  // guessed: the scroll's height depends on the stage width and on whether
+  // the room has word cards at all.
+  const scrollBox = stage.querySelector('.word-scroll')?.getBoundingClientRect();
+  if (scrollBox) {
+    const stageBox = stage.getBoundingClientRect();
+    stage.style.setProperty('--word-scroll-rise', `${Math.round(stageBox.bottom - scrollBox.top + 6)}px`);
+  }
 
   if (pendingPopupPieceId) {
     const target = pendingPopupPieceId;
@@ -815,49 +997,16 @@ function bubbleMarkup(p, anchor) {
     </div>`;
 }
 
-// The connections strip: where this room leads. Owner, 2026-09-27: "we have
-// button but it goes to another page, to a child who can't read, this is very
-// confusing" — the adult sentence ("A repeating frame in a play song can
-// prepare the ear for...") used to be the only content on the card. Decided
-// "A. Picture doors": each cross-room link now shows the DESTINATION room's
-// own painting (the same `ROOM_CARD` thumbnail the wing's room-grid and the
-// Wing Map landmark are painted from, so a child recognises the place) in a
-// rounded frame, with only the short room name printed under it — nothing to
-// read to know where the door goes. The adult sentence moves to that room's
-// Learn More popup (knowledgePopup below); it is not deleted, only relocated
-// off the child-facing card. Cross-room links still navigate on tap; the
-// single within-room link (toRoomId null, scope 'within-room') stays a
-// non-tappable hint, since it does not lead through a door at all.
-function roomLinksMarkup(room) {
-  if (!room.connections.length) return '';
-  return `
-    <div class="room-links" aria-label="Where this room leads">
-      ${room.connections.map((conn) => {
-        const target = conn.toRoomId ? roomById(conn.toRoomId) : null;
-        if (target) {
-          const card = ROOM_CARD[target.id];
-          return `
-          <button class="room-link room-link--door" data-connection="${conn.toRoomId}" aria-label="Go to ${target.title}">
-            <span class="room-link__frame">
-              ${card
-                ? `<img class="room-link__art" src="${cardArtUrl(card.card)}" alt="" style="object-position:${card.focus}">`
-                : `<span class="room-link__art room-link__art--none" aria-hidden="true">🎵</span>`}
-            </span>
-            <span class="room-link__name">${target.title}</span>
-          </button>`;
-        }
-        return `
-          <div class="room-link room-link--hint">
-            <span class="room-link__label">${conn.label}</span>
-            <span class="room-link__target">in this room</span>
-          </div>`;
-      }).join('')}
-    </div>`;
-}
+// The picture-door strip that used to sit here (owner, 2026-09-27, "A. Picture
+// doors") was replaced by the word scroll on 2026-10-03 — the owner's words:
+// "instead of door to other room, we have this instead". Every room a door led
+// to is still reached through the back arrow and the wing map; the adult
+// connection sentences stay in the For grown-ups popup below.
 
 // ── information pop-ups ──────────────────────────────────────────────────────
 
 function openPopup(html) {
+  hideStripExplainer();
   stopLearnMore();
   stopTitle();
   popupBody.innerHTML = html;
@@ -881,34 +1030,24 @@ function composerPopup(id) {
     <p><strong>Known for.</strong> ${c.knownFor}</p>`);
 }
 
+// For grown-ups (owner, 2026-10-03): the child-level script and the word
+// meanings now live in the room's word scroll, spoken, with the companion
+// explaining. What is left here is the material for the adult reading over a
+// child's shoulder — the room's question and thesis, where its music comes
+// from, and the cross-room connection sentences the picture doors used to
+// carry. Nothing here is spoken.
 function knowledgePopup(room) {
   const origins = originLine(room);
-  const roomClip = roomClipId(room);
-  // The adult connection sentences that used to sit on the child-facing picture
-  // doors (owner, 2026-09-27, "A. Picture doors") live here instead, for the
-  // grown-up reading over a child's shoulder — not spoken, not part of the
-  // room's own child-level script.
   const crossRoomConnections = room.connections.filter((c) => c.toRoomId);
   openPopup(`
     <h2>${room.title}</h2>
-    <p class="popup__child-script">${roomScript(room)}</p>
-    <div class="popup__vocab">${room.keyVocabulary.map((v) => {
-      const clipId = vocabClipId(v);
-      return clipId
-        ? `<span class="vocab-item"><button class="vocab-chip vocab-chip--spoken" data-learnmore-say="${clipId}" data-learnmore-meaning="${vocabMeaning(v)}" aria-label="Hear what ${v} means" aria-expanded="false">${v}<span aria-hidden="true">🔊</span></button></span>`
-        : `<span class="vocab-chip">${v}</span>`;
-    }).join('')}</div>
-    <details class="popup__grownups">
-      <summary>For grown-ups</summary>
+    <p class="popup__meta">For grown-ups</p>
+    <div class="popup__grownups">
       <p class="popup__meta">${room.openingQuestion}</p>
       <p>${room.thesis}</p>
       ${origins ? `<p><strong>Music from.</strong> ${origins}</p>` : ''}
       ${crossRoomConnections.length ? `<div class="popup__connections"><strong>Where this room leads.</strong>${crossRoomConnections.map((conn) => `<p class="popup__connection">${conn.label} <em>➜ ${roomById(conn.toRoomId)?.title || ''}</em></p>`).join('')}</div>` : ''}
-    </details>`);
-  if (sound.on && roomClip) {
-    stopTitle();
-    speakLearnMore(roomClip);
-  }
+    </div>`);
 }
 
 // Who made a room's music, for the knowledge popup: the composers not already
@@ -1083,6 +1222,7 @@ const chapter = createChapter({
 // ── routing ──────────────────────────────────────────────────────────────────
 
 function go(view) {
+  hideStripExplainer();
   // Leaving the Toy Piano room: it has already stopped its own sound and handed
   // the player's callbacks back blank, so restore main's defaults before the
   // next page renders — pieceFinished is what clears a playing bubble and
@@ -1203,6 +1343,17 @@ stage.addEventListener('click', (event) => {
   const explainListen = t.closest('[data-explain-listen]');
   if (explainListen) { speakExplain(explainListen.dataset.explainListen); return; }
 
+  const word = t.closest('[data-strip-say]');
+  if (word) {
+    showStripExplainer(word, word.dataset.stripSay, LEARN_MORE_WORD_MEANINGS[word.dataset.stripSay]);
+    return;
+  }
+  const roomSay = t.closest('[data-room-say]');
+  if (roomSay) {
+    showStripExplainer(roomSay, roomSay.dataset.roomSay, LEARN_MORE_ROOM_SCRIPTS[roomSay.dataset.roomSay]);
+    return;
+  }
+
   if (handleSay(t)) return;
 
   const comp = t.closest('[data-composer]');
@@ -1211,24 +1362,14 @@ stage.addEventListener('click', (event) => {
   const know = t.closest('[data-knowledge]');
   if (know) { knowledgePopup(roomById(know.dataset.knowledge)); return; }
 
-  const connection = t.closest('[data-connection]');
-  if (connection) {
-    const target = roomById(connection.dataset.connection);
-    if (target) {
-      journey.wingId = target.wingId;
-      journey.roomId = target.id;
-      journey.page = 0;
-      exploreOverride = null;
-      renderRoom();
-    }
-    return;
-  }
-
   const compare = t.closest('[data-compare]');
   if (compare) { openCompare(compare.dataset.compare); return; }
 
   const page = t.closest('[data-page]');
-  if (page) { journey.page = Number(page.dataset.page); renderRoom(); }
+  if (page) { journey.page = Number(page.dataset.page); renderRoom(); return; }
+
+  // A tap anywhere else closes the companion's explanation.
+  if (stripExplainer && !stripExplainer.hidden) hideStripExplainer();
 });
 
 // Long-press a bubble for the piece's own information.
@@ -1245,33 +1386,6 @@ popup.addEventListener('click', (event) => {
   if (handleSay(event.target)) return;
   const explainListen = event.target.closest('[data-explain-listen]');
   if (explainListen) { speakExplain(explainListen.dataset.explainListen); return; }
-  const learnMore = event.target.closest('[data-learnmore-say]');
-  if (learnMore) {
-    if (!sound.on) { nudgeSound(); return; }
-    stopTitle();
-    popupBody.querySelectorAll('.vocab-meaning').forEach((bubble) => bubble.remove());
-    popupBody.querySelectorAll('[data-learnmore-say]').forEach((button) => button.setAttribute('aria-expanded', 'false'));
-    const bubble = document.createElement('span');
-    bubble.className = 'vocab-meaning';
-    bubble.setAttribute('role', 'status');
-    bubble.textContent = learnMore.dataset.learnmoreMeaning;
-    learnMore.parentElement.append(bubble);
-    const card = popup.querySelector('.popup__card');
-    const placement = placeMeaningBubble(
-      learnMore.getBoundingClientRect(),
-      bubble.getBoundingClientRect(),
-      card.getBoundingClientRect(),
-      { width: window.innerWidth, height: window.innerHeight }
-    );
-    bubble.style.left = `${placement.left}px`;
-    bubble.style.top = `${placement.top}px`;
-    bubble.style.width = `${placement.width}px`;
-    bubble.style.setProperty('--meaning-arrow-x', `${placement.arrow}px`);
-    bubble.classList.add(`vocab-meaning--${placement.side}`);
-    learnMore.setAttribute('aria-expanded', 'true');
-    speakLearnMore(learnMore.dataset.learnmoreSay);
-    return;
-  }
   const compare = event.target.closest('[data-compare]');
   if (compare) { openCompare(compare.dataset.compare); return; }
   if (event.target.closest('[data-close]') || event.target === popup) closePopup();

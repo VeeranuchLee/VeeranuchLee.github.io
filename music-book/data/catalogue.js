@@ -400,29 +400,27 @@ export const PIECES = [
     excerpt: {
       tempo: 72,
       // Replaces the salvaged diatonic line from math-app/classical-music.html.
-      // Own single-line transcription of the Act 2 Scène oboe melody in B minor.
-      // Still not checked against a named PD edition — do not feature, do not
-      // flip verified to true, because a wrong Swan Lake already shipped once.
-      verified: false,
+      // Oboe bars 2–9, checked note for note on 2026-10-03 against the Jurgenson
+      // full score pp. 223–224 (bars 6–8 restate bars 2–4; bar 9 is a B4 dotted
+      // half, its fourth-beat B4 pickup left out). A wrong Swan Lake shipped once.
+      verified: true,
       sourceType: 'public-domain-score',
-      sourceReference: 'Tchaikovsky, Swan Lake Op. 20, Act 2 Scène (Andante), oboe melody in B minor; own transcription pending check against a Jurgenson / IMSLP PD score',
+      sourceReference: 'Tchaikovsky, Swan Lake Op. 20, Act II No. 10 Scene, oboe bars 2-9 in B minor (Jurgenson full score plate B.B. 59, IMSLP scan via archive.org item imslp-lake-ballet-op20-tchaikovsky-pyotr, p. 223-224); bars 2-9 checked 2026-10-03',
       notes: [
-        { n: 'D5', d: 1 }, { n: 'C#5', d: 0.5 }, { n: 'D5', d: 0.5 },
-        { n: 'F#5', d: 1 }, { n: 'E5', d: 0.5 }, { n: 'D5', d: 0.5 },
-        { n: 'C#5', d: 1 }, { n: 'B4', d: 0.5 }, { n: 'A#4', d: 0.5 }, { n: 'B4', d: 2 },
-        { n: 'D5', d: 1 }, { n: 'C#5', d: 0.5 }, { n: 'D5', d: 0.5 },
-        { n: 'F#5', d: 1 }, { n: 'E5', d: 0.5 }, { n: 'D5', d: 0.5 },
-        { n: 'C#5', d: 1 }, { n: 'B4', d: 0.5 }, { n: 'A#4', d: 0.5 }, { n: 'B4', d: 2 },
-        { n: 'E5', d: 1 }, { n: 'F#5', d: 0.5 }, { n: 'G5', d: 0.5 },
-        { n: 'A5', d: 1 }, { n: 'B5', d: 0.5 }, { n: 'C#6', d: 0.5 },
-        { n: 'D6', d: 1.5 }, { n: 'C#6', d: 0.5 }, { n: 'B5', d: 1 }, { n: 'C#6', d: 0.5 }, { n: 'D6', d: 0.5 },
-        { n: 'E6', d: 1.5 }, { n: 'D6', d: 0.5 }, { n: 'C#6', d: 2 },
-        { n: 'D6', d: 1.5 }, { n: 'C#6', d: 0.5 }, { n: 'B5', d: 2 }
+        { n: 'F#5', d: 2 }, { n: 'B4', d: 0.5 }, { n: 'C#5', d: 0.5 }, { n: 'D5', d: 0.5 },
+        { n: 'E5', d: 0.5 }, { n: 'F#5', d: 1.5 }, { n: 'D5', d: 0.5 }, { n: 'F#5', d: 1.5 },
+        { n: 'D5', d: 0.5 }, { n: 'F#5', d: 1.5 }, { n: 'B4', d: 0.5 }, { n: 'D5', d: 0.5 },
+        { n: 'B4', d: 0.5 }, { n: 'G4', d: 0.5 }, { n: 'D5', d: 0.5 }, { n: 'B4', d: 2.5 },
+        { n: 'E5', d: 0.5 }, { n: 'D5', d: 0.5 }, { n: 'C#5', d: 0.5 }, { n: 'F#5', d: 2 },
+        { n: 'B4', d: 0.5 }, { n: 'C#5', d: 0.5 }, { n: 'D5', d: 0.5 }, { n: 'E5', d: 0.5 },
+        { n: 'F#5', d: 1.5 }, { n: 'D5', d: 0.5 }, { n: 'F#5', d: 1.5 }, { n: 'D5', d: 0.5 },
+        { n: 'F#5', d: 1.5 }, { n: 'B4', d: 0.5 }, { n: 'D5', d: 0.5 }, { n: 'B4', d: 0.5 },
+        { n: 'G4', d: 0.5 }, { n: 'D5', d: 0.5 }, { n: 'B4', d: 3 }
       ]
     },
     info: {
       shortDescription: 'The swan music from Tchaikovsky’s ballet.',
-      listenFor: 'A raised note near the start (the A-sharp) leans upward, then the line glides down.',
+      listenFor: 'The oboe holds one long high note, then climbs back up to it again and again.',
       whyItMatters: 'Audiences disliked Swan Lake at first. It is now one of the most performed ballets anywhere.',
       guideDialogue: [
         { speaker: 'curious', line: 'This one sounds sad.' },

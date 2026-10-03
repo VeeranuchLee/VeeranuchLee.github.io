@@ -43,6 +43,9 @@
 //                 completed four-spread chapter.
 // v4  2026-09-28  the one-room scene pilot adds Room 4's painting to the
 //                 navigation shell and changes its room renderer.
+// v6  2026-10-03  one bump for two owner-approved features merged together:
+//                 the room's bottom word scroll with its word-icon pictures
+//                 (#1153) and the Toy Piano that grows to fit the song (#1163).
 //
 // WHY ONLY THE SHELL IS PRECACHED — OWNER DECISION D3, 2026-09-22, OPTION A
 //
@@ -68,7 +71,8 @@
 //                 shell is now 33 files and 2,511,562 bytes (2.40 MB); room paintings, cards,
 //                 bubbles and portraits still remain visit-cached under option A. Measured
 //                 numbers in a comment go stale silently, so check-offline-scope.mjs re-measures
-//                 the shell on every run and fails at 3 MB, far below option B's 10+ MB.
+//                 the shell on every run and fails at 3 MB (3.25 MB since
+//                 2026-10-03, v6), far below option B's 10+ MB.
 // v4  2026-09-28  Map Bridge feedback voice lines ship as .m4a and the runtime clip
 //                 map (app/mapbridge-clips.js) plus its player (app/mapbridge.js,
 //                 split the same way learnmore.js / learnmore-clips.js are) joined
@@ -105,7 +109,7 @@
 
 /* CACHE_NAME is the variable the release pipeline reads (publish-app.sh matches
    /CACHE_NAME\s*=/). Do not rename it; see release/registry.json, music-book. */
-const CACHE_NAME = 'music-book-v5';
+const CACHE_NAME = 'music-book-v6';
 
 // Everything the app needs to START, plus every navigation screen a child sees
 // before a room: landing, World map, and the six wing maps. The app is one ES
