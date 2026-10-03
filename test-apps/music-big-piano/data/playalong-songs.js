@@ -1233,9 +1233,9 @@ export const PLAYALONG_SONGS = [
   },
 
   // Morning Mood — the flute's opening, bars 1–4, one octave down (the written octave, E5–C♯6, runs
-  // past the big piano's top C). Grace notes left out. NOT EDITION-VERIFIED: checked only against the
-  // engraved LilyPond excerpt in Norwegian Wikipedia's "Morgenstemning"; imslp.org refused automated
-  // downloads. Check against an edition before any publish.
+  // past the big piano's top C). Grace notes left out. Verified 2026-10-03 against the
+  // Schirmer 1898 piano solo (see music-book/qa/bigpiano-verify-2026-10-03.md). The score's last note is
+  // a quarter followed by an eighth rest; the rest is dropped.
   {
     id: 'morning-mood',
     title: 'Morning Mood',
@@ -1243,21 +1243,21 @@ export const PLAYALONG_SONGS = [
     art: null,
     tempo: 72,
     keyboard: 'big',
-    verified: false,
-    source: 'Grieg, Peer Gynt Suite No. 1 Op. 46, I. Morning Mood, flute bars 1–4, octave down; own transcription checked against no.wikipedia.org “Morgenstemning” LilyPond excerpt — edition check pending',
+    verified: true,
+    source: 'Grieg, Peer Gynt Suite No. 1 Op. 46 No. 1, Morgenstimmung, flute bars 1–4, octave down; checked against the piano solo ed. Louis Oesterle, G. Schirmer 1898 (University of Toronto scan, archive.org 31761045200615; public domain), corroborated by the no.wikipedia LilyPond excerpt',
     notes: [
       { n: 'B4', d: 0.5 }, { n: 'G#4', d: 0.5 }, { n: 'F#4', d: 0.5 }, { n: 'E4', d: 0.5 },
       { n: 'F#4', d: 0.5 }, { n: 'G#4', d: 0.5 }, { n: 'B4', d: 0.5 }, { n: 'G#4', d: 0.5 },
       { n: 'F#4', d: 0.5 }, { n: 'E4', d: 0.5 }, { n: 'F#4', d: 0.25 }, { n: 'G#4', d: 0.25 },
       { n: 'F#4', d: 0.25 }, { n: 'G#4', d: 0.25 }, { n: 'B4', d: 0.5 }, { n: 'G#4', d: 0.5 },
       { n: 'B4', d: 0.5 }, { n: 'C#5', d: 0.5 }, { n: 'G#4', d: 0.5 }, { n: 'C#5', d: 0.5 },
-      { n: 'B4', d: 0.5 }, { n: 'G#4', d: 0.5 }, { n: 'F#4', d: 0.5 }, { n: 'E4', d: 1.5 }
+      { n: 'B4', d: 0.5 }, { n: 'G#4', d: 0.5 }, { n: 'F#4', d: 0.5 }, { n: 'E4', d: 1 }
     ]
   },
 
-  // Swan Lake — the oboe theme, first four bars, B minor. NOT VERIFIED: own transcription with no
-  // machine-readable edition available; the catalogue's own swan-lake-theme line is a different (also
-  // unverified) reading. Check against a Jurgenson / IMSLP score before any publish.
+  // Swan Lake — the oboe theme, bars 2–5, B minor. Read from the Jurgenson full score scan (2026-10-03,
+  // bars 2–4 note for note; bar 5 is B4 2.5 beats then E5 D5 C#5). STILL verified: false: it was read
+  // from a scan, and page 224 of the Jurgenson scan awaits a human check before this is flipped.
   {
     id: 'swan-lake',
     title: 'Swan Lake',
@@ -1266,18 +1266,20 @@ export const PLAYALONG_SONGS = [
     tempo: 72,
     keyboard: 'big',
     verified: false,
-    source: 'Tchaikovsky, Swan Lake Op. 20, Act 2 Scène (No. 10), oboe theme bars 1–4 in B minor; own transcription — edition check pending',
+    source: 'Tchaikovsky, Swan Lake Op. 20, Act 2 Scène (No. 10), oboe bars 2–5 in B minor; read from the Jurgenson full score, plate B.B. 59 (IMSLP scan, pp. 223–224; public domain) — page 224 awaits a human check',
     notes: [
       { n: 'F#5', d: 2 }, { n: 'B4', d: 0.5 }, { n: 'C#5', d: 0.5 }, { n: 'D5', d: 0.5 },
       { n: 'E5', d: 0.5 }, { n: 'F#5', d: 1.5 }, { n: 'D5', d: 0.5 }, { n: 'F#5', d: 1.5 },
       { n: 'D5', d: 0.5 }, { n: 'F#5', d: 1.5 }, { n: 'B4', d: 0.5 }, { n: 'D5', d: 0.5 },
-      { n: 'B4', d: 0.5 }, { n: 'G4', d: 0.5 }, { n: 'D5', d: 0.5 }, { n: 'B4', d: 4 }
+      { n: 'B4', d: 0.5 }, { n: 'G4', d: 0.5 }, { n: 'D5', d: 0.5 }, { n: 'B4', d: 2.5 },
+      { n: 'E5', d: 0.5 }, { n: 'D5', d: 0.5 }, { n: 'C#5', d: 0.5 }
     ]
   },
 
   // Canon in D — Violin I's first entry, bars 3–6 (sixteen quarter notes over the ground). Bars 7–8
-  // drop to B3, below the big piano, so the excerpt stops at bar 6. NOT EDITION-VERIFIED: checked only
-  // against the engraved LilyPond excerpt in English Wikipedia's "Pachelbel's Canon".
+  // drop to B3, below the big piano, so the excerpt stops at bar 6. Verified 2026-10-03 (WIMA edition and
+  // an engraved text agree). The final E4 is held 2 beats here as an ending hold; the score has 1 beat
+  // running into bar 7.
   {
     id: 'canon-in-d',
     title: 'Canon in D',
@@ -1285,8 +1287,8 @@ export const PLAYALONG_SONGS = [
     art: null,
     tempo: 72,
     keyboard: 'big',
-    verified: false,
-    source: 'Pachelbel, Canon and Gigue in D P.37, Violin I bars 3–6; own transcription checked against en.wikipedia.org “Pachelbel\'s Canon” LilyPond excerpt — edition check pending',
+    verified: true,
+    source: 'Pachelbel, Canon and Gigue in D P.37, Violin I bars 3–6; checked against the Violin I part, ed. Elaine Fine (WIMA.32b8, IMSLP; modern edition) and the en.wikipedia LilyPond excerpt; final E4 is an arranger\'s ending hold',
     notes: [
       { n: 'F#5', d: 1 }, { n: 'E5', d: 1 }, { n: 'D5', d: 1 }, { n: 'C#5', d: 1 },
       { n: 'B4', d: 1 }, { n: 'A4', d: 1 }, { n: 'B4', d: 1 }, { n: 'C#5', d: 1 },
@@ -1296,8 +1298,8 @@ export const PLAYALONG_SONGS = [
   },
 
   // Eine kleine Nachtmusik — the opening, bars 1–4, Violin I, one octave down (written G5–D6).
-  // The final bar's closing rest is dropped. NOT EDITION-VERIFIED: checked only against the engraved
-  // LilyPond excerpt in English Wikipedia's "Eine kleine Nachtmusik".
+  // The final bar's closing rest is dropped. Verified 2026-10-03 against the Mutopia
+  // LilyPond source of the Breitkopf & Härtel 1883 Alte Mozart-Ausgabe.
   {
     id: 'eine-kleine-nachtmusik',
     title: 'Eine kleine Nachtmusik',
@@ -1305,8 +1307,8 @@ export const PLAYALONG_SONGS = [
     art: null,
     tempo: 120,
     keyboard: 'big',
-    verified: false,
-    source: 'Mozart, Serenade No. 13 K. 525, I. Allegro, Violin I bars 1–4, octave down; own transcription checked against en.wikipedia.org “Eine kleine Nachtmusik” LilyPond excerpt — edition check pending',
+    verified: true,
+    source: 'Mozart, Serenade No. 13 K. 525, I. Allegro, Violin I bars 1–4, octave down; checked against Mutopia MozartWA/KV525 (Mutopia-2018/08/04-2230, from Breitkopf & Härtel 1883, Alte Mozart-Ausgabe; public domain)',
     notes: [
       { n: 'G4', d: 1 }, { n: null, d: 0.5 }, { n: 'D4', d: 0.5 }, { n: 'G4', d: 1 },
       { n: null, d: 0.5 }, { n: 'D4', d: 0.5 }, { n: 'G4', d: 0.5 }, { n: 'D4', d: 0.5 },
@@ -1353,9 +1355,10 @@ export const PLAYALONG_SONGS = [
     ]
   },
 
-  // Can-Can — the first eight-bar phrase of the galop tune, in C. NOT VERIFIED: own transcription
-  // from memory, no machine-readable edition found (Mutopia has none; imslp.org refused automated
-  // downloads). Check against the Orphée aux enfers score (Heugel) before any publish.
+  // Can-Can — the first eight-bar phrase of the galop tune, in C. Verified 2026-10-03 against the Bote & Bock
+  // vocal score (plate 10779, pp. 122–123; IMSLP PMLP24816), chorus "Galopp schliesset nun den Ball".
+  // The score is in G; this is TRANSPOSED DOWN A FIFTH (G → C) for the small keyboard. The voice's
+  // "Ga-" pickup (D4) is omitted.
   {
     id: 'can-can',
     title: 'Can-Can',
@@ -1363,8 +1366,8 @@ export const PLAYALONG_SONGS = [
     art: null,
     tempo: 104,
     keyboard: 'small',
-    verified: false,
-    source: 'Offenbach, Orphée aux enfers, “Galop infernal”, first phrase; own transcription — edition check pending',
+    verified: true,
+    source: 'Offenbach, Orpheus in der Unterwelt, “Galop infernal”, chorus first phrase; checked against the Bote & Bock vocal score, plate 10779, pp. 122–123 (IMSLP PMLP24816; public domain); transposed down a fifth from G to C, pickup omitted',
     notes: [
       { n: 'C4', d: 2 }, { n: 'D4', d: 0.5 }, { n: 'F4', d: 0.5 }, { n: 'E4', d: 0.5 },
       { n: 'D4', d: 0.5 }, { n: 'G4', d: 1 }, { n: 'G4', d: 1 }, { n: 'G4', d: 0.5 },
@@ -1388,7 +1391,7 @@ export const PLAYALONG_SONGS = [
     tempo: 76,
     keyboard: 'big',
     verified: true,
-    source: 'Brahms, Wiegenlied Op. 49 No. 4, voice, complete first verse; checked against OpenScore Lieder corpus lc5701612.mscx (CC0; transcribed from the Simrock edition scanned on IMSLP)',
+    source: 'Brahms, Wiegenlied Op. 49 No. 4, voice, complete first verse; checked against OpenScore Lieder corpus lc5701612.mscx (CC0; transcribed from the Simrock edition scanned on IMSLP); re-checked 2026-10-03',
     notes: [
       { n: 'G4', d: 0.5 }, { n: 'G4', d: 0.5 }, { n: 'Bb4', d: 1.5 }, { n: 'G4', d: 0.5 },
       { n: 'G4', d: 1 }, { n: 'Bb4', d: 1 }, { n: null, d: 1 }, { n: 'G4', d: 0.5 },

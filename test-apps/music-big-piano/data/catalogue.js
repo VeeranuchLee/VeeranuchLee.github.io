@@ -405,19 +405,17 @@ export const PIECES = [
       // flip verified to true, because a wrong Swan Lake already shipped once.
       verified: false,
       sourceType: 'public-domain-score',
-      sourceReference: 'Tchaikovsky, Swan Lake Op. 20, Act 2 Scène (Andante), oboe melody in B minor; own transcription pending check against a Jurgenson / IMSLP PD score',
+      sourceReference: 'Tchaikovsky, Swan Lake Op. 20, Act II No. 10 Scene, oboe bars 2-9 in B minor (Jurgenson full score plate B.B. 59, IMSLP scan, p. 223-224); NOT verified: bars 6-9 read at low zoom, page 224 awaits a human check (qa/bigpiano-verify-2026-10-03.md)',
       notes: [
-        { n: 'D5', d: 1 }, { n: 'C#5', d: 0.5 }, { n: 'D5', d: 0.5 },
-        { n: 'F#5', d: 1 }, { n: 'E5', d: 0.5 }, { n: 'D5', d: 0.5 },
-        { n: 'C#5', d: 1 }, { n: 'B4', d: 0.5 }, { n: 'A#4', d: 0.5 }, { n: 'B4', d: 2 },
-        { n: 'D5', d: 1 }, { n: 'C#5', d: 0.5 }, { n: 'D5', d: 0.5 },
-        { n: 'F#5', d: 1 }, { n: 'E5', d: 0.5 }, { n: 'D5', d: 0.5 },
-        { n: 'C#5', d: 1 }, { n: 'B4', d: 0.5 }, { n: 'A#4', d: 0.5 }, { n: 'B4', d: 2 },
-        { n: 'E5', d: 1 }, { n: 'F#5', d: 0.5 }, { n: 'G5', d: 0.5 },
-        { n: 'A5', d: 1 }, { n: 'B5', d: 0.5 }, { n: 'C#6', d: 0.5 },
-        { n: 'D6', d: 1.5 }, { n: 'C#6', d: 0.5 }, { n: 'B5', d: 1 }, { n: 'C#6', d: 0.5 }, { n: 'D6', d: 0.5 },
-        { n: 'E6', d: 1.5 }, { n: 'D6', d: 0.5 }, { n: 'C#6', d: 2 },
-        { n: 'D6', d: 1.5 }, { n: 'C#6', d: 0.5 }, { n: 'B5', d: 2 }
+        { n: 'F#5', d: 2 }, { n: 'B4', d: 0.5 }, { n: 'C#5', d: 0.5 }, { n: 'D5', d: 0.5 },
+        { n: 'E5', d: 0.5 }, { n: 'F#5', d: 1.5 }, { n: 'D5', d: 0.5 }, { n: 'F#5', d: 1.5 },
+        { n: 'D5', d: 0.5 }, { n: 'F#5', d: 1.5 }, { n: 'B4', d: 0.5 }, { n: 'D5', d: 0.5 },
+        { n: 'B4', d: 0.5 }, { n: 'G4', d: 0.5 }, { n: 'D5', d: 0.5 }, { n: 'B4', d: 2.5 },
+        { n: 'E5', d: 0.5 }, { n: 'D5', d: 0.5 }, { n: 'C#5', d: 0.5 }, { n: 'F#5', d: 2 },
+        { n: 'B4', d: 0.5 }, { n: 'C#5', d: 0.5 }, { n: 'D5', d: 0.5 }, { n: 'E5', d: 0.5 },
+        { n: 'F#5', d: 1.5 }, { n: 'D5', d: 0.5 }, { n: 'F#5', d: 1.5 }, { n: 'D5', d: 0.5 },
+        { n: 'F#5', d: 1.5 }, { n: 'B4', d: 0.5 }, { n: 'D5', d: 0.5 }, { n: 'B4', d: 0.5 },
+        { n: 'G4', d: 0.5 }, { n: 'D5', d: 0.5 }, { n: 'B4', d: 3 }
       ]
     },
     info: {

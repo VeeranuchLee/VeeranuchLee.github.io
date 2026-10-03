@@ -533,17 +533,16 @@ export const CLASSICAL_PIECES = [
     playbackMode: 'full',
     full: {
       tempo: 120,
-      verified: false,
+      verified: true,
       sourceType: 'public-domain-score',
-      sourceReference: 'Own single-line recognizable-theme transcription of Eine kleine Nachtmusik; public-domain composition. Not a modern arrangement.',
+      sourceReference: 'Mozart, Serenade K. 525, I. Allegro, Violin I bars 1-4 (Mutopia MozartWA/KV525 from Breitkopf & Haertel 1883, Alte Mozart-Ausgabe), G major; verified 2026-10-03 (see qa/bigpiano-verify-2026-10-03.md)',
       notes: [
-        { n: 'G4', d: 1 }, { n: 'D4', d: 1 }, { n: 'G4', d: 1 }, { n: 'B4', d: 1 },
-        { n: 'D5', d: 2 }, { n: 'C5', d: 1 }, { n: 'B4', d: 1 }, { n: 'A4', d: 1 },
-        { n: 'G4', d: 1 }, { n: 'F#4', d: 1 }, { n: 'G4', d: 1 }, { n: 'A4', d: 2 },
-        { n: 'D4', d: 2 }, { n: 'G4', d: 1 }, { n: 'D4', d: 1 }, { n: 'G4', d: 1 },
-        { n: 'B4', d: 1 }, { n: 'D5', d: 2 }, { n: 'C5', d: 1 }, { n: 'B4', d: 1 },
-        { n: 'A4', d: 1 }, { n: 'G4', d: 1 }, { n: 'F#4', d: 1 }, { n: 'A4', d: 1 },
-        { n: 'G4', d: 2 }
+        { n: 'G4', d: 1 }, { n: null, d: 0.5 }, { n: 'D4', d: 0.5 }, { n: 'G4', d: 1 },
+        { n: null, d: 0.5 }, { n: 'D4', d: 0.5 }, { n: 'G4', d: 0.5 }, { n: 'D4', d: 0.5 },
+        { n: 'G4', d: 0.5 }, { n: 'B4', d: 0.5 }, { n: 'D5', d: 1 }, { n: null, d: 1 },
+        { n: 'C5', d: 1 }, { n: null, d: 0.5 }, { n: 'A4', d: 0.5 }, { n: 'C5', d: 1 },
+        { n: null, d: 0.5 }, { n: 'A4', d: 0.5 }, { n: 'C5', d: 0.5 }, { n: 'A4', d: 0.5 },
+        { n: 'F#4', d: 0.5 }, { n: 'A4', d: 0.5 }, { n: 'D4', d: 1 }, { n: null, d: 1 }
       ]
     },
     info: {
@@ -555,7 +554,7 @@ export const CLASSICAL_PIECES = [
         { speaker: 'knowing', line: 'That opening jump is a bow. Then the tune chats.' }
       ]
     },
-    copyright: { status: 'public-domain', verified: true, sourceType: 'public-domain-composition', transcription: 'own-unverified' }
+    copyright: { status: 'public-domain', verified: true, sourceType: 'public-domain-composition', transcription: 'edition-checked' }
   },
   {
     id: 'mozart-rondo-alla-turca',
@@ -1177,17 +1176,24 @@ export const CLASSICAL_PIECES = [
     playbackMode: 'full',
     full: {
       tempo: 76,
-      verified: false,
+      verified: true,
       sourceType: 'public-domain-score',
-      sourceReference: "Own single-line recognizable-theme transcription of Brahms's Lullaby; public-domain composition. Not a modern arrangement.",
+      sourceReference: 'Brahms, Wiegenlied Op. 49 No. 4, voice, complete verse (OpenScore Lieder lc5701612.mscx after the Simrock edition), transposed from E-flat down a minor third to C major; verified 2026-10-03 (see qa/bigpiano-verify-2026-10-03.md)',
       notes: [
-        { n: 'E4', d: 1 }, { n: 'F4', d: 0.5 }, { n: 'E4', d: 0.5 }, { n: 'G4', d: 2 },
-        { n: 'D4', d: 1 }, { n: 'E4', d: 0.5 }, { n: 'D4', d: 0.5 }, { n: 'G4', d: 2 },
-        { n: 'C4', d: 1 }, { n: 'D4', d: 0.5 }, { n: 'C4', d: 0.5 }, { n: 'E4', d: 1 },
-        { n: 'D4', d: 1 }, { n: 'C4', d: 1 }, { n: 'B3', d: 1 }, { n: 'A3', d: 2 },
-        { n: 'G3', d: 2 }, { n: 'E4', d: 1 }, { n: 'F4', d: 0.5 }, { n: 'E4', d: 0.5 },
-        { n: 'G4', d: 2 }, { n: 'D4', d: 1 }, { n: 'E4', d: 0.5 }, { n: 'D4', d: 0.5 },
-        { n: 'C4', d: 3 }
+        { n: 'E4', d: 0.5 }, { n: 'E4', d: 0.5 }, { n: 'G4', d: 1.5 }, { n: 'E4', d: 0.5 },
+        { n: 'E4', d: 1 }, { n: 'G4', d: 1 }, { n: null, d: 1 }, { n: 'E4', d: 0.5 },
+        { n: 'G4', d: 0.5 }, { n: 'C5', d: 1 }, { n: 'B4', d: 1.5 }, { n: 'A4', d: 0.5 },
+        { n: 'A4', d: 1 }, { n: 'G4', d: 1 }, { n: 'D4', d: 0.5 }, { n: 'E4', d: 0.5 },
+        { n: 'F4', d: 1 }, { n: 'D4', d: 1 }, { n: 'D4', d: 0.5 }, { n: 'E4', d: 0.5 },
+        { n: 'F4', d: 1 }, { n: null, d: 1 }, { n: 'D4', d: 0.5 }, { n: 'F4', d: 0.5 },
+        { n: 'B4', d: 0.5 }, { n: 'A4', d: 0.5 }, { n: 'G4', d: 1 }, { n: 'B4', d: 1 },
+        { n: 'C5', d: 1 }, { n: null, d: 1 }, { n: 'C4', d: 0.5 }, { n: 'C4', d: 0.5 },
+        { n: 'C5', d: 2 }, { n: 'A4', d: 0.5 }, { n: 'F4', d: 0.5 }, { n: 'G4', d: 2 },
+        { n: 'E4', d: 0.5 }, { n: 'C4', d: 0.5 }, { n: 'F4', d: 1 }, { n: 'G4', d: 1 },
+        { n: 'A4', d: 1 }, { n: 'G4', d: 2 }, { n: 'C4', d: 0.5 }, { n: 'C4', d: 0.5 },
+        { n: 'C5', d: 2 }, { n: 'A4', d: 0.5 }, { n: 'F4', d: 0.5 }, { n: 'G4', d: 2 },
+        { n: 'E4', d: 0.5 }, { n: 'C4', d: 0.5 }, { n: 'F4', d: 1 }, { n: 'E4', d: 1 },
+        { n: 'D4', d: 1 }, { n: 'C4', d: 2 }
       ]
     },
     info: {
@@ -1199,7 +1205,7 @@ export const CLASSICAL_PIECES = [
         { speaker: 'knowing', line: 'That is why it is here. The whole verse is the rocking.' }
       ]
     },
-    copyright: { status: 'public-domain', verified: true, sourceType: 'public-domain-composition', transcription: 'own-unverified' }
+    copyright: { status: 'public-domain', verified: true, sourceType: 'public-domain-composition', transcription: 'edition-checked' }
   },
   {
     id: 'brahms-hungarian-dance-5',
@@ -1559,15 +1565,16 @@ export const CLASSICAL_PIECES = [
     playbackMode: 'full',
     full: {
       tempo: 72,
-      verified: false,
+      verified: true,
       sourceType: 'public-domain-score',
-      sourceReference: 'Own single-line recognizable-theme transcription of Morning Mood; public-domain composition. Not a modern arrangement.',
+      sourceReference: 'Grieg, Peer Gynt Suite No. 1 Op. 46 No. 1, Morgenstimmung, flute bars 1-4 (G. Schirmer 1898, ed. Louis Oesterle; University of Toronto scan, archive.org 31761045200615), transposed from E major up a minor third to G major; verified 2026-10-03 (see qa/bigpiano-verify-2026-10-03.md)',
       notes: [
-        { n: 'G4', d: 0.5 }, { n: 'E4', d: 0.5 }, { n: 'D4', d: 0.5 }, { n: 'E4', d: 0.5 },
-        { n: 'G4', d: 0.5 }, { n: 'E4', d: 0.5 }, { n: 'D4', d: 0.5 }, { n: 'E4', d: 0.5 },
-        { n: 'G4', d: 1 }, { n: 'A4', d: 1 }, { n: 'B4', d: 1 }, { n: 'A4', d: 0.5 },
-        { n: 'G4', d: 0.5 }, { n: 'E4', d: 1 }, { n: 'D4', d: 1 }, { n: 'B3', d: 1 },
-        { n: 'A3', d: 1 }, { n: 'G3', d: 2 }
+        { n: 'D5', d: 0.5 }, { n: 'B4', d: 0.5 }, { n: 'A4', d: 0.5 }, { n: 'G4', d: 0.5 },
+        { n: 'A4', d: 0.5 }, { n: 'B4', d: 0.5 }, { n: 'D5', d: 0.5 }, { n: 'B4', d: 0.5 },
+        { n: 'A4', d: 0.5 }, { n: 'G4', d: 0.5 }, { n: 'A4', d: 0.25 }, { n: 'B4', d: 0.25 },
+        { n: 'A4', d: 0.25 }, { n: 'B4', d: 0.25 }, { n: 'D5', d: 0.5 }, { n: 'B4', d: 0.5 },
+        { n: 'D5', d: 0.5 }, { n: 'E5', d: 0.5 }, { n: 'B4', d: 0.5 }, { n: 'E5', d: 0.5 },
+        { n: 'D5', d: 0.5 }, { n: 'B4', d: 0.5 }, { n: 'A4', d: 0.5 }, { n: 'G4', d: 1 }
       ]
     },
     info: {
@@ -1579,7 +1586,7 @@ export const CLASSICAL_PIECES = [
         { speaker: 'knowing', line: 'That is dawn. Each repeat is a bit more day.' }
       ]
     },
-    copyright: { status: 'public-domain', verified: true, sourceType: 'public-domain-composition', transcription: 'own-unverified' }
+    copyright: { status: 'public-domain', verified: true, sourceType: 'public-domain-composition', transcription: 'edition-checked' }
   },
   {
     id: 'grieg-mountain-king',
