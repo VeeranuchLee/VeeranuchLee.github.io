@@ -1,0 +1,82 @@
+{
+ "sense": "vet.occupation",
+ "word": "vet",
+ "sentence": "The vet checks our rabbit's paw.",
+ "char_span": [
+  4,
+  7
+ ],
+ "word_index": 1,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.24,
+  0.48
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.16,
+  "next_char_start": 0.56
+ },
+ "energy_dbfs_at_raw_edges": [
+  -32.8,
+  -77.9
+ ],
+ "quietest_near_start": {
+  "t": 0.2625,
+  "dbfs": -33.7
+ },
+ "quietest_near_end": {
+  "t": 0.4875,
+  "dbfs": -78.8
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  0.24,
+  0.5175
+ ],
+ "edge_shift_ms_vs_raw": [
+  -0.0,
+  37.5
+ ],
+ "energy_dbfs_at_cut": [
+  -32.8,
+  -45.2
+ ],
+ "word_audio_s": 0.2775,
+ "lead_tail_silence_s": [
+  0.175,
+  0.28
+ ],
+ "gain_db": -2.34,
+ "peak_dbfs_after": -7.97,
+ "level_to": "word-book/audio/words/vet.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/vet.occupation.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/vet.occupation.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  26.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  20.0
+ ],
+ "flags": [
+  {
+   "flag": "unreleased-stop",
+   "why": "ends in a stop before 'checks' (a consonant): usually unreleased in connected speech",
+   "release_measured": true,
+   "measurement": "release at 0.514 s (-39 dBFS over a -80 dBFS closure)"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -32.8 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

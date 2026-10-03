@@ -1,0 +1,76 @@
+{
+ "sense": "van.road-vehicle",
+ "word": "van",
+ "sentence": "The delivery van brings our new bookcase.",
+ "char_span": [
+  13,
+  16
+ ],
+ "word_index": 2,
+ "words_in_sentence": 7,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.72,
+  0.96
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.64,
+  "next_char_start": 1.04
+ },
+ "energy_dbfs_at_raw_edges": [
+  -32.3,
+  -24.7
+ ],
+ "quietest_near_start": {
+  "t": 0.7375,
+  "dbfs": -39.4
+ },
+ "quietest_near_end": {
+  "t": 1.07,
+  "dbfs": -34.5
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw+soft-valley",
+  "raw"
+ ],
+ "cut_s": [
+  0.735,
+  0.9605
+ ],
+ "edge_shift_ms_vs_raw": [
+  15.0,
+  0.5
+ ],
+ "energy_dbfs_at_cut": [
+  -38.2,
+  -24.6
+ ],
+ "word_audio_s": 0.2255,
+ "lead_tail_silence_s": [
+  0.155,
+  0.347
+ ],
+ "gain_db": 1.22,
+ "peak_dbfs_after": -3.18,
+ "level_to": "word-book/audio/words/van.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/van.road-vehicle.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/van.road-vehicle.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  40.0
+ ],
+ "soft_move_ms": [
+  15.0,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -24.6 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

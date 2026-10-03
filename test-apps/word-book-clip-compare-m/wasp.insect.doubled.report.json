@@ -1,0 +1,76 @@
+{
+ "sense": "wasp.insect",
+ "word": "wasp",
+ "sentence": ", wasp.",
+ "char_span": [
+  2,
+  6
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.569,
+  0.987
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.488,
+  "next_char_start": 0.987
+ },
+ "energy_dbfs_at_raw_edges": [
+  -75.6,
+  -71.2
+ ],
+ "quietest_near_start": {
+  "t": 0.544,
+  "dbfs": -84.6
+ },
+ "quietest_near_end": {
+  "t": 0.9895,
+  "dbfs": -75.7
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.5048,
+  1.0168
+ ],
+ "edge_shift_ms_vs_raw": [
+  -64.2,
+  29.8
+ ],
+ "energy_dbfs_at_cut": [
+  -70.8,
+  -55.3
+ ],
+ "word_audio_s": 0.512,
+ "lead_tail_silence_s": [
+  0.05,
+  0.031
+ ],
+ "gain_db": 1.32,
+ "peak_dbfs_after": -6.78,
+ "level_to": "word-book/audio/words/wasp.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/wasp.insect.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/wasp.insect.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  36.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  -30.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}

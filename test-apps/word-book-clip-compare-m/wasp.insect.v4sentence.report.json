@@ -1,0 +1,82 @@
+{
+ "sense": "wasp.insect",
+ "word": "wasp",
+ "sentence": "A wasp lands near the fruit.",
+ "char_span": [
+  2,
+  6
+ ],
+ "word_index": 1,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.24,
+  0.72
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.16,
+  "next_char_start": 0.8
+ },
+ "energy_dbfs_at_raw_edges": [
+  -27.3,
+  -65.8
+ ],
+ "quietest_near_start": {
+  "t": 0.245,
+  "dbfs": -27.3
+ },
+ "quietest_near_end": {
+  "t": 0.7175,
+  "dbfs": -67.5
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "dip"
+ ],
+ "cut_s": [
+  0.2408,
+  0.7225
+ ],
+ "edge_shift_ms_vs_raw": [
+  0.8,
+  2.5
+ ],
+ "energy_dbfs_at_cut": [
+  -27.6,
+  -59.4
+ ],
+ "word_audio_s": 0.4817,
+ "lead_tail_silence_s": [
+  0.05,
+  0.031
+ ],
+ "gain_db": 0.4,
+ "peak_dbfs_after": -6.78,
+ "level_to": "word-book/audio/words/wasp.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/wasp.insect.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/wasp.insect.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  6.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "unreleased-stop",
+   "why": "ends in a stop before 'lands' (a consonant): usually unreleased in connected speech",
+   "release_measured": false,
+   "measurement": "72 ms of closure before the cut, no release above it"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -27.6 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

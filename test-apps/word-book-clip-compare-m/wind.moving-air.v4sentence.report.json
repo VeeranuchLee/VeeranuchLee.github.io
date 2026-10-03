@@ -1,0 +1,82 @@
+{
+ "sense": "wind.moving-air",
+ "word": "wind",
+ "sentence": "The wind carries my kite higher.",
+ "char_span": [
+  4,
+  8
+ ],
+ "word_index": 1,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.24,
+  0.56
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.16,
+  "next_char_start": 0.64
+ },
+ "energy_dbfs_at_raw_edges": [
+  -28.2,
+  -24.9
+ ],
+ "quietest_near_start": {
+  "t": 0.2575,
+  "dbfs": -29.4
+ },
+ "quietest_near_end": {
+  "t": 0.645,
+  "dbfs": -74.7
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "dip+soft-valley"
+ ],
+ "cut_s": [
+  0.2405,
+  0.6451
+ ],
+ "edge_shift_ms_vs_raw": [
+  0.5,
+  85.1
+ ],
+ "energy_dbfs_at_cut": [
+  -28.5,
+  -74.7
+ ],
+ "word_audio_s": 0.4046,
+ "lead_tail_silence_s": [
+  0.01,
+  0.081
+ ],
+ "gain_db": 1.7,
+ "peak_dbfs_after": -7.59,
+ "level_to": "word-book/audio/words/wind.moving-air.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/wind.moving-air.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/wind.moving-air.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  40.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  -5.0
+ ],
+ "flags": [
+  {
+   "flag": "unreleased-stop",
+   "why": "ends in a stop before 'carries' (a consonant): usually unreleased in connected speech",
+   "release_measured": false,
+   "measurement": "62 ms of closure before the cut, no release above it"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -28.5 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

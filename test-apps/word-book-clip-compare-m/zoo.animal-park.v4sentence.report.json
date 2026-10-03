@@ -1,0 +1,80 @@
+{
+ "sense": "zoo.animal-park",
+ "word": "zoo",
+ "sentence": "We see a giraffe at the zoo.",
+ "char_span": [
+  24,
+  27
+ ],
+ "word_index": 6,
+ "words_in_sentence": 7,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  1.52,
+  1.92
+ ],
+ "neighbours_s": {
+  "previous_char_end": 1.44,
+  "next_char_start": 1.92
+ },
+ "energy_dbfs_at_raw_edges": [
+  -27.0,
+  -40.3
+ ],
+ "quietest_near_start": {
+  "t": 1.475,
+  "dbfs": -28.9
+ },
+ "quietest_near_end": {
+  "t": 1.95,
+  "dbfs": -68.7
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  1.52,
+  1.975
+ ],
+ "edge_shift_ms_vs_raw": [
+  -0.0,
+  55.0
+ ],
+ "energy_dbfs_at_cut": [
+  -27.0,
+  -73.4
+ ],
+ "word_audio_s": 0.455,
+ "lead_tail_silence_s": [
+  0.03,
+  0.205
+ ],
+ "gain_db": 4.27,
+ "peak_dbfs_after": -5.39,
+ "level_to": "word-book/audio/words/zoo.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/zoo.animal-park.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/zoo.animal-park.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -27.0 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

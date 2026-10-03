@@ -1,0 +1,76 @@
+{
+ "sense": "van.road-vehicle",
+ "word": "van",
+ "sentence": ", van.",
+ "char_span": [
+  2,
+  5
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.557,
+  0.871
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.511,
+  "next_char_start": 0.871
+ },
+ "energy_dbfs_at_raw_edges": [
+  -35.8,
+  -32.9
+ ],
+ "quietest_near_start": {
+  "t": 0.5295,
+  "dbfs": -38.3
+ },
+ "quietest_near_end": {
+  "t": 0.8985,
+  "dbfs": -54.0
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.557,
+  1.1559
+ ],
+ "edge_shift_ms_vs_raw": [
+  -0.0,
+  284.9
+ ],
+ "energy_dbfs_at_cut": [
+  -35.8,
+  -81.4
+ ],
+ "word_audio_s": 0.5989,
+ "lead_tail_silence_s": [
+  0.155,
+  0.347
+ ],
+ "gain_db": 3.81,
+ "peak_dbfs_after": -3.18,
+ "level_to": "word-book/audio/words/van.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/van.road-vehicle.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/van.road-vehicle.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}

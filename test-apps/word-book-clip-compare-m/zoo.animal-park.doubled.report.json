@@ -1,0 +1,80 @@
+{
+ "sense": "zoo.animal-park",
+ "word": "zoo",
+ "sentence": ", zoo.",
+ "char_span": [
+  2,
+  5
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.395,
+  0.662
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.348,
+  "next_char_start": 0.662
+ },
+ "energy_dbfs_at_raw_edges": [
+  -24.0,
+  -22.1
+ ],
+ "quietest_near_start": {
+  "t": 0.37,
+  "dbfs": -27.8
+ },
+ "quietest_near_end": {
+  "t": 0.692,
+  "dbfs": -38.1
+ },
+ "refined": true,
+ "edge_rule": [
+  "gap-min",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.3712,
+  0.7519
+ ],
+ "edge_shift_ms_vs_raw": [
+  -23.8,
+  89.9
+ ],
+ "energy_dbfs_at_cut": [
+  -28.0,
+  -59.8
+ ],
+ "word_audio_s": 0.3807,
+ "lead_tail_silence_s": [
+  0.03,
+  0.205
+ ],
+ "gain_db": 1.45,
+ "peak_dbfs_after": -5.39,
+ "level_to": "word-book/audio/words/zoo.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/zoo.animal-park.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/zoo.animal-park.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -28.0 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

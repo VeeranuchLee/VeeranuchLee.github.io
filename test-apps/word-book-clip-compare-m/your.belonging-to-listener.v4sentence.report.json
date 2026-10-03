@@ -1,0 +1,80 @@
+{
+ "sense": "your.belonging-to-listener",
+ "word": "your",
+ "sentence": "Please put your shoes by the door.",
+ "char_span": [
+  11,
+  15
+ ],
+ "word_index": 2,
+ "words_in_sentence": 7,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.6,
+  0.72
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.48,
+  "next_char_start": 0.76
+ },
+ "energy_dbfs_at_raw_edges": [
+  -22.0,
+  -24.0
+ ],
+ "quietest_near_start": {
+  "t": 0.54,
+  "dbfs": -30.0
+ },
+ "quietest_near_end": {
+  "t": 0.785,
+  "dbfs": -26.1
+ },
+ "refined": true,
+ "edge_rule": [
+  "gap-min",
+  "raw"
+ ],
+ "cut_s": [
+  0.5026,
+  0.72
+ ],
+ "edge_shift_ms_vs_raw": [
+  -97.4,
+  0.0
+ ],
+ "energy_dbfs_at_cut": [
+  -40.0,
+  -24.0
+ ],
+ "word_audio_s": 0.2174,
+ "lead_tail_silence_s": [
+  0.04,
+  0.051
+ ],
+ "gain_db": 1.74,
+ "peak_dbfs_after": -10.45,
+ "level_to": "word-book/audio/words/your.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/your.belonging-to-listener.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/your.belonging-to-listener.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  40.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "function-word",
+   "why": "a closed-class word; in a sentence it is often a weak, reduced form"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -24.0 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

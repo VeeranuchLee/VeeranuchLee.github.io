@@ -1,0 +1,80 @@
+{
+ "sense": "wing.animal-body-part",
+ "word": "wing",
+ "sentence": "The bird stretches one wing.",
+ "char_span": [
+  23,
+  27
+ ],
+ "word_index": 4,
+ "words_in_sentence": 5,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  1.68,
+  2.08
+ ],
+ "neighbours_s": {
+  "previous_char_end": 1.6,
+  "next_char_start": 2.08
+ },
+ "energy_dbfs_at_raw_edges": [
+  -22.2,
+  -51.2
+ ],
+ "quietest_near_start": {
+  "t": 1.7075,
+  "dbfs": -23.5
+ },
+ "quietest_near_end": {
+  "t": 2.0925,
+  "dbfs": -51.5
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  1.6809,
+  2.1927
+ ],
+ "edge_shift_ms_vs_raw": [
+  0.9,
+  112.7
+ ],
+ "energy_dbfs_at_cut": [
+  -22.3,
+  -68.2
+ ],
+ "word_audio_s": 0.5118,
+ "lead_tail_silence_s": [
+  0.389,
+  0.373
+ ],
+ "gain_db": -0.03,
+ "peak_dbfs_after": -9.94,
+ "level_to": "word-book/audio/words/wing.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/wing.animal-body-part.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/wing.animal-body-part.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -22.3 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

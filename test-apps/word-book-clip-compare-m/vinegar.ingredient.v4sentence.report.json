@@ -1,0 +1,71 @@
+{
+ "sense": "vinegar.ingredient",
+ "word": "vinegar",
+ "sentence": "Dad adds vinegar to the salad dressing.",
+ "char_span": [
+  9,
+  16
+ ],
+ "word_index": 2,
+ "words_in_sentence": 7,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.8,
+  1.28
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.72,
+  "next_char_start": 1.32
+ },
+ "energy_dbfs_at_raw_edges": [
+  -34.6,
+  -28.6
+ ],
+ "quietest_near_start": {
+  "t": 0.7775,
+  "dbfs": -37.9
+ },
+ "quietest_near_end": {
+  "t": 1.3225,
+  "dbfs": -76.0
+ },
+ "refined": true,
+ "edge_rule": [
+  "gap-min",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  0.7775,
+  1.3349
+ ],
+ "edge_shift_ms_vs_raw": [
+  -22.5,
+  54.9
+ ],
+ "energy_dbfs_at_cut": [
+  -37.9,
+  -52.5
+ ],
+ "word_audio_s": 0.5574,
+ "lead_tail_silence_s": [
+  0.16,
+  0.286
+ ],
+ "gain_db": 1.93,
+ "peak_dbfs_after": -4.4,
+ "level_to": "word-book/audio/words/vinegar.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/vinegar.ingredient.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/vinegar.ingredient.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  13.5
+ ],
+ "soft_move_ms": [
+  0.0,
+  7.5
+ ],
+ "flags": []
+}

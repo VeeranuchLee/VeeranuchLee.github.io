@@ -1,0 +1,76 @@
+{
+ "sense": "vine.climbing-plant",
+ "word": "vine",
+ "sentence": "A vine curls around the gate.",
+ "char_span": [
+  2,
+  6
+ ],
+ "word_index": 1,
+ "words_in_sentence": 6,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.24,
+  0.64
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.16,
+  "next_char_start": 0.8
+ },
+ "energy_dbfs_at_raw_edges": [
+  -29.9,
+  -24.7
+ ],
+ "quietest_near_start": {
+  "t": 0.2675,
+  "dbfs": -31.3
+ },
+ "quietest_near_end": {
+  "t": 0.7725,
+  "dbfs": -83.9
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  0.24,
+  0.7924
+ ],
+ "edge_shift_ms_vs_raw": [
+  0.0,
+  152.4
+ ],
+ "energy_dbfs_at_cut": [
+  -29.9,
+  -45.3
+ ],
+ "word_audio_s": 0.5524,
+ "lead_tail_silence_s": [
+  0.155,
+  0.333
+ ],
+ "gain_db": 0.21,
+ "peak_dbfs_after": -7.36,
+ "level_to": "word-book/audio/words/vine.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/vine.climbing-plant.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/vine.climbing-plant.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  16.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  10.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -29.9 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

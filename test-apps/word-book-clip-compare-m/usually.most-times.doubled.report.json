@@ -1,0 +1,76 @@
+{
+ "sense": "usually.most-times",
+ "word": "usually",
+ "sentence": ", usually.",
+ "char_span": [
+  2,
+  9
+ ],
+ "word_index": 1,
+ "words_in_sentence": 2,
+ "sentence_final": true,
+ "raw_alignment_span_s": [
+  0.569,
+  1.068
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.499,
+  "next_char_start": 1.068
+ },
+ "energy_dbfs_at_raw_edges": [
+  -28.6,
+  -26.8
+ ],
+ "quietest_near_start": {
+  "t": 0.539,
+  "dbfs": -36.0
+ },
+ "quietest_near_end": {
+  "t": 1.098,
+  "dbfs": -65.0
+ },
+ "refined": true,
+ "edge_rule": [
+  "gap-min",
+  "decay+soft-reach"
+ ],
+ "cut_s": [
+  0.5387,
+  1.1373
+ ],
+ "edge_shift_ms_vs_raw": [
+  -30.3,
+  69.3
+ ],
+ "energy_dbfs_at_cut": [
+  -36.0,
+  -50.8
+ ],
+ "word_audio_s": 0.5986,
+ "lead_tail_silence_s": [
+  0.03,
+  0.253
+ ],
+ "gain_db": 1.08,
+ "peak_dbfs_after": -8.73,
+ "level_to": "word-book/audio/words/usually.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/usually.most-times.doubled.m4a",
+ "master": "word-book/audio-source/word-candidates/usually.most-times.doubled.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  36.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  30.0
+ ],
+ "flags": [
+  {
+   "flag": "sentence-final",
+   "why": "the last word of the sentence: terminal fall, and B ends in its decay"
+  }
+ ]
+}

@@ -1,0 +1,80 @@
+{
+ "sense": "volume.space-taken-up",
+ "word": "volume",
+ "sentence": "We measure the volume of water in the jug.",
+ "char_span": [
+  15,
+  21
+ ],
+ "word_index": 3,
+ "words_in_sentence": 9,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.72,
+  1.04
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.64,
+  "next_char_start": 1.12
+ },
+ "energy_dbfs_at_raw_edges": [
+  -30.9,
+  -20.5
+ ],
+ "quietest_near_start": {
+  "t": 0.725,
+  "dbfs": -32.2
+ },
+ "quietest_near_end": {
+  "t": 1.15,
+  "dbfs": -32.8
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "raw"
+ ],
+ "cut_s": [
+  0.72,
+  1.0405
+ ],
+ "edge_shift_ms_vs_raw": [
+  -0.0,
+  0.5
+ ],
+ "energy_dbfs_at_cut": [
+  -30.9,
+  -21.1
+ ],
+ "word_audio_s": 0.3206,
+ "lead_tail_silence_s": [
+  0.14,
+  0.376
+ ],
+ "gain_db": -0.03,
+ "peak_dbfs_after": -6.23,
+ "level_to": "word-book/audio/words/volume.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/volume.space-taken-up.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/volume.space-taken-up.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  40.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  0.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -30.9 dBFS, above -35: inside speech, so clipped or smeared"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the end cut sits at -21.1 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

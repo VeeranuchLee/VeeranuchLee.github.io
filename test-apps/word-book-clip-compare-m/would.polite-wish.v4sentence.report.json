@@ -1,0 +1,86 @@
+{
+ "sense": "would.polite-wish",
+ "word": "would",
+ "sentence": "I would like a glass of water, please.",
+ "char_span": [
+  2,
+  7
+ ],
+ "word_index": 1,
+ "words_in_sentence": 8,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.24,
+  0.32
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.16,
+  "next_char_start": 0.4
+ },
+ "energy_dbfs_at_raw_edges": [
+  -23.3,
+  -17.2
+ ],
+ "quietest_near_start": {
+  "t": 0.2625,
+  "dbfs": -36.3
+ },
+ "quietest_near_end": {
+  "t": 0.3625,
+  "dbfs": -48.8
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw+soft-valley",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  0.2551,
+  0.3649
+ ],
+ "edge_shift_ms_vs_raw": [
+  15.1,
+  44.9
+ ],
+ "energy_dbfs_at_cut": [
+  -32.9,
+  -47.0
+ ],
+ "word_audio_s": 0.1098,
+ "lead_tail_silence_s": [
+  0.085,
+  0.347
+ ],
+ "gain_db": 1.63,
+ "peak_dbfs_after": -9.68,
+ "level_to": "word-book/audio/words/would.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/would.polite-wish.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/would.polite-wish.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  8.5
+ ],
+ "soft_move_ms": [
+  15.0,
+  2.5
+ ],
+ "flags": [
+  {
+   "flag": "function-word",
+   "why": "a closed-class word; in a sentence it is often a weak, reduced form"
+  },
+  {
+   "flag": "unreleased-stop",
+   "why": "ends in a stop before 'like' (a consonant): usually unreleased in connected speech",
+   "release_measured": true,
+   "measurement": "release at 0.280 s (-20 dBFS over a -37 dBFS closure)"
+  },
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -32.9 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}

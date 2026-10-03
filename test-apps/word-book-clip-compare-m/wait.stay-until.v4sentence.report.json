@@ -1,0 +1,78 @@
+{
+ "sense": "wait.stay-until",
+ "word": "wait",
+ "sentence": "Please wait here while I fill Vanilla's water bowl.",
+ "char_span": [
+  7,
+  11
+ ],
+ "word_index": 1,
+ "words_in_sentence": 9,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.44,
+  0.56
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.32,
+  "next_char_start": 0.64
+ },
+ "energy_dbfs_at_raw_edges": [
+  -18.6,
+  -45.4
+ ],
+ "quietest_near_start": {
+  "t": 0.39,
+  "dbfs": -61.2
+ },
+ "quietest_near_end": {
+  "t": 0.5725,
+  "dbfs": -56.2
+ },
+ "refined": true,
+ "edge_rule": [
+  "dip+soft-reach",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  0.3675,
+  0.5775
+ ],
+ "edge_shift_ms_vs_raw": [
+  -72.5,
+  17.5
+ ],
+ "energy_dbfs_at_cut": [
+  -47.2,
+  -53.2
+ ],
+ "word_audio_s": 0.21,
+ "lead_tail_silence_s": [
+  0.15,
+  0.145
+ ],
+ "gain_db": 1.19,
+ "peak_dbfs_after": -8.53,
+ "level_to": "word-book/audio/words/wait.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/wait.stay-until.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/wait.stay-until.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  26.0,
+  8.5
+ ],
+ "soft_move_ms": [
+  -20.0,
+  2.5
+ ],
+ "flags": [
+  {
+   "flag": "unreleased-stop",
+   "why": "ends in a stop before 'here' (a consonant): usually unreleased in connected speech",
+   "release_measured": false,
+   "measurement": "28 ms of closure before the cut, no release above it"
+  }
+ ]
+}

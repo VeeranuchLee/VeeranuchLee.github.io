@@ -1,0 +1,76 @@
+{
+ "sense": "uranus.planet",
+ "word": "Uranus",
+ "sentence": "I colour Uranus blue-green on the chart.",
+ "char_span": [
+  9,
+  15
+ ],
+ "word_index": 2,
+ "words_in_sentence": 7,
+ "sentence_final": false,
+ "raw_alignment_span_s": [
+  0.56,
+  1.12
+ ],
+ "neighbours_s": {
+  "previous_char_end": 0.48,
+  "next_char_start": 1.2
+ },
+ "energy_dbfs_at_raw_edges": [
+  -27.4,
+  -62.5
+ ],
+ "quietest_near_start": {
+  "t": 0.58,
+  "dbfs": -30.6
+ },
+ "quietest_near_end": {
+  "t": 1.1375,
+  "dbfs": -72.6
+ },
+ "refined": true,
+ "edge_rule": [
+  "raw",
+  "dip+soft-reach"
+ ],
+ "cut_s": [
+  0.56,
+  1.1492
+ ],
+ "edge_shift_ms_vs_raw": [
+  -0.0,
+  29.2
+ ],
+ "energy_dbfs_at_cut": [
+  -27.4,
+  -47.1
+ ],
+ "word_audio_s": 0.5893,
+ "lead_tail_silence_s": [
+  0.05,
+  0.145
+ ],
+ "gain_db": 1.89,
+ "peak_dbfs_after": -7.41,
+ "level_to": "word-book/audio/words/uranus.m4a",
+ "out": "word-book/qa/2026-10-01-m-variants/audio/uranus.planet.v4sentence.m4a",
+ "master": "word-book/audio-source/word-candidates/uranus.planet.v4sentence.mp3",
+ "fade_ms": 6.0,
+ "pad_ms": 10.0,
+ "soft": true,
+ "fades_ms": [
+  15.0,
+  11.0
+ ],
+ "soft_move_ms": [
+  0.0,
+  5.0
+ ],
+ "flags": [
+  {
+   "flag": "edge-in-speech",
+   "why": "the start cut sits at -27.4 dBFS, above -35: inside speech, so clipped or smeared"
+  }
+ ]
+}
