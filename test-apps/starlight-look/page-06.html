@@ -1,0 +1,45 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Follow the Starlight · look preview · Why is that one brighter?</title><style>*{box-sizing:border-box}html,body{margin:0;height:100%;background:#050b1f;font-family:"Trebuchet MS",system-ui,sans-serif;touch-action:manipulation}
+.bg{position:fixed;inset:0;background-size:cover;background-position:center;filter:blur(22px) brightness(.55);transform:scale(1.1)}
+.stage{position:relative;width:min(100vw,133.333vh);aspect-ratio:4/3;margin:0 auto;top:50%;transform:translateY(-50%);container-type:inline-size;overflow:hidden}
+.art{position:absolute;top:0;left:9.5%;width:81%;aspect-ratio:4/3;box-shadow:0 0 30px #000a}
+.art img{width:100%;height:100%;display:block}
+.card{position:absolute;padding:1.1cqw 1.5cqw;color:#18233f;overflow:hidden;border-radius:2cqw;background:linear-gradient(#fffdf5ee,#fff3dcee);border:3px solid #c9a24f;box-shadow:0 4px 18px #0008}
+.fit{font-size:1.5cqw;line-height:1.28}
+.fit p{margin:0 0 .5em}.fit h1{font-size:1.28em;margin:.1em 0 .35em;line-height:1.1;color:#0a2f66}.fit h1 small{display:block;font-size:.62em;font-weight:600;color:#3a4a6c;margin-top:.15em}
+.eyebrow{font-size:.72em;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#8a5a14}
+.says{font-style:italic}.says b{font-style:normal;color:#0a4a96}.says.dot b{color:#0e7a8a}
+.big{display:block;font-size:1.9em;margin-top:.1em}.lead{font-size:1.15em}
+.fact-box{position:absolute;z-index:29;left:2%;right:2%;bottom:1.6%;height:17.5%;display:grid;grid-template-columns:repeat(var(--n),1fr);overflow:hidden;border:3px solid #244b79;border-radius:28px;background:linear-gradient(#fffdf5,#fff6e3);box-shadow:0 8px 28px #0009;color:#18233f}
+.fact-card{position:relative;border-right:1px dashed #8c9aa8;padding:6px 8px 5px;display:grid;grid-template-rows:40% auto;place-items:center;text-align:center}.fact-card:last-child{border-right:0}
+.fact-card svg{height:100%;max-width:56px;overflow:visible}.fact-card span{font-size:clamp(11px,1.28cqw,17px);line-height:1.2}.fact-card strong{color:#0a4a96;font-size:1.08em}
+.nav{position:absolute;right:1%;top:1%;display:flex;gap:4px;z-index:40;opacity:.55}.nav a{font-size:1.1cqw;min-width:2.4cqw;text-align:center;padding:.3cqw .7cqw;border-radius:99px;background:#07142d;color:#fff;text-decoration:none}.nav a[aria-current]{background:#e8b14d;color:#152038}
+body.nostrip .art{top:0;left:0;width:100%}
+@media(max-aspect-ratio:1/1){
+ .stage{width:100vw;aspect-ratio:auto;height:100vh;top:0;transform:none}
+ .art{left:0;width:100%;top:6vh}
+ .fact-box{top:calc(6vh + 75vw + 2vh);bottom:auto;height:auto;min-height:21vw;left:1.5%;right:1.5%;grid-template-columns:repeat(var(--n),1fr)}
+ .fact-card{grid-template-rows:34px auto;padding:5px 3px}.fact-card svg{max-width:34px}.fact-card span{font-size:clamp(9px,1.55cqw,13px)}
+ body.nostrip .art{top:6vh}.nav{top:.5vh;right:1.5%}.nav a{font-size:2.4cqw;padding:.6cqw 1.4cqw}
+}
+.index .idx{max-width:980px;margin:0 auto;padding:24px;color:#f4f0e0}.index{overflow:auto;height:auto;background:#0a1330}
+.index h1{margin:0 0 6px}.index .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:18px}
+.index .grid a{color:#fff;text-decoration:none;background:#14224a;border-radius:14px;overflow:hidden;border:2px solid #244b79}.index .grid img{width:100%;display:block;aspect-ratio:4/3;object-fit:cover}.index .grid span{display:block;padding:10px 12px;font-weight:700}
+
+body.full .art{top:0;left:0;width:100%;box-shadow:none}
+body.full .card{z-index:5}
+body.full .fact-box{height:18.5%;bottom:1.8%}
+body.full .fact-card span{font-size:clamp(11px,1.22cqw,16px)}
+.nav{opacity:.8}.nav .cur{background:#e8b14d;color:#152038}.nav .dis{opacity:.35;pointer-events:none}
+@media(max-aspect-ratio:1/1){body.full .art{top:6vh;width:100%}}
+</style></head>
+<body class="full"><div class="bg" style="background-image:url(page-06.webp)"></div>
+<main class="stage"><div class="art"><img src="page-06.webp" alt="">
+<section class="card" style="left:1.5%;top:2.6%;width:28.5%;height:auto;max-height:34.5%"><div class="fit"><h1>Why is that one brighter?<small>There are two different answers</small></h1>
+      <p>A star can look bright because it <strong>makes</strong> a lot of light — or just because
+        it is <strong>close</strong>. From here you cannot tell which.</p>
+      <p class="says dot">
+        <b>Dot:</b> “Slide them nearer and further. Then make the second one a big star, and try to
+        make them look <em>exactly the same</em>.”</p></div></section></div><section class="fact-box" style="--n:5" aria-label="Facts"><div class="fact-card"><svg viewBox="0 0 160 160" aria-hidden="true"><path d="M80 14l20 44 48 6-36 32 10 48-42-26-42 26 10-48-36-32 48-6z" fill="#ffd84a" stroke="#123e6d" stroke-width="6" stroke-linejoin="round"/></svg><span>Sirius is the <strong>brightest star</strong> in our night sky.</span></div><div class="fact-card"><svg viewBox="0 0 160 160" aria-hidden="true"><circle cx="46" cy="92" r="28" fill="#fff6e0" stroke="#123e6d" stroke-width="6"/><circle cx="112" cy="60" r="16" fill="#ffd84a" stroke="#123e6d" stroke-width="6"/></svg><span>It is also close: about <strong>8.6 light-years</strong> away.</span></div><div class="fact-card"><svg viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="80" r="48" fill="#ffd84a" stroke="#123e6d" stroke-width="6"/></svg><span>Sirius is about <strong>25 times</strong> brighter than the Sun.</span></div><div class="fact-card"><svg viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="80" r="48" fill="#a8c8ff" stroke="#123e6d" stroke-width="6"/></svg><span>Rigel is about <strong>120,000 times</strong> brighter than the Sun, but far away: about <strong>860 light-years</strong>.</span></div><div class="fact-card"><svg viewBox="0 0 160 160" aria-hidden="true"><circle cx="46" cy="92" r="28" fill="#ffd84a" stroke="#123e6d" stroke-width="6"/><circle cx="112" cy="60" r="16" fill="#ffd84a" stroke="#123e6d" stroke-width="6"/></svg><span>Twice as far away looks <strong>four times dimmer</strong>.</span></div></section><nav class="nav"><a href="index.html">All pages</a><a href="page-05.html">‹ Prev</a><a class="cur">6</a><a href="page-07.html">Next ›</a></nav></main><script>(function(){function fit(){document.querySelectorAll('.fit').forEach(function(f){var c=f.parentNode,s=parseFloat(getComputedStyle(f).fontSize);f.style.fontSize='';s=parseFloat(getComputedStyle(f).fontSize);var n=0;while(f.scrollHeight>c.clientHeight-(parseFloat(getComputedStyle(c).paddingTop)*2)-2&&s>8&&n++<40){s-=.5;f.style.fontSize=s+'px'}f.dataset.px=s})}
+window.addEventListener('load',fit);window.addEventListener('resize',fit);if(document.fonts)document.fonts.ready.then(fit)})();
+</script></body></html>

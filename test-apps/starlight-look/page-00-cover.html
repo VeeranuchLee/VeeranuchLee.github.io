@@ -13,7 +13,7 @@
 .fact-box{position:absolute;z-index:29;left:2%;right:2%;bottom:1.6%;height:17.5%;display:grid;grid-template-columns:repeat(var(--n),1fr);overflow:hidden;border:3px solid #244b79;border-radius:28px;background:linear-gradient(#fffdf5,#fff6e3);box-shadow:0 8px 28px #0009;color:#18233f}
 .fact-card{position:relative;border-right:1px dashed #8c9aa8;padding:6px 8px 5px;display:grid;grid-template-rows:40% auto;place-items:center;text-align:center}.fact-card:last-child{border-right:0}
 .fact-card svg{height:100%;max-width:56px;overflow:visible}.fact-card span{font-size:clamp(11px,1.28cqw,17px);line-height:1.2}.fact-card strong{color:#0a4a96;font-size:1.08em}
-.nav{position:absolute;right:1%;top:1%;display:flex;gap:4px;z-index:40;opacity:.55}.nav a{font-size:1.1cqw;min-width:2.4cqw;text-align:center;padding:.3cqw .7cqw;border-radius:99px;background:#07142d;color:#fff;text-decoration:none}.nav a[aria-current]{background:#e8b14d;color:#152038}
+.nav .cur{background:#e8b14d;color:#152038}.nav .dis{opacity:.35}.nav{position:absolute;right:1%;top:1%;display:flex;gap:4px;z-index:40;opacity:.55}.nav a{font-size:1.1cqw;min-width:2.4cqw;text-align:center;padding:.3cqw .7cqw;border-radius:99px;background:#07142d;color:#fff;text-decoration:none}.nav a[aria-current]{background:#e8b14d;color:#152038}
 body.nostrip .art{top:0;left:0;width:100%}
 @media(max-aspect-ratio:1/1){
  .stage{width:100vw;aspect-ratio:auto;height:100vh;top:0;transform:none}
@@ -29,6 +29,6 @@ body.nostrip .art{top:0;left:0;width:100%}
 <body class="nostrip"><div class="bg" style="background-image:url(page-00-cover.webp)"></div>
 <main class="stage"><div class="art"><img src="page-00-cover.webp" alt="">
 <section class="card" style="left:2.5%;top:3.5%;width:54%;height:29%"><div class="fit"><h1>Ari &amp; Dot<small>Book 2</small><span class="big">Follow the Starlight</span></h1><p class="lead">What are all those lights in the sky?</p></div></section></div>
-<nav class="nav"><a href="index.html">All pages</a><a href="page-00-cover.html" aria-current=page>Cover</a><a href="page-01.html">1</a><a href="page-02.html">2</a><a href="page-03.html">3</a><a href="page-04.html">4</a></nav></main><script>(function(){function fit(){document.querySelectorAll('.fit').forEach(function(f){var c=f.parentNode,s=parseFloat(getComputedStyle(f).fontSize);f.style.fontSize='';s=parseFloat(getComputedStyle(f).fontSize);var n=0;while(f.scrollHeight>c.clientHeight-(parseFloat(getComputedStyle(c).paddingTop)*2)-2&&s>8&&n++<40){s-=.5;f.style.fontSize=s+'px'}f.dataset.px=s})}
+<nav class="nav"><a href="index.html">All pages</a><a class="dis">‹ Prev</a><a class="cur">Cover</a><a href="page-01.html">Next ›</a></nav></main><script>(function(){function fit(){document.querySelectorAll('.fit').forEach(function(f){var c=f.parentNode,s=parseFloat(getComputedStyle(f).fontSize);f.style.fontSize='';s=parseFloat(getComputedStyle(f).fontSize);var n=0;while(f.scrollHeight>c.clientHeight-(parseFloat(getComputedStyle(c).paddingTop)*2)-2&&s>8&&n++<40){s-=.5;f.style.fontSize=s+'px'}f.dataset.px=s})}
 window.addEventListener('load',fit);window.addEventListener('resize',fit);if(document.fonts)document.fonts.ready.then(fit)})();
 </script></body></html>
