@@ -55,7 +55,8 @@
       margin-top:-14px;text-align:center;text-shadow:0 2px 8px rgba(0,0,0,.5);
     }
 
-    /* FOUR SECTIONS (five since 2026-10-01; see FIVE CARDS, BALANCED below). Auto-fit, so a themed word game --
+    /* FOUR SECTIONS (five since 2026-10-01; see FIVE CARDS, BALANCED below), and room for
+       the next one. Auto-fit, so a themed word game --
        Mermaid Words is the one on the roadmap -- is a card added below and nothing
        else: Children Games does not have to be touched, republished, or even know. */
     .cards{
@@ -97,6 +98,7 @@
        two columns with the Bookshelf card wide across the bottom (icon beside its words), and
        on a wide screen three over two with the lower pair centred. A sixth card means
        revisiting these two rules. */
+    .card-words{display:contents}
     @media (min-width:560px){
       .cards{grid-template-columns:repeat(2,1fr)}
       .c-books{grid-column:1 / -1;flex-direction:row;justify-content:center;gap:22px;min-height:150px;text-align:left}
@@ -108,16 +110,6 @@
       .cards .c-exam{grid-column:2 / span 2}
       .c-books{flex-direction:column;justify-content:flex-start;gap:12px;min-height:190px;text-align:center}
       .c-books .card-words{align-items:center}
-    }
-    .card-words{display:contents}
-    /* The Bookshelf icon is drawn by another worker and copied in later. A CSS background
-       layer, not an <img>, so a missing file shows the drawn fallback beneath it (three books
-       on a ledge) and never a broken-image icon. */
-    .card .icon{
-      flex:none;width:104px;height:104px;
-      filter:drop-shadow(0 6px 12px rgba(0,0,0,.35));
-      background:url(assets/icons/bookshelf.webp) center/contain no-repeat,
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 104 104'%3E%3Crect x='18' y='26' width='16' height='52' rx='3' fill='%23ffd54f'/%3E%3Crect x='37' y='18' width='17' height='60' rx='3' fill='%23ffffff'/%3E%3Crect x='58' y='30' width='14' height='48' rx='3' fill='%23f79172' transform='rotate(-12 65 78)'/%3E%3Crect x='12' y='78' width='80' height='9' rx='3' fill='%238a5a31'/%3E%3C/svg%3E") center/contain no-repeat;
     }
 
     footer{font-size:.8rem;font-weight:700;opacity:.72;text-align:center;max-width:44ch;line-height:1.5}
@@ -271,13 +263,12 @@
       <small>See the picture, build the word, then spell it</small>
     </a>
 
-    <!-- BOOKSHELF (owner, 2026-10-01: "word hub -> bookshelf as a card in the hub"). Opens
-         Reading Tree's bookshelf; ?from=wordbook makes its back arrow return here.
-         Reading Tree (reading-app/) is not published yet, so this points at its Test Hub copy.
-         When Reading Tree is published, this href changes to the production path,
-         https://veeranuchlee.github.io/reading-tree/?from=wordbook, and nothing else here. -->
-    <a class="card c-books" href="https://veeranuchlee.github.io/test-apps/reading-tree-space/?from=wordbook">
-      <span class="icon" aria-hidden="true"></span>
+    <!-- BOOKSHELF (owner, 2026-10-01: "pls also promote the bookshelf to the main hub, put it
+         on this hub"). Opens Reading Tree's Bookshelf (reading-app/, published at /reading/);
+         ?from=wordbook makes its back arrow return here. Absolute, like the two cards above,
+         because it is a separate deploy in the same public repository. -->
+    <a class="card c-books" href="https://veeranuchlee.github.io/reading/?from=wordbook">
+      <img src="assets/icons/bookshelf.webp" alt="" width="104" height="104"/>
       <span class="card-words">Bookshelf
       <small>Read a picture book every day</small></span>
     </a>
