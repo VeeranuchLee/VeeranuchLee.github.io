@@ -97,7 +97,7 @@
   fetch(BOOKS + "index.json")
     .then(function (r) { if (!r.ok) throw new Error("books/index.json " + r.status); return r.json(); })
     .then(function (list) {
-      var entries = (list.books || []).filter(function (b) { return b && b.id; });
+      var entries = (list.books || []).filter(function (b) { return b && b.id && b.draft !== true; });  // draft books are not shelved
       if (!entries.length) throw new Error("no books listed");
       // One book.json each, for the cover art. A book whose book.json fails still stands on
       // the shelf, under its index title, as a plain cream cover.
