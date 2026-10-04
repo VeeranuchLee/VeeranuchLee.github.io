@@ -77,6 +77,75 @@ window.PLAYROOM = {
       boxes: [[1.4, 82.4, 21.4, 17.6]] }
   ],
 
+  /* Painted category rooms (owner art, 2026-10-04). `category.js` draws both the
+     shaped object doors and the fallback Cards view from this one list. Points are
+     percentages in the 1672x941 source picture; polygons follow the painted object,
+     rather than turning a mostly-empty bounding box into a tap target. */
+  categoryRooms: {
+    books: {
+      image: "./playroom/books-room/scene.webp",
+      objects: [
+        { id: "animal-book", name: "Our Animal Book", desc: "Tap an animal to hear its name",
+          href: "../animal-book/", tile: "./assets/animal-book.webp", tone: ["#d97a16", "#a55606", "#fff1de"],
+          points: [[7.0,80.0],[11.5,58.0],[18.0,42.0],[26.0,32.0],[38.5,33.0],[49.5,48.0],[49.8,85.5],[42.0,83.0],[31.0,78.0],[17.0,83.0]] },
+        { id: "bookshelf", name: "Bookshelf", desc: "Picture books to read and listen to",
+          href: "../reading/", tile: "./playroom/tiles/bookshelf.webp", cutout: true, tone: ["#5b64c9", "#3b429c", "#eceeff"],
+          points: [[50.2,48.0],[58.0,38.0],[67.0,30.5],[79.0,30.0],[88.0,43.0],[94.0,62.0],[94.2,80.0],[82.0,82.0],[69.0,77.0],[58.0,83.0],[50.2,85.5]] }
+      ]
+    },
+    homework: {
+      image: "./playroom/homework-room/scene.webp",
+      objects: [
+        { id: "october-homework", name: "การบ้านปิดเทอม ป.2", desc: "October homework: 20 missions, 200 answers",
+          href: "../magic-math/october-homework.html", tile: "./assets/october-homework.webp", tone: ["#5a6fd6", "#3a4aa0", "#e8ecff"],
+          points: [[3.0,44.0],[8.5,40.0],[20.5,41.0],[23.5,48.5],[22.0,70.0],[18.0,73.0],[5.0,70.0],[2.5,63.0]] },
+        { id: "read-write", name: "การบ้านปิดเทอม Read & Write", desc: "School-break homework: 20 days of reading and writing",
+          href: "../read-write/", tile: "./assets/read-write.webp", tone: ["#2f8f9d", "#1d6570", "#e3f5f7"],
+          points: [[40.0,49.0],[44.0,47.0],[58.5,47.5],[60.0,53.0],[59.0,68.0],[55.0,71.0],[41.0,69.0],[39.5,63.0]] }
+      ],
+      unmatched: ["C-A-T blocks", "checklist clipboard", "book rack"]
+    },
+    music: {
+      image: "./playroom/music-room/scene.webp",
+      objects: [
+        { id: "classical-music", name: "Classical Music", desc: "Listen and guess",
+          href: "../magic-math/classical-music.html", tile: "./assets/classical-music.webp", tone: ["#17a2b8", "#0d7c8e", "#e2f7fa"],
+          points: [[2.0,38.0],[7.0,34.0],[26.0,34.5],[30.0,40.0],[29.5,72.0],[23.0,76.0],[5.0,73.0],[2.0,65.0]] },
+        { id: "toy-keyboard", name: "Toy Keyboard", desc: "Play and make music",
+          href: "../toy-keyboard/", tile: "./assets/toy-keyboard.webp", tone: ["#8b6bd9", "#6046aa", "#f0ebff"],
+          points: [[36.0,49.0],[60.5,48.5],[64.0,55.0],[62.5,75.0],[57.0,78.5],[39.0,77.0],[35.5,69.0]] },
+        { id: "music-book", name: "Music Book", desc: "Explore songs",
+          href: "../music-book/", tile: "./assets/music-book.webp", cutout: true, tone: ["#e280a6", "#b35279", "#fff0f6"],
+          points: [[71.0,36.0],[91.5,36.0],[96.0,43.0],[95.0,67.0],[89.0,71.5],[70.0,68.0],[68.5,59.0]] }
+      ]
+    },
+    puzzles: {
+      image: "./playroom/puzzles-room/scene.webp",
+      objects: [
+        { id: "shadow-matching", name: "Shadow Matching", desc: "Look at the picture, find its shadow",
+          href: "../shadow-matching/", tile: "./assets/shadow-matching.webp", tone: ["#2d5d7c", "#1b3e56", "#e4eff6"],
+          points: [[65.5,28.7],[82.3,28.8],[85.0,31.5],[84.8,56.5],[82.5,60.5],[64.0,59.0],[61.7,56.0]] },
+        { id: "our-maze", name: "Our Maze", desc: "Walk the maze to the flag",
+          href: "../our-maze/", tile: "./assets/our-maze.webp", tone: ["#8a6d46", "#5c462b", "#f9f1e4"],
+          points: [[1.0,76.0],[5.0,68.0],[14.0,60.0],[28.0,55.0],[45.0,52.5],[62.0,53.5],[73.0,57.0],[77.0,63.0],[76.0,71.0],[79.0,78.0],[73.0,85.0],[61.0,90.5],[46.0,94.0],[31.0,92.5],[20.0,88.0],[11.0,86.0],[5.0,82.0]] }
+      ],
+      unmatched: ["jigsaw tray", "shape sorter", "dinosaur card", "teddy", "shelves"]
+    },
+    "science-world": {
+      image: "./playroom/science-world-room/scene.webp",
+      objects: [
+        { id: "flags", name: "Flags", desc: "Explore flags and name the country",
+          href: "../flags/", tile: "./assets/flags.webp", tone: ["#c0392b", "#8e2a20", "#fdecea"],
+          points: [[23.0,34.5],[29.0,35.5],[34.0,40.5],[37.0,48.0],[38.0,57.0],[37.0,65.0],[34.0,71.5],[29.5,75.5],[23.5,76.0],[19.0,72.5],[16.5,71.0],[13.5,73.5],[5.0,73.5],[2.0,70.0],[2.0,59.0],[5.0,56.5],[7.0,60.0],[9.0,56.0],[11.0,60.5],[13.0,56.5],[15.5,61.0],[15.0,51.0],[14.0,45.0],[15.5,39.5],[19.0,36.0]] },
+        { id: "periodic-table", name: "Periodic Table",
+          desc: "Explore every element, then play Find It, Symbol Match and Atomic Number",
+          href: "../periodic-table/", tile: "./assets/periodic-table.webp", tone: ["#6a3fa0", "#4a2b73", "#f1e8fa"],
+          points: [[79.0,22.0],[100.0,18.5],[100.0,43.0],[97.0,43.5],[95.0,41.0],[93.0,44.0],[92.0,49.5],[79.0,51.0]] }
+      ],
+      unmatched: ["microscope", "test tubes", "map rug", "bunting", "rocket"]
+    }
+  },
+
   directDoors: [
     { id: "animal-book", app: "animal-book",
       boxes: [[54.6, 50.5, 16.4, 14.5]] }                       /* the open parrot-and-elephant book on the floor stand */

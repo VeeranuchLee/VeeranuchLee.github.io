@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/><title>Space</title><meta name="description" content="Space stories, planets and trivia for children."/><meta name="theme-color" content="#2e2560"/><link rel="manifest" href="./manifest.webmanifest"/><link rel="stylesheet" href="./fonts.css"/><link rel="stylesheet" href="./space-hub-room/room.css"/><link rel="apple-touch-icon" href="./assets/icons/icon-192.png"/><link rel="icon" href="./assets/icons/icon-192.png"/></head>
+<body>
+  <a class="hub-btn" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5 8 12l7 7"/></svg><span>Children Games</span></a>
+  <div class="view-switch" role="group" aria-label="Choose a view"><button type="button" data-view="room" aria-pressed="true">Room</button><button type="button" data-view="cards" aria-pressed="false">Cards</button></div>
+  <button class="music-btn" id="musicBtn" type="button" aria-pressed="false" aria-label="Play music"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="note" d="M20 3.5v11.2a3.3 3.3 0 1 1-2-3V7.9l-7 1.6v8.2a3.3 3.3 0 1 1-2-3V6.3l11-2.8z"/><line class="slash" x1="3.4" y1="3.4" x2="20.6" y2="20.6"/></svg></button>
+  <main class="room-view" id="roomView"><div class="room-frame"><img src="./space-hub-room/scene.webp" width="1672" height="941" alt=""/><div class="room-hotspots" id="roomHotspots"></div></div></main>
+  <section class="cards-view" id="cardsView" hidden><h1>Space</h1><p class="sub">Stories and planets to explore</p><div class="cards" id="cardGrid"></div></section>
+  <script src="./tap-zoom-guard.js"></script><script src="./space-hub-room/room.js"></script>
+  <script>
+  if('serviceWorker'in navigator)window.addEventListener('load',function(){Promise.resolve() /* Test Hub staging: no service worker */.catch(function(){});});
+  var Music=(function(){var SRC='./audio/space-bed.m4a',KEY='space_music',TKEY='space_music_t',FULL=.20,el=null,pref=false,armed=false,btn=document.getElementById('musicBtn');try{pref=localStorage.getItem(KEY)==='1';}catch(e){}
+    function paint(){btn.setAttribute('aria-pressed',pref?'true':'false');btn.setAttribute('aria-label',pref?'Stop music':'Play music');}
+    function save(){if(el)try{localStorage.setItem(TKEY,String(el.currentTime||0));}catch(e){}}
+    function arm(){if(armed)return;armed=true;var go=function(e){if(e.target&&e.target.closest&&e.target.closest('a'))return;window.removeEventListener('pointerdown',go,true);armed=false;apply();};window.addEventListener('pointerdown',go,true);}
+    function apply(){if(!pref){if(el)el.pause();paint();return;}if(!el){try{el=new Audio(SRC);}catch(e){return;}el.loop=true;el.preload='none';el.volume=FULL;try{var t=parseFloat(localStorage.getItem(TKEY));if(isFinite(t)&&t>0)el.addEventListener('loadedmetadata',function(){if(t<el.duration)el.currentTime=t;},{once:true});}catch(e){}}var p;try{p=el.play();}catch(e){arm();return;}if(p&&p.catch)p.catch(arm);paint();}
+    btn.addEventListener('click',function(){pref=!pref;try{localStorage.setItem(KEY,pref?'1':'0');}catch(e){}apply();});window.addEventListener('pagehide',save);document.addEventListener('visibilitychange',function(){if(document.hidden)save();});paint();apply();return{save:save};})();
+  </script>
+</body></html>

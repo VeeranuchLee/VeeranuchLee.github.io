@@ -12,20 +12,27 @@
   <!-- A CATEGORY PAGE of the playroom hub (prototype, 2026-10-02). Every category page is this
        same shell; only data-category differs. Its cards come from playroom/destinations.js. -->
 </head>
-<body data-category="books">
-  <div class="backrow">
+<body class="painted-room" data-category="books">
+  <div class="topbar">
     <a class="back" id="back" href="./" aria-label="Back to Children Games">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7"/></svg>
       <span>Children Games</span>
     </a>
+    <div class="view-switch" role="group" aria-label="Choose a view">
+      <button type="button" data-view="room" aria-pressed="true">Room</button>
+      <button type="button" data-view="cards" aria-pressed="false">Cards</button>
+    </div>
   </div>
-  <div class="wrap">
+  <main class="room-view" id="roomView">
+    <div class="room-frame"><img id="roomPicture" width="1672" height="941" alt=""/><div class="room-hotspots" id="roomHotspots"></div></div>
+  </main>
+  <section class="cards-view" id="cardsView" hidden>
     <header>
       <h1 id="catTitle">Books</h1>
       <p class="tagline" id="catLine"></p>
     </header>
     <main class="grid" id="catGrid"></main>
-  </div>
+  </section>
   <noscript><p class="missing">These games need JavaScript. <a href="./">Back to Children Games</a>.</p></noscript>
   <script src="./tap-zoom-guard.js"></script>
   <script src="./playroom/destinations.js"></script>

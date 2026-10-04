@@ -16,11 +16,12 @@
   <meta name="apple-mobile-web-app-title" content="Games"/>
   <link rel="stylesheet" href="./playroom/playroom.css"/>
   <!--
-    THE PLAYROOM HUB — prototype, 2026-10-02. Not the live hub: index.html is unchanged and
-    this page is not in the service worker's SHELL. One painted room, and every game is an
-    object in it. The doors are transparent links laid over the picture; what they are and
-    where they sit lives in ./playroom/destinations.js, which is the only file to edit when a
-    game is added or the background art is replaced.
+    THE MAIN HUB (owner, 2026-10-02: "Playroom hub -> approved."). One painted room, and every game
+    is an object in it; this page replaced the card grid as the hub's front door. The doors are
+    transparent links laid over the picture; what they are and where they sit lives in
+    ./playroom/destinations.js, the only file to edit when a game is added or the art is replaced.
+    The old card grid is not gone: the toy box and the Room / Cards switch open it, and it lists
+    every game (tools/check-playroom.py fails if one of the old cards ever goes missing).
   -->
 </head>
 <body>
@@ -82,6 +83,17 @@
 
 <noscript><p class="noscript">This room needs JavaScript. <a href="https://veeranuchlee.github.io/children-apps/">Open the games list</a>.</p></noscript>
 
+<script>
+  /* Offline support, scoped to this directory and nothing else (as the card hub did before it).
+     The worker sits beside this page, so its scope is /children-apps/ and it cannot intercept a
+     game: the games live outside this scope, each shipping its own worker. Never move it to the
+     site root. Best-effort: opened from a file, the browser refuses it and the page still works. */
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      Promise.resolve() /* Test Hub staging: no service worker */.catch(function () {});
+    });
+  }
+</script>
 <script src="./tap-zoom-guard.js"></script>
 <script src="./playroom/destinations.js"></script>
 <script src="./playroom/playroom.js"></script>
