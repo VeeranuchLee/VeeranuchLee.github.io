@@ -292,7 +292,7 @@ const ROOM_BACKGROUND = {
   'home-distance-belonging': {
     background: 'assets/room-scenes/r04-home-distance-belonging-scene.webp', focus: '50% 50%',
     scene: {
-      'rock-a-bye-baby': { x: 17, y: 27, w: 23, h: 20 },
+      'rock-a-bye-baby': { x: 17, y: 29, w: 23, h: 20 },
       'amazing-grace-new-britain': { x: 43, y: 39, w: 19, h: 14, label: 'above' },
       'simple-gifts': { x: 20, y: 57, w: 22, h: 20 },
       'my-bonnie': { x: 63, y: 59, w: 18, h: 17 },
@@ -302,7 +302,7 @@ const ROOM_BACKGROUND = {
   // Anchors superseded by the room-scene painting (agent, 2026-09-30).
   'gardens-season-memory': { background: 'assets/room-scenes/r05-gardens-season-memory-scene.webp', focus: '50% 50%', scene: {
     'sakura-sakura': { x: 18, y: 40, w: 27, h: 27 },
-    'arirang': { x: 62, y: 32, w: 25, h: 28 },
+    'arirang': { x: 62, y: 34, w: 25, h: 28 },
     'mo-li-hua': { x: 80, y: 64, w: 20, h: 19, label: 'above' }
   } },
   // Anchors superseded by the room-scene painting (agent, 2026-09-30).
