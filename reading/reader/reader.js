@@ -27,6 +27,7 @@
     book: document.getElementById("book"),
     img: document.getElementById("art-img"),
     text: document.getElementById("text"),
+    quickWords: document.getElementById("quick-words"),
     speaker: document.getElementById("speaker"),
     prev: document.getElementById("prev"),
     next: document.getElementById("next"),
@@ -231,6 +232,25 @@
     img.alt = "";
   }
 
+  function renderQuickWords(page) {
+    var items = Array.isArray(page.quickWords) ? page.quickWords : [];
+    el.quickWords.textContent = "";
+    el.quickWords.hidden = items.length === 0;
+    el.book.classList.toggle("has-quick-words", items.length > 0);
+    if (!items.length) return;
+
+    var label = document.createElement("span");
+    label.className = "quick-words-label";
+    label.textContent = "Quick Words · คำศัพท์";
+    el.quickWords.appendChild(label);
+    items.forEach(function (item) {
+      var pair = document.createElement("span");
+      pair.className = "quick-word-pair";
+      pair.textContent = item.en + " — " + item.th;
+      el.quickWords.appendChild(pair);
+    });
+  }
+
   function renderDots() {
     el.dots.textContent = "";
     book.pages.forEach(function (p, i) {
@@ -246,6 +266,7 @@
     var page = book.pages[index];
     var go = function () {
       renderArt(page);
+      renderQuickWords(page);
       renderText(page);
       renderDots();
       el.prev.hidden = index === 0;

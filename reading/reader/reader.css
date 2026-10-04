@@ -62,6 +62,39 @@ html, body {
   justify-content: center;
   padding: 2.2vmin 2.2vmin 0;
 }
+.book.has-quick-words .art { flex-basis: calc(67% - 64px); }
+
+/* Optional, non-interactive glossary. It is a sibling of the narrated reading area, so
+   neither its English terms nor its Thai translations can become spoken word buttons. */
+.quick-words {
+  flex: 0 0 64px;
+  min-height: 56px;
+  padding: 7px max(2.2vmin, 14px);
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  column-gap: 18px;
+  row-gap: 2px;
+  color: var(--ink-soft);
+  background: rgba(239, 228, 205, .72);
+  border-top: 1px solid rgba(106, 116, 136, .14);
+  border-bottom: 1px solid rgba(106, 116, 136, .14);
+  font-family: 'Nunito', 'Noto Sans Thai', Thonburi, Tahoma, system-ui, sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+  pointer-events: none;
+}
+.quick-words[hidden] { display: none; }
+.quick-words-label {
+  color: #79542f;
+  font-family: 'Fredoka One', 'Noto Sans Thai', Thonburi, Tahoma, system-ui, sans-serif;
+  font-weight: 400;
+  white-space: nowrap;
+}
+.quick-word-pair { white-space: nowrap; }
 .frame {
   position: relative;
   height: 100%;
@@ -240,11 +273,14 @@ button { font: inherit; }
 /* Landscape (1024 x 768): the same column, a shorter reading strip but a much wider one. */
 @media (orientation: landscape) {
   .art { flex-basis: 68%; }
+  .book.has-quick-words .art { flex-basis: calc(68% - 60px); }
+  .quick-words { flex-basis: 60px; min-height: 52px; padding-top: 5px; padding-bottom: 5px; }
   .reading { grid-template-columns: 76px 1fr 76px; padding-bottom: 3.2vmin; }
 }
 
 /* Narrow screens are not the target, but must not break. */
 @media (max-width: 560px) {
+  .quick-words { font-size: 15px; column-gap: 10px; }
   .reading { grid-template-columns: 54px 1fr 54px; gap: 8px; padding: 8px 10px 22px; }
   .nav { width: 52px; height: 52px; }
   .nav svg { width: 30px; height: 30px; }
