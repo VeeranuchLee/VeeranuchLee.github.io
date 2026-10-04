@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Bookshelf</title>
+<link rel="stylesheet" href="./shelf/shelf.css">
+<script src="./shelf/tap-zoom-guard.js"></script>
+</head>
+<body>
+<div class="wall" aria-hidden="true"></div>
+<header class="top">
+  <a class="back" id="back" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back">
+    <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M30 10 L16 24 L30 38" /></svg>
+  </a>
+  <h1 class="title">Bookshelf</h1>
+</header>
+<main class="shelves" id="shelves" aria-label="Books"></main>
+<p class="load-error" id="load-error" hidden>The bookshelf could not be opened.</p>
+<script src="./shelf/shelf.js"></script>
+<script>
+// Offline worker, published copy only: a Test Hub copy has it stripped (testhub-service-worker.py).
+if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+  addEventListener('load', function () { Promise.resolve() /* Test Hub staging: no service worker */; });
+}
+</script>
+</body>
+</html>
