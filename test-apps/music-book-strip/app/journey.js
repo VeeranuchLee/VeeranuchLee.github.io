@@ -1,9 +1,12 @@
 // The journey: what the child chose, and what stays true until they start over.
 //
-// The whole point of this object is that the companion is chosen ONCE. Every
-// page after the landing page reads from here rather than offering the choice
-// again. Restarting the journey is a deliberate trip back to the beginning,
-// which is what makes the first choice worth making.
+// Every page after the landing page reads the companion from here. Until
+// 2026-10-04 the companion was chosen once and changed only by starting over;
+// the owner then asked for the top-right companion to change it in place
+// ("now if click on companion show on top right, will be able to change
+// companion"). `setCompanion` is that switch: it is remembered exactly like the
+// first choice and keeps where the child is and which chapters they finished.
+// Home → restart() is still the deliberate trip back to the beginning.
 //
 // Where the child stands: a wing of the world, then a room inside it, then a
 // page of that room's bubbles. The pager page is reset whenever the room
@@ -29,6 +32,12 @@ export const journey = {
     this.wingId = null;
     this.roomId = null;
     this.page = 0;
+    this.save();
+  },
+
+  /** Change friend mid-journey: same place, same progress, new voice. */
+  setCompanion(companionId) {
+    this.companionId = companionId;
     this.save();
   },
 

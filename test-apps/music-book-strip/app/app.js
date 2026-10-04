@@ -10,8 +10,8 @@ import { WINGS, ROOMS, PIECE_ROOMS } from '../data/rooms.js';
 import { motifFor, PARADE } from '../data/motifs.js';
 import { journey } from './journey.js';
 import { speakTitle, stopTitle, configureTitles } from './titles.js';
-import { speakExplain, stopExplain, configureExplain } from './explain-audio.js';
-import { configureLearnMore, roomClipId, speakLearnMore, stopLearnMore, vocabClipId } from './learnmore.js';
+import { speakExplain, stopExplain, configureExplain, explainClipPath } from './explain-audio.js';
+import { configureLearnMore, roomClipId, roomWordCards, speakLearnMore, stopLearnMore } from './learnmore.js';
 import { LEARN_MORE_ROOM_SCRIPTS, LEARN_MORE_WORD_MEANINGS } from './learnmore-clips.js';
 import { createChapter } from './read-together.js';
 import { renderPlayroom, leavePlayroom, PITCHES, NOTE_COLORS, BLACK_KEYS, BLACK_COLORS } from './playroom.js';
@@ -38,6 +38,9 @@ let bedTune = null;
 // its piece popup opens. Without this the child lands in a new room with no
 // sign of what they followed to get there.
 let pendingPopupPieceId = null;
+// Set when the song index sends the child to a room: that room renders, then
+// the song lights up and its name is spoken, so the child sees where it lives.
+let pendingFoundPieceId = null;
 // One arrangement choice per room for this in-memory journey. It deliberately
 // does not go into localStorage: returning to a room remembers the choice,
 // while starting the book afresh starts in the simplest, melody-only mode.
@@ -160,11 +163,14 @@ function applyAtmosphere() {
 
   const companion = companionById(journey.companionId);
   const where = { wingId: journey.wingId, roomId: journey.roomId };
-  const page = currentView === 'room' ? journey.roomId
-    : currentView === 'wing' ? journey.wingId
+  // The song index is a page of the Music World: it keeps the world's tune
+  // running rather than restarting it on the way in and out.
+  const tuneView = currentView === 'index' ? 'world' : currentView;
+  const page = tuneView === 'room' ? journey.roomId
+    : tuneView === 'wing' ? journey.wingId
       : 'world';
-  setTune(`${currentView}:${page}:${companion.id}`,
-    motifFor(currentView, where, wingOfRoom), companion);
+  setTune(`${tuneView}:${page}:${companion.id}`,
+    motifFor(tuneView, where, wingOfRoom), companion);
 }
 
 function unlockAudio() {
@@ -292,7 +298,7 @@ const ROOM_BACKGROUND = {
   'home-distance-belonging': {
     background: 'assets/room-scenes/r04-home-distance-belonging-scene.webp', focus: '50% 50%',
     scene: {
-      'rock-a-bye-baby': { x: 17, y: 29, w: 23, h: 20 },
+      'rock-a-bye-baby': { x: 17, y: 30, w: 23, h: 19 },
       'amazing-grace-new-britain': { x: 43, y: 39, w: 19, h: 14, label: 'above' },
       'simple-gifts': { x: 20, y: 57, w: 22, h: 20 },
       'my-bonnie': { x: 63, y: 59, w: 18, h: 17 },
@@ -484,6 +490,55 @@ function roomCompanionMarkup(room) {
     </div>`;
 }
 
+// Owner, 2026-10-04, verbatim: "i want to change my prior companion design, i
+// used to not allow to change companion, now if click on companion show on top
+// right, will be able to change companion." This supersedes the 2026-08-21
+// "chosen once" rule (discussion log). The top-right badge is now a button that
+// opens a picture picker; the choice is remembered exactly like the first one
+// (journey.js) and keeps the child's finished chapters. The swap mark tells a
+// child the badge does something before they try it.
+function companionSwitchMarkup(extraClass = '', subtitle = '') {
+  const c = companionById(journey.companionId);
+  return `<button class="guide-badge companion-switch${extraClass ? ` ${extraClass}` : ''}" data-companion-picker aria-label="${c.name}. Change your companion">
+      <img src="${c.art}" alt=""><span>${c.name}${subtitle}</span><i class="companion-switch__swap" aria-hidden="true">⇄</i>
+    </button>`;
+}
+
+function companionPickerPopup() {
+  openPopup(`
+    <h2>Choose your friend</h2>
+    <div class="companion-picker">
+      ${COMPANIONS.map((c) => {
+        const current = c.id === journey.companionId;
+        return `
+        <button class="companion-picker__choice${current ? ' is-current' : ''}" data-companion-pick="${c.id}" aria-pressed="${current}" aria-label="${c.name}${current ? ', your friend now' : ''}">
+          <img src="${c.art}" alt="">
+          <span>${c.name}</span>
+        </button>`;
+      }).join('')}
+    </div>`, 'popup__card--picker');
+}
+
+// Switching keeps the place and the progress: the same page re-renders wearing
+// the new friend, and the page tune restarts in the new friend's voice (its key
+// names the companion), which is the tap's sound. With Sound off the badge's
+// pop is the feedback.
+function switchCompanion(id) {
+  if (!COMPANIONS.some((c) => c.id === id)) return;
+  closePopup();
+  journey.setCompanion(id);
+  unlockAudio();
+  if (currentView === 'world') renderWorld();
+  else if (currentView === 'wing') renderWing();
+  else if (currentView === 'room') renderRoom();
+  else if (currentView === 'index') renderIndex();
+  const badge = stage.querySelector('.companion-switch');
+  if (badge) {
+    badge.classList.add('is-new');
+    setTimeout(() => badge.classList.remove('is-new'), 900);
+  }
+}
+
 function companionCorner(line) {
   const c = companionById(journey.companionId);
   return `
@@ -584,10 +639,16 @@ function wordPictureMarkup(clipId) {
     : `<span class="word-card__picture word-card__picture--placeholder" aria-hidden="true">${pic.glyph}</span>`;
 }
 
+// The room's word cards (its own voiced words, then the extra ones that are
+// true of its songs) come from learnmore.js, where the checks can read them.
+// "True story" cards follow them: see roomStoryPieces.
+function roomStoryPieces(room) {
+  return room.pieceIds.map(pieceById).filter((p) => p && EXPLANATIONS[p.id]?.facts?.text);
+}
+
 function wordScrollMarkup(room) {
-  const words = room.keyVocabulary
-    .map((label) => ({ label, clipId: vocabClipId(label) }))
-    .filter((w) => w.clipId);
+  const words = roomWordCards(room);
+  const stories = roomStoryPieces(room);
   const roomClip = roomClipId(room);
   const heading = ROOM_SCROLL_HEADING[room.id] || room.title;
   return `
@@ -595,11 +656,16 @@ function wordScrollMarkup(room) {
       <button class="word-scroll__heading" ${roomClip ? `data-room-say="${roomClip}"` : ''} aria-label="${heading}. Hear about this room">
         <span class="word-scroll__speaker" aria-hidden="true">🔊</span><span>${heading}</span>
       </button>
-      ${words.length ? `<div class="word-scroll__cards">
+      ${words.length || stories.length ? `<div class="word-scroll__cards">
         ${words.map(({ label, clipId }) => `
           <button class="word-card" data-strip-say="${clipId}" aria-label="Hear what ${label} means" aria-pressed="false">
             <span class="word-card__top"><span class="word-card__speaker" aria-hidden="true">🔊</span>${wordPictureMarkup(clipId)}</span>
             <span class="word-card__word">${label}</span>
+          </button>`).join('')}
+        ${stories.map((p) => `
+          <button class="word-card word-card--story" data-story-say="${p.id}" aria-label="A true story about ${p.title}" aria-pressed="false">
+            <span class="word-card__top"><span class="word-card__speaker" aria-hidden="true">🔊</span><span class="word-card__picture word-card__picture--song"><img src="${p.art}" alt=""></span></span>
+            <span class="word-card__word">True story</span>
           </button>`).join('')}
       </div>` : ''}
       <button class="word-scroll__grownups" data-knowledge="${room.id}" aria-label="For grown-ups: about this room">For grown-ups</button>
@@ -628,20 +694,27 @@ function hideStripExplainer() {
   if (!stripExplainer.hidden) stopLearnMore();
   stripExplainer.classList.remove('is-visible');
   stripExplainer.hidden = true;
-  stage.querySelectorAll('[data-strip-say], [data-room-say]').forEach((button) => button.setAttribute('aria-pressed', 'false'));
+  stage.querySelectorAll('[data-strip-say], [data-room-say], [data-story-say]').forEach((button) => button.setAttribute('aria-pressed', 'false'));
   stage.querySelector('.companion-corner')?.classList.remove('is-hidden');
 }
 
-function showStripExplainer(control, clipId, text) {
+function showStripExplainer(control, clipId, text, { title = '', src = null } = {}) {
   if (!stripExplainer || !text) return;
   if (stripExplainerTimer) { clearTimeout(stripExplainerTimer); stripExplainerTimer = null; }
   stopTitle();
-  stripExplainer.querySelector('.companion-explainer__bubble').textContent = text;
+  const bubble = stripExplainer.querySelector('.companion-explainer__bubble');
+  bubble.textContent = text;
+  if (title) {
+    const strong = document.createElement('strong');
+    strong.className = 'companion-explainer__title';
+    strong.textContent = title;
+    bubble.prepend(strong);
+  }
   stripExplainer.hidden = false;
   void stripExplainer.offsetWidth;            // restart the pop-in transition
   stripExplainer.classList.add('is-visible');
   stage.querySelector('.companion-corner')?.classList.add('is-hidden');
-  stage.querySelectorAll('[data-strip-say], [data-room-say]').forEach((button) => {
+  stage.querySelectorAll('[data-strip-say], [data-room-say], [data-story-say]').forEach((button) => {
     button.setAttribute('aria-pressed', String(button === control));
   });
   const linger = () => { stripExplainerTimer = setTimeout(hideStripExplainer, 2000); };
@@ -650,7 +723,7 @@ function showStripExplainer(control, clipId, text) {
     stripExplainerTimer = setTimeout(hideStripExplainer, Math.max(3500, text.length * 70));
     return;
   }
-  if (!speakLearnMore(clipId, linger)) linger();
+  if (!speakLearnMore(clipId, linger, src)) linger();
 }
 
 // ── page 1: choose a companion ───────────────────────────────────────────────
@@ -744,15 +817,130 @@ function renderWorld() {
         </div>
       </div>
       <div class="world-topbar">
-        <button class="world-home" data-go="landing" aria-label="Home — choose another companion"><span aria-hidden="true">⌂</span> Home</button>
+        <div class="world-topbar__left">
+          <button class="world-home" data-go="landing" aria-label="Home — start again"><span aria-hidden="true">⌂</span> Home</button>
+          ${songIndexButtonMarkup()}
+        </div>
         <div class="world-title"><h1>Music World</h1><p>Six wings, twenty-four rooms.</p></div>
-        <div class="guide-badge guide-badge--world"><img src="${c.art}" alt=""><span>${c.name}<small>companion</small></span></div>
+        ${companionSwitchMarkup('guide-badge--world', '<small>companion</small>')}
       </div>
       <p class="world-greeting">${c.greeting}</p>
       <p class="world-motto">A Kinder Brighter World Through Music</p>
       <div class="world-compass" aria-hidden="true"><span class="world-compass__north">N</span><span class="world-compass__star">✦</span></div>
     </div>`;
   applyAtmosphere();
+}
+
+// ── the song index (owner, 2026-10-04) ──────────────────────────────────────
+
+// Owner, 2026-10-04, verbatim: "i want to add 'index' to show where each song
+// is". Every song in the book, each as its own picture with its name and the
+// room it lives in; a tap takes the child to that room with the song lit up.
+//
+// Alphabetical, not by room: a child who wants a song knows its name, not its
+// room — grouping by room would ask them to know the answer before they look.
+// Letters are the first letter the child SEES (accents dropped, "The" kept), so
+// "The Entertainer" is under T, where a reader looks for it. The letter row
+// jumps; the room is shown on every tile with its own painted card.
+const INDEX_BUTTON_PICTURES = ['twinkle', 'jingle-bells', 'fur-elise', 'swan-lake-theme'];
+
+function songIndexButtonMarkup() {
+  const pics = INDEX_BUTTON_PICTURES.map(pieceById).filter((p) => p && p.art);
+  return `<button class="song-index-btn" data-go="index" aria-label="All the songs: find where each song lives">
+      <span class="song-index-btn__pics" aria-hidden="true">${pics.map((p) => `<img src="${p.art}" alt="">`).join('')}</span>
+      <span class="song-index-btn__label">Songs</span>
+    </button>`;
+}
+
+const indexLetter = (name) => name.normalize('NFD').replace(/[̀-ͯ]/g, '')
+  .replace(/^[^A-Za-z0-9]+/, '').charAt(0).toUpperCase() || '#';
+
+function songIndexEntries() {
+  const seen = new Set();
+  const entries = [];
+  for (const room of ROOMS) {
+    for (const pid of room.pieceIds) {
+      if (seen.has(pid)) continue;
+      seen.add(pid);
+      const p = pieceById(pid);
+      if (!p) continue;
+      const home = roomById(PIECE_ROOMS[pid]?.homeRoomId) || room;
+      const name = p.shortTitle || p.title;
+      entries.push({ p, name, room: home, letter: indexLetter(name) });
+    }
+  }
+  return entries.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
+}
+
+function songTileMarkup({ p, name, room }) {
+  const card = ROOM_CARD[room.id];
+  return `
+    <button class="index-tile" data-index-song="${p.id}" aria-label="${name}. It lives in ${room.title}">
+      <img class="index-tile__art" src="${p.art}" alt="" loading="lazy" decoding="async">
+      <span class="index-tile__name">${name}</span>
+      <span class="index-tile__room">${card ? `<img class="index-tile__room-art" src="${card.card}" alt="" loading="lazy" decoding="async">` : ''}<span class="index-tile__room-name">${room.title}</span></span>
+    </button>`;
+}
+
+function renderIndex() {
+  currentView = 'index';
+  document.body.dataset.view = currentView;
+  stopPiece();                  // sets currentView first so the tune it restores is this page's
+  const groups = new Map();
+  for (const entry of songIndexEntries()) {
+    if (!groups.has(entry.letter)) groups.set(entry.letter, []);
+    groups.get(entry.letter).push(entry);
+  }
+  stage.className = 'stage stage--index';
+  stage.style.backgroundImage = '';
+  stage.style.backgroundPosition = '';
+  stage.innerHTML = `
+    <div class="song-index">
+      <div class="topbar song-index__topbar">
+        <button class="round-btn" data-go="world" aria-label="Back to Music World">←</button>
+        <div class="banner song-index__banner"><h1>All the Songs</h1><p>Tap a song to go to its room.</p></div>
+        ${companionSwitchMarkup()}
+      </div>
+      <nav class="song-index__letters" aria-label="Jump to a letter">
+        ${[...groups.keys()].map((letter) => `<button class="song-index__letter" data-index-letter="${letter}" aria-label="Songs starting with ${letter}">${letter}</button>`).join('')}
+      </nav>
+      <div class="song-index__list">
+        ${[...groups].map(([letter, list]) => `
+          <section class="song-index__group" data-index-group="${letter}" aria-label="${letter}">
+            <h2 class="song-index__heading">${letter}</h2>
+            <div class="song-index__grid">${list.map(songTileMarkup).join('')}</div>
+          </section>`).join('')}
+      </div>
+    </div>`;
+  applyAtmosphere();
+}
+
+function jumpToLetter(button) {
+  const group = stage.querySelector(`[data-index-group="${button.dataset.indexLetter}"]`);
+  if (!group) return;
+  const list = stage.querySelector('.song-index__list');
+  // The list is the groups' offsetParent (position: relative).
+  list.scrollTop = group.offsetTop;
+  stage.querySelectorAll('.song-index__letter').forEach((b) => b.classList.toggle('is-current', b === button));
+  const heading = group.querySelector('.song-index__heading');
+  heading.classList.remove('is-flash');
+  void heading.offsetWidth;
+  heading.classList.add('is-flash');
+}
+
+// Straight to the songs: the index skips a room's Read Together chapter (the
+// child came for one song) and opens the pager page the song is on.
+function openSongFromIndex(pieceId) {
+  const room = roomById(PIECE_ROOMS[pieceId]?.homeRoomId);
+  if (!room) return;
+  const shown = room.pieceIds.map(pieceById).filter(Boolean);
+  const at = shown.findIndex((p) => p.id === pieceId);
+  journey.wingId = room.wingId;
+  journey.roomId = room.id;
+  journey.page = at >= 0 ? Math.floor(at / PAGE_SIZE) : 0;
+  exploreOverride = room.id;
+  pendingFoundPieceId = pieceId;
+  renderRoom();
 }
 
 // ── page 3: a wing (its rooms) ───────────────────────────────────────────────
@@ -767,16 +955,20 @@ function renderWing() {
   const style = wingStyle(wing.id);
   const map = wingMapFor(wing);
   document.body.removeAttribute('data-open-room');
-  stage.className = 'stage stage--wing';
-  stage.style.backgroundImage = `url(${map ? map.background : style.background})`;
+  // A mapped wing draws its painting on its own plate inside the stage, so in
+  // portrait the whole picture sits between the title bar and the companion
+  // (owner, 2026-10-04, "landscape vs portrait"); in landscape the plate is the
+  // whole stage, exactly as before.
+  stage.className = `stage stage--wing${map ? ' stage--wing-map' : ''}`;
+  stage.style.backgroundImage = map ? '' : `url(${style.background})`;
   stage.innerHTML = `
     <div class="scrim${map ? ' wing-map-page' : ''}">
       <div class="topbar">
         <button class="round-btn" data-go="world" aria-label="Back to Music World">←</button>
         <div class="banner banner--wing"><h1>${wing.title}</h1></div>
-        <div class="guide-badge"><img src="${c.art}" alt=""><span>${c.name}</span></div>
+        ${companionSwitchMarkup()}
       </div>
-      ${map ? `<div class="wing-landmarks" aria-label="Choose a room">
+      ${map ? `<div class="wing-plate" style="background-image:url(${map.background})"><div class="wing-landmarks" aria-label="Choose a room">
         ${wing.roomIds.map((roomId) => {
           const room = roomById(roomId);
           const landmark = map.landmarks[roomId];
@@ -787,7 +979,7 @@ function renderWing() {
             <span class="room-landmark__name">${room.title}</span>
           </button>`;
         }).join('')}
-      </div>` : `<div class="room-grid">
+      </div></div>` : `<div class="room-grid">
         ${wing.roomIds.map((roomId) => {
           const room = roomById(roomId);
           const card = ROOM_CARD[room.id];
@@ -869,7 +1061,7 @@ function renderRoom() {
               <span class="room-mode__picture" aria-hidden="true">♪<b>𝄢</b></span><small>${hasBass ? 'Melody + bass' : 'Melody only'}</small>
             </button>
           </div>
-          <div class="guide-badge"><img src="${c.art}" alt=""><span>${c.name}</span></div>
+          ${companionSwitchMarkup()}
           ${roomPlayalongIds.length ? `<button class="toy-bubble toy-bubble--room" data-go="playroom" aria-label="Toy Piano">${toyKeysFaceMarkup()}</button>` : ''}
         </div>
       </div>
@@ -951,6 +1143,18 @@ function renderRoom() {
     piecePopup(target);
   }
   applyAtmosphere();
+  if (pendingFoundPieceId) {
+    const target = pendingFoundPieceId;
+    pendingFoundPieceId = null;
+    const found = stage.querySelector(`[data-piece-wrap="${target}"]`);
+    if (found) {
+      found.classList.add('is-found');
+      setTimeout(() => found.classList.remove('is-found'), 6000);
+    }
+    // The narrator says the song's name as it lights up (its existing title
+    // clip); with Sound off the glow alone answers the tap.
+    if (sound.on) speakTitle(target);
+  }
 }
 
 function sceneLandmarkMarkup(p, landmark) {
@@ -1005,10 +1209,11 @@ function bubbleMarkup(p, anchor) {
 
 // ── information pop-ups ──────────────────────────────────────────────────────
 
-function openPopup(html) {
+function openPopup(html, cardClass = '') {
   hideStripExplainer();
   stopLearnMore();
   stopTitle();
+  popup.querySelector('.popup__card').className = `popup__card${cardClass ? ` ${cardClass}` : ''}`;
   popupBody.innerHTML = html;
   popup.hidden = false;
 }
@@ -1245,6 +1450,9 @@ function go(view) {
   }
   else if (view === 'wing') { journey.roomId = null; renderWing(); }
   else if (view === 'room') renderRoom();
+  else if (view === 'index') {
+    if (!journey.companionId) renderLanding(); else renderIndex();
+  }
   else if (view === 'playroom') {
     currentView = 'playroom';
     document.body.dataset.view = currentView;
@@ -1279,9 +1487,9 @@ function handleSay(target) {
 stage.addEventListener('error', (event) => {
   const img = event.target;
   if (!img || img.tagName !== 'IMG') return;
-  if (img.classList.contains('bubble__art')) {
+  if (img.classList.contains('bubble__art') || img.classList.contains('index-tile__art')) {
     const note = document.createElement('span');
-    note.className = 'bubble__art bubble__art--none';
+    note.className = img.classList.contains('index-tile__art') ? 'index-tile__art index-tile__art--none' : 'bubble__art bubble__art--none';
     note.textContent = '♪';
     img.replaceWith(note);
   } else {
@@ -1296,6 +1504,14 @@ stage.addEventListener('click', (event) => {
 
   const listen = t.closest('[data-listen]');
   if (listen) { unlockAudio(); return; }
+
+  if (t.closest('[data-companion-picker]')) { companionPickerPopup(); return; }
+
+  const indexSong = t.closest('[data-index-song]');
+  if (indexSong) { openSongFromIndex(indexSong.dataset.indexSong); return; }
+
+  const indexLetter = t.closest('[data-index-letter]');
+  if (indexLetter) { jumpToLetter(indexLetter); return; }
 
   const companion = t.closest('[data-companion]');
   if (companion) {
@@ -1348,6 +1564,14 @@ stage.addEventListener('click', (event) => {
     showStripExplainer(word, word.dataset.stripSay, LEARN_MORE_WORD_MEANINGS[word.dataset.stripSay]);
     return;
   }
+  const story = t.closest('[data-story-say]');
+  if (story) {
+    const p = pieceById(story.dataset.storySay);
+    const clipId = `${p.id}-facts`;
+    showStripExplainer(story, clipId, EXPLANATIONS[p.id]?.facts?.text,
+      { title: p.shortTitle || p.title, src: explainClipPath(clipId) });
+    return;
+  }
   const roomSay = t.closest('[data-room-say]');
   if (roomSay) {
     showStripExplainer(roomSay, roomSay.dataset.roomSay, LEARN_MORE_ROOM_SCRIPTS[roomSay.dataset.roomSay]);
@@ -1383,6 +1607,8 @@ stage.addEventListener('pointerup', () => { if (pressTimer) { clearTimeout(press
 stage.addEventListener('pointercancel', () => { if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; } });
 
 popup.addEventListener('click', (event) => {
+  const pick = event.target.closest('[data-companion-pick]');
+  if (pick) { switchCompanion(pick.dataset.companionPick); return; }
   if (handleSay(event.target)) return;
   const explainListen = event.target.closest('[data-explain-listen]');
   if (explainListen) { speakExplain(explainListen.dataset.explainListen); return; }

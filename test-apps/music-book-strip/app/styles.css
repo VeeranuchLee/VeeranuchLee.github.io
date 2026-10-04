@@ -990,7 +990,7 @@ body[data-view="world"] .chrome-btn {
   display: flex; gap: 8px;
 }
 .word-card {
-  flex: 1 1 0; min-width: 64px; max-width: 168px;
+  flex: 1 0 auto; min-width: 64px; max-width: 168px;
   min-height: 64px;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
   padding: 4px 6px 5px;
@@ -2434,4 +2434,230 @@ button.rt-panel { cursor: pointer; }
   box-shadow: 0 0 0 3px var(--gold), var(--shadow);
   font-size: clamp(26px, 6cqh, 46px);
   line-height: 1;
+}
+
+/* ══ 2026-10-04: song index, companion switch, fuller word scroll, both
+   orientations on every menu page (task 2026-10-04-0907-claude-music-book-1004) ══ */
+
+/* ── the companion badge is a button: tap to change friend ───────────────── */
+button.guide-badge {
+  position: relative;
+  border: 0; font: inherit; color: var(--ink); cursor: pointer;
+  min-height: 48px;
+}
+button.guide-badge:active { transform: scale(.96); }
+.companion-switch__swap {
+  position: absolute; right: -6px; top: -6px;
+  width: 22px; height: 22px; display: grid; place-items: center;
+  border-radius: 50%; background: #ffe08a; box-shadow: 0 0 0 2px var(--gold);
+  font-style: normal; font-size: 13px; font-weight: 900; line-height: 1; color: #5a3d17;
+}
+.companion-switch.is-new { animation: companion-new .9s ease-out; }
+@keyframes companion-new {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.14); box-shadow: 0 0 0 4px #ffcf5c, 0 0 22px 8px rgba(255,207,92,.7); }
+  100% { transform: scale(1); }
+}
+.popup__card--picker { width: min(620px, 90vw); }
+.companion-picker {
+  margin-top: 14px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+}
+.companion-picker__choice {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  min-height: 120px; padding: 8px 6px 10px;
+  border: 0; border-radius: 16px; cursor: pointer;
+  background: rgba(255,255,255,.9);
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+  font: inherit; color: var(--ink); font-weight: 800; font-size: clamp(13px, 1.7vw, 17px);
+}
+.companion-picker__choice img { width: 100%; max-width: 110px; height: clamp(70px, 12vh, 110px); object-fit: contain; }
+.companion-picker__choice:active { transform: scale(.96); }
+.companion-picker__choice.is-current {
+  background: linear-gradient(180deg, #fffdf6, #fff0cd);
+  box-shadow: 0 0 0 5px #f5a623, 0 0 20px 6px rgba(245,166,35,.45), var(--shadow);
+}
+
+/* ── the Music World's top bar: Home and Songs on the left ───────────────── */
+.world-topbar { grid-template-columns: auto minmax(0, 1fr) auto; }
+.world-topbar__left { display: flex; gap: 8px; align-items: center; }
+.world-title { justify-self: center; width: 100%; max-width: 460px; }
+.song-index-btn {
+  display: flex; align-items: center; gap: 6px;
+  min-height: 48px; padding: 4px 12px 4px 4px;
+  border: 0; border-radius: 999px; cursor: pointer;
+  background: linear-gradient(180deg, #fff9e9, #ead9ad);
+  box-shadow: 0 0 0 3px var(--gold), var(--shadow);
+  color: var(--ink); font: inherit; font-size: clamp(13px, 1.8cqw, 17px); font-weight: 800;
+}
+.song-index-btn:active { transform: scale(.96); }
+.song-index-btn__pics {
+  display: grid; grid-template-columns: repeat(2, 19px); grid-auto-rows: 19px; gap: 2px;
+  padding: 1px; border-radius: 10px; background: #fff;
+}
+.song-index-btn__pics img { width: 19px; height: 19px; border-radius: 50%; object-fit: cover; }
+
+/* ── the song index page ─────────────────────────────────────────────────── */
+.stage.stage--index {
+  container-type: size;
+  background: linear-gradient(180deg, #fbf3dd, #efdcae);
+}
+.song-index {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 2.2% 3% 0;
+}
+.song-index__topbar { align-items: center; }
+.song-index__banner h1 { font-size: clamp(20px, 3.4cqw, 34px); }
+.song-index__letters {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(32px, 1fr)); gap: 4px;
+}
+.song-index__letter {
+  min-width: 0; min-height: 42px; padding: 0 2px;
+  border: 0; border-radius: 10px; cursor: pointer;
+  background: rgba(255,252,242,.96); box-shadow: 0 0 0 2px var(--gold);
+  color: var(--ink); font: inherit; font-size: 18px; font-weight: 900;
+}
+.song-index__letter:active { transform: scale(.94); }
+.song-index__letter.is-current { background: linear-gradient(180deg, #fff3c9, #ffe08a); }
+.song-index__list {
+  position: relative;
+  flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+  padding: 2px 4px 76px;
+  -webkit-overflow-scrolling: touch;
+}
+.song-index__heading {
+  margin: 10px 0 6px; padding: 0 12px;
+  display: inline-block; border-radius: 10px;
+  background: #5a3d17; color: #fff3d6; font-size: 22px; line-height: 34px;
+}
+.song-index__heading.is-flash { animation: index-flash 1s ease-out; }
+@keyframes index-flash { 30% { background: #f5a623; transform: scale(1.12); } }
+.song-index__grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 10px;
+}
+.index-tile {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  min-height: 64px; padding: 8px 6px 8px;
+  border: 0; border-radius: 16px; cursor: pointer;
+  background: rgba(255,253,246,.97);
+  box-shadow: 0 0 0 2.5px var(--gold), 0 3px 8px rgba(20,26,45,.2);
+  color: var(--ink); font: inherit;
+}
+.index-tile:active { transform: scale(.96); }
+.index-tile__art { width: 76px; height: 76px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--gold); }
+.index-tile__art--none { display: grid; place-items: center; background: #f2e2b4; font-size: 34px; }
+.index-tile__name { font-size: 15px; font-weight: 900; line-height: 1.15; text-align: center; }
+.index-tile__room {
+  display: flex; align-items: center; gap: 5px; max-width: 100%;
+  padding: 3px 6px 3px 3px; border-radius: 9px;
+  background: rgba(240,226,190,.7);
+  font-size: 11px; font-weight: 700; line-height: 1.1; color: var(--ink-soft); text-align: left;
+}
+.index-tile__room-art { flex: 0 0 auto; width: 34px; height: 22px; border-radius: 5px; object-fit: cover; }
+
+/* ── a song the index pointed at lights up in its room ──────────────────── */
+.room-scene-landmark.is-found, .bubble.is-found .bubble__disc {
+  border-color: #ffe99e; background-color: rgba(255, 231, 139, .22);
+  animation: found-glow 1.2s ease-in-out 5;
+}
+@keyframes found-glow {
+  0%, 100% { box-shadow: 0 0 0 3px var(--gold), 0 0 14px 4px rgba(255,220,103,.5); }
+  50% { box-shadow: 0 0 0 6px #ffe99e, 0 0 36px 14px rgba(255,220,103,.85); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .room-scene-landmark.is-found, .bubble.is-found .bubble__disc { animation: none; box-shadow: 0 0 0 6px #ffe99e, 0 0 30px 10px rgba(255,220,103,.8); }
+}
+
+/* ── word scroll: true-story cards, and never wider than the scroll ──────── */
+.word-scroll__cards { overflow-x: auto; overflow-y: hidden; padding: 3px 3px 4px; margin: -3px -3px -4px; }
+.word-card__picture--song img { border-radius: 50%; object-fit: cover; }
+/* A word keeps to one line, so a long word widens its card instead of making
+   the whole scroll taller and pushing into the painted song places. */
+.word-card__word { white-space: nowrap; }
+.companion-explainer__title { display: block; margin-bottom: 2px; color: #8a5a12; }
+
+/* ── orientation: each menu page uses the screen it is given ─────────────────
+   Owner, 2026-10-04: "pls check the landscape vs portrait for the main menu on
+   all device". Measured before this change (qa screenshots in the task
+   record): the landing sat as a 768x576 band with 448px of black in portrait;
+   the Music World sat as a 576px-wide column in landscape; the wing maps put
+   their furniture over the painting in portrait and the Sound button on
+   Romantic Century's bottom label. */
+
+/* Portrait: the landing is a portrait page — companions two across. */
+@media (max-aspect-ratio: 1/1) {
+  .stage.stage--landing, body[data-view="landing"] #chrome,
+  .stage.stage--index, body[data-view="index"] #chrome,
+  .stage.stage--wing-map, body[data-view="wing"] #chrome {
+    width: min(100vw, calc(100vh * 3 / 4));
+    height: min(100vh, calc(100vw * 4 / 3));
+  }
+  .stage--landing .scrim { padding-top: 5%; padding-bottom: 10%; }
+  .stage--landing .companion-grid { grid-template-columns: repeat(2, 1fr); max-width: 84%; gap: 1.6% 4%; padding-top: 3%; }
+  .stage--landing .hero__title { font-size: clamp(26px, 6vw, 52px); }
+  .stage--landing .hero__sub { font-size: clamp(13px, 2.4vw, 20px); }
+  .stage--landing .companion-card__name { font-size: clamp(13px, 2.4vw, 21px); }
+  .stage--landing .companion-card__tag { font-size: clamp(10px, 1.6vw, 14px); }
+
+  /* The wing painting keeps its whole 4:3 picture in the middle; the title
+     bar sits above it and the companion and Sound below, off the art. */
+  .stage.stage--wing-map { background: linear-gradient(180deg, #f6ecd4, #e7d3a3); }
+  .stage.stage--wing-map .wing-plate {
+    top: 50%; bottom: auto; height: auto; aspect-ratio: 4 / 3;
+    transform: translateY(-50%);
+    box-shadow: 0 0 0 3px var(--gold), 0 10px 26px rgba(20,26,45,.3);
+  }
+  .stage--wing-map .wing-map-page .banner--wing { min-width: 0; }
+}
+
+/* Landscape: the Music World is a landscape page — the map grows to fill the
+   height between the top bar and the motto, and the side margins hold the
+   greeting, Sound and compass. */
+@media (min-aspect-ratio: 1/1) {
+  .stage.stage--world, body[data-view="world"] #chrome {
+    width: min(100vw, calc(100vh * 4 / 3));
+    height: min(100vh, calc(100vw * 3 / 4));
+  }
+  .world-map {
+    top: 11.5%;
+    width: min(100cqw, calc(77cqh * 4 / 3));
+    height: min(77cqh, calc(100cqw * 3 / 4));
+  }
+  .world-topbar { top: 1.6%; }
+  .world-greeting { left: 1.6%; bottom: 13%; max-width: 10.5%; padding: 8px 10px; }
+  .world-motto { width: 40%; bottom: 1.4%; min-height: 40px; padding: 6px 20px; }
+  .world-compass { right: 1.8%; bottom: 1.8%; width: clamp(48px, 6cqw, 62px); }
+  body[data-view="world"] .chrome-btn { left: 1.8%; bottom: 1.8%; }
+}
+
+/* The wing painting as its own plate (both orientations). */
+.stage--wing-map .wing-plate {
+  position: absolute; left: 0; right: 0; top: 0; bottom: 0;
+  background-size: 100% 100%; background-repeat: no-repeat;
+}
+.stage--wing-map .wing-plate .wing-landmarks { position: absolute; inset: 0; }
+.stage--wing-map .wing-map-page .topbar { z-index: 5; }
+
+/* ── small screens (phones; not a target, kept usable) ───────────────────── */
+@container (max-width: 560px) {
+  .world-topbar { left: 2%; right: 2%; gap: 6px; }
+  .world-topbar__left { gap: 5px; }
+  .world-home { min-width: 0; min-height: 44px; padding: 6px 10px; }
+  .song-index-btn { min-height: 44px; padding-right: 8px; }
+  .world-title { padding: 4px 8px; }
+  .world-title h1 { font-size: 18px; }
+  .world-title p { display: none; }
+  .guide-badge--world { padding-right: 6px; }
+  .guide-badge--world span { display: none; }
+  .wing-spot__name { font-size: 9px; padding: 3px 7px 4px; }
+  .wing-spot__count { display: none; }
+  .world-greeting, .world-motto { display: none; }
+  .song-index__grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+  .song-index__banner p { display: none; }
+}
+@media (max-width: 560px), (max-height: 430px) {
+  .room-landmark__name { font-size: 9px; padding: 3px 6px 4px; }
+  .stage--landing .listen-cue { min-height: 36px; margin-top: .2em; }
+  .toy-bubble { transform: scale(.8); transform-origin: top right; }
 }

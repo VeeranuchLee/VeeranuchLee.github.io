@@ -384,8 +384,6 @@ export const ROOMS = [
     "thesis": "Southeast Asia is not one musical style. A map can reveal proximity and routes while each song keeps its own language, setting, and history.",
     "era": "Multiple timelines shown side by side",
     "keyVocabulary": [
-      "gong",
-      "sing-along",
       "language",
       "island route",
       "court tradition",
@@ -442,8 +440,6 @@ export const ROOMS = [
     "thesis": "These songs have different documented contexts: Indian devotional tradition, Istanbul urban tradition, and an Eastern Mediterranean melody tradition. The room does not claim one travel route between them.",
     "era": "Older roots -> named versions -> modern circulation",
     "keyVocabulary": [
-      "drone",
-      "minor key",
       "route",
       "adaptation",
       "version",
@@ -545,8 +541,6 @@ export const ROOMS = [
     "thesis": "Public meanings grow through particular histories, not repetition alone. Nkosi Sikelel' iAfrika moved from hymn to liberation, pan-African, and anthem uses; El Cóndor Pasa began as Daniel Alomía Robles's 1913 work before later adaptations.",
     "era": "Creation or tradition -> circulation -> public symbol",
     "keyVocabulary": [
-      "harmony",
-      "pan pipes",
       "public symbol",
       "anthem use",
       "local tradition",
