@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Color Lab</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="lab-shell">
+    <header class="lab-header">
+      <span class="lab-mark" aria-hidden="true">●</span>
+      <h1>Color Lab</h1>
+      <p>Tap paint. Tap the bowl.</p>
+    </header>
+
+    <section class="lab" aria-label="Mix Colors">
+      <div class="paint-side">
+        <h2>Mix Colors</h2>
+        <div class="paint-pots" aria-label="Choose paint">
+          <button class="paint-pot paint-red" type="button" data-paint="red" aria-label="Add one red drop">
+            <span class="pot-lid" aria-hidden="true"></span>
+            <span class="pot-body"><span>Red</span><strong id="red-count">0</strong></span>
+          </button>
+          <button class="paint-pot paint-yellow" type="button" data-paint="yellow" aria-label="Add one yellow drop">
+            <span class="pot-lid" aria-hidden="true"></span>
+            <span class="pot-body"><span>Yellow</span><strong id="yellow-count">0</strong></span>
+          </button>
+          <button class="paint-pot paint-blue" type="button" data-paint="blue" aria-label="Add one blue drop">
+            <span class="pot-lid" aria-hidden="true"></span>
+            <span class="pot-body"><span>Blue</span><strong id="blue-count">0</strong></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="explore-side">
+        <h2>Explore Colors</h2>
+        <button id="mix-bowl" class="mix-bowl is-empty" type="button" aria-label="Mixing bowl. Add paint first.">
+          <span class="bowl-rim" aria-hidden="true"></span>
+          <span id="mix-paint" class="mix-paint" aria-hidden="true"></span>
+          <span class="bowl-base" aria-hidden="true"></span>
+        </button>
+        <div id="colour-name" class="colour-name" role="status" aria-live="polite">
+          <span class="name-dot" aria-hidden="true"></span>
+          <strong id="name-text">Add some paint!</strong>
+        </div>
+        <button id="reset-button" class="reset-button" type="button">Start again</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Method C: this byte-identical guard must load before app tap handlers. -->
+  <script src="./tap-zoom-guard.js"></script>
+  <script src="./mixing-model.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
