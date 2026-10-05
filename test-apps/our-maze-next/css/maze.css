@@ -117,14 +117,17 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
   color:#51351e;font-size:max(22px,var(--trail-font));font-weight:950;line-height:1;text-shadow:0 2px 0 #fff,0 0 5px #fff;
 }
 .trail-label::before{content:"";position:absolute;right:5%;top:5%;width:54%;height:54%;z-index:-1;border-radius:50%;background:rgba(255,255,255,.88);box-shadow:0 2px 0 rgba(138,90,46,.22)}
-.trail-label.decoy::before{background:rgba(255,248,225,.9)}
+.trail-label.next::before{background:#fff0a8;box-shadow:0 0 0 4px var(--yellow),0 3px 0 rgba(138,90,46,.25)}
+.trail-label.done{opacity:.5;color:#54704b}
+.trail-label.done::before{background:#dff0d7}
+.trail-label.done::after{content:"✓";position:absolute;right:7%;top:7%;font-size:.58em;color:#3f913d;text-shadow:0 1px 0 #fff}
 .trail-label.try-again{animation:trail-wiggle .45s ease-out}
 .trail-feedback{
   position:absolute;z-index:5;display:grid;place-items:center;border-radius:50%;pointer-events:none;
   background:var(--coral);color:#fff;font-size:32px;font-weight:950;opacity:0;box-shadow:0 3px 0 #bd5548;
 }
 .trail-feedback.on{animation:trail-question .65s ease-out}
-.stage-trail .goal{z-index:1}.stage-trail .hero{z-index:4}
+.stage-trail .goal{z-index:1}.stage-trail .goal.ready{filter:drop-shadow(0 0 8px var(--yellow));scale:1.08}.stage-trail .hero{z-index:4}
 .trail-prompt{
   min-height:58px;display:flex;align-items:center;justify-content:center;gap:12px;padding:4px 14px;
   border-radius:20px;background:rgba(255,253,248,.92);box-shadow:0 4px 0 rgba(138,90,46,.16);

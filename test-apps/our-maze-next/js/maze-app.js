@@ -65,12 +65,11 @@
   var PLAN_PREVIEW_SLOTS = 5;
   var SLOT_SIZE = 64;
   var SLOT_GAP = 5;
-  // Ordered trails use the same maze ladder, but pin the solution to a child-sized
-  // sequence. Stage 3 starts at 1–5; Stage 4 follows the concept's uppercase A→B→C→D
-  // notation. Longer routes grow steadily to 26 without inventing a skip-counting rule
-  // that the concept does not specify.
-  var TRAIL_COUNTS = [5, 7, 10, 14, 18, 22, 26];
-  var TRAIL_DECOYS = [0, 1, 2, 3, 4, 5, 6];
+  // Number and Alphabet modes generate the exact same normal rung first. Only then
+  // do they place a sparse set of ordered checkpoints. Larger rungs have more targets
+  // and require two off-shortest-path detours, but never approach 1–26 / A–Z coverage.
+  var TRAIL_COUNTS = [3, 3, 4, 4, 5, 6, 7];
+  var TRAIL_OFF_PATH = [1, 1, 1, 1, 1, 2, 2];
   var MODES = ["walk", "plan", "number", "alphabet"];
 
   var MISSING = window.MAZE_SPRITES_MISSING || [];
@@ -198,22 +197,27 @@
     save("rung", rung);
     var cfg = LADDER[rung];
     var ordered = S.mode === "number" || S.mode === "alphabet";
-    var routeSteps = ordered ? TRAIL_COUNTS[rung] - 1 : null;
     S.seed = (Date.now() ^ Math.floor(Math.random() * 0x7fffffff)) >>> 0;
     if (window.__MAZE_SEED__ !== undefined) S.seed = window.__MAZE_SEED__ >>> 0; // harness hook
-    var round = null;
-    for (var retry = 0; retry < 8 && (!round || !round.ok); retry++) {
+    var round = null, trail = null;
+    for (var retry = 0; retry < 40 && (!round || !round.ok || (ordered && (!trail || !trail.ok))); retry++) {
+      // These are byte-for-byte the normal rung inputs. Checkpoints do not get a vote
+      // in maze topology, start/goal placement or shortest-path length.
       round = MC.makeRound({ cols: cfg.n, rows: cfg.n, seed: S.seed + retry,
-        minSteps: ordered ? routeSteps : cfg.minSteps,
-        maxSteps: ordered ? routeSteps : cfg.maxSteps,
+        minSteps: cfg.minSteps,
+        maxSteps: cfg.maxSteps,
         bias: cfg.bias, braid: cfg.braid, topology: cfg.topology });
+      if (round.ok && ordered) trail = MC.checkpointTrail(round.maze, round.start, round.goal, {
+        solution: round.solution,
+        count: TRAIL_COUNTS[rung],
+        requiredOffPath: TRAIL_OFF_PATH[rung],
+        rng: MC.mulberry32(((S.seed + retry) ^ ((rung + 1) * 2654435761)) >>> 0),
+      });
     }
-    if (!round.ok) throw new Error("Could not build rung " + rung + ": " + round.reason);
+    if (!round || !round.ok || (ordered && (!trail || !trail.ok)))
+      throw new Error("Could not build rung " + rung + ": " + ((trail && trail.reason) || (round && round.reason) || "checkpoint placement failed"));
     S.round = round;
-    S.trail = ordered ? MC.numberRoute(round.maze, round.solution, {
-      rng: MC.mulberry32((S.seed ^ ((rung + 1) * 2654435761)) >>> 0),
-      decoys: TRAIL_DECOYS[rung],
-    }) : null;
+    S.trail = ordered ? trail : null;
     S.state = MM.initial(round);
     S.locked = false;
     S.plan = [];
@@ -482,8 +486,8 @@
     var inset = window.innerWidth > window.innerHeight ? 2 : 0;
     R.labels.innerHTML = S.trail.labels.map(function (value, cell) {
       if (value === null) return "";
-      var xy = cellXY(cell), decoy = S.round.solution.indexOf(cell) < 0;
-      return '<span class="trail-label' + (decoy ? " decoy" : "") + '" data-cell="' + cell + '" data-value="' + value +
+      var xy = cellXY(cell), status = value <= S.trail.progress ? " done" : (value === S.trail.progress + 1 ? " next" : "");
+      return '<span class="trail-label' + status + '" data-cell="' + cell + '" data-value="' + value +
         '" style="left:' + (xy[0] + inset) + 'px;top:' + (xy[1] + inset) + 'px;width:' + (R.cellPx - inset * 2) +
         'px;height:' + (R.cellPx - inset * 2) +
         'px;--cell-px:' + R.cellPx + 'px;--trail-font:' + Math.max(22, Math.min(44, R.cellPx * .43)) + 'px">' + formatTrailValue(value) + '</span>';
@@ -491,14 +495,15 @@
     updateTrailPrompt();
   }
 
-  function currentTrailValue() {
-    return S.trail && S.trail.labels[S.state.cell];
-  }
-
   function updateTrailPrompt(extra) {
     if (!R || !R.trailPrompt || !S.trail) return;
-    var next = currentTrailValue() + 1;
-    if (next > S.round.solution.length) return;
+    var next = S.trail.progress + 1;
+    if (next > S.trail.count) {
+      R.trailPrompt.innerHTML = '<span class="prompt-label">⚑</span><span>' + (extra || "Now find the flag") + '</span>';
+      if (R.goal) R.goal.classList.add("ready");
+      return;
+    }
+    if (R.goal) R.goal.classList.remove("ready");
     R.trailPrompt.innerHTML = '<span class="prompt-label">' + formatTrailValue(next) + '</span><span>' +
       (extra || (S.mode === "alphabet" ? "Find the next letter" : "Find the next number")) + '</span>';
   }
@@ -510,19 +515,26 @@
     var before = S.state;
     var next = MM.step(before, dir);
     if (next.blocked) { S.state = next; refused(dir); return false; }
-    if (S.trail && S.trail.labels[next.cell] !== currentTrailValue() + 1) {
-      wrongTrail(next.cell);
-      return false;
+    var visit = null;
+    if (S.trail) {
+      visit = MC.checkpointVisit(S.trail, S.trail.progress, next.cell, next.cell === S.round.goal);
+      S.trail.progress = visit.progress;
+      // MazeMovement reports any contact with its goal. Checkpoint modes deliberately
+      // make that non-sticky until every ordered target has been collected.
+      next.reached = visit.complete;
     }
     S.state = next;
     if (SND) SND.step(next.steps);
     place(R.hero, next.cell, 0, 0);
-    updateTrailPrompt();
+    if (visit && visit.accepted) renderTrail();
+    if (visit && (visit.reason === "checkpoint-early" || visit.reason === "flag-early"))
+      notYet(next.cell, visit.reason === "flag-early");
+    else updateTrailPrompt();
     if (next.reached) finished();
     return true;
   }
 
-  function wrongTrail(cell) {
+  function notYet(cell, flagEarly) {
     if (SND) SND.tryAgain();
     var xy = cellXY(cell), f = R.trailFeedback;
     f.style.left = xy[0] + R.cellPx * .16 + "px";
@@ -532,7 +544,7 @@
     f.classList.remove("on"); void f.offsetWidth; f.classList.add("on");
     var label = R.labels && R.labels.querySelector('[data-cell="' + cell + '"]');
     if (label) { label.classList.remove("try-again"); void label.offsetWidth; label.classList.add("try-again"); }
-    updateTrailPrompt("Try another way");
+    updateTrailPrompt(flagEarly ? "Find all the checkpoints first" : "Not yet — keep looking");
   }
 
   function padIntent(dir) {
@@ -743,6 +755,7 @@
   }
 
   function finished() {
+    if (S.trail && S.trail.progress < S.trail.count) { notYet(S.round.goal, true); return; }
     S.locked = true;
     detachInput();
     var done = doneForMode();
@@ -902,7 +915,7 @@
     get trail() { return S.trail; },
     get running() { return S.running; }, get cap() { return chipCap(); },
     get planCap() { return PLAN_CAP; }, get previewSlots() { return previewSlotCount(); },
-    LADDER: LADDER, TRAIL_COUNTS: TRAIL_COUNTS, TRAIL_DECOYS: TRAIL_DECOYS, CAST: CAST,
+    LADDER: LADDER, TRAIL_COUNTS: TRAIL_COUNTS, TRAIL_OFF_PATH: TRAIL_OFF_PATH, CAST: CAST,
   };
 
   // Always open on the friend picker, with the last friend marked: a child coming back
