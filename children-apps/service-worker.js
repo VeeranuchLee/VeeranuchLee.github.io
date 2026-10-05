@@ -125,8 +125,12 @@
  *                  puzzles.html, science-world.html) are NOT in SHELL: like music.html and
  *                  homework.html they are cached on first visit by the fetch handler, and
  *                  their playroom/category.* files are cached the same way.
+ *   v40 2026-10-04  Books, Homework, Music, Puzzles and Science & World become
+ *                  owner-painted rooms. Their shared renderer/data, five static
+ *                  scenes and five shells join SHELL so every shaped object door
+ *                  works offline. One branch bump for the complete room set.
  */
-const CACHE_NAME = "children-apps-v39";
+const CACHE_NAME = "children-apps-v40";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
@@ -155,8 +159,20 @@ const SHELL = [
   "./playroom/playroom.css",
   "./playroom/playroom.js",
   "./playroom/destinations.js",
+  "./playroom/category.css",
+  "./playroom/category.js",
   "./playroom/scene.webp",
   "./playroom/tiles/bookshelf.webp",
+  "./books.html",
+  "./homework.html",
+  "./music.html",
+  "./puzzles.html",
+  "./science-world.html",
+  "./books-room/scene.webp",
+  "./homework-room/scene.webp",
+  "./music-room/scene.webp",
+  "./puzzles-room/scene.webp",
+  "./science-world-room/scene.webp",
   "./tap-zoom-guard.js",
   "./assets/app-192.png",
   "./assets/app-512.png",
