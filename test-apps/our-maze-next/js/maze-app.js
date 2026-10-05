@@ -65,12 +65,13 @@
   var PLAN_PREVIEW_SLOTS = 5;
   var SLOT_SIZE = 64;
   var SLOT_GAP = 5;
-  // Number and Alphabet modes generate the exact same normal rung first. Only then
+  // Number and Alphabet goals generate the exact same normal rung first. Only then
   // do they place a sparse set of ordered checkpoints. Larger rungs have more targets
   // and require two off-shortest-path detours, but never approach 1–26 / A–Z coverage.
   var TRAIL_COUNTS = [3, 3, 4, 4, 5, 6, 7];
   var TRAIL_OFF_PATH = [1, 1, 1, 1, 1, 2, 2];
-  var MODES = ["walk", "plan", "number", "alphabet"];
+  var MOVEMENTS = ["go", "plan"];
+  var GOALS = ["flag", "number", "alphabet"];
 
   var MISSING = window.MAZE_SPRITES_MISSING || [];
   var SPRITE = function (id, kind) {
@@ -124,15 +125,24 @@
   }
 
   var app = document.getElementById("app");
+  // Migrate the former four-way choice once, then remember the two dimensions
+  // independently. A goal choice never changes the movement choice, or vice versa.
   var rememberedMode = load("mode", "walk");
+  var migratedMovement = rememberedMode === "plan" ? "plan" : "go";
+  var migratedGoal = rememberedMode === "number" ? "number" : rememberedMode === "alphabet" ? "alphabet" : "flag";
+  var rememberedMovement = load("movement", migratedMovement);
+  var rememberedGoal = load("goal", migratedGoal);
   var S = {
     hero: load("hero", null),
-    mode: MODES.indexOf(rememberedMode) >= 0 ? rememberedMode : "walk",
+    movement: MOVEMENTS.indexOf(rememberedMovement) >= 0 ? rememberedMovement : "go",
+    goal: GOALS.indexOf(rememberedGoal) >= 0 ? rememberedGoal : "flag",
     rung: Math.max(0, Math.min(LADDER.length - 1, load("rung", 0) | 0)),
     doneWalk: load("done-walk", load("done", [])),
     donePlan: load("done-plan", []),
     doneNumber: load("done-number", []),
     doneAlphabet: load("done-alphabet", []),
+    donePlanNumber: load("done-plan-number", []),
+    donePlanAlphabet: load("done-plan-alphabet", []),
     round: null, state: null, cell: 0, locked: false, seed: 0,
     trail: null,
     plan: [], planStatuses: null, chunkStart: null, wallAttempts: 0, running: false,
@@ -141,6 +151,8 @@
   if (!Array.isArray(S.donePlan)) S.donePlan = [];
   if (!Array.isArray(S.doneNumber)) S.doneNumber = [];
   if (!Array.isArray(S.doneAlphabet)) S.doneAlphabet = [];
+  if (!Array.isArray(S.donePlanNumber)) S.donePlanNumber = [];
+  if (!Array.isArray(S.donePlanAlphabet)) S.donePlanAlphabet = [];
   if (S.hero && (!CAST.some(function (c) { return c.id === S.hero; }) || MISSING.indexOf(S.hero) >= 0)) S.hero = null;
 
   function speakerButton() {
@@ -196,7 +208,7 @@
     S.rung = rung;
     save("rung", rung);
     var cfg = LADDER[rung];
-    var ordered = S.mode === "number" || S.mode === "alphabet";
+    var ordered = S.goal === "number" || S.goal === "alphabet";
     S.seed = (Date.now() ^ Math.floor(Math.random() * 0x7fffffff)) >>> 0;
     if (window.__MAZE_SEED__ !== undefined) S.seed = window.__MAZE_SEED__ >>> 0; // harness hook
     var round = null, trail = null;
@@ -232,7 +244,7 @@
   function renderPlayScreen() {
     detachInput();
 
-    var done = doneForMode();
+    var done = doneForChoice();
 
     app.className = "screen-play";
     app.innerHTML =
@@ -242,11 +254,11 @@
       LADDER.map(function (l, i) {
         var isDone = done.indexOf(i) >= 0;
         return '<button class="rung rung-' + l.tier + (i === S.rung ? " now" : "") + (isDone ? " done" : "") + '" data-rung="' + i +
-          '" aria-label="' + l.name + ", " + l.n + " by " + l.n + (isDone ? ", finished in " + modeName(S.mode) : "") + '"' + (i === S.rung ? ' aria-current="true"' : "") + ">" +
+          '" aria-label="' + l.name + ", " + l.n + " by " + l.n + (isDone ? ", finished in " + choiceName() : "") + '"' + (i === S.rung ? ' aria-current="true"' : "") + ">" +
           '<span class="dots" aria-hidden="true" style="--n:' + l.n + '">' + new Array(l.n * l.n + 1).join("<i></i>") + "</span>" + (isDone ? '<span class="star" aria-hidden="true">★</span>' : "") + "</button>";
       }).join("") +
       "</nav>" + speakerButton() + "</header>" +
-      '<section class="stage ' + (S.mode === "plan" ? "stage-plan" : "stage-walk") + (S.trail ? " stage-trail stage-" + S.mode : "") + '">' +
+      '<section class="stage ' + (S.movement === "plan" ? "stage-plan" : "stage-walk") + (S.trail ? " stage-trail stage-" + S.goal : "") + '">' +
       '<div class="board-wrap"><div class="board" id="board">' +
       '<canvas id="walls"></canvas>' +
       '<div class="trail-labels" id="trail-labels" aria-hidden="true"></div>' +
@@ -257,9 +269,9 @@
       '<img class="hero" id="hero" data-ph="hero" src="' + SPRITE(S.hero) + '" alt=""/>' +
       '<img class="sparkles" id="sparkles" data-ph="sparkles" src="' + SPRITE("sparkles", "sparkles") + '" alt=""/>' +
       "</div></div>" +
-      '<div class="play-controls">' + modeToggle() + (S.trail ? trailPrompt() : "") +
-      (S.mode === "plan" ? planPanel() : '') +
-      '<div class="pad" role="group" aria-label="' + (S.mode === "plan" ? "Add a move" : "Move") + '">' +
+      '<div class="play-controls">' + choiceControls() + (S.trail ? trailPrompt() : "") +
+      (S.movement === "plan" ? planPanel() : '') +
+      '<div class="pad" role="group" aria-label="' + (S.movement === "plan" ? "Add a move" : "Move") + '">' +
       padButton("up", "Up") + padButton("left", "Left") + '<span class="pad-hub" aria-hidden="true"></span>' +
       padButton("right", "Right") + padButton("down", "Down") +
       "</div></div>" +
@@ -290,8 +302,11 @@
     Array.prototype.forEach.call(app.querySelectorAll(".rung"), function (b) {
       b.onclick = function () { if (SND) SND.pick(); play(+b.getAttribute("data-rung")); };
     });
-    Array.prototype.forEach.call(app.querySelectorAll(".mode-toggle button"), function (b) {
-      b.onclick = function () { switchMode(b.getAttribute("data-mode")); };
+    Array.prototype.forEach.call(app.querySelectorAll(".movement-toggle button"), function (b) {
+      b.onclick = function () { switchMovement(b.getAttribute("data-movement")); };
+    });
+    Array.prototype.forEach.call(app.querySelectorAll(".goal-toggle button"), function (b) {
+      b.onclick = function () { switchGoal(b.getAttribute("data-goal")); };
     });
     var refreshSpeaker = function () {
       var b = document.getElementById("speaker");
@@ -300,52 +315,79 @@
     };
     wireSpeaker(refreshSpeaker);
     wirePad();
-    if (S.mode === "plan") wirePlan(); else attachInput();
+    if (S.movement === "plan") wirePlan(); else attachInput();
     layout();
+    // Queued chips and the checkpoint status row change the space left for the board
+    // after the first layout, so refit whenever the board's own container resizes.
+    if (layoutWatch) layoutWatch.disconnect();
+    if (window.ResizeObserver && R.board.parentNode) {
+      layoutWatch = new ResizeObserver(function () {
+        if (!R || app.className !== "screen-play" || boardPx() === R.px) return;
+        // A refit redraws the labels; keep a "not yet" cue the child is still reading.
+        var cue = R.trailPrompt ? R.trailPrompt.innerHTML : null;
+        layout();
+        if (cue !== null && R.trailPrompt) R.trailPrompt.innerHTML = cue;
+      });
+      layoutWatch.observe(R.board.parentNode);
+    }
+  }
+  var layoutWatch = null;
+
+  function choiceControls() {
+    return '<div class="maze-choices">' +
+      '<div class="choice-row"><span class="choice-label">Movement</span><div class="movement-toggle choice-toggle" role="group" aria-label="Choose movement method">' +
+      choiceButton("movement", "go", "Go Now", S.movement) +
+      choiceButton("movement", "plan", "Plan Moves", S.movement) +
+      '</div></div>' +
+      '<div class="choice-row"><span class="choice-label">Goal</span><div class="goal-toggle choice-toggle" role="group" aria-label="Choose maze goal">' +
+      choiceButton("goal", "flag", "Flag", S.goal) +
+      choiceButton("goal", "number", "1 2 3", S.goal) +
+      choiceButton("goal", "alphabet", "A B C", S.goal) +
+      '</div></div></div>';
   }
 
-  function modeToggle() {
-    return '<div class="mode-toggle" role="group" aria-label="Choose a maze mode">' +
-      modeButton("walk", "▶", "Move", "Move Now") +
-      modeButton("plan", "☰", "Plan", "Plan Moves") +
-      modeButton("number", "123", "Numbers", "Number Trail") +
-      modeButton("alphabet", "ABC", "Letters", "Alphabet Trail") +
-      '</div>';
+  function choiceButton(kind, value, label, selected) {
+    return '<button data-' + kind + '="' + value + '" class="' + (selected === value ? "selected" : "") +
+      '" aria-pressed="' + (selected === value) + '">' + label + '</button>';
   }
 
-  function modeButton(mode, picture, shortName, label) {
-    return '<button data-mode="' + mode + '" class="' + (S.mode === mode ? "selected" : "") +
-      '" aria-label="' + label + '" aria-pressed="' + (S.mode === mode) + '"><span class="mode-picture" aria-hidden="true">' +
-      picture + '</span><small>' + shortName + '</small></button>';
+  function choiceName() {
+    return (S.movement === "plan" ? "Plan Moves" : "Go Now") + " + " +
+      ({ flag: "Flag", number: "Number Checkpoints", alphabet: "Letter Checkpoints" }[S.goal]);
   }
 
-  function modeName(mode) {
-    return { walk: "Move Now", plan: "Plan Moves", number: "Number Trail", alphabet: "Alphabet Trail" }[mode];
+  function doneForChoice() {
+    if (S.movement === "plan") return { flag: S.donePlan, number: S.donePlanNumber, alphabet: S.donePlanAlphabet }[S.goal];
+    return { flag: S.doneWalk, number: S.doneNumber, alphabet: S.doneAlphabet }[S.goal];
   }
 
-  function doneForMode() {
-    return { walk: S.doneWalk, plan: S.donePlan, number: S.doneNumber, alphabet: S.doneAlphabet }[S.mode];
+  function doneKey() {
+    if (S.movement === "plan") return S.goal === "flag" ? "done-plan" : "done-plan-" + S.goal;
+    return S.goal === "flag" ? "done-walk" : "done-" + S.goal;
   }
 
   function trailPrompt() {
     return '<div class="trail-prompt" id="trail-prompt" aria-live="polite"></div>';
   }
 
-  function switchMode(mode) {
-    if (S.running || mode === S.mode || MODES.indexOf(mode) < 0) return;
+  function switchMovement(movement) {
+    if (S.running || movement === S.movement || MOVEMENTS.indexOf(movement) < 0) return;
     if (SND) { SND.unlock(); SND.pick(); }
-    var oldMode = S.mode;
-    if (mode !== "plan") S.plan = [];
-    S.mode = mode;
+    if (movement !== "plan") S.plan = [];
+    S.movement = movement;
     S.planStatuses = null;
     S.chunkStart = S.state;
     S.wallAttempts = 0;
-    save("mode", mode);
-    // Move Now and Plan Moves are two inputs over one in-progress maze. Ordered
-    // trails need an exact sequence length, so crossing that boundary starts a fresh
-    // round on the same rung instead of leaving the child on an unlabelled cell.
-    var basicPair = (oldMode === "walk" || oldMode === "plan") && (mode === "walk" || mode === "plan");
-    if (basicPair) renderPlayScreen(); else play(S.rung);
+    save("movement", movement);
+    renderPlayScreen();
+  }
+
+  function switchGoal(goal) {
+    if (S.running || goal === S.goal || GOALS.indexOf(goal) < 0) return;
+    if (SND) { SND.unlock(); SND.pick(); }
+    S.goal = goal;
+    save("goal", goal);
+    play(S.rung);
   }
 
   function planPanel() {
@@ -369,8 +411,7 @@
 
   /* ---------- geometry and drawing --------------------------------------------------- */
 
-  function layout() {
-    if (!R) return;
+  function boardPx() {
     var wrap = R.board.parentNode;
     var w = wrap.clientWidth, h = wrap.clientHeight;
     // clientWidth/Height include padding. The portrait plan row reserves a little space
@@ -381,7 +422,12 @@
       h -= parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
     }
     // A DOM without layout (the node harness) measures 0; give it a stable square.
-    var px = Math.floor(Math.min(w || 600, h || 600));
+    return Math.floor(Math.min(w || 600, h || 600));
+  }
+
+  function layout() {
+    if (!R) return;
+    var px = boardPx();
     R.px = px;
     R.board.style.width = px + "px";
     R.board.style.height = px + "px";
@@ -400,7 +446,7 @@
     renderTrail();
     place(R.goal, S.round.goal, 0, 0);
     place(R.hero, S.state.cell, 0, 0, true);
-    if (S.mode === "plan") renderPlan();
+    if (S.movement === "plan") renderPlan();
   }
 
   function cellXY(i) {
@@ -474,7 +520,7 @@
   }
 
   function formatTrailValue(value) {
-    return S.mode === "alphabet" ? String.fromCharCode(64 + value) : String(value);
+    return S.goal === "alphabet" ? String.fromCharCode(64 + value) : String(value);
   }
 
   function renderTrail() {
@@ -505,7 +551,7 @@
     }
     if (R.goal) R.goal.classList.remove("ready");
     R.trailPrompt.innerHTML = '<span class="prompt-label">' + formatTrailValue(next) + '</span><span>' +
-      (extra || (S.mode === "alphabet" ? "Find the next letter" : "Find the next number")) + '</span>';
+      (extra || (S.goal === "alphabet" ? "Find the next letter" : "Find the next number")) + '</span>';
   }
 
   /* ---------- the one seam: an intent in, the engine's answer out --------------------- */
@@ -548,7 +594,7 @@
   }
 
   function padIntent(dir) {
-    if (S.mode === "plan") return addMove(dir);
+    if (S.movement === "plan") return addMove(dir);
     return intent(dir);
   }
 
@@ -631,7 +677,10 @@
   function later(fn, ms) { setTimeout(fn, window.__MAZE_FAST__ ? 0 : ms); }
 
   function startPlan() {
-    var result = MP.runPlan(S.round.maze, S.state, S.plan.slice());
+    var result = MP.runPlan(S.round.maze, S.state, S.plan.slice(), S.trail ? {
+      trail: S.trail,
+      progress: S.trail.progress,
+    } : null);
     var statuses = {};
     S.planStatuses = statuses;
     controlsRunning(true);
@@ -643,6 +692,13 @@
       statuses[i] = "walking"; renderPlan(statuses);
       if (step.moved) {
         S.state = step.after;
+        if (S.trail && step.visit) {
+          S.trail.progress = step.progress;
+          if (step.visit.accepted) renderTrail();
+          if (step.visit.reason === "checkpoint-early" || step.visit.reason === "flag-early")
+            notYet(S.state.cell, step.visit.reason === "flag-early");
+          else updateTrailPrompt();
+        }
         if (SND) SND.step(S.state.steps);
         place(R.hero, S.state.cell, 0, 0);
         statuses[i] = "used"; renderPlan(statuses);
@@ -690,7 +746,9 @@
       if (hint) hint.classList.add("hint");
     }
     renderPlan(statuses);
-    later(function () { walkBack(result.steps.slice(0, failed).filter(function (s) { return s.moved; }).reverse(), 0); }, 1000);
+    later(function () {
+      walkBack(result.steps.slice(0, failed).filter(function (s) { return s.moved; }).reverse(), 0, result.startProgress);
+    }, 1000);
   }
 
   function clearPlanFeedback() {
@@ -699,16 +757,17 @@
     Array.prototype.forEach.call(app.querySelectorAll(".arrow.hint"), function (b) { b.classList.remove("hint"); });
   }
 
-  function walkBack(steps, i) {
+  function walkBack(steps, i, restoreProgress) {
     if (i >= steps.length) {
       S.state = S.chunkStart;
+      if (S.trail && restoreProgress !== undefined) { S.trail.progress = restoreProgress; renderTrail(); }
       place(R.hero, S.state.cell, 0, 0);
       controlsRunning(false);
       return;
     }
     S.state = steps[i].before;
     place(R.hero, S.state.cell, 0, 0);
-    later(function () { walkBack(steps, i + 1); }, 180);
+    later(function () { walkBack(steps, i + 1, restoreProgress); }, 180);
   }
 
   function showTrail(steps) {
@@ -758,8 +817,8 @@
     if (S.trail && S.trail.progress < S.trail.count) { notYet(S.round.goal, true); return; }
     S.locked = true;
     detachInput();
-    var done = doneForMode();
-    if (done.indexOf(S.rung) < 0) { done.push(S.rung); save("done-" + S.mode, done); }
+    var done = doneForChoice();
+    if (done.indexOf(S.rung) < 0) { done.push(S.rung); save(doneKey(), done); }
     if (SND) SND.win();
     var g = cellXY(S.round.goal), cp = R.cellPx;
     R.sparkles.style.left = g[0] - cp * 0.4 + "px";
@@ -911,7 +970,8 @@
   window.__maze = {
     get state() { return S.state; }, get round() { return S.round; },
     get cellPx() { return R ? R.cellPx : 0; }, get rung() { return S.rung; },
-    get mode() { return S.mode; }, get plan() { return S.plan.slice(); }, get wallAttempts() { return S.wallAttempts; },
+    get movement() { return S.movement; }, get goal() { return S.goal; },
+    get plan() { return S.plan.slice(); }, get wallAttempts() { return S.wallAttempts; },
     get trail() { return S.trail; },
     get running() { return S.running; }, get cap() { return chipCap(); },
     get planCap() { return PLAN_CAP; }, get previewSlots() { return previewSlotCount(); },

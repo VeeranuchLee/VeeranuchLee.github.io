@@ -140,11 +140,14 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
 @keyframes trail-wiggle{25%{translate:-7% 0}50%{translate:7% 0}75%{translate:-3% 0}}
 @keyframes trail-question{0%{opacity:0;scale:.5}25%{opacity:1;scale:1.1}70%{opacity:1;scale:1}100%{opacity:0;scale:.8}}
 
-/* ---------- Plan the Moves ---------- */
-.mode-toggle{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:0;border-radius:22px;background:rgba(255,253,248,.82);box-shadow:0 4px 0 rgba(138,90,46,.14)}
-.mode-toggle button{min-width:64px;min-height:64px;border:0;border-radius:17px;background:transparent;color:#76695d;font-size:15px;font-weight:800;white-space:nowrap;padding:4px 2px}
-.mode-toggle button.selected{background:var(--yellow);color:var(--ink);box-shadow:0 3px 0 #c79a1f}
-.mode-toggle .mode-picture{display:block;margin:0;font-size:21px;font-weight:950;line-height:1.05}.mode-toggle small{display:block;font-size:13px;margin-top:3px}
+/* ---------- Independent movement and goal choices ---------- */
+.maze-choices{display:grid;gap:5px;padding:5px;border-radius:20px;background:rgba(255,253,248,.82);box-shadow:0 4px 0 rgba(138,90,46,.14)}
+.choice-row{min-width:0;display:grid;grid-template-columns:78px minmax(0,1fr);align-items:center;gap:5px}
+.choice-label{padding-left:5px;color:#76695d;font-size:13px;font-weight:850}
+.choice-toggle{min-width:0;display:grid;gap:4px}
+.movement-toggle{grid-template-columns:repeat(2,minmax(0,1fr))}.goal-toggle{grid-template-columns:repeat(3,minmax(0,1fr))}
+.choice-toggle button{min-width:44px;min-height:46px;border:2px solid rgba(138,90,46,.22);border-radius:14px;background:rgba(255,255,255,.55);color:#76695d;font-size:15px;font-weight:850;white-space:nowrap;padding:2px 5px}
+.choice-toggle button.selected{background:var(--yellow);color:var(--ink);box-shadow:0 3px 0 #c79a1f}
 .plan-panel{min-width:0;background:rgba(255,253,248,.92);border-radius:26px;padding:10px;box-shadow:0 5px 0 rgba(138,90,46,.18)}
 .plan-heading{display:flex;align-items:flex-start;gap:10px}.plan-heading>span:first-child{min-width:0;flex:1}.plan-heading strong,.plan-heading small{display:block}.plan-heading strong{font-size:22px;line-height:1.2}.plan-heading small{font-size:14px;line-height:1.2;margin-top:2px}.plan-count{flex:none;padding:6px 10px;border-radius:999px;background:#eee8dd;font-size:15px;white-space:nowrap}
 .sequence{min-width:0;margin-top:8px}.move-strip{min-height:64px;max-height:136px;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;display:flex;align-content:flex-start;gap:5px;flex-wrap:wrap;padding:3px;border-radius:16px;background:#fff8e9}
@@ -154,7 +157,7 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
 .plan-actions{display:grid;grid-template-columns:1fr 1fr 1.7fr;gap:8px;margin-top:8px}.plan-action{min-width:64px;min-height:64px;border:0;border-radius:18px;font-size:27px;font-weight:900;box-shadow:0 4px 0 rgba(74,53,38,.2)}.plan-action small{display:block;font-size:14px}.plan-action.undo{background:#eeeae2}.plan-action.clear{background:#ffd1cd;color:#ad4942}.plan-action.go{background:var(--green);color:#fff;font-size:28px}.plan-action:disabled,.arrow:disabled{opacity:.42;filter:saturate(.4);cursor:default;box-shadow:none}
 .pad.full .arrow{animation:arrow-full .42s ease-in-out}.arrow.hint{animation:hint-glow .75s ease-in-out infinite alternate;outline:6px solid var(--yellow);outline-offset:3px}
 @keyframes arrow-full{40%{translate:0 -7px;scale:1.04}}@keyframes hint-glow{to{box-shadow:0 5px 0 #3a7ea8,0 0 22px 9px rgba(246,201,69,.9)}}
-@media (orientation:portrait){.play-controls{width:min(720px,100%);justify-self:center}.stage-plan{gap:8px;padding-bottom:8px}.stage-plan .board-wrap{padding-top:16px}.stage-plan .play-controls{display:grid;grid-template-columns:1fr auto;grid-template-areas:"toggle toggle" "panel pad";align-items:center}.stage-plan .mode-toggle{grid-area:toggle}.stage-plan .plan-panel{grid-area:panel;padding:6px}.stage-plan .pad{grid-area:pad;--arrow:72px;grid-template-rows:repeat(3,64px);row-gap:8px}}
+@media (orientation:portrait){.play-controls{width:min(720px,100%);justify-self:center}.stage-plan{gap:8px;padding-bottom:8px}.stage-plan .board-wrap{padding-top:8px}.stage-plan .play-controls{display:grid;grid-template-columns:1fr auto;grid-template-areas:"choices choices" "panel pad";align-items:center}.stage-plan .maze-choices{grid-area:choices}.stage-plan .plan-panel{grid-area:panel;padding:6px}.stage-plan .pad{grid-area:pad;--arrow:72px;grid-template-rows:repeat(3,64px);row-gap:8px}}
 
 /* ---------- arrows ---------- */
 .pad{
@@ -162,6 +165,7 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
   gap:10px;justify-content:center;align-self:center;
 }
 .stage-plan .pad{row-gap:8px}
+@media (orientation:landscape){.stage-plan .plan-heading small{display:none}.stage-plan .play-controls{gap:6px}.stage-plan .maze-choices{padding:4px;gap:3px}.stage-plan .choice-toggle button{min-height:44px}.stage-plan .pad{grid-template-rows:repeat(3,calc(var(--arrow) * .75));row-gap:6px}}
 @media (orientation:portrait){.pad{grid-template-rows:repeat(3,calc(var(--arrow) * .82))}}
 .arrow{
   border:none;border-radius:24px;background:var(--blue);box-shadow:0 6px 0 #3a7ea8;display:grid;place-items:center;
