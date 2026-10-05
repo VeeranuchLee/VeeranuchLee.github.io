@@ -4,12 +4,13 @@
  * A book is a folder: reading-app/books/<id>/book.json + art/. books/index.json lists them.
  * Open one with ?book=<id>; with no (or an unknown) id the first listed book opens.
  *
- * Word-by-word reading (owner spec sections 10 and 13). Every word a child hears is a
- * pre-rendered clip at reading-app/audio/words/<word>.m4a (lowercased, punctuation
- * stripped). There is NO device text-to-speech and no network voice: a missing clip is an
- * incomplete build, caught by tools/check-reader.mjs, never papered over here.
+ * Natural page narration is preferred when book.json names a pre-rendered page clip.
+ * Timing data holds each word highlighted until the next one starts. Missing, failed, or
+ * never-started page clips fall back to the original isolated-word sequence. Tapping a word
+ * always plays only its word-bank clip.
+ * There is NO device text-to-speech and no runtime voice service.
  *
- *   speaker, idle      -> read from the first word, highlighting each word as it plays
+ *   speaker, idle      -> play the natural page clip, or the word sequence as fallback
  *   speaker, playing   -> stop
  *   speaker, stopped   -> (idle again) read from the beginning
  *   tap a word         -> stop page playback, highlight that word, play only it, back to idle
@@ -21,6 +22,7 @@
   var BOOKS = "../books/";
   var WORDS = "../audio/words/";
   var GAP_MS = 90;            // breath between words during page playback
+  var STALL_MS = 4000;        // a page clip that has not started playing by now is not going to
   var WORD_RE = /[A-Za-z]+(?:'[A-Za-z]+)?/g;
 
   var el = {
@@ -50,6 +52,16 @@
   var buffers = {};           // word -> Promise<AudioBuffer|null>
   var current = null;         // the playing source / element
   var fallbackAudio = null;
+  var pageAudio = null;
+  var pageStall = 0;          // stall-guard timer id for the current page clip; 0 = none armed
+  var timingCache = {};       // app-relative timing path -> Promise<object|null>
+  var highlightFrame = 0;
+
+  function clearStall() {
+    if (!pageStall) return;
+    clearTimeout(pageStall);
+    pageStall = 0;
+  }
 
   function slug(w) { return w.toLowerCase(); }
 
@@ -89,7 +101,20 @@
   }
 
   function stopSound() {
+    clearStall();
+    if (highlightFrame) {
+      cancelAnimationFrame(highlightFrame);
+      highlightFrame = 0;
+    }
     if (current) {
+      // A page performance owns a fresh Audio element. Detach its callbacks before
+      // pausing so an old ended/error event cannot settle a later playback attempt.
+      if (current === pageAudio) {
+        pageAudio.onended = null;
+        pageAudio.onerror = null;
+        pageAudio.onplaying = null;
+        pageAudio = null;
+      }
       try {
         if (current.stop) current.stop(); else current.pause();
       } catch (e) { /* already ended */ }
@@ -133,6 +158,7 @@
 
   function clearHighlight() {
     wordButtons.forEach(function (b) { b.classList.remove("reading-now"); });
+    el.text.classList.remove("page-reading");
   }
 
   function stopAll() {
@@ -144,26 +170,130 @@
 
   function wait(ms) { return new Promise(function (ok) { setTimeout(ok, ms); }); }
 
+  function readWordsPage(myRun) {
+    if (!wordButtons.length || myRun !== run) return Promise.resolve(false);
+    var i = 0;
+    return new Promise(function (finish) {
+      function step() {
+        if (myRun !== run) { finish(false); return; }
+        if (i >= wordButtons.length) { clearHighlight(); finish(true); return; }
+        var b = wordButtons[i];
+        clearHighlight();
+        b.classList.add("reading-now");
+        playWord(b.getAttribute("data-word"), myRun).then(function (ok) {
+          if (myRun !== run) { finish(false); return; }
+          if (!ok) flagFailed(b);
+          i++;
+          return wait(ok ? GAP_MS : 250).then(step);
+        });
+      }
+      step();
+    });
+  }
+
+  function appAsset(path) {
+    return "../" + String(path || "").replace(/^\.\//, "");
+  }
+
+  function loadTiming(path) {
+    if (!path) return Promise.resolve(null);
+    if (!timingCache[path]) {
+      timingCache[path] = fetch(appAsset(path))
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .catch(function () { return null; });
+    }
+    return timingCache[path];
+  }
+
+  function followTiming(a, timing, myRun) {
+    var words = timing && Array.isArray(timing.words) ? timing.words : [];
+    if (!words.length) return;
+    // Between words the active index is -1. Clearing on every frame made the highlight
+    // blink off in each gap, which reads as flicker rather than as reading. Hold the last
+    // spoken word instead: it is replaced only when the next word starts, and dropped by
+    // clearHighlight() when playback ends or stops, or when a word is tapped.
+    var held = -1;              // last word whose time range covered the playhead
+    var shown = -1;             // what is actually marked right now
+    function frame() {
+      if (myRun !== run || current !== a || a.paused) return;
+      var t = a.currentTime;
+      for (var i = 0; i < words.length; i++) {
+        if (t >= words[i].start && t < words[i].end) { held = i; break; }
+      }
+      if (held !== shown) {
+        shown = held;
+        // Only the per-word mark: clearHighlight() would also drop .page-reading, the soft
+        // background that shows the whole page is being read.
+        wordButtons.forEach(function (b) { b.classList.remove("reading-now"); });
+        if (held >= 0 && wordButtons[held]) wordButtons[held].classList.add("reading-now");
+      }
+      highlightFrame = requestAnimationFrame(frame);
+    }
+    frame();
+  }
+
+  function playPageClip(narration, myRun) {
+    return new Promise(function (done) {
+      var a = new Audio();
+      a.preload = "auto";
+      pageAudio = a;
+      var settled = false;
+      function finish(ok) {
+        if (settled) return;
+        settled = true;
+        clearStall();
+        if (current === a) current = null;
+        if (pageAudio === a) pageAudio = null;
+        clearHighlight();
+        done(ok);
+      }
+      a.onended = function () { finish(true); };
+      a.onerror = function () { finish(false); };
+      // A page clip that never reaches 'playing' -- a stalled fetch, a decode iPad refuses --
+      // would leave this promise pending and the page mute. Arm a guard: if nothing is
+      // playing after STALL_MS, stop it and take exactly the path a failed clip takes, so
+      // narration-mode runs the word sequence instead. Cleared on playing, error, end and
+      // stop, so it can never fire into a clip that started normally.
+      a.onplaying = clearStall;
+      clearStall();
+      pageStall = setTimeout(function () {
+        pageStall = 0;
+        if (settled) return;
+        try { a.pause(); } catch (e) { /* never reached playing */ }
+        finish(false);
+      }, STALL_MS);
+      a.src = appAsset(narration.clip);
+      current = a;
+      el.text.classList.add("page-reading");
+      loadTiming(narration.timing).then(function (timing) {
+        if (myRun === run && current === a && timing && timing.text === pageText(book.pages[index])) {
+          followTiming(a, timing, myRun);
+        }
+      });
+      var p;
+      try { p = a.play(); } catch (e) { finish(false); return; }
+      if (p && p.catch) p.catch(function () { finish(false); });
+    });
+  }
+
+  function pageText(page) {
+    return page && page.kind === "cover" ? book.title : ((page && page.text) || "");
+  }
+
   function readPage() {
     stopAll();
     var myRun = run;
+    var page = book.pages[index];
     if (!wordButtons.length) return;
     setSpeaker("playing");
-    var i = 0;
-    function step() {
-      if (myRun !== run) return;
-      if (i >= wordButtons.length) { clearHighlight(); setSpeaker("idle"); return; }
-      var b = wordButtons[i];
-      clearHighlight();
-      b.classList.add("reading-now");
-      playWord(b.getAttribute("data-word"), myRun).then(function (ok) {
+    ReadingNarration.play(page,
+      function (narration) { return playPageClip(narration, myRun); },
+      function () { return readWordsPage(myRun); })
+      .then(function () {
         if (myRun !== run) return;
-        if (!ok) flagFailed(b);
-        i++;
-        return wait(ok ? GAP_MS : 250).then(step);
+        clearHighlight();
+        setSpeaker("idle");
       });
-    }
-    step();
   }
 
   function readOne(b) {
@@ -186,7 +316,7 @@
   // ---------------------------------------------------------------- rendering
   function renderText(page) {
     var isCover = page.kind === "cover";
-    var source = isCover ? book.title : page.text;
+    var source = pageText(page);
     var silent = page.narrate === false;
     el.text.className = "text" + (isCover ? " title" : "") + (silent ? " reference-text" : "");
     el.text.textContent = "";
@@ -284,6 +414,7 @@
       el.next.setAttribute("aria-label", last ? "Back to the cover" : "Next page");
       // Warm the clips for this page and the next.
       wordButtons.forEach(function (b) { load(b.getAttribute("data-word")); });
+      if (page.narration && page.narration.timing) loadTiming(page.narration.timing);
       el.book.classList.remove("turning");
       try { history.replaceState(null, "", "?book=" + encodeURIComponent(book.id) + "&page=" + index + fromQuery); } catch (e) { /* file: */ }
     };

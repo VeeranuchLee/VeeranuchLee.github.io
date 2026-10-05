@@ -201,6 +201,8 @@ html, body {
   box-shadow: 0 0 0 .06em var(--glow-edge) inset;
   transform: translateY(-.03em);
 }
+.text.page-reading .word { background: rgba(255, 224, 138, .28); }
+.text.page-reading .word.reading-now { background: var(--glow); }
 .word.failed { animation: nudge .3s ease; }
 .chunk { white-space: nowrap; }
 .punct { pointer-events: none; }
