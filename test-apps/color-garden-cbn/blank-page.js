@@ -57,6 +57,7 @@
   let beforeGesture = null;
   let undoStack = [];
   let redoStack = [];
+  let historyBusy = false;
   let clearArmed = false;
   let clearTimer = null;
 
@@ -95,8 +96,8 @@
   }
 
   function updateHistoryButtons() {
-    undoButton.disabled = !undoStack.length;
-    redoButton.disabled = !redoStack.length;
+    undoButton.disabled = historyBusy || !undoStack.length;
+    redoButton.disabled = historyBusy || !redoStack.length;
   }
 
   function commit(before) {
@@ -110,22 +111,31 @@
   }
 
   async function undo() {
-    if (!undoStack.length) return;
+    if (historyBusy || !undoStack.length) return;
+    historyBusy = true;
     redoStack.push(captureState());
     const entry = undoStack.pop();
-    await restore(entry.image);
+    // The sticker half of the page state is synchronous. Apply it at the
+    // history transition, before the bitmap's Image decode yields, so no old
+    // restore can leave or re-add live DOM objects after the click handler.
     setStickers(entry.stickers);
+    updateHistoryButtons();
+    await restore(entry.image);
+    historyBusy = false;
     updateHistoryButtons();
     saveState();
     pop(300, 0.06);
   }
 
   async function redo() {
-    if (!redoStack.length) return;
+    if (historyBusy || !redoStack.length) return;
+    historyBusy = true;
     undoStack.push(captureState());
     const entry = redoStack.pop();
-    await restore(entry.image);
     setStickers(entry.stickers);
+    updateHistoryButtons();
+    await restore(entry.image);
+    historyBusy = false;
     updateHistoryButtons();
     saveState();
     pop(440, 0.06);
@@ -362,6 +372,18 @@
     selectSticker(selectedStickerId);
   }
 
+  function replaceStickerState(nextStickers) {
+    // A page-level replacement (Clear, Undo/Redo, or opening a saved page) must
+    // tear down every part of the live-object layer together. In particular,
+    // do not leave a selected handle or an in-flight pointer gesture referring
+    // to DOM nodes that have just been removed.
+    stickerGesture = null;
+    stickerPointers.clear();
+    selectedStickerId = null;
+    stickers = nextStickers;
+    rebuildStickers();
+  }
+
   function placeSticker(point, before) {
     const sticker = { id: stickerSeq++, kind: selectedStamp.kind, theme: selectedStamp.theme, value: selectedStamp.value, x: point.x / canvas.width, y: point.y / canvas.height, scale: 1 };
     stickers.push(sticker);
@@ -400,9 +422,7 @@
   function setStickers(json) {
     let list = [];
     try { list = sanitizeStickers(JSON.parse(json)); } catch (_) {}
-    stickers = list;
-    selectedStickerId = null;
-    rebuildStickers();
+    replaceStickerState(list);
   }
 
   // One gesture at a time: "sticker" drag-or-pinch on the body, "handle" the
@@ -572,9 +592,11 @@
       clearTimer = window.setTimeout(disarmClear, 6000); speak("blank.clear-arm"); pop(360, .06); return;
     }
     const before = captureState();
+    // Remove the live DOM objects synchronously in this confirmed-click
+    // handler. The bitmap clear follows, and both halves share `before` as
+    // one history entry for Undo/Redo.
+    replaceStickerState([]);
     context.fillStyle = "#fff"; context.fillRect(0, 0, canvas.width, canvas.height);
-    // Clean the whole page: paper and the stickers on it, one undo entry.
-    stickers = []; selectedStickerId = null; rebuildStickers();
     commit(before); disarmClear(); speak("blank.clear-done"); pop(280, .08);
   }
 
@@ -662,7 +684,7 @@
     context.fillStyle = "#fff"; context.fillRect(0, 0, canvas.width, canvas.height);
     if (savedImage) restore(savedImage);
     setStickers(JSON.stringify(savedStickers));
-    undoStack = []; redoStack = []; updateHistoryButtons(); disarmClear(); setTool("brush"); speak("blank.open");
+    undoStack = []; redoStack = []; historyBusy = false; updateHistoryButtons(); disarmClear(); setTool("brush"); speak("blank.open");
   }
 
   function closeBlankPage() {
