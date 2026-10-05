@@ -343,7 +343,7 @@
      rows on one card, in the group's order, under the group's HERO picture, with each
      sense's part of speech. A word not in `groups` gets one card per sense, exactly as
      before. The one word speaker is safe because check-audio-coverage.mjs refuses a
-     group whose senses would say different clips (bow/close/tear/wind never merge). */
+     group whose senses would say different clips (bow/close/tear/volume/wind never merge). */
   function buildCards(d) {
     var inGroup = {};
     (d.groups || []).forEach(function (g) {
