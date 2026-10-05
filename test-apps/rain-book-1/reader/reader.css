@@ -236,6 +236,16 @@ button { font: inherit; }
 .speaker[data-state="playing"] .w1 { animation: pulse 1s ease-in-out infinite; }
 .speaker:active, .nav:active { transform: translateY(4px) scale(.96); }
 .speaker:active { box-shadow: 0 1px 0 var(--accent-press); }
+.speaker[hidden] { display: none; }
+.text.reference-text {
+  white-space: pre-line;
+  font-size: clamp(12px, 1.45vw, 19px);
+  line-height: 1.24;
+  text-align: left;
+  overflow: auto;
+  max-height: 100%;
+}
+.reference-copy { display: block; }
 
 .nav {
   width: 72px;

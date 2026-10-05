@@ -187,9 +187,18 @@
   function renderText(page) {
     var isCover = page.kind === "cover";
     var source = isCover ? book.title : page.text;
-    el.text.className = "text" + (isCover ? " title" : "");
+    var silent = page.narrate === false;
+    el.text.className = "text" + (isCover ? " title" : "") + (silent ? " reference-text" : "");
     el.text.textContent = "";
     wordButtons = [];
+    el.speaker.hidden = silent;
+    if (silent) {
+      var reference = document.createElement("span");
+      reference.className = "reference-copy";
+      reference.textContent = source;
+      el.text.appendChild(reference);
+      return;
+    }
     // Split on spaces into chunks ("planets.", "moons,"). A chunk never breaks across a
     // line, so a full stop or comma is never orphaned at a line start; lines break only
     // at the spaces between chunks. Punctuation stays visible but is never spoken.
