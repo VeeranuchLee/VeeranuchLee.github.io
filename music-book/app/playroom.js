@@ -313,7 +313,7 @@ function blackLabel(name, flats) {
 
 function keysMarkup(size, flats = false) {
   const bars = instrumentId !== 'piano';
-  const on = sizeKeys(size);
+  const on = sizeKeys(drawnSize(size));
   return WHITE_KEYS.map((pitch, i) => {
     const color = NOTE_COLORS[pitch];
     const live = on.has(pitch);
@@ -345,13 +345,21 @@ function keysMarkup(size, flats = false) {
 
 // Switch the drawn keyboard to `size` in place — the CSS transitions on the
 // slots and black keys are the growing animation.
+// Owner, 2026-10-04, verbatim: "black key-> bring them back pls." The octave's
+// five black keys are DRAWN and playable for free play at every size, as the
+// owner asked on 2026-08-27 ("with the working black keys too"). The Small size
+// stays the fitting rule only: a song still declares the smallest size that
+// holds its notes, and the score gate still proves it; Small is simply drawn
+// with Medium's keys, the same width, so free play never loses them.
+const drawnSize = (size) => (size === 'small' ? 'medium' : size);
+
 function applySize(size) {
   const keys = document.getElementById('toy-keys');
   if (!keys) return;
-  const on = sizeKeys(size);
+  const on = sizeKeys(drawnSize(size));
   keys.dataset.size = size;
   SIZE_ORDER.forEach((s) => keys.classList.toggle(`toy-keys--${s}`, s === size));
-  keys.classList.toggle('has-sharps', KEYBOARD_SIZES[size].blacks.length > 0);
+  keys.classList.toggle('has-sharps', KEYBOARD_SIZES[drawnSize(size)].blacks.length > 0);
   keys.querySelectorAll('.toy-slot').forEach((slot) => {
     slot.classList.toggle('is-off', !on.has(slot.dataset.slot));
   });
