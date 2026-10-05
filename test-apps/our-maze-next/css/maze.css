@@ -117,6 +117,9 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
   color:#51351e;font-size:max(22px,var(--trail-font));font-weight:950;line-height:1;text-shadow:0 2px 0 #fff,0 0 5px #fff;
 }
 .trail-label::before{content:"";position:absolute;right:5%;top:5%;width:54%;height:54%;z-index:-1;border-radius:50%;background:rgba(255,255,255,.88);box-shadow:0 2px 0 rgba(138,90,46,.22)}
+/* The generic .next (Next button) rule below must not leak onto the next checkpoint: it painted the
+   whole cell green and the numeral white on the pale-yellow badge, so "1" vanished (2026-10-05). */
+.trail-label.next{background:none;box-shadow:none;color:#51351e}
 .trail-label.next::before{background:#fff0a8;box-shadow:0 0 0 4px var(--yellow),0 3px 0 rgba(138,90,46,.25)}
 .trail-label.done{opacity:.5;color:#54704b}
 .trail-label.done::before{background:#dff0d7}
