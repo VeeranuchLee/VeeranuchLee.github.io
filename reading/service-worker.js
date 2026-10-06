@@ -23,7 +23,7 @@
 
    Navigations carry a query (?book=space-trip, ?from=wordbook), so they are matched with
    ignoreSearch; data and audio requests are matched exactly. */
-const CACHE_NAME = 'reading-v6';
+const CACHE_NAME = 'reading-v7';
 const CACHE_PREFIX = 'reading-v';
 const SHELL = [
   './',

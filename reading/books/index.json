@@ -1,5 +1,67 @@
 {
-  "format": 1,
+  "format": 2,
+  "shelf": [
+    {
+      "type": "book",
+      "id": "space-trip"
+    },
+    {
+      "type": "book",
+      "id": "gems"
+    },
+    {
+      "type": "set",
+      "id": "weather-water"
+    },
+    {
+      "type": "set",
+      "id": "computers"
+    }
+  ],
+  "sets": [
+    {
+      "id": "weather-water",
+      "title": "Weather & Water",
+      "colour": "#5f8fb8",
+      "books": [
+        "how-much-rain",
+        "where-rain-goes",
+        "why-places-flood",
+        "city-water-moves",
+        "river-reservoir-sea",
+        "reading-flood-news",
+        "how-dams-work"
+      ]
+    },
+    {
+      "id": "computers",
+      "title": "Computer & Digital World",
+      "colour": "#6a7fb0",
+      "books": [],
+      "sections": [
+        {
+          "title": "Using Computers",
+          "books": []
+        },
+        {
+          "title": "Making & Data",
+          "books": []
+        },
+        {
+          "title": "Coding",
+          "books": []
+        },
+        {
+          "title": "Internet & Digital World",
+          "books": []
+        },
+        {
+          "title": "AI",
+          "books": []
+        }
+      ]
+    }
+  ],
   "books": [
     {
       "id": "space-trip",

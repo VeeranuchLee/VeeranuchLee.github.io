@@ -145,6 +145,37 @@ html, body {
 .shelf-back .ledge { fill: none; stroke: #8a5a31; stroke-width: 4; stroke-linecap: round; }
 .shelf-back:active { transform: translateY(4px) scale(.96); box-shadow: 0 1px 0 #d9ccb0; background: var(--paper-deep); }
 
+/* "Read next" (2026-10-06): on a chain book's last page, the next book's cover sits in the
+   top-right corner, mirroring the bookshelf button top-left. Shown only when index.json names a
+   shelved `next`. */
+.read-next {
+  position: absolute;
+  z-index: 2;
+  right: max(1.6vmin, 10px);
+  top: max(1.6vmin, 10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 8px 7px;
+  border-radius: 14px;
+  background: var(--paper);
+  box-shadow: 0 4px 0 #d9ccb0, 0 8px 18px rgba(47, 58, 77, .18);
+  color: var(--accent);
+  font: 800 17px/1 'Nunito', system-ui, sans-serif;
+  text-decoration: none;
+}
+.read-next[hidden] { display: none; }
+.read-next-cover {
+  width: 96px;
+  height: 96px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--paper-deep);
+}
+.read-next-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.read-next:active { transform: translateY(4px) scale(.97); box-shadow: 0 1px 0 #d9ccb0; }
+
 /* ---- reading area ---- */
 .reading {
   flex: 1 1 33%;

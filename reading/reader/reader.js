@@ -35,11 +35,18 @@
     next: document.getElementById("next"),
     dots: document.getElementById("dots"),
     error: document.getElementById("load-error"),
-    shelfBack: document.getElementById("shelf-back")
+    shelfBack: document.getElementById("shelf-back"),
+    readNext: document.getElementById("read-next"),
+    readNextImg: document.getElementById("read-next-img")
   };
 
   var book = null;
   var bookDir = "";
+  // "Read next" (owner, 2026-10-06): a book's index.json entry may name `next`, the book after
+  // it in a genuine chain (Instructions -> Loops -> Conditions -> Bug, ...). The last page then
+  // offers that book's cover. Only a shelved book is offered -- a draft or missing `next` shows
+  // nothing -- and it is an invitation, never a lock: every book still opens from the shelf.
+  var nextBook = null;        // {id, title} once the next book's cover is known
   var index = 0;
   var run = 0;                // bumps on every stop / page change; stale callbacks check it
   var wordButtons = [];
@@ -421,11 +428,12 @@
       var last = index === book.pages.length - 1;
       el.next.classList.toggle("again", last);
       el.next.setAttribute("aria-label", last ? "Back to the cover" : "Next page");
+      el.readNext.hidden = !(last && nextBook);
       // Warm the clips for this page and the next.
       wordButtons.forEach(function (b) { load(b.getAttribute("data-word")); });
       if (page.narration && page.narration.timing) loadTiming(page.narration.timing);
       el.book.classList.remove("turning");
-      try { history.replaceState(null, "", "?book=" + encodeURIComponent(book.id) + "&page=" + index + fromQuery); } catch (e) { /* file: */ }
+      try { history.replaceState(null, "", "?book=" + encodeURIComponent(book.id) + "&page=" + index + setQuery + fromQuery); } catch (e) { /* file: */ }
     };
     if (animate) {
       el.book.classList.add("turning");
@@ -470,8 +478,32 @@
   // ?from=wordbook rides along so the bookshelf's back arrow still returns to Our Word Book.
   var from = params.get("from") === "wordbook" ? "wordbook" : "";
   var fromQuery = from ? "&from=" + from : "";
+  // ?set=<id>: the book was opened from a book set's shelf, so back returns there (2026-10-06).
+  // The set id rides along on page turns and "Read next"; a stale id falls back to the shelf.
+  var setId = params.get("set") || "";
+  var setQuery = setId ? "&set=" + encodeURIComponent(setId) : "";
   el.shelfBack.href = "../index.html" + (from ? "?from=" + from : "");
   el.shelfBack.addEventListener("click", stopAll);
+  el.readNext.addEventListener("click", stopAll);
+  function findNext(entries, id) {
+    var me = entries.filter(function (b) { return b && b.id === id; })[0];
+    var nx = me && me.next ? entries.filter(function (b) { return b && b.id === me.next && b.draft !== true; })[0] : null;
+    if (!nx) return;
+    var dir = BOOKS + nx.id + "/";
+    fetch(dir + "book.json")
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (b) {
+        var pages = b.pages || [];
+        var cover = pages.filter(function (p) { return p.kind === "cover"; })[0] || pages[0];
+        if (cover && cover.art) el.readNextImg.src = dir + cover.art;
+        var title = b.title || nx.title || nx.id;
+        el.readNext.href = "./?book=" + encodeURIComponent(nx.id) + setQuery + fromQuery;
+        el.readNext.setAttribute("aria-label", "Read next: " + title);
+        nextBook = { id: nx.id, title: title };
+        if (book && index === book.pages.length - 1) el.readNext.hidden = false;
+      })
+      .catch(function (err) { console.error("Reading Tree: next book " + nx.id, err); });
+  }
   fetch(BOOKS + "index.json")
     .then(function (r) { if (!r.ok) throw new Error("books/index.json " + r.status); return r.json(); })
     .then(function (list) {
@@ -479,6 +511,15 @@
       var want = params.get("book");
       var id = ids.indexOf(want) >= 0 ? want : ids[0];
       if (!id) throw new Error("no books listed");
+      var set = (list.sets || []).filter(function (s) { return s && s.id === setId && (s.books || []).indexOf(id) >= 0; })[0];
+      if (set) {
+        el.shelfBack.href = "../index.html?set=" + encodeURIComponent(set.id) + fromQuery;
+        el.shelfBack.setAttribute("aria-label", "Back to " + set.title);
+      } else {
+        setId = "";
+        setQuery = "";
+      }
+      findNext(list.books, id);
       bookDir = BOOKS + id + "/";
       return fetch(bookDir + "book.json");
     })
