@@ -4,6 +4,7 @@
   var drops = { red: 0, yellow: 0, blue: 0 };
   var childColors = [];
   var colorById = new Map();
+  var availableAudioSlugs = new Set();
   var exploreData = null;
   var currentMix = null;
   var resetArmed = false;
@@ -31,6 +32,10 @@
         if (!response.ok) throw new Error("Explore shelf did not load");
         return response.json();
       }),
+      fetch("./audio/colour-names/available-clips.json").then(function (response) {
+        if (!response.ok) return [];
+        return response.json();
+      }).catch(function () { return []; }),
     ]).then(function (results) {
       var included = new Set(results[1].candidates.filter(function (candidate) {
         return candidate.includedInProposedSubset;
@@ -38,6 +43,7 @@
       childColors = results[0].colors.filter(function (color) { return included.has(color.id); });
       colorById = new Map(results[0].colors.map(function (color) { return [color.id, color]; }));
       exploreData = results[2];
+      availableAudioSlugs = new Set(results[3]);
       renderFamilies();
     }).catch(function () {
       childColors = [];
@@ -75,20 +81,15 @@
     });
   }
 
-  function checkAudio(button, url) {
-    button.hidden = true;
-    fetch(url, { method: "HEAD", cache: "no-store" }).then(function (response) {
-      if (response.ok) button.hidden = false;
-    }).catch(function () {
-      button.hidden = true;
-    });
-  }
-
   function makeShadeCard(shade) {
     var color = colorById.get(shade.vocabularyId);
     var card = document.createElement("article");
     var main = document.createElement("button");
-    var image = document.createElement("img");
+    var visual = document.createElement("span");
+    var crayon = document.createElement("span");
+    var tint = document.createElement("span");
+    var frame = document.createElement("img");
+    var swatch = document.createElement("span");
     var name = document.createElement("span");
     var speaker = document.createElement("button");
     var icon = document.createElement("span");
@@ -102,14 +103,31 @@
     main.dataset.srgb = color.srgbCentroidHex;
     main.setAttribute("aria-label", shade.displayName + ". Tap to grow this color card.");
     main.setAttribute("aria-pressed", "false");
-    image.className = "shade-object";
-    image.src = "./assets/explore/" + shade.sprite;
-    image.alt = shade.object;
-    image.width = 192;
-    image.height = 192;
+    visual.className = "shade-visual";
+    crayon.className = "shade-crayon";
+    tint.className = "crayon-tint";
+    tint.setAttribute("aria-hidden", "true");
+    frame.className = "crayon-frame";
+    frame.src = "./assets/explore/" + exploreData.crayon.frame;
+    frame.alt = "";
+    frame.width = 256;
+    frame.height = 256;
+    crayon.append(tint, frame);
+    visual.appendChild(crayon);
+    if (shade.sprite) {
+      var image = document.createElement("img");
+      image.className = "shade-object";
+      image.src = "./assets/explore/" + shade.sprite;
+      image.alt = shade.object;
+      image.width = 192;
+      image.height = 192;
+      visual.appendChild(image);
+    }
+    swatch.className = "shade-swatch";
+    swatch.setAttribute("aria-hidden", "true");
     name.className = "shade-name";
     name.textContent = shade.displayName;
-    main.append(image, name);
+    main.append(visual, swatch, name);
     main.addEventListener("click", function () {
       document.querySelectorAll(".shade-card.is-selected").forEach(function (selected) {
         selected.classList.remove("is-selected");
@@ -123,6 +141,8 @@
     speaker.className = "speaker-button";
     speaker.setAttribute("aria-label", "Hear " + shade.displayName);
     speaker.dataset.audio = audioUrl;
+    speaker.hidden = !availableAudioSlugs.has(shade.slug);
+    card.classList.toggle("has-audio", availableAudioSlugs.has(shade.slug));
     icon.className = "speaker-icon";
     icon.setAttribute("aria-hidden", "true");
     speaker.appendChild(icon);
@@ -130,7 +150,6 @@
       var audio = new Audio(audioUrl);
       audio.play().catch(function () { speaker.hidden = true; });
     });
-    checkAudio(speaker, audioUrl);
     card.append(main, speaker);
     return card;
   }
