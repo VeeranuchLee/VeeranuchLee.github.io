@@ -1,5 +1,7 @@
-/* Owner-painted Magic Math front door. The scene is always scaled by height so the
-   open book stays large; 4:3 portrait/landscape screens crop only the room sides. */
+/* Owner-painted Magic Math front door. Landscape: the scene is scaled by height so the open book
+   stays large and only the room sides crop. Portrait (2026-10-06): the book spans almost the whole
+   picture width, so height-scaling cut off the rocket and the castle -- portrait scales by WIDTH,
+   centres the whole book, and fills above/below with a soft blurred copy of the same painting. */
 html{touch-action:manipulation;-webkit-text-size-adjust:100%}
 body{min-height:100svh;overflow:hidden;background:#d7b9cc;touch-action:manipulation}
 .bg{display:none}
@@ -23,3 +25,8 @@ body{min-height:100svh;overflow:hidden;background:#d7b9cc;touch-action:manipulat
 }
 @media(max-width:430px){.hub-heading{width:54vw}.hub-heading .sub{font-size:.7rem}}
 @media(prefers-reduced-motion:reduce){.world-hotspot{transition:none}}
+
+@media (orientation: portrait){
+  .scene-stage::before{content:"";position:absolute;inset:-40px;background:url(../assets-runtime/hub/scene.webp) center/cover no-repeat;filter:blur(22px) saturate(1.05);opacity:.9}
+  .scene-canvas{top:54%;left:0;width:100vw;height:auto;transform:translateY(-50%)}
+}
