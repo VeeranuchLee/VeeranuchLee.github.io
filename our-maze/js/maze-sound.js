@@ -50,6 +50,12 @@
     step: function (n) { note("triangle", 620 + ((n || 0) % 4) * 40, 0, 0, 0.07, 0.10); },
     // A gentle low "bonk" for a wall: felt, not scolded.
     bump: function () { note("sine", 190, 120, 0, 0.16, 0.16); },
+    // A light two-note question for an out-of-order trail choice. It is deliberately
+    // softer and higher than the wall bonk: guidance, never a punishment sound.
+    tryAgain: function () {
+      note("triangle", 440, 0, 0, 0.10, 0.07);
+      note("triangle", 392, 0, 0.09, 0.14, 0.06);
+    },
     pick: function () { note("triangle", 523, 0, 0, 0.09, 0.10); note("triangle", 784, 0, 0.06, 0.12, 0.08); },
     // The finish: a rising four-note arpeggio and a sparkle on top.
     win: function () {

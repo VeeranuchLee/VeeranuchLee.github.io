@@ -22,7 +22,7 @@
  * glows, and a soft low bump plays.
  *
  * v1 DEFAULTS the owner may overturn on the Test Hub (maze-app/work_progress_...md):
- * Toy Room theme, one skinnable generator, the five-rung size ladder below, no timer,
+ * Toy Room theme, one skinnable generator, the original five-rung ladder, no timer,
  * no score, no failure.
  */
 (function () {
@@ -40,14 +40,23 @@
     { id: "owl", name: "Owl" }, { id: "rocking-horse", name: "Rocking horse" },
   ];
 
-  // The size ladder. Start is always the top-left cell; the goal is placed far from it
-  // (the band's lower bound is most of the way across) so every maze is a real walk.
+  // One smooth ladder, not a second "hard mode" implementation. The early rungs stay
+  // spacious; intermediate rungs begin guaranteeing real choices; the two appended
+  // harder rungs must contain several route decisions, deep wrong turns, dead ends and
+  // independent loops. maze-core rejection-samples until those topology gates pass.
   var LADDER = [
-    { n: 3, minSteps: 4, maxSteps: 8, braid: 0 },
-    { n: 4, minSteps: 7, maxSteps: 15, braid: 0 },
-    { n: 5, minSteps: 10, maxSteps: 24, braid: 0.1 },
-    { n: 6, minSteps: 14, maxSteps: 35, braid: 0.12 },
-    { n: 8, minSteps: 22, maxSteps: 63, braid: 0.15 },
+    { n: 3, tier: "easy", name: "Easy maze 1", minSteps: 4, maxSteps: 8, bias: .72, braid: 0 },
+    { n: 4, tier: "easy", name: "Easy maze 2", minSteps: 7, maxSteps: 15, bias: .68, braid: 0 },
+    { n: 5, tier: "middle", name: "Intermediate maze 1", minSteps: 10, maxSteps: 24, bias: .60, braid: .08,
+      topology: { minDecisionPoints: 1, minLongestWrongTurn: 2 } },
+    { n: 6, tier: "middle", name: "Intermediate maze 2", minSteps: 14, maxSteps: 35, bias: .52, braid: .12,
+      topology: { minDecisionPoints: 2, minLongestWrongTurn: 3, minLongestDeadEnd: 2, minLoops: 1 } },
+    { n: 8, tier: "middle", name: "Intermediate maze 3", minSteps: 20, maxSteps: 63, bias: .45, braid: .18,
+      topology: { minDecisionPoints: 3, minLongestWrongTurn: 4, minLongestDeadEnd: 3, minLoops: 2 } },
+    { n: 9, tier: "hard", name: "Hard maze 1", minSteps: 25, maxSteps: 80, bias: .40, braid: .22,
+      topology: { minDecisionPoints: 4, minLongestWrongTurn: 5, minLongestDeadEnd: 3, minLoops: 3 } },
+    { n: 10, tier: "hard", name: "Hard maze 2", minSteps: 28, maxSteps: 99, bias: .35, braid: .25,
+      topology: { minDecisionPoints: 5, minLongestWrongTurn: 6, minLongestDeadEnd: 3, minLoops: 4 } },
   ];
 
   // Plan Moves deliberately has one calm cap across the whole ladder. The strip owns the
@@ -56,6 +65,13 @@
   var PLAN_PREVIEW_SLOTS = 5;
   var SLOT_SIZE = 64;
   var SLOT_GAP = 5;
+  // Number and Alphabet goals generate the exact same normal rung first. Only then
+  // do they place a sparse set of ordered checkpoints. Larger rungs have more targets
+  // and require two off-shortest-path detours, but never approach 1–26 / A–Z coverage.
+  var TRAIL_COUNTS = [3, 3, 4, 4, 5, 6, 7];
+  var TRAIL_OFF_PATH = [1, 1, 1, 1, 1, 2, 2];
+  var MOVEMENTS = ["go", "plan"];
+  var GOALS = ["flag", "number", "alphabet"];
 
   var MISSING = window.MAZE_SPRITES_MISSING || [];
   var SPRITE = function (id, kind) {
@@ -109,17 +125,34 @@
   }
 
   var app = document.getElementById("app");
+  // Migrate the former four-way choice once, then remember the two dimensions
+  // independently. A goal choice never changes the movement choice, or vice versa.
+  var rememberedMode = load("mode", "walk");
+  var migratedMovement = rememberedMode === "plan" ? "plan" : "go";
+  var migratedGoal = rememberedMode === "number" ? "number" : rememberedMode === "alphabet" ? "alphabet" : "flag";
+  var rememberedMovement = load("movement", migratedMovement);
+  var rememberedGoal = load("goal", migratedGoal);
   var S = {
     hero: load("hero", null),
-    mode: load("mode", "walk") === "plan" ? "plan" : "walk",
+    movement: MOVEMENTS.indexOf(rememberedMovement) >= 0 ? rememberedMovement : "go",
+    goal: GOALS.indexOf(rememberedGoal) >= 0 ? rememberedGoal : "flag",
     rung: Math.max(0, Math.min(LADDER.length - 1, load("rung", 0) | 0)),
     doneWalk: load("done-walk", load("done", [])),
     donePlan: load("done-plan", []),
+    doneNumber: load("done-number", []),
+    doneAlphabet: load("done-alphabet", []),
+    donePlanNumber: load("done-plan-number", []),
+    donePlanAlphabet: load("done-plan-alphabet", []),
     round: null, state: null, cell: 0, locked: false, seed: 0,
+    trail: null,
     plan: [], planStatuses: null, chunkStart: null, wallAttempts: 0, running: false,
   };
   if (!Array.isArray(S.doneWalk)) S.doneWalk = [];
   if (!Array.isArray(S.donePlan)) S.donePlan = [];
+  if (!Array.isArray(S.doneNumber)) S.doneNumber = [];
+  if (!Array.isArray(S.doneAlphabet)) S.doneAlphabet = [];
+  if (!Array.isArray(S.donePlanNumber)) S.donePlanNumber = [];
+  if (!Array.isArray(S.donePlanAlphabet)) S.donePlanAlphabet = [];
   if (S.hero && (!CAST.some(function (c) { return c.id === S.hero; }) || MISSING.indexOf(S.hero) >= 0)) S.hero = null;
 
   function speakerButton() {
@@ -175,11 +208,28 @@
     S.rung = rung;
     save("rung", rung);
     var cfg = LADDER[rung];
+    var ordered = S.goal === "number" || S.goal === "alphabet";
     S.seed = (Date.now() ^ Math.floor(Math.random() * 0x7fffffff)) >>> 0;
     if (window.__MAZE_SEED__ !== undefined) S.seed = window.__MAZE_SEED__ >>> 0; // harness hook
-    var round = MC.makeRound({ cols: cfg.n, rows: cfg.n, seed: S.seed, minSteps: cfg.minSteps, maxSteps: cfg.maxSteps, braid: cfg.braid });
-    if (!round.ok) round = MC.makeRound({ cols: cfg.n, rows: cfg.n, seed: S.seed + 1, minSteps: 1, maxSteps: cfg.n * cfg.n, braid: cfg.braid });
+    var round = null, trail = null;
+    for (var retry = 0; retry < 40 && (!round || !round.ok || (ordered && (!trail || !trail.ok))); retry++) {
+      // These are byte-for-byte the normal rung inputs. Checkpoints do not get a vote
+      // in maze topology, start/goal placement or shortest-path length.
+      round = MC.makeRound({ cols: cfg.n, rows: cfg.n, seed: S.seed + retry,
+        minSteps: cfg.minSteps,
+        maxSteps: cfg.maxSteps,
+        bias: cfg.bias, braid: cfg.braid, topology: cfg.topology });
+      if (round.ok && ordered) trail = MC.checkpointTrail(round.maze, round.start, round.goal, {
+        solution: round.solution,
+        count: TRAIL_COUNTS[rung],
+        requiredOffPath: TRAIL_OFF_PATH[rung],
+        rng: MC.mulberry32(((S.seed + retry) ^ ((rung + 1) * 2654435761)) >>> 0),
+      });
+    }
+    if (!round || !round.ok || (ordered && (!trail || !trail.ok)))
+      throw new Error("Could not build rung " + rung + ": " + ((trail && trail.reason) || (round && round.reason) || "checkpoint placement failed"));
     S.round = round;
+    S.trail = ordered ? trail : null;
     S.state = MM.initial(round);
     S.locked = false;
     S.plan = [];
@@ -194,7 +244,7 @@
   function renderPlayScreen() {
     detachInput();
 
-    var done = S.mode === "plan" ? S.donePlan : S.doneWalk;
+    var done = doneForChoice();
 
     app.className = "screen-play";
     app.innerHTML =
@@ -203,23 +253,25 @@
       '<nav class="ladder" aria-label="Maze size">' +
       LADDER.map(function (l, i) {
         var isDone = done.indexOf(i) >= 0;
-        return '<button class="rung' + (i === S.rung ? " now" : "") + (isDone ? " done" : "") + '" data-rung="' + i +
-          '" aria-label="' + l.n + " by " + l.n + " maze" + (isDone ? ", finished in " + S.mode + " mode" : "") + '"' + (i === S.rung ? ' aria-current="true"' : "") + ">" +
+        return '<button class="rung rung-' + l.tier + (i === S.rung ? " now" : "") + (isDone ? " done" : "") + '" data-rung="' + i +
+          '" aria-label="' + l.name + ", " + l.n + " by " + l.n + (isDone ? ", finished in " + choiceName() : "") + '"' + (i === S.rung ? ' aria-current="true"' : "") + ">" +
           '<span class="dots" aria-hidden="true" style="--n:' + l.n + '">' + new Array(l.n * l.n + 1).join("<i></i>") + "</span>" + (isDone ? '<span class="star" aria-hidden="true">★</span>' : "") + "</button>";
       }).join("") +
       "</nav>" + speakerButton() + "</header>" +
-      '<section class="stage ' + (S.mode === "plan" ? "stage-plan" : "stage-walk") + '">' +
+      '<section class="stage ' + (S.movement === "plan" ? "stage-plan" : "stage-walk") + (S.trail ? " stage-trail stage-" + S.goal : "") + '">' +
       '<div class="board-wrap"><div class="board" id="board">' +
       '<canvas id="walls"></canvas>' +
+      '<div class="trail-labels" id="trail-labels" aria-hidden="true"></div>' +
+      '<div class="trail-feedback" id="trail-feedback" aria-hidden="true">?</div>' +
       '<div class="plan-trail" id="trail" aria-hidden="true"></div>' +
       '<img class="marker goal" id="goal" data-ph="flag" src="' + SPRITE("flag", "flag") + '" alt="The flag"/>' +
       '<div class="bump" id="bump"></div>' +
       '<img class="hero" id="hero" data-ph="hero" src="' + SPRITE(S.hero) + '" alt=""/>' +
       '<img class="sparkles" id="sparkles" data-ph="sparkles" src="' + SPRITE("sparkles", "sparkles") + '" alt=""/>' +
       "</div></div>" +
-      '<div class="play-controls">' + modeToggle() +
-      (S.mode === "plan" ? planPanel() : '') +
-      '<div class="pad" role="group" aria-label="' + (S.mode === "plan" ? "Add a move" : "Move") + '">' +
+      '<div class="play-controls">' + choiceControls() + (S.trail ? trailPrompt() : "") +
+      (S.movement === "plan" ? planPanel() : '') +
+      '<div class="pad" role="group" aria-label="' + (S.movement === "plan" ? "Add a move" : "Move") + '">' +
       padButton("up", "Up") + padButton("left", "Left") + '<span class="pad-hub" aria-hidden="true"></span>' +
       padButton("right", "Right") + padButton("down", "Down") +
       "</div></div>" +
@@ -239,6 +291,9 @@
       count: document.getElementById("plan-count"),
       undo: document.getElementById("undo"), clear: document.getElementById("clear-plan"), go: document.getElementById("go"),
       trail: document.getElementById("trail"),
+      labels: document.getElementById("trail-labels"),
+      trailFeedback: document.getElementById("trail-feedback"),
+      trailPrompt: document.getElementById("trail-prompt"),
       px: 0, cellPx: 0,
     };
     var heroName = CAST.filter(function (c) { return c.id === S.hero; })[0];
@@ -247,8 +302,11 @@
     Array.prototype.forEach.call(app.querySelectorAll(".rung"), function (b) {
       b.onclick = function () { if (SND) SND.pick(); play(+b.getAttribute("data-rung")); };
     });
-    Array.prototype.forEach.call(app.querySelectorAll(".mode-toggle button"), function (b) {
-      b.onclick = function () { switchMode(b.getAttribute("data-mode")); };
+    Array.prototype.forEach.call(app.querySelectorAll(".movement-toggle button"), function (b) {
+      b.onclick = function () { switchMovement(b.getAttribute("data-movement")); };
+    });
+    Array.prototype.forEach.call(app.querySelectorAll(".goal-toggle button"), function (b) {
+      b.onclick = function () { switchGoal(b.getAttribute("data-goal")); };
     });
     var refreshSpeaker = function () {
       var b = document.getElementById("speaker");
@@ -257,27 +315,79 @@
     };
     wireSpeaker(refreshSpeaker);
     wirePad();
-    if (S.mode === "plan") wirePlan(); else attachInput();
+    if (S.movement === "plan") wirePlan(); else attachInput();
     layout();
+    // Queued chips and the checkpoint status row change the space left for the board
+    // after the first layout, so refit whenever the board's own container resizes.
+    if (layoutWatch) layoutWatch.disconnect();
+    if (window.ResizeObserver && R.board.parentNode) {
+      layoutWatch = new ResizeObserver(function () {
+        if (!R || app.className !== "screen-play" || boardPx() === R.px) return;
+        // A refit redraws the labels; keep a "not yet" cue the child is still reading.
+        var cue = R.trailPrompt ? R.trailPrompt.innerHTML : null;
+        layout();
+        if (cue !== null && R.trailPrompt) R.trailPrompt.innerHTML = cue;
+      });
+      layoutWatch.observe(R.board.parentNode);
+    }
+  }
+  var layoutWatch = null;
+
+  function choiceControls() {
+    return '<div class="maze-choices">' +
+      '<div class="choice-row"><span class="choice-label">Movement</span><div class="movement-toggle choice-toggle" role="group" aria-label="Choose movement method">' +
+      choiceButton("movement", "go", "Go Now", S.movement) +
+      choiceButton("movement", "plan", "Plan Moves", S.movement) +
+      '</div></div>' +
+      '<div class="choice-row"><span class="choice-label">Goal</span><div class="goal-toggle choice-toggle" role="group" aria-label="Choose maze goal">' +
+      choiceButton("goal", "flag", "Flag", S.goal) +
+      choiceButton("goal", "number", "1 2 3", S.goal) +
+      choiceButton("goal", "alphabet", "A B C", S.goal) +
+      '</div></div></div>';
   }
 
-  function modeToggle() {
-    return '<div class="mode-toggle" role="group" aria-label="Choose how to move">' +
-      '<button data-mode="walk" class="' + (S.mode === "walk" ? "selected" : "") + '" aria-pressed="' + (S.mode === "walk") + '"><span aria-hidden="true">▶</span> Move Now</button>' +
-      '<button data-mode="plan" class="' + (S.mode === "plan" ? "selected" : "") + '" aria-pressed="' + (S.mode === "plan") + '"><span aria-hidden="true">☰</span> Plan Moves</button>' +
-      '</div>';
+  function choiceButton(kind, value, label, selected) {
+    return '<button data-' + kind + '="' + value + '" class="' + (selected === value ? "selected" : "") +
+      '" aria-pressed="' + (selected === value) + '">' + label + '</button>';
   }
 
-  function switchMode(mode) {
-    if (S.running || mode === S.mode || (mode !== "walk" && mode !== "plan")) return;
+  function choiceName() {
+    return (S.movement === "plan" ? "Plan Moves" : "Go Now") + " + " +
+      ({ flag: "Flag", number: "Number Checkpoints", alphabet: "Letter Checkpoints" }[S.goal]);
+  }
+
+  function doneForChoice() {
+    if (S.movement === "plan") return { flag: S.donePlan, number: S.donePlanNumber, alphabet: S.donePlanAlphabet }[S.goal];
+    return { flag: S.doneWalk, number: S.doneNumber, alphabet: S.doneAlphabet }[S.goal];
+  }
+
+  function doneKey() {
+    if (S.movement === "plan") return S.goal === "flag" ? "done-plan" : "done-plan-" + S.goal;
+    return S.goal === "flag" ? "done-walk" : "done-" + S.goal;
+  }
+
+  function trailPrompt() {
+    return '<div class="trail-prompt" id="trail-prompt" aria-live="polite"></div>';
+  }
+
+  function switchMovement(movement) {
+    if (S.running || movement === S.movement || MOVEMENTS.indexOf(movement) < 0) return;
     if (SND) { SND.unlock(); SND.pick(); }
-    if (mode === "walk") S.plan = [];
-    S.mode = mode;
+    if (movement !== "plan") S.plan = [];
+    S.movement = movement;
     S.planStatuses = null;
     S.chunkStart = S.state;
     S.wallAttempts = 0;
-    save("mode", mode);
+    save("movement", movement);
     renderPlayScreen();
+  }
+
+  function switchGoal(goal) {
+    if (S.running || goal === S.goal || GOALS.indexOf(goal) < 0) return;
+    if (SND) { SND.unlock(); SND.pick(); }
+    S.goal = goal;
+    save("goal", goal);
+    play(S.rung);
   }
 
   function planPanel() {
@@ -301,8 +411,7 @@
 
   /* ---------- geometry and drawing --------------------------------------------------- */
 
-  function layout() {
-    if (!R) return;
+  function boardPx() {
     var wrap = R.board.parentNode;
     var w = wrap.clientWidth, h = wrap.clientHeight;
     // clientWidth/Height include padding. The portrait plan row reserves a little space
@@ -313,7 +422,12 @@
       h -= parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
     }
     // A DOM without layout (the node harness) measures 0; give it a stable square.
-    var px = Math.floor(Math.min(w || 600, h || 600));
+    return Math.floor(Math.min(w || 600, h || 600));
+  }
+
+  function layout() {
+    if (!R) return;
+    var px = boardPx();
     R.px = px;
     R.board.style.width = px + "px";
     R.board.style.height = px + "px";
@@ -329,9 +443,10 @@
     R.sparkles.style.width = R.cellPx * 1.8 + "px";
     R.sparkles.style.height = R.cellPx * 1.8 + "px";
     draw(dpr);
+    renderTrail();
     place(R.goal, S.round.goal, 0, 0);
     place(R.hero, S.state.cell, 0, 0, true);
-    if (S.mode === "plan") renderPlan();
+    if (S.movement === "plan") renderPlan();
   }
 
   function cellXY(i) {
@@ -404,22 +519,82 @@
     c.lineTo(x, y + r); c.quadraticCurveTo(x, y, x + r, y); c.closePath();
   }
 
+  function formatTrailValue(value) {
+    return S.goal === "alphabet" ? String.fromCharCode(64 + value) : String(value);
+  }
+
+  function renderTrail() {
+    if (!R || !R.labels) return;
+    if (!S.trail) { R.labels.innerHTML = ""; return; }
+    // The 10x10 hard trail can put labels in the outermost row or column. Keep those
+    // overlay boxes just inside the board in landscape, where the square is largest and
+    // sits closest to the viewport edge. Portrait keeps its established geometry.
+    var inset = window.innerWidth > window.innerHeight ? 2 : 0;
+    R.labels.innerHTML = S.trail.labels.map(function (value, cell) {
+      if (value === null) return "";
+      var xy = cellXY(cell), status = value <= S.trail.progress ? " done" : (value === S.trail.progress + 1 ? " next" : "");
+      return '<span class="trail-label' + status + '" data-cell="' + cell + '" data-value="' + value +
+        '" style="left:' + (xy[0] + inset) + 'px;top:' + (xy[1] + inset) + 'px;width:' + (R.cellPx - inset * 2) +
+        'px;height:' + (R.cellPx - inset * 2) +
+        'px;--cell-px:' + R.cellPx + 'px;--trail-font:' + Math.max(22, Math.min(44, R.cellPx * .43)) + 'px">' + formatTrailValue(value) + '</span>';
+    }).join("");
+    updateTrailPrompt();
+  }
+
+  function updateTrailPrompt(extra) {
+    if (!R || !R.trailPrompt || !S.trail) return;
+    var next = S.trail.progress + 1;
+    if (next > S.trail.count) {
+      R.trailPrompt.innerHTML = '<span class="prompt-label">⚑</span><span>' + (extra || "Now find the flag") + '</span>';
+      if (R.goal) R.goal.classList.add("ready");
+      return;
+    }
+    if (R.goal) R.goal.classList.remove("ready");
+    R.trailPrompt.innerHTML = '<span class="prompt-label">' + formatTrailValue(next) + '</span><span>' +
+      (extra || (S.goal === "alphabet" ? "Find the next letter" : "Find the next number")) + '</span>';
+  }
+
   /* ---------- the one seam: an intent in, the engine's answer out --------------------- */
 
   function intent(dir) {
     if (S.locked || !S.state) return false;
     var before = S.state;
     var next = MM.step(before, dir);
+    if (next.blocked) { S.state = next; refused(dir); return false; }
+    var visit = null;
+    if (S.trail) {
+      visit = MC.checkpointVisit(S.trail, S.trail.progress, next.cell, next.cell === S.round.goal);
+      S.trail.progress = visit.progress;
+      // MazeMovement reports any contact with its goal. Checkpoint modes deliberately
+      // make that non-sticky until every ordered target has been collected.
+      next.reached = visit.complete;
+    }
     S.state = next;
-    if (next.blocked) { refused(dir); return false; }
     if (SND) SND.step(next.steps);
     place(R.hero, next.cell, 0, 0);
+    if (visit && visit.accepted) renderTrail();
+    if (visit && (visit.reason === "checkpoint-early" || visit.reason === "flag-early"))
+      notYet(next.cell, visit.reason === "flag-early");
+    else updateTrailPrompt();
     if (next.reached) finished();
     return true;
   }
 
+  function notYet(cell, flagEarly) {
+    if (SND) SND.tryAgain();
+    var xy = cellXY(cell), f = R.trailFeedback;
+    f.style.left = xy[0] + R.cellPx * .16 + "px";
+    f.style.top = xy[1] + R.cellPx * .16 + "px";
+    f.style.width = R.cellPx * .68 + "px";
+    f.style.height = R.cellPx * .68 + "px";
+    f.classList.remove("on"); void f.offsetWidth; f.classList.add("on");
+    var label = R.labels && R.labels.querySelector('[data-cell="' + cell + '"]');
+    if (label) { label.classList.remove("try-again"); void label.offsetWidth; label.classList.add("try-again"); }
+    updateTrailPrompt(flagEarly ? "Find all the checkpoints first" : "Not yet — keep looking");
+  }
+
   function padIntent(dir) {
-    if (S.mode === "plan") return addMove(dir);
+    if (S.movement === "plan") return addMove(dir);
     return intent(dir);
   }
 
@@ -502,7 +677,10 @@
   function later(fn, ms) { setTimeout(fn, window.__MAZE_FAST__ ? 0 : ms); }
 
   function startPlan() {
-    var result = MP.runPlan(S.round.maze, S.state, S.plan.slice());
+    var result = MP.runPlan(S.round.maze, S.state, S.plan.slice(), S.trail ? {
+      trail: S.trail,
+      progress: S.trail.progress,
+    } : null);
     var statuses = {};
     S.planStatuses = statuses;
     controlsRunning(true);
@@ -514,6 +692,13 @@
       statuses[i] = "walking"; renderPlan(statuses);
       if (step.moved) {
         S.state = step.after;
+        if (S.trail && step.visit) {
+          S.trail.progress = step.progress;
+          if (step.visit.accepted) renderTrail();
+          if (step.visit.reason === "checkpoint-early" || step.visit.reason === "flag-early")
+            notYet(S.state.cell, step.visit.reason === "flag-early");
+          else updateTrailPrompt();
+        }
         if (SND) SND.step(S.state.steps);
         place(R.hero, S.state.cell, 0, 0);
         statuses[i] = "used"; renderPlan(statuses);
@@ -561,7 +746,9 @@
       if (hint) hint.classList.add("hint");
     }
     renderPlan(statuses);
-    later(function () { walkBack(result.steps.slice(0, failed).filter(function (s) { return s.moved; }).reverse(), 0); }, 1000);
+    later(function () {
+      walkBack(result.steps.slice(0, failed).filter(function (s) { return s.moved; }).reverse(), 0, result.startProgress);
+    }, 1000);
   }
 
   function clearPlanFeedback() {
@@ -570,16 +757,17 @@
     Array.prototype.forEach.call(app.querySelectorAll(".arrow.hint"), function (b) { b.classList.remove("hint"); });
   }
 
-  function walkBack(steps, i) {
+  function walkBack(steps, i, restoreProgress) {
     if (i >= steps.length) {
       S.state = S.chunkStart;
+      if (S.trail && restoreProgress !== undefined) { S.trail.progress = restoreProgress; renderTrail(); }
       place(R.hero, S.state.cell, 0, 0);
       controlsRunning(false);
       return;
     }
     S.state = steps[i].before;
     place(R.hero, S.state.cell, 0, 0);
-    later(function () { walkBack(steps, i + 1); }, 180);
+    later(function () { walkBack(steps, i + 1, restoreProgress); }, 180);
   }
 
   function showTrail(steps) {
@@ -626,10 +814,11 @@
   }
 
   function finished() {
+    if (S.trail && S.trail.progress < S.trail.count) { notYet(S.round.goal, true); return; }
     S.locked = true;
     detachInput();
-    var done = S.mode === "plan" ? S.donePlan : S.doneWalk;
-    if (done.indexOf(S.rung) < 0) { done.push(S.rung); save(S.mode === "plan" ? "done-plan" : "done-walk", done); }
+    var done = doneForChoice();
+    if (done.indexOf(S.rung) < 0) { done.push(S.rung); save(doneKey(), done); }
     if (SND) SND.win();
     var g = cellXY(S.round.goal), cp = R.cellPx;
     R.sparkles.style.left = g[0] - cp * 0.4 + "px";
@@ -718,7 +907,8 @@
       var open = function (d) { return MC.isOpen(S.round.maze, S.state.cell, d); };
       var dir = open(primary) ? primary : (sMag >= cp * 0.3 && open(secondary) ? secondary : null);
       if (dir) {
-        intent(dir);
+        var moved = intent(dir);
+        if (!moved) { D.ax = p[0]; D.ay = p[1]; break; }
         if (S.locked || !D) break; // the flag: finished() has already let go of the drag
         var v = DIR_VEC[dir];
         if (dir !== primary) {
@@ -780,10 +970,12 @@
   window.__maze = {
     get state() { return S.state; }, get round() { return S.round; },
     get cellPx() { return R ? R.cellPx : 0; }, get rung() { return S.rung; },
-    get mode() { return S.mode; }, get plan() { return S.plan.slice(); }, get wallAttempts() { return S.wallAttempts; },
+    get movement() { return S.movement; }, get goal() { return S.goal; },
+    get plan() { return S.plan.slice(); }, get wallAttempts() { return S.wallAttempts; },
+    get trail() { return S.trail; },
     get running() { return S.running; }, get cap() { return chipCap(); },
     get planCap() { return PLAN_CAP; }, get previewSlots() { return previewSlotCount(); },
-    LADDER: LADDER, CAST: CAST,
+    LADDER: LADDER, TRAIL_COUNTS: TRAIL_COUNTS, TRAIL_OFF_PATH: TRAIL_OFF_PATH, CAST: CAST,
   };
 
   // Always open on the friend picker, with the last friend marked: a child coming back

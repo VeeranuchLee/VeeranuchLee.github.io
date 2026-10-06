@@ -127,6 +127,97 @@
     return out;
   }
 
+  // Measures the choices a child actually meets on the route, rather than treating
+  // a larger grid as automatically harder. A decision point has at least one open
+  // exit off the shortest solution. `longestWrongTurn` is the deepest reachable
+  // off-route cell behind one of those exits; `longestDeadEnd` is the greatest
+  // shortest walk from an off-route dead end back to the solution. `loops` is the
+  // cyclomatic count for this connected grid graph.
+  function analyseTopology(m, solution) {
+    if (!Array.isArray(solution) || solution.length < 2)
+      throw new Error("analyseTopology needs a solution of at least 2 cells");
+    const n = m.cols * m.rows;
+    const onRoute = new Uint8Array(n);
+    for (let i = 0; i < solution.length; i++) {
+      _checkCell(m, solution[i], "solution[" + i + "]");
+      onRoute[solution[i]] = 1;
+    }
+
+    const entries = [];
+    let decisions = 0;
+    for (let i = 0; i + 1 < solution.length; i++) {
+      const c = solution[i];
+      let wrongHere = 0;
+      for (let d = 0; d < 4; d++) {
+        if (!(m.open[c] & BIT[d])) continue;
+        const v = _nb(m, c, d);
+        if (v >= 0 && !onRoute[v]) {
+          wrongHere++;
+          if (!entries.includes(v)) entries.push(v);
+        }
+      }
+      if (wrongHere) decisions++;
+    }
+
+    let longestWrongTurn = 0;
+    for (const entry of entries) {
+      const dist = new Int32Array(n).fill(-1);
+      dist[entry] = 0;
+      const queue = [entry];
+      for (let head = 0; head < queue.length; head++) {
+        const c = queue[head];
+        longestWrongTurn = Math.max(longestWrongTurn, dist[c] + 1);
+        for (let d = 0; d < 4; d++) {
+          if (!(m.open[c] & BIT[d])) continue;
+          const v = _nb(m, c, d);
+          if (v >= 0 && !onRoute[v] && dist[v] < 0) {
+            dist[v] = dist[c] + 1;
+            queue.push(v);
+          }
+        }
+      }
+    }
+
+    // Multi-source BFS from the route gives every cell's shortest return distance.
+    // Looking only at real dead ends prevents a broad loop from masquerading as a
+    // long cul-de-sac.
+    const back = new Int32Array(n).fill(-1);
+    const queue = solution.slice();
+    for (const c of queue) back[c] = 0;
+    for (let head = 0; head < queue.length; head++) {
+      const c = queue[head];
+      for (let d = 0; d < 4; d++) {
+        if (!(m.open[c] & BIT[d])) continue;
+        const v = _nb(m, c, d);
+        if (v >= 0 && back[v] < 0) {
+          back[v] = back[c] + 1;
+          queue.push(v);
+        }
+      }
+    }
+    let longestDeadEnd = 0;
+    for (let i = 0; i < n; i++)
+      if (!onRoute[i] && POP[m.open[i]] === 1) longestDeadEnd = Math.max(longestDeadEnd, back[i]);
+
+    return {
+      decisionPoints: decisions,
+      wrongTurnEntries: entries.length,
+      longestWrongTurn,
+      longestDeadEnd,
+      loops: passageCount(m) - n + 1,
+    };
+  }
+
+  function topologyMeets(actual, wanted) {
+    if (!wanted) return true;
+    const keys = ["decisionPoints", "wrongTurnEntries", "longestWrongTurn", "longestDeadEnd", "loops"];
+    for (const key of keys) {
+      const min = wanted["min" + key[0].toUpperCase() + key.slice(1)];
+      if (min !== undefined && actual[key] < min) return false;
+    }
+    return true;
+  }
+
   /* ---------- generation: growing tree, then optional braiding ------------------- */
 
   // bias = how often the NEWEST active cell is expanded rather than a random one.
@@ -303,6 +394,12 @@
         lastReason = placed.reason;
         continue;
       }
+      const solution = path(maze, start, placed.goal);
+      const topology = analyseTopology(maze, solution);
+      if (!topologyMeets(topology, opts.topology)) {
+        lastReason = "topology " + JSON.stringify(topology) + " misses " + JSON.stringify(opts.topology);
+        continue;
+      }
       return {
         ok: true,
         seed,
@@ -311,7 +408,8 @@
         maze,
         start,
         goal: placed.goal,
-        solution: path(maze, start, placed.goal),
+        solution,
+        topology,
         attempts: attempt,
       };
     }
@@ -354,113 +452,150 @@
     return arrows;
   }
 
-  // Replays "always step to the open neighbour carrying the next number". Returns
-  // { ok, path } — ok false carries a reason and the partial walk.
-  function followNumbers(m, start, labels) {
-    _checkCell(m, start, "start");
-    let max = 0;
-    for (let i = 0; i < labels.length; i++) if (labels[i] !== null && labels[i] > max) max = labels[i];
-    const walked = [start];
-    let cur = start;
-    for (;;) {
-      const next = (labels[cur] === null ? 0 : labels[cur]) + 1;
-      if (next > max) return { ok: true, path: walked };
-      let hit = -1, hits = 0;
-      for (let d = 0; d < 4; d++) {
-        if (!(m.open[cur] & BIT[d])) continue;
-        const v = _nb(m, cur, d);
-        if (v >= 0 && labels[v] === next) {
-          hits++;
-          hit = v;
-        }
-      }
-      if (hits === 0)
-        return { ok: false, path: walked, reason: "stuck at cell " + cur + ": no open neighbour carries " + next };
-      if (hits > 1)
-        return { ok: false, path: walked, reason: "ambiguous at cell " + cur + ": " + hits + " open neighbours carry " + next };
-      walked.push(hit);
-      cur = hit;
-      if (walked.length > m.cols * m.rows)
-        return { ok: false, path: walked, reason: "walk exceeded the cell count — labels do not form a simple route" };
-    }
-  }
-
-  function _samePath(a, b) {
-    return a.length === b.length && a.every((v, i) => v === b[i]);
-  }
-
-  // Stage 3: writes 1..N on the solution cells, then places decoy numbers on
-  // off-route cells beside junctions, so a wrong exit at a junction shows a number
-  // that is not the next one. A decoy may not carry the number a neighbouring
-  // route cell shows, nor the next one that cell is looking for — across a wall
-  // as well as through it, because a child sees neighbouring numbers on the grid
-  // even where they cannot walk. Every value is replayed through followNumbers
-  // before it is kept: a payload that fails its own replay is never handed back.
-  function numberRoute(m, solution, opts) {
-    if (!Array.isArray(solution) || solution.length < 2)
-      throw new Error("numberRoute needs a solution of at least 2 cells");
+  // Places a small set of ordered checkpoints only after the normal maze, start,
+  // goal and shortest start→goal solution already exist. Checkpoints therefore do
+  // not shape the maze or turn its solution into a labelled breadcrumb trail.
+  //
+  // Every pair is separated by a real maze-path distance. Off-path cells are side
+  // regions by definition; preferring their deepest/dead-end cells makes the child
+  // leave the shortest route, then backtrack. A failed placement is explicit so a
+  // caller can keep the rung rules and try another independently generated round.
+  function checkpointTrail(m, start, goal, opts) {
     opts = opts || {};
-    const r = opts.rng || Math.random;
-    const wantDecoys = opts.decoys === undefined ? 3 : opts.decoys;
+    _checkCell(m, start, "start");
+    _checkCell(m, goal, "goal");
+    const count = opts.count;
+    const requiredOffPath = opts.requiredOffPath === undefined ? 1 : opts.requiredOffPath;
+    if (!Number.isInteger(count) || count < 1 || count > 26)
+      throw new Error("checkpointTrail count must be an integer in 1..26");
+    if (!Number.isInteger(requiredOffPath) || requiredOffPath < 0 || requiredOffPath > count)
+      throw new Error("checkpointTrail requiredOffPath must be in 0..count");
+    const solution = opts.solution || path(m, start, goal);
+    if (!solution || solution.length < 2)
+      throw new Error("checkpointTrail needs a reachable start and goal");
+    const routeSteps = solution.length - 1;
+    const scaled = Math.floor(Math.sqrt(m.cols * m.rows) * 0.7);
+    const minDistance = opts.minDistance === undefined
+      ? Math.max(2, Math.min(Math.max(2, scaled), Math.ceil(routeSteps * 0.25)))
+      : opts.minDistance;
+    if (!Number.isInteger(minDistance) || minDistance < 1)
+      throw new Error("checkpointTrail minDistance must be a positive integer");
 
     const n = m.cols * m.rows;
-    const labels = new Array(n).fill(null);
     const onRoute = new Uint8Array(n);
-    const posOf = new Map();
-    for (let i = 0; i < solution.length; i++) {
-      _checkCell(m, solution[i], "solution[" + i + "]");
-      if (onRoute[solution[i]]) throw new Error("solution visits cell " + solution[i] + " twice");
-      onRoute[solution[i]] = 1;
-      posOf.set(solution[i], i);
-      labels[solution[i]] = i + 1;
-    }
-
-    // A junction is a route cell with three or more exits — a place to go wrong.
-    const junctions = [];
-    for (let i = 0; i < solution.length; i++)
-      if (POP[m.open[solution[i]]] >= 3) junctions.push(solution[i]);
-
-    const cands = [];
-    for (let k = 0; k < junctions.length; k++) {
-      const j = junctions[k];
+    for (const cell of solution) onRoute[cell] = 1;
+    const toRoute = new Array(n).fill(Infinity);
+    const routeQueue = solution.slice();
+    for (const cell of solution) toRoute[cell] = 0;
+    for (let head = 0; head < routeQueue.length; head++) {
+      const cell = routeQueue[head];
       for (let d = 0; d < 4; d++) {
-        if (!(m.open[j] & BIT[d])) continue;
-        const v = _nb(m, j, d);
-        if (v >= 0 && !onRoute[v] && labels[v] === null && !cands.includes(v)) cands.push(v);
-      }
-    }
-
-    const decoys = [];
-    const order = shuffled(r, cands);
-    for (let k = 0; k < order.length && decoys.length < wantDecoys; k++) {
-      const cell = order[k];
-      // Bar the number every neighbouring route cell shows (i + 1) and the next
-      // one that cell is looking for (i + 2) — over all four neighbours, wall or
-      // not: two numbers side by side read as a pair even where a child cannot walk.
-      const forbidden = new Set();
-      for (let d = 0; d < 4; d++) {
+        if (!(m.open[cell] & BIT[d])) continue;
         const v = _nb(m, cell, d);
-        if (v < 0 || !onRoute[v]) continue;
-        const i = posOf.get(v);
-        forbidden.add(i + 1);
-        if (i + 1 < solution.length) forbidden.add(i + 2);
-      }
-      const allowed = [];
-      for (let v = 1; v <= solution.length; v++) if (!forbidden.has(v)) allowed.push(v);
-      let kept = false;
-      for (const value of shuffled(r, allowed)) {
-        labels[cell] = value;
-        const replay = followNumbers(m, solution[0], labels);
-        if (replay.ok && _samePath(replay.path, solution)) {
-          decoys.push({ cell, value });
-          kept = true;
-          break;
+        if (v >= 0 && toRoute[v] === Infinity) {
+          toRoute[v] = toRoute[cell] + 1;
+          routeQueue.push(v);
         }
       }
-      if (!kept) labels[cell] = null; // never ship a payload that fails its own replay
     }
 
-    return { labels, decoys, junctions };
+    const allDistances = new Array(n);
+    function apart(cell, selected) {
+      if (!allDistances[cell]) allDistances[cell] = distances(m, cell);
+      return selected.every(other => allDistances[cell][other] >= minDistance);
+    }
+    const candidates = [];
+    const branches = [];
+    for (let cell = 0; cell < n; cell++) {
+      if (cell === start || cell === goal) continue;
+      candidates.push(cell);
+      if (!onRoute[cell]) branches.push(cell);
+    }
+    const deadBranches = branches.filter(cell => POP[m.open[cell]] === 1);
+    if (deadBranches.length < requiredOffPath)
+      return { ok: false, reason: "only " + deadBranches.length + " off-path dead ends; need " + requiredOffPath };
+
+    const r = opts.rng || Math.random;
+    let selected = null;
+    const branchTarget = Math.max(requiredOffPath, Math.floor(count / 2));
+    // Repeated seeded greedy packing is fast at these grids and avoids a fixed
+    // top-left bias. Deep branch/dead-end cells get first refusal in half the tries.
+    for (let attempt = 0; attempt < 1200 && !selected; attempt++) {
+      const branchOrder = shuffled(r, branches).sort(function (a, b) {
+        const depth = toRoute[b] - toRoute[a];
+        if (depth) return depth;
+        return (POP[m.open[a]] === 1 ? -1 : 0) - (POP[m.open[b]] === 1 ? -1 : 0);
+      });
+      const picked = [];
+      for (const cell of shuffled(r, deadBranches).sort((a, b) => toRoute[b] - toRoute[a])) {
+        if (apart(cell, picked)) picked.push(cell);
+        if (picked.length === requiredOffPath) break;
+      }
+      if (picked.length < requiredOffPath) continue;
+      for (const cell of branchOrder) {
+        if (picked.includes(cell)) continue;
+        if (apart(cell, picked)) picked.push(cell);
+        if (picked.length === branchTarget) break;
+      }
+      if (picked.length < branchTarget) continue;
+      for (const cell of shuffled(r, candidates)) {
+        if (picked.includes(cell) || !apart(cell, picked)) continue;
+        picked.push(cell);
+        if (picked.length === count) break;
+      }
+      if (picked.length === count) {
+        // Alternate route and off-route targets whenever possible, so consecutive
+        // labels can never form one continuous strip along the flag solution.
+        const side = shuffled(r, picked.filter(cell => !onRoute[cell]));
+        const main = shuffled(r, picked.filter(cell => onRoute[cell]));
+        const ordered = [];
+        while (side.length || main.length) {
+          if (main.length && (!ordered.length || !onRoute[ordered[ordered.length - 1]])) ordered.push(main.pop());
+          if (side.length) ordered.push(side.pop());
+          else if (main.length) break;
+        }
+        if (ordered.length === count && ordered.every((cell, i) => i === 0 || !onRoute[cell] || !onRoute[ordered[i - 1]]))
+          selected = ordered;
+      }
+    }
+    if (!selected)
+      return { ok: false, reason: "cannot place " + count + " checkpoints " + minDistance + " steps apart" };
+
+    const labels = new Array(n).fill(null);
+    const checkpoints = selected.map(function (cell, i) {
+      labels[cell] = i + 1;
+      return { cell, value: i + 1, offPath: !onRoute[cell], deadEnd: POP[m.open[cell]] === 1, branchDepth: toRoute[cell] };
+    });
+    return {
+      ok: true,
+      labels,
+      checkpoints,
+      count,
+      progress: 0,
+      minDistance,
+      requiredOffPath,
+      offPathCount: checkpoints.filter(c => c.offPath).length,
+      solution: solution.slice(),
+    };
+  }
+
+  // Pure progression rule shared by the page and tests. Later checkpoints and an
+  // early flag are gentle "not yet" events: the child may stand there and continue.
+  function checkpointVisit(trail, progress, cell, atGoal) {
+    if (!trail || !Array.isArray(trail.labels) || !Number.isInteger(trail.count))
+      throw new Error("checkpointVisit needs a checkpointTrail payload");
+    if (!Number.isInteger(progress) || progress < 0 || progress > trail.count)
+      throw new Error("checkpointVisit progress must be in 0..count");
+    if (atGoal)
+      return progress === trail.count
+        ? { progress, accepted: false, complete: true, reason: "complete" }
+        : { progress, accepted: false, complete: false, reason: "flag-early" };
+    const value = trail.labels[cell];
+    if (value === progress + 1)
+      return { progress: progress + 1, accepted: true, complete: false, reason: "checkpoint" };
+    if (value !== null && value > progress + 1)
+      return { progress, accepted: false, complete: false, reason: "checkpoint-early" };
+    return { progress, accepted: false, complete: false, reason: "ordinary" };
   }
 
   /* ---------- proposed stage bands ------------------------------------------------- */
@@ -486,8 +621,8 @@
     placeGoal,
     makeRound,
     arrowSteps,
-    numberRoute,
-    followNumbers,
+    checkpointTrail,
+    checkpointVisit,
     exitsAt,
     isOpen,
     neighbourOf,
@@ -496,5 +631,6 @@
     rowOf,
     passageCount,
     deadEnds,
+    analyseTopology,
   };
 });
