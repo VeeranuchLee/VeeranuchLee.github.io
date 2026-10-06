@@ -45,9 +45,14 @@
   var wordButtons = [];
 
   // ---------------------------------------------------------------- audio
-  // WebAudio where available (gapless, reliable sequencing on iPad Safari once unlocked by
-  // the first tap); a single reused <audio> element otherwise.
-  var Ctx = window.AudioContext || window.webkitAudioContext;
+  // Every clip plays through an <audio> element -- the same path as the page narration.
+  // WebAudio was dropped on 2026-10-06 (owner: word taps sometimes silent while the page clip
+  // played fine, with the tab's speaker icon showing). WebAudio can keep rendering to an output
+  // device the Mac has switched away from, is muted by the iPad's silent switch while media
+  // elements are not, and Safari leaves it "interrupted" after an <audio> element has played;
+  // a source started on a non-running context plays nothing and never ends. One path, no gaps
+  // in behaviour. `ctx` stays null; `load()` only warms the cache now.
+  var Ctx = null;
   var ctx = null;
   var buffers = {};           // word -> Promise<AudioBuffer|null>
   var current = null;         // the playing source / element
@@ -141,12 +146,16 @@
     return new Promise(function (done) {
       if (!fallbackAudio) fallbackAudio = new Audio();
       var a = fallbackAudio;
-      a.onended = function () { current = null; done(true); };
-      a.onerror = function () { current = null; done(false); };
+      var settled = false;
+      function end(ok) { if (settled) return; settled = true; clearTimeout(guard); if (current === a) current = null; done(ok); }
+      a.onended = function () { end(true); };
+      a.onerror = function () { end(false); };
+      // A word clip is ~1 s; if it has not ended in 4 s something is stuck -- never hang the reader.
+      var guard = setTimeout(function () { try { a.pause(); } catch (e) {} end(false); }, 4000);
       a.src = WORDS + encodeURIComponent(slug(word)) + ".m4a";
       current = a;
       var p = a.play();
-      if (p && p.catch) p.catch(function () { done(false); });
+      if (p && p.catch) p.catch(function () { end(false); });
     });
   }
 

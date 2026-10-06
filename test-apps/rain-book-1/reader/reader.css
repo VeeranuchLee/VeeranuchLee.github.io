@@ -241,11 +241,15 @@ button { font: inherit; }
 .speaker[hidden] { display: none; }
 .text.reference-text {
   white-space: pre-line;
-  font-size: clamp(12px, 1.45vw, 19px);
+  font-size: clamp(11px, 1.15vw, 16px);
   line-height: 1.24;
   text-align: left;
   overflow: auto;
-  max-height: 100%;
+  /* 2026-10-06 (owner: the Dams of Thailand list "fall off the page"): the reference list may never
+     outgrow the screen -- two columns, capped height, scrolls inside its own box if a screen is short. */
+  max-height: min(100%, 26vh);
+  columns: 2 20em;
+  column-gap: 2em;
 }
 .reference-copy { display: block; }
 
