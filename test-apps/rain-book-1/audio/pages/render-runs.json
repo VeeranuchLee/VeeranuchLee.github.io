@@ -1,0 +1,564 @@
+{
+ "format": 1,
+ "$comment": "One entry per paid tools/render-pages.py run, including caps, requests and both account-wide ElevenLabs meters. Written by the renderer; never hand-edit.",
+ "runs": [
+  {
+   "at": "2026-10-05T11:20:21Z",
+   "tool": "reading-app/tools/render-pages.py",
+   "endpoint": "with-timestamps",
+   "model": "eleven_multilingual_v2",
+   "voiceId": "Xb7hH8MSUJpSbSDYk0k2",
+   "output_format": "mp3_44100_128",
+   "caps": {
+    "max_requests": 30,
+    "max_credits": 1300
+   },
+   "requests": [
+    {
+     "key": "space-trip/cover",
+     "chars": 20,
+     "kept": true
+    },
+    {
+     "key": "space-trip/solar-system",
+     "chars": 89,
+     "kept": true
+    },
+    {
+     "key": "space-trip/sun",
+     "chars": 49,
+     "kept": true
+    },
+    {
+     "key": "space-trip/earth-moon",
+     "chars": 56,
+     "kept": true
+    },
+    {
+     "key": "space-trip/jupiter",
+     "chars": 79,
+     "kept": true
+    },
+    {
+     "key": "space-trip/saturn",
+     "chars": 73,
+     "kept": true
+    },
+    {
+     "key": "space-trip/back-home",
+     "chars": 71,
+     "kept": true
+    },
+    {
+     "key": "gems/cover",
+     "chars": 15,
+     "kept": true
+    },
+    {
+     "key": "gems/what-is-a-gem",
+     "chars": 72,
+     "kept": true
+    },
+    {
+     "key": "gems/minerals",
+     "chars": 76,
+     "kept": true
+    },
+    {
+     "key": "gems/crystals",
+     "chars": 82,
+     "kept": true
+    },
+    {
+     "key": "gems/underground",
+     "chars": 68,
+     "kept": true
+    },
+    {
+     "key": "gems/geode",
+     "chars": 77,
+     "kept": true
+    },
+    {
+     "key": "gems/cutting",
+     "chars": 95,
+     "kept": true
+    },
+    {
+     "key": "gems/diamond",
+     "chars": 64,
+     "kept": true
+    },
+    {
+     "key": "gems/ruby-sapphire",
+     "chars": 98,
+     "kept": true
+    },
+    {
+     "key": "gems/amethyst",
+     "chars": 55,
+     "kept": true
+    },
+    {
+     "key": "gems/opal",
+     "chars": 71,
+     "kept": true
+    },
+    {
+     "key": "gems/pearl-amber",
+     "chars": 102,
+     "kept": true
+    },
+    {
+     "key": "gems/back-home",
+     "chars": 61,
+     "kept": true
+    },
+    {
+     "key": "how-much-rain/cover",
+     "chars": 19,
+     "kept": true
+    },
+    {
+     "key": "how-much-rain/rain-gauge",
+     "chars": 84,
+     "kept": true
+    },
+    {
+     "key": "how-much-rain/one-millimetre",
+     "chars": 67,
+     "kept": true
+    },
+    {
+     "key": "how-much-rain/ten-millimetres",
+     "chars": 63,
+     "kept": true
+    },
+    {
+     "key": "how-much-rain/rain-intensity",
+     "chars": 72,
+     "kept": true
+    },
+    {
+     "key": "how-much-rain/accumulated",
+     "chars": 63,
+     "kept": true
+    },
+    {
+     "key": "how-much-rain/short-vs-long",
+     "chars": 68,
+     "kept": true
+    },
+    {
+     "key": "how-much-rain/news-numbers",
+     "chars": 93,
+     "kept": true
+    },
+    {
+     "key": "how-much-rain/measuring-network",
+     "chars": 50,
+     "kept": true
+    },
+    {
+     "key": "how-much-rain/closing",
+     "chars": 67,
+     "kept": true
+    }
+   ],
+   "chars_sent": 2019,
+   "subscription_character_count": {
+    "before": 78456,
+    "after": 78618,
+    "limit": 122393
+   },
+   "character_stats_model_total": {
+    "before": 90026.0,
+    "after": 90915.0
+   },
+   "subscription_waited_s": 0,
+   "note": "Meter deltas are account-wide; concurrent use can change them."
+  },
+  {
+   "at": "2026-10-05T13:08:27Z",
+   "tool": "reading-app/tools/render-pages.py",
+   "endpoint": "with-timestamps",
+   "model": "eleven_multilingual_v2",
+   "voiceId": "Xb7hH8MSUJpSbSDYk0k2",
+   "output_format": "mp3_44100_128",
+   "caps": {
+    "max_requests": 5,
+    "max_credits": 250
+   },
+   "requests": [
+    {
+     "key": "space-trip/back-home",
+     "chars": 43,
+     "kept": true
+    },
+    {
+     "key": "gems/back-home",
+     "chars": 57,
+     "kept": true
+    },
+    {
+     "key": "how-much-rain/rain-intensity",
+     "chars": 84,
+     "kept": true
+    },
+    {
+     "key": "how-much-rain/accumulated",
+     "chars": 98,
+     "kept": true
+    },
+    {
+     "key": "how-much-rain/closing",
+     "chars": 51,
+     "kept": true
+    }
+   ],
+   "chars_sent": 333,
+   "subscription_character_count": {
+    "before": 79392,
+    "after": 79538,
+    "limit": 122393
+   },
+   "character_stats_model_total": {
+    "before": 90915.0,
+    "after": 91061.0
+   },
+   "subscription_waited_s": 30,
+   "note": "Meter deltas are account-wide; concurrent use can change them."
+  },
+  {
+   "at": "2026-10-06T01:18:52Z",
+   "tool": "reading-app/tools/render-pages.py",
+   "endpoint": "with-timestamps",
+   "model": "eleven_v4",
+   "voiceId": "Xb7hH8MSUJpSbSDYk0k2",
+   "output_format": "mp3_44100_128",
+   "caps": {
+    "max_requests": 61,
+    "max_credits": 800
+   },
+   "requests": [
+    {
+     "key": "where-rain-goes/cover",
+     "chars": 23,
+     "kept": true
+    },
+    {
+     "key": "where-rain-goes/rain-lands",
+     "chars": 93,
+     "kept": true
+    },
+    {
+     "key": "where-rain-goes/soil-sponge",
+     "chars": 42,
+     "kept": true
+    },
+    {
+     "key": "where-rain-goes/full-sponge",
+     "chars": 148,
+     "kept": true
+    },
+    {
+     "key": "where-rain-goes/runoff",
+     "chars": 100,
+     "kept": true
+    },
+    {
+     "key": "where-rain-goes/drains",
+     "chars": 51,
+     "kept": true
+    },
+    {
+     "key": "where-rain-goes/canals-to-river",
+     "chars": 76,
+     "kept": true
+    },
+    {
+     "key": "where-rain-goes/sun-takes-water",
+     "chars": 96,
+     "kept": true
+    },
+    {
+     "key": "where-rain-goes/storage",
+     "chars": 73,
+     "kept": true
+    },
+    {
+     "key": "where-rain-goes/one-journey-map",
+     "chars": 99,
+     "kept": true
+    },
+    {
+     "key": "where-rain-goes/closing",
+     "chars": 90,
+     "kept": true
+    },
+    {
+     "key": "why-places-flood/cover",
+     "chars": 26,
+     "kept": true
+    },
+    {
+     "key": "why-places-flood/the-rule",
+     "chars": 64,
+     "kept": true
+    },
+    {
+     "key": "why-places-flood/low-places",
+     "chars": 70,
+     "kept": true
+    },
+    {
+     "key": "why-places-flood/neighbors-differ",
+     "chars": 90,
+     "kept": true
+    },
+    {
+     "key": "why-places-flood/ground-full",
+     "chars": 89,
+     "kept": true
+    },
+    {
+     "key": "why-places-flood/drain-full",
+     "chars": 106,
+     "kept": true
+    },
+    {
+     "key": "why-places-flood/river-high",
+     "chars": 110,
+     "kept": true
+    },
+    {
+     "key": "why-places-flood/water-waits",
+     "chars": 78,
+     "kept": true
+    },
+    {
+     "key": "why-places-flood/watching-the-level",
+     "chars": 90,
+     "kept": true
+    },
+    {
+     "key": "why-places-flood/closing",
+     "chars": 62,
+     "kept": true
+    },
+    {
+     "key": "city-water-moves/cover",
+     "chars": 28,
+     "kept": true
+    },
+    {
+     "key": "city-water-moves/hard-surfaces",
+     "chars": 97,
+     "kept": true
+    },
+    {
+     "key": "city-water-moves/drains-and-pipes",
+     "chars": 69,
+     "kept": true
+    },
+    {
+     "key": "city-water-moves/canals",
+     "chars": 79,
+     "kept": true
+    },
+    {
+     "key": "city-water-moves/floodgates",
+     "chars": 91,
+     "kept": true
+    },
+    {
+     "key": "city-water-moves/pumps",
+     "chars": 65,
+     "kept": true
+    },
+    {
+     "key": "city-water-moves/deep-tunnels",
+     "chars": 72,
+     "kept": true
+    },
+    {
+     "key": "city-water-moves/monkey-cheek",
+     "chars": 123,
+     "kept": true
+    },
+    {
+     "key": "city-water-moves/one-team",
+     "chars": 127,
+     "kept": true
+    },
+    {
+     "key": "city-water-moves/closing",
+     "chars": 36,
+     "kept": true
+    },
+    {
+     "key": "river-reservoir-sea/cover",
+     "chars": 28,
+     "kept": true
+    },
+    {
+     "key": "river-reservoir-sea/basin",
+     "chars": 125,
+     "kept": true
+    },
+    {
+     "key": "river-reservoir-sea/upstream-travels",
+     "chars": 105,
+     "kept": true
+    },
+    {
+     "key": "river-reservoir-sea/level-rises",
+     "chars": 69,
+     "kept": true
+    },
+    {
+     "key": "river-reservoir-sea/reservoir",
+     "chars": 76,
+     "kept": true
+    },
+    {
+     "key": "river-reservoir-sea/in-and-out",
+     "chars": 112,
+     "kept": true
+    },
+    {
+     "key": "river-reservoir-sea/bottleneck",
+     "chars": 116,
+     "kept": true
+    },
+    {
+     "key": "river-reservoir-sea/tide-gate",
+     "chars": 126,
+     "kept": true
+    },
+    {
+     "key": "river-reservoir-sea/one-system",
+     "chars": 103,
+     "kept": true
+    },
+    {
+     "key": "river-reservoir-sea/closing",
+     "chars": 70,
+     "kept": true
+    },
+    {
+     "key": "reading-flood-news/cover",
+     "chars": 18,
+     "kept": true
+    },
+    {
+     "key": "reading-flood-news/millimetres-decoded",
+     "chars": 67,
+     "kept": true
+    },
+    {
+     "key": "reading-flood-news/accumulated-decoded",
+     "chars": 74,
+     "kept": true
+    },
+    {
+     "key": "reading-flood-news/radar-decoded",
+     "chars": 86,
+     "kept": true
+    },
+    {
+     "key": "reading-flood-news/level-decoded",
+     "chars": 97,
+     "kept": true
+    },
+    {
+     "key": "reading-flood-news/low-lying-decoded",
+     "chars": 65,
+     "kept": true
+    },
+    {
+     "key": "reading-flood-news/closures-decoded",
+     "chars": 92,
+     "kept": true
+    },
+    {
+     "key": "reading-flood-news/flash-flood-decoded",
+     "chars": 107,
+     "kept": true
+    },
+    {
+     "key": "reading-flood-news/three-questions",
+     "chars": 97,
+     "kept": true
+    },
+    {
+     "key": "reading-flood-news/closing",
+     "chars": 66,
+     "kept": true
+    },
+    {
+     "key": "how-dams-work/cover",
+     "chars": 20,
+     "kept": true
+    },
+    {
+     "key": "how-dams-work/wall-and-lake",
+     "chars": 60,
+     "kept": true
+    },
+    {
+     "key": "how-dams-work/where-water-comes-from",
+     "chars": 140,
+     "kept": true
+    },
+    {
+     "key": "how-dams-work/two-numbers",
+     "chars": 185,
+     "kept": true
+    },
+    {
+     "key": "how-dams-work/store-and-release",
+     "chars": 94,
+     "kept": true
+    },
+    {
+     "key": "how-dams-work/making-room",
+     "chars": 144,
+     "kept": true
+    },
+    {
+     "key": "how-dams-work/spillway",
+     "chars": 86,
+     "kept": true
+    },
+    {
+     "key": "how-dams-work/upstream-downstream",
+     "chars": 99,
+     "kept": true
+    },
+    {
+     "key": "how-dams-work/not-all-dams",
+     "chars": 174,
+     "kept": true
+    },
+    {
+     "key": "how-dams-work/closing",
+     "chars": 83,
+     "kept": true
+    }
+   ],
+   "chars_sent": 5247,
+   "subscription_character_count": {
+    "before": 79541,
+    "after": 80141,
+    "limit": 122393
+   },
+   "character_stats_model_total": {
+    "before": 477.0,
+    "after": 1108.0
+   },
+   "subscription_waited_s": 0,
+   "note": "Meter deltas are account-wide; concurrent use can change them."
+  }
+ ]
+}

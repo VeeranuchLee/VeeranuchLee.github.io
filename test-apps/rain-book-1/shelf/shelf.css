@@ -88,6 +88,7 @@ body { overflow-x: hidden; }
 .top {
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 112px;
@@ -220,3 +221,104 @@ body { overflow-x: hidden; }
   .back svg { width: 32px; height: 32px; }
   .book-title { font-size: 17px; }
 }
+
+/* A set's name is longer than "Bookshelf"; a smaller size keeps it to one or two lines. */
+.in-set .title { font-size: clamp(32px, 5.4vmin, 48px); text-align: center; }
+/* Header line under a set's title: "7 books". */
+.shelf-count {
+  margin: 4px 0 0;
+  font: 800 22px/1.2 'Nunito', system-ui, sans-serif;
+  color: var(--title-ink);
+  opacity: .8;
+}
+
+/* Inside a big set: plain section headings. Text, not buttons -- every book stays on this page. */
+.section-heading {
+  margin: 14px 0 -8px;
+  font: 400 clamp(20px, 2.8vw, 26px)/1.1 'Fredoka One', 'Nunito', sans-serif;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--title-ink);
+  text-shadow: 0 2px 0 rgba(255, 255, 255, .7);
+}
+
+/* ---- the boxed set (2026-10-06) ----
+   One shape for every set: an open case, three separate member books standing in it with
+   their tops above its front, and the count on the front. Only the case colour varies. */
+.case {
+  --case: #8a6a4a;
+  position: relative;
+  width: var(--cw);
+  height: var(--cw);
+  transition: transform .12s ease;
+}
+.case-back {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  top: 10%;
+  bottom: 0;
+  border-radius: 8px 8px 6px 6px;
+  background: linear-gradient(rgba(0, 0, 0, .32), rgba(0, 0, 0, .18)), var(--case);
+  box-shadow: 0 6px 12px rgba(47, 58, 77, .25);
+}
+.member {
+  position: absolute;
+  bottom: 20%;
+  width: 52%;
+  height: 74%;
+  border-radius: 3px 6px 6px 3px;
+  overflow: hidden;
+  background: var(--paper-deep);
+  /* page edges on the right, a spine shadow on the left: each reads as its own book */
+  box-shadow: 3px 0 0 #fbf6ea, 5px 0 0 #e4d8bf, 0 4px 8px rgba(47, 58, 77, .3);
+  transition: transform .12s ease;
+}
+.member::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 6px;
+  background: linear-gradient(90deg, rgba(47, 58, 77, .35), rgba(47, 58, 77, 0));
+}
+.member img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .25s ease; }
+.member img.loaded { opacity: 1; }
+.member.m1 { left: 5%;  transform: rotate(-6deg); z-index: 1; }
+.member.m2 { left: 24%; bottom: 22%; height: 78%; z-index: 2; }
+.member.m3 { left: 43%; transform: rotate(6deg); z-index: 3; }
+.member.m1.of1 { left: 24%; transform: none; }
+.member.m1.of2 { left: 12%; }
+.member.m2.of2 { left: 36%; transform: rotate(5deg); }
+.case-front {
+  position: absolute;
+  z-index: 4;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 30%;
+  border-radius: 6px 6px 10px 10px;
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(rgba(255, 255, 255, .22), rgba(255, 255, 255, 0) 40%),
+    var(--case);
+  box-shadow: inset 0 3px 0 rgba(255, 255, 255, .28), inset 0 -4px 0 rgba(0, 0, 0, .18), 0 6px 12px rgba(47, 58, 77, .3);
+}
+.case-count {
+  padding: 4px 14px 5px;
+  border-radius: 999px;
+  background: #fffaf0;
+  font: 900 clamp(16px, 2.3vw, 21px)/1.1 'Nunito', system-ui, sans-serif;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: var(--title-ink);
+}
+.set:active .case { transform: translateY(-5px); }
+.set:active .member.m1 { transform: translateX(-5px) rotate(-9deg); }
+.set:active .member.m3 { transform: translateX(5px) rotate(9deg); }
+
+/* Keyboard focus: a clear ring round the whole object, book or set. */
+.book:focus { outline: none; }
+.book:focus-visible .cover,
+.book:focus-visible .case { outline: 4px solid var(--accent); outline-offset: 5px; border-radius: 10px; }
+.back:focus-visible { outline: 4px solid var(--accent); outline-offset: 4px; }
