@@ -242,7 +242,10 @@ button { font: inherit; }
 .text.reference-text {
   white-space: pre-line;
   font-size: clamp(11px, 1.15vw, 16px);
-  line-height: 1.24;
+  /* Thai stacks vowel and tone marks above and below the line; 1.24 inside a scrolling box clipped
+     them (owner, 2026-10-06: "top part of letters cutoff"). Room above and below every line. */
+  line-height: 1.6;
+  padding: .35em .2em .3em;
   text-align: left;
   overflow: auto;
   /* 2026-10-06 (owner: the Dams of Thailand list "fall off the page"): the reference list may never
