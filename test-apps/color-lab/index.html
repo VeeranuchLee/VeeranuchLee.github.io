@@ -9,9 +9,11 @@
 <body>
   <main class="lab-shell">
     <header class="lab-header">
-      <span class="lab-mark" aria-hidden="true">●</span>
-      <h1>Color Lab</h1>
-      <p>Tap paint. Tap the bowl.</p>
+      <img class="lab-mark" src="./assets/art/header-palette.webp" alt="" width="180" height="180">
+      <div class="title-lockup">
+        <h1>Color Lab</h1>
+        <p>Tap paint. Tap the bowl.</p>
+      </div>
     </header>
 
     <section class="lab" aria-label="Mix Colors">
@@ -19,16 +21,16 @@
         <h2>Mix Colors</h2>
         <div class="paint-pots" aria-label="Choose paint">
           <button class="paint-pot paint-red" type="button" data-paint="red" aria-label="Add one red drop">
-            <span class="pot-lid" aria-hidden="true"></span>
-            <span class="pot-body"><span>Red</span><strong id="red-count">0</strong></span>
+            <img src="./assets/art/pot-red.webp" alt="" width="320" height="320">
+            <span class="pot-label"><span>Red</span><strong id="red-count">0</strong></span>
           </button>
           <button class="paint-pot paint-yellow" type="button" data-paint="yellow" aria-label="Add one yellow drop">
-            <span class="pot-lid" aria-hidden="true"></span>
-            <span class="pot-body"><span>Yellow</span><strong id="yellow-count">0</strong></span>
+            <img src="./assets/art/pot-yellow.webp" alt="" width="320" height="320">
+            <span class="pot-label"><span>Yellow</span><strong id="yellow-count">0</strong></span>
           </button>
           <button class="paint-pot paint-blue" type="button" data-paint="blue" aria-label="Add one blue drop">
-            <span class="pot-lid" aria-hidden="true"></span>
-            <span class="pot-body"><span>Blue</span><strong id="blue-count">0</strong></span>
+            <img src="./assets/art/pot-blue.webp" alt="" width="320" height="320">
+            <span class="pot-label"><span>Blue</span><strong id="blue-count">0</strong></span>
           </button>
         </div>
       </div>
@@ -36,16 +38,16 @@
       <div class="explore-side">
         <h2>Explore Colors</h2>
         <button id="mix-bowl" class="mix-bowl is-empty" type="button" aria-label="Mixing bowl. Add paint first.">
-          <span class="bowl-rim" aria-hidden="true"></span>
+          <img class="bowl-art" src="./assets/art/mixing-bowl.webp" alt="" width="600" height="400">
           <span id="mix-paint" class="mix-paint" aria-hidden="true"></span>
-          <span class="bowl-base" aria-hidden="true"></span>
         </button>
         <div id="colour-name" class="colour-name" role="status" aria-live="polite">
           <span class="name-dot" aria-hidden="true"></span>
           <strong id="name-text">Add some paint!</strong>
         </div>
-        <button id="reset-button" class="reset-button" type="button">Start again</button>
+        <button id="reset-button" class="reset-button" type="button" aria-pressed="false">Start again</button>
       </div>
+      <div id="drop-layer" class="drop-layer" aria-hidden="true"></div>
     </section>
   </main>
 

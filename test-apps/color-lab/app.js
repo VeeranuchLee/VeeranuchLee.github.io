@@ -61,8 +61,38 @@
   function addDrop(name) {
     drops[name] += 1;
     resetArmed = false;
-    byId("reset-button").textContent = "Start again";
+    setResetState(false);
     render();
+  }
+
+  function setResetState(armed) {
+    var button = byId("reset-button");
+    button.textContent = armed ? "Tap again" : "Start again";
+    button.classList.toggle("is-armed", armed);
+    button.setAttribute("aria-pressed", armed ? "true" : "false");
+  }
+
+  function animateDrop(source, name) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var lab = document.querySelector(".lab").getBoundingClientRect();
+    var start = source.getBoundingClientRect();
+    var bowl = byId("mix-bowl").getBoundingClientRect();
+    var drop = document.createElement("span");
+    var colors = { red: "#df493f", yellow: "#f1c62f", blue: "#3866bc" };
+    var startX = start.left + start.width * 0.5 - lab.left - 11;
+    var startY = start.top + start.height * 0.22 - lab.top;
+    var endX = bowl.left + bowl.width * 0.5 - lab.left - 11;
+    var endY = bowl.top + bowl.height * 0.42 - lab.top;
+    drop.className = "paint-drop";
+    drop.style.left = startX + "px";
+    drop.style.top = startY + "px";
+    drop.style.setProperty("--drop-x", (endX - startX) + "px");
+    drop.style.setProperty("--drop-y", (endY - startY) + "px");
+    drop.style.setProperty("--drop-mid-x", ((endX - startX) * 0.5) + "px");
+    drop.style.setProperty("--drop-mid-y", ((endY - startY) * 0.3 - 34) + "px");
+    drop.style.setProperty("--drop-color", colors[name]);
+    byId("drop-layer").appendChild(drop);
+    drop.addEventListener("animationend", function () { drop.remove(); }, { once: true });
   }
 
   function revealName() {
@@ -78,23 +108,26 @@
     var button = byId("reset-button");
     if (!resetArmed) {
       resetArmed = true;
-      button.textContent = "Tap again";
+      setResetState(true);
       window.clearTimeout(resetTimer);
       resetTimer = window.setTimeout(function () {
         resetArmed = false;
-        button.textContent = "Start again";
+        setResetState(false);
       }, 2200);
       return;
     }
     window.clearTimeout(resetTimer);
     drops = { red: 0, yellow: 0, blue: 0 };
     resetArmed = false;
-    button.textContent = "Start again";
+    setResetState(false);
     render();
   }
 
   document.querySelectorAll("[data-paint]").forEach(function (button) {
-    button.addEventListener("click", function () { addDrop(button.dataset.paint); });
+    button.addEventListener("click", function () {
+      animateDrop(button, button.dataset.paint);
+      addDrop(button.dataset.paint);
+    });
   });
   byId("mix-bowl").addEventListener("click", revealName);
   byId("reset-button").addEventListener("click", reset);
