@@ -10,6 +10,16 @@
   var resetArmed = false;
   var resetTimer = null;
 
+  // One player for every spoken name (2026-10-06, owner: "let's add voice to color lab"), so a
+  // new tap stops the name before it instead of talking over it. A missing clip stays silent.
+  var voice = null;
+  function sayClip(slug) {
+    if (!availableAudioSlugs.has(slug)) return;
+    try { if (voice) voice.pause(); } catch (e) { /* already stopped */ }
+    voice = new Audio("./audio/colour-names/" + slug + ".m4a");
+    voice.play().catch(function () {});
+  }
+
   function byId(id) {
     return document.getElementById(id);
   }
@@ -135,6 +145,7 @@
       });
       card.classList.add("is-selected");
       main.setAttribute("aria-pressed", "true");
+      sayClip(shade.slug);
     });
 
     speaker.type = "button";
@@ -147,8 +158,7 @@
     icon.setAttribute("aria-hidden", "true");
     speaker.appendChild(icon);
     speaker.addEventListener("click", function () {
-      var audio = new Audio(audioUrl);
-      audio.play().catch(function () { speaker.hidden = true; });
+      sayClip(shade.slug);
     });
     card.append(main, speaker);
     return card;
@@ -158,6 +168,7 @@
     byId("family-home").hidden = true;
     byId("shade-room").hidden = false;
     byId("family-name").textContent = family.name + " Colors";
+    sayClip("family-" + family.id);
     var shelf = byId("shade-shelf");
     shelf.replaceChildren();
     family.shades.forEach(function (shade) { shelf.appendChild(makeShadeCard(shade)); });

@@ -321,14 +321,11 @@ h2 {
 }
 
 .shade-card {
+  position: relative;
   min-width: 0;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 7px;
+  display: block;
   transition: transform 150ms ease;
 }
-
-.shade-card.has-audio { grid-template-columns: minmax(0, 1fr) 64px; }
 
 .shade-card.is-selected {
   z-index: 2;
@@ -337,6 +334,7 @@ h2 {
 
 .shade-card-main {
   position: relative;
+  width: 100%;
   min-height: 178px;
   padding: 9px;
   display: grid;
@@ -432,21 +430,35 @@ h2 {
   border-radius: 999px;
   background: rgba(255, 250, 240, 0.94);
   color: #493a43;
-  font-size: clamp(17px, 2.4vw, 24px);
+  font-size: clamp(15px, 2vw, 22px);
   font-weight: 950;
   line-height: 1.05;
+  /* Break only between words: "bubbleg / um" read as two non-words (owner screenshot, 2026-10-06). */
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  white-space: normal;
   text-align: center;
+  text-wrap: balance;
   text-transform: lowercase;
   transition: font-size 150ms ease, min-height 150ms ease;
 }
 
+.shade-card.has-audio .shade-name {
+  width: calc(100% - 72px);
+  justify-self: start;
+}
+
 .shade-card.is-selected .shade-name {
-  min-height: 62px;
-  font-size: clamp(27px, 4.1vw, 38px);
+  min-height: 68px;
+  font-size: clamp(23px, 3.3vw, 32px);
 }
 
 .speaker-button {
-  align-self: end;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 3;
   width: 64px;
   height: 64px;
   padding: 0;
@@ -667,9 +679,6 @@ h2 {
   .family-button { min-height: clamp(92px, 18vh, 126px); }
   .shade-shelf { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .shade-card-main { min-height: 184px; }
-  .shade-card { grid-template-columns: minmax(0, 1fr); grid-template-rows: 1fr 64px; }
-  .shade-card:not(.has-audio) { grid-template-rows: 1fr; }
-  .speaker-button { justify-self: center; }
 }
 
 @media (max-height: 820px) and (orientation: landscape) {
