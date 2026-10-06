@@ -2,7 +2,7 @@
   "use strict";
 
   var drops = { red: 0, yellow: 0, blue: 0 };
-  var childColors = [];
+  var exploreColors = [];
   var colorById = new Map();
   var availableAudioSlugs = new Set();
   var exploreData = null;
@@ -24,18 +24,10 @@
     return document.getElementById(id);
   }
 
-  function titleCase(value) {
-    return value.replace(/\b\w/g, function (letter) { return letter.toUpperCase(); });
-  }
-
   function loadVocabulary() {
     return Promise.all([
       fetch("./shared-data/colour-vocabulary/iscc-nbs-v1.json").then(function (response) {
         if (!response.ok) throw new Error("Vocabulary did not load");
-        return response.json();
-      }),
-      fetch("./shared-data/colour-vocabulary/proposed-child-subset-review-v1.json").then(function (response) {
-        if (!response.ok) throw new Error("Child subset did not load");
         return response.json();
       }),
       fetch("./explore-colors.json").then(function (response) {
@@ -47,16 +39,18 @@
         return response.json();
       }).catch(function () { return []; }),
     ]).then(function (results) {
-      var included = new Set(results[1].candidates.filter(function (candidate) {
-        return candidate.includedInProposedSubset;
-      }).map(function (candidate) { return candidate.id; }));
-      childColors = results[0].colors.filter(function (color) { return included.has(color.id); });
       colorById = new Map(results[0].colors.map(function (color) { return [color.id, color]; }));
-      exploreData = results[2];
-      availableAudioSlugs = new Set(results[3]);
+      exploreData = results[1];
+      exploreColors = exploreData.families.flatMap(function (family) {
+        return family.shades.map(function (shade) {
+          var color = colorById.get(shade.vocabularyId);
+          return Object.assign({}, color, shade, { familyId: family.id });
+        });
+      });
+      availableAudioSlugs = new Set(results[2]);
       renderFamilies();
     }).catch(function () {
-      childColors = [];
+      exploreColors = [];
       byId("family-shelf").textContent = "Color names are still loading…";
     });
   }
@@ -242,13 +236,34 @@
     drop.addEventListener("animationend", function () { drop.remove(); }, { once: true });
   }
 
+  // Which crayon families a mix may be named from (2026-10-06). The paint model's own red and
+  // blue sit between families ("tomato orange", "iris purple" for a single drop), and a child who
+  // added only red expects a red. So the drops pick the families, as the colour wheel a child
+  // learns would: one paint = its own family; two = their mix (orange, green, purple), plus the
+  // stronger paint's family when it is at least three quarters of the drops; all three = brown or
+  // grey. The nearest shade within those families is the name.
+  function mixFamilies(drops) {
+    var total = drops.red + drops.yellow + drops.blue;
+    var used = ["red", "yellow", "blue"].filter(function (c) { return drops[c] > 0; });
+    if (used.length === 1) return [used[0]];
+    if (used.length === 3) return ["brown", "grey"];
+    var pair = used.join("+");
+    var mix = { "red+yellow": "orange", "yellow+blue": "green", "red+blue": "purple" }[pair];
+    var out = [mix];
+    used.forEach(function (c) { if (drops[c] / total >= 0.75) out.push(c); });
+    return out;
+  }
+
   function revealName() {
     if (!currentMix) {
       setName("Add some paint!");
       return;
     }
-    var nearest = ColorLabMixing.nearestName(currentMix.oklab, childColors);
-    setName(nearest ? titleCase(nearest.color.name) : "Color names are still loading…");
+    var allowed = mixFamilies(currentMix.drops);
+    var pool = exploreColors.filter(function (c) { return allowed.indexOf(c.familyId) >= 0; });
+    var nearest = ColorLabMixing.nearestName(currentMix.oklab, pool.length ? pool : exploreColors);
+    setName(nearest ? nearest.color.displayName : "Color names are still loading…");
+    if (nearest) sayClip(nearest.color.slug);
   }
 
   function reset() {
