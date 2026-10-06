@@ -110,16 +110,16 @@ window.PLAYROOM = {
       objects: [
         { id: "classical-music", name: "Classical Music", desc: "Listen and guess",
           href: "../magic-math/classical-music.html", tile: "./assets/classical-music.webp", tone: ["#17a2b8", "#0d7c8e", "#e2f7fa"],
-          points: [[2.0,38.0],[7.0,34.0],[26.0,34.5],[30.0,40.0],[29.5,72.0],[23.0,76.0],[5.0,73.0],[2.0,65.0]] },
+          points: [[3.3, 36.3], [6.5, 36.3], [9.6, 37.9], [24.0, 37.9], [24.0, 53.2], [20.7, 68.6], [13.3, 69.1], [11.7, 71.3], [2.2, 71.3], [2.5, 55.4]] },
         { id: "toy-keyboard", name: "Toy Keyboard", desc: "Play and make music",
           href: "../toy-keyboard/", tile: "./assets/toy-keyboard.webp", tone: ["#8b6bd9", "#6046aa", "#f0ebff"],
-          points: [[36.0,49.0],[60.5,48.5],[64.0,55.0],[62.5,75.0],[57.0,78.5],[39.0,77.0],[35.5,69.0]] },
+          points: [[28.4, 49.9], [49.9, 49.4], [49.9, 57.1], [47.5, 65.5], [44.4, 65.5], [44.1, 71.9], [33.6, 72.1], [33.3, 65.5], [29.3, 65.5], [28.4, 57.6]] },
         { id: "toy-guitar", name: "Toy Guitar", desc: "Strum and play songs",
           href: "https://veeranuchlee.github.io/test-apps/toy-guitar/", tile: "./playroom/tiles/toy-guitar.webp", tone: ["#ef6b69", "#b9474b", "#fff0df"],
-          points: [[63.7,8.9],[65.5,11.5],[64.4,22.0],[64.2,24.4],[64.7,27.5],[64.2,29.6],[64.5,34.1],[63.6,37.8],[61.1,40.3],[58.7,37.5],[56.9,32.9],[57.7,29.1],[59.7,22.2],[61.5,13.2],[61.5,10.0]] },
+          points: [[58.0, 33.0], [62.0, 33.0], [63.8, 42.3], [69.4, 32.4], [72.7, 33.5], [71.2, 46.7], [72.1, 51.6], [76.8, 58.2], [76.8, 66.9], [69.4, 68.6], [63.2, 67.5], [54.3, 65.8], [53.9, 55.4], [57.0, 45.6]] },
         { id: "music-book", name: "Music Book", desc: "Explore songs",
           href: "../music-book/", tile: "./assets/music-book.webp", cutout: true, tone: ["#e280a6", "#b35279", "#fff0f6"],
-          points: [[71.0,36.0],[91.5,36.0],[96.0,43.0],[95.0,67.0],[89.0,71.5],[70.0,68.0],[68.5,59.0]] }
+          points: [[81.1, 41.7], [88.5, 38.4], [90.9, 40.6], [99.6, 42.3], [98.6, 64.2], [94.6, 69.1], [79.2, 68.6], [78.3, 62.0]] }
       ]
     },
     puzzles: {
