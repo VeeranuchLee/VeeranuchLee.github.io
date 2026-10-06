@@ -19,9 +19,11 @@
     </section>
 
     <section id="game" class="panel" hidden>
-      <header><span id="progress">1 of 10</span><span id="stars" aria-label="Stars">☆ ☆ ☆</span></header>
+      <header><span id="progress">1 of 10</span><span id="stars" aria-label="Stars">☆ ☆ ☆</span>
+        <button id="voiceToggle" class="voice-toggle" type="button" aria-pressed="true" aria-label="Voice on">🔊</button></header>
       <img id="scene" class="scene" alt=""/>
-      <p id="prompt" class="prompt"></p>
+      <p class="prompt-row"><span id="prompt" class="prompt"></span>
+        <button id="hearQuestion" class="hear" type="button" aria-label="Hear the question again">🔊</button></p>
       <div id="stem" class="stem"></div>
       <div id="answerLine" class="answer-line" hidden></div>
       <div id="choices" class="choices"></div>

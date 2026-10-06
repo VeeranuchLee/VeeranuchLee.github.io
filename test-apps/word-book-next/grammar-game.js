@@ -4,6 +4,29 @@
   var $=function(id){return document.getElementById(id);};
   var start=$('start'), game=$('game'), finish=$('finish'), choices=$('choices'), answerLine=$('answerLine');
   var audio=new Audio();
+  // VOICE ON BY DEFAULT (owner, 2026-10-06): each question is read aloud -- the instruction, then the
+  // sentence -- unless hearing the sentence would reveal what is tested (those questions carry
+  // speakStem:false in the data, so no sentence clip exists for them). The toggle is remembered on
+  // this device only; a blocked storage simply means voice stays on.
+  var voiceOn=true;
+  try{voiceOn=localStorage.getItem('grammarVoice')!=='off';}catch(e){}
+  var queue=[],queueRun=0;
+  function playQueue(ids){
+    queueRun++;var my=queueRun;queue=ids.filter(function(id){return rendered.clips&&rendered.clips[id];});
+    try{audio.pause();}catch(e){}
+    (function step(){
+      if(my!==queueRun||!queue.length)return;
+      var id=queue.shift();audio.src='./audio/grammar/'+rendered.clips[id].file;
+      audio.onended=function(){setTimeout(step,250);};audio.onerror=function(){step();};
+      audio.play().catch(function(){});
+    })();
+  }
+  function speakQuestion(q,force){if((voiceOn||force)&&q)playQueue([q.id+'-prompt',q.id+'-stem']);}
+  function setVoice(on){
+    voiceOn=on;try{localStorage.setItem('grammarVoice',on?'on':'off');}catch(e){}
+    var t=$('voiceToggle');if(t){t.setAttribute('aria-pressed',on?'true':'false');t.setAttribute('aria-label',on?'Voice on':'Voice off');t.textContent=on?'🔊':'🔇';}
+    if(!on){queueRun++;try{audio.pause();}catch(e){}}
+  }
 
   function sound(kind){
     var C=window.AudioContext||window.webkitAudioContext;if(!C)return;
@@ -27,6 +50,7 @@
     $('progress').textContent=(index+1)+' of 10';$('stars').textContent=(stars>0?'★ '.repeat(Math.min(3,stars)):'')+'☆ '.repeat(Math.max(0,3-stars));
     $('scene').src='./assets/grammar/'+q.image+'.webp';$('scene').alt='Illustration for this sentence';
     $('prompt').textContent=q.prompt;$('stem').innerHTML=formatStem(q.stem||'');choices.innerHTML='';answerLine.innerHTML='';answerLine.hidden=q.mechanic!=='arrange';$('check').hidden=q.mechanic!=='arrange';
+    speakQuestion(q,false);
     if(q.mechanic==='arrange'){
       shuffle(q.words).forEach(function(w){var b=button(w,'word');b.addEventListener('click',function(){placed.push(w);b.disabled=true;b.classList.add('selected');renderPlaced(q);});choices.appendChild(b);});
     }else{
@@ -46,7 +70,7 @@
   }
   function showLesson(title,text,face,clip){
     $('lessonTitle').textContent=title;$('lessonText').textContent=text;$('lessonFace').textContent=face;
-    $('listen').hidden=!clip;$('listen').onclick=function(){if(clip){audio.src='./audio/grammar/'+clip.file;audio.currentTime=0;audio.play().catch(function(){});}};
+    $('listen').hidden=!clip;$('listen').onclick=function(){if(clip){queueRun++;audio.src='./audio/grammar/'+clip.file;audio.currentTime=0;audio.play().catch(function(){});}};
     $('lesson').hidden=false;
   }
   function answer(q,value,btn){
@@ -79,6 +103,9 @@
   $('check').addEventListener('click',function(){var q=run[run.length-1];if(placed.length)answer(q,placed);});
   $('continue').addEventListener('click',function(){$('lesson').hidden=true;if(lessonStage==='reveal')next();});
   function begin(){run=[];index=0;level=1;streak=0;stars=0;start.hidden=true;finish.hidden=true;game.hidden=false;showQuestion();}
+  $('voiceToggle').addEventListener('click',function(){setVoice(!voiceOn);if(voiceOn)speakQuestion(run[run.length-1],true);});
+  $('hearQuestion').addEventListener('click',function(){speakQuestion(run[run.length-1],true);});
+  setVoice(voiceOn);
   $('play').addEventListener('click',begin);$('again').addEventListener('click',begin);
   Promise.all([fetch('./data/grammar-questions.json').then(function(r){return r.json();}),fetch('./audio/grammar/rendered.json').then(function(r){return r.json();})]).then(function(all){data=all[0];rendered=all[1];$('play').disabled=false;}).catch(function(){$('play').textContent='Please try again';$('play').disabled=true;});
   $('play').disabled=true;
