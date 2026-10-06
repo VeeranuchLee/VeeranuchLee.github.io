@@ -3,6 +3,8 @@
 
   var drops = { red: 0, yellow: 0, blue: 0 };
   var childColors = [];
+  var colorById = new Map();
+  var exploreData = null;
   var currentMix = null;
   var resetArmed = false;
   var resetTimer = null;
@@ -25,14 +27,129 @@
         if (!response.ok) throw new Error("Child subset did not load");
         return response.json();
       }),
+      fetch("./explore-colors.json").then(function (response) {
+        if (!response.ok) throw new Error("Explore shelf did not load");
+        return response.json();
+      }),
     ]).then(function (results) {
       var included = new Set(results[1].candidates.filter(function (candidate) {
         return candidate.includedInProposedSubset;
       }).map(function (candidate) { return candidate.id; }));
       childColors = results[0].colors.filter(function (color) { return included.has(color.id); });
+      colorById = new Map(results[0].colors.map(function (color) { return [color.id, color]; }));
+      exploreData = results[2];
+      renderFamilies();
     }).catch(function () {
       childColors = [];
+      byId("family-shelf").textContent = "Color names are still loading…";
     });
+  }
+
+  function setMode(mode) {
+    var explore = mode === "explore";
+    byId("mix-panel").hidden = explore;
+    byId("explore-panel").hidden = !explore;
+    ["mix", "explore"].forEach(function (name) {
+      var active = name === mode;
+      var tab = byId(name + "-tab");
+      tab.classList.toggle("is-active", active);
+      tab.setAttribute("aria-selected", active ? "true" : "false");
+    });
+  }
+
+  function renderFamilies() {
+    var shelf = byId("family-shelf");
+    shelf.replaceChildren();
+    exploreData.families.forEach(function (family) {
+      var button = document.createElement("button");
+      var label = document.createElement("span");
+      button.type = "button";
+      button.className = "family-button";
+      button.style.setProperty("--family", family.swatch);
+      button.setAttribute("aria-label", "Explore " + family.name + " colors");
+      label.className = "family-label";
+      label.textContent = family.name;
+      button.appendChild(label);
+      button.addEventListener("click", function () { openFamily(family); });
+      shelf.appendChild(button);
+    });
+  }
+
+  function checkAudio(button, url) {
+    button.hidden = true;
+    fetch(url, { method: "HEAD", cache: "no-store" }).then(function (response) {
+      if (response.ok) button.hidden = false;
+    }).catch(function () {
+      button.hidden = true;
+    });
+  }
+
+  function makeShadeCard(shade) {
+    var color = colorById.get(shade.vocabularyId);
+    var card = document.createElement("article");
+    var main = document.createElement("button");
+    var image = document.createElement("img");
+    var name = document.createElement("span");
+    var speaker = document.createElement("button");
+    var icon = document.createElement("span");
+    var audioUrl = "./audio/colour-names/" + shade.slug + ".m4a";
+
+    card.className = "shade-card";
+    card.dataset.vocabularyId = shade.vocabularyId;
+    main.type = "button";
+    main.className = "shade-card-main";
+    main.style.setProperty("--shade", color.srgbCentroidHex);
+    main.dataset.srgb = color.srgbCentroidHex;
+    main.setAttribute("aria-label", shade.displayName + ". Tap to grow this color card.");
+    main.setAttribute("aria-pressed", "false");
+    image.className = "shade-object";
+    image.src = "./assets/explore/" + shade.sprite;
+    image.alt = shade.object;
+    image.width = 192;
+    image.height = 192;
+    name.className = "shade-name";
+    name.textContent = shade.displayName;
+    main.append(image, name);
+    main.addEventListener("click", function () {
+      document.querySelectorAll(".shade-card.is-selected").forEach(function (selected) {
+        selected.classList.remove("is-selected");
+        selected.querySelector(".shade-card-main").setAttribute("aria-pressed", "false");
+      });
+      card.classList.add("is-selected");
+      main.setAttribute("aria-pressed", "true");
+    });
+
+    speaker.type = "button";
+    speaker.className = "speaker-button";
+    speaker.setAttribute("aria-label", "Hear " + shade.displayName);
+    speaker.dataset.audio = audioUrl;
+    icon.className = "speaker-icon";
+    icon.setAttribute("aria-hidden", "true");
+    speaker.appendChild(icon);
+    speaker.addEventListener("click", function () {
+      var audio = new Audio(audioUrl);
+      audio.play().catch(function () { speaker.hidden = true; });
+    });
+    checkAudio(speaker, audioUrl);
+    card.append(main, speaker);
+    return card;
+  }
+
+  function openFamily(family) {
+    byId("family-home").hidden = true;
+    byId("shade-room").hidden = false;
+    byId("family-name").textContent = family.name + " Colors";
+    var shelf = byId("shade-shelf");
+    shelf.replaceChildren();
+    family.shades.forEach(function (shade) { shelf.appendChild(makeShadeCard(shade)); });
+    byId("family-back").focus();
+  }
+
+  function showFamilies() {
+    byId("shade-room").hidden = true;
+    byId("family-home").hidden = false;
+    var firstFamily = document.querySelector(".family-button");
+    if (firstFamily) firstFamily.focus();
   }
 
   function setName(message) {
@@ -131,6 +248,10 @@
   });
   byId("mix-bowl").addEventListener("click", revealName);
   byId("reset-button").addEventListener("click", reset);
+  document.querySelectorAll("[data-mode]").forEach(function (button) {
+    button.addEventListener("click", function () { setMode(button.dataset.mode); });
+  });
+  byId("family-back").addEventListener("click", showFamilies);
   loadVocabulary();
   render();
 })();

@@ -34,14 +34,17 @@ are evidence of names children may meet, not the app's taxonomy, data model, app
 | `PROPOSAL.md` | Proposed model, activities, progression, UX, scoring, and validation plan |
 | `work_progress_and_other_discussion.md` | Newest-first decision and discussion trail |
 | `index.html`, `styles.css`, `app.js` | Touch-first prototype UI |
+| `explore-colors.json` | Proposed eleven-family, 44-card Explore shelf |
+| `audio-plan.json` | Proposed offline colour-name render list; no clips rendered yet |
 | `mixing-model.js` | Deterministic simple Oklab mixing model |
 | `reachability-report.json`, `reachability-report.md` | Six-drop R/Y/B coverage audit |
 | `tests/` | Node tests and report generator/checker |
 | `.publish-manifest` | Potential publication boundary; the app remains unpublished |
 
-The prototype reads the shared ISCC–NBS vocabulary and its explicitly proposed child subset.
-It has no audio, generated art, service worker, release registration, or hub card. Its mixing
-model is a playful deterministic interpolation with chroma loss and hue bias, not a model of
-how real paint works.
+The prototype reads the shared ISCC–NBS vocabulary and its explicitly proposed child subset. Mix
+uses approved painted art; Explore adds 44 reviewed painted object sprites and takes each swatch's
+exact displayed sRGB directly from the shared vocabulary. It has no rendered audio, service worker,
+release registration, or hub card. Its mixing model is a playful deterministic interpolation with
+chroma loss and hue bias, not a model of how real paint works.
 
 Run the browser-free checks with `node tests/run-tests.js`.
