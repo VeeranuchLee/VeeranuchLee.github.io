@@ -42,6 +42,9 @@ export class GuitarSession {
       this.board.releaseAll();
       this._hook('padsOff');
       if (this.recorder.getMode() === 'playing') this.recorder.stop();
+      // Owner 2026-10-07: a take does not follow the child to another guitar
+      // (Toy Keyboard's rule). Stop, then clear -> "Ready", Play disabled.
+      if (id !== this.model) { this.recorder.stop(); this.recorder.clear(); }
     }
     if (id === this.model) return false;
     this.model = id;
