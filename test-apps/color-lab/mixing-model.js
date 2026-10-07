@@ -6,10 +6,13 @@
 })(typeof globalThis !== "undefined" ? globalThis : this, function () {
   "use strict";
 
+  // Sampled from the dominant saturated region of the paint-pot art
+  // (assets/art/pot-red.webp, pot-yellow.webp, pot-blue.webp) so the bowl
+  // matches the pots the child actually sees.
   var PIGMENT_HEX = {
-    red: "#DF493F",
-    yellow: "#E8B92C",
-    blue: "#3866BC",
+    red: "#EA1317",
+    yellow: "#F8C71D",
+    blue: "#0946DF",
   };
 
   function clamp(value, low, high) {
@@ -97,13 +100,18 @@
     var ry = pairAmount(drops.red, drops.yellow, total);
     var yb = pairAmount(drops.yellow, drops.blue, total);
     var rb = pairAmount(drops.red, drops.blue, total);
-    lab[1] += 0.028 * ry - 0.18 * yb + 0.09 * rb;
-    lab[2] += 0.07 * ry + 0.08 * yb - 0.11 * rb;
+    lab[1] += 0.028 * ry - 0.24 * yb + 0.15 * rb;
+    lab[2] += 0.07 * ry + 0.22 * yb - 0.15 * rb;
 
     var active = names.filter(function (name) { return drops[name] > 0; }).length;
     var maximumShare = Math.max(drops.red, drops.yellow, drops.blue) / total;
     var diversity = active === 1 ? 0 : (1 - maximumShare) / (1 - 1 / active);
-    var chromaScale = clamp(1 - 0.10 * (active - 1) - 0.16 * diversity, 0.48, 1);
+    // Two paints mix bright and clean; only when all three are in the bowl does
+    // the mix lose chroma and go brownish/muddy — that three-paint lesson is the
+    // point. Still interaction design, not a claim about how real paint works.
+    var chromaScale = active < 3
+      ? 1
+      : clamp(1 - 0.20 - 0.30 * diversity, 0.40, 1);
     lab[1] *= chromaScale;
     lab[2] *= chromaScale;
 
