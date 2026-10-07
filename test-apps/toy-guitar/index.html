@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#bf7a46">
-  <meta name="description" content="Choose a toy guitar, learn chords and strum along with songs.">
+  <meta name="description" content="A real six-string toy guitar. Pick, strum, hold frets, slide and record.">
   <title>Toy Guitar</title>
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="stylesheet" href="./fonts.css">
@@ -13,7 +13,25 @@
   <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
 </head>
 <body>
-  <main id="stage" class="stage" aria-live="polite"></main>
+  <div id="app" class="app">
+    <header class="bar">
+      <a class="btn back" href="https://veeranuchlee.github.io/children-apps/music.html" aria-label="Back to Music">←</a>
+      <button type="button" class="btn picker-btn" id="pickerBtn" aria-haspopup="dialog" aria-label="Choose a guitar"><span class="mini" id="pickerMini"></span><span class="pname" id="pickerName">Guitar</span></button>
+      <div class="transport" role="group" aria-label="Record">
+        <button type="button" class="btn rec" id="recBtn" aria-pressed="false">● <span>Record</span></button>
+        <button type="button" class="btn play not-ready" id="playBtn" aria-pressed="false" aria-disabled="true">▶ <span>Play</span></button>
+      </div>
+      <p class="status" id="status" aria-live="polite">Ready <span id="clock"></span></p>
+      <button type="button" class="btn mute" id="muteBtn" aria-label="Mute: stop all strings">✋ <span>Mute</span></button>
+    </header>
+    <main id="play" class="play-surface" aria-label="Guitar: touch a string to pluck it, hold a fret, swipe across the body to strum"></main>
+    <div id="picker" class="picker" role="dialog" aria-label="Choose a guitar" hidden>
+      <div class="picker-card">
+        <div class="picker-grid" id="pickerGrid"></div>
+        <button type="button" class="btn picker-close" id="pickerClose">Close</button>
+      </div>
+    </div>
+  </div>
   <script src="./tap-zoom-guard.js"></script>
   <script type="module" src="./app.js"></script>
   <script>

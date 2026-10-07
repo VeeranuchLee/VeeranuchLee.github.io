@@ -1,529 +1,346 @@
-// Toy Guitar — choose a chord, then strum six visible strings.
+// Toy Guitar — a free-play instrument. Touch the guitar and it plays.
 //
-// Every sound is generated at runtime. A buffer-based Karplus–Strong string
-// feeds the selected guitar's body-filter graph and this app's `music` bus;
-// no sample or rendered instrument file is fetched or shipped.
+// This file only wires things together. The physical model lives in
+// lib/string-board.js (six strings, one sounding fret each, highest fret wins),
+// the touch geometry in lib/geometry.js, the recorder in lib/recorder.js, the
+// plucked-string engine in audio/ks-worklet.js and the drawings in
+// ui/draw-guitar.js. There is no quiz, score, song or mode to choose first.
 
-import { noteToFrequency } from './audio-engine.js';
-import { AudioEngine } from './audio-engine.js';
-import { GUITARS, guitarById } from './data/guitars.js';
-import { CHORDS, DEFAULT_CHORD_IDS, chordNotes } from './data/chords.js';
-import { crossedLanes, strumOrder } from './data/strum-patterns.js';
-import { GUITAR_SONGS, guitarSongById } from './data/guitar-songs.js';
+import { StringBoard } from './lib/string-board.js';
+import { makeLayout, hitTest, fretOf, StrumTracker, bendFromOffset, strumVelocity } from './lib/geometry.js';
+import { createRecorder, stateWords } from './lib/recorder.js';
+import { recordingPerformer } from './lib/performer.js';
+import { positionFrequency, STRING_COUNT, FRET_COUNT } from './lib/theory.js';
+import { MODELS, modelById } from './audio/guitar-models.js';
+import { AudioShell, GuitarRig } from './audio/rig.js';
+import { drawGuitar, drawSilhouette, stringD } from './ui/draw-guitar.js';
 
-const STORE_KEY = 'toy-guitar.settings';
-const STRING_NAMES = ['Low E', 'A', 'D', 'G', 'B', 'High E'];
-const AUTO_SPACING = 0.028;
-const MAX_VOICES = 14;
-const BUFFER_LIMIT = 24;
+const STORE_KEY = 'toy-guitar.v2';
+const $ = (id) => document.getElementById(id);
+const now = () => performance.now() / 1000;
 
-let stage = null;
-let sharedEngine = null;
-let guitarEngine = null;
-let active = false;
-let wiredStage = null;
-let screen = 'select';
-let guitarId = 'nylon';
-let chordId = 'C';
-let songId = 'hot-cross-buns';
-let lastDirection = 'down';
-let mode = 'idle';
-let turnIndex = -1;
-const listenTimers = new Set();
-const pointers = new Map();
+const playEl = $('play');
+const shell = new AudioShell();
+let model = modelById(readStore().model);
+let rig = null;
+let layout = null;
+let marks = new Map();       // "lane-fret" -> element
+let stringEls = [];          // { line, glow }
+const pointers = new Map();  // pointerId -> { kind: 'fret' | 'strum', ... }
+const visualTimers = new Set();
+const energy = new Array(STRING_COUNT).fill(0);
+const heldState = Array.from({ length: STRING_COUNT }, () => []);
+let raf = 0; let lastFrame = 0; let lastPluckAt = -Infinity;
 
-function readStore() {
-  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch { return {}; }
+function readStore() { try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch (e) { return {}; } }
+function writeStore() { try { localStorage.setItem(STORE_KEY, JSON.stringify({ model: model.id })); } catch (e) { /* private mode */ } }
+
+// ---------- sound + picture: what the board asks for ----------
+function ensureRig() {
+  if (!shell.ctx) shell.prepare();
+  if (!shell.ctx) return null;
+  if (!rig) rig = new GuitarRig(shell, model);
+  return rig;
 }
 
-function writeStore() {
-  try { localStorage.setItem(STORE_KEY, JSON.stringify({ guitarId, songId })); } catch { /* private mode */ }
+function later(fn, seconds) {
+  if (seconds <= 0.001) { fn(); return; }
+  const id = setTimeout(() => { visualTimers.delete(id); fn(); }, seconds * 1000);
+  visualTimers.add(id);
 }
 
-export function latchChord(previous, next) {
-  if (!CHORDS[next]) throw new Error(`cannot latch unknown chord: ${next}`);
-  return next === previous ? previous : next;
+const inner = {
+  pluck(lane, fret, o = {}) {
+    const r = ensureRig();
+    const when = o.when || 0;
+    lastPluckAt = now() + when;
+    if (r) r.pluck(lane, positionFrequency(lane, fret, o.bend || 0), o.velocity ?? 0.8, when);
+    later(() => ringString(lane, o.velocity ?? 0.8, fret), when);
+  },
+  retune(lane, fret, o = {}) {
+    const r = ensureRig();
+    if (r) r.retune(lane, positionFrequency(lane, fret, o.bend || 0), o.via === 'bend' ? 0.03 : 0.012);
+  },
+  mute() {
+    if (rig) rig.muteAll();
+    visualTimers.forEach((id) => clearTimeout(id)); visualTimers.clear();
+    energy.fill(0);
+    stringEls.forEach((s) => { s.glow.setAttribute('opacity', '0'); s.line.setAttribute('d', stringD(layout, Number(s.lane), 0, 0)); s.glow.setAttribute('d', stringD(layout, Number(s.lane), 0, 0)); });
+    const btn = $('muteBtn'); btn.classList.add('flash'); setTimeout(() => btn.classList.remove('flash'), 220);
+  },
+  held(lane, fret, frets) {
+    heldState[lane] = frets ? frets.slice() : (fret === null ? [] : [fret]);
+    paintHeld(lane);
+  },
+  heldReset() { for (let l = 0; l < STRING_COUNT; l += 1) { heldState[l] = []; paintHeld(l); } }
+};
+
+// ---------- recorder ----------
+const clockSeconds = now;
+const recorder = createRecorder({
+  clock: clockSeconds,
+  target: {
+    pluck: (l, f, o) => inner.pluck(l, f, o),
+    retune: (l, f, o) => inner.retune(l, f, o),
+    mute: () => inner.mute(),
+    held: (l, f, fr) => inner.held(l, f, fr),
+    heldReset: () => inner.heldReset(),
+    setModel: (id) => selectModel(id, { fromPlayback: true })
+  },
+  currentModel: () => model.id,
+  currentHeld: () => board.snapshot().filter((s) => s.fret > 0).map((s) => ({ lane: s.lane, fret: s.fret }))
+});
+const board = new StringBoard(recordingPerformer(inner, recorder), clockSeconds);
+
+// ---------- drawing ----------
+function build() {
+  const w = playEl.clientWidth; const h = playEl.clientHeight;
+  if (w < 50 || h < 50) return;
+  layout = makeLayout(w, h);
+  playEl.innerHTML = drawGuitar(model, layout);
+  playEl.dataset.orientation = layout.orientation;
+  marks = new Map();
+  playEl.querySelectorAll('.mark').forEach((el) => marks.set(`${el.dataset.lane}-${el.dataset.fret}`, el));
+  stringEls = [...playEl.querySelectorAll('.string-line')].map((line) => ({
+    lane: line.dataset.lane, line, glow: playEl.querySelector(`.string-glow[data-lane="${line.dataset.lane}"]`)
+  }));
+  for (let l = 0; l < STRING_COUNT; l += 1) paintHeld(l);
 }
 
-export function shouldAdvanceTurn(expectedChord, playedChord) {
-  return Boolean(expectedChord && playedChord === expectedChord);
-}
-
-export function advanceTurnIndex(chart, index, playedChord) {
-  if (!Array.isArray(chart) || index < 0 || index >= chart.length) return index;
-  return shouldAdvanceTurn(chart[index].c, playedChord) ? index + 1 : index;
-}
-
-function makeCurve(amount) {
-  const curve = new Float32Array(1024);
-  for (let i = 0; i < curve.length; i += 1) {
-    const x = i * 2 / (curve.length - 1) - 1;
-    curve[i] = Math.tanh(amount * x) / Math.tanh(amount);
+function paintHeld(lane) {
+  for (let fret = 0; fret <= FRET_COUNT; fret += 1) {
+    const el = marks.get(`${lane}-${fret}`); if (!el) continue;
+    const held = fret > 0 && heldState[lane].includes(fret);
+    el.classList.toggle('held', held);
+    el.setAttribute('opacity', held ? '0.95' : '0');
   }
-  return curve;
 }
 
-export class GuitarEngine {
-  constructor(engine) {
-    this.engine = engine;
-    this.cache = new Map();
-    this.voices = [];
-    this.stringVoices = new Map();
-    this.model = GUITARS[0];
+function ringString(lane, velocity, fret) {
+  energy[lane] = Math.min(1, 0.5 + velocity * 0.6);
+  const el = marks.get(`${lane}-${fret}`);
+  if (el && !heldState[lane].includes(fret)) {
+    el.setAttribute('opacity', '0.8');
+    setTimeout(() => { if (!heldState[lane].includes(fret)) el.setAttribute('opacity', '0'); }, 70);
   }
+  if (!raf) { lastFrame = now(); raf = requestAnimationFrame(frame); }
+}
 
-  setGuitar(id) {
-    this.stop();
-    this.model = guitarById(id);
+function frame() {
+  const t = now(); const dt = Math.min(0.1, t - lastFrame); lastFrame = t;
+  const tau = Math.max(0.5, model.string.t60 * 0.28);
+  let any = false;
+  for (let lane = 0; lane < STRING_COUNT; lane += 1) {
+    const s = stringEls[lane]; if (!s) continue;
+    energy[lane] *= Math.exp(-dt / tau);
+    const e = energy[lane];
+    if (e < 0.02) { if (energy[lane] !== 0) { energy[lane] = 0; const d = stringD(layout, lane, 0, 0); s.line.setAttribute('d', d); s.glow.setAttribute('d', d); s.glow.setAttribute('opacity', '0'); } continue; }
+    any = true;
+    const d = stringD(layout, lane, e * 7, t * (28 + lane * 3));
+    s.line.setAttribute('d', d); s.glow.setAttribute('d', d);
+    s.glow.setAttribute('opacity', String(Math.min(0.85, e * 0.9)));
   }
+  raf = any ? requestAnimationFrame(frame) : 0;
+}
 
-  _cacheKey(note, stringIndex) {
-    return `${this.model.id}:${note}:${stringIndex}`;
+// ---------- touch: pointer ids, hold / strum / slide / bend ----------
+function localXY(e) { const r = playEl.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+
+playEl.addEventListener('pointerdown', (e) => {
+  if (e.pointerType === 'mouse' && e.button !== 0) return;
+  if (!layout) return;
+  shell.resume();
+  const { x, y } = localXY(e);
+  const hit = hitTest(layout, x, y);
+  if (!hit || hit.lane === null) return;
+  e.preventDefault();
+  try { playEl.setPointerCapture(e.pointerId); } catch (err) { /* synthetic ids */ }
+  if (pointers.has(e.pointerId)) release(e.pointerId);
+  const t = (e.timeStamp || performance.now()) / 1000;
+  if (hit.zone === 'neck') {
+    pointers.set(e.pointerId, { kind: 'fret', lane: hit.lane, fret: hit.fret });
+    board.fretDown(e.pointerId, hit.lane, hit.fret, { velocity: 0.8 });
+  } else {
+    const tracker = new StrumTracker(layout);
+    const crossings = tracker.down(hit.u, hit.v, t);
+    pointers.set(e.pointerId, { kind: 'strum', tracker, t, f: tracker.f });
+    board.strum(crossings, 0.8, 'down');
   }
+}, { passive: false });
 
-  _buffer(note, stringIndex) {
-    const ctx = this.engine.start();
-    const key = this._cacheKey(note, stringIndex);
-    if (this.cache.has(key)) {
-      const buffer = this.cache.get(key);
-      this.cache.delete(key);
-      this.cache.set(key, buffer);
-      return buffer;
+playEl.addEventListener('pointermove', (e) => {
+  const entry = pointers.get(e.pointerId);
+  if (!entry || !layout) return;
+  e.preventDefault();
+  const samples = typeof e.getCoalescedEvents === 'function' ? e.getCoalescedEvents() : [];
+  (samples.length ? samples : [e]).forEach((s) => sample(e.pointerId, entry, s));
+}, { passive: false });
+
+function sample(id, entry, s) {
+  const { x, y } = localXY(s);
+  const { u, v } = layout.toUV(x, y);
+  const t = (s.timeStamp || performance.now()) / 1000;
+  if (entry.kind === 'fret') {
+    const fret = fretOf(layout, u);
+    if (fret !== entry.fret) { entry.fret = fret; board.fretMove(id, entry.lane, fret); }
+    if (model.bendMax > 0) {
+      const cents = bendFromOffset(layout.laneCoord(u, v) - entry.lane, model.bendMax);
+      board.fretBend(id, entry.lane, cents);
     }
-
-    const ks = this.model.strings.ks;
-    const frequency = noteToFrequency(note) * Math.pow(2, (this.model.strings.detune[stringIndex] || 0) / 1200);
-    const delay = Math.max(2, Math.round(ctx.sampleRate / frequency));
-    const length = Math.ceil(ctx.sampleRate * ks.seconds);
-    const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
-    const data = buffer.getChannelData(0);
-    let smooth = 0;
-    let seed = 2166136261 ^ Math.round(frequency * 100) ^ (stringIndex * 2654435761);
-    for (let i = 0; i < delay && i < length; i += 1) {
-      seed = Math.imul(seed ^ (seed >>> 15), 2246822519);
-      const noise = ((seed >>> 0) / 4294967295) * 2 - 1;
-      smooth += ks.pick * (noise - smooth);
-      data[i] = smooth * 0.72;
+  } else {
+    const tr = entry.tracker;
+    const before = tr.f;
+    const crossings = tr.move(u, v, t);
+    if (crossings.length) {
+      const dtSec = Math.max(0.001, t - entry.t);
+      board.strum(crossings, strumVelocity(Math.abs(tr.f - before) / dtSec), tr.direction);
     }
-    for (let i = delay; i < length; i += 1) {
-      const a = data[i - delay];
-      const b = data[Math.max(0, i - delay - 1)];
-      const age = i / ctx.sampleRate;
-      data[i] = 0.5 * (a + b) * ks.damping * Math.exp(-age / ks.decay);
-    }
-
-    this.cache.set(key, buffer);
-    while (this.cache.size > BUFFER_LIMIT) this.cache.delete(this.cache.keys().next().value);
-    return buffer;
+    entry.t = t;
   }
+}
 
-  prepareChord(id) {
-    chordNotes(id, this.model.strings.tuning).forEach((note, stringIndex) => {
-      if (note) this._buffer(note, stringIndex);
-    });
+function release(id) {
+  const entry = pointers.get(id);
+  if (!entry) return;
+  pointers.delete(id);
+  if (entry.kind === 'fret') board.fretUp(id, entry.lane);
+}
+['pointerup', 'pointercancel', 'lostpointercapture'].forEach((type) => playEl.addEventListener(type, (e) => release(e.pointerId)));
+playEl.addEventListener('contextmenu', (e) => e.preventDefault());
+
+// Every way a finger can vanish without a pointerup ends here.
+function releaseEverything() {
+  [...pointers.keys()].forEach(release);
+  board.releaseAll();
+}
+window.addEventListener('blur', releaseEverything);
+window.addEventListener('pagehide', releaseEverything);
+document.addEventListener('visibilitychange', () => { if (document.hidden) releaseEverything(); });
+
+// ---------- mute ----------
+const muteBtn = $('muteBtn');
+muteBtn.addEventListener('pointerdown', (e) => { e.preventDefault(); shell.resume(); board.mute(); });
+muteBtn.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); board.mute(); } });
+muteBtn.addEventListener('click', (e) => { if (e.detail === 0) board.mute(); });
+
+// ---------- switching guitars ----------
+function selectModel(id, { fromPlayback = false } = {}) {
+  const next = modelById(id);
+  if (!fromPlayback) {
+    // user switch: let go of everything, silence, stop any playback
+    [...pointers.keys()].forEach(release);
+    board.releaseAll();
+    if (recorder.getMode() === 'playing') recorder.stop();
   }
+  if (next.id === model.id && rig) return;
+  visualTimers.forEach((t) => clearTimeout(t)); visualTimers.clear();
+  energy.fill(0);
+  if (rig) { rig.dispose(); rig = null; }
+  model = next;
+  recorder.record({ type: 'model', id: model.id });
+  heldState.forEach((_, l) => { heldState[l] = []; });
+  writeStore();
+  build();
+  paintPicker();
+  if (shell.ctx) ensureRig();
+}
 
-  _release(voice, now) {
-    if (!voice) return;
-    try {
-      voice.gain.gain.cancelScheduledValues(now);
-      voice.gain.gain.setValueAtTime(voice.gain.gain.value, now);
-      voice.gain.gain.linearRampToValueAtTime(0, now + 0.008);
-      voice.source.stop(now + 0.012);
-    } catch { /* an ended buffer is already silent */ }
-    this.voices = this.voices.filter((item) => item !== voice);
-    if (this.stringVoices.get(voice.stringIndex) === voice) this.stringVoices.delete(voice.stringIndex);
+// ---------- picker ----------
+const pickerEl = $('picker');
+function paintPicker() {
+  $('pickerMini').innerHTML = drawSilhouette(model, 160, 64);
+  $('pickerName').textContent = model.name.replace(' Guitar', '');
+  pickerEl.querySelectorAll('.pick').forEach((b) => {
+    const on = b.dataset.id === model.id; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on));
+  });
+}
+$('pickerGrid').innerHTML = MODELS.map((m) => `<button type="button" class="pick" data-id="${m.id}" aria-label="${m.name}">${drawSilhouette(m, 260, 96)}<span class="nm">${m.name}</span><span class="bl">${m.blurb}</span></button>`).join('');
+$('pickerGrid').addEventListener('click', (e) => {
+  const b = e.target.closest('.pick'); if (!b) return;
+  shell.resume(); selectModel(b.dataset.id); closePicker();
+});
+function openPicker() {
+  releaseEverything();
+  pickerEl.hidden = false; paintPicker();
+  const first = pickerEl.querySelector('.pick.on') || pickerEl.querySelector('.pick'); if (first) first.focus();
+}
+function closePicker() { pickerEl.hidden = true; }
+$('pickerBtn').addEventListener('click', openPicker);
+$('pickerClose').addEventListener('click', closePicker);
+pickerEl.addEventListener('click', (e) => { if (e.target === pickerEl) closePicker(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePicker(); });
+
+// ---------- record / play ----------
+const recBtn = $('recBtn'); const playBtn = $('playBtn'); const statusEl = $('status'); const clockEl = $('clock');
+let say = null; let sayTimer = 0; let ticker = 0;
+const fmt = (s) => { s = Math.max(0, Math.round(s)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+function paintTransport(snap = recorder.snapshot()) {
+  const recording = snap.mode === 'recording'; const playing = snap.mode === 'playing';
+  recBtn.setAttribute('aria-pressed', String(recording));
+  playBtn.setAttribute('aria-pressed', String(playing));
+  playBtn.disabled = recording;
+  const notReady = !snap.hasTake && !recording && !playing;
+  playBtn.classList.toggle('not-ready', notReady);
+  if (notReady) playBtn.setAttribute('aria-disabled', 'true'); else playBtn.removeAttribute('aria-disabled');
+  recBtn.lastElementChild.textContent = recording ? 'Stop' : 'Record';
+  const words = say || stateWords(snap);
+  statusEl.firstChild.nodeValue = words + ' ';
+  clockEl.textContent = recording ? fmt(snap.elapsed) : (playing ? fmt(snap.duration) : '');
+  clearInterval(ticker);
+  if (recording) ticker = setInterval(() => { clockEl.textContent = fmt(recorder.snapshot().elapsed); }, 500);
+}
+recorder.onChange(paintTransport);
+function saySoon(text, ms) { say = text; paintTransport(); clearTimeout(sayTimer); sayTimer = setTimeout(() => { say = null; paintTransport(); }, ms); }
+recBtn.addEventListener('click', () => {
+  shell.resume();
+  if (recorder.getMode() === 'recording') { recorder.stop(); return; }
+  const had = recorder.snapshot().hasTake;
+  recorder.start();
+  if (had) saySoon('New song!', 900);
+});
+playBtn.addEventListener('click', () => {
+  shell.resume();
+  const snap = recorder.snapshot();
+  if (snap.mode === 'playing') { recorder.stop(); return; }
+  if (!snap.hasTake) {
+    saySoon('Record a song first!', 1600);
+    [recBtn, playBtn].forEach((b) => { b.classList.remove('nudge'); void b.offsetWidth; b.classList.add('nudge'); });
+    setTimeout(() => [recBtn, playBtn].forEach((b) => b.classList.remove('nudge')), 1600);
+    return;
   }
+  recorder.play();
+});
 
-  playString(chord, stringIndex, at) {
-    const notes = chordNotes(chord, this.model.strings.tuning);
-    const note = notes[stringIndex];
-    if (!note) return false;
-    const ctx = this.engine.start();
-    const bus = this.engine.bus('music');
-    if (!bus) return false;
-    const now = at ?? ctx.currentTime;
-    this._release(this.stringVoices.get(stringIndex), ctx.currentTime);
-
-    const source = ctx.createBufferSource();
-    source.buffer = this._buffer(note, stringIndex);
-    const gain = ctx.createGain();
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.linearRampToValueAtTime(this.model.gain, now + 0.003);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + this.model.strings.ks.seconds);
-    source.connect(gain);
-
-    let tail = gain;
-    for (const spec of this.model.body) {
-      const filter = ctx.createBiquadFilter();
-      filter.type = spec.type;
-      filter.frequency.value = spec.frequency;
-      filter.Q.value = spec.q ?? 0.7;
-      if (spec.gain != null) filter.gain.value = spec.gain;
-      tail.connect(filter);
-      tail = filter;
-    }
-    if (this.model.amp) {
-      for (const spec of this.model.amp.pre || []) {
-        const filter = ctx.createBiquadFilter();
-        filter.type = spec.type;
-        filter.frequency.value = spec.frequency;
-        filter.Q.value = spec.q ?? 0.7;
-        if (spec.gain != null) filter.gain.value = spec.gain;
-        tail.connect(filter); tail = filter;
+// ---------- start ----------
+// A turn of the iPad changes the geometry under the fingers: let go of everything first.
+let lastOrientation = null;
+new ResizeObserver(() => {
+  const o = playEl.clientHeight > playEl.clientWidth ? 'portrait' : 'landscape';
+  if (lastOrientation && o !== lastOrientation) releaseEverything();
+  lastOrientation = o;
+  build();
+}).observe(playEl);
+build();
+paintPicker();
+paintTransport();
+// Swap the buffer fallback for the AudioWorklet once it has loaded, only while nothing is being played.
+function upgradeRigWhenIdle() {
+  if (!shell.ctx || !shell.workletPromise) return;
+  shell.workletPromise.then(() => {
+    const timer = setInterval(() => {
+      if (!rig || rig.kind === 'worklet' || !shell.workletReady) { clearInterval(timer); return; }
+      if (pointers.size === 0 && now() - lastPluckAt > 3 && recorder.getMode() !== 'playing') {
+        rig.dispose(); rig = new GuitarRig(shell, model); clearInterval(timer);
       }
-      const shaper = ctx.createWaveShaper();
-      shaper.curve = makeCurve(this.model.amp.drive);
-      shaper.oversample = '4x';
-      tail.connect(shaper); tail = shaper;
-      for (const spec of this.model.amp.cab || []) {
-        const filter = ctx.createBiquadFilter();
-        filter.type = spec.type;
-        filter.frequency.value = spec.frequency;
-        filter.Q.value = spec.q ?? 0.7;
-        if (spec.gain != null) filter.gain.value = spec.gain;
-        tail.connect(filter); tail = filter;
-      }
-    }
-
-    const dry = ctx.createGain();
-    dry.gain.value = 1 - this.model.reverb;
-    tail.connect(dry); dry.connect(bus.dry);
-    const wet = ctx.createGain();
-    wet.gain.value = this.model.reverb;
-    tail.connect(wet); wet.connect(bus.wet);
-
-    const voice = { source, gain, stringIndex };
-    this.voices.push(voice);
-    this.stringVoices.set(stringIndex, voice);
-    while (this.voices.length > MAX_VOICES) this._release(this.voices[0], ctx.currentTime);
-    source.onended = () => this._release(voice, ctx.currentTime);
-    source.start(now);
-    source.stop(now + this.model.strings.ks.seconds + 0.03);
-    return true;
-  }
-
-  strum(chord, direction = 'down', at = null, spacing = AUTO_SPACING) {
-    const ctx = this.engine.start();
-    this.prepareChord(chord);
-    const frets = CHORDS[chord].frets;
-    const order = strumOrder(direction, frets);
-    const start = at ?? ctx.currentTime;
-    order.forEach((stringIndex, index) => this.playString(chord, stringIndex, start + index * spacing));
-    return order;
-  }
-
-  stop() {
-    if (!this.engine.ctx) return;
-    [...this.voices].forEach((voice) => this._release(voice, this.engine.ctx.currentTime));
-    this.engine.stopAll('music');
-  }
-}
-
-function guitarTile(guitar) {
-  return `<button class="guitar-tile guitar-tile--placeholder guitar-tile--${guitar.id}${guitar.id === guitarId ? ' is-current' : ''}"
-    data-guitar="${guitar.id}" aria-label="${guitar.name}" title="${guitar.name}"
-    style="--guitar-body:${guitar.palette.body};--guitar-accent:${guitar.palette.accent}">
-      <span class="guitar-silhouette" aria-hidden="true"><i></i></span>
-    </button>`;
-}
-
-function chordCardsMarkup(ids = DEFAULT_CHORD_IDS) {
-  return ids.map((id) => `<button class="chord-card${id === chordId ? ' is-current' : ''}"
-    data-chord="${id}" style="--chord:${CHORDS[id].colour}" aria-pressed="${id === chordId}" aria-label="Chord ${id}">
-      <span>${id}</span>
-    </button>`).join('');
-}
-
-function songTilesMarkup() {
-  return GUITAR_SONGS.map((song) => {
-    return `<button class="song-tile guitar-song-tile${song.id === songId ? ' is-current' : ''}"
-      data-guitar-song="${song.id}" aria-label="Song: ${song.title}" title="${song.title}">
-        <img class="song-tile__art" src="${song.art}" alt="">
-        <span class="guitar-pick" aria-hidden="true"></span>
-      </button>`;
-  }).join('');
-}
-
-function renderSelect() {
-  screen = 'select';
-  mode = 'idle';
-  stopListen();
-  guitarEngine.stop();
-  stage.className = 'stage stage--guitar stage--guitar-select';
-  stage.style.backgroundImage = '';
-  stage.innerHTML = `<div class="scrim">
-    <div class="topbar">
-      <a class="round-btn" href="https://veeranuchlee.github.io/children-apps/music.html" aria-label="Back to Music">←</a>
-      <div class="banner banner--slim"><h1>Toy Guitar</h1></div>
-      <button class="round-btn sound-btn" data-sound aria-pressed="true" aria-label="Sound on">♪</button>
-    </div>
-    <div class="guitar-select">
-      <div class="guitar-song-grid">${songTilesMarkup()}</div>
-      <div class="guitar-grid">${GUITARS.map(guitarTile).join('')}</div>
-      <button class="go-btn" data-guitar-play aria-label="Go play"><span class="go-btn__icon">▶</span></button>
-    </div>
-  </div>`;
-}
-
-function renderPlay() {
-  screen = 'play';
-  guitarEngine.setGuitar(guitarId);
-  guitarEngine.prepareChord(chordId);
-  const song = guitarSongById(songId);
-  stage.className = 'stage stage--guitar stage--guitar-play';
-  stage.style.backgroundImage = '';
-  stage.innerHTML = `<div class="scrim">
-    <div class="topbar">
-      <button class="round-btn" data-guitar-select aria-label="Choose another guitar">←</button>
-      <div class="guitar-head" aria-hidden="true"><span class="guitar-silhouette"><i></i></span></div>
-      <div class="banner banner--slim guitar-song-title"><h1>${song.title}</h1></div>
-      <div class="guitar-playbtns">
-        <button class="toy-iconbtn" data-guitar-turn aria-pressed="true" aria-label="Your turn"><span>↺</span></button>
-        <button class="toy-iconbtn" data-guitar-listen aria-pressed="false" aria-label="Listen"><span class="guitar-listen-icon">▶</span></button>
-      </div>
-    </div>
-    <div class="guitar-chart" aria-label="Chord path for ${song.title}">${chartMarkup(song)}</div>
-    <div class="strum-surface" data-strum aria-label="Strum the guitar strings">
-      ${STRING_NAMES.map((name, index) => `<div class="guitar-string" data-string="${index}" aria-label="${name} string"><span></span></div>`).join('')}
-      <div class="guitar-soundhole" aria-hidden="true"></div>
-    </div>
-    <div class="chord-row">${chordCardsMarkup(DEFAULT_CHORD_IDS)}</div>
-  </div>`;
-  startTurn();
-}
-
-function chartMarkup(song) {
-  return song.chart.map((step, index) => `<div class="chord-bead" data-bead="${index}"
-    style="--chord:${CHORDS[step.c].colour};--beats:${step.beats}" aria-label="${step.c}, ${step.beats} beats">
-      <span>${step.c}</span>
-    </div>`).join('');
-}
-
-function clearListenTimers() {
-  listenTimers.forEach((timer) => clearTimeout(timer));
-  listenTimers.clear();
-}
-
-function setListenUI(on) {
-  const button = stage?.querySelector('[data-guitar-listen]');
-  if (!button) return;
-  button.setAttribute('aria-pressed', String(on));
-  button.classList.toggle('is-on', on);
-  const icon = button.querySelector('.guitar-listen-icon');
-  if (icon) icon.textContent = on ? '⏹' : '▶';
-}
-
-function paintTurn() {
-  stage.querySelectorAll('[data-bead]').forEach((bead, index) => {
-    bead.classList.toggle('is-current', mode === 'turn' && index === turnIndex);
-    bead.classList.toggle('is-done', mode === 'turn' && index < turnIndex);
-  });
-  const button = stage.querySelector('[data-guitar-turn]');
-  if (button) button.setAttribute('aria-pressed', String(mode === 'turn'));
-}
-
-function startTurn() {
-  stopListen();
-  mode = 'turn';
-  turnIndex = 0;
-  paintTurn();
-}
-
-function attemptTurn(playedChord) {
-  if (mode !== 'turn') return false;
-  const song = guitarSongById(songId);
-  const next = advanceTurnIndex(song.chart, turnIndex, playedChord);
-  if (next === turnIndex) return false;
-  turnIndex = next;
-  if (turnIndex >= song.chart.length) mode = 'idle';
-  paintTurn();
-  return true;
-}
-
-function stopListen() {
-  clearListenTimers();
-  if (mode === 'listen') guitarEngine?.stop();
-  setListenUI(false);
-  if (mode === 'listen') mode = 'idle';
-}
-
-function startListen() {
-  stopListen();
-  mode = 'listen';
-  turnIndex = -1;
-  paintTurn();
-  setListenUI(true);
-  const song = guitarSongById(songId);
-  sharedEngine.start();
-  let beats = 0;
-  const secondsPerBeat = 60 / song.tempo;
-  song.chart.forEach((step, index) => {
-    const timer = setTimeout(() => {
-      if (!active || mode !== 'listen') return;
-      // Schedule each chord when its bead arrives. Pre-scheduling the whole
-      // chart would make per-string monophony release a future strum while a
-      // later one was being queued; this keeps only the actually ringing
-      // voice replaceable and preserves the chart's order.
-      guitarEngine.strum(step.c, 'down');
-      stage.querySelectorAll('[data-bead]').forEach((bead, beadIndex) => bead.classList.toggle('is-listening', beadIndex === index));
-      stage.querySelectorAll('[data-chord]').forEach((card) => card.classList.toggle('is-listening', card.dataset.chord === step.c));
-    }, (0.08 + beats * secondsPerBeat) * 1000);
-    listenTimers.add(timer);
-    beats += step.beats;
-  });
-  const finish = setTimeout(() => {
-    if (!active || mode !== 'listen') return;
-    mode = 'idle';
-    stage.querySelectorAll('.is-listening').forEach((node) => node.classList.remove('is-listening'));
-    setListenUI(false);
-  }, (0.12 + beats * secondsPerBeat) * 1000);
-  listenTimers.add(finish);
-}
-
-function flashString(index) {
-  const string = stage.querySelector(`[data-string="${index}"]`);
-  if (!string) return;
-  string.classList.remove('is-struck');
-  void string.offsetWidth;
-  string.classList.add('is-struck');
-}
-
-function chooseChord(id, auto = true) {
-  chordId = latchChord(chordId, id);
-  guitarEngine.prepareChord(chordId);
-  stage.querySelectorAll('[data-chord]').forEach((card) => {
-    const on = card.dataset.chord === chordId;
-    card.classList.toggle('is-current', on);
-    card.setAttribute('aria-pressed', String(on));
-  });
-  if (auto) {
-    const order = guitarEngine.strum(chordId, lastDirection);
-    order.forEach((stringIndex, index) => setTimeout(() => flashString(stringIndex), index * AUTO_SPACING * 1000));
-    attemptTurn(chordId);
-  }
-}
-
-function laneAt(event, surface) {
-  const rect = surface.getBoundingClientRect();
-  const y = Math.max(0, Math.min(rect.height - 0.001, event.clientY - rect.top));
-  return Math.max(0, Math.min(5, Math.floor(y / rect.height * 6)));
-}
-
-function fireCrossing(state, lane) {
-  for (const stringIndex of crossedLanes(state.lastLane, lane)) {
-    if (state.fired.has(stringIndex)) continue;
-    state.fired.add(stringIndex);
-    guitarEngine.playString(chordId, stringIndex);
-    flashString(stringIndex);
-  }
-  if (Number.isInteger(state.lastLane) && lane !== state.lastLane) lastDirection = lane > state.lastLane ? 'down' : 'up';
-  state.lastLane = lane;
-}
-
-function onPointerDown(event, surface) {
-  if (!active || screen !== 'play' || (event.pointerType === 'mouse' && event.button !== 0)) return;
-  const state = { lastLane: null, fired: new Set() };
-  pointers.set(event.pointerId, state);
-  try { surface.setPointerCapture(event.pointerId); } catch { /* optional in DOM harnesses */ }
-  fireCrossing(state, laneAt(event, surface));
-}
-
-function endPointer(event) {
-  const state = pointers.get(event.pointerId);
-  pointers.delete(event.pointerId);
-  if (state?.fired.size) attemptTurn(chordId);
-}
-
-function wire() {
-  if (wiredStage === stage) return;
-  wiredStage = stage;
-  stage.addEventListener('click', (event) => {
-    if (!active) return;
-    const guitar = event.target.closest('[data-guitar]');
-    if (guitar) {
-      guitarId = guitar.dataset.guitar;
-      writeStore();
-      guitarEngine.setGuitar(guitarId);
-      guitarEngine.strum('Am', 'down');
-      stage.querySelectorAll('[data-guitar]').forEach((tile) => {
-        tile.classList.toggle('is-current', tile.dataset.guitar === guitarId);
-      });
-      return;
-    }
-    const song = event.target.closest('[data-guitar-song]');
-    if (song) {
-      const chosen = song.dataset.guitarSong;
-      const again = chosen === songId;
-      songId = chosen;
-      writeStore();
-      stage.querySelectorAll('[data-guitar-song]').forEach((tile) => tile.classList.toggle('is-current', tile.dataset.guitarSong === songId));
-      if (again) renderPlay();
-      else guitarEngine.strum(guitarSongById(songId).chart[0].c, 'down');
-      return;
-    }
-    const chord = event.target.closest('[data-chord]');
-    if (chord) { chooseChord(chord.dataset.chord); return; }
-    if (event.target.closest('[data-guitar-play]')) { renderPlay(); return; }
-    if (event.target.closest('[data-guitar-select]')) { renderSelect(); return; }
-    const sound = event.target.closest('[data-sound]');
-    if (sound) {
-      const muted = sound.getAttribute('aria-pressed') === 'true';
-      sharedEngine.setMuted(muted);
-      sound.setAttribute('aria-pressed', String(!muted));
-      sound.setAttribute('aria-label', muted ? 'Sound off' : 'Sound on');
-      return;
-    }
-    if (event.target.closest('[data-guitar-turn]')) { startTurn(); return; }
-    if (event.target.closest('[data-guitar-listen]')) {
-      if (mode === 'listen') stopListen(); else startListen();
-    }
-  });
-  stage.addEventListener('pointerdown', (event) => {
-    const surface = event.target.closest('[data-strum]');
-    if (surface) onPointerDown(event, surface);
-  });
-  stage.addEventListener('pointermove', (event) => {
-    const state = pointers.get(event.pointerId);
-    const surface = event.target.closest('[data-strum]') || stage.querySelector('[data-strum]');
-    if (state && surface) fireCrossing(state, laneAt(event, surface));
-  });
-  stage.addEventListener('pointerup', endPointer);
-  stage.addEventListener('pointercancel', endPointer);
-}
-
-export function renderGuitarroom(context) {
-  stage = context.stage;
-  sharedEngine = context.engine;
-  guitarEngine = new GuitarEngine(sharedEngine);
-  active = true;
-  pointers.clear();
-  const stored = readStore();
-  guitarId = guitarById(stored.guitarId || 'nylon').id;
-  songId = guitarSongById(stored.songId)?.id || GUITAR_SONGS[0].id;
-  chordId = 'C';
-  guitarEngine.setGuitar(guitarId);
-  renderSelect();
-  wire();
-}
-
-export function silenceGuitarroom() {
-  clearListenTimers();
-  pointers.clear();
-  guitarEngine?.stop();
-}
-
-export function leaveGuitarroom() {
-  if (!active) return;
-  silenceGuitarroom();
-  active = false;
-}
-
-if (typeof document !== 'undefined') {
-  const engine = new AudioEngine();
-  const appStage = document.querySelector('#stage');
-  if (appStage) renderGuitarroom({ stage: appStage, engine });
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) silenceGuitarroom();
+    }, 700);
   });
 }
+window.addEventListener('pointerdown', () => { shell.resume(); upgradeRigWhenIdle(); }, { once: true, capture: true });
+
+// QA hooks: read-only views of the instrument state for the browser checks.
+window.__toyGuitar = {
+  board, recorder, shell, pointers,
+  get rig() { return rig; }, get model() { return model; }, get layout() { return layout; },
+  level: () => shell.level(),
+  select: (id) => selectModel(id)
+};
