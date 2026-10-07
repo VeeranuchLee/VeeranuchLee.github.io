@@ -92,6 +92,8 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
   filter:drop-shadow(0 4px 3px rgba(74,53,38,.28));
 }
 .hero.held{scale:1.07}
+.hero.view-turn{animation:robot-view-turn .23s ease-in-out}
+@keyframes robot-view-turn{0%,100%{scale:1 1}50%{scale:.2 1}}
 .hero.nudge-up{animation:nudge-up .28s ease-out}
 .hero.nudge-down{animation:nudge-down .28s ease-out}
 .hero.nudge-left{animation:nudge-left .28s ease-out}
@@ -222,5 +224,6 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
 
 @media (prefers-reduced-motion:reduce){
   .hero,.friend,.arrow{transition:none}
+  .hero.view-turn{animation:none}
   .hero.cheer,.sparkles.on,.finish-card,.move-chip,.pad.full .arrow,.arrow.hint,.trail-label.try-again,.trail-feedback.on{animation-duration:.01s}
 }

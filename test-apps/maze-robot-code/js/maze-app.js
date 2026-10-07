@@ -485,14 +485,56 @@
       if (SND) SND.pick();
       layout();
     };
+    preloadRobotViews();
     updateRobotVisual();
+  }
+
+  // The Robot hero turns on the board by changing view, not by spinning: N (up the screen)
+  // is the back view, S the front view, E the side view, W the same side view mirrored.
+  // Other friends keep the old whole-sprite rotation. Only used in Robot Code mode.
+  var ROBOT_VIEW = { N: "robot-back", E: "robot-side", S: "robot", W: "robot-side" };
+  var robotViewTimer = null, robotPreloaded = [];
+  function robotViewsReady() {
+    return ["robot", "robot-back", "robot-side"].every(function (id) { return MISSING.indexOf(id) < 0; });
+  }
+  function preloadRobotViews() {
+    if (robotPreloaded.length || typeof window.Image !== "function" || !robotViewsReady()) return;
+    ["robot", "robot-back", "robot-side"].forEach(function (id) {
+      var im = new window.Image(); im.src = SPRITE(id); robotPreloaded.push(im);
+    });
+  }
+  function applyRobotView(heading) {
+    var hero = R && R.hero;
+    if (!hero || hero.getAttribute("data-placeholder")) return;
+    var view = ROBOT_VIEW[heading];
+    hero.style.rotate = "0deg";
+    hero.setAttribute("data-view", view);
+    hero.setAttribute("data-flip", heading === "W" ? "1" : "0");
+    hero.style.transform = heading === "W" ? "scaleX(-1)" : "";
+    var src = SPRITE(view);
+    if (hero.getAttribute("src") !== src) hero.setAttribute("src", src);
+  }
+  function showRobotView(heading, turnCommand) {
+    var hero = R.hero;
+    if (robotViewTimer) { clearTimeout(robotViewTimer); robotViewTimer = null; }
+    hero.classList.remove("view-turn");
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!turnCommand || reduce) { applyRobotView(heading); return; }
+    // Quarter turn: squash to a sliver, swap the view at the midpoint, expand back (230 ms).
+    void hero.offsetWidth;
+    hero.classList.add("view-turn");
+    robotViewTimer = setTimeout(function () {
+      robotViewTimer = null; applyRobotView(S.state ? S.state.heading : heading);
+    }, 115);
+    setTimeout(function () { if (hero) hero.classList.remove("view-turn"); }, 240);
   }
 
   function updateRobotVisual(turnCommand) {
     if (S.mazeType !== "robot" || !R || !S.state) return;
     var angles = { N: 0, E: 90, S: 180, W: 270 };
-    R.hero.style.rotate = angles[S.state.heading] + "deg";
     R.hero.setAttribute("data-heading", S.state.heading);
+    if (S.hero === "robot" && robotViewsReady()) showRobotView(S.state.heading, turnCommand);
+    else R.hero.style.rotate = angles[S.state.heading] + "deg";
     var view = MR.relativeView(S.round.maze, S.state.cell, S.state.heading);
     ["left", "forward", "right"].forEach(function (side) {
       var wall = R.eyesScene.querySelector('[data-side="' + side + '"]');
