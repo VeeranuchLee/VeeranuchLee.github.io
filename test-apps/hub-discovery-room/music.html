@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Music — Children Games</title>
+  <meta name="description" content="Music for children — listen and guess, play a toy keyboard, or explore songs in the Music Book."/>
+  <link rel="stylesheet" href="https://veeranuchlee.github.io/children-apps/fonts.css"/><meta name="theme-color" content="#f7d9ec"/>
+  <link rel="apple-touch-icon" href="https://veeranuchlee.github.io/children-apps/assets/app-192.png"/><link rel="icon" href="https://veeranuchlee.github.io/children-apps/assets/app-192.png"/>
+  <link rel="stylesheet" href="./playroom/category.css"/>
+</head>
+<body class="painted-room" data-category="music">
+  <div class="topbar">
+    <a class="back" id="back" href="./" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg><span>Children Games</span></a>
+    <div class="view-switch" role="group" aria-label="Choose a view"><button type="button" data-view="room" aria-pressed="true">Room</button><button type="button" data-view="cards" aria-pressed="false">Cards</button></div>
+  </div>
+  <button class="music-btn" id="musicBtn" type="button" aria-pressed="false" aria-label="Play music"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="note" d="M20 3.5v11.2a3.3 3.3 0 1 1-2-3V7.9l-7 1.6v8.2a3.3 3.3 0 1 1-2-3V6.3l11-2.8z"/><line class="slash" x1="3.4" y1="3.4" x2="20.6" y2="20.6"/></svg></button>
+  <main class="room-view" id="roomView"><div class="room-frame"><img id="roomPicture" width="1672" height="941" alt=""/><div class="room-hotspots" id="roomHotspots"></div></div></main>
+  <section class="cards-view" id="cardsView" hidden><header><h1 id="catTitle">Music</h1><p class="tagline" id="catLine"></p></header><main class="grid" id="catGrid"></main></section>
+  <script src="./tap-zoom-guard.js"></script><script src="./playroom/destinations.js"></script><script src="./playroom/category.js"></script>
+  <script>
+  /* Existing Music-hub bed behaviour: its own generated track, the shared ca_music
+     preference, off by default, and autoplay armed only by a later child gesture. */
+  var Music=(function(){
+    var SRC='./audio/music-hub-bed.m4a',KEY='ca_music',FULL=.30,RAMP_MS=900,STEP_MS=50;
+    var el=null,ramp=0,armed=false,pref=false,btn=document.getElementById('musicBtn');
+    try{pref=localStorage.getItem(KEY)==='1';}catch(e){}
+    function paint(){btn.setAttribute('aria-pressed',pref?'true':'false');btn.setAttribute('aria-label',pref?'Stop music':'Play music');btn.classList.toggle('playing',!!(el&&!el.paused));}
+    function fadeTo(v,pause){if(!el)return;if(ramp)clearInterval(ramp);var from=el.volume,steps=Math.max(1,Math.round(RAMP_MS/STEP_MS)),i=0;ramp=setInterval(function(){i++;el.volume=Math.max(0,Math.min(1,from+(v-from)*(i/steps)));if(i>=steps){clearInterval(ramp);ramp=0;if(pause)el.pause();paint();}},STEP_MS);}
+    function arm(){if(armed)return;armed=true;var go=function(e){if(e.target&&e.target.closest&&e.target.closest('a'))return;window.removeEventListener('pointerdown',go,true);armed=false;apply();};window.addEventListener('pointerdown',go,true);}
+    function apply(){if(!pref){if(el&&!el.paused)fadeTo(0,true);else paint();return;}if(!el){try{el=new Audio(SRC);}catch(e){return;}el.loop=true;el.preload='none';el.volume=0;el.addEventListener('playing',paint);el.addEventListener('pause',paint);}el.volume=0;var p;try{p=el.play();}catch(e){arm();return;}if(p&&p.then)p.then(function(){fadeTo(FULL,false);paint();}).catch(arm);else{fadeTo(FULL,false);paint();}}
+    btn.addEventListener('click',function(){pref=!pref;try{localStorage.setItem(KEY,pref?'1':'0');}catch(e){}apply();paint();});paint();apply();
+    return{state:function(){return{pref:pref,exists:!!el,playing:!!(el&&!el.paused),volume:el?+el.volume.toFixed(3):null,armed:armed,src:SRC};}};
+  })();
+  </script>
+</body>
+</html>

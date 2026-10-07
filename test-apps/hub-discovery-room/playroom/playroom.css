@@ -1,0 +1,329 @@
+/* The Discovery Room hub. See index.html for what this page is, and destinations.js for what is in it. */
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --ink:#3b2a52;
+  --ink-soft:#6b5a84;
+  --card:#ffffff;
+  /* The picture's own aspect ratio, as a plain number for calc(); playroom.js rewrites it from
+     destinations.js so a master with another shape still fits. 1448 / 1086. */
+  --ar:1.33333;
+  --vh:100vh;
+  --glow:rgba(255,238,170,.95);
+}
+@supports (height:100dvh){:root{--vh:100dvh}}
+
+/* INTERACTION-DIRECTION.md method C, layer 1: manipulation on BOTH html and body. Nothing on this
+   page is dragged, so there is no layer-2 surface; layer 3 is ./tap-zoom-guard.js. */
+html{-webkit-text-size-adjust:100%;touch-action:manipulation;height:100%}
+body{
+  font-family:'Nunito',system-ui,sans-serif;
+  color:var(--ink);
+  touch-action:manipulation;
+  height:100%;
+  overflow:hidden;              /* the scene is fitted, never scrolled; no horizontal scroll */
+  background:#f3e2d8;           /* warm wall tone, under the blurred backdrop */
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
+}
+
+.sr-only{
+  position:absolute!important;width:1px;height:1px;overflow:hidden;
+  clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;
+}
+
+/* LETTERBOX. On a screen that is not 4:3 the room is shown whole (contain) and the bands around
+   it are the same picture, enlarged and blurred, so they read as the room continuing rather
+   than as bars. It is the same image URL, so swapping the art swaps this too. */
+.backdrop{
+  position:fixed;inset:-40px;z-index:0;
+  background-position:center;background-size:cover;
+  filter:blur(26px) saturate(1.1) brightness(1.04);
+  opacity:.85;
+}
+
+.stage{
+  position:fixed;inset:0;z-index:1;
+  display:flex;align-items:center;justify-content:center;
+  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+.scene{
+  position:relative;
+  width:min(100%, calc((var(--vh) - env(safe-area-inset-top) - env(safe-area-inset-bottom)) * var(--ar)));
+  aspect-ratio:var(--ar);
+  box-shadow:0 10px 40px rgba(72,48,104,.18);
+}
+.scene-img{
+  position:absolute;inset:0;width:100%;height:100%;display:block;
+  pointer-events:none;
+}
+
+/* ── THE DOORS ──
+   A transparent link over each object. At rest it is invisible: no permanent labels, no dots.
+   The tap area is the object's whole box (destinations.js), which is deliberately larger than
+   the painted object — never shrink a tap target to match its art. */
+.spot{
+  position:absolute;
+  display:block;
+  border-radius:18px;
+  outline:none;
+  -webkit-tap-highlight-color:transparent;
+  cursor:pointer;
+  text-decoration:none;
+}
+.spot.ellipse{border-radius:50%}
+/* A door that opens the picker is a <button>; strip the browser's button look so it is the
+   same invisible box as a link. */
+button.spot{padding:0;margin:0;border:0;background:none;font:inherit;color:inherit;text-align:inherit;appearance:none;-webkit-appearance:none}
+/* A lit door sits above its neighbours so its name bubble is never covered. */
+.spot:hover,.spot:focus-visible,.spot.on{z-index:2}
+
+/* The "lift": the painted object itself, cut from the same picture and laid exactly over it.
+   Hidden at rest, so the room is just the room. On hover / press / focus it brightens, glows and
+   rises a little — the object answers, not a card. Its feathered edge keeps it from reading as
+   a rectangle. Positioned by playroom.js from the same percent box. */
+.lift{
+  position:absolute;inset:0;
+  border-radius:inherit;
+  background-repeat:no-repeat;
+  opacity:0;
+  transition:opacity .18s ease, transform .22s cubic-bezier(.3,1.6,.5,1), filter .18s ease;
+  -webkit-mask-image:radial-gradient(ellipse 60% 60% at 50% 50%, #000 62%, rgba(0,0,0,0) 100%);
+          mask-image:radial-gradient(ellipse 60% 60% at 50% 50%, #000 62%, rgba(0,0,0,0) 100%);
+  pointer-events:none;
+}
+/* The glow sits behind the lifted object: a soft warm halo, not a border. */
+.spot::before{
+  content:"";position:absolute;inset:4%;
+  border-radius:inherit;
+  background:radial-gradient(ellipse at center, rgba(255,247,214,.55) 0%, rgba(255,240,190,.25) 45%, rgba(255,240,190,0) 72%);
+  box-shadow:0 0 28px 10px rgba(255,236,170,.0);
+  opacity:0;transition:opacity .18s ease, box-shadow .18s ease;
+  pointer-events:none;
+}
+
+@media (hover:hover){
+  .spot:hover .lift{opacity:1;transform:translateY(-2.5%) scale(1.035);filter:brightness(1.08) saturate(1.06) drop-shadow(0 6px 10px rgba(60,40,90,.25))}
+  .spot:hover::before{opacity:1;box-shadow:0 0 30px 12px rgba(255,236,170,.55)}
+  .spot:hover .bubble{opacity:1;transform:var(--bubble-from) scale(1)}
+}
+.spot:focus-visible .lift,
+.spot.on .lift{opacity:1;transform:translateY(-2.5%) scale(1.035);filter:brightness(1.08) saturate(1.06) drop-shadow(0 6px 10px rgba(60,40,90,.25))}
+.spot:focus-visible::before,
+.spot.on::before{opacity:1;box-shadow:0 0 30px 12px rgba(255,236,170,.55)}
+.spot:focus-visible .bubble,
+.spot.on .bubble{opacity:1;transform:var(--bubble-from) scale(1)}
+/* The press: the object dips then springs back up, so a tap is answered before the page goes. */
+.spot.on .lift{animation:bounce .42s cubic-bezier(.3,1.6,.5,1)}
+@keyframes bounce{
+  0%  {transform:translateY(0) scale(1)}
+  35% {transform:translateY(1.5%) scale(.985)}
+  100%{transform:translateY(-2.5%) scale(1.035)}
+}
+/* Keyboard focus: a ring a child's parent can see, drawn round the whole door. */
+.spot:focus-visible{box-shadow:0 0 0 4px #fff, 0 0 0 8px #7c4dff}
+
+/* ── NAME BUBBLE ── shown only while an object is hovered, pressed or focused. */
+.bubble{
+  position:absolute;left:50%;top:0;z-index:3;
+  --bubble-from:translate(-50%,-78%);
+  transform:var(--bubble-from) scale(.85);
+  opacity:0;
+  transition:opacity .16s ease, transform .2s cubic-bezier(.3,1.6,.5,1);
+  padding:.35em .85em .4em;
+  border-radius:999px;
+  background:var(--card);
+  border:3px solid #f3b7d5;
+  box-shadow:0 4px 0 #e9cfe0, 0 8px 18px rgba(72,48,104,.2);
+  font-weight:900;
+  font-size:clamp(14px, 1.9vw, 22px);
+  line-height:1.15;
+  white-space:nowrap;
+  color:#4a3168;
+  pointer-events:none;
+}
+.bubble.below{--bubble-from:translate(-50%,18%)}
+.bubble.start{left:0;--bubble-from:translate(0,-78%)}
+.bubble.start.below{--bubble-from:translate(0,18%)}
+.bubble.end{left:auto;right:0;--bubble-from:translate(0,-78%)}
+.bubble.end.below{--bubble-from:translate(0,18%)}
+
+/* ── MUSIC TOGGLE ── copied from index.html, unchanged. */
+.music-btn{
+  position:fixed;z-index:50;
+  top:calc(12px + env(safe-area-inset-top));
+  right:calc(12px + env(safe-area-inset-right));
+  width:60px;height:60px;border-radius:50%;
+  display:grid;place-items:center;
+  background:var(--card);border:3px solid #e4dcf0;
+  box-shadow:0 4px 0 #ddd4ec,0 8px 18px rgba(72,48,104,.16);
+  cursor:pointer;padding:0;
+  -webkit-tap-highlight-color:transparent;
+  transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease;
+}
+.music-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #ddd4ec,0 4px 10px rgba(72,48,104,.16)}
+.music-btn:focus-visible{outline:5px solid #7c4dff;outline-offset:4px}
+.music-btn svg{width:30px;height:30px;display:block}
+.music-btn .note{fill:#a99bbd;transition:fill .16s ease}
+.music-btn .slash{stroke:#a99bbd;stroke-width:2.6;stroke-linecap:round}
+.music-btn[aria-pressed="true"]{border-color:#f3b7d5}
+.music-btn[aria-pressed="true"] .note{fill:#e5559a}
+.music-btn[aria-pressed="true"] .slash{display:none}
+.music-btn.playing{animation:musicPulse 2.2s ease-in-out infinite}
+@keyframes musicPulse{
+  0%,100%{box-shadow:0 4px 0 #ddd4ec,0 8px 18px rgba(72,48,104,.16)}
+  50%    {box-shadow:0 4px 0 #ddd4ec,0 8px 26px rgba(229,85,154,.45)}
+}
+
+/* ── ROOM / CARDS TOGGLE ── top-left, opposite the music button, same family of controls:
+   white, rounded, a picture AND a word on each half, so a child who cannot read yet still
+   knows which is which. The pressed half is filled; aria-pressed carries the same state. */
+.view-toggle{
+  position:fixed;z-index:50;
+  top:calc(12px + env(safe-area-inset-top));
+  left:calc(12px + env(safe-area-inset-left));
+  display:flex;gap:4px;padding:4px;
+  border-radius:32px;
+  background:rgba(255,255,255,.94);border:3px solid #e4dcf0;
+  box-shadow:0 4px 0 #ddd4ec,0 8px 18px rgba(72,48,104,.16);
+}
+.view-btn{
+  min-height:48px;min-width:64px;padding:0 14px 0 10px;border-radius:24px;
+  display:flex;align-items:center;gap:6px;
+  background:transparent;border:0;
+  font:inherit;font-weight:900;font-size:15px;color:var(--ink-soft);
+  cursor:pointer;-webkit-tap-highlight-color:transparent;
+  transition:background-color .16s ease,color .16s ease;
+}
+.view-btn svg{width:22px;height:22px;fill:#a99bbd;flex:none;transition:fill .16s ease}
+.view-btn[aria-pressed="true"]{background:#e5559a;color:#fff}
+.view-btn[aria-pressed="true"] svg{fill:#fff}
+.view-btn:focus-visible{outline:4px solid #7c4dff;outline-offset:2px}
+
+[hidden]{display:none!important}
+
+/* ── CARD VIEW ── the live hub's grid (index.html), the same card look and colours, drawn from
+   destinations.js. It scrolls on its own layer; the page itself never scrolls sideways. */
+.cards-view{
+  position:fixed;inset:0;z-index:5;
+  overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  background:
+    radial-gradient(1100px 620px at 12% -8%,  #ffe1f2 0%, rgba(255,225,242,0) 62%),
+    radial-gradient(980px  560px at 90% 4%,   #dfeaff 0%, rgba(223,234,255,0) 60%),
+    radial-gradient(900px  620px at 50% 108%, #e5fbf1 0%, rgba(229,251,241,0) 62%),
+    linear-gradient(170deg,#fdf6ff 0%,#f3f6ff 52%,#fdf8f4 100%);
+  padding:
+    calc(28px + env(safe-area-inset-top)) calc(20px + env(safe-area-inset-right))
+    calc(28px + env(safe-area-inset-bottom)) calc(20px + env(safe-area-inset-left));
+}
+.cards-view .wrap{position:relative;max-width:1080px;margin:0 auto}
+.cards-view header{text-align:center;margin-bottom:30px}
+.cards-title{
+  font-family:'Fredoka One','Nunito',sans-serif;
+  font-weight:400;
+  font-size:clamp(2rem,7vw,3.4rem);
+  line-height:1.1;letter-spacing:.5px;
+  color:#4a3168;text-shadow:0 3px 0 rgba(255,255,255,.9);
+}
+.cards-title em{font-style:normal;color:#e5559a}
+.cards-view .tagline{margin-top:10px;font-weight:800;font-size:clamp(.95rem,2.6vw,1.15rem);color:var(--ink-soft)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.card{
+  position:relative;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  gap:12px;padding:26px 18px 22px;min-height:250px;
+  border-radius:30px;background:var(--card);
+  text-decoration:none;color:var(--ink);
+  border:3px solid var(--edge,#eee);
+  box-shadow:0 9px 0 var(--shadow,#e6e6f0), 0 16px 30px rgba(72,48,104,.14);
+  transition:transform .16s ease, box-shadow .16s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.card:hover{transform:translateY(-6px);box-shadow:0 15px 0 var(--shadow,#e6e6f0),0 24px 40px rgba(72,48,104,.2)}
+.card:active{transform:translateY(5px);box-shadow:0 4px 0 var(--shadow,#e6e6f0),0 8px 16px rgba(72,48,104,.18)}
+.card:focus-visible{outline:5px solid #7c4dff;outline-offset:4px}
+.card .art{width:124px;height:124px;display:grid;place-items:center;border-radius:26px;background:var(--tint,#f6f4ff);flex:none}
+.card .art img{width:96px;height:96px;object-fit:contain;filter:drop-shadow(0 5px 9px rgba(60,40,90,.25))}
+.card .art img.tile{border-radius:20px}
+.card .name{font-weight:900;font-size:1.22rem;line-height:1.15}
+.card .desc{font-weight:700;font-size:.86rem;color:var(--ink-soft);line-height:1.35;max-width:20ch}
+.cards-view footer{margin-top:34px;text-align:center;font-weight:800;font-size:.85rem;color:var(--ink-soft)}
+.cards-view footer .disclosure{display:block;margin-top:8px;font-weight:600;font-size:.72rem;opacity:.72;line-height:1.45}
+/* The toggle sits over the top-left corner; on a screen too narrow to keep it clear of the
+   centred title, the title moves down below it. */
+@media (max-width:820px){.cards-view header{padding-top:60px}}
+@media (max-width:420px){
+  .grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+  .card{min-height:212px;padding:20px 12px 18px;border-radius:24px}
+  .card .art{width:96px;height:96px;border-radius:22px}
+  .card .art img{width:74px;height:74px}
+  .card .name{font-size:1.04rem}
+  .card .desc{font-size:.78rem}
+}
+
+.noscript{position:fixed;z-index:70;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;padding:16px 20px;border-radius:16px;font-weight:800}
+
+/* Small screens (a phone on its side): keep the controls but make them smaller so they cover
+   less of the room. They stay at least 44px. */
+@media (max-height:500px), (max-width:420px){
+  .music-btn{width:48px;height:48px;top:calc(8px + env(safe-area-inset-top));right:calc(8px + env(safe-area-inset-right))}
+  .music-btn svg{width:24px;height:24px}
+  .view-btn{min-height:44px;min-width:56px;font-size:13px;padding:0 10px 0 8px}
+}
+/* A phone on its side: the room is letterboxed with bands left and right, so the switch stands
+   upright in the left band, clear of every door (top-left would cover the top shelf, and the
+   bottom-left corner is the toy box). */
+@media (max-height:500px){
+  .view-toggle{top:50%;transform:translateY(-50%);flex-direction:column;padding:3px}
+  .view-btn{flex-direction:column;gap:2px;min-width:0;width:60px;padding:6px 2px;font-size:12px;border-radius:20px}
+  .cards-view header{padding-top:0}
+  .cards-view{padding-left:calc(92px + env(safe-area-inset-left))}
+}
+
+/* ── THE PICKER ── a landmark with several apps opens this panel over the room. Same cards as
+   the Cards view; one tap on a card opens the app. Big Close button, Escape and the backdrop all
+   close it. */
+.picker{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;
+  padding:calc(16px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left))}
+.picker-backdrop{position:absolute;inset:0;background:rgba(58,38,86,.52);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.picker-panel{
+  position:relative;width:min(100%,820px);max-height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;
+  padding:20px 22px 24px;border-radius:32px;outline:none;
+  background:linear-gradient(170deg,#fffaff 0%,#f5f7ff 60%,#fffaf6 100%);
+  border:3px solid #f3b7d5;box-shadow:0 10px 0 #e9cfe0,0 24px 50px rgba(48,28,76,.35);
+  animation:pickerIn .22s cubic-bezier(.3,1.4,.5,1);
+}
+@keyframes pickerIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+.picker-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}
+.picker-title{font-family:'Fredoka One','Nunito',sans-serif;font-weight:400;font-size:clamp(1.7rem,5vw,2.4rem);line-height:1.1;color:#4a3168;text-shadow:0 3px 0 rgba(255,255,255,.9)}
+.picker-title:lang(th){font-family:system-ui,-apple-system,'Thonburi',sans-serif;font-weight:800}
+.picker-line{margin-top:4px;font-weight:800;font-size:clamp(.95rem,2.4vw,1.1rem);color:var(--ink-soft)}
+.picker-close{
+  flex:none;min-height:56px;min-width:56px;padding:0 18px 0 14px;border-radius:28px;
+  display:flex;align-items:center;gap:8px;
+  background:#fff;border:3px solid #e4dcf0;box-shadow:0 4px 0 #ddd4ec;
+  font:inherit;font-weight:900;font-size:16px;color:#4a3168;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.picker-close svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:3.2;stroke-linecap:round}
+.picker-close:active{transform:translateY(3px);box-shadow:0 1px 0 #ddd4ec}
+.picker-close:focus-visible{outline:5px solid #7c4dff;outline-offset:3px}
+.picker-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;justify-items:stretch}
+.picker .card{min-height:0;padding:18px 14px 16px}
+.picker .card .art{width:108px;height:108px}
+.picker .card .art img{width:84px;height:84px}
+@media (max-height:520px){
+  .picker-panel{padding:12px 16px 16px}
+  .picker-grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  .picker .card .art{width:76px;height:76px}
+  .picker .card .art img{width:60px;height:60px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .lift,.bubble,.spot::before,.music-btn{transition:none}
+  .spot.on .lift{animation:none}
+  .spot:hover .lift,.spot:focus-visible .lift,.spot.on .lift{transform:none}
+  .music-btn.playing{animation:none}
+  .card,.view-btn,.picker-close{transition:none}
+  .picker-panel{animation:none}
+  .card:hover{transform:none}
+}
