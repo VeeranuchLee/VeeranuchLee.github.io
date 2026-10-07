@@ -57,6 +57,7 @@
   function polygon(points) {
     return 'polygon(' + points.map(function (p) { return p[0] + '% ' + p[1] + '%'; }).join(',') + ')';
   }
+  var labelItems = [];
   /* Objects with `active: false` are future landmarks: geometry in the data, nothing in the page. */
   room.objects.filter(function (d) { return d.active !== false; }).forEach(function (d) {
     var a = document.createElement('a');
@@ -70,11 +71,10 @@
     a.firstChild.textContent = d.name;
     spots.appendChild(a);
 
-    /* The name bubble (owner, 2026-10-07: the main menu names its objects, the rooms did not).
-       The hotspot above is clip-pathed to the object's polygon and a clip-path clips children
-       too, so the bubble cannot live inside it: it sits in this sibling span, sized to the
-       polygon's bounding box. Edged exactly like the hub's doors (playroom.js): below an object
-       near the top of the room, pinned to its edge when centring would run off the picture. */
+    /* The name bubble: the shared Room label (room-label.js), the same component the main hub and
+       every other room uses. The anchor is the polygon's bounding box; the label sits above it, centred,
+       and moves only when above would leave the room, hit the controls or sit on a neighbour. Only active objects
+       reach this loop; a future landmark has no link and so no label. */
     var x0 = 100, y0 = 100, x1 = 0, y1 = 0;
     d.points.forEach(function (p) {
       if (p[0] < x0) x0 = p[0];
@@ -82,27 +82,7 @@
       if (p[1] < y0) y0 = p[1];
       if (p[1] > y1) y1 = p[1];
     });
-    var w = x1 - x0, cx = x0 + w / 2;
-    var tag = document.createElement('span');
-    tag.className = 'spot-tag';
-    tag.setAttribute('aria-hidden', 'true');
-    tag.style.left = x0 + '%'; tag.style.top = y0 + '%';
-    tag.style.width = w + '%'; tag.style.height = (y1 - y0) + '%';
-    var below = y0 < 12;
-    /* `tag: [x, y]` puts the name at that point, beneath it, instead of on the object's own edge:
-       the label sits on the floor beside the instrument and never covers it. */
-    if (d.tag) {
-      tag.style.left = d.tag[0] + '%'; tag.style.top = d.tag[1] + '%';
-      tag.style.width = '0'; tag.style.height = '0';
-      cx = d.tag[0]; below = true;
-    }
-    var b = document.createElement('span');
-    b.className = 'bubble' + (below ? ' below' : '') +
-                  (cx < 12 ? ' start' : (cx > 88 ? ' end' : ''));
-    b.lang = THAI.test(d.name) ? 'th' : 'en';
-    b.textContent = d.name;
-    tag.appendChild(b);
-    spots.appendChild(tag);
+    labelItems.push({ el: a, text: d.name, anchor: { x0: x0, x1: x1, y0: y0, y1: y1 }, group: d.id, accent: d.accent });
 
     var c = document.createElement('a');
     c.className = 'card'; c.href = L.app(d.href); c.dataset.id = d.id;
@@ -118,6 +98,8 @@
     var desc = document.createElement('span'); desc.className = 'desc'; desc.textContent = d.desc;
     c.appendChild(art); c.appendChild(name); c.appendChild(desc); grid.appendChild(c);
   });
+
+  var label = window.RoomLabel.attach(spots.parentNode, labelItems, { avoid: ['.topbar .back', '.view-switch', '.music-btn'] });
 
   /* ── PRESS, THEN GO ── the hub's tap handling (playroom.js), brought into the rooms so a tap
      is answered with the object's name before the page goes. Modified clicks (new tab) are left
@@ -149,7 +131,7 @@
     setTimeout(function () { window.location.assign(href); }, reduced ? 120 : 320);
   });
   /* Coming back from a game restores this page from the back-forward cache, lit as it was left. */
-  window.addEventListener('pageshow', function (e) { if (e.persisted) clear(); });
+  window.addEventListener('pageshow', function (e) { if (e.persisted) { label.hide(); clear(); } });
 
   grid.setAttribute('data-count', String(grid.children.length));
 

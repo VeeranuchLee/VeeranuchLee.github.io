@@ -104,14 +104,11 @@ button.spot{padding:0;margin:0;border:0;background:none;font:inherit;color:inher
 @media (hover:hover){
   .spot:hover .lift{opacity:1;transform:translateY(-2.5%) scale(1.035);filter:brightness(1.08) saturate(1.06) drop-shadow(0 6px 10px rgba(60,40,90,.25))}
   .spot:hover::before{opacity:1;box-shadow:0 0 30px 12px rgba(255,236,170,.55)}
-  .spot:hover .bubble{opacity:1;transform:var(--bubble-from) scale(1)}
 }
 .spot:focus-visible .lift,
 .spot.on .lift{opacity:1;transform:translateY(-2.5%) scale(1.035);filter:brightness(1.08) saturate(1.06) drop-shadow(0 6px 10px rgba(60,40,90,.25))}
 .spot:focus-visible::before,
 .spot.on::before{opacity:1;box-shadow:0 0 30px 12px rgba(255,236,170,.55)}
-.spot:focus-visible .bubble,
-.spot.on .bubble{opacity:1;transform:var(--bubble-from) scale(1)}
 /* The press: the object dips then springs back up, so a tap is answered before the page goes. */
 .spot.on .lift{animation:bounce .42s cubic-bezier(.3,1.6,.5,1)}
 @keyframes bounce{
@@ -122,30 +119,7 @@ button.spot{padding:0;margin:0;border:0;background:none;font:inherit;color:inher
 /* Keyboard focus: a ring a child's parent can see, drawn round the whole door. */
 .spot:focus-visible{box-shadow:0 0 0 4px #fff, 0 0 0 8px #7c4dff}
 
-/* ── NAME BUBBLE ── shown only while an object is hovered, pressed or focused. */
-.bubble{
-  position:absolute;left:50%;top:0;z-index:3;
-  --bubble-from:translate(-50%,-78%);
-  transform:var(--bubble-from) scale(.85);
-  opacity:0;
-  transition:opacity .16s ease, transform .2s cubic-bezier(.3,1.6,.5,1);
-  padding:.35em .85em .4em;
-  border-radius:999px;
-  background:var(--card);
-  border:3px solid #f3b7d5;
-  box-shadow:0 4px 0 #e9cfe0, 0 8px 18px rgba(72,48,104,.2);
-  font-weight:900;
-  font-size:clamp(14px, 1.9vw, 22px);
-  line-height:1.15;
-  white-space:nowrap;
-  color:#4a3168;
-  pointer-events:none;
-}
-.bubble.below{--bubble-from:translate(-50%,18%)}
-.bubble.start{left:0;--bubble-from:translate(0,-78%)}
-.bubble.start.below{--bubble-from:translate(0,18%)}
-.bubble.end{left:auto;right:0;--bubble-from:translate(0,-78%)}
-.bubble.end.below{--bubble-from:translate(0,18%)}
+/* ── NAME BUBBLE ── moved to the shared Room label (room-label.css / room-label.js). */
 
 /* ── MUSIC TOGGLE ── copied from index.html, unchanged. */
 .music-btn{
@@ -319,7 +293,7 @@ button.spot{padding:0;margin:0;border:0;background:none;font:inherit;color:inher
 }
 
 @media (prefers-reduced-motion:reduce){
-  .lift,.bubble,.spot::before,.music-btn{transition:none}
+  .lift,.spot::before,.music-btn{transition:none}
   .spot.on .lift{animation:none}
   .spot:hover .lift,.spot:focus-visible .lift,.spot.on .lift{transform:none}
   .music-btn.playing{animation:none}

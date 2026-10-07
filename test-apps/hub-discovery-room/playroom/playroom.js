@@ -56,6 +56,7 @@
      An inactive landmark (a future area: Computer, Toy Box, Shop / Business) has no door() and
      draws NOTHING: no element, so no hover, no glow, no cursor, no focus stop, no aria role. */
   var landmarkById = {};
+  var labelItems = [];
   R.landmarks.forEach(function (c) {
     var door = L.door(c);
     if (!door) return;
@@ -96,19 +97,15 @@
                                       (h >= 100 ? 0 : y / (100 - h) * 100) + '%';
       a.appendChild(lift);
 
-      /* The name, near the object. Above it, unless the object is at the top of the room;
-         pinned to its left or right edge when centring it would run off the picture. */
-      var b = document.createElement('span');
-      b.className = 'bubble' + (y < 12 ? ' below' : '') +
-                    (x + w / 2 < 12 ? ' start' : (x + w / 2 > 88 ? ' end' : ''));
-      b.setAttribute('aria-hidden', 'true');
-      b.lang = THAI.test(c.name) ? 'th' : 'en';
-      b.textContent = c.name;
-      a.appendChild(b);
+      /* The name: the shared Room label (room-label.js) shows it near the object on hover, press
+         or keyboard focus. Only active landmarks reach this loop, so only they have one. */
+      labelItems.push({ el: a, text: c.name, anchor: { x0: x, x1: x + w, y0: y, y1: y + h }, group: c.id });
 
       scene.appendChild(a);
     });
   });
+
+  var label = window.RoomLabel.attach(scene, labelItems, { avoid: ['.view-toggle', '.music-btn'] });
 
   /* ── THE CARDS: every app, exactly as index.html draws a card ── */
   L.cards().forEach(function (d) { grid.appendChild(makeCard(d, 'card-')); });
@@ -176,6 +173,7 @@
     picker.hidden = true;
     delete picker.dataset.landmark;
     setInert(false);
+    label.hide();
     clear();
     if (opener && opener.focus) opener.focus();
     opener = null;
@@ -227,7 +225,7 @@
     }, reduced ? 120 : 320);
   });
   /* Coming Back from a game restores this page from the back-forward cache, lit as it was left. */
-  window.addEventListener('pageshow', function (e) { if (e.persisted) { closePicker(); clear(); } });
+  window.addEventListener('pageshow', function (e) { if (e.persisted) { closePicker(); label.hide(); clear(); } });
 
   /* Read-only, for verification. */
   window.Playroom = { data: R, show: show };
