@@ -1,16 +1,11 @@
 {
-  "datePrepared": "2026-09-30",
-  "sourceCommit": "working tree agent/farm-tap-areas off origin/main 75c64164",
-  "purpose": "Owner review of Animal Book Farm room v3 (FA-01): the owner's ChatGPT-generated plate, locally cleaned by Codex and fully remeasured, then cleaned up (no-guides made permanent in room.json, the top tag band moved clear of the back/sound buttons). Not yet publishable: narration has not been rendered for this room. 2026-09-30: cow and beef-cattle tap areas corrected (cow = foreground Holstein, beef cattle = rear brown herd).",
-  "included": {
-    "pages": [
-      "index.html (animal-book/rooms/farm/page-13.html)"
-    ],
-    "runtime": [
-      "tap-zoom-guard.js (byte-identical to maze-app/js/tap-zoom-guard.js)"
-    ],
-    "assets": "The owner's Farm plate after Codex removed baked labels, farmer, cropped chicken, and the ox's incorrect udder (assets/page.webp). room.json's `guides` is now null (a supported, permanent no-guides state honoured by room-page.py/room-names.py/room-guides.py/validate_output) so a rebuild can no longer reintroduce the child-guide overlay."
-  },
-  "selection": "Every file here is the same one that ships in the private repository's animal-book/rooms/farm/, copied verbatim; no service worker is present.",
-  "publishStatus": "Not publishable per animal-book/rooms/farm/readiness.json: rendered_narration is still missing. This is a staging preview only."
+  "datePrepared": "2026-10-07",
+  "sourceCommit": "agent/animal-farm-live off origin/main de006eb47",
+  "purpose": "Owner review of the whole Animal Book as it would publish at animal-book-v5: front door with three room cards (Rainforest, Home & pets, Farm), the Farm room, and the two existing rooms. This is the output of scripts/ship-list.py + animal-book/tools/shape-for-publish.sh.",
+  "narration": "No narration clips. Our Animal Book is read aloud by the device's adult speechSynthesis voice (AUDIO-DIRECTION.md 1b, owner 2026-08-19). Rainforest and Home & pets are unchanged; the Farm reads the same way. The only audio file is the Rainforest ambience bed.",
+  "stagingEditsOnly": [
+    "service-worker.js removed and its registration block deleted from index.html (a staged copy carries no service worker)",
+    "each room's back arrow points to ../ (this staged front door) instead of the live front door, so review stays inside the staging copy"
+  ],
+  "publishStatus": "Staging preview only. Not published."
 }
