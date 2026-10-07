@@ -1105,6 +1105,16 @@
       .hb-play .hb-board.hb-large{--hb-cell:56px}
       .hb-play-race .hb-board.hb-large{--hb-cell:57px}
     }
+    /* Fit rule (2026-10-07): every Hundred Board play screen — Move (both rungs), Find, Missing, Patterns, Race — must fit the 9.7" iPad in both orientations with no page scroll. The board cells are the target, so the chrome pays: a slimmer bottom pad, tighter row gap and a shorter title card. The picker (.hp-wrap) is deliberately left as it was. */
+    .screen.hb-screen:not(:has(.hp-wrap)){padding-bottom:8px;row-gap:7px}
+    .screen.hb-screen:not(:has(.hp-wrap)) .count-title{padding:4px 14px}
+    @media (orientation:landscape) and (max-height:820px) and (min-width:700px){
+      /* Move's "Which move?" rung stacks ribbon, question, compact board and answer chips: on the taller Unicorn garden header it needs these few extra pixels. Chips stay 64px+ and the board cells are untouched. */
+      .screen.hb-screen:not(:has(.hp-wrap)){row-gap:5px}
+      .hb-screen .hb-question{font-size:2rem}
+      .hb-choices .hb-chip{height:64px}
+      .hb-screen>.ar-strip{padding-top:3px;padding-bottom:3px;margin-bottom:0}
+    }
     /* ── The hundred block (n3, Make 100) ──
        A 10 × 10 whole, and every rule here is there to keep it reading as 10 × 10
        rather than as a hundred squares. A row is a ten and fills as one; the two
