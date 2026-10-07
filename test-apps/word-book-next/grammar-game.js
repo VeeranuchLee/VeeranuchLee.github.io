@@ -30,10 +30,35 @@
 
   function sound(kind){
     var C=window.AudioContext||window.webkitAudioContext;if(!C)return;
-    var c=sound.c||(sound.c=new C()),o=c.createOscillator(),g=c.createGain(),now=c.currentTime;
-    o.type='sine';o.frequency.setValueAtTime(kind==='right'?520:210,now);o.frequency.exponentialRampToValueAtTime(kind==='right'?780:150,now+.16);
-    g.gain.setValueAtTime(.0001,now);g.gain.exponentialRampToValueAtTime(.12,now+.02);g.gain.exponentialRampToValueAtTime(.0001,now+.2);
-    o.connect(g).connect(c.destination);o.start(now);o.stop(now+.22);
+    var c=sound.c||(sound.c=new C()),now=c.currentTime;
+    // Right: a small rising C-E-G cheer (owner 2026-10-07, "small cheer ... like on math app").
+    (kind==='right'?[[523.25,0],[659.25,.09],[783.99,.18]]:[[210,0]]).forEach(function(n){
+      var o=c.createOscillator(),g=c.createGain(),t=now+n[1],len=kind==='right'?.17:.2;
+      o.type=kind==='right'?'triangle':'sine';o.frequency.setValueAtTime(n[0],t);
+      if(kind!=='right')o.frequency.exponentialRampToValueAtTime(150,t+.16);
+      g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(kind==='right'?.1:.12,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+len);
+      o.connect(g).connect(c.destination);o.start(t);o.stop(t+len+.02);
+    });
+  }
+  // The cheer on a right answer: a praise word, a little confetti, the chime and (voice on)
+  // the same praise spoken. Each spoken line is a rendered clip keyed praise-NN in
+  // audio/grammar/rendered.json; the word on screen and the voice always match.
+  var PRAISE=['Great job!','Well done!','You did it!','Super!','Brilliant!',"That's right!"];
+  var cheering=false;
+  function cheer(done){
+    cheering=true;
+    var i=Math.floor(Math.random()*PRAISE.length),id='praise-0'+(i+1),still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var pop=document.createElement('div');pop.className='cheer-pop';pop.textContent=PRAISE[i];pop.setAttribute('role','status');document.body.appendChild(pop);
+    var layer=null;
+    if(!still){
+      layer=document.createElement('div');layer.className='cheer-confetti';
+      var colours=['#ff73aa','#ffd54f','#7ad3ff','#9be27a','#c9a2ff'];
+      for(var k=0;k<24;k++){var p=document.createElement('span');p.style.left=(10+Math.random()*80)+'%';p.style.background=colours[k%colours.length];p.style.animationDelay=(Math.random()*.25)+'s';p.style.transform='rotate('+Math.floor(Math.random()*360)+'deg)';layer.appendChild(p);}
+      document.body.appendChild(layer);
+    }
+    var spoken=voiceOn&&rendered.clips&&rendered.clips[id];
+    if(spoken)playQueue([id]);
+    setTimeout(function(){pop.remove();if(layer)layer.remove();cheering=false;done();},spoken?1400:1000);
   }
   function shuffle(a){a=a.slice();for(var i=a.length-1;i;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
   function pickQuestion(){
@@ -74,9 +99,10 @@
     $('lesson').hidden=false;
   }
   function answer(q,value,btn){
+    if(cheering)return;
     var expected=Array.isArray(q.answer)?q.answer.join(' '):q.answer,got=Array.isArray(value)?value.join(' '):value;
     var right=got===expected;sound(right?'right':'wrong');
-    if(right){streak++;stars++;if(streak>=2&&level<5){level++;streak=0;}next();return;}
+    if(right){streak++;stars++;if(streak>=2&&level<5){level++;streak=0;}cheer(next);return;}
     streak=0;misses++;
     var clip=rendered.clips&&rendered.clips[q.id+'-explanation'];
     if(misses===1){
