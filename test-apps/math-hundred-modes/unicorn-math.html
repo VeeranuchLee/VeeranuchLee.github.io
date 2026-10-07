@@ -1035,9 +1035,64 @@
        they accompany the lit path, they never replace the question. */
     .hb-movewords{display:flex;align-items:center;justify-content:center;font-size:clamp(.95rem,3.2vw,1.35rem);font-weight:700;color:#ffd54f;text-shadow:0 2px 0 rgba(4,8,30,.45);margin:2px 0;position:relative;z-index:1}
     .hb-choices .hb-chip{width:auto;min-width:clamp(84px,20vw,120px);height:clamp(56px,13.5vw,76px);font-size:clamp(1.5rem,4.6vw,2rem)}
-    .hb-mode-menu{display:grid;grid-template-columns:repeat(2,minmax(150px,230px));gap:14px;justify-content:center;align-content:center;flex:1;position:relative;z-index:2}
-    .hb-mode-card{min-height:96px;border:3px solid #93b7fb;border-radius:24px;background:linear-gradient(160deg,#fff,#e8f0ff);box-shadow:0 6px 0 #5d8fe9;color:#243f83;font-family:inherit;font-weight:900;font-size:1.25rem;padding:12px;cursor:pointer}
-    .hb-mode-card:active{transform:translateY(4px);box-shadow:0 2px 0 #5d8fe9}
+    /* ── The Hundred Board picker (owner, 2026-10-07) ──
+       Board first: a large static 1–100 board is the anchor on the left with the title
+       written into it; Move is the featured card on the right and the other four sit
+       in a 2×2 grid. Every card DRAWS its mechanic from the same cell styles the real
+       board uses (start ring, gold landing, dashed hidden seat, blue and orange race
+       rings), so a preview cannot drift from what the game then shows.
+       Sizes are measured at 1024×768 (board ~500px, cards ≥150px) and the portrait
+       iPad stacks board over cards without scrolling. No animation: the previews are
+       still pictures and the card answers a tap with a press-down only. */
+    .hp-wrap{--hp-cell:clamp(28px,calc((100vh - 300px)/10.4),47px);display:grid;grid-template-columns:auto minmax(0,1fr);gap:22px;align-items:center;justify-content:center;width:min(100%,980px);flex:1;min-height:0;position:relative;z-index:2;padding:14px 18px;border-radius:30px;background:rgba(255,255,255,.34);box-sizing:border-box}
+    .hp-left{display:flex;flex-direction:column;align-items:center;gap:10px}
+    .hp-head{text-align:center;line-height:1.05;padding:8px 26px 9px;border:2px solid #c4d7fd;border-radius:18px;background:rgba(255,255,255,.86);box-shadow:0 4px 14px rgba(90,46,214,.12)}
+    .hp-title{font-size:clamp(1.5rem,3.4vw,2.1rem);font-weight:900;letter-spacing:1px;text-transform:uppercase;color:#5a2ed6}
+    .hp-sub{margin-top:4px;font-size:clamp(1.05rem,2.3vw,1.35rem);font-weight:900;color:#2f6df6}
+    .hp-board{display:grid;grid-template-columns:repeat(10,var(--hp-cell));gap:3px;padding:8px;border:3px solid #c4d7fd;border-radius:18px;background:rgba(255,255,255,.82);box-shadow:0 6px 20px rgba(90,46,214,.18);pointer-events:none}
+    .hp-board .hb-cell,.hp-mini .hb-cell{cursor:default;transition:none;animation:none;transform:none;width:var(--hp-cell);height:var(--hp-cell)}
+    .hp-board .hb-cell{font-size:calc(var(--hp-cell)*.4)}
+    .hp-board .hb-cell:nth-child(10n){background:#e8f0ff}
+    .hp-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-content:center;min-width:0}
+    .hp-card{display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:8px;min-height:186px;padding:12px 10px 12px;border:3px solid #93b7fb;border-radius:24px;background:linear-gradient(160deg,#fff,#e8f0ff);box-shadow:0 6px 0 #5d8fe9;color:#243f83;font-family:inherit;text-align:center;cursor:pointer;-webkit-tap-highlight-color:transparent;min-width:0}
+    .hp-card:active{transform:translateY(4px);box-shadow:0 2px 0 #5d8fe9;background:linear-gradient(160deg,#e2ecff,#cfe0ff)}
+    .hp-card:focus-visible{outline:4px solid #ffd54f;outline-offset:2px}
+    .hp-feature{grid-column:1/-1;flex-direction:row;justify-content:flex-start;gap:16px;min-height:168px;padding:14px 18px;text-align:left;border-color:#6f9bf5;box-shadow:0 7px 0 #4a7fe0}
+    .hp-feature:active{box-shadow:0 3px 0 #4a7fe0}
+    .hp-text{min-width:0}
+    .hp-name{display:block;font-size:clamp(1.05rem,2.2vw,1.3rem);font-weight:900;line-height:1.1;color:#243f83}
+    .hp-feature .hp-name{font-size:clamp(1.3rem,2.8vw,1.65rem)}
+    .hp-desc{display:block;margin-top:4px;font-size:clamp(.9rem,1.8vw,1.02rem);font-weight:800;line-height:1.2;color:#4b64a3}
+    .hp-mini{--hp-cell:30px;display:grid;gap:3px;pointer-events:none;position:relative;flex:none}
+    .hp-mini .hb-cell{font-size:.82rem;flex:none}
+    .hp-mini.hp-big{--hp-cell:46px}
+    .hp-mini.hp-big .hb-cell{font-size:1.05rem}
+    .hp-mini .hb-cell.hb-target{box-shadow:0 2px 6px rgba(230,81,0,.4)}
+    .hp-plus{position:absolute;right:calc(100% + 8px);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;font-weight:900;color:#e65100;font-size:1.25rem;line-height:1}
+    .hp-plus b{font-size:1.5rem}
+    .hp-raceline{display:flex;flex-direction:column;align-items:center;gap:6px}
+    .hp-die{position:relative;display:block;width:34px;height:34px;border-radius:9px;background:#fff;border:2.5px solid #5d8fe9;box-sizing:border-box}
+    .hp-die i{position:absolute;width:6px;height:6px;border-radius:50%;background:#243f83}
+    .hp-die i:nth-child(1){left:4px;top:4px}.hp-die i:nth-child(2){left:50%;top:50%;margin:-3px 0 0 -3px}.hp-die i:nth-child(3){right:4px;bottom:4px}
+    @media (orientation:portrait){
+      .hp-wrap{--hp-cell:clamp(24px,calc((100vh - 745px)/10.4),34px);grid-template-columns:minmax(0,1fr);gap:14px;align-content:start;padding:12px;width:min(100%,720px)}
+      .hp-board{gap:2px;padding:6px}
+      .hp-card{min-height:136px}
+      .hp-feature{min-height:132px}
+    }
+    @media (max-width:620px){
+      .hp-left .hp-board{display:none}
+      .hp-wrap{--hp-cell:30px}
+      .hp-cards{grid-template-columns:1fr}
+      .hp-card,.hp-feature{min-height:96px}
+    }
+    @media (prefers-reduced-motion:reduce){.hp-card:active{transform:none}}
+    /* The picker is the only screen here with a board beside its buttons, and the corner
+       mascot sits exactly where the board ends, so it steps aside; the decorations quieten
+       so the board and cards are the only things competing for the eye. */
+    .screen:has(.hp-wrap) .bg-deco{opacity:.35}
+    /* No Hundred Board screen shows the corner mascot: it is a fixed 116px sprite at the bottom-left, which is exactly where the board's last row (91, 92 …) sits at both iPad sizes, and it hid those numbers. Numbers outrank company. */
+    .screen.hb-screen>.mascot-corner{display:none}
     .hb-status{min-height:44px;display:flex;align-items:center;justify-content:center;gap:14px;color:#fff;font-size:clamp(1rem,3vw,1.35rem);font-weight:900;text-shadow:0 2px 0 rgba(4,8,30,.45);position:relative;z-index:2}
     .hb-play-race .hb-board.hb-large{--hb-cell:64px}
     .hb-screen>.ar-strip .fm-btn,.hb-play>.ar-strip .fm-btn{height:64px;min-height:64px;min-width:64px}
@@ -1050,7 +1105,6 @@
       .hb-play .hb-board.hb-large{--hb-cell:56px}
       .hb-play-race .hb-board.hb-large{--hb-cell:57px}
     }
-    @media(max-width:520px){.hb-mode-menu{grid-template-columns:minmax(180px,280px)}.hb-mode-card{min-height:70px}}
     /* ── The hundred block (n3, Make 100) ──
        A 10 × 10 whole, and every rule here is there to keep it reading as 10 × 10
        rather than as a hundred squares. A row is a ten and fills as one; the two
@@ -12000,9 +12054,53 @@ function HundredRacePlay({muted,reward,playerWon=false,onPlayerWin=()=>{},onRese
   const reset=()=>{timers.current.forEach(clearTimeout);timers.current=[];setPlayer(1);setCpu(1);setTurn('player');setDie(null);setResult(null);onReset();};
   return <>
     <div className="oe-stage"><HundredBoard large player={player} cpu={cpu} disabled/></div>
-    <div className="hb-status"><span>🔵 You: {player}</span><span>🟠 CPU: {cpu}</span><span>{finished|| (turn==='player'?'Your turn':turn==='cpu'?'CPU turn':'Moving…')} {die&&<>⚄ {die}</>}</span></div>
+    <div className="hb-status"><span>🔵 You: {player}</span><span>🟠 CPU: {cpu}</span><span>{finished|| (turn==='player'?'Your turn':turn==='cpu'?'CPU turn':'Moving…')} {die&&<>Roll: {die}</>}</span></div>
     {finished?<button className="next-btn" onClick={reset}>Race again</button>:<button className="hb-roll" disabled={turn!=='player'} onClick={roll}>Roll the die</button>}
   </>;
+}
+/* The picker. Every card draws its mechanic from the real cell styles (hb-start, hb-target,
+   hb-hidden, hb-selected, hb-player, hb-cpu), and the numbers are real board numbers:
+   33 34 35 over 43 44 45 is the board's own neighbourhood, so +10 really is one row down. */
+const HP_CELLS=(nums,cls={})=>nums.map(n=><span key={n} className={`hb-cell ${cls[n]||''}`}>{cls[n]==='hb-hidden'?'':n}</span>);
+function HundredPicker({muted,onPick}){
+  const pick=id=>{Sound.setMuted(muted);Sound.tap();onPick(id);};
+  const cols=n=>({gridTemplateColumns:`repeat(${n},var(--hp-cell))`});
+  return(
+    <div className="hp-wrap">
+      <div className="hp-left">
+        <div className="hp-head"><div className="hp-title">Hundred Board</div><div className="hp-sub">Choose a game</div></div>
+        <div className="hp-board" aria-hidden="true">{Array.from({length:100},(_,i)=><span key={i} className="hb-cell">{i+1}</span>)}</div>
+      </div>
+      <div className="hp-cards">
+        <button type="button" className="hp-card hp-feature" data-mode="move" onClick={()=>pick('move')} aria-label="Move on the Board. Add or take away. Where do you land?">
+          <span className="hp-mini hp-big" style={{...cols(3),marginLeft:62}} aria-hidden="true">
+            {HP_CELLS([33,34,35,43,44,45],{34:'hb-start',44:'hb-target'})}
+            <span className="hp-plus"><b>+10</b><span>↓</span></span>
+          </span>
+          <span className="hp-text"><span className="hp-name">Move on the Board</span><span className="hp-desc">Add or take away. Where do you land?</span></span>
+        </button>
+        <button type="button" className="hp-card" data-mode="find" onClick={()=>pick('find')} aria-label="Find the Number. Tap the number you are asked for.">
+          <span className="hp-mini" style={cols(5)} aria-hidden="true">{HP_CELLS([46,47,48,49,50,56,57,58,59,60],{47:'hb-target'})}</span>
+          <span className="hp-text"><span className="hp-name">Find the Number</span><span className="hp-desc">Tap the number you are asked for.</span></span>
+        </button>
+        <button type="button" className="hp-card" data-mode="missing" onClick={()=>pick('missing')} aria-label="Missing Numbers. Fill in the empty squares.">
+          <span className="hp-mini" style={cols(4)} aria-hidden="true">{HP_CELLS([31,32,33,34,41,42,43,44],{33:'hb-hidden'})}</span>
+          <span className="hp-text"><span className="hp-name">Missing Numbers</span><span className="hp-desc">Fill in the empty squares.</span></span>
+        </button>
+        <button type="button" className="hp-card" data-mode="patterns" onClick={()=>pick('patterns')} aria-label="Find the Pattern. Tap every number in the pattern.">
+          <span className="hp-mini" style={cols(6)} aria-hidden="true">{HP_CELLS([1,2,3,4,5,6,11,12,13,14,15,16],{3:'hb-selected',6:'hb-selected',12:'hb-selected',15:'hb-selected'})}</span>
+          <span className="hp-text"><span className="hp-name">Find the Pattern</span><span className="hp-desc">Tap every number in the pattern.</span></span>
+        </button>
+        <button type="button" className="hp-card" data-mode="race" onClick={()=>pick('race')} aria-label="Race to 100. Roll the die. Be first to 100.">
+          <span className="hp-raceline" aria-hidden="true">
+            <span className="hp-mini" style={cols(6)}>{HP_CELLS([95,96,97,98,99,100],{95:'hb-cpu',97:'hb-player',100:'hb-target'})}</span>
+            <span className="hp-die" aria-hidden="true"><i/><i/><i/></span>
+          </span>
+          <span className="hp-text"><span className="hp-name">Race to 100</span><span className="hp-desc">Roll the die. Be first to 100.</span></span>
+        </button>
+      </div>
+    </div>
+  );
 }
 function HundredGame({onBack, flowers, gardenFull, setFlowers, setGardenFull, score, setScore, bouquets, addBouquet, muted, onToggleMute}){
   const [boardMode,setBoardMode]=useState(null),[raceWon,setRaceWon]=useState(false);
@@ -12013,7 +12111,7 @@ function HundredGame({onBack, flowers, gardenFull, setFlowers, setGardenFull, sc
   const leaveMode=()=>{setRaceWon(false);setBoardMode(null);};
   return <div className="screen hb-screen">
     <div className="screen-bg"/><BgDeco/><TopBar onBack={boardMode?leaveMode:onBack} muted={muted} onToggleMute={onToggleMute} score={score} flowers={flowers} bouquets={bouquets}/><Mascot kind="unicorn"/>
-    {!boardMode?<><div className="count-title"><div className="count-title-main">Hundred Board</div><div className="count-title-sub">Pick a game</div></div><div className="hb-mode-menu">{[['move','↔ Move'],['find','🔎 Find'],['missing','▦ Missing'],['patterns','✦ Patterns'],['race','⚄ Race']].map(([id,label])=><button key={id} className="hb-mode-card" onClick={()=>{Sound.setMuted(muted);Sound.tap();setBoardMode(id);}}>{label}</button>)}</div></>
+    {!boardMode?<HundredPicker muted={muted} onPick={setBoardMode}/>
       :<div className={`hb-play hb-play-${boardMode}`}><div className="count-title"><div className="count-title-main">Hundred Board</div><div className="count-title-sub">{names[boardMode]}</div></div><React.Fragment key={boardMode}>{boardMode==='find'?<HundredFindPlay muted={muted} reward={reward}/>:boardMode==='missing'?<HundredMissingPlay muted={muted} reward={reward}/>:boardMode==='patterns'?<HundredPatternPlay muted={muted} reward={reward}/>:<HundredRacePlay muted={muted} reward={reward} playerWon={raceWon} onPlayerWin={()=>setRaceWon(true)} onReset={()=>setRaceWon(false)}/>}</React.Fragment></div>}
   </div>;
 }
