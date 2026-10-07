@@ -28,6 +28,8 @@
   var el = {
     book: document.getElementById("book"),
     img: document.getElementById("art-img"),
+    discoveries: document.getElementById("discoveries"),
+    discoveryCard: document.getElementById("discovery-card"),
     text: document.getElementById("text"),
     quickWords: document.getElementById("quick-words"),
     speaker: document.getElementById("speaker"),
@@ -50,6 +52,7 @@
   var index = 0;
   var run = 0;                // bumps on every stop / page change; stale callbacks check it
   var wordButtons = [];
+  var discoveryTimer = 0;
 
   // ---------------------------------------------------------------- audio
   // Every clip plays through an <audio> element -- the same path as the page narration.
@@ -387,6 +390,42 @@
     img.alt = "";
   }
 
+  // Optional, unscored picture discoveries. Coordinates are percentages of the square
+  // painting, so the same data works in both tablet orientations. A tap reveals one short
+  // causal sentence; another tap replaces it and it closes itself after six seconds.
+  function renderDiscoveries(page) {
+    var items = Array.isArray(page.discoveries) ? page.discoveries : [];
+    if (discoveryTimer) { clearTimeout(discoveryTimer); discoveryTimer = 0; }
+    el.discoveries.textContent = "";
+    el.discoveryCard.textContent = "";
+    el.discoveryCard.hidden = true;
+    el.discoveries.hidden = items.length === 0;
+    items.forEach(function (item, itemIndex) {
+      var button = document.createElement("button");
+      button.type = "button";
+      button.className = "discovery-hotspot";
+      button.style.left = item.x + "%";
+      button.style.top = item.y + "%";
+      button.style.width = item.w + "%";
+      button.style.height = item.h + "%";
+      button.setAttribute("aria-label", "Picture discovery " + (itemIndex + 1));
+      button.addEventListener("click", function () {
+        if (discoveryTimer) clearTimeout(discoveryTimer);
+        el.discoveries.querySelectorAll(".discovery-hotspot").forEach(function (other) {
+          other.classList.toggle("open", other === button);
+        });
+        el.discoveryCard.textContent = item.label;
+        el.discoveryCard.hidden = false;
+        discoveryTimer = setTimeout(function () {
+          el.discoveryCard.hidden = true;
+          button.classList.remove("open");
+          discoveryTimer = 0;
+        }, 6000);
+      });
+      el.discoveries.appendChild(button);
+    });
+  }
+
   function renderQuickWords(page) {
     var items = Array.isArray(page.quickWords) ? page.quickWords : [];
     el.quickWords.textContent = "";
@@ -421,6 +460,7 @@
     var page = book.pages[index];
     var go = function () {
       renderArt(page);
+      renderDiscoveries(page);
       renderQuickWords(page);
       renderText(page);
       renderDots();
