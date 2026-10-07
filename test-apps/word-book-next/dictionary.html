@@ -13,6 +13,9 @@
   <meta name="apple-mobile-web-app-title" content="Our Dictionary"/>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
+    /* INTERACTION-DIRECTION.md method C, layer 1: manipulation on BOTH html and body. Layer 3
+       is the shared tap-zoom-guard.js loaded at the end of the page. No pinch is blocked. */
+    html,body{touch-action:manipulation}
     body{
       font-family:'Nunito',sans-serif;min-height:100vh;color:#3a1e33;
       background:#fdf6ff;
@@ -577,5 +580,6 @@
   }
 })();
 </script>
+<script src="./tap-zoom-guard.js"></script>
 </body>
 </html>

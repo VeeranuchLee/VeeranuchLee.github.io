@@ -13,6 +13,9 @@
   <meta name="apple-mobile-web-app-title" content="Our Word Book"/>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
+    /* INTERACTION-DIRECTION.md method C, layer 1: manipulation on BOTH html and body. Layer 3
+       is the shared tap-zoom-guard.js loaded at the end of the page. No pinch is blocked. */
+    html,body{touch-action:manipulation}
     body{
       font-family:'Nunito',sans-serif;min-height:100vh;color:#fff;
       background:linear-gradient(170deg,#4a2340 0%,#3a1e33 55%,#2b1626 100%);
@@ -55,7 +58,8 @@
       margin-top:-14px;text-align:center;text-shadow:0 2px 8px rgba(0,0,0,.5);
     }
 
-    /* FOUR SECTIONS (five since 2026-10-01; see FIVE CARDS, BALANCED below), and room for
+    /* FIVE SECTIONS in production; SIX on the Test Hub, where the held Grammar Game card shows
+       (see GRAMMAR GATE below). Bookshelf joined 2026-10-01. And room for
        the next one. Auto-fit, so a themed word game --
        Mermaid Words is the one on the roadmap -- is a card added below and nothing
        else: Children Games does not have to be touched, republished, or even know. */
@@ -92,24 +96,39 @@
     /* Bookshelf (owner, 2026-10-01): Reading Tree's daily picture books. Deep teal, so it
        stands apart from the berry, violet, gold and coral above. */
     .c-books {background:linear-gradient(160deg,#3fb6a8,#17786f);box-shadow:0 8px 0 #0f544e,0 14px 28px rgba(23,120,111,.35)}
+    .c-grammar{background:linear-gradient(160deg,#7d8ee8,#4a5bc0);box-shadow:0 8px 0 #36439a,0 14px 28px rgba(74,91,192,.35)}
+
+    /* GRAMMAR GATE (owner, 2026-10-07, A-H release: "Letters only (Recommended)"). The
+       Grammar Game card is in the markup but `hidden` (and .card's display:flex would beat
+       the attribute, so it is restated here); its picture has no src until it is revealed,
+       so production never asks for a file it does not serve. The card shows (and .six
+       goes on the grid) only when data/features.json says {"grammar": true}. Production
+       ships {"grammar": false} and .publish-manifest keeps the game's files [private], so
+       the page cannot be reached. The Test Hub copy: stage-testhub-next.py stages the
+       game's files AND writes {"grammar": true} -- one tool flips both, so no build shows
+       a card that leads to a missing page. */
+    .card[hidden]{display:none}
 
     /* FIVE CARDS, BALANCED. auto-fit alone leaves the fifth card an orphan: 2+2+1 on a
        768px iPad, 3+2 hard-left at 1024. So, from two columns up, the layout is set by hand:
        two columns with the Bookshelf card wide across the bottom (icon beside its words), and
-       on a wide screen three over two with the lower pair centred. A sixth card means
-       revisiting these two rules. */
+       on a wide screen three over two with the lower pair centred.
+       SIX CARDS (.six, Test Hub only while the Grammar Game is held) divide evenly: two
+       columns of three rows on a 768px iPad, three over three on a wide screen, nothing
+       stretched. A seventh card means revisiting these rules. */
     .card-words{display:contents}
     @media (min-width:560px){
       .cards{grid-template-columns:repeat(2,1fr)}
-      .c-books{grid-column:1 / -1;flex-direction:row;justify-content:center;gap:22px;min-height:150px;text-align:left}
-      .c-books .card-words{display:flex;flex-direction:column;gap:8px}
+      .cards:not(.six) .c-books{grid-column:1 / -1;flex-direction:row;justify-content:center;gap:22px;min-height:150px;text-align:left}
+      .cards:not(.six) .c-books .card-words{display:flex;flex-direction:column;gap:8px}
     }
     @media (min-width:940px){
-      .cards{grid-template-columns:repeat(6,1fr)}
-      .cards .card{grid-column:span 2}
-      .cards .c-exam{grid-column:2 / span 2}
-      .c-books{flex-direction:column;justify-content:flex-start;gap:12px;min-height:190px;text-align:center}
-      .c-books .card-words{align-items:center}
+      .cards:not(.six){grid-template-columns:repeat(6,1fr)}
+      .cards:not(.six) .card{grid-column:span 2}
+      .cards:not(.six) .c-exam{grid-column:2 / span 2}
+      .cards:not(.six) .c-books{flex-direction:column;justify-content:flex-start;gap:12px;min-height:190px;text-align:center}
+      .cards:not(.six) .c-books .card-words{align-items:center}
+      .cards.six{grid-template-columns:repeat(3,1fr)}
     }
 
     footer{font-size:.8rem;font-weight:700;opacity:.72;text-align:center;max-width:44ch;line-height:1.5}
@@ -272,11 +291,34 @@
       <span class="card-words">Bookshelf
       <small>Read a picture book every day</small></span>
     </a>
+
+    <!-- HELD (owner, 2026-10-07): hidden until its page is served; see GRAMMAR GATE. -->
+    <a class="card c-grammar" href="grammar-game.html" hidden>
+      <img data-src="assets/grammar/grammar-game.webp" alt="" width="104" height="104"/>
+      Grammar Game
+      <small>Build sentences and discover how words work</small>
+    </a>
   </div>
 
   <footer>Made with love for little learners</footer>
 </div>
 <script>
+  /* GRAMMAR GATE -- reveal the held Grammar Game card only when data/features.json says
+     so (the Test Hub copy). Production ships {"grammar": false}; a failed or unreadable
+     fetch also leaves the card hidden. Never reveal on a guess. */
+  (function () {
+    var card = document.querySelector('.c-grammar');
+    if (!card || !window.fetch) return;
+    fetch('data/features.json').then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (f) {
+        if (!f || f.grammar !== true) return;
+        var img = card.querySelector('img[data-src]');
+        if (img) img.src = img.getAttribute('data-src');
+        card.hidden = false;
+        card.parentNode.classList.add('six');
+      }).catch(function () {});
+  })();
+
   /* Offline support. Registration is best-effort: opened straight from a file the
      browser refuses it, and the book must still open. */
   if ('serviceWorker' in navigator) {
@@ -396,5 +438,6 @@
   })();
   window.__wbMusic = function () { return Music; };
 </script>
+<script src="./tap-zoom-guard.js"></script>
 </body>
 </html>

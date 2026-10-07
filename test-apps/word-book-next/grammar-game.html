@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Grammar Game</title>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png"/>
+  <link rel="stylesheet" href="./fonts.css"/>
+  <link rel="stylesheet" href="./grammar-game.css"/>
+</head>
+<body>
+  <a class="back" href="./index.html" aria-label="Back to Our Word Book">‹ <span>Word Book</span></a>
+  <main>
+    <section id="start" class="panel start-panel">
+      <img src="./assets/grammar/grammar-game.webp" alt="A child arranging colourful word tiles beside an open book"/>
+      <h1>Grammar Game</h1>
+      <p>Build sentences, spot word jobs and help every sentence shine.</p>
+      <button id="play" class="primary" type="button">Play</button>
+    </section>
+
+    <section id="game" class="panel" hidden>
+      <header><span id="progress">1 of 10</span><span id="stars" aria-label="Stars">☆ ☆ ☆</span>
+        <button id="voiceToggle" class="voice-toggle" type="button" aria-pressed="true" aria-label="Voice on">🔊</button></header>
+      <img id="scene" class="scene" alt=""/>
+      <p class="prompt-row"><span id="prompt" class="prompt"></span>
+        <button id="hearQuestion" class="hear" type="button" aria-label="Hear the question again">🔊</button></p>
+      <div id="stem" class="stem"></div>
+      <div id="answerLine" class="answer-line" hidden></div>
+      <div id="choices" class="choices"></div>
+      <button id="check" class="primary" type="button" hidden>Check</button>
+    </section>
+
+    <section id="finish" class="panel start-panel" hidden>
+      <img src="./assets/grammar/building-together.webp" alt="Two children building a colourful block tower together"/>
+      <h1>Sentence star!</h1>
+      <p id="finishCopy"></p>
+      <button id="again" class="primary" type="button">Play again</button>
+    </section>
+  </main>
+
+  <div id="lesson" class="lesson" role="dialog" aria-modal="true" aria-labelledby="lessonTitle" hidden>
+    <div class="lesson-card">
+      <div id="lessonFace" class="lesson-face">💡</div>
+      <h2 id="lessonTitle">Let’s learn it</h2>
+      <p id="lessonText"></p>
+      <button id="listen" class="listen" type="button" hidden aria-label="Listen to the explanation">🔊 Listen</button>
+      <button id="continue" class="primary" type="button">Try the next one</button>
+    </div>
+  </div>
+
+  <script src="./tap-zoom-guard.js"></script>
+  <script src="./grammar-game.js"></script>
+</body>
+</html>
