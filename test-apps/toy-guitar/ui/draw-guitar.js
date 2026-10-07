@@ -65,8 +65,10 @@ function head(shape, g, p) {
   const peg = (u, v, r, fill) => pegs.push(`<circle cx="${f1(u)}" cy="${f1(v)}" r="${f1(r)}" fill="${fill}" stroke="#0003" stroke-width="1.5"/>`);
   let d; let extra = '';
   if (shape === 'first') {
-    d = `M${f1(h + 6)},${f1(c - w)} L${f1(h * 0.2)},${f1(c - w - 4)} C${f1(-h * 0.2)},${f1(c - w)} ${f1(-h * 0.2)},${f1(c + w)} ${f1(h * 0.2)},${f1(c + w + 4)} L${f1(h + 6)},${f1(c + w)} Z`;
-    for (let i = 0; i < 3; i += 1) { const u = h * (0.28 + 0.26 * i); peg(u, c - w - 13, 9, p.accent); peg(u, c + w + 13, 9, p.accent); }
+    // a chunky rounded paddle with three fat pegs a side
+    const r = 16; const a = h * 0.06; const b = h + 6; const t = c - w - 6; const bt = c + w + 6;
+    d = `M${f1(b)},${f1(t)} L${f1(a + r)},${f1(t)} Q${f1(a)},${f1(t)} ${f1(a)},${f1(t + r)} L${f1(a)},${f1(bt - r)} Q${f1(a)},${f1(bt)} ${f1(a + r)},${f1(bt)} L${f1(b)},${f1(bt)} Z`;
+    for (let i = 0; i < 3; i += 1) { const u = h * (0.3 + 0.24 * i); peg(u, c - w - 14, 9, p.accent); peg(u, c + w + 14, 9, p.accent); }
   } else if (shape === 'classical') {
     d = `M${f1(h + 6)},${f1(c - w)} L${f1(h * 0.06)},${f1(c - w)} L${f1(h * 0.06)},${f1(c + w)} L${f1(h + 6)},${f1(c + w)} Z`;
     extra = [0, 1].map((k) => `<rect x="${f1(h * 0.16)}" y="${f1(c - w * 0.62 + k * w * 0.66)}" width="${f1(h * 0.62)}" height="${f1(w * 0.58)}" rx="4" fill="#1a0f08"/>`).join('');
@@ -130,69 +132,138 @@ function bodyExtras(shape, g, p) {
   return out.join('');
 }
 
-function bodyAndNeck(model, g, p, withBody = true) {
+function bodyAndNeck(model, g, p, withBody = true, fill = null) {
   const d = mapPath(OUTLINE[model.shape], (x, y) => [g.neckEnd + x / 100 * g.bodyLen, g.center + (y - 50) / 100 * g.S]);
-  const inner = `<path d="${d}" fill="none" stroke="${p.plate}" stroke-opacity=".5" stroke-width="3" transform="translate(${f1(g.bodyLen * 0.5 + g.neckEnd)} ${f1(g.center)}) scale(.965) translate(${-f1(g.bodyLen * 0.5 + g.neckEnd)} ${-f1(g.center)})"/>`;
-  return `${withBody ? `<path d="${d}" fill="${p.body}" stroke="${p.rim}" stroke-width="7" stroke-linejoin="round"/>${inner}` : ''}`;
+  const mid = `${f1(g.bodyLen * 0.5 + g.neckEnd)} ${f1(g.center)}`;
+  const inner = `<path d="${d}" fill="none" stroke="${p.plate}" stroke-opacity=".5" stroke-width="3" transform="translate(${mid}) scale(.965) translate(${mid.split(' ').map((n) => -Number(n)).join(' ')})"/>`;
+  return `${withBody ? `<path class="body" d="${d}" fill="${fill || p.body}" stroke="${p.rim}" stroke-width="7" stroke-linejoin="round"/>${inner}` : ''}`;
 }
 
-function tonalDefs(id, p) {
-  return `<defs><linearGradient id="bodyg-${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${p.body}"/><stop offset="1" stop-color="${p.rim}" stop-opacity=".55"/></linearGradient></defs>`;
+// Gradients that give each body and neck its material: a lit plastic shell,
+// varnished spruce, a sunburst, a gloss finish, a black gloss with a red bevel.
+function tonalDefs(model, g) {
+  const p = model.palette; const id = model.id;
+  const finish = {
+    first: [[0, '#ffb08f'], [0.55, p.body], [1, p.rim]],
+    classical: [[0, '#f0c48a'], [0.6, p.body], [1, '#8a5428']],
+    acoustic: [[0, '#ffe2a0'], [0.45, p.body], [0.82, '#9a4e1e'], [1, '#3a1a0c']],
+    electric: [[0, '#8fe6f0'], [0.5, p.body], [1, p.rim]],
+    rock: [[0, '#5a5566'], [0.55, p.body], [1, '#0d0c10']]
+  }[model.shape];
+  const stops = finish.map(([o, c]) => `<stop offset="${o}" stop-color="${c}"/>`).join('');
+  const cx = g.neckEnd + g.bodyLen * 0.42;
+  const neck = {
+    first: ['#fff4d6', '#f3cf86'], classical: ['#5c3a24', '#3a2414'], acoustic: ['#7a4e2c', '#4e2e18'],
+    electric: ['#f4dca6', '#d9b676'], rock: ['#3d2c22', '#1f1712']
+  }[model.shape];
+  // (gradients run in the guitar's own u/v space, so "across the neck" is y in both orientations)
+  return `<defs>
+<radialGradient id="body-${id}" gradientUnits="userSpaceOnUse" cx="${f1(cx)}" cy="${f1(g.center - g.S * 0.12)}" r="${f1(Math.max(g.bodyLen, g.S) * 0.62)}">${stops}</radialGradient>
+<linearGradient id="neck-${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${neck[0]}"/><stop offset=".5" stop-color="${neck[1]}"/><stop offset="1" stop-color="${neck[0]}"/></linearGradient>
+<linearGradient id="fret-${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8e959c"/><stop offset=".45" stop-color="#ffffff"/><stop offset="1" stop-color="#9aa1a8"/></linearGradient>
+</defs>`;
+}
+
+// Per-toy string look: First wears a rainbow (colour is a bonus, never the
+// only cue); the others are nylon, bronze-wound steel, nickel or black-chrome.
+const RAINBOW = ['#ff6b6b', '#ff9f43', '#ffd43b', '#51cf66', '#4dabf7', '#9775fa'];
+
+// The shared body grain for the wooden guitars: faint lengthwise lines.
+function grain(g, shape) {
+  if (shape !== 'classical' && shape !== 'acoustic') return '';
+  const lines = [];
+  for (let k = -6; k <= 6; k += 1) {
+    const v = g.center + k * g.S * 0.07;
+    lines.push(`<path d="M${f1(g.neckEnd - g.bodyLen * 0.05)},${f1(v)} C${f1(g.neckEnd + g.bodyLen * 0.4)},${f1(v + 6)} ${f1(g.neckEnd + g.bodyLen * 0.7)},${f1(v - 6)} ${f1(g.neckEnd + g.bodyLen * 1.05)},${f1(v + 3)}"/>`);
+  }
+  return `<g fill="none" stroke="#3a1a08" stroke-opacity=".09" stroke-width="2" clip-path="url(#clip-body)">${lines.join('')}</g>`;
 }
 
 // ---------- the full, playable guitar ----------
 // `layout` is lib/geometry.makeLayout(...). Returns an <svg> string sized to
 // the playable area. data-* attributes mark every element the app animates.
+// Two layers: the still guitar (with its soft shadow) and, above it, the parts
+// that move — fret lights, fingertip marks and the strings — kept outside the
+// shadow so redrawing a vibrating string never re-renders a filtered layer.
 export function drawGuitar(model, layout) {
-  const p = model.palette; const L = layout;
+  const p = model.palette; const L = layout; const shape = model.shape;
   const g = {
+    portrait: L.portrait,
     headLen: L.headLen, nutU: L.nutU, neckEnd: L.neckEnd, L: L.L, S: L.S, center: L.center, bodyLen: L.bodyLen, bridgeU: L.bridgeU,
     nutHalf: 2.5 * L.nutSpacing + L.nutSpacing * 0.62, neckHalf: 2.5 * L.spacing(L.neckEnd) + L.spacing(L.neckEnd) * 0.62,
     sp: (u) => L.spacing(u), vAt: (i, u) => L.stringV(i, u)
   };
-  const style = STRING_STYLE[model.shape];
-  const parts = [];
-  parts.push(`<g class="guitar-shadow">${bodyAndNeck(model, g, p)}${head(model.shape, g, p)}`);
-  parts.push(`<path d="${neckShape(g)}" fill="${p.neck}" stroke="${p.rim}" stroke-width="3"/>`);
+  const style = STRING_STYLE[shape];
+  const still = [];
+  const bodyPath = mapPath(OUTLINE[shape], (x, y) => [g.neckEnd + x / 100 * g.bodyLen, g.center + (y - 50) / 100 * g.S]);
+  still.push(`<clipPath id="clip-body"><path d="${bodyPath}"/></clipPath>`);
+  still.push(bodyAndNeck(model, g, p, true, `url(#body-${model.id})`));
+  still.push(grain(g, shape));
+  still.push(head(shape, g, p));
+  // the fretboard, with a lit edge along both sides
+  still.push(`<path d="${neckShape(g)}" fill="url(#neck-${model.id})" stroke="${p.rim}" stroke-width="3"/>`);
+  if (shape === 'first') {
+    // First's board is moulded plastic: a soft raised rim down both edges
+    still.push(`<path d="${neckShape(g)}" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="5" transform="translate(0 0)"/>`);
+  }
   // the open slot is a slightly darker strip so "open string" reads as a place
-  parts.push(`<rect x="${f1(L.headLen)}" y="${f1(g.center - g.nutHalf)}" width="${f1(L.fretW)}" height="${f1(g.nutHalf * 2)}" fill="#000" opacity=".16"/>`);
-  // frets: 12 wires, one nut
-  parts.push(`<line x1="${f1(L.nutU)}" y1="${f1(g.center - L.spacing(L.nutU) * 3.05)}" x2="${f1(L.nutU)}" y2="${f1(g.center + L.spacing(L.nutU) * 3.05)}" stroke="#f4efe2" stroke-width="7" stroke-linecap="round"/>`);
+  still.push(`<rect x="${f1(L.headLen)}" y="${f1(g.center - g.nutHalf)}" width="${f1(L.fretW)}" height="${f1(g.nutHalf * 2)}" fill="#000" opacity=".16"/>`);
+  // the nut and 12 fret wires (a metal wire with a highlight)
+  still.push(`<line x1="${f1(L.nutU)}" y1="${f1(g.center - L.spacing(L.nutU) * 3.05)}" x2="${f1(L.nutU)}" y2="${f1(g.center + L.spacing(L.nutU) * 3.05)}" stroke="${shape === 'rock' || shape === 'classical' || shape === 'acoustic' ? '#f4efe2' : '#fffaf0'}" stroke-width="8" stroke-linecap="round"/>`);
   for (let k = 1; k <= FRET_COUNT; k += 1) {
     const u = L.nutU + k * L.fretW; const half = L.spacing(u) * 3.05;
-    parts.push(`<line x1="${f1(u)}" y1="${f1(g.center - half)}" x2="${f1(u)}" y2="${f1(g.center + half)}" stroke="#d9dde0" stroke-width="3.6" stroke-linecap="round"/>`);
+    still.push(`<line class="fret-wire" x1="${f1(u)}" y1="${f1(g.center - half)}" x2="${f1(u)}" y2="${f1(g.center + half)}" stroke="#7c848c" stroke-width="5" stroke-linecap="round"/>`);
+    still.push(`<line x1="${f1(u - 0.8)}" y1="${f1(g.center - half + 2)}" x2="${f1(u - 0.8)}" y2="${f1(g.center + half - 2)}" stroke="#fff" stroke-opacity=".85" stroke-width="1.6" stroke-linecap="round"/>`);
   }
-  // inlays centre the slot (fret positions 3 5 7 9, double at 12)
-  [3, 5, 7, 9].forEach((k) => parts.push(`<circle cx="${f1(L.slotStart(k) + L.fretW / 2)}" cy="${f1(g.center)}" r="${f1(L.fretW * 0.13)}" fill="${p.plate}" opacity=".7"/>`));
-  [-1, 1].forEach((s) => parts.push(`<circle cx="${f1(L.slotStart(12) + L.fretW / 2)}" cy="${f1(g.center + s * L.spacing(L.slotStart(12)) * 1.5)}" r="${f1(L.fretW * 0.13)}" fill="${p.plate}" opacity=".7"/>`));
+  // inlays centre the slot (positions 3 5 7 9, double at 12). First: rainbow buttons.
+  const inlay = (k, v, i) => {
+    const r = L.fretW * (shape === 'first' ? 0.17 : 0.12);
+    const fill = shape === 'first' ? RAINBOW[i % 6] : shape === 'rock' ? '#e0324b' : p.plate;
+    const cx = L.slotStart(k) + L.fretW / 2;
+    if (shape === 'rock') return `<path d="M${f1(cx - r)},${f1(v)} L${f1(cx)},${f1(v - r * 1.3)} L${f1(cx + r)},${f1(v)} L${f1(cx)},${f1(v + r * 1.3)} Z" fill="${fill}" opacity=".9"/>`;
+    return `<circle cx="${f1(cx)}" cy="${f1(v)}" r="${f1(r)}" fill="${fill}" opacity="${shape === 'first' ? 0.95 : 0.75}"/>`;
+  };
+  [3, 5, 7, 9].forEach((k, i) => still.push(inlay(k, g.center, i)));
+  [-1, 1].forEach((s, i) => still.push(inlay(12, g.center + s * L.spacing(L.slotStart(12)) * 1.5, 4 + i)));
   // strum plate: the part of the body that picks and strums
   const sx = L.neckEnd + 4; const sw = L.bridgeU + 20 - sx; const sh = 2.5 * L.bridgeSpacing + L.bridgeSpacing * 0.8;
-  parts.push(`<rect class="strum-plate" x="${f1(sx)}" y="${f1(g.center - sh)}" width="${f1(sw)}" height="${f1(sh * 2)}" rx="22" fill="#fff" fill-opacity=".10" stroke="#fff" stroke-opacity=".28" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/>`);
-  parts.push(bodyExtras(model.shape, g, p));
-  // held-fret markers and flashes: one per playable position
+  still.push(`<rect class="strum-plate" x="${f1(sx)}" y="${f1(g.center - sh)}" width="${f1(sw)}" height="${f1(sh * 2)}" rx="22" fill="#fff" fill-opacity=".08" stroke="#fff" stroke-opacity=".3" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round"/>`);
+  still.push(`<g clip-path="url(#clip-body)">${bodyExtras(shape, g, p)}</g>`);
+
+  // ---- the moving layer ----
+  const live = [];
   for (let lane = 0; lane < STRING_COUNT; lane += 1) {
     for (let fret = 0; fret <= FRET_COUNT; fret += 1) {
-      const u = L.slotStart(fret) + L.fretW / 2;
-      const r = Math.min(L.fretW, L.spacing(u)) * 0.36;
-      const open = fret === 0;
-      parts.push(`<circle class="mark" data-lane="${lane}" data-fret="${fret}" cx="${f1(u)}" cy="${f1(L.stringV(lane, u))}" r="${f1(r)}" fill="${p.accent}" stroke="#fff" stroke-width="${open ? 4 : 3}" opacity="0"/>`);
+      const u = L.slotStart(fret) + L.fretW / 2; const v = L.stringV(lane, u);
+      const cw = L.fretW * 0.84; const ch = Math.min(L.spacing(u) * 0.78, 54);
+      // the fret cell that lights while held or plucked
+      live.push(`<rect class="cell" data-lane="${lane}" data-fret="${fret}" x="${f1(u - cw / 2)}" y="${f1(v - ch / 2)}" width="${f1(cw)}" height="${f1(ch)}" rx="${f1(Math.min(cw, ch) * 0.32)}" fill="${p.accent}" opacity="0"/>`);
     }
     // open-string rings: a hollow circle in the open slot marks "play the open string here"
     const uo = L.slotStart(0) + L.fretW / 2;
-    parts.push(`<circle cx="${f1(uo)}" cy="${f1(L.stringV(lane, uo))}" r="${f1(Math.min(L.fretW, L.spacing(uo)) * 0.28)}" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="2.5" pointer-events="none"/>`);
+    live.push(`<circle cx="${f1(uo)}" cy="${f1(L.stringV(lane, uo))}" r="${f1(Math.min(L.fretW, L.spacing(uo)) * 0.28)}" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="2.5" pointer-events="none"/>`);
   }
-  // the strings: a glow underlay and the string itself, both redrawn while ringing
+  // the strings: a glow underlay, a soft shadow and the string, all redrawn while ringing
   for (let lane = 0; lane < STRING_COUNT; lane += 1) {
-    const x0 = L.headLen; const x1 = L.bridgeU;
     const d = stringD(L, lane, 0, 0);
-    parts.push(`<path class="string-glow" data-lane="${lane}" d="${d}" fill="none" stroke="${p.accent}" stroke-width="${f1(style.w[lane] + 9)}" stroke-linecap="round" opacity="0"/>`);
-    parts.push(`<path class="string-line" data-lane="${lane}" d="${d}" fill="none" stroke="${style.col(p, lane)}" stroke-opacity="${style.alpha ? style.alpha[lane] : 1}" stroke-width="${style.w[lane]}" stroke-linecap="round"/>`);
-    parts.push(`<path d="${d}" fill="none" stroke="#000" stroke-opacity=".22" stroke-width="1" transform="translate(0 ${f1(style.w[lane] * 0.55)})"/>`);
+    const col = shape === 'first' ? RAINBOW[lane] : style.col(p, lane);
+    live.push(`<path class="string-glow" data-lane="${lane}" d="${d}" fill="none" stroke="${shape === 'first' ? RAINBOW[lane] : p.accent}" stroke-width="${f1(style.w[lane] + 11)}" stroke-linecap="round" opacity="0"/>`);
+    live.push(`<path class="string-shadow" data-lane="${lane}" d="${d}" fill="none" stroke="#000" stroke-opacity=".25" stroke-width="${f1(style.w[lane] * 0.9)}" stroke-linecap="round" transform="translate(${L.portrait ? '0 0' : '0 0'})"/>`);
+    live.push(`<path class="string-line" data-lane="${lane}" d="${d}" fill="none" stroke="${col}" stroke-opacity="${style.alpha ? style.alpha[lane] : 1}" stroke-width="${style.w[lane]}" stroke-linecap="round"${lane < 3 && shape !== 'first' && shape !== 'classical' ? ` stroke-dasharray="1.2 1.4"` : ''}/>`);
+    if (lane < 3 && shape !== 'first' && shape !== 'classical') live.push(`<path class="string-core" data-lane="${lane}" d="${d}" fill="none" stroke="${col}" stroke-opacity=".75" stroke-width="${f1(style.w[lane] * 0.55)}" stroke-linecap="round"/>`);
   }
-  parts.push('</g>');
+  // fingertip marks sit above the strings
+  for (let lane = 0; lane < STRING_COUNT; lane += 1) {
+    for (let fret = 0; fret <= FRET_COUNT; fret += 1) {
+      const u = L.slotStart(fret) + L.fretW / 2;
+      const r = Math.min(L.fretW, L.spacing(u)) * 0.34;
+      live.push(`<circle class="mark" data-lane="${lane}" data-fret="${fret}" cx="${f1(u)}" cy="${f1(L.stringV(lane, u))}" r="${f1(r)}" fill="${shape === 'first' ? RAINBOW[lane] : p.accent}" stroke="#fff" stroke-width="${fret === 0 ? 4 : 3.5}" opacity="0"/>`);
+    }
+  }
   const w = L.portrait ? L.S : L.L; const h = L.portrait ? L.L : L.S;
+  void w; void h;
   const tf = L.portrait ? `matrix(0 1 1 0 ${MARGIN} ${MARGIN})` : `translate(${MARGIN} ${MARGIN})`;
-  return `<svg class="guitar-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${f1(L.width)} ${f1(L.height)}" width="${f1(L.width)}" height="${f1(L.height)}" role="img" aria-label="${model.name}">${tonalDefs(model.id, p)}<g transform="${tf}">${parts.join('')}</g></svg>`;
+  return `<svg class="guitar-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${f1(L.width)} ${f1(L.height)}" width="${f1(L.width)}" height="${f1(L.height)}" role="img" aria-label="${model.name}">${tonalDefs(model, g)}<g transform="${tf}"><g class="guitar-shadow">${still.join('')}</g><g class="guitar-live">${live.join('')}</g></g></svg>`;
 }
 
 // The path of one string. amp is the sideways wobble (px) at the middle.
@@ -220,4 +291,27 @@ export function drawSilhouette(model, w = 220, h = 84) {
   parts.push(bodyExtras(model.shape, g, p));
   for (let i = 0; i < STRING_COUNT; i += 1) parts.push(`<line x1="${f1(g.headLen)}" y1="${f1(g.vAt(i, 0))}" x2="${f1(g.bridgeU)}" y2="${f1(g.vAt(i, 0))}" stroke="${p.string}" stroke-width="1" opacity=".9"/>`);
   return `<svg class="silhouette" xmlns="http://www.w3.org/2000/svg" viewBox="-6 -2 ${w + 12} ${h + 4}" aria-hidden="true"><g>${parts.join('')}</g></svg>`;
+}
+
+// ---------- the ribbon chip: one-colour drawing of the whole guitar ----------
+// Like Toy Keyboard's chips, it is a picture of THIS toy in one ink on the
+// chip's dark case, so with colour taken away it still says which guitar it
+// is: the peanut toy, the slotted classical head and round hole, the
+// dreadnought with its pickguard, the offset double cutaway with three
+// pickups, the pointed V with two humbuckers.
+export function drawChip(model) {
+  // Drawn big and cropped to the body end, where the five differ most.
+  const W = 300; const H = 200; const c = 112;
+  const g = {
+    headLen: 34, nutU: 44, neckEnd: 128, L: W, S: H, center: c, bodyLen: 168, bridgeU: 128 + 168 * 0.74,
+    nutHalf: 15, neckHalf: 19, sp: () => 11, vAt: (i) => c + (i - 2.5) * 11
+  };
+  const ink = 'currentColor'; const cut = '#1b1f29';
+  const mono = { body: ink, rim: ink, neck: ink, plate: cut, string: cut, accent: cut };
+  const parts = [];
+  parts.push(bodyAndNeck(model, g, mono));
+  parts.push(head(model.shape, g, mono).replace(/fill="#[0-9a-fA-F]{3,8}"/g, `fill="${ink}"`).replace(/stroke="#000?[34]"/g, 'stroke="none"'));
+  parts.push(`<path d="${neckShape(g)}" fill="${ink}"/>`);
+  parts.push(bodyExtras(model.shape, g, mono).replace(/stroke="[^"]*"/g, 'stroke="none"').replace(/fill="#[0-9a-fA-F]{3,6}"/g, `fill="${cut}"`));
+  return `<svg class="chip-art" xmlns="http://www.w3.org/2000/svg" viewBox="-14 0 318 224" aria-hidden="true"><g>${parts.join('')}</g></svg>`;
 }

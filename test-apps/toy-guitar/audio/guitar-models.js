@@ -62,6 +62,8 @@ export const MODELS = [
       { type: 'lowpass', frequency: 5200, q: 0.75 }
     ],
     amp: { drive: 1.4, cab: [{ type: 'lowpass', frequency: 6200, q: 0.7 }] },
+    // the amp's Drive switch: more gain into the same shaper, level held
+    fx: { drive: { drive: 5, trim: 0.62 } },
     gain: 0.29, bendMax: 200,
     palette: { body: '#35b7c9', rim: '#14606c', neck: '#e8c98a', plate: '#f4f1e6', string: '#e8f0f2', accent: '#ffd23f' }
   },
@@ -80,6 +82,8 @@ export const MODELS = [
       cab: [{ type: 'peaking', frequency: 2400, q: 0.9, gain: 3 }, { type: 'lowpass', frequency: 4200, q: 0.8 }],
       compress: { threshold: -22, ratio: 6, attack: 0.004, release: 0.2 }
     },
+    // the Heavy pedal: the stack turned up, level held
+    fx: { heavy: { drive: 18, trim: 0.78 } },
     gain: 0.158, bendMax: 200,
     palette: { body: '#2c2a33', rim: '#e0324b', neck: '#3a2a22', plate: '#e0324b', string: '#d8dde6', accent: '#ffb02e' }
   }
@@ -87,8 +91,9 @@ export const MODELS = [
 
 export function modelById(id) { return MODELS.find((m) => m.id === id) || MODELS[0]; }
 
-// Longer strings sustain longer: scale t60 by lane (0 = low E).
-export function stringParams(model, lane) {
-  const s = model.string;
+// Longer strings sustain longer: scale t60 by lane (0 = low E). A toy's tone
+// switch (lib/toys.js `tones`) may override bright / pick / pos.
+export function stringParams(model, lane, tone = null) {
+  const s = { ...model.string, ...((tone && tone.string) || {}) };
   return { t60: s.t60 * (1.25 - 0.1 * lane), bright: s.bright, pick: s.pick, pos: s.pos };
 }

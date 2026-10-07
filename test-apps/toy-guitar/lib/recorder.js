@@ -3,7 +3,10 @@
 //
 // It records what was PLAYED, not what was heard: string, fret, velocity and
 // bend of every pluck, each strum crossing at its real time, slides and bends
-// as retunes, mutes, held-fret changes and which guitar was sounding. Nothing
+// as retunes, mutes, held-fret changes, which guitar was sounding, every
+// support-pad strike (`hit`, the pad's own id), and the toy's tone switch and
+// amp effects (`tone`, `fx`) so a take replays on the sound it was made with.
+// Nothing
 // is flattened to anonymous note events, so playback keeps the articulation,
 // and a strum is six plucks with their real spacing, never six at once.
 //
@@ -14,7 +17,7 @@
 export const MAX_SECONDS = 120;
 export const MAX_EVENTS = 6000;
 
-export function createRecorder({ clock, setTimer = setTimeout, clearTimer = clearTimeout, target, currentModel, currentHeld }) {
+export function createRecorder({ clock, setTimer = setTimeout, clearTimer = clearTimeout, target, currentModel, currentHeld, currentSettings }) {
   let take = [];
   let mode = 'idle';      // idle | recording | playing
   let startedAt = 0;
@@ -44,6 +47,9 @@ export function createRecorder({ clock, setTimer = setTimeout, clearTimer = clea
     // a take must know the guitar it began on and what was already held
     const m = currentModel && currentModel();
     if (m) take.push({ t: 0, type: 'model', id: m });
+    const set = currentSettings ? currentSettings() : null;
+    if (set && set.tone) take.push({ t: 0, type: 'tone', id: set.tone });
+    if (set && set.fx && Object.keys(set.fx).length) take.push({ t: 0, type: 'fx', state: { ...set.fx } });
     const held = currentHeld ? currentHeld() : [];
     held.forEach((h) => take.push({ t: 0, type: 'held', lane: h.lane, fret: h.fret }));
     timers.push(setTimer(() => { if (mode === 'recording') stop(); }, MAX_SECONDS * 1000));
@@ -59,6 +65,7 @@ export function createRecorder({ clock, setTimer = setTimeout, clearTimer = clea
     } else if (mode === 'playing') {
       clearTimers();
       target.mute(); target.heldReset();
+      if (target.padsOff) target.padsOff();
       mode = 'idle'; ended = 'stop';
       changed();
     }
@@ -79,6 +86,9 @@ export function createRecorder({ clock, setTimer = setTimeout, clearTimer = clea
         else if (e.type === 'mute') target.mute({ source: 'play' });
         else if (e.type === 'held') target.held(e.lane, e.fret, e.fret === null ? [] : [e.fret], { source: 'play' });
         else if (e.type === 'model') target.setModel(e.id);
+        else if (e.type === 'hit') target.hit(e.id, { velocity: e.velocity, source: 'play' });
+        else if (e.type === 'tone') target.setTone(e.id, { source: 'play' });
+        else if (e.type === 'fx') target.setFx(e.state, { source: 'play' });
       }, Math.max(0, e.t * 1000)));
     });
     timers.push(setTimer(() => {

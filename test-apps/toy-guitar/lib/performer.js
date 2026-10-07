@@ -12,6 +12,8 @@ export function recordingPerformer(inner, recorder) {
       inner.retune(lane, fret, o);
     },
     mute(o) { recorder.record({ type: 'mute' }); inner.mute(o); },
-    held(lane, fret, frets) { recorder.record({ type: 'held', lane, fret }); inner.held(lane, fret, frets); }
+    held(lane, fret, frets) { recorder.record({ type: 'held', lane, fret }); inner.held(lane, fret, frets); },
+    // a support pad: the pad's own id, so the take knows the exact sound
+    hit(id, o = {}) { recorder.record({ type: 'hit', id, velocity: o.velocity ?? 1 }); inner.hit(id, o); }
   };
 }

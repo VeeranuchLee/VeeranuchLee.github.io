@@ -20,21 +20,40 @@ export const BEND_FULL = 1.1;  // lanes of sideways drag for the full bend
 
 const clamp = (x, lo, hi) => Math.max(lo, Math.min(hi, x));
 
-export function makeLayout(width, height) {
+// `shape` (optional) carries one toy's play-surface proportions from
+// lib/toys.js: { headFrac, bodyFrac, nut: [frac, min, max], bridge: [...] }.
+// `railMin` (optional) is the thickness to keep free on each side of the neck
+// for the toy's side compartments; string spacing gives way to it, but never
+// below MIN_SPACING. With no options the layout is the original one.
+export const MIN_SPACING = 50;
+export function makeLayout(width, height, shape = {}, railMin = 0) {
   const portrait = height > width;
   const longSide = portrait ? height : width;
   const shortSide = portrait ? width : height;
   const L = longSide - 2 * MARGIN;
   const S = shortSide - 2 * MARGIN;
-  const headLen = HEAD_FRAC * L;
-  const bodyLen = BODY_FRAC * L;
+  const headLen = (shape.headFrac ?? HEAD_FRAC) * L;
+  const bodyLen = (shape.bodyFrac ?? BODY_FRAC) * L;
   const neckLen = L - headLen - bodyLen;
   const fretW = neckLen / (FRET_COUNT + 1);
   const nutU = headLen + fretW;                 // the nut wire: end of the open slot
   const neckEnd = headLen + neckLen;            // start of the body
   const bridgeU = neckEnd + bodyLen * 0.74;
-  const nutSpacing = clamp(S * 0.085, 52, 70);
-  const bridgeSpacing = clamp(S * 0.105, 60, 84);
+  const [nf, nmin, nmax] = shape.nut || [0.085, 52, 70];
+  const [bf, bmin, bmax] = shape.bridge || [0.105, 60, 84];
+  let nutSpacing = clamp(S * nf, nmin, nmax);
+  let bridgeSpacing = clamp(S * bf, bmin, bmax);
+  if (railMin > 0) {
+    // the playable lanes at the neck end (where they are widest beside the
+    // compartments) may reach no further than S/2 - railMin
+    const t = clamp((neckEnd - nutU) / (bridgeU - nutU), 0, 1);
+    const reach = (S / 2 - railMin - 10) / (2.5 + LANE_EDGE);
+    const atEnd = nutSpacing + (bridgeSpacing - nutSpacing) * t;
+    if (atEnd > reach) {
+      const k = Math.max(MIN_SPACING / Math.min(nutSpacing, bridgeSpacing), reach / atEnd);
+      nutSpacing *= k; bridgeSpacing *= k;
+    }
+  }
   const center = S / 2;
   return {
     portrait, orientation: portrait ? 'portrait' : 'landscape',
@@ -145,4 +164,25 @@ export class StrumTracker {
 // Velocity from swipe speed: lanes per second -> 0.6..0.95
 export function strumVelocity(lanesPerSecond) {
   return clamp(0.6 + lanesPerSecond * 0.035, 0.6, 0.95);
+}
+
+// The two side compartments beside the neck, where a toy keeps its controls
+// (side 'a': the low-E side, above the neck in landscape and left of it in
+// portrait) and its four support pads (side 'b'). They run from just past the
+// nut to where the body begins to widen (`horn`, a fraction of the body
+// length), and stop `gap` px short of the outermost playable lane, so no
+// compartment ever covers a string or a fret that plays. Returned in the same
+// screen pixels as hitTest, as { x, y, w, h, thick, long }.
+export function railRects(layout, horn = 0.02, gap = 8) {
+  const L = layout;
+  const u0 = L.nutU + 4;
+  const u1 = L.neckEnd - horn * L.bodyLen - 6;
+  const reach = (2.5 + LANE_EDGE) * L.spacing(u1);
+  const thick = Math.max(0, L.center - reach - gap - 2);
+  const make = (v0) => {
+    const a = L.toXY(u0, v0); const b = L.toXY(u1, v0 + thick);
+    const x = Math.min(a.x, b.x); const y = Math.min(a.y, b.y);
+    return { x, y, w: Math.abs(b.x - a.x), h: Math.abs(b.y - a.y), thick, long: u1 - u0 };
+  };
+  return { a: make(2), b: make(L.S - 2 - thick) };
 }
