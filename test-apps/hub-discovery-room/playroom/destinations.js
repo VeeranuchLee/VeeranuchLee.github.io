@@ -42,8 +42,8 @@
  */
 window.PLAYROOM = {
   base: "https://veeranuchlee.github.io/children-apps/",
-  /* The owner's Discovery Room, supplied 2026-10-07 (ChatGPT image; original kept privately at
-     qa/playroom/owner-discovery-room-2026-10-07.png). It paints no title, label or hotspot. */
+  /* The owner's Discovery Room, supplied 2026-10-07 (ChatGPT image; original kept outside the repo at
+     ~/.local/state/children-games/owner-inputs/discovery-room-2026-10-07.png). It paints no title, label or hotspot. */
   image: "./playroom/discovery-room.webp",
   width: 1448,
   height: 1086,
@@ -114,20 +114,37 @@ window.PLAYROOM = {
       unmatched: ["C-A-T blocks", "checklist clipboard", "book rack"]
     },
     music: {
+      /* The owner's "Whimsical Pastel Music Studio" plate, supplied 2026-10-07 (4:3, 1448x1086;
+         original kept outside the repo at ~/.local/state/children-games/owner-inputs/music-room-2026-10-07.png).
+         Shipped as music-room/scene.webp (WebP, quality 85). `fit: true` = the page keeps the picture's own
+         shape (width x height) and shows it whole, with a blurred copy of it filling the sides, so the
+         percent polygons below can never drift off the art. `tag` is where the name bubble sits (a point
+         on the floor beside the instrument, never over it).
+         FUTURE objects carry `active: false`: geometry only, no href. category.js draws nothing for them
+         (no link, cursor, focus, glow or label), so switching one on later is data only. */
       image: "./playroom/music-room/scene.webp",
+      width: 1448, height: 1086, fit: true,
       objects: [
         { id: "classical-music", name: "Classical Music", desc: "Listen and guess",
           href: "../magic-math/classical-music.html", tile: "./assets/classical-music.webp", tone: ["#17a2b8", "#0d7c8e", "#e2f7fa"],
-          points: [[3.3, 36.3], [6.5, 36.3], [9.6, 37.9], [24.0, 37.9], [24.0, 53.2], [20.7, 68.6], [13.3, 69.1], [11.7, 71.3], [2.2, 71.3], [2.5, 55.4]] },
+          tag: [22.8, 51.7],   /* the grand piano, music stand, violin and cello on the curtained stage */
+          points: [[2.8, 6.4], [16.6, 5.7], [20.7, 16.1], [30.4, 17.5], [34.5, 13.8], [40.1, 17.0], [42.3, 27.6], [42.3, 44.2], [37.3, 48.8], [26.2, 50.5], [8.3, 46.5], [2.8, 36.8]] },
         { id: "toy-keyboard", name: "Toy Keyboard", desc: "Play and make music",
           href: "../toy-keyboard/", tile: "./assets/toy-keyboard.webp", tone: ["#8b6bd9", "#6046aa", "#f0ebff"],
-          points: [[28.4, 49.9], [49.9, 49.4], [49.9, 57.1], [47.5, 65.5], [44.4, 65.5], [44.1, 71.9], [33.6, 72.1], [33.3, 65.5], [29.3, 65.5], [28.4, 57.6]] },
-        { id: "toy-guitar", name: "Toy Guitar", desc: "Strum, pick and drum",
-          href: "../toy-guitar/", tile: "./assets/toy-guitar.webp", tone: ["#ef6b69", "#b9474b", "#fff0df"],
-          points: [[58.0, 33.0], [62.0, 33.0], [63.8, 42.3], [69.4, 32.4], [72.7, 33.5], [71.2, 46.7], [72.1, 51.6], [76.8, 58.2], [76.8, 66.9], [69.4, 68.6], [63.2, 67.5], [54.3, 65.8], [53.9, 55.4], [57.0, 45.6]] },
+          tag: [78.7, 50.5],   /* the purple keyboard with its stool, speaker and headphones */
+          points: [[61.5, 31.8], [64.9, 27.6], [83.6, 24.9], [88.4, 24.1], [92.9, 24.1], [96.1, 29.0], [96.3, 43.3], [92.5, 45.3], [82.9, 45.6], [69.1, 47.4], [61.5, 40.5]] },
         { id: "music-book", name: "Music Book", desc: "Explore songs",
           href: "../music-book/", tile: "./assets/music-book.webp", cutout: true, tone: ["#e280a6", "#b35279", "#fff0f6"],
-          points: [[81.1, 41.7], [88.5, 38.4], [90.9, 40.6], [99.6, 42.3], [98.6, 64.2], [94.6, 69.1], [79.2, 68.6], [78.3, 62.0]] }
+          tag: [27.6, 86.6],   /* the giant open song book and the cushions round it */
+          points: [[0.0, 67.7], [7.6, 63.5], [11.4, 54.8], [21.4, 53.9], [26.2, 58.0], [35.9, 58.9], [41.4, 63.5], [47.7, 68.1], [48.3, 76.4], [44.2, 81.0], [41.4, 79.2], [29.0, 82.4], [15.9, 83.3], [7.6, 83.3], [0.7, 83.3]] },
+        { id: "toy-guitar", name: "Toy Guitar", desc: "Strum, pick and drum",
+          href: "../toy-guitar/", tile: "./assets/toy-guitar.webp", tone: ["#e08a00", "#a85f00", "#fff1d6"],
+          tag: [73.2, 86.6],   /* the red guitar with its stool, amp and pick box */
+          points: [[76.0, 58.9], [81.5, 58.9], [86.0, 46.5], [87.4, 46.0], [89.1, 47.9], [89.1, 63.5], [96.3, 64.0], [96.3, 76.4], [99.1, 77.3], [99.1, 85.2], [91.2, 85.2], [88.4, 83.3], [78.0, 83.3], [75.3, 81.0], [68.0, 80.1], [67.7, 68.1], [73.9, 67.2]] },
+        /* FUTURE, inert: painted into the room, nothing to open yet. */
+        { id: "drums", name: "Drums", active: false, points: [[97.0, 15.7], [100.0, 15.7], [100.0, 30.8], [97.0, 30.8]] },            /* the djembe and drums on the top-right shelf */
+        { id: "microphone", name: "Microphone", active: false, points: [[97.0, 50.2], [100.0, 50.2], [100.0, 72.7], [97.0, 72.7]] },   /* the microphone stand at the right edge */
+        { id: "record-player", name: "Record Player", active: false, points: [[89.8, 51.6], [96.1, 51.6], [96.1, 62.6], [89.8, 62.6]] }
       ]
     },
     puzzles: {

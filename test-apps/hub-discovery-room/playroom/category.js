@@ -40,11 +40,25 @@
   }
   picture.src = L.app(room.image);
   picture.alt = '';
+  /* A room that declares its own shape (`fit`, with width and height) is shown whole at that shape
+     with a blurred copy of the picture filling the sides, so the percent hotspots stay on the art.
+     Rooms without it keep the original 1672x941 frame. */
+  if (room.fit && room.width && room.height) {
+    document.body.classList.add('fit');
+    document.body.style.setProperty('--room-ar', String(room.width / room.height));
+    picture.width = room.width; picture.height = room.height;
+    var fill = document.createElement('div');
+    fill.className = 'room-fill';
+    fill.setAttribute('aria-hidden', 'true');
+    fill.style.backgroundImage = 'url("' + picture.src.replace(/"/g, '%22') + '")';
+    document.body.insertBefore(fill, document.body.firstChild);
+  }
 
   function polygon(points) {
     return 'polygon(' + points.map(function (p) { return p[0] + '% ' + p[1] + '%'; }).join(',') + ')';
   }
-  room.objects.forEach(function (d) {
+  /* Objects with `active: false` are future landmarks: geometry in the data, nothing in the page. */
+  room.objects.filter(function (d) { return d.active !== false; }).forEach(function (d) {
     var a = document.createElement('a');
     a.className = 'room-hotspot';
     a.href = L.app(d.href);
@@ -74,8 +88,16 @@
     tag.setAttribute('aria-hidden', 'true');
     tag.style.left = x0 + '%'; tag.style.top = y0 + '%';
     tag.style.width = w + '%'; tag.style.height = (y1 - y0) + '%';
+    var below = y0 < 12;
+    /* `tag: [x, y]` puts the name at that point, beneath it, instead of on the object's own edge:
+       the label sits on the floor beside the instrument and never covers it. */
+    if (d.tag) {
+      tag.style.left = d.tag[0] + '%'; tag.style.top = d.tag[1] + '%';
+      tag.style.width = '0'; tag.style.height = '0';
+      cx = d.tag[0]; below = true;
+    }
     var b = document.createElement('span');
-    b.className = 'bubble' + (y0 < 12 ? ' below' : '') +
+    b.className = 'bubble' + (below ? ' below' : '') +
                   (cx < 12 ? ' start' : (cx > 88 ? ' end' : ''));
     b.lang = THAI.test(d.name) ? 'th' : 'en';
     b.textContent = d.name;
@@ -128,6 +150,8 @@
   });
   /* Coming back from a game restores this page from the back-forward cache, lit as it was left. */
   window.addEventListener('pageshow', function (e) { if (e.persisted) clear(); });
+
+  grid.setAttribute('data-count', String(grid.children.length));
 
   var key = 'ca_category_view_' + id;
   function show(view, remember) {
