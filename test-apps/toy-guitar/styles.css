@@ -10,7 +10,8 @@
  *
  * Design target: the 9.7-inch iPad, 1024 x 768 and 768 x 1024. The chrome and
  * the chips are fixed pixels (TOY-ARCHITECTURE "Ribbon"); pads are >= 88 px.
- * Everything is CSS and SVG; no image ships.
+ * The instruments stay CSS and SVG. Each room has one static, orientation-
+ * specific JPEG above its CSS fallback; no image participates in layout.
  */
 
 * { box-sizing: border-box; }
@@ -31,34 +32,76 @@ button, a { -webkit-tap-highlight-color: transparent; }
 button { font: inherit; color: inherit; }
 
 /* ------------------------------------------------------------ the rooms ---
-   Each toy sits in its own room, drawn in gradients (painted rooms are listed
-   as an art request; these stand in). */
+   Each toy sits in its own painted room. The first layer is the one static
+   orientation-specific JPEG; the remaining gradients are the deliberate
+   no-blank-room fallback while it loads or if it fails. Only the selector for
+   the mounted toy and the active orientation matches, so the other nine room
+   files are not requested by CSS. The experimental reduced-data media feature
+   removes the image layer where a browser exposes that preference. */
 body[data-toy="first"] {
   background:
+    var(--room-image, none),
     radial-gradient(circle at 12% 8%, rgba(255,255,255,.9) 0 5%, transparent 5.5%),
     radial-gradient(circle at 88% 14%, rgba(255,255,255,.55) 0 3%, transparent 3.5%),
     radial-gradient(120% 80% at 50% 0%, #bfe7ff 0%, #ffe3c9 55%, #ffc9d6 100%);
+  background-size: cover, auto, auto, auto;
+  background-position: center center, 0 0, 0 0, 0 0;
+  background-repeat: no-repeat, repeat, repeat, repeat;
 }
 body[data-toy="classical"] {
   background:
+    var(--room-image, none),
     repeating-linear-gradient(90deg, rgba(0,0,0,.06) 0 2px, transparent 2px 120px),
     radial-gradient(110% 80% at 50% 10%, #8a5a36 0%, #5b3520 60%, #3a2214 100%);
+  background-size: cover, auto, auto;
+  background-position: center center, 0 0, 0 0;
+  background-repeat: no-repeat, repeat, repeat;
 }
 body[data-toy="acoustic"] {
   background:
+    var(--room-image, none),
     radial-gradient(70% 40% at 50% 104%, rgba(255,152,64,.65), transparent 70%),
     linear-gradient(180deg, #213c55 0%, #3d4f63 50%, #8a5a3e 100%);
+  background-size: cover, auto, auto;
+  background-position: center center, 0 0, 0 0;
+  background-repeat: no-repeat, repeat, repeat;
 }
 body[data-toy="electric"] {
   background:
+    var(--room-image, none),
     radial-gradient(60% 70% at 50% -10%, rgba(125,243,255,.38), transparent 70%),
     linear-gradient(180deg, #0f3a44 0%, #0b2229 100%);
+  background-size: cover, auto, auto;
+  background-position: center center, 0 0, 0 0;
+  background-repeat: no-repeat, repeat, repeat;
 }
 body[data-toy="rock"] {
   background:
+    var(--room-image, none),
     radial-gradient(40% 70% at 18% -10%, rgba(255,61,110,.45), transparent 70%),
     radial-gradient(40% 70% at 82% -10%, rgba(140,80,255,.42), transparent 70%),
     linear-gradient(180deg, #17121d 0%, #0b090e 100%);
+  background-size: cover, auto, auto, auto;
+  background-position: center center, 0 0, 0 0, 0 0;
+  background-repeat: no-repeat, repeat, repeat, repeat;
+}
+
+@media (orientation: landscape) {
+  body[data-toy="first"] { --room-image: url("assets/backgrounds/first-landscape.jpg"); }
+  body[data-toy="classical"] { --room-image: url("assets/backgrounds/classical-landscape.jpg"); }
+  body[data-toy="acoustic"] { --room-image: url("assets/backgrounds/acoustic-landscape.jpg"); }
+  body[data-toy="electric"] { --room-image: url("assets/backgrounds/electric-landscape.jpg"); }
+  body[data-toy="rock"] { --room-image: url("assets/backgrounds/rock-landscape.jpg"); }
+}
+@media (orientation: portrait) {
+  body[data-toy="first"] { --room-image: url("assets/backgrounds/first-portrait.jpg"); }
+  body[data-toy="classical"] { --room-image: url("assets/backgrounds/classical-portrait.jpg"); }
+  body[data-toy="acoustic"] { --room-image: url("assets/backgrounds/acoustic-portrait.jpg"); }
+  body[data-toy="electric"] { --room-image: url("assets/backgrounds/electric-portrait.jpg"); }
+  body[data-toy="rock"] { --room-image: url("assets/backgrounds/rock-portrait.jpg"); }
+}
+@media (prefers-reduced-data: reduce) {
+  body[data-toy] { --room-image: none; }
 }
 
 .app {
