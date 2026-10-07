@@ -6,11 +6,19 @@
   <title>Our Word Book</title>
   <link rel="manifest" href="./manifest.webmanifest"/>
   <link rel="stylesheet" href="./fonts.css"/>
+  <link rel="stylesheet" href="./room-label.css"/>
   <meta name="theme-color" content="#3a1e33"/>
   <link rel="apple-touch-icon" href="./assets/icons/icon-192.png"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Our Word Book"/>
+  <script>
+    /* ROOM or CARDS (owner, 2026-10-07: both are equal ways in). The remembered choice is read
+       here, before first paint, so the wrong view never flashes. Room is the default, as on
+       Children Games. No script at all leaves data-view unset, and the Cards view shows. */
+    (function(){var v='room';try{var s=localStorage.getItem('wb_view');if(s==='cards'||s==='room')v=s;}catch(e){}
+      document.documentElement.setAttribute('data-view',v);})();
+  </script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     /* INTERACTION-DIRECTION.md method C, layer 1: manipulation on BOTH html and body. Layer 3
@@ -165,6 +173,91 @@
        share the top line. */
     .wrap{padding-top:max(32px,calc(86px + env(safe-area-inset-top)))}
 
+
+    /* ══ ROOM VIEW ══ (owner-provided night-time room plate, 2026-10-07; provenance in
+       qa/2026-10-07-room-hub/PROVENANCE.md). The plate is 4:3. Everything that must stay
+       on the art -- hotspots and labels -- lives in .room-frame, a box LOCKED to 4:3 and
+       sized to fit the viewport (contain, never cover), with every child positioned in
+       percent of that box. So nothing can drift: 1024x768 fills the screen exactly; on
+       768x1024 portrait the whole room is shown at 768x576 with dark bars above and below
+       (cropping would cut off two of the six landmarks). The bars are a blurred, dimmed
+       copy of the plate. */
+    html[data-view="room"] .wrap,html[data-view="room"] .backdrop{display:none}
+    html:not([data-view="room"]) .room{display:none}
+    .room{
+      --rw:min(100vw,calc(100vh*4/3));
+      position:fixed;inset:0;z-index:1;overflow:hidden;
+      background:linear-gradient(170deg,#4a2340 0%,#2b1626 100%);
+    }
+    @supports (height:100dvh){.room{--rw:min(100vw,calc(100dvh*4/3))}}
+    .room::before{
+      content:'';position:absolute;inset:-40px;
+      background:url('./assets/room-plate.webp') center/cover no-repeat;
+      filter:blur(26px) brightness(.5);
+    }
+    .room-frame{
+      position:absolute;left:50%;top:50%;
+      width:var(--rw);height:calc(var(--rw)*.75);transform:translate(-50%,-50%);
+    }
+    .room-img{width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none;pointer-events:none}
+    .room-title{
+      position:absolute;left:0;right:0;text-align:center;
+      bottom:calc(50% + var(--rw)*.375 + 14px);
+      font-weight:900;font-size:clamp(1.6rem,6vw,2.6rem);text-shadow:0 4px 12px rgba(0,0,0,.6);
+      /* Visually hidden (still the page heading for a screen reader) unless the screen is
+         tall enough to leave a bar above the room to hold it. */
+      position:absolute;clip:rect(0 0 0 0);clip-path:inset(50%);width:1px;height:1px;overflow:hidden;left:auto;right:auto;
+    }
+    .room-title span{color:#ffd54f}
+    @media (max-aspect-ratio:1/1){
+      .room-title{clip:auto;clip-path:none;width:auto;height:auto;overflow:visible;left:0;right:0}
+    }
+    /* One landmark = one whole object or zone as the touch target. Boxes are set from the
+       art (percent of the frame, from #roomMap) and never overlap. At rest nothing is
+       drawn on the art: the name appears only on hover, press or keyboard focus, in the
+       shared Room label (room-label.css / room-label.js, byte-identical to the Discovery
+       Room's; owner 2026-10-07). */
+    .spot{
+      position:absolute;display:block;color:#fff;text-decoration:none;cursor:pointer;
+      border-radius:calc(var(--rw)*.028);-webkit-tap-highlight-color:transparent;outline:none;
+    }
+    .spot::before{
+      content:'';position:absolute;inset:0;border-radius:inherit;
+      border:3px solid rgba(255,213,79,0);background:rgba(255,213,79,0);
+      transition:border-color .15s ease,background .15s ease,box-shadow .15s ease;
+    }
+    /* The same answer for all six, for finger, pencil, mouse and keyboard alike: a warm
+       gold outline and glow round the whole object, and its label lights up. Pressing
+       settles the label down a touch. */
+    .spot.is-active::before,.spot:focus-visible::before,.spot:active::before{
+      border-color:rgba(255,213,79,.95);background:rgba(255,213,79,.14);
+      box-shadow:0 0 calc(var(--rw)*.03) rgba(255,213,79,.5);
+    }
+    .spot:focus-visible::before{border-width:5px;border-color:#ffd54f}
+    @media (prefers-reduced-motion:reduce){
+      .spot::before{transition:none}
+    }
+
+    /* ── Room | Cards switch ── top-centre; hidden until the script has set data-view. */
+    .view-toggle{
+      position:fixed;z-index:9;display:none;gap:6px;padding:4px;border-radius:50px;
+      top:calc(10px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);
+      background:rgba(43,22,38,.72);
+    }
+    html[data-view] .view-toggle{display:flex}
+    .view-btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      min-width:92px;min-height:52px;padding:0 16px;border-radius:50px;cursor:pointer;
+      font-family:inherit;font-weight:900;font-size:1rem;line-height:1;
+      color:#a8386a;background:linear-gradient(135deg,#fff,#ffe9f1);border:2.5px solid #e59bbb;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .view-btn svg{width:22px;height:22px;flex:none;fill:currentColor}
+    .view-btn[aria-pressed="true"]{background:#ffd54f;border-color:#c98a10;color:#4a2340}
+    .view-btn:active{transform:translateY(2px)}
+    .view-btn:focus-visible{outline:4px solid #ffd54f;outline-offset:3px}
+    @media (max-width:420px){.view-btn{min-width:60px;padding:0 12px}.view-btn span{display:none}}
+
     @media (prefers-reduced-motion:reduce){
       .card{transition:none}
       .card:hover{transform:none}
@@ -235,6 +328,42 @@
   <span>Children Games</span>
 </a>
 
+<!-- ROOM or CARDS: two equal ways in. The pressed button is the view on screen. -->
+<div class="view-toggle" role="group" aria-label="How to show the choices">
+  <button type="button" class="view-btn" id="viewRoom" data-view="room" aria-pressed="true">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 11.2 12 4l9 7.2V20a1 1 0 0 1-1 1h-5.2v-5.6H9.2V21H4a1 1 0 0 1-1-1z"/></svg>
+    <span>Room</span>
+  </button>
+  <button type="button" class="view-btn" id="viewCards" data-view="cards" aria-pressed="false">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg>
+    <span>Cards</span>
+  </button>
+</div>
+
+<!-- THE ROOM. The plate carries no words: labels are HTML. Hotspots are NOT written here;
+     the script draws one per card below that is not hidden, reading its href and label
+     from the card (the single source of truth, so Room and Cards cannot drift) and its
+     box from #roomMap. The held Grammar Game card is hidden, so it gets no hotspot,
+     label, glow or focus stop until data/features.json turns it on. -->
+<main class="room" id="roomView" aria-label="Our Word Book room">
+  <h1 class="room-title">Our <span>Word Book</span></h1>
+  <div class="room-frame" id="roomFrame">
+    <img class="room-img" src="assets/room-plate.webp" width="1448" height="1086" alt="" draggable="false"/>
+  </div>
+</main>
+
+<script type="application/json" id="roomMap">
+{"$note":"Normalised 0-1 boxes of the 1448x1086 plate (x,y,w,h = the whole object's tap area; lx,ly = label centre). Order = the Tab order, reading the room left to right, top to bottom. id must equal a card's data-dest. Boxes may not overlap (tools/check-experience.mjs).",
+ "spots":[
+ {"id":"dictionary","x":0.0193,"y":0.1151,"w":0.3246,"h":0.3591,"lx":0.1830,"ly":0.4512},
+ {"id":"spelling","x":0.3764,"y":0.1427,"w":0.2728,"h":0.2735,"lx":0.5124,"ly":0.4015},
+ {"id":"writing","x":0.6802,"y":0.0967,"w":0.3198,"h":0.3637,"lx":0.8218,"ly":0.4383},
+ {"id":"exam","x":0.0207,"y":0.4834,"w":0.2866,"h":0.4466,"lx":0.1637,"ly":0.9098},
+ {"id":"grammar","x":0.3419,"y":0.5939,"w":0.3695,"h":0.2624,"lx":0.5262,"ly":0.8361},
+ {"id":"bookshelf","x":0.7182,"y":0.4696,"w":0.2818,"h":0.4972,"lx":0.8529,"ly":0.9411}
+ ]}
+</script>
+
 <div class="wrap">
   <h1>Our <span>Word Book</span></h1>
   <p class="sub">Read, spell, write and discover words</p>
@@ -244,7 +373,7 @@
          other three teach is a card in here, joined by sense ID -- see
          shared-data/dictionary/README.md. It is listed first because it is what the
          other three are about. -->
-    <a class="card c-dict" href="dictionary.html">
+    <a class="card c-dict" data-dest="dictionary" data-label="Our Dictionary" href="dictionary.html">
       <img src="assets/icons/dictionary.webp" alt="" width="104" height="104"/>
       Our Dictionary
       <small>Every word, in English and Thai</small>
@@ -262,7 +391,7 @@
          see coordination/tasks/2026-09-09-1530-claudecode-our-word-book.md.
          Until then this points at where the page actually is, so no child meets a 404.
          When it moves, this href becomes `spelling.html` and nothing else here changes. -->
-    <a class="card c-spell" href="https://veeranuchlee.github.io/magic-math/magic-spelling.html">
+    <a class="card c-spell" data-dest="spelling" data-label="Spelling" href="https://veeranuchlee.github.io/magic-math/magic-spelling.html">
       <img src="assets/icons/spelling.webp" alt="" width="104" height="104"/>
       Spelling
       <small>Letters and words, grade by grade</small>
@@ -270,13 +399,13 @@
 
     <!-- The two apps below are separate deploys in the same public repository, so their
          links are absolute for the same reason the back arrow's is. -->
-    <a class="card c-write" href="https://veeranuchlee.github.io/writing-book/">
+    <a class="card c-write" data-dest="writing" data-label="Writing Book" href="https://veeranuchlee.github.io/writing-book/">
       <img src="assets/icons/writing-book.webp" alt="" width="104" height="104"/>
       Writing Book
       <small>Trace words and fill your sticker book</small>
     </a>
 
-    <a class="card c-exam" href="https://veeranuchlee.github.io/spelling-exam/">
+    <a class="card c-exam" data-dest="exam" data-label="Spelling Exam" href="https://veeranuchlee.github.io/spelling-exam/">
       <img src="assets/icons/spelling-exam.webp" alt="" width="104" height="104"/>
       Spelling Exam
       <small>See the picture, build the word, then spell it</small>
@@ -286,14 +415,14 @@
          on this hub"). Opens Reading Tree's Bookshelf (reading-app/, published at /reading/);
          ?from=wordbook makes its back arrow return here. Absolute, like the two cards above,
          because it is a separate deploy in the same public repository. -->
-    <a class="card c-books" href="https://veeranuchlee.github.io/reading/?from=wordbook">
+    <a class="card c-books" data-dest="bookshelf" data-label="Bookshelf" href="https://veeranuchlee.github.io/reading/?from=wordbook">
       <img src="assets/icons/bookshelf.webp" alt="" width="104" height="104"/>
       <span class="card-words">Bookshelf
       <small>Read a picture book every day</small></span>
     </a>
 
     <!-- HELD (owner, 2026-10-07): hidden until its page is served; see GRAMMAR GATE. -->
-    <a class="card c-grammar" href="grammar-game.html" hidden>
+    <a class="card c-grammar" data-dest="grammar" data-label="Grammar Game" href="grammar-game.html" hidden>
       <img data-src="assets/grammar/grammar-game.webp" alt="" width="104" height="104"/>
       Grammar Game
       <small>Build sentences and discover how words work</small>
@@ -302,6 +431,56 @@
 
   <footer>Made with love for little learners</footer>
 </div>
+<script src="./room-label.js"></script>
+<script>
+  /* ══ ROOM ══ draws one hotspot per VISIBLE card, from the card's own href and label, in the
+     box #roomMap gives it. Re-run by the grammar gate below when it reveals the Grammar
+     Game card, so the room follows the same data/features.json decision as the cards. */
+  (function () {
+    var frame = document.getElementById('roomFrame');
+    var map = [];
+    try { map = JSON.parse(document.getElementById('roomMap').textContent).spots; } catch (e) {}
+    function pct(n) { return (n * 100).toFixed(3) + '%'; }
+    function render() {
+      Array.prototype.slice.call(frame.querySelectorAll('.spot')).forEach(function (n) { n.remove(); });
+      var items = [];
+      map.forEach(function (s) {
+        var card = document.querySelector('.card[data-dest="' + s.id + '"]');
+        if (!card || card.hidden) return;
+        var label = card.getAttribute('data-label');
+        var a = document.createElement('a');
+        a.className = 'spot';
+        a.setAttribute('data-dest', s.id);
+        a.href = card.getAttribute('href');
+        a.setAttribute('aria-label', label);
+        a.style.left = pct(s.x); a.style.top = pct(s.y);
+        a.style.width = pct(s.w); a.style.height = pct(s.h);
+        items.push({ el: a, text: label, anchor: { x0: s.x * 100, x1: (s.x + s.w) * 100, y0: s.y * 100, y1: (s.y + s.h) * 100 }, group: s.id });
+        /* Touch and pen answer the press at once; hover covers a mouse. */
+        a.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') a.classList.add('is-active'); });
+        a.addEventListener('pointerleave', function () { a.classList.remove('is-active'); });
+        frame.appendChild(a);
+      });
+      /* One shared bubble for the room; only the landmarks drawn above (never the held,
+         hidden Grammar Game) are items, so a landmark that is not there has no label. */
+      window.RoomLabel.attach(frame, items, { avoid: ['.hub-btn', '.view-toggle', '.music-btn'] });
+    }
+    function setView(v) {
+      document.documentElement.setAttribute('data-view', v);
+      ['room', 'cards'].forEach(function (k) {
+        document.getElementById(k === 'room' ? 'viewRoom' : 'viewCards').setAttribute('aria-pressed', k === v ? 'true' : 'false');
+      });
+      try { localStorage.setItem('wb_view', v); } catch (e) {}
+    }
+    document.getElementById('viewRoom').addEventListener('click', function () { setView('room'); });
+    document.getElementById('viewCards').addEventListener('click', function () { setView('cards'); });
+    var cur = document.documentElement.getAttribute('data-view') === 'cards' ? 'cards' : 'room';
+    document.getElementById('viewRoom').setAttribute('aria-pressed', cur === 'room' ? 'true' : 'false');
+    document.getElementById('viewCards').setAttribute('aria-pressed', cur === 'cards' ? 'true' : 'false');
+    render();
+    window.__wbRoom = { render: render, setView: setView };
+  })();
+</script>
 <script>
   /* GRAMMAR GATE -- reveal the held Grammar Game card only when data/features.json says
      so (the Test Hub copy). Production ships {"grammar": false}; a failed or unreadable
@@ -316,6 +495,7 @@
         if (img) img.src = img.getAttribute('data-src');
         card.hidden = false;
         card.parentNode.classList.add('six');
+        if (window.__wbRoom) window.__wbRoom.render();
       }).catch(function () {});
   })();
 
