@@ -22,6 +22,7 @@
   const stampTray = document.querySelector("#blankStampTray");
   const categoryTray = document.querySelector("#blankStampCategories");
   const clearButton = document.querySelector("#blankClear");
+  const sizeRow = document.querySelector("#blankSizes");
   const undoButton = document.querySelector("#blankUndo");
   const redoButton = document.querySelector("#blankRedo");
   const selectAll = (root, selector) => root && typeof root.querySelectorAll === "function" ? [...root.querySelectorAll(selector)] : [];
@@ -37,6 +38,8 @@
   // the corner handle clamp inside this range (owner brief: roughly 0.4x-3x).
   const STICKER_MIN_SCALE = .4;
   const STICKER_MAX_SCALE = 3;
+  // Room kept around a sticker for its 46px delete and resize controls.
+  const STICKER_CONTROL_MARGIN = 24;
 
   const THEMED_STAMPS = {
     space: ["ringed-planet", "smiling-star", "rocket", "crescent-moon", "blue-planet", "comet", "astronaut-helmet", "ufo", "sun", "constellation"],
@@ -68,6 +71,7 @@
   let stickers = [];
   let stickerSeq = 1;
   let selectedStickerId = null;
+  let nextStickerScale = 1; // Small / Medium / Large for the next placement
   const stickerElements = new Map(); // sticker.id -> its live element
   let stickerGesture = null; // { id, mode: "drag"|"pinch"|"handle", ... }
   const stickerPointers = new Map(); // pointerId -> { x, y } during a gesture
@@ -298,15 +302,48 @@
   // layer itself ignores pointers; each sticker takes its own, so drawing on
   // the paper still works everywhere a sticker is not.
 
+  function syncSizeButtons() {
+    if (!sizeRow) return;
+    const current = stickers.find((item) => item.id === selectedStickerId);
+    const scale = current ? current.scale : nextStickerScale;
+    const buttons = selectAll(sizeRow, "button");
+    let nearest = null, gap = Infinity;
+    buttons.forEach((button) => { const d = Math.abs(Number(button.dataset.stickerSize) - scale); if (d < gap) { gap = d; nearest = button; } });
+    buttons.forEach((button) => button.classList.toggle("is-selected", button === nearest));
+  }
+
+  selectAll(sizeRow, "button").forEach((button) => button.addEventListener("click", () => {
+    const scale = Number(button.dataset.stickerSize);
+    nextStickerScale = scale;
+    const sticker = stickers.find((item) => item.id === selectedStickerId);
+    if (sticker && sticker.scale !== scale) {
+      const before = captureState();
+      sticker.scale = scale;
+      const element = stickerElements.get(sticker.id);
+      if (element) layoutSticker(element, sticker);
+      commit(before);
+    }
+    syncSizeButtons(); pop(520, .04);
+  }));
+
   function layoutSticker(element, sticker) {
     const rect = canvas.getBoundingClientRect();
     const width = Math.min(rect.width, rect.height) * DEFAULT_STAMP_SHARE * sticker.scale;
     element.style.width = `${Math.round(width)}px`;
-    element.style.left = `${sticker.x * 100}%`;
-    element.style.top = `${sticker.y * 100}%`;
     // Tiles size their glyph with the sticker; image stickers keep their own
     // aspect ratio by height:auto.
     if (sticker.kind === "tile") element.style.fontSize = `${Math.round(width * .58)}px`;
+    // Keep the whole sticker AND its delete/resize controls inside the page
+    // (owner, 2026-10-07: stickers near the lower edge must stay editable).
+    if (rect.width > 0 && rect.height > 0) {
+      const halfW = width / 2 + STICKER_CONTROL_MARGIN;
+      const halfH = (element.offsetHeight || width) / 2 + STICKER_CONTROL_MARGIN;
+      const minX = Math.min(.5, halfW / rect.width), minY = Math.min(.5, halfH / rect.height);
+      sticker.x = Math.min(1 - minX, Math.max(minX, sticker.x));
+      sticker.y = Math.min(1 - minY, Math.max(minY, sticker.y));
+    }
+    element.style.left = `${sticker.x * 100}%`;
+    element.style.top = `${sticker.y * 100}%`;
   }
 
   function layoutAllStickers() {
@@ -319,6 +356,7 @@
   function selectSticker(id) {
     selectedStickerId = id;
     stickerElements.forEach((element, stickerId) => element.classList.toggle("is-selected", stickerId === id));
+    syncSizeButtons();
   }
 
   function buildStickerElement(sticker) {
@@ -385,7 +423,7 @@
   }
 
   function placeSticker(point, before) {
-    const sticker = { id: stickerSeq++, kind: selectedStamp.kind, theme: selectedStamp.theme, value: selectedStamp.value, x: point.x / canvas.width, y: point.y / canvas.height, scale: 1 };
+    const sticker = { id: stickerSeq++, kind: selectedStamp.kind, theme: selectedStamp.theme, value: selectedStamp.value, x: point.x / canvas.width, y: point.y / canvas.height, scale: nextStickerScale };
     stickers.push(sticker);
     const element = buildStickerElement(sticker);
     stickerElements.set(sticker.id, element);
@@ -492,10 +530,9 @@
     const nextX = stickerGesture.startX + (event.clientX - stickerGesture.originX) / rect.width;
     const nextY = stickerGesture.startY + (event.clientY - stickerGesture.originY) / rect.height;
     if (nextX !== sticker.x || nextY !== sticker.y) {
-      // Keep the centre on the page so a sticker is always grabbable again;
-      // art may hang over the edge, exactly like a real sticker on paper.
-      sticker.x = Math.min(.97, Math.max(.03, nextX));
-      sticker.y = Math.min(.97, Math.max(.03, nextY));
+      // layoutSticker clamps the whole sticker plus its controls inside the page.
+      sticker.x = nextX;
+      sticker.y = nextY;
       if (Math.hypot(event.clientX - stickerGesture.originX, event.clientY - stickerGesture.originY) > 4) stickerGesture.changed = true;
       layoutSticker(element, sticker);
     }
@@ -527,6 +564,9 @@
     toolButtons.forEach((button) => button.classList.toggle("is-selected", button.dataset.blankTool === next));
     shapeTray.hidden = next !== "shape";
     stampPanel.hidden = next === "stamp" ? (sameStampTool ? !stampPanel.hidden : false) : true;
+    updateStickerChip();
+    if (sizeRow) sizeRow.hidden = next !== "stamp";
+    syncSizeButtons();
     if (next !== "eraser" && palette) palette.markSelected(color);
     if (next === "eraser" && palette) palette.clearSelection();
     disarmClear();
@@ -545,6 +585,9 @@
       } else if (tool === "shape") {
         drawShape(point); commit(before); pop(440, .05);
       } else {
+        // A tap on the page while the picker is open closes it and places the
+        // chosen sticker -- the picker never swallows the tap.
+        stampPanel.hidden = true;
         placeSticker(point, before);
       }
       return;
@@ -600,6 +643,22 @@
     commit(before); disarmClear(); speak("blank.clear-done"); pop(280, .08);
   }
 
+  // The collapsed picker lives ON the Stickers tool button: it shows the chosen
+  // sticker, and tapping it reopens the picker. Nothing floats over the page.
+  function updateStickerChip() {
+    const button = toolButtons.find((candidate) => candidate.dataset.blankTool === "stamp");
+    const icon = button && button.querySelector("span");
+    if (!icon) return;
+    icon.replaceChildren();
+    icon.classList.add("sticker-chip");
+    if (selectedStamp.kind === "image") {
+      const image = document.createElement("img");
+      image.src = `./assets/blank-stamps/${selectedStamp.theme}-${selectedStamp.value}.webp`; image.alt = "";
+      icon.appendChild(image);
+    } else icon.textContent = selectedStamp.value;
+    button.setAttribute("aria-label", `Stickers. Chosen: ${selectedStamp.value.replaceAll("-", " ")}. Tap to choose another.`);
+  }
+
   function buildStampTray(category = "space") {
     stampTray.replaceChildren();
     const entries = category === "abc" ? [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"].map((value) => ({ kind: "tile", value }))
@@ -616,6 +675,7 @@
         // Collapse right away so the full canvas is free for placement; the
         // Stickers button brings the picker back.
         stampPanel.hidden = true;
+        updateStickerChip();
         showMessage("Now tap the page!");
         pop(520, .04);
       });
@@ -623,6 +683,7 @@
       if (!index) { selectedStamp = entry; button.classList.add("is-selected"); }
     });
     selectAll(categoryTray, "button").forEach((button) => button.classList.toggle("is-selected", button.dataset.category === category));
+    updateStickerChip();
   }
 
   Object.keys(categoryLabels).forEach((category) => {

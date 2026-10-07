@@ -214,6 +214,14 @@
           </button>
           <button class="tool-button blank-history" id="blankUndo" type="button" aria-label="Undo" disabled><span aria-hidden="true">↶</span></button>
           <button class="tool-button blank-history" id="blankRedo" type="button" aria-label="Redo" disabled><span aria-hidden="true">↷</span></button>
+          <!-- Same Small / Medium / Large choice Stamping already has; here it also
+               resizes the selected sticker (owner, 2026-10-07: "resize stickers
+               just like we have on stamp"). Shown with the Stickers tool. -->
+          <div id="blankSizes" class="blank-sizes" role="group" aria-label="Sticker size" hidden>
+            <button data-sticker-size="0.6" type="button" aria-label="Small sticker"><i style="--d:18px"></i><b>Small</b></button>
+            <button data-sticker-size="1" type="button" class="is-selected" aria-label="Medium sticker"><i style="--d:26px"></i><b>Medium</b></button>
+            <button data-sticker-size="1.5" type="button" aria-label="Large sticker"><i style="--d:34px"></i><b>Large</b></button>
+          </div>
           <button class="tool-button tool-button--clear" id="blankClear" type="button" aria-label="Clean the whole page">
             <span aria-hidden="true">🧹</span>
             <i class="arm-ring" aria-hidden="true"></i>

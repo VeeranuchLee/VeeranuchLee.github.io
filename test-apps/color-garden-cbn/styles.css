@@ -1431,8 +1431,19 @@ button:disabled {
 .blank-choice-tray .is-selected, .blank-category-tray .is-selected, .blank-stamp-choice.is-selected { outline: 5px solid #ffe26a; outline-offset: 1px; background: #fff8c8; }
 .blank-choice-tray, .blank-stamp-panel { position: absolute; z-index: 12; right: 8px; bottom: calc(100% + 5px); left: 8px; padding: 7px; border: 3px solid rgba(255,255,255,.96); border-radius: 20px; background: rgba(245,239,255,.97); box-shadow: 0 -6px 22px rgba(64,77,117,.18); }
 .blank-stamp-panel { min-width: 0; }
-.blank-stamp-tray { min-height: 88px; }
-.blank-stamp-choice { flex-basis: 88px; width: 88px; height: 88px; padding: 6px; overflow: hidden; }
+.blank-stamp-tray { min-height: 72px; }
+.blank-stamp-choice { flex-basis: 72px; width: 72px; height: 72px; padding: 5px; overflow: hidden; }
+/* Compact choosing panel (owner, 2026-10-07: the picker covered the lower page).
+   Two short scrolling rows, never taller than ~40% of the paper, docked above the
+   tool row so the tool rail and colours are never covered. */
+.blank-stamp-panel { display: grid; gap: 2px; max-height: min(40vh, 210px); overflow: hidden; padding: 4px 7px; }
+.blank-stamp-panel .blank-category-tray, .blank-stamp-panel .blank-stamp-tray { padding: 3px; }
+.blank-stamp-panel .blank-category-tray button { flex: 0 0 88px; height: 68px; min-height: 64px; display: flex; align-items: center; gap: 4px; padding: 2px 6px; }
+.blank-stamp-panel .blank-pack-picture { width: 40px; height: 40px; margin: 0; flex: 0 0 40px; }
+.blank-stamp-panel .blank-category-tray button small { flex: 1; min-width: 0; text-align: left; font-size: 11px; white-space: normal; line-height: 12px; }
+.sticker-chip { display: grid; place-items: center; width: 36px; height: 36px; margin: auto; overflow: hidden; font-weight: 900; color: #7148ad; }
+.sticker-chip img { width: 100%; height: 100%; object-fit: contain; }
+.blank-screen .studio-message { pointer-events: none; }
 .blank-stamp-choice img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .blank-stamp-choice--tile { font-size: 38px; color: #7148ad; background: linear-gradient(#fff7ad, #ffb8dc); }
 
@@ -2022,3 +2033,10 @@ input, textarea, [contenteditable="true"] {
 @media (orientation: landscape) {
   .coloring-screen.is-mosaic .primary-tools { width: 100%; margin: 0; }
 }
+
+/* Sticker size row (Small / Medium / Large, as in Stamping) in the top bar. */
+.blank-sizes { display: flex; gap: 8px; }
+.blank-sizes[hidden] { display: none; }
+.blank-sizes button { display: grid; place-items: center; gap: 0; min-width: 64px; min-height: 64px; padding: 4px 6px; border: 3px solid #fff; border-radius: 18px; background: linear-gradient(#fff, #f4ebff); box-shadow: 0 4px 0 rgba(75,48,121,.18); color: #60439b; font: 800 12px/1 system-ui, sans-serif; }
+.blank-sizes button i { display: block; width: var(--d); height: var(--d); max-height: 34px; border-radius: 30%; background: #ffb8dc; border: 3px solid #7453bd; box-sizing: border-box; }
+.blank-sizes button.is-selected { outline: 5px solid #ffe26a; outline-offset: 1px; background: #fff8c8; }
