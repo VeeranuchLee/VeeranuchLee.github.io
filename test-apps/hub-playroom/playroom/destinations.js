@@ -42,7 +42,7 @@ window.PLAYROOM = {
   width: 1448,
   height: 1086,
   /* The hub bed — the same file and the same remembered preference as index.html. */
-  music: "./audio/hub-bed.m4a",
+  music: "https://veeranuchlee.github.io/children-apps/audio/hub-bed.m4a",
 
   categories: [
     { id: "maths", name: "Maths", tagline: "Numbers, shapes and sums",
@@ -115,7 +115,7 @@ window.PLAYROOM = {
           href: "../toy-keyboard/", tile: "./assets/toy-keyboard.webp", tone: ["#8b6bd9", "#6046aa", "#f0ebff"],
           points: [[28.4, 49.9], [49.9, 49.4], [49.9, 57.1], [47.5, 65.5], [44.4, 65.5], [44.1, 71.9], [33.6, 72.1], [33.3, 65.5], [29.3, 65.5], [28.4, 57.6]] },
         { id: "toy-guitar", name: "Toy Guitar", desc: "Strum and play songs",
-          href: "https://veeranuchlee.github.io/test-apps/toy-guitar/", tile: "./playroom/tiles/toy-guitar.webp", tone: ["#ef6b69", "#b9474b", "#fff0df"],
+          href: "../toy-guitar/", tile: "./assets/toy-guitar.webp", tone: ["#ef6b69", "#b9474b", "#fff0df"],
           points: [[58.0, 33.0], [62.0, 33.0], [63.8, 42.3], [69.4, 32.4], [72.7, 33.5], [71.2, 46.7], [72.1, 51.6], [76.8, 58.2], [76.8, 66.9], [69.4, 68.6], [63.2, 67.5], [54.3, 65.8], [53.9, 55.4], [57.0, 45.6]] },
         { id: "music-book", name: "Music Book", desc: "Explore songs",
           href: "../music-book/", tile: "./assets/music-book.webp", cutout: true, tone: ["#e280a6", "#b35279", "#fff0f6"],
@@ -160,13 +160,13 @@ window.PLAYROOM = {
     { id: "word-book", category: "words", name: "Our Word Book", desc: "Read, spell, write and discover words",
       href: "../word-book/", tile: "./assets/our-word-book.webp", tone: ["#c2557d", "#93325a", "#ffe9f1"] },
     { id: "music", category: "music", name: "Music", desc: "Play, listen & explore",
-      href: "./music.html", tile: "./assets/music.webp", tone: ["#17a2b8", "#0d7c8e", "#e2f7fa"] },
+      href: "https://veeranuchlee.github.io/test-apps/hub-playroom/music.html", tile: "./assets/music.webp", tone: ["#17a2b8", "#0d7c8e", "#e2f7fa"] },
     { id: "petal-kingdom", category: "play", name: "Petal Kingdom", desc: "Pop the flowers and save the garden",
       href: "../flower-shooter/", tile: "./assets/petal-kingdom.webp", cutout: true, tone: ["#f0699b", "#c04574", "#ffecf3"] },
     { id: "little-color-garden", category: "art", name: "Little Color Garden", desc: "Colour in the pictures",
       href: "../little-color-garden/", tile: "./assets/little-color-garden.png", tone: ["#34a853", "#217a3a", "#e6f7ea"] },
     { id: "space", category: "space", name: "Space", desc: "A story about the planets, and a game about where they go",
-      href: "../space/", tile: "./assets/space.png", tone: ["#26306e", "#151c46", "#e6eaff"] },
+      href: "https://veeranuchlee.github.io/test-apps/space-hub/", tile: "./assets/space.png", tone: ["#26306e", "#151c46", "#e6eaff"] },
     { id: "animal-book", category: "books", name: "Our Animal Book", desc: "Tap an animal to hear its name",
       href: "../animal-book/", tile: "./assets/animal-book.webp", tone: ["#d97a16", "#a55606", "#fff1de"] },
     /* Live at /reading/ (Reading Tree) but not on the card hub; it joins the book corner. */
@@ -182,7 +182,7 @@ window.PLAYROOM = {
       desc: "Explore every element, then play Find It, Symbol Match and Atomic Number",
       href: "../periodic-table/", tile: "./assets/periodic-table.webp", tone: ["#6a3fa0", "#4a2b73", "#f1e8fa"] },
     { id: "homework", category: "homework", name: "การบ้านปิดเทอม", desc: "Holiday homework: October maths + Read & Write",
-      href: "./homework.html", tile: "./assets/october-homework.webp", tone: ["#d9a514", "#a67c06", "#fff6d8"] },
+      href: "https://veeranuchlee.github.io/test-apps/hub-playroom/homework.html", tile: "./assets/october-homework.webp", tone: ["#d9a514", "#a67c06", "#fff6d8"] },
     { id: "nail-salon", category: "dress-up", name: "Nail Salon", desc: "Paint, decorate and sparkle your own nails",
       href: "../nail-salon/", tile: "./assets/nail-salon.webp", tone: ["#c8558a", "#9a3a63", "#fce8f1"] }
   ]
