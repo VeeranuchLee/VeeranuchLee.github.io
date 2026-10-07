@@ -980,7 +980,13 @@
        question stack stay above the fold (the What Number? lesson). The build rung
        also shows answer chips, so it drops to the compact size for room. */
     .hb-board{--hb-cell:clamp(32px,4vw,42px);display:grid;grid-template-columns:repeat(10,var(--hb-cell));gap:3px;background:rgba(255,255,255,.66);border:3px solid #c4d7fd;border-radius:18px;padding:8px;box-shadow:0 5px 18px rgba(90,46,214,.1);position:relative;z-index:1}
-    .hb-board.hb-large{--hb-cell:clamp(34px,5.75vw,46px)}
+    /* Phase 1 boards spend the iPad viewport on the lesson. In portrait the modes
+       with a ribbon/question can afford 61px seats; Race has less chrome and gets
+       64px. Landscape puts the board beside its controls, where 56px (57px for
+       Race) is the largest common Space/Unicorn size that clears the taller garden
+       header. Move deliberately keeps the legacy rule below: its direction key
+       shares the row and must not steal width from the unchanged board. */
+    .hb-board.hb-large{--hb-cell:clamp(44px,7.95vw,61px)}
     .hb-board.hb-compact{--hb-cell:clamp(26px,3.3vw,34px)}
     .hb-cell{width:var(--hb-cell);height:var(--hb-cell);border-radius:9px;border:2px solid transparent;background:rgba(255,255,255,.55);color:#2f4a8f;font-family:inherit;font-size:clamp(.66rem,1.8vw,.98rem);font-weight:900;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;box-sizing:border-box;transition:transform .12s,box-shadow .12s}
     .hb-cell:active{transform:scale(.9)}
@@ -1021,7 +1027,17 @@
     .hb-mode-card{min-height:96px;border:3px solid #93b7fb;border-radius:24px;background:linear-gradient(160deg,#fff,#e8f0ff);box-shadow:0 6px 0 #5d8fe9;color:#243f83;font-family:inherit;font-weight:900;font-size:1.25rem;padding:12px;cursor:pointer}
     .hb-mode-card:active{transform:translateY(4px);box-shadow:0 2px 0 #5d8fe9}
     .hb-status{min-height:44px;display:flex;align-items:center;justify-content:center;gap:14px;color:#fff;font-size:clamp(1rem,3vw,1.35rem);font-weight:900;text-shadow:0 2px 0 rgba(4,8,30,.45);position:relative;z-index:2}
-    .hb-roll{min-width:132px;min-height:52px;border:0;border-radius:50px;background:#ffd54f;color:#633500;font:900 1.2rem inherit;box-shadow:0 5px 0 #e6a500;cursor:pointer}
+    .hb-play-race .hb-board.hb-large{--hb-cell:64px}
+    .hb-screen>.ar-strip .fm-btn,.hb-play>.ar-strip .fm-btn{height:64px;min-height:64px;min-width:64px}
+    .hb-roll{min-width:160px;min-height:64px;border:0;border-radius:50px;background:#ffd54f;color:#633500;font:900 1.2rem inherit;box-shadow:0 5px 0 #e6a500;cursor:pointer}
+    .hb-play{display:contents}
+    @media (orientation:landscape) and (max-height:820px) and (min-width:700px){
+      .hb-play{display:grid;grid-template-columns:auto minmax(190px,1fr);grid-auto-rows:auto;align-items:center;justify-content:center;gap:8px 18px;width:min(100%,980px);min-height:0;flex:1}
+      .hb-play>.oe-stage{grid-column:1;grid-row:1/span 5}
+      .hb-play>.count-title,.hb-play>.ar-strip,.hb-play>.hb-question,.hb-play>.hb-status,.hb-play>.next-btn,.hb-play>.hb-roll{grid-column:2;margin-left:auto;margin-right:auto}
+      .hb-play .hb-board.hb-large{--hb-cell:56px}
+      .hb-play-race .hb-board.hb-large{--hb-cell:57px}
+    }
     @media(max-width:520px){.hb-mode-menu{grid-template-columns:minmax(180px,280px)}.hb-mode-card{min-height:70px}}
     /* ── The hundred block (n3, Make 100) ──
        A 10 × 10 whole, and every rule here is there to keep it reading as 10 × 10
@@ -12294,30 +12310,30 @@ function HundredPatternPlay({muted,reward}){
     {won&&<button className="next-btn" onClick={()=>deal(kind)}>Next</button>}
   </>;
 }
-function HundredRacePlay({muted,reward}){
-  const [player,setPlayer]=useState(1),[cpu,setCpu]=useState(1),[turn,setTurn]=useState('player'),[die,setDie]=useState(null),[result,setResult]=useState(null);
+function HundredRacePlay({muted,reward,playerWon=false,onPlayerWin=()=>{},onReset=()=>{}}){
+  const [player,setPlayer]=useState(()=>playerWon?100:1),[cpu,setCpu]=useState(1),[turn,setTurn]=useState('player'),[die,setDie]=useState(null),[result,setResult]=useState(null);
   const timers=useRef([]);useEffect(()=>()=>timers.current.forEach(clearTimeout),[]);
   const walk=(setter,path,done)=>{path.forEach((n,i)=>timers.current.push(setTimeout(()=>{setter(n);if(i===path.length-1)done(n);},(i+1)*180)));};
   const cpuTurn=()=>{const roll=randR(Math.random,1,6);setDie(roll);walk(setCpu,hundredRacePath(cpu,roll),end=>{if(end===100)setResult('CPU reached 100. Race again!');else{setTurn('player');setDie(null);Voice.lines([clipLine('Your turn. Roll the die!')]);}});};
-  const roll=()=>{if(turn!=='player'||result)return;Sound.setMuted(muted);Sound.tap();const value=randR(Math.random,1,6);setDie(value);setTurn('moving');walk(setPlayer,hundredRacePath(player,value),end=>{if(end===100){setResult('You reached 100!');Sound.ding();reward();Voice.lines([clipLine('You reached one hundred!')]);}else{setTurn('cpu');timers.current.push(setTimeout(cpuTurn,450));}});};
-  const reset=()=>{timers.current.forEach(clearTimeout);timers.current=[];setPlayer(1);setCpu(1);setTurn('player');setDie(null);setResult(null);};
+  const finished=playerWon?'You reached one hundred!':result;
+  const roll=()=>{if(turn!=='player'||finished)return;Sound.setMuted(muted);Sound.tap();const value=randR(Math.random,1,6);setDie(value);setTurn('moving');walk(setPlayer,hundredRacePath(player,value),end=>{if(end===100){setResult('You reached one hundred!');onPlayerWin();Sound.ding();reward();Voice.lines([clipLine('You reached one hundred!')]);}else{setTurn('cpu');timers.current.push(setTimeout(cpuTurn,450));}});};
+  const reset=()=>{timers.current.forEach(clearTimeout);timers.current=[];setPlayer(1);setCpu(1);setTurn('player');setDie(null);setResult(null);onReset();};
   return <>
-    <div className="hb-status"><span>🔵 You: {player}</span><span>🟠 CPU: {cpu}</span></div>
     <div className="oe-stage"><HundredBoard large player={player} cpu={cpu} disabled/></div>
-    <div className="hb-status">{result|| (turn==='player'?'Your turn':turn==='cpu'?'CPU turn':'Moving…')} {die&&<span>⚄ {die}</span>}</div>
-    {result?<button className="next-btn" onClick={reset}>Race again</button>:<button className="hb-roll" disabled={turn!=='player'} onClick={roll}>Roll the die</button>}
+    <div className="hb-status"><span>🔵 You: {player}</span><span>🟠 CPU: {cpu}</span><span>{finished|| (turn==='player'?'Your turn':turn==='cpu'?'CPU turn':'Moving…')} {die&&<>⚄ {die}</>}</span></div>
+    {finished?<button className="next-btn" onClick={reset}>Race again</button>:<button className="hb-roll" disabled={turn!=='player'} onClick={roll}>Roll the die</button>}
   </>;
 }
 function HundredGame({onBack, journey, addProgress, trophies, journeyBg, score, setScore, muted, onToggleMute}){
-  const [boardMode,setBoardMode]=useState(null);
+  const [boardMode,setBoardMode]=useState(null),[raceWon,setRaceWon]=useState(false);
   const reward=useCallback(()=>{setScore(s=>s+1);addProgress();},[setScore,addProgress]);
   if(boardMode==='move')return <HundredMoveGame onBack={()=>setBoardMode(null)} journey={journey} addProgress={addProgress} trophies={trophies} journeyBg={journeyBg} score={score} setScore={setScore} muted={muted} onToggleMute={onToggleMute}/>;
   const names={find:'Find the Number',missing:'Missing Numbers',patterns:'Find the Pattern',race:'Race to 100'};
+  const leaveMode=()=>{setRaceWon(false);setBoardMode(null);};
   return <div className="screen hb-screen" style={{'--game-bg':`url('${journeyBg}')`}}>
-    <div className="screen-bg"/><BgDeco/><TopBar onBack={boardMode?()=>setBoardMode(null):onBack} muted={muted} onToggleMute={onToggleMute} score={score} journey={journey} trophies={trophies}/><Mascot kind="rocket"/>
-    <div className="count-title"><div className="count-title-main">Hundred Board</div><div className="count-title-sub">{boardMode?names[boardMode]:'Pick a game'}</div></div>
-    {!boardMode?<div className="hb-mode-menu">{[['move','↔ Move'],['find','🔎 Find'],['missing','▦ Missing'],['patterns','✦ Patterns'],['race','⚄ Race']].map(([id,label])=><button key={id} className="hb-mode-card" onClick={()=>{Sound.setMuted(muted);Sound.tap();setBoardMode(id);}}>{label}</button>)}</div>
-      :<React.Fragment key={boardMode}>{boardMode==='find'?<HundredFindPlay muted={muted} reward={reward}/>:boardMode==='missing'?<HundredMissingPlay muted={muted} reward={reward}/>:boardMode==='patterns'?<HundredPatternPlay muted={muted} reward={reward}/>:<HundredRacePlay muted={muted} reward={reward}/>}</React.Fragment>}
+    <div className="screen-bg"/><BgDeco/><TopBar onBack={boardMode?leaveMode:onBack} muted={muted} onToggleMute={onToggleMute} score={score} journey={journey} trophies={trophies}/><Mascot kind="rocket"/>
+    {!boardMode?<><div className="count-title"><div className="count-title-main">Hundred Board</div><div className="count-title-sub">Pick a game</div></div><div className="hb-mode-menu">{[['move','↔ Move'],['find','🔎 Find'],['missing','▦ Missing'],['patterns','✦ Patterns'],['race','⚄ Race']].map(([id,label])=><button key={id} className="hb-mode-card" onClick={()=>{Sound.setMuted(muted);Sound.tap();setBoardMode(id);}}>{label}</button>)}</div></>
+      :<div className={`hb-play hb-play-${boardMode}`}><div className="count-title"><div className="count-title-main">Hundred Board</div><div className="count-title-sub">{names[boardMode]}</div></div><React.Fragment key={boardMode}>{boardMode==='find'?<HundredFindPlay muted={muted} reward={reward}/>:boardMode==='missing'?<HundredMissingPlay muted={muted} reward={reward}/>:boardMode==='patterns'?<HundredPatternPlay muted={muted} reward={reward}/>:<HundredRacePlay muted={muted} reward={reward} playerWon={raceWon} onPlayerWin={()=>setRaceWon(true)} onReset={()=>setRaceWon(false)}/>}</React.Fragment></div>}
   </div>;
 }
 
