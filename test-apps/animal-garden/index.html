@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Our Animal Book</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#183415;
+  font-family:ui-rounded,"Avenir Next",system-ui,sans-serif;
+  -webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+body{min-height:100svh;color:#22370f;background:
+  linear-gradient(#10270933,#10270970),url("assets/landing/background.webp") center/cover fixed no-repeat}
+.page{position:relative;min-height:100svh;display:flex;flex-direction:column;align-items:center;
+  padding:max(18px,env(safe-area-inset-top)) max(22px,env(safe-area-inset-right))
+    max(24px,env(safe-area-inset-bottom)) max(22px,env(safe-area-inset-left))}
+.hubx{position:absolute;z-index:2;left:max(22px,env(safe-area-inset-left));
+  top:max(18px,env(safe-area-inset-top));width:58px;height:58px;display:grid;place-items:center;
+  border:3px solid #2d4a1c;border-radius:50%;background:#fffdf3eb;color:#2d4a1c;
+  box-shadow:0 5px 15px #10200980;text-decoration:none;font-size:30px;font-weight:900;line-height:1}
+.hubx:focus-visible,.room:focus-visible{outline:5px solid #ffe9a3;outline-offset:4px}
+header{text-align:center;margin:7px 76px 18px;padding:11px 28px 13px;border:3px solid #2d4a1c;
+  border-radius:999px;background:linear-gradient(#fffdf3f5,#ffeec9f5);box-shadow:0 6px 20px #10200970}
+h1{margin:0;font-size:clamp(31px,5.2vw,48px);line-height:1.05;letter-spacing:.01em}
+.rooms{width:min(100%,650px);display:grid;gap:22px;margin:auto 0}
+.room{display:block;overflow:hidden;border:4px solid #2d4a1c;border-radius:30px;
+  background:linear-gradient(#fffdf3,#ffeec9);color:#22370f;text-decoration:none;
+  box-shadow:0 12px 30px #1020098f;transition:transform .16s ease,box-shadow .16s ease}
+.room:active{transform:scale(.98);box-shadow:0 6px 15px #10200980}
+.room img{display:block;width:100%;aspect-ratio:16/8.7;object-fit:cover;object-position:center}
+.label{display:block;padding:10px 18px 12px;text-align:center;font-size:clamp(25px,4.1vw,35px);
+  font-weight:800;line-height:1.05}
+@media (orientation:landscape) and (min-width:800px){
+  .page{justify-content:center}.rooms{width:min(78vw,1000px);grid-template-columns:1fr 1fr}
+  .room img{aspect-ratio:4/3}header{margin-bottom:24px}.label{padding:11px 16px 13px}}
+@media (prefers-reduced-motion:reduce){.room{transition:none}}
+</style>
+  <style>
+  /* Touch hygiene -- owner 2026-09-15: a child's drag became a blue text selection,
+     and pinches zoomed the page. user-select and touch-callout stop the first;
+     touch-action: manipulation stops double-tap zoom without killing scroll. Pinch is never blocked: it is a zoomed-in child's only way back out (INTERACTION-DIRECTION.md).
+
+     2026-09-26, zoom fix C: manipulation is not the whole answer on its own. iPadOS
+     Safari still double-tap zooms with it in place (owner: "kids sometimes double tap,
+     and on ipad it's zoom in, then they cant zoom out"), so ./tap-zoom-guard.js, loaded
+     first in the body below, stops the second quick tap's zoom and re-delivers the tap.
+     The room pages carry the same rule and their own copy of that file. */
+  html { -webkit-text-size-adjust: 100%; touch-action: manipulation; }
+  body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; touch-action: manipulation; }
+  input, textarea, [contenteditable="true"] { -webkit-user-select: text; user-select: text; }
+  </style>
+</head>
+<body>
+<main class="page">
+  <a class="hubx" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games" title="Back to Children Games">←</a>
+  <header><h1>Our Animal Book</h1></header>
+  <nav class="rooms" aria-label="Choose a room">
+    <a class="room" href="rainforest/" aria-label="Visit the Rainforest room">
+      <img src="assets/landing/rainforest.webp" alt="A toucan, tree frog and jaguar in a sunny rainforest">
+      <span class="label">Rainforest</span>
+    </a>
+    <a class="room" href="home-and-pets/" aria-label="Visit the Home and pets room">
+      <img src="assets/landing/home-and-pets.webp" alt="A dog, cat, fish and hamster together at home">
+      <span class="label">Home &amp; pets</span>
+    </a>
+    <!-- The Farm room (FA-01, scene 13), owner-approved on the Test Hub 2026-10-01 and
+         linked here per that decision. Its close-up landing card was painted separately
+         on 2026-10-05 to match the two established hero cards above. -->
+    <a class="room" href="farm/" aria-label="Visit the Farm room">
+      <img src="assets/landing/farm.webp" alt="A cow and calf with a lamb in a sunny field beside a red barn">
+      <span class="label">Farm</span>
+    </a>
+    <!-- TEMPORARY card, staged copy only: the real book does not link the Garden room yet. -->
+    <a class="room" href="garden-hedgerow/" aria-label="Visit the Garden room">
+      <img src="assets/landing/garden-hedgerow.webp" alt="Small birds at a garden feeder">
+      <span class="label">Garden</span>
+    </a>
+  </nav>
+</main>
+<!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+     First, before the worker registration below. It stops the ZOOM of a second quick tap
+     and re-delivers that tap; a multi-finger pinch is never touched, so a child who is
+     zoomed in can always pinch back out. It is NOT a gesturestart handler and must never
+     become one -- a document-level pinch blocker is the banned pattern recorded in
+     INTERACTION-DIRECTION.md. Each room page carries its own byte-identical sibling copy,
+     because a room is published one directory shallower than it lives in the source tree;
+     see tools/room-page.py. -->
+<script src="./tap-zoom-guard.js"></script>
+
+
+  </body>
+</html>

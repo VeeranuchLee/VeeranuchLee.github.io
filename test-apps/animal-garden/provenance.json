@@ -1,0 +1,12 @@
+{
+  "datePrepared": "2026-10-07",
+  "sourceCommit": "agent/animal-garden-gh01 a59c6924 (room) with front door from origin/main fd5824af3",
+  "purpose": "Owner review of the Garden & hedgerow room, scene GH-01 'Small birds at the feeder' (eight birds), inside the whole Animal Book as it would publish. Output of scripts/ship-list.py + animal-book/tools/shape-for-publish.sh.",
+  "narration": "No narration clips. Read aloud by the device's adult speechSynthesis voice (AUDIO-DIRECTION.md 1b, owner 2026-08-19).",
+  "stagingEditsOnly": [
+    "service-worker.js removed and its registration block deleted from index.html (a staged copy carries no service worker)",
+    "each room's back arrow points to ../ (this staged front door) instead of the live front door",
+    "TEMPORARY fourth front-door card 'Garden' linking garden-hedgerow/, using the room's own page.webp as its picture (assets/landing/garden-hedgerow.webp); the real book does not link the Garden room"
+  ],
+  "publishStatus": "Staging preview only. Not published. Not linked from the real book's front door."
+}
