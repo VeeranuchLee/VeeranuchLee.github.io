@@ -114,6 +114,7 @@
   }
 
   function show(html) {
+    screen.classList.remove('is-celebrating');
     screen.innerHTML = html;
     return screen;
   }
@@ -436,12 +437,13 @@
         onWord: function (word) {
           Sound.play('wordDone');
           tell('You wrote ' + word + '!', true);
+          screen.classList.add('is-celebrating');
           /* CONCEPT.md §15: completion restores the proper spelling out loud. */
-          Sound.voice.spell(entry.slug);
           var card = screen.querySelector('.wordcard[data-i="' + i + '"]');
           if (card) card.classList.add('is-done');
 
-          Sound.voice.later(1600, function () {
+          Sound.voice.completeWord(entry.slug, function () {
+            screen.classList.remove('is-celebrating');
             if (i + 1 >= queue.length) {
               rows.forEach(function (r) { r.destroy(); });
               models.forEach(function (m) { m.destroy(); });

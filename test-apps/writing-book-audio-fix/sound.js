@@ -123,6 +123,8 @@
   var voiceGeneration = 0;
   var voiceTimers = [];
   var voiceListeners = [];
+  var completionActive = false;
+  var pendingFinish = null;
 
   function clearVoiceListeners() {
     if (!voiceEl) return;
@@ -159,6 +161,8 @@
     screenGeneration++;
     screenTimers.forEach(function (timer) { global.clearTimeout(timer); });
     screenTimers = [];
+    completionActive = false;
+    pendingFinish = null;
     stopVoice();
   }
 
@@ -192,10 +196,16 @@
 
   /* Play a rendered clip if it exists. Silence is the correct behaviour when it
      does not — the child is never told a file is missing. */
-  function say(path) {
+  function playVoice(path, onFinished) {
     stopVoice();
-    if (global.document.hidden) return Promise.resolve(false);
-    if (missing[path]) return Promise.resolve(false);
+    if (global.document.hidden) {
+      if (onFinished) onFinished(false);
+      return Promise.resolve(false);
+    }
+    if (missing[path]) {
+      if (onFinished) onFinished(false);
+      return Promise.resolve(false);
+    }
     if (!voiceEl) {
       voiceEl = new Audio();
       voiceEl.preload = 'auto';
@@ -209,10 +219,12 @@
       if (generation !== voiceGeneration) return;
       missing[path] = true;
       stopVoice();
+      if (onFinished) onFinished(false);
     });
     listen('ended', function () {
       if (generation !== voiceGeneration) return;
       clearVoiceListeners();
+      if (onFinished) onFinished(true);
     });
 
     var started = voiceEl.play();
@@ -223,8 +235,44 @@
       if (generation !== voiceGeneration) return false;
       missing[path] = true;
       stopVoice();
+      if (onFinished) onFinished(false);
       return false;
     });
+  }
+
+  function say(path) {
+    /* A completed question owns the voice channel until its cheer and quiet
+       gap have finished. Replay/card taps during that interval are harmless. */
+    if (completionActive) return Promise.resolve(false);
+    return playVoice(path);
+  }
+
+  function completeWord(slug, callback) {
+    if (completionActive) return;
+    completionActive = true;
+    var generation = screenGeneration;
+    pendingFinish = function () {
+      pendingFinish = null;
+      completionActive = false;
+      callback();
+    };
+
+    function stillHere() { return generation === screenGeneration && completionActive; }
+    function quietGap() {
+      if (!stillHere()) return;
+      later(1350, function () {
+        if (!stillHere()) return;
+        if (pendingFinish) pendingFinish();
+      });
+    }
+    function cheer() {
+      if (!stillHere()) return;
+      playVoice('audio/cues/great-job.m4a', quietGap);
+    }
+
+    /* Keep §15's spelling recap, then add the owner's cheer. Neither can
+       overlap because both use the single voice element in strict sequence. */
+    playVoice('audio/spell/' + slug + '.m4a', cheer);
   }
 
   var VOICE = {
@@ -238,14 +286,26 @@
     cue: function (name) {
       return say('audio/cues/' + name.toLowerCase().replace(/[^a-z]+/g, '-') + '.m4a');
     },
+    completeWord: completeWord,
     stop: leaveScreen,
     after: after,
     later: later
   };
 
-  global.addEventListener('pagehide', stopVoice);
+  global.addEventListener('pagehide', leaveScreen);
   global.document.addEventListener('visibilitychange', function () {
-    if (global.document.hidden) stopVoice();
+    if (!global.document.hidden) return;
+    /* A tab hidden mid-celebration must not strand the child on a finished
+       word: skip the rest of the cheer and gap and move on, silently. */
+    if (completionActive && pendingFinish) {
+      var finish = pendingFinish;
+      screenTimers.forEach(function (timer) { global.clearTimeout(timer); });
+      screenTimers = [];
+      stopVoice();
+      finish();
+      return;
+    }
+    leaveScreen();
   });
 
   global.WritingSound = {
