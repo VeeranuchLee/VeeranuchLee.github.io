@@ -98,6 +98,9 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
 .hero.held{scale:1.07}
 .hero.view-turn{animation:robot-view-turn .23s ease-in-out}
 @keyframes robot-view-turn{0%,100%{scale:1 1}50%{scale:.2 1}}
+.heading-arrow{position:absolute;z-index:5;display:grid;place-items:center;pointer-events:none;color:#3a6f86;filter:drop-shadow(0 1px 0 #fff) drop-shadow(0 0 2px #fff)}
+.heading-arrow svg{display:block;width:100%;height:100%;fill:currentColor}
+.heading-arrow[data-heading="N"]{rotate:-90deg}.heading-arrow[data-heading="E"]{rotate:0deg}.heading-arrow[data-heading="S"]{rotate:90deg}.heading-arrow[data-heading="W"]{rotate:180deg}
 .hero.nudge-up{animation:nudge-up .28s ease-out}
 .hero.nudge-down{animation:nudge-down .28s ease-out}
 .hero.nudge-left{animation:nudge-left .28s ease-out}

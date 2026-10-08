@@ -302,6 +302,7 @@
       '<img class="marker goal" id="goal" data-ph="flag" src="' + SPRITE("flag", "flag") + '" alt="The flag"/>' +
       '<div class="bump" id="bump"></div>' +
       '<img class="hero" id="hero" data-ph="hero" src="' + (S.mazeType === "robot" ? TOY_SPRITE(S.toy,"up") : SPRITE(S.hero)) + '" alt=""/>' +
+      (S.mazeType === "robot" ? '<span class="heading-arrow" id="heading-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 10h11V5l7 7-7 7v-5H3z"/></svg></span>' : '') +
       '<img class="sparkles" id="sparkles" data-ph="sparkles" src="' + SPRITE("sparkles", "sparkles") + '" alt=""/>' +
       "</div></div>" +
       '<div class="play-controls">' + choiceControls() + (S.trail ? trailPrompt() : "") +
@@ -320,6 +321,7 @@
       board: document.getElementById("board"),
       canvas: document.getElementById("walls"),
       hero: document.getElementById("hero"),
+      headingArrow: document.getElementById("heading-arrow"),
       goal: document.getElementById("goal"),
       bump: document.getElementById("bump"),
       sparkles: document.getElementById("sparkles"),
@@ -530,6 +532,8 @@
   function updateRobotVisual(turnCommand) {
     if (S.mazeType !== "robot" || !R || !S.state) return;
     R.hero.setAttribute("data-heading", S.state.heading);
+    R.headingArrow.setAttribute("data-heading", S.state.heading);
+    placeHeadingArrow(S.state.cell, S.state.heading);
     showRobotView(S.state.heading, turnCommand);
     var view = MR.relativeView(S.round.maze, S.state.cell, S.state.heading);
     ["left", "forward", "right"].forEach(function (side) {
@@ -608,6 +612,18 @@
     img.style.left = xy[0] + inset + (ox || 0) + "px";
     img.style.top = xy[1] + inset + (oy || 0) + "px";
     if (instant) { void img.offsetWidth; img.style.transition = ""; }
+  }
+
+  function placeHeadingArrow(cell, heading) {
+    if (!R.headingArrow) return;
+    var xy = cellXY(cell), cp = R.cellPx;
+    var size = Math.max(12, cp * .2);
+    var lead = cp * .38;
+    var vector = { N: [0,-1], E: [1,0], S: [0,1], W: [-1,0] }[heading];
+    R.headingArrow.style.width = size + "px";
+    R.headingArrow.style.height = size + "px";
+    R.headingArrow.style.left = xy[0] + cp * .5 + vector[0] * lead - size * .5 + "px";
+    R.headingArrow.style.top = xy[1] + cp * .5 + vector[1] * lead - size * .5 + "px";
   }
 
   function draw(dpr) {
