@@ -58,6 +58,7 @@
      The visual state and the interaction state therefore cannot disagree. */
   var landmarkById = {};
   var labelItems = [];
+  var activeSpots = [];
   R.landmarks.forEach(function (c) {
     var door = L.door(c);
     landmarkById[c.id] = c;
@@ -126,10 +127,97 @@
       /* The name: the shared Room label (room-label.js) shows it near the object on hover, press
          or keyboard focus. Only active landmarks reach this loop, so only they have one. */
       labelItems.push({ el: a, text: c.name, anchor: { x0: x, x1: x + w, y0: y, y1: y + h }, group: c.id });
+      activeSpots.push({ el: a, x: x, y: y, w: w, h: h });
 
       scene.appendChild(a);
     });
   });
+
+  /* ── QUIET ROOM MAGIC ──
+     One fixed, pointer-transparent pool lives in the room's percentage coordinate space, so it
+     follows the painting at every viewport. Three glints take turns at ACTIVE door edges only;
+     inactive scenery never enters activeSpots. There is no canvas or animation loop. */
+  var sparkleLayer = document.createElement('span');
+  sparkleLayer.className = 'sparkle-layer';
+  sparkleLayer.setAttribute('aria-hidden', 'true');
+  sparkleLayer.style.pointerEvents = 'none';
+
+  var ambient = [
+    [12.0, 28.0, 5.8, -4.1], [45.2, 18.5, 7.1, -1.7],
+    [61.5, 31.0, 6.4, -5.2], [63.0, 66.0, 8.3, -2.9]
+  ];
+  ambient.forEach(function (p, i) {
+    var t = document.createElement('i');
+    t.className = 'room-twinkle ambient-twinkle';
+    t.style.left = p[0] + '%'; t.style.top = p[1] + '%';
+    t.style.setProperty('--duration', p[2] + 's'); t.style.setProperty('--delay', p[3] + 's');
+    t.style.setProperty('--size', (i % 2 ? 20 : 17) + 'px');
+    sparkleLayer.appendChild(t);
+  });
+  var dust = [
+    [12.0, 43.0, 11.4, -6.1], [31.5, 71.5, 13.2, -2.8], [48.0, 38.0, 10.8, -8.5],
+    [68.5, 59.0, 14.1, -4.4], [87.0, 24.0, 12.5, -9.7]
+  ];
+  dust.forEach(function (p, i) {
+    var m = document.createElement('i');
+    m.className = 'light-dust';
+    m.style.left = p[0] + '%'; m.style.top = p[1] + '%';
+    m.style.setProperty('--duration', p[2] + 's'); m.style.setProperty('--delay', p[3] + 's');
+    m.style.setProperty('--drift', (i % 2 ? -8 : 7) + 'px');
+    sparkleLayer.appendChild(m);
+  });
+
+  var glintIndex = 0;
+  function placeGlint(g, offset) {
+    if (!activeSpots.length) return;
+    var s = activeSpots[(glintIndex + offset * 3) % activeSpots.length];
+    var edge = (glintIndex + offset) % 4;
+    var gx = edge === 0 ? s.x + s.w * .16 : edge === 1 ? s.x + s.w * .84 : s.x + s.w * .5;
+    var gy = edge === 2 ? s.y + s.h * .14 : edge === 3 ? s.y + s.h * .86 : s.y + s.h * .5;
+    g.style.left = gx + '%'; g.style.top = gy + '%';
+  }
+  for (var gi = 0; gi < 3; gi++) {
+    (function (offset) {
+      var g = document.createElement('i');
+      g.className = 'room-twinkle door-glint';
+      g.dataset.glint = String(offset);
+      g.style.setProperty('--duration', (6.7 + offset * 1.35) + 's');
+      g.style.setProperty('--delay', (-2.1 - offset * 2.45) + 's');
+      placeGlint(g, offset);
+      g.addEventListener('animationiteration', function () {
+        glintIndex = (glintIndex + 1) % activeSpots.length;
+        placeGlint(g, offset);
+      });
+      sparkleLayer.appendChild(g);
+    })(gi);
+  }
+
+  var burst = document.createElement('span');
+  burst.className = 'tap-sparkle-burst';
+  for (var bi = 0; bi < 5; bi++) {
+    var b = document.createElement('i');
+    b.className = 'room-twinkle burst-twinkle';
+    b.style.setProperty('--angle', (bi * 72 - 90) + 'deg');
+    b.style.setProperty('--distance', (12 + (bi % 2) * 6) + 'px');
+    burst.appendChild(b);
+  }
+  sparkleLayer.appendChild(burst);
+  scene.appendChild(sparkleLayer);
+
+  function burstAt(e) {
+    var rect = scene.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    burst.style.left = ((e.clientX - rect.left) / rect.width * 100) + '%';
+    burst.style.top = ((e.clientY - rect.top) / rect.height * 100) + '%';
+    burst.classList.remove('play');
+    void burst.offsetWidth;
+    burst.classList.add('play');
+  }
+  function setSparklePause() {
+    document.documentElement.classList.toggle('sparkles-paused', !!document.hidden);
+  }
+  document.addEventListener('visibilitychange', setSparklePause);
+  setSparklePause();
 
   var label = window.RoomLabel.attach(scene, labelItems, { avoid: ['.view-toggle', '.music-btn'] });
 
@@ -226,6 +314,7 @@
     if (!s || going) return;
     clear();
     s.classList.add('on');
+    if (s.dataset.kind !== 'inactive') burstAt(e);
   });
   scene.addEventListener('pointercancel', function () { if (!going) clear(); });
   scene.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse' && !going) clear(); });
@@ -247,16 +336,10 @@
       else if (kind === 'picker') openPicker(s);
       return;
     }
-    e.preventDefault();
-    if (going) return;
-    going = true;
-    s.classList.add('on');
-    var href = s.href;
-    setTimeout(function () {
-      if (kind === 'cards') { clear(); show('cards', false); }
-      else if (kind === 'picker') { going = false; openPicker(s); }
-      else window.location.assign(href);
-    }, reduced ? 120 : 320);
+    if (kind === 'cards') { e.preventDefault(); clear(); show('cards', false); }
+    else if (kind === 'picker') { e.preventDefault(); openPicker(s); }
+    /* Links keep their native, immediate navigation. The pointerdown burst has already begun;
+       there is deliberately no timeout between a child's tap and leaving the room. */
   });
   /* Coming Back from a game restores this page from the back-forward cache, lit as it was left. */
   window.addEventListener('pageshow', function (e) { if (e.persisted) { closePicker(); label.hide(); clear(); } });

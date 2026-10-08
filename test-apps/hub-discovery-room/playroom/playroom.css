@@ -69,6 +69,58 @@ body{
   72%{transform:rotate(-.18deg) scale(1.002)}
 }
 
+/* ── SUBTLE ROOM SPARKLES ──
+   A tiny fixed pool in the scene's coordinate space. Every node is interaction-transparent;
+   opacity and transform are the only animated properties, which keeps this cheap on an iPad. */
+.sparkle-layer{position:absolute;inset:0;z-index:3;overflow:hidden;pointer-events:none!important}
+.sparkle-layer,.sparkle-layer *{pointer-events:none!important}
+.room-twinkle,.light-dust,.tap-sparkle-burst{position:absolute;display:block;pointer-events:none!important}
+.room-twinkle{
+  width:var(--size,8px);height:var(--size,8px);opacity:0;
+  color:#fff4c8;transform:translate(-50%,-50%) scale(.2) rotate(0deg);
+}
+.room-twinkle::before,.room-twinkle::after{
+  content:"";position:absolute;left:50%;top:50%;border-radius:50%;background:currentColor;
+  box-shadow:0 0 4px 1px rgba(214,150,30,.85),0 0 9px rgba(255,214,110,.7);transform:translate(-50%,-50%);
+}
+.room-twinkle::before{width:24%;height:100%}
+.room-twinkle::after{width:100%;height:24%}
+.ambient-twinkle{animation:quietTwinkle var(--duration) ease-in-out var(--delay) infinite}
+@keyframes quietTwinkle{
+  0%,72%,100%{opacity:0;transform:translate(-50%,-50%) scale(.2) rotate(0deg)}
+  78%{opacity:.9;transform:translate(-50%,-50%) scale(.75) rotate(16deg)}
+  83%{opacity:0;transform:translate(-50%,-50%) scale(1.05) rotate(28deg)}
+}
+.light-dust{
+  width:4px;height:4px;border-radius:50%;background:#fff6d0;opacity:0;
+  box-shadow:0 0 6px 1px rgba(224,160,40,.7);
+  animation:floatDust var(--duration) ease-in-out var(--delay) infinite;
+}
+@keyframes floatDust{
+  0%,100%{opacity:0;transform:translate3d(0,7px,0) scale(.65)}
+  28%{opacity:.6}
+  65%{opacity:.34}
+  82%{opacity:0;transform:translate3d(var(--drift),-13px,0) scale(1)}
+}
+.door-glint{
+  --size:24px;color:#fffbe0;
+  animation:doorEdgeGlint var(--duration) ease-in-out var(--delay) infinite;
+}
+@keyframes doorEdgeGlint{
+  0%,79%,100%{opacity:0;transform:translate(-50%,-50%) scale(.2) rotate(-12deg)}
+  84%{opacity:1;transform:translate(-50%,-50%) scale(.9) rotate(12deg)}
+  89%{opacity:0;transform:translate(-50%,-50%) scale(1.2) rotate(28deg)}
+}
+.tap-sparkle-burst{width:1px;height:1px;opacity:0}
+.tap-sparkle-burst.play{opacity:1}
+.burst-twinkle{--size:14px;left:0;top:0;color:#fff1b6}
+.tap-sparkle-burst.play .burst-twinkle{animation:tapSpark .34s ease-out both}
+@keyframes tapSpark{
+  from{opacity:.8;transform:translate(-50%,-50%) rotate(var(--angle)) translateX(2px) scale(.65)}
+  to{opacity:0;transform:translate(-50%,-50%) rotate(var(--angle)) translateX(var(--distance)) scale(.15)}
+}
+.sparkles-paused .sparkle-layer *{animation-play-state:paused!important}
+
 /* ── THE DOORS ──
    A transparent link over each object. At rest it is invisible: no permanent labels, no dots.
    The tap area is the object's whole box (destinations.js), which is deliberately larger than
@@ -315,4 +367,7 @@ button.spot{padding:0;margin:0;border:0;background:none;font:inherit;color:inher
   .card,.view-btn,.picker-close{transition:none}
   .picker-panel{animation:none}
   .card:hover{transform:none}
+  .ambient-twinkle,.light-dust,.tap-sparkle-burst{display:none}
+  .door-glint{animation:none;opacity:0;transform:translate(-50%,-50%) scale(.5)}
+  .door-glint[data-glint="0"]{opacity:.14}
 }
