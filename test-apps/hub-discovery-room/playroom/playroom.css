@@ -368,6 +368,6 @@ button.spot{padding:0;margin:0;border:0;background:none;font:inherit;color:inher
   .picker-panel{animation:none}
   .card:hover{transform:none}
   .tap-sparkle-burst{display:none}
-  .door-glint{animation:none;opacity:0;transform:translate(-50%,-50%) scale(.5)}
-  .door-glint[data-glint="0"]{opacity:.14}
+  /* Reduce Motion removes movement, not the sparkle: four still glints stay clearly visible. */
+  .door-glint{animation:none;opacity:.9;transform:translate(-50%,-50%) scale(.8)}
 }
