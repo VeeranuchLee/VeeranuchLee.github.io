@@ -130,7 +130,7 @@
  *                  scenes and five shells join SHELL so every shaped object door
  *                  works offline. One branch bump for the complete room set.
  */
-const CACHE_NAME = "children-apps-v40";
+const CACHE_NAME = "children-apps-v41";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
