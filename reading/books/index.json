@@ -30,7 +30,10 @@
         "city-water-moves",
         "river-reservoir-sea",
         "reading-flood-news",
-        "how-dams-work"
+        "how-dams-work",
+        "street-under-water",
+        "stay-out-of-floodwater",
+        "when-water-goes-away"
       ]
     },
     {
@@ -97,7 +100,25 @@
     },
     {
       "id": "how-dams-work",
-      "title": "How Does a Dam Work?"
+      "title": "How Does a Dam Work?",
+      "next": "street-under-water"
+    },
+    {
+      "id": "street-under-water",
+      "title": "The Street Under the Water",
+      "draft": true,
+      "next": "stay-out-of-floodwater"
+    },
+    {
+      "id": "stay-out-of-floodwater",
+      "title": "Why We Stay Out of Floodwater",
+      "draft": true,
+      "next": "when-water-goes-away"
+    },
+    {
+      "id": "when-water-goes-away",
+      "title": "When the Water Goes Away",
+      "draft": true
     }
   ]
 }

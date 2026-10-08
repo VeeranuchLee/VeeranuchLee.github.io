@@ -28,6 +28,8 @@
   var el = {
     book: document.getElementById("book"),
     img: document.getElementById("art-img"),
+    discoveries: document.getElementById("discoveries"),
+    discoveryCard: document.getElementById("discovery-card"),
     text: document.getElementById("text"),
     quickWords: document.getElementById("quick-words"),
     speaker: document.getElementById("speaker"),
@@ -50,6 +52,7 @@
   var index = 0;
   var run = 0;                // bumps on every stop / page change; stale callbacks check it
   var wordButtons = [];
+  var discoveryTimer = 0;
 
   // ---------------------------------------------------------------- audio
   // Every clip plays through an <audio> element -- the same path as the page narration.
@@ -65,6 +68,7 @@
   var current = null;         // the playing source / element
   var fallbackAudio = null;
   var pageAudio = null;
+  var discoveryAudio = null;  // the playing "?" sentence clip, if any
   var pageStall = 0;          // stall-guard timer id for the current page clip; 0 = none armed
   var timingCache = {};       // app-relative timing path -> Promise<object|null>
   var highlightFrame = 0;
@@ -387,6 +391,63 @@
     img.alt = "";
   }
 
+  // Optional, unscored picture discoveries. Coordinates are percentages of the square
+  // painting, so the same data works in both tablet orientations. A tap reveals one short
+  // causal sentence; another tap replaces it and it closes itself after six seconds.
+  // The "?" sentence is voiced by a pre-rendered clip (item.clip). A missing or failing clip
+  // stays silent: no error, the card text still shows.
+  function playDiscoveryClip(item) {
+    if (!item || !item.clip) return;
+    var a = new Audio();
+    a.preload = "auto";
+    discoveryAudio = a;
+    current = a;
+    a.onended = function () { if (current === a) current = null; if (discoveryAudio === a) discoveryAudio = null; };
+    a.onerror = function () { if (current === a) current = null; if (discoveryAudio === a) discoveryAudio = null; };
+    a.src = appAsset(item.clip);
+    try {
+      var p = a.play();
+      if (p && p.catch) p.catch(function () { if (current === a) current = null; });
+    } catch (e) { /* silent */ }
+  }
+
+  function renderDiscoveries(page) {
+    var items = Array.isArray(page.discoveries) ? page.discoveries : [];
+    if (discoveryTimer) { clearTimeout(discoveryTimer); discoveryTimer = 0; }
+    el.discoveries.textContent = "";
+    el.discoveryCard.textContent = "";
+    el.discoveryCard.hidden = true;
+    el.discoveries.hidden = items.length === 0;
+    items.forEach(function (item, itemIndex) {
+      var button = document.createElement("button");
+      button.type = "button";
+      button.className = "discovery-hotspot";
+      button.style.left = item.x + "%";
+      button.style.top = item.y + "%";
+      button.style.width = item.w + "%";
+      button.style.height = item.h + "%";
+      button.setAttribute("aria-label", "Picture discovery " + (itemIndex + 1));
+      button.addEventListener("click", function () {
+        unlock();
+        stopAll();  // silence any page narration, word or earlier discovery clip first
+        playDiscoveryClip(item);
+        if (discoveryTimer) clearTimeout(discoveryTimer);
+        el.discoveries.querySelectorAll(".discovery-hotspot").forEach(function (other) {
+          other.classList.toggle("open", other === button);
+        });
+        el.discoveryCard.textContent = item.label;
+        el.discoveryCard.hidden = false;
+        discoveryTimer = setTimeout(function () {
+          if (current && current === discoveryAudio) stopSound();  // card closed: voice stops
+          el.discoveryCard.hidden = true;
+          button.classList.remove("open");
+          discoveryTimer = 0;
+        }, 6000);
+      });
+      el.discoveries.appendChild(button);
+    });
+  }
+
   function renderQuickWords(page) {
     var items = Array.isArray(page.quickWords) ? page.quickWords : [];
     el.quickWords.textContent = "";
@@ -421,6 +482,7 @@
     var page = book.pages[index];
     var go = function () {
       renderArt(page);
+      renderDiscoveries(page);
       renderQuickWords(page);
       renderText(page);
       renderDots();

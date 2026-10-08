@@ -118,6 +118,57 @@ html, body {
 }
 .frame img.loaded { opacity: 1; }
 
+/* Optional picture discoveries: large visible tap rings, never hover-only and never scored. */
+.discoveries {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  pointer-events: none;
+}
+.discoveries[hidden], .discovery-card[hidden] { display: none; }
+.discovery-hotspot {
+  position: absolute;
+  min-width: 52px;
+  min-height: 52px;
+  transform: translate(-50%, -50%);
+  border: 4px solid rgba(255, 255, 255, .96);
+  border-radius: 50%;
+  background: rgba(63, 111, 181, .78);
+  box-shadow: 0 0 0 4px rgba(63, 111, 181, .34), 0 5px 12px rgba(47, 58, 77, .24);
+  color: white;
+  pointer-events: auto;
+  touch-action: manipulation;
+}
+.discovery-hotspot::before {
+  content: "?";
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  font: 900 clamp(22px, 3.2vmin, 34px)/1 'Nunito', system-ui, sans-serif;
+}
+.discovery-hotspot:active, .discovery-hotspot.open {
+  transform: translate(-50%, -50%) scale(.92);
+  background: #2d568f;
+}
+.discovery-card {
+  position: absolute;
+  z-index: 4;
+  left: 8%;
+  right: 8%;
+  bottom: 5%;
+  padding: 12px 16px;
+  border: 3px solid white;
+  border-radius: 16px;
+  background: rgba(247, 240, 225, .96);
+  box-shadow: 0 6px 18px rgba(47, 58, 77, .25);
+  color: var(--ink);
+  font-size: clamp(18px, 2.8vmin, 27px);
+  font-weight: 800;
+  line-height: 1.25;
+  text-align: center;
+}
+
 /* ---- back to bookshelf ----
    Top-left of every page, over the art's top-left corner (portrait) or in the cream margin
    beside it (landscape), on a cream disc so it never sits bare on a picture. */
