@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#6cc8f4">
+  <meta name="description" content="Watch, listen and repeat colourful patterns, numbers and melodies.">
+  <title>Memory Echo</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="icon" href="./assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
+</head>
+<body>
+  <div class="scenery" aria-hidden="true"></div>
+  <main class="app-shell">
+    <section id="menu" class="screen menu-screen" aria-labelledby="title">
+      <header class="hero">
+        <div>
+          <h1 id="title"><span>Memory</span> Echo</h1>
+          <p>Watch, listen, and repeat the pattern</p>
+        </div>
+        <img class="menu-robot" src="./assets/art/echo-robot.webp" alt="Echo, a friendly robot, waves and listens">
+      </header>
+
+      <div class="mode-grid" role="group" aria-label="Choose a game">
+        <button class="mode-card selected colours-card" type="button" data-mode="colours" aria-pressed="true">
+          <span class="mode-picture colour-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <strong>Colours</strong><small>Remember the colour pattern</small>
+        </button>
+        <button class="mode-card numbers-card" type="button" data-mode="numbers" aria-pressed="false">
+          <span class="mode-picture mini-keypad" aria-hidden="true">1 2 3<br>4 5 6<br>7 8 9</span>
+          <strong>Numbers</strong><small>Remember the number pattern</small>
+        </button>
+        <button class="mode-card music-card" type="button" data-mode="music" aria-pressed="false">
+          <span class="mode-picture mini-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+          <strong>Music Notes</strong><small>Remember the melody</small>
+        </button>
+      </div>
+
+      <div class="settings-panel">
+        <fieldset><legend><span aria-hidden="true">▥</span> Start length</legend><div class="segmented length-choice">
+          <button type="button" data-length="2" aria-pressed="false">2</button><button type="button" data-length="3" aria-pressed="false">3</button><button class="selected" type="button" data-length="4" aria-pressed="true">4</button><button type="button" data-length="5" aria-pressed="false">5</button>
+        </div></fieldset>
+        <fieldset><legend><span aria-hidden="true">◴</span> Speed</legend><div class="segmented speed-choice">
+          <button type="button" data-speed="slow" aria-pressed="false">Slow</button><button class="selected" type="button" data-speed="normal" aria-pressed="true">Normal</button><button type="button" data-speed="fast" aria-pressed="false">Fast</button>
+        </div></fieldset>
+      </div>
+      <div class="menu-actions">
+        <button id="play" class="primary-action" type="button"><span aria-hidden="true">▶</span> Play</button>
+        <button id="explore" class="secondary-action" type="button"><span aria-hidden="true">✦</span> Explore</button>
+      </div>
+    </section>
+
+    <section id="game" class="screen game-screen" data-phase="watch" aria-labelledby="status-title" hidden>
+      <header class="game-header">
+        <button id="home" class="round-button" type="button" aria-label="Home"><span aria-hidden="true">⌂</span></button>
+        <div class="wordmark" aria-label="Memory Echo"><span>Memory</span> Echo</div>
+        <div id="mode-pill" class="mode-pill"></div>
+      </header>
+      <div class="stats"><span id="length-label">Length 4</span><span id="best">★ Best —</span></div>
+      <div class="guide-row">
+        <div id="status-panel" class="status-panel watch">
+          <span id="status-icon" class="status-icon" aria-hidden="true">◉</span>
+          <div><h2 id="status-title">Watch &amp; listen</h2><p id="status-copy">Remember the pattern</p></div>
+        </div>
+        <img id="robot" class="game-robot" src="./assets/art/echo-robot.webp" alt="Echo the robot helps with the pattern">
+      </div>
+      <div class="play-area">
+        <div id="number-display" class="number-display" aria-hidden="true"></div>
+        <div id="instrument" class="instrument colours" aria-label="Game controls" aria-disabled="true"></div>
+        <div class="sparkles" aria-hidden="true"><i>✦</i><i>★</i><i>✦</i><i>★</i></div>
+      </div>
+      <footer class="game-footer">
+        <button id="replay" class="replay-button" type="button" disabled><span aria-hidden="true">↻</span> Replay</button>
+        <p class="tip"><span aria-hidden="true">★</span> Listen first, then repeat</p>
+      </footer>
+      <p id="live" class="sr-only" aria-live="polite"></p>
+    </section>
+  </main>
+  <script src="./tap-zoom-guard.js"></script>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
