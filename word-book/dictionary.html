@@ -13,6 +13,9 @@
   <meta name="apple-mobile-web-app-title" content="Our Dictionary"/>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
+    /* INTERACTION-DIRECTION.md method C, layer 1: manipulation on BOTH html and body. Layer 3
+       is the shared tap-zoom-guard.js loaded at the end of the page. No pinch is blocked. */
+    html,body{touch-action:manipulation}
     body{
       font-family:'Nunito',sans-serif;min-height:100vh;color:#3a1e33;
       background:#fdf6ff;
@@ -343,7 +346,7 @@
      rows on one card, in the group's order, under the group's HERO picture, with each
      sense's part of speech. A word not in `groups` gets one card per sense, exactly as
      before. The one word speaker is safe because check-audio-coverage.mjs refuses a
-     group whose senses would say different clips (bow/close/tear/wind never merge). */
+     group whose senses would say different clips (bow/close/tear/volume/wind never merge). */
   function buildCards(d) {
     var inGroup = {};
     (d.groups || []).forEach(function (g) {
@@ -577,5 +580,6 @@
   }
 })();
 </script>
+<script src="./tap-zoom-guard.js"></script>
 </body>
 </html>

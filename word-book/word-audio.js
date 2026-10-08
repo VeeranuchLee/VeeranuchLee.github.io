@@ -16,15 +16,19 @@
                    headwords maps onto exactly one of them and no file is left over.
                    (2,028 files in all -- those 2,020 plus the 8 sense clips below.)
 
-     bow / close / tear / wind  ->  audio/words/<sense>.m4a
+     bow / close / tear / volume / wind  ->  audio/words/<sense>.m4a
                    e.g. audio/words/bow.ribbon-knot.m4a. Their two senses are pronounced
                    differently (/baʊ/ vs /bəʊ/, /kləʊz/ vs /kləʊs/, /tɪə/ vs /teə/,
                    /wɪnd/ vs /waɪnd/), so a headword clip would teach one sense the wrong
                    word. tools/render-dictionary-words.py names this exact filename shape
-                   ("audio/words/<sense>.m4a  4 homograph exceptions"); it skipped them on
+                   ("audio/words/<sense>.m4a" for sense-keyed exceptions); it skipped the
+                   original four pronunciation homographs on
                    2026-09-18 and rendered all eight on 2026-09-22, so every one of these
                    cards now speaks. AUDIO-DIRECTION.md decision 11 keys them by sense. The
                    sense ids are the ones assets/words/ already uses for their pictures.
+                   `volume` joined this set on 2026-10-05 because the owner reviewed and
+                   selected a different v4 take for each sense; one shared file could not
+                   preserve both exact picks.
 
    THE EXCEPTIONS
 
@@ -34,8 +38,7 @@
      word. When a clip is rendered, delete its line here; the coverage gate refuses an
      entry whose file already exists, so a stale exception cannot linger.
 
-     It is EMPTY as of 2026-09-22: every one of the 2,098 cards speaks. The mechanism stays
-     because the next unrendered card needs it -- an empty table is the goal, not dead code.
+     The 30 concepts selected on 2026-10-01 were rendered 2026-10-06; every card speaks.
 
    Loaded by dictionary.html as a plain <script> (it defines window.WordAudio) and by
    Node as CommonJS. Shipped, so it is in .publish-manifest [ship] and the worker SHELL. */
@@ -44,19 +47,17 @@
 
   var DIR = 'audio/words/';
 
-  /* Headwords whose senses are pronounced differently: keyed by sense, never by
-     headword. Exactly render-dictionary-words.py's HOMOGRAPHS. It is NOT the manifest's
+  /* Headwords whose senses require distinct reviewed clips: keyed by sense, never by
+     headword. Exactly render-dictionary-words.py's HOMOGRAPHS. Four are pronunciation
+     homographs; volume preserves two different owner-selected takes. It is NOT the manifest's
      `unrendered_homographs` -- that list is the ones still waiting, and it emptied on
      2026-09-22 when all eight senses were rendered while these four stay sense-keyed
      forever. The coverage gate asserts the real invariant: every headword here is either
      listed unrendered or has a clip for each of its senses, and every headword the
      manifest lists as unrendered appears here. */
-  var SENSE_KEYED = ['bow', 'close', 'tear', 'wind'];
+  var SENSE_KEYED = ['bow', 'close', 'tear', 'volume', 'wind'];
 
-  var UNRENDERED = {
-    /* Empty since 2026-09-22: the eight homograph senses (bow, close, tear, wind) were
-       rendered on owner approval, one listened-to test clip first. */
-  };
+  var UNRENDERED = {};
 
   function slug(word) {
     return String(word).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');

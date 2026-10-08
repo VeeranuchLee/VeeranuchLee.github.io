@@ -56,12 +56,26 @@
    -- coordination/tasks/2026-10-02-0812-claude-wordbook-cd-release.md. v7 was never
    published either, so this is belt and braces: it marks the C/D candidate as its own
    cache generation. A worker bump only; this arms a release candidate but does not
-   publish it -- production publish still needs the owner's separate, SHA-bound approval. */
-const CACHE_NAME='word-book-v8';
+   publish it -- production publish still needs the owner's separate, SHA-bound approval.
+
+   v8 -> v9, 2026-10-07: letters A-H (owner, verbatim: "I think we can promote until H to
+   main hub."). E-H are enabled in data/letters.json, and A-H pick up the held work from
+   agent/wordbook-next-0930: the owner's v4 word clips (47/47 picks), sentence clips, card
+   art fixes (globe, hundred, five's finished crown) and the Thai corrections (goal ->
+   ประตูฟุตบอล) -- coordination/tasks/2026-10-07-1700-claude-wordbook-release-ah.md. The
+   Grammar Game is HELD ("Letters only (Recommended)"): its files are [private] in
+   .publish-manifest, so they are NOT in SHELL either -- cache.addAll() rejects on one 404
+   and the whole install would fail. data/features.json ({"grammar": false}, the gate
+   index.html reads) joins SHELL so the card stays hidden offline too, and
+   tap-zoom-guard.js joins SHELL because index.html and
+   dictionary.html now load it (INTERACTION-DIRECTION.md method C). A worker bump only;
+   this arms a release candidate but does not publish it -- production publish still needs
+   the owner's separate, SHA-bound approval. */
+const CACHE_NAME='word-book-v9';
 const SHELL=['./','./index.html','./dictionary.html','./fonts.css',
   './fonts/Nunito-latin.woff2','./fonts/Nunito-latin-ext.woff2','./fonts/FredokaOne-latin.woff2',
-  './manifest.webmanifest','./data/dictionary.json','./data/letters.json','./word-audio.js',
-  './sentence-audio.js','./audio/sentences/rendered.json',
+  './manifest.webmanifest','./data/dictionary.json','./data/letters.json','./data/features.json','./word-audio.js',
+  './sentence-audio.js','./audio/sentences/rendered.json','./tap-zoom-guard.js',
   './assets/icons/dictionary.webp','./assets/icons/spelling.webp',
   './assets/icons/writing-book.webp','./assets/icons/spelling-exam.webp',
   './assets/icons/bookshelf.webp','./assets/backdrop.webp'];
