@@ -1008,7 +1008,7 @@
        shares the row and must not steal width from the unchanged board. */
     .hb-board.hb-large{--hb-cell:clamp(44px,7.95vw,61px)}
     .hb-board.hb-compact{--hb-cell:clamp(26px,3.3vw,34px)}
-    .hb-cell{width:var(--hb-cell);height:var(--hb-cell);border-radius:9px;border:2px solid transparent;background:rgba(255,255,255,.55);color:#2f4a8f;font-family:inherit;font-size:clamp(.66rem,1.8vw,.98rem);font-weight:900;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;box-sizing:border-box;transition:transform .12s,box-shadow .12s}
+    .hb-cell{position:relative;width:var(--hb-cell);height:var(--hb-cell);border-radius:9px;border:2px solid transparent;background:rgba(255,255,255,.55);color:#2f4a8f;font-family:inherit;font-size:clamp(.66rem,1.8vw,.98rem);font-weight:900;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;box-sizing:border-box;transition:transform .12s,box-shadow .12s}
     .hb-cell:active{transform:scale(.9)}
     /* A seat the child counted through. Quieter than every other state on purpose:
        it is the child's working, not the answer, and it must never be mistaken for
@@ -1032,8 +1032,10 @@
     .hb-cell.hb-player{box-shadow:inset 0 0 0 4px #2f6df6;background:#dceaff;color:#173b89}
     .hb-cell.hb-cpu{box-shadow:inset 0 0 0 4px #e65100;background:#fff0d8;color:#7a3c00}
     .hb-cell.hb-player.hb-cpu{background:linear-gradient(135deg,#dceaff 50%,#fff0d8 50%)}
-    .hb-race-token{position:absolute;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;line-height:1;font-weight:900;box-shadow:0 2px 4px rgba(0,0,0,.3);pointer-events:none}
-    .hb-race-token-you{left:2px;bottom:2px;background:#2f6df6}.hb-race-token-cpu{right:2px;top:2px;background:#e65100}
+    .hb-race-token{position:absolute;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,.35);pointer-events:none;box-sizing:border-box;overflow:hidden}
+    .hb-race-token img{width:100%;height:100%;object-fit:contain}
+    .hb-race-token-you{left:-2px;bottom:-2px;background:#2f6df6}.hb-race-token-cpu{right:-2px;top:-2px;background:#ffb24c}
+    .hb-cell.hb-player.hb-cpu .hb-race-token-you{left:-4px;bottom:-4px}.hb-cell.hb-player.hb-cpu .hb-race-token-cpu{right:-4px;top:-4px}
     @keyframes hbGlow{0%{transform:scale(.8);opacity:.3}100%{transform:scale(1);opacity:1}}
     .hb-question{display:flex;align-items:center;justify-content:center;gap:12px;font-size:clamp(1.7rem,6vw,2.5rem);font-weight:900;color:#fff;text-shadow:0 3px 0 rgba(47,109,246,.55),0 5px 12px rgba(4,8,30,.5);position:relative;z-index:1}
     .hb-qnum{min-width:1.4em;text-align:center}
@@ -1104,6 +1106,7 @@
     /* No Hundred Board screen shows the corner mascot: it is a fixed 116px sprite at the bottom-left, which is exactly where the board's last row (91, 92 …) sits at both iPad sizes, and it hid those numbers. Numbers outrank company. */
     .screen.hb-screen>.mascot-corner{display:none}
     .hb-status{min-height:44px;display:flex;align-items:center;justify-content:center;gap:14px;color:#fff;font-size:clamp(1rem,3vw,1.35rem);font-weight:900;text-shadow:0 2px 0 rgba(4,8,30,.45);position:relative;z-index:2}
+    .hb-player-label{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}.hb-player-icon{width:38px;height:38px;border:3px solid #fff;border-radius:50%;object-fit:contain;box-sizing:border-box;filter:drop-shadow(0 2px 2px rgba(0,0,0,.2))}.hb-player-icon-you{background:#2f6df6}.hb-player-icon-cpu{background:#ffb24c}
     .hb-race-controls{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-width:230px;position:relative;z-index:3}
     .hb-race-turn{font-size:clamp(1.25rem,3vw,1.8rem);font-weight:900;color:#fff;text-align:center;text-shadow:0 3px 0 rgba(4,8,30,.45)}
     .hb-race-hint{min-height:28px;max-width:280px;text-align:center;color:#fff7c4;font-weight:900;font-size:1rem}
@@ -1114,7 +1117,7 @@
     .hb-how-card h2{margin:0 0 16px;font-size:clamp(1.7rem,5vw,2.4rem)}
     .hb-how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
     .hb-how-step{display:flex;flex-direction:column;align-items:center;gap:7px;padding:12px 8px;border-radius:18px;background:#e8f0ff;font-weight:900;font-size:clamp(.95rem,2.5vw,1.2rem)}
-    .hb-how-picture{font-size:clamp(2.2rem,7vw,3.2rem);line-height:1}
+    .hb-how-picture{font-size:clamp(2.2rem,7vw,3.2rem);line-height:1}.hb-how-players{display:flex;align-items:center;justify-content:center;gap:8px}.hb-how-players .hb-player-icon{width:54px;height:54px}
     .hb-how-go{min-width:180px;min-height:64px;border:0;border-radius:40px;background:#ffd54f;color:#633500;font:900 1.3rem inherit;box-shadow:0 5px 0 #e6a500;cursor:pointer}
     .hb-play-race .hb-board.hb-large{--hb-cell:64px}
     .hb-screen>.ar-strip .fm-btn,.hb-play>.ar-strip .fm-btn{height:64px;min-height:64px;min-width:64px}
@@ -9389,6 +9392,7 @@ const MODEL_SUB={pie:'Tap the pieces!',bar:'Tap the pieces!',line:'Tap the stops
 const FL_START='assets-runtime/unicorn/icons/flower-pink.webp';
 const FL_END='assets-runtime/unicorn/icons/rainbow.webp';
 const FL_TRAVELLER='assets-runtime/unicorn/icons/unicorn-stand.webp';
+const HB_RACE_PLAYER='assets-runtime/unicorn/icons/unicorn-stand.webp',HB_RACE_CPU='assets-runtime/unicorn/icons/robot-reader.webp';
 const FG_OBJECT='assets-runtime/unicorn/icons/star.webp';
 
 /* ══ THE PIE VIEW ══
@@ -11162,8 +11166,8 @@ function HundredBoard({start,path=[],target=null,won=false,wrongCell=null,counte
         return(
           <button key={n} className={cls} role="gridcell" disabled={disabled}
             style={walking?{animationDelay:`${(pathIdx.get(n))*step}s`}:undefined}
-            onClick={()=>onCell&&onCell(n)} aria-label={hidden&&hidden.has(n)?`Hidden number at row ${Math.floor(i/10)+1}, column ${i%10+1}`:`${n}${player===n?', your blue token':''}${cpu===n?', CPU orange token':''}`}>
-            {n}{player===n&&<span className="hb-race-token hb-race-token-you" aria-hidden="true">Y</span>}{cpu===n&&<span className="hb-race-token hb-race-token-cpu" aria-hidden="true">C</span>}
+            onClick={()=>onCell&&onCell(n)} aria-label={hidden&&hidden.has(n)?`Hidden number at row ${Math.floor(i/10)+1}, column ${i%10+1}`:`${n}${player===n?', You, player token':''}${cpu===n?', CPU, robot token':''}`}>
+            {n}{player===n&&<span className="hb-race-token hb-race-token-you" aria-hidden="true"><img src={HB_RACE_PLAYER} alt=""/></span>}{cpu===n&&<span className="hb-race-token hb-race-token-cpu" aria-hidden="true"><img src={HB_RACE_CPU} alt=""/></span>}
           </button>
         );
       })}
@@ -12108,7 +12112,7 @@ function HundredRacePlay({muted,reward,playerWon=false,onPlayerWin=()=>{},onRese
   return <>
     <div className="oe-stage"><HundredBoard large player={player} cpu={cpu} wrongCell={wrongCell} onCell={boardTap}/></div>
     <div className="hb-race-controls">
-      <div className="hb-status"><span>🔵 You: {player}</span><span>🟠 CPU: {cpu}</span></div>
+      <div className="hb-status"><span className="hb-player-label"><img className="hb-player-icon hb-player-icon-you" src={HB_RACE_PLAYER} alt=""/>You: {player}</span><span className="hb-player-label"><img className="hb-player-icon hb-player-icon-cpu" src={HB_RACE_CPU} alt=""/>CPU: {cpu}</span></div>
       <div className="hb-race-turn" aria-live="polite">{finished|| (turn==='player'?'Your turn':turn==='cpu'?'CPU turn':'Moving…')} {die&&<>Roll: {die}</>}</div>
       <div className="hb-race-hint" aria-live="polite">{hint||'Tap Roll. First to 100 wins!'}</div>
       {finished?<button className="next-btn" onClick={reset}>Race again</button>:<button className={`hb-roll ${turn==='player'?'hb-next-action':''}`} disabled={turn!=='player'} onClick={roll}>🎲 Roll</button>}
@@ -12117,7 +12121,7 @@ function HundredRacePlay({muted,reward,playerWon=false,onPlayerWin=()=>{},onRese
     {showHelp&&<div className="hb-how" role="dialog" aria-modal="true" aria-labelledby="hb-how-title"><div className="hb-how-card">
       <h2 id="hb-how-title">How to race</h2><div className="hb-how-steps">
         <div className="hb-how-step"><span className="hb-how-picture">🎲</span><span>1. Tap Roll</span></div>
-        <div className="hb-how-step"><span className="hb-how-picture">🔵➡️</span><span>2. Blue moves</span></div>
+        <div className="hb-how-step"><span className="hb-how-picture hb-how-players"><img className="hb-player-icon hb-player-icon-you" src={HB_RACE_PLAYER} alt=""/><img className="hb-player-icon hb-player-icon-cpu" src={HB_RACE_CPU} alt=""/></span><span>2. You race the CPU</span></div>
         <div className="hb-how-step"><span className="hb-how-picture">🏁100</span><span>3. First to 100 wins!</span></div>
       </div><button className="hb-how-go" onClick={()=>{Sound.setMuted(muted);Sound.tap();setShowHelp(false);setHint('Your turn — tap Roll!');}}>Let’s race!</button>
     </div></div>}
