@@ -205,7 +205,7 @@
     .screen{min-height:100svh;padding:max(12px,env(safe-area-inset-top)) 14px calc(92px + env(safe-area-inset-bottom));gap:10px;background-position:center;background-size:cover;overflow:hidden}
     .workshop-screen{background-image:linear-gradient(rgba(43,22,38,.12),rgba(43,22,38,.2)),url('assets-runtime/spelling/workshop/grade-room-landscape.webp')}
     .shelf-screen{background-image:linear-gradient(rgba(43,22,38,.16),rgba(43,22,38,.18)),url('assets-runtime/spelling/workshop/pack-shelf-landscape.webp')}
-    .desk-screen{background-image:url('assets-runtime/spelling/workshop/desk-landscape.webp')}
+    .desk-screen{background-image:url('assets-runtime/spelling/workshop/desk-landscape.webp');--paper-left:26.2vw;--paper-top:30.5vh;--paper-width:59.8vw;--paper-height:20.5vh;--read-top:31.1vh;--read-height:9.8vh;--praise-top:40.3vh;--slot-left:28.9vw;--slot-top:42.8vh;--slot-width:54.4vw;--tray-left:5.5vw;--tray-top:55.5vh;--tray-width:89vw}
     .complete-screen{background-image:url('assets-runtime/spelling/workshop/complete-landscape.webp')}
     .top-bar{max-width:960px;z-index:3}.round-btn{width:54px;height:54px;background:rgba(58,30,51,.94);color:var(--gold);box-shadow:0 4px 0 #1c0d19;border:2px solid rgba(255,213,79,.65)}
     .bar-label{font-size:clamp(.78rem,2.2vw,1rem);color:var(--cream);background:rgba(43,22,38,.9);border:2px solid rgba(255,213,79,.55);padding:7px 14px}
@@ -217,27 +217,39 @@
     .continue-btn{min-height:58px;border:3px solid var(--gold);border-radius:999px;padding:10px 28px;background:linear-gradient(#8b5cf6,#5b21b6);color:white;font-weight:900;font-size:1.05rem;box-shadow:0 5px 0 #35106d;cursor:pointer}.continue-btn:active{transform:translateY(4px);box-shadow:0 1px 0 #35106d}.continue-btn[disabled]{opacity:.7}
     .drawer-summary{background:rgba(43,22,38,.92);border:2px solid rgba(255,213,79,.65);border-radius:18px;padding:7px 14px;font-weight:900;color:var(--cream)}
     .shelf-screen .top-bar .bar-label{position:absolute;top:66px;left:calc(50% - 100px);transform:translateX(-50%);min-width:112px;text-align:center;background:linear-gradient(#6d28a9,#3b1663);border-color:var(--gold);box-shadow:0 4px 0 #24101f}
-    .shelf-head{position:absolute;top:66px;left:calc(50% + 65px);z-index:4;transform:translateX(-50%);font-family:'Fredoka One';color:var(--cream);text-shadow:0 2px 8px var(--ink);font-size:clamp(1.15rem,3vw,1.75rem);white-space:nowrap;background:rgba(43,22,38,.94);border:2px solid var(--gold);border-radius:999px;padding:5px 20px;box-shadow:0 4px 0 #1c0d19}
+    .shelf-head{position:absolute;top:66px;left:50%;z-index:4;transform:translateX(-50%);font-family:'Fredoka One';color:var(--cream);text-shadow:0 2px 8px var(--ink);font-size:clamp(1.15rem,3vw,1.75rem);white-space:nowrap;background:rgba(43,22,38,.94);border:2px solid var(--gold);border-radius:999px;padding:5px 20px;box-shadow:0 4px 0 #1c0d19}
     .shelf-wrap{position:absolute;top:15%;left:50%;transform:translateX(-50%);width:min(88vw,900px);height:57%;display:flex;align-items:center;gap:6px}.pack-grid{grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:0;max-width:none;min-height:0;height:100%;flex:1}
     .pack-card{position:relative;justify-self:center;align-self:center;width:72%;height:66%;min-height:76px;border:3px solid #d5a72d;border-radius:12px 20px 20px 12px;padding:5px 4px;background:linear-gradient(90deg,#35162f 0 9%,#6d28a9 10% 86%,#3b1663);box-shadow:inset 0 0 0 3px rgba(255,213,79,.15),0 5px 0 #24101f;color:#fff}
     .pack-card.current{transform:translateY(-5px);filter:drop-shadow(0 0 10px var(--gold))}.pack-card.current::after{content:'';position:absolute;top:-3px;right:12px;width:16px;height:31px;background:#7c3aed;clip-path:polygon(0 0,100% 0,100% 75%,50% 100%,0 75%)}.pack-card.complete::before{content:'✓';position:absolute;top:5px;left:8px;color:var(--gold);font-weight:900}
     .pack-num{font-size:clamp(1.35rem,4vw,2rem)}.pack-word{color:#f9eec8}.pack-fraction{font-size:.7rem;font-weight:900}.pack-status{font-size:.62rem;font-weight:900;text-transform:uppercase;letter-spacing:.04em}.pack-stars{font-size:1rem}
     .page-btn{flex:0 0 54px;width:54px;height:66px;border-radius:18px;border:2px solid var(--gold);background:rgba(43,22,38,.94);color:var(--gold);font-size:2rem;font-weight:900}.page-btn:disabled{opacity:.35}.page-row{position:absolute;bottom:12px;left:14px;display:flex;gap:2px;align-items:center;justify-content:center}.page-dot{width:44px;height:44px;border:0;background:transparent;position:relative}.page-dot::after{content:'';position:absolute;width:18px;height:18px;border-radius:50%;border:2px solid var(--gold);background:rgba(43,22,38,.8);inset:13px}.page-dot.active::after{background:var(--gold)}
     .shelf-screen>.continue-btn{position:absolute;right:18px;bottom:14px;z-index:4}
-    .desk-panel{position:absolute;top:29%;bottom:calc(86px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(86vw,880px);display:grid;grid-template-rows:minmax(68px,auto) minmax(44px,auto) minmax(22px,auto) 1fr;align-items:center;justify-items:center;gap:clamp(4px,1vh,10px)}
-    .read-row{width:min(78vw,760px);max-width:none;justify-self:center;align-self:center;margin:0;gap:8px}.prompt-bubble{position:relative;min-height:54px;background:linear-gradient(160deg,rgba(255,249,226,.98),rgba(242,218,164,.98));border:3px solid #9a6826;border-radius:18px 24px 24px 18px;box-shadow:inset 0 0 0 2px rgba(255,255,255,.65),0 5px 0 #5b3515,0 8px 14px rgba(48,24,13,.24);color:var(--ink);padding:9px 20px}
+    /* The desk plate is painted at 4:3 but displayed with `cover`. These variables are
+       the visible parchment and mat rectangles after that exact cover transform; JS
+       updates them from source-art fractions on resize. Live controls therefore follow
+       the painting when a wide or tall viewport crops the source. */
+    .desk-panel{position:absolute;inset:0;display:block;pointer-events:none}
+    .desk-panel button{pointer-events:auto}
+    .read-row{position:absolute;left:var(--paper-left);top:var(--read-top);width:var(--paper-width);height:var(--read-height);max-width:none;margin:0;gap:8px;justify-content:center}.prompt-bubble{position:relative;min-height:54px;background:linear-gradient(160deg,rgba(255,249,226,.98),rgba(242,218,164,.98));border:3px solid #9a6826;border-radius:18px 24px 24px 18px;box-shadow:inset 0 0 0 2px rgba(255,255,255,.65),0 5px 0 #5b3515,0 8px 14px rgba(48,24,13,.24);color:var(--ink);padding:9px 20px}
     .read-row .prompt-bubble::before{border-right-color:#9a6826}.read-row .prompt-bubble::after{border-right-color:#f7e9c5}
     .speak-btn{width:clamp(78px,10vw,104px);height:clamp(78px,10vw,104px);filter:drop-shadow(0 6px 6px rgba(43,22,38,.3))}.book-mascot{display:block;width:100%;height:100%;object-fit:contain;transform-origin:50% 85%}.book-mascot.listening{animation:listenPulse 1.25s ease-in-out infinite}.book-mascot.feedback{animation:mascotPop .42s ease-out}
     @keyframes listenPulse{50%{transform:scale(1.035) rotate(-1deg)}}@keyframes mascotPop{0%{transform:scale(.88)}70%{transform:scale(1.04)}100%{transform:scale(1)}}
-    .slot-row{box-sizing:border-box;width:min(55vw,720px);max-width:none;position:relative;left:6.4vw;top:-3.2vh;flex-wrap:nowrap;gap:clamp(3px,.72vw,8px);padding:7px 10px;border-radius:18px;background:rgba(122,79,33,.12);box-shadow:inset 0 2px 7px rgba(84,47,18,.18)}
+    .slot-row{box-sizing:border-box;position:absolute;left:var(--slot-left);top:var(--slot-top);width:var(--slot-width);max-width:none;flex-wrap:nowrap;gap:clamp(2px,.55vw,8px);padding:5px clamp(4px,1vw,10px);border-radius:18px;background:rgba(122,79,33,.12);box-shadow:inset 0 2px 7px rgba(84,47,18,.18)}
     .slot,.slot-row.long .slot{flex:1 1 0;min-width:0;max-width:68px;width:auto;height:clamp(44px,6.7vh,66px);border:2px solid #9a6826;border-radius:10px;background:linear-gradient(145deg,rgba(220,184,116,.44),rgba(255,247,215,.72));box-shadow:inset 0 3px 7px rgba(94,51,19,.25),inset 0 -2px 2px rgba(255,255,255,.8),0 1px 0 rgba(255,255,255,.55);color:#34221b;font-size:clamp(1rem,3.1vw,1.75rem);text-shadow:0 1px 0 #fff4cf}
     .slot.filled,.slot-row.long .slot.filled{background:linear-gradient(145deg,#fff9e5,#e8c87b);border-color:#b27a23;box-shadow:inset 0 2px 4px rgba(116,71,22,.18),0 2px 3px rgba(77,39,14,.18)}
-    .tile-tray{align-self:start;margin-top:clamp(0px,1.2vh,12px);display:flex;align-items:center;justify-content:center;width:fit-content;min-width:min(60vw,420px);max-width:min(88vw,840px);min-height:0;padding:clamp(14px,2.2vh,22px) clamp(14px,2.4vw,28px);border:4px solid #9a6429;border-radius:18px 18px 28px 28px;background:linear-gradient(180deg,rgba(176,118,52,.98) 0,rgba(128,78,34,.98) 14%,rgba(112,66,28,.98) 86%,rgba(150,98,44,.98));box-shadow:inset 0 0 0 3px #e3b85d,inset 0 7px 10px rgba(35,13,31,.55),0 9px 0 #4f2b18,0 13px 18px rgba(32,14,11,.38)}
-    .tile-row{max-width:760px}.tile,.tile-row.dense .tile{min-width:44px;min-height:48px;background:linear-gradient(145deg,#fffdf0 0%,#eee0bd 58%,#caa75d 100%)!important;color:#32231c!important;border:2px solid #b47b24;border-radius:10px;box-shadow:inset 2px 2px 2px rgba(255,255,255,.95),inset -3px -3px 4px rgba(115,73,22,.24),0 5px 0 #76501e,0 8px 8px rgba(28,12,9,.42)!important;text-shadow:0 1px 0 #fff;font-family:'Fredoka One','Nunito',sans-serif}.tile:active{transform:translateY(4px) scale(.97);box-shadow:inset 2px 2px 3px rgba(118,78,28,.2),0 1px 0 #76501e!important}.tile.used{opacity:.24;transform:scale(.9)}
-    .praise-banner{color:#4a2340;text-shadow:0 1px 0 #fff2c8;min-height:1.45em;font-size:clamp(.95rem,2.6vw,1.3rem)}.score-row{background:rgba(43,22,38,.94);border-top:2px solid rgba(255,213,79,.6)}.score-badge,.flower-garden{background:#fff5d6;border-color:#b6842b;color:var(--plum)}.flower-slot{font-size:0}.flower-slot::before{content:'✿';font-size:18px;color:#7c3aed}.flower-slot.empty::before{color:#8b806f}.mascot-corner{display:none}
+    .tile-tray{box-sizing:border-box;position:absolute;left:var(--tray-left);top:var(--tray-top);display:flex;align-items:center;justify-content:center;width:var(--tray-width);min-height:0;padding:clamp(9px,1.5vh,18px) clamp(8px,1.8vw,24px);border:4px solid #9a6429;border-radius:18px 18px 28px 28px;background:linear-gradient(180deg,rgba(176,118,52,.98) 0,rgba(128,78,34,.98) 14%,rgba(112,66,28,.98) 86%,rgba(150,98,44,.98));box-shadow:inset 0 0 0 3px #e3b85d,inset 0 7px 10px rgba(35,13,31,.55),0 9px 0 #4f2b18,0 13px 18px rgba(32,14,11,.38)}
+    .tile-row{max-width:100%}.tile,.tile-row.dense .tile{min-width:44px;min-height:48px;background:linear-gradient(145deg,#fffdf0 0%,#eee0bd 58%,#caa75d 100%)!important;color:#32231c!important;border:2px solid #b47b24;border-radius:10px;box-shadow:inset 2px 2px 2px rgba(255,255,255,.95),inset -3px -3px 4px rgba(115,73,22,.24),0 5px 0 #76501e,0 8px 8px rgba(28,12,9,.42)!important;text-shadow:0 1px 0 #fff;font-family:'Fredoka One','Nunito',sans-serif}.tile:active{transform:translateY(4px) scale(.97);box-shadow:inset 2px 2px 3px rgba(118,78,28,.2),0 1px 0 #76501e!important}.tile.used{opacity:.24;transform:scale(.9)}
+    .praise-banner{position:absolute;left:var(--paper-left);top:var(--praise-top);width:var(--paper-width);color:#4a2340;text-shadow:0 1px 0 #fff2c8;min-height:1.45em;font-size:clamp(.85rem,2.6vw,1.3rem)}.score-row{background:rgba(43,22,38,.94);border-top:2px solid rgba(255,213,79,.6)}.score-badge,.flower-garden{background:#fff5d6;border-color:#b6842b;color:var(--plum)}.flower-slot{font-size:0}.flower-slot::before{content:'✿';font-size:18px;color:#7c3aed}.flower-slot.empty::before{color:#8b806f}.mascot-corner{display:none}
     .complete-panel{width:min(88vw,760px);margin:auto;padding:18px;background:rgba(43,22,38,.9);border:3px solid var(--gold);border-radius:28px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}.complete-panel .book-mascot{width:clamp(100px,16vw,150px);height:clamp(92px,14vw,132px)}.complete-title{color:var(--gold)}.complete-sub{color:var(--cream)}.complete-overlay{position:static;background:none;backdrop-filter:none;padding:0}.complete-stars{font-size:clamp(48px,12vw,78px)}.big-btn{min-height:52px;background:linear-gradient(#8b5cf6,#5b21b6);box-shadow:0 5px 0 #35106d;border:2px solid var(--gold)}.big-btn.alt{background:rgba(58,30,51,.95);box-shadow:0 5px 0 #1c0d19}
-    @media (orientation:portrait){.slot-row{width:min(63vw,560px);left:.4vw;top:0}.tile-tray{margin-top:clamp(18px,4.5vh,48px)}.workshop-screen{background-image:linear-gradient(rgba(43,22,38,.12),rgba(43,22,38,.2)),url('assets-runtime/spelling/workshop/grade-room-portrait.webp')}.shelf-screen{background-image:linear-gradient(rgba(43,22,38,.12),rgba(43,22,38,.18)),url('assets-runtime/spelling/workshop/pack-shelf-portrait.webp')}.desk-screen{background-image:url('assets-runtime/spelling/workshop/desk-portrait.webp')}.complete-screen{background-image:url('assets-runtime/spelling/workshop/complete-portrait.webp')}.station-grid{grid-template-columns:repeat(3,minmax(0,1fr));width:min(94vw,720px);gap:8px;margin:auto 0 8px}.station-card{min-height:116px;padding:10px 7px;align-items:center}.station-name{font-size:clamp(.9rem,2.5vw,1.15rem)}.station-progress{font-size:clamp(.65rem,1.8vw,.78rem)}.workshop-title{margin-top:58px}.shelf-wrap{top:14%;width:min(82vw,680px);height:59%}.pack-card{width:68%;height:68%}.shelf-screen .top-bar .bar-label,.shelf-head{top:70px}.shelf-screen>.continue-btn{right:50%;transform:translateX(50%);bottom:18px}.page-row{left:50%;transform:translateX(-50%);bottom:76px}.desk-panel{top:28%;bottom:calc(90px + env(safe-area-inset-bottom));width:min(88vw,700px);grid-template-rows:minmax(74px,auto) minmax(44px,auto) minmax(22px,auto) 1fr}.read-row{width:min(80vw,620px)}.tile-tray{max-width:min(90vw,700px)}.complete-panel{margin-top:16vh}}
-    @media (max-width:560px){.pack-card{width:76%;height:72%;min-height:68px}.shelf-wrap{gap:3px}.page-btn{width:46px;flex-basis:46px}.tile-row.dense .tile{width:44px;height:48px;min-width:44px;min-height:48px}.score-row{gap:4px}.score-badge{padding:4px 8px}}
+    @media (orientation:portrait){.workshop-screen{background-image:linear-gradient(rgba(43,22,38,.12),rgba(43,22,38,.2)),url('assets-runtime/spelling/workshop/grade-room-portrait.webp')}.shelf-screen{background-image:linear-gradient(rgba(43,22,38,.12),rgba(43,22,38,.18)),url('assets-runtime/spelling/workshop/pack-shelf-portrait.webp')}.desk-screen{background-image:url('assets-runtime/spelling/workshop/desk-portrait.webp')}.complete-screen{background-image:url('assets-runtime/spelling/workshop/complete-portrait.webp')}.station-grid{grid-template-columns:repeat(3,minmax(0,1fr));width:min(94vw,720px);gap:8px;margin:auto 0 8px}.station-card{min-height:116px;padding:10px 7px;align-items:center}.station-name{font-size:clamp(.9rem,2.5vw,1.15rem)}.station-progress{font-size:clamp(.65rem,1.8vw,.78rem)}.workshop-title{margin-top:58px}.shelf-wrap{top:14%;width:min(82vw,680px);height:59%}.pack-card{width:68%;height:68%}.shelf-screen .top-bar .bar-label,.shelf-head{top:70px}.shelf-screen>.continue-btn{right:50%;transform:translateX(50%);bottom:18px}.page-row{left:50%;transform:translateX(-50%);bottom:76px}.complete-panel{margin-top:16vh}}
+    @media (max-height:520px) and (orientation:landscape){
+      .screen{padding:8px 10px calc(72px + env(safe-area-inset-bottom));gap:5px}
+      .workshop-title{font-size:1.35rem;margin-top:0}.station-grid{width:min(88vw,760px);margin:0;gap:8px}.station-card{min-height:96px;padding:7px;border-radius:18px}.station-name{font-size:.9rem}.station-grade{font-size:.8rem}.station-progress{font-size:.62rem;margin-top:2px}.workshop-screen>.continue-btn{min-height:46px;padding:5px 20px;font-size:.85rem}.drawer-summary{padding:4px 10px;font-size:.75rem}
+      .shelf-wrap{top:26%;height:47%;width:min(94vw,820px)}.shelf-head{font-size:1rem;padding-block:3px}.pack-card{min-height:52px;width:74%;height:72%;padding:2px}.pack-num{font-size:1rem}.pack-word,.pack-status{font-size:.52rem}.pack-fraction{font-size:.58rem}.pack-stars{font-size:.72rem}.shelf-screen .top-bar .bar-label,.shelf-head{top:58px}.shelf-screen>.continue-btn{bottom:7px;min-height:46px;padding:5px 18px}.page-row{bottom:55px}
+      .speak-btn{width:58px;height:58px}.prompt-bubble{min-height:44px;padding:5px 12px}.slot-row{padding-block:3px}.slot,.slot-row.long .slot{height:44px}.tile-tray{padding:6px 8px;border-width:3px}.tile-row,.tile-row.dense{gap:2px;max-width:100%}.tile,.tile-row.dense .tile{width:44px;height:44px;min-height:44px;font-size:1.15rem}.praise-banner{font-size:.8rem}
+      .complete-panel{width:min(94vw,800px);padding:7px;gap:4px}.complete-panel .book-mascot{width:70px;height:62px}.complete-overlay{gap:4px}.complete-stars{font-size:38px}.complete-title{font-size:1.15rem}.complete-sub{font-size:.8rem}.complete-btn-row{margin-top:2px;gap:6px}.big-btn{min-height:44px;padding:6px 12px;font-size:.8rem}
+    }
+    @media (max-width:560px){.top-bar .round-btn{flex:none;min-width:44px;width:46px;height:46px}.pack-card{width:76%;height:72%;min-height:68px}.shelf-wrap{gap:3px}.page-btn{width:46px;flex-basis:46px}.tile-row.dense .tile{width:44px;height:48px;min-width:44px;min-height:48px}.score-row{gap:4px}.score-badge{padding:4px 8px}}
     @media (prefers-reduced-motion:reduce){.station-card,.pack-card,.tile,.complete-stars span,.confetti-piece{animation:none!important;transition:none!important}.confetti-container{display:none}}
   </style>
 </head>
@@ -492,6 +504,69 @@ function shuffleR(rng, arr) {
     [x[i], x[j]] = [x[j], x[i]];
   }
   return x;
+}
+
+/* Map a rectangle measured on a source plate through CSS `background-size:cover`.
+   The intersection is intentional: on a viewport narrower than the selected portrait
+   plate (or shorter than the landscape plate), controls follow the visible part of the
+   painted surface instead of following coordinates that have been cropped away. */
+const DESK_ART = {
+  landscape: {
+    width: 1448,
+    height: 1086,
+    paper: {
+      x: .262,
+      y: .305,
+      w: .598,
+      h: .205
+    },
+    tray: {
+      x: .055,
+      y: .555,
+      w: .89,
+      h: .30
+    }
+  },
+  portrait: {
+    width: 1086,
+    height: 1448,
+    paper: {
+      x: .145,
+      y: .279,
+      w: .72,
+      h: .215
+    },
+    tray: {
+      x: .05,
+      y: .535,
+      w: .90,
+      h: .30
+    }
+  }
+};
+function coverRect(viewWidth, viewHeight, sourceWidth, sourceHeight, rect, inset = 8) {
+  const scale = Math.max(viewWidth / sourceWidth, viewHeight / sourceHeight);
+  const offsetX = (viewWidth - sourceWidth * scale) / 2;
+  const offsetY = (viewHeight - sourceHeight * scale) / 2;
+  const left = Math.max(inset, offsetX + rect.x * sourceWidth * scale);
+  const top = Math.max(0, offsetY + rect.y * sourceHeight * scale);
+  const right = Math.min(viewWidth - inset, offsetX + (rect.x + rect.w) * sourceWidth * scale);
+  const bottom = Math.min(viewHeight, offsetY + (rect.y + rect.h) * sourceHeight * scale);
+  return {
+    left,
+    top,
+    width: Math.max(0, right - left),
+    height: Math.max(0, bottom - top)
+  };
+}
+function deskArtLayout(viewWidth, viewHeight) {
+  const orientation = viewWidth >= viewHeight ? 'landscape' : 'portrait';
+  const art = DESK_ART[orientation];
+  return {
+    orientation,
+    paper: coverRect(viewWidth, viewHeight, art.width, art.height, art.paper),
+    tray: coverRect(viewWidth, viewHeight, art.width, art.height, art.tray)
+  };
 }
 /* Decoy letters scale with word length: two for the short words a beginner meets, four
    for the eight-and-up words where the tile bank is already big. The count is small on
@@ -1325,12 +1400,11 @@ function Packs({
     onBack: () => nav({
       s: 'home'
     }),
-    label: meta.label,
     muted: muted,
     onToggleMute: onToggleMute
   }), /*#__PURE__*/React.createElement("div", {
     className: "shelf-head"
-  }, meta.sub), /*#__PURE__*/React.createElement("div", {
+  }, meta.label, " \xB7 ", meta.sub), /*#__PURE__*/React.createElement("div", {
     className: "shelf-wrap"
   }, /*#__PURE__*/React.createElement("button", {
     className: "page-btn",
@@ -1400,6 +1474,7 @@ function SpellGame({
   packIdx,
   shared
 }) {
+  const screenRef = useRef(null);
   const words = UNIVERSE.grades[String(grade)][packIdx];
   const [sessionIndices] = useState(() => sessionWordIndices(shared.store, UNIVERSE, grade, packIdx));
   const sessionWords = sessionIndices.map(i => words[i]);
@@ -1415,6 +1490,39 @@ function SpellGame({
   const pid = packId(grade, packIdx);
   const earnedStars = starsFor(shared.store.attempts && shared.store.attempts[pid] || st.pass1);
   const displayStars = finalStars == null ? earnedStars : finalStars;
+  useEffect(() => {
+    const place = () => {
+      const node = screenRef.current;
+      if (!node) return;
+      const box = node.getBoundingClientRect();
+      const layout = deskArtLayout(box.width, box.height);
+      const compact = layout.orientation === 'landscape' && box.height <= 520;
+      const paper = layout.paper;
+      const values = {
+        '--paper-left': paper.left,
+        '--paper-top': paper.top,
+        '--paper-width': paper.width,
+        '--paper-height': paper.height,
+        '--read-top': paper.top + paper.height * .03,
+        '--read-height': paper.height * (compact ? .50 : .48),
+        '--praise-top': paper.top + paper.height * (compact ? .44 : .48),
+        '--slot-left': paper.left + paper.width * .045,
+        '--slot-top': paper.top + paper.height * (compact ? .57 : .60),
+        '--slot-width': paper.width * .91,
+        '--tray-left': layout.tray.left,
+        '--tray-top': layout.tray.top,
+        '--tray-width': layout.tray.width
+      };
+      Object.keys(values).forEach(name => node.style.setProperty(name, `${values[name]}px`));
+    };
+    place();
+    window.addEventListener('resize', place);
+    window.visualViewport && window.visualViewport.addEventListener('resize', place);
+    return () => {
+      window.removeEventListener('resize', place);
+      window.visualViewport && window.visualViewport.removeEventListener('resize', place);
+    };
+  }, []);
   useEffect(() => {
     shared.setStore(s => markActive(packProgress(s, UNIVERSE, grade, packIdx).status === 'Completed' ? clearAttempt(s, pid) : s, grade, packIdx));
   }, []);
@@ -1582,7 +1690,8 @@ function SpellGame({
   const need = st.word[st.filled];
   const bookPose = reader.speaking ? 'listening' : st.hint ? 'giving-hint' : mascot.pose;
   return /*#__PURE__*/React.createElement("div", {
-    className: "screen desk-screen"
+    className: "screen desk-screen",
+    ref: screenRef
   }, /*#__PURE__*/React.createElement(TopBar, {
     onBack: () => nav({
       s: 'packs',
