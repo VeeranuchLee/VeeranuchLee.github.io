@@ -27,7 +27,7 @@
  */
 (function () {
   "use strict";
-  var MC = window.MazeCore, MM = window.MazeMovement, MP = window.MazePlan, SND = window.MazeSound;
+  var MC = window.MazeCore, MM = window.MazeMovement, MP = window.MazePlan, MR = window.MazeRobot, SND = window.MazeSound;
 
   /* ---------- data ------------------------------------------------------------------ */
 
@@ -38,6 +38,10 @@
     { id: "lion", name: "Lion" }, { id: "hippo", name: "Hippo" },
     { id: "duck", name: "Duck" }, { id: "elephant", name: "Elephant" },
     { id: "owl", name: "Owl" }, { id: "rocking-horse", name: "Rocking horse" },
+  ];
+  var CODE_TOYS = [
+    { id:"car",name:"Car" },{ id:"bus",name:"Bus" },{ id:"train",name:"Train" },
+    { id:"airplane",name:"Airplane" },{ id:"robot-rover",name:"Robot rover" },{ id:"boat",name:"Boat" },{ id:"fire-truck",name:"Fire truck" },
   ];
 
   // One smooth ladder, not a second "hard mode" implementation. The early rungs stay
@@ -72,11 +76,17 @@
   var TRAIL_OFF_PATH = [1, 1, 1, 1, 1, 2, 2];
   var MOVEMENTS = ["go", "plan"];
   var GOALS = ["flag", "number", "alphabet"];
+  var MAZE_TYPES = ["directions", "robot"];
+  var ROBOT_LEVELS = [
+    "Straight Forward", "One Turn", "Left and Right", "Turn First",
+    "Turn Around", "Branching Route", "Checkpoint Route",
+  ];
 
   var MISSING = window.MAZE_SPRITES_MISSING || [];
   var SPRITE = function (id, kind) {
     return MISSING.indexOf(id) >= 0 && PLACEHOLDER[kind || "hero"] ? PLACEHOLDER[kind || "hero"] : "./assets/sprites/" + id + ".webp";
   };
+  var TOY_SPRITE = function (id, view) { return "./assets/code-toys/" + id + "-" + view + ".webp"; };
 
   // PLACEHOLDERS, for a build staged before every sprite exists (the art arrives in
   // batches). assets/sprites/sprites.js, written by the sprite build, names what is
@@ -132,8 +142,11 @@
   var migratedGoal = rememberedMode === "number" ? "number" : rememberedMode === "alphabet" ? "alphabet" : "flag";
   var rememberedMovement = load("movement", migratedMovement);
   var rememberedGoal = load("goal", migratedGoal);
+  var rememberedMazeType = load("maze-type", "directions");
   var S = {
     hero: load("hero", null),
+    toy: load("code-toy", "car"), // an unknown or retired toy (rocket) falls back to the first below
+    mazeType: MAZE_TYPES.indexOf(rememberedMazeType) >= 0 ? rememberedMazeType : "directions",
     movement: MOVEMENTS.indexOf(rememberedMovement) >= 0 ? rememberedMovement : "go",
     goal: GOALS.indexOf(rememberedGoal) >= 0 ? rememberedGoal : "flag",
     rung: Math.max(0, Math.min(LADDER.length - 1, load("rung", 0) | 0)),
@@ -143,9 +156,12 @@
     doneAlphabet: load("done-alphabet", []),
     donePlanNumber: load("done-plan-number", []),
     donePlanAlphabet: load("done-plan-alphabet", []),
+    doneRobotGo: load("done-robot-go", []),
+    doneRobotPlan: load("done-robot-plan", []),
     round: null, state: null, cell: 0, locked: false, seed: 0,
     trail: null,
     plan: [], planStatuses: null, chunkStart: null, wallAttempts: 0, running: false,
+    robotMisses: 0, eyesCompact: false,
   };
   if (!Array.isArray(S.doneWalk)) S.doneWalk = [];
   if (!Array.isArray(S.donePlan)) S.donePlan = [];
@@ -153,7 +169,10 @@
   if (!Array.isArray(S.doneAlphabet)) S.doneAlphabet = [];
   if (!Array.isArray(S.donePlanNumber)) S.donePlanNumber = [];
   if (!Array.isArray(S.donePlanAlphabet)) S.donePlanAlphabet = [];
+  if (!Array.isArray(S.doneRobotGo)) S.doneRobotGo = [];
+  if (!Array.isArray(S.doneRobotPlan)) S.doneRobotPlan = [];
   if (S.hero && (!CAST.some(function (c) { return c.id === S.hero; }) || MISSING.indexOf(S.hero) >= 0)) S.hero = null;
+  if (!CODE_TOYS.some(function (c) { return c.id === S.toy; })) S.toy = CODE_TOYS[0].id;
 
   function speakerButton() {
     if (!SND || !SND.available()) return "";
@@ -181,22 +200,28 @@
       speakerButton() + "</header>" +
       '<section class="pick">' +
       '<h1 class="title"><img class="title-flag" data-ph="flag" src="' + SPRITE("flag", "flag") + '" alt="" aria-hidden="true"/>Our Maze</h1>' +
-      '<p class="ask">Who will find the flag?</p>' +
-      '<div class="cast" role="list">' +
-      CAST.filter(function (c) { return MISSING.indexOf(c.id) < 0; }).map(function (c) {
+      '<div class="picker-type choice-toggle" role="group" aria-label="Choose maze type">' + choiceButton("maze-type","directions","Directions",S.mazeType) + choiceButton("maze-type","robot","Robot Code",S.mazeType) + '</div>' +
+      '<p class="ask">' + (S.mazeType === "robot" ? "Choose a Code Toy" : "Choose a friend") + '</p>' +
+      '<div class="cast' + (S.mazeType === "robot" ? " code-cast" : "") + '" role="list">' +
+      (S.mazeType === "robot" ? CODE_TOYS.map(function (c) {
+        return '<button class="friend code-toy' + (c.id === S.toy ? " last" : "") + '" role="listitem" data-id="' + c.id + '" aria-label="' + c.name + '"><img src="' + TOY_SPRITE(c.id,"tile") + '" alt=""/></button>';
+      }) : CAST.filter(function (c) { return MISSING.indexOf(c.id) < 0; }).map(function (c) {
         return '<button class="friend' + (c.id === S.hero ? " last" : "") + '" role="listitem" data-id="' + c.id +
           '" aria-label="' + c.name + '"><img data-ph="friend" src="' + SPRITE(c.id) + '" alt=""/></button>';
-      }).join("") +
+      })).join("") +
       "</div></section>";
     guardImages(app);
     Array.prototype.forEach.call(app.querySelectorAll(".friend"), function (b) {
       b.onclick = function () {
         if (SND) { SND.unlock(); SND.pick(); }
-        S.hero = b.getAttribute("data-id");
-        save("hero", S.hero);
+        if (S.mazeType === "robot") { S.toy = b.getAttribute("data-id"); save("code-toy",S.toy); }
+        else { S.hero = b.getAttribute("data-id"); save("hero",S.hero); }
         play(S.rung);
       };
     });
+    Array.prototype.forEach.call(app.querySelectorAll(".picker-type button"), function (b) { b.onclick = function () {
+      var type=b.getAttribute("data-maze-type"); if(type===S.mazeType)return; if(SND)SND.pick(); S.mazeType=type; save("maze-type",type); picker();
+    }; });
     wireSpeaker(picker);
   }
 
@@ -208,11 +233,18 @@
     S.rung = rung;
     save("rung", rung);
     var cfg = LADDER[rung];
-    var ordered = S.goal === "number" || S.goal === "alphabet";
+    var robot = S.mazeType === "robot";
+    var ordered = robot ? rung === 6 : (S.goal === "number" || S.goal === "alphabet");
     S.seed = (Date.now() ^ Math.floor(Math.random() * 0x7fffffff)) >>> 0;
     if (window.__MAZE_SEED__ !== undefined) S.seed = window.__MAZE_SEED__ >>> 0; // harness hook
     var round = null, trail = null;
     for (var retry = 0; retry < 40 && (!round || !round.ok || (ordered && (!trail || !trail.ok))); retry++) {
+      if (robot) {
+        round = MR.makePuzzle({ rung: rung, cols: cfg.n, seed: S.seed + retry,
+          bias: cfg.bias, braid: cfg.braid });
+        trail = round && round.trail;
+        continue;
+      }
       // These are byte-for-byte the normal rung inputs. Checkpoints do not get a vote
       // in maze topology, start/goal placement or shortest-path length.
       round = MC.makeRound({ cols: cfg.n, rows: cfg.n, seed: S.seed + retry,
@@ -230,13 +262,15 @@
       throw new Error("Could not build rung " + rung + ": " + ((trail && trail.reason) || (round && round.reason) || "checkpoint placement failed"));
     S.round = round;
     S.trail = ordered ? trail : null;
-    S.state = MM.initial(round);
+    S.state = robot ? MR.initial({ maze: round.maze, start: round.start, goal: round.goal, heading: round.heading }) : MM.initial(round);
     S.locked = false;
     S.plan = [];
     S.planStatuses = null;
     S.chunkStart = S.state;
     S.wallAttempts = 0;
     S.running = false;
+    S.robotMisses = 0;
+    S.eyesCompact = robot && rung >= 3;
 
     renderPlayScreen();
   }
@@ -249,16 +283,17 @@
     app.className = "screen-play";
     app.innerHTML =
       '<header class="topline">' +
-      '<button class="hub" id="back" aria-label="Pick a different friend">&larr; Friends</button>' +
+      '<button class="hub" id="back" aria-label="' + (S.mazeType === "robot" ? "Pick a different Code Toy" : "Pick a different friend") + '">&larr; ' + (S.mazeType === "robot" ? "Toys" : "Friends") + '</button>' +
       '<nav class="ladder" aria-label="Maze size">' +
       LADDER.map(function (l, i) {
         var isDone = done.indexOf(i) >= 0;
+        var rungName = S.mazeType === "robot" ? ROBOT_LEVELS[i] : l.name;
         return '<button class="rung rung-' + l.tier + (i === S.rung ? " now" : "") + (isDone ? " done" : "") + '" data-rung="' + i +
-          '" aria-label="' + l.name + ", " + l.n + " by " + l.n + (isDone ? ", finished in " + choiceName() : "") + '"' + (i === S.rung ? ' aria-current="true"' : "") + ">" +
+          '" aria-label="' + rungName + ", " + l.n + " by " + l.n + (isDone ? ", finished in " + choiceName() : "") + '"' + (i === S.rung ? ' aria-current="true"' : "") + ">" +
           '<span class="dots" aria-hidden="true" style="--n:' + l.n + '">' + new Array(l.n * l.n + 1).join("<i></i>") + "</span>" + (isDone ? '<span class="star" aria-hidden="true">★</span>' : "") + "</button>";
       }).join("") +
       "</nav>" + speakerButton() + "</header>" +
-      '<section class="stage ' + (S.movement === "plan" ? "stage-plan" : "stage-walk") + (S.trail ? " stage-trail stage-" + S.goal : "") + '">' +
+      '<section class="stage ' + (S.movement === "plan" ? "stage-plan" : "stage-walk") + (S.trail ? " stage-trail stage-" + S.goal : "") + (S.mazeType === "robot" ? " stage-robot" : "") + '">' +
       '<div class="board-wrap"><div class="board" id="board">' +
       '<canvas id="walls"></canvas>' +
       '<div class="trail-labels" id="trail-labels" aria-hidden="true"></div>' +
@@ -266,14 +301,17 @@
       '<div class="plan-trail" id="trail" aria-hidden="true"></div>' +
       '<img class="marker goal" id="goal" data-ph="flag" src="' + SPRITE("flag", "flag") + '" alt="The flag"/>' +
       '<div class="bump" id="bump"></div>' +
-      '<img class="hero" id="hero" data-ph="hero" src="' + SPRITE(S.hero) + '" alt=""/>' +
+      '<img class="hero" id="hero" data-ph="hero" src="' + (S.mazeType === "robot" ? TOY_SPRITE(S.toy,"up") : SPRITE(S.hero)) + '" alt=""/>' +
+      (S.mazeType === "robot" ? '<span class="heading-arrow" id="heading-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M3 10h11V5l7 7-7 7v-5H3z"/></svg></span>' : '') +
       '<img class="sparkles" id="sparkles" data-ph="sparkles" src="' + SPRITE("sparkles", "sparkles") + '" alt=""/>' +
       "</div></div>" +
       '<div class="play-controls">' + choiceControls() + (S.trail ? trailPrompt() : "") +
+      (S.mazeType === "robot" ? robotEyesPanel() : "") +
       (S.movement === "plan" ? planPanel() : '') +
-      '<div class="pad" role="group" aria-label="' + (S.movement === "plan" ? "Add a move" : "Move") + '">' +
-      padButton("up", "Up") + padButton("left", "Left") + '<span class="pad-hub" aria-hidden="true"></span>' +
-      padButton("right", "Right") + padButton("down", "Down") +
+      '<div class="pad' + (S.mazeType === "robot" ? " robot-pad" : "") + '" role="group" aria-label="' + (S.movement === "plan" ? "Add a move" : "Move") + '">' +
+      (S.mazeType === "robot" ? robotPadButtons() :
+        padButton("up", "Up") + padButton("left", "Left") + '<span class="pad-hub" aria-hidden="true"></span>' +
+        padButton("right", "Right") + padButton("down", "Down")) +
       "</div></div>" +
       "</section>" +
       '<div class="finish" id="finish" hidden></div>';
@@ -283,6 +321,7 @@
       board: document.getElementById("board"),
       canvas: document.getElementById("walls"),
       hero: document.getElementById("hero"),
+      headingArrow: document.getElementById("heading-arrow"),
       goal: document.getElementById("goal"),
       bump: document.getElementById("bump"),
       sparkles: document.getElementById("sparkles"),
@@ -294,9 +333,12 @@
       labels: document.getElementById("trail-labels"),
       trailFeedback: document.getElementById("trail-feedback"),
       trailPrompt: document.getElementById("trail-prompt"),
+      eyes: document.getElementById("robot-eyes"),
+      eyesScene: document.getElementById("eyes-scene"),
+      eyesHeading: document.getElementById("eyes-heading"),
       px: 0, cellPx: 0,
     };
-    var heroName = CAST.filter(function (c) { return c.id === S.hero; })[0];
+    var heroName = (S.mazeType === "robot" ? CODE_TOYS : CAST).filter(function (c) { return c.id === (S.mazeType === "robot" ? S.toy : S.hero); })[0];
     R.hero.alt = heroName ? heroName.name : "";
     document.getElementById("back").onclick = picker;
     Array.prototype.forEach.call(app.querySelectorAll(".rung"), function (b) {
@@ -315,7 +357,8 @@
     };
     wireSpeaker(refreshSpeaker);
     wirePad();
-    if (S.movement === "plan") wirePlan(); else attachInput();
+    if (S.mazeType === "robot") wireRobotEyes();
+    if (S.movement === "plan") wirePlan(); else if (S.mazeType === "directions") attachInput();
     layout();
     // Queued chips and the checkpoint status row change the space left for the board
     // after the first layout, so refit whenever the board's own container resizes.
@@ -338,12 +381,12 @@
       '<div class="choice-row"><span class="choice-label">Movement</span><div class="movement-toggle choice-toggle" role="group" aria-label="Choose movement method">' +
       choiceButton("movement", "go", "Go Now", S.movement) +
       choiceButton("movement", "plan", "Plan Moves", S.movement) +
-      '</div></div>' +
+      '</div></div>' + (S.mazeType === "robot" ? "" :
       '<div class="choice-row"><span class="choice-label">Goal</span><div class="goal-toggle choice-toggle" role="group" aria-label="Choose maze goal">' +
       choiceButton("goal", "flag", "Flag", S.goal) +
       choiceButton("goal", "number", "1 2 3", S.goal) +
       choiceButton("goal", "alphabet", "A B C", S.goal) +
-      '</div></div></div>';
+      '</div></div>') + '</div>';
   }
 
   function choiceButton(kind, value, label, selected) {
@@ -352,16 +395,19 @@
   }
 
   function choiceName() {
+    if (S.mazeType === "robot") return "Robot Code + " + (S.movement === "plan" ? "Plan Moves" : "Go Now");
     return (S.movement === "plan" ? "Plan Moves" : "Go Now") + " + " +
       ({ flag: "Flag", number: "Number Checkpoints", alphabet: "Letter Checkpoints" }[S.goal]);
   }
 
   function doneForChoice() {
+    if (S.mazeType === "robot") return S.movement === "plan" ? S.doneRobotPlan : S.doneRobotGo;
     if (S.movement === "plan") return { flag: S.donePlan, number: S.donePlanNumber, alphabet: S.donePlanAlphabet }[S.goal];
     return { flag: S.doneWalk, number: S.doneNumber, alphabet: S.doneAlphabet }[S.goal];
   }
 
   function doneKey() {
+    if (S.mazeType === "robot") return S.movement === "plan" ? "done-robot-plan" : "done-robot-go";
     if (S.movement === "plan") return S.goal === "flag" ? "done-plan" : "done-plan-" + S.goal;
     return S.goal === "flag" ? "done-walk" : "done-" + S.goal;
   }
@@ -391,10 +437,10 @@
   }
 
   function planPanel() {
-    var hero = CAST.filter(function (c) { return c.id === S.hero; })[0];
+    var hero = (S.mazeType === "robot" ? CODE_TOYS : CAST).filter(function (c) { return c.id === (S.mazeType === "robot" ? S.toy : S.hero); })[0];
     var friendName = hero ? hero.name.toLowerCase() : "friend";
     return '<aside class="plan-panel">' +
-      '<div class="plan-heading"><span><strong>Plan the moves</strong><small>Add arrows below, then press GO to move the ' + friendName + '!</small></span>' +
+      '<div class="plan-heading"><span><strong>Plan the moves</strong><small>' + (S.mazeType === "robot" ? "Add robot commands, then press GO!" : "Add arrows below, then press GO to move the " + friendName + "!") + '</small></span>' +
       '<span class="plan-count" id="plan-count" aria-live="polite">0 / ' + chipCap() + '</span></div>' +
       '<div class="sequence"><div class="move-strip" id="move-strip" aria-label="Planned moves"></div></div>' +
       '<div class="plan-actions"><button id="undo" class="plan-action undo" disabled aria-label="Undo last move">↶<small>Undo</small></button>' +
@@ -407,6 +453,107 @@
     var rot = { up: 0, right: 90, down: 180, left: 270 }[dir];
     return '<button class="arrow arrow-' + dir + '" data-dir="' + dir + '" aria-label="' + label + '">' +
       '<svg viewBox="0 0 48 48" aria-hidden="true" style="transform:rotate(' + rot + 'deg)"><path d="M24 9 L40 29 H30 V39 H18 V29 H8 Z"/></svg></button>';
+  }
+
+  function robotPadButtons() {
+    return robotCommandButton("L", "Turn left", "↶", "robot-left") +
+      robotCommandButton("F", "Forward", "↑", "robot-forward") +
+      robotCommandButton("R", "Turn right", "↷", "robot-right");
+  }
+
+  function robotCommandButton(command, label, glyph, cls) {
+    return '<button class="arrow robot-command ' + cls + '" data-command="' + command + '" aria-label="' + label + '">' +
+      '<span class="robot-command-glyph" aria-hidden="true">' + glyph + '</span><small>' + label + '</small></button>';
+  }
+
+  function robotEyesPanel() {
+    return '<aside class="robot-eyes' + (S.eyesCompact ? " compact" : "") + '" id="robot-eyes" aria-label="Robot Eyes local view">' +
+      '<button class="eyes-toggle" id="eyes-toggle" aria-expanded="' + (!S.eyesCompact) + '"><span>Robot Eyes</span><strong id="eyes-heading"></strong></button>' +
+      '<div class="eyes-scene" id="eyes-scene" aria-live="polite">' +
+      '<div class="eyes-sky"><i></i><i></i></div><div class="eyes-floor"></div>' +
+      '<div class="eyes-wall eyes-left" data-side="left"></div><div class="eyes-wall eyes-front" data-side="forward"></div><div class="eyes-wall eyes-right" data-side="right"></div>' +
+      '<div class="eyes-target" id="eyes-target" aria-hidden="true"></div><div class="eyes-nose" aria-hidden="true">▲</div>' +
+      '</div></aside>';
+  }
+
+  function wireRobotEyes() {
+    var toggle = document.getElementById("eyes-toggle");
+    if (toggle) toggle.onclick = function () {
+      S.eyesCompact = !S.eyesCompact;
+      R.eyes.classList.toggle("compact", S.eyesCompact);
+      toggle.setAttribute("aria-expanded", String(!S.eyesCompact));
+      if (SND) SND.pick();
+      layout();
+    };
+    preloadRobotViews();
+    updateRobotVisual();
+  }
+
+  // The Robot hero turns on the board by changing view, not by spinning: N (up the screen)
+  // is the back view, S the front view, E the side view, W the same side view mirrored.
+  // Other friends keep the old whole-sprite rotation. Only used in Robot Code mode.
+  var ROBOT_VIEW = { N: "up", E: "right", S: "down", W: "left" };
+  var robotViewTimer = null, robotPreloaded = [];
+  function robotViewsReady() {
+    return true;
+  }
+  function preloadRobotViews() {
+    if (robotPreloaded.length || typeof window.Image !== "function" || !robotViewsReady()) return;
+    ["up", "right", "down", "left"].forEach(function (view) {
+      var im = new window.Image(); im.src = TOY_SPRITE(S.toy,view); robotPreloaded.push(im);
+    });
+  }
+  function applyRobotView(heading) {
+    var hero = R && R.hero;
+    if (!hero || hero.getAttribute("data-placeholder")) return;
+    var view = ROBOT_VIEW[heading];
+    hero.style.rotate = "0deg";
+    hero.setAttribute("data-view", view);
+    hero.setAttribute("data-flip", "0");
+    hero.style.transform = "";
+    var src = TOY_SPRITE(S.toy,view);
+    if (hero.getAttribute("src") !== src) hero.setAttribute("src", src);
+  }
+  function showRobotView(heading, turnCommand) {
+    var hero = R.hero;
+    if (robotViewTimer) { clearTimeout(robotViewTimer); robotViewTimer = null; }
+    hero.classList.remove("view-turn");
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!turnCommand || reduce) { applyRobotView(heading); return; }
+    // Quarter turn: squash to a sliver, swap the view at the midpoint, expand back (230 ms).
+    void hero.offsetWidth;
+    hero.classList.add("view-turn");
+    robotViewTimer = setTimeout(function () {
+      robotViewTimer = null; applyRobotView(S.state ? S.state.heading : heading);
+    }, 115);
+    setTimeout(function () { if (hero) hero.classList.remove("view-turn"); }, 240);
+  }
+
+  function updateRobotVisual(turnCommand) {
+    if (S.mazeType !== "robot" || !R || !S.state) return;
+    R.hero.setAttribute("data-heading", S.state.heading);
+    R.headingArrow.setAttribute("data-heading", S.state.heading);
+    placeHeadingArrow(S.state.cell, S.state.heading);
+    showRobotView(S.state.heading, turnCommand);
+    var view = MR.relativeView(S.round.maze, S.state.cell, S.state.heading);
+    ["left", "forward", "right"].forEach(function (side) {
+      var wall = R.eyesScene.querySelector('[data-side="' + side + '"]');
+      wall.classList.toggle("open", view[side].open);
+    });
+    var target = document.getElementById("eyes-target"), seenCell = view.forward.open ? view.forward.cell : -1;
+    var checkpoint = S.trail && S.trail.labels[seenCell] === S.trail.progress + 1;
+    var flag = seenCell === S.round.goal && (!S.trail || S.trail.progress === S.trail.count);
+    target.className = "eyes-target" + (flag ? " flag" : checkpoint ? " checkpoint" : "");
+    target.textContent = flag ? "⚑" : checkpoint ? String(S.trail.progress + 1) : "";
+    R.eyesHeading.textContent = "Heading " + S.state.heading;
+    R.eyesHeading.hidden = S.robotMisses < 2 && S.rung > 2;
+    if (turnCommand) {
+      R.hero.classList.remove("turn-left", "turn-right");
+      R.eyesScene.classList.remove("turn-left", "turn-right");
+      void R.hero.offsetWidth;
+      R.hero.classList.add(turnCommand === "L" ? "turn-left" : "turn-right");
+      R.eyesScene.classList.add(turnCommand === "L" ? "turn-left" : "turn-right");
+    }
   }
 
   /* ---------- geometry and drawing --------------------------------------------------- */
@@ -446,6 +593,7 @@
     renderTrail();
     place(R.goal, S.round.goal, 0, 0);
     place(R.hero, S.state.cell, 0, 0, true);
+    updateRobotVisual();
     if (S.movement === "plan") renderPlan();
   }
 
@@ -464,6 +612,18 @@
     img.style.left = xy[0] + inset + (ox || 0) + "px";
     img.style.top = xy[1] + inset + (oy || 0) + "px";
     if (instant) { void img.offsetWidth; img.style.transition = ""; }
+  }
+
+  function placeHeadingArrow(cell, heading) {
+    if (!R.headingArrow) return;
+    var xy = cellXY(cell), cp = R.cellPx;
+    var size = Math.max(12, cp * .2);
+    var lead = cp * .38;
+    var vector = { N: [0,-1], E: [1,0], S: [0,1], W: [-1,0] }[heading];
+    R.headingArrow.style.width = size + "px";
+    R.headingArrow.style.height = size + "px";
+    R.headingArrow.style.left = xy[0] + cp * .5 + vector[0] * lead - size * .5 + "px";
+    R.headingArrow.style.top = xy[1] + cp * .5 + vector[1] * lead - size * .5 + "px";
   }
 
   function draw(dpr) {
@@ -580,6 +740,49 @@
     return true;
   }
 
+  function robotIntent(command) {
+    if (S.locked || !S.state) return false;
+    var next = MR.command(S.state, command);
+    if (next.blocked) {
+      S.state = next;
+      S.robotMisses++;
+      refused(next.blocked);
+      if (S.robotMisses >= 2) {
+        S.eyesCompact = false;
+        if (R.eyes) R.eyes.classList.remove("compact");
+        if (R.eyesHeading) R.eyesHeading.hidden = false;
+      }
+      if (S.robotMisses >= 3) showRobotHint();
+      updateRobotVisual();
+      return false;
+    }
+    var visit = null;
+    if (command === "F" && S.trail) {
+      visit = MC.checkpointVisit(S.trail, S.trail.progress, next.cell, next.cell === S.round.goal);
+      S.trail.progress = visit.progress;
+      next.reached = visit.complete;
+    }
+    S.state = next;
+    if (command === "F") {
+      if (SND) SND.step(next.steps);
+      place(R.hero, next.cell, 0, 0);
+      if (visit && visit.accepted) renderTrail();
+    } else if (SND && SND.turn) SND.turn(command);
+    updateRobotVisual(command === "F" ? null : command);
+    if (next.reached) finished();
+    return true;
+  }
+
+  function showRobotHint() {
+    Array.prototype.forEach.call(app.querySelectorAll(".robot-command.hint"), function (b) { b.classList.remove("hint"); });
+    var solved = MR.solve(S.round.maze, S.state.cell, S.round.goal, S.state.heading, {
+      trail: S.trail, progress: S.trail ? S.trail.progress : 0, maxCommands: 30,
+    });
+    var cmd = solved.nextCommands[0];
+    var button = app.querySelector('.robot-command[data-command="' + cmd + '"]');
+    if (button) button.classList.add("hint");
+  }
+
   function notYet(cell, flagEarly) {
     if (SND) SND.tryAgain();
     var xy = cellXY(cell), f = R.trailFeedback;
@@ -595,11 +798,13 @@
 
   function padIntent(dir) {
     if (S.movement === "plan") return addMove(dir);
+    if (S.mazeType === "robot") return robotIntent(dir);
     return intent(dir);
   }
 
   function chipCap() { return PLAN_CAP; }
-  function arrowGlyph(dir) { return { up: "↑", right: "→", down: "↓", left: "←" }[dir]; }
+  function arrowGlyph(dir) { return { up: "↑", right: "→", down: "↓", left: "←", F: "↑", L: "↶", R: "↷" }[dir]; }
+  function commandName(dir) { return { F: "forward", L: "turn left", R: "turn right" }[dir] || dir; }
 
   function wirePlan() {
     R.undo.onclick = function () { if (!S.running && S.plan.length) { S.plan.pop(); clearPlanFeedback(); renderPlan(); } };
@@ -648,7 +853,7 @@
       // both made the red chip inherit the bubble's 25px position and size.
       var hasQuestion = st.indexOf("ask") >= 0;
       return '<button class="move-chip' + st + '" data-index="' + i + '" aria-label="Remove ' + dir + ' move">' +
-        arrowGlyph(dir) + (hasQuestion ? '<span class="question">?</span>' : '') + '</button>';
+        arrowGlyph(dir) + '<span class="sr-only">' + commandName(dir) + '</span>' + (hasQuestion ? '<span class="question">?</span>' : '') + '</button>';
     }).join("");
     var slotCount = previewSlotCount();
     var slots = new Array(slotCount + 1).join('<span class="move-slot" aria-hidden="true"></span>');
@@ -677,7 +882,8 @@
   function later(fn, ms) { setTimeout(fn, window.__MAZE_FAST__ ? 0 : ms); }
 
   function startPlan() {
-    var result = MP.runPlan(S.round.maze, S.state, S.plan.slice(), S.trail ? {
+    var runner = S.mazeType === "robot" ? MR.runProgram : MP.runPlan;
+    var result = runner(S.round.maze, S.state, S.plan.slice(), S.trail ? {
       trail: S.trail,
       progress: S.trail.progress,
     } : null);
@@ -701,8 +907,15 @@
         }
         if (SND) SND.step(S.state.steps);
         place(R.hero, S.state.cell, 0, 0);
+        updateRobotVisual();
         statuses[i] = "used"; renderPlan(statuses);
         if (S.state.reached) return later(function () { finishPlan(result, statuses); }, 400);
+        later(function () { walk(i + 1); }, 400);
+      } else if (step.turned) {
+        S.state = step.after;
+        if (SND && SND.turn) SND.turn(step.command);
+        updateRobotVisual(step.command);
+        statuses[i] = "used turn-used"; renderPlan(statuses);
         later(function () { walk(i + 1); }, 400);
       } else {
         S.state = step.after;
@@ -739,11 +952,19 @@
     if (S.wallAttempts >= 2) {
       statuses[failed] = "failed ask";
       showTrail(result.steps.slice(0, failed));
+      if (S.mazeType === "robot") {
+        S.eyesCompact = false;
+        if (R.eyes) R.eyes.classList.remove("compact");
+        if (R.eyesHeading) R.eyesHeading.hidden = false;
+      }
     }
     if (S.wallAttempts >= 3) {
-      var d = directionToGoal(result.steps[failed].before.cell);
-      var hint = app.querySelector(".arrow-" + d);
-      if (hint) hint.classList.add("hint");
+      if (S.mazeType === "robot") showRobotHint();
+      else {
+        var d = directionToGoal(result.steps[failed].before.cell);
+        var hint = app.querySelector(".arrow-" + d);
+        if (hint) hint.classList.add("hint");
+      }
     }
     renderPlan(statuses);
     later(function () {
@@ -762,11 +983,13 @@
       S.state = S.chunkStart;
       if (S.trail && restoreProgress !== undefined) { S.trail.progress = restoreProgress; renderTrail(); }
       place(R.hero, S.state.cell, 0, 0);
+      updateRobotVisual();
       controlsRunning(false);
       return;
     }
     S.state = steps[i].before;
     place(R.hero, S.state.cell, 0, 0);
+    updateRobotVisual();
     later(function () { walkBack(steps, i + 1, restoreProgress); }, 180);
   }
 
@@ -828,7 +1051,7 @@
     var last = S.rung >= LADDER.length - 1;
     R.finish.innerHTML =
       '<div class="finish-card">' +
-      '<img class="finish-hero" data-ph="hero" src="' + SPRITE(S.hero) + '" alt=""/>' +
+      '<img class="finish-hero" data-ph="hero" src="' + (S.mazeType === "robot" ? TOY_SPRITE(S.toy,"down") : SPRITE(S.hero)) + '" alt=""/>' +
       '<p class="yay">You found the flag!</p>' +
       '<div class="finish-buttons">' +
       '<button class="big again" id="again"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5a7 7 0 1 1-6.6 4.7" fill="none" stroke-width="2.6" stroke-linecap="round"/><path d="M4 4v6h6" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>New maze</button>' +
@@ -852,7 +1075,7 @@
 
   function wirePad() {
     Array.prototype.forEach.call(app.querySelectorAll(".arrow"), function (b) {
-      var dir = b.getAttribute("data-dir"), hold = null, rep = null, viaPointer = false;
+      var dir = b.getAttribute("data-command") || b.getAttribute("data-dir"), hold = null, rep = null, viaPointer = false;
       function stop() { clearTimeout(hold); clearInterval(rep); hold = rep = null; b.classList.remove("down"); }
       b.addEventListener("pointerdown", function (e) {
         if (e.button !== undefined && e.button > 0) return;
@@ -871,6 +1094,7 @@
 
   function onKey(e) {
     var map = { ArrowUp: "up", ArrowRight: "right", ArrowDown: "down", ArrowLeft: "left" };
+    if (S.mazeType === "robot") map = { ArrowUp: "F", ArrowLeft: "L", ArrowRight: "R" };
     if (map[e.key] && app.className.indexOf("screen-play") === 0) { e.preventDefault(); padIntent(map[e.key]); }
   }
 
@@ -971,11 +1195,13 @@
     get state() { return S.state; }, get round() { return S.round; },
     get cellPx() { return R ? R.cellPx : 0; }, get rung() { return S.rung; },
     get movement() { return S.movement; }, get goal() { return S.goal; },
+    get mazeType() { return S.mazeType; }, get heading() { return S.state && S.state.heading; },
+    get robotMisses() { return S.robotMisses; }, get eyesCompact() { return S.eyesCompact; },
     get plan() { return S.plan.slice(); }, get wallAttempts() { return S.wallAttempts; },
     get trail() { return S.trail; },
     get running() { return S.running; }, get cap() { return chipCap(); },
     get planCap() { return PLAN_CAP; }, get previewSlots() { return previewSlotCount(); },
-    LADDER: LADDER, TRAIL_COUNTS: TRAIL_COUNTS, TRAIL_OFF_PATH: TRAIL_OFF_PATH, CAST: CAST,
+    LADDER: LADDER, ROBOT_LEVELS: ROBOT_LEVELS, TRAIL_COUNTS: TRAIL_COUNTS, TRAIL_OFF_PATH: TRAIL_OFF_PATH, CAST: CAST,
   };
 
   // Always open on the friend picker, with the last friend marked: a child coming back

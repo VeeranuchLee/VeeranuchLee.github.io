@@ -48,6 +48,12 @@
     // A soft wooden tick for each accepted step; pitch wanders a little so a long slide
     // does not sound like a metronome.
     step: function (n) { note("triangle", 620 + ((n || 0) % 4) * 40, 0, 0, 0.07, 0.10); },
+    // A two-part wooden swivel makes rotation-in-place audible as well as visible.
+    turn: function (dir) {
+      var left = dir === "L";
+      note("triangle", left ? 560 : 680, left ? 430 : 820, 0, 0.11, 0.08);
+      note("sine", left ? 430 : 820, 0, 0.08, 0.08, 0.05);
+    },
     // A gentle low "bonk" for a wall: felt, not scolded.
     bump: function () { note("sine", 190, 120, 0, 0.16, 0.16); },
     // A light two-note question for an out-of-order trail choice. It is deliberately
