@@ -135,37 +135,12 @@
 
   /* ── QUIET ROOM MAGIC ──
      One fixed, pointer-transparent pool lives in the room's percentage coordinate space, so it
-     follows the painting at every viewport. Three glints take turns at ACTIVE door edges only;
+     follows the painting at every viewport. Four glints take turns at ACTIVE door edges only;
      inactive scenery never enters activeSpots. There is no canvas or animation loop. */
   var sparkleLayer = document.createElement('span');
   sparkleLayer.className = 'sparkle-layer';
   sparkleLayer.setAttribute('aria-hidden', 'true');
   sparkleLayer.style.pointerEvents = 'none';
-
-  var ambient = [
-    [12.0, 28.0, 5.8, -4.1], [45.2, 18.5, 7.1, -1.7],
-    [61.5, 31.0, 6.4, -5.2], [63.0, 66.0, 8.3, -2.9]
-  ];
-  ambient.forEach(function (p, i) {
-    var t = document.createElement('i');
-    t.className = 'room-twinkle ambient-twinkle';
-    t.style.left = p[0] + '%'; t.style.top = p[1] + '%';
-    t.style.setProperty('--duration', p[2] + 's'); t.style.setProperty('--delay', p[3] + 's');
-    t.style.setProperty('--size', (i % 2 ? 20 : 17) + 'px');
-    sparkleLayer.appendChild(t);
-  });
-  var dust = [
-    [12.0, 43.0, 11.4, -6.1], [31.5, 71.5, 13.2, -2.8], [48.0, 38.0, 10.8, -8.5],
-    [68.5, 59.0, 14.1, -4.4], [87.0, 24.0, 12.5, -9.7]
-  ];
-  dust.forEach(function (p, i) {
-    var m = document.createElement('i');
-    m.className = 'light-dust';
-    m.style.left = p[0] + '%'; m.style.top = p[1] + '%';
-    m.style.setProperty('--duration', p[2] + 's'); m.style.setProperty('--delay', p[3] + 's');
-    m.style.setProperty('--drift', (i % 2 ? -8 : 7) + 'px');
-    sparkleLayer.appendChild(m);
-  });
 
   var glintIndex = 0;
   function placeGlint(g, offset) {
@@ -176,7 +151,7 @@
     var gy = edge === 2 ? s.y + s.h * .14 : edge === 3 ? s.y + s.h * .86 : s.y + s.h * .5;
     g.style.left = gx + '%'; g.style.top = gy + '%';
   }
-  for (var gi = 0; gi < 3; gi++) {
+  for (var gi = 0; gi < 4; gi++) {
     (function (offset) {
       var g = document.createElement('i');
       g.className = 'room-twinkle door-glint';
