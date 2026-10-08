@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Magic Spelling — Enchanted Workshop concept</title>
+  <style>
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;touch-action:manipulation}
+    body{font-family:Nunito,system-ui,sans-serif;color:#fff;background:linear-gradient(160deg,#4a2340,#3a1e33 55%,#2b1626)}
+    main{width:min(1180px,calc(100% - 28px));margin:auto;padding:34px 0 60px}
+    header{text-align:center;max-width:860px;margin:0 auto 30px}
+    h1{margin:0;color:#ffd54f;font-size:clamp(2rem,5vw,3.7rem);line-height:1.05}
+    .lede{font-size:clamp(1rem,2vw,1.25rem);line-height:1.6;color:#fff4dc}
+    .tag{display:inline-block;padding:7px 13px;border:1px solid #ffd54f;border-radius:999px;color:#ffd54f;font-weight:900;letter-spacing:.04em}
+    .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0}
+    .summary div,.decision{background:rgba(255,255,255,.08);border:1px solid rgba(255,213,79,.28);border-radius:18px;padding:16px;line-height:1.5}
+    figure{margin:28px 0 46px;background:#22111f;border:2px solid rgba(255,213,79,.5);border-radius:24px;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.32)}
+    figure img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;background:#2b1626}
+    figcaption{padding:16px 18px 20px;line-height:1.55}
+    figcaption strong{color:#ffd54f}
+    h2{color:#ffd54f;margin-top:40px}
+    ol{padding-left:1.4rem}.decision{margin:12px 0}.decision b{color:#ffd54f}
+    .links{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+    .links a{min-height:48px;display:inline-flex;align-items:center;padding:0 18px;border-radius:999px;background:#7c3aed;color:#fff;font-weight:900;text-decoration:none;box-shadow:0 4px 0 #5b21b6}
+    @media(max-width:720px){.summary{grid-template-columns:1fr}main{width:min(100% - 18px,1180px);padding-top:22px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="tag">PHASE 1 · CONCEPT FOR APPROVAL</span>
+    <h1>Enchanted Spelling Workshop</h1>
+    <p class="lede">Magic Spelling becomes a violet-and-gold room inside Our Word Book: children choose a recognisable learning station, continue from an orderly shelf, and spell at a warm illustrated writing desk. The existing 729 words, British spellings, narration, mechanics, rewards, saves and offline behaviour stay intact.</p>
+  </header>
+
+  <section class="summary" aria-label="Concept summary">
+    <div><strong>Recognisable grades</strong><br/>Alphabet Table · Word-Building Desk · Magical Spellbook</div>
+    <div><strong>Honest progress</strong><br/>Packs completed and stars earned, never a many-star total squeezed into three icons</div>
+    <div><strong>Purposeful motion</strong><br/>Only the chosen book, tapped robot, answer tile or earned reward moves</div>
+  </section>
+
+  <figure>
+    <img src="grade-selection-room.webp" width="1448" height="1086" alt="Concept art of a violet moonlit workshop with an alphabet block table, a writing desk and a magical spellbook on a lectern"/>
+    <figcaption><strong>PASS — Grade selection.</strong> No hands; A/B/C blocks are clear; all three stations are distinct at a glance. Labels and progress will be live HTML, not baked into the plate.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="pack-selection-26.webp" width="1448" height="1086" alt="Concept art of a magical bookcase holding exactly twenty-six pack books with different star progress states"/>
+    <figcaption><strong>PASS — Pack selection.</strong> Exactly 26 books in 7 + 7 + 6 + 6 rows; current, complete and untouched states are legible; no hands or baked text. Final UI recommendation: paged shelves with at most nine large packs and one prominent Continue button.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="gameplay-writing-desk.webp" width="1448" height="1086" alt="Concept art of the existing blue ABC robot beside five empty spelling slots and eight large lowercase letter tiles on a writing desk"/>
+    <figcaption><strong>PASS — Gameplay.</strong> No hands; robot identity is recognisable; slots are prominent; lowercase b, r, a, v, e, m, t and s are clear. The isolated sparkle demonstrates response feedback rather than ambient decoration.</figcaption>
+  </figure>
+
+  <h2>Recommended owner decisions</h2>
+  <ol>
+    <li class="decision"><b>Use paged shelves:</b> 9 packs per page for Grades 1–2 and four even 7-pack pages for Grade 3.</li>
+    <li class="decision"><b>Continue the useful practice:</b> first unplayed pack; once all are attempted, earliest lowest-star pack.</li>
+    <li class="decision"><b>Keep earned rewards recognisable:</b> translate flowers and bouquets into pressed flowers in a workshop drawer.</li>
+    <li class="decision"><b>Commission portrait compositions where interaction matters:</b> dedicated portrait art for grade selection and gameplay; crop-safe variants for shelves and completion.</li>
+    <li class="decision"><b>Show both names:</b> “Grade 1” plus “Alphabet Table”, so the object helps pre-readers and the grade helps school/parent orientation.</li>
+  </ol>
+
+  <nav class="links" aria-label="Concept documents">
+    <a href="CONCEPT.md">Read full concept</a>
+    <a href="ASSET-PLAN.md">Read asset plan</a>
+  </nav>
+</main>
+</body>
+</html>
