@@ -52,15 +52,41 @@
     return c;
   }
 
-  /* ── THE ROOM: one door per ACTIVE landmark ──
-     An inactive landmark (a future area: Computer, Toy Box, Shop / Business) has no door() and
-     draws NOTHING: no element, so no hover, no glow, no cursor, no focus stop, no aria role. */
+  /* ── THE ROOM: destination-driven active and inactive states ──
+     A landmark is active only when lib.door() can resolve somewhere real to go. Otherwise its
+     hand-masked pale layer is shown and its boxes answer with a non-navigating Coming soon wiggle.
+     The visual state and the interaction state therefore cannot disagree. */
   var landmarkById = {};
   var labelItems = [];
   R.landmarks.forEach(function (c) {
     var door = L.door(c);
-    if (!door) return;
     landmarkById[c.id] = c;
+    if (!door) {
+      var faded = document.createElement('img');
+      faded.className = 'inactive-layer';
+      faded.dataset.id = c.id;
+      faded.src = L.abs('./playroom/inactive-' + c.id + '-' + R.inactiveFadeStrength + '.webp');
+      faded.alt = '';
+      faded.setAttribute('aria-hidden', 'true');
+      faded.draggable = false;
+      scene.appendChild(faded);
+      c.boxes.forEach(function (bx, k) {
+        var inactive = document.createElement('button');
+        inactive.type = 'button';
+        inactive.className = 'spot inactive-spot' + (bx[4] === 'ellipse' ? ' ellipse' : '');
+        inactive.id = 'spot-' + c.id + (k ? '-' + (k + 1) : '');
+        inactive.dataset.id = c.id;
+        inactive.dataset.kind = 'inactive';
+        inactive.setAttribute('aria-label', c.name + ' — Coming soon');
+        if (k) { inactive.tabIndex = -1; inactive.setAttribute('aria-hidden', 'true'); }
+        inactive.style.left = bx[0] + '%'; inactive.style.top = bx[1] + '%';
+        inactive.style.width = bx[2] + '%'; inactive.style.height = bx[3] + '%';
+        labelItems.push({ el: inactive, text: c.name + ' — Coming soon',
+          anchor: { x0: bx[0], x1: bx[0] + bx[2], y0: bx[1], y1: bx[1] + bx[3] }, group: c.id });
+        scene.appendChild(inactive);
+      });
+      return;
+    }
     /* What the door says to a screen reader: the landmark, and what is behind it. */
     var label = c.name + ' — ' + (door.kind === 'app' ? door.app.name + ': ' + door.app.desc
               : (door.kind === 'page' || door.kind === 'picker') ? door.apps.map(function (a) { return a.name; }).join(', ')
@@ -193,6 +219,7 @@
   function clear() {
     going = false;
     Array.prototype.forEach.call(scene.querySelectorAll('.spot.on'), function (s) { s.classList.remove('on'); });
+    Array.prototype.forEach.call(scene.querySelectorAll('.inactive-layer.on'), function (s) { s.classList.remove('on'); });
   }
   scene.addEventListener('pointerdown', function (e) {
     var s = e.target.closest && e.target.closest('.spot');
@@ -206,6 +233,13 @@
     var s = e.target.closest && e.target.closest('.spot');
     if (!s) return;
     var kind = s.dataset.kind;
+    if (kind === 'inactive') {
+      e.preventDefault();
+      var pale = scene.querySelector('.inactive-layer[data-id="' + s.dataset.id + '"]');
+      if (pale) { pale.classList.remove('on'); void pale.offsetWidth; pale.classList.add('on'); }
+      setTimeout(function () { if (pale) pale.classList.remove('on'); s.classList.remove('on'); }, reduced ? 180 : 520);
+      return;
+    }
     var opens = kind === 'cards' || kind === 'picker';
     if (!opens && (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey)) return;
     if (e.detail === 0) {                 /* keyboard Enter / Space: at once */

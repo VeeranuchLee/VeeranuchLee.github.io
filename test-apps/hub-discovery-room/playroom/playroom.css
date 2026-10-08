@@ -56,6 +56,18 @@ body{
   position:absolute;inset:0;width:100%;height:100%;display:block;
   pointer-events:none;
 }
+.inactive-layer{
+  position:absolute;inset:0;width:100%;height:100%;display:block;
+  object-fit:fill;pointer-events:none;z-index:1;
+  transform-origin:center;
+}
+.inactive-layer.on{animation:comingSoonWiggle .48s ease-in-out}
+@keyframes comingSoonWiggle{
+  0%,100%{transform:rotate(0deg) scale(1)}
+  22%{transform:rotate(-.35deg) scale(1.004)}
+  48%{transform:rotate(.35deg) scale(1.004)}
+  72%{transform:rotate(-.18deg) scale(1.002)}
+}
 
 /* ── THE DOORS ──
    A transparent link over each object. At rest it is invisible: no permanent labels, no dots.
@@ -70,6 +82,9 @@ body{
   cursor:pointer;
   text-decoration:none;
 }
+.inactive-spot{z-index:2;cursor:default}
+.inactive-spot::before{display:none}
+.inactive-spot:focus-visible{box-shadow:0 0 0 4px #fff,0 0 0 8px #8a7d96}
 .spot.ellipse{border-radius:50%}
 /* A door that opens the picker is a <button>; strip the browser's button look so it is the
    same invisible box as a link. */

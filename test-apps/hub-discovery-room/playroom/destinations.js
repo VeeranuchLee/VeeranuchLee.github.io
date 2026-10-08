@@ -41,14 +41,19 @@
  * the real apps. Category pages and ./playroom/ files always resolve beside the page itself.
  */
 window.PLAYROOM = {
-  base: "",
+  base: "https://veeranuchlee.github.io/children-apps/",
   /* The owner's Discovery Room, supplied 2026-10-07 (ChatGPT image; original kept outside the repo at
      ~/.local/state/children-games/owner-inputs/discovery-room-2026-10-07.png). It paints no title, label or hotspot. */
   image: "./playroom/discovery-room.webp",
   width: 1448,
   height: 1086,
+  /* One switch for the inactive treatment. Runtime filenames are derived from the landmark id:
+     inactive-<id>-<strength>.webp. A landmark gets this layer only when lib.door() finds no real
+     destination, so changing it to active:true AND giving it somewhere to go restores the
+     untouched full-colour master automatically. */
+  inactiveFadeStrength: "moderate",
   /* The hub bed — the same file and the same remembered preference as index.html. */
-  music: "./audio/hub-bed.m4a",
+  music: "https://veeranuchlee.github.io/children-apps/audio/hub-bed.m4a",
 
   landmarks: [
     { id: "math", name: "Math", tagline: "Numbers, shapes and sums", active: true,
@@ -95,7 +100,7 @@ window.PLAYROOM = {
      rather than turning a mostly-empty bounding box into a tap target. */
   categoryRooms: {
     books: {
-      image: "./books-room/scene.webp",
+      image: "./playroom/books-room/scene.webp",
       objects: [
         { app: "animal-book",
           points: [[7.0,80.0],[11.5,58.0],[18.0,42.0],[26.0,32.0],[38.5,33.0],[49.5,48.0],[49.8,85.5],[42.0,83.0],[31.0,78.0],[17.0,83.0]] },
@@ -104,7 +109,7 @@ window.PLAYROOM = {
       ]
     },
     homework: {
-      image: "./homework-room/scene.webp",
+      image: "./playroom/homework-room/scene.webp",
       objects: [
         { app: "october-homework",
           points: [[3.0,44.0],[8.5,40.0],[20.5,41.0],[23.5,48.5],[22.0,70.0],[18.0,73.0],[5.0,70.0],[2.5,63.0]] },
@@ -122,7 +127,7 @@ window.PLAYROOM = {
          on the floor beside the instrument, never over it).
          FUTURE objects carry `active: false`: geometry only, no href. category.js draws nothing for them
          (no link, cursor, focus, glow or label), so switching one on later is data only. */
-      image: "./music-room/scene.webp",
+      image: "./playroom/music-room/scene.webp",
       width: 1448, height: 1086, fit: true,
       objects: [
         { id: "classical-music", name: "Classical Music", desc: "Listen and guess",
@@ -148,7 +153,7 @@ window.PLAYROOM = {
       ]
     },
     puzzles: {
-      image: "./puzzles-room/scene.webp",
+      image: "./playroom/puzzles-room/scene.webp",
       objects: [
         { app: "shadow-matching",
           points: [[65.5,28.7],[82.3,28.8],[85.0,31.5],[84.8,56.5],[82.5,60.5],[64.0,59.0],[61.7,56.0]] },
@@ -158,7 +163,7 @@ window.PLAYROOM = {
       unmatched: ["jigsaw tray", "shape sorter", "dinosaur card", "teddy", "shelves"]
     },
     "science-world": {
-      image: "./science-world-room/scene.webp",
+      image: "./playroom/science-world-room/scene.webp",
       objects: [
         { app: "flags",
           points: [[23.0,34.5],[29.0,35.5],[34.0,40.5],[37.0,48.0],[38.0,57.0],[37.0,65.0],[34.0,71.5],[29.5,75.5],[23.5,76.0],[19.0,72.5],[16.5,71.0],[13.5,73.5],[5.0,73.5],[2.0,70.0],[2.0,59.0],[5.0,56.5],[7.0,60.0],[9.0,56.0],[11.0,60.5],[13.0,56.5],[15.5,61.0],[15.0,51.0],[14.0,45.0],[15.5,39.5],[19.0,36.0]] },
@@ -175,13 +180,13 @@ window.PLAYROOM = {
     { id: "word-book", landmark: "words", name: "Our Word Book", desc: "Read, spell, write and discover words",
       href: "../word-book/", tile: "./assets/our-word-book.webp", tone: ["#c2557d", "#93325a", "#ffe9f1"] },
     { id: "music", landmark: "music", name: "Music", desc: "Play, listen & explore",
-      href: "./music.html", tile: "./assets/music.webp", tone: ["#17a2b8", "#0d7c8e", "#e2f7fa"] },
+      href: "https://veeranuchlee.github.io/test-apps/hub-discovery-room/music.html", tile: "./assets/music.webp", tone: ["#17a2b8", "#0d7c8e", "#e2f7fa"] },
     { id: "petal-kingdom", landmark: "arcade", name: "Petal Kingdom", desc: "Pop the flowers and save the garden",
       href: "../flower-shooter/", tile: "./assets/petal-kingdom.webp", cutout: true, tone: ["#f0699b", "#c04574", "#ffecf3"] },
     { id: "little-color-garden", landmark: "art", name: "Little Color Garden", desc: "Colour in the pictures",
       href: "../little-color-garden/", tile: "./assets/little-color-garden.png", tone: ["#34a853", "#217a3a", "#e6f7ea"] },
     { id: "space", landmark: "space", name: "Space", desc: "A story about the planets, and a game about where they go",
-      href: "../space/", tile: "./assets/space.png", tone: ["#26306e", "#151c46", "#e6eaff"] },
+      href: "https://veeranuchlee.github.io/test-apps/space-hub/", tile: "./assets/space.png", tone: ["#26306e", "#151c46", "#e6eaff"] },
     { id: "animal-book", landmark: "nature", name: "Our Animal Book", desc: "Tap an animal to hear its name",
       href: "../animal-book/", tile: "./assets/animal-book.webp", tone: ["#d97a16", "#a55606", "#fff1de"] },
     /* Live at /reading/ (Reading Tree) but not on the card hub; it joins the book corner. */
@@ -197,7 +202,7 @@ window.PLAYROOM = {
       desc: "Explore every element, then play Find It, Symbol Match and Atomic Number",
       href: "../periodic-table/", tile: "./assets/periodic-table.webp", tone: ["#6a3fa0", "#4a2b73", "#f1e8fa"] },
     { id: "homework", name: "การบ้านปิดเทอม", desc: "Holiday homework: October maths + Read & Write",
-      href: "./homework.html", tile: "./assets/october-homework.webp", tone: ["#d9a514", "#a67c06", "#fff6d8"] },
+      href: "https://veeranuchlee.github.io/test-apps/hub-discovery-room/homework.html", tile: "./assets/october-homework.webp", tone: ["#d9a514", "#a67c06", "#fff6d8"] },
     { id: "nail-salon", landmark: "art", name: "Nail Salon", desc: "Paint, decorate and sparkle your own nails",
       href: "../nail-salon/", tile: "./assets/nail-salon.webp", tone: ["#c8558a", "#9a3a63", "#fce8f1"] },
     /* Room-only entries (cards: false): the two items inside the homework hub, each at the
@@ -220,7 +225,7 @@ window.PLAYROOM.lib = (function (R) {
   function appsAt(id) { return R.apps.filter(function (a) { return a.landmark === id; }); }
   /* The Cards view: every app except the room-only entries. */
   function cards() { return R.apps.filter(function (a) { return a.cards !== false; }); }
-  /* Where a landmark's door goes. null = no door at all (an inactive landmark is not drawn). */
+  /* Where a landmark's door goes. null = no destination: it receives the inactive treatment. */
   function door(l) {
     if (!l.active) return null;
     if (l.view === 'cards') return { kind: 'cards', href: '#cards' };
