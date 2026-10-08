@@ -7,8 +7,57 @@
   var availableAudioSlugs = new Set();
   var exploreData = null;
   var currentMix = null;
-  var resetArmed = false;
-  var resetTimer = null;
+  var BOWL_COLORS = ["cream", "wood", "sky", "pink", "purple"];
+
+  function bowlStorageKey() {
+    return location.pathname.indexOf("/test-apps/") >= 0
+      ? "color-lab:test:bowl-colour:v1"
+      : "color-lab:bowl-colour:v1";
+  }
+
+  function readBowlColor() {
+    try {
+      var saved = localStorage.getItem(bowlStorageKey());
+      return BOWL_COLORS.indexOf(saved) >= 0 ? saved : "cream";
+    } catch (error) {
+      return "cream";
+    }
+  }
+
+  function saveBowlColor(color) {
+    try { localStorage.setItem(bowlStorageKey(), color); } catch (error) { /* optional preference */ }
+  }
+
+  function playPickerTap() {
+    var AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return;
+    try {
+      var context = playPickerTap.context || (playPickerTap.context = new AudioContext());
+      var oscillator = context.createOscillator();
+      var gain = context.createGain();
+      var now = context.currentTime;
+      oscillator.type = "sine";
+      oscillator.frequency.setValueAtTime(520, now);
+      oscillator.frequency.exponentialRampToValueAtTime(660, now + 0.055);
+      gain.gain.setValueAtTime(0.035, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.075);
+      oscillator.connect(gain).connect(context.destination);
+      oscillator.start(now);
+      oscillator.stop(now + 0.08);
+    } catch (error) { /* visual selected state is still immediate */ }
+  }
+
+  function setBowlColor(color, remember, withSound) {
+    var chosen = BOWL_COLORS.indexOf(color) >= 0 ? color : "cream";
+    byId("mix-bowl").dataset.bowlColor = chosen;
+    document.querySelectorAll("[data-bowl-color]").forEach(function (button) {
+      var selected = button.dataset.bowlColor === chosen;
+      button.classList.toggle("is-selected", selected);
+      button.setAttribute("aria-pressed", selected ? "true" : "false");
+    });
+    if (remember) saveBowlColor(chosen);
+    if (withSound) playPickerTap();
+  }
 
   // One player for every spoken name (2026-10-06, owner: "let's add voice to color lab"), so a
   // new tap stops the name before it instead of talking over it. A missing clip stays silent.
@@ -26,7 +75,7 @@
 
   function loadVocabulary() {
     return Promise.all([
-      fetch("./shared-data/colour-vocabulary/iscc-nbs-v1.json").then(function (response) {
+      fetch("./data/iscc-nbs-v1.json").then(function (response) {
         if (!response.ok) throw new Error("Vocabulary did not load");
         return response.json();
       }),
@@ -201,16 +250,7 @@
 
   function addDrop(name) {
     drops[name] += 1;
-    resetArmed = false;
-    setResetState(false);
     render();
-  }
-
-  function setResetState(armed) {
-    var button = byId("reset-button");
-    button.textContent = armed ? "Tap again" : "Start again";
-    button.classList.toggle("is-armed", armed);
-    button.setAttribute("aria-pressed", armed ? "true" : "false");
   }
 
   function animateDrop(source, name) {
@@ -266,22 +306,10 @@
     if (nearest) sayClip(nearest.color.slug);
   }
 
+  // One tap empties the bowl and returns the name chip to its prompt (2026-10-07).
+  // render() rebuilds the bowl ("Add some paint!", empty paint) from the zeroed drops.
   function reset() {
-    var button = byId("reset-button");
-    if (!resetArmed) {
-      resetArmed = true;
-      setResetState(true);
-      window.clearTimeout(resetTimer);
-      resetTimer = window.setTimeout(function () {
-        resetArmed = false;
-        setResetState(false);
-      }, 2200);
-      return;
-    }
-    window.clearTimeout(resetTimer);
-    drops = { red: 0, yellow: 0, blue: 0 };
-    resetArmed = false;
-    setResetState(false);
+    drops = ColorLabReset.emptyDrops();
     render();
   }
 
@@ -293,10 +321,16 @@
   });
   byId("mix-bowl").addEventListener("click", revealName);
   byId("reset-button").addEventListener("click", reset);
+  document.querySelectorAll("[data-bowl-color]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      setBowlColor(button.dataset.bowlColor, true, true);
+    });
+  });
   document.querySelectorAll("[data-mode]").forEach(function (button) {
     button.addEventListener("click", function () { setMode(button.dataset.mode); });
   });
   byId("family-back").addEventListener("click", showFamilies);
+  setBowlColor(readBowlColor(), false, false);
   loadVocabulary();
   render();
 })();
