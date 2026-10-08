@@ -31,7 +31,7 @@
   }
 
   const VOICES = ["piano", "epiano", "organ", "synth", "strings", "brass", "bass", "bells"];
-  const PADS = ["kick", "snare", "hat", "clap", "tom", "bell", "kick", "snare"];
+  const PADS = ["kick", "snare", "hat", "clap", "tom", "bell", "tick", "tock"];  // eight different sounds (owner 2026-10-07: no second "Kick")
   const RHYTHM_DRUMS = ["kick", "snare", "hat", "clap", "tom", "bell"];
 
   /* Sixteenth-note grids. A rhythm a child starts is part of the song, so

@@ -79,9 +79,18 @@
  *               picks the voice). guidance.js joins the shell for the same
  *               reason effects.js did: index.html loads it, so a cold offline
  *               install without it would open on a toy that throws.
+ *   v12 2026-09-26  Zoom fix C (method C, owner-approved 2026-09-25): the shared
+ *               ./tap-zoom-guard.js stops the second quick tap's zoom and
+ *               re-delivers the tap, while a multi-finger pinch is never touched.
+ *               The keybeds and drum pads move from `touch-action: none` to
+ *               `pinch-zoom` in the same change, so a pinch always reaches Safari
+ *               -- a keybed fills the screen, and `none` there meant a child who
+ *               had double-tap zoomed could not pinch back out. The guard joins the
+ *               shell for the same reason effects.js did: index.html loads it, so a
+ *               cold offline install without it has no zoom fix at all.
 */
 
-const CACHE_NAME = "toy-keyboard-v11";
+const CACHE_NAME = "toy-keyboard-v12";
 
 const SHELL = [
   "./",
@@ -90,6 +99,7 @@ const SHELL = [
   "./styles.css",
   "./toys.css",
   "./fonts.css",
+  "./tap-zoom-guard.js",
   "./app.js",
   "./voices.js",
   "./engine.js",

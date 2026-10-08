@@ -64,6 +64,13 @@
 
 </div>
 
+<!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+     First, because it is a document-level listener and must be in place before the toy
+     starts handling taps. It stops the ZOOM of a second quick tap and re-delivers that
+     tap; a multi-finger pinch is never touched, so a child who is zoomed in over a
+     full-screen keybed can always pinch back out. That case is the reason the keybeds
+     moved from `touch-action: none` to `pinch-zoom` in the same change. -->
+<script src="./tap-zoom-guard.js"></script>
 <script src="./voices.js"></script>
 <script src="./engine.js"></script>
 <script src="./recorder.js"></script>

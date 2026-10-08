@@ -335,7 +335,12 @@ body {
   border: 1px solid #080a0f;
   box-shadow: 0 3px 10px rgba(0,0,0,.6) inset;
   padding: clamp(4px, 0.8vmin, 9px);
-  touch-action: none;   /* every finger on the keys is a note, not a scroll */
+  /* pinch-zoom, not `none` (2026-09-26, method C): one-finger drags stay the toy's --
+     `pinch-zoom` still suppresses panning, which is what stopped the page scrolling
+     under a finger -- but a two-finger pinch now reaches Safari. The keybed fills the
+     screen, so `none` here meant a child who had double-tap zoomed could not pinch back
+     out. Whatever gets a child in must get them out (INTERACTION-DIRECTION.md). */
+  touch-action: pinch-zoom;
   min-height: 0;
 }
 
@@ -412,12 +417,17 @@ body {
  *                          half, and it was missing from every app but one.
  * touch-action: manipulation  removes double-tap-to-zoom WITHOUT killing scroll.
  *                          Deliberately not `none`: that would stop scrolling.
- *                          Drawing surfaces set their own `touch-action: none`
- *                          and keep it -- a more specific rule still wins.
+ *                          Drag surfaces set their own `touch-action: pinch-zoom`
+ *                          and keep it -- a more specific rule still wins, and
+ *                          pinch-zoom still lets a two-finger pinch through.
  *
- * Pinch needs JavaScript, not CSS: iOS Safari has ignored user-scalable=no since
- * iOS 10, so the viewport meta does nothing. See the gesturestart guard in the
- * HTML.
+ * manipulation is not the whole answer on its own. iPadOS Safari still
+ * double-tap zooms with `manipulation` on html and body (owner, 2026-09-25: "kids
+ * sometimes double tap, and on ipad it's zoom in, then they cant zoom out"). The
+ * second half of the fix is ./tap-zoom-guard.js, loaded first in index.html. It is
+ * NOT a gesturestart handler and must never become one: a document-level pinch
+ * blocker is the banned pattern in INTERACTION-DIRECTION.md, diagnosed in
+ * dollhouse-app on 2026-09-07 and re-entered across 17 apps on 2026-09-18.
  */
 html { -webkit-text-size-adjust: 100%; touch-action: manipulation; }
 

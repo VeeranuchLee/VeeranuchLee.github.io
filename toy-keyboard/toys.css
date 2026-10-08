@@ -7,7 +7,10 @@
  * THE PART THAT IS NOT DECORATION. keybed.js positions every key with inline
  * `left/top/width/height` in pixels, so a keybed that is not `position:
  * relative` puts its keys in the wrong place, and a keybed without
- * `touch-action: none` scrolls the page under a finger instead of playing.
+ * `touch-action: pinch-zoom` scrolls the page under a finger instead of playing.
+ * (It was `none` until 2026-09-26, method C: pinch-zoom suppresses panning just as
+ * well but lets a two-finger pinch through, so a child zoomed in over a full-screen
+ * keybed can get back out. INTERACTION-DIRECTION.md.)
  * styles.css only ever said that about `#keybed`, an ID only the Classic
  * console mounts. Rainbow, First Piano, Princess and Studio all mount
  * `.keybed`, so until this file existed three of the five toys did not
@@ -337,9 +340,11 @@
 /* ======================================================= every keybed === */
 
 /* The three lines the toys cannot work without. `position: relative` is what
-   makes keybed.js's pixel geometry mean anything; `touch-action: none` is what
-   makes a finger dragged across the keys a glissando instead of a page
-   scroll; and padding must be ZERO because keybed.js measures the border box
+   makes keybed.js's pixel geometry mean anything; `touch-action: pinch-zoom` is
+   what makes a finger dragged across the keys a glissando instead of a page
+   scroll (it suppresses panning exactly as `none` did, and additionally lets a
+   two-finger pinch through -- see the note at the top of this file);
+   and padding must be ZERO because keybed.js measures the border box
    and then insets by its own `pad`. Any CSS padding here is added a second
    time to every key's drawn position while the hit test knows nothing about
    it — which is exactly why the Classic bed's keys sat ~6px right of the
@@ -360,7 +365,10 @@
   position: relative;
   padding: 0;
   border: 0;
-  touch-action: none;
+  /* pinch-zoom, not `none` (2026-09-26, method C) -- see styles.css #keybed. Panning is
+     still suppressed, so the page does not scroll under a finger; a two-finger pinch now
+     reaches Safari, so a child zoomed in over a full-screen keybed can zoom back out. */
+  touch-action: pinch-zoom;
   -webkit-tap-highlight-color: transparent;
 }
 #keybed { box-shadow: 0 3px 10px rgba(0,0,0,.6) inset, 0 0 0 1px #080a0f inset; }
@@ -715,7 +723,9 @@
   justify-content: center;
   gap: 4px;
   box-shadow: 0 5px 0 #e2b9c6;
-  touch-action: none;
+  /* pinch-zoom, not `none` (2026-09-26, method C): the drum pads still do not scroll
+     the page, but a pinch on them reaches Safari. See styles.css #keybed. */
+  touch-action: pinch-zoom;
 }
 .toy-preschool .padband .pad .ico { font-size: 34px; line-height: 1; }
 .toy-preschool .padband .pad:active { transform: translateY(3px); box-shadow: 0 2px 0 #e2b9c6; }
@@ -1308,7 +1318,8 @@ body[data-toy="princess"] .vanity::after {
   letter-spacing: 0.04em;
   cursor: pointer;
   box-shadow: 0 3px 0 rgba(0,0,0,.45), 0 1px 0 rgba(255,255,255,.07) inset;
-  touch-action: none;
+  /* pinch-zoom, not `none` (2026-09-26, method C) -- see styles.css #keybed. */
+  touch-action: pinch-zoom;
 }
 .bank.pads .pad.lit {
   background: linear-gradient(180deg, #7de1ff, #35a9d0);
