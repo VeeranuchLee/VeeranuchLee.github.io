@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#14161d">
+  <meta name="description" content="Five toy guitars to pick, strum, drum and record. Every string and fret plays.">
+  <title>Toy Guitar</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./fonts.css">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="icon" href="./assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
+</head>
+<body data-toy="first">
+  <div id="app" class="app">
+    <!-- The chrome: the only thing that does not change when the guitar
+         changes. Back, the five-guitar ribbon, and two parent buttons. Same
+         place, same size, whichever toy is on screen (Toy Keyboard's shell). -->
+    <header id="topbar">
+      <a id="hub" class="hub-btn" href="https://veeranuchlee.github.io/children-apps/music.html" aria-label="Back to Music">←</a>
+      <!-- Five physical guitars, always on screen: one tap changes toy. No picker, no menu. -->
+      <nav id="ribbon" role="tablist" aria-label="Choose a guitar"></nav>
+      <div class="parent">
+        <button type="button" id="effects-toggle" aria-pressed="true"><span class="effects-word">Effects</span> <strong>ON</strong></button>
+        <button type="button" class="mute" id="muteBtn" aria-label="Mute: stop all strings and drums"><span aria-hidden="true">✋</span> <span class="mute-word">Mute</span></button>
+      </div>
+    </header>
+    <!-- The toy. The guitar fills it; the toy's own controls and its four
+         drum pads sit in the case compartments beside the neck. -->
+    <main id="stage">
+      <div id="toy" class="toy">
+        <div id="play" class="play-surface" aria-label="Guitar"></div>
+        <div id="railA" class="rail rail-a" role="group"></div>
+        <div id="railB" class="rail rail-b" role="group"></div>
+        <div id="sparkles" class="sparkles" aria-hidden="true"></div>
+      </div>
+    </main>
+  </div>
+  <script src="./tap-zoom-guard.js"></script>
+  <script type="module" src="./app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('./service-worker.js').catch(function () {});
+      });
+    }
+  </script>
+</body>
+</html>
