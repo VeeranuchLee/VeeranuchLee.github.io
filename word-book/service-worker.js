@@ -70,15 +70,36 @@
    tap-zoom-guard.js joins SHELL because index.html and
    dictionary.html now load it (INTERACTION-DIRECTION.md method C). A worker bump only;
    this arms a release candidate but does not publish it -- production publish still needs
-   the owner's separate, SHA-bound approval. */
-const CACHE_NAME='word-book-v9';
+   the owner's separate, SHA-bound approval.
+   v9 -> v10, 2026-10-08: letters A-N (owner, verbatim: "word book -> approved the new
+   changes, so pls publish until N"; "Everything on Test Hub"). I-N enabled in
+   data/letters.json; Word Groups, the night room label bubbles and the Grammar Game ship
+   (data/features.json grammar true; the game's html/css/js/questions/rendered.json join
+   SHELL, its pictures and clips are cached on first use). L and N voice picks, the 8 Oct
+   card redraws. A worker bump only; this arms a release candidate but does not publish it
+   -- production publish still needs the owner's separate, SHA-bound approval. */
+const CACHE_NAME='word-book-v10';
 const SHELL=['./','./index.html','./dictionary.html','./fonts.css',
   './fonts/Nunito-latin.woff2','./fonts/Nunito-latin-ext.woff2','./fonts/FredokaOne-latin.woff2',
   './manifest.webmanifest','./data/dictionary.json','./data/letters.json','./data/features.json','./word-audio.js',
-  './sentence-audio.js','./audio/sentences/rendered.json','./tap-zoom-guard.js',
+  './sentence-audio.js','./audio/sentences/rendered.json','./tap-zoom-guard.js','./grammar-game.html','./grammar-game.css','./grammar-game.js','./data/grammar-questions.json','./audio/grammar/rendered.json','./room-label.css','./room-label.js',
   './assets/icons/dictionary.webp','./assets/icons/spelling.webp',
   './assets/icons/writing-book.webp','./assets/icons/spelling-exam.webp',
-  './assets/icons/bookshelf.webp','./assets/backdrop.webp'];
+  './assets/icons/bookshelf.webp','./assets/backdrop.webp','./assets/room-plate.webp',
+  './assets/word-groups/actions.webp','./assets/word-groups/feelings-emotions.webp',
+  './assets/word-groups/colours.webp','./assets/word-groups/shapes-sizes.webp',
+  './assets/word-groups/describing-words.webp','./assets/word-groups/numbers-amounts.webp',
+  './assets/word-groups/time.webp','./assets/word-groups/position-direction.webp',
+  './assets/word-groups/people-family.webp','./assets/word-groups/body-senses.webp',
+  './assets/word-groups/health-care.webp','./assets/word-groups/food-drink.webp',
+  './assets/word-groups/clothes.webp','./assets/word-groups/home.webp',
+  './assets/word-groups/school-learning.webp','./assets/word-groups/places.webp',
+  './assets/word-groups/jobs-helpers.webp','./assets/word-groups/toys-games.webp',
+  './assets/word-groups/sports-movement.webp','./assets/word-groups/music-art.webp',
+  './assets/word-groups/technology-tools.webp','./assets/word-groups/transport.webp',
+  './assets/word-groups/animals.webp','./assets/word-groups/nature-plants.webp',
+  './assets/word-groups/weather.webp','./assets/word-groups/space.webp',
+  './assets/word-groups/materials-textures.webp'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(SHELL))));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith('word-book-v')&&k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 /* THE SPOKEN WORDS (audio/words/*.m4a, 2,020 clips, 26 MB) -- cached on first play,

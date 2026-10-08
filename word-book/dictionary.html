@@ -47,7 +47,7 @@
     }
     .back{
       display:inline-flex;align-items:center;gap:8px;
-      min-height:56px;padding:0 18px 0 14px;border-radius:50px;
+      min-height:64px;padding:0 18px 0 14px;border-radius:50px;
       background:linear-gradient(135deg,#fff,#ffe9f1);
       border:2.5px solid #e59bbb;box-shadow:0 4px 0 #e59bbb;
       color:#a8386a;text-decoration:none;
@@ -64,7 +64,7 @@
       flex:1 1 220px;min-width:200px;
       display:flex;align-items:center;gap:8px;
       background:#fff;border:3px solid #f0dcea;border-radius:50px;
-      padding:0 14px;min-height:56px;
+      padding:0 14px;min-height:64px;
     }
     .find:focus-within{border-color:#e59bbb}
     .find svg{width:22px;height:22px;flex:none;color:#c98aa8}
@@ -75,14 +75,28 @@
     .find input::placeholder{color:#c9a8bb}
     .clear{
       border:0;background:#f6e6ef;color:#a8386a;border-radius:50%;
-      width:34px;height:34px;flex:none;font:inherit;font-weight:900;font-size:1.1rem;
+      width:44px;height:44px;flex:none;font:inherit;font-weight:900;font-size:1.1rem;
       cursor:pointer;line-height:1;
     }
     .clear[hidden]{display:none!important}
 
+    .mode-switch{
+      display:flex;justify-content:center;gap:8px;padding:10px 14px 0;background:#fdf6ff;
+    }
+    .mode-switch button{
+      min-width:150px;min-height:64px;padding:8px 20px;border-radius:20px;
+      border:3px solid #e8cddd;background:#fff;color:#8a5c76;
+      font:900 1rem 'Nunito',sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;
+    }
+    .mode-switch button[aria-pressed="true"]{
+      background:linear-gradient(160deg,#d4739a,#a8386a);color:#fff;border-color:#a8386a;
+    }
+    .mode-switch button:focus-visible,.collection-card:focus-visible,
+    .collection-link:focus-visible,.all-groups:focus-visible{outline:4px solid #ffd54f;outline-offset:3px}
+
     /* ── A to Z ──
        The whole alphabet, always visible, because a child who can find "S" does not need
-       to be taught a menu. 52px tall so it clears a finger on the 9.7" iPad this is built
+       to be taught a menu. 64px tall so it clears a finger on the 9.7" iPad this is built
        for, and it scrolls sideways rather than wrapping into a block that pushes the words
        off the screen. Not sticky itself -- .topbar above carries it. */
     .az{
@@ -93,7 +107,7 @@
     }
     .az::-webkit-scrollbar{display:none}
     .az button{
-      flex:none;min-width:52px;height:52px;border-radius:16px;
+      flex:none;min-width:64px;height:64px;border-radius:18px;
       border:2.5px solid #f0dcea;background:#fff;
       font-family:inherit;font-weight:900;font-size:1.1rem;text-transform:uppercase;
       color:#8a5c76;cursor:pointer;-webkit-tap-highlight-color:transparent;
@@ -102,11 +116,56 @@
       background:linear-gradient(160deg,#d4739a,#a8386a);color:#fff;border-color:#a8386a;
     }
     .az button:focus-visible{outline:4px solid #ffd54f;outline-offset:2px}
+    .az[hidden]{display:none}
 
     main{padding:16px 14px 40px;max-width:1100px;margin:0 auto}
 
     /* Three cards across at 768px, which is the target device in portrait. */
     .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+    .grid.collections{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+
+    .collection-card{
+      min-height:154px;padding:18px;border:3px solid #ead5e2;border-radius:24px;
+      background:linear-gradient(145deg,#fff,#fff5fa);color:#3a1e33;text-align:left;
+      display:grid;grid-template-columns:68px 1fr;align-items:center;gap:14px;
+      font:inherit;cursor:pointer;box-shadow:0 5px 0 #ead5e2;
+      -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+    }
+    .collection-card:active{transform:translateY(3px);box-shadow:0 2px 0 #ead5e2}
+    .collection-icon{font-size:3rem;line-height:1;text-align:center}
+    .collection-icon img{display:block;width:100%;height:100%;object-fit:contain}
+    .collection-card .collection-icon{width:68px;height:68px}
+    .collection-name{display:block;font-family:'Fredoka One',Nunito,sans-serif;font-size:1.35rem;line-height:1.15}
+    .collection-description{display:block;margin-top:6px;color:#6b5260;font-weight:800;line-height:1.3}
+    .collection-total{display:block;margin-top:8px;color:#a8386a;font-size:.82rem;font-weight:900}
+
+    .collection-heading{
+      display:grid;grid-template-columns:auto auto 1fr;align-items:center;gap:12px;
+      margin-bottom:14px;padding:14px 16px;border:3px solid #ead5e2;border-radius:22px;
+      background:#fff;
+    }
+    .collection-heading[hidden]{display:none}
+    .all-groups{
+      min-width:64px;min-height:64px;padding:8px 14px;border-radius:18px;
+      border:3px solid #e59bbb;background:#fff5fa;color:#a8386a;
+      font:900 .95rem 'Nunito',sans-serif;cursor:pointer;
+      grid-column:1;grid-row:1/3;
+    }
+    .collection-heading .collection-icon{grid-row:1/3;grid-column:2;width:64px;height:64px;font-size:2.35rem;text-align:left;padding-left:2px}
+    .collection-title{grid-column:3;font-family:'Fredoka One',Nunito,sans-serif;font-size:1.5rem;line-height:1.1}
+    .collection-copy{grid-column:3;color:#6b5260;font-weight:800}
+    .subgroup-filters{
+      grid-column:1/-1;display:flex;gap:10px;overflow-x:auto;overscroll-behavior-inline:contain;
+      scrollbar-width:thin;padding:6px 2px 2px;scroll-snap-type:x proximity
+    }
+    .subgroup-filters[hidden]{display:none}
+    .subgroup-filter{
+      flex:0 0 auto;min-height:64px;padding:10px 18px;border:3px solid #dfb8cc;border-radius:999px;
+      background:#fff;color:#71405a;font:900 .96rem Nunito,sans-serif;cursor:pointer;scroll-snap-align:start
+    }
+    .subgroup-filter[aria-pressed="true"]{background:#a8386a;color:#fff;border-color:#a8386a}
+    .subgroup-filter:focus-visible{outline:4px solid #ffd54f;outline-offset:3px}
+    .collection-link img{width:28px;height:28px;object-fit:contain;vertical-align:middle;margin-right:5px}
 
     .card{
       background:#fff;border:3px solid #f0dcea;border-radius:22px;
@@ -118,7 +177,7 @@
     }
     .pic img{width:100%;height:100%;object-fit:cover;display:block}
     /* A concept whose picture has not been drawn yet. This state NEVER SHIPS -- the owner
-       decided on 2026-09-09 that Our Dictionary does not publish until all 2,098 concepts
+       decided on 2026-09-09 that Our Dictionary does not publish until all current concepts
        are illustrated, and check-word-data.py prints the remaining count every run. It
        exists so the corpus can be reviewed now, and it says nothing to a child because no
        child will see it. */
@@ -141,8 +200,8 @@
     .eg{font-size:.9rem;font-weight:700;color:#6b5260;line-height:1.4;margin-top:2px}
 
     /* ── Hear it ──
-       Every card that has a clip carries one round speaker beside its word. 52px, the
-       same size as the A-Z buttons, so it clears the 44pt iPad floor with room. Beside
+       Every card that has a clip carries one round speaker beside its word. 64px, the
+       same size as the A-Z buttons, so it clears a finger on the target iPad. Beside
        the WORD, not under the sentence: the clip says the headword, and a child who
        cannot read the sentence yet can still find the thing that speaks. Tapping while
        it speaks starts the word again from the top -- repeating a word is what a child
@@ -158,7 +217,7 @@
     .head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
     .head .word{flex:1;min-width:0;overflow-wrap:anywhere;padding-top:12px}
     .speak{
-      flex:none;width:52px;height:52px;border-radius:50%;cursor:pointer;
+      flex:none;width:64px;height:64px;border-radius:50%;cursor:pointer;
       display:inline-flex;align-items:center;justify-content:center;padding:0;
       border:2.5px solid #e59bbb;background:linear-gradient(135deg,#fff,#ffe9f1);
       color:#a8386a;box-shadow:0 4px 0 #e59bbb;
@@ -184,7 +243,7 @@
        mistaken for the word speaker, so it differs in every way a child sees: it sits
        BESIDE THE SENTENCE (not the word), it is a rounded SQUARE in the soft card colours
        (not the round pink button), and its icon is a SPEECH BUBBLE with lines of talk
-       (not a loudspeaker). 48px square, clear of the 44pt iPad floor.
+       (not a loudspeaker). 64px square, matching the page's tablet tap floor.
        It shares the one voice and every state with the word speaker -- `.speaking`,
        `.missed`, shake, cross, retry -- because it IS a .speak button: tapping the
        sentence stops the word and tapping the word stops the sentence.
@@ -194,7 +253,7 @@
     .egline{display:flex;align-items:flex-start;gap:8px;margin-top:2px}
     .egline .eg{flex:1;min-width:0;margin-top:0;padding-top:4px}
     .speak.eg-speak{
-      width:48px;height:48px;border-radius:14px;
+      width:64px;height:64px;border-radius:16px;
       border-color:#d9bfd0;background:#f7eef4;color:#8a5c76;box-shadow:0 3px 0 #d9bfd0;
     }
     .speak.eg-speak:active{box-shadow:0 1px 0 #d9bfd0}
@@ -215,6 +274,14 @@
       background:#f7eef4;color:#8a5c76;border:2px solid #efdce8;
       font-weight:900;font-size:.78rem;letter-spacing:.03em;line-height:1.3;
     }
+    .explore{margin-top:10px;padding-top:9px;border-top:2px solid #f5e6ef}
+    .explore-label{font-size:.78rem;font-weight:900;color:#8a5c76;margin-bottom:6px}
+    .explore-links{display:flex;flex-wrap:wrap;gap:7px}
+    .collection-link{
+      min-height:64px;padding:8px 13px;border-radius:16px;border:2.5px solid #dfbfd1;
+      background:#fff5fa;color:#8a3f67;font:900 .82rem 'Nunito',sans-serif;
+      cursor:pointer;text-align:left;touch-action:manipulation;display:inline-flex;align-items:center;
+    }
 
     .none{
       grid-column:1/-1;text-align:center;padding:50px 20px;
@@ -227,6 +294,8 @@
     @media (max-width:560px){
       h1{font-size:1.1rem;width:100%;order:3;margin:0}
       .find{order:4;flex-basis:100%}
+      .mode-switch button{min-width:0;flex:1;padding-inline:10px}
+      .grid.collections{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -251,10 +320,21 @@
   </label>
 </div>
 
+<div class="mode-switch" role="group" aria-label="Browse the dictionary">
+  <button id="modeAZ" type="button" aria-pressed="true">A–Z</button>
+  <button id="modeCollections" type="button" aria-pressed="false">Word Groups</button>
+</div>
 <nav class="az" id="az" aria-label="Choose a letter"></nav>
 </div>
 
 <main>
+  <section class="collection-heading" id="collectionHeading" hidden aria-live="polite">
+    <button class="all-groups" id="allGroups" type="button">← All groups</button>
+    <span class="collection-icon" id="collectionIcon" aria-hidden="true"></span>
+    <h2 class="collection-title" id="collectionTitle"></h2>
+    <p class="collection-copy" id="collectionCopy"></p>
+    <div class="subgroup-filters" id="subgroupFilters" role="group" aria-label="Filter this word group" hidden></div>
+  </section>
   <p class="count" id="count"></p>
   <div class="grid" id="grid"></div>
 </main>
@@ -268,6 +348,12 @@
   var ALL_LETTERS = 'abcdefghijklmnopqrstuvwxyz'.split('');
   var enabledLetters = null;
   var cards = [], letter = null, query = '';
+  var mode = 'az', selectedCollection = null, selectedSubgroup = null;
+  var collections = [], collectionById = {}, subgroupById = {};
+  var restoredState = readState(), scrollByView = restoredState.scrollByView || {};
+  if (restoredState.mode === 'collections') mode = 'collections';
+  if (typeof restoredState.collection === 'string') selectedCollection = restoredState.collection;
+  if (typeof restoredState.subgroup === 'string') selectedSubgroup = restoredState.subgroup;
 
   function lettersFor() { return enabledLetters || ALL_LETTERS; }
   function firstLetter(word) { return String(word).charAt(0).toLowerCase(); }
@@ -298,12 +384,55 @@
   var az = document.getElementById('az');
   var q = document.getElementById('q');
   var clear = document.getElementById('clear');
+  var modeAZ = document.getElementById('modeAZ');
+  var modeCollections = document.getElementById('modeCollections');
+  var collectionHeading = document.getElementById('collectionHeading');
+  var allGroups = document.getElementById('allGroups');
+  var collectionIcon = document.getElementById('collectionIcon');
+  var collectionTitle = document.getElementById('collectionTitle');
+  var collectionCopy = document.getElementById('collectionCopy');
+  var subgroupFilters = document.getElementById('subgroupFilters');
+
+  function readState() {
+    try { return JSON.parse(window.sessionStorage.getItem('word-book-dictionary-view') || '{}'); }
+    catch (e) { return {}; }
+  }
+  function viewKey() {
+    return mode === 'collections' ? 'collections:' + (selectedCollection || 'all') + ':' +
+      (selectedSubgroup || 'all') : 'az:' + (letter || 'a');
+  }
+  function rememberScroll() {
+    var y = Number(window.scrollY || window.pageYOffset || 0);
+    scrollByView[viewKey()] = y;
+  }
+  function saveState() {
+    try {
+      window.sessionStorage.setItem('word-book-dictionary-view', JSON.stringify({
+        mode: mode, collection: selectedCollection, subgroup: selectedSubgroup, letter: letter,
+        scrollByView: scrollByView
+      }));
+    } catch (e) {}
+  }
+  function scrollTopNow() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  function restoreScroll() {
+    var y = Number(scrollByView[viewKey()] || 0);
+    if (y) window.setTimeout(function () { window.scrollTo({ top: y, behavior: 'auto' }); }, 0);
+  }
 
   function esc(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
   }
+  function collectionIconMarkup(c) {
+    return '<img class="owner-group-icon" src="' + esc(c.icon_path) + '" alt="" ' +
+      'data-fallback="' + esc(c.icon) + '" draggable="false">';
+  }
+  document.addEventListener('error', function (event) {
+    var image = event.target;
+    if (!image.classList || !image.classList.contains('owner-group-icon')) return;
+    image.replaceWith(document.createTextNode(image.getAttribute('data-fallback') || ''));
+  }, true);
 
   /* ONE CARD PER CONCEPT, not per spelling. The corpus keeps 72 groups of words that
      share a spelling as separate cards -- `bat` the animal and `bat` you hit a ball
@@ -402,7 +531,19 @@
         ? '<div class="egline"><p class="eg">' + esc(eg) + '</p>' +
           '<button type="button" class="speak eg-speak" data-clip="' + esc(egClip) +
           '" aria-label="Hear the sentence">' + BUBBLE + '</button></div>'
-        : '<p class="eg">' + esc(eg) + '</p>');
+        : '<p class="eg">' + esc(eg) + '</p>') + collectionLinks(r);
+  }
+
+  function collectionLinks(r) {
+    var here = (mode === 'collections' && !query) ? selectedCollection : null;
+    var ids = (r[5] || []).filter(function (id) { return id !== here; });
+    if (!ids.length) return '';
+    return '<div class="explore"><p class="explore-label">Explore more:</p><div class="explore-links">' +
+      ids.map(function (id) {
+        var c = collectionById[id];
+        return c ? '<button type="button" class="collection-link" data-collection="' + esc(id) +
+          '">' + collectionIconMarkup(c) + '<span>' + esc(c.label) + '</span></button>' : '';
+      }).join('') + '</div></div>';
   }
 
   function card(c) {
@@ -441,11 +582,26 @@
       };
       return cards.filter(function (c) { return c.rows.some(hit); });
     }
+    if (mode === 'collections' && selectedCollection) {
+      return cards.filter(function (c) {
+        return c.rows.some(function (r) {
+          return (r[5] || []).indexOf(selectedCollection) > -1 &&
+            (!selectedSubgroup || (r[6] || []).indexOf(selectedSubgroup) > -1);
+        });
+      });
+    }
     return cards.filter(function (c) { return c.rows[0][0].charAt(0).toLowerCase() === letter; });
   }
 
   function render() {
     hush();
+    syncMode();
+    if (!query && mode === 'collections' && !selectedCollection) {
+      renderCollections();
+      return;
+    }
+    grid.className = 'grid';
+    showCollectionHeading(!query && mode === 'collections' && selectedCollection);
     var found = matches();
     if (!found.length) {
       grid.innerHTML = '<p class="none">No words here yet. Try another letter.</p>';
@@ -456,6 +612,73 @@
        appending them one at a time re-lays out the page 283 times. */
     grid.innerHTML = found.map(card).join('');
     count.textContent = found.length === 1 ? '1 word' : found.length + ' words';
+  }
+
+  function cardsInCollection(id) {
+    return cards.filter(function (c) {
+      return c.rows.some(function (r) { return (r[5] || []).indexOf(id) > -1; });
+    });
+  }
+  function renderCollections() {
+    showCollectionHeading(false);
+    grid.className = 'grid collections';
+    var available = collections.map(function (c) {
+      return { c: c, total: cardsInCollection(c.id).length };
+    }).filter(function (x) { return x.total; });
+    grid.innerHTML = available.map(function (x) {
+      return '<button type="button" class="collection-card" data-collection="' + esc(x.c.id) + '">' +
+        '<span class="collection-icon" aria-hidden="true">' + collectionIconMarkup(x.c) + '</span><span>' +
+        '<span class="collection-name">' + esc(x.c.label) + '</span>' +
+        '<span class="collection-description">' + esc(x.c.description) + '</span>' +
+        '<span class="collection-total">' + x.total + (x.total === 1 ? ' word' : ' words') +
+        '</span></span></button>';
+    }).join('');
+    count.textContent = 'Choose a group';
+  }
+  function showCollectionHeading(show) {
+    collectionHeading.hidden = !show;
+    if (!show) return;
+    var c = collectionById[selectedCollection];
+    if (!c) return;
+    collectionIcon.innerHTML = collectionIconMarkup(c);
+    collectionTitle.textContent = c.label;
+    collectionCopy.textContent = c.description;
+    var subgroups = c.subgroups || [];
+    subgroupFilters.hidden = !subgroups.length;
+    subgroupFilters.innerHTML = subgroups.length ? [{ id: '', label: 'All' }].concat(subgroups)
+      .map(function (s) {
+        var pressed = (s.id || null) === selectedSubgroup;
+        return '<button type="button" class="subgroup-filter" data-subgroup="' + esc(s.id) +
+          '" aria-pressed="' + pressed + '">' + esc(s.label) + '</button>';
+      }).join('') : '';
+  }
+  function syncMode() {
+    var grouping = mode === 'collections';
+    modeAZ.setAttribute('aria-pressed', String(!grouping));
+    modeCollections.setAttribute('aria-pressed', String(grouping));
+    az.hidden = grouping;
+    syncAZ();
+  }
+  function chooseMode(next) {
+    if (mode === next) return;
+    rememberScroll();
+    mode = next; query = ''; q.value = ''; clear.hidden = true;
+    render(); saveState(); restoreScroll();
+  }
+  function chooseCollection(id) {
+    if (!collectionById[id]) return;
+    rememberScroll();
+    mode = 'collections'; selectedCollection = id; selectedSubgroup = null;
+    query = ''; q.value = ''; clear.hidden = true;
+    render(); saveState(); scrollTopNow();
+  }
+  function chooseSubgroup(id) {
+    var next = id || null;
+    if (next && (!subgroupById[next] || subgroupById[next].collection !== selectedCollection)) return;
+    if (selectedSubgroup === next) return;
+    rememberScroll();
+    selectedSubgroup = next;
+    render(); saveState(); restoreScroll();
   }
 
   function buildAZ() {
@@ -472,7 +695,8 @@
       clear.hidden = true;
       syncAZ();
       render();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      saveState();
+      scrollTopNow();
     });
   }
 
@@ -490,6 +714,16 @@
   });
   clear.addEventListener('click', function () {
     query = ''; q.value = ''; clear.hidden = true; q.focus(); syncAZ(); render();
+  });
+  modeAZ.addEventListener('click', function () { chooseMode('az'); });
+  modeCollections.addEventListener('click', function () { chooseMode('collections'); });
+  allGroups.addEventListener('click', function () {
+    rememberScroll(); selectedCollection = null; selectedSubgroup = null;
+    render(); saveState(); restoreScroll();
+  });
+  subgroupFilters.addEventListener('click', function (e) {
+    var button = e.target.closest('button[data-subgroup]');
+    if (button) chooseSubgroup(button.getAttribute('data-subgroup'));
   });
 
   /* ONE shared voice for the whole page, created on the first tap and never before:
@@ -542,6 +776,8 @@
     } catch (e) { missed(btn); }
   }
   grid.addEventListener('click', function (e) {
+    var collectionButton = e.target.closest('[data-collection]');
+    if (collectionButton) { chooseCollection(collectionButton.getAttribute('data-collection')); return; }
     var b = e.target.closest('button.speak');
     if (b) say(b);
   });
@@ -555,6 +791,7 @@
     : Promise.resolve(null);
 
   loadLetters().then(function () {
+    if (restoredState.letter && lettersFor().indexOf(restoredState.letter) > -1) letter = restoredState.letter;
     if (letter === null) letter = lettersFor()[0];
     return Promise.all([
       fetch('data/dictionary.json').then(function (r) { return r.json(); }),
@@ -564,14 +801,28 @@
     var d = values[0];
     ledger = values[1];
     filterData(d);
+    collections = d.collections || [];
+    collections.forEach(function (c) {
+      collectionById[c.id] = c;
+      (c.subgroups || []).forEach(function (s) {
+        subgroupById[s.id] = { collection: c.id, label: s.label };
+      });
+    });
+    if (!collectionById[selectedCollection]) selectedCollection = null;
+    if (!selectedCollection || !subgroupById[selectedSubgroup] ||
+        subgroupById[selectedSubgroup].collection !== selectedCollection) selectedSubgroup = null;
     cards = alphabetical(buildCards(d));
     buildAZ();
     render();
+    saveState();
+    restoreScroll();
   }).catch(function () {
     /* Says what a child can do about it, and does not explain itself. */
     grid.innerHTML = '<p class="none">The book did not open. Try again in a moment.</p>';
     count.textContent = '';
   });
+
+  window.addEventListener('pagehide', function () { rememberScroll(); saveState(); });
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
