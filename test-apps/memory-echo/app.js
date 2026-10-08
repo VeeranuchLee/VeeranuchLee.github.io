@@ -60,6 +60,7 @@ function modeItems(mode) {
 }
 
 function buildInstrument(mode) {
+  gameScreen.dataset.mode = mode;
   instrument.className = `instrument ${mode}`;
   instrument.replaceChildren();
   modeItems(mode).forEach((label, index) => {
