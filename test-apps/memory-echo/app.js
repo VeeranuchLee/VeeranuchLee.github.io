@@ -1,5 +1,6 @@
 import { MemoryGame, GenerationScheduler } from "./js/game-logic.js";
 import { AudioEngine } from "./js/audio-engine.js";
+import { calculateGridGeometry } from "./js/layout-geometry.js";
 
 const SPEEDS = { slow: { step: 900, sound: .58 }, normal: { step: 650, sound: .42 }, fast: { step: 420, sound: .27 } };
 const MODES = {
@@ -72,6 +73,30 @@ function buildInstrument(mode) {
     else button.textContent = label;
     instrument.append(button);
   });
+  updateInstrumentGeometry();
+}
+
+function pixels(value) { return Number.parseFloat(value) || 0; }
+
+function updateInstrumentGeometry() {
+  if (!instrument.clientWidth || !instrument.clientHeight) return;
+  const style = getComputedStyle(instrument);
+  const config = selectedMode === "colours"
+    ? { columns: 2, rows: 2, maxItemSize: 210 }
+    : selectedMode === "numbers"
+      ? { columns: 3, rows: 3 }
+      : { columns: 8, rows: 1 };
+  const geometry = calculateGridGeometry({
+    boardWidth: instrument.clientWidth,
+    boardHeight: instrument.clientHeight,
+    paddingX: pixels(style.paddingLeft),
+    paddingY: pixels(style.paddingTop),
+    columnGap: pixels(style.columnGap),
+    rowGap: pixels(style.rowGap),
+    ...config
+  });
+  instrument.style.setProperty("--item-size", `${geometry.itemSize}px`);
+  instrument.style.setProperty("--inner-height", `${geometry.innerHeight}px`);
 }
 
 function setPhase(next, copy) {
@@ -171,7 +196,7 @@ function enter(mode, isExplore) {
   model = new MemoryGame({ mode, startLength, storage: safeStorage() });
   buildInstrument(mode); model.start();
   modePill.textContent = `${MODES[mode].icon}  ${MODES[mode].label}`;
-  menu.hidden = true; gameScreen.hidden = false; refreshStats();
+  menu.hidden = true; gameScreen.hidden = false; updateInstrumentGeometry(); refreshStats();
   if (explore) setPhase("explore"); else watchSequence();
 }
 
@@ -206,4 +231,6 @@ document.addEventListener("visibilitychange", () => {
 });
 
 setChoice("mode", selectedMode); setChoice("length", startLength); setChoice("speed", speed);
+if ("ResizeObserver" in window) new ResizeObserver(updateInstrumentGeometry).observe(instrument);
+else window.addEventListener("resize", updateInstrumentGeometry, { passive: true });
 if ("serviceWorker" in navigator) window.addEventListener("load", () => Promise.resolve() /* Test Hub staging: no service worker */.catch(() => {}));
