@@ -6,6 +6,9 @@
   var colorById = new Map();
   var availableAudioSlugs = new Set();
   var exploreData = null;
+  var mixTargets = [];
+  var activeTargetIndex = 0;
+  var discoveredTargetIds = new Set();
   var currentMix = null;
   var BOWL_COLORS = ["cream", "wood", "sky", "pink", "purple"];
 
@@ -13,6 +16,23 @@
     return location.pathname.indexOf("/test-apps/") >= 0
       ? "color-lab:test:bowl-colour:v1"
       : "color-lab:bowl-colour:v1";
+  }
+
+  function progressStorageKey() {
+    return location.pathname.indexOf("/test-apps/") >= 0
+      ? "color-lab:test:mix-discoveries:v1"
+      : "color-lab:mix-discoveries:v1";
+  }
+
+  function readDiscoveries() {
+    try {
+      var saved = JSON.parse(localStorage.getItem(progressStorageKey()) || "[]");
+      return new Set(Array.isArray(saved) ? saved.filter(function (id) { return typeof id === "string"; }) : []);
+    } catch (error) { return new Set(); }
+  }
+
+  function saveDiscoveries() {
+    try { localStorage.setItem(progressStorageKey(), JSON.stringify(Array.from(discoveredTargetIds))); } catch (error) { /* optional progress */ }
   }
 
   function readBowlColor() {
@@ -49,8 +69,9 @@
 
   function setBowlColor(color, remember, withSound) {
     var chosen = BOWL_COLORS.indexOf(color) >= 0 ? color : "cream";
-    byId("mix-bowl").dataset.bowlColor = chosen;
-    document.querySelectorAll("[data-bowl-color]").forEach(function (button) {
+    byId("mix-bowl").dataset.bowlTint = chosen;
+    byId("bowl-art").src = "./assets/art/mixing-bowl-" + chosen + ".webp";
+    document.querySelectorAll(".bowl-chip").forEach(function (button) {
       var selected = button.dataset.bowlColor === chosen;
       button.classList.toggle("is-selected", selected);
       button.setAttribute("aria-pressed", selected ? "true" : "false");
@@ -87,6 +108,10 @@
         if (!response.ok) return [];
         return response.json();
       }).catch(function () { return []; }),
+      fetch("./mix-targets.json").then(function (response) {
+        if (!response.ok) return { targets: [] };
+        return response.json();
+      }).catch(function () { return { targets: [] }; }),
     ]).then(function (results) {
       colorById = new Map(results[0].colors.map(function (color) { return [color.id, color]; }));
       exploreData = results[1];
@@ -97,7 +122,10 @@
         });
       });
       availableAudioSlugs = new Set(results[2]);
+      mixTargets = results[3].targets || [];
+      discoveredTargetIds = readDiscoveries();
       renderFamilies();
+      renderTarget();
     }).catch(function () {
       exploreColors = [];
       byId("family-shelf").textContent = "Color names are still loading…";
@@ -135,7 +163,8 @@
   }
 
   function makeShadeCard(shade) {
-    var color = colorById.get(shade.vocabularyId);
+    var vocabularyColor = shade.vocabularyId ? colorById.get(shade.vocabularyId) : null;
+    var colorHex = shade.colorHex || vocabularyColor.srgbCentroidHex;
     var card = document.createElement("article");
     var main = document.createElement("button");
     var visual = document.createElement("span");
@@ -152,8 +181,8 @@
     card.dataset.vocabularyId = shade.vocabularyId;
     main.type = "button";
     main.className = "shade-card-main";
-    main.style.setProperty("--shade", color.srgbCentroidHex);
-    main.dataset.srgb = color.srgbCentroidHex;
+    main.style.setProperty("--shade", colorHex);
+    main.dataset.srgb = colorHex;
     main.setAttribute("aria-label", shade.displayName + ". Tap to grow this color card.");
     main.setAttribute("aria-pressed", "false");
     visual.className = "shade-visual";
@@ -181,6 +210,12 @@
     name.className = "shade-name";
     name.textContent = shade.displayName;
     main.append(visual, swatch, name);
+    if (shade.examples && shade.comparison) {
+      var details = document.createElement("span");
+      details.className = "shade-details";
+      details.textContent = shade.examples.join(" • ") + ". " + shade.comparison;
+      main.appendChild(details);
+    }
     main.addEventListener("click", function () {
       document.querySelectorAll(".shade-card.is-selected").forEach(function (selected) {
         selected.classList.remove("is-selected");
@@ -188,6 +223,8 @@
       });
       card.classList.add("is-selected");
       main.setAttribute("aria-pressed", "true");
+      // The chosen card grows to show its examples; keep all of it (and its speaker) in view.
+      if (card.scrollIntoView) card.scrollIntoView({ block: "nearest" });
       sayClip(shade.slug);
     });
 
@@ -229,6 +266,40 @@
     byId("name-text").textContent = message;
   }
 
+  function activeTarget() { return mixTargets[activeTargetIndex] || null; }
+
+  function renderTarget() {
+    var target = activeTarget();
+    var card = byId("mix-target-card");
+    if (!target) { card.hidden = true; return; }
+    card.hidden = false;
+    byId("mix-target-swatch").style.setProperty("--target", target.swatchHex);
+    byId("mix-target-name").textContent = target.name;
+    byId("mix-target-progress").textContent = mixTargets.filter(function (t) { return discoveredTargetIds.has(t.id); }).length + " of " + mixTargets.length + " found";
+    card.classList.toggle("is-found", discoveredTargetIds.has(target.id));
+  }
+
+  function nextTarget() {
+    if (!mixTargets.length) return;
+    activeTargetIndex = (activeTargetIndex + 1) % mixTargets.length;
+    renderTarget();
+  }
+
+  function checkTarget() {
+    var target = activeTarget();
+    if (!target || !currentMix) return false;
+    var score = Math.hypot.apply(null, currentMix.oklab.map(function (value, index) {
+      return value - target.centreOklab[index];
+    }));
+    if (score > target.toleranceOklab) return false;
+    discoveredTargetIds.add(target.id);
+    saveDiscoveries();
+    renderTarget();
+    setName("You made " + target.name + "!");
+    sayClip(target.slug);
+    return true;
+  }
+
   function render() {
     ["red", "yellow", "blue"].forEach(function (name) {
       byId(name + "-count").textContent = String(drops[name]);
@@ -246,6 +317,7 @@
     bowl.className = "mix-bowl has-paint";
     bowl.setAttribute("aria-label", "Mixed color. Tap to explore its name.");
     setName("Tap the bowl!");
+    checkTarget();
   }
 
   function addDrop(name) {
@@ -321,7 +393,8 @@
   });
   byId("mix-bowl").addEventListener("click", revealName);
   byId("reset-button").addEventListener("click", reset);
-  document.querySelectorAll("[data-bowl-color]").forEach(function (button) {
+  byId("next-target").addEventListener("click", nextTarget);
+  document.querySelectorAll(".bowl-chip").forEach(function (button) {
     button.addEventListener("click", function () {
       setBowlColor(button.dataset.bowlColor, true, true);
     });

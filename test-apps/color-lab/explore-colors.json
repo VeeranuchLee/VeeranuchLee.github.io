@@ -1,6 +1,6 @@
 {
-  "version": "explore-colors-3.0.0",
-  "status": "CURATED — owner direction 2026-10-06",
+  "version": "explore-colors-4.0.0",
+  "status": "CURATED — owner expansion direction 2026-10-08",
   "mappingSource": "../shared-data/colour-vocabulary/color-lab-explore-120-mapping.json",
   "crayon": {
     "frame": "crayon-frame.webp",
@@ -49,6 +49,366 @@
           "slug": "maroon",
           "object": "kite",
           "sprite": "kite.webp"
+        },
+        {
+          "id": "xkcd-scarlet",
+          "displayName": "scarlet",
+          "slug": "scarlet",
+          "colorHex": "#BE0119",
+          "oklabCentroid": [
+            0.50482733,
+            0.18405279,
+            0.08972462
+          ],
+          "examples": [
+            "a poppy",
+            "a toy fire engine"
+          ],
+          "comparison": "Scarlet is warmer than bright red.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "scarlet",
+            "surveyHex": "#BE0119",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "bright red",
+            "deltaE2000": 5.84,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-cherry-red",
+          "displayName": "cherry red",
+          "slug": "cherry-red",
+          "colorHex": "#F7022A",
+          "oklabCentroid": [
+            0.61532674,
+            0.2255831,
+            0.10518671
+          ],
+          "examples": [
+            "a ripe berry",
+            "a red kite"
+          ],
+          "comparison": "Cherry red is lighter and warmer than apple red.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "cherry red",
+            "surveyHex": "#F7022A",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "apple red",
+            "deltaE2000": 12.23,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-fire-engine-red",
+          "displayName": "fire engine red",
+          "slug": "fire-engine-red",
+          "colorHex": "#FE0002",
+          "oklabCentroid": [
+            0.62613747,
+            0.22437315,
+            0.12499835
+          ],
+          "examples": [
+            "a poppy",
+            "a toy fire engine"
+          ],
+          "comparison": "Fire engine red is lighter and warmer than bright red.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "fire engine red",
+            "surveyHex": "#FE0002",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "bright red",
+            "deltaE2000": 17.03,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-blood-red",
+          "displayName": "blood red",
+          "slug": "blood-red",
+          "colorHex": "#980002",
+          "oklabCentroid": [
+            0.42691681,
+            0.15321831,
+            0.08451967
+          ],
+          "examples": [
+            "a ripe berry",
+            "a red kite"
+          ],
+          "comparison": "Blood red is darker and warmer than bright red.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "blood red",
+            "surveyHex": "#980002",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "bright red",
+            "deltaE2000": 11.87,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-rose-red",
+          "displayName": "rose red",
+          "slug": "rose-red",
+          "colorHex": "#BE013C",
+          "oklabCentroid": [
+            0.50932208,
+            0.19552188,
+            0.05571402
+          ],
+          "examples": [
+            "a poppy",
+            "a toy fire engine"
+          ],
+          "comparison": "Rose red is cooler than bright red.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "rose red",
+            "surveyHex": "#BE013C",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "bright red",
+            "deltaE2000": 3.99,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-wine-red",
+          "displayName": "wine red",
+          "slug": "wine-red",
+          "colorHex": "#7B0323",
+          "oklabCentroid": [
+            0.37157449,
+            0.14024688,
+            0.04193631
+          ],
+          "examples": [
+            "a ripe berry",
+            "a red kite"
+          ],
+          "comparison": "Wine red is a close neighbour of crimson.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "wine red",
+            "surveyHex": "#7B0323",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "crimson",
+            "deltaE2000": 2.42,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-light-red",
+          "displayName": "light red",
+          "slug": "light-red",
+          "colorHex": "#FF474C",
+          "oklabCentroid": [
+            0.66725154,
+            0.20059993,
+            0.08990334
+          ],
+          "examples": [
+            "a poppy",
+            "a toy fire engine"
+          ],
+          "comparison": "Light red is lighter and warmer than apple red.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "light red",
+            "surveyHex": "#FF474C",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "apple red",
+            "deltaE2000": 14.28,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-deep-red",
+          "displayName": "deep red",
+          "slug": "deep-red",
+          "colorHex": "#9A0200",
+          "oklabCentroid": [
+            0.43165397,
+            0.15340841,
+            0.08651953
+          ],
+          "examples": [
+            "a ripe berry",
+            "a red kite"
+          ],
+          "comparison": "Deep red is darker and warmer than bright red.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "deep red",
+            "surveyHex": "#9A0200",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "bright red",
+            "deltaE2000": 12.02,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-rusty-red",
+          "displayName": "rusty red",
+          "slug": "rusty-red",
+          "colorHex": "#AF2F0D",
+          "oklabCentroid": [
+            0.50093448,
+            0.13981571,
+            0.09601133
+          ],
+          "examples": [
+            "a poppy",
+            "a toy fire engine"
+          ],
+          "comparison": "Rusty red is warmer than bright red.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "rusty red",
+            "surveyHex": "#AF2F0D",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "bright red",
+            "deltaE2000": 12.06,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-lipstick-red",
+          "displayName": "lipstick red",
+          "slug": "lipstick-red",
+          "colorHex": "#C0022F",
+          "oklabCentroid": [
+            0.51134992,
+            0.19165751,
+            0.07193503
+          ],
+          "examples": [
+            "a ripe berry",
+            "a red kite"
+          ],
+          "comparison": "Lipstick red is a close neighbour of bright red.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "lipstick red",
+            "surveyHex": "#C0022F",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "bright red",
+            "deltaE2000": 0.29,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-carmine",
+          "displayName": "carmine",
+          "slug": "carmine",
+          "colorHex": "#9D0216",
+          "oklabCentroid": [
+            0.43913129,
+            0.16009286,
+            0.07565369
+          ],
+          "examples": [
+            "a poppy",
+            "a toy fire engine"
+          ],
+          "comparison": "Carmine is darker and warmer than bright red.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "carmine",
+            "surveyHex": "#9D0216",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "bright red",
+            "deltaE2000": 8.45,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-raspberry",
+          "displayName": "raspberry",
+          "slug": "raspberry",
+          "colorHex": "#B00149",
+          "oklabCentroid": [
+            0.48520785,
+            0.19171484,
+            0.02822874
+          ],
+          "examples": [
+            "a ripe berry",
+            "a red kite"
+          ],
+          "comparison": "Raspberry is lighter and cooler than crimson.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "raspberry",
+            "surveyHex": "#B00149",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "crimson",
+            "deltaE2000": 9.8,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
         }
       ]
     },
@@ -149,6 +509,366 @@
           "vocabularyId": "iscc-nbs-070",
           "displayName": "melon orange",
           "slug": "melon-orange"
+        },
+        {
+          "id": "xkcd-copper",
+          "displayName": "copper",
+          "slug": "copper",
+          "colorHex": "#B66325",
+          "oklabCentroid": [
+            0.5856852,
+            0.07768512,
+            0.10356243
+          ],
+          "examples": [
+            "an autumn leaf",
+            "an orange peel"
+          ],
+          "comparison": "Copper is warmer than pumpkin orange.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "copper",
+            "surveyHex": "#B66325",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "pumpkin orange",
+            "deltaE2000": 2.26,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-sienna",
+          "displayName": "sienna",
+          "slug": "sienna",
+          "colorHex": "#A9561E",
+          "oklabCentroid": [
+            0.54479084,
+            0.08159002,
+            0.09793612
+          ],
+          "examples": [
+            "a warm clay pot",
+            "a sunset cloud"
+          ],
+          "comparison": "Sienna is darker and warmer than pumpkin orange.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "sienna",
+            "surveyHex": "#A9561E",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "pumpkin orange",
+            "deltaE2000": 5.56,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-blood-orange",
+          "displayName": "blood orange",
+          "slug": "blood-orange",
+          "colorHex": "#FE4B03",
+          "oklabCentroid": [
+            0.66412682,
+            0.18007339,
+            0.13311954
+          ],
+          "examples": [
+            "an autumn leaf",
+            "an orange peel"
+          ],
+          "comparison": "Blood orange is warmer than tomato orange.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "blood orange",
+            "surveyHex": "#FE4B03",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "tomato orange",
+            "deltaE2000": 3.1,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-grapefruit",
+          "displayName": "grapefruit",
+          "slug": "grapefruit",
+          "colorHex": "#FD5956",
+          "oklabCentroid": [
+            0.68353346,
+            0.18148981,
+            0.08482275
+          ],
+          "examples": [
+            "a warm clay pot",
+            "a sunset cloud"
+          ],
+          "comparison": "Grapefruit is lighter and cooler than vermilion.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "grapefruit",
+            "surveyHex": "#FD5956",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "vermilion",
+            "deltaE2000": 10.34,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-pastel-orange",
+          "displayName": "pastel orange",
+          "slug": "pastel-orange",
+          "colorHex": "#FF964F",
+          "oklabCentroid": [
+            0.77105592,
+            0.09274957,
+            0.12072088
+          ],
+          "examples": [
+            "an autumn leaf",
+            "an orange peel"
+          ],
+          "comparison": "Pastel orange is lighter and cooler than tangerine.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "pastel orange",
+            "surveyHex": "#FF964F",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "tangerine",
+            "deltaE2000": 6.06,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-yellowish-orange",
+          "displayName": "yellowish orange",
+          "slug": "yellowish-orange",
+          "colorHex": "#FFAB0F",
+          "oklabCentroid": [
+            0.80360111,
+            0.04844081,
+            0.16154658
+          ],
+          "examples": [
+            "a warm clay pot",
+            "a sunset cloud"
+          ],
+          "comparison": "Yellowish orange is a close neighbour of marigold orange.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "yellowish orange",
+            "surveyHex": "#FFAB0F",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "marigold orange",
+            "deltaE2000": 2.87,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-brick-orange",
+          "displayName": "brick orange",
+          "slug": "brick-orange",
+          "colorHex": "#C14A09",
+          "oklabCentroid": [
+            0.56284898,
+            0.12290185,
+            0.11109799
+          ],
+          "examples": [
+            "an autumn leaf",
+            "an orange peel"
+          ],
+          "comparison": "Brick orange is lighter and warmer than chilli orange.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "brick orange",
+            "surveyHex": "#C14A09",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "chilli orange",
+            "deltaE2000": 8.74,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-rust-orange",
+          "displayName": "rust orange",
+          "slug": "rust-orange",
+          "colorHex": "#C45508",
+          "oklabCentroid": [
+            0.58268564,
+            0.11034006,
+            0.11574239
+          ],
+          "examples": [
+            "a warm clay pot",
+            "a sunset cloud"
+          ],
+          "comparison": "Rust orange is a close neighbour of burnt orange.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "rust orange",
+            "surveyHex": "#C45508",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "burnt orange",
+            "deltaE2000": 5.67,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-deep-orange",
+          "displayName": "deep orange",
+          "slug": "deep-orange",
+          "colorHex": "#DC4D01",
+          "oklabCentroid": [
+            0.61016728,
+            0.14564882,
+            0.12285712
+          ],
+          "examples": [
+            "an autumn leaf",
+            "an orange peel"
+          ],
+          "comparison": "Deep orange is a close neighbour of tomato orange.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "deep orange",
+            "surveyHex": "#DC4D01",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "tomato orange",
+            "deltaE2000": 4.21,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-orange-red",
+          "displayName": "orange red",
+          "slug": "orange-red",
+          "colorHex": "#FD411E",
+          "oklabCentroid": [
+            0.65432204,
+            0.19253953,
+            0.12251989
+          ],
+          "examples": [
+            "a warm clay pot",
+            "a sunset cloud"
+          ],
+          "comparison": "Orange red is a close neighbour of tomato orange.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "orange red",
+            "surveyHex": "#FD411E",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "tomato orange",
+            "deltaE2000": 4.4,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-pale-orange",
+          "displayName": "pale orange",
+          "slug": "pale-orange",
+          "colorHex": "#FFA756",
+          "oklabCentroid": [
+            0.80078645,
+            0.06850766,
+            0.12378588
+          ],
+          "examples": [
+            "an autumn leaf",
+            "an orange peel"
+          ],
+          "comparison": "Pale orange is darker and warmer than apricot.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "pale orange",
+            "surveyHex": "#FFA756",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "apricot",
+            "deltaE2000": 7.12,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-light-orange",
+          "displayName": "light orange",
+          "slug": "light-orange",
+          "colorHex": "#FDAA48",
+          "oklabCentroid": [
+            0.80241577,
+            0.05746386,
+            0.1356063
+          ],
+          "examples": [
+            "a warm clay pot",
+            "a sunset cloud"
+          ],
+          "comparison": "Light orange is cooler than marigold orange.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "light orange",
+            "surveyHex": "#FDAA48",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "marigold orange",
+            "deltaE2000": 5.89,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
         }
       ]
     },
@@ -224,6 +944,366 @@
           "vocabularyId": "iscc-nbs-104",
           "displayName": "straw yellow",
           "slug": "straw-yellow"
+        },
+        {
+          "id": "xkcd-saffron",
+          "displayName": "saffron",
+          "slug": "saffron",
+          "colorHex": "#FEB209",
+          "oklabCentroid": [
+            0.81508443,
+            0.03639735,
+            0.16498171
+          ],
+          "examples": [
+            "a sunflower",
+            "a raincoat"
+          ],
+          "comparison": "Saffron is a close neighbour of lemon yellow.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "saffron",
+            "surveyHex": "#FEB209",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "lemon yellow",
+            "deltaE2000": 9.27,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-goldenrod",
+          "displayName": "goldenrod",
+          "slug": "goldenrod",
+          "colorHex": "#FAC205",
+          "oklabCentroid": [
+            0.84086191,
+            0.00775961,
+            0.17113218
+          ],
+          "examples": [
+            "a ripe banana",
+            "a paper star"
+          ],
+          "comparison": "Goldenrod is a close neighbour of lemon yellow.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "goldenrod",
+            "surveyHex": "#FAC205",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "lemon yellow",
+            "deltaE2000": 3.73,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-gold",
+          "displayName": "gold",
+          "slug": "gold",
+          "colorHex": "#DBB40C",
+          "oklabCentroid": [
+            0.78185612,
+            -0.00801114,
+            0.15813382
+          ],
+          "examples": [
+            "a sunflower",
+            "a raincoat"
+          ],
+          "comparison": "Gold is warmer than golden yellow.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "gold",
+            "surveyHex": "#DBB40C",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "golden yellow",
+            "deltaE2000": 2.67,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-maize",
+          "displayName": "maize",
+          "slug": "maize",
+          "colorHex": "#F4D054",
+          "oklabCentroid": [
+            0.866037,
+            -0.00712836,
+            0.14510206
+          ],
+          "examples": [
+            "a ripe banana",
+            "a paper star"
+          ],
+          "comparison": "Maize is a close neighbour of sunshine yellow.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "maize",
+            "surveyHex": "#F4D054",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "sunshine yellow",
+            "deltaE2000": 2.52,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-sunflower-yellow",
+          "displayName": "sunflower yellow",
+          "slug": "sunflower-yellow",
+          "colorHex": "#FFDA03",
+          "oklabCentroid": [
+            0.89275414,
+            -0.02103255,
+            0.1823357
+          ],
+          "examples": [
+            "a sunflower",
+            "a raincoat"
+          ],
+          "comparison": "Sunflower yellow is warmer than sunshine yellow.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "sunflower yellow",
+            "surveyHex": "#FFDA03",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "sunshine yellow",
+            "deltaE2000": 5.57,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-pale-yellow",
+          "displayName": "pale yellow",
+          "slug": "pale-yellow",
+          "colorHex": "#FFFF84",
+          "oklabCentroid": [
+            0.9755072,
+            -0.04696032,
+            0.13778826
+          ],
+          "examples": [
+            "a ripe banana",
+            "a paper star"
+          ],
+          "comparison": "Pale yellow is lighter and warmer than canary yellow.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "pale yellow",
+            "surveyHex": "#FFFF84",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "canary yellow",
+            "deltaE2000": 6.43,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-light-yellow",
+          "displayName": "light yellow",
+          "slug": "light-yellow",
+          "colorHex": "#FFFE7A",
+          "oklabCentroid": [
+            0.97228833,
+            -0.04891318,
+            0.14574507
+          ],
+          "examples": [
+            "a sunflower",
+            "a raincoat"
+          ],
+          "comparison": "Light yellow is lighter and cooler than chartreuse yellow.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "light yellow",
+            "surveyHex": "#FFFE7A",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "chartreuse yellow",
+            "deltaE2000": 6.09,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-bright-yellow",
+          "displayName": "bright yellow",
+          "slug": "bright-yellow",
+          "colorHex": "#FFFD01",
+          "oklabCentroid": [
+            0.96384856,
+            -0.0687197,
+            0.19760387
+          ],
+          "examples": [
+            "a ripe banana",
+            "a paper star"
+          ],
+          "comparison": "Bright yellow is lighter and warmer than chartreuse yellow.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "bright yellow",
+            "surveyHex": "#FFFD01",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "chartreuse yellow",
+            "deltaE2000": 7.26,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-dark-yellow",
+          "displayName": "dark yellow",
+          "slug": "dark-yellow",
+          "colorHex": "#D5B60A",
+          "oklabCentroid": [
+            0.77997618,
+            -0.01822455,
+            0.15815574
+          ],
+          "examples": [
+            "a sunflower",
+            "a raincoat"
+          ],
+          "comparison": "Dark yellow is warmer than golden yellow.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "dark yellow",
+            "surveyHex": "#D5B60A",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "golden yellow",
+            "deltaE2000": 3.53,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-dandelion",
+          "displayName": "dandelion",
+          "slug": "dandelion",
+          "colorHex": "#FEDF08",
+          "oklabCentroid": [
+            0.9018635,
+            -0.02897717,
+            0.18375361
+          ],
+          "examples": [
+            "a ripe banana",
+            "a paper star"
+          ],
+          "comparison": "Dandelion is warmer than sunshine yellow.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "dandelion",
+            "surveyHex": "#FEDF08",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "sunshine yellow",
+            "deltaE2000": 6.08,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-banana-yellow",
+          "displayName": "banana yellow",
+          "slug": "banana-yellow",
+          "colorHex": "#FAFE4B",
+          "oklabCentroid": [
+            0.96423309,
+            -0.06708816,
+            0.17698954
+          ],
+          "examples": [
+            "a sunflower",
+            "a raincoat"
+          ],
+          "comparison": "Banana yellow is lighter and warmer than chartreuse yellow.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "banana yellow",
+            "surveyHex": "#FAFE4B",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "chartreuse yellow",
+            "deltaE2000": 6.15,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-sand-yellow",
+          "displayName": "sand yellow",
+          "slug": "sand-yellow",
+          "colorHex": "#FCE166",
+          "oklabCentroid": [
+            0.9089653,
+            -0.01761607,
+            0.14332099
+          ],
+          "examples": [
+            "a ripe banana",
+            "a paper star"
+          ],
+          "comparison": "Sand yellow is a close neighbour of sunshine yellow.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "sand yellow",
+            "surveyHex": "#FCE166",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "sunshine yellow",
+            "deltaE2000": 2.6,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
         }
       ]
     },
@@ -324,6 +1404,546 @@
           "vocabularyId": "iscc-nbs-163",
           "displayName": "sea green",
           "slug": "sea-green"
+        },
+        {
+          "id": "xkcd-olive",
+          "displayName": "olive",
+          "slug": "olive",
+          "colorHex": "#6E750E",
+          "oklabCentroid": [
+            0.53852051,
+            -0.0471329,
+            0.1063058
+          ],
+          "examples": [
+            "a garden leaf",
+            "a toy dinosaur"
+          ],
+          "comparison": "Olive is lighter than moss green.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "olive",
+            "surveyHex": "#6E750E",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "moss green",
+            "deltaE2000": 7.71,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-sage",
+          "displayName": "sage",
+          "slug": "sage",
+          "colorHex": "#87AE73",
+          "oklabCentroid": [
+            0.70715303,
+            -0.06618125,
+            0.06524154
+          ],
+          "examples": [
+            "a fern",
+            "a green apple"
+          ],
+          "comparison": "Sage is lighter and cooler than avocado green.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "sage",
+            "surveyHex": "#87AE73",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "avocado green",
+            "deltaE2000": 7.43,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-fern",
+          "displayName": "fern",
+          "slug": "fern",
+          "colorHex": "#63A950",
+          "oklabCentroid": [
+            0.66775825,
+            -0.1079191,
+            0.09280639
+          ],
+          "examples": [
+            "a garden leaf",
+            "a toy dinosaur"
+          ],
+          "comparison": "Fern is lighter and warmer than leaf green.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "fern",
+            "surveyHex": "#63A950",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "leaf green",
+            "deltaE2000": 6.86,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-hunter-green",
+          "displayName": "hunter green",
+          "slug": "hunter-green",
+          "colorHex": "#0B4008",
+          "oklabCentroid": [
+            0.32535647,
+            -0.07903779,
+            0.06120208
+          ],
+          "examples": [
+            "a fern",
+            "a green apple"
+          ],
+          "comparison": "Hunter green is darker than forest green.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "hunter green",
+            "surveyHex": "#0B4008",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "forest green",
+            "deltaE2000": 10.37,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-kelly-green",
+          "displayName": "kelly green",
+          "slug": "kelly-green",
+          "colorHex": "#02AB2E",
+          "oklabCentroid": [
+            0.64435056,
+            -0.16569743,
+            0.11616336
+          ],
+          "examples": [
+            "a garden leaf",
+            "a toy dinosaur"
+          ],
+          "comparison": "Kelly green is lighter and warmer than leaf green.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "kelly green",
+            "surveyHex": "#02AB2E",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "leaf green",
+            "deltaE2000": 7.27,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-emerald",
+          "displayName": "emerald",
+          "slug": "emerald",
+          "colorHex": "#01A049",
+          "oklabCentroid": [
+            0.61691971,
+            -0.14692803,
+            0.08482015
+          ],
+          "examples": [
+            "a fern",
+            "a green apple"
+          ],
+          "comparison": "Emerald is a close neighbour of leaf green.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "emerald",
+            "surveyHex": "#01A049",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "leaf green",
+            "deltaE2000": 3.36,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-jade",
+          "displayName": "jade",
+          "slug": "jade",
+          "colorHex": "#1FA774",
+          "oklabCentroid": [
+            0.64703674,
+            -0.12812075,
+            0.04237785
+          ],
+          "examples": [
+            "a garden leaf",
+            "a toy dinosaur"
+          ],
+          "comparison": "Jade is darker and warmer than eucalyptus green.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "jade",
+            "surveyHex": "#1FA774",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "eucalyptus green",
+            "deltaE2000": 8.54,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-bottle-green",
+          "displayName": "bottle green",
+          "slug": "bottle-green",
+          "colorHex": "#044A05",
+          "oklabCentroid": [
+            0.35567929,
+            -0.09269182,
+            0.07041188
+          ],
+          "examples": [
+            "a fern",
+            "a green apple"
+          ],
+          "comparison": "Bottle green is darker and warmer than forest green.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "bottle green",
+            "surveyHex": "#044A05",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "forest green",
+            "deltaE2000": 7.92,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-army-green",
+          "displayName": "army green",
+          "slug": "army-green",
+          "colorHex": "#4B5D16",
+          "oklabCentroid": [
+            0.44825974,
+            -0.05250639,
+            0.0813533
+          ],
+          "examples": [
+            "a garden leaf",
+            "a toy dinosaur"
+          ],
+          "comparison": "Army green is lighter than olive green.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "army green",
+            "surveyHex": "#4B5D16",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "olive green",
+            "deltaE2000": 3.86,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-pea-green",
+          "displayName": "pea green",
+          "slug": "pea-green",
+          "colorHex": "#8EAB12",
+          "oklabCentroid": [
+            0.69461702,
+            -0.0844768,
+            0.13933406
+          ],
+          "examples": [
+            "a fern",
+            "a green apple"
+          ],
+          "comparison": "Pea green is lighter and warmer than grass green.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "pea green",
+            "surveyHex": "#8EAB12",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "grass green",
+            "deltaE2000": 4.2,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-shamrock-green",
+          "displayName": "shamrock green",
+          "slug": "shamrock-green",
+          "colorHex": "#02C14D",
+          "oklabCentroid": [
+            0.70725199,
+            -0.17364181,
+            0.10908793
+          ],
+          "examples": [
+            "a garden leaf",
+            "a toy dinosaur"
+          ],
+          "comparison": "Shamrock green is cooler than lime green.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "shamrock green",
+            "surveyHex": "#02C14D",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "lime green",
+            "deltaE2000": 2.98,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-mint",
+          "displayName": "mint",
+          "slug": "mint",
+          "colorHex": "#9FFEB0",
+          "oklabCentroid": [
+            0.91828735,
+            -0.11945238,
+            0.07234017
+          ],
+          "examples": [
+            "a fern",
+            "a green apple"
+          ],
+          "comparison": "Mint is warmer than seafoam green.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "mint",
+            "surveyHex": "#9FFEB0",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "seafoam green",
+            "deltaE2000": 6.65,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-spruce",
+          "displayName": "spruce",
+          "slug": "spruce",
+          "colorHex": "#0A5F38",
+          "oklabCentroid": [
+            0.42878412,
+            -0.09070947,
+            0.03957332
+          ],
+          "examples": [
+            "a garden leaf",
+            "a toy dinosaur"
+          ],
+          "comparison": "Spruce is cooler than forest green.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "spruce",
+            "surveyHex": "#0A5F38",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "forest green",
+            "deltaE2000": 4.04,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-viridian",
+          "displayName": "viridian",
+          "slug": "viridian",
+          "colorHex": "#1E9167",
+          "oklabCentroid": [
+            0.58476457,
+            -0.11272812,
+            0.03474104
+          ],
+          "examples": [
+            "a fern",
+            "a green apple"
+          ],
+          "comparison": "Viridian is warmer than emerald green.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "viridian",
+            "surveyHex": "#1E9167",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "emerald green",
+            "deltaE2000": 4.14,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-celadon",
+          "displayName": "celadon",
+          "slug": "celadon",
+          "colorHex": "#BEFDB7",
+          "oklabCentroid": [
+            0.93427426,
+            -0.08892134,
+            0.0691448
+          ],
+          "examples": [
+            "a garden leaf",
+            "a toy dinosaur"
+          ],
+          "comparison": "Celadon is warmer than seafoam green.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "celadon",
+            "surveyHex": "#BEFDB7",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "seafoam green",
+            "deltaE2000": 3.53,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-wintergreen",
+          "displayName": "wintergreen",
+          "slug": "wintergreen",
+          "colorHex": "#20F986",
+          "oklabCentroid": [
+            0.8625179,
+            -0.19480659,
+            0.10224952
+          ],
+          "examples": [
+            "a fern",
+            "a green apple"
+          ],
+          "comparison": "Wintergreen is lighter and warmer than mint green.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "wintergreen",
+            "surveyHex": "#20F986",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "mint green",
+            "deltaE2000": 8.82,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-lichen",
+          "displayName": "lichen",
+          "slug": "lichen",
+          "colorHex": "#8FB67B",
+          "oklabCentroid": [
+            0.73271963,
+            -0.06568752,
+            0.06484643
+          ],
+          "examples": [
+            "a garden leaf",
+            "a toy dinosaur"
+          ],
+          "comparison": "Lichen is lighter and cooler than avocado green.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "lichen",
+            "surveyHex": "#8FB67B",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "avocado green",
+            "deltaE2000": 9.13,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-asparagus",
+          "displayName": "asparagus",
+          "slug": "asparagus",
+          "colorHex": "#77AB56",
+          "oklabCentroid": [
+            0.68479014,
+            -0.09004351,
+            0.09161483
+          ],
+          "examples": [
+            "a fern",
+            "a green apple"
+          ],
+          "comparison": "Asparagus is warmer than avocado green.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "asparagus",
+            "surveyHex": "#77AB56",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "avocado green",
+            "deltaE2000": 7.53,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
         }
       ]
     },
@@ -414,6 +2034,546 @@
           "slug": "navy-blue",
           "object": "sailboat",
           "sprite": "sailboat.webp"
+        },
+        {
+          "id": "xkcd-cerulean",
+          "displayName": "cerulean",
+          "slug": "cerulean",
+          "colorHex": "#0485D1",
+          "oklabCentroid": [
+            0.59598389,
+            -0.06289735,
+            -0.13527234
+          ],
+          "examples": [
+            "the daytime sky",
+            "a toy boat"
+          ],
+          "comparison": "Cerulean is darker than sky blue.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "cerulean",
+            "surveyHex": "#0485D1",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "sky blue",
+            "deltaE2000": 10.28,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-cobalt",
+          "displayName": "cobalt",
+          "slug": "cobalt",
+          "colorHex": "#1E488F",
+          "oklabCentroid": [
+            0.41400864,
+            -0.02145491,
+            -0.12498416
+          ],
+          "examples": [
+            "a blue feather",
+            "a rain puddle"
+          ],
+          "comparison": "Cobalt is lighter and cooler than midnight blue.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "cobalt",
+            "surveyHex": "#1E488F",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "midnight blue",
+            "deltaE2000": 11.07,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-royal-blue",
+          "displayName": "royal blue",
+          "slug": "royal-blue",
+          "colorHex": "#0504AA",
+          "oklabCentroid": [
+            0.33720438,
+            -0.0203104,
+            -0.22767772
+          ],
+          "examples": [
+            "the daytime sky",
+            "a toy boat"
+          ],
+          "comparison": "Royal blue is cooler than midnight blue.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "royal blue",
+            "surveyHex": "#0504AA",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "midnight blue",
+            "deltaE2000": 15.25,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-ultramarine",
+          "displayName": "ultramarine",
+          "slug": "ultramarine",
+          "colorHex": "#2000B1",
+          "oklabCentroid": [
+            0.35459383,
+            0.00251365,
+            -0.23111263
+          ],
+          "examples": [
+            "a blue feather",
+            "a rain puddle"
+          ],
+          "comparison": "Ultramarine is cooler than midnight blue.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "ultramarine",
+            "surveyHex": "#2000B1",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "midnight blue",
+            "deltaE2000": 16.07,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-azure",
+          "displayName": "azure",
+          "slug": "azure",
+          "colorHex": "#069AF3",
+          "oklabCentroid": [
+            0.66444351,
+            -0.06936306,
+            -0.15344302
+          ],
+          "examples": [
+            "the daytime sky",
+            "a toy boat"
+          ],
+          "comparison": "Azure is cooler than sky blue.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "azure",
+            "surveyHex": "#069AF3",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "sky blue",
+            "deltaE2000": 3.44,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-sapphire",
+          "displayName": "sapphire",
+          "slug": "sapphire",
+          "colorHex": "#2138AB",
+          "oklabCentroid": [
+            0.4070877,
+            -0.00716644,
+            -0.18415359
+          ],
+          "examples": [
+            "a blue feather",
+            "a rain puddle"
+          ],
+          "comparison": "Sapphire is lighter and cooler than midnight blue.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "sapphire",
+            "surveyHex": "#2138AB",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "midnight blue",
+            "deltaE2000": 12.71,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-denim-blue",
+          "displayName": "denim blue",
+          "slug": "denim-blue",
+          "colorHex": "#3B5B92",
+          "oklabCentroid": [
+            0.47330415,
+            -0.01580956,
+            -0.09586697
+          ],
+          "examples": [
+            "the daytime sky",
+            "a toy boat"
+          ],
+          "comparison": "Denim blue is darker and cooler than soft blue.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "denim blue",
+            "surveyHex": "#3B5B92",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "soft blue",
+            "deltaE2000": 6.44,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-steel-blue",
+          "displayName": "steel blue",
+          "slug": "steel-blue",
+          "colorHex": "#5A7D9A",
+          "oklabCentroid": [
+            0.57463713,
+            -0.02619519,
+            -0.05392948
+          ],
+          "examples": [
+            "a blue feather",
+            "a rain puddle"
+          ],
+          "comparison": "Steel blue is lighter and warmer than soft blue.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "steel blue",
+            "surveyHex": "#5A7D9A",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "soft blue",
+            "deltaE2000": 8.83,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-slate-blue",
+          "displayName": "slate blue",
+          "slug": "slate-blue",
+          "colorHex": "#5B7C99",
+          "oklabCentroid": [
+            0.57250488,
+            -0.0242503,
+            -0.05343435
+          ],
+          "examples": [
+            "the daytime sky",
+            "a toy boat"
+          ],
+          "comparison": "Slate blue is lighter and warmer than soft blue.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "slate blue",
+            "surveyHex": "#5B7C99",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "soft blue",
+            "deltaE2000": 8.62,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-dusty-blue",
+          "displayName": "dusty blue",
+          "slug": "dusty-blue",
+          "colorHex": "#5A86AD",
+          "oklabCentroid": [
+            0.60387828,
+            -0.03098709,
+            -0.07040272
+          ],
+          "examples": [
+            "a blue feather",
+            "a rain puddle"
+          ],
+          "comparison": "Dusty blue is darker than cornflower blue.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "dusty blue",
+            "surveyHex": "#5A86AD",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "cornflower blue",
+            "deltaE2000": 10.28,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-powder-blue",
+          "displayName": "powder blue",
+          "slug": "powder-blue",
+          "colorHex": "#B1D1FC",
+          "oklabCentroid": [
+            0.85195703,
+            -0.0169212,
+            -0.06732397
+          ],
+          "examples": [
+            "the daytime sky",
+            "a toy boat"
+          ],
+          "comparison": "Powder blue is a close neighbour of baby blue.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "powder blue",
+            "surveyHex": "#B1D1FC",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "baby blue",
+            "deltaE2000": 5.47,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-pastel-blue",
+          "displayName": "pastel blue",
+          "slug": "pastel-blue",
+          "colorHex": "#A2BFFE",
+          "oklabCentroid": [
+            0.80624332,
+            -0.00793466,
+            -0.09488553
+          ],
+          "examples": [
+            "a blue feather",
+            "a rain puddle"
+          ],
+          "comparison": "Pastel blue is darker and cooler than baby blue.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "pastel blue",
+            "surveyHex": "#A2BFFE",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "baby blue",
+            "deltaE2000": 8.28,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-robin-s-egg-blue",
+          "displayName": "robin's egg blue",
+          "slug": "robin-s-egg-blue",
+          "colorHex": "#98EFF9",
+          "oklabCentroid": [
+            0.90049579,
+            -0.07687749,
+            -0.03593887
+          ],
+          "examples": [
+            "the daytime sky",
+            "a toy boat"
+          ],
+          "comparison": "Robin's egg blue is lighter than ice blue.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "robin's egg blue",
+            "surveyHex": "#98EFF9",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "ice blue",
+            "deltaE2000": 5.58,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-marine-blue",
+          "displayName": "marine blue",
+          "slug": "marine-blue",
+          "colorHex": "#01386A",
+          "oklabCentroid": [
+            0.33944171,
+            -0.03081153,
+            -0.0967734
+          ],
+          "examples": [
+            "a blue feather",
+            "a rain puddle"
+          ],
+          "comparison": "Marine blue is lighter and cooler than navy blue.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "marine blue",
+            "surveyHex": "#01386A",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "navy blue",
+            "deltaE2000": 5.39,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-prussian-blue",
+          "displayName": "prussian blue",
+          "slug": "prussian-blue",
+          "colorHex": "#004577",
+          "oklabCentroid": [
+            0.38197534,
+            -0.03814933,
+            -0.09681342
+          ],
+          "examples": [
+            "the daytime sky",
+            "a toy boat"
+          ],
+          "comparison": "Prussian blue is lighter and cooler than midnight blue.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "prussian blue",
+            "surveyHex": "#004577",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "midnight blue",
+            "deltaE2000": 7.86,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-cadet-blue",
+          "displayName": "cadet blue",
+          "slug": "cadet-blue",
+          "colorHex": "#4E7496",
+          "oklabCentroid": [
+            0.54463422,
+            -0.02741504,
+            -0.06290662
+          ],
+          "examples": [
+            "a blue feather",
+            "a rain puddle"
+          ],
+          "comparison": "Cadet blue is lighter and warmer than soft blue.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "cadet blue",
+            "surveyHex": "#4E7496",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "soft blue",
+            "deltaE2000": 5.04,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-french-blue",
+          "displayName": "french blue",
+          "slug": "french-blue",
+          "colorHex": "#436BAD",
+          "oklabCentroid": [
+            0.53004747,
+            -0.01990428,
+            -0.11203829
+          ],
+          "examples": [
+            "the daytime sky",
+            "a toy boat"
+          ],
+          "comparison": "French blue is cooler than soft blue.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "french blue",
+            "surveyHex": "#436BAD",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "soft blue",
+            "deltaE2000": 4.83,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-water-blue",
+          "displayName": "water blue",
+          "slug": "water-blue",
+          "colorHex": "#0E87CC",
+          "oklabCentroid": [
+            0.59853758,
+            -0.06435015,
+            -0.12502572
+          ],
+          "examples": [
+            "a blue feather",
+            "a rain puddle"
+          ],
+          "comparison": "Water blue is darker than sky blue.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "water blue",
+            "surveyHex": "#0E87CC",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "sky blue",
+            "deltaE2000": 9.79,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
         }
       ]
     },
@@ -509,6 +2669,486 @@
           "slug": "dark-purple",
           "object": "plum",
           "sprite": "plum.webp"
+        },
+        {
+          "id": "xkcd-purple",
+          "displayName": "purple",
+          "slug": "purple",
+          "colorHex": "#7E1E9C",
+          "oklabCentroid": [
+            0.45236044,
+            0.1413285,
+            -0.13497931
+          ],
+          "examples": [
+            "a plum",
+            "a ribbon"
+          ],
+          "comparison": "Purple is a close neighbour of bright purple.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "purple",
+            "surveyHex": "#7E1E9C",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "bright purple",
+            "deltaE2000": 3.36,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-plum",
+          "displayName": "plum",
+          "slug": "plum",
+          "colorHex": "#580F41",
+          "oklabCentroid": [
+            0.31922435,
+            0.11306206,
+            -0.03248069
+          ],
+          "examples": [
+            "an iris petal",
+            "a purple crayon"
+          ],
+          "comparison": "Plum is darker and warmer than dark purple.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "plum",
+            "surveyHex": "#580F41",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "dark purple",
+            "deltaE2000": 10.99,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-eggplant",
+          "displayName": "eggplant",
+          "slug": "eggplant",
+          "colorHex": "#380835",
+          "oklabCentroid": [
+            0.24598474,
+            0.08301127,
+            -0.04643505
+          ],
+          "examples": [
+            "a plum",
+            "a ribbon"
+          ],
+          "comparison": "Eggplant is warmer than aubergine purple.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "eggplant",
+            "surveyHex": "#380835",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "aubergine purple",
+            "deltaE2000": 9.69,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-grape",
+          "displayName": "grape",
+          "slug": "grape",
+          "colorHex": "#6C3461",
+          "oklabCentroid": [
+            0.41506563,
+            0.0910678,
+            -0.04218088
+          ],
+          "examples": [
+            "an iris petal",
+            "a purple crayon"
+          ],
+          "comparison": "Grape is a close neighbour of dark purple.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "grape",
+            "surveyHex": "#6C3461",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "dark purple",
+            "deltaE2000": 6.75,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-amethyst",
+          "displayName": "amethyst",
+          "slug": "amethyst",
+          "colorHex": "#9B5FC0",
+          "oklabCentroid": [
+            0.59191183,
+            0.10112913,
+            -0.11597343
+          ],
+          "examples": [
+            "a plum",
+            "a ribbon"
+          ],
+          "comparison": "Amethyst is lighter and cooler than soft purple.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "amethyst",
+            "surveyHex": "#9B5FC0",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "soft purple",
+            "deltaE2000": 10.23,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-mauve",
+          "displayName": "mauve",
+          "slug": "mauve",
+          "colorHex": "#AE7181",
+          "oklabCentroid": [
+            0.61745718,
+            0.07957747,
+            0.00360495
+          ],
+          "examples": [
+            "an iris petal",
+            "a purple crayon"
+          ],
+          "comparison": "Mauve is lighter and warmer than soft purple.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "mauve",
+            "surveyHex": "#AE7181",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "soft purple",
+            "deltaE2000": 15.72,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-orchid",
+          "displayName": "orchid",
+          "slug": "orchid",
+          "colorHex": "#C875C4",
+          "oklabCentroid": [
+            0.679758,
+            0.12382102,
+            -0.07509989
+          ],
+          "examples": [
+            "a plum",
+            "a ribbon"
+          ],
+          "comparison": "Orchid is darker than orchid purple.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "orchid",
+            "surveyHex": "#C875C4",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "orchid purple",
+            "deltaE2000": 7.45,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-magenta",
+          "displayName": "magenta",
+          "slug": "magenta",
+          "colorHex": "#C20078",
+          "oklabCentroid": [
+            0.53369336,
+            0.21883509,
+            -0.02743485
+          ],
+          "examples": [
+            "an iris petal",
+            "a purple crayon"
+          ],
+          "comparison": "Magenta is lighter and warmer than bright purple.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "magenta",
+            "surveyHex": "#C20078",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "bright purple",
+            "deltaE2000": 15.79,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-royal-purple",
+          "displayName": "royal purple",
+          "slug": "royal-purple",
+          "colorHex": "#4B006E",
+          "oklabCentroid": [
+            0.31927734,
+            0.103212,
+            -0.12457954
+          ],
+          "examples": [
+            "a plum",
+            "a ribbon"
+          ],
+          "comparison": "Royal purple is lighter and cooler than aubergine purple.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "royal purple",
+            "surveyHex": "#4B006E",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "aubergine purple",
+            "deltaE2000": 5.08,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-pastel-purple",
+          "displayName": "pastel purple",
+          "slug": "pastel-purple",
+          "colorHex": "#CAA0FF",
+          "oklabCentroid": [
+            0.77926379,
+            0.07672211,
+            -0.1150428
+          ],
+          "examples": [
+            "an iris petal",
+            "a purple crayon"
+          ],
+          "comparison": "Pastel purple is lighter and cooler than orchid purple.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "pastel purple",
+            "surveyHex": "#CAA0FF",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "orchid purple",
+            "deltaE2000": 7.03,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-dusty-purple",
+          "displayName": "dusty purple",
+          "slug": "dusty-purple",
+          "colorHex": "#825F87",
+          "oklabCentroid": [
+            0.53604239,
+            0.05841104,
+            -0.04523503
+          ],
+          "examples": [
+            "a plum",
+            "a ribbon"
+          ],
+          "comparison": "Dusty purple is warmer than soft purple.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "dusty purple",
+            "surveyHex": "#825F87",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "soft purple",
+            "deltaE2000": 2.47,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-heliotrope",
+          "displayName": "heliotrope",
+          "slug": "heliotrope",
+          "colorHex": "#D94FF5",
+          "oklabCentroid": [
+            0.6784931,
+            0.19558856,
+            -0.16184533
+          ],
+          "examples": [
+            "an iris petal",
+            "a purple crayon"
+          ],
+          "comparison": "Heliotrope is darker and cooler than orchid purple.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "heliotrope",
+            "surveyHex": "#D94FF5",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "orchid purple",
+            "deltaE2000": 13.78,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-pale-violet",
+          "displayName": "pale violet",
+          "slug": "pale-violet",
+          "colorHex": "#CEAEFA",
+          "oklabCentroid": [
+            0.80546562,
+            0.06050819,
+            -0.09205181
+          ],
+          "examples": [
+            "a plum",
+            "a ribbon"
+          ],
+          "comparison": "Pale violet is cooler than lilac.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "pale violet",
+            "surveyHex": "#CEAEFA",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "lilac",
+            "deltaE2000": 6.05,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-deep-violet",
+          "displayName": "deep violet",
+          "slug": "deep-violet",
+          "colorHex": "#490648",
+          "oklabCentroid": [
+            0.28862628,
+            0.10560749,
+            -0.06370275
+          ],
+          "examples": [
+            "an iris petal",
+            "a purple crayon"
+          ],
+          "comparison": "Deep violet is warmer than aubergine purple.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "deep violet",
+            "surveyHex": "#490648",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "aubergine purple",
+            "deltaE2000": 7.71,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-rich-purple",
+          "displayName": "rich purple",
+          "slug": "rich-purple",
+          "colorHex": "#720058",
+          "oklabCentroid": [
+            0.37142126,
+            0.15196976,
+            -0.05140151
+          ],
+          "examples": [
+            "a plum",
+            "a ribbon"
+          ],
+          "comparison": "Rich purple is a close neighbour of dark purple.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "rich purple",
+            "surveyHex": "#720058",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "dark purple",
+            "deltaE2000": 12.52,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-lavender-blue",
+          "displayName": "lavender blue",
+          "slug": "lavender-blue",
+          "colorHex": "#8B88F8",
+          "oklabCentroid": [
+            0.6797755,
+            0.03479089,
+            -0.1581233
+          ],
+          "examples": [
+            "an iris petal",
+            "a purple crayon"
+          ],
+          "comparison": "Lavender blue is cooler than periwinkle.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "lavender blue",
+            "surveyHex": "#8B88F8",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "periwinkle",
+            "deltaE2000": 5.09,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
         }
       ]
     },
@@ -594,6 +3234,426 @@
           "vocabularyId": "iscc-nbs-240",
           "displayName": "mauve pink",
           "slug": "mauve-pink"
+        },
+        {
+          "id": "xkcd-dusty-pink",
+          "displayName": "dusty pink",
+          "slug": "dusty-pink",
+          "colorHex": "#D58A94",
+          "oklabCentroid": [
+            0.71259826,
+            0.09069748,
+            0.01757407
+          ],
+          "examples": [
+            "a rose petal",
+            "a balloon"
+          ],
+          "comparison": "Dusty pink is lighter and warmer than dusky pink.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "dusty pink",
+            "surveyHex": "#D58A94",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "dusky pink",
+            "deltaE2000": 5.78,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-blush-pink",
+          "displayName": "blush pink",
+          "slug": "blush-pink",
+          "colorHex": "#FE828C",
+          "oklabCentroid": [
+            0.74868776,
+            0.14471223,
+            0.04249793
+          ],
+          "examples": [
+            "a seashell",
+            "a pink cupcake"
+          ],
+          "comparison": "Blush pink is a close neighbour of bright pink.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "blush pink",
+            "surveyHex": "#FE828C",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "bright pink",
+            "deltaE2000": 2.66,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-pale-pink",
+          "displayName": "pale pink",
+          "slug": "pale-pink",
+          "colorHex": "#FFCFDC",
+          "oklabCentroid": [
+            0.89954688,
+            0.05643379,
+            0.00024324
+          ],
+          "examples": [
+            "a rose petal",
+            "a balloon"
+          ],
+          "comparison": "Pale pink is lighter than baby pink.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "pale pink",
+            "surveyHex": "#FFCFDC",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "baby pink",
+            "deltaE2000": 5.46,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-light-pink",
+          "displayName": "light pink",
+          "slug": "light-pink",
+          "colorHex": "#FFD1DF",
+          "oklabCentroid": [
+            0.90405719,
+            0.0545272,
+            -0.00184318
+          ],
+          "examples": [
+            "a seashell",
+            "a pink cupcake"
+          ],
+          "comparison": "Light pink is lighter than baby pink.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "light pink",
+            "surveyHex": "#FFD1DF",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "baby pink",
+            "deltaE2000": 5.76,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-salmon-pink",
+          "displayName": "salmon pink",
+          "slug": "salmon-pink",
+          "colorHex": "#FE7B7C",
+          "oklabCentroid": [
+            0.7350955,
+            0.14920406,
+            0.05821219
+          ],
+          "examples": [
+            "a rose petal",
+            "a balloon"
+          ],
+          "comparison": "Salmon pink is darker and warmer than bright pink.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "salmon pink",
+            "surveyHex": "#FE7B7C",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "bright pink",
+            "deltaE2000": 5.94,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-coral-pink",
+          "displayName": "coral pink",
+          "slug": "coral-pink",
+          "colorHex": "#FF6163",
+          "oklabCentroid": [
+            0.69789522,
+            0.1776935,
+            0.07481615
+          ],
+          "examples": [
+            "a seashell",
+            "a pink cupcake"
+          ],
+          "comparison": "Coral pink is warmer than raspberry pink.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "coral pink",
+            "surveyHex": "#FF6163",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "raspberry pink",
+            "deltaE2000": 7.6,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-cerise",
+          "displayName": "cerise",
+          "slug": "cerise",
+          "colorHex": "#DE0C62",
+          "oklabCentroid": [
+            0.58019728,
+            0.2266926,
+            0.02912296
+          ],
+          "examples": [
+            "a rose petal",
+            "a balloon"
+          ],
+          "comparison": "Cerise is warmer than deep berry pink.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "cerise",
+            "surveyHex": "#DE0C62",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "deep berry pink",
+            "deltaE2000": 7.66,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-carnation-pink",
+          "displayName": "carnation pink",
+          "slug": "carnation-pink",
+          "colorHex": "#FF7FA7",
+          "oklabCentroid": [
+            0.75272699,
+            0.16002764,
+            0.0052931
+          ],
+          "examples": [
+            "a seashell",
+            "a pink cupcake"
+          ],
+          "comparison": "Carnation pink is warmer than hot pink.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "carnation pink",
+            "surveyHex": "#FF7FA7",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "hot pink",
+            "deltaE2000": 5.2,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-powder-pink",
+          "displayName": "powder pink",
+          "slug": "powder-pink",
+          "colorHex": "#FFB2D0",
+          "oklabCentroid": [
+            0.84478738,
+            0.09622422,
+            -0.00961641
+          ],
+          "examples": [
+            "a rose petal",
+            "a balloon"
+          ],
+          "comparison": "Powder pink is a close neighbour of candy pink.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "powder pink",
+            "surveyHex": "#FFB2D0",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "candy pink",
+            "deltaE2000": 0.62,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-old-rose",
+          "displayName": "old rose",
+          "slug": "old-rose",
+          "colorHex": "#C87F89",
+          "oklabCentroid": [
+            0.67528907,
+            0.08960549,
+            0.01721368
+          ],
+          "examples": [
+            "a seashell",
+            "a pink cupcake"
+          ],
+          "comparison": "Old rose is warmer than dusky pink.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "old rose",
+            "surveyHex": "#C87F89",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "dusky pink",
+            "deltaE2000": 4.42,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-peachy-pink",
+          "displayName": "peachy pink",
+          "slug": "peachy-pink",
+          "colorHex": "#FF9A8A",
+          "oklabCentroid": [
+            0.78678263,
+            0.10774245,
+            0.06160802
+          ],
+          "examples": [
+            "a rose petal",
+            "a balloon"
+          ],
+          "comparison": "Peachy pink is warmer than bubblegum pink.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "peachy pink",
+            "surveyHex": "#FF9A8A",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "bubblegum pink",
+            "deltaE2000": 7.92,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-rose",
+          "displayName": "rose",
+          "slug": "rose",
+          "colorHex": "#CF6275",
+          "oklabCentroid": [
+            0.63268848,
+            0.13610794,
+            0.02646357
+          ],
+          "examples": [
+            "a seashell",
+            "a pink cupcake"
+          ],
+          "comparison": "Rose is darker and cooler than raspberry pink.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "rose",
+            "surveyHex": "#CF6275",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "raspberry pink",
+            "deltaE2000": 5.54,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-watermelon",
+          "displayName": "watermelon",
+          "slug": "watermelon",
+          "colorHex": "#FD4659",
+          "oklabCentroid": [
+            0.66506854,
+            0.20467007,
+            0.07444933
+          ],
+          "examples": [
+            "a rose petal",
+            "a balloon"
+          ],
+          "comparison": "Watermelon is warmer than raspberry pink.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "watermelon",
+            "surveyHex": "#FD4659",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "raspberry pink",
+            "deltaE2000": 8.4,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-ruby",
+          "displayName": "ruby",
+          "slug": "ruby",
+          "colorHex": "#CA0147",
+          "oklabCentroid": [
+            0.5343968,
+            0.20725254,
+            0.04996102
+          ],
+          "examples": [
+            "a seashell",
+            "a pink cupcake"
+          ],
+          "comparison": "Ruby is warmer than deep berry pink.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "ruby",
+            "surveyHex": "#CA0147",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "deep berry pink",
+            "deltaE2000": 10.68,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
         }
       ]
     },
@@ -686,6 +3746,426 @@
           "vocabularyId": "iscc-nbs-078",
           "displayName": "dark oak",
           "slug": "dark-oak"
+        },
+        {
+          "id": "xkcd-chestnut",
+          "displayName": "chestnut",
+          "slug": "chestnut",
+          "colorHex": "#742802",
+          "oklabCentroid": [
+            0.38611294,
+            0.08639652,
+            0.0767383
+          ],
+          "examples": [
+            "an acorn",
+            "a teddy bear"
+          ],
+          "comparison": "Chestnut is cooler than mahogany brown.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "chestnut",
+            "surveyHex": "#742802",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "mahogany brown",
+            "deltaE2000": 5.9,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-umber",
+          "displayName": "umber",
+          "slug": "umber",
+          "colorHex": "#B26400",
+          "oklabCentroid": [
+            0.58018231,
+            0.06537512,
+            0.11786066
+          ],
+          "examples": [
+            "tree bark",
+            "a walnut shell"
+          ],
+          "comparison": "Umber is a close neighbour of caramel brown.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "umber",
+            "surveyHex": "#B26400",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "caramel brown",
+            "deltaE2000": 6.59,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-sepia",
+          "displayName": "sepia",
+          "slug": "sepia",
+          "colorHex": "#985E2B",
+          "oklabCentroid": [
+            0.53666756,
+            0.05129778,
+            0.08621166
+          ],
+          "examples": [
+            "an acorn",
+            "a teddy bear"
+          ],
+          "comparison": "Sepia is warmer than cinnamon brown.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "sepia",
+            "surveyHex": "#985E2B",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "cinnamon brown",
+            "deltaE2000": 7.85,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-taupe",
+          "displayName": "taupe",
+          "slug": "taupe",
+          "colorHex": "#B9A281",
+          "oklabCentroid": [
+            0.72397464,
+            0.01219215,
+            0.05141463
+          ],
+          "examples": [
+            "tree bark",
+            "a walnut shell"
+          ],
+          "comparison": "Taupe is cooler than sand brown.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "taupe",
+            "surveyHex": "#B9A281",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "sand brown",
+            "deltaE2000": 4.94,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-mocha",
+          "displayName": "mocha",
+          "slug": "mocha",
+          "colorHex": "#9D7651",
+          "oklabCentroid": [
+            0.59565871,
+            0.03095088,
+            0.06418608
+          ],
+          "examples": [
+            "an acorn",
+            "a teddy bear"
+          ],
+          "comparison": "Mocha is a close neighbour of teddy brown.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "mocha",
+            "surveyHex": "#9D7651",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "teddy brown",
+            "deltaE2000": 4.39,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-rust",
+          "displayName": "rust",
+          "slug": "rust",
+          "colorHex": "#A83C09",
+          "oklabCentroid": [
+            0.5034379,
+            0.11591495,
+            0.09838764
+          ],
+          "examples": [
+            "tree bark",
+            "a walnut shell"
+          ],
+          "comparison": "Rust is lighter and warmer than mahogany brown.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "rust",
+            "surveyHex": "#A83C09",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "mahogany brown",
+            "deltaE2000": 9.16,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-camel",
+          "displayName": "camel",
+          "slug": "camel",
+          "colorHex": "#C69F59",
+          "oklabCentroid": [
+            0.72355325,
+            0.01605099,
+            0.09855261
+          ],
+          "examples": [
+            "an acorn",
+            "a teddy bear"
+          ],
+          "comparison": "Camel is warmer than sand brown.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "camel",
+            "surveyHex": "#C69F59",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "sand brown",
+            "deltaE2000": 5.72,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-fawn",
+          "displayName": "fawn",
+          "slug": "fawn",
+          "colorHex": "#CFAF7B",
+          "oklabCentroid": [
+            0.77004329,
+            0.01443542,
+            0.07653034
+          ],
+          "examples": [
+            "tree bark",
+            "a walnut shell"
+          ],
+          "comparison": "Fawn is lighter than sand brown.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "fawn",
+            "surveyHex": "#CFAF7B",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "sand brown",
+            "deltaE2000": 5.57,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-auburn",
+          "displayName": "auburn",
+          "slug": "auburn",
+          "colorHex": "#9A3001",
+          "oklabCentroid": [
+            0.46406706,
+            0.116233,
+            0.09313851
+          ],
+          "examples": [
+            "an acorn",
+            "a teddy bear"
+          ],
+          "comparison": "Auburn is lighter and warmer than mahogany brown.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "auburn",
+            "surveyHex": "#9A3001",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "mahogany brown",
+            "deltaE2000": 5.43,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-tan",
+          "displayName": "tan",
+          "slug": "tan",
+          "colorHex": "#D1B26F",
+          "oklabCentroid": [
+            0.77595376,
+            0.00731679,
+            0.09263488
+          ],
+          "examples": [
+            "tree bark",
+            "a walnut shell"
+          ],
+          "comparison": "Tan is lighter and warmer than sand brown.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "tan",
+            "surveyHex": "#D1B26F",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "sand brown",
+            "deltaE2000": 8.16,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-beige",
+          "displayName": "beige",
+          "slug": "beige",
+          "colorHex": "#E6DAA6",
+          "oklabCentroid": [
+            0.88542105,
+            -0.0079636,
+            0.06846722
+          ],
+          "examples": [
+            "an acorn",
+            "a teddy bear"
+          ],
+          "comparison": "Beige is lighter than sand brown.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "beige",
+            "surveyHex": "#E6DAA6",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "sand brown",
+            "deltaE2000": 17.17,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-khaki",
+          "displayName": "khaki",
+          "slug": "khaki",
+          "colorHex": "#AAA662",
+          "oklabCentroid": [
+            0.71295396,
+            -0.02397916,
+            0.08636581
+          ],
+          "examples": [
+            "tree bark",
+            "a walnut shell"
+          ],
+          "comparison": "Khaki is warmer than sand brown.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "khaki",
+            "surveyHex": "#AAA662",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "sand brown",
+            "deltaE2000": 13.18,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-raw-sienna",
+          "displayName": "raw sienna",
+          "slug": "raw-sienna",
+          "colorHex": "#9A6200",
+          "oklabCentroid": [
+            0.54437044,
+            0.03849831,
+            0.11083323
+          ],
+          "examples": [
+            "an acorn",
+            "a teddy bear"
+          ],
+          "comparison": "Raw sienna is a close neighbour of caramel brown.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "raw sienna",
+            "surveyHex": "#9A6200",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "caramel brown",
+            "deltaE2000": 0.81,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-leather",
+          "displayName": "leather",
+          "slug": "leather",
+          "colorHex": "#AC7434",
+          "oklabCentroid": [
+            0.60503983,
+            0.04187017,
+            0.09768445
+          ],
+          "examples": [
+            "tree bark",
+            "a walnut shell"
+          ],
+          "comparison": "Leather is lighter and cooler than caramel brown.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "leather",
+            "surveyHex": "#AC7434",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "caramel brown",
+            "deltaE2000": 7.69,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
         }
       ]
     },
@@ -741,6 +4221,216 @@
           "slug": "charcoal-grey",
           "object": "rain cloud",
           "sprite": "rain-cloud.webp"
+        },
+        {
+          "id": "xkcd-charcoal",
+          "displayName": "charcoal",
+          "slug": "charcoal",
+          "colorHex": "#343837",
+          "oklabCentroid": [
+            0.33647462,
+            -0.00574076,
+            6.282e-05
+          ],
+          "examples": [
+            "a smooth pebble",
+            "a rain cloud"
+          ],
+          "comparison": "Charcoal is darker than charcoal grey.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "charcoal",
+            "surveyHex": "#343837",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "charcoal grey",
+            "deltaE2000": 10.07,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-slate-grey",
+          "displayName": "slate grey",
+          "slug": "slate-grey",
+          "colorHex": "#59656D",
+          "oklabCentroid": [
+            0.49939705,
+            -0.01062156,
+            -0.01637375
+          ],
+          "examples": [
+            "a metal spoon",
+            "a pigeon feather"
+          ],
+          "comparison": "Slate grey is lighter and cooler than charcoal grey.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "slate grey",
+            "surveyHex": "#59656D",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "charcoal grey",
+            "deltaE2000": 8.32,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-steel-grey",
+          "displayName": "steel grey",
+          "slug": "steel-grey",
+          "colorHex": "#6F828A",
+          "oklabCentroid": [
+            0.59411456,
+            -0.01785329,
+            -0.01793607
+          ],
+          "examples": [
+            "a smooth pebble",
+            "a rain cloud"
+          ],
+          "comparison": "Steel grey is a close neighbour of blue-grey.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "steel grey",
+            "surveyHex": "#6F828A",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "blue-grey",
+            "deltaE2000": 5.14,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-silver",
+          "displayName": "silver",
+          "slug": "silver",
+          "colorHex": "#C5C9C7",
+          "oklabCentroid": [
+            0.83218443,
+            -0.00500394,
+            0.00134272
+          ],
+          "examples": [
+            "a metal spoon",
+            "a pigeon feather"
+          ],
+          "comparison": "Silver is lighter than light grey.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "silver",
+            "surveyHex": "#C5C9C7",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "light grey",
+            "deltaE2000": 4.01,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-warm-grey",
+          "displayName": "warm grey",
+          "slug": "warm-grey",
+          "colorHex": "#978A84",
+          "oklabCentroid": [
+            0.64313556,
+            0.01243279,
+            0.01308389
+          ],
+          "examples": [
+            "a smooth pebble",
+            "a rain cloud"
+          ],
+          "comparison": "Warm grey is warmer than pebble grey.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "warm grey",
+            "surveyHex": "#978A84",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "pebble grey",
+            "deltaE2000": 6.38,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-cool-grey",
+          "displayName": "cool grey",
+          "slug": "cool-grey",
+          "colorHex": "#95A3A6",
+          "oklabCentroid": [
+            0.70533655,
+            -0.01397268,
+            -0.00873704
+          ],
+          "examples": [
+            "a metal spoon",
+            "a pigeon feather"
+          ],
+          "comparison": "Cool grey is darker than silver grey.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "cool grey",
+            "surveyHex": "#95A3A6",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "silver grey",
+            "deltaE2000": 7.99,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-cement",
+          "displayName": "cement",
+          "slug": "cement",
+          "colorHex": "#A5A391",
+          "oklabCentroid": [
+            0.71205832,
+            -0.0052351,
+            0.02498985
+          ],
+          "examples": [
+            "a smooth pebble",
+            "a rain cloud"
+          ],
+          "comparison": "Cement is darker and warmer than light grey.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "cement",
+            "surveyHex": "#A5A391",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "light grey",
+            "deltaE2000": 10.49,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
         }
       ]
     },
@@ -779,6 +4469,96 @@
           "slug": "plum-black",
           "object": "moth",
           "sprite": "moth.webp"
+        },
+        {
+          "id": "xkcd-almost-black",
+          "displayName": "almost black",
+          "slug": "almost-black",
+          "colorHex": "#070D0D",
+          "oklabCentroid": [
+            0.15238733,
+            -0.00957181,
+            -0.0027726
+          ],
+          "examples": [
+            "a crow feather",
+            "a top hat"
+          ],
+          "comparison": "Almost black is darker than forest black.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "almost black",
+            "surveyHex": "#070D0D",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "forest black",
+            "deltaE2000": 3.86,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-midnight",
+          "displayName": "midnight",
+          "slug": "midnight",
+          "colorHex": "#03012D",
+          "oklabCentroid": [
+            0.1421359,
+            0.00110352,
+            -0.08792654
+          ],
+          "examples": [
+            "a black cat",
+            "night-time ink"
+          ],
+          "comparison": "Midnight is darker and cooler than plum black.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "midnight",
+            "surveyHex": "#03012D",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "plum black",
+            "deltaE2000": 15.76,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-dark",
+          "displayName": "dark",
+          "slug": "dark",
+          "colorHex": "#1B2431",
+          "oklabCentroid": [
+            0.25789659,
+            -0.00600924,
+            -0.02716322
+          ],
+          "examples": [
+            "a crow feather",
+            "a top hat"
+          ],
+          "comparison": "Dark is cooler than ink black.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "dark",
+            "surveyHex": "#1B2431",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "ink black",
+            "deltaE2000": 5.57,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
         }
       ]
     },
@@ -819,8 +4599,139 @@
           "vocabularyId": "iscc-nbs-189",
           "displayName": "ice white",
           "slug": "ice-white"
+        },
+        {
+          "id": "xkcd-off-white",
+          "displayName": "off white",
+          "slug": "off-white",
+          "colorHex": "#FFFFE4",
+          "oklabCentroid": [
+            0.99296845,
+            -0.01028191,
+            0.03358349
+          ],
+          "examples": [
+            "a daisy petal",
+            "a cloud"
+          ],
+          "comparison": "Off white is lighter and warmer than cream.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "off white",
+            "surveyHex": "#FFFFE4",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "cream",
+            "deltaE2000": 6.79,
+            "meetsApproximateEight": false,
+            "exception": "Established survey term retained for useful vocabulary contrast; comparison text makes the close neighbour explicit."
+          }
+        },
+        {
+          "id": "xkcd-ivory",
+          "displayName": "ivory",
+          "slug": "ivory",
+          "colorHex": "#FFFFCB",
+          "oklabCentroid": [
+            0.98730178,
+            -0.0201076,
+            0.06353876
+          ],
+          "examples": [
+            "fresh snow",
+            "a pearl"
+          ],
+          "comparison": "Ivory is lighter and warmer than cream.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "ivory",
+            "surveyHex": "#FFFFCB",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "cream",
+            "deltaE2000": 11.82,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-eggshell",
+          "displayName": "eggshell",
+          "slug": "eggshell",
+          "colorHex": "#FFFFD4",
+          "oklabCentroid": [
+            0.98924879,
+            -0.01655303,
+            0.05291255
+          ],
+          "examples": [
+            "a daisy petal",
+            "a cloud"
+          ],
+          "comparison": "Eggshell is lighter and warmer than cream.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "eggshell",
+            "surveyHex": "#FFFFD4",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "cream",
+            "deltaE2000": 10.1,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
+        },
+        {
+          "id": "xkcd-ecru",
+          "displayName": "ecru",
+          "slug": "ecru",
+          "colorHex": "#FEFFCA",
+          "oklabCentroid": [
+            0.98631755,
+            -0.02152915,
+            0.06442609
+          ],
+          "examples": [
+            "fresh snow",
+            "a pearl"
+          ],
+          "comparison": "Ecru is lighter and warmer than cream.",
+          "source": {
+            "dataset": "xkcd-rgb.txt",
+            "url": "https://xkcd.com/color/rgb.txt",
+            "licence": "CC0",
+            "surveyName": "ecru",
+            "surveyHex": "#FEFFCA",
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+          },
+          "familySpacing": {
+            "nearestBaseline": "cream",
+            "deltaE2000": 12.1,
+            "meetsApproximateEight": true,
+            "exception": null
+          }
         }
       ]
     }
-  ]
+  ],
+  "expansionSources": {
+    "xkcd": {
+      "url": "https://xkcd.com/color/rgb.txt",
+      "licence": "CC0",
+      "sha256": "450cca88fa6fa9a1e79c969969e05e6900b41a94f0a3a5f134e3d0b79077f890"
+    },
+    "uwC3": {
+      "citation": "Heer, Jeffrey and Stone, Maureen (2012), Color Naming Models for Color Selection, Image Editing and Palette Design, CHI. DOI 10.1145/2207676.2208547",
+      "use": "Methodological guidance for preferring reliably named colours; no UW model/data rows imported."
+    }
+  }
 }

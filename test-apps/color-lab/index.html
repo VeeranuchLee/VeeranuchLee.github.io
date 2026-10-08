@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Color Lab</title>
   <meta name="theme-color" content="#F8E9D5">
+  <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./assets/icons/icon-192.png">
   <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
   <link rel="stylesheet" href="./styles.css">
@@ -46,6 +47,11 @@
 
       <div class="explore-side">
         <h2>Mixing Bowl</h2>
+        <div id="mix-target-card" class="mix-target-card" hidden>
+          <span id="mix-target-swatch" class="mix-target-swatch" aria-hidden="true"></span>
+          <span class="mix-target-copy"><small>Can you make…</small><strong id="mix-target-name"></strong><span id="mix-target-progress"></span></span>
+          <button id="next-target" type="button" aria-label="Try another colour target">Another</button>
+        </div>
         <fieldset class="bowl-picker" aria-label="Choose the bowl color">
           <legend>Choose your bowl</legend>
           <button class="bowl-chip bowl-cream is-selected" type="button" data-bowl-color="cream" aria-label="Cream bowl" aria-pressed="true"><span>Cream</span></button>
@@ -55,7 +61,7 @@
           <button class="bowl-chip bowl-purple" type="button" data-bowl-color="purple" aria-label="Purple bowl" aria-pressed="false"><span>Purple</span></button>
         </fieldset>
         <button id="mix-bowl" class="mix-bowl is-empty" type="button" aria-label="Mixing bowl. Add paint first.">
-          <img class="bowl-art" src="./assets/art/mixing-bowl.webp" alt="" width="600" height="400">
+          <img id="bowl-art" class="bowl-art" src="./assets/art/mixing-bowl-cream.webp" alt="" width="600" height="400">
           <span id="mix-paint" class="mix-paint" aria-hidden="true"></span>
         </button>
         <div id="colour-name" class="colour-name" role="status" aria-live="polite">
