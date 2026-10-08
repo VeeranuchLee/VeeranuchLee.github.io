@@ -224,9 +224,19 @@
     .pack-num{font-size:clamp(1.35rem,4vw,2rem)}.pack-word{color:#f9eec8}.pack-fraction{font-size:.7rem;font-weight:900}.pack-status{font-size:.62rem;font-weight:900;text-transform:uppercase;letter-spacing:.04em}.pack-stars{font-size:1rem}
     .page-btn{flex:0 0 54px;width:54px;height:66px;border-radius:18px;border:2px solid var(--gold);background:rgba(43,22,38,.94);color:var(--gold);font-size:2rem;font-weight:900}.page-btn:disabled{opacity:.35}.page-row{position:absolute;bottom:12px;left:14px;display:flex;gap:2px;align-items:center;justify-content:center}.page-dot{width:44px;height:44px;border:0;background:transparent;position:relative}.page-dot::after{content:'';position:absolute;width:18px;height:18px;border-radius:50%;border:2px solid var(--gold);background:rgba(43,22,38,.8);inset:13px}.page-dot.active::after{background:var(--gold)}
     .shelf-screen>.continue-btn{position:absolute;right:18px;bottom:14px;z-index:4}
-    .desk-panel{width:min(92vw,900px);margin:auto;display:flex;flex-direction:column;align-items:center;gap:12px;padding-top:10vh}.read-row{max-width:min(84vw,760px);align-self:flex-start;margin-left:5%}.prompt-bubble{background:rgba(255,245,214,.96);border-color:#8b6520;box-shadow:0 4px 0 #5b3b12;color:var(--ink)}.speak-btn{width:96px;height:96px}.rb-robot{width:96px}.slot{background:#fff4cf;border:3px solid #9b6b27;color:var(--plum);width:clamp(48px,6vw,68px);height:clamp(56px,7vw,76px)}.slot.filled{background:#fff8df;border-color:var(--gold)}.tile-row{max-width:760px}.tile{min-width:56px;min-height:60px;background:linear-gradient(#fff4cf,#d9a94b)!important;color:var(--ink)!important;box-shadow:0 5px 0 #74501f!important;border:2px solid #8b6520}.praise-banner{color:#fff6d8;text-shadow:0 2px 5px var(--ink);min-height:1.7em}.score-row{background:rgba(43,22,38,.94);border-top:2px solid rgba(255,213,79,.6)}.score-badge,.flower-garden{background:#fff5d6;border-color:#b6842b;color:var(--plum)}.flower-slot{font-size:0}.flower-slot::before{content:'✿';font-size:18px;color:#7c3aed}.flower-slot.empty::before{color:#8b806f}.mascot-corner{display:none}
-    .complete-panel{width:min(88vw,760px);margin:auto;padding:18px;background:rgba(43,22,38,.9);border:3px solid var(--gold);border-radius:28px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}.complete-title{color:var(--gold)}.complete-sub{color:var(--cream)}.complete-overlay{position:static;background:none;backdrop-filter:none;padding:0}.complete-stars{font-size:clamp(48px,12vw,78px)}.big-btn{min-height:52px;background:linear-gradient(#8b5cf6,#5b21b6);box-shadow:0 5px 0 #35106d;border:2px solid var(--gold)}.big-btn.alt{background:rgba(58,30,51,.95);box-shadow:0 5px 0 #1c0d19}
-    @media (orientation:portrait){.workshop-screen{background-image:linear-gradient(rgba(43,22,38,.12),rgba(43,22,38,.2)),url('assets-runtime/spelling/workshop/grade-room-portrait.webp')}.shelf-screen{background-image:linear-gradient(rgba(43,22,38,.12),rgba(43,22,38,.18)),url('assets-runtime/spelling/workshop/pack-shelf-portrait.webp')}.desk-screen{background-image:url('assets-runtime/spelling/workshop/desk-portrait.webp')}.complete-screen{background-image:url('assets-runtime/spelling/workshop/complete-portrait.webp')}.station-grid{grid-template-columns:repeat(3,minmax(0,1fr));width:min(94vw,720px);gap:8px;margin:auto 0 8px}.station-card{min-height:116px;padding:10px 7px;align-items:center}.station-name{font-size:clamp(.9rem,2.5vw,1.15rem)}.station-progress{font-size:clamp(.65rem,1.8vw,.78rem)}.workshop-title{margin-top:58px}.shelf-wrap{top:14%;width:min(82vw,680px);height:59%}.pack-card{width:68%;height:68%}.shelf-screen .top-bar .bar-label,.shelf-head{top:70px}.shelf-screen>.continue-btn{right:50%;transform:translateX(50%);bottom:18px}.page-row{left:50%;transform:translateX(-50%);bottom:76px}.desk-panel{padding-top:18vh}.read-row{align-self:center;margin-left:0}.complete-panel{margin-top:16vh}}
+    .desk-panel{position:absolute;top:29%;bottom:calc(86px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(86vw,880px);display:grid;grid-template-rows:minmax(68px,auto) minmax(44px,auto) minmax(22px,auto) 1fr;align-items:center;justify-items:center;gap:clamp(4px,1vh,10px)}
+    .read-row{width:min(78vw,760px);max-width:none;justify-self:center;align-self:center;margin:0;gap:8px}.prompt-bubble{position:relative;min-height:54px;background:linear-gradient(160deg,rgba(255,249,226,.98),rgba(242,218,164,.98));border:3px solid #9a6826;border-radius:18px 24px 24px 18px;box-shadow:inset 0 0 0 2px rgba(255,255,255,.65),0 5px 0 #5b3515,0 8px 14px rgba(48,24,13,.24);color:var(--ink);padding:9px 20px}
+    .read-row .prompt-bubble::before{border-right-color:#9a6826}.read-row .prompt-bubble::after{border-right-color:#f7e9c5}
+    .speak-btn{width:clamp(78px,10vw,104px);height:clamp(78px,10vw,104px);filter:drop-shadow(0 6px 6px rgba(43,22,38,.3))}.book-mascot{display:block;width:100%;height:100%;object-fit:contain;transform-origin:50% 85%}.book-mascot.listening{animation:listenPulse 1.25s ease-in-out infinite}.book-mascot.feedback{animation:mascotPop .42s ease-out}
+    @keyframes listenPulse{50%{transform:scale(1.035) rotate(-1deg)}}@keyframes mascotPop{0%{transform:scale(.88)}70%{transform:scale(1.04)}100%{transform:scale(1)}}
+    .slot-row{box-sizing:border-box;width:min(55vw,720px);max-width:none;position:relative;left:6.4vw;top:-3.2vh;flex-wrap:nowrap;gap:clamp(3px,.72vw,8px);padding:7px 10px;border-radius:18px;background:rgba(122,79,33,.12);box-shadow:inset 0 2px 7px rgba(84,47,18,.18)}
+    .slot,.slot-row.long .slot{flex:1 1 0;min-width:0;max-width:68px;width:auto;height:clamp(44px,6.7vh,66px);border:2px solid #9a6826;border-radius:10px;background:linear-gradient(145deg,rgba(220,184,116,.44),rgba(255,247,215,.72));box-shadow:inset 0 3px 7px rgba(94,51,19,.25),inset 0 -2px 2px rgba(255,255,255,.8),0 1px 0 rgba(255,255,255,.55);color:#34221b;font-size:clamp(1rem,3.1vw,1.75rem);text-shadow:0 1px 0 #fff4cf}
+    .slot.filled,.slot-row.long .slot.filled{background:linear-gradient(145deg,#fff9e5,#e8c87b);border-color:#b27a23;box-shadow:inset 0 2px 4px rgba(116,71,22,.18),0 2px 3px rgba(77,39,14,.18)}
+    .tile-tray{align-self:start;margin-top:clamp(0px,1.2vh,12px);display:flex;align-items:center;justify-content:center;width:fit-content;min-width:min(60vw,420px);max-width:min(88vw,840px);min-height:0;padding:clamp(14px,2.2vh,22px) clamp(14px,2.4vw,28px);border:4px solid #9a6429;border-radius:18px 18px 28px 28px;background:linear-gradient(180deg,rgba(176,118,52,.98) 0,rgba(128,78,34,.98) 14%,rgba(112,66,28,.98) 86%,rgba(150,98,44,.98));box-shadow:inset 0 0 0 3px #e3b85d,inset 0 7px 10px rgba(35,13,31,.55),0 9px 0 #4f2b18,0 13px 18px rgba(32,14,11,.38)}
+    .tile-row{max-width:760px}.tile,.tile-row.dense .tile{min-width:44px;min-height:48px;background:linear-gradient(145deg,#fffdf0 0%,#eee0bd 58%,#caa75d 100%)!important;color:#32231c!important;border:2px solid #b47b24;border-radius:10px;box-shadow:inset 2px 2px 2px rgba(255,255,255,.95),inset -3px -3px 4px rgba(115,73,22,.24),0 5px 0 #76501e,0 8px 8px rgba(28,12,9,.42)!important;text-shadow:0 1px 0 #fff;font-family:'Fredoka One','Nunito',sans-serif}.tile:active{transform:translateY(4px) scale(.97);box-shadow:inset 2px 2px 3px rgba(118,78,28,.2),0 1px 0 #76501e!important}.tile.used{opacity:.24;transform:scale(.9)}
+    .praise-banner{color:#4a2340;text-shadow:0 1px 0 #fff2c8;min-height:1.45em;font-size:clamp(.95rem,2.6vw,1.3rem)}.score-row{background:rgba(43,22,38,.94);border-top:2px solid rgba(255,213,79,.6)}.score-badge,.flower-garden{background:#fff5d6;border-color:#b6842b;color:var(--plum)}.flower-slot{font-size:0}.flower-slot::before{content:'✿';font-size:18px;color:#7c3aed}.flower-slot.empty::before{color:#8b806f}.mascot-corner{display:none}
+    .complete-panel{width:min(88vw,760px);margin:auto;padding:18px;background:rgba(43,22,38,.9);border:3px solid var(--gold);border-radius:28px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}.complete-panel .book-mascot{width:clamp(100px,16vw,150px);height:clamp(92px,14vw,132px)}.complete-title{color:var(--gold)}.complete-sub{color:var(--cream)}.complete-overlay{position:static;background:none;backdrop-filter:none;padding:0}.complete-stars{font-size:clamp(48px,12vw,78px)}.big-btn{min-height:52px;background:linear-gradient(#8b5cf6,#5b21b6);box-shadow:0 5px 0 #35106d;border:2px solid var(--gold)}.big-btn.alt{background:rgba(58,30,51,.95);box-shadow:0 5px 0 #1c0d19}
+    @media (orientation:portrait){.slot-row{width:min(63vw,560px);left:.4vw;top:0}.tile-tray{margin-top:clamp(18px,4.5vh,48px)}.workshop-screen{background-image:linear-gradient(rgba(43,22,38,.12),rgba(43,22,38,.2)),url('assets-runtime/spelling/workshop/grade-room-portrait.webp')}.shelf-screen{background-image:linear-gradient(rgba(43,22,38,.12),rgba(43,22,38,.18)),url('assets-runtime/spelling/workshop/pack-shelf-portrait.webp')}.desk-screen{background-image:url('assets-runtime/spelling/workshop/desk-portrait.webp')}.complete-screen{background-image:url('assets-runtime/spelling/workshop/complete-portrait.webp')}.station-grid{grid-template-columns:repeat(3,minmax(0,1fr));width:min(94vw,720px);gap:8px;margin:auto 0 8px}.station-card{min-height:116px;padding:10px 7px;align-items:center}.station-name{font-size:clamp(.9rem,2.5vw,1.15rem)}.station-progress{font-size:clamp(.65rem,1.8vw,.78rem)}.workshop-title{margin-top:58px}.shelf-wrap{top:14%;width:min(82vw,680px);height:59%}.pack-card{width:68%;height:68%}.shelf-screen .top-bar .bar-label,.shelf-head{top:70px}.shelf-screen>.continue-btn{right:50%;transform:translateX(50%);bottom:18px}.page-row{left:50%;transform:translateX(-50%);bottom:76px}.desk-panel{top:28%;bottom:calc(90px + env(safe-area-inset-bottom));width:min(88vw,700px);grid-template-rows:minmax(74px,auto) minmax(44px,auto) minmax(22px,auto) 1fr}.read-row{width:min(80vw,620px)}.tile-tray{max-width:min(90vw,700px)}.complete-panel{margin-top:16vh}}
     @media (max-width:560px){.pack-card{width:76%;height:72%;min-height:68px}.shelf-wrap{gap:3px}.page-btn{width:46px;flex-basis:46px}.tile-row.dense .tile{width:44px;height:48px;min-width:44px;min-height:48px}.score-row{gap:4px}.score-badge{padding:4px 8px}}
     @media (prefers-reduced-motion:reduce){.station-card,.pack-card,.tile,.complete-stars span,.confetti-piece{animation:none!important;transition:none!important}.confetti-container{display:none}}
   </style>
@@ -978,35 +988,22 @@ function Confetti({
     }
   }, null)));
 }
-function Mascot({
-  mood,
-  stamp
-}) {
-  const face = mood === 'oops' ? '😯' : '👸';
-  return /*#__PURE__*/React.createElement("div", {
-    key: stamp,
-    className: `mascot-corner ${mood !== 'idle' ? mood : ''}`,
-    "aria-hidden": "true"
-  }, /*#__PURE__*/React.createElement("span", {
-    className: "mascot-emoji"
-  }, face));
-}
 function useMascot() {
-  const [mood, setMood] = useState('idle');
+  const [pose, setPose] = useState('teaching');
   const [stamp, setStamp] = useState(0);
   const tRef = useRef(null);
-  const trigger = useCallback((m, ms) => {
+  const trigger = useCallback((next, ms) => {
     clearTimeout(tRef.current);
-    setMood(m);
+    setPose(next);
     setStamp(x => x + 1);
-    if (ms) tRef.current = setTimeout(() => setMood('idle'), ms);
+    if (ms) tRef.current = setTimeout(() => setPose('teaching'), ms);
   }, []);
   useEffect(() => () => clearTimeout(tRef.current), []);
   return {
-    mood,
+    pose,
     stamp,
-    happy: useCallback(() => trigger('happy', 2400), [trigger]),
-    oops: useCallback(() => trigger('oops', 1000), [trigger])
+    happy: useCallback(() => trigger('happy-success', 2400), [trigger]),
+    oops: useCallback(() => trigger('presenting-letter', 1100), [trigger])
   };
 }
 function FlowerGarden({
@@ -1117,30 +1114,19 @@ function SpeakerOffIcon() {
   }));
 }
 
-/* THE ABC HEAD. The third of the five talking heads, and the one whose face is literally
-   the subject of this game -- an A on his crown and ABC on his chin. Built by
-   `tools/make-talking-robot.py` from the same intake as the maths robots, so he is the
-   same character family in the same light; the sources and recipe are in the sidecar at
-   art-source/math-app/talking-robots-2026-08-27.
-
-   He is blue and white in a pink app, deliberately: he is a visitor who reads to you, not
-   part of the furniture, and the two maths apps each keep their own head for the same
-   reason. */
-function RobotReader({
-  speaking
+/* The owner-selected purple book belongs to this workshop only. Other Magic Math games
+   retain their robots. Each state uses a cut from the supplied pose sheet, never a CSS
+   distortion or a regenerated approximation. */
+function BookMascot({
+  pose,
+  feedback = false
 }) {
-  return /*#__PURE__*/React.createElement("span", {
-    className: `rb-robot ${speaking ? 'talking' : ''}`,
+  return /*#__PURE__*/React.createElement("img", {
+    className: `book-mascot ${pose === 'listening' ? 'listening' : ''} ${feedback ? 'feedback' : ''}`,
+    src: `assets-runtime/spelling/mascot/${pose}.webp`,
+    alt: "",
     "aria-hidden": "true"
-  }, /*#__PURE__*/React.createElement("img", {
-    className: "rb-still",
-    src: "assets-runtime/spelling/icons/robot-reader.webp",
-    alt: ""
-  }), /*#__PURE__*/React.createElement("img", {
-    className: "rb-talk",
-    src: "assets-runtime/spelling/icons/robot-reader-talk.webp",
-    alt: ""
-  }));
+  });
 }
 /* ONE TOKEN PER TAP, and only the current tap may stop the mouth. `speechSynthesis.cancel()`
    fires `end` on the utterance it is cancelling, so without this the SECOND tap starts the
@@ -1537,7 +1523,10 @@ function SpellGame({
       className: "complete-overlay",
       role: "dialog",
       "aria-label": "Pack complete"
-    }, /*#__PURE__*/React.createElement("div", {
+    }, /*#__PURE__*/React.createElement(BookMascot, {
+      pose: "cheering",
+      feedback: true
+    }), /*#__PURE__*/React.createElement("div", {
       className: "complete-stars"
     }, [1, 2, 3].map(i => /*#__PURE__*/React.createElement("span", {
       key: i,
@@ -1591,6 +1580,7 @@ function SpellGame({
     }, "Workshop")))), /*#__PURE__*/React.createElement(ScoreRow, shared.scoreProps));
   }
   const need = st.word[st.filled];
+  const bookPose = reader.speaking ? 'listening' : st.hint ? 'giving-hint' : mascot.pose;
   return /*#__PURE__*/React.createElement("div", {
     className: "screen desk-screen"
   }, /*#__PURE__*/React.createElement(TopBar, {
@@ -1609,8 +1599,10 @@ function SpellGame({
     className: "speak-btn",
     "aria-label": "Say the word again",
     onClick: () => reader.say(lineFor(st.word, UNIVERSE.homophones))
-  }, /*#__PURE__*/React.createElement(RobotReader, {
-    speaking: reader.speaking
+  }, /*#__PURE__*/React.createElement(BookMascot, {
+    key: `${bookPose}-${mascot.stamp}`,
+    pose: bookPose,
+    feedback: bookPose !== 'teaching' && bookPose !== 'listening'
   })), /*#__PURE__*/React.createElement("div", {
     className: "prompt-bubble"
   }, "Spell the word!")), /*#__PURE__*/React.createElement("div", {
@@ -1622,13 +1614,15 @@ function SpellGame({
   }, i < st.filled ? st.word[i] : ''))), /*#__PURE__*/React.createElement("div", {
     className: "praise-banner"
   }, banner), /*#__PURE__*/React.createElement("div", {
+    className: "tile-tray"
+  }, /*#__PURE__*/React.createElement("div", {
     className: `tile-row ${st.tiles.length >= 12 ? 'dense' : ''}`
   }, st.tiles.map((t, i) => /*#__PURE__*/React.createElement("button", {
     key: t.id,
     className: `tile t${i % 4} ${st.used.includes(t.id) ? 'used' : ''} ${fx[t.id] || ''} ${st.hint && t.c === need && !st.used.includes(t.id) ? 'hint' : ''}`,
     "aria-label": `letter ${t.c}`,
     onClick: () => tap(t.id)
-  }, t.c)))), /*#__PURE__*/React.createElement(Confetti, {
+  }, t.c))))), /*#__PURE__*/React.createElement(Confetti, {
     active: confetti
   }), /*#__PURE__*/React.createElement(ScoreRow, shared.scoreProps));
 }
