@@ -30,373 +30,291 @@
     .card time{font-size:.82rem;color:#63747a;font-weight:600}
     .card .open{font-weight:900;color:#2d5d7c;font-size:.95rem;min-width:48px;text-align:right}
     .card .missing-badge{font-size:.82rem;font-weight:900;color:#7b4a4a;background:#f3d9d9;padding:3px 10px;border-radius:999px;white-space:nowrap}
+    .archive{margin-top:30px;padding:14px 18px;border-radius:18px;background:#fff8;box-shadow:0 8px 24px #45566c12}
+    .archive summary{cursor:pointer;font-weight:800;color:#506269}
+    .archive ul{margin:14px 0 2px;padding-left:22px;columns:2;column-gap:36px}
+    .archive li{margin:0 0 8px;break-inside:avoid}
+    .archive a{color:#2d5d7c;text-underline-offset:2px}
     footer{margin-top:34px;color:#63747a;font-size:.88rem}
     @media (max-width:600px){
       .hub{grid-template-columns:1fr}
+      .archive ul{columns:1}
       body{padding:18px}
     }
   </style>
   <script type="application/json" id="slots-fallback">
 [
   {
-    "path": "music-book-rooms-b1",
-    "title": "Music Book: painted rooms (batch 1)",
+    "path": "memory-echo",
+    "title": "Memory Echo: sequence memory game",
     "side": "candidate",
-    "note": "Five rooms (1, 2, 3, 5, 6) become continuous painted scenes like the approved Room 4 pilot.",
-    "updated": "2026-09-30 10:47",
+    "note": "A new memory game: watch the pattern, then repeat it. Three games (Colours, Numbers, Music Notes), start lengths 2 to 5, Slow/Normal/Fast, and a free-play Explore. Please try all three on the iPad.",
+    "updated": "2026-10-08",
     "staged": true
   },
   {
-    "path": "word-book-clip-compare-de",
-    "title": "Word Book: D/E Voice Variants",
-    "side": "experiment",
-    "note": "Now/IPA/sentence-cut candidate takes for 9 letter-D/E headwords (digit, do, door, each, ear, early, escalator, even, explorer) the owner flagged 2026-09-29, in the round-4 listening-page layout she said is easiest to give feedback on. Candidates only; nothing ships into Our Word Book, which stays under its owner freeze.",
-    "updated": "2026-09-29",
-    "staged": true
-  },
-  {
-    "path": "word-book-clip-compare-gh",
-    "title": "Word Clips: G & H voice variants",
-    "side": "experiment",
-    "note": "IPA-phoneme and sentence-cut candidate takes for 15 letter G/H headwords (garage, gardener, giraffe, half, ham, hand, harbour, hat, hay, heel, hide, horizon, horse, hotel, husband) the owner flagged 2026-09-29. Extra bare-context variant for seven short words. Candidates only; nothing ships into Our Word Book, which stays under its owner freeze.",
-    "updated": "2026-09-29",
-    "staged": true
-  },
-  {
-    "path": "word-book-clip-compare-gh2",
-    "title": "Word Clips: G & H voice variants, round 2",
-    "side": "experiment",
-    "note": "Follow-up round for 5 headwords from the G/H round the owner said still need better takes (gardener, hand, heel: kept \"Now\" but want to hear more; ham, hide: their picks from round 1 were \"not good yet\"). Each plays Now, the round-1 pick for ham/hide, then 3 new candidate takes (carrier-phrase cut, IPA on the other model, higher-stability take; ham/hide also a second sentence cut). Candidates only; nothing ships into Our Word Book, which stays under its owner freeze.",
-    "updated": "2026-09-29",
-    "staged": true
-  },
-  {
-    "path": "word-book-clip-compare-jk",
-    "title": "Word Clips: J & K voice variants (+ D/E round 2)",
-    "side": "experiment",
-    "note": "IPA-phoneme, sentence-cut and bare-context candidate takes for 11 letter J/K headwords (jar, jug, jigsaw, job, kayak, keep, kettle, kilometre, kite, knee, knit) the owner flagged 2026-09-29. Plus a second round of 3 NEW takes each for door, each, early, explorer (carrier-phrase cut, second IPA on eleven_multilingual_v2, high-stability) since she rejected the first round's takes and asked for more. Candidates only; nothing ships into Our Word Book, which stays under its owner freeze.",
-    "updated": "2026-09-29",
-    "staged": true
-  },
-  {
-    "path": "word-book-art-0929",
-    "title": "Word Book: picture fixes (14 cards)",
-    "side": "experiment",
-    "note": "Before/after for star, Indian food, jackfruit and the 11 F-H fixes. Held under the Word Book freeze.",
-    "updated": "2026-09-29",
-    "staged": true
-  },
-  {
-    "path": "magic-math-five-sums",
-    "title": "Magic Math: Star Sums",
+    "path": "magic-spelling-next",
+    "title": "Magic Spelling: Enchanted Workshop (new look)",
     "side": "candidate",
-    "note": "Shared-engine Space and Flower Garden number strategy game with four progressive sum modes.",
-    "updated": "2026-09-29",
+    "note": "The redesigned Magic Spelling: a workshop room with three grades, nine-book paged shelves, the writing desk and a finished-page screen, with Continue that picks up where you stopped. Needs your look at the art and iPad touch, rotation and offline QA.",
+    "updated": "2026-10-08",
     "staged": true
   },
   {
-    "path": "number-whack",
-    "title": "Number Catch",
+    "path": "hub-discovery-room",
+    "title": "Main hub: Discovery Room",
     "side": "candidate",
-    "note": "Collect stars (Space) / pick flowers (Unicorn): the Tap or Wait rebuild.",
-    "updated": "2026-09-29",
+    "note": "The Discovery Room main menu with category landmarks (Math, Words & Books, Space, Nature, Science & Invention, Our World, Art & Design, Music, Arcade) and name label bubbles. Tap a landmark to open its picker; the Music room is here too. Room and Cards switch at the top left. Computer, Toy Box and Shop are shown faded (not ready yet): tap one and it wiggles and says Coming soon, without opening anything. Please check the fade on the iPad, upright and sideways.",
+    "updated": "2026-10-08",
     "staged": true
   },
   {
-    "path": "audio-check-0929",
-    "title": "Word Clips Round 8: Audio Check",
+    "path": "writing-book-audio-fix",
+    "title": "Writing Book: one voice at a time",
     "side": "experiment",
-    "note": "Old vs new IPA-turbo takes for 6 Magic Math spelling words the owner marked Wrong on 2026-09-28.",
-    "updated": "2026-09-29",
+    "note": "One voice at a time, and now a cheer after each finished word with a quiet pause (about a second and a half) before the next question. Try Write it, Find letters and Spell it; Back during the pause cancels the next question.",
+    "updated": "2026-10-08",
     "staged": true
+  },
+  {
+    "path": "word-book-next",
+    "title": "Word Book: Next (with today's fixes)",
+    "side": "candidate",
+    "note": "All letters A–Z with every held fix: your voice picks (A–H, M–Z and the N words), the card fixes, and tonight's art follow-up: glasses, sequence, seven and verb are back to the originals; useful has natural eyes; news is just the newspaper.",
+    "updated": "2026-10-08",
+    "staged": true
+  },
+  {
+    "path": "word-book-changes-1008",
+    "title": "Word Book: what changed (8 Oct)",
+    "side": "candidate",
+    "note": "Everything changed in the Word Book since the 6 Oct review, before and after: 39 redrawn pictures (glasses, sequence, seven and verb restored; useful and news redrawn again), the five L-word voice picks (old vs new), Word Groups, the night-time room and the Grammar Game cheer.",
+    "updated": "2026-10-08",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "computer-books-drafts",
+    "title": "Computer & Digital World: read the first ten books (text only)",
+    "side": "candidate",
+    "note": "Today's update: ten books to read now (up from six), as plain text with Quick Words, and a short list at the very top saying what changed. There is no art and no voice yet. The other titles and open questions are at the end.",
+    "updated": "2026-10-08",
+    "staged": true
+  },
+  {
+    "path": "starlight-look",
+    "title": "Follow the Starlight: look preview",
+    "side": "candidate",
+    "note": "Ari & Dot Book 2: the cover and 20 pages as they will look, with the bottom fact strip like Book 1. Look preview only; the interactive parts are not wired yet.",
+    "updated": "2026-10-04",
+    "staged": true
+  },
+  {
+    "path": "color-lab",
+    "title": "Color Lab: first mixing prototype",
+    "side": "candidate",
+    "note": "Tap the red, yellow and blue paint pots to mix them in the bowl (two-colour mixes are now bright), then tap the bowl to hear and see the colour's name. Prototype: names to be reviewed.",
+    "updated": "2026-10-07",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "maze-robot-code",
+    "title": "Our Maze: Robot Code (new maze type)",
+    "side": "experiment",
+    "note": "A new Maze Type: Robot Code. Tell the robot Forward, Turn left or Turn right; the robot now turns to face the way it goes, and Robot Eyes shows what it sees. Needs iPad touch, rotation and pinch QA.",
+    "updated": "2026-10-07",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "math-hundred-modes",
+    "title": "Magic Math: Hundred Board modes (phase 1)",
+    "side": "experiment",
+    "note": "Open Space Math or Unicorn Math and tap Hundred Board: a mode menu offers Move (the old board), Find, Missing, Patterns and Race. Some new spoken prompts may still be silent.",
+    "updated": "2026-10-07",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "magic-spelling-concept",
+    "title": "Magic Spelling: redesign ideas",
+    "side": "candidate",
+    "note": "Three pictures of a possible new Magic Spelling (grade choice, word packs, the writing desk) plus the plan. Nothing to play yet; tell us if the direction feels right.",
+    "updated": "2026-10-08",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "maze-code-toys",
+    "title": "Our Maze: choose Directions or Robot Code first; Code Toys",
+    "side": "experiment",
+    "note": "Robot Code toys now show a small arrow beside the toy that points the way it is heading, so a child can see which way a left or right turn will go. Pick Robot Code, choose a toy, and try the turn buttons.",
+    "updated": "2026-10-08",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "math-race-100",
+    "title": "Magic Math: Race to 100 with You and CPU characters",
+    "side": "experiment",
+    "note": "The race now shows who is who: your rocket (or unicorn) and the CPU robot sit on their own squares and beside You and CPU at the bottom, instead of the little Y and C letters. Open Space Math or Unicorn Math, then Hundred Board, then Race to 100.",
+    "updated": "2026-10-08",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "word-book-n-voice-1008",
+    "title": "Word Book: N words, new voice takes",
+    "side": "experiment",
+    "note": "Eight words: minute, miss, nearly, necklace, nectar, needle, never, nothing. Each has the clip the app plays now and five takes made from different text (plain, exclamation, cut from 'Say ...', said twice, Flash). Pick one per word and press Copy results.",
+    "updated": "2026-10-08",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "word-book-l-voice-1007",
+    "title": "Word Book: L words, new voice takes",
+    "side": "experiment",
+    "note": "You picked v4 for lettuce, like, line, live and lychee. The picks are now in Word Book: Next; this page keeps the listening round for reference.",
+    "updated": "2026-10-07",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "magic-math-stickers",
+    "title": "Magic Math: your sticker art",
+    "side": "experiment",
+    "note": "Your kawaii and space maths stickers: around the open book on the front page, and on the game cards in Space Math and Unicorn Math. They bob gently; nothing you tap has moved.",
+    "updated": "2026-10-07",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "math-carry-answer-only",
+    "title": "Magic Math: Carry & Borrow, Answer Only",
+    "side": "experiment",
+    "note": "Open Space Math or Unicorn Math, tap Carry & Borrow. A new Little Boxes | Answer Only switch sits beside the sum. Answer Only has no little boxes and no crossing out: just fill the answer boxes from the right. Little Boxes works as before. Switching deals a new sum and keeps your score.",
+    "updated": "2026-10-08",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "word-book-changes-1006",
+    "title": "Word Book: what changed today (6 Oct)",
+    "side": "experiment",
+    "note": "Before and after for the 6 Oct Word Book fixes: easy, eleven, twelve, equals, globe, hundred, your 47 A–H voice picks and the new clips. All of it is now in Word Book: Next.",
+    "updated": "2026-10-06",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "fixes-review-1006",
+    "title": "Fixes to check — 6 Oct (before / after)",
+    "side": "experiment",
+    "note": "Every fix you flagged today, before and after, plus the new Word Book voice clips.",
+    "updated": "2026-10-06",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "magic-math-hub-room",
+    "title": "Magic Math: painted front page",
+    "side": "candidate",
+    "note": "Your open-book design: tap the space page for Space Math, the unicorn page for Unicorn Math.",
+    "updated": "2026-10-06",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "word-book-clip-compare-af",
+    "title": "Word Book: A–F voice choices (Now vs v4)",
+    "side": "experiment",
+    "note": "34 A–F words, the clip the app played against a fresh v4 take. Your picks are now in Word Book: Next.",
+    "updated": "2026-10-06",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "narration-v4-compare",
+    "title": "Reading Tree: page narration v2 or v4?",
+    "side": "experiment",
+    "note": "Three pages read aloud by the same voice two ways: A is the current model, B is ElevenLabs v4 (about a quarter of the cost). Pick the more natural one; all page narration will follow your choice.",
+    "updated": "2026-10-05",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "word-book-clip-compare-m",
+    "title": "Word Book: M to Z voice choices",
+    "side": "experiment",
+    "note": "Candidate voices for the M–Z words. Your picks are now in Word Book: Next.",
+    "updated": "2026-10-03",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "rain-book-1",
+    "title": "Bookshelf: Rain Books 1–10",
+    "side": "candidate",
+    "note": "The bookshelf with the ten Rain Books in one Weather & Water box, next to A Trip Through Space and A World of Gems. Open a book to hear it read aloud and tap a word for its clip. A new-words page lets you listen to the new word clips; spoken ? sentences are coming soon.",
+    "updated": "2026-10-08",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "gems-book",
+    "title": "Reading Tree: A World of Gems",
+    "side": "candidate",
+    "note": "Reading Tree's second book, draft, not on the live shelf. Open it from the page and tap any word to hear it.",
+    "updated": "2026-10-03 10:10",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "color-garden-cbn",
+    "title": "Color by Number: closed regions",
+    "side": "experiment",
+    "note": "Every outline closed, so no area stays white. Thin parts (sun rays, branch tips, antennae) share one number bubble per object; one tap fills the whole object. At most 4 bubbles per picture.",
+    "updated": "2026-10-07",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "hub-playroom",
+    "title": "Children Games: playroom hub",
+    "side": "candidate",
+    "note": "Now live — main menu v41, with the Toy Guitar card beside the Toy Keyboard, is in production. This staged copy can be retired.",
+    "updated": "2026-10-07",
+    "staged": true,
+    "archived": true
   },
   {
     "path": "animal-farm",
     "title": "Animal Book: Farm Room",
     "side": "candidate",
-    "note": "Farm room (FA-01) for the Animal Book, ready for owner review before going live.",
-    "updated": "2026-09-28",
-    "staged": true
+    "note": "Now live — the Farm room is in Animal Book v5, with the front door's three room cards (Rainforest, Home & pets, Farm). This staged copy can be retired.",
+    "updated": "2026-10-07",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "animal-garden",
+    "title": "Animal Book: Garden room (birds at the feeder)",
+    "side": "candidate",
+    "note": "Garden & hedgerow room, first scene: eight small birds at the feeder. Tap a bird to hear its name, tap its name for a fact. The front door here carries a temporary fourth card to the room; the real book does not link it yet.",
+    "updated": "2026-10-07",
+    "staged": true,
+    "archived": true
   },
   {
     "path": "number-lab",
     "title": "Number Lab",
     "side": "candidate",
-    "note": "Number Lab candidate staging copy; another worker is landing it now.",
-    "updated": "2026-09-28",
-    "staged": true
-  },
-  {
-    "path": "space-trivia-60",
-    "title": "Space Trivia: 60 Questions",
-    "side": "experiment",
-    "note": "Owner play-test of the expanded 60-question Space Trivia bank.",
-    "updated": "2026-09-28",
-    "staged": true
-  },
-  {
-    "path": "tap-or-wait-board",
-    "title": "Tap or Wait Board",
-    "side": "experiment",
-    "note": "Four-slot watch-board trial for the shared Tap or Wait activity.",
-    "updated": "2026-09-28",
-    "staged": true
-  },
-  {
-    "path": "audio-check-0927",
-    "title": "Audio Check (27 Sep)",
-    "side": "experiment",
-    "note": "Audio output check for a specific device/browser configuration.",
-    "updated": "2026-09-27",
-    "staged": true
-  },
-  {
-    "path": "music-book-0929",
-    "title": "Music Book (29 Sep)",
-    "side": "candidate",
-    "note": "Music Book build from 29 September for owner review (Learn More redesign, weasel plaque, Map Bridge one-question redesign).",
-    "updated": "2026-09-29",
-    "staged": true
-  },
-  {
-    "path": "music-book-room1-cd",
-    "title": "Music Book Room 1: Spreads C & D",
-    "side": "experiment",
-    "note": "Room 1 Read Together spreads C and D on their painted plates.",
-    "updated": "2026-09-27",
-    "staged": true
-  },
-  {
-    "path": "zoom-c",
-    "title": "Zoom Fix C",
-    "side": "experiment",
-    "note": "Batch of apps fixed with zoom method C (manipulation + scoped double-tap guard).",
-    "updated": "2026-09-27",
-    "staged": true
-  },
-  {
-    "path": "word-book-hub-bed",
-    "title": "Word Book Hub Bed",
-    "side": "experiment",
-    "note": "Word Book hub page wired to the new hub music bed for the owner to hear.",
-    "updated": "2026-09-26",
-    "staged": true
-  },
-  {
-    "path": "word-book-next",
-    "title": "Word Book: Next",
-    "side": "candidate",
-    "note": "Full next Word Book build with every held fix in, for an overall check.",
-    "updated": "2026-09-26",
-    "staged": true
-  },
-  {
-    "path": "asteroid-zoom-panel",
-    "title": "Asteroid Zoom Panel",
-    "side": "experiment",
-    "note": "Layout trial for the asteroid page: real sizes on top, zoomed-in small asteroids below.",
-    "updated": "2026-09-25",
-    "staged": true
-  },
-  {
-    "path": "color-garden-menu",
-    "title": "Little Color Garden: Menu",
-    "side": "candidate",
-    "note": "Mode-menu polish with new garden background, five mode icons and the CBN clear/undo button.",
-    "updated": "2026-09-25",
-    "staged": true
-  },
-  {
-    "path": "color-garden-next",
-    "title": "Color Garden: 5 Cards",
-    "side": "candidate",
-    "note": "Little Color Garden staging copy with Color by Number and Stamping (cards 4 and 5).",
-    "updated": "2026-09-25",
-    "staged": true
-  },
-  {
-    "path": "flags-explore",
-    "title": "Explore Flags",
-    "side": "candidate",
-    "note": "Browse all flags, tap a country to hear it and see another fact.",
-    "updated": "2026-09-25",
-    "staged": true
-  },
-  {
-    "path": "magic-math-tap-wait",
-    "title": "Magic Math: Tap or Wait",
-    "side": "candidate",
-    "note": "Shared Tap or Wait activity inside both Space Math and Unicorn Math.",
-    "updated": "2026-09-25",
-    "staged": true
-  },
-  {
-    "path": "music-book-facts",
-    "title": "Music Facts Popup",
-    "side": "experiment",
-    "note": "Tap 💡 on a piece to read its fact and a bit of music knowledge.",
-    "updated": "2026-09-25",
-    "staged": true
-  },
-  {
-    "path": "periodic-table",
-    "title": "Periodic Table",
-    "side": "candidate",
-    "note": "All 118 elements with tap-to-hear facts and three games (Find It, Symbol Match, Atomic Number).",
-    "updated": "2026-09-25",
-    "staged": true
-  },
-  {
-    "path": "space-trivia",
-    "title": "Space Trivia",
-    "side": "candidate",
-    "note": "Fifteen space questions in two little missions, read aloud in the Solar System voice.",
-    "updated": "2026-09-25",
-    "staged": true
-  },
-  {
-    "path": "asteroid-name-sentences",
-    "title": "Asteroid Name Sentences",
-    "side": "experiment",
-    "note": "Sentence audio trial for the asteroid name facts.",
-    "updated": "2026-09-24",
-    "staged": true
-  },
-  {
-    "path": "magic-math-menu",
-    "title": "Magic Math Menu",
-    "side": "experiment",
-    "note": "Menu layout/interaction trial for Magic Math.",
-    "updated": "2026-09-24",
-    "staged": true
-  },
-  {
-    "path": "music-book-meet-sounds",
-    "title": "Music Book: Meet the Sounds",
-    "side": "experiment",
-    "note": "Meet the Sounds page trial for the Music Book.",
-    "updated": "2026-09-24",
-    "staged": true
-  },
-  {
-    "path": "music-title-sentences",
-    "title": "Music Title Sentences",
-    "side": "experiment",
-    "note": "Listening review for all song-name sentence clips.",
-    "updated": "2026-09-24",
-    "staged": true
-  },
-  {
-    "path": "word-book-release-preview",
-    "title": "Word Book: Release Preview",
-    "side": "candidate",
-    "note": "Release preview build of the Word Book for final sign-off.",
-    "updated": "2026-09-24",
-    "staged": true
-  },
-  {
-    "path": "word-book-sentence-compare-round3",
-    "title": "Sentence Compare: Round 3",
-    "side": "experiment",
-    "note": "Round-3 sentence audio comparison page.",
-    "updated": "2026-09-24",
-    "staged": true
-  },
-  {
-    "path": "asteroid-menu-ux",
-    "title": "Asteroid Menu UX",
-    "side": "experiment",
-    "note": "Asteroid roster menu UX trial.",
-    "updated": "2026-09-23",
-    "staged": true
-  },
-  {
-    "path": "dollhouse-bedroom",
-    "title": "Dollhouse",
-    "side": "candidate",
-    "note": "Arrange the bedroom, dress the doll, and turn the room to night.",
-    "updated": "2026-09-23",
-    "staged": true
-  },
-  {
-    "path": "kb-record-ux",
-    "title": "Keyboard Record UX",
-    "side": "experiment",
-    "note": "Keyboard recording interaction trial.",
-    "updated": "2026-09-23",
-    "staged": true
-  },
-  {
-    "path": "magic-math-multiply",
-    "title": "Magic Math: Multiply",
-    "side": "candidate",
-    "note": "New multiplication activity in Magic Math.",
-    "updated": "2026-09-23",
-    "staged": true
-  },
-  {
-    "path": "shadow-matching-older-kid",
-    "title": "Shadow Matching: Older Kid",
-    "side": "experiment",
-    "note": "Older-kid difficulty trial for Shadow Matching.",
-    "updated": "2026-09-23",
-    "staged": true
-  },
-  {
-    "path": "coloring-fill-r4",
-    "title": "Coloring Fill Test",
-    "side": "experiment",
-    "note": "Round-4 coloring fill-safety pilot for the coloring app.",
-    "updated": "2026-09-22",
-    "staged": true
-  },
-  {
-    "path": "dictionary",
-    "title": "Our Dictionary",
-    "side": "candidate",
-    "note": "Stripped Word Book dictionary build, kept temporarily while word-book is enabled.",
-    "updated": "2026-09-22",
-    "staged": true
-  },
-  {
-    "path": "moon-deepdives",
-    "title": "Moon Deep-Dives",
-    "side": "candidate",
-    "note": "Deep-dive pages for named moons in the Solar System storybook.",
-    "updated": "2026-09-22",
-    "staged": true
-  },
-  {
-    "path": "word-book-homographs",
-    "title": "Word Book: Homographs",
-    "side": "experiment",
-    "note": "Homograph handling trial for the Word Book.",
-    "updated": "2026-09-22",
-    "staged": true
-  },
-  {
-    "path": "spelling-exam-writing",
-    "title": "Spelling Exam: Writing",
-    "side": "experiment",
-    "note": "Writing-mode trial for the Spelling Exam.",
-    "updated": "2026-09-19",
-    "staged": true
-  },
-  {
-    "path": "ari-dot-special-section",
-    "title": "Ari & Dot Special Section",
-    "side": "experiment",
-    "note": "Special-section trial for the Ari & Dot v2 build.",
-    "updated": "2026-09-17",
-    "staged": true
-  },
-  {
-    "path": "magic-math-sequence",
-    "title": "Magic Math: Sequence",
-    "side": "candidate",
-    "note": "New Sequence game in both Space Math and Unicorn Math skins.",
-    "updated": "2026-09-17",
-    "staged": true
+    "note": "Number Lab candidate staging copy; not live yet (no production /number-lab/ page).",
+    "updated": "2026-09-30",
+    "staged": true,
+    "archived": true
   },
   {
     "path": "mars-pilot",
@@ -404,39 +322,8 @@
     "side": "candidate",
     "note": "Mars pilot page for the Solar System game/storybook.",
     "updated": "2026-09-17",
-    "staged": true
-  },
-  {
-    "path": "toy-keyboard-v6",
-    "title": "Toy Keyboard v6",
-    "side": "candidate",
-    "note": "Toy Keyboard v6 candidate build for owner review.",
-    "updated": "2026-09-15",
-    "staged": true
-  },
-  {
-    "path": "music-book-ambience",
-    "title": "Music Book Ambience",
-    "side": "experiment",
-    "note": "Background ambience trial for the Music Book.",
-    "updated": "2026-09-14",
-    "staged": true
-  },
-  {
-    "path": "music-book-map-before",
-    "title": "Music Book Map Before",
-    "side": "experiment",
-    "note": "Map-before layout trial for the Music Book world map.",
-    "updated": "2026-09-14",
-    "staged": true
-  },
-  {
-    "path": "toy-sparkle-qa-20260914",
-    "title": "Toy Sparkle QA",
-    "side": "experiment",
-    "note": "Sparkle feedback QA build for the toys (14 Sep).",
-    "updated": "2026-09-14",
-    "staged": true
+    "staged": true,
+    "archived": true
   },
   {
     "path": "bird-flight",
@@ -444,15 +331,179 @@
     "side": "candidate",
     "note": "Tap resting birds and butterflies to watch them fly in the direction they face.",
     "updated": "2026-08-24",
-    "staged": true
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "space-hub",
+    "title": "Space hub: painted room",
+    "side": "candidate",
+    "note": "Live now — already in production; this staged copy can be retired. The Space hub gets its own owner-painted room (2026-10-04): the storybook, the solar-system model and the space arcade as shaped tap areas, with the card grid still one tap away. Same room treatment as the hub's category pages.",
+    "updated": "2026-10-04",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "music-big-piano",
+    "title": "Music Book: the piano grows",
+    "side": "candidate",
+    "note": "Live now — already in production; this staged copy can be retired. Toy Piano: a song that needs more keys opens a bigger piano (two octaves with black keys). Ten new classical pieces (Für Elise, Minuet in G, Entertainer, Brahms' Lullaby, Canon, Swan Lake...). Seven songs now use their real notes. A tiny keyboard on a tile means it grows.",
+    "updated": "2026-10-03",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "music-book-strip",
+    "title": "Music Book: word scroll in every room",
+    "side": "candidate",
+    "note": "Live now — already in production; this staged copy can be retired. The bottom of every room is now a parchment scroll with big word cards (speaker + picture + word). Tap a word: your companion pops up and explains it. Picture doors to other rooms are gone; the back arrow leads out.",
+    "updated": "2026-10-04",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "october-homework",
+    "title": "การบ้านปิดเทอม ป.2 (ตุลาคม)",
+    "side": "candidate",
+    "note": "Live now — already in production; this staged copy can be retired. October school-break worksheet: 20 งาน × 10 = 200 answers on one journey map. Space by default; add ?theme=unicorn for the Unicorn garden. Progress saves on this device.",
+    "updated": "2026-10-01 14:49",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "flags-map",
+    "title": "Flags: 69 countries + world map",
+    "side": "candidate",
+    "note": "Live now — already in production; this staged copy can be retired. 30 more flags and a world map: tap a flag's country, pick a glowing country's flag, or explore the map.",
+    "updated": "2026-10-01",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "music-book-rooms-b2",
+    "title": "Music Book: painted rooms 7–11",
+    "side": "candidate",
+    "note": "Live now — already in production; this staged copy can be retired. Five more rooms (7-11) become continuous painted scenes, building on batch 1.",
+    "updated": "2026-09-30",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "music-book-rooms-b1",
+    "title": "Music Book: painted rooms (batch 1)",
+    "side": "candidate",
+    "note": "Live now — already in production; this staged copy can be retired. Five rooms (1, 2, 3, 5, 6) become continuous painted scenes like the approved Room 4 pilot.",
+    "updated": "2026-09-30 10:47",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "magic-math-five-sums",
+    "title": "Magic Math: Star Sums",
+    "side": "candidate",
+    "note": "Live now — already in production; this staged copy can be retired. Shared-engine Space and Flower Garden number strategy game with four progressive sum modes.",
+    "updated": "2026-09-30",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "number-whack",
+    "title": "Number Catch",
+    "side": "candidate",
+    "note": "Live now — already in production; this staged copy can be retired. Collect stars (Space) / pick flowers (Unicorn): the Tap or Wait rebuild.",
+    "updated": "2026-09-30",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "space-trivia-60",
+    "title": "Space Trivia: 60 Questions",
+    "side": "experiment",
+    "note": "Live now — already in production; this staged copy can be retired. Owner play-test of the expanded 60-question Space Trivia bank.",
+    "updated": "2026-09-28",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "magic-math-tap-wait",
+    "title": "Magic Math: Tap or Wait",
+    "side": "candidate",
+    "note": "Live now — already in production; this staged copy can be retired. Shared Tap or Wait activity inside both Space Math and Unicorn Math.",
+    "updated": "2026-09-25",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "magic-math-multiply",
+    "title": "Magic Math: Multiply",
+    "side": "candidate",
+    "note": "Live now — already in production; this staged copy can be retired. New multiplication activity in Magic Math.",
+    "updated": "2026-09-23",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "shadow-matching-older-kid",
+    "title": "Shadow Matching: Older Kid",
+    "side": "experiment",
+    "note": "Live now — already in production; this staged copy can be retired. Older-kid difficulty trial for Shadow Matching.",
+    "updated": "2026-09-23",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "magic-math-sequence",
+    "title": "Magic Math: Sequence",
+    "side": "candidate",
+    "note": "Live now — already in production; this staged copy can be retired. New Sequence game in both Space Math and Unicorn Math skins.",
+    "updated": "2026-09-17",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "toy-guitar",
+    "title": "Toy Guitar",
+    "side": "candidate",
+    "note": "Now live — Toy Guitar went live 2026-10-08, beside Toy Keyboard. Five guitars on a ribbon, four drum pads, Record/Play, and amp effects on Electric and Rock. This staged copy can be retired.",
+    "updated": "2026-10-08",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "toy-keyboard-v6",
+    "title": "Toy Keyboard v6",
+    "side": "candidate",
+    "note": "Now live — Toy Keyboard v12 (with the new pads) is in production. This staged copy can be retired.",
+    "updated": "2026-09-15",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "word-book-clip-compare-c2",
+    "title": "Word Book: C Voice Variants Round 2",
+    "side": "experiment",
+    "note": "Not deployed any more: capital and carpenter takes from 30 Sep. The owner can retire this card.",
+    "updated": "2026-09-30",
+    "staged": true,
+    "archived": true
   },
   {
     "path": "tap-wait",
     "title": "Tap or Wait (latest)",
     "side": "candidate",
-    "note": "Latest Tap or Wait: whack-a-mole board with painted sprites.",
-    "updated": "2026-09-30 12:08",
-    "staged": true
+    "note": "Live now — already in production; this staged copy can be retired. Latest Tap or Wait: whack-a-mole board with painted sprites.",
+    "updated": "2026-09-30",
+    "staged": true,
+    "archived": true
+  },
+  {
+    "path": "math-menu-two-stickers",
+    "title": "Magic Math: calmer start menu with two stickers",
+    "side": "experiment",
+    "note": "The Magic Math start screen used to have twelve bobbing stickers around the picture. Now there are just two quiet ones, one each side of the Magic Math banner. Please check it feels calmer and that Space and Unicorn still open.",
+    "updated": "2026-10-08",
+    "staged": true,
+    "archived": true
   }
 ]
   </script>
@@ -476,6 +527,10 @@
         <div class="grid" id="experiment-grid"></div>
       </section>
     </div>
+    <details class="archive" id="archive">
+      <summary id="archive-summary">Older test pages</summary>
+      <ul id="archive-list"></ul>
+    </details>
     <footer>Testing area · direct link only · not listed on the main hub</footer>
   </main>
   <script>
@@ -502,15 +557,17 @@
         const label=`${day} ${months[month-1]} ${year}`;
         return clock?`${label} · ${clock}`:label;
       };
-      slots.sort((a,b)=>{
+      const byNewest=(a,b)=>{
         // YYYY-MM-DD HH:MM sorts chronologically; a date-only value sorts as 00:00.
         const d=b.updated.localeCompare(a.updated);
         return d!==0?d:a.path.localeCompare(b.path);
-      });
+      };
+      const active=slots.filter(s=>s.archived!==true);
+      const archived=slots.filter(s=>s.archived===true).sort(byNewest);
       const candidate=document.getElementById('candidate-grid');
       const experiment=document.getElementById('experiment-grid');
       const sides={candidate,experiment};
-      for(const s of slots){
+      for(const s of active){
         const grid=sides[s.side];
         if(!grid) continue;
         const missing=s.staged===false;
@@ -545,6 +602,19 @@
         el.appendChild(meta);
         grid.appendChild(el);
       }
+      const archive=document.getElementById('archive');
+      const archiveSummary=document.getElementById('archive-summary');
+      const archiveList=document.getElementById('archive-list');
+      archiveSummary.textContent=`Older test pages (${archived.length})`;
+      for(const s of archived){
+        const item=document.createElement('li');
+        const link=document.createElement('a');
+        link.href='./'+s.path+'/';
+        link.textContent=s.title;
+        item.appendChild(link);
+        archiveList.appendChild(item);
+      }
+      archive.hidden=archived.length===0;
     })();
   </script>
 </body>
