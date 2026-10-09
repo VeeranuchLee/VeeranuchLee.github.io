@@ -64,6 +64,7 @@
   /* mode: 'find' | 'spell'
      options: { screen, page, onFinished, onBack } */
   function play(mode, options) {
+    Sound.voice.stop();
     var screen = options.screen;
     var page = options.page;
     var queue = shuffle(page.words).slice(0, SESSION_LENGTH);
@@ -161,16 +162,17 @@
       locked = true;
       Sound.play('wordDone');
       boxes.classList.add('is-complete');
+      screen.classList.add('is-celebrating');
       tell(entry.word + '!', true);
       /* §15: the completion says the spelling back in the proper order, which
          matters most in `find` where the child discovered it out of order. */
-      Sound.voice.spell(entry.slug);
-      window.setTimeout(function () {
+      Sound.voice.completeWord(entry.slug, function () {
         boxes.classList.remove('is-complete');
+        screen.classList.remove('is-celebrating');
         at++;
         if (at >= queue.length) options.onFinished(page);
         else loadWord();
-      }, 1900);
+      });
     }
 
     function tap(ch) {

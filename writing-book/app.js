@@ -114,6 +114,7 @@
   }
 
   function show(html) {
+    screen.classList.remove('is-celebrating');
     screen.innerHTML = html;
     return screen;
   }
@@ -155,6 +156,7 @@
   /* ---- cover ------------------------------------------------------------ */
 
   function cover() {
+    Sound.voice.stop();
     var modes = MODES.map(function (m) {
       return '<button class="mode' + (m.id === mode ? ' is-on' : '') + '" data-mode="' + m.id + '">' +
              '<span class="mode__icon">' + m.icon + '</span>' +
@@ -241,6 +243,7 @@
   /* All three modes read the same page and fill the same sticker book
      (CONCEPT.md §22). Only the screen in the middle differs. */
   function startSession(level) {
+    Sound.voice.stop();
     var page = Words.page(level);
     if (mode === 'write') {
       /* Order is shuffled every run so the child retrieves the word rather than
@@ -283,6 +286,7 @@
    * so there is never a question about where to write next.
    */
   function writing(session) {
+    Sound.voice.stop();
     var page = session.page;
     var tracing = Words.tracingLevel(page.level);
     var queue = session.queue;
@@ -381,7 +385,7 @@
         hear(i);
         /* Write it for them once, unasked. A child who cannot read the buttons
            still sees what the row wants. */
-        window.setTimeout(function () { models[i].demoWord('normal'); }, 500);
+        Sound.voice.after(500, function () { models[i].demoWord('normal'); });
       }
     }
 
@@ -424,7 +428,7 @@
              CONCEPT.md §24. */
           if (failures >= 2) {
             failures = 0;
-            window.setTimeout(function () { rows[at].demo('slow'); }, 500);
+            Sound.voice.after(500, function () { rows[at].demo('slow'); });
           }
         },
 
@@ -433,12 +437,13 @@
         onWord: function (word) {
           Sound.play('wordDone');
           tell('You wrote ' + word + '!', true);
+          screen.classList.add('is-celebrating');
           /* CONCEPT.md §15: completion restores the proper spelling out loud. */
-          Sound.voice.spell(entry.slug);
           var card = screen.querySelector('.wordcard[data-i="' + i + '"]');
           if (card) card.classList.add('is-done');
 
-          window.setTimeout(function () {
+          Sound.voice.completeWord(entry.slug, function () {
+            screen.classList.remove('is-celebrating');
             if (i + 1 >= queue.length) {
               rows.forEach(function (r) { r.destroy(); });
               models.forEach(function (m) { m.destroy(); });
@@ -447,7 +452,7 @@
               tell('');
               activate(i + 1);
             }
-          }, 1600);
+          });
         }
       }));
     });
@@ -489,6 +494,7 @@
   }
 
   function reward(page) {
+    Sound.voice.stop();
     var won = drawSticker(page);
     Sound.play('pageDone');
 
@@ -519,8 +525,8 @@
         '    <button class="control" id="home">Other pages</button>' +
         '  </div>' +
         '</div>');
-      window.setTimeout(function () { Sound.play('stickerReveal'); }, 260);
-      window.setTimeout(function () { Sound.voice.word(won.slug); }, 900);
+      Sound.voice.after(260, function () { Sound.play('stickerReveal'); });
+      Sound.voice.after(900, function () { Sound.voice.word(won.slug); });
       on('#sticker', function () { Sound.voice.word(won.slug); });
       on('#greset', function () { resetGraderEvidence(); });
     }
@@ -533,6 +539,7 @@
   /* ---- sticker book ------------------------------------------------------ */
 
   function book() {
+    Sound.voice.stop();
     var pages = Words.pages.map(function (page) {
       var have = collectedIn(page.level);
       var slots = page.words.map(function (w) {

@@ -115,32 +115,164 @@
 
   /* ---- voice ---------------------------------------------------------- */
 
-  var cache = {};
+  /* One narration channel. Previously `cache` held one Audio element per path,
+     so a word, letter, spelling, sentence or cue could all continue playing at
+     once. The generation makes callbacks captured by an older request inert,
+     even if a browser delivers one after pause() or a screen transition. */
+  var voiceEl = null;
+  var voiceGeneration = 0;
+  var voiceTimers = [];
+  var voiceListeners = [];
+  var completionActive = false;
+  var pendingFinish = null;
 
-  function clip(path) {
-    if (missing[path]) return null;
-    if (!cache[path]) {
-      var el = new Audio(path);
-      el.preload = 'auto';
-      el.addEventListener('error', function () { missing[path] = true; });
-      cache[path] = el;
-    }
-    return cache[path];
+  function clearVoiceListeners() {
+    if (!voiceEl) return;
+    voiceListeners.forEach(function (pair) {
+      voiceEl.removeEventListener(pair[0], pair[1]);
+    });
+    voiceListeners = [];
+  }
+
+  function clearVoiceTimers() {
+    voiceTimers.forEach(function (timer) { global.clearTimeout(timer); });
+    voiceTimers = [];
+  }
+
+  /* Screen-lifetime timers (question/word progression). Unlike narration timers
+     these survive a new narration — tapping replay while a word is celebrating
+     must not strand the child on a locked word — and die only when the screen
+     is left (stop()). */
+  var screenGeneration = 0;
+  var screenTimers = [];
+
+  function later(delay, callback) {
+    var generation = screenGeneration;
+    var timer = global.setTimeout(function () {
+      var at = screenTimers.indexOf(timer);
+      if (at !== -1) screenTimers.splice(at, 1);
+      if (generation === screenGeneration) callback();
+    }, delay);
+    screenTimers.push(timer);
+    return timer;
+  }
+
+  function leaveScreen() {
+    screenGeneration++;
+    screenTimers.forEach(function (timer) { global.clearTimeout(timer); });
+    screenTimers = [];
+    completionActive = false;
+    pendingFinish = null;
+    stopVoice();
+  }
+
+  function stopVoice() {
+    voiceGeneration++;
+    clearVoiceTimers();
+    clearVoiceListeners();
+    if (!voiceEl) return;
+    voiceEl.pause();
+    try { voiceEl.currentTime = 0; } catch (e) { /* metadata may not be loaded */ }
+  }
+
+  function listen(type, handler) {
+    voiceEl.addEventListener(type, handler);
+    voiceListeners.push([type, handler]);
+  }
+
+  /* A delayed action that belongs to the current narration/screen lifecycle.
+     Starting another narration or leaving the screen clears it; the generation
+     check is the second guard for a callback already queued by the event loop. */
+  function after(delay, callback) {
+    var generation = voiceGeneration;
+    var timer = global.setTimeout(function () {
+      var at = voiceTimers.indexOf(timer);
+      if (at !== -1) voiceTimers.splice(at, 1);
+      if (generation === voiceGeneration) callback();
+    }, delay);
+    voiceTimers.push(timer);
+    return timer;
   }
 
   /* Play a rendered clip if it exists. Silence is the correct behaviour when it
      does not — the child is never told a file is missing. */
-  function say(path) {
-    var el = clip(path);
-    if (!el) return Promise.resolve(false);
-    el.volume = levels.voice;
-    try { el.currentTime = 0; } catch (e) { /* not loaded yet */ }
-    var started = el.play();
-    if (!started || !started.catch) return Promise.resolve(true);
-    return started.then(function () { return true; }).catch(function () {
+  function playVoice(path, onFinished) {
+    stopVoice();
+    if (global.document.hidden) {
+      if (onFinished) onFinished(false);
+      return Promise.resolve(false);
+    }
+    if (missing[path]) {
+      if (onFinished) onFinished(false);
+      return Promise.resolve(false);
+    }
+    if (!voiceEl) {
+      voiceEl = new Audio();
+      voiceEl.preload = 'auto';
+    }
+    var generation = voiceGeneration;
+    voiceEl.src = path;
+    voiceEl.volume = levels.voice;
+    try { voiceEl.currentTime = 0; } catch (e) { /* not loaded yet */ }
+
+    listen('error', function () {
+      if (generation !== voiceGeneration) return;
       missing[path] = true;
+      stopVoice();
+      if (onFinished) onFinished(false);
+    });
+    listen('ended', function () {
+      if (generation !== voiceGeneration) return;
+      clearVoiceListeners();
+      if (onFinished) onFinished(true);
+    });
+
+    var started = voiceEl.play();
+    if (!started || !started.catch) return Promise.resolve(true);
+    return started.then(function () {
+      return generation === voiceGeneration;
+    }).catch(function () {
+      if (generation !== voiceGeneration) return false;
+      missing[path] = true;
+      stopVoice();
+      if (onFinished) onFinished(false);
       return false;
     });
+  }
+
+  function say(path) {
+    /* A completed question owns the voice channel until its cheer and quiet
+       gap have finished. Replay/card taps during that interval are harmless. */
+    if (completionActive) return Promise.resolve(false);
+    return playVoice(path);
+  }
+
+  function completeWord(slug, callback) {
+    if (completionActive) return;
+    completionActive = true;
+    var generation = screenGeneration;
+    pendingFinish = function () {
+      pendingFinish = null;
+      completionActive = false;
+      callback();
+    };
+
+    function stillHere() { return generation === screenGeneration && completionActive; }
+    function quietGap() {
+      if (!stillHere()) return;
+      later(1350, function () {
+        if (!stillHere()) return;
+        if (pendingFinish) pendingFinish();
+      });
+    }
+    function cheer() {
+      if (!stillHere()) return;
+      playVoice('audio/cues/great-job.m4a', quietGap);
+    }
+
+    /* Keep §15's spelling recap, then add the owner's cheer. Neither can
+       overlap because both use the single voice element in strict sequence. */
+    playVoice('audio/spell/' + slug + '.m4a', cheer);
   }
 
   var VOICE = {
@@ -153,8 +285,28 @@
     sentence: function (slug) { return say('audio/sentence/' + slug + '.m4a'); },
     cue: function (name) {
       return say('audio/cues/' + name.toLowerCase().replace(/[^a-z]+/g, '-') + '.m4a');
-    }
+    },
+    completeWord: completeWord,
+    stop: leaveScreen,
+    after: after,
+    later: later
   };
+
+  global.addEventListener('pagehide', leaveScreen);
+  global.document.addEventListener('visibilitychange', function () {
+    if (!global.document.hidden) return;
+    /* A tab hidden mid-celebration must not strand the child on a finished
+       word: skip the rest of the cheer and gap and move on, silently. */
+    if (completionActive && pendingFinish) {
+      var finish = pendingFinish;
+      screenTimers.forEach(function (timer) { global.clearTimeout(timer); });
+      screenTimers = [];
+      stopVoice();
+      finish();
+      return;
+    }
+    leaveScreen();
+  });
 
   global.WritingSound = {
     play: play,
