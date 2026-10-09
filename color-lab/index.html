@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Color Lab</title>
+  <meta name="theme-color" content="#F8E9D5">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <a id="hub" class="hub-btn" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games">&larr;</a>
+  <main class="lab-shell">
+    <header class="lab-header">
+      <img class="lab-mark" src="./assets/art/header-palette.webp" alt="" width="180" height="180">
+      <div class="title-lockup">
+        <h1>Color Lab</h1>
+        <p>Mix paint or explore color names.</p>
+      </div>
+    </header>
+
+    <nav class="mode-switch" aria-label="Choose Color Lab mode">
+      <button id="mix-tab" class="mode-tab is-active" type="button" data-mode="mix" aria-controls="mix-panel" aria-selected="true">Mix</button>
+      <button id="explore-tab" class="mode-tab" type="button" data-mode="explore" aria-controls="explore-panel" aria-selected="false">Explore</button>
+    </nav>
+
+    <section id="mix-panel" class="lab mode-panel" aria-label="Mix Colors">
+      <div class="paint-side">
+        <h2>Mix Colors</h2>
+        <div class="paint-pots" aria-label="Choose paint">
+          <button class="paint-pot paint-red" type="button" data-paint="red" aria-label="Add one red drop">
+            <img src="./assets/art/pot-red.webp" alt="" width="320" height="320">
+            <span class="pot-label"><span>Red</span><strong id="red-count">0</strong></span>
+          </button>
+          <button class="paint-pot paint-yellow" type="button" data-paint="yellow" aria-label="Add one yellow drop">
+            <img src="./assets/art/pot-yellow.webp" alt="" width="320" height="320">
+            <span class="pot-label"><span>Yellow</span><strong id="yellow-count">0</strong></span>
+          </button>
+          <button class="paint-pot paint-blue" type="button" data-paint="blue" aria-label="Add one blue drop">
+            <img src="./assets/art/pot-blue.webp" alt="" width="320" height="320">
+            <span class="pot-label"><span>Blue</span><strong id="blue-count">0</strong></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="explore-side">
+        <h2>Mixing Bowl</h2>
+        <button id="mix-bowl" class="mix-bowl is-empty" type="button" aria-label="Mixing bowl. Add paint first.">
+          <img class="bowl-art" src="./assets/art/mixing-bowl.webp" alt="" width="600" height="400">
+          <span id="mix-paint" class="mix-paint" aria-hidden="true"></span>
+        </button>
+        <div id="colour-name" class="colour-name" role="status" aria-live="polite">
+          <span class="name-dot" aria-hidden="true"></span>
+          <strong id="name-text">Add some paint!</strong>
+        </div>
+        <button id="reset-button" class="reset-button" type="button" aria-pressed="false">Start again</button>
+      </div>
+      <div id="drop-layer" class="drop-layer" aria-hidden="true"></div>
+    </section>
+
+    <section id="explore-panel" class="explore-panel mode-panel" aria-label="Explore Colors" hidden>
+      <div id="family-home" class="family-home">
+        <div class="explore-heading">
+          <h2>Explore Colors</h2>
+          <p>Choose a color family.</p>
+        </div>
+        <div id="family-shelf" class="family-shelf" aria-label="Color families"></div>
+      </div>
+
+      <div id="shade-room" class="shade-room" hidden>
+        <div class="shade-toolbar">
+          <button id="family-back" class="family-back" type="button" aria-label="Back to color families">← Families</button>
+          <div class="shade-heading">
+            <h2 id="family-name">Colors</h2>
+            <p>Tap a card to make its name grow.</p>
+          </div>
+        </div>
+        <div id="shade-shelf" class="shade-shelf" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Method C: this byte-identical guard must load before app tap handlers. -->
+  <script src="./tap-zoom-guard.js"></script>
+  <script src="./mixing-model.js"></script>
+  <script src="./reset-model.js"></script>
+  <script src="./app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('./service-worker.js').catch(function () {});
+      });
+    }
+  </script>
+</body>
+</html>
