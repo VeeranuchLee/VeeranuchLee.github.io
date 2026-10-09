@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ganymede: pick one</title>
+<style>
+:root{--bg:#fffaf0;--fg:#25303b;--card:#fff;--line:#d9cfbd;--acc:#2a6f97;--ok:#2e7d32}
+@media (prefers-color-scheme:dark){:root{--bg:#1b2229;--fg:#eef2f5;--card:#26303a;--line:#3d4a57;--acc:#7cc0e8;--ok:#7bd88f}}
+body{margin:0;background:var(--bg);color:var(--fg);font:18px/1.4 system-ui,sans-serif;padding:16px;max-width:640px;margin:auto}
+h1{font-size:24px}.row{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+button{font:inherit;min-height:48px;padding:8px 16px;border-radius:12px;border:2px solid var(--acc);background:transparent;color:var(--fg)}
+button.play{background:var(--acc);color:#fff}label.pick{display:flex;gap:8px;align-items:center;min-height:48px}
+.n{flex:1;min-width:140px}pre{white-space:pre-wrap;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:14px}
+</style></head><body>
+<h1>Ganymede: pick one</h1>
+<p>The Ganymede clip on page 2 does not sound right. Listen to all three. The two new ones are the word cut out of other Ganymede clips. Pick the one to use. Careful: the game clip uses a different voice (Solar System Host, younger male) from the storybook narrator, so using it in the book would mix voices. Nothing here changes the apps.</p>
+<div id="rows"></div>
+<label class="pick"><input type="radio" name="p" value="none"> None of these is right</label>
+<p><textarea id="note" rows="2" style="width:100%;font:inherit" placeholder="Optional note"></textarea></p>
+<button id="copy">Copy results</button> <button id="save">Save results as a file</button> <span id="msg"></span>
+<pre id="out"></pre>
+<script>
+var CL=[["now","Now (page 2, current, book narrator)","audio/ganymede-now-clip2.m4a"],["game1","Cut from the game (different voice: Solar System Host)","audio/ganymede-cut-from-game1.m4a"],["page3","Cut from the Jupiter page (book narrator)","audio/ganymede-cut-from-page3.m4a"]];
+var rows=document.getElementById('rows'),cur=null;
+CL.forEach(function(c){var d=document.createElement('div');d.className='row';
+d.innerHTML='<button class="play">Play</button><span class="n"><b>'+c[1]+'</b></span><label class="pick"><input type="radio" name="p" value="'+c[0]+'"> Pick this one</label>';
+var a=new Audio(c[2]);d.querySelector('.play').onclick=function(){if(cur){cur.pause();cur.currentTime=0}cur=a;a.currentTime=0;a.play()};rows.appendChild(d)});
+function res(){var p=document.querySelector('input[name=p]:checked');return 'Ganymede pick ('+new Date().toISOString().slice(0,10)+')\n'+JSON.stringify({task:'solar-ganymede-compare',pick:p?p.value:null,note:document.getElementById('note').value},null,1)}
+function show(){document.getElementById('out').textContent=res()}document.addEventListener('change',show);document.getElementById('note').oninput=show;show();
+document.getElementById('copy').onclick=function(){var t=res();(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){msg.textContent='Copied'},function(){msg.textContent='Select the text below and copy it'})};
+document.getElementById('save').onclick=function(){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([res()],{type:'text/plain'}));a.download='ganymede-pick.txt';a.click()};
+</script></body></html>
