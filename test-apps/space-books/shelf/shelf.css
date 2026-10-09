@@ -9,14 +9,14 @@
   font-style: normal;
   font-weight: 400 900;
   font-display: swap;
-  src: url(../reader/fonts/Nunito-latin.woff2?v=fb3cef62e-20261009192238) format('woff2');
+  src: url(../reader/fonts/Nunito-latin.woff2?v=8af19f03e-20261009210218) format('woff2');
 }
 @font-face {
   font-family: 'Fredoka One';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(../reader/fonts/FredokaOne-latin.woff2?v=fb3cef62e-20261009192238) format('woff2');
+  src: url(../reader/fonts/FredokaOne-latin.woff2?v=8af19f03e-20261009210218) format('woff2');
 }
 
 :root {
@@ -69,7 +69,7 @@ body { overflow-x: hidden; }
   z-index: 0;
   pointer-events: none;
   background:
-    url(./bg-portrait.webp?v=fb3cef62e-20261009192238) center bottom / cover no-repeat,
+    url(./bg-portrait.webp?v=8af19f03e-20261009210218) center bottom / cover no-repeat,
     radial-gradient(ellipse at 50% 18%, #fdf7ea 0%, rgba(253, 247, 234, 0) 60%),
     repeating-linear-gradient(90deg, rgba(185, 133, 82, .045) 0 2px, transparent 2px 120px),
     linear-gradient(#f9f1df, #efe2c6);
@@ -77,7 +77,7 @@ body { overflow-x: hidden; }
 @media (orientation: landscape) {
   .wall {
     background:
-      url(./bg-landscape.webp?v=fb3cef62e-20261009192238) center bottom / cover no-repeat,
+      url(./bg-landscape.webp?v=8af19f03e-20261009210218) center bottom / cover no-repeat,
       radial-gradient(ellipse at 50% 18%, #fdf7ea 0%, rgba(253, 247, 234, 0) 60%),
       repeating-linear-gradient(90deg, rgba(185, 133, 82, .045) 0 2px, transparent 2px 120px),
       linear-gradient(#f9f1df, #efe2c6);
