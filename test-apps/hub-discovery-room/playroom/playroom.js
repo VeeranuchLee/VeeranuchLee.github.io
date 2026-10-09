@@ -58,7 +58,7 @@
      The visual state and the interaction state therefore cannot disagree. */
   var landmarkById = {};
   var labelItems = [];
-  var activeSpots = [];
+  var activeLandmarks = [];
   R.landmarks.forEach(function (c) {
     var door = L.door(c);
     landmarkById[c.id] = c;
@@ -92,6 +92,7 @@
     var label = c.name + ' — ' + (door.kind === 'app' ? door.app.name + ': ' + door.app.desc
               : (door.kind === 'page' || door.kind === 'picker') ? door.apps.map(function (a) { return a.name; }).join(', ')
               : c.tagline);
+    var landmarkSpots = [];
     c.boxes.forEach(function (bx, k) {
       var x = bx[0], y = bx[1], w = bx[2], h = bx[3];
       /* A link where it goes straight to a page; a button where it opens the picker panel. */
@@ -127,45 +128,50 @@
       /* The name: the shared Room label (room-label.js) shows it near the object on hover, press
          or keyboard focus. Only active landmarks reach this loop, so only they have one. */
       labelItems.push({ el: a, text: c.name, anchor: { x0: x, x1: x + w, y0: y, y1: y + h }, group: c.id });
-      activeSpots.push({ el: a, x: x, y: y, w: w, h: h });
+      var activeSpot = { el: a, x: x, y: y, w: w, h: h };
+      landmarkSpots.push(activeSpot);
 
       scene.appendChild(a);
     });
+    activeLandmarks.push({ id: c.id, spots: landmarkSpots });
   });
 
   /* ── QUIET ROOM MAGIC ──
      One fixed, pointer-transparent pool lives in the room's percentage coordinate space, so it
-     follows the painting at every viewport. Four glints take turns at ACTIVE door edges only;
-     inactive scenery never enters activeSpots. There is no canvas or animation loop. */
+     follows the painting at every viewport. A bounded set of independently phased twinkles is
+     distributed around every ACTIVE landmark; inactive scenery never enters activeLandmarks.
+     There is no canvas, timer, or animation loop. */
   var sparkleLayer = document.createElement('span');
   sparkleLayer.className = 'sparkle-layer';
   sparkleLayer.setAttribute('aria-hidden', 'true');
   sparkleLayer.style.pointerEvents = 'none';
 
-  var glintIndex = 0;
-  function placeGlint(g, offset) {
-    if (!activeSpots.length) return;
-    var s = activeSpots[(glintIndex + offset * 3) % activeSpots.length];
-    var edge = (glintIndex + offset) % 4;
-    var gx = edge === 0 ? s.x + s.w * .16 : edge === 1 ? s.x + s.w * .84 : s.x + s.w * .5;
-    var gy = edge === 2 ? s.y + s.h * .14 : edge === 3 ? s.y + s.h * .86 : s.y + s.h * .5;
-    g.style.left = gx + '%'; g.style.top = gy + '%';
-  }
-  for (var gi = 0; gi < 4; gi++) {
-    (function (offset) {
+  var GLINT_LIMIT = 24;
+  var glintNumber = 0;
+  var edgePoints = [[.16, .10], [.88, .42], [.42, .90], [.08, .64], [.68, .12]];
+  activeLandmarks.forEach(function (landmark, landmarkIndex) {
+    var count = Math.floor(GLINT_LIMIT / activeLandmarks.length) +
+                (landmarkIndex < GLINT_LIMIT % activeLandmarks.length ? 1 : 0);
+    for (var gi = 0; gi < count; gi++) {
+      var spot = landmark.spots[(gi + landmarkIndex) % landmark.spots.length];
+      var edge = edgePoints[(gi * 2 + landmarkIndex) % edgePoints.length];
       var g = document.createElement('i');
-      g.className = 'room-twinkle door-glint';
-      g.dataset.glint = String(offset);
-      g.style.setProperty('--duration', (6.7 + offset * 1.35) + 's');
-      g.style.setProperty('--delay', (-2.1 - offset * 2.45) + 's');
-      placeGlint(g, offset);
-      g.addEventListener('animationiteration', function () {
-        glintIndex = (glintIndex + 1) % activeSpots.length;
-        placeGlint(g, offset);
-      });
+      g.className = 'room-twinkle door-glint' + (glintNumber < 4 ? ' reduced-glint' : '');
+      g.dataset.landmark = landmark.id;
+      g.dataset.glint = String(glintNumber);
+      g.style.left = (spot.x + spot.w * edge[0]) + '%';
+      g.style.top = (spot.y + spot.h * edge[1]) + '%';
+      g.style.setProperty('--size', (10 + ((glintNumber * 7) % 13)) + 'px');
+      var peak = .55 + (glintNumber % 5) * .055;
+      g.style.setProperty('--peak', peak.toFixed(2));
+      g.style.setProperty('--mid', (peak * .55).toFixed(2));
+      g.style.setProperty('--low', (peak * .42).toFixed(2));
+      g.style.setProperty('--duration', (2.7 + (glintNumber % 8) * .31) + 's');
+      g.style.setProperty('--delay', (-.43 - (glintNumber * 1.17) % 4.8) + 's');
       sparkleLayer.appendChild(g);
-    })(gi);
-  }
+      glintNumber++;
+    }
+  });
 
   var burst = document.createElement('span');
   burst.className = 'tap-sparkle-burst';
