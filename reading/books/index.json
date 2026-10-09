@@ -2,8 +2,8 @@
   "format": 2,
   "shelf": [
     {
-      "type": "book",
-      "id": "space-trip"
+      "type": "set",
+      "id": "space"
     },
     {
       "type": "book",
@@ -19,6 +19,15 @@
     }
   ],
   "sets": [
+    {
+      "id": "space",
+      "title": "Space",
+      "colour": "#536fa6",
+      "books": [
+        "space-trip",
+        "stars"
+      ]
+    },
     {
       "id": "weather-water",
       "title": "Weather & Water",
@@ -68,7 +77,12 @@
   "books": [
     {
       "id": "space-trip",
-      "title": "A Trip Through Space"
+      "title": "A Trip Through Space",
+      "next": "stars"
+    },
+    {
+      "id": "stars",
+      "title": "All About Stars"
     },
     {
       "id": "gems",

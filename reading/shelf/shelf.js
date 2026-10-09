@@ -16,8 +16,10 @@
  *   books   [{id, title, draft?, next?}]   every book, the only place a book is listed
  *   sets    [{id, title, books: [ids], previewBooks?: [ids], sections?: [{title, books}], colour?}]
  *   shelf   [{type: "book"|"set", id}]     top-level order. Absent -> every book, in order.
- * A set's count and preview use only its SHELVED (non-draft) members, and a set with none is
- * not drawn. A shelved book that is in no set and not in `shelf` is appended rather than lost.
+ * A set's count and preview use only its SHELVED (non-draft) members in production, and a set
+ * with none is not drawn. Test Hub staging includes drafts so the owner can review them in their
+ * real shelf/set context. A shelved book that is in no set and not in `shelf` is appended rather
+ * than lost.
  *
  * ?from=wordbook: the back arrow returns to Our Word Book's hub (the Test Hub copy when this
  * page is served under /test-apps/), and the flag is carried into sets, the reader and back.
@@ -193,7 +195,7 @@
   function build(list) {
     var byId = {};
     (list.books || []).forEach(function (b) {
-      if (b && b.id && b.draft !== true) byId[b.id] = b;   // draft books are not shelved
+      if (b && b.id && (staged || b.draft !== true)) byId[b.id] = b;
     });
     var sets = {};
     var inSomeSet = {};

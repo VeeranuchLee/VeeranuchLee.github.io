@@ -16,6 +16,7 @@
    performances join Space Trip, Gems and Rain Book 1; Rain Books 2–7 continue to fall back
    to the existing word clips until their page narration is rendered.
 
+   v11 2026-10-09: All About Stars (stars) un-drafted with the Space set; its art, page clips and timing join SHELL.
    v10 2026-10-09: Rain Books 8–10 (street-under-water, stay-out-of-floodwater,
    when-water-goes-away) un-drafted so the shelf lists all ten; assets were already in SHELL.
 
@@ -26,7 +27,7 @@
 
    Navigations carry a query (?book=space-trip, ?from=wordbook), so they are matched with
    ignoreSearch; data and audio requests are matched exactly. */
-const CACHE_NAME = 'reading-v10';
+const CACHE_NAME = 'reading-v11';
 const CACHE_PREFIX = 'reading-v';
 const SHELL = [
   './',
@@ -828,6 +829,31 @@ const SHELL = [
   './audio/words/will.m4a',
   './audio/words/worked.m4a',
   './audio/words/you.m4a',
+  './audio/words/about.m4a',
+  './audio/words/air.m4a',
+  './audio/words/belt.m4a',
+  './audio/words/bends.m4a',
+  './audio/words/blue.m4a',
+  './audio/words/bright.m4a',
+  './audio/words/closest.m4a',
+  './audio/words/constellations.m4a',
+  './audio/words/cooler.m4a',
+  "./audio/words/earth's.m4a",
+  './audio/words/far.m4a',
+  './audio/words/find.m4a',
+  './audio/words/hill.m4a',
+  './audio/words/his.m4a',
+  './audio/words/hotter.m4a',
+  './audio/words/night.m4a',
+  './audio/words/orion.m4a',
+  './audio/words/patterns.m4a',
+  './audio/words/points.m4a',
+  './audio/words/red.m4a',
+  './audio/words/seem.m4a',
+  './audio/words/shine.m4a',
+  './audio/words/sleepy.m4a',
+  './audio/words/starlight.m4a',
+  './audio/words/twinkle.m4a',
   './audio/pages/city-water-moves/canals.m4a',
   './audio/pages/city-water-moves/canals.timing.json',
   './audio/pages/city-water-moves/closing.m4a',
@@ -1009,6 +1035,31 @@ const SHELL = [
   './audio/discoveries/street-under-water/look-under-water-electrical.m4a',
   './audio/discoveries/street-under-water/look-under-water-pothole.m4a',
   './audio/discoveries/street-under-water/look-under-water-runoff.m4a',
+  './audio/pages/stars/closest-star.m4a',
+  './audio/pages/stars/closest-star.timing.json',
+  './audio/pages/stars/cover.m4a',
+  './audio/pages/stars/cover.timing.json',
+  './audio/pages/stars/far-away.m4a',
+  './audio/pages/stars/far-away.timing.json',
+  './audio/pages/stars/find-orion.m4a',
+  './audio/pages/stars/find-orion.timing.json',
+  './audio/pages/stars/goodnight-stars.m4a',
+  './audio/pages/stars/goodnight-stars.timing.json',
+  './audio/pages/stars/star-colours.m4a',
+  './audio/pages/stars/star-colours.timing.json',
+  './audio/pages/stars/stars-at-night.m4a',
+  './audio/pages/stars/stars-at-night.timing.json',
+  './audio/pages/stars/why-stars-twinkle.m4a',
+  './audio/pages/stars/why-stars-twinkle.timing.json',
+  './books/stars/art/closest-star.webp',
+  './books/stars/art/cover.webp',
+  './books/stars/art/far-away.webp',
+  './books/stars/art/find-orion.webp',
+  './books/stars/art/goodnight-stars.webp',
+  './books/stars/art/star-colours.webp',
+  './books/stars/art/stars-at-night.webp',
+  './books/stars/art/why-stars-twinkle.webp',
+  './books/stars/book.json',
 ];
 self.addEventListener('install', event => event.waitUntil(
   caches.open(CACHE_NAME).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting())));
