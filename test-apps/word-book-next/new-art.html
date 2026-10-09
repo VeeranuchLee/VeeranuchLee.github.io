@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>New Word Pictures</title>
-<link rel="stylesheet" href="./fonts.css">
+<link rel="stylesheet" href="./fonts.css?v=ed6caa903-20261009141123">
 <!--
   STAGING-ONLY REVIEW PAGE. Never shipped: it lives in word-book/qa/, which the app's
   .publish-manifest marks [private], and word-book/tools/stage-testhub-next.py copies it
@@ -142,7 +142,7 @@
           var k = i++;
           if (seen[seenKey(c)]) n++;
           return '<button type="button" class="t' + (seen[seenKey(c)] ? ' seen' : '') + '" data-i="' + k + '">' +
-            '<span class="w">' + (c.pic ? '<img src="' + esc(c.pic) + '" alt="" loading="lazy" decoding="async">' : '') + '</span>' +
+            '<span class="w">' + (c.pic ? '<img src="' + esc(c.pic) + '?v=ed6caa903-20261009141123" alt="" loading="lazy" decoding="async">' : '') + '</span>' +
             '<span class="cap"><span class="word">' + esc(c.word) + '</span>' +
             '<span class="thai" lang="th">' + esc(c.thai) + '</span>' +
             (c.pos ? '<span class="why">' + esc(c.pos.join(' + ')) + '</span>' : '') +
