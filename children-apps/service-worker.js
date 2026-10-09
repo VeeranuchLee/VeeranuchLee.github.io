@@ -136,8 +136,14 @@
  *                  art.html. Memory Echo joins Puzzles in the same not-yet-merged release
  *                  candidate (owner: "memory echo -> approved"), with its generated robot
  *                  and four-pad tile precached as `assets/memory-echo.webp`.
+ *   v43 2026-10-09  The Discovery Room becomes the main hub (owner: "approve the hub-room."):
+ *                  the owner's painted room with category landmarks and pickers, name label
+ *                  bubbles, and small pale always-visible labelled badges on each active
+ *                  object and in the painted category rooms. SHELL gains room-label.*,
+ *                  badges.*, discovery-room.webp and the three inactive-landmark layers, and
+ *                  drops scene.webp.
  */
-const CACHE_NAME = "children-apps-v42";
+const CACHE_NAME = "children-apps-v43";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
@@ -167,18 +173,28 @@ const SHELL = [
   "./assets/read-write.webp",
   "./playroom/playroom.css",
   "./playroom/playroom.js",
+  "./playroom/room-label.css",
+  "./playroom/room-label.js",
+  "./playroom/badges.css",
+  "./playroom/badges.js",
   "./playroom/destinations.js",
   "./playroom/category.css",
   "./playroom/category.js",
-  "./playroom/scene.webp",
+  "./playroom/discovery-room.webp",
+  "./playroom/inactive-computer-moderate.webp",
+  "./playroom/inactive-toy-box-moderate.webp",
+  "./playroom/inactive-shop-moderate.webp",
   "./playroom/tiles/bookshelf.webp",
   "./art.html",
   "./books.html",
   "./homework.html",
+  "./maths.html",
   "./music.html",
   "./puzzles.html",
   "./science-world.html",
   "./books-room/scene.webp",
+  "./art-room/scene.webp",
+  "./words-books-room/scene.webp",
   "./homework-room/scene.webp",
   "./music-room/scene.webp",
   "./puzzles-room/scene.webp",

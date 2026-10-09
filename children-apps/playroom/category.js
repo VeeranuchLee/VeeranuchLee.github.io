@@ -4,7 +4,9 @@
   'use strict';
   var R = window.PLAYROOM, L = R.lib;
   var id = document.body.getAttribute('data-category');
-  var cat = R.categories.filter(function (c) { return c.id === id; })[0];
+  /* The page's own title and line: destinations.js `hubPages` (these pages are no longer room
+     landmarks, but they keep working). */
+  var cat = R.hubPages && R.hubPages[id];
   var room = R.categoryRooms && R.categoryRooms[id];
   var THAI = /[\u0E00-\u0E7F]/;
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -25,7 +27,7 @@
   document.title = cat.name + ' — Children Games';
   /* Categories without an owner room design preserve the original card-only page. */
   if (!room) {
-    L.appsIn(id).forEach(function (d) {
+    L.appsAt(id).forEach(function (d) {
       var c = document.createElement('a'); c.className = 'card'; c.href = L.app(d.href); c.dataset.id = d.id;
       if (d.tone) { c.style.setProperty('--edge', d.tone[0]); c.style.setProperty('--shadow', d.tone[1]); c.style.setProperty('--tint', d.tone[2]); }
       var art = document.createElement('span'); art.className = 'art'; var img = document.createElement('img');
@@ -42,11 +44,27 @@
   }
   picture.src = L.app(room.image);
   picture.alt = '';
+  /* A room that declares its own shape (`fit`, with width and height) is shown whole at that shape
+     with a blurred copy of the picture filling the sides, so the percent hotspots stay on the art.
+     Rooms without it keep the original 1672x941 frame. */
+  if (room.fit && room.width && room.height) {
+    document.body.classList.add('fit');
+    document.body.style.setProperty('--room-ar', String(room.width / room.height));
+    picture.width = room.width; picture.height = room.height;
+    var fill = document.createElement('div');
+    fill.className = 'room-fill';
+    fill.setAttribute('aria-hidden', 'true');
+    fill.style.backgroundImage = 'url("' + picture.src.replace(/"/g, '%22') + '")';
+    document.body.insertBefore(fill, document.body.firstChild);
+  }
 
   function polygon(points) {
     return 'polygon(' + points.map(function (p) { return p[0] + '% ' + p[1] + '%'; }).join(',') + ')';
   }
-  room.objects.forEach(function (d) {
+  var labelItems = [];
+  var badgeCount = 0;
+  /* Objects with `active: false` are future landmarks: geometry in the data, nothing in the page. */
+  room.objects.filter(function (d) { return d.active !== false; }).forEach(function (d) {
     var a = document.createElement('a');
     a.className = 'room-hotspot';
     a.href = L.app(d.href);
@@ -58,11 +76,10 @@
     a.firstChild.textContent = d.name;
     spots.appendChild(a);
 
-    /* The name bubble (owner, 2026-10-07: the main menu names its objects, the rooms did not).
-       The hotspot above is clip-pathed to the object's polygon and a clip-path clips children
-       too, so the bubble cannot live inside it: it sits in this sibling span, sized to the
-       polygon's bounding box. Edged exactly like the hub's doors (playroom.js): below an object
-       near the top of the room, pinned to its edge when centring would run off the picture. */
+    /* The name bubble: the shared Room label (room-label.js), the same component the main hub and
+       every other room uses. The anchor is the polygon's bounding box; the label sits above it, centred,
+       and moves only when above would leave the room, hit the controls or sit on a neighbour. Only active objects
+       reach this loop; a future landmark has no link and so no label. */
     var x0 = 100, y0 = 100, x1 = 0, y1 = 0;
     d.points.forEach(function (p) {
       if (p[0] < x0) x0 = p[0];
@@ -70,19 +87,15 @@
       if (p[1] < y0) y0 = p[1];
       if (p[1] > y1) y1 = p[1];
     });
-    var w = x1 - x0, cx = x0 + w / 2;
-    var tag = document.createElement('span');
-    tag.className = 'spot-tag';
-    tag.setAttribute('aria-hidden', 'true');
-    tag.style.left = x0 + '%'; tag.style.top = y0 + '%';
-    tag.style.width = w + '%'; tag.style.height = (y1 - y0) + '%';
-    var b = document.createElement('span');
-    b.className = 'bubble' + (y0 < 12 ? ' below' : '') +
-                  (cx < 12 ? ' start' : (cx > 88 ? ' end' : ''));
-    b.lang = THAI.test(d.name) ? 'th' : 'en';
-    b.textContent = d.name;
-    tag.appendChild(b);
-    spots.appendChild(tag);
+    labelItems.push({ el: a, text: d.name, anchor: { x0: x0, x1: x1, y0: y0, y1: y1 }, group: d.id, accent: d.accent });
+
+    /* Always-visible labelled badge on the object (owner request 2026-10-09; badges.css). The icon
+       centre is the object's own `badgeAt`, else its name-bubble `tag`, else a point in the upper
+       middle of its bounding box. The hotspot polygon is untouched. */
+    if (window.PlayroomBadges && d.tile) {
+      var at = d.badgeAt || d.tag || [(x0 + x1) / 2, y0 + (y1 - y0) * 0.4];
+      spots.appendChild(window.PlayroomBadges.make(d, at[0], at[1], badgeCount++));
+    }
 
     var c = document.createElement('a');
     c.className = 'card'; c.href = L.app(d.href); c.dataset.id = d.id;
@@ -99,26 +112,7 @@
     c.appendChild(art); c.appendChild(name); c.appendChild(desc); grid.appendChild(c);
   });
 
-  /* A painted room can predate a newly approved app. Keep the picture honest—only
-     painted objects become hotspots—while the Cards view remains the complete category.
-     This is the normal maintenance path until the owner supplies revised room art. */
-  var painted = {};
-  room.objects.forEach(function (d) { painted[d.id] = true; });
-  L.appsIn(id).forEach(function (d) {
-    if (painted[d.id]) return;
-    var c = document.createElement('a'); c.className = 'card'; c.href = L.app(d.href); c.dataset.id = d.id;
-    if (d.tone) {
-      c.style.setProperty('--edge', d.tone[0]); c.style.setProperty('--shadow', d.tone[1]);
-      c.style.setProperty('--tint', d.tone[2]);
-    }
-    var art = document.createElement('span'); art.className = 'art';
-    var img = document.createElement('img'); img.src = L.app(d.tile); img.alt = '';
-    img.width = 96; img.height = 96; if (!d.cutout) img.className = 'tile'; art.appendChild(img);
-    var name = document.createElement('span'); name.className = 'name'; name.textContent = d.name;
-    if (THAI.test(d.name)) name.lang = 'th';
-    var desc = document.createElement('span'); desc.className = 'desc'; desc.textContent = d.desc;
-    c.appendChild(art); c.appendChild(name); c.appendChild(desc); grid.appendChild(c);
-  });
+  var label = window.RoomLabel.attach(spots.parentNode, labelItems, { avoid: ['.topbar .back', '.view-switch', '.music-btn'] });
 
   /* ── PRESS, THEN GO ── the hub's tap handling (playroom.js), brought into the rooms so a tap
      is answered with the object's name before the page goes. Modified clicks (new tab) are left
@@ -150,7 +144,9 @@
     setTimeout(function () { window.location.assign(href); }, reduced ? 120 : 320);
   });
   /* Coming back from a game restores this page from the back-forward cache, lit as it was left. */
-  window.addEventListener('pageshow', function (e) { if (e.persisted) clear(); });
+  window.addEventListener('pageshow', function (e) { if (e.persisted) { label.hide(); clear(); } });
+
+  grid.setAttribute('data-count', String(grid.children.length));
 
   var key = 'ca_category_view_' + id;
   function show(view, remember) {

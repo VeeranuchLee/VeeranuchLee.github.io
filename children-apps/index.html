@@ -5,7 +5,7 @@
   <!-- No user-scalable / maximum-scale: INTERACTION-DIRECTION.md layer 4. -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>Children Games</title>
-  <meta name="description" content="All of our games in one place — maths, spelling, writing, music, colouring, flowers, a space story, the planets and their moons, and an animal book."/>
+  <meta name="description" content="Everything to explore in one place — maths, words and books, space, nature, science, our world, art, music and games."/>
   <link rel="manifest" href="./manifest.webmanifest"/>
   <link rel="stylesheet" href="./fonts.css"/>
   <meta name="theme-color" content="#f7d9ec"/>
@@ -15,20 +15,27 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
   <meta name="apple-mobile-web-app-title" content="Games"/>
   <link rel="stylesheet" href="./playroom/playroom.css"/>
+  <link rel="stylesheet" href="./playroom/room-label.css"/>
+  <link rel="stylesheet" href="./playroom/badges.css"/>
   <!--
-    THE MAIN HUB (owner, 2026-10-02: "Playroom hub -> approved."). One painted room, and every game
-    is an object in it; this page replaced the card grid as the hub's front door. The doors are
-    transparent links laid over the picture; what they are and where they sit lives in
-    ./playroom/destinations.js, the only file to edit when a game is added or the art is replaced.
-    The old card grid is not gone: the toy box and the Room / Cards switch open it, and it lists
-    every game (tools/check-playroom.py fails if one of the old cards ever goes missing).
+    THE MAIN HUB, the Discovery Room (owner, 2026-10-07). One painted room whose objects are
+    LANDMARKS (Math, Words & Books, Space, Nature ...), not apps; the doors are transparent links
+    laid over the picture. What they are and where they sit lives in ./playroom/destinations.js,
+    the only file to edit when a game is added or a landmark is switched on. Active landmarks are
+    grouped into areas and open their category hubs; a landmark with nothing to open yet is shown
+    paler and answers with a non-navigating Coming soon wiggle.
+
+    ROOM AND CARDS ARE BOTH KEPT, ON PURPOSE (owner, 2026-10-07: "My 7-year-old prefers the room
+    interface, while my 4-year-old prefers the card interface, so these are two valid child
+    navigation modes, not an old/new transition."). The Room | Cards switch is on the page in
+    both modes; the card grid lists every app. tools/check-playroom.py fails if either goes.
   -->
 </head>
 <body>
-<!-- The owner's room art paints "Children Games / Pick a game to play" itself, so there is no
-     visible HTML title; these two lines are the same words for screen readers only. -->
+<!-- The Discovery Room picture paints no title, so there is no visible HTML title in the room;
+     these two lines are its title for screen readers. The Cards view shows the same words. -->
 <h1 class="sr-only">Children Games</h1>
-<p class="sr-only">Pick a game to play.</p>
+<p class="sr-only">Choose something to explore.</p>
 
 <!-- The hub's own music control, unchanged from index.html: same place, same states. -->
 <button class="music-btn" id="musicBtn" type="button" aria-pressed="false" aria-label="Play music">
@@ -41,7 +48,7 @@
 <div class="backdrop" id="backdrop" aria-hidden="true"></div>
 
 <main class="stage" id="roomView">
-  <nav class="scene" id="scene" aria-label="Games in the playroom">
+  <nav class="scene" id="scene" aria-label="Places in the Discovery Room">
     <img class="scene-img" id="sceneImg" alt="" draggable="false"/>
     <!-- hotspots are added here from destinations.js -->
   </nav>
@@ -50,7 +57,7 @@
 <!-- ROOM or CARDS. Owner, 2026-10-02: "add the 'card view' too pls." Two big picture-and-word
      buttons, top-left, opposite the music button; the pressed one is the view on screen. The room
      is the default; the last choice is remembered on this device. -->
-<div class="view-toggle" role="group" aria-label="How to show the games">
+<div class="view-toggle" role="group" aria-label="Room or cards">
   <button type="button" class="view-btn" id="viewRoom" data-view="room" aria-pressed="true">
     <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 11.2 12 4l9 7.2V20a1 1 0 0 1-1 1h-5.2v-5.6H9.2V21H4a1 1 0 0 1-1-1z"/></svg>
     <span>Room</span>
@@ -70,7 +77,7 @@
   <div class="wrap">
     <header>
       <h2 class="cards-title" id="cardsTitle">Children <em>Games</em></h2>
-      <p class="tagline">Pick a game to play</p>
+      <p class="tagline">Choose something to explore</p>
     </header>
     <div class="grid" id="cardGrid"></div>
     <footer>Made with love for little learners
@@ -96,6 +103,8 @@
 </script>
 <script src="./tap-zoom-guard.js"></script>
 <script src="./playroom/destinations.js"></script>
+<script src="./playroom/room-label.js"></script>
 <script src="./playroom/playroom.js"></script>
+<script src="./playroom/badges.js"></script>
 </body>
 </html>

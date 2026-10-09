@@ -1,5 +1,7 @@
-/* The playroom hub: draws the CATEGORIES in destinations.js as doors over the room picture,
-   and every APP as the card grid (the Cards view). Nothing in here names a game or a category. */
+/* The Discovery Room hub: draws the LANDMARKS in destinations.js as doors over the room picture,
+   and every APP as the card grid (the Cards view). Nothing in here names a game or a landmark.
+   Room and Cards are two equal ways in (owner, 2026-10-07: the 7-year-old prefers the room, the
+   4-year-old prefers the cards): both are drawn from the one list in destinations.js. */
 (function () {
   'use strict';
   var R = window.PLAYROOM, L = R.lib;
@@ -7,7 +9,7 @@
   var img = document.getElementById('sceneImg');
   var grid = document.getElementById('cardGrid');
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var THAI = /[\u0E00-\u0E7F]/;
+  var THAI = /[฀-๿]/;
 
   function cssUrl(u) { return 'url("' + String(u).replace(/"/g, '%22') + '")'; }
 
@@ -17,66 +19,12 @@
   document.documentElement.style.setProperty('--ar', String(R.width / R.height));
   document.getElementById('backdrop').style.backgroundImage = cssUrl(imageUrl);
 
-  /* ── THE ROOM: category doors plus explicit one-app doors ── */
-  var roomDoors = R.categories.slice();
-  (R.directDoors || []).forEach(function (d) {
-    var app = R.apps.filter(function (a) { return a.id === d.app; })[0];
-    if (!app) return;
-    roomDoors.push({ id: d.id, name: app.name, boxes: d.boxes,
-      _door: { kind: 'app', href: L.app(app.href), app: app } });
-  });
-  roomDoors.forEach(function (c) {
-    var door = c._door || L.door(c);
-    /* What the door says to a screen reader: the category, and what is behind it. */
-    var label = c.name + ' — ' + (door.kind === 'app' ? door.app.name + ': ' + door.app.desc
-              : door.kind === 'page' ? door.apps.map(function (a) { return a.name; }).join(', ')
-              : c.tagline);
-    c.boxes.forEach(function (bx, k) {
-      var x = bx[0], y = bx[1], w = bx[2], h = bx[3];
-      var a = document.createElement('a');
-      a.className = 'spot' + (bx[4] === 'ellipse' ? ' ellipse' : '');
-      a.href = door.href;
-      a.id = 'spot-' + c.id + (k ? '-' + (k + 1) : '');
-      a.dataset.id = c.id;
-      a.dataset.kind = door.kind;
-      a.setAttribute('aria-label', label);
-      /* A second object of the same category is a second tap area, not a second door:
-         keyboard and screen reader meet each category once, at its first object. */
-      if (k) { a.tabIndex = -1; a.setAttribute('aria-hidden', 'true'); }
-      if (THAI.test(c.name)) a.lang = 'th';
-      a.style.left = x + '%'; a.style.top = y + '%';
-      a.style.width = w + '%'; a.style.height = h + '%';
-
-      /* The object itself, cut from the same picture so it can rise when touched. */
-      var lift = document.createElement('span');
-      lift.className = 'lift';
-      lift.setAttribute('aria-hidden', 'true');
-      lift.style.backgroundImage = cssUrl(imageUrl);
-      lift.style.backgroundSize = (10000 / w) + '% ' + (10000 / h) + '%';
-      lift.style.backgroundPosition = (w >= 100 ? 0 : x / (100 - w) * 100) + '% ' +
-                                      (h >= 100 ? 0 : y / (100 - h) * 100) + '%';
-      a.appendChild(lift);
-
-      /* The name, near the object. Above it, unless the object is at the top of the room;
-         pinned to its left or right edge when centring it would run off the picture. */
-      var b = document.createElement('span');
-      b.className = 'bubble' + (y < 12 ? ' below' : '') +
-                    (x + w / 2 < 12 ? ' start' : (x + w / 2 > 88 ? ' end' : ''));
-      b.setAttribute('aria-hidden', 'true');
-      b.lang = THAI.test(c.name) ? 'th' : 'en';
-      b.textContent = c.name;
-      a.appendChild(b);
-
-      scene.appendChild(a);
-    });
-  });
-
-  /* ── THE CARDS: every app, exactly as index.html draws a card ── */
-  R.apps.forEach(function (d) {
+  /* One card in the Cards view. */
+  function makeCard(d, prefix) {
     var c = document.createElement('a');
     c.className = 'card';
     c.href = L.app(d.href);
-    c.id = 'card-' + d.id;
+    c.id = prefix + d.id;
     c.dataset.id = d.id;
     if (d.tone) {
       c.style.setProperty('--edge', d.tone[0]);
@@ -101,12 +49,162 @@
     ds.className = 'desc';
     ds.textContent = d.desc;
     c.appendChild(art); c.appendChild(n); c.appendChild(ds);
-    grid.appendChild(c);
+    return c;
+  }
+
+  /* ── THE ROOM: destination-driven active and inactive states ──
+     A landmark is active only when lib.door() can resolve somewhere real to go. Otherwise its
+     hand-masked pale layer is shown and its boxes answer with a non-navigating Coming soon wiggle.
+     The visual state and the interaction state therefore cannot disagree. */
+  var labelItems = [];
+  var activeLandmarks = [];
+  R.landmarks.forEach(function (c) {
+    var door = L.door(c);
+    if (!door) {
+      var faded = document.createElement('img');
+      faded.className = 'inactive-layer';
+      faded.dataset.id = c.id;
+      faded.src = L.abs('./playroom/inactive-' + c.id + '-' + R.inactiveFadeStrength + '.webp');
+      faded.alt = '';
+      faded.setAttribute('aria-hidden', 'true');
+      faded.draggable = false;
+      scene.appendChild(faded);
+      c.boxes.forEach(function (bx, k) {
+        var inactive = document.createElement('button');
+        inactive.type = 'button';
+        inactive.className = 'spot inactive-spot' + (bx[4] === 'ellipse' ? ' ellipse' : '');
+        inactive.id = 'spot-' + c.id + (k ? '-' + (k + 1) : '');
+        inactive.dataset.id = c.id;
+        inactive.dataset.kind = 'inactive';
+        inactive.setAttribute('aria-label', c.name + ' — Coming soon');
+        if (k) { inactive.tabIndex = -1; inactive.setAttribute('aria-hidden', 'true'); }
+        inactive.style.left = bx[0] + '%'; inactive.style.top = bx[1] + '%';
+        inactive.style.width = bx[2] + '%'; inactive.style.height = bx[3] + '%';
+        labelItems.push({ el: inactive, text: c.name + ' — Coming soon',
+          anchor: { x0: bx[0], x1: bx[0] + bx[2], y0: bx[1], y1: bx[1] + bx[3] }, group: c.id });
+        scene.appendChild(inactive);
+      });
+      return;
+    }
+    /* What the door says to a screen reader: the landmark, and what is behind it. */
+    var label = c.name + ' — ' + (door.kind === 'app' ? door.app.name + ': ' + door.app.desc
+              : door.kind === 'page' ? door.area.name + ': ' + door.area.tagline
+              : c.tagline);
+    var landmarkSpots = [];
+    c.boxes.forEach(function (bx, k) {
+      var x = bx[0], y = bx[1], w = bx[2], h = bx[3];
+      /* Every active area is a native link: category hub, or the one-app Space exception. */
+      var a = document.createElement('a');
+      a.className = 'spot' + (bx[4] === 'ellipse' ? ' ellipse' : '');
+      a.href = door.href;
+      a.id = 'spot-' + c.id + (k ? '-' + (k + 1) : '');
+      a.dataset.id = c.id;
+      a.dataset.kind = door.kind;
+      a.setAttribute('aria-label', label);
+      /* A second object of the same landmark is a second tap area, not a second door:
+         keyboard and screen reader meet each landmark once, at its first object. */
+      if (k) { a.tabIndex = -1; a.setAttribute('aria-hidden', 'true'); }
+      if (THAI.test(c.name)) a.lang = 'th';
+      a.style.left = x + '%'; a.style.top = y + '%';
+      a.style.width = w + '%'; a.style.height = h + '%';
+
+      /* The object itself, cut from the same picture so it can rise when touched. */
+      var lift = document.createElement('span');
+      lift.className = 'lift';
+      lift.setAttribute('aria-hidden', 'true');
+      lift.style.backgroundImage = cssUrl(imageUrl);
+      lift.style.backgroundSize = (10000 / w) + '% ' + (10000 / h) + '%';
+      lift.style.backgroundPosition = (w >= 100 ? 0 : x / (100 - w) * 100) + '% ' +
+                                      (h >= 100 ? 0 : y / (100 - h) * 100) + '%';
+      a.appendChild(lift);
+
+      /* The name: the shared Room label (room-label.js) shows it near the object on hover, press
+         or keyboard focus. Only active landmarks reach this loop, so only they have one. */
+      labelItems.push({ el: a, text: c.name, anchor: { x0: x, x1: x + w, y0: y, y1: y + h }, group: c.id });
+      var activeSpot = { el: a, x: x, y: y, w: w, h: h };
+      landmarkSpots.push(activeSpot);
+
+      scene.appendChild(a);
+    });
+    activeLandmarks.push({ id: c.id, spots: landmarkSpots });
   });
+
+  /* ── QUIET ROOM MAGIC ──
+     One fixed, pointer-transparent pool lives in the room's percentage coordinate space, so it
+     follows the painting at every viewport. A bounded set of independently phased twinkles is
+     distributed around every ACTIVE landmark; inactive scenery never enters activeLandmarks.
+     There is no canvas, timer, or animation loop. */
+  var sparkleLayer = document.createElement('span');
+  sparkleLayer.className = 'sparkle-layer';
+  sparkleLayer.setAttribute('aria-hidden', 'true');
+  sparkleLayer.style.pointerEvents = 'none';
+
+  var GLINT_LIMIT = 24;
+  var glintNumber = 0;
+  var edgePoints = [[.16, .10], [.88, .42], [.42, .90], [.08, .64], [.68, .12]];
+  activeLandmarks.forEach(function (landmark, landmarkIndex) {
+    var count = Math.floor(GLINT_LIMIT / activeLandmarks.length) +
+                (landmarkIndex < GLINT_LIMIT % activeLandmarks.length ? 1 : 0);
+    for (var gi = 0; gi < count; gi++) {
+      var spot = landmark.spots[(gi + landmarkIndex) % landmark.spots.length];
+      var edge = edgePoints[(gi * 2 + landmarkIndex) % edgePoints.length];
+      var g = document.createElement('i');
+      g.className = 'room-twinkle door-glint' + (glintNumber < 4 ? ' reduced-glint' : '');
+      g.dataset.landmark = landmark.id;
+      g.dataset.glint = String(glintNumber);
+      g.style.left = (spot.x + spot.w * edge[0]) + '%';
+      g.style.top = (spot.y + spot.h * edge[1]) + '%';
+      /* 20-28 CSS px on screen (not art px); fade cycles 3.4-5.6 s, phases spread by the golden
+         ratio so they never line up. */
+      g.style.setProperty('--size', (20 + ((glintNumber * 7) % 9)) + 'px');
+      var peak = .86 + (glintNumber % 5) * .035;
+      g.style.setProperty('--peak', peak.toFixed(2));
+      g.style.setProperty('--mid', (peak * .3).toFixed(2));
+      var dur = 3.4 + (glintNumber % 8) * .31;
+      g.style.setProperty('--duration', dur.toFixed(2) + 's');
+      g.style.setProperty('--delay', (-dur * ((glintNumber * .618034) % 1)).toFixed(2) + 's');
+      sparkleLayer.appendChild(g);
+      glintNumber++;
+    }
+  });
+
+  var burst = document.createElement('span');
+  burst.className = 'tap-sparkle-burst';
+  for (var bi = 0; bi < 5; bi++) {
+    var b = document.createElement('i');
+    b.className = 'room-twinkle burst-twinkle';
+    b.style.setProperty('--angle', (bi * 72 - 90) + 'deg');
+    b.style.setProperty('--distance', (12 + (bi % 2) * 6) + 'px');
+    burst.appendChild(b);
+  }
+  sparkleLayer.appendChild(burst);
+  scene.appendChild(sparkleLayer);
+
+  function burstAt(e) {
+    var rect = scene.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    burst.style.left = ((e.clientX - rect.left) / rect.width * 100) + '%';
+    burst.style.top = ((e.clientY - rect.top) / rect.height * 100) + '%';
+    burst.classList.remove('play');
+    void burst.offsetWidth;
+    burst.classList.add('play');
+  }
+  function setSparklePause() {
+    document.documentElement.classList.toggle('sparkles-paused', !!document.hidden);
+  }
+  document.addEventListener('visibilitychange', setSparklePause);
+  setSparklePause();
+
+  var label = window.RoomLabel.attach(scene, labelItems, { avoid: ['.view-toggle', '.music-btn'] });
+
+  /* ── THE CARDS: every app, exactly as index.html draws a card ── */
+  L.cards().forEach(function (d) { grid.appendChild(makeCard(d, 'card-')); });
 
   /* ── ROOM OR CARDS ── owner, 2026-10-02: "add the 'card view' too pls." The room is the
      default; the last choice made with the switch is remembered on this device, and the page
-     works the same when storage is unavailable (private mode) — it just starts in the room. */
+     works the same when storage is unavailable (private mode) — it just starts in the room.
+     Owner, 2026-10-07: both are valid; neither is an old/new transition. Do not change the
+     default or the key to favour one child. */
   var VIEW_KEY = 'ca_hub_view';
   var room = document.getElementById('roomView');
   var cards = document.getElementById('cardsView');
@@ -131,43 +229,46 @@
   /* ── PRESS, THEN GO ──
      A child must never need two taps: the first tap opens the door. But a tap that navigates
      instantly is never seen to land, so the object lights, bounces and names itself first,
-     and the page goes a moment later. Modified clicks (new tab) are left to the browser; a
-     keyboard Enter goes at once. The toy box does not navigate: it opens the card view (and
-     does not change the remembered choice — the room stays home). */
+     and the page goes at once. Modified clicks (new tab) are left to the
+     browser; a keyboard Enter goes at once. */
   var going = false;
   function clear() {
     going = false;
     Array.prototype.forEach.call(scene.querySelectorAll('.spot.on'), function (s) { s.classList.remove('on'); });
+    Array.prototype.forEach.call(scene.querySelectorAll('.inactive-layer.on'), function (s) { s.classList.remove('on'); });
   }
   scene.addEventListener('pointerdown', function (e) {
     var s = e.target.closest && e.target.closest('.spot');
     if (!s || going) return;
     clear();
     s.classList.add('on');
+    if (s.dataset.kind !== 'inactive') burstAt(e);
   });
   scene.addEventListener('pointercancel', function () { if (!going) clear(); });
   scene.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse' && !going) clear(); });
   scene.addEventListener('click', function (e) {
     var s = e.target.closest && e.target.closest('.spot');
     if (!s) return;
-    var toCards = s.dataset.kind === 'cards';
-    if (!toCards && (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey)) return;
-    if (e.detail === 0) {                 /* keyboard Enter: at once */
-      if (toCards) { e.preventDefault(); show('cards', false); }
+    var kind = s.dataset.kind;
+    if (kind === 'inactive') {
+      e.preventDefault();
+      var pale = scene.querySelector('.inactive-layer[data-id="' + s.dataset.id + '"]');
+      if (pale) { pale.classList.remove('on'); void pale.offsetWidth; pale.classList.add('on'); }
+      setTimeout(function () { if (pale) pale.classList.remove('on'); s.classList.remove('on'); }, reduced ? 180 : 520);
       return;
     }
-    e.preventDefault();
-    if (going) return;
-    going = true;
-    s.classList.add('on');
-    var href = s.href;
-    setTimeout(function () {
-      if (toCards) { clear(); show('cards', false); }
-      else window.location.assign(href);
-    }, reduced ? 120 : 320);
+    var opens = kind === 'cards';
+    if (!opens && (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey)) return;
+    if (e.detail === 0) {                 /* keyboard Enter / Space: at once */
+      if (kind === 'cards') { e.preventDefault(); show('cards', false); }
+      return;
+    }
+    if (kind === 'cards') { e.preventDefault(); clear(); show('cards', false); }
+    /* Links keep their native, immediate navigation. The pointerdown burst has already begun;
+       there is deliberately no timeout between a child's tap and leaving the room. */
   });
   /* Coming Back from a game restores this page from the back-forward cache, lit as it was left. */
-  window.addEventListener('pageshow', function (e) { if (e.persisted) clear(); });
+  window.addEventListener('pageshow', function (e) { if (e.persisted) { label.hide(); clear(); } });
 
   /* Read-only, for verification. */
   window.Playroom = { data: R, show: show };

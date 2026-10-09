@@ -14,23 +14,22 @@ body.painted-room{display:block;margin:0;padding:0;min-height:100%;background:#2
 .painted-room .back,.painted-room .view-switch,.painted-room .music-btn{pointer-events:auto;background:rgba(255,255,255,.95);border:2px solid #8f86d8;box-shadow:0 4px 0 #665cae;color:#453884}
 .painted-room .back{min-height:56px;padding:0 18px 0 14px}.painted-room .back svg{width:23px;height:23px}.view-switch{display:flex;padding:4px;border-radius:999px;margin-left:auto;margin-right:72px}.view-switch button{min-height:46px;padding:0 16px;border:0;border-radius:999px;background:transparent;color:#53478e;font:900 .95rem 'Nunito',sans-serif}.view-switch button[aria-pressed=true]{background:#6656bd;color:#fff}
 .room-view{min-height:100svh;display:grid;place-items:center;padding:84px 12px 18px}.room-frame{position:relative;width:min(100%,1672px);aspect-ratio:1672/941;border-radius:24px;overflow:hidden;box-shadow:0 18px 55px rgba(7,4,28,.45);background:#171238}.room-frame>img{display:block;width:100%;height:100%;object-fit:contain}.room-hotspots{position:absolute;inset:0}.room-hotspot{position:absolute;inset:0;display:block;background:transparent;-webkit-tap-highlight-color:transparent}.room-hotspot:hover,.room-hotspot:focus-visible,.room-hotspot.on{background:rgba(255,245,159,.18);filter:drop-shadow(0 0 9px #fff2a6);outline:0}
-/* NAME BUBBLE (2026-10-07) — the hub's bubble (playroom.css), same values, for the room objects.
-   At rest nothing shows: no permanent labels, no dots. It appears on hover, on press (.on, set by
-   category.js's pointer handling, which mirrors playroom.js) and on keyboard focus-visible. The
-   hotspot is clip-pathed to its polygon and a clip-path clips children too, so each bubble lives
-   in a sibling .spot-tag span that category.js sizes to the polygon's bounding box; the sibling
-   combinators below light it from its own hotspot. */
-.spot-tag{position:absolute;z-index:1;pointer-events:none}
-.room-hotspot:hover+.spot-tag,.room-hotspot:focus-visible+.spot-tag,.room-hotspot.on+.spot-tag{z-index:2}
-.bubble{position:absolute;left:50%;top:0;--bubble-from:translate(-50%,-78%);transform:var(--bubble-from) scale(.85);opacity:0;transition:opacity .16s ease,transform .2s cubic-bezier(.3,1.6,.5,1);padding:.35em .85em .4em;border-radius:999px;background:var(--card);border:3px solid #f3b7d5;box-shadow:0 4px 0 #e9cfe0,0 8px 18px rgba(72,48,104,.2);font-weight:900;font-size:clamp(14px,1.9vw,22px);line-height:1.15;white-space:nowrap;color:#4a3168;pointer-events:none}
-.bubble.below{--bubble-from:translate(-50%,18%)}
-.bubble.start{left:0;--bubble-from:translate(0,-78%)}
-.bubble.start.below{--bubble-from:translate(0,18%)}
-.bubble.end{left:auto;right:0;--bubble-from:translate(0,-78%)}
-.bubble.end.below{--bubble-from:translate(0,18%)}
-@media(hover:hover){.room-hotspot:hover+.spot-tag .bubble{opacity:1;transform:var(--bubble-from) scale(1)}}
-.room-hotspot:focus-visible+.spot-tag .bubble,.room-hotspot.on+.spot-tag .bubble{opacity:1;transform:var(--bubble-from) scale(1)}
+/* NAME BUBBLE: the shared Room label (room-label.css / room-label.js); nothing shows at rest. */
 
 .cards-view{min-height:100svh;padding:100px 20px 34px;background:linear-gradient(160deg,#fdf6ff,#edf2ff);color:#3b2a52}.cards-view header{text-align:center;margin:0 auto 26px}.cards-view h1{margin:0}.painted-room .grid{grid-template-columns:repeat(auto-fit,minmax(220px,280px));max-width:980px;margin:auto}.painted-room .card{min-height:235px;padding:22px 16px}.painted-room .card .art{width:116px;height:116px}.painted-room .card .art img{width:92px;height:92px}.music-btn{position:fixed;z-index:40;top:calc(12px + env(safe-area-inset-top));right:12px;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;padding:0}.music-btn svg{width:28px}.music-btn .note{fill:#8f86d8}.music-btn .slash{stroke:#8f86d8;stroke-width:2.6;stroke-linecap:round}.music-btn[aria-pressed=true] .note{fill:#e5a100}.music-btn[aria-pressed=true] .slash{display:none}
 @media(max-width:560px){.painted-room .back{width:56px;padding:0;justify-content:center}.painted-room .back span{display:none}.view-switch{margin-right:62px}.view-switch button{padding:0 11px}.room-view{padding-inline:4px}.room-frame{border-radius:12px}.painted-room .grid{grid-template-columns:minmax(220px,340px)}}
-@media(prefers-reduced-motion:reduce){.card{transition:none}.card:hover{transform:none}.bubble{transition:none}}
+@media(prefers-reduced-motion:reduce){.card{transition:none}.card:hover{transform:none}}
+
+/* ── FIT ROOMS (2026-10-07: the 4:3 Music plate) ── a room that declares its own shape is shown whole
+   at that shape, never cropped, so the percent hotspots stay on the art. The picture is contained
+   in the space under the top bar; on a wider or taller screen a blurred copy of it fills the rest
+   (.room-fill), so the bands read as the room continuing. */
+body.painted-room.fit{--room-ar:1.33333;background:#2a2146}
+.room-fill{position:fixed;inset:-40px;z-index:0;background-position:center;background-size:cover;filter:blur(26px) saturate(1.1) brightness(.92);opacity:.9;pointer-events:none}
+.fit .room-view{position:relative;z-index:1;height:100svh;min-height:0;padding:84px 12px 18px;box-sizing:border-box}
+.fit .room-frame{aspect-ratio:var(--room-ar);width:min(100%,calc((100svh - 102px) * var(--room-ar)));max-height:100%;border-radius:20px}
+.fit .cards-view{position:relative;z-index:1}
+/* Four cards: two across (a balanced 2x2) until there is room for four child-sized cards in a row. */
+.painted-room .grid[data-count="4"]{grid-template-columns:repeat(2,minmax(220px,300px));justify-content:center;max-width:680px}
+@media(min-width:1180px){.painted-room .grid[data-count="4"]{grid-template-columns:repeat(4,minmax(240px,280px));max-width:1200px}}
+@media(max-width:560px){.painted-room .grid[data-count="4"]{grid-template-columns:minmax(220px,340px)}}

@@ -1,4 +1,4 @@
-/* The playroom hub. See index.html for what this page is, and destinations.js for what is in it. */
+/* The Discovery Room hub. See index.html for what this page is, and destinations.js for what is in it. */
 *{box-sizing:border-box;margin:0;padding:0}
 
 :root{
@@ -56,6 +56,56 @@ body{
   position:absolute;inset:0;width:100%;height:100%;display:block;
   pointer-events:none;
 }
+.inactive-layer{
+  position:absolute;inset:0;width:100%;height:100%;display:block;
+  object-fit:fill;pointer-events:none;z-index:1;
+  transform-origin:center;
+}
+.inactive-layer.on{animation:comingSoonWiggle .48s ease-in-out}
+@keyframes comingSoonWiggle{
+  0%,100%{transform:rotate(0deg) scale(1)}
+  22%{transform:rotate(-.35deg) scale(1.004)}
+  48%{transform:rotate(.35deg) scale(1.004)}
+  72%{transform:rotate(-.18deg) scale(1.002)}
+}
+
+/* ── SUBTLE ROOM SPARKLES ──
+   A tiny fixed pool in the scene's coordinate space. Every node is interaction-transparent;
+   opacity and transform are the only animated properties, which keeps this cheap on an iPad. */
+.sparkle-layer{position:absolute;inset:0;z-index:3;overflow:hidden;pointer-events:none!important}
+.sparkle-layer,.sparkle-layer *{pointer-events:none!important}
+.room-twinkle,.light-dust,.tap-sparkle-burst{position:absolute;display:block;pointer-events:none!important}
+.room-twinkle{
+  width:var(--size,8px);height:var(--size,8px);opacity:0;
+  color:#fff4c8;transform:translate(-50%,-50%) rotate(0deg);
+  /* soft gold halo so the star reads on bright art as well as dark */
+  background:radial-gradient(circle,rgba(255,255,255,.95) 0 9%,rgba(255,226,120,.8) 12%,rgba(255,196,70,.38) 34%,rgba(255,196,70,0) 68%);
+}
+.room-twinkle::before,.room-twinkle::after{
+  content:"";position:absolute;left:50%;top:50%;border-radius:50%;background:currentColor;
+  box-shadow:0 0 2px 1px rgba(190,110,10,.95),0 0 7px 2px rgba(255,190,50,.9),0 0 14px 4px rgba(255,210,90,.45);transform:translate(-50%,-50%);
+}
+.room-twinkle::before{width:20%;height:100%}
+.room-twinkle::after{width:100%;height:20%}
+.door-glint{
+  color:#fffdf0;
+  animation:doorEdgeGlint var(--duration) ease-in-out var(--delay) infinite;
+}
+@keyframes doorEdgeGlint{
+  0%,100%{opacity:0}
+  30%{opacity:var(--mid)}
+  50%{opacity:var(--peak)}
+  70%{opacity:var(--mid)}
+}
+.tap-sparkle-burst{width:1px;height:1px;opacity:0}
+.tap-sparkle-burst.play{opacity:1}
+.burst-twinkle{--size:14px;left:0;top:0;color:#fff1b6}
+.tap-sparkle-burst.play .burst-twinkle{animation:tapSpark .34s ease-out both}
+@keyframes tapSpark{
+  from{opacity:.8;transform:translate(-50%,-50%) rotate(var(--angle)) translateX(2px) scale(.65)}
+  to{opacity:0;transform:translate(-50%,-50%) rotate(var(--angle)) translateX(var(--distance)) scale(.15)}
+}
+.sparkles-paused .sparkle-layer *{animation-play-state:paused!important}
 
 /* ── THE DOORS ──
    A transparent link over each object. At rest it is invisible: no permanent labels, no dots.
@@ -70,7 +120,11 @@ body{
   cursor:pointer;
   text-decoration:none;
 }
+.inactive-spot{z-index:2;cursor:default}
+.inactive-spot::before{display:none}
+.inactive-spot:focus-visible{box-shadow:0 0 0 4px #fff,0 0 0 8px #8a7d96}
 .spot.ellipse{border-radius:50%}
+button.spot{padding:0;margin:0;border:0;background:none;font:inherit;color:inherit;text-align:inherit;appearance:none;-webkit-appearance:none}
 /* A lit door sits above its neighbours so its name bubble is never covered. */
 .spot:hover,.spot:focus-visible,.spot.on{z-index:2}
 
@@ -101,14 +155,11 @@ body{
 @media (hover:hover){
   .spot:hover .lift{opacity:1;transform:translateY(-2.5%) scale(1.035);filter:brightness(1.08) saturate(1.06) drop-shadow(0 6px 10px rgba(60,40,90,.25))}
   .spot:hover::before{opacity:1;box-shadow:0 0 30px 12px rgba(255,236,170,.55)}
-  .spot:hover .bubble{opacity:1;transform:var(--bubble-from) scale(1)}
 }
 .spot:focus-visible .lift,
 .spot.on .lift{opacity:1;transform:translateY(-2.5%) scale(1.035);filter:brightness(1.08) saturate(1.06) drop-shadow(0 6px 10px rgba(60,40,90,.25))}
 .spot:focus-visible::before,
 .spot.on::before{opacity:1;box-shadow:0 0 30px 12px rgba(255,236,170,.55)}
-.spot:focus-visible .bubble,
-.spot.on .bubble{opacity:1;transform:var(--bubble-from) scale(1)}
 /* The press: the object dips then springs back up, so a tap is answered before the page goes. */
 .spot.on .lift{animation:bounce .42s cubic-bezier(.3,1.6,.5,1)}
 @keyframes bounce{
@@ -119,30 +170,7 @@ body{
 /* Keyboard focus: a ring a child's parent can see, drawn round the whole door. */
 .spot:focus-visible{box-shadow:0 0 0 4px #fff, 0 0 0 8px #7c4dff}
 
-/* ── NAME BUBBLE ── shown only while an object is hovered, pressed or focused. */
-.bubble{
-  position:absolute;left:50%;top:0;z-index:3;
-  --bubble-from:translate(-50%,-78%);
-  transform:var(--bubble-from) scale(.85);
-  opacity:0;
-  transition:opacity .16s ease, transform .2s cubic-bezier(.3,1.6,.5,1);
-  padding:.35em .85em .4em;
-  border-radius:999px;
-  background:var(--card);
-  border:3px solid #f3b7d5;
-  box-shadow:0 4px 0 #e9cfe0, 0 8px 18px rgba(72,48,104,.2);
-  font-weight:900;
-  font-size:clamp(14px, 1.9vw, 22px);
-  line-height:1.15;
-  white-space:nowrap;
-  color:#4a3168;
-  pointer-events:none;
-}
-.bubble.below{--bubble-from:translate(-50%,18%)}
-.bubble.start{left:0;--bubble-from:translate(0,-78%)}
-.bubble.start.below{--bubble-from:translate(0,18%)}
-.bubble.end{left:auto;right:0;--bubble-from:translate(0,-78%)}
-.bubble.end.below{--bubble-from:translate(0,18%)}
+/* ── NAME BUBBLE ── moved to the shared Room label (room-label.css / room-label.js). */
 
 /* ── MUSIC TOGGLE ── copied from index.html, unchanged. */
 .music-btn{
@@ -275,13 +303,16 @@ body{
   .cards-view header{padding-top:0}
   .cards-view{padding-left:calc(92px + env(safe-area-inset-left))}
 }
-}
 
 @media (prefers-reduced-motion:reduce){
-  .lift,.bubble,.spot::before,.music-btn{transition:none}
+  .lift,.spot::before,.music-btn{transition:none}
   .spot.on .lift{animation:none}
   .spot:hover .lift,.spot:focus-visible .lift,.spot.on .lift{transform:none}
   .music-btn.playing{animation:none}
   .card,.view-btn{transition:none}
   .card:hover{transform:none}
+  .tap-sparkle-burst{display:none}
+  /* Reduce Motion keeps the established four clear static glints and hides the distributed set. */
+  .door-glint{display:none;animation:none}
+  .door-glint.reduced-glint{display:block;opacity:.9;transform:translate(-50%,-50%)}
 }
