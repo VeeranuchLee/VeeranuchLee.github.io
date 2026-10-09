@@ -100,7 +100,7 @@
 //        SHELL, not merely fetched at runtime: a shell list is only read when
 //        CACHE_NAME changes, so an offline install without it would have a page
 //        that asks for a guard the cache never got.
-const CACHE_NAME = "writing-book-v4";
+const CACHE_NAME = "writing-book-v5";
 
 /* words.js is the single source of truth for the hundred words and the four papers.
    See THE SHELL above for why this is an import and not a copied list. */
