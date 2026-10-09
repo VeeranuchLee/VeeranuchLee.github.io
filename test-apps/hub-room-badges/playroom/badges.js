@@ -19,7 +19,6 @@
     var icon = document.createElement('span');
     icon.className = 'badge-icon';
     icon.setAttribute('aria-hidden', 'true');
-    if (d.tone) icon.style.background = d.tone[2];
     if (d.tile) {
       var t = document.createElement('img');
       t.src = L.app(d.tile); t.alt = ''; t.width = 96; t.height = 96; t.decoding = 'async';

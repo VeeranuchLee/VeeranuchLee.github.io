@@ -107,8 +107,10 @@ window.PLAYROOM = {
       image: "./playroom/books-room/scene.webp",
       objects: [
         { app: "animal-book",
+          badgeAt: [29.0, 48.0],
           points: [[7.0,80.0],[11.5,58.0],[18.0,42.0],[26.0,32.0],[38.5,33.0],[49.5,48.0],[49.8,85.5],[42.0,83.0],[31.0,78.0],[17.0,83.0]] },
         { app: "bookshelf",
+          badgeAt: [73.0, 45.0],
           points: [[50.2,48.0],[58.0,38.0],[67.0,30.5],[79.0,30.0],[88.0,43.0],[94.0,62.0],[94.2,80.0],[82.0,82.0],[69.0,77.0],[58.0,83.0],[50.2,85.5]] }
       ]
     },
@@ -116,8 +118,10 @@ window.PLAYROOM = {
       image: "./playroom/homework-room/scene.webp",
       objects: [
         { app: "october-homework",
+          badgeAt: [13.0, 54.0],
           points: [[3.0,44.0],[8.5,40.0],[20.5,41.0],[23.5,48.5],[22.0,70.0],[18.0,73.0],[5.0,70.0],[2.5,63.0]] },
         { app: "read-write",
+          badgeAt: [50.0, 57.0],
           points: [[40.0,49.0],[44.0,47.0],[58.5,47.5],[60.0,53.0],[59.0,68.0],[55.0,71.0],[41.0,69.0],[39.5,63.0]] }
       ],
       unmatched: ["C-A-T blocks", "checklist clipboard", "book rack"]
@@ -160,8 +164,10 @@ window.PLAYROOM = {
       image: "./playroom/puzzles-room/scene.webp",
       objects: [
         { app: "shadow-matching",
+          badgeAt: [75.0, 43.0],
           points: [[65.5,28.7],[82.3,28.8],[85.0,31.5],[84.8,56.5],[82.5,60.5],[64.0,59.0],[61.7,56.0]] },
         { app: "our-maze",
+          badgeAt: [42.0, 71.0],
           points: [[1.0,76.0],[5.0,68.0],[14.0,60.0],[28.0,55.0],[45.0,52.5],[62.0,53.5],[73.0,57.0],[77.0,63.0],[76.0,71.0],[79.0,78.0],[73.0,85.0],[61.0,90.5],[46.0,94.0],[31.0,92.5],[20.0,88.0],[11.0,86.0],[5.0,82.0]] }
       ],
       unmatched: ["jigsaw tray", "shape sorter", "dinosaur card", "teddy", "shelves"]
@@ -170,8 +176,10 @@ window.PLAYROOM = {
       image: "./playroom/science-world-room/scene.webp",
       objects: [
         { app: "flags",
+          badgeAt: [10.0, 50.0],
           points: [[23.0,34.5],[29.0,35.5],[34.0,40.5],[37.0,48.0],[38.0,57.0],[37.0,65.0],[34.0,71.5],[29.5,75.5],[23.5,76.0],[19.0,72.5],[16.5,71.0],[13.5,73.5],[5.0,73.5],[2.0,70.0],[2.0,59.0],[5.0,56.5],[7.0,60.0],[9.0,56.0],[11.0,60.5],[13.0,56.5],[15.5,61.0],[15.0,51.0],[14.0,45.0],[15.5,39.5],[19.0,36.0]] },
         { app: "periodic-table",
+          badgeAt: [91.0, 55.0],
           points: [[79.0,22.0],[100.0,18.5],[100.0,43.0],[97.0,43.5],[95.0,41.0],[93.0,44.0],[92.0,49.5],[79.0,51.0]] }
       ],
       unmatched: ["microscope", "test tubes", "map rug", "bunting", "rocket"]
@@ -185,7 +193,7 @@ window.PLAYROOM = {
       href: "../word-book/", tile: "./assets/our-word-book.webp", tone: ["#c2557d", "#93325a", "#ffe9f1"] },
     { id: "music", badgeAt: [94.8, 39.1], landmark: "music", name: "Music", desc: "Play, listen & explore",
       href: "https://veeranuchlee.github.io/test-apps/hub-room-badges/music.html", tile: "./assets/music.webp", tone: ["#17a2b8", "#0d7c8e", "#e2f7fa"] },
-    { id: "petal-kingdom", badgeAt: [72.0, 55.0], landmark: "arcade", name: "Petal Kingdom", desc: "Pop the flowers and save the garden",
+    { id: "petal-kingdom", badgeAt: [93.5, 20.5], landmark: "arcade", name: "Petal Kingdom", desc: "Pop the flowers and save the garden",
       href: "../flower-shooter/", tile: "./assets/petal-kingdom.webp", cutout: true, tone: ["#f0699b", "#c04574", "#ffecf3"] },
     { id: "little-color-garden", badgeAt: [14.0, 65.4], landmark: "art", name: "Little Color Garden", desc: "Colour in the pictures",
       href: "../little-color-garden/", tile: "./assets/little-color-garden.png", tone: ["#34a853", "#217a3a", "#e6f7ea"] },
@@ -196,9 +204,9 @@ window.PLAYROOM = {
     /* Live at /reading/ (Reading Tree) but not on the card hub; it joins the book corner. */
     { id: "bookshelf", badgeAt: [8.0, 34.0], landmark: "words", name: "Bookshelf", desc: "Picture books to read and listen to",
       href: "../reading/", tile: "./playroom/tiles/bookshelf.webp", cutout: true, tone: ["#5b64c9", "#3b429c", "#eceeff"] },
-    { id: "shadow-matching", badgeAt: [42.0, 78.0], landmark: "arcade", name: "Shadow Matching", desc: "Look at the picture, find its shadow",
+    { id: "shadow-matching", badgeAt: [82.5, 84.0], landmark: "arcade", name: "Shadow Matching", desc: "Look at the picture, find its shadow",
       href: "../shadow-matching/", tile: "./assets/shadow-matching.webp", tone: ["#2d5d7c", "#1b3e56", "#e4eff6"] },
-    { id: "our-maze", badgeAt: [57.0, 61.0], landmark: "arcade", name: "Our Maze", desc: "Walk the maze to the flag",
+    { id: "our-maze", badgeAt: [56.0, 66.0], landmark: "arcade", name: "Our Maze", desc: "Walk the maze to the flag",
       href: "../our-maze/", tile: "./assets/our-maze.webp", tone: ["#8a6d46", "#5c462b", "#f9f1e4"] },
     { id: "flags", badgeAt: [49.2, 15.5], landmark: "world", name: "Flags", desc: "Explore flags and name the country",
       href: "../flags/", tile: "./assets/flags.webp", tone: ["#c0392b", "#8e2a20", "#fdecea"] },
@@ -251,6 +259,7 @@ window.PLAYROOM.lib = (function (R) {
       var a = o.app && R.lib.appById(o.app);
       if (!a) return o;
       var m = { id: a.id, name: a.name, desc: a.desc, href: a.href, tile: a.tile, tone: a.tone, points: o.points };
+      if (o.badgeAt) m.badgeAt = o.badgeAt;
       if (a.cutout) m.cutout = true;
       return m;
     });
