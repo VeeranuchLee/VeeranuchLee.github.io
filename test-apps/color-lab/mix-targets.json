@@ -3,7 +3,7 @@
   "model": "ColorLabMixing weighted Oklab R/Y/B model with three-paint brown correction",
   "acceptance": {
     "method": "Oklab neighbourhood",
-    "radius": 0.065,
+    "radius": 0.095,
     "note": "A range around the source swatch is accepted; no target requires an exact RGB match."
   },
   "recipeSearch": {
@@ -22,7 +22,7 @@
         0.07768512,
         0.10356243
       ],
-      "toleranceOklab": 0.065,
+      "toleranceOklab": 0.095,
       "provenRecipe": {
         "red": 3,
         "yellow": 2,
@@ -40,62 +40,6 @@
       }
     },
     {
-      "id": "target-goldenrod",
-      "name": "goldenrod",
-      "slug": "goldenrod",
-      "family": "yellow",
-      "swatchHex": "#FAC205",
-      "centreOklab": [
-        0.84086191,
-        0.00775961,
-        0.17113218
-      ],
-      "toleranceOklab": 0.065,
-      "provenRecipe": {
-        "red": 0,
-        "yellow": 1,
-        "blue": 0
-      },
-      "provenResultHex": "#F8C71D",
-      "bestDistance": 0.011633,
-      "source": {
-        "dataset": "xkcd-rgb.txt",
-        "url": "https://xkcd.com/color/rgb.txt",
-        "licence": "CC0",
-        "surveyName": "goldenrod",
-        "surveyHex": "#FAC205",
-        "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
-      }
-    },
-    {
-      "id": "target-sepia",
-      "name": "sepia",
-      "slug": "sepia",
-      "family": "brown",
-      "swatchHex": "#985E2B",
-      "centreOklab": [
-        0.53666756,
-        0.05129778,
-        0.08621166
-      ],
-      "toleranceOklab": 0.065,
-      "provenRecipe": {
-        "red": 1,
-        "yellow": 1,
-        "blue": 1
-      },
-      "provenResultHex": "#96643A",
-      "bestDistance": 0.017504,
-      "source": {
-        "dataset": "xkcd-rgb.txt",
-        "url": "https://xkcd.com/color/rgb.txt",
-        "licence": "CC0",
-        "surveyName": "sepia",
-        "surveyHex": "#985E2B",
-        "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
-      }
-    },
-    {
       "id": "target-leather",
       "name": "leather",
       "slug": "leather",
@@ -106,7 +50,7 @@
         0.04187017,
         0.09768445
       ],
-      "toleranceOklab": 0.065,
+      "toleranceOklab": 0.095,
       "provenRecipe": {
         "red": 1,
         "yellow": 2,
@@ -134,7 +78,7 @@
         0.06537512,
         0.11786066
       ],
-      "toleranceOklab": 0.065,
+      "toleranceOklab": 0.095,
       "provenRecipe": {
         "red": 2,
         "yellow": 2,
@@ -162,7 +106,7 @@
         0.08159002,
         0.09793612
       ],
-      "toleranceOklab": 0.065,
+      "toleranceOklab": 0.095,
       "provenRecipe": {
         "red": 2,
         "yellow": 1,
@@ -190,7 +134,7 @@
         -0.12812075,
         0.04237785
       ],
-      "toleranceOklab": 0.065,
+      "toleranceOklab": 0.095,
       "provenRecipe": {
         "red": 0,
         "yellow": 2,
@@ -218,7 +162,7 @@
         0.03639735,
         0.16498171
       ],
-      "toleranceOklab": 0.065,
+      "toleranceOklab": 0.095,
       "provenRecipe": {
         "red": 1,
         "yellow": 5,
@@ -246,7 +190,7 @@
         0.18007339,
         0.13311954
       ],
-      "toleranceOklab": 0.065,
+      "toleranceOklab": 0.095,
       "provenRecipe": {
         "red": 4,
         "yellow": 1,
@@ -274,7 +218,7 @@
         -0.01062156,
         -0.01637375
       ],
-      "toleranceOklab": 0.065,
+      "toleranceOklab": 0.095,
       "provenRecipe": {
         "red": 1,
         "yellow": 1,
@@ -292,62 +236,6 @@
       }
     },
     {
-      "id": "target-cherry-red",
-      "name": "cherry red",
-      "slug": "cherry-red",
-      "family": "red",
-      "swatchHex": "#F7022A",
-      "centreOklab": [
-        0.61532674,
-        0.2255831,
-        0.10518671
-      ],
-      "toleranceOklab": 0.065,
-      "provenRecipe": {
-        "red": 1,
-        "yellow": 0,
-        "blue": 0
-      },
-      "provenResultHex": "#EA1317",
-      "bestDistance": 0.028611,
-      "source": {
-        "dataset": "xkcd-rgb.txt",
-        "url": "https://xkcd.com/color/rgb.txt",
-        "licence": "CC0",
-        "surveyName": "cherry red",
-        "surveyHex": "#F7022A",
-        "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
-      }
-    },
-    {
-      "id": "target-fern",
-      "name": "fern",
-      "slug": "fern",
-      "family": "green",
-      "swatchHex": "#63A950",
-      "centreOklab": [
-        0.66775825,
-        -0.1079191,
-        0.09280639
-      ],
-      "toleranceOklab": 0.065,
-      "provenRecipe": {
-        "red": 0,
-        "yellow": 1,
-        "blue": 1
-      },
-      "provenResultHex": "#3AAD5E",
-      "bestDistance": 0.030729,
-      "source": {
-        "dataset": "xkcd-rgb.txt",
-        "url": "https://xkcd.com/color/rgb.txt",
-        "licence": "CC0",
-        "surveyName": "fern",
-        "surveyHex": "#63A950",
-        "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
-      }
-    },
-    {
       "id": "target-orange-red",
       "name": "orange red",
       "slug": "orange-red",
@@ -358,7 +246,7 @@
         0.19253953,
         0.12251989
       ],
-      "toleranceOklab": 0.065,
+      "toleranceOklab": 0.095,
       "provenRecipe": {
         "red": 5,
         "yellow": 1,
@@ -386,7 +274,7 @@
         0.2266926,
         0.02912296
       ],
-      "toleranceOklab": 0.065,
+      "toleranceOklab": 0.095,
       "provenRecipe": {
         "red": 5,
         "yellow": 0,
@@ -414,7 +302,7 @@
         0.21883509,
         -0.02743485
       ],
-      "toleranceOklab": 0.065,
+      "toleranceOklab": 0.095,
       "provenRecipe": {
         "red": 3,
         "yellow": 0,
@@ -442,7 +330,7 @@
         0.12290185,
         0.11109799
       ],
-      "toleranceOklab": 0.065,
+      "toleranceOklab": 0.095,
       "provenRecipe": {
         "red": 4,
         "yellow": 1,
@@ -470,7 +358,7 @@
         0.03095088,
         0.06418608
       ],
-      "toleranceOklab": 0.065,
+      "toleranceOklab": 0.095,
       "provenRecipe": {
         "red": 1,
         "yellow": 2,
@@ -498,7 +386,7 @@
         -0.11272812,
         0.03474104
       ],
-      "toleranceOklab": 0.065,
+      "toleranceOklab": 0.095,
       "provenRecipe": {
         "red": 0,
         "yellow": 1,
@@ -516,30 +404,58 @@
       }
     },
     {
-      "id": "target-shamrock-green",
-      "name": "shamrock green",
-      "slug": "shamrock-green",
-      "family": "green",
-      "swatchHex": "#02C14D",
+      "id": "target-purple",
+      "name": "purple",
+      "slug": "purple",
+      "family": "purple",
+      "swatchHex": "#A12FB7",
       "centreOklab": [
-        0.70725199,
-        -0.17364181,
-        0.10908793
+        0.53542527,
+        0.16571108,
+        -0.1370692
       ],
-      "toleranceOklab": 0.065,
+      "toleranceOklab": 0.095,
+      "provenRecipe": {
+        "red": 2,
+        "yellow": 0,
+        "blue": 3
+      },
+      "provenResultHex": "#9031C7",
+      "bestDistance": 0.043181,
+      "source": {
+        "dataset": "xkcd-rgb.txt",
+        "url": "https://xkcd.com/color/rgb.txt",
+        "licence": "CC0",
+        "surveyName": "purple",
+        "surveyHex": "#7E1E9C",
+        "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+      }
+    },
+    {
+      "id": "target-fern",
+      "name": "fern",
+      "slug": "fern",
+      "family": "green",
+      "swatchHex": "#63A950",
+      "centreOklab": [
+        0.66775825,
+        -0.1079191,
+        0.09280639
+      ],
+      "toleranceOklab": 0.095,
       "provenRecipe": {
         "red": 0,
         "yellow": 3,
         "blue": 2
       },
       "provenResultHex": "#63B743",
-      "bestDistance": 0.046065,
+      "bestDistance": 0.044293,
       "source": {
         "dataset": "xkcd-rgb.txt",
         "url": "https://xkcd.com/color/rgb.txt",
         "licence": "CC0",
-        "surveyName": "shamrock green",
-        "surveyHex": "#02C14D",
+        "surveyName": "fern",
+        "surveyHex": "#63A950",
         "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
       }
     },
@@ -554,7 +470,7 @@
         -0.0844768,
         0.13933406
       ],
-      "toleranceOklab": 0.065,
+      "toleranceOklab": 0.095,
       "provenRecipe": {
         "red": 0,
         "yellow": 2,
@@ -582,7 +498,7 @@
         0.05746386,
         0.1356063
       ],
-      "toleranceOklab": 0.065,
+      "toleranceOklab": 0.095,
       "provenRecipe": {
         "red": 1,
         "yellow": 4,
@@ -610,7 +526,7 @@
         0.06850766,
         0.12378588
       ],
-      "toleranceOklab": 0.065,
+      "toleranceOklab": 0.095,
       "provenRecipe": {
         "red": 1,
         "yellow": 3,
@@ -638,7 +554,7 @@
         0.09274957,
         0.12072088
       ],
-      "toleranceOklab": 0.065,
+      "toleranceOklab": 0.095,
       "provenRecipe": {
         "red": 1,
         "yellow": 2,
@@ -652,6 +568,90 @@
         "licence": "CC0",
         "surveyName": "pastel orange",
         "surveyHex": "#FF964F",
+        "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+      }
+    },
+    {
+      "id": "target-camel",
+      "name": "camel",
+      "slug": "camel",
+      "family": "brown",
+      "swatchHex": "#C69F59",
+      "centreOklab": [
+        0.72355325,
+        0.01605099,
+        0.09855261
+      ],
+      "toleranceOklab": 0.095,
+      "provenRecipe": {
+        "red": 1,
+        "yellow": 4,
+        "blue": 1
+      },
+      "provenResultHex": "#BC8E00",
+      "bestDistance": 0.067863,
+      "source": {
+        "dataset": "xkcd-rgb.txt",
+        "url": "https://xkcd.com/color/rgb.txt",
+        "licence": "CC0",
+        "surveyName": "camel",
+        "surveyHex": "#C69F59",
+        "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+      }
+    },
+    {
+      "id": "target-auburn",
+      "name": "auburn",
+      "slug": "auburn",
+      "family": "brown",
+      "swatchHex": "#9A3001",
+      "centreOklab": [
+        0.46406706,
+        0.116233,
+        0.09313851
+      ],
+      "toleranceOklab": 0.095,
+      "provenRecipe": {
+        "red": 3,
+        "yellow": 1,
+        "blue": 2
+      },
+      "provenResultHex": "#975044",
+      "bestDistance": 0.073576,
+      "source": {
+        "dataset": "xkcd-rgb.txt",
+        "url": "https://xkcd.com/color/rgb.txt",
+        "licence": "CC0",
+        "surveyName": "auburn",
+        "surveyHex": "#9A3001",
+        "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+      }
+    },
+    {
+      "id": "target-water-blue",
+      "name": "water blue",
+      "slug": "water-blue",
+      "family": "blue",
+      "swatchHex": "#0E87CC",
+      "centreOklab": [
+        0.59853758,
+        -0.06435015,
+        -0.12502572
+      ],
+      "toleranceOklab": 0.095,
+      "provenRecipe": {
+        "red": 0,
+        "yellow": 1,
+        "blue": 5
+      },
+      "provenResultHex": "#0080A4",
+      "bestDistance": 0.0852,
+      "source": {
+        "dataset": "xkcd-rgb.txt",
+        "url": "https://xkcd.com/color/rgb.txt",
+        "licence": "CC0",
+        "surveyName": "water blue",
+        "surveyHex": "#0E87CC",
         "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
       }
     }

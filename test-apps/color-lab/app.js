@@ -10,13 +10,7 @@
   var activeTargetIndex = 0;
   var discoveredTargetIds = new Set();
   var currentMix = null;
-  var BOWL_COLORS = ["cream", "wood", "sky", "pink", "purple"];
-
-  function bowlStorageKey() {
-    return location.pathname.indexOf("/test-apps/") >= 0
-      ? "color-lab:test:bowl-colour:v1"
-      : "color-lab:bowl-colour:v1";
-  }
+  var EMPTY_BOWL_DECORATION = "#A56BDB";
 
   function progressStorageKey() {
     return location.pathname.indexOf("/test-apps/") >= 0
@@ -35,49 +29,11 @@
     try { localStorage.setItem(progressStorageKey(), JSON.stringify(Array.from(discoveredTargetIds))); } catch (error) { /* optional progress */ }
   }
 
-  function readBowlColor() {
+  function clearLegacyBowlPreference() {
     try {
-      var saved = localStorage.getItem(bowlStorageKey());
-      return BOWL_COLORS.indexOf(saved) >= 0 ? saved : "cream";
-    } catch (error) {
-      return "cream";
-    }
-  }
-
-  function saveBowlColor(color) {
-    try { localStorage.setItem(bowlStorageKey(), color); } catch (error) { /* optional preference */ }
-  }
-
-  function playPickerTap() {
-    var AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContext) return;
-    try {
-      var context = playPickerTap.context || (playPickerTap.context = new AudioContext());
-      var oscillator = context.createOscillator();
-      var gain = context.createGain();
-      var now = context.currentTime;
-      oscillator.type = "sine";
-      oscillator.frequency.setValueAtTime(520, now);
-      oscillator.frequency.exponentialRampToValueAtTime(660, now + 0.055);
-      gain.gain.setValueAtTime(0.035, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.075);
-      oscillator.connect(gain).connect(context.destination);
-      oscillator.start(now);
-      oscillator.stop(now + 0.08);
-    } catch (error) { /* visual selected state is still immediate */ }
-  }
-
-  function setBowlColor(color, remember, withSound) {
-    var chosen = BOWL_COLORS.indexOf(color) >= 0 ? color : "cream";
-    byId("mix-bowl").dataset.bowlTint = chosen;
-    byId("bowl-art").src = "./assets/art/mixing-bowl-" + chosen + ".webp";
-    document.querySelectorAll(".bowl-chip").forEach(function (button) {
-      var selected = button.dataset.bowlColor === chosen;
-      button.classList.toggle("is-selected", selected);
-      button.setAttribute("aria-pressed", selected ? "true" : "false");
-    });
-    if (remember) saveBowlColor(chosen);
-    if (withSound) playPickerTap();
+      localStorage.removeItem("color-lab:test:bowl-colour:v1");
+      localStorage.removeItem("color-lab:bowl-colour:v1");
+    } catch (error) { /* obsolete preference is harmless when storage is unavailable */ }
   }
 
   // One player for every spoken name (2026-10-06, owner: "let's add voice to color lab"), so a
@@ -308,12 +264,14 @@
     var bowl = byId("mix-bowl");
     if (!currentMix) {
       document.documentElement.style.setProperty("--mix", "#F4EAD0");
+      document.documentElement.style.setProperty("--bowl-decoration", EMPTY_BOWL_DECORATION);
       bowl.className = "mix-bowl is-empty";
       bowl.setAttribute("aria-label", "Mixing bowl. Add paint first.");
       setName("Add some paint!");
       return;
     }
     document.documentElement.style.setProperty("--mix", currentMix.hex);
+    document.documentElement.style.setProperty("--bowl-decoration", currentMix.hex);
     bowl.className = "mix-bowl has-paint";
     bowl.setAttribute("aria-label", "Mixed color. Tap to explore its name.");
     setName("Tap the bowl!");
@@ -348,34 +306,16 @@
     drop.addEventListener("animationend", function () { drop.remove(); }, { once: true });
   }
 
-  // Which crayon families a mix may be named from (2026-10-06). The paint model's own red and
-  // blue sit between families ("tomato orange", "iris purple" for a single drop), and a child who
-  // added only red expects a red. So the drops pick the families, as the colour wheel a child
-  // learns would: one paint = its own family; two = their mix (orange, green, purple), plus the
-  // stronger paint's family when it is at least three quarters of the drops; all three = brown or
-  // grey. The nearest shade within those families is the name.
-  function mixFamilies(drops) {
-    var total = drops.red + drops.yellow + drops.blue;
-    var used = ["red", "yellow", "blue"].filter(function (c) { return drops[c] > 0; });
-    if (used.length === 1) return [used[0]];
-    if (used.length === 3) return ["brown", "grey"];
-    var pair = used.join("+");
-    var mix = { "red+yellow": "orange", "yellow+blue": "green", "red+blue": "purple" }[pair];
-    var out = [mix];
-    used.forEach(function (c) { if (drops[c] / total >= 0.75) out.push(c); });
-    return out;
-  }
-
   function revealName() {
     if (!currentMix) {
       setName("Add some paint!");
       return;
     }
-    var allowed = mixFamilies(currentMix.drops);
-    var pool = exploreColors.filter(function (c) { return allowed.indexOf(c.familyId) >= 0; });
-    var nearest = ColorLabMixing.nearestName(currentMix.oklab, pool.length ? pool : exploreColors);
-    setName(nearest ? nearest.color.displayName : "Color names are still loading…");
-    if (nearest) sayClip(nearest.color.slug);
+    var named = ColorLabMixNaming.nameMix(
+      currentMix.drops, currentMix.oklab, exploreColors, mixTargets, ColorLabMixing.nearestName
+    );
+    setName(named ? named.displayName : "Color names are still loading…");
+    if (named) sayClip(named.slug);
   }
 
   // One tap empties the bowl and returns the name chip to its prompt (2026-10-07).
@@ -394,16 +334,11 @@
   byId("mix-bowl").addEventListener("click", revealName);
   byId("reset-button").addEventListener("click", reset);
   byId("next-target").addEventListener("click", nextTarget);
-  document.querySelectorAll(".bowl-chip").forEach(function (button) {
-    button.addEventListener("click", function () {
-      setBowlColor(button.dataset.bowlColor, true, true);
-    });
-  });
   document.querySelectorAll("[data-mode]").forEach(function (button) {
     button.addEventListener("click", function () { setMode(button.dataset.mode); });
   });
   byId("family-back").addEventListener("click", showFamilies);
-  setBowlColor(readBowlColor(), false, false);
+  clearLegacyBowlPreference();
   loadVocabulary();
   render();
 })();
