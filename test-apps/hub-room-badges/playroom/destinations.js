@@ -17,13 +17,9 @@
  *     objects: one door, one keyboard stop, several tap areas. Boxes must NEVER overlap. The
  *     geometry, the label and the state live here and never in the artwork: the picture carries
  *     no names, no hotspot graphics and no "coming soon".
- *       active: true   a landmark with something to open. Where it goes is DERIVED, never written:
- *                      - an explicit `hub: "./x.html"`  -> that category page (a landmark that
- *                                                          outgrew "opens the app" moves here
- *                                                          without the landmark moving);
- *                      - exactly one app                -> straight to that app;
- *                      - an `area`                      -> that area's category hub;
- *                      - `view: "cards"`                -> the Cards view.
+ *       active: true   a landmark with something to open. Its `area` resolves to the category
+ *                      hub in MAIN AREAS. The sole direct-app exception is a one-app area with
+ *                      no hub page (Space). `view: "cards"` remains available for a future door.
  *       active: false  a future area. It stays in the picture and in this list (so its box is
  *                      ready) but is NOT drawn at all: no link, no hover, no glow, no cursor, no
  *                      focus stop, no label. TO TURN ONE ON: set `active: true` and give an app
@@ -63,9 +59,9 @@ window.PLAYROOM = {
      Words + Nature are the Books room; Science + Our World are Science & World. `tile` reuses card
      art already shipped by the hub. `badgeAt` is the badge centre in Discovery Room percentages. */
   mainAreas: [
-    { id: "homework", name: "Homework / Maths", tagline: "Numbers, reading and schoolwork",
-      href: "https://veeranuchlee.github.io/test-apps/hub-room-badges/homework.html", landmarks: ["math"], badgeAt: [30.2, 10.6],
-      tile: "./assets/october-homework.webp" },
+    { id: "maths", name: "Homework / Maths", tagline: "Choose a Magic Math world",
+      href: "./maths.html", landmarks: ["math"], badgeAt: [30.2, 10.6],
+      tile: "./assets/magic-math.webp" },
     { id: "books", name: "Words & Books", tagline: "Read, spell, write and explore books",
       href: "./books.html", landmarks: ["words", "nature"], badgeAt: [13.0, 17.0],
       tile: "./assets/our-word-book.webp" },
@@ -87,7 +83,7 @@ window.PLAYROOM = {
   ],
 
   landmarks: [
-    { id: "math", area: "homework", name: "Math", tagline: "Numbers, shapes and sums", active: true,
+    { id: "math", area: "maths", name: "Math", tagline: "Numbers, shapes and sums", active: true,
       boxes: [[20.2, 13.8, 13.2, 26.7]] },   /* the shelf of number blocks, the abacus and the 100-chart */
     { id: "words", area: "books", name: "Words & Books", tagline: "Read, spell and write", active: true,
       boxes: [[0.0, 6.1, 18.1, 31.7], [0.8, 37.8, 19.3, 15.8]] },   /* the bookshelves and the armchair with the sleeping cat */
@@ -113,14 +109,13 @@ window.PLAYROOM = {
       boxes: [[75.5, 60.0, 24.5, 31.6]] }   /* the market stall with the striped awning and cash register */
   ],
 
-  /* The painted category rooms' own titles (their pages are ./<id>.html, drawn by category.js).
-     These pages are not landmarks: nothing in the room links to books, puzzles or science-world
-     any more (their apps live at Words & Books, Arcade, Nature, Our World and Science & Invention),
-     but the pages stay working, and the homework and music hubs are still reached from the cards. */
+  /* The category pages' own titles (./<id>.html, drawn by category.js). The main room reaches
+     these through mainAreas; category rooms retain their independent per-app objects. */
   hubPages: {
     art:             { name: "Art",             tagline: "Colour, paint and style" },
-    books:           { name: "Books",           tagline: "Picture books to read and hear" },
+    books:           { name: "Words & Books",   tagline: "Read, spell, write and discover words" },
     homework:        { name: "การบ้านปิดเทอม",   tagline: "Holiday homework" },
+    maths:           { name: "Magic Math",      tagline: "Choose your world and play" },
     music:           { name: "Music",           tagline: "Play, listen & explore" },
     puzzles:         { name: "Puzzles",         tagline: "Mazes and matching" },
     "science-world": { name: "Science & World", tagline: "Elements, flags and the world" }
@@ -132,13 +127,39 @@ window.PLAYROOM = {
      rather than turning a mostly-empty bounding box into a tap target. */
   categoryRooms: {
     books: {
+      /* Reuse the Word Book's owner-approved night room as a category plate rather than
+         linking into that separately published app. The hub therefore keeps its own back
+         control and Room | Cards preference while preserving the six original landmarks. */
+      image: "./playroom/words-books-room/scene.webp",
+      width: 1448, height: 1086, fit: true,
+      objects: [
+        { app: "word-book", badgeAt: [18.3, 45.1],
+          points: [[1.9,11.5],[34.4,11.5],[34.4,47.4],[1.9,47.4]] },
+        { app: "magic-spelling", badgeAt: [51.2, 40.2],
+          points: [[37.6,14.3],[64.9,14.3],[64.9,41.6],[37.6,41.6]] },
+        { app: "writing-book", badgeAt: [82.2, 43.8],
+          points: [[68.0,9.7],[100.0,9.7],[100.0,46.0],[68.0,46.0]] },
+        { app: "spelling-exam", badgeAt: [16.4, 91.0],
+          points: [[2.1,48.3],[30.7,48.3],[30.7,93.0],[2.1,93.0]] },
+        { id: "grammar", name: "Grammar Game", desc: "Future word puzzles", active: false,
+          points: [[34.2,59.4],[71.1,59.4],[71.1,85.6],[34.2,85.6]] },
+        { app: "bookshelf", badgeAt: [85.3, 90.0],
+          points: [[71.8,47.0],[100.0,47.0],[100.0,96.7],[71.8,96.7]] }
+      ],
+      unmatched: ["picture puzzle cards (future Grammar Game)"]
+    },
+    maths: {
+      /* The pop-up book is Magic Math's two-world plate: rocket/space on the left and
+         unicorn castle on the right. The main Cards view keeps the combined Magic Math card. */
       image: "./playroom/books-room/scene.webp",
       objects: [
-        { app: "animal-book",
-          badgeAt: [29.0, 48.0],
+        { id: "space-math", name: "Space Math", desc: "Maths games in space",
+          href: "../magic-math/space-math.html", tile: "./assets/space-math.webp",
+          tone: ["#3f6fe0", "#284ba5", "#e8efff"], badgeAt: [29.0, 48.0],
           points: [[7.0,80.0],[11.5,58.0],[18.0,42.0],[26.0,32.0],[38.5,33.0],[49.5,48.0],[49.8,85.5],[42.0,83.0],[31.0,78.0],[17.0,83.0]] },
-        { app: "bookshelf",
-          badgeAt: [73.0, 45.0],
+        { id: "unicorn-math", name: "Unicorn Math", desc: "Maths games in a magical world",
+          href: "../magic-math/unicorn-math.html", tile: "./assets/unicorn-math.webp",
+          tone: ["#e5559a", "#a93870", "#ffe9f4"], badgeAt: [73.0, 45.0],
           points: [[50.2,48.0],[58.0,38.0],[67.0,30.5],[79.0,30.0],[88.0,43.0],[94.0,62.0],[94.2,80.0],[82.0,82.0],[69.0,77.0],[58.0,83.0],[50.2,85.5]] }
       ]
     },
@@ -234,6 +255,12 @@ window.PLAYROOM = {
     /* Live at /reading/ (Reading Tree) but not on the card hub; it joins the book corner. */
     { id: "bookshelf", landmark: "words", name: "Bookshelf", desc: "Picture books to read and listen to",
       href: "../reading/", tile: "./playroom/tiles/bookshelf.webp", cutout: true, tone: ["#5b64c9", "#3b429c", "#eceeff"] },
+    { id: "magic-spelling", landmark: "words", cards: false, name: "Spelling", desc: "Letters and words, grade by grade",
+      href: "../magic-math/magic-spelling.html", tile: "./assets/magic-spelling.webp", tone: ["#6967d9", "#4543a4", "#eeedff"] },
+    { id: "writing-book", landmark: "words", cards: false, name: "Writing Book", desc: "Trace letters and practise writing",
+      href: "../writing-book/", tile: "./assets/writing-book.webp", tone: ["#d99b32", "#9e691e", "#fff3da"] },
+    { id: "spelling-exam", landmark: "words", cards: false, name: "Spelling Exam", desc: "Listen and spell the word",
+      href: "../spelling-exam/", tile: "./assets/spelling-exam.webp", tone: ["#e46f6f", "#a74747", "#ffeded"] },
     { id: "shadow-matching", landmark: "arcade", name: "Shadow Matching", desc: "Look at the picture, find its shadow",
       href: "../shadow-matching/", tile: "./assets/shadow-matching.webp", tone: ["#2d5d7c", "#1b3e56", "#e4eff6"] },
     { id: "our-maze", landmark: "arcade", name: "Our Maze", desc: "Walk the maze to the flag",
