@@ -22,22 +22,22 @@
  *                                                          outgrew "opens the app" moves here
  *                                                          without the landmark moving);
  *                      - exactly one app                -> straight to that app;
- *                      - two or more apps               -> a picker panel in the room: the same
- *                                                          cards as the Cards view, one tap each;
+ *                      - an `area`                      -> that area's category hub;
  *                      - `view: "cards"`                -> the Cards view.
  *       active: false  a future area. It stays in the picture and in this list (so its box is
  *                      ready) but is NOT drawn at all: no link, no hover, no glow, no cursor, no
  *                      focus stop, no label. TO TURN ONE ON: set `active: true` and give an app
  *                      `landmark: "<id>"`. No repainting.
  *
- *   NEW APP: one APPS entry with a `landmark`. It appears in the Cards view and at that landmark
- *     (a one-app landmark becomes a picker by itself).
+ *   NEW APP: one APPS entry with a `landmark`. It appears in the Cards view; its main-room route
+ *     remains the landmark's area hub.
  *   NEW BACKGROUND: change `image` (and `width`/`height`); the boxes are percent, so a 4:3 master
  *     of any size keeps them, provided each object stays inside its box.
  *
- *   BADGES (owner request 2026-10-09): every APP at an ACTIVE landmark carries `badgeAt: [x, y]`,
- *     percent of the picture, the centre of its always-visible icon badge (badges.js). Placement is
- *     data only; a landmark that is not active draws no badge. Badges are real links straight to the app.
+ *   MAIN AREAS + BADGES (owner request 2026-10-09): the Discovery Room is a map of areas, not
+ *     individual apps. Every active landmark names one `area`; all of that area's hotspots and its
+ *     one always-visible badge open the category hub. The only direct-app exception is an area with
+ *     exactly one app and no hub page (Space). Category-room badges remain per app.
  *
  * `base` resolves app links and ./assets/ tiles. Empty here: this sits beside index.html in
  * children-apps/, so the links are the live cards' own relative ones. The Test Hub copy sets it
@@ -59,26 +59,53 @@ window.PLAYROOM = {
   /* The hub bed — the same file and the same remembered preference as index.html. */
   music: "https://veeranuchlee.github.io/children-apps/audio/hub-bed.m4a",
 
+  /* One badge and one destination per main-room area. Several painted landmarks may share an area:
+     Words + Nature are the Books room; Science + Our World are Science & World. `tile` reuses card
+     art already shipped by the hub. `badgeAt` is the badge centre in Discovery Room percentages. */
+  mainAreas: [
+    { id: "homework", name: "Homework / Maths", tagline: "Numbers, reading and schoolwork",
+      href: "https://veeranuchlee.github.io/test-apps/hub-room-badges/homework.html", landmarks: ["math"], badgeAt: [30.2, 10.6],
+      tile: "./assets/october-homework.webp" },
+    { id: "books", name: "Words & Books", tagline: "Read, spell, write and explore books",
+      href: "./books.html", landmarks: ["words", "nature"], badgeAt: [13.0, 17.0],
+      tile: "./assets/our-word-book.webp" },
+    { id: "space", name: "Space", tagline: "Planets, moons and stars",
+      app: "space", landmarks: ["space"], badgeAt: [64.5, 7.5],
+      tile: "./assets/space.png" },
+    { id: "science-world", name: "Science & World", tagline: "Elements, flags and the world",
+      href: "./science-world.html", landmarks: ["science", "world"], badgeAt: [52.5, 27.0],
+      tile: "./assets/periodic-table.webp" },
+    { id: "art", name: "Art", tagline: "Colour, paint and style",
+      href: "./art.html", landmarks: ["art"], badgeAt: [20.0, 72.0],
+      tile: "./assets/little-color-garden.png" },
+    { id: "music", name: "Music", tagline: "Play, listen & explore",
+      href: "https://veeranuchlee.github.io/test-apps/hub-room-badges/music.html", landmarks: ["music"], badgeAt: [92.5, 39.1],
+      tile: "./assets/music.webp" },
+    { id: "puzzles", name: "Puzzles", tagline: "Mazes, matching and games",
+      href: "./puzzles.html", landmarks: ["arcade"], badgeAt: [65.0, 66.0],
+      tile: "./assets/our-maze.webp" }
+  ],
+
   landmarks: [
-    { id: "math", name: "Math", tagline: "Numbers, shapes and sums", active: true,
+    { id: "math", area: "homework", name: "Math", tagline: "Numbers, shapes and sums", active: true,
       boxes: [[20.2, 13.8, 13.2, 26.7]] },   /* the shelf of number blocks, the abacus and the 100-chart */
-    { id: "words", name: "Words & Books", tagline: "Read, spell and write", active: true,
+    { id: "words", area: "books", name: "Words & Books", tagline: "Read, spell and write", active: true,
       boxes: [[0.0, 6.1, 18.1, 31.7], [0.8, 37.8, 19.3, 15.8]] },   /* the bookshelves and the armchair with the sleeping cat */
-    { id: "space", name: "Space", tagline: "Planets, moons and stars", active: true,
+    { id: "space", area: "space", name: "Space", tagline: "Planets, moons and stars", active: true,
       boxes: [[33.4, 11.6, 8.0, 13.1], [69.1, 0.0, 12.8, 12.9], [80.5, 14.7, 10.8, 17.0]] },   /* the planet mobile, the telescope and the rocket on the shelf */
-    { id: "nature", name: "Nature", tagline: "Plants, animals and the outdoors", active: true,
+    { id: "nature", area: "books", name: "Nature", tagline: "Plants, animals and the outdoors", active: true,
       boxes: [[68.2, 20.1, 11.4, 10.9], [91.6, 12.9, 8.4, 19.3]] },   /* the terrarium with the butterfly, and the owl and flowers at the window */
-    { id: "science", name: "Science & Invention", tagline: "Experiments, elements and inventions", active: true,
+    { id: "science", area: "science-world", name: "Science & Invention", tagline: "Experiments, elements and inventions", active: true,
       boxes: [[55.0, 25.3, 13.1, 14.7]] },   /* the microscope, the flasks and the gear pegboard */
-    { id: "world", name: "Our World", tagline: "Maps, flags and places", active: true,
+    { id: "world", area: "science-world", name: "Our World", tagline: "Maps, flags and places", active: true,
       boxes: [[41.4, 15.5, 16.0, 9.2], [38.4, 24.7, 16.6, 12.5]] },   /* the world map, the globe and the landmark models */
     { id: "computer", name: "Computer", tagline: "Computers and coding", active: false,
       boxes: [[68.2, 32.2, 14.2, 22.3]] },   /* the desk with the monitor */
-    { id: "art", name: "Art & Design", tagline: "Colour, paint and style", active: true,
+    { id: "art", area: "art", name: "Art & Design", tagline: "Colour, paint and style", active: true,
       boxes: [[0.0, 53.9, 11.9, 17.5], [0.0, 71.4, 33.3, 19.3]] },   /* the easel with the rainbow and the art table */
-    { id: "music", name: "Music", tagline: "Play, listen & explore", active: true,
+    { id: "music", area: "music", name: "Music", tagline: "Play, listen & explore", active: true,
       boxes: [[82.5, 35.5, 6.6, 20.3], [89.2, 38.2, 10.8, 12.0], [92.9, 50.2, 7.1, 9.2]] },   /* the piano with its sheet music and the two guitars */
-    { id: "arcade", name: "Arcade", tagline: "Games to play", active: true,
+    { id: "arcade", area: "puzzles", name: "Arcade", tagline: "Games to play", active: true,
       boxes: [[56.6, 55.2, 18.4, 21.6], [55.2, 76.9, 11.9, 12.4]] },   /* the star arcade cabinet and its stool */
     { id: "toy-box", name: "Toy Box", tagline: "Blocks, toys and building", active: false,
       boxes: [[21.1, 40.5, 15.0, 9.9], [67.2, 77.2, 8.3, 12.6]] },   /* the toy blocks and stacking toy on the low shelf, and the dinosaur */
@@ -91,6 +118,7 @@ window.PLAYROOM = {
      any more (their apps live at Words & Books, Arcade, Nature, Our World and Science & Invention),
      but the pages stay working, and the homework and music hubs are still reached from the cards. */
   hubPages: {
+    art:             { name: "Art",             tagline: "Colour, paint and style" },
     books:           { name: "Books",           tagline: "Picture books to read and hear" },
     homework:        { name: "การบ้านปิดเทอม",   tagline: "Holiday homework" },
     music:           { name: "Music",           tagline: "Play, listen & explore" },
@@ -187,35 +215,39 @@ window.PLAYROOM = {
   },
 
   apps: [
-    { id: "magic-math", badgeAt: [30.2, 10.6], landmark: "math", name: "Magic Math", desc: "Pick your world and play",
+    { id: "magic-math", landmark: "math", name: "Magic Math", desc: "Pick your world and play",
       href: "../magic-math/", tile: "./assets/magic-math.webp", tone: ["#a855c7", "#7b3a90", "#f8e8fb"] },
-    { id: "word-book", badgeAt: [13.0, 17.0], landmark: "words", name: "Our Word Book", desc: "Read, spell, write and discover words",
+    { id: "word-book", landmark: "words", name: "Our Word Book", desc: "Read, spell, write and discover words",
       href: "../word-book/", tile: "./assets/our-word-book.webp", tone: ["#c2557d", "#93325a", "#ffe9f1"] },
-    { id: "music", badgeAt: [94.8, 39.1], landmark: "music", name: "Music", desc: "Play, listen & explore",
+    { id: "music", landmark: "music", name: "Music", desc: "Play, listen & explore",
       href: "https://veeranuchlee.github.io/test-apps/hub-room-badges/music.html", tile: "./assets/music.webp", tone: ["#17a2b8", "#0d7c8e", "#e2f7fa"] },
-    { id: "petal-kingdom", badgeAt: [93.5, 20.5], landmark: "arcade", name: "Petal Kingdom", desc: "Pop the flowers and save the garden",
+    { id: "petal-kingdom", landmark: "arcade", name: "Petal Kingdom", desc: "Pop the flowers and save the garden",
       href: "../flower-shooter/", tile: "./assets/petal-kingdom.webp", cutout: true, tone: ["#f0699b", "#c04574", "#ffecf3"] },
-    { id: "little-color-garden", badgeAt: [14.0, 65.4], landmark: "art", name: "Little Color Garden", desc: "Colour in the pictures",
+    { id: "little-color-garden", landmark: "art", name: "Little Color Garden", desc: "Colour in the pictures",
       href: "../little-color-garden/", tile: "./assets/little-color-garden.png", tone: ["#34a853", "#217a3a", "#e6f7ea"] },
-    { id: "space", badgeAt: [64.5, 7.5], landmark: "space", name: "Space", desc: "A story about the planets, and a game about where they go",
+    { id: "color-lab", landmark: "art", name: "Color Lab", desc: "Mix paint and discover colour names",
+      href: "../color-lab/", tile: "./assets/color-lab.webp", cutout: true, tone: ["#9b59c9", "#6f3a96", "#f3e9fb"] },
+    { id: "space", landmark: "space", name: "Space", desc: "A story about the planets, and a game about where they go",
       href: "https://veeranuchlee.github.io/test-apps/space-hub/", tile: "./assets/space.png", tone: ["#26306e", "#151c46", "#e6eaff"] },
-    { id: "animal-book", badgeAt: [74.0, 24.0], landmark: "nature", name: "Our Animal Book", desc: "Tap an animal to hear its name",
+    { id: "animal-book", landmark: "nature", name: "Our Animal Book", desc: "Tap an animal to hear its name",
       href: "../animal-book/", tile: "./assets/animal-book.webp", tone: ["#d97a16", "#a55606", "#fff1de"] },
     /* Live at /reading/ (Reading Tree) but not on the card hub; it joins the book corner. */
-    { id: "bookshelf", badgeAt: [8.0, 34.0], landmark: "words", name: "Bookshelf", desc: "Picture books to read and listen to",
+    { id: "bookshelf", landmark: "words", name: "Bookshelf", desc: "Picture books to read and listen to",
       href: "../reading/", tile: "./playroom/tiles/bookshelf.webp", cutout: true, tone: ["#5b64c9", "#3b429c", "#eceeff"] },
-    { id: "shadow-matching", badgeAt: [82.5, 84.0], landmark: "arcade", name: "Shadow Matching", desc: "Look at the picture, find its shadow",
+    { id: "shadow-matching", landmark: "arcade", name: "Shadow Matching", desc: "Look at the picture, find its shadow",
       href: "../shadow-matching/", tile: "./assets/shadow-matching.webp", tone: ["#2d5d7c", "#1b3e56", "#e4eff6"] },
-    { id: "our-maze", badgeAt: [56.0, 66.0], landmark: "arcade", name: "Our Maze", desc: "Walk the maze to the flag",
+    { id: "our-maze", landmark: "arcade", name: "Our Maze", desc: "Walk the maze to the flag",
       href: "../our-maze/", tile: "./assets/our-maze.webp", tone: ["#8a6d46", "#5c462b", "#f9f1e4"] },
-    { id: "flags", badgeAt: [49.2, 15.5], landmark: "world", name: "Flags", desc: "Explore flags and name the country",
+    { id: "memory-echo", landmark: "arcade", name: "Memory Echo", desc: "Watch, remember and echo the pattern",
+      href: "../memory-echo/", tile: "./assets/memory-echo.webp", tone: ["#29a8df", "#1676a8", "#e8f8ff"] },
+    { id: "flags", landmark: "world", name: "Flags", desc: "Explore flags and name the country",
       href: "../flags/", tile: "./assets/flags.webp", tone: ["#c0392b", "#8e2a20", "#fdecea"] },
-    { id: "periodic-table", badgeAt: [57.0, 39.5], landmark: "science", name: "Periodic Table",
+    { id: "periodic-table", landmark: "science", name: "Periodic Table",
       desc: "Explore every element, then play Find It, Symbol Match and Atomic Number",
       href: "../periodic-table/", tile: "./assets/periodic-table.webp", tone: ["#6a3fa0", "#4a2b73", "#f1e8fa"] },
     { id: "homework", name: "การบ้านปิดเทอม", desc: "Holiday homework: October maths + Read & Write",
       href: "https://veeranuchlee.github.io/test-apps/hub-room-badges/homework.html", tile: "./assets/october-homework.webp", tone: ["#d9a514", "#a67c06", "#fff6d8"] },
-    { id: "nail-salon", badgeAt: [31.0, 79.0], landmark: "art", name: "Nail Salon", desc: "Paint, decorate and sparkle your own nails",
+    { id: "nail-salon", landmark: "art", name: "Nail Salon", desc: "Paint, decorate and sparkle your own nails",
       href: "../nail-salon/", tile: "./assets/nail-salon.webp", tone: ["#c8558a", "#9a3a63", "#fce8f1"] },
     /* Room-only entries (cards: false): the two items inside the homework hub, each at the
        landmark where it belongs. The Cards view still shows the one "การบ้านปิดเทอม" card above,
@@ -233,6 +265,7 @@ window.PLAYROOM.lib = (function (R) {
   /* An app link or an ./assets/ tile: against `base` (the live site, from the Test Hub copy). */
   function app(u) { return u.indexOf('./playroom/') === 0 ? abs(u) : abs(u, R.base); }
   function appById(id) { return R.apps.filter(function (a) { return a.id === id; })[0]; }
+  function areaById(id) { return R.mainAreas.filter(function (a) { return a.id === id; })[0]; }
   /* The apps a landmark holds, in APPS order. */
   function appsAt(id) { return R.apps.filter(function (a) { return a.landmark === id; }); }
   /* The Cards view: every app except the room-only entries. */
@@ -241,13 +274,15 @@ window.PLAYROOM.lib = (function (R) {
   function door(l) {
     if (!l.active) return null;
     if (l.view === 'cards') return { kind: 'cards', href: '#cards' };
-    var list = appsAt(l.id);
-    if (l.hub) return { kind: 'page', href: abs(l.hub), apps: list };
-    if (list.length === 1) return { kind: 'app', href: app(list[0].href), app: list[0] };
-    if (list.length > 1) return { kind: 'picker', apps: list };
+    var area = l.area && areaById(l.area);
+    if (!area || area.landmarks.indexOf(l.id) < 0) return null;
+    var list = R.apps.filter(function (a) { return area.landmarks.indexOf(a.landmark) >= 0; });
+    if (area.href) return { kind: 'page', href: abs(area.href), apps: list, area: area };
+    var direct = area.app && appById(area.app);
+    if (direct) return { kind: 'app', href: app(direct.href), app: direct, area: area };
     return null;
   }
-  return { abs: abs, app: app, appById: appById, appsAt: appsAt, cards: cards, door: door };
+  return { abs: abs, app: app, appById: appById, areaById: areaById, appsAt: appsAt, cards: cards, door: door };
 })(window.PLAYROOM);
 
 /* The painted category rooms borrow an object's words, link and tile from APPS (`app: "<id>"`),

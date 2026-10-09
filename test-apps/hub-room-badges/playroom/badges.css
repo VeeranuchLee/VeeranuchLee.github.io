@@ -1,9 +1,7 @@
-/* ROOM BADGES — always-visible labelled icon badges pinned on room objects (owner request
-   2026-10-09, ref image: a small rounded-square icon with the app's name in a white pill beneath
-   it). Navigation hubs only (MOTION-DIRECTION.md, navigation-hub exception): ACTIVE destinations
-   get one, inactive / coming-soon objects never do. The badge is a real link to the app; the
-   transparent object hotspot beneath it is unchanged. Placement and size come from
-   destinations.js (`badgeAt`) and the container width, so they track the painting at any size. */
+/* ROOM BADGES — small, pale, always-visible labelled icon badges pinned on room objects. The
+   Discovery Room gets one per AREA and each category room keeps one per app. Inactive / coming-soon
+   objects never get one. Placement and size come from destinations.js (`badgeAt`) and the container
+   width, so they track the painting at any size. */
 .scene,.room-frame{container-type:inline-size}
 .badge{
   --b:36px;                                /* fallback where container units are missing */
@@ -51,7 +49,7 @@
 .badge:focus-visible .badge-icon{outline:4px solid #7c4dff;outline-offset:3px}
 .badge:hover .badge-icon{box-shadow:0 3px 10px rgba(74,91,116,.24)}
 @keyframes badgePop{from{transform:translate(-50%,calc(var(--b) * -.5)) scale(.6)}to{transform:translate(-50%,calc(var(--b) * -.5)) scale(1)}}
-/* A phone-width room (about 375px wide, 280px tall) cannot hold thirteen names without covering the
+/* A phone-width room (about 375px wide, 280px tall) cannot hold all names without covering the
    painting: below 480px the badge is the small icon alone (its name stays in the accessible label).
    The target device is the 9.7in iPad; this keeps the phone sane, not optimised. */
 @container (max-width:480px){

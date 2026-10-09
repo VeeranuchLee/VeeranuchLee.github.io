@@ -3,18 +3,15 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>Books — Children Games</title>
+  <title>Art — Children Games</title>
   <link rel="stylesheet" href="https://veeranuchlee.github.io/children-apps/fonts.css"/>
   <meta name="theme-color" content="#f7d9ec"/>
   <link rel="apple-touch-icon" href="https://veeranuchlee.github.io/children-apps/assets/app-192.png"/>
   <link rel="icon" href="https://veeranuchlee.github.io/children-apps/assets/app-192.png"/>
   <link rel="stylesheet" href="./playroom/category.css?v=11a45889d-20261009205115"/>
-  <link rel="stylesheet" href="./playroom/room-label.css?v=11a45889d-20261009205115"/>
-  <link rel="stylesheet" href="./playroom/badges.css?v=11a45889d-20261009205115"/>
-  <!-- A CATEGORY PAGE of the playroom hub (prototype, 2026-10-02). Every category page is this
-       same shell; only data-category differs. Its cards come from playroom/destinations.js. -->
+  <!-- Shared painted category-room shell. Its room and cards come from playroom/destinations.js. -->
 </head>
-<body class="painted-room" data-category="books">
+<body class="painted-room" data-category="art">
   <div class="topbar">
     <a class="back" id="back" href="./" aria-label="Back to Children Games">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7"/></svg>
@@ -30,7 +27,7 @@
   </main>
   <section class="cards-view" id="cardsView" hidden>
     <header>
-      <h1 id="catTitle">Books</h1>
+      <h1 id="catTitle">Art</h1>
       <p class="tagline" id="catLine"></p>
     </header>
     <main class="grid" id="catGrid"></main>
@@ -38,6 +35,6 @@
   <noscript><p class="missing">These games need JavaScript. <a href="./">Back to Children Games</a>.</p></noscript>
   <script src="./tap-zoom-guard.js?v=11a45889d-20261009205115"></script>
   <script src="./playroom/destinations.js?v=11a45889d-20261009205115"></script>
-  <script src="./playroom/room-label.js?v=11a45889d-20261009205115"></script><script src="./playroom/badges.js?v=11a45889d-20261009205115"></script><script src="./playroom/category.js?v=11a45889d-20261009205115"></script>
+  <script src="./playroom/category.js?v=11a45889d-20261009205115"></script>
 </body>
 </html>

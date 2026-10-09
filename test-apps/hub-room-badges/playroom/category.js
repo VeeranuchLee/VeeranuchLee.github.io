@@ -36,6 +36,10 @@
       var desc = document.createElement('span'); desc.className = 'desc'; desc.textContent = d.desc;
       c.appendChild(art); c.appendChild(name); c.appendChild(desc); grid.appendChild(c);
     });
+    /* No painted room: the shell is cards only, so there is nothing to switch to (a Room view
+       here would be an empty dark frame). */
+    roomView.hidden = true; cardsView.hidden = false;
+    controls.forEach(function (b) { b.parentNode.hidden = true; });
     return;
   }
   picture.src = L.app(room.image);

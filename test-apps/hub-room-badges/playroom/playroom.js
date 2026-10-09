@@ -19,7 +19,7 @@
   document.documentElement.style.setProperty('--ar', String(R.width / R.height));
   document.getElementById('backdrop').style.backgroundImage = cssUrl(imageUrl);
 
-  /* One card, drawn the same way in the Cards view and in a landmark's picker. */
+  /* One card in the Cards view. */
   function makeCard(d, prefix) {
     var c = document.createElement('a');
     c.className = 'card';
@@ -56,12 +56,10 @@
      A landmark is active only when lib.door() can resolve somewhere real to go. Otherwise its
      hand-masked pale layer is shown and its boxes answer with a non-navigating Coming soon wiggle.
      The visual state and the interaction state therefore cannot disagree. */
-  var landmarkById = {};
   var labelItems = [];
   var activeLandmarks = [];
   R.landmarks.forEach(function (c) {
     var door = L.door(c);
-    landmarkById[c.id] = c;
     if (!door) {
       var faded = document.createElement('img');
       faded.className = 'inactive-layer';
@@ -90,20 +88,15 @@
     }
     /* What the door says to a screen reader: the landmark, and what is behind it. */
     var label = c.name + ' — ' + (door.kind === 'app' ? door.app.name + ': ' + door.app.desc
-              : (door.kind === 'page' || door.kind === 'picker') ? door.apps.map(function (a) { return a.name; }).join(', ')
+              : door.kind === 'page' ? door.area.name + ': ' + door.area.tagline
               : c.tagline);
     var landmarkSpots = [];
     c.boxes.forEach(function (bx, k) {
       var x = bx[0], y = bx[1], w = bx[2], h = bx[3];
-      /* A link where it goes straight to a page; a button where it opens the picker panel. */
-      var a = document.createElement(door.kind === 'picker' ? 'button' : 'a');
+      /* Every active area is a native link: category hub, or the one-app Space exception. */
+      var a = document.createElement('a');
       a.className = 'spot' + (bx[4] === 'ellipse' ? ' ellipse' : '');
-      if (door.kind === 'picker') {
-        a.type = 'button';
-        a.setAttribute('aria-haspopup', 'dialog');
-      } else {
-        a.href = door.href;
-      }
+      a.href = door.href;
       a.id = 'spot-' + c.id + (k ? '-' + (k + 1) : '');
       a.dataset.id = c.id;
       a.dataset.kind = door.kind;
@@ -233,58 +226,10 @@
   try { saved = localStorage.getItem(VIEW_KEY); } catch (e) {}
   show(saved, false);
 
-  /* ── THE PICKER ── a landmark that holds several apps opens a panel of their cards, in the room
-     (the same cards as the Cards view, drawn from the same data). One tap on the landmark, one
-     tap on the app. A big Close button, Escape and a tap outside the panel all answer: the panel
-     is a labelled dialog, the room behind it is inert, focus goes in and comes back. */
-  var picker = document.getElementById('picker');
-  var pickerPanel = document.getElementById('pickerPanel');
-  var pickerTitle = document.getElementById('pickerTitle');
-  var pickerLine = document.getElementById('pickerLine');
-  var pickerGrid = document.getElementById('pickerGrid');
-  var behind = [room, document.querySelector('.view-toggle'), document.getElementById('musicBtn')];
-  var opener = null;
-  function setInert(on) {
-    behind.forEach(function (el) {
-      if (!el) return;
-      if (on) { el.setAttribute('inert', ''); el.setAttribute('aria-hidden', 'true'); }
-      else { el.removeAttribute('inert'); el.removeAttribute('aria-hidden'); }
-    });
-  }
-  function openPicker(spot) {
-    var l = landmarkById[spot.dataset.id];
-    if (!l) return;
-    opener = spot;
-    pickerTitle.textContent = l.name;
-    pickerTitle.lang = THAI.test(l.name) ? 'th' : 'en';
-    pickerLine.textContent = 'Choose something to explore';
-    while (pickerGrid.firstChild) pickerGrid.removeChild(pickerGrid.firstChild);
-    L.appsAt(l.id).forEach(function (d) { pickerGrid.appendChild(makeCard(d, 'pick-')); });
-    picker.hidden = false;
-    picker.dataset.landmark = l.id;
-    setInert(true);
-    if (pickerPanel.focus) pickerPanel.focus();
-  }
-  function closePicker() {
-    if (picker.hidden) return;
-    picker.hidden = true;
-    delete picker.dataset.landmark;
-    setInert(false);
-    label.hide();
-    clear();
-    if (opener && opener.focus) opener.focus();
-    opener = null;
-  }
-  document.getElementById('pickerClose').addEventListener('click', closePicker);
-  document.getElementById('pickerBackdrop').addEventListener('click', closePicker);
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && !picker.hidden) { e.preventDefault(); closePicker(); }
-  });
-
   /* ── PRESS, THEN GO ──
      A child must never need two taps: the first tap opens the door. But a tap that navigates
      instantly is never seen to land, so the object lights, bounces and names itself first,
-     and the page (or the picker) goes a moment later. Modified clicks (new tab) are left to the
+     and the page goes at once. Modified clicks (new tab) are left to the
      browser; a keyboard Enter goes at once. */
   var going = false;
   function clear() {
@@ -312,20 +257,18 @@
       setTimeout(function () { if (pale) pale.classList.remove('on'); s.classList.remove('on'); }, reduced ? 180 : 520);
       return;
     }
-    var opens = kind === 'cards' || kind === 'picker';
+    var opens = kind === 'cards';
     if (!opens && (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey)) return;
     if (e.detail === 0) {                 /* keyboard Enter / Space: at once */
       if (kind === 'cards') { e.preventDefault(); show('cards', false); }
-      else if (kind === 'picker') openPicker(s);
       return;
     }
     if (kind === 'cards') { e.preventDefault(); clear(); show('cards', false); }
-    else if (kind === 'picker') { e.preventDefault(); openPicker(s); }
     /* Links keep their native, immediate navigation. The pointerdown burst has already begun;
        there is deliberately no timeout between a child's tap and leaving the room. */
   });
   /* Coming Back from a game restores this page from the back-forward cache, lit as it was left. */
-  window.addEventListener('pageshow', function (e) { if (e.persisted) { closePicker(); label.hide(); clear(); } });
+  window.addEventListener('pageshow', function (e) { if (e.persisted) { label.hide(); clear(); } });
 
   /* Read-only, for verification. */
   window.Playroom = { data: R, show: show };

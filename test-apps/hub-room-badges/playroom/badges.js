@@ -38,15 +38,18 @@
     return a;
   }
 
-  /* The main Discovery Room: every app that lives at an ACTIVE landmark and has a place. */
+  /* The main Discovery Room: one badge per AREA. Its link is the same resolved door used by every
+     hotspot in that area, so grouped landmarks can never disagree with their badge. */
   var scene = document.getElementById('scene');
   if (scene && !document.body.getAttribute('data-category')) {
     var n = 0;
-    R.apps.forEach(function (d) {
-      if (d.cards === false || !d.badgeAt || !d.landmark) return;
-      var l = R.landmarks.filter(function (c) { return c.id === d.landmark; })[0];
-      if (!l || !L.door(l)) return;          /* inactive / coming-soon: no badge */
-      scene.appendChild(make(d, d.badgeAt[0], d.badgeAt[1], n++));
+    R.mainAreas.forEach(function (area) {
+      if (!area.badgeAt || !area.landmarks || !area.landmarks.length) return;
+      var l = R.landmarks.filter(function (c) { return c.id === area.landmarks[0]; })[0];
+      var door = l && L.door(l);
+      if (!door) return;
+      var d = { id: area.id, name: area.name, desc: area.tagline, href: door.href, tile: area.tile };
+      scene.appendChild(make(d, area.badgeAt[0], area.badgeAt[1], n++));
     });
   }
   window.PlayroomBadges = { make: make };

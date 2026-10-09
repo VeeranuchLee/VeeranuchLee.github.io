@@ -124,8 +124,6 @@ body{
 .inactive-spot::before{display:none}
 .inactive-spot:focus-visible{box-shadow:0 0 0 4px #fff,0 0 0 8px #8a7d96}
 .spot.ellipse{border-radius:50%}
-/* A door that opens the picker is a <button>; strip the browser's button look so it is the
-   same invisible box as a link. */
 button.spot{padding:0;margin:0;border:0;background:none;font:inherit;color:inherit;text-align:inherit;appearance:none;-webkit-appearance:none}
 /* A lit door sits above its neighbours so its name bubble is never covered. */
 .spot:hover,.spot:focus-visible,.spot.on{z-index:2}
@@ -306,52 +304,12 @@ button.spot{padding:0;margin:0;border:0;background:none;font:inherit;color:inher
   .cards-view{padding-left:calc(92px + env(safe-area-inset-left))}
 }
 
-/* ── THE PICKER ── a landmark with several apps opens this panel over the room. Same cards as
-   the Cards view; one tap on a card opens the app. Big Close button, Escape and the backdrop all
-   close it. */
-.picker{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;
-  padding:calc(16px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left))}
-.picker-backdrop{position:absolute;inset:0;background:rgba(58,38,86,.52);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
-.picker-panel{
-  position:relative;width:min(100%,820px);max-height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;
-  padding:20px 22px 24px;border-radius:32px;outline:none;
-  background:linear-gradient(170deg,#fffaff 0%,#f5f7ff 60%,#fffaf6 100%);
-  border:3px solid #f3b7d5;box-shadow:0 10px 0 #e9cfe0,0 24px 50px rgba(48,28,76,.35);
-  animation:pickerIn .22s cubic-bezier(.3,1.4,.5,1);
-}
-@keyframes pickerIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
-.picker-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}
-.picker-title{font-family:'Fredoka One','Nunito',sans-serif;font-weight:400;font-size:clamp(1.7rem,5vw,2.4rem);line-height:1.1;color:#4a3168;text-shadow:0 3px 0 rgba(255,255,255,.9)}
-.picker-title:lang(th){font-family:system-ui,-apple-system,'Thonburi',sans-serif;font-weight:800}
-.picker-line{margin-top:4px;font-weight:800;font-size:clamp(.95rem,2.4vw,1.1rem);color:var(--ink-soft)}
-.picker-close{
-  flex:none;min-height:56px;min-width:56px;padding:0 18px 0 14px;border-radius:28px;
-  display:flex;align-items:center;gap:8px;
-  background:#fff;border:3px solid #e4dcf0;box-shadow:0 4px 0 #ddd4ec;
-  font:inherit;font-weight:900;font-size:16px;color:#4a3168;cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
-}
-.picker-close svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:3.2;stroke-linecap:round}
-.picker-close:active{transform:translateY(3px);box-shadow:0 1px 0 #ddd4ec}
-.picker-close:focus-visible{outline:5px solid #7c4dff;outline-offset:3px}
-.picker-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;justify-items:stretch}
-.picker .card{min-height:0;padding:18px 14px 16px}
-.picker .card .art{width:108px;height:108px}
-.picker .card .art img{width:84px;height:84px}
-@media (max-height:520px){
-  .picker-panel{padding:12px 16px 16px}
-  .picker-grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
-  .picker .card .art{width:76px;height:76px}
-  .picker .card .art img{width:60px;height:60px}
-}
-
 @media (prefers-reduced-motion:reduce){
   .lift,.spot::before,.music-btn{transition:none}
   .spot.on .lift{animation:none}
   .spot:hover .lift,.spot:focus-visible .lift,.spot.on .lift{transform:none}
   .music-btn.playing{animation:none}
-  .card,.view-btn,.picker-close{transition:none}
-  .picker-panel{animation:none}
+  .card,.view-btn{transition:none}
   .card:hover{transform:none}
   .tap-sparkle-burst{display:none}
   /* Reduce Motion keeps the established four clear static glints and hides the distributed set. */
