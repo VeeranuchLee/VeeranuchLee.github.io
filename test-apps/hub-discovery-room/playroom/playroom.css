@@ -78,22 +78,24 @@ body{
 .room-twinkle{
   width:var(--size,8px);height:var(--size,8px);opacity:0;
   color:#fff4c8;transform:translate(-50%,-50%) rotate(0deg);
+  /* soft gold halo so the star reads on bright art as well as dark */
+  background:radial-gradient(circle,rgba(255,255,255,.95) 0 9%,rgba(255,226,120,.8) 12%,rgba(255,196,70,.38) 34%,rgba(255,196,70,0) 68%);
 }
 .room-twinkle::before,.room-twinkle::after{
   content:"";position:absolute;left:50%;top:50%;border-radius:50%;background:currentColor;
-  box-shadow:0 0 4px 1px rgba(214,150,30,.85),0 0 9px rgba(255,214,110,.7);transform:translate(-50%,-50%);
+  box-shadow:0 0 2px 1px rgba(190,110,10,.95),0 0 7px 2px rgba(255,190,50,.9),0 0 14px 4px rgba(255,210,90,.45);transform:translate(-50%,-50%);
 }
-.room-twinkle::before{width:24%;height:100%}
-.room-twinkle::after{width:100%;height:24%}
+.room-twinkle::before{width:20%;height:100%}
+.room-twinkle::after{width:100%;height:20%}
 .door-glint{
-  color:#fffbe0;
+  color:#fffdf0;
   animation:doorEdgeGlint var(--duration) ease-in-out var(--delay) infinite;
 }
 @keyframes doorEdgeGlint{
-  0%,100%{opacity:.04}
-  24%{opacity:var(--mid)}
+  0%,100%{opacity:0}
+  30%{opacity:var(--mid)}
   50%{opacity:var(--peak)}
-  76%{opacity:var(--low)}
+  70%{opacity:var(--mid)}
 }
 .tap-sparkle-burst{width:1px;height:1px;opacity:0}
 .tap-sparkle-burst.play{opacity:1}

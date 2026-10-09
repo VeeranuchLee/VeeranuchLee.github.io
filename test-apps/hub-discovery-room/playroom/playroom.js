@@ -161,13 +161,15 @@
       g.dataset.glint = String(glintNumber);
       g.style.left = (spot.x + spot.w * edge[0]) + '%';
       g.style.top = (spot.y + spot.h * edge[1]) + '%';
-      g.style.setProperty('--size', (10 + ((glintNumber * 7) % 13)) + 'px');
-      var peak = .55 + (glintNumber % 5) * .055;
+      /* 20-28 CSS px on screen (not art px); fade cycles 3.4-5.6 s, phases spread by the golden
+         ratio so they never line up. */
+      g.style.setProperty('--size', (20 + ((glintNumber * 7) % 9)) + 'px');
+      var peak = .86 + (glintNumber % 5) * .035;
       g.style.setProperty('--peak', peak.toFixed(2));
-      g.style.setProperty('--mid', (peak * .55).toFixed(2));
-      g.style.setProperty('--low', (peak * .42).toFixed(2));
-      g.style.setProperty('--duration', (2.7 + (glintNumber % 8) * .31) + 's');
-      g.style.setProperty('--delay', (-.43 - (glintNumber * 1.17) % 4.8) + 's');
+      g.style.setProperty('--mid', (peak * .3).toFixed(2));
+      var dur = 3.4 + (glintNumber % 8) * .31;
+      g.style.setProperty('--duration', dur.toFixed(2) + 's');
+      g.style.setProperty('--delay', (-dur * ((glintNumber * .618034) % 1)).toFixed(2) + 's');
       sparkleLayer.appendChild(g);
       glintNumber++;
     }
