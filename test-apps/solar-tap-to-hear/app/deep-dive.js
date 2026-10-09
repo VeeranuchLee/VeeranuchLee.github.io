@@ -638,6 +638,17 @@
            !!state.launchMenuId;
   }
 
+  /* A body page opened from a moon roster, with no steps taken inside its own
+     chapter yet, goes Back to the roster. Chapters that follow the roster page
+     in the book's order (Saturn, Uranus) must not make Back step to whichever
+     moon happens to sit before it. */
+  function rosterEntry() {
+    if (!state.launchMenuId || state.deepDiveHistory.length > 1) return false;
+    var dd = deepDiveById(state.activeDeepDiveId);
+    var m = dd && menuById(dd, state.launchMenuId);
+    return !!(m && m.layoutType === "moon-roster");
+  }
+
   function back() {
     if (state.activeOverlay !== "deepDive") return;
     if (state.activeMenuId) {
@@ -656,6 +667,11 @@
        page before it. Close already returns to the menu in this state; Back
        must do the same. Other deep dives keep their in-book paging. */
     if (p && (p.layoutType === "asteroid-focus" || p.layoutType === "moon-focus") && state.launchMenuId) {
+      openMenu(state.launchMenuId, state.menuParentId);
+      persist();
+      return;
+    }
+    if (rosterEntry()) {
       openMenu(state.launchMenuId, state.menuParentId);
       persist();
       return;
@@ -727,7 +743,7 @@
     /* A body destination is one tap away from the belt roster. Say where Back
        goes: a six-year-old should not have to infer navigation history. */
     elBack.lastChild.textContent = p.layoutType === "asteroid-focus" ? "Back to belt" :
-      (p.layoutType === "moon-focus" ? "Back to moons" : "Back");
+      ((p.layoutType === "moon-focus" || rosterEntry()) ? "Back to moons" : "Back");
 
     var canBack = canGoBack();
     /* With nothing to unwind and no page to step back to, Back's next move is
@@ -736,7 +752,7 @@
        belt menu explicitly because that is where the visible label says Back
        goes. */
     var asteroidBack = p.layoutType === "asteroid-focus" && state.launchMenuId;
-    var moonBack = p.layoutType === "moon-focus" && state.launchMenuId;
+    var moonBack = (p.layoutType === "moon-focus" && state.launchMenuId) || rosterEntry();
     var backToMenu = canBack && state.launchMenuId &&
                      (asteroidBack || moonBack ||
                       (state.deepDiveHistory.length <= 1 && state.deepDivePageIndex === 0));
@@ -992,7 +1008,7 @@
     var wrap = el("div", "dd-compare");
     p.items.slice(0, 5).forEach(function (it) {          // §12: 3 to 5, no more
       var box = el("div", "dd-compare-item");
-      box.appendChild(el("strong", null, it.name));
+      box.appendChild(nameTag(it.name, it.say));
       if (it.note) box.appendChild(el("span", null, it.note));
       wrap.appendChild(box);
     });
@@ -1036,20 +1052,20 @@
     }
 
     p.chips.forEach(function (c) {
-      var b = el("button", "dd-chip");
+      var b = el("button", "dd-chip dd-name-tag");
       b.type = "button";
       b.appendChild(el("span", "dd-chip-name", c.label));
       if (c.pron) b.appendChild(el("span", "dd-chip-pron", "say it: " + c.pron));
-      b.setAttribute("aria-label",
-        c.label + (c.pron ? ". Say it: " + c.pron : "") + (c.note ? ". " + c.note : ""));
-      if (c.note) {
-        b.addEventListener("click", function () {
+      b.setAttribute("aria-label", "Hear the name " + c.label);
+      b.addEventListener("click", function () {
+        playNameTag(b, c.say || "");
+        if (c.note) {
           Array.prototype.forEach.call(wrap.children, function (o) { o.dataset.on = "false"; });
           b.dataset.on = "true";
           note.firstChild.textContent = c.label;
           note.lastChild.textContent = c.note;
-        });
-      }
+        }
+      });
       wrap.appendChild(b);
     });
 
@@ -1057,17 +1073,15 @@
     if (note) elBody.appendChild(note);
   }
 
-  /* Jupiter's page-12 roster follows the asteroid menu's two-register lesson:
-     four large moons share one measured scale; five small moons are enlarged
-     enough to inspect and repeat their honest same-scale size as a marker.
-     The scale comes only from `diameterKm`, never from a hand-authored size
-     class, so changing a diameter cannot leave the drawing behind. */
+  /* Shared moon roster, first established on Jupiter page 12. The diameter
+     threshold decides which moons need enlarging; every enlarged moon keeps
+     an honest marker at the comparison row's common scale. */
   function renderMoonRoster(p) {
     var list = p.moons || [];
     if (!list.length) return;
     var scene = el("div", "dd-moon-roster");
     var head = el("div", "dd-roster-head");
-    head.appendChild(el("span", "dd-roster-label", "Real size comparison"));
+    head.appendChild(el("span", "dd-roster-label", "Featured moons · real size comparison"));
     head.appendChild(el("span", "dd-tap-hint", "Tap a moon"));
     scene.appendChild(head);
 
@@ -1080,22 +1094,53 @@
     var small = el("div", "dd-moon-small-row");
     zoom.appendChild(small);
 
-    var max = list.reduce(function (n, m) {
-      return m.family === "big" ? Math.max(n, m.diameterKm) : n;
-    }, 1);
+    var threshold = Number(p.zoomBelowKm == null ? 250 : p.zoomBelowKm);
+    var max = list.reduce(function (n, m) { return Math.max(n, Number(m.diameterKm) || 0); }, 1);
+    scene.dataset.rowCapacity = String(p.rowCapacity || list.length);
+    if (p.diameterSource) scene.dataset.diameterSource = p.diameterSource;
     list.forEach(function (m) {
-      var isSmall = m.family === "small";
-      var cell = el("button", "dd-moon-cell" + (isSmall ? " dd-moon-cell-small" : ""));
-      cell.type = "button";
+      var isSmall = m.family ? m.family === "small" : m.diameterKm < threshold;
+      var cell = el("div", "dd-moon-cell" + (isSmall ? " dd-moon-cell-small" : ""));
+      if (p.rowCapacity) {
+        cell.style.flex = "0 1 calc(" + (100 / p.rowCapacity).toFixed(3) + "% - 10px)";
+      }
       cell.dataset.moon = m.key;
-      cell.setAttribute("aria-label", "Open " + m.name);
+      var body = el("button", "dd-moon-body");
+      body.type = "button";
+      body.setAttribute("aria-label", "Open " + m.name);
       var art = document.createElement("img");
       art.src = m.image; art.alt = ""; art.decoding = "async";
+      var holder = art;
+      if (m.artCenter) {
+        /* A group-hero image holds several moons on a wide white sheet. The
+           frame clips a circle around ONE moon: the image is sized from the
+           frame (artScale = image heights per frame) and slid so the moon's
+           own centre (artCenter, as fractions of the image) sits mid-frame. */
+        var asp = 4 / 3, k = Math.max(1, Number(m.artScale) || 1);
+        var wPct = k * asp * 100, hPct = k * 100;
+        var lPct = (0.5 - m.artCenter[0] * k * asp) * 100;
+        var tPct = (0.5 - m.artCenter[1] * k) * 100;
+        /* The sheet always covers the whole frame; a moon near the sheet's
+           edge sits off-centre rather than leaving a bare corner. */
+        lPct = Math.min(0, Math.max(100 - wPct, lPct));
+        tPct = Math.min(0, Math.max(100 - hPct, tPct));
+        holder = el("span", "dd-moon-crop");
+        art.style.width = wPct.toFixed(2) + "%";
+        art.style.height = hPct.toFixed(2) + "%";
+        art.style.left = lPct.toFixed(2) + "%";
+        art.style.top = tPct.toFixed(2) + "%";
+        holder.appendChild(art);
+      } else if (m.objectPosition) {
+        art.style.objectPosition = m.objectPosition;
+      }
       if (!isSmall) {
+        holder.style.setProperty("--moon-size", (m.diameterKm / max * 116).toFixed(2) + "px");
         art.style.setProperty("--moon-size", (m.diameterKm / max * 116).toFixed(2) + "px");
       }
-      cell.appendChild(art);
-      cell.appendChild(el("span", "dd-moon-name", m.name));
+      body.appendChild(holder);
+      body.addEventListener("click", function () { openTarget(m.targetPage); });
+      cell.appendChild(body);
+      cell.appendChild(nameTag(m.name, m.say, "dd-moon-name"));
       if (isSmall) {
         var actual = el("span", "dd-moon-actual");
         var dot = el("span", "dd-moon-dot");
@@ -1104,11 +1149,10 @@
         actual.appendChild(el("span", null, "Actual size · same scale"));
         cell.appendChild(actual);
       }
-      cell.addEventListener("click", function () { openTarget(m.targetPage); });
       (isSmall ? small : big).appendChild(cell);
     });
     scene.appendChild(big);
-    scene.appendChild(zoom);
+    if (small.children.length) scene.appendChild(zoom);
     elBody.appendChild(scene);
   }
 
@@ -1372,7 +1416,7 @@
      puts every clip's pulse 0.3–0.6s past its end. A second tap clears the
      first pulse, so the highlight always names the clip that is playing now. */
   var PULSE_MS_PER_CHAR = 80, PULSE_MS_MIN = 1500;
-  var pulseTimer = null, pulsing = null;
+  var pulseTimer = null, pulsing = null, nameAudio = null, nameToken = 0;
 
   function clearPulse() {
     if (pulseTimer) { clearTimeout(pulseTimer); pulseTimer = null; }
@@ -1380,7 +1424,47 @@
   }
 
   function cancelSpeech() {
+    nameToken++;
+    if (nameAudio) {
+      nameAudio.onended = null;
+      nameAudio.onerror = null;
+      try { nameAudio.pause(); } catch (e) {}
+    }
     if (window.speechSynthesis) window.speechSynthesis.cancel();
+  }
+
+  /* Name tags never enter speechSynthesis. They address the rendered map
+     directly, so a staged-but-unrendered sentence is intentionally silent
+     instead of falling through to an adult OS voice. This one audio element
+     is shared by every tag; navigation calls cancelSpeech(), which stops it
+     before changing the page. */
+  function playNameTag(tag, text) {
+    clearPulse();
+    cancelSpeech();
+    pulsing = tag;
+    tag.dataset.playing = "true";
+    pulseTimer = setTimeout(clearPulse, Math.max(PULSE_MS_MIN, (text || "").length * PULSE_MS_PER_CHAR));
+    var file = text && window.__NARRATION && window.__NARRATION[text];
+    if (!file) return;
+    var mine = ++nameToken;
+    if (!nameAudio) nameAudio = new Audio();
+    nameAudio.src = (window.__NARRATION_BASE || "assets-runtime/narration/") + file;
+    nameAudio.onended = function () { if (mine === nameToken) clearPulse(); };
+    nameAudio.onerror = function () { if (mine === nameToken) clearPulse(); };
+    var played = nameAudio.play();
+    if (played && played.catch) played.catch(function () {
+      if (mine === nameToken) clearPulse();
+    });
+  }
+
+  function nameTag(name, text, extraClass) {
+    var tag = el("button", "dd-name-tag" + (extraClass ? " " + extraClass : ""));
+    tag.type = "button";
+    tag.setAttribute("aria-label", "Hear the name " + name);
+    tag.appendChild(el("span", "dd-name-tag-text", name));
+    tag.insertAdjacentHTML("beforeend", EAR);
+    tag.addEventListener("click", function () { playNameTag(tag, text || ""); });
+    return tag;
   }
 
   function speakAndPulse(pill, text) {
@@ -1432,7 +1516,7 @@
       pill.setAttribute("aria-label", "Hear the name " + a.name);
       pill.appendChild(el("span", "dd-rock-pill-name", a.name));
       pill.insertAdjacentHTML("beforeend", EAR);
-      pill.addEventListener("click", function () { sayName(pill, text); });
+      pill.addEventListener("click", function () { playNameTag(pill, text); });
     } else {
       /* No clip for this name on this page. A label, and nothing that looks
          tappable — see the note above. */

@@ -320,10 +320,9 @@ button.dd-hero.dd-body-speak {
   padding: 12px 14px;
   text-align: center;
 }
-.dd-compare-item strong {
-  display: block;
+.dd-compare-item .dd-name-tag {
+  margin-inline: auto;
   font-size: clamp(15px, 2.1vw, 22px);
-  color: var(--dd-gold);
 }
 .dd-compare-item span {
   display: block;
@@ -598,6 +597,7 @@ button.dd-fact:focus-visible { outline: 3px solid #237da1; outline-offset: 1px; 
 .dd-moon-big-row,
 .dd-moon-small-row {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-evenly;
   gap: 10px;
@@ -613,37 +613,53 @@ button.dd-fact:focus-visible { outline: 3px solid #237da1; outline-offset: 1px; 
   min-width: 64px;
   min-height: 64px;
   padding: 4px;
-  border: 0;
-  border-radius: 14px;
-  background: transparent;
   color: var(--dd-ink);
-  font: inherit;
-  font-weight: 900;
   display: grid;
   justify-items: center;
   align-content: end;
   gap: 5px;
+}
+.dd-moon-body {
+  min-width: 64px;
+  min-height: 64px;
+  padding: 4px;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  display: grid;
+  place-items: center;
   cursor: pointer;
 }
-.dd-moon-cell:hover { background: rgba(142, 234, 255, .1); }
-.dd-moon-cell:focus-visible { outline: 3px solid var(--dd-gold); outline-offset: 2px; }
-.dd-moon-cell > img {
+.dd-moon-body:hover { background: rgba(142, 234, 255, .1); }
+.dd-moon-body:focus-visible { outline: 3px solid var(--dd-gold); outline-offset: 2px; }
+.dd-moon-body > img {
   width: var(--moon-size, 92px);
   height: var(--moon-size, 92px);
   max-width: 100%;
   object-fit: contain;
+  transform: scale(var(--moon-art-scale, 1));
   filter: drop-shadow(0 5px 5px rgba(0,0,0,.35));
 }
+.dd-moon-crop {
+  display: block;
+  width: var(--moon-size, 92px);
+  height: var(--moon-size, 92px);
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.dd-moon-crop { position: relative; }
+.dd-moon-crop > img {
+  position: absolute;
+  max-width: none;
+  filter: none;
+}
+.dd-moon-cell-small .dd-moon-crop { width: min(88px, 13vw); height: min(88px, 13vw); }
 .dd-moon-cell-small { flex: 1 1 0; }
-.dd-moon-cell-small > img { width: min(88px, 13vw); height: min(88px, 13vw); }
+.dd-moon-cell-small .dd-moon-body > img { width: min(88px, 13vw); height: min(88px, 13vw); }
 .dd-moon-name {
-  min-height: 32px;
-  display: grid;
-  place-items: center;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: rgba(16, 52, 89, .96);
-  border: 1px solid rgba(142, 234, 255, .38);
+  min-height: 44px;
+  padding: 5px 9px;
   font-size: clamp(13px, 1.5vw, 16px);
 }
 .dd-moon-actual {
@@ -1017,6 +1033,26 @@ body.reduce-motion .dd-panel { animation: none; }
   transition: background .16s ease-out, transform .16s ease-out;
   -webkit-tap-highlight-color: transparent;
 }
+.dd-name-tag {
+  appearance: none;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 7px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--dd-line);
+  background: rgba(7, 22, 44, .9);
+  color: var(--dd-gold);
+  font: inherit;
+  font-weight: 850;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: background .16s ease-out, transform .16s ease-out;
+}
+.dd-name-tag:hover { background: #17568f; }
+.dd-name-tag:focus-visible { outline: 3px solid var(--dd-gold); outline-offset: 3px; }
 .dd-rock-pill:hover { background: #17568f; }
 .dd-rock-pill:focus-visible {
   outline: 3px solid var(--dd-gold);
@@ -1098,7 +1134,8 @@ body.reduce-motion .dd-panel { animation: none; }
    The tap has to answer visibly, or a child who cannot hear the clip yet taps
    again over the top of it. Gold rim, lifted background, and one slow breath
    of a pulse for as long as the clip runs. */
-.dd-rock-pill[data-playing="true"] {
+.dd-rock-pill[data-playing="true"],
+.dd-name-tag[data-playing="true"] {
   background: #17568f;
   border-color: var(--dd-gold);
   animation: dd-pill-pulse 750ms ease-in-out 2;
@@ -1226,7 +1263,9 @@ body.reduce-motion .dd-rock-svg { transition: none; }
 body.reduced .dd-rock:hover .dd-rock-svg,
 body.reduce-motion .dd-rock:hover .dd-rock-svg { transform: none; }
 body.reduced .dd-rock-pill[data-playing="true"],
-body.reduce-motion .dd-rock-pill[data-playing="true"] {
+body.reduce-motion .dd-rock-pill[data-playing="true"],
+body.reduced .dd-name-tag[data-playing="true"],
+body.reduce-motion .dd-name-tag[data-playing="true"] {
   animation: none;
   transform: none;
 }
@@ -1238,3 +1277,8 @@ body.reduce-motion .dd-fact[data-playing="true"] {
   transform: none;
   filter: none;
 }
+
+/* A moon roster starts at the top of the panel. The panel centres ordinary
+   pages, but centring a short roster in a tall portrait panel left a large
+   blank area above the heading (QA 2026-10-09). */
+.dd-body.dd-body-moon-roster { align-content: start; }

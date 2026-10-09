@@ -112,14 +112,16 @@ window.BOOK_NAV = {
       menus: [
         {
           id: "m0",
-          title: "What is a moon?",
-          subtitle: "Start here",
-          layoutType: "overview-hotspots",
-          body: "A moon travels around a planet, the way a planet travels around the Sun. Some moons are huge. Some are tiny. Tap one to look closer.",
-          hotspots: [
-            { id: "big",     label: "Big moons",        targetPage: "m1" },
-            { id: "little",  label: "Little moons",     targetPage: "m2" },
-            { id: "sidebys", label: "Side by side",     targetPage: "m3" }
+          title: "Earth and Mars's moons",
+          subtitle: "Three featured moons, drawn in two scales",
+          layoutType: "moon-roster",
+          zoomBelowKm: 100,
+          rowCapacity: 3,
+          diameterSource: "JPL Solar System Dynamics Planetary Satellite Physical Parameters; mean diameter is twice mean radius; accessed 2026-10-09",
+          moons: [
+            { key: "moon", name: "The Moon", say: "Moon", diameterKm: 3474.8, targetPage: "m5", image: "assets-runtime/standard/page-07/moon-near-side-v1.webp" },
+            { key: "phobos", name: "Phobos", say: "Phobos", diameterKm: 22.533, targetPage: "m6", image: "assets-runtime/standard/page-09/phobos-alt-v1.webp" },
+            { key: "deimos", name: "Deimos", say: "Deimos", diameterKm: 12.4, targetPage: "m7", image: "assets-runtime/standard/page-09/deimos-alt-v1.webp" }
           ]
         }
       ],
@@ -155,9 +157,9 @@ window.BOOK_NAV = {
           layoutType: "compare",
           body: "Put three moons together and the difference jumps out.",
           items: [
-            { name: "Ganymede", note: "The largest moon of all" },
-            { name: "The Moon", note: "The one you can see tonight" },
-            { name: "Phobos",   note: "A lumpy rock the size of a city" }
+            { name: "Ganymede", say: "Ganymede", note: "The largest moon of all" },
+            { name: "The Moon", say: "Moon", note: "The one you can see tonight" },
+            { name: "Phobos", say: "Phobos", note: "A lumpy rock the size of a city" }
           ]
         },
         {
@@ -167,11 +169,34 @@ window.BOOK_NAV = {
           layoutType: "chips",
           body: "Moons carry names from old stories. Here are some to try.",
           chips: [
-            { label: "Io" }, { label: "Europa" }, { label: "Ganymede" },
-            { label: "Callisto" }, { label: "Titan" }, { label: "Enceladus" },
-            { label: "Miranda" }, { label: "Triton" }, { label: "Charon" },
-            { label: "Phobos" }, { label: "Deimos" }
+            { label: "Io", say: "Io" }, { label: "Europa", say: "Europa" },
+            { label: "Ganymede", say: "Ganymede" }, { label: "Callisto", say: "Callisto" },
+            { label: "Titan", say: "Titan" }, { label: "Enceladus", say: "Enceladus" },
+            { label: "Miranda", say: "Miranda" }, { label: "Triton", say: "Triton" },
+            { label: "Charon", say: "Charon" }, { label: "Phobos", say: "Phobos" },
+            { label: "Deimos", say: "Deimos" }
           ]
+        },
+        {
+          id: "m5", image: { src: "assets-runtime/standard/page-07/moon-near-side-v1.webp", alt: "Earth's Moon, covered with craters and dark plains" },
+          title: "The Moon", subtitle: "Earth's moon", layoutType: "moon-focus",
+          body: "The Moon is Earth's nearest neighbour in space and the only world beyond Earth that people have walked on. It keeps the same side facing Earth.",
+          narration: "Earth's moon is called the Moon.",
+          facts: [{ label: "Earth's moon", value: "the Moon", sentence: "Earth's moon is called the Moon." }]
+        },
+        {
+          id: "m6", image: { src: "assets-runtime/standard/page-09/phobos-alt-v1.webp", alt: "Phobos, the larger lumpy moon of Mars" },
+          title: "Phobos", subtitle: "say it: FOH-bos", layoutType: "moon-focus",
+          body: "Phobos is the bigger and closer moon of Mars. It races around Mars about three times each day.",
+          narration: "Phobos is the bigger of Mars's two moons.",
+          facts: [{ label: "Bigger one", value: "Phobos", sentence: "Phobos is the bigger of Mars's two moons." }]
+        },
+        {
+          id: "m7", image: { src: "assets-runtime/standard/page-09/deimos-alt-v1.webp", alt: "Deimos, the smaller lumpy moon of Mars" },
+          title: "Deimos", subtitle: "say it: DY-mos", layoutType: "moon-focus",
+          body: "Deimos is the smaller and farther moon of Mars. It travels more slowly than Phobos.",
+          narration: "Deimos is the smaller of Mars's two moons.",
+          facts: [{ label: "Smaller one", value: "Deimos", sentence: "Deimos is the smaller of Mars's two moons." }]
         }
       ]
     },
@@ -444,16 +469,18 @@ window.BOOK_NAV = {
           title: "Explore Jupiter's moons",
           subtitle: "Nine moons, drawn in two scales",
           layoutType: "moon-roster",
+          zoomBelowKm: 250,
+          diameterSource: "JPL Solar System Dynamics Planetary Satellite Physical Parameters; mean diameter is twice mean radius; accessed 2026-10-09",
           moons: [
-            { key: "ganymede", name: "Ganymede", diameterKm: 5262.4, family: "big", targetPage: "j3", image: "assets-runtime/standard/page-12/ganymede-hero-v1.webp" },
-            { key: "callisto", name: "Callisto", diameterKm: 4820.6, family: "big", targetPage: "j4", image: "assets-runtime/standard/page-12/callisto-hero-v1.webp" },
-            { key: "io", name: "Io", diameterKm: 3642.98, family: "big", targetPage: "j1", image: "assets-runtime/standard/page-12/io-hero-v1.webp" },
-            { key: "europa", name: "Europa", diameterKm: 3121.6, family: "big", targetPage: "j2", image: "assets-runtime/standard/page-12/europa-hero-v1.webp" },
-            { key: "himalia", name: "Himalia", diameterKm: 170, family: "small", targetPage: "j9", image: "assets-runtime/standard/page-12/jupiter-moons/himalia-v1.webp" },
-            { key: "amalthea", name: "Amalthea", diameterKm: 167, family: "small", targetPage: "j5", image: "assets-runtime/standard/page-12/jupiter-moons/amalthea-v1.webp" },
-            { key: "thebe", name: "Thebe", diameterKm: 98.6, family: "small", targetPage: "j6", image: "assets-runtime/standard/page-12/jupiter-moons/thebe-v1.webp" },
-            { key: "metis", name: "Metis", diameterKm: 43, family: "small", targetPage: "j7", image: "assets-runtime/standard/page-12/jupiter-moons/metis-v1.webp" },
-            { key: "adrastea", name: "Adrastea", diameterKm: 16.4, family: "small", targetPage: "j8", image: "assets-runtime/standard/page-12/jupiter-moons/adrastea-v1.webp" }
+            { key: "ganymede", name: "Ganymede", say: "Ganymede", diameterKm: 5262.4, family: "big", targetPage: "j3", image: "assets-runtime/standard/page-12/ganymede-hero-v1.webp" },
+            { key: "callisto", name: "Callisto", say: "Callisto", diameterKm: 4820.6, family: "big", targetPage: "j4", image: "assets-runtime/standard/page-12/callisto-hero-v1.webp" },
+            { key: "io", name: "Io", say: "Io", diameterKm: 3642.98, family: "big", targetPage: "j1", image: "assets-runtime/standard/page-12/io-hero-v1.webp" },
+            { key: "europa", name: "Europa", say: "Europa", diameterKm: 3121.6, family: "big", targetPage: "j2", image: "assets-runtime/standard/page-12/europa-hero-v1.webp" },
+            { key: "himalia", name: "Himalia", say: "This is Himalia.", diameterKm: 170, family: "small", targetPage: "j9", image: "assets-runtime/standard/page-12/jupiter-moons/himalia-v1.webp" },
+            { key: "amalthea", name: "Amalthea", say: "This is Amalthea.", diameterKm: 167, family: "small", targetPage: "j5", image: "assets-runtime/standard/page-12/jupiter-moons/amalthea-v1.webp" },
+            { key: "thebe", name: "Thebe", say: "This is Thebe.", diameterKm: 98.6, family: "small", targetPage: "j6", image: "assets-runtime/standard/page-12/jupiter-moons/thebe-v1.webp" },
+            { key: "metis", name: "Metis", say: "This is Metis.", diameterKm: 43, family: "small", targetPage: "j7", image: "assets-runtime/standard/page-12/jupiter-moons/metis-v1.webp" },
+            { key: "adrastea", name: "Adrastea", say: "This is Adrastea.", diameterKm: 16.4, family: "small", targetPage: "j8", image: "assets-runtime/standard/page-12/jupiter-moons/adrastea-v1.webp" }
           ]
         }
       ],
@@ -554,16 +581,29 @@ window.BOOK_NAV = {
       menus: [
         {
           id: "s0",
-          image: { src: "assets-runtime/standard/page-14/saturn-limb-page14-v1.webp", alt: "Saturn beyond its moons" },
-          title: "Saturn's many moons",
-          subtitle: "A family of very different worlds",
-          layoutType: "overview-hotspots",
-          body: "Saturn has many moons, and they are very different from one another. Some are large round worlds. Others are tiny moons that shape the rings. Tap a path to begin.",
-          hotspots: [
-            { id: "titan", label: "Titan", targetPage: "s1" },
-            { id: "enceladus", label: "Enceladus", targetPage: "s2" },
-            { id: "major", label: "More big moons", targetPage: "s3" },
-            { id: "strange", label: "Strange little moons", targetPage: "s6" }
+          title: "Explore Saturn's moons",
+          subtitle: "Sixteen featured moons, drawn in two scales",
+          layoutType: "moon-roster",
+          zoomBelowKm: 250,
+          rowCapacity: 5,
+          diameterSource: "JPL Solar System Dynamics Planetary Satellite Physical Parameters; mean diameter is twice mean radius; accessed 2026-10-09",
+          moons: [
+            { key: "titan", name: "Titan", say: "Titan", diameterKm: 5149.52, targetPage: "s1", image: "assets-runtime/standard/page-14/titan-hero-v1.webp" },
+            { key: "rhea", name: "Rhea", say: "This is Rhea.", diameterKm: 1527, targetPage: "s12r", image: "assets-runtime/standard/page-14/deep-dive-moons/rhea-dione-tethys-group-hero-v1.webp", artCenter: [0.16, 0.49], artScale: 1.41 },
+            { key: "iapetus", name: "Iapetus", say: "Iapetus. One side is dark as tar and the other is bright as snow.", diameterKm: 1468.6, targetPage: "s4", image: "assets-runtime/standard/page-14/deep-dive-moons/iapetus-two-tone-ridge-hero-v1.webp", artCenter: [0.49, 0.49], artScale: 0.78 },
+            { key: "dione", name: "Dione", say: "This is Dione.", diameterKm: 1122.8, targetPage: "s12d", image: "assets-runtime/standard/page-14/deep-dive-moons/rhea-dione-tethys-group-hero-v1.webp", artCenter: [0.52, 0.54], artScale: 1.93 },
+            { key: "tethys", name: "Tethys", say: "This is Tethys.", diameterKm: 1062.2, targetPage: "s12t", image: "assets-runtime/standard/page-14/deep-dive-moons/rhea-dione-tethys-group-hero-v1.webp", artCenter: [0.81, 0.58], artScale: 2.84 },
+            { key: "enceladus", name: "Enceladus", say: "Enceladus", diameterKm: 504.2, targetPage: "s2", image: "assets-runtime/standard/page-14/enceladus-hero-v1.webp" },
+            { key: "mimas", name: "Mimas", say: "Mimas. One enormous crater takes up nearly a third of it.", diameterKm: 396.4, targetPage: "s3", image: "assets-runtime/standard/page-14/deep-dive-moons/mimas-herschel-hero-v1.webp", artCenter: [0.49, 0.49], artScale: 0.98 },
+            { key: "hyperion", name: "Hyperion", say: "Hyperion looks like a sponge and tumbles as it travels.", diameterKm: 270, targetPage: "s11", image: "assets-runtime/standard/page-14/deep-dive-moons/hyperion-tumbling-hero-v1.webp", artCenter: [0.51, 0.47], artScale: 0.85 },
+            { key: "phoebe", name: "Phoebe", say: "Phoebe is dark, far from Saturn, and travels around the planet backwards compared with Saturn's large moons. Its backward path is evidence that Saturn captured it long ago.", diameterKm: 213, targetPage: "s10", image: "assets-runtime/standard/page-14/deep-dive-moons/phoebe-retrograde-hero-v1.webp", artCenter: [0.62, 0.55], artScale: 1.3 },
+            { key: "janus", name: "Janus", say: "This is Janus.", diameterKm: 178.4, targetPage: "s9j", image: "assets-runtime/standard/page-14/deep-dive-moons/janus-epimetheus-orbit-swap-hero-v1.webp", artCenter: [0.08, 0.48], artScale: 6.8 },
+            { key: "epimetheus", name: "Epimetheus", say: "This is Epimetheus.", diameterKm: 116.4, targetPage: "s9e", image: "assets-runtime/standard/page-14/deep-dive-moons/janus-epimetheus-orbit-swap-hero-v1.webp", artCenter: [0.92, 0.48], artScale: 6.4 },
+            { key: "prometheus", name: "Prometheus", say: "This is Prometheus.", diameterKm: 86.2, targetPage: "s8p", image: "assets-runtime/standard/page-14/deep-dive-moons/prometheus-pandora-f-ring-hero-v1.webp", artCenter: [0.12, 0.45], artScale: 2.4 },
+            { key: "pandora", name: "Pandora", say: "This is Pandora.", diameterKm: 81.2, targetPage: "s8d", image: "assets-runtime/standard/page-14/deep-dive-moons/prometheus-pandora-f-ring-hero-v1.webp", artCenter: [0.92, 0.54], artScale: 3.2 },
+            { key: "atlas", name: "Atlas", say: "This is Atlas.", diameterKm: 30.2, targetPage: "s7a", image: "assets-runtime/standard/page-14/deep-dive-moons/pan-atlas-daphnis-group-hero-v1.webp", artCenter: [0.53, 0.51], artScale: 3.43 },
+            { key: "pan", name: "Pan", say: "Pan is known as the ravioli moon.", diameterKm: 28, targetPage: "s7p", image: "assets-runtime/standard/page-14/deep-dive-moons/pan-atlas-daphnis-group-hero-v1.webp", artCenter: [0.12, 0.49], artScale: 2.74 },
+            { key: "daphnis", name: "Daphnis", say: "This is Daphnis.", diameterKm: 7.6, targetPage: "s7d", image: "assets-runtime/standard/page-14/deep-dive-moons/pan-atlas-daphnis-group-hero-v1.webp", artCenter: [0.83, 0.51], artScale: 5.3 }
           ]
         },
         {
@@ -632,10 +672,10 @@ window.BOOK_NAV = {
           layoutType: "compare",
           body: "Four moons circle the same planet, but each one tells a different story.",
           items: [
-            { name: "Titan", note: "Thick air, rain and lakes" },
-            { name: "Enceladus", note: "Icy jets from an ocean" },
-            { name: "Mimas", note: "One enormous crater" },
-            { name: "Iapetus", note: "One dark side and one bright side" }
+            { name: "Titan", say: "Titan", note: "Thick air, rain and lakes" },
+            { name: "Enceladus", say: "Enceladus", note: "Icy jets from an ocean" },
+            { name: "Mimas", say: "Mimas. One enormous crater takes up nearly a third of it.", note: "One enormous crater" },
+            { name: "Iapetus", say: "Iapetus. One side is dark as tar and the other is bright as snow.", note: "One dark side and one bright side" }
           ]
         },
         {
@@ -655,10 +695,28 @@ window.BOOK_NAV = {
           layoutType: "compare",
           body: "Rhea, Dione and Tethys are large icy moons covered with signs of a long history.",
           items: [
-            { name: "Rhea", note: "REE-uh — Saturn's second-biggest moon, icy and heavily cratered." },
-            { name: "Dione", note: "dy-OH-nee — bright streaks that are cliffs of ice." },
-            { name: "Tethys", note: "TEE-thiss — a huge crater and a canyon most of the way around it." }
+            { name: "Rhea", say: "This is Rhea.", note: "REE-uh — Saturn's second-biggest moon, icy and heavily cratered." },
+            { name: "Dione", say: "This is Dione.", note: "dy-OH-nee — bright streaks that are cliffs of ice." },
+            { name: "Tethys", say: "This is Tethys.", note: "TEE-thiss — a huge crater and a canyon most of the way around it." }
           ]
+        },
+        {
+          id: "s12r", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/rhea-dione-tethys-group-hero-v1.webp", alt: "Rhea, Saturn's large cratered icy moon" },
+          title: "Rhea", subtitle: "say it: REE-uh", layoutType: "single-focus",
+          body: "Rhea is Saturn's second-biggest moon. It is an icy, heavily cratered world with wispy fractures across part of its surface.",
+          narration: "Rhea, Dione and Tethys are large icy moons covered with signs of a long history."
+        },
+        {
+          id: "s12d", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/rhea-dione-tethys-group-hero-v1.webp", alt: "Dione, an icy moon with bright fractures" },
+          title: "Dione", subtitle: "say it: dy-OH-nee", layoutType: "single-focus",
+          body: "Dione is an icy moon marked by bright streaks. Close spacecraft views showed that the streaks are cliffs and fractures in its ice.",
+          narration: "Rhea, Dione and Tethys are large icy moons covered with signs of a long history."
+        },
+        {
+          id: "s12t", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/rhea-dione-tethys-group-hero-v1.webp", alt: "Tethys, a pale icy moon" },
+          title: "Tethys", subtitle: "say it: TEE-thiss", layoutType: "single-focus",
+          body: "Tethys is a pale icy moon with a huge crater and a canyon that reaches most of the way around the world.",
+          narration: "Rhea, Dione and Tethys are large icy moons covered with signs of a long history."
         },
         {
           id: "s7",
@@ -668,12 +726,15 @@ window.BOOK_NAV = {
           layoutType: "compare",
           body: "Tiny moons can push and sweep Saturn's ring material into surprising shapes.",
           items: [
-            { name: "Pan", note: "PAN — shaped like a ravioli, with a ridge of ring material." },
-            { name: "Atlas", note: "AT-lus — even flatter than Pan, like a tiny flying saucer." },
-            { name: "Daphnis", note: "DAF-nis — flies down a ring gap and makes waves in its edges." }
+            { name: "Pan", say: "Pan is known as the ravioli moon.", note: "PAN — shaped like a ravioli, with a ridge of ring material." },
+            { name: "Atlas", say: "This is Atlas.", note: "AT-lus — even flatter than Pan, like a tiny flying saucer." },
+            { name: "Daphnis", say: "This is Daphnis.", note: "DAF-nis — flies down a ring gap and makes waves in its edges." }
           ],
           facts: [{ label: "Famous for", value: "The ravioli moon", sentence: "Pan is known as the ravioli moon." }]
         },
+        { id: "s7p", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/pan-atlas-daphnis-group-hero-v1.webp", alt: "Pan with its equatorial ridge" }, title: "Pan", subtitle: "say it: PAN", layoutType: "single-focus", body: "Pan is shaped like a ravioli because material from Saturn's rings has collected around its middle.", narration: "Pan is known as the ravioli moon.", facts: [{ label: "Famous for", value: "Ravioli shape", sentence: "Pan is known as the ravioli moon." }] },
+        { id: "s7a", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/pan-atlas-daphnis-group-hero-v1.webp", alt: "Atlas with a broad equatorial ridge" }, title: "Atlas", subtitle: "say it: AT-lus", layoutType: "single-focus", body: "Atlas is a tiny ring moon with a broad ridge around its middle, giving it a flying-saucer shape.", narration: "Tiny moons can push and sweep Saturn's ring material into surprising shapes." },
+        { id: "s7d", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/pan-atlas-daphnis-group-hero-v1.webp", alt: "Tiny Daphnis travelling through a gap in Saturn's rings" }, title: "Daphnis", subtitle: "say it: DAF-nis", layoutType: "single-focus", body: "Daphnis travels through a narrow gap in Saturn's rings. Its gravity makes waves along the gap's edges.", narration: "Tiny moons can push and sweep Saturn's ring material into surprising shapes." },
         {
           id: "s8",
           image: { src: "assets-runtime/standard/page-14/deep-dive-moons/prometheus-pandora-f-ring-hero-v1.webp", alt: "Prometheus and Pandora on opposite sides of Saturn's thin F ring" },
@@ -682,10 +743,12 @@ window.BOOK_NAV = {
           layoutType: "compare",
           body: "Prometheus and Pandora travel on opposite sides of Saturn's thin F ring. Their gravity helps herd the ring material and keep it in line.",
           items: [
-            { name: "Prometheus", note: "pro-MEE-thee-us — works along one side of the ring." },
-            { name: "Pandora", note: "pan-DOR-uh — works along the other side." }
+            { name: "Prometheus", say: "This is Prometheus.", note: "pro-MEE-thee-us — works along one side of the ring." },
+            { name: "Pandora", say: "This is Pandora.", note: "pan-DOR-uh — works along the other side." }
           ]
         },
+        { id: "s8p", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/prometheus-pandora-f-ring-hero-v1.webp", alt: "Prometheus beside Saturn's F ring" }, title: "Prometheus", subtitle: "say it: pro-MEE-thee-us", layoutType: "single-focus", body: "Prometheus travels beside Saturn's thin F ring. Its gravity pulls streamers from the ring and helps shape it.", narration: "Prometheus and Pandora travel on opposite sides of Saturn's thin F ring. Their gravity helps herd the ring material and keep it in line." },
+        { id: "s8d", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/prometheus-pandora-f-ring-hero-v1.webp", alt: "Pandora beside Saturn's F ring" }, title: "Pandora", subtitle: "say it: pan-DOR-uh", layoutType: "single-focus", body: "Pandora travels outside Saturn's thin F ring and is one of the small moons that help shape the ring region.", narration: "Prometheus and Pandora travel on opposite sides of Saturn's thin F ring. Their gravity helps herd the ring material and keep it in line." },
         {
           id: "s9",
           image: { src: "assets-runtime/standard/page-14/deep-dive-moons/janus-epimetheus-orbit-swap-hero-v1.webp", alt: "Janus and Epimetheus exchanging close paths around Saturn" },
@@ -694,11 +757,13 @@ window.BOOK_NAV = {
           layoutType: "compare",
           body: "Janus and Epimetheus travel on almost the same path. Every four years they tug on each other and trade places without ever touching.",
           items: [
-            { name: "Janus", note: "JAY-nus — one half of the orbital swap." },
-            { name: "Epimetheus", note: "ep-ih-MEE-thee-us — the other half of the swap." }
+            { name: "Janus", say: "This is Janus.", note: "JAY-nus — one half of the orbital swap." },
+            { name: "Epimetheus", say: "This is Epimetheus.", note: "ep-ih-MEE-thee-us — the other half of the swap." }
           ],
           facts: [{ label: "Famous for", value: "Swapping orbits", sentence: "Janus and Epimetheus swap orbits." }]
         },
+        { id: "s9j", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/janus-epimetheus-orbit-swap-hero-v1.webp", alt: "Janus on one of the two swapping paths" }, title: "Janus", subtitle: "say it: JAY-nus", layoutType: "single-focus", body: "Janus shares two very close paths with Epimetheus. About every four years the two moons trade paths without touching.", narration: "Janus and Epimetheus travel on almost the same path. Every four years they tug on each other and trade places without ever touching.", facts: [{ label: "Famous for", value: "Swapping paths", sentence: "Janus and Epimetheus swap orbits." }] },
+        { id: "s9e", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/janus-epimetheus-orbit-swap-hero-v1.webp", alt: "Epimetheus on one of the two swapping paths" }, title: "Epimetheus", subtitle: "say it: ep-ih-MEE-thee-us", layoutType: "single-focus", body: "Epimetheus shares two very close paths with Janus. About every four years the two moons trade paths without touching.", narration: "Janus and Epimetheus travel on almost the same path. Every four years they tug on each other and trade places without ever touching.", facts: [{ label: "Famous for", value: "Swapping paths", sentence: "Janus and Epimetheus swap orbits." }] },
         {
           id: "s10",
           image: { src: "assets-runtime/standard/page-14/deep-dive-moons/phoebe-retrograde-hero-v1.webp", alt: "Dark distant Phoebe on its backward path around Saturn" },
@@ -721,17 +786,18 @@ window.BOOK_NAV = {
       menus: [
         {
           id: "u0",
-          image: { src: "assets-runtime/standard/page-16/uranus-distant-limb-v1.webp", alt: "Uranus beside its five major moons" },
           title: "Five moons, five stories",
-          subtitle: "Uranus's major moons",
-          layoutType: "overview-hotspots",
-          body: "Uranus has five major moons. Their names come from literature, and every moon has a different icy surface. Tap one to look closer.",
-          hotspots: [
-            { id: "miranda", label: "Miranda", targetPage: "u1" },
-            { id: "ariel", label: "Ariel", targetPage: "u2" },
-            { id: "umbriel", label: "Umbriel", targetPage: "u3" },
-            { id: "titania", label: "Titania", targetPage: "u4" },
-            { id: "oberon", label: "Oberon", targetPage: "u5" }
+          subtitle: "Five featured moons, drawn at one real relative scale",
+          layoutType: "moon-roster",
+          zoomBelowKm: 0,
+          rowCapacity: 5,
+          diameterSource: "JPL Solar System Dynamics Planetary Satellite Physical Parameters; mean diameter is twice mean radius; accessed 2026-10-09",
+          moons: [
+            { key: "titania", name: "Titania", say: "Titania", diameterKm: 1577.8, targetPage: "u4", image: "assets-runtime/standard/page-16/titania-moon-v1.webp" },
+            { key: "oberon", name: "Oberon", say: "Oberon", diameterKm: 1522.8, targetPage: "u5", image: "assets-runtime/standard/page-16/oberon-moon-v1.webp" },
+            { key: "umbriel", name: "Umbriel", say: "Umbriel", diameterKm: 1169.4, targetPage: "u3", image: "assets-runtime/standard/page-16/umbriel-moon-v1.webp" },
+            { key: "ariel", name: "Ariel", say: "Ariel", diameterKm: 1157.8, targetPage: "u2", image: "assets-runtime/standard/page-16/ariel-moon-v1.webp" },
+            { key: "miranda", name: "Miranda", say: "Miranda", diameterKm: 471.6, targetPage: "u1", image: "assets-runtime/standard/page-16/miranda-moon-v1.webp" }
           ]
         }
       ],
@@ -788,16 +854,16 @@ window.BOOK_NAV = {
           layoutType: "chips",
           body: "These small inner moons also carry names from stories and poems. Tap a name to read how to say it.",
           chips: [
-            { label: "Puck", pron: "PUK", note: "A small dark moon inside the big five." },
-            { label: "Cordelia", pron: "cor-DEEL-yuh", note: "The closest moon to Uranus." },
-            { label: "Ophelia", pron: "oh-FEE-lee-uh", note: "Herds a narrow ring with Cordelia." },
-            { label: "Juliet", pron: "JOO-lee-et", note: "Long rather than round." },
-            { label: "Portia", pron: "POR-shuh", note: "One of the larger small inner moons." },
-            { label: "Mab", pron: "MAB", note: "Tiny, with a faint dusty ring of its own." },
-            { label: "Cressida", pron: "KRESS-ih-duh", note: "One of a crowd of small moons close in." },
-            { label: "Desdemona", pron: "dez-duh-MOH-nuh", note: "A small inner moon on a crowded path." },
-            { label: "Rosalind", pron: "ROZ-uh-lind", note: "Named after a heroine who runs away to the forest." },
-            { label: "Belinda", pron: "beh-LIN-duh", note: "Named from a poem rather than a play." }
+            { label: "Puck", say: "Puck", pron: "PUK", note: "A small dark moon inside the big five." },
+            { label: "Cordelia", say: "Cordelia", pron: "cor-DEEL-yuh", note: "The closest moon to Uranus." },
+            { label: "Ophelia", say: "Ophelia", pron: "oh-FEE-lee-uh", note: "Herds a narrow ring with Cordelia." },
+            { label: "Juliet", say: "Juliet", pron: "JOO-lee-et", note: "Long rather than round." },
+            { label: "Portia", say: "Portia", pron: "POR-shuh", note: "One of the larger small inner moons." },
+            { label: "Mab", say: "Mab", pron: "MAB", note: "Tiny, with a faint dusty ring of its own." },
+            { label: "Cressida", say: "This is Cressida.", pron: "KRESS-ih-duh", note: "One of a crowd of small moons close in." },
+            { label: "Desdemona", say: "This is Desdemona.", pron: "dez-duh-MOH-nuh", note: "A small inner moon on a crowded path." },
+            { label: "Rosalind", say: "This is Rosalind.", pron: "ROZ-uh-lind", note: "Named after a heroine who runs away to the forest." },
+            { label: "Belinda", say: "This is Belinda.", pron: "beh-LIN-duh", note: "Named from a poem rather than a play." }
           ]
         },
         {
@@ -808,10 +874,10 @@ window.BOOK_NAV = {
           layoutType: "compare",
           body: "These four moons travel far from Uranus and go around it backwards. Their unusual paths tell us that Uranus captured them.",
           items: [
-            { name: "Caliban", note: "KAL-ih-ban — far out and dark." },
-            { name: "Sycorax", note: "SIK-or-ax — the biggest and reddest of the four." },
-            { name: "Prospero", note: "PROSS-per-oh — a small dark moon a very long way out." },
-            { name: "Setebos", note: "SET-eh-bos — another distant backward moon." }
+            { name: "Caliban", say: "Caliban", note: "KAL-ih-ban — far out and dark." },
+            { name: "Sycorax", say: "Sycorax", note: "SIK-or-ax — the biggest and reddest of the four." },
+            { name: "Prospero", say: "Prospero", note: "PROSS-per-oh — a small dark moon a very long way out." },
+            { name: "Setebos", say: "Setebos", note: "SET-eh-bos — another distant backward moon." }
           ]
         },
         {
@@ -822,11 +888,11 @@ window.BOOK_NAV = {
           layoutType: "compare",
           body: "Titania is the largest. Oberon is close behind. Ariel and Umbriel are similar in size, while Miranda is less than half as wide as either one.",
           items: [
-            { name: "Miranda", note: "The smallest major moon" },
-            { name: "Ariel", note: "Similar in size to Umbriel" },
-            { name: "Umbriel", note: "Similar in size to Ariel" },
-            { name: "Titania", note: "The largest" },
-            { name: "Oberon", note: "The second largest" }
+            { name: "Miranda", say: "Miranda", note: "The smallest major moon" },
+            { name: "Ariel", say: "Ariel", note: "Similar in size to Umbriel" },
+            { name: "Umbriel", say: "Umbriel", note: "Similar in size to Ariel" },
+            { name: "Titania", say: "Titania", note: "The largest" },
+            { name: "Oberon", say: "Oberon", note: "The second largest" }
           ]
         },
         {

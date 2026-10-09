@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Solar System: voice choice</title>
+<style>
+:root{--ink:#251f35;--muted:#6e667d;--line:#ded7ea;--bg:#f8f5fc;--card:#fff;--a:#6946a5;--play:#1f7852;--pick:#eee7f8;--warn:#fff0a8;--danger:#a8341f}
+@media(prefers-color-scheme:dark){:root{--ink:#f0ebf7;--muted:#b8afc5;--line:#41394d;--bg:#1b1821;--card:#27222f;--a:#b69ae4;--play:#76d0a4;--pick:#382f45;--warn:#66551f;--danger:#f09a84}}
+*{box-sizing:border-box}html,body{touch-action:manipulation}body{margin:0;font:16px/1.5 ui-rounded,"Avenir Next",-apple-system,system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+main{max-width:760px;margin:auto;padding:20px 16px 80px}h1{font-size:24px;margin:0 0 4px}h2{font-size:24px;margin:32px 0 10px}.sub{color:var(--muted);margin:0 0 12px}.progress{position:sticky;top:0;z-index:3;background:var(--bg);padding:10px 0;margin:0;border-bottom:1px solid var(--line)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin:0 0 14px}.head{display:flex;align-items:center;gap:12px;margin-bottom:8px}.head img{width:58px;height:58px;object-fit:contain;border-radius:12px;background:var(--bg)}.headtext{min-width:0;flex:1}.head h3{font-size:22px;line-height:1.15;margin:0}.meta{font-size:13px;color:var(--muted)}
+.spoken{font-size:18px;margin:8px 0 12px}.heard{background:var(--warn);border-radius:8px;padding:7px 10px;margin:0 0 10px;font-size:14px}.play{width:100%;min-height:64px;border:2px solid var(--play);border-radius:14px;background:var(--bg);color:var(--play);font:700 20px/1.2 inherit;cursor:pointer}.play.on{background:var(--pick);border-color:var(--a);color:var(--a)}
+.q{font-weight:700;margin:12px 0 6px}.opts{display:flex;gap:8px;flex-wrap:wrap}.opts label{display:flex;align-items:center;gap:7px;min-height:48px;padding:9px 14px;border:1px solid var(--line);border-radius:11px;cursor:pointer}.opts input{width:22px;height:22px;margin:0}.opts label:has(input:checked){background:var(--pick);border-color:var(--a);font-weight:700}textarea{width:100%;min-height:52px;margin-top:9px;padding:9px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font:inherit}
+.actions{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:24px}.actions button{min-height:48px;padding:10px 16px;margin:0 6px 8px 0;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;cursor:pointer}#out{display:none;min-height:180px;font:13px/1.4 ui-monospace,Menlo,monospace}.status{color:var(--muted);font-size:14px}.error{color:var(--danger);font-weight:700}
+@media(min-width:900px) and (orientation:landscape){main{max-width:980px}.group{display:grid;grid-template-columns:1fr 1fr;gap:14px}.group .card{margin:0}.group-title{grid-column:1/-1}}
+</style>
+</head><body><main>
+<h1>Solar System: voice choice</h1>
+<p class="sub">Listen to all 98 new Solar clips. The name tags flagged by the on-device recogniser are first. Choose <b>Keep</b> or <b>Re-record</b> for every clip, and add how it should sound when useful. Nothing here changes the storybook.</p>
+<p class="progress"><b id="count"></b></p><div id="groups"></div>
+<div class="actions"><button id="copy">Copy results</button><button id="download">Save results as JSON</button><div id="status" class="status"></div><textarea id="out" readonly></textarea></div>
+</main><script src="manifest.js?v=e79c2ff28-20261009113542"></script><script>
+(function(){'use strict';
+var KEY='solar-voice-review-v1-answers',data=window.SOLAR_VOICE_REVIEW,saved={};
+if(!data){document.getElementById('groups').innerHTML='<p class="error">Could not load manifest.js. Keep this page next to its files.</p>';return}
+try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){}}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+var audio=new Audio(),playing=null,total=data.total;
+function play(src,button){if(playing)playing.classList.remove('on');audio.pause();audio.src=src;audio.currentTime=0;var p=audio.play();if(p&&p.catch)p.catch(function(){});playing=button;button.classList.add('on')}
+audio.addEventListener('ended',function(){if(playing)playing.classList.remove('on');playing=null});
+function recount(){var n=data.items.filter(function(x){return saved[x.id]&&saved[x.id].pick}).length;document.getElementById('count').textContent=n+' of '+total+' answered'}
+function card(item){var s=saved[item.id]||{},el=document.createElement('section');el.className='card';el.innerHTML='<div class="head">'+(item.picture?'<img alt="" src="'+esc(item.picture)+'?v=e79c2ff28-20261009113542">':'')+'<div class="headtext"><h3>'+esc(item.subject)+'</h3><div class="meta">'+esc(item.kind)+' · Page '+item.page+' · <code>'+esc(item.id)+'</code></div></div></div><p class="spoken">'+esc(item.text)+'</p>'+(item.asr?'<p class="heard"><b>Recognizer heard:</b> '+esc(item.asr)+'</p>':'')+'<button class="play" type="button">▶ Play clip</button><p class="q">Your choice</p><div class="opts"><label><input type="radio" name="'+esc(item.id)+'" value="Keep"'+(s.pick==='Keep'?' checked':'')+'>Keep</label><label><input type="radio" name="'+esc(item.id)+'" value="Re-record"'+(s.pick==='Re-record'?' checked':'')+'>Re-record</label></div><textarea placeholder="Optional note — how should it sound?">'+esc(s.note||'')+'</textarea>';
+var b=el.querySelector('.play');b.addEventListener('click',function(){play(item.file,b)});el.querySelectorAll('input').forEach(function(inp){inp.addEventListener('change',function(){saved[item.id]=saved[item.id]||{};saved[item.id].pick=inp.value;persist();recount()})});el.querySelector('textarea').addEventListener('input',function(e){saved[item.id]=saved[item.id]||{};saved[item.id].note=e.target.value;persist()});return el}
+data.groups.forEach(function(group){var wrap=document.createElement('section');wrap.className='group';var h=document.createElement('h2');h.className='group-title';h.textContent=group.title+' ('+group.items.length+')';wrap.appendChild(h);group.items.forEach(function(x){wrap.appendChild(card(x))});document.getElementById('groups').appendChild(wrap)});recount();
+function payload(){return{task:'solar-voice-review',page:'test-apps/solar-voice-review/',exported_at:new Date().toISOString(),answers:data.items.map(function(x){var s=saved[x.id]||{};return{id:x.id,page:x.page,group:x.group,subject:x.subject,kind:x.kind,text:x.text,pick:s.pick||null,note:s.note||''}})}}
+function summary(p){var lines=['Solar voice review ('+p.exported_at.slice(0,10)+')'];p.answers.forEach(function(a){lines.push(a.group+' · '+a.subject+' · '+a.kind+': '+(a.pick||'(no answer)')+(a.note?' -- '+a.note:''))});return lines.join('\n')}
+document.getElementById('copy').addEventListener('click',function(){var p=payload(),t=summary(p)+'\n\n'+JSON.stringify(p,null,1),out=document.getElementById('out'),st=document.getElementById('status');out.value=t;out.style.display='block';if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){st.textContent='Copied. Paste it back in the chat.'},function(){out.select();st.textContent='Select the text below and copy it.'})}else{out.select();st.textContent='Select the text below and copy it.'}});
+document.getElementById('download').addEventListener('click',function(){var p=payload(),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(p,null,2)+'\n'],{type:'application/json'}));a.download='solar-voice-review-results.json';a.click();setTimeout(function(){URL.revokeObjectURL(a.href)},1000)});
+})();</script></body></html>

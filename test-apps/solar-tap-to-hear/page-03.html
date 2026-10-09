@@ -16,10 +16,10 @@ button{font:inherit}.book{min-height:100vh;display:grid;place-items:center}.stag
    lives top-right, and top-left, which was empty, is where the same arrow sits in
    every other app the hub links to. --focus is defined on page 1 only, hence the
    literal fallback the other pages already use for focus rings. */
-.story-hub{position:absolute;z-index:40;top:1.5%;left:1.5%;display:grid;place-items:center;height:32px;min-width:32px;padding:0 8px;border:1px solid rgba(255,255,255,.2);border-radius:8px;background:#16345c;color:#fff;font:inherit;font-weight:900;text-decoration:none}
+.story-hub{position:absolute;z-index:40;top:1.5%;left:1.5%;display:grid;place-items:center;height:44px;min-width:44px;padding:0 8px;border:1px solid rgba(255,255,255,.2);border-radius:8px;background:#16345c;color:#fff;font:inherit;font-weight:900;text-decoration:none}
 .story-hub:hover{background:#285b87}
 .story-hub:focus-visible{outline:3px solid var(--focus,#8eeaff);outline-offset:2px}
-.page-nav{position:absolute;z-index:34;top:1.5%;right:1.5%;display:flex;align-items:center;gap:4px;padding:4px;border:1px solid #b9ddff55;border-radius:13px;background:#07142de8;backdrop-filter:blur(7px)}.page-nav>a,.page-jump{display:grid;place-items:center;height:32px;min-width:32px;border:1px solid #b9ddff55;border-radius:9px;background:#16345c;color:#fff;text-decoration:none;font:inherit;font-weight:900;cursor:pointer}.page-jump{min-width:58px;padding:0 8px}.page-nav>a:hover,.page-jump:hover{background:#285b87}.page-nav [aria-disabled=true]{opacity:.35;pointer-events:none}.page-goto{position:absolute;right:calc(100% + 6px);top:0;display:flex;gap:4px;padding:7px;border:1px solid #b9ddff55;border-radius:10px;background:#0b1730;box-shadow:0 8px 24px #0008;white-space:nowrap}.page-goto[hidden]{display:none}.page-goto label{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:800}.page-goto input{width:45px;padding:4px;border:1px solid #8fe7ff88;border-radius:6px;background:#061126;color:#fff}.page-goto button{padding:4px 7px;border:0;border-radius:6px;background:var(--gold);color:#17203a;font-weight:900;cursor:pointer}
+.page-nav{position:absolute;z-index:34;top:1.5%;right:1.5%;display:flex;align-items:center;gap:4px;padding:4px;border:1px solid #b9ddff55;border-radius:13px;background:#07142de8;backdrop-filter:blur(7px)}.page-nav>a,.page-jump{display:grid;place-items:center;height:44px;min-width:44px;border:1px solid #b9ddff55;border-radius:9px;background:#16345c;color:#fff;text-decoration:none;font:inherit;font-weight:900;cursor:pointer}.page-jump{min-width:58px;padding:0 8px}.page-nav>a:hover,.page-jump:hover{background:#285b87}.page-nav [aria-disabled=true]{opacity:.35;pointer-events:none}.page-goto{position:absolute;right:calc(100% + 6px);top:0;display:flex;gap:4px;padding:7px;border:1px solid #b9ddff55;border-radius:10px;background:#0b1730;box-shadow:0 8px 24px #0008;white-space:nowrap}.page-goto[hidden]{display:none}.page-goto label{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:800}.page-goto input{width:45px;padding:4px;border:1px solid #8fe7ff88;border-radius:6px;background:#061126;color:#fff}.page-goto button{padding:4px 7px;border:0;border-radius:6px;background:var(--gold);color:#17203a;font-weight:900;cursor:pointer}
 .sun-area{position:absolute;z-index:4;left:35%;right:1.5%;top:4%;height:69%}.sun-button{position:absolute;left:55%;top:49%;width:66%;aspect-ratio:1;border:0;padding:0;background:none;transform:translate(-50%,-50%);cursor:pointer;border-radius:50%;filter:drop-shadow(0 0 12px #ffbf3f88)}.sun-button img{display:block;width:100%;height:100%;object-fit:contain}.sun-button::after{content:"";position:absolute;inset:8%;border:2px solid #fff1a875;border-radius:50%;opacity:0}.sun-button.active::after{animation:sunPulse 1.8s ease-out}@keyframes sunPulse{0%{opacity:.75;transform:scale(.8)}100%{opacity:0;transform:scale(1.35)}}
 .feature{position:absolute;z-index:11;border:1px solid #ffe58b9c;border-radius:999px;background:#0b1738d9;color:#fff;padding:5px 9px;font-size:clamp(8px,.88vw,12px);font-weight:900;cursor:pointer;box-shadow:0 3px 12px #0007}.feature::after{content:"";position:absolute;width:34px;height:1px;background:#ffe799aa;top:50%}.feature:hover,.feature[aria-pressed=true]{background:#9e4d1e;color:#fff5c6}.feature:focus-visible,.sun-button:focus-visible,.secret:focus-visible,.fact-card:focus-visible,.story button:focus-visible,.toolbar button:focus-visible,.page-nav *:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
 .feature.prominence{left:2%;top:8%}.feature.prominence::after{left:100%;transform:rotate(18deg);transform-origin:left}.feature.sunspot{left:5%;top:34%}.feature.sunspot::after{left:100%;transform:rotate(-3deg);transform-origin:left}.feature.granulation{right:1%;top:20%}.feature.granulation::after{right:100%;transform:rotate(-12deg);transform-origin:right}.feature.flare{left:7%;bottom:13%}.feature.flare::after{left:100%;transform:rotate(-16deg);transform-origin:left}
@@ -121,7 +121,7 @@ justify-items:center;align-items:end}
 
 
 
-  <img class="bg" src="assets-runtime/standard/page-03/space-background.webp?v=18f3f6129-20261009093643" alt="">
+  <img class="bg" src="assets-runtime/standard/page-03/space-background.webp?v=e79c2ff28-20261009113541" alt="">
   <div class="warm-wash"></div>
 
   <article class="story">
@@ -144,7 +144,7 @@ justify-items:center;align-items:end}
   </nav>
 
   <div class="sun-area">
-    <button class="sun-button" id="sun" aria-label="Hear about the living surface of the Sun"><img id="sun-image" src="assets-runtime/standard/page-03/sun-main-frame-01.webp?v=18f3f6129-20261009093643" alt=""></button>
+    <button class="sun-button" id="sun" aria-label="Hear about the living surface of the Sun"><img id="sun-image" src="assets-runtime/standard/page-03/sun-main-frame-01.webp?v=e79c2ff28-20261009113541" alt=""></button>
     <button class="feature prominence" data-feature="prominence" aria-pressed="false">Prominence</button>
     <button class="feature sunspot" data-feature="sunspot" aria-pressed="false">Sunspots</button>
     <button class="feature granulation" data-feature="granulation" aria-pressed="false">Granulation</button>
@@ -152,20 +152,20 @@ justify-items:center;align-items:end}
     <div class="hint">Tap the glowing clues on the Sun.</div>
   </div>
 
-  <div class="bubble rest"><img src="assets-runtime/standard/page-03/ari-dot-bubble-rest.webp?v=18f3f6129-20261009093643" alt="Ari and Dot watching the Sun from a shielded bubble"></div>
-  <div class="bubble react"><img src="assets-runtime/standard/page-03/ari-dot-bubble-reaction.webp?v=18f3f6129-20261009093643" alt=""></div>
+  <div class="bubble rest"><img src="assets-runtime/standard/page-03/ari-dot-bubble-rest.webp?v=e79c2ff28-20261009113541" alt="Ari and Dot watching the Sun from a shielded bubble"></div>
+  <div class="bubble react"><img src="assets-runtime/standard/page-03/ari-dot-bubble-reaction.webp?v=e79c2ff28-20261009113541" alt=""></div>
 
   <button class="secret helio" data-visitor="helio" aria-label="A glowing clue hiding Helio"></button>
   <button class="secret umbra" data-visitor="umbra" aria-label="A glowing clue hiding Umbra"></button>
   <button class="secret flicker" data-visitor="flicker" aria-label="A glowing clue hiding Flicker"></button>
-  <div class="visitor helio" id="helio"><img class="visitor-effect" src="assets-runtime/standard/page-03/effects/helio-shield-shimmer.svg?v=18f3f6129-20261009093643" alt=""><img class="visitor-pose" src="assets-runtime/standard/page-03/helio-rest.webp?v=18f3f6129-20261009093643" alt="Helio, a friendly heat-shield probe"></div>
-  <div class="visitor umbra" id="umbra"><img class="visitor-effect" src="assets-runtime/standard/page-03/effects/umbra-scan-rings.svg?v=18f3f6129-20261009093643" alt=""><img class="visitor-pose" src="assets-runtime/standard/page-03/umbra-hidden.webp?v=18f3f6129-20261009093643" alt="Umbra, a friendly sunspot observer"></div>
-  <div class="visitor flicker" id="flicker"><img class="visitor-effect" src="assets-runtime/standard/page-03/effects/flicker-arrival-sparks.svg?v=18f3f6129-20261009093643" alt=""><img class="visitor-pose" src="assets-runtime/standard/page-03/flicker-arrival.webp?v=18f3f6129-20261009093643" alt="Flicker, a friendly solar scout"></div>
+  <div class="visitor helio" id="helio"><img class="visitor-effect" src="assets-runtime/standard/page-03/effects/helio-shield-shimmer.svg?v=e79c2ff28-20261009113541" alt=""><img class="visitor-pose" src="assets-runtime/standard/page-03/helio-rest.webp?v=e79c2ff28-20261009113541" alt="Helio, a friendly heat-shield probe"></div>
+  <div class="visitor umbra" id="umbra"><img class="visitor-effect" src="assets-runtime/standard/page-03/effects/umbra-scan-rings.svg?v=e79c2ff28-20261009113541" alt=""><img class="visitor-pose" src="assets-runtime/standard/page-03/umbra-hidden.webp?v=e79c2ff28-20261009113541" alt="Umbra, a friendly sunspot observer"></div>
+  <div class="visitor flicker" id="flicker"><img class="visitor-effect" src="assets-runtime/standard/page-03/effects/flicker-arrival-sparks.svg?v=e79c2ff28-20261009113541" alt=""><img class="visitor-pose" src="assets-runtime/standard/page-03/flicker-arrival.webp?v=e79c2ff28-20261009113541" alt="Flicker, a friendly solar scout"></div>
   <div class="discoveries" id="discoveries">Sun visitors: 0 of 3</div>
 
   <aside class="detail" id="detail" aria-live="polite">
     <div class="detail-head"><h3 id="detail-title">Sun feature</h3><button class="detail-close" id="detail-close" aria-label="Close detail">×</button></div>
-    <img class="detail-view" id="detail-image" src="assets-runtime/standard/page-03/granulation-closeup-frame-01.webp?v=18f3f6129-20261009093643" alt="">
+    <img class="detail-view" id="detail-image" src="assets-runtime/standard/page-03/granulation-closeup-frame-01.webp?v=e79c2ff28-20261009113541" alt="">
     <p id="detail-copy"></p>
   </aside>
 

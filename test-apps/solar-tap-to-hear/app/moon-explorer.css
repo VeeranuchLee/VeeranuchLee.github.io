@@ -42,13 +42,13 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
   flex-wrap:wrap;padding:8px clamp(10px,2vw,22px);
   background:#04102ae8;backdrop-filter:blur(6px);border-bottom:1px solid #1d3b66}
 .mx-bar .grow{flex:1 1 auto}
-.mx-btn{display:inline-flex;align-items:center;gap:.35em;min-height:38px;
+.mx-btn{display:inline-flex;align-items:center;gap:.35em;min-height:44px;
   padding:.3rem .7rem;border:1px solid var(--cyan);border-radius:999px;
   background:#183957;color:#fff;font-weight:900;text-decoration:none;cursor:pointer;
   font-size:clamp(.62rem,.85vw,.86rem)}
 .mx-btn:hover{background:#285b87}
 .mx-btn[aria-pressed=true]{background:#2b6f96}
-.mx-btn.home{background:#16345c;border-color:#ffffff33}
+.mx-btn.home{min-width:44px;justify-content:center;background:#16345c;border-color:#ffffff33}
 
 /* ---------- page head ----------------------------------------------------- */
 .mx-head{max-width:1180px;margin:0 auto;padding:clamp(12px,2.2vw,26px) clamp(12px,2vw,24px) 0;
