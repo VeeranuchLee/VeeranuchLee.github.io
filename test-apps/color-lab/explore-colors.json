@@ -3070,28 +3070,29 @@
           "id": "xkcd-mauve",
           "displayName": "mauve",
           "slug": "mauve",
-          "colorHex": "#AE7181",
+          "colorHex": "#C8A2C8",
           "oklabCentroid": [
-            0.61745718,
-            0.07957747,
-            0.00360495
+            0.75855669,
+            0.05664183,
+            -0.03788465
           ],
           "examples": [
             "an iris petal",
             "a purple crayon"
           ],
-          "comparison": "Mauve is lighter and warmer than soft purple.",
+          "comparison": "Mauve is a soft greyish purple, lighter than orchid purple.",
           "source": {
             "dataset": "xkcd-rgb.txt",
             "url": "https://xkcd.com/color/rgb.txt",
             "licence": "CC0",
             "surveyName": "mauve",
             "surveyHex": "#AE7181",
-            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data."
+            "uwSelectionNote": "Curated for common-name agreement; UW c3 saliency method used as selection guidance, not as imported data.",
+            "ownerOverride": "Owner decision 2026-10-09: xkcd mauve (#AE7181) read as a dusty pink-brown; changed to a purple mauve (lilac-grey, #C8A2C8). Name and voice clip unchanged. surveyHex kept as the original xkcd value for provenance."
           },
           "familySpacing": {
-            "nearestBaseline": "soft purple",
-            "deltaE2000": 15.72,
+            "nearestBaseline": "orchid purple",
+            "deltaE2000": 9.1,
             "meetsApproximateEight": true,
             "exception": null
           },
