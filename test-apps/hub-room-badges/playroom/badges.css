@@ -1,0 +1,62 @@
+/* ROOM BADGES — always-visible labelled icon badges pinned on room objects (owner request
+   2026-10-09, ref image: a small rounded-square icon with the app's name in a white pill beneath
+   it). Navigation hubs only (MOTION-DIRECTION.md, navigation-hub exception): ACTIVE destinations
+   get one, inactive / coming-soon objects never do. The badge is a real link to the app; the
+   transparent object hotspot beneath it is unchanged. Placement and size come from
+   destinations.js (`badgeAt`) and the container width, so they track the painting at any size. */
+.scene,.room-frame{container-type:inline-size}
+.badge{
+  --b:64px;                                /* fallback where container units are missing */
+  --b:clamp(46px,8.4cqw,78px);             /* icon edge: ~64px on a 768px-wide iPad room */
+  position:absolute;z-index:5;
+  left:var(--x);top:var(--y);
+  width:max-content;
+  transform:translate(-50%,calc(var(--b) * -.5));
+  display:flex;flex-direction:column;align-items:center;gap:calc(var(--b) * .06);
+  text-decoration:none;color:#4a3168;
+  -webkit-tap-highlight-color:transparent;
+  outline:none;
+  animation:badgePop .5s cubic-bezier(.3,1.5,.5,1) both;
+  animation-delay:var(--d,0s);
+}
+/* A badge is a link over a larger transparent hotspot, so its own tap area is its whole box
+   plus a little margin: never smaller than the picture and the name. */
+.badge::before{content:"";position:absolute;inset:-6px -8px -6px -8px;border-radius:22px}
+.badge-icon{
+  position:relative;display:block;
+  width:var(--b);height:var(--b);
+  border-radius:calc(var(--b) * .26);
+  background:rgba(255,255,255,.93);
+  border:2px solid rgba(255,255,255,.96);
+  box-shadow:0 3px 0 rgba(120,96,150,.35),0 6px 14px rgba(72,48,104,.28);
+  display:grid;place-items:center;overflow:hidden;
+}
+.badge-icon img{width:88%;height:88%;object-fit:contain;display:block;pointer-events:none}
+.badge-icon img.tile{width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.badge-name{
+  display:block;
+  padding:.16em .7em .22em;border-radius:999px;
+  background:#fff;border:2px solid rgba(255,255,255,.96);
+  box-shadow:0 2px 0 rgba(120,96,150,.3),0 4px 10px rgba(72,48,104,.22);
+  font-family:'Nunito',system-ui,sans-serif;font-weight:900;
+  font-size:clamp(10px,calc(var(--b) * .2),15px);
+  line-height:1.15;white-space:nowrap;
+}
+.badge-name:lang(th){font-family:system-ui,-apple-system,'Thonburi',sans-serif}
+.badge:active .badge-icon,.badge.on .badge-icon{transform:translateY(2px) scale(.94)}
+.badge:focus-visible .badge-icon{outline:4px solid #7c4dff;outline-offset:3px}
+.badge:hover .badge-icon{box-shadow:0 3px 0 rgba(120,96,150,.35),0 8px 18px rgba(72,48,104,.34)}
+@keyframes badgePop{from{opacity:0;transform:translate(-50%,calc(var(--b) * -.5)) scale(.6)}to{opacity:1;transform:translate(-50%,calc(var(--b) * -.5)) scale(1)}}
+/* A phone-width room (about 375px wide, 280px tall) cannot hold thirteen names without covering the
+   painting: below 480px the badge is the small icon alone (its name stays in the accessible label).
+   The target device is the 9.7in iPad; this keeps the phone sane, not optimised. */
+@container (max-width:480px){
+  .badge{--b:clamp(30px,9.5cqw,40px)}
+  .badge-name{display:none}
+  .badge::before{inset:-8px}
+}
+/* The picker dialog and any modal sit above the room; badges ride inside the (then inert) room. */
+@media (prefers-reduced-motion:reduce){
+  .badge{animation:none}
+  .badge:active .badge-icon,.badge.on .badge-icon{transform:none}
+}
