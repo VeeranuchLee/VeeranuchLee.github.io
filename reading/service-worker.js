@@ -16,6 +16,9 @@
    performances join Space Trip, Gems and Rain Book 1; Rain Books 2–7 continue to fall back
    to the existing word clips until their page narration is rendered.
 
+   v10 2026-10-09: Rain Books 8–10 (street-under-water, stay-out-of-floodwater,
+   when-water-goes-away) un-drafted so the shelf lists all ten; assets were already in SHELL.
+
    All apps share one origin (veeranuchlee.github.io), so CacheStorage is shared too:
    activate deletes ONLY caches whose name starts with CACHE_PREFIX, never a neighbour's
    (scripts/check-worker-cache-scope.py). A Test Hub copy carries no worker at all
@@ -23,7 +26,7 @@
 
    Navigations carry a query (?book=space-trip, ?from=wordbook), so they are matched with
    ignoreSearch; data and audio requests are matched exactly. */
-const CACHE_NAME = 'reading-v9';
+const CACHE_NAME = 'reading-v10';
 const CACHE_PREFIX = 'reading-v';
 const SHELL = [
   './',
