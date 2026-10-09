@@ -6,7 +6,35 @@
   var colorById = new Map();
   var availableAudioSlugs = new Set();
   var exploreData = null;
+  var mixTargets = [];
+  var activeTargetIndex = 0;
+  var discoveredTargetIds = new Set();
   var currentMix = null;
+  var EMPTY_BOWL_DECORATION = "#A56BDB";
+
+  function progressStorageKey() {
+    return location.pathname.indexOf("/test-apps/") >= 0
+      ? "color-lab:test:mix-discoveries:v1"
+      : "color-lab:mix-discoveries:v1";
+  }
+
+  function readDiscoveries() {
+    try {
+      var saved = JSON.parse(localStorage.getItem(progressStorageKey()) || "[]");
+      return new Set(Array.isArray(saved) ? saved.filter(function (id) { return typeof id === "string"; }) : []);
+    } catch (error) { return new Set(); }
+  }
+
+  function saveDiscoveries() {
+    try { localStorage.setItem(progressStorageKey(), JSON.stringify(Array.from(discoveredTargetIds))); } catch (error) { /* optional progress */ }
+  }
+
+  function clearLegacyBowlPreference() {
+    try {
+      localStorage.removeItem("color-lab:test:bowl-colour:v1");
+      localStorage.removeItem("color-lab:bowl-colour:v1");
+    } catch (error) { /* obsolete preference is harmless when storage is unavailable */ }
+  }
 
   // One player for every spoken name (2026-10-06, owner: "let's add voice to color lab"), so a
   // new tap stops the name before it instead of talking over it. A missing clip stays silent.
@@ -36,6 +64,10 @@
         if (!response.ok) return [];
         return response.json();
       }).catch(function () { return []; }),
+      fetch("./mix-targets.json").then(function (response) {
+        if (!response.ok) return { targets: [] };
+        return response.json();
+      }).catch(function () { return { targets: [] }; }),
     ]).then(function (results) {
       colorById = new Map(results[0].colors.map(function (color) { return [color.id, color]; }));
       exploreData = results[1];
@@ -46,7 +78,10 @@
         });
       });
       availableAudioSlugs = new Set(results[2]);
+      mixTargets = results[3].targets || [];
+      discoveredTargetIds = readDiscoveries();
       renderFamilies();
+      renderTarget();
     }).catch(function () {
       exploreColors = [];
       byId("family-shelf").textContent = "Color names are still loading…";
@@ -84,7 +119,8 @@
   }
 
   function makeShadeCard(shade) {
-    var color = colorById.get(shade.vocabularyId);
+    var vocabularyColor = shade.vocabularyId ? colorById.get(shade.vocabularyId) : null;
+    var colorHex = shade.colorHex || vocabularyColor.srgbCentroidHex;
     var card = document.createElement("article");
     var main = document.createElement("button");
     var visual = document.createElement("span");
@@ -101,8 +137,8 @@
     card.dataset.vocabularyId = shade.vocabularyId;
     main.type = "button";
     main.className = "shade-card-main";
-    main.style.setProperty("--shade", color.srgbCentroidHex);
-    main.dataset.srgb = color.srgbCentroidHex;
+    main.style.setProperty("--shade", colorHex);
+    main.dataset.srgb = colorHex;
     main.setAttribute("aria-label", shade.displayName + ". Tap to grow this color card.");
     main.setAttribute("aria-pressed", "false");
     visual.className = "shade-visual";
@@ -130,6 +166,12 @@
     name.className = "shade-name";
     name.textContent = shade.displayName;
     main.append(visual, swatch, name);
+    if (shade.examples && shade.comparison) {
+      var details = document.createElement("span");
+      details.className = "shade-details";
+      details.textContent = shade.examples.join(" • ") + ". " + shade.comparison;
+      main.appendChild(details);
+    }
     main.addEventListener("click", function () {
       document.querySelectorAll(".shade-card.is-selected").forEach(function (selected) {
         selected.classList.remove("is-selected");
@@ -137,6 +179,8 @@
       });
       card.classList.add("is-selected");
       main.setAttribute("aria-pressed", "true");
+      // The chosen card grows to show its examples; keep all of it (and its speaker) in view.
+      if (card.scrollIntoView) card.scrollIntoView({ block: "nearest" });
       sayClip(shade.slug);
     });
 
@@ -178,6 +222,40 @@
     byId("name-text").textContent = message;
   }
 
+  function activeTarget() { return mixTargets[activeTargetIndex] || null; }
+
+  function renderTarget() {
+    var target = activeTarget();
+    var card = byId("mix-target-card");
+    if (!target) { card.hidden = true; return; }
+    card.hidden = false;
+    byId("mix-target-swatch").style.setProperty("--target", target.swatchHex);
+    byId("mix-target-name").textContent = target.name;
+    byId("mix-target-progress").textContent = mixTargets.filter(function (t) { return discoveredTargetIds.has(t.id); }).length + " of " + mixTargets.length + " found";
+    card.classList.toggle("is-found", discoveredTargetIds.has(target.id));
+  }
+
+  function nextTarget() {
+    if (!mixTargets.length) return;
+    activeTargetIndex = (activeTargetIndex + 1) % mixTargets.length;
+    renderTarget();
+  }
+
+  function checkTarget() {
+    var target = activeTarget();
+    if (!target || !currentMix) return false;
+    var score = Math.hypot.apply(null, currentMix.oklab.map(function (value, index) {
+      return value - target.centreOklab[index];
+    }));
+    if (score > target.toleranceOklab) return false;
+    discoveredTargetIds.add(target.id);
+    saveDiscoveries();
+    renderTarget();
+    setName("You made " + target.name + "!");
+    sayClip(target.slug);
+    return true;
+  }
+
   function render() {
     ["red", "yellow", "blue"].forEach(function (name) {
       byId(name + "-count").textContent = String(drops[name]);
@@ -186,15 +264,18 @@
     var bowl = byId("mix-bowl");
     if (!currentMix) {
       document.documentElement.style.setProperty("--mix", "#F4EAD0");
+      document.documentElement.style.setProperty("--bowl-decoration", EMPTY_BOWL_DECORATION);
       bowl.className = "mix-bowl is-empty";
       bowl.setAttribute("aria-label", "Mixing bowl. Add paint first.");
       setName("Add some paint!");
       return;
     }
     document.documentElement.style.setProperty("--mix", currentMix.hex);
+    document.documentElement.style.setProperty("--bowl-decoration", currentMix.hex);
     bowl.className = "mix-bowl has-paint";
     bowl.setAttribute("aria-label", "Mixed color. Tap to explore its name.");
     setName("Tap the bowl!");
+    checkTarget();
   }
 
   function addDrop(name) {
@@ -225,34 +306,16 @@
     drop.addEventListener("animationend", function () { drop.remove(); }, { once: true });
   }
 
-  // Which crayon families a mix may be named from (2026-10-06). The paint model's own red and
-  // blue sit between families ("tomato orange", "iris purple" for a single drop), and a child who
-  // added only red expects a red. So the drops pick the families, as the colour wheel a child
-  // learns would: one paint = its own family; two = their mix (orange, green, purple), plus the
-  // stronger paint's family when it is at least three quarters of the drops; all three = brown or
-  // grey. The nearest shade within those families is the name.
-  function mixFamilies(drops) {
-    var total = drops.red + drops.yellow + drops.blue;
-    var used = ["red", "yellow", "blue"].filter(function (c) { return drops[c] > 0; });
-    if (used.length === 1) return [used[0]];
-    if (used.length === 3) return ["brown", "grey"];
-    var pair = used.join("+");
-    var mix = { "red+yellow": "orange", "yellow+blue": "green", "red+blue": "purple" }[pair];
-    var out = [mix];
-    used.forEach(function (c) { if (drops[c] / total >= 0.75) out.push(c); });
-    return out;
-  }
-
   function revealName() {
     if (!currentMix) {
       setName("Add some paint!");
       return;
     }
-    var allowed = mixFamilies(currentMix.drops);
-    var pool = exploreColors.filter(function (c) { return allowed.indexOf(c.familyId) >= 0; });
-    var nearest = ColorLabMixing.nearestName(currentMix.oklab, pool.length ? pool : exploreColors);
-    setName(nearest ? nearest.color.displayName : "Color names are still loading…");
-    if (nearest) sayClip(nearest.color.slug);
+    var named = ColorLabMixNaming.nameMix(
+      currentMix.drops, currentMix.oklab, exploreColors, mixTargets, ColorLabMixing.nearestName
+    );
+    setName(named ? named.displayName : "Color names are still loading…");
+    if (named) sayClip(named.slug);
   }
 
   // One tap empties the bowl and returns the name chip to its prompt (2026-10-07).
@@ -270,10 +333,12 @@
   });
   byId("mix-bowl").addEventListener("click", revealName);
   byId("reset-button").addEventListener("click", reset);
+  byId("next-target").addEventListener("click", nextTarget);
   document.querySelectorAll("[data-mode]").forEach(function (button) {
     button.addEventListener("click", function () { setMode(button.dataset.mode); });
   });
   byId("family-back").addEventListener("click", showFamilies);
+  clearLegacyBowlPreference();
   loadVocabulary();
   render();
 })();

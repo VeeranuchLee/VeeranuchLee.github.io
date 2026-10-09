@@ -47,8 +47,14 @@
 
       <div class="explore-side">
         <h2>Mixing Bowl</h2>
+        <div id="mix-target-card" class="mix-target-card" hidden>
+          <span id="mix-target-swatch" class="mix-target-swatch" aria-hidden="true"></span>
+          <span class="mix-target-copy"><small>Can you make…</small><strong id="mix-target-name"></strong><span id="mix-target-progress"></span></span>
+          <button id="next-target" type="button" aria-label="Try another colour target">Another</button>
+        </div>
         <button id="mix-bowl" class="mix-bowl is-empty" type="button" aria-label="Mixing bowl. Add paint first.">
-          <img class="bowl-art" src="./assets/art/mixing-bowl.webp" alt="" width="600" height="400">
+          <img id="bowl-art" class="bowl-art" src="./assets/art/mixing-bowl-cream.webp" alt="" width="600" height="400">
+          <span class="bowl-decoration" aria-hidden="true"></span>
           <span id="mix-paint" class="mix-paint" aria-hidden="true"></span>
         </button>
         <div id="colour-name" class="colour-name" role="status" aria-live="polite">
@@ -85,6 +91,7 @@
   <!-- Method C: this byte-identical guard must load before app tap handlers. -->
   <script src="./tap-zoom-guard.js"></script>
   <script src="./mixing-model.js"></script>
+  <script src="./mix-naming.js"></script>
   <script src="./reset-model.js"></script>
   <script src="./app.js"></script>
   <script>

@@ -1,20 +1,23 @@
-const CACHE_NAME = "color-lab-v1";
+const CACHE_NAME = "color-lab-v2";
 
 const SHELL = [
   "./",
   "./index.html",
   "./styles.css",
   "./mixing-model.js",
+  "./mix-naming.js",
   "./app.js",
   "./tap-zoom-guard.js",
   "./manifest.webmanifest",
   "./explore-colors.json",
+  "./mix-targets.json",
   "./data/iscc-nbs-v1.json",
   "./audio/colour-names/available-clips.json",
   "./assets/art/background-landscape.webp",
   "./assets/art/background-portrait.webp",
   "./assets/art/header-palette.webp",
-  "./assets/art/mixing-bowl.webp",
+  "./assets/art/mixing-bowl-cream.webp",
+  "./assets/art/mixing-bowl-decoration-mask.png",
   "./assets/art/pot-blue.webp",
   "./assets/art/pot-red.webp",
   "./assets/art/pot-yellow.webp",

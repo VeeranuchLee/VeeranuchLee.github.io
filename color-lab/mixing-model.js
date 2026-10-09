@@ -115,6 +115,17 @@
     lab[1] *= chromaScale;
     lab[2] *= chromaScale;
 
+    // Three primaries should read as an earthy paint brown, not the pink-beige/grey
+    // produced by chroma loss alone. The three-way term is zero for every one- and
+    // two-paint recipe, peaks at equal R/Y/B, and fades smoothly for unequal browns.
+    // Its equal-mix anchor is #96643A, a plain warm brown used in the colour audit.
+    var threeWay = active === 3
+      ? Math.cbrt(drops.red * drops.yellow * drops.blue) / total
+      : 0;
+    lab[0] -= 0.277 * threeWay;
+    lab[1] += 0.072 * threeWay;
+    lab[2] += 0.132 * threeWay;
+
     var rgb = oklabToSrgb(lab);
     return {
       drops: drops,

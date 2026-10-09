@@ -34,19 +34,21 @@ are evidence of names children may meet, not the app's taxonomy, data model, app
 | `PROPOSAL.md` | Proposed model, activities, progression, UX, scoring, and validation plan |
 | `work_progress_and_other_discussion.md` | Newest-first decision and discussion trail |
 | `index.html`, `styles.css`, `app.js` | Touch-first prototype UI |
-| `explore-colors.json` | Generated eleven-family, 130-card Explore shelf |
-| `audio-plan.json` | Proposed offline colour-name render list; no clips rendered yet |
-| `audio/colour-names/available-clips.json` | One availability manifest; empty until reviewed clips are rendered |
+| `explore-colors.json` | Eleven-family, 265-card Explore shelf (260 curated colours plus five missing plain teaching anchors), with sources, Mix-vocabulary flags, examples, comparisons, and spacing evidence |
+| `mix-targets.json` | 23 range-scored targets proved reachable by the current six-drop mixer |
+| `audio-plan.json` | Offline colour-name render list; 130 expansion clips await rendering |
+| `audio/colour-names/available-clips.json` | Reviewed clips that the app may play |
 | `mixing-model.js` | Deterministic simple Oklab mixing model |
 | `reachability-report.json`, `reachability-report.md` | Six-drop R/Y/B coverage audit |
 | `tests/` | Node tests and report generator/checker |
 | `.publish-manifest` | Potential publication boundary; the app remains unpublished |
 
-The prototype reads the shared ISCC–NBS vocabulary and its explicitly proposed child subset. Mix
-uses approved painted art; Explore now has 130 proposed child-facing names. Every card combines a
-shared painted crayon, code-tinted to the exact vocabulary sRGB centroid, with a separate swatch;
-the original 44 reviewed object sprites remain as optional familiar examples. It has no rendered
-audio, service worker, release registration, or hub card. Its mixing model is a playful deterministic
-interpolation with chroma loss and hue bias, not a model of how real paint works.
+The app reads the shared ISCC–NBS vocabulary plus 130 curated CC0 xkcd survey names. Mix uses
+approved painted art and 23 proved-reachable target neighbourhoods; Explore has 265 child-facing
+names. Every card combines a shared painted crayon, code-tinted to its recorded source swatch, with
+a separate swatch; the original 44 reviewed object sprites remain optional familiar examples. The
+original 130 names have reviewed audio; the 130 additions stay safely silent until their offline
+renders are reviewed and added to the availability manifest. The mixer is playful deterministic
+interaction design, not a model of how real paint works.
 
 Run the browser-free checks with `node tests/run-tests.js`.
