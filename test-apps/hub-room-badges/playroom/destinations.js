@@ -59,9 +59,12 @@ window.PLAYROOM = {
      Words + Nature are the Books room; Science + Our World are Science & World. `tile` reuses card
      art already shipped by the hub. `badgeAt` is the badge centre in Discovery Room percentages. */
   mainAreas: [
-    { id: "maths", name: "Homework / Maths", tagline: "Choose a Magic Math world",
+    { id: "maths", name: "Math", tagline: "Choose a Magic Math world",
       href: "./maths.html", landmarks: ["math"], badgeAt: [30.2, 10.6],
       tile: "./assets/magic-math.webp" },
+    { id: "homework", name: "Homework", tagline: "Holiday homework",
+      href: "https://veeranuchlee.github.io/test-apps/hub-room-badges/homework.html", landmarks: ["homework"], badgeAt: [74.5, 50.0],
+      tile: "./assets/october-homework.webp" },
     { id: "books", name: "Words & Books", tagline: "Read, spell, write and explore books",
       href: "./books.html", landmarks: ["words", "nature"], badgeAt: [13.0, 17.0],
       tile: "./assets/our-word-book.webp" },
@@ -85,6 +88,8 @@ window.PLAYROOM = {
   landmarks: [
     { id: "math", area: "maths", name: "Math", tagline: "Numbers, shapes and sums", active: true,
       boxes: [[20.2, 13.8, 13.2, 26.7]] },   /* the shelf of number blocks, the abacus and the 100-chart */
+    { id: "homework", area: "homework", name: "Homework", tagline: "Read, write and practise", active: true,
+      boxes: [[68.2, 42.2, 14.2, 12.3]] },   /* the writing desk and notebooks below the computer */
     { id: "words", area: "books", name: "Words & Books", tagline: "Read, spell and write", active: true,
       boxes: [[0.0, 6.1, 18.1, 31.7], [0.8, 37.8, 19.3, 15.8]] },   /* the bookshelves and the armchair with the sleeping cat */
     { id: "space", area: "space", name: "Space", tagline: "Planets, moons and stars", active: true,
@@ -96,7 +101,7 @@ window.PLAYROOM = {
     { id: "world", area: "science-world", name: "Our World", tagline: "Maps, flags and places", active: true,
       boxes: [[41.4, 15.5, 16.0, 9.2], [38.4, 24.7, 16.6, 12.5]] },   /* the world map, the globe and the landmark models */
     { id: "computer", name: "Computer", tagline: "Computers and coding", active: false,
-      boxes: [[68.2, 32.2, 14.2, 22.3]] },   /* the desk with the monitor */
+      boxes: [[68.2, 32.2, 14.2, 10.0]] },   /* the monitor; the separate desk below is Homework */
     { id: "art", area: "art", name: "Art & Design", tagline: "Colour, paint and style", active: true,
       boxes: [[0.0, 53.9, 11.9, 17.5], [0.0, 71.4, 33.3, 19.3]] },   /* the easel with the rainbow and the art table */
     { id: "music", area: "music", name: "Music", tagline: "Play, listen & explore", active: true,
@@ -126,6 +131,23 @@ window.PLAYROOM = {
      percentages in the 1672x941 source picture; polygons follow the painted object,
      rather than turning a mostly-empty bounding box into a tap target. */
   categoryRooms: {
+    art: {
+      /* Built-in image generation, 2026-10-09. Accepted first render: no text or
+         characters, three cleanly separated stations on rugs, rounded safe shapes.
+         Master: ~/.codex/generated_images/01a12118-0f6e-7db3-b162-d745a3e28ca5/
+         exec-98ca4643-4c50-4f19-b409-aad5c544049e.png. */
+      image: "./playroom/art-room/scene.webp",
+      width: 1448, height: 1086, fit: true,
+      objects: [
+        { app: "little-color-garden", badgeAt: [22.0, 34.0],
+          points: [[0.0,8.0],[31.5,8.0],[41.0,21.0],[45.5,42.5],[41.0,49.0],[31.0,50.0],[15.0,49.0],[0.0,46.0]] },
+        { app: "color-lab", badgeAt: [78.0, 35.0],
+          points: [[60.0,17.0],[89.0,17.0],[100.0,27.0],[100.0,50.5],[94.0,52.5],[72.0,51.5],[58.0,45.0]] },
+        { app: "nail-salon", badgeAt: [55.0, 70.0],
+          points: [[21.0,58.0],[39.0,53.0],[68.0,53.0],[82.0,58.0],[91.0,77.0],[88.0,94.0],[72.0,100.0],[31.0,100.0],[13.0,91.0],[14.0,72.0]] }
+      ],
+      unmatched: ["potted plants", "closed supply cabinet"]
+    },
     books: {
       /* Reuse the Word Book's owner-approved night room as a category plate rather than
          linking into that separately published app. The hub therefore keeps its own back
@@ -279,9 +301,9 @@ window.PLAYROOM = {
     /* Room-only entries (cards: false): the two items inside the homework hub, each at the
        landmark where it belongs. The Cards view still shows the one "การบ้านปิดเทอม" card above,
        exactly as before, so these are never drawn there. */
-    { id: "october-homework", landmark: "math", cards: false, name: "การบ้านปิดเทอม ป.2", desc: "October homework: 20 missions, 200 answers",
+    { id: "october-homework", landmark: "homework", cards: false, name: "การบ้านปิดเทอม ป.2", desc: "October homework: 20 missions, 200 answers",
       href: "../magic-math/october-homework.html", tile: "./assets/october-homework.webp", tone: ["#5a6fd6", "#3a4aa0", "#e8ecff"] },
-    { id: "read-write", landmark: "words", cards: false, name: "การบ้านปิดเทอม Read & Write", desc: "School-break homework: 20 days of reading and writing",
+    { id: "read-write", landmark: "homework", cards: false, name: "การบ้านปิดเทอม Read & Write", desc: "School-break homework: 20 days of reading and writing",
       href: "../read-write/", tile: "./assets/read-write.webp", tone: ["#2f8f9d", "#1d6570", "#e3f5f7"] }
   ]
 };
