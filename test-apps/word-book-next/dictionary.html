@@ -4,10 +4,10 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Our Dictionary</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=2f6bc49a0-20261009144525"/>
-  <link rel="stylesheet" href="./fonts.css?v=2f6bc49a0-20261009144525"/>
+  <link rel="manifest" href="./manifest.webmanifest?v=63efd158d-20261009145526"/>
+  <link rel="stylesheet" href="./fonts.css?v=63efd158d-20261009145526"/>
   <meta name="theme-color" content="#3a1e33"/>
-  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=2f6bc49a0-20261009144525"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=63efd158d-20261009145526"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Our Dictionary"/>
@@ -339,8 +339,8 @@
   <div class="grid" id="grid"></div>
 </main>
 
-<script src="word-audio.js?v=2f6bc49a0-20261009144525"></script>
-<script src="sentence-audio.js?v=2f6bc49a0-20261009144525"></script>
+<script src="word-audio.js?v=63efd158d-20261009145526"></script>
+<script src="sentence-audio.js?v=63efd158d-20261009145526"></script>
 <script>
 (function () {
   'use strict';
@@ -425,7 +425,7 @@
     });
   }
   function collectionIconMarkup(c) {
-    return '<img class="owner-group-icon" src="' + esc(c.icon_path) + '?v=2f6bc49a0-20261009144525" alt="" ' +
+    return '<img class="owner-group-icon" src="' + esc(c.icon_path) + '?v=63efd158d-20261009145526" alt="" ' +
       'data-fallback="' + esc(c.icon) + '" draggable="false">';
   }
   document.addEventListener('error', function (event) {
@@ -551,7 +551,7 @@
     var word = r[0], sense = r[1], eg = r[3], pic = c.pic;
     var clip = WA ? WA.clipFor(word, sense) : null;
     var art = pic
-      ? '<div class="pic"><img src="' + esc(pic) + '?v=2f6bc49a0-20261009144525" alt="" loading="lazy" decoding="async" draggable="false"></div>'
+      ? '<div class="pic"><img src="' + esc(pic) + '?v=63efd158d-20261009145526" alt="" loading="lazy" decoding="async" draggable="false"></div>'
       : '<div class="pic todo"><span>picture to come</span></div>';
     var speak = clip
       ? '<button type="button" class="speak" data-clip="' + esc(clip) + '" aria-label="Hear ' +
@@ -831,6 +831,6 @@
   }
 })();
 </script>
-<script src="./tap-zoom-guard.js?v=2f6bc49a0-20261009144525"></script>
+<script src="./tap-zoom-guard.js?v=63efd158d-20261009145526"></script>
 </body>
 </html>
