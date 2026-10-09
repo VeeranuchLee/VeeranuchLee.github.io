@@ -34,6 +34,10 @@
       var desc = document.createElement('span'); desc.className = 'desc'; desc.textContent = d.desc;
       c.appendChild(art); c.appendChild(name); c.appendChild(desc); grid.appendChild(c);
     });
+    /* No painted room: the shell is cards only, so there is nothing to switch to (a Room view
+       here would be an empty dark frame). */
+    roomView.hidden = true; cardsView.hidden = false;
+    controls.forEach(function (b) { b.parentNode.hidden = true; });
     return;
   }
   picture.src = L.app(room.image);
@@ -82,6 +86,27 @@
 
     var c = document.createElement('a');
     c.className = 'card'; c.href = L.app(d.href); c.dataset.id = d.id;
+    if (d.tone) {
+      c.style.setProperty('--edge', d.tone[0]); c.style.setProperty('--shadow', d.tone[1]);
+      c.style.setProperty('--tint', d.tone[2]);
+    }
+    var art = document.createElement('span'); art.className = 'art';
+    var img = document.createElement('img'); img.src = L.app(d.tile); img.alt = '';
+    img.width = 96; img.height = 96; if (!d.cutout) img.className = 'tile'; art.appendChild(img);
+    var name = document.createElement('span'); name.className = 'name'; name.textContent = d.name;
+    if (THAI.test(d.name)) name.lang = 'th';
+    var desc = document.createElement('span'); desc.className = 'desc'; desc.textContent = d.desc;
+    c.appendChild(art); c.appendChild(name); c.appendChild(desc); grid.appendChild(c);
+  });
+
+  /* A painted room can predate a newly approved app. Keep the picture honest—only
+     painted objects become hotspots—while the Cards view remains the complete category.
+     This is the normal maintenance path until the owner supplies revised room art. */
+  var painted = {};
+  room.objects.forEach(function (d) { painted[d.id] = true; });
+  L.appsIn(id).forEach(function (d) {
+    if (painted[d.id]) return;
+    var c = document.createElement('a'); c.className = 'card'; c.href = L.app(d.href); c.dataset.id = d.id;
     if (d.tone) {
       c.style.setProperty('--edge', d.tone[0]); c.style.setProperty('--shadow', d.tone[1]);
       c.style.setProperty('--tint', d.tone[2]);

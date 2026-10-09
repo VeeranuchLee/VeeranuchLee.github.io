@@ -129,8 +129,15 @@
  *                  owner-painted rooms. Their shared renderer/data, five static
  *                  scenes and five shells join SHELL so every shaped object door
  *                  works offline. One branch bump for the complete room set.
+ *   v42 2026-10-08  Color Lab joins the hub (owner: "let's promote color lab to publish on
+ *                  main too"), in the Art category beside Little Color Garden, which makes
+ *                  Art a two-app category with its own card page, art.html. SHELL gains
+ *                  `assets/color-lab.webp` (the app's own palette art, no new artwork) and
+ *                  art.html. Memory Echo joins Puzzles in the same not-yet-merged release
+ *                  candidate (owner: "memory echo -> approved"), with its generated robot
+ *                  and four-pad tile precached as `assets/memory-echo.webp`.
  */
-const CACHE_NAME = "children-apps-v41";
+const CACHE_NAME = "children-apps-v42";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
@@ -154,6 +161,8 @@ const SHELL = [
   "./assets/flags.webp",
   "./assets/periodic-table.webp",
   "./assets/nail-salon.webp",
+  "./assets/color-lab.webp",
+  "./assets/memory-echo.webp",
   "./assets/october-homework.webp",
   "./assets/read-write.webp",
   "./playroom/playroom.css",
@@ -163,6 +172,7 @@ const SHELL = [
   "./playroom/category.js",
   "./playroom/scene.webp",
   "./playroom/tiles/bookshelf.webp",
+  "./art.html",
   "./books.html",
   "./homework.html",
   "./music.html",

@@ -79,6 +79,7 @@ Test Hub cards are defined in `test-apps/slots.json`. For every new or refreshed
 slot, set `updated` to the current ICT date and time in `YYYY-MM-DD HH:MM` format;
 generate it with `TZ=Asia/Bangkok date "+%Y-%m-%d %H:%M"`. Historical date-only
 `YYYY-MM-DD` values remain valid and sort as midnight.
+Set optional `archived: true` to move an older card into the collapsed title-link list.
 
 ## Why the games are in a subdirectory
 
