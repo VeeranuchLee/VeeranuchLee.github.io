@@ -867,7 +867,18 @@
       img.src = p.image.src;
       img.alt = p.image.alt || "";
       img.decoding = "async";
-      fig.appendChild(img);
+      if (p.image.artCenter) {
+        /* A per-moon page whose only picture is a group sheet: frame ONE moon
+           (the same artCenter/artScale the roster uses), never the whole sheet
+           of two or three bodies on white. */
+        var crop = el("span", "dd-moon-crop dd-hero-crop");
+        cropArt(img, p.image.artCenter, p.image.artScale);
+        crop.appendChild(img);
+        fig.classList.add("dd-hero-cropped");
+        fig.appendChild(crop);
+      } else {
+        fig.appendChild(img);
+      }
       elBody.appendChild(fig);
     }
 
@@ -1076,6 +1087,22 @@
   /* Shared moon roster, first established on Jupiter page 12. The diameter
      threshold decides which moons need enlarging; every enlarged moon keeps
      an honest marker at the comparison row's common scale. */
+  /* Size and slide a group sheet inside a clipping frame so one moon sits
+     mid-frame. `artScale` = image heights per frame, `artCenter` = the moon's
+     centre as fractions of the image. The sheet always covers the frame. */
+  function cropArt(art, center, scale) {
+    var asp = 4 / 3, k = Math.max(1, Number(scale) || 1);
+    var wPct = k * asp * 100, hPct = k * 100;
+    var lPct = (0.5 - center[0] * k * asp) * 100;
+    var tPct = (0.5 - center[1] * k) * 100;
+    lPct = Math.min(0, Math.max(100 - wPct, lPct));
+    tPct = Math.min(0, Math.max(100 - hPct, tPct));
+    art.style.width = wPct.toFixed(2) + "%";
+    art.style.height = hPct.toFixed(2) + "%";
+    art.style.left = lPct.toFixed(2) + "%";
+    art.style.top = tPct.toFixed(2) + "%";
+  }
+
   function renderMoonRoster(p) {
     var list = p.moons || [];
     if (!list.length) return;
@@ -1116,19 +1143,8 @@
            frame clips a circle around ONE moon: the image is sized from the
            frame (artScale = image heights per frame) and slid so the moon's
            own centre (artCenter, as fractions of the image) sits mid-frame. */
-        var asp = 4 / 3, k = Math.max(1, Number(m.artScale) || 1);
-        var wPct = k * asp * 100, hPct = k * 100;
-        var lPct = (0.5 - m.artCenter[0] * k * asp) * 100;
-        var tPct = (0.5 - m.artCenter[1] * k) * 100;
-        /* The sheet always covers the whole frame; a moon near the sheet's
-           edge sits off-centre rather than leaving a bare corner. */
-        lPct = Math.min(0, Math.max(100 - wPct, lPct));
-        tPct = Math.min(0, Math.max(100 - hPct, tPct));
         holder = el("span", "dd-moon-crop");
-        art.style.width = wPct.toFixed(2) + "%";
-        art.style.height = hPct.toFixed(2) + "%";
-        art.style.left = lPct.toFixed(2) + "%";
-        art.style.top = tPct.toFixed(2) + "%";
+        cropArt(art, m.artCenter, m.artScale);
         holder.appendChild(art);
       } else if (m.objectPosition) {
         art.style.objectPosition = m.objectPosition;

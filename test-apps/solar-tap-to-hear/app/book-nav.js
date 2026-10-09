@@ -181,21 +181,18 @@ window.BOOK_NAV = {
           id: "m5", image: { src: "assets-runtime/standard/page-07/moon-near-side-v1.webp", alt: "Earth's Moon, covered with craters and dark plains" },
           title: "The Moon", subtitle: "Earth's moon", layoutType: "moon-focus",
           body: "The Moon is Earth's nearest neighbour in space and the only world beyond Earth that people have walked on. It keeps the same side facing Earth.",
-          narration: "Earth's moon is called the Moon.",
           facts: [{ label: "Earth's moon", value: "the Moon", sentence: "Earth's moon is called the Moon." }]
         },
         {
           id: "m6", image: { src: "assets-runtime/standard/page-09/phobos-alt-v1.webp", alt: "Phobos, the larger lumpy moon of Mars" },
           title: "Phobos", subtitle: "say it: FOH-bos", layoutType: "moon-focus",
           body: "Phobos is the bigger and closer moon of Mars. It races around Mars about three times each day.",
-          narration: "Phobos is the bigger of Mars's two moons.",
           facts: [{ label: "Bigger one", value: "Phobos", sentence: "Phobos is the bigger of Mars's two moons." }]
         },
         {
           id: "m7", image: { src: "assets-runtime/standard/page-09/deimos-alt-v1.webp", alt: "Deimos, the smaller lumpy moon of Mars" },
           title: "Deimos", subtitle: "say it: DY-mos", layoutType: "moon-focus",
           body: "Deimos is the smaller and farther moon of Mars. It travels more slowly than Phobos.",
-          narration: "Deimos is the smaller of Mars's two moons.",
           facts: [{ label: "Smaller one", value: "Deimos", sentence: "Deimos is the smaller of Mars's two moons." }]
         }
       ]
@@ -701,22 +698,19 @@ window.BOOK_NAV = {
           ]
         },
         {
-          id: "s12r", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/rhea-dione-tethys-group-hero-v1.webp", alt: "Rhea, Saturn's large cratered icy moon" },
+          id: "s12r", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/rhea-dione-tethys-group-hero-v1.webp", artCenter: [0.16, 0.49], artScale: 1.41, alt: "Rhea, Saturn's large cratered icy moon" },
           title: "Rhea", subtitle: "say it: REE-uh", layoutType: "single-focus",
-          body: "Rhea is Saturn's second-biggest moon. It is an icy, heavily cratered world with wispy fractures across part of its surface.",
-          narration: "Rhea, Dione and Tethys are large icy moons covered with signs of a long history."
+          body: "Rhea is Saturn's second-biggest moon. It is an icy, heavily cratered world with wispy fractures across part of its surface."
         },
         {
-          id: "s12d", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/rhea-dione-tethys-group-hero-v1.webp", alt: "Dione, an icy moon with bright fractures" },
+          id: "s12d", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/rhea-dione-tethys-group-hero-v1.webp", artCenter: [0.52, 0.54], artScale: 1.93, alt: "Dione, an icy moon with bright fractures" },
           title: "Dione", subtitle: "say it: dy-OH-nee", layoutType: "single-focus",
-          body: "Dione is an icy moon marked by bright streaks. Close spacecraft views showed that the streaks are cliffs and fractures in its ice.",
-          narration: "Rhea, Dione and Tethys are large icy moons covered with signs of a long history."
+          body: "Dione is an icy moon marked by bright streaks. Close spacecraft views showed that the streaks are cliffs and fractures in its ice."
         },
         {
-          id: "s12t", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/rhea-dione-tethys-group-hero-v1.webp", alt: "Tethys, a pale icy moon" },
+          id: "s12t", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/rhea-dione-tethys-group-hero-v1.webp", artCenter: [0.81, 0.58], artScale: 2.84, alt: "Tethys, a pale icy moon" },
           title: "Tethys", subtitle: "say it: TEE-thiss", layoutType: "single-focus",
-          body: "Tethys is a pale icy moon with a huge crater and a canyon that reaches most of the way around the world.",
-          narration: "Rhea, Dione and Tethys are large icy moons covered with signs of a long history."
+          body: "Tethys is a pale icy moon with a huge crater and a canyon that reaches most of the way around the world."
         },
         {
           id: "s7",
@@ -732,9 +726,9 @@ window.BOOK_NAV = {
           ],
           facts: [{ label: "Famous for", value: "The ravioli moon", sentence: "Pan is known as the ravioli moon." }]
         },
-        { id: "s7p", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/pan-atlas-daphnis-group-hero-v1.webp", alt: "Pan with its equatorial ridge" }, title: "Pan", subtitle: "say it: PAN", layoutType: "single-focus", body: "Pan is shaped like a ravioli because material from Saturn's rings has collected around its middle.", narration: "Pan is known as the ravioli moon.", facts: [{ label: "Famous for", value: "Ravioli shape", sentence: "Pan is known as the ravioli moon." }] },
-        { id: "s7a", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/pan-atlas-daphnis-group-hero-v1.webp", alt: "Atlas with a broad equatorial ridge" }, title: "Atlas", subtitle: "say it: AT-lus", layoutType: "single-focus", body: "Atlas is a tiny ring moon with a broad ridge around its middle, giving it a flying-saucer shape.", narration: "Tiny moons can push and sweep Saturn's ring material into surprising shapes." },
-        { id: "s7d", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/pan-atlas-daphnis-group-hero-v1.webp", alt: "Tiny Daphnis travelling through a gap in Saturn's rings" }, title: "Daphnis", subtitle: "say it: DAF-nis", layoutType: "single-focus", body: "Daphnis travels through a narrow gap in Saturn's rings. Its gravity makes waves along the gap's edges.", narration: "Tiny moons can push and sweep Saturn's ring material into surprising shapes." },
+        { id: "s7p", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/pan-atlas-daphnis-group-hero-v1.webp", artCenter: [0.12, 0.49], artScale: 2.74, alt: "Pan with its equatorial ridge" }, title: "Pan", subtitle: "say it: PAN", layoutType: "single-focus", body: "Pan is shaped like a ravioli because material from Saturn's rings has collected around its middle.", facts: [{ label: "Famous for", value: "Ravioli shape", sentence: "Pan is known as the ravioli moon." }] },
+        { id: "s7a", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/pan-atlas-daphnis-group-hero-v1.webp", artCenter: [0.53, 0.51], artScale: 3.43, alt: "Atlas with a broad equatorial ridge" }, title: "Atlas", subtitle: "say it: AT-lus", layoutType: "single-focus", body: "Atlas is a tiny ring moon with a broad ridge around its middle, giving it a flying-saucer shape." },
+        { id: "s7d", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/pan-atlas-daphnis-group-hero-v1.webp", artCenter: [0.83, 0.51], artScale: 5.3, alt: "Tiny Daphnis travelling through a gap in Saturn's rings" }, title: "Daphnis", subtitle: "say it: DAF-nis", layoutType: "single-focus", body: "Daphnis travels through a narrow gap in Saturn's rings. Its gravity makes waves along the gap's edges." },
         {
           id: "s8",
           image: { src: "assets-runtime/standard/page-14/deep-dive-moons/prometheus-pandora-f-ring-hero-v1.webp", alt: "Prometheus and Pandora on opposite sides of Saturn's thin F ring" },
@@ -747,8 +741,8 @@ window.BOOK_NAV = {
             { name: "Pandora", say: "This is Pandora.", note: "pan-DOR-uh — works along the other side." }
           ]
         },
-        { id: "s8p", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/prometheus-pandora-f-ring-hero-v1.webp", alt: "Prometheus beside Saturn's F ring" }, title: "Prometheus", subtitle: "say it: pro-MEE-thee-us", layoutType: "single-focus", body: "Prometheus travels beside Saturn's thin F ring. Its gravity pulls streamers from the ring and helps shape it.", narration: "Prometheus and Pandora travel on opposite sides of Saturn's thin F ring. Their gravity helps herd the ring material and keep it in line." },
-        { id: "s8d", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/prometheus-pandora-f-ring-hero-v1.webp", alt: "Pandora beside Saturn's F ring" }, title: "Pandora", subtitle: "say it: pan-DOR-uh", layoutType: "single-focus", body: "Pandora travels outside Saturn's thin F ring and is one of the small moons that help shape the ring region.", narration: "Prometheus and Pandora travel on opposite sides of Saturn's thin F ring. Their gravity helps herd the ring material and keep it in line." },
+        { id: "s8p", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/prometheus-pandora-f-ring-hero-v1.webp", artCenter: [0.12, 0.45], artScale: 2.4, alt: "Prometheus beside Saturn's F ring" }, title: "Prometheus", subtitle: "say it: pro-MEE-thee-us", layoutType: "single-focus", body: "Prometheus travels beside Saturn's thin F ring. Its gravity pulls streamers from the ring and helps shape it." },
+        { id: "s8d", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/prometheus-pandora-f-ring-hero-v1.webp", artCenter: [0.92, 0.54], artScale: 3.2, alt: "Pandora beside Saturn's F ring" }, title: "Pandora", subtitle: "say it: pan-DOR-uh", layoutType: "single-focus", body: "Pandora travels outside Saturn's thin F ring and is one of the small moons that help shape the ring region." },
         {
           id: "s9",
           image: { src: "assets-runtime/standard/page-14/deep-dive-moons/janus-epimetheus-orbit-swap-hero-v1.webp", alt: "Janus and Epimetheus exchanging close paths around Saturn" },
@@ -762,8 +756,8 @@ window.BOOK_NAV = {
           ],
           facts: [{ label: "Famous for", value: "Swapping orbits", sentence: "Janus and Epimetheus swap orbits." }]
         },
-        { id: "s9j", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/janus-epimetheus-orbit-swap-hero-v1.webp", alt: "Janus on one of the two swapping paths" }, title: "Janus", subtitle: "say it: JAY-nus", layoutType: "single-focus", body: "Janus shares two very close paths with Epimetheus. About every four years the two moons trade paths without touching.", narration: "Janus and Epimetheus travel on almost the same path. Every four years they tug on each other and trade places without ever touching.", facts: [{ label: "Famous for", value: "Swapping paths", sentence: "Janus and Epimetheus swap orbits." }] },
-        { id: "s9e", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/janus-epimetheus-orbit-swap-hero-v1.webp", alt: "Epimetheus on one of the two swapping paths" }, title: "Epimetheus", subtitle: "say it: ep-ih-MEE-thee-us", layoutType: "single-focus", body: "Epimetheus shares two very close paths with Janus. About every four years the two moons trade paths without touching.", narration: "Janus and Epimetheus travel on almost the same path. Every four years they tug on each other and trade places without ever touching.", facts: [{ label: "Famous for", value: "Swapping paths", sentence: "Janus and Epimetheus swap orbits." }] },
+        { id: "s9j", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/janus-epimetheus-orbit-swap-hero-v1.webp", artCenter: [0.08, 0.48], artScale: 6.8, alt: "Janus on one of the two swapping paths" }, title: "Janus", subtitle: "say it: JAY-nus", layoutType: "single-focus", body: "Janus shares two very close paths with Epimetheus. About every four years the two moons trade paths without touching.", facts: [{ label: "Famous for", value: "Swapping paths", sentence: "Janus and Epimetheus swap orbits." }] },
+        { id: "s9e", image: { src: "assets-runtime/standard/page-14/deep-dive-moons/janus-epimetheus-orbit-swap-hero-v1.webp", artCenter: [0.92, 0.48], artScale: 6.4, alt: "Epimetheus on one of the two swapping paths" }, title: "Epimetheus", subtitle: "say it: ep-ih-MEE-thee-us", layoutType: "single-focus", body: "Epimetheus shares two very close paths with Janus. About every four years the two moons trade paths without touching.", facts: [{ label: "Famous for", value: "Swapping paths", sentence: "Janus and Epimetheus swap orbits." }] },
         {
           id: "s10",
           image: { src: "assets-runtime/standard/page-14/deep-dive-moons/phoebe-retrograde-hero-v1.webp", alt: "Dark distant Phoebe on its backward path around Saturn" },

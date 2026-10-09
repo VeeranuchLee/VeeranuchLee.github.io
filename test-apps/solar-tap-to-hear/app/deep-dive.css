@@ -257,6 +257,24 @@ button.dd-hero.dd-body-speak {
   object-fit: contain;
 }
 
+
+/* Per-moon pages (single-focus / moon-focus): start at the top, no centred
+   void above the picture, and let the picture use the room instead. The cropped
+   hero frames ONE moon from a group sheet, so its frame fills the circle. */
+.dd-body-single-focus,
+.dd-body-moon-focus { align-content: start; padding-top: 10px; }
+.dd-body-single-focus button.dd-hero.dd-body-speak,
+.dd-body-moon-focus button.dd-hero.dd-body-speak {
+  width: min(100%, min(50vh, calc(var(--dd-h) * .5)));
+}
+.dd-body-single-focus .dd-hero img,
+.dd-body-moon-focus .dd-hero img { max-height: min(50vh, calc(var(--dd-h) * .5)); }
+.dd-hero.dd-hero-cropped { padding: 0; position: relative; }
+.dd-hero .dd-hero-crop { position: absolute; inset: 0; width: auto; height: auto; max-width: none; border-radius: 50%; }
+.dd-body-single-focus .dd-hero .dd-hero-crop > img,
+.dd-body-moon-focus .dd-hero .dd-hero-crop > img,
+.dd-hero .dd-hero-crop > img { max-width: none; max-height: none; object-fit: fill; pointer-events: none; }
+
 /* HotspotScene (§10) — a scene with a few large, clearly labelled targets.
    The targets are drawn as soft discs on the panel; Phase 1B gave both
    overviews a picture, and the discs sit on top of it unchanged. */
