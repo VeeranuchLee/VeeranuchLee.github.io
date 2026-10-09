@@ -1,0 +1,324 @@
+/* Reading Tree Bookshelf -- every book as its cover, standing on wooden shelves.
+   Portrait 9.7" iPad first (768 x 1024): 3 covers a shelf. Landscape (1024 x 768): 4.
+   Background art: shelf/bg-portrait.webp and shelf/bg-landscape.webp, drawn separately.
+   Until they land (or if one fails to load) the wall is a warm cream wash and the shelves are
+   plain CSS wood, so the page is whole without any art. The art drops in with no code change.
+   Fonts and colours are the reader's (reader/reader.css). */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url(../reader/fonts/Nunito-latin.woff2?v=fb3cef62e-20261009192238) format('woff2');
+}
+@font-face {
+  font-family: 'Fredoka One';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../reader/fonts/FredokaOne-latin.woff2?v=fb3cef62e-20261009192238) format('woff2');
+}
+
+:root {
+  --paper: #f7f0e1;
+  --paper-deep: #efe4cd;
+  --ink: #2f3a4d;
+  --accent: #3f6fb5;
+  --accent-press: #2d568f;
+  --title-ink: #27406b;
+  --wood: #b98552;
+  --wood-light: #d3a26d;
+  --wood-dark: #8a5a31;
+  --gutter: 28px;
+  --gap: 26px;
+  --per-row: 3;
+  --shelf-pad: 18px;
+  /* Cover width: fill the row, but never larger than 230px. ~208px at both 768 and 1024 wide. */
+  --cw: min(230px, calc((100vw - 2 * var(--gutter) - 2 * var(--shelf-pad) - (var(--per-row) - 1) * var(--gap)) / var(--per-row)));
+  --plank: 22px;
+}
+@media (orientation: landscape) {
+  :root { --per-row: 4; --gap: 34px; }
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+/* INTERACTION-DIRECTION.md method C, layer 1: manipulation on BOTH html and body. */
+html, body { touch-action: manipulation; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Nunito', system-ui, sans-serif;
+  -webkit-user-select: none;
+  user-select: none;
+}
+/* On body only, so it propagates to the viewport instead of making body its own scroller. */
+body { overflow-x: hidden; }
+.top, .shelves { position: relative; z-index: 1; }
+
+/* Anchored to the bottom (2026-10-06): Vanilla sleeps on the rug at the foot of both pictures, and a centred
+   `cover` on a wide desktop window cropped her off. Bottom-anchored, the crop falls on the empty wall above. */
+/* The wall. Layered: the art on top, the cream wash beneath it. A missing art file simply
+   leaves the wash showing -- a CSS background never draws a broken-image icon. */
+.wall {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    url(./bg-portrait.webp?v=fb3cef62e-20261009192238) center bottom / cover no-repeat,
+    radial-gradient(ellipse at 50% 18%, #fdf7ea 0%, rgba(253, 247, 234, 0) 60%),
+    repeating-linear-gradient(90deg, rgba(185, 133, 82, .045) 0 2px, transparent 2px 120px),
+    linear-gradient(#f9f1df, #efe2c6);
+}
+@media (orientation: landscape) {
+  .wall {
+    background:
+      url(./bg-landscape.webp?v=fb3cef62e-20261009192238) center bottom / cover no-repeat,
+      radial-gradient(ellipse at 50% 18%, #fdf7ea 0%, rgba(253, 247, 234, 0) 60%),
+      repeating-linear-gradient(90deg, rgba(185, 133, 82, .045) 0 2px, transparent 2px 120px),
+      linear-gradient(#f9f1df, #efe2c6);
+  }
+}
+
+/* ---- header ---- */
+.top {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 112px;
+  padding: calc(env(safe-area-inset-top) + 18px) calc(var(--gutter) + 80px) 10px;
+}
+.title {
+  margin: 0;
+  font-family: 'Fredoka One', 'Nunito', sans-serif;
+  font-weight: 400;
+  font-size: clamp(44px, 7.2vmin, 64px);
+  line-height: 1.1;
+  color: var(--title-ink);
+  text-shadow: 0 2px 0 rgba(255, 255, 255, .7);
+}
+.back {
+  position: absolute;
+  left: calc(env(safe-area-inset-left) + var(--gutter));
+  top: calc(env(safe-area-inset-top) + 22px);
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  box-shadow: 0 4px 0 #d9ccb0, 0 6px 14px rgba(47, 58, 77, .12);
+  touch-action: manipulation;
+  transition: transform .1s ease, box-shadow .15s ease;
+}
+.back svg { width: 40px; height: 40px; fill: none; stroke: var(--accent); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+.back:active { transform: translateY(4px) scale(.96); box-shadow: 0 1px 0 #d9ccb0; background: #fdf6e6; }
+
+/* ---- shelves ---- */
+.shelves {
+  padding: 18px var(--gutter) calc(env(safe-area-inset-bottom) + 40px);
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+}
+.shelf {
+  position: relative;
+  width: calc(var(--per-row) * var(--cw) + (var(--per-row) - 1) * var(--gap) + 2 * var(--shelf-pad));
+  max-width: 100%;
+  padding: 0 var(--shelf-pad);
+  display: flex;
+  gap: var(--gap);
+  /* Room for a cover + the plank it stands on + its title label. */
+  min-height: calc(var(--cw) + var(--plank) + 70px);
+}
+/* The plank: front edge, top face and a soft shadow on the wall beneath it. */
+.shelf::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--cw) - 4px);
+  height: var(--plank);
+  border-radius: 4px;
+  background:
+    linear-gradient(var(--wood-light) 0 6px, transparent 6px),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, .035) 0 3px, transparent 3px 41px),
+    linear-gradient(var(--wood), var(--wood-dark));
+  box-shadow: 0 10px 14px -6px rgba(90, 58, 30, .35);
+}
+
+.book {
+  position: relative;
+  flex: 0 0 var(--cw);
+  width: var(--cw);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: var(--ink);
+  touch-action: manipulation;
+}
+.cover {
+  position: relative;
+  width: var(--cw);
+  height: var(--cw);
+  border-radius: 6px 10px 10px 6px;
+  overflow: hidden;
+  /* Missing cover = a plain cream board. The picture is revealed only once loaded. */
+  background: var(--paper-deep);
+  box-shadow: 0 6px 12px rgba(47, 58, 77, .25), 0 1px 2px rgba(47, 58, 77, .2);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+/* The spine: a darker strip down the left edge, so a square cover reads as a book. */
+.cover::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 9px;
+  background: linear-gradient(90deg, rgba(47, 58, 77, .28), rgba(47, 58, 77, 0));
+  pointer-events: none;
+}
+.cover img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.cover img.loaded { opacity: 1; }
+.book:active .cover { transform: translateY(-6px) rotate(-1.5deg); box-shadow: 0 12px 18px rgba(47, 58, 77, .28); }
+
+.book-title {
+  margin-top: calc(var(--plank) + 6px);
+  padding: 6px 12px 7px;
+  max-width: 100%;
+  border-radius: 12px;
+  background: rgba(255, 251, 242, .92);
+  box-shadow: 0 2px 6px rgba(47, 58, 77, .1);
+  font-family: 'Fredoka One', 'Nunito', sans-serif;
+  font-size: 21px;
+  line-height: 1.18;
+  text-align: center;
+  color: var(--title-ink);
+}
+
+.load-error { text-align: center; font-size: 28px; font-weight: 700; margin-top: 20vh; }
+
+/* Narrow screens are not the target, but must not break. */
+@media (max-width: 560px) {
+  :root { --gutter: 16px; --gap: 16px; --per-row: 2; }
+  .top { padding-left: 84px; padding-right: 84px; min-height: 88px; }
+  .back { width: 60px; height: 60px; left: 16px; top: calc(env(safe-area-inset-top) + 16px); }
+  .back svg { width: 32px; height: 32px; }
+  .book-title { font-size: 17px; }
+}
+
+/* A set's name is longer than "Bookshelf"; a smaller size keeps it to one or two lines. */
+.in-set .title { font-size: clamp(32px, 5.4vmin, 48px); text-align: center; }
+/* Header line under a set's title: "7 books". */
+.shelf-count {
+  margin: 4px 0 0;
+  font: 800 22px/1.2 'Nunito', system-ui, sans-serif;
+  color: var(--title-ink);
+  opacity: .8;
+}
+
+/* Inside a big set: plain section headings. Text, not buttons -- every book stays on this page. */
+.section-heading {
+  margin: 14px 0 -8px;
+  font: 400 clamp(20px, 2.8vw, 26px)/1.1 'Fredoka One', 'Nunito', sans-serif;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--title-ink);
+  text-shadow: 0 2px 0 rgba(255, 255, 255, .7);
+}
+
+/* ---- the boxed set (2026-10-06) ----
+   One shape for every set: an open case, three separate member books standing in it with
+   their tops above its front, and the count on the front. Only the case colour varies. */
+.case {
+  --case: #8a6a4a;
+  position: relative;
+  width: var(--cw);
+  height: var(--cw);
+  transition: transform .12s ease;
+}
+.case-back {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  top: 10%;
+  bottom: 0;
+  border-radius: 8px 8px 6px 6px;
+  background: linear-gradient(rgba(0, 0, 0, .32), rgba(0, 0, 0, .18)), var(--case);
+  box-shadow: 0 6px 12px rgba(47, 58, 77, .25);
+}
+.member {
+  position: absolute;
+  bottom: 20%;
+  width: 52%;
+  height: 74%;
+  border-radius: 3px 6px 6px 3px;
+  overflow: hidden;
+  background: var(--paper-deep);
+  /* page edges on the right, a spine shadow on the left: each reads as its own book */
+  box-shadow: 3px 0 0 #fbf6ea, 5px 0 0 #e4d8bf, 0 4px 8px rgba(47, 58, 77, .3);
+  transition: transform .12s ease;
+}
+.member::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 6px;
+  background: linear-gradient(90deg, rgba(47, 58, 77, .35), rgba(47, 58, 77, 0));
+}
+.member img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .25s ease; }
+.member img.loaded { opacity: 1; }
+.member.m1 { left: 5%;  transform: rotate(-6deg); z-index: 1; }
+.member.m2 { left: 24%; bottom: 22%; height: 78%; z-index: 2; }
+.member.m3 { left: 43%; transform: rotate(6deg); z-index: 3; }
+.member.m1.of1 { left: 24%; transform: none; }
+.member.m1.of2 { left: 12%; }
+.member.m2.of2 { left: 36%; transform: rotate(5deg); }
+.case-front {
+  position: absolute;
+  z-index: 4;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 30%;
+  border-radius: 6px 6px 10px 10px;
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(rgba(255, 255, 255, .22), rgba(255, 255, 255, 0) 40%),
+    var(--case);
+  box-shadow: inset 0 3px 0 rgba(255, 255, 255, .28), inset 0 -4px 0 rgba(0, 0, 0, .18), 0 6px 12px rgba(47, 58, 77, .3);
+}
+.case-count {
+  padding: 4px 14px 5px;
+  border-radius: 999px;
+  background: #fffaf0;
+  font: 900 clamp(16px, 2.3vw, 21px)/1.1 'Nunito', system-ui, sans-serif;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: var(--title-ink);
+}
+.set:active .case { transform: translateY(-5px); }
+.set:active .member.m1 { transform: translateX(-5px) rotate(-9deg); }
+.set:active .member.m3 { transform: translateX(5px) rotate(9deg); }
+
+/* Keyboard focus: a clear ring round the whole object, book or set. */
+.book:focus { outline: none; }
+.book:focus-visible .cover,
+.book:focus-visible .case { outline: 4px solid var(--accent); outline-offset: 5px; border-radius: 10px; }
+.back:focus-visible { outline: 4px solid var(--accent); outline-offset: 4px; }

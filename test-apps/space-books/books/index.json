@@ -1,0 +1,135 @@
+{
+  "format": 2,
+  "shelf": [
+    {
+      "type": "set",
+      "id": "space"
+    },
+    {
+      "type": "book",
+      "id": "gems"
+    },
+    {
+      "type": "set",
+      "id": "weather-water"
+    },
+    {
+      "type": "set",
+      "id": "computers"
+    }
+  ],
+  "sets": [
+    {
+      "id": "space",
+      "title": "Space",
+      "colour": "#536fa6",
+      "books": [
+        "space-trip",
+        "stars"
+      ]
+    },
+    {
+      "id": "weather-water",
+      "title": "Weather & Water",
+      "colour": "#5f8fb8",
+      "books": [
+        "how-much-rain",
+        "where-rain-goes",
+        "why-places-flood",
+        "city-water-moves",
+        "river-reservoir-sea",
+        "reading-flood-news",
+        "how-dams-work",
+        "street-under-water",
+        "stay-out-of-floodwater",
+        "when-water-goes-away"
+      ]
+    },
+    {
+      "id": "computers",
+      "title": "Computer & Digital World",
+      "colour": "#6a7fb0",
+      "books": [],
+      "sections": [
+        {
+          "title": "Using Computers",
+          "books": []
+        },
+        {
+          "title": "Making & Data",
+          "books": []
+        },
+        {
+          "title": "Coding",
+          "books": []
+        },
+        {
+          "title": "Internet & Digital World",
+          "books": []
+        },
+        {
+          "title": "AI",
+          "books": []
+        }
+      ]
+    }
+  ],
+  "books": [
+    {
+      "id": "space-trip",
+      "title": "A Trip Through Space",
+      "next": "stars"
+    },
+    {
+      "id": "stars",
+      "title": "All About Stars"
+    },
+    {
+      "id": "gems",
+      "title": "A World of Gems"
+    },
+    {
+      "id": "how-much-rain",
+      "title": "How Much Rain Fell?"
+    },
+    {
+      "id": "where-rain-goes",
+      "title": "Where Does the Rain Go?"
+    },
+    {
+      "id": "why-places-flood",
+      "title": "Why Does This Place Flood?"
+    },
+    {
+      "id": "city-water-moves",
+      "title": "Moving Water Around the City"
+    },
+    {
+      "id": "river-reservoir-sea",
+      "title": "Rivers, Reservoirs & the Sea"
+    },
+    {
+      "id": "reading-flood-news",
+      "title": "Reading Flood News"
+    },
+    {
+      "id": "how-dams-work",
+      "title": "How Does a Dam Work?",
+      "next": "street-under-water"
+    },
+    {
+      "id": "street-under-water",
+      "title": "The Street Under the Water",
+      "next": "stay-out-of-floodwater"
+    },
+    {
+      "id": "stay-out-of-floodwater",
+      "title": "Why We Stay Out of Floodwater",
+      "next": "when-water-goes-away"
+    },
+    {
+      "id": "when-water-goes-away",
+      "title": "When the Water Goes Away"
+    }
+  ]
+}
