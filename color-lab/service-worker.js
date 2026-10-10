@@ -1,4 +1,4 @@
-const CACHE_NAME = "color-lab-v2";
+const CACHE_NAME = "color-lab-v3";
 
 const SHELL = [
   "./",
@@ -84,11 +84,13 @@ const SHELL = [
   "./audio/colour-names/berry-pink.m4a",
   "./audio/colour-names/black.m4a",
   "./audio/colour-names/blue-grey.m4a",
+  "./audio/colour-names/blue.m4a",
   "./audio/colour-names/bluebell-purple.m4a",
   "./audio/colour-names/brick-red.m4a",
   "./audio/colour-names/bright-pink.m4a",
   "./audio/colour-names/bright-purple.m4a",
   "./audio/colour-names/bright-red.m4a",
+  "./audio/colour-names/brown.m4a",
   "./audio/colour-names/bubblegum-pink.m4a",
   "./audio/colour-names/burgundy.m4a",
   "./audio/colour-names/burnt-orange.m4a",
@@ -139,6 +141,7 @@ const SHELL = [
   "./audio/colour-names/golden-yellow.m4a",
   "./audio/colour-names/grape-purple.m4a",
   "./audio/colour-names/grass-green.m4a",
+  "./audio/colour-names/green.m4a",
   "./audio/colour-names/honey-yellow.m4a",
   "./audio/colour-names/hot-pink.m4a",
   "./audio/colour-names/ice-blue.m4a",
@@ -188,6 +191,7 @@ const SHELL = [
   "./audio/colour-names/plum-black.m4a",
   "./audio/colour-names/pumpkin-orange.m4a",
   "./audio/colour-names/raspberry-pink.m4a",
+  "./audio/colour-names/red.m4a",
   "./audio/colour-names/rose-grey.m4a",
   "./audio/colour-names/rose-pink.m4a",
   "./audio/colour-names/ruby-black.m4a",
@@ -212,7 +216,8 @@ const SHELL = [
   "./audio/colour-names/violet.m4a",
   "./audio/colour-names/walnut-brown.m4a",
   "./audio/colour-names/white.m4a",
-  "./audio/colour-names/wisteria.m4a"
+  "./audio/colour-names/wisteria.m4a",
+  "./audio/colour-names/yellow.m4a"
 ];
 
 self.addEventListener("install", (event) => {

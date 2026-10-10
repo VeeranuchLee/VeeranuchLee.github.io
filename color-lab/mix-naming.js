@@ -64,5 +64,14 @@
     return nearest ? nearest.color : null;
   }
 
-  return { mixFamilies: mixFamilies, equalPartsAnchor: equalPartsAnchor, nameMix: nameMix };
+  function isNewDiscovery(discoveredIds, targetId) {
+    return !discoveredIds.has(targetId);
+  }
+
+  return {
+    mixFamilies: mixFamilies,
+    equalPartsAnchor: equalPartsAnchor,
+    nameMix: nameMix,
+    isNewDiscovery: isNewDiscovery,
+  };
 });

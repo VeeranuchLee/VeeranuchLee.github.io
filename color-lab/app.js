@@ -248,6 +248,10 @@
       return value - target.centreOklab[index];
     }));
     if (score > target.toleranceOklab) return false;
+    // A target is a one-time discovery, not the name of every nearby mixture. The broad
+    // tolerance can contain several successive mixes, so celebrating an already-found target
+    // here would restart the same clip on every drop (the first target is copper).
+    if (!ColorLabMixNaming.isNewDiscovery(discoveredTargetIds, target.id)) return false;
     discoveredTargetIds.add(target.id);
     saveDiscoveries();
     renderTarget();
