@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>Our Maze</title>
+<meta name="apple-mobile-web-app-title" content="Our Maze"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="theme-color" content="#f6ead4"/>
+<link rel="icon" href="./icon-192.png?v=edff44b26-20261011230320"/>
+<link rel="manifest" href="./manifest.webmanifest?v=edff44b26-20261011230320"/>
+<link rel="stylesheet" href="./css/maze.css?v=edff44b26-20261011230320"/>
+</head>
+<body>
+<main id="app" aria-live="polite"><p class="loading">Building the maze…</p></main>
+<script src="./js/tap-zoom-guard.js?v=edff44b26-20261011230320"></script>
+<script src="./assets/sprites/sprites.js?v=edff44b26-20261011230320"></script>
+<script src="./js/maze-core.js?v=edff44b26-20261011230320"></script>
+<script src="./js/maze-movement.js?v=edff44b26-20261011230320"></script>
+<script src="./js/maze-plan.js?v=edff44b26-20261011230320"></script>
+<script src="./js/maze-robot.js?v=edff44b26-20261011230320"></script>
+<script src="./js/maze-puzzle.js?v=edff44b26-20261011230320"></script>
+<script src="./js/key-quest-levels.js?v=edff44b26-20261011230320"></script>
+<script src="./js/animal-escape-levels.js?v=edff44b26-20261011230320"></script>
+<script src="./js/maze-sound.js?v=edff44b26-20261011230320"></script>
+<script src="./js/maze-app.js?v=edff44b26-20261011230320"></script>
+<script src="./js/maze-puzzle-ui.js?v=edff44b26-20261011230320"></script>
+<script>
+  /* Registered only when served over http(s): a file:// preview has no service worker
+     scope and throws. */
+  if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+    addEventListener('load', function () { Promise.resolve() /* Test Hub staging: no service worker */; });
+  }
+</script>
+</body>
+</html>
