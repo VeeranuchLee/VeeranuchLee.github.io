@@ -1,0 +1,356 @@
+:root {
+  font-family: ui-rounded, "Arial Rounded MT Bold", system-ui, sans-serif;
+  color: #583b39;
+  background: #f7dfd9;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  touch-action: manipulation;
+}
+button,
+select {
+  font: inherit;
+  min-width: 60px;
+  min-height: 60px;
+  border: 3px solid #fff8;
+  border-radius: 18px;
+  background: #fff0e9;
+  color: #5b3b3a;
+  box-shadow: 0 4px 10px #70473844;
+}
+button:active,
+.selected {
+  transform: scale(0.94);
+  outline: 4px solid #ffd76a;
+}
+header {
+  position: fixed;
+  z-index: 30;
+  top: max(8px, env(safe-area-inset-top));
+  left: max(8px, env(safe-area-inset-left));
+  right: max(8px, env(safe-area-inset-right));
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+}
+header > * {
+  pointer-events: auto;
+}
+h1 {
+  margin: 0;
+  padding: 7px 22px;
+  border-radius: 22px;
+  background: #fff8f0dd;
+  color: #874d58;
+  font-size: clamp(20px, 3vw, 34px);
+  box-shadow: 0 3px 10px #56352133;
+}
+.round {
+  width: 60px;
+  border-radius: 50%;
+  font-size: 30px;
+}
+.screen {
+  position: absolute;
+  inset: 0;
+  display: none;
+  padding: 76px 14px 14px;
+  background: linear-gradient(#f4d5d1, #e7bfc5);
+}
+.screen.active {
+  display: block;
+}
+.plate {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hotspots {
+  position: absolute;
+  inset: 0;
+}
+.hotspots button {
+  position: absolute;
+  left: calc(var(--x) * 1%);
+  top: calc(var(--y) * 1%);
+  width: calc(var(--w) * 1%);
+  height: calc(var(--h) * 1%);
+  clip-path: var(--clip);
+  opacity: 0.02;
+  background: white;
+}
+.hotspots button:focus-visible {
+  opacity: 0.25;
+}
+#bubble {
+  position: absolute;
+  left: 50%;
+  bottom: 4%;
+  transform: translateX(-50%);
+  padding: 12px 20px;
+  border-radius: 22px;
+  background: #fff9;
+  opacity: 0;
+  transition: 0.2s;
+  font-size: 22px;
+}
+#bubble.show {
+  opacity: 1;
+}
+.worktop {
+  position: absolute;
+  left: 1%;
+  top: 9%;
+  width: 65%;
+  bottom: 2%;
+  padding: 8px;
+  border-radius: 25px;
+  background: #fff4e5d9;
+  box-shadow: 0 8px 25px #66402d44;
+}
+.type-tabs,
+.toolbar,
+#families,
+#colors,
+#charms {
+  display: flex;
+  gap: 7px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.type-tabs button,
+.toolbar button {
+  min-height: 52px;
+}
+.jewel-stage {
+  height: 58%;
+  margin: 6px;
+  background: radial-gradient(circle, #fffdf4, #e8d6ba);
+  border-radius: 25px;
+}
+.jewel-stage svg {
+  width: 100%;
+  height: 100%;
+}
+.slot {
+  cursor: pointer;
+}
+.slot.selected {
+  filter: drop-shadow(0 0 5px #ffca3a);
+}
+.tray {
+  position: absolute;
+  right: 1%;
+  top: 9%;
+  width: 32%;
+  bottom: 2%;
+  overflow: auto;
+  padding: 12px;
+  border-radius: 25px;
+  background: #f4dcc8e8;
+}
+.tray button {
+  min-width: 61px;
+}
+.family {
+  font-size: 28px;
+}
+.swatch {
+  border-radius: 50%;
+  width: 60px;
+}
+.charm {
+  font-size: 25px;
+}
+.art-screen {
+  padding: 0;
+}
+.overlay-jewel {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.bottom-actions {
+  position: absolute;
+  left: 2%;
+  right: 2%;
+  bottom: max(12px, env(safe-area-inset-bottom));
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+.wrap-controls {
+  position: absolute;
+  left: 3%;
+  top: 23%;
+  width: 62%;
+  display: grid;
+  gap: 10px;
+}
+.wrap-controls > div {
+  display: flex;
+  gap: 10px;
+}
+.wrap-controls button {
+  font-size: 24px;
+}
+.wrap-controls select {
+  padding: 8px;
+}
+.wrap-controls #register {
+  background: #ffe19a;
+}
+.gift-box {
+  position: absolute;
+  right: 12%;
+  bottom: 10%;
+  width: 150px;
+  height: 120px;
+  border: 8px solid #fff8;
+  border-radius: 16px;
+  background: var(--paper, #d98f9c);
+  box-shadow: 0 12px 24px #53372e55;
+  transition: background 0.2s;
+}
+.gift-ribbon-v,
+.gift-ribbon-h {
+  position: absolute;
+  background: var(--ribbon, #d3a43b);
+}
+.gift-ribbon-v {
+  left: 61px;
+  top: -8px;
+  width: 22px;
+  height: 120px;
+}
+.gift-ribbon-h {
+  left: -8px;
+  top: 47px;
+  width: 150px;
+  height: 22px;
+}
+.gift-bow {
+  position: absolute;
+  z-index: 1;
+  left: 47px;
+  top: 27px;
+  color: var(--ribbon, #d3a43b);
+  font-size: 48px;
+  line-height: 1;
+  transform: rotate(-10deg);
+}
+.receipt {
+  position: absolute;
+  right: 4%;
+  top: 20%;
+  padding: 20px;
+  background: #fffdf1;
+  box-shadow: 0 5px 12px #0003;
+  transform: rotate(2deg);
+  text-align: center;
+}
+#saved-grid {
+  position: absolute;
+  left: 17%;
+  right: 13%;
+  top: 33%;
+  bottom: 14%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 8px;
+}
+#saved-grid button {
+  background: #fff8;
+  border: 0;
+  overflow: hidden;
+}
+#saved-grid svg {
+  width: 100%;
+  height: 100%;
+}
+#empty {
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  transform: translate(-50%, -50%);
+  background: #fff9;
+  padding: 16px;
+  border-radius: 18px;
+}
+.collection {
+  text-align: center;
+  padding-top: 90px;
+}
+.collection h2 {
+  font-size: 36px;
+}
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 70px);
+  gap: 12px;
+  justify-content: center;
+  margin: 20px;
+}
+.bead-preview {
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  box-shadow:
+    inset -8px -8px 10px #0002,
+    inset 8px 8px 10px #fff8;
+}
+.pearl {
+  box-shadow:
+    inset -8px -8px 12px #9975,
+    inset 8px 8px 12px #fff,
+    0 0 8px #fff;
+}
+.crystal {
+  clip-path: polygon(50% 0, 95% 28%, 80% 90%, 20% 90%, 5% 28%);
+}
+@media (max-aspect-ratio: 1/1) {
+  .worktop {
+    left: 2%;
+    right: 2%;
+    width: auto;
+    top: 8%;
+    bottom: 38%;
+  }
+  .tray {
+    left: 2%;
+    right: 2%;
+    width: auto;
+    top: 64%;
+    bottom: 1%;
+  }
+  .jewel-stage {
+    height: 51%;
+  }
+  .bottom-actions {
+    flex-wrap: wrap;
+  }
+  .bottom-actions button {
+    min-height: 55px;
+  }
+  .wrap-controls {
+    top: 55%;
+    width: 94%;
+  }
+  h1 {
+    font-size: 22px;
+  }
+}
