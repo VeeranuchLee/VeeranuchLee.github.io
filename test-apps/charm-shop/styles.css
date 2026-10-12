@@ -17,8 +17,8 @@ body {
 button,
 select {
   font: inherit;
-  min-width: 60px;
-  min-height: 60px;
+  min-width: 64px;
+  min-height: 64px;
   border: 3px solid #fff8;
   border-radius: 18px;
   background: #fff0e9;
@@ -69,6 +69,11 @@ h1 {
 .screen.active {
   display: block;
 }
+#workshop {
+  background:
+    linear-gradient(#6b3f2f99, #43281fbb),
+    url("assets/boutique.webp?v=30954ed1d-20261012073405") center / cover;
+}
 .plate {
   position: absolute;
   inset: 0;
@@ -116,8 +121,11 @@ h1 {
   bottom: 2%;
   padding: 8px;
   border-radius: 25px;
-  background: #fff4e5d9;
-  box-shadow: 0 8px 25px #66402d44;
+  background:
+    linear-gradient(90deg, #6e4028 0 2%, transparent 2% 98%, #6e4028 98%),
+    repeating-linear-gradient(90deg, #a86e45 0 11%, #b87c50 11% 22%);
+  border: 7px solid #6d4028;
+  box-shadow: inset 0 2px #e2ad74, 0 10px 28px #2d160f88;
 }
 .type-tabs,
 .toolbar,
@@ -129,15 +137,18 @@ h1 {
   justify-content: center;
   flex-wrap: wrap;
 }
-.type-tabs button,
-.toolbar button {
-  min-height: 52px;
-}
+.type-tabs button { min-height: 58px; background:#f7e4d2; }
+.toolbar button { width:64px; min-width:64px; padding:4px 3px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; }
+.toolbar small, .charm small, .family small, .swatch small, #display small { display:block; font-size:10px; line-height:1; text-transform:capitalize; }
 .jewel-stage {
   height: 58%;
   margin: 6px;
-  background: radial-gradient(circle, #fffdf4, #e8d6ba);
+  background:
+    radial-gradient(circle at 32% 22%, #fff6 0 1%, transparent 2%),
+    radial-gradient(ellipse, #bd7181, #7e4053 74%);
+  border: 7px solid #c59762;
   border-radius: 25px;
+  box-shadow: inset 0 0 28px #3e1f2d88, 0 4px 0 #704229;
 }
 .jewel-stage svg {
   width: 100%;
@@ -146,6 +157,8 @@ h1 {
 .slot {
   cursor: pointer;
 }
+.slot-hit { pointer-events:all; }
+.slot-guide { opacity:.55; }
 .slot.selected {
   filter: drop-shadow(0 0 5px #ffca3a);
 }
@@ -158,21 +171,51 @@ h1 {
   overflow: auto;
   padding: 12px;
   border-radius: 25px;
-  background: #f4dcc8e8;
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 132px, #744329 132px 143px),
+    linear-gradient(90deg,#9a6440,#c08a60 8%,#a66b45 92%,#75442c);
+  border: 7px solid #6d4028;
+  box-shadow: inset 0 2px #e6b580, 0 10px 28px #2d160f88;
 }
 .tray button {
-  min-width: 61px;
+  min-width: 64px;
+  width:64px;
+  background:#faeadc;
 }
 .family {
-  font-size: 28px;
+  padding:4px;
 }
 .swatch {
-  border-radius: 50%;
-  width: 60px;
+  width: 64px;
+  padding:4px;
 }
+.swatch > span { display:block; width:34px; height:34px; margin:auto; border-radius:50%; background:radial-gradient(circle at 32% 25%,#fff 0 8%,var(--swatch) 35%,#5128 100%); box-shadow:0 2px 4px #3215; }
 .charm {
-  font-size: 25px;
+  padding:2px;
 }
+.charm img { width:43px; height:43px; object-fit:contain; display:block; margin:auto; }
+.material-icon { width:38px; height:38px; display:block; margin:auto; background:radial-gradient(circle at 30% 25%,#fff 0 8%,#dc8799 34%,#8b4058 100%); border:2px solid #9b5a55; border-radius:50%; box-shadow:inset -4px -4px 6px #5314; }
+.material-icon.pearl { background:radial-gradient(circle at 32% 25%,#fff 0 10%,#f8e9e3 28%,#d6aebf 78%,#9c7083); box-shadow:0 0 7px #fff; }
+.material-icon.crystal { border-radius:0; clip-path:polygon(50% 0,95% 28%,78% 95%,22% 95%,5% 28%); background:linear-gradient(135deg,#fff,#7cdae0aa 35%,#c28edc99 68%,#fff8); }
+.material-icon.heart { border-radius:50% 50% 45% 45%; clip-path:polygon(50% 95%,5% 42%,12% 14%,35% 5%,50% 22%,65% 5%,88% 14%,95% 42%); }
+.material-icon.flower { clip-path:polygon(50% 0,62% 30%,88% 12%,72% 39%,100% 50%,72% 61%,88% 88%,61% 71%,50% 100%,39% 71%,12% 88%,28% 61%,0 50%,28% 39%,12% 12%,39% 30%); }
+.material-icon.star { clip-path:polygon(50% 0,62% 35%,100% 36%,69% 58%,80% 96%,50% 73%,20% 96%,31% 58%,0 36%,38% 35%); }
+.tool-picture { width:34px; height:34px; position:relative; display:block; }
+.undo-icon::before { content:""; position:absolute; inset:5px; border:5px solid #815061; border-right-color:transparent; border-radius:50%; }
+.undo-icon::after { content:""; position:absolute; left:0; top:3px; border:8px solid transparent; border-right-color:#815061; transform:rotate(18deg); }
+.remove-icon::before,.remove-icon::after { content:""; position:absolute; left:15px; top:2px; width:5px; height:30px; border-radius:3px; background:#b95862; transform:rotate(45deg); }
+.remove-icon::after { transform:rotate(-45deg); }
+.mirror-icon::before { content:""; position:absolute; left:15px; top:1px; width:3px; height:32px; background:#d1a548; }
+.mirror-icon::after { content:"◀  ▶"; position:absolute; left:-3px; top:7px; width:40px; color:#815061; font-size:14px; }
+.cord-icon::before { content:""; position:absolute; inset:4px 1px; border:5px solid #d2a43a; border-top-color:transparent; border-radius:50%; }
+.cord-icon.silver::before { border-color:#aeb9c8; border-top-color:transparent; }
+.cord-icon.rainbow::before { border-color:#dc536a #e4bd42 #4bb9bc #8970c5; border-top-color:transparent; }
+.finish-icon::before { content:""; position:absolute; inset:3px; background:linear-gradient(135deg,#ffd964,#fff5bd,#e29a3a); clip-path:polygon(50% 0,61% 35%,100% 36%,68% 58%,79% 100%,50% 74%,21% 100%,32% 58%,0 36%,39% 35%); }
+.display-icon::before { content:""; position:absolute; left:6px; top:3px; width:22px; height:25px; border-radius:50% 50% 38% 38%; background:#c6818f; border:2px solid #9d5c63; }
+.snap .bead-art:last-of-type { animation:snap-in .22s ease-out; transform-origin:center; }
+@keyframes snap-in { 0%{transform:scale(.35)} 70%{transform:scale(1.18)} 100%{transform:scale(1)} }
+.wiggle { animation:wiggle .32s ease-in-out; }
+@keyframes wiggle { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-9px)} 75%{transform:translateX(9px)} }
 .art-screen {
   padding: 0;
 }
@@ -183,6 +226,7 @@ h1 {
   height: 100%;
   pointer-events: none;
 }
+.overlay-jewel .bead-art { filter:drop-shadow(0 .35px .35px #2e152966); }
 .bottom-actions {
   position: absolute;
   left: 2%;
@@ -309,6 +353,7 @@ h1 {
   width: 66px;
   height: 66px;
   border-radius: 50%;
+  background:radial-gradient(circle at 30% 24%,#fff 0 7%,var(--bead) 30%,#6138 100%);
   box-shadow:
     inset -8px -8px 10px #0002,
     inset 8px 8px 10px #fff8;
@@ -321,6 +366,7 @@ h1 {
 }
 .crystal {
   clip-path: polygon(50% 0, 95% 28%, 80% 90%, 20% 90%, 5% 28%);
+  opacity:.82;
 }
 @media (max-aspect-ratio: 1/1) {
   .worktop {
