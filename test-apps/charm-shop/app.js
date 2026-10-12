@@ -30,11 +30,6 @@
   function screen(id){ $$(".screen").forEach(x=>x.classList.toggle("active",x.id===id)); if(id==="tryon")renderTry(); if(id==="gallery")renderGallery(); }
   function bubble(text){ const b=$("#bubble"); b.textContent=text; b.classList.add("show"); setTimeout(()=>b.classList.remove("show"),1200); }
   function tint(hex, amount){ const v=parseInt(hex.slice(1),16), f=n=>Math.max(0,Math.min(255,n)); return `#${[v>>16,(v>>8)&255,v&255].map(c=>f(c+amount).toString(16).padStart(2,"0")).join("")}`; }
-  function cordPoints(data){
-    const p=data.items;
-    if(data.type==="earrings"){ const h=p.length/2; return [`M ${p[0].x} ${p[0].y} `+p.slice(1,h).map(q=>`L ${q.x} ${q.y}`).join(" "),`M ${p[h].x} ${p[h].y} `+p.slice(h+1).map(q=>`L ${q.x} ${q.y}`).join(" ")].join(" "); }
-    return `M ${p[0].x} ${p[0].y} ${p.slice(1).map(q=>`L ${q.x} ${q.y}`).join(" ")}${data.type==="bracelet"?" Z":""}`;
-  }
   function shapeFor(item,x,y,r,id){
     const g=el("g",{class:`bead-art ${item.family}`});
     const dark=tint(item.color,-45), light=tint(item.color,70);
@@ -57,7 +52,8 @@
     target.replaceChildren();
     const renderId=++renderSerial;
     const rainbow=el("linearGradient",{id:"rainbow",x2:"1",y2:"1"}); ["#d93455","#e5b83f","#35aeb5","#356dcc","#9b79c9"].forEach((c,i)=>rainbow.append(el("stop",{offset:`${i*25}%`,"stop-color":c}))); const defs=el("defs");defs.append(rainbow);target.append(defs);
-    target.append(el("path",{class:"jewel-cord",d:cordPoints(data),fill:"none",stroke:data.cord==="gold"?"#d7a52b":data.cord==="silver"?"#d8dde5":"url(#rainbow)","stroke-width":mode==="editor"?1.3:.38,"stroke-linecap":"round","stroke-linejoin":"round"}));
+    const cordColor=data.cord==="gold"?"#d7a52b":data.cord==="silver"?"#d8dde5":"url(#rainbow)";
+    target.append(el("path",{class:"jewel-cord",d:data.cordPath,fill:"none",stroke:cordColor,"stroke-width":mode==="editor"?1.3:.38,"stroke-linecap":"round","stroke-linejoin":"round"}));
     const r=data.radius;
     data.items.forEach(p=>{
       if(mode!=="editor"&&!p.item)return;
@@ -70,7 +66,7 @@
       if(mode==="editor")g.addEventListener("click",()=>{selected=p.index;render();sound("click");});
       target.append(g);
     });
-    if(data.centrepiece){ const size=mode==="editor"?13:data.profile==="display"?6:4.8; data.charmPositions.forEach(p=>target.append(charmImage(data.centrepiece,p.x,p.y,size))); }
+    if(data.centrepiece){ const size=mode==="editor"?13:data.profile==="display"?6:4.8; data.charmPositions.forEach(p=>{target.append(el("path",{class:"jump-ring",d:`M ${p.attachX} ${p.attachY} L ${p.x} ${p.y-size/2}`,fill:"none",stroke:cordColor,"stroke-width":mode==="editor"?.8:.28}));target.append(el("circle",{class:"jump-ring",cx:p.x,cy:p.ringY,r:mode==="editor"?1.35:.45,fill:"none",stroke:cordColor,"stroke-width":mode==="editor"?.65:.22}));target.append(charmImage(data.centrepiece,p.x,p.y,size));}); }
   }
   function render(){ svgPiece($("#cord"),E.renderData(state)); $("#mirror").setAttribute("aria-pressed",state.mirror); $("#mirror").classList.toggle("selected",state.mirror); $$(".swatch").forEach(b=>b.classList.toggle("selected",b.dataset.name===currentColor[0])); }
   function fullFeedback(){ const stage=$("#jewel-stage"); stage.classList.remove("wiggle"); void stage.offsetWidth; stage.classList.add("wiggle"); sound("full"); bubble("The cord is full — choose a bead to replace!"); }
