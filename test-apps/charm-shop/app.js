@@ -58,7 +58,7 @@
     const renderId=++renderSerial;
     const rainbow=el("linearGradient",{id:"rainbow",x2:"1",y2:"1"}); ["#d93455","#e5b83f","#35aeb5","#356dcc","#9b79c9"].forEach((c,i)=>rainbow.append(el("stop",{offset:`${i*25}%`,"stop-color":c}))); const defs=el("defs");defs.append(rainbow);target.append(defs);
     target.append(el("path",{class:"jewel-cord",d:cordPoints(data),fill:"none",stroke:data.cord==="gold"?"#d7a52b":data.cord==="silver"?"#d8dde5":"url(#rainbow)","stroke-width":mode==="editor"?1.3:.38,"stroke-linecap":"round","stroke-linejoin":"round"}));
-    const r=mode==="editor"?4.4:data.profile==="display"?1.7:1.35;
+    const r=data.radius;
     data.items.forEach(p=>{
       if(mode!=="editor"&&!p.item)return;
       const g=el("g",{class:`slot${p.index===selected?" selected":""}`,"data-index":p.index});
@@ -70,7 +70,7 @@
       if(mode==="editor")g.addEventListener("click",()=>{selected=p.index;render();sound("click");});
       target.append(g);
     });
-    if(data.centrepiece){ const filled=data.items.filter(p=>p.item), size=mode==="editor"?13:data.profile==="display"?6:4.8; if(data.type==="earrings"){const half=data.items.length/2;[filled.filter(p=>p.index<half),filled.filter(p=>p.index>=half)].forEach(side=>{if(side.length){const c=side.reduce((a,p)=>p.y>a.y?p:a,side[0]);target.append(charmImage(data.centrepiece,c.x,c.y+size*.45,size));}});}else{const c=filled.length?filled.reduce((a,p)=>p.y>a.y?p:a,filled[0]):{x:50,y:65};const y=data.type==="bracelet"?c.y:c.y+(mode==="editor"?7:2.6);target.append(charmImage(data.centrepiece,c.x,y,size));} }
+    if(data.centrepiece){ const size=mode==="editor"?13:data.profile==="display"?6:4.8; data.charmPositions.forEach(p=>target.append(charmImage(data.centrepiece,p.x,p.y,size))); }
   }
   function render(){ svgPiece($("#cord"),E.renderData(state)); $("#mirror").setAttribute("aria-pressed",state.mirror); $("#mirror").classList.toggle("selected",state.mirror); $$(".swatch").forEach(b=>b.classList.toggle("selected",b.dataset.name===currentColor[0])); }
   function fullFeedback(){ const stage=$("#jewel-stage"); stage.classList.remove("wiggle"); void stage.offsetWidth; stage.classList.add("wiggle"); sound("full"); bubble("The cord is full — choose a bead to replace!"); }
