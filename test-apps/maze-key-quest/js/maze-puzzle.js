@@ -106,5 +106,5 @@
     } return {solved:false,length:-1,path:[],visited:seen.size};
   }
   function solve(level,opts){opts=opts||{};return solveFrom(level,initial(level,opts),opts);}
-  return {ACTIONS:ACTIONS,PROFILES:PROFILES,initial:initial,step:step,history:history,act:act,undo:undo,solve:solve,solveFrom:solveFrom,canonical:canonical,switchOn:switchOn};
+  return {ACTIONS:ACTIONS,DIRS:DIRS,PROFILES:PROFILES,initial:initial,step:step,history:history,act:act,undo:undo,solve:solve,solveFrom:solveFrom,canonical:canonical,switchOn:switchOn};
 });
