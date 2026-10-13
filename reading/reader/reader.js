@@ -23,7 +23,8 @@
   var WORDS = "../audio/words/";
   var GAP_MS = 90;            // breath between words during page playback
   var STALL_MS = 4000;        // a page clip that has not started playing by now is not going to
-  var WORD_RE = /[A-Za-z]+(?:'[A-Za-z]+)?/g;
+  // Numbers are words too ("76", "2061"): each gets its own spoken clip, never a silent tap.
+  var WORD_RE = /[A-Za-z]+(?:'[A-Za-z]+)?|[0-9]+/g;
 
   var el = {
     book: document.getElementById("book"),
