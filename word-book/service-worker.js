@@ -77,8 +77,13 @@
    (data/features.json grammar true; the game's html/css/js/questions/rendered.json join
    SHELL, its pictures and clips are cached on first use). L and N voice picks, the 8 Oct
    card redraws. A worker bump only; this arms a release candidate but does not publish it
-   -- production publish still needs the owner's separate, SHA-bound approval. */
-const CACHE_NAME='word-book-v11';
+   -- production publish still needs the owner's separate, SHA-bound approval.
+   v11 -> v12, 2026-10-13: letters O-Z complete the alphabet -- data/letters.json enables
+   all 26 letters. Owner, verbatim: "puzzle card -> approved. can we have it on live next?
+   this time we'll have all the letter live." Ships the approved puzzle.thinking-game picture.
+   A worker bump arms the release; production publish still needs the owner's SHA-bound
+   approval. */
+const CACHE_NAME='word-book-v12';
 const SHELL=['./','./index.html','./dictionary.html','./fonts.css',
   './fonts/Nunito-latin.woff2','./fonts/Nunito-latin-ext.woff2','./fonts/FredokaOne-latin.woff2',
   './manifest.webmanifest','./data/dictionary.json','./data/letters.json','./data/features.json','./word-audio.js',
