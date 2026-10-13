@@ -26,7 +26,7 @@ body {
   min-height: 100dvh;
   overflow-x: hidden;
   overflow: hidden;
-  background: #f7e7d1 url("./assets/art/background-portrait.webp?v=eb9f2090c-20261013095322") center / cover fixed no-repeat;
+  background: #f7e7d1 url("./assets/art/background-portrait.webp?v=f20956b43-20261013110702") center / cover fixed no-repeat;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -190,14 +190,14 @@ h2 {
   width: min(360px, 94%);
   min-height: 68px;
   margin: 6px auto 2px;
-  padding: 7px 13px;
+  padding: 4px 13px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  border: 3px solid rgba(104, 68, 116, 0.3);
+  border: 3px solid rgba(184, 126, 30, 0.34);
   border-radius: 25px 31px 24px 29px;
-  background: linear-gradient(155deg, #fff8e8, #e9d3bb);
+  background: rgba(255, 250, 240, 0.9);
   color: #65435f;
   box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.7), 0 4px 0 rgba(94, 63, 75, 0.16);
   cursor: pointer;
@@ -205,30 +205,28 @@ h2 {
 
 .switch-track {
   position: relative;
-  width: 78px;
-  height: 44px;
+  width: 118px;
+  height: 56px;
   flex: none;
-  border: 3px solid rgba(73, 58, 67, 0.35);
-  border-radius: 999px;
-  background: linear-gradient(90deg, #f7f3e8 50%, #242127 50%);
-  box-shadow: inset 0 3px 4px rgba(73, 58, 67, 0.2);
+  background: url("./assets/art/white-black-switch-track.webp?v=f20956b43-20261013110702") center / contain no-repeat;
+  filter: grayscale(0.45) brightness(0.82);
+  transition: filter 160ms ease;
 }
 
 .switch-knob {
   position: absolute;
-  top: 4px;
-  left: 4px;
-  width: 30px;
-  height: 30px;
-  border: 3px solid #fffaf0;
-  border-radius: 50%;
-  background: #76556f;
-  box-shadow: 0 2px 3px rgba(73, 58, 67, 0.3);
+  top: 5px;
+  left: 6px;
+  width: 46px;
+  height: 46px;
+  background: url("./assets/art/white-black-switch-knob.webp?v=f20956b43-20261013110702") center / contain no-repeat;
+  filter: grayscale(0.55) brightness(0.78);
   transition: transform 160ms ease;
 }
 
-.paint-stage-switch.is-on .switch-knob { transform: translateX(34px); }
-.paint-stage-switch.is-on { background: linear-gradient(155deg, #f6dcf1, #cfaddb); }
+.paint-stage-switch.is-on .switch-track { filter: saturate(1.08) brightness(1.05); }
+.paint-stage-switch.is-on .switch-knob { transform: translateX(60px); filter: saturate(1.08) brightness(1.08); }
+.paint-stage-switch.is-on { background: rgba(255, 247, 220, 0.96); }
 .switch-copy { display: grid; text-align: left; line-height: 1.05; }
 .switch-copy strong { font-size: clamp(17px, 2.2vw, 21px); }
 .switch-copy small { margin-top: 3px; font-size: 14px; font-weight: 900; }
@@ -471,8 +469,8 @@ h2 {
 
 .crayon-tint {
   background: var(--shade);
-  -webkit-mask: url("./assets/explore/crayon-colour-mask.webp?v=eb9f2090c-20261013095322") center / contain no-repeat;
-  mask: url("./assets/explore/crayon-colour-mask.webp?v=eb9f2090c-20261013095322") center / contain no-repeat;
+  -webkit-mask: url("./assets/explore/crayon-colour-mask.webp?v=f20956b43-20261013110702") center / contain no-repeat;
+  mask: url("./assets/explore/crayon-colour-mask.webp?v=f20956b43-20261013110702") center / contain no-repeat;
 }
 
 .crayon-frame {
@@ -603,26 +601,34 @@ h2 {
 
 .pot-label {
   position: absolute;
-  right: 4%;
+  right: auto;
   bottom: 0;
-  left: 4%;
+  left: 50%;
+  width: max-content;
+  min-width: 88px;
   min-height: 42px;
   padding: 4px 8px 4px 13px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  transform: translateX(-50%);
   border: 2px solid rgba(117, 85, 109, 0.22);
   border-radius: 999px;
   background: rgba(255, 250, 240, 0.94);
   box-shadow: 0 3px 0 rgba(92, 64, 75, 0.12);
   font-size: clamp(15px, 2.3vw, 21px);
   font-weight: 900;
+  white-space: nowrap;
 }
+
+.pot-label > span { flex: none; }
 
 .pot-label strong {
   width: 32px;
   height: 32px;
+  flex: 0 0 32px;
+  box-sizing: border-box;
   display: grid;
   place-items: center;
   border-radius: 50%;
@@ -673,8 +679,8 @@ h2 {
   width: 100%;
   height: 100%;
   background-color: var(--bowl-decoration, #A56BDB);
-  -webkit-mask-image: url("./assets/art/mixing-bowl-decoration-mask.png?v=eb9f2090c-20261013095322");
-  mask-image: url("./assets/art/mixing-bowl-decoration-mask.png?v=eb9f2090c-20261013095322");
+  -webkit-mask-image: url("./assets/art/mixing-bowl-decoration-mask.png?v=f20956b43-20261013110702");
+  mask-image: url("./assets/art/mixing-bowl-decoration-mask.png?v=f20956b43-20261013110702");
   -webkit-mask-position: center;
   mask-position: center;
   -webkit-mask-repeat: no-repeat;
@@ -736,7 +742,7 @@ h2 {
   min-height: 64px;
   padding: 9px 26px 13px;
   border: 0;
-  background: transparent url("./assets/art/reset-plaque.webp?v=eb9f2090c-20261013095322") center / 100% 100% no-repeat;
+  background: transparent url("./assets/art/reset-plaque.webp?v=f20956b43-20261013110702") center / 100% 100% no-repeat;
   color: #60405f;
   font-weight: 900;
   text-shadow: 0 2px 0 rgba(255, 255, 255, 0.9);
@@ -784,8 +790,14 @@ h2 {
 }
 
 @media (orientation: landscape) {
-  body { background-image: url("./assets/art/background-landscape.webp?v=eb9f2090c-20261013095322"); }
+  body { background-image: url("./assets/art/background-landscape.webp?v=f20956b43-20261013110702"); }
 }
+
+/* Five paints wrap 3 + 2 in every orientation. The wrap used to live only inside the
+   wide-landscape block below, so iPad portrait kept a single row, the panel grew a
+   horizontal scroll and the Black pot sat off-screen right (controller QA, 2026-10-13).
+   Per-orientation sizing follows in the media queries; the wrap itself is unconditional. */
+.paint-side.is-five-paint .paint-pots { flex-wrap: wrap; }
 
 @media (min-width: 850px) and (orientation: landscape) {
   .lab { grid-template-columns: 1fr 1.08fr; grid-template-rows: 1fr; }
@@ -793,7 +805,10 @@ h2 {
   .paint-pots { align-items: center; }
   .paint-pot { width: min(14vw, 150px); }
   .paint-side.is-five-paint .paint-pots { flex-wrap: wrap; align-content: center; }
-  .paint-side.is-five-paint .paint-pot { width: min(10.5vw, 112px); min-height: 112px; padding-bottom: 32px; }
+  /* Wide enough to contain the widest name pill (Yellow, 130px at the 21px landscape
+     label size): a narrower pot lets the centred max-content pill poke past its edge,
+     which the pot reports as scrollWidth > clientWidth. */
+  .paint-side.is-five-paint .paint-pot { width: min(13.5vw, 132px); min-height: 132px; padding-bottom: 32px; }
   .explore-side { grid-template-rows: auto auto minmax(250px, 1fr) auto 68px; }
   .mix-bowl { width: min(43vw, 480px); height: min(48vh, 330px); }
   .family-shelf { grid-template-columns: repeat(6, minmax(0, 1fr)); }
@@ -826,6 +841,25 @@ h2 {
   .explore-side { grid-template-rows: auto auto minmax(170px, 1fr) auto 64px; gap: 4px; }
   .mix-target-card { min-height: 62px; margin: 0; }
   .mix-bowl { min-height: 170px; height: min(18vh, 188px); width: min(52vw, 282px); }
+
+  /* Five paints, portrait: Red/Yellow/Blue across the top, White/Black centred below
+     (2026-10-13 QA: one row pushed Black off-screen). At pot sizes that fit the stacked
+     panel, all five would still fit one 706px row, so a mere flex-wrap never breaks —
+     instead six half-width tracks pin the layout: each pot spans two, White/Black start
+     one track in, which centres the second row under the first. Pots stay 122px wide —
+     wider than the widest pill (Yellow, 120px at the 768px label size) so no pill
+     overflows its pot — the paint card tightens its padding, and the bowl card yields
+     the rest. The explore rules key off the sibling .paint-side.is-five-paint so the
+     three-pot lesson keeps today's sizes exactly. */
+  .paint-side.is-five-paint { padding: 6px 10px; }
+  .paint-side.is-five-paint .paint-stage-switch { margin: 4px auto 0; }
+  .paint-side.is-five-paint .paint-pots { display: grid; grid-template-columns: repeat(6, minmax(0, auto)); justify-content: center; row-gap: 2px; margin-top: 0; }
+  .paint-side.is-five-paint .paint-pot { grid-column: auto / span 2; width: min(24vw, 122px); padding-bottom: 26px; }
+  .paint-side.is-five-paint .paint-pot:nth-child(4) { grid-column: 2 / span 2; }
+  .paint-side.is-five-paint .paint-pot:nth-child(5) { grid-column: 4 / span 2; }
+  .paint-side.is-five-paint ~ .explore-side { padding: 6px 10px; grid-template-rows: auto auto minmax(140px, 1fr) auto 64px; gap: 3px; }
+  .paint-side.is-five-paint ~ .explore-side .mix-bowl { width: min(48vw, 222px); height: min(18vh, 148px); min-height: 140px; }
+  .paint-side.is-five-paint ~ .explore-side .colour-name { min-height: 44px; padding: 6px 14px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
