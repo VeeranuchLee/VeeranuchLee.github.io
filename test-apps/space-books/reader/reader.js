@@ -31,6 +31,7 @@
     discoveries: document.getElementById("discoveries"),
     discoveryCard: document.getElementById("discovery-card"),
     text: document.getElementById("text"),
+    readingMid: document.getElementById("reading-mid"),
     quickWords: document.getElementById("quick-words"),
     speaker: document.getElementById("speaker"),
     prev: document.getElementById("prev"),
@@ -53,6 +54,7 @@
   var run = 0;                // bumps on every stop / page change; stale callbacks check it
   var wordButtons = [];
   var discoveryTimer = 0;
+  var fitFrame = 0;
 
   // ---------------------------------------------------------------- audio
   // Every clip plays through an <audio> element -- the same path as the page narration.
@@ -375,6 +377,34 @@
     });
   }
 
+  // Give prose more of the page before reducing type, then make only the text panel scroll.
+  // The words never change: narration timings and tap-a-word clips are keyed to this exact text.
+  function fitTextPanel() {
+    if (fitFrame) cancelAnimationFrame(fitFrame);
+    fitFrame = requestAnimationFrame(function () {
+      fitFrame = 0;
+      el.book.classList.remove("text-roomy");
+      el.text.classList.remove("text-compact", "is-scrollable");
+      el.readingMid.classList.remove("has-more-text");
+      el.text.scrollTop = 0;
+      if (el.text.classList.contains("reference-text") || el.text.classList.contains("title")) return;
+
+      function overflows() { return el.text.scrollHeight > el.text.clientHeight + 1; }
+      if (overflows()) el.book.classList.add("text-roomy");
+      if (overflows()) el.text.classList.add("text-compact");
+      if (overflows()) {
+        el.text.classList.add("is-scrollable");
+        updateScrollCue();
+      }
+    });
+  }
+
+  function updateScrollCue() {
+    var hasMore = el.text.classList.contains("is-scrollable") &&
+      el.text.scrollTop + el.text.clientHeight < el.text.scrollHeight - 2;
+    el.readingMid.classList.toggle("has-more-text", hasMore);
+  }
+
   function punct(s) {
     var span = document.createElement("span");
     span.className = "punct";
@@ -485,6 +515,7 @@
       renderDiscoveries(page);
       renderQuickWords(page);
       renderText(page);
+      fitTextPanel();
       renderDots();
       el.prev.hidden = index === 0;
       var last = index === book.pages.length - 1;
@@ -517,6 +548,9 @@
     unlock();
     readOne(b);
   });
+  el.text.addEventListener("scroll", updateScrollCue, { passive: true });
+  addEventListener("resize", fitTextPanel);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitTextPanel);
   el.prev.addEventListener("click", function () { unlock(); if (index > 0) show(index - 1, true); });
   el.next.addEventListener("click", function () {
     unlock();
