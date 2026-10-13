@@ -1,0 +1,30 @@
+/* ROOM LABEL: the one name bubble every Discovery Room uses (main hub, every category hub, the
+   Word Book room). Extracted unchanged from the main room's NAME BUBBLE (playroom.css, owner
+   2026-10-07). Shown only while an ACTIVE landmark is hovered, pressed or keyboard-focused; the
+   room artwork is otherwise clean. The bubble is one element per stage, aria-hidden and
+   pointer-events:none, so it is never a second tap target. Behaviour: room-label.js.
+   Byte-identical copies live in other apps (word-book/room-label.css); do not edit one alone. */
+.room-label{
+  position:absolute;left:0;top:0;z-index:6;
+  --rl-edge:#f3b7d5;--rl-base:#e9cfe0;
+  transform:scale(.85);
+  opacity:0;visibility:hidden;
+  transition:opacity .16s ease, transform .2s cubic-bezier(.3,1.6,.5,1), visibility 0s linear .2s;
+  padding:.35em .85em .4em;
+  border-radius:999px;
+  background:#fff;
+  border:3px solid var(--rl-edge);
+  box-shadow:0 4px 0 var(--rl-base), 0 8px 18px rgba(72,48,104,.2);
+  font-family:'Nunito',system-ui,sans-serif;
+  font-weight:900;
+  font-size:clamp(14px, 1.9vw, 22px);
+  line-height:1.15;
+  white-space:nowrap;
+  color:#4a3168;
+  pointer-events:none;
+  -webkit-user-select:none;user-select:none;
+}
+.room-label.show{opacity:1;visibility:visible;transform:scale(1);transition-delay:0s}
+@media (prefers-reduced-motion:reduce){
+  .room-label{transition:none}
+}

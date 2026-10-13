@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Dictionary</title>
+  <link rel="manifest" href="./manifest.webmanifest?v=ca0f8121a-20261013110632"/>
+  <link rel="stylesheet" href="./fonts.css?v=ca0f8121a-20261013110632"/>
+  <meta name="theme-color" content="#3a1e33"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=ca0f8121a-20261013110632"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Our Dictionary"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    /* INTERACTION-DIRECTION.md method C, layer 1: manipulation on BOTH html and body. Layer 3
+       is the shared tap-zoom-guard.js loaded at the end of the page. No pinch is blocked. */
+    html,body{touch-action:manipulation}
+    body{
+      font-family:'Nunito',sans-serif;min-height:100vh;color:#3a1e33;
+      background:#fdf6ff;
+      -webkit-text-size-adjust:100%;
+    }
+
+    /* ── The header, stuck as ONE piece ──
+       The bar and the A-Z strip used to be sticky separately, both at top:0. The bar won
+       on z-index, so the moment the page scrolled it painted straight over the strip and
+       a child lost the only fast way to move through the dictionary.
+
+       They stick together now, from this one wrapper, because the bar's height is not a
+       number anyone can write down: it wraps at narrow widths (79px at 768px, 183px at
+       400px) and its top padding carries env(safe-area-inset-top), which differs by
+       device. Any `.az{top:<px>}` would be right on one screen and wrong on the next.
+       Gluing them means nothing has to be measured at all. */
+    .topbar{position:sticky;top:0;z-index:20}
+
+    /* Back to OUR WORD BOOK, not to Children Games. That is the navigation the owner
+       asked for -- Children Hub -> Our Word Book -> activity -> back to Our Word Book --
+       and it is the one thing a promotion like this gets wrong: moving a card without
+       moving the arrow leaves a child two taps from a page nobody meant them to see.
+       Relative, because this page and the front door are the same app. */
+    .bar{
+      display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+      padding:calc(10px + env(safe-area-inset-top)) 14px 10px;
+      background:rgba(253,246,255,.94);backdrop-filter:blur(8px);
+      border-bottom:3px solid #f0dcea;
+    }
+    .back{
+      display:inline-flex;align-items:center;gap:8px;
+      min-height:64px;padding:0 18px 0 14px;border-radius:50px;
+      background:linear-gradient(135deg,#fff,#ffe9f1);
+      border:2.5px solid #e59bbb;box-shadow:0 4px 0 #e59bbb;
+      color:#a8386a;text-decoration:none;
+      font-weight:900;font-size:1rem;line-height:1;white-space:nowrap;
+      -webkit-tap-highlight-color:transparent;transition:transform .1s;
+    }
+    .back:active{transform:translateY(3px);box-shadow:0 1px 0 #e59bbb}
+    .back:focus-visible{outline:4px solid #ffd54f;outline-offset:3px}
+    .back svg{width:22px;height:22px;flex:none}
+
+    h1{font-weight:900;font-size:1.35rem;color:#a8386a;margin-right:auto}
+
+    .find{
+      flex:1 1 220px;min-width:200px;
+      display:flex;align-items:center;gap:8px;
+      background:#fff;border:3px solid #f0dcea;border-radius:50px;
+      padding:0 14px;min-height:64px;
+    }
+    .find:focus-within{border-color:#e59bbb}
+    .find svg{width:22px;height:22px;flex:none;color:#c98aa8}
+    .find input{
+      flex:1;border:0;outline:0;background:transparent;
+      font-family:inherit;font-weight:800;font-size:1.05rem;color:#3a1e33;min-width:0;
+    }
+    .find input::placeholder{color:#c9a8bb}
+    .clear{
+      border:0;background:#f6e6ef;color:#a8386a;border-radius:50%;
+      width:44px;height:44px;flex:none;font:inherit;font-weight:900;font-size:1.1rem;
+      cursor:pointer;line-height:1;
+    }
+    .clear[hidden]{display:none!important}
+
+    .mode-switch{
+      display:flex;justify-content:center;gap:8px;padding:10px 14px 0;background:#fdf6ff;
+    }
+    .mode-switch button{
+      min-width:150px;min-height:64px;padding:8px 20px;border-radius:20px;
+      border:3px solid #e8cddd;background:#fff;color:#8a5c76;
+      font:900 1rem 'Nunito',sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent;
+    }
+    .mode-switch button[aria-pressed="true"]{
+      background:linear-gradient(160deg,#d4739a,#a8386a);color:#fff;border-color:#a8386a;
+    }
+    .mode-switch button:focus-visible,.collection-card:focus-visible,.poster-choice:focus-visible,
+    .poster-word:focus-visible,.poster-back:focus-visible,
+    .collection-link:focus-visible,.all-groups:focus-visible{outline:4px solid #ffd54f;outline-offset:3px}
+
+    /* ── A to Z ──
+       The whole alphabet, always visible, because a child who can find "S" does not need
+       to be taught a menu. 64px tall so it clears a finger on the 9.7" iPad this is built
+       for, and it scrolls sideways rather than wrapping into a block that pushes the words
+       off the screen. Not sticky itself -- .topbar above carries it. */
+    .az{
+      display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;
+      padding:10px 14px;background:#fdf6ff;
+      border-bottom:3px solid #f0dcea;
+      scrollbar-width:none;
+    }
+    .az::-webkit-scrollbar{display:none}
+    .az button{
+      flex:none;min-width:64px;height:64px;border-radius:18px;
+      border:2.5px solid #f0dcea;background:#fff;
+      font-family:inherit;font-weight:900;font-size:1.1rem;text-transform:uppercase;
+      color:#8a5c76;cursor:pointer;-webkit-tap-highlight-color:transparent;
+    }
+    .az button[aria-pressed="true"]{
+      background:linear-gradient(160deg,#d4739a,#a8386a);color:#fff;border-color:#a8386a;
+    }
+    .az button:focus-visible{outline:4px solid #ffd54f;outline-offset:2px}
+    .az[hidden]{display:none}
+
+    main{padding:16px 14px 40px;max-width:1100px;margin:0 auto}
+
+    /* Three cards across at 768px, which is the target device in portrait. */
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+    .grid.collections{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+
+    .collection-card{
+      min-height:154px;padding:18px;border:3px solid #ead5e2;border-radius:24px;
+      background:linear-gradient(145deg,#fff,#fff5fa);color:#3a1e33;text-align:left;
+      display:grid;grid-template-columns:68px 1fr;align-items:center;gap:14px;
+      font:inherit;cursor:pointer;box-shadow:0 5px 0 #ead5e2;
+      -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+    }
+    .collection-card:active{transform:translateY(3px);box-shadow:0 2px 0 #ead5e2}
+    .collection-icon{font-size:3rem;line-height:1;text-align:center}
+    .collection-icon img{display:block;width:100%;height:100%;object-fit:contain}
+    .collection-card .collection-icon{width:68px;height:68px}
+    .collection-name{display:block;font-family:'Fredoka One',Nunito,sans-serif;font-size:1.35rem;line-height:1.15}
+    .collection-description{display:block;margin-top:6px;color:#6b5260;font-weight:800;line-height:1.3}
+    .collection-total{display:block;margin-top:8px;color:#a8386a;font-size:.82rem;font-weight:900}
+
+    .collection-heading{
+      display:grid;grid-template-columns:auto auto 1fr;align-items:center;gap:12px;
+      margin-bottom:14px;padding:14px 16px;border:3px solid #ead5e2;border-radius:22px;
+      background:#fff;
+    }
+    .collection-heading[hidden]{display:none}
+    .all-groups{
+      min-width:64px;min-height:64px;padding:8px 14px;border-radius:18px;
+      border:3px solid #e59bbb;background:#fff5fa;color:#a8386a;
+      font:900 .95rem 'Nunito',sans-serif;cursor:pointer;
+      grid-column:1;grid-row:1/3;
+    }
+    .collection-heading .collection-icon{grid-row:1/3;grid-column:2;width:64px;height:64px;font-size:2.35rem;text-align:left;padding-left:2px}
+    .collection-title{grid-column:3;font-family:'Fredoka One',Nunito,sans-serif;font-size:1.5rem;line-height:1.1}
+    .collection-copy{grid-column:3;color:#6b5260;font-weight:800}
+    .subgroup-filters{
+      grid-column:1/-1;display:flex;gap:10px;overflow-x:auto;overscroll-behavior-inline:contain;
+      scrollbar-width:thin;padding:6px 2px 2px;scroll-snap-type:x proximity
+    }
+    .subgroup-filters[hidden]{display:none}
+    .subgroup-filter{
+      flex:0 0 auto;min-height:64px;padding:10px 18px;border:3px solid #dfb8cc;border-radius:999px;
+      background:#fff;color:#71405a;font:900 .96rem Nunito,sans-serif;cursor:pointer;scroll-snap-align:start
+    }
+    .subgroup-filter[aria-pressed="true"]{background:#a8386a;color:#fff;border-color:#a8386a}
+    .subgroup-filter:focus-visible{outline:4px solid #ffd54f;outline-offset:3px}
+    .collection-link img{width:28px;height:28px;object-fit:contain;vertical-align:middle;margin-right:5px}
+
+    .card{
+      background:#fff;border:3px solid #f0dcea;border-radius:22px;
+      overflow:hidden;display:flex;flex-direction:column;
+    }
+
+    /* POSTERS -- ordered teaching sets are scenes, paths and strips rather than another
+       card grid. Every labelled word is at least 60 CSS px in both axes on the 9.7-inch
+       iPad, and its text never drops under 16 px.
+       THE WHOLE POSTER IS VISIBLE AT ONCE, IN BOTH ORIENTATIONS (owner, 2026-10-13).
+       Round 2 sized the stage with width:min(100%, calc((100dvh - 245px)*4/3)) -- the
+       245px reserve guessed the chrome above the stage and guessed ~60px short, so at
+       1024x768 every poster put its bottom label row behind a page scroll. Instead of a
+       better guess, the detail view now LOCKS the document to the viewport
+       (body.poster-view: a 100dvh column, no page scroll) and .poster-stage-area takes
+       whatever height is left; the stage is then the largest EXACT 4:3 box that fits,
+       measured against that area with container units (100cqw / 100cqh) -- no number
+       that can drift from the real header. The plate fills the stage exactly
+       (object-fit:contain on a same-ratio box), and the labels are % of the stage, so
+       they scale with the plate and stay beside the things they name. Engines without
+       container units fall back to the old dvh arithmetic with a safe 320px reserve:
+       a slightly smaller poster, never a scrolling one. The stage itself still never
+       scrolls and never captures pinch: INTERACTION-DIRECTION method C stays unchanged. */
+    .poster-choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;width:100%}
+    .poster-choice{min-height:150px;border:0;border-radius:24px;padding:0;overflow:hidden;background:#fff9ed;box-shadow:0 6px 0 #d8b88f;color:#5b3550;font:900 1.08rem/1.25 inherit;cursor:pointer;text-align:left}
+    .poster-choice img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:#f3dfc5}
+    .poster-choice-copy{display:block;padding:11px 14px 13px}
+    .poster-choice-copy span{display:block;margin-top:4px;font-size:.82rem;font-weight:800;color:#825f75}
+    .poster-wrap{width:min(1120px,100%);margin:auto}
+    /* The picker and a poster's word card are lists: the page may scroll there, as it
+       always did. The lock exists only while one poster's plate is on screen. */
+    body.poster-view{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+    /* width:100% because main's base margin:0 auto would otherwise shrink-wrap it: in a
+       flex column those horizontal auto margins are cross-axis autos, and cross-axis
+       auto margins turn stretching off. */
+    body.poster-view main{flex:1;min-height:0;display:flex;flex-direction:column;padding-bottom:16px;width:100%}
+    body.poster-view .poster-wrap{flex:1;min-height:0;display:flex;flex-direction:column;margin:0}
+    .poster-heading{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 0 16px;color:#5b3550}
+    body.poster-view .poster-heading{flex:none;margin:0 0 12px}
+    .poster-heading h2{font-size:clamp(1.45rem,4vw,2.25rem);text-align:center}
+    .poster-back{min-height:60px;min-width:60px;border:0;border-radius:50%;background:#fff;color:#a8386a;box-shadow:0 4px 0 #d69ab4;font:900 1rem inherit;padding:0 17px;cursor:pointer}
+    .poster-stage-area{flex:1;min-height:0;display:flex;container-type:size}
+    .poster-stage{position:relative;flex:none;width:min(100%,calc((100vh - 320px)*4/3));width:min(100%,calc((100dvh - 320px)*4/3));max-height:calc(100vh - 320px);max-height:calc(100dvh - 320px);aspect-ratio:4/3;margin:auto;border-radius:28px;overflow:hidden;background-color:#f3dfc5;background-position:center;background-size:contain;background-repeat:no-repeat;box-shadow:inset 0 0 0 5px rgba(255,255,255,.72),0 12px 30px rgba(35,16,31,.28)}
+    /* min(100cqw, 133.333cqh) is "the largest 4:3 box that fits the area", because the
+       area is the query container this stage sits in. aspect-ratio then supplies the
+       matching height, so the plate is never letterboxed and the % labels never drift
+       off their objects. */
+    @supports (width:1cqw){.poster-stage{width:min(100cqw,133.333cqh);max-height:none}}
+    .poster-plate{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
+    .poster-word{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);z-index:2;min-width:60px;min-height:60px;max-width:105px;border:3px solid rgba(255,255,255,.96);border-radius:17px;background:rgba(255,253,245,.94);box-shadow:0 4px 0 rgba(89,53,72,.3);color:#5b3550;font-family:inherit;font-weight:900;font-size:clamp(1rem,1.6vw,1.15rem);line-height:1.05;padding:5px 7px;cursor:pointer;display:flex;align-items:center;justify-content:center;text-align:center;-webkit-tap-highlight-color:transparent}
+    .poster-word::after{content:'';position:absolute;width:18px;height:3px;border-radius:3px;background:#fffdf5;box-shadow:0 1px 0 rgba(89,53,72,.45);pointer-events:none}
+    .poster-word.pointer-down::after{left:50%;top:100%;transform:translateX(-50%) rotate(90deg);transform-origin:left center}
+    .poster-word.pointer-up::after{left:50%;bottom:100%;transform:translateX(-50%) rotate(90deg);transform-origin:left center}
+    .poster-word.pointer-right::after{left:100%;top:50%;transform:translateY(-50%)}
+    .poster-word.pointer-left::after{right:100%;top:50%;transform:translateY(-50%)}
+    .poster-word:active{transform:translate(-50%,calc(-50% + 3px));box-shadow:0 2px 0 rgba(89,53,72,.25)}
+    .poster-card-back{margin:0 auto 16px;display:flex}
+    /* Narrow viewports only narrow the labels a little; the >=16px text floor from
+       .poster-word itself is never overridden, and the stage needs no case of its own:
+       the container-unit sizing already fits any width. */
+    @media(max-width:820px){.poster-word{max-width:92px}}
+    @media(max-width:520px){.poster-stage{border-radius:20px}.poster-word{max-width:82px;padding:4px}}
+    .pic{
+      aspect-ratio:4/3;background:#faf0f6;
+      display:flex;align-items:center;justify-content:center;overflow:hidden;
+    }
+    .pic img{width:100%;height:100%;object-fit:cover;display:block}
+    /* A concept whose picture has not been drawn yet. This state NEVER SHIPS -- the owner
+       decided on 2026-09-09 that Our Dictionary does not publish until all current concepts
+       are illustrated, and check-word-data.py prints the remaining count every run. It
+       exists so the corpus can be reviewed now, and it says nothing to a child because no
+       child will see it. */
+    .pic.todo{background:repeating-linear-gradient(45deg,#faf0f6,#faf0f6 10px,#f4e4ee 10px,#f4e4ee 20px)}
+    .pic.todo span{font-weight:900;font-size:.72rem;color:#c9a8bb;letter-spacing:.04em}
+
+    .body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px}
+    .word{font-family:'Fredoka One',Nunito,sans-serif;font-size:1.5rem;line-height:1.1;color:#3a1e33}
+    /* Thai sits DIRECTLY under the English, which is where a reader who can already read
+       Thai looks for it -- animal-book/DECISIONS.md 3, applied here. Its own font stack
+       because the self-hosted Nunito is latin and latin-ext only and has no Thai glyphs;
+       Thonburi is the one the iPad supplies. Printed, never spoken: there is no Thai audio
+       anywhere in this project and none is planned (AUDIO-DIRECTION.md 4). */
+    .thai{
+      font-family:"Noto Sans Thai","Thonburi",ui-rounded,system-ui,sans-serif;
+      font-size:1.05rem;font-weight:700;color:#a8386a;line-height:1.35;
+    }
+    /* An example, not a definition. The owner's brief: "example sentences instead of
+       formal definitions". */
+    .eg{font-size:.9rem;font-weight:700;color:#6b5260;line-height:1.4;margin-top:2px}
+
+    /* ── Hear it ──
+       Every card that has a clip carries one round speaker beside its word. 64px, the
+       same size as the A-Z buttons, so it clears a finger on the target iPad. Beside
+       the WORD, not under the sentence: the clip says the headword, and a child who
+       cannot read the sentence yet can still find the thing that speaks. Tapping while
+       it speaks starts the word again from the top -- repeating a word is what a child
+       practising it wants.
+       Two states a child can see: `.speaking` (filled, while the word plays) and
+       `.missed` (the clip did not load -- offline and never heard before, or a file
+       gone). A missed tap shakes the button and swaps the sound waves for a cross, and
+       the button stays live so the next tap tries again. It never goes quiet, and it
+       never dims into something that looks tappable and does nothing.
+       A card listed in word-audio.js UNRENDERED has no speaker at all -- a speaker that
+       can only fail is a dead tap. That table is empty since 2026-09-22 (the eight
+       homograph senses were rendered), so every card speaks its word. */
+    .head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+    .head .word{flex:1;min-width:0;overflow-wrap:anywhere;padding-top:12px}
+    .speak{
+      flex:none;width:64px;height:64px;border-radius:50%;cursor:pointer;
+      display:inline-flex;align-items:center;justify-content:center;padding:0;
+      border:2.5px solid #e59bbb;background:linear-gradient(135deg,#fff,#ffe9f1);
+      color:#a8386a;box-shadow:0 4px 0 #e59bbb;
+      -webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:transform .1s;
+    }
+    .speak:active{transform:translateY(3px);box-shadow:0 1px 0 #e59bbb}
+    .speak:focus-visible{outline:4px solid #ffd54f;outline-offset:3px}
+    .speak svg{width:26px;height:26px;flex:none;pointer-events:none}
+    .speak .no{display:none}
+    .speak.speaking{background:linear-gradient(160deg,#d4739a,#a8386a);color:#fff;border-color:#a8386a}
+    .speak.missed{color:#9b7a8a;border-color:#d9c3cf;box-shadow:0 4px 0 #d9c3cf;animation:nope .45s}
+    .speak.missed .waves{display:none}
+    .speak.missed .no{display:inline}
+    @keyframes nope{
+      0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)}
+      60%{transform:translateX(-4px)} 80%{transform:translateX(4px)}
+    }
+    @media (prefers-reduced-motion:reduce){.speak.missed{animation:none}}
+
+    /* ── Hear the sentence ──
+       The example sentence's own speaker (owner spec, 2026-09-22): a second, independent
+       clip, audio/sentences/<sense>.m4a, resolved by sentence-audio.js. It must never be
+       mistaken for the word speaker, so it differs in every way a child sees: it sits
+       BESIDE THE SENTENCE (not the word), it is a rounded SQUARE in the soft card colours
+       (not the round pink button), and its icon is a SPEECH BUBBLE with lines of talk
+       (not a loudspeaker). 64px square, matching the page's tablet tap floor.
+       It shares the one voice and every state with the word speaker -- `.speaking`,
+       `.missed`, shake, cross, retry -- because it IS a .speak button: tapping the
+       sentence stops the word and tapping the word stops the sentence.
+       A card whose sentence has no clip, or whose clip says an older wording, shows no
+       sentence speaker at all (sentence-audio.js clipFor() is null): a speaker that
+       could only fail is a dead tap. None is rendered yet, so none shows yet. */
+    .egline{display:flex;align-items:flex-start;gap:8px;margin-top:2px}
+    .egline .eg{flex:1;min-width:0;margin-top:0;padding-top:4px}
+    .speak.eg-speak{
+      width:64px;height:64px;border-radius:16px;
+      border-color:#d9bfd0;background:#f7eef4;color:#8a5c76;box-shadow:0 3px 0 #d9bfd0;
+    }
+    .speak.eg-speak:active{box-shadow:0 1px 0 #d9bfd0}
+    .speak.eg-speak svg{width:28px;height:28px}
+    .speak.eg-speak.speaking{background:linear-gradient(160deg,#b98aa5,#8a5c76);color:#fff;border-color:#8a5c76}
+
+    /* ── One word, several senses (a merged card; data `groups`) ──
+       Each sense sits under the headword as its own block: a part-of-speech tag, then the
+       same Thai line and sentence (with its own sentence speaker) a one-sense card has. A
+       dashed rule between blocks, so two sentences never read as one paragraph. The tag is
+       a quiet pill, not a button -- nothing about it is tappable, so nothing about it may
+       look tappable. */
+    .senses{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:2px}
+    .sense{display:flex;flex-direction:column;gap:4px}
+    .sense + .sense{padding-top:10px;border-top:2px dashed #f0dcea}
+    .pos{
+      align-self:flex-start;padding:2px 10px;border-radius:50px;
+      background:#f7eef4;color:#8a5c76;border:2px solid #efdce8;
+      font-weight:900;font-size:.78rem;letter-spacing:.03em;line-height:1.3;
+    }
+    .explore{margin-top:10px;padding-top:9px;border-top:2px solid #f5e6ef}
+    .explore-label{font-size:.78rem;font-weight:900;color:#8a5c76;margin-bottom:6px}
+    .explore-links{display:flex;flex-wrap:wrap;gap:7px}
+    .collection-link{
+      min-height:64px;padding:8px 13px;border-radius:16px;border:2.5px solid #dfbfd1;
+      background:#fff5fa;color:#8a3f67;font:900 .82rem 'Nunito',sans-serif;
+      cursor:pointer;text-align:left;touch-action:manipulation;display:inline-flex;align-items:center;
+    }
+
+    .none{
+      grid-column:1/-1;text-align:center;padding:50px 20px;
+      font-weight:900;font-size:1.1rem;color:#a8386a;
+    }
+    .count{
+      margin:0 0 12px;font-weight:800;font-size:.85rem;color:#8a5c76;
+    }
+
+    @media (max-width:560px){
+      h1{font-size:1.1rem;width:100%;order:3;margin:0}
+      .find{order:4;flex-basis:100%}
+      .mode-switch button{min-width:0;flex:1;padding-inline:10px}
+      .grid.collections{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+<div class="bar">
+  <a class="back" href="index.html" aria-label="Back to Our Word Book">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <path d="M15 5 8 12l7 7"/>
+    </svg>
+    <span>Our Word Book</span>
+  </a>
+  <h1>Our Dictionary</h1>
+  <label class="find">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true" focusable="false">
+      <circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/>
+    </svg>
+    <input id="q" type="search" placeholder="Find a word" autocomplete="off"
+           enterkeyhint="search" aria-label="Find a word"/>
+    <button class="clear" id="clear" type="button" hidden aria-label="Clear">✕</button>
+  </label>
+</div>
+
+<div class="mode-switch" role="group" aria-label="Browse the dictionary">
+  <button id="modeAZ" type="button" aria-pressed="true">A–Z</button>
+  <button id="modeCollections" type="button" aria-pressed="false">Word Groups</button>
+  <button id="modePosters" type="button" aria-pressed="false">Posters</button>
+</div>
+<nav class="az" id="az" aria-label="Choose a letter"></nav>
+</div>
+
+<main>
+  <section class="collection-heading" id="collectionHeading" hidden aria-live="polite">
+    <button class="all-groups" id="allGroups" type="button">← All groups</button>
+    <span class="collection-icon" id="collectionIcon" aria-hidden="true"></span>
+    <h2 class="collection-title" id="collectionTitle"></h2>
+    <p class="collection-copy" id="collectionCopy"></p>
+    <div class="subgroup-filters" id="subgroupFilters" role="group" aria-label="Filter this word group" hidden></div>
+  </section>
+  <p class="count" id="count"></p>
+  <div class="grid" id="grid"></div>
+</main>
+
+<script src="word-audio.js?v=ca0f8121a-20261013110632"></script>
+<script src="sentence-audio.js?v=ca0f8121a-20261013110632"></script>
+<script>
+(function () {
+  'use strict';
+
+  var ALL_LETTERS = 'abcdefghijklmnopqrstuvwxyz'.split('');
+  var enabledLetters = null;
+  var cards = [], letter = null, query = '';
+  var mode = 'az', selectedCollection = null, selectedSubgroup = null;
+  var posters = [], selectedPoster = null, posterSense = null, rowBySense = {};
+  var collections = [], collectionById = {}, subgroupById = {};
+  var restoredState = readState(), scrollByView = restoredState.scrollByView || {};
+  if (restoredState.mode === 'collections' || restoredState.mode === 'posters') mode = restoredState.mode;
+  if (typeof restoredState.collection === 'string') selectedCollection = restoredState.collection;
+  if (typeof restoredState.subgroup === 'string') selectedSubgroup = restoredState.subgroup;
+  if (typeof restoredState.poster === 'string') selectedPoster = restoredState.poster;
+
+  function lettersFor() { return enabledLetters || ALL_LETTERS; }
+  function firstLetter(word) { return String(word).charAt(0).toLowerCase(); }
+
+  function loadLetters() {
+    return fetch('data/letters.json')
+      .then(function (r) { return r.json(); })
+      .then(function (cfg) {
+        var list = (cfg && cfg.enabled) || [];
+        enabledLetters = list.map(function (l) { return String(l).toLowerCase(); });
+        if (!enabledLetters.length) enabledLetters = ALL_LETTERS;
+      })
+      .catch(function () {
+        // Fallback: if letters.json is missing or unreadable, show every letter. This keeps a
+        // fresh checkout or a build without the gate file usable, and it is the pre-gate behaviour.
+        enabledLetters = ALL_LETTERS;
+      });
+  }
+
+  function filterData(d) {
+    var allowed = {};
+    lettersFor().forEach(function (l) { allowed[l] = true; });
+    d.rows = (d.rows || []).filter(function (r) { return allowed[firstLetter(r[0])]; });
+    d.groups = (d.groups || []).filter(function (g) { return allowed[firstLetter(g.word)]; });
+  }
+  var grid = document.getElementById('grid');
+  var count = document.getElementById('count');
+  var az = document.getElementById('az');
+  var q = document.getElementById('q');
+  var clear = document.getElementById('clear');
+  var modeAZ = document.getElementById('modeAZ');
+  var modeCollections = document.getElementById('modeCollections');
+  var modePosters = document.getElementById('modePosters');
+  var collectionHeading = document.getElementById('collectionHeading');
+  var allGroups = document.getElementById('allGroups');
+  var collectionIcon = document.getElementById('collectionIcon');
+  var collectionTitle = document.getElementById('collectionTitle');
+  var collectionCopy = document.getElementById('collectionCopy');
+  var subgroupFilters = document.getElementById('subgroupFilters');
+
+  function readState() {
+    try { return JSON.parse(window.sessionStorage.getItem('word-book-dictionary-view') || '{}'); }
+    catch (e) { return {}; }
+  }
+  function viewKey() {
+    if (mode === 'collections') return 'collections:' + (selectedCollection || 'all') + ':' + (selectedSubgroup || 'all');
+    if (mode === 'posters') return 'posters:' + (selectedPoster || 'all') + ':' + (posterSense || 'poster');
+    return 'az:' + (letter || 'a');
+  }
+  function rememberScroll() {
+    var y = Number(window.scrollY || window.pageYOffset || 0);
+    scrollByView[viewKey()] = y;
+  }
+  function saveState() {
+    try {
+      window.sessionStorage.setItem('word-book-dictionary-view', JSON.stringify({
+        mode: mode, collection: selectedCollection, subgroup: selectedSubgroup, poster: selectedPoster, letter: letter,
+        scrollByView: scrollByView
+      }));
+    } catch (e) {}
+  }
+  function scrollTopNow() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  function restoreScroll() {
+    var y = Number(scrollByView[viewKey()] || 0);
+    if (y) window.setTimeout(function () { window.scrollTo({ top: y, behavior: 'auto' }); }, 0);
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function collectionIconMarkup(c) {
+    return '<img class="owner-group-icon" src="' + esc(c.icon_path) + '?v=ca0f8121a-20261013110632" alt="" ' +
+      'data-fallback="' + esc(c.icon) + '" draggable="false">';
+  }
+  document.addEventListener('error', function (event) {
+    var image = event.target;
+    if (!image.classList || !image.classList.contains('owner-group-icon')) return;
+    image.replaceWith(document.createTextNode(image.getAttribute('data-fallback') || ''));
+  }, true);
+
+  /* ONE CARD PER CONCEPT, not per spelling. The corpus keeps 72 groups of words that
+     share a spelling as separate cards -- `bat` the animal and `bat` you hit a ball
+     with are two concepts with two Thai translations and two pictures. Two cards
+     reading "bat" is correct here, and the Thai line underneath is what tells them
+     apart, which is why it is never optional. The one exception is a word the owner
+     merged (data `groups`, see buildCards below): its senses share one card and each
+     keeps its own Thai line underneath. */
+  /* The clip each card speaks comes from word-audio.js (window.WordAudio), THE one
+     resolver -- tools/check-audio-coverage.mjs require()s the same file to prove every
+     card resolves to exactly one clip on disk or a documented exception. Nothing on this
+     page knows how a filename is made. If that file ever failed to load, cards simply
+     carry no speaker; they never carry one that cannot work. */
+  var WA = window.WordAudio || null;
+  /* The sentence clip comes from sentence-audio.js (window.SentenceAudio) and the record
+     of what each clip says, audio/sentences/rendered.json (`ledger`, loaded with the
+     data). A clip plays only when that record says EXACTLY the sentence this card shows;
+     otherwise -- not rendered, or rendered from an older wording -- the card has no
+     sentence speaker. tools/check-sentence-audio.mjs require()s the same resolver. If the
+     resolver or the ledger fails to load, cards carry no sentence speaker; never one
+     that cannot work, and never an OS voice in its place. */
+  var SA = window.SentenceAudio || null, ledger = null;
+  var BUBBLE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" ' +
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' +
+    '<path d="M4 5.5h16a1.5 1.5 0 0 1 1.5 1.5v8.5a1.5 1.5 0 0 1-1.5 1.5H10l-4.5 3.5V17H4a1.5 1.5 0 0 1-1.5-1.5V7A1.5 1.5 0 0 1 4 5.5z"/>' +
+    '<g class="waves"><path d="M7 9.5h10M7 13h6.5"/></g>' +
+    '<g class="no"><path d="M9.5 8.5l5 5M14.5 8.5l-5 5"/></g></svg>';
+  var SPEAKER = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" ' +
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' +
+    '<path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/>' +
+    '<g class="waves"><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></g>' +
+    '<g class="no"><path d="M16 9.5l5 5M21 9.5l-5 5"/></g></svg>';
+
+  /* ONE WORD, SEVERAL SENSES, ONE CARD -- only where the owner said so (data `groups`,
+     built from shared-data/dictionary/card-groups.json; `answer` on 2026-09-23: "merge
+     the two answer cards. Keep both POS senses underneath.", then `brush`: "these too
+     -> same as 'answer'", then `clean`, then the
+     whole class (a) list in word-book/qa/2026-09-23-multi-card-words.md: "yes approved"). Every sense is still its
+     own row with its own id, Thai, sentence and sentence clip; a group only draws those
+     rows on one card, in the group's order, under the group's HERO picture, with each
+     sense's part of speech. A word not in `groups` gets one card per sense, exactly as
+     before. The one word speaker is safe because check-audio-coverage.mjs refuses a
+     group whose senses would say different clips (bow/close/tear/volume/wind never merge). */
+  function buildCards(d) {
+    var inGroup = {};
+    (d.groups || []).forEach(function (g) {
+      g.senses.forEach(function (s, i) { inGroup[s[0]] = { g: g, i: i }; });
+    });
+    var out = [], open = {};
+    d.rows.forEach(function (r) {
+      var m = inGroup[r[1]];
+      if (!m) { out.push({ rows: [r], pos: null, pic: r[4] }); return; }
+      var c = open[m.g.word];
+      if (!c) { c = open[m.g.word] = { rows: [], pos: [], pic: null }; out.push(c); }
+      c.rows[m.i] = r;
+      c.pos[m.i] = m.g.senses[m.i][1];
+      if (r[1] === m.g.hero) c.pic = r[4];
+    });
+    out.forEach(function (c) {
+      if (!c.pos) return;
+      /* A sense named by the group but absent from the rows leaves a hole: close it. */
+      var rs = [], ps = [];
+      c.rows.forEach(function (r, i) { if (r) { rs.push(r); ps.push(c.pos[i]); } });
+      c.rows = rs; c.pos = ps;
+      /* A hero not drawn yet (data `hero_pending`: its picture is on a branch still to
+         merge) falls back to the group's first drawn sense, never to an empty well. */
+      if (!c.pic) rs.some(function (r) { return (c.pic = r[4]); });
+    });
+    return out;
+  }
+
+  /* A TO Z, WHATEVER ORDER THE DATA ARRIVES IN (owner, 2026-09-23: "also, need to arrange
+     it alphabetically."). data/dictionary.json keeps the order its layers were built in:
+     the 2,000-word source A to Z, then new-cards.json APPENDED after `zookeeper` -- so
+     letter C read cabbage ... cut, cylinder, cabin, cage, camp. The page sorts the cards
+     once, here, so the letter grid and search results (both filter this one list) are A to
+     Z, and a rebuild of the data can never undo it.
+     The key is the headword lowercased, compared character by character: `Saturday` sits
+     between `satellite` and `Saturn`, and a space or hyphen comes before any letter, so
+     `ice` < `ice cream` < `iceberg` and `T-shirt` < `table` -- the source's own order,
+     unchanged. A merged card sorts by its word. Cards that share a word (`bat` the animal,
+     `bat` for a ball; `may` and `May`) keep the order their rows have in the data: the
+     tie-break is each card's place in that list, so it holds on any browser's sort. */
+  function alphabetical(list) {
+    return list.map(function (c, i) { return { c: c, k: c.rows[0][0].toLowerCase(), i: i }; })
+      .sort(function (a, b) { return a.k < b.k ? -1 : a.k > b.k ? 1 : a.i - b.i; })
+      .map(function (x) { return x.c; });
+  }
+
+  /* What one sense says: its Thai, then its sentence with the sentence's own speaker. */
+  function says(r) {
+    var sense = r[1], thai = r[2], eg = r[3];
+    var egClip = SA ? SA.clipFor(sense, eg, ledger) : null;
+    return '<p class="thai" lang="th">' + esc(thai) + '</p>' +
+      (egClip
+        ? '<div class="egline"><p class="eg">' + esc(eg) + '</p>' +
+          '<button type="button" class="speak eg-speak" data-clip="' + esc(egClip) +
+          '" aria-label="Hear the sentence">' + BUBBLE + '</button></div>'
+        : '<p class="eg">' + esc(eg) + '</p>') + collectionLinks(r);
+  }
+
+  function collectionLinks(r) {
+    var here = (mode === 'collections' && !query) ? selectedCollection : null;
+    var ids = (r[5] || []).filter(function (id) { return id !== here; });
+    if (!ids.length) return '';
+    return '<div class="explore"><p class="explore-label">Explore more:</p><div class="explore-links">' +
+      ids.map(function (id) {
+        var c = collectionById[id];
+        return c ? '<button type="button" class="collection-link" data-collection="' + esc(id) +
+          '">' + collectionIconMarkup(c) + '<span>' + esc(c.label) + '</span></button>' : '';
+      }).join('') + '</div></div>';
+  }
+
+  function card(c) {
+    var r = c.rows[0];
+    var word = r[0], sense = r[1], eg = r[3], pic = c.pic;
+    var clip = WA ? WA.clipFor(word, sense) : null;
+    var art = pic
+      ? '<div class="pic"><img src="' + esc(pic) + '?v=ca0f8121a-20261013110632" alt="" loading="lazy" decoding="async" draggable="false"></div>'
+      : '<div class="pic todo"><span>picture to come</span></div>';
+    var speak = clip
+      ? '<button type="button" class="speak" data-clip="' + esc(clip) + '" aria-label="Hear ' +
+        esc(word) + '">' + SPEAKER + '</button>'
+      : '';
+    var senses = c.pos
+      ? '<ol class="senses">' + c.rows.map(function (s, i) {
+          return '<li class="sense" data-sense="' + esc(s[1]) + '">' +
+            '<p class="pos">' + esc(c.pos[i]) + '</p>' + says(s) + '</li>';
+        }).join('') + '</ol>'
+      : says(r);
+    return '<article class="card' + (c.pos ? ' merged' : '') + '">' + art +
+      '<div class="body">' +
+      '<div class="head"><p class="word">' + esc(word) + '</p>' + speak + '</div>' +
+      senses +
+      '</div></article>';
+  }
+
+  /* A card matches when ANY of its senses does, so a merged card is found by either
+     sense's Thai or sentence and is still shown whole. */
+  function matches() {
+    if (query) {
+      var n = query.toLowerCase();
+      var hit = function (r) {
+        return r[0].toLowerCase().indexOf(n) > -1 ||
+               r[2].indexOf(query) > -1 ||
+               r[3].toLowerCase().indexOf(n) > -1;
+      };
+      return cards.filter(function (c) { return c.rows.some(hit); });
+    }
+    if (mode === 'collections' && selectedCollection) {
+      return cards.filter(function (c) {
+        return c.rows.some(function (r) {
+          return (r[5] || []).indexOf(selectedCollection) > -1 &&
+            (!selectedSubgroup || (r[6] || []).indexOf(selectedSubgroup) > -1);
+        });
+      });
+    }
+    return cards.filter(function (c) { return c.rows[0][0].charAt(0).toLowerCase() === letter; });
+  }
+
+  function render() {
+    hush();
+    syncMode();
+    /* The poster lock belongs to one view: a chosen poster's plate. Every other render
+       -- another mode, a search, the picker, a poster word's card -- is a list the page
+       may scroll, so the lock is off before anything else draws. */
+    if (query || mode !== 'posters') document.body.classList.remove('poster-view');
+    if (!query && mode === 'posters') { renderPosters(); return; }
+    if (!query && mode === 'collections' && !selectedCollection) {
+      renderCollections();
+      return;
+    }
+    grid.className = 'grid';
+    showCollectionHeading(!query && mode === 'collections' && selectedCollection);
+    var found = matches();
+    if (!found.length) {
+      grid.innerHTML = '<p class="none">No words here yet. Try another letter.</p>';
+      count.textContent = '';
+      return;
+    }
+    /* Built as one string and assigned once. 283 cards is the biggest letter, and
+       appending them one at a time re-lays out the page 283 times. */
+    grid.innerHTML = found.map(card).join('');
+    count.textContent = found.length === 1 ? '1 word' : found.length + ' words';
+  }
+
+  function availablePoster(p) {
+    var rows = p.senses.map(function (sense) { return rowBySense[sense]; }).filter(Boolean);
+    return rows.length >= Number(p.min_released || 3) ? rows : [];
+  }
+  function posterWord(r, label) {
+    var word = r[0], sense = r[1], clip = WA ? WA.clipFor(word, sense) : null;
+    var x = Number(label[0]), y = Number(label[1]), pointer = label[2] || 'down';
+    return '<button type="button" data-poster-sense="' + esc(sense) + '"' +
+      (clip ? ' data-clip="' + esc(clip) + '"' : '') + ' style="--x:' + x + '%;--y:' + y + '%"' +
+      ' aria-label="Hear ' + esc(word) + ' and open its card" class="poster-word pointer-' + esc(pointer) + '">' +
+      '<span>' + esc(word) + '</span></button>';
+  }
+  function renderPosters() {
+    showCollectionHeading(false); az.hidden = true; grid.className = 'poster-wrap'; count.textContent = '';
+    var visible = posters.map(function (p) { return { p: p, rows: availablePoster(p) }; }).filter(function (x) { return x.rows.length; });
+    var chosen = visible.find(function (x) { return x.p.id === selectedPoster; });
+    if (posterSense && rowBySense[posterSense]) {
+      document.body.classList.remove('poster-view');
+      grid.innerHTML = '<button class="poster-back poster-card-back" type="button" data-poster-back>← Back to poster</button>' +
+        card({ rows: [rowBySense[posterSense]], pos: null, pic: rowBySense[posterSense][4] });
+      return;
+    }
+    if (!chosen) {
+      selectedPoster = null;
+      document.body.classList.remove('poster-view');
+      grid.innerHTML = '<div class="poster-choices">' + visible.map(function (x) {
+        return '<button type="button" class="poster-choice" data-poster="' + esc(x.p.id) + '">' +
+          '<img src="' + esc(x.p.plate || ('assets/posters/' + x.p.id + '.webp')) + '?v=ca0f8121a-20261013110632" alt="" loading="lazy" draggable="false">' +
+          '<span class="poster-choice-copy">' + esc(x.p.title) + '<span>' + x.rows.length +
+          (x.rows.length === 1 ? ' word' : ' words') + '</span></span></button>';
+      }).join('') + '</div>';
+      count.textContent = 'Choose a poster'; return;
+    }
+    /* One whole poster, locked to the viewport (see the body.poster-view comment in the
+       CSS): .poster-stage-area receives every height that is left under the header, the
+       mode bar and the title row, and the stage becomes the largest 4:3 plate that fits
+       inside it. */
+    document.body.classList.add('poster-view');
+    var pieces = chosen.rows.map(function (r) { return posterWord(r, chosen.p.labels[r[1]]); });
+    grid.innerHTML = '<div class="poster-heading"><button type="button" class="poster-back" data-all-posters aria-label="All posters">←</button><h2>' +
+      esc(chosen.p.title) + '</h2></div><div class="poster-stage-area"><div class="poster-stage ' + esc(chosen.p.layout) + '" data-poster-stage="' + esc(chosen.p.id) + '">' +
+      '<img class="poster-plate" src="' + esc(chosen.p.plate) + '?v=ca0f8121a-20261013110632" alt="" draggable="false">' + pieces.join('') + '</div></div>';
+  }
+
+  function cardsInCollection(id) {
+    return cards.filter(function (c) {
+      return c.rows.some(function (r) { return (r[5] || []).indexOf(id) > -1; });
+    });
+  }
+  function renderCollections() {
+    showCollectionHeading(false);
+    grid.className = 'grid collections';
+    var available = collections.map(function (c) {
+      return { c: c, total: cardsInCollection(c.id).length };
+    }).filter(function (x) { return x.total; });
+    grid.innerHTML = available.map(function (x) {
+      return '<button type="button" class="collection-card" data-collection="' + esc(x.c.id) + '">' +
+        '<span class="collection-icon" aria-hidden="true">' + collectionIconMarkup(x.c) + '</span><span>' +
+        '<span class="collection-name">' + esc(x.c.label) + '</span>' +
+        '<span class="collection-description">' + esc(x.c.description) + '</span>' +
+        '<span class="collection-total">' + x.total + (x.total === 1 ? ' word' : ' words') +
+        '</span></span></button>';
+    }).join('');
+    count.textContent = 'Choose a group';
+  }
+  function showCollectionHeading(show) {
+    collectionHeading.hidden = !show;
+    if (!show) return;
+    var c = collectionById[selectedCollection];
+    if (!c) return;
+    collectionIcon.innerHTML = collectionIconMarkup(c);
+    collectionTitle.textContent = c.label;
+    collectionCopy.textContent = c.description;
+    var subgroups = c.subgroups || [];
+    subgroupFilters.hidden = !subgroups.length;
+    subgroupFilters.innerHTML = subgroups.length ? [{ id: '', label: 'All' }].concat(subgroups)
+      .map(function (s) {
+        var pressed = (s.id || null) === selectedSubgroup;
+        return '<button type="button" class="subgroup-filter" data-subgroup="' + esc(s.id) +
+          '" aria-pressed="' + pressed + '">' + esc(s.label) + '</button>';
+      }).join('') : '';
+  }
+  function syncMode() {
+    var grouping = mode === 'collections';
+    var posting = mode === 'posters';
+    modeAZ.setAttribute('aria-pressed', String(!grouping && !posting));
+    modeCollections.setAttribute('aria-pressed', String(grouping));
+    modePosters.setAttribute('aria-pressed', String(posting));
+    az.hidden = grouping || posting;
+    syncAZ();
+  }
+  function chooseMode(next) {
+    if (mode === next) return;
+    rememberScroll();
+    mode = next; query = ''; q.value = ''; clear.hidden = true; posterSense = null;
+    render(); saveState(); restoreScroll();
+  }
+  function chooseCollection(id) {
+    if (!collectionById[id]) return;
+    rememberScroll();
+    mode = 'collections'; selectedCollection = id; selectedSubgroup = null;
+    query = ''; q.value = ''; clear.hidden = true;
+    render(); saveState(); scrollTopNow();
+  }
+  function chooseSubgroup(id) {
+    var next = id || null;
+    if (next && (!subgroupById[next] || subgroupById[next].collection !== selectedCollection)) return;
+    if (selectedSubgroup === next) return;
+    rememberScroll();
+    selectedSubgroup = next;
+    render(); saveState(); restoreScroll();
+  }
+
+  function buildAZ() {
+    az.innerHTML = lettersFor().map(function (l) {
+      return '<button type="button" data-l="' + l + '" aria-pressed="' +
+             (l === letter) + '">' + l + '</button>';
+    }).join('');
+    az.addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-l]');
+      if (!b) return;
+      letter = b.dataset.l;
+      query = '';
+      q.value = '';
+      clear.hidden = true;
+      syncAZ();
+      render();
+      saveState();
+      scrollTopNow();
+    });
+  }
+
+  function syncAZ() {
+    Array.prototype.forEach.call(az.querySelectorAll('button'), function (b) {
+      b.setAttribute('aria-pressed', String(!query && b.dataset.l === letter));
+    });
+  }
+
+  q.addEventListener('input', function () {
+    query = q.value.trim();
+    clear.hidden = !query;
+    syncAZ();
+    render();
+  });
+  clear.addEventListener('click', function () {
+    query = ''; q.value = ''; clear.hidden = true; q.focus(); syncAZ(); render();
+  });
+  modeAZ.addEventListener('click', function () { chooseMode('az'); });
+  modeCollections.addEventListener('click', function () { chooseMode('collections'); });
+  modePosters.addEventListener('click', function () { chooseMode('posters'); });
+  allGroups.addEventListener('click', function () {
+    rememberScroll(); selectedCollection = null; selectedSubgroup = null;
+    render(); saveState(); restoreScroll();
+  });
+  subgroupFilters.addEventListener('click', function (e) {
+    var button = e.target.closest('button[data-subgroup]');
+    if (button) chooseSubgroup(button.getAttribute('data-subgroup'));
+  });
+
+  /* ONE shared voice for the whole page, created on the first tap and never before:
+     nothing is fetched or played on load. A child taps word after word, and the
+     previous word stops the moment the next one starts, because it is the same
+     element being given a new src -- there is nothing to stack. Tapping the word that
+     is already speaking rewinds it to the top.
+     voiceBtn is the button the voice is serving now. Every late event (ended, error, a
+     rejected play) is checked against it, so a slow failure from an earlier word can
+     never mark the button a child has since moved on to. */
+  var voice = null, voiceBtn = null;
+  function missed(btn) {
+    if (!btn || btn !== voiceBtn) return;
+    btn.classList.remove('speaking');
+    btn.classList.remove('missed');
+    void btn.offsetWidth;            /* restart the shake on every failed tap */
+    btn.classList.add('missed');
+  }
+  function hush() {
+    if (voice) { try { voice.pause(); } catch (e) {} }
+    if (voiceBtn) voiceBtn.classList.remove('speaking');
+    voiceBtn = null;
+  }
+  function say(btn) {
+    var clip = btn.getAttribute('data-clip');
+    if (!voice) {
+      voice = new Audio();
+      voice.addEventListener('ended', function () {
+        if (voiceBtn) voiceBtn.classList.remove('speaking');
+      });
+      voice.addEventListener('error', function () { missed(voiceBtn); });
+    }
+    if (voiceBtn && voiceBtn !== btn) voiceBtn.classList.remove('speaking');
+    voiceBtn = btn;
+    btn.classList.remove('missed');
+    btn.classList.add('speaking');
+    try {
+      /* A new word, or a retry after a failure, loads the file; the same word again
+         only rewinds, so a repeated tap never re-downloads anything. */
+      if (voice.getAttribute('src') !== clip || voice.error) voice.src = clip;
+      else voice.currentTime = 0;
+      var p = voice.play();
+      if (p && typeof p.then === 'function') {
+        p.then(null, function (err) {
+          /* AbortError means a newer tap replaced this one: not a failure. */
+          if (err && err.name === 'AbortError') return;
+          missed(btn);
+        });
+      }
+    } catch (e) { missed(btn); }
+  }
+  grid.addEventListener('click', function (e) {
+    var posterChoice = e.target.closest('[data-poster]');
+    if (posterChoice) { selectedPoster = posterChoice.getAttribute('data-poster'); posterSense = null; render(); saveState(); scrollTopNow(); return; }
+    if (e.target.closest('[data-all-posters]')) { selectedPoster = null; posterSense = null; render(); saveState(); scrollTopNow(); return; }
+    if (e.target.closest('[data-poster-back]')) { posterSense = null; render(); saveState(); scrollTopNow(); return; }
+    var posterWordButton = e.target.closest('[data-poster-sense]');
+    if (posterWordButton) {
+      if (posterWordButton.getAttribute('data-clip')) say(posterWordButton);
+      posterSense = posterWordButton.getAttribute('data-poster-sense');
+      window.setTimeout(function () { render(); saveState(); scrollTopNow(); }, 180);
+      return;
+    }
+    var collectionButton = e.target.closest('[data-collection]');
+    if (collectionButton) { chooseCollection(collectionButton.getAttribute('data-collection')); return; }
+    var b = e.target.closest('button.speak');
+    if (b) say(b);
+  });
+
+  count.textContent = 'Opening the book…';
+
+  /* The sentence ledger is fetched beside the data and is allowed to fail: without it the
+     book still opens, with word speakers only. */
+  var ledgerLoad = SA
+    ? fetch(SA.LEDGER).then(function (r) { return r.json(); }).then(null, function () { return null; })
+    : Promise.resolve(null);
+
+  loadLetters().then(function () {
+    if (restoredState.letter && lettersFor().indexOf(restoredState.letter) > -1) letter = restoredState.letter;
+    if (letter === null) letter = lettersFor()[0];
+    return Promise.all([
+      fetch('data/dictionary.json').then(function (r) { return r.json(); }),
+      ledgerLoad,
+      fetch('data/posters.json').then(function (r) { return r.json(); })
+    ]);
+  }).then(function (values) {
+    var d = values[0];
+    ledger = values[1];
+    posters = (values[2] && values[2].posters) || [];
+    filterData(d);
+    (d.rows || []).forEach(function (r) { rowBySense[r[1]] = r; });
+    collections = d.collections || [];
+    collections.forEach(function (c) {
+      collectionById[c.id] = c;
+      (c.subgroups || []).forEach(function (s) {
+        subgroupById[s.id] = { collection: c.id, label: s.label };
+      });
+    });
+    if (!collectionById[selectedCollection]) selectedCollection = null;
+    if (!selectedCollection || !subgroupById[selectedSubgroup] ||
+        subgroupById[selectedSubgroup].collection !== selectedCollection) selectedSubgroup = null;
+    cards = alphabetical(buildCards(d));
+    buildAZ();
+    render();
+    saveState();
+    restoreScroll();
+  }).catch(function () {
+    /* Says what a child can do about it, and does not explain itself. */
+    grid.innerHTML = '<p class="none">The book did not open. Try again in a moment.</p>';
+    count.textContent = '';
+  });
+
+  window.addEventListener('pagehide', function () { rememberScroll(); saveState(); });
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      Promise.resolve() /* Test Hub staging: no service worker */.catch(function () {});
+    });
+  }
+})();
+</script>
+<script src="./tap-zoom-guard.js?v=ca0f8121a-20261013110632"></script>
+</body>
+</html>

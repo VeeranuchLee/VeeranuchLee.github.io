@@ -1,0 +1,170 @@
+{
+  "$schema": "Word Book ordered poster definitions, 2026-10-11",
+  "$note": "Sense IDs are deliberate: posters must never pick the wrong homograph. Production filters every item through data/letters.json and hides a poster when fewer than min_released items remain. Test Hub staging rewrites letters.json to all letters.",
+  "posters": [
+    {
+      "id": "numbers",
+      "title": "Numbers 0–20",
+      "layout": "number-line",
+      "plate": "assets/posters/numbers.webp",
+      "labels": {
+        "zero.number": [18, 17, "down"], "one.number": [29, 17, "down"], "two.number": [40, 17, "down"], "three.number": [51, 17, "down"], "four.number": [62, 17, "down"], "five.number": [73, 17, "down"], "six.number": [84, 17, "down"],
+        "seven.number": [18, 47, "down"], "eight.number": [29, 47, "down"], "nine.number": [40, 47, "down"], "ten.number": [51, 47, "down"], "eleven.number": [62, 47, "down"], "twelve.number": [73, 47, "down"], "thirteen.number": [84, 47, "down"],
+        "fourteen.number": [18, 77, "down"], "fifteen.number": [29, 77, "down"], "sixteen.number": [40, 77, "down"], "seventeen.number": [51, 77, "down"], "eighteen.number": [62, 77, "down"], "nineteen.number": [73, 77, "down"], "twenty.number": [84, 77, "down"]
+      },
+      "min_released": 3,
+      "senses": ["zero.number", "one.number", "two.number", "three.number", "four.number", "five.number", "six.number", "seven.number", "eight.number", "nine.number", "ten.number", "eleven.number", "twelve.number", "thirteen.number", "fourteen.number", "fifteen.number", "sixteen.number", "seventeen.number", "eighteen.number", "nineteen.number", "twenty.number"]
+    },
+    {
+      "id": "ordinals",
+      "title": "First to tenth",
+      "layout": "race",
+      "plate": "assets/posters/ordinals.webp",
+      "labels": {
+        "first.order-one": [89, 88, "up"], "second.order-two": [78, 88, "up"], "third.order-three": [67, 88, "up"], "fourth.order-four": [56, 88, "up"],
+        "fifth.order-five": [45, 88, "up"], "sixth.order-six": [34, 88, "up"], "seventh.order-seven": [23, 88, "up"], "tenth.order-ten": [10, 88, "up"]
+      },
+      "min_released": 3,
+      "senses": ["first.order-one", "second.order-two", "third.order-three", "fourth.order-four", "fifth.order-five", "sixth.order-six", "seventh.order-seven", "tenth.order-ten"]
+    },
+    {
+      "id": "solar-system",
+      "title": "From the Sun",
+      "layout": "solar",
+      "plate": "assets/posters/solar-system.webp",
+      "labels": {
+        "sun.our-star": [7, 86, "up"], "mercury.planet": [22, 76, "up"], "venus.planet": [29, 89, "up"], "earth.our-planet": [37, 76, "up"], "mars.planet": [44, 89, "up"],
+        "jupiter.planet": [56, 76, "up"], "saturn.planet": [68, 89, "up"], "uranus.planet": [81, 76, "up"], "neptune.planet": [92, 89, "up"]
+      },
+      "min_released": 4,
+      "senses": ["sun.our-star", "mercury.planet", "venus.planet", "earth.our-planet", "mars.planet", "jupiter.planet", "saturn.planet", "uranus.planet", "neptune.planet"]
+    },
+    {
+      "id": "months",
+      "title": "Months of the year",
+      "layout": "year-wheel",
+      "plate": "assets/posters/months.webp",
+      "labels": {
+        "january.month": [24, 15, "down"], "february.month": [48, 13, "down"], "march.month": [73, 16, "down"], "april.month": [87, 31, "left"],
+        "may.month": [87, 51, "left"], "june.month": [86, 72, "left"], "july.month": [72, 87, "up"], "august.month": [49, 88, "up"],
+        "september.month": [25, 87, "up"], "october.month": [12, 70, "right"], "november.month": [12, 49, "right"], "december.month": [12, 29, "right"]
+      },
+      "min_released": 4,
+      "senses": ["january.month", "february.month", "march.month", "april.month", "may.month", "june.month", "july.month", "august.month", "september.month", "october.month", "november.month", "december.month"]
+    },
+    {
+      "id": "weekdays",
+      "title": "Days of the week",
+      "layout": "week-strip",
+      "plate": "assets/posters/weekdays.webp",
+      "labels": {
+        "monday.weekday": [14, 73, "up"], "tuesday.weekday": [26, 61, "up"], "wednesday.weekday": [38, 73, "up"], "thursday.weekday": [50, 61, "up"],
+        "friday.weekday": [62, 73, "up"], "saturday.weekday": [74, 61, "up"], "sunday.weekday": [86, 73, "up"]
+      },
+      "min_released": 3,
+      "senses": ["monday.weekday", "tuesday.weekday", "wednesday.weekday", "thursday.weekday", "friday.weekday", "saturday.weekday", "sunday.weekday"]
+    },
+    {
+      "id": "seasons",
+      "title": "Four seasons",
+      "layout": "season-cycle",
+      "plate": "assets/posters/seasons.webp",
+      "labels": {
+        "spring.season": [25, 23, "down"], "summer.season": [75, 23, "down"], "autumn.season": [75, 78, "up"], "winter.season": [25, 78, "up"]
+      },
+      "min_released": 3,
+      "senses": ["spring.season", "summer.season", "autumn.season", "winter.season"]
+    },
+    {
+      "id": "rainbow",
+      "title": "Rainbow order",
+      "layout": "rainbow",
+      "plate": "assets/posters/rainbow.webp",
+      "labels": {
+        "red.colour": [18, 23, "right"], "orange.colour": [22, 34, "right"], "yellow.colour": [25, 45, "right"], "green.colour": [29, 56, "right"], "blue.colour": [33, 67, "right"]
+      },
+      "min_released": 3,
+      "senses": ["red.colour", "orange.colour", "yellow.colour", "green.colour", "blue.colour"]
+    },
+    {
+      "id": "day",
+      "title": "Through the day",
+      "layout": "day-sky",
+      "plate": "assets/posters/day.webp",
+      "labels": {
+        "morning.early-day": [14, 22, "down"], "afternoon.after-noon": [39, 22, "down"], "evening.late-day": [64, 22, "down"], "night.dark-part-of-day": [87, 22, "down"]
+      },
+      "min_released": 3,
+      "senses": ["morning.early-day", "afternoon.after-noon", "evening.late-day", "night.dark-part-of-day"]
+    },
+    {
+      "id": "meals",
+      "title": "Meals through the day",
+      "layout": "meal-table",
+      "plate": "assets/posters/meals.webp",
+      "labels": {
+        "breakfast.morning-meal": [17, 43, "down"], "lunch.midday-meal": [50, 43, "down"], "dinner.main-evening-meal": [83, 43, "down"]
+      },
+      "min_released": 3,
+      "senses": ["breakfast.morning-meal", "lunch.midday-meal", "dinner.main-evening-meal"]
+    },
+    {
+      "id": "time-units",
+      "title": "Small time to big time",
+      "layout": "time-steps",
+      "plate": "assets/posters/time-units.webp",
+      "labels": {
+        "second.time-unit": [10, 72, "right"], "minute.time-unit": [24, 65, "right"], "hour.time-unit": [36, 56, "right"], "day.twenty-four-hours": [50, 47, "right"],
+        "week.seven-days": [63, 40, "right"], "month.calendar-period": [76, 31, "right"], "year.twelve-months": [88, 20, "left"]
+      },
+      "min_released": 3,
+      "senses": ["second.time-unit", "minute.time-unit", "hour.time-unit", "day.twenty-four-hours", "week.seven-days", "month.calendar-period", "year.twelve-months"]
+    },
+    {
+      "id": "sizes",
+      "title": "Small to big",
+      "layout": "size-steps",
+      "plate": "assets/posters/sizes.webp",
+      "labels": {
+        "tiny.very-small": [11, 55, "down"], "small.little-size": [29, 49, "down"], "large.big-size": [50, 42, "down"], "huge.very-big": [80, 29, "down"]
+      },
+      "min_released": 3,
+      "senses": ["tiny.very-small", "small.little-size", "large.big-size", "huge.very-big"]
+    },
+    {
+      "id": "growing-up",
+      "title": "Growing up",
+      "layout": "growth-path",
+      "plate": "assets/posters/growing-up.webp",
+      "labels": {
+        "baby.very-young-child": [13, 22, "down"], "child.young-person": [37, 18, "down"], "teenager.young-person": [62, 18, "down"], "adult.grown-person": [86, 18, "down"]
+      },
+      "min_released": 3,
+      "senses": ["baby.very-young-child", "child.young-person", "teenager.young-person", "adult.grown-person"]
+    },
+    {
+      "id": "story-order",
+      "title": "A story has an order",
+      "layout": "story-path",
+      "plate": "assets/posters/story-order.webp",
+      "labels": {
+        "beginning.start": [18, 20, "down"], "middle.central-part": [50, 20, "down"], "end.finish-an-activity": [82, 20, "down"]
+      },
+      "min_released": 3,
+      "senses": ["beginning.start", "middle.central-part", "end.finish-an-activity"]
+    },
+    {
+      "id": "positions",
+      "title": "Where is it?",
+      "layout": "position-scene",
+      "plate": "assets/posters/position-scene.webp",
+      "labels": {
+        "on.touching-the-top": [59, 25, "left"], "in.inside": [42, 47, "right"], "under.lower-than": [62, 65, "left"], "behind.at-the-back-of": [14, 48, "right"],
+        "above.higher-than": [24, 13, "right"], "below.lower-than": [62, 78, "left"], "beside.next-to": [90, 52, "left"], "over.above-and-across": [82, 13, "left"],
+        "inside.inner-place": [61, 45, "left"], "outside.outer-place": [91, 71, "left"], "between.in-the-middle-of": [50, 91, "up"]
+      },
+      "min_released": 3,
+      "senses": ["on.touching-the-top", "in.inside", "under.lower-than", "behind.at-the-back-of", "above.higher-than", "below.lower-than", "beside.next-to", "over.above-and-across", "inside.inner-place", "outside.outer-place", "between.in-the-middle-of"]
+    }
+  ]
+}
