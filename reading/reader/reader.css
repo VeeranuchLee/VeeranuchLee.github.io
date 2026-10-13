@@ -234,15 +234,20 @@ html, body {
   position: relative;
   display: grid;
   grid-template-columns: 76px 1fr 76px;
+  /* One row bounded by the strip: without it the row sizes to the text, so .text is never
+     height-bounded and the fit/scroll fallback below can never detect an overflow. */
+  grid-template-rows: minmax(0, 1fr);
   align-items: center;
   gap: 1.5vmin;
   padding: 1.5vmin 2.2vmin 4vmin;
 }
 .reading-mid {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 2.4vmin;
   min-width: 0;
+  height: 100%;
   max-height: 100%;
 }
 
@@ -255,6 +260,46 @@ html, body {
   overflow-wrap: normal;
   max-height: 100%;
   overflow: visible;
+}
+.book.text-roomy .art { flex-basis: calc(58% - 64px); }
+.text.text-compact { font-size: clamp(28px, 4.25vmin, 40px); }
+.text.is-scrollable {
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 28px;
+  scrollbar-color: var(--accent) var(--paper-deep);
+  scrollbar-width: auto;
+}
+.reading-mid.has-more-text::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  left: 102px;
+  right: 0;
+  bottom: 0;
+  height: 64px;
+  background: linear-gradient(to bottom, rgba(247, 240, 225, 0), var(--paper) 72%);
+}
+.reading-mid.has-more-text::after {
+  content: "↓";
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  right: 5px;
+  bottom: 3px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: white;
+  background: var(--accent);
+  box-shadow: 0 3px 0 var(--accent-press);
+  font: 900 27px/1 'Nunito', system-ui, sans-serif;
+  animation: scroll-cue 1.05s ease-in-out infinite;
 }
 .text.title {
   font-family: 'Fredoka One', 'Nunito', sans-serif;
@@ -370,6 +415,7 @@ button { font: inherit; }
 
 @keyframes pulse { 50% { opacity: .35; } }
 @keyframes nudge { 25% { transform: translateX(-3px); } 75% { transform: translateX(3px); } }
+@keyframes scroll-cue { 50% { transform: translateY(5px); } }
 
 /* Landscape (1024 x 768): the same column, a shorter reading strip but a much wider one. */
 @media (orientation: landscape) {
@@ -377,6 +423,7 @@ button { font: inherit; }
   .book.has-quick-words .art { flex-basis: calc(68% - 60px); }
   .quick-words { flex-basis: 60px; min-height: 52px; padding-top: 5px; padding-bottom: 5px; }
   .reading { grid-template-columns: 76px 1fr 76px; padding-bottom: 3.2vmin; }
+  .book.text-roomy .art { flex-basis: calc(57% - 60px); }
 }
 
 /* Narrow screens are not the target, but must not break. */
@@ -390,5 +437,6 @@ button { font: inherit; }
   .shelf-back svg { width: 34px; height: 34px; }
   .speaker svg { width: 44px; height: 44px; }
   .reading-mid { gap: 10px; }
+  .reading-mid.has-more-text::before { left: 74px; }
   :root { --text-size: 26px; --title-size: 38px; }
 }
