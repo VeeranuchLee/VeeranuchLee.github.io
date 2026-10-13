@@ -14,7 +14,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One ripe apricot cut in half beside one whole apricot, showing the orange flesh and single stone; no people or text."
+      "picture_brief": "One ripe apricot cut in half beside one whole apricot, showing the orange flesh and single stone; no people or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Coherent fruit, British 'stone', sentence and sliced-fruit brief; stone must be visible in one half.",
+        "changes": []
+      }
     },
     {
       "word": "nectarine",
@@ -30,7 +36,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One whole red-and-yellow nectarine beside a cut half, with clearly smooth skin and one stone; no people or text."
+      "picture_brief": "One whole red-and-yellow nectarine beside a cut half, with clearly smooth skin and one stone; no people or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Smooth skin separates it from a peach; verify no fuzzy peach texture appears in final art.",
+        "changes": []
+      }
     },
     {
       "word": "fig",
@@ -46,7 +58,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One purple fig cut open to show its pink seeded centre, beside one whole fig; no people or text."
+      "picture_brief": "One purple fig cut open to show its pink seeded centre, beside one whole fig; no people or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Cut section and tiny interior seeds make fig recognisable; pink interior is illustration-specific.",
+        "changes": []
+      }
     },
     {
       "word": "blackberry",
@@ -62,7 +80,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "A small bowl holding several ripe dark-purple blackberries, with one large berry in front; no people or text."
+      "picture_brief": "A small bowl holding several ripe dark-purple blackberries, with one large berry in front; no people or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Good composite berry shape and British spelling.",
+        "changes": []
+      }
     },
     {
       "word": "cranberry",
@@ -78,7 +102,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "Several glossy red cranberries on a short leafy sprig, with one berry prominent; no people or text."
+      "picture_brief": "Several glossy red cranberries on a short leafy sprig, with one berry prominent; no people or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Good small-red-berry description; artwork must avoid resembling cherries.",
+        "changes": []
+      }
     },
     {
       "word": "pomegranate",
@@ -94,7 +124,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One pomegranate cut open with many clear ruby-red seeds, beside one whole fruit; no people or text."
+      "picture_brief": "One pomegranate cut open with many clear ruby-red seeds, beside one whole fruit; no people or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Clear cut-open arils; 'red seeds' is common child-friendly shorthand for arils surrounding seeds.",
+        "changes": []
+      }
     },
     {
       "word": "grapefruit",
@@ -110,7 +146,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One pink grapefruit cut in half to show large juicy segments, beside one whole fruit; no people or text."
+      "picture_brief": "One pink grapefruit cut in half to show large juicy segments, beside one whole fruit; no people or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Specific pink variety shown; not all grapefruit is pink.",
+        "changes": []
+      }
     },
     {
       "word": "mandarin",
@@ -119,14 +161,27 @@
       "theme": "Fruits",
       "explanation": "a small, sweet citrus fruit with loose orange skin",
       "thai": "ส้มแมนดาริน — ส้มผลเล็ก รสหวาน เปลือกสีส้มลอกง่าย",
-      "sentence": "The mandarin peels into juicy segments.",
+      "sentence": "I peel the mandarin and separate its juicy segments.",
       "sources": [
         {
           "id": "POSTER-PLAN",
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One partly peeled mandarin with several orange segments beside it; no hands, people or text."
+      "picture_brief": "One partly peeled mandarin with several orange segments beside it; no hands, people or text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P2",
+        "note": "Example is semantically unnatural: peeling a fruit does not turn it into segments.",
+        "changes": [
+          {
+            "field": "sentence",
+            "label": "Example sentence",
+            "before": "The mandarin peels into juicy segments.",
+            "after": "I peel the mandarin and separate its juicy segments."
+          }
+        ]
+      }
     },
     {
       "word": "radish",
@@ -142,7 +197,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One red round radish freshly pulled with its leafy green top and a little clean soil; no people or text."
+      "picture_brief": "One red round radish freshly pulled with its leafy green top and a little clean soil; no people or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Red round variety and leaves are consistent; distinguish from beetroot.",
+        "changes": []
+      }
     },
     {
       "word": "celery",
@@ -158,23 +219,60 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One clear bunch of pale-green celery stalks with leafy tops on a plain kitchen surface; no people or text."
+      "picture_brief": "One clear bunch of pale-green celery stalks with leafy tops on a plain kitchen surface; no people or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Long crisp leaf stalks match example and image.",
+        "changes": []
+      }
     },
     {
       "word": "leek",
       "sense": "leek.vegetable",
       "part_of_speech": "noun",
       "theme": "Vegetables",
-      "explanation": "a vegetable with a long white stem and flat green leaves",
-      "thai": "กระเทียมต้น — ผักที่มีลำต้นยาวสีขาวและใบแบนสีเขียว",
-      "sentence": "The leek has a white stem and green leaves.",
+      "explanation": "a vegetable with a long white base and flat green leaves",
+      "thai": "กระเทียมต้น — ผักที่มีโคนสีขาวยาวและใบแบนสีเขียว",
+      "sentence": "The leek has a white base and flat green leaves.",
       "sources": [
         {
           "id": "POSTER-PLAN",
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One whole leek laid diagonally, showing its long white stem and broad green leaves; no people or text."
+      "picture_brief": "One whole thick leek with a long white base and broad, flat green leaves, clearly different from a spring onion; no people or text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P2",
+        "note": "The elongated white part is a leaf-sheath base (pseudostem), not a botanical stem; the revised wording is simple and more precise.",
+        "changes": [
+          {
+            "field": "explanation",
+            "label": "English definition",
+            "before": "a vegetable with a long white stem and flat green leaves",
+            "after": "a vegetable with a long white base and flat green leaves"
+          },
+          {
+            "field": "thai",
+            "label": "Thai name and explanation",
+            "before": "กระเทียมต้น — ผักที่มีลำต้นยาวสีขาวและใบแบนสีเขียว",
+            "after": "กระเทียมต้น — ผักที่มีโคนสีขาวยาวและใบแบนสีเขียว"
+          },
+          {
+            "field": "sentence",
+            "label": "Example sentence",
+            "before": "The leek has a white stem and green leaves.",
+            "after": "The leek has a white base and flat green leaves."
+          },
+          {
+            "field": "picture_brief",
+            "label": "Future picture brief",
+            "before": "One whole leek laid diagonally, showing its long white stem and broad green leaves; no people or text.",
+            "after": "One whole thick leek with a long white base and broad, flat green leaves, clearly different from a spring onion; no people or text."
+          }
+        ]
+      }
     },
     {
       "word": "parsnip",
@@ -190,7 +288,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One cream-coloured parsnip with leafy top, fully visible against dark soil; no people or text."
+      "picture_brief": "One cream-coloured parsnip with leafy top, fully visible against dark soil; no people or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Pale long tapered root is distinct if shown at correct proportions.",
+        "changes": []
+      }
     },
     {
       "word": "beetroot",
@@ -206,7 +310,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One beetroot cut in half to show its dark-red rings, beside one whole leafy beetroot; no people or text."
+      "picture_brief": "One beetroot cut in half to show its dark-red rings, beside one whole leafy beetroot; no people or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Cut surface reveals red rings; distinguish from red radish.",
+        "changes": []
+      }
     },
     {
       "word": "courgette",
@@ -214,7 +324,7 @@
       "part_of_speech": "noun",
       "theme": "Vegetables",
       "explanation": "a long green vegetable with soft white flesh",
-      "thai": "คูร์เจตต์ หรือซูกินี — ผักทรงยาวสีเขียว มีเนื้อสีขาวนุ่ม",
+      "thai": "ซูกินี — ผักตระกูลแตงทรงยาวสีเขียว มีเนื้อสีอ่อน",
       "sentence": "The courgette grows beneath broad leaves.",
       "sources": [
         {
@@ -222,7 +332,26 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One green courgette growing clearly beneath broad leaves in a garden bed; no people or text."
+      "picture_brief": "One whole dark-green courgette next to one cut piece showing pale flesh; vegetable fills most of the picture, with no people or text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P2",
+        "note": "Thai headword should privilege the familiar ซูกินี; the vegetable itself needs to dominate its picture rather than surrounding leaves.",
+        "changes": [
+          {
+            "field": "thai",
+            "label": "Thai name and explanation",
+            "before": "คูร์เจตต์ หรือซูกินี — ผักทรงยาวสีเขียว มีเนื้อสีขาวนุ่ม",
+            "after": "ซูกินี — ผักตระกูลแตงทรงยาวสีเขียว มีเนื้อสีอ่อน"
+          },
+          {
+            "field": "picture_brief",
+            "label": "Future picture brief",
+            "before": "One green courgette growing clearly beneath broad leaves in a garden bed; no people or text.",
+            "after": "One whole dark-green courgette next to one cut piece showing pale flesh; vegetable fills most of the picture, with no people or text."
+          }
+        ]
+      }
     },
     {
       "word": "herbs",
@@ -238,7 +367,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "Three simple pots of basil, mint and parsley beside one bowl of soup; distinct leafy plants, no labels or people."
+      "picture_brief": "Three simple pots of basil, mint and parsley beside one bowl of soup; distinct leafy plants, no labels or people.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Valid culinary plural sense; consider grouping under kitchen ingredients if the poster taxonomy permits.",
+        "changes": []
+      }
     },
     {
       "word": "leopard",
@@ -254,23 +389,48 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One leopard lying calmly along a sturdy tree branch, with its dark rosette spots clearly visible; no people or text."
+      "picture_brief": "One leopard lying calmly along a sturdy tree branch, with its dark rosette spots clearly visible; no people or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Require rosette-shaped spots, not a cheetah's separate solid dots.",
+        "changes": []
+      }
     },
     {
       "word": "peacock",
       "sense": "peacock.male-peafowl",
       "part_of_speech": "noun",
       "theme": "Wild animals",
-      "explanation": "a male bird with bright tail feathers that can spread like a fan",
+      "explanation": "a male bird with long, colourful display feathers that spread like a fan",
       "thai": "นกยูงตัวผู้ — นกตัวผู้ที่มีขนหางสีสดและแผ่เป็นพัดได้",
-      "sentence": "The peacock spreads his colourful tail.",
+      "sentence": "The peacock spreads his colourful feathers.",
       "sources": [
         {
           "id": "POSTER-PLAN",
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One peacock facing forward with its colourful eye-spotted tail fully spread; no other birds, people or text."
+      "picture_brief": "One peacock facing forward with its colourful eye-spotted tail fully spread; no other birds, people or text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P2",
+        "note": "The fan is technically made of elongated upper-tail covert feathers, not the bird's true tail feathers.",
+        "changes": [
+          {
+            "field": "explanation",
+            "label": "English definition",
+            "before": "a male bird with bright tail feathers that can spread like a fan",
+            "after": "a male bird with long, colourful display feathers that spread like a fan"
+          },
+          {
+            "field": "sentence",
+            "label": "Example sentence",
+            "before": "The peacock spreads his colourful tail.",
+            "after": "The peacock spreads his colourful feathers."
+          }
+        ]
+      }
     },
     {
       "word": "turkey",
@@ -286,15 +446,21 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One turkey standing alone in grass with broad tail fanned and its whole body visible; no people or text."
+      "picture_brief": "One turkey standing alone in grass with broad tail fanned and its whole body visible; no people or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Brief consistent; give recognisable turkey head and body, not a peacock silhouette.",
+        "changes": []
+      }
     },
     {
       "word": "dove",
       "sense": "dove.bird",
       "part_of_speech": "noun",
       "theme": "Wild animals",
-      "explanation": "a pale pigeon-like bird",
-      "thai": "นกเขาหรือนกพิราบสีอ่อน — นกสีอ่อนในวงศ์เดียวกับนกพิราบ",
+      "explanation": "a bird closely related to pigeons, often white or grey",
+      "thai": "นกเขาหรือนกพิราบชนิดหนึ่ง — นกในวงศ์เดียวกับนกพิราบ มีหลายชนิดและหลายสี",
       "sentence": "The white dove perches on a branch.",
       "sources": [
         {
@@ -302,7 +468,26 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One white dove perched side-on on a simple branch against blue sky; no symbols, people or text."
+      "picture_brief": "One white dove perched side-on on a simple branch against blue sky; no symbols, people or text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P1",
+        "note": "The English and Thai definitions over-restrict doves to pale-coloured pigeon-like birds; the Thai wording also ambiguously equates them with light-coloured pigeons.",
+        "changes": [
+          {
+            "field": "explanation",
+            "label": "English definition",
+            "before": "a pale pigeon-like bird",
+            "after": "a bird closely related to pigeons, often white or grey"
+          },
+          {
+            "field": "thai",
+            "label": "Thai name and explanation",
+            "before": "นกเขาหรือนกพิราบสีอ่อน — นกสีอ่อนในวงศ์เดียวกับนกพิราบ",
+            "after": "นกเขาหรือนกพิราบชนิดหนึ่ง — นกในวงศ์เดียวกับนกพิราบ มีหลายชนิดและหลายสี"
+          }
+        ]
+      }
     },
     {
       "word": "badger",
@@ -318,7 +503,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One badger walking beside a low burrow entrance, with clear black-and-white face stripes; no people or text."
+      "picture_brief": "One badger walking beside a low burrow entrance, with clear black-and-white face stripes; no people or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Facial black-and-white stripes are decisive; brief supports them.",
+        "changes": []
+      }
     },
     {
       "word": "mole",
@@ -334,7 +525,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One small mole emerging from a fresh soil mound, with broad digging paws visible; no people or text."
+      "picture_brief": "One small mole emerging from a fresh soil mound, with broad digging paws visible; no people or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Digging paws make it different from a mouse or shrew.",
+        "changes": []
+      }
     },
     {
       "word": "squid",
@@ -343,14 +540,27 @@
       "theme": "Sea animals",
       "explanation": "a sea animal with a long body, eight arms and two longer tentacles",
       "thai": "หมึกกล้วย — สัตว์ทะเลลำตัวยาว มีแขนแปดเส้นและหนวดยาวกว่าสองเส้น",
-      "sentence": "The squid swims with two long tentacles behind it.",
+      "sentence": "The squid stretches out its two longer tentacles.",
       "sources": [
         {
           "id": "POSTER-PLAN",
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One squid swimming side-on in clear blue water, with eight short arms and two clearly longer tentacles; no text."
+      "picture_brief": "One squid swimming side-on in clear blue water, with eight short arms and two clearly longer tentacles; no text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P2",
+        "note": "The direction of the two long tentacles relative to swimming is not a dependable defining behaviour.",
+        "changes": [
+          {
+            "field": "sentence",
+            "label": "Example sentence",
+            "before": "The squid swims with two long tentacles behind it.",
+            "after": "The squid stretches out its two longer tentacles."
+          }
+        ]
+      }
     },
     {
       "word": "eel",
@@ -366,15 +576,21 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One long eel curving between two seabed rocks, with fins and fish face visible; no people or text."
+      "picture_brief": "One long eel curving between two seabed rocks, with fins and fish face visible; no people or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Fish face/fins important to distinguish it from a snake.",
+        "changes": []
+      }
     },
     {
       "word": "stingray",
       "sense": "stingray.flat-sea-fish",
       "part_of_speech": "noun",
       "theme": "Sea animals",
-      "explanation": "a flat sea fish with wide fins and a long tail",
-      "thai": "ปลากระเบน — ปลาทะเลลำตัวแบน มีครีบกว้างและหางยาว",
+      "explanation": "a flat fish with broad fins and a sharp, stinging spine on its tail",
+      "thai": "ปลากระเบนมีเงี่ยง — ปลากระเบนลำตัวแบน มีเงี่ยงแหลมบนหาง",
       "sentence": "The stingray glides above the sandy seabed.",
       "sources": [
         {
@@ -382,7 +598,32 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One stingray gliding above pale sand, seen from a gentle upper angle with wide fins and long tail; no text."
+      "picture_brief": "One stingray gliding above pale sand, seen slightly from above with broad fins and a small, anatomically correctly placed sharp spine on its tail; no people or text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P1",
+        "note": "The draft omits the characteristic sharp tail spine, so the picture could represent an ordinary ray; 'sea fish' is over-narrow for a category that includes freshwater stingrays.",
+        "changes": [
+          {
+            "field": "explanation",
+            "label": "English definition",
+            "before": "a flat sea fish with wide fins and a long tail",
+            "after": "a flat fish with broad fins and a sharp, stinging spine on its tail"
+          },
+          {
+            "field": "thai",
+            "label": "Thai name and explanation",
+            "before": "ปลากระเบน — ปลาทะเลลำตัวแบน มีครีบกว้างและหางยาว",
+            "after": "ปลากระเบนมีเงี่ยง — ปลากระเบนลำตัวแบน มีเงี่ยงแหลมบนหาง"
+          },
+          {
+            "field": "picture_brief",
+            "label": "Future picture brief",
+            "before": "One stingray gliding above pale sand, seen from a gentle upper angle with wide fins and long tail; no text.",
+            "after": "One stingray gliding above pale sand, seen slightly from above with broad fins and a small, anatomically correctly placed sharp spine on its tail; no people or text."
+          }
+        ]
+      }
     },
     {
       "word": "orca",
@@ -398,7 +639,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One orca swimming side-on near the bright surface, with its black-and-white pattern and dorsal fin clear; no text."
+      "picture_brief": "One orca swimming side-on near the bright surface, with its black-and-white pattern and dorsal fin clear; no text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Black-and-white whale description and dorsal fin match.",
+        "changes": []
+      }
     },
     {
       "word": "clownfish",
@@ -414,7 +661,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One orange-and-white clownfish nestled among broad sea-anemone tentacles; simple reef background, no text."
+      "picture_brief": "One orange-and-white clownfish nestled among broad sea-anemone tentacles; simple reef background, no text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Recognisable pattern and anemone relationship; good.",
+        "changes": []
+      }
     },
     {
       "word": "woodlouse",
@@ -422,7 +675,7 @@
       "part_of_speech": "noun",
       "theme": "Bugs and little creatures",
       "explanation": "a small grey creature with a hard, segmented shell that lives in damp places",
-      "thai": "กุ้งบก — สัตว์ตัวเล็กสีเทา เปลือกแข็งเป็นปล้อง อาศัยในที่ชื้น",
+      "thai": "ตัวกะปิ (กุ้งบก) — สัตว์ตัวเล็กเปลือกแข็งเป็นปล้อง อาศัยในที่ชื้น",
       "sentence": "The woodlouse hides beneath a damp log.",
       "sources": [
         {
@@ -430,7 +683,26 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One enlarged grey woodlouse beside the underside of a damp log, segmented shell and many legs clear; no text."
+      "picture_brief": "One enlarged grey woodlouse beside a damp log, with a segmented back and many short legs; clearly not an insect, no people or text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P2",
+        "note": "Thai name กุ้งบก is broad; ตัวกะปิ is a locally documented name for woodlice. It is a terrestrial isopod, not an insect.",
+        "changes": [
+          {
+            "field": "thai",
+            "label": "Thai name and explanation",
+            "before": "กุ้งบก — สัตว์ตัวเล็กสีเทา เปลือกแข็งเป็นปล้อง อาศัยในที่ชื้น",
+            "after": "ตัวกะปิ (กุ้งบก) — สัตว์ตัวเล็กเปลือกแข็งเป็นปล้อง อาศัยในที่ชื้น"
+          },
+          {
+            "field": "picture_brief",
+            "label": "Future picture brief",
+            "before": "One enlarged grey woodlouse beside the underside of a damp log, segmented shell and many legs clear; no text.",
+            "after": "One enlarged grey woodlouse beside a damp log, with a segmented back and many short legs; clearly not an insect, no people or text."
+          }
+        ]
+      }
     },
     {
       "word": "centipede",
@@ -446,7 +718,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One enlarged centipede crossing a flat stone, long segmented body and many paired legs clear; no people or text."
+      "picture_brief": "One enlarged centipede crossing a flat stone, long segmented body and many paired legs clear; no people or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "One pair of legs per body segment is the correct simple distinction from millipedes.",
+        "changes": []
+      }
     },
     {
       "word": "earwig",
@@ -462,7 +740,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One enlarged brown earwig beside a tipped flowerpot, curved tail pincers clear; calm garden scene, no text."
+      "picture_brief": "One enlarged brown earwig beside a tipped flowerpot, curved tail pincers clear; calm garden scene, no text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Pincers at back distinguish it well.",
+        "changes": []
+      }
     },
     {
       "word": "cross",
@@ -471,14 +755,33 @@
       "theme": "Feelings",
       "explanation": "angry or annoyed",
       "thai": "โกรธ; หงุดหงิด",
-      "sentence": "Mina feels cross when the queue is pushed.",
+      "sentence": "Mina feels cross when someone moves in front of her in the queue.",
       "sources": [
         {
           "id": "POSTER-PLAN",
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "Mina stands in a short three-child queue with crossed arms and an annoyed face after another child pushes ahead; no crowd or text."
+      "picture_brief": "Mina stands in a short three-child queue, looking annoyed with folded arms as another child clearly steps in front of her; no physical shoving, crowd or text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P1",
+        "note": "The sentence 'when the queue is pushed' is unnatural and does not express the pictured action of a child cutting in front.",
+        "changes": [
+          {
+            "field": "sentence",
+            "label": "Example sentence",
+            "before": "Mina feels cross when the queue is pushed.",
+            "after": "Mina feels cross when someone moves in front of her in the queue."
+          },
+          {
+            "field": "picture_brief",
+            "label": "Future picture brief",
+            "before": "Mina stands in a short three-child queue with crossed arms and an annoyed face after another child pushes ahead; no crowd or text.",
+            "after": "Mina stands in a short three-child queue, looking annoyed with folded arms as another child clearly steps in front of her; no physical shoving, crowd or text."
+          }
+        ]
+      }
     },
     {
       "word": "paintbrush",
@@ -494,7 +797,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One broad paintbrush beside one bold wet blue stripe on white paper; no hand, person or text."
+      "picture_brief": "One broad paintbrush beside one bold wet blue stripe on white paper; no hand, person or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Target brush and blue painted line are dominant and consistent.",
+        "changes": []
+      }
     },
     {
       "word": "calculator",
@@ -503,14 +812,33 @@
       "theme": "School",
       "explanation": "a small electronic device used for doing calculations",
       "thai": "เครื่องคิดเลข — อุปกรณ์อิเล็กทรอนิกส์ขนาดเล็กที่ใช้คำนวณ",
-      "sentence": "The calculator shows the answer on its screen.",
+      "sentence": "We use a calculator to work out sums.",
       "sources": [
         {
           "id": "POSTER-PLAN",
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One child-friendly calculator with large blank-looking buttons and a simple result on its screen; no brand name or hands."
+      "picture_brief": "One simple, unbranded calculator with a recognisable keypad of blank buttons and a plain empty display; no legible numbers, letters, logos or hands.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P1",
+        "note": "A 'simple result' on the screen conflicts with the no-text picture design and is likely to produce illegible AI numerals.",
+        "changes": [
+          {
+            "field": "sentence",
+            "label": "Example sentence",
+            "before": "The calculator shows the answer on its screen.",
+            "after": "We use a calculator to work out sums."
+          },
+          {
+            "field": "picture_brief",
+            "label": "Future picture brief",
+            "before": "One child-friendly calculator with large blank-looking buttons and a simple result on its screen; no brand name or hands.",
+            "after": "One simple, unbranded calculator with a recognisable keypad of blank buttons and a plain empty display; no legible numbers, letters, logos or hands."
+          }
+        ]
+      }
     },
     {
       "word": "laptop",
@@ -526,7 +854,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One open unbranded laptop centred on a school desk, screen showing simple colour shapes only; no people or text."
+      "picture_brief": "One open unbranded laptop centred on a school desk, screen showing simple colour shapes only; no people or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Open computer on desk clear; keep keyboard and screen free of legible generated text.",
+        "changes": []
+      }
     },
     {
       "word": "felt tips",
@@ -542,7 +876,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "Six chunky felt-tip pens beside six bold coloured lines, caps safely beside them; no hands, brands or text."
+      "picture_brief": "Six chunky felt-tip pens beside six bold coloured lines, caps safely beside them; no hands, brands or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "British 'felt tips' is an established plural; make the actual soft nibs visible if caps are removed.",
+        "changes": []
+      }
     },
     {
       "word": "stapler",
@@ -558,7 +898,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One simple stapler resting closed over the corner of two joined paper sheets; no hand, person, loose staples or text."
+      "picture_brief": "One simple stapler resting closed over the corner of two joined paper sheets; no hand, person, loose staples or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Clearly identifiable physical object; joined pages make function visible.",
+        "changes": []
+      }
     },
     {
       "word": "clipboard",
@@ -574,7 +920,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One plain clipboard holding one blank sheet beneath its metal clip, seen straight on; no hands, brand or text."
+      "picture_brief": "One plain clipboard holding one blank sheet beneath its metal clip, seen straight on; no hands, brand or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Clear blank paper and metal retaining clip.",
+        "changes": []
+      }
     },
     {
       "word": "trainers",
@@ -590,7 +942,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One pair of plain lace-up trainers side by side on a doormat; no feet, brand marks or text."
+      "picture_brief": "One pair of plain lace-up trainers side by side on a doormat; no feet, brand marks or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "British noun and paired shoes are consistent.",
+        "changes": []
+      }
     },
     {
       "word": "slippers",
@@ -606,7 +964,20 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "Grandma seated in an armchair with both slippered feet fully visible on a rug; hands resting out of view, no text."
+      "picture_brief": "Close view of Grandma's feet wearing a pair of soft, closed-toe slippers on a rug; slippers large and fully visible, with no face or distracting armchair, no text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P2",
+        "note": "A whole seated grandmother and armchair can dominate the picture; the slippers must be the clear visual target.",
+        "changes": [
+          {
+            "field": "picture_brief",
+            "label": "Future picture brief",
+            "before": "Grandma seated in an armchair with both slippered feet fully visible on a rug; hands resting out of view, no text.",
+            "after": "Close view of Grandma's feet wearing a pair of soft, closed-toe slippers on a rug; slippers large and fully visible, with no face or distracting armchair, no text."
+          }
+        ]
+      }
     },
     {
       "word": "cardigan",
@@ -622,7 +993,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One yellow knitted cardigan laid flat, front open with large round buttons and sleeves fully visible; no brand or text."
+      "picture_brief": "One yellow knitted cardigan laid flat, front open with large round buttons and sleeves fully visible; no brand or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Front-opening knitted top and large buttons are easy to recognise.",
+        "changes": []
+      }
     },
     {
       "word": "hoodie",
@@ -638,7 +1015,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One plain purple hoodie hanging from a wooden peg, hood and front pocket clear; no logo, person or text."
+      "picture_brief": "One plain purple hoodie hanging from a wooden peg, hood and front pocket clear; no logo, person or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Hood and front pocket are distinctive.",
+        "changes": []
+      }
     },
     {
       "word": "mittens",
@@ -654,7 +1037,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One matching pair of red mittens joined by a cord on snowy ground, thumb shapes clear; no person or text."
+      "picture_brief": "One matching pair of red mittens joined by a cord on snowy ground, thumb shapes clear; no person or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Thumb separate from fingers; avoid drawing gloves with individual fingers.",
+        "changes": []
+      }
     },
     {
       "word": "tie",
@@ -670,7 +1059,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "Close view of a blue necktie neatly knotted beneath an adult shirt collar, face and hands out of frame; no brand or text."
+      "picture_brief": "Close view of a blue necktie neatly knotted beneath an adult shirt collar, face and hands out of frame; no brand or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Clothing noun is distinct from the already-existing verb; checked only within this draft, not against full dictionary.",
+        "changes": []
+      }
     },
     {
       "word": "sandals",
@@ -686,23 +1081,60 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One pair of plain brown sandals side by side, open toes and straps clearly visible; no feet, brands or text."
+      "picture_brief": "One pair of plain brown sandals side by side, open toes and straps clearly visible; no feet, brands or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Open-toe straps make them identifiable.",
+        "changes": []
+      }
     },
     {
       "word": "throat",
       "sense": "throat.neck-inside",
       "part_of_speech": "noun",
       "theme": "My body",
-      "explanation": "the passage inside the neck used for breathing and swallowing",
-      "thai": "ลำคอ — ทางภายในคอที่ใช้หายใจและกลืน",
-      "sentence": "My throat carries air towards my lungs.",
+      "explanation": "the part inside the neck that helps you breathe and swallow",
+      "thai": "ลำคอ — ส่วนภายในคอที่เกี่ยวข้องกับการหายใจและการกลืน",
+      "sentence": "My throat helps me swallow water.",
       "sources": [
         {
           "id": "POSTER-PLAN",
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "Simple child-friendly side cutaway of a head and neck with the throat passage highlighted towards the lungs; no labels or text."
+      "picture_brief": "Simple side view of a child swallowing water, with the throat region gently highlighted at the front of the neck; do not depict one single passage carrying both food and air to the lungs; no text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P1",
+        "note": "The cutaway risks implying one shared tube leads to the lungs for both air and swallowed food; avoid incorrect internal anatomy.",
+        "changes": [
+          {
+            "field": "explanation",
+            "label": "English definition",
+            "before": "the passage inside the neck used for breathing and swallowing",
+            "after": "the part inside the neck that helps you breathe and swallow"
+          },
+          {
+            "field": "thai",
+            "label": "Thai name and explanation",
+            "before": "ลำคอ — ทางภายในคอที่ใช้หายใจและกลืน",
+            "after": "ลำคอ — ส่วนภายในคอที่เกี่ยวข้องกับการหายใจและการกลืน"
+          },
+          {
+            "field": "sentence",
+            "label": "Example sentence",
+            "before": "My throat carries air towards my lungs.",
+            "after": "My throat helps me swallow water."
+          },
+          {
+            "field": "picture_brief",
+            "label": "Future picture brief",
+            "before": "Simple child-friendly side cutaway of a head and neck with the throat passage highlighted towards the lungs; no labels or text.",
+            "after": "Simple side view of a child swallowing water, with the throat region gently highlighted at the front of the neck; do not depict one single passage carrying both food and air to the lungs; no text."
+          }
+        ]
+      }
     },
     {
       "word": "eyelash",
@@ -718,7 +1150,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "Close view of one open eye with one eyelash gently highlighted among the lashes; no makeup, tools or text."
+      "picture_brief": "Close view of one open eye with one eyelash gently highlighted among the lashes; no makeup, tools or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Singular eyelash requires one distinct highlighted lash rather than the whole lash line.",
+        "changes": []
+      }
     },
     {
       "word": "knuckle",
@@ -734,7 +1172,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One relaxed open child hand with one finger bent slightly and its middle knuckle softly highlighted; exactly five fingers, no text."
+      "picture_brief": "One relaxed open child hand with one finger bent slightly and its middle knuckle softly highlighted; exactly five fingers, no text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "One selected finger joint aligns with singular target.",
+        "changes": []
+      }
     },
     {
       "word": "spine",
@@ -750,7 +1194,20 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "Simple child-friendly back view of a standing child with a glowing curved row of spine bones shown through the shirt; no labels or text."
+      "picture_brief": "Simple child-friendly back-view anatomy diagram showing an anatomically plausible connected backbone down the centre of the torso, in a lightly transparent silhouette; no glowing clothing or text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P2",
+        "note": "Glowing bones through a shirt risk inaccurate anatomy and visual ambiguity; make the central backbone itself recognisable.",
+        "changes": [
+          {
+            "field": "picture_brief",
+            "label": "Future picture brief",
+            "before": "Simple child-friendly back view of a standing child with a glowing curved row of spine bones shown through the shirt; no labels or text.",
+            "after": "Simple child-friendly back-view anatomy diagram showing an anatomically plausible connected backbone down the centre of the torso, in a lightly transparent silhouette; no glowing clothing or text."
+          }
+        ]
+      }
     },
     {
       "word": "ribs",
@@ -766,7 +1223,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "Simple child-friendly chest diagram showing the curved rib cage around a heart and two lungs; no labels or text."
+      "picture_brief": "Simple child-friendly chest diagram showing the curved rib cage around a heart and two lungs; no labels or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Rib cage protecting heart and lungs is conceptually coherent; anatomical rendering still needs review.",
+        "changes": []
+      }
     },
     {
       "word": "grandpa",
@@ -775,14 +1238,33 @@
       "theme": "My family",
       "explanation": "an informal word for a grandfather",
       "thai": "คุณปู่หรือคุณตา — คำเรียกปู่หรือตาอย่างเป็นกันเอง",
-      "sentence": "Grandpa waters the tomato plants.",
+      "sentence": "Grandpa shows me how to water the tomato plants.",
       "sources": [
         {
           "id": "POSTER-PLAN",
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One friendly grandpa watering two tomato plants with a small watering can; hands naturally gripping the handle, no text."
+      "picture_brief": "A friendly older man and his grandchild watering two tomato plants together; grandpa demonstrates with a small watering can while the child watches, simple natural hands, no text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P1",
+        "note": "An older man watering plants alone does not visually demonstrate that he is a grandfather. Show a grandparent-child relationship.",
+        "changes": [
+          {
+            "field": "sentence",
+            "label": "Example sentence",
+            "before": "Grandpa waters the tomato plants.",
+            "after": "Grandpa shows me how to water the tomato plants."
+          },
+          {
+            "field": "picture_brief",
+            "label": "Future picture brief",
+            "before": "One friendly grandpa watering two tomato plants with a small watering can; hands naturally gripping the handle, no text.",
+            "after": "A friendly older man and his grandchild watering two tomato plants together; grandpa demonstrates with a small watering can while the child watches, simple natural hands, no text."
+          }
+        ]
+      }
     },
     {
       "word": "grandma",
@@ -791,14 +1273,33 @@
       "theme": "My family",
       "explanation": "an informal word for a grandmother",
       "thai": "คุณย่าหรือคุณยาย — คำเรียกย่าหรือยายอย่างเป็นกันเอง",
-      "sentence": "Grandma reads beside the sunny window.",
+      "sentence": "Grandma reads me a story beside the sunny window.",
       "sources": [
         {
           "id": "POSTER-PLAN",
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One friendly grandma seated beside a sunny window with an open book resting naturally on her lap; hands mostly hidden, no text."
+      "picture_brief": "One friendly grandma sharing an open picture book with her grandchild beside a sunny window, both faces and book visible, simple natural hands, no text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P1",
+        "note": "An older woman alone is not visually identifiable as a grandmother. Context should show her relationship with a child.",
+        "changes": [
+          {
+            "field": "sentence",
+            "label": "Example sentence",
+            "before": "Grandma reads beside the sunny window.",
+            "after": "Grandma reads me a story beside the sunny window."
+          },
+          {
+            "field": "picture_brief",
+            "label": "Future picture brief",
+            "before": "One friendly grandma seated beside a sunny window with an open book resting naturally on her lap; hands mostly hidden, no text.",
+            "after": "One friendly grandma sharing an open picture book with her grandchild beside a sunny window, both faces and book visible, simple natural hands, no text."
+          }
+        ]
+      }
     },
     {
       "word": "mummy",
@@ -814,7 +1315,20 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One mummy placing whole fruit beside an open picnic basket on a table; simple large objects, hands clearly separated, no text."
+      "picture_brief": "A mother and her young child packing whole fruit together beside an open picnic basket; mother clearly helping the child, simple hands, no text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P1",
+        "note": "A woman packing fruit alone is not visually identifiable as a mother. Use consistent family characters and mother-child interaction.",
+        "changes": [
+          {
+            "field": "picture_brief",
+            "label": "Future picture brief",
+            "before": "One mummy placing whole fruit beside an open picnic basket on a table; simple large objects, hands clearly separated, no text.",
+            "after": "A mother and her young child packing whole fruit together beside an open picnic basket; mother clearly helping the child, simple hands, no text."
+          }
+        ]
+      }
     },
     {
       "word": "police car",
@@ -830,7 +1344,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One unbranded British-style police car parked side-on, blue roof lights clear but not flashing; no chase, people or text."
+      "picture_brief": "One unbranded British-style police car parked side-on, blue roof lights clear but not flashing; no chase, people or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "British-style unbranded vehicle and blue roof lights fit.",
+        "changes": []
+      }
     },
     {
       "word": "tram",
@@ -846,14 +1366,20 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One friendly modern tram moving side-on along visible street rails, simple quiet town background; no logos or text."
+      "picture_brief": "One friendly modern tram moving side-on along visible street rails, simple quiet town background; no logos or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Visible street tracks distinguish tram from bus or train.",
+        "changes": []
+      }
     },
     {
       "word": "underground",
       "sense": "underground.city-railway",
       "part_of_speech": "noun",
       "theme": "Transport",
-      "explanation": "a city railway with trains that travel mostly below the ground",
+      "explanation": "a city railway system whose trains travel through tunnels below ground",
       "thai": "รถไฟใต้ดิน — ระบบรถไฟในเมืองที่วิ่งอยู่ใต้ดินเป็นส่วนใหญ่",
       "sentence": "The underground train stops at the station.",
       "sources": [
@@ -862,7 +1388,26 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One unbranded underground train stopped beside a simple empty tiled platform, front and one carriage visible; no map or text."
+      "picture_brief": "One unbranded city underground train in a clearly enclosed underground tunnel station, with roof and surrounding earth or a simple cutaway showing the street above; train and platform prominent, no map or text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P1",
+        "note": "A generic train at a platform cannot distinguish an underground railway from an ordinary train or carriage.",
+        "changes": [
+          {
+            "field": "explanation",
+            "label": "English definition",
+            "before": "a city railway with trains that travel mostly below the ground",
+            "after": "a city railway system whose trains travel through tunnels below ground"
+          },
+          {
+            "field": "picture_brief",
+            "label": "Future picture brief",
+            "before": "One unbranded underground train stopped beside a simple empty tiled platform, front and one carriage visible; no map or text.",
+            "after": "One unbranded city underground train in a clearly enclosed underground tunnel station, with roof and surrounding earth or a simple cutaway showing the street above; train and platform prominent, no map or text."
+          }
+        ]
+      }
     },
     {
       "word": "hot air balloon",
@@ -878,7 +1423,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One colourful hot-air balloon with a small basket floating above patchwork fields; no people close-up or text."
+      "picture_brief": "One colourful hot-air balloon with a small basket floating above patchwork fields; no people close-up or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Basket, large balloon and airborne scene are coherent.",
+        "changes": []
+      }
     },
     {
       "word": "digger",
@@ -894,7 +1445,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One yellow unbranded digger side-on, bucket lifting a small mound of soil at an empty worksite; no people or text."
+      "picture_brief": "One yellow unbranded digger side-on, bucket lifting a small mound of soil at an empty worksite; no people or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Bucket moving soil gives clear excavator function.",
+        "changes": []
+      }
     },
     {
       "word": "crane",
@@ -910,7 +1467,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One construction crane lifting one simple beam with a straight cable over an empty site; no people, brands or text."
+      "picture_brief": "One construction crane lifting one simple beam with a straight cable over an empty site; no people, brands or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Construction-machine sense clearly selected instead of bird sense.",
+        "changes": []
+      }
     },
     {
       "word": "carriage",
@@ -926,13 +1489,19 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One red railway carriage coupled behind a small engine, shown side-on on a straight track; no people, brand or text."
+      "picture_brief": "One red railway carriage coupled behind a small engine, shown side-on on a straight track; no people, brand or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Emphasise red passenger carriage rather than engine.",
+        "changes": []
+      }
     },
     {
       "word": "stairs",
       "sense": "stairs.steps",
       "part_of_speech": "noun",
-      "theme": "Rooms in our house",
+      "theme": "Around our house",
       "explanation": "a set of steps leading from one floor to another",
       "thai": "บันได — ขั้นหลายขั้นที่เชื่อมจากชั้นหนึ่งไปอีกชั้นหนึ่ง",
       "sentence": "The stairs lead to the bedrooms.",
@@ -942,15 +1511,28 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One clear indoor staircase rising to a landing with two bedroom doors; safe handrail, no people or text."
+      "picture_brief": "One clear indoor staircase rising to a landing with two bedroom doors; safe handrail, no people or text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P1",
+        "note": "Category mismatch: stairs are a part of a house, not a room.",
+        "changes": [
+          {
+            "field": "theme",
+            "label": "Poster topic",
+            "before": "Rooms in our house",
+            "after": "Around our house"
+          }
+        ]
+      }
     },
     {
       "word": "fireplace",
       "sense": "fireplace.indoor-fire-place",
       "part_of_speech": "noun",
-      "theme": "Rooms in our house",
-      "explanation": "a built-in place in a room where a fire can burn safely",
-      "thai": "เตาผิง — ที่ก่อไฟซึ่งสร้างติดอยู่ในห้องเพื่อให้ความอบอุ่นอย่างปลอดภัย",
+      "theme": "Around our house",
+      "explanation": "a built-in place in a room where a fire can be made to provide warmth",
+      "thai": "เตาผิง — ที่ก่อไฟซึ่งสร้างติดอยู่ในห้องเพื่อให้ความอบอุ่น",
       "sentence": "The fireplace warms the sitting room.",
       "sources": [
         {
@@ -958,7 +1540,32 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One cosy built-in fireplace with a small guarded fire and armchair at a safe distance; no people or text."
+      "picture_brief": "One cosy built-in fireplace with a small guarded fire and armchair at a safe distance; no people or text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P1",
+        "note": "Category mismatch: a fireplace is not a room. The existing wording also over-promises safety.",
+        "changes": [
+          {
+            "field": "explanation",
+            "label": "English definition",
+            "before": "a built-in place in a room where a fire can burn safely",
+            "after": "a built-in place in a room where a fire can be made to provide warmth"
+          },
+          {
+            "field": "thai",
+            "label": "Thai name and explanation",
+            "before": "เตาผิง — ที่ก่อไฟซึ่งสร้างติดอยู่ในห้องเพื่อให้ความอบอุ่นอย่างปลอดภัย",
+            "after": "เตาผิง — ที่ก่อไฟซึ่งสร้างติดอยู่ในห้องเพื่อให้ความอบอุ่น"
+          },
+          {
+            "field": "theme",
+            "label": "Poster topic",
+            "before": "Rooms in our house",
+            "after": "Around our house"
+          }
+        ]
+      }
     },
     {
       "word": "playroom",
@@ -974,7 +1581,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One tidy playroom with large blocks, a toy train and low shelves, generous open floor space; no children or text."
+      "picture_brief": "One tidy playroom with large blocks, a toy train and low shelves, generous open floor space; no children or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Room objects and open play space are coherent.",
+        "changes": []
+      }
     },
     {
       "word": "nursery",
@@ -990,7 +1603,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One calm nursery with a cot, soft rug and moon mobile, no baby, brand or text."
+      "picture_brief": "One calm nursery with a cot, soft rug and moon mobile, no baby, brand or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Explicit baby-room sense; distinct from nursery school.",
+        "changes": []
+      }
     },
     {
       "word": "cellar",
@@ -1006,7 +1625,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "Simple cutaway of a house showing one storage cellar directly below the kitchen; no people, labels or text."
+      "picture_brief": "Simple cutaway of a house showing one storage cellar directly below the kitchen; no people, labels or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Cutaway locating storage room under kitchen is clear.",
+        "changes": []
+      }
     },
     {
       "word": "loft",
@@ -1022,13 +1647,19 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "Simple house cutaway with one cosy loft directly beneath the sloping roof, containing two boxes; no people or text."
+      "picture_brief": "Simple house cutaway with one cosy loft directly beneath the sloping roof, containing two boxes; no people or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "British roof-space sense matched by roof cutaway.",
+        "changes": []
+      }
     },
     {
       "word": "doorbell",
       "sense": "doorbell.door-signal",
       "part_of_speech": "noun",
-      "theme": "Rooms in our house",
+      "theme": "Around our house",
       "explanation": "a button beside a door that makes a sound inside",
       "thai": "กริ่งประตู — ปุ่มข้างประตูที่กดแล้วส่งเสียงภายในบ้าน",
       "sentence": "The doorbell rings inside the house.",
@@ -1038,23 +1669,55 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One clear doorbell button mounted beside a bright front door, with gentle sound lines; no hand, brand or text."
+      "picture_brief": "One clear doorbell button mounted beside a bright front door, with gentle sound lines; no hand, brand or text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P1",
+        "note": "Category mismatch: a doorbell is a household fixture, not a room.",
+        "changes": [
+          {
+            "field": "theme",
+            "label": "Poster topic",
+            "before": "Rooms in our house",
+            "after": "Around our house"
+          }
+        ]
+      }
     },
     {
       "word": "letterbox",
       "sense": "letterbox.mail-slot",
       "part_of_speech": "noun",
-      "theme": "Rooms in our house",
+      "theme": "Around our house",
       "explanation": "a slot in a door or a box where letters are delivered",
       "thai": "ช่องรับจดหมาย — ช่องที่ประตูหรือกล่องสำหรับรับจดหมาย",
-      "sentence": "The letterbox holds a new letter.",
+      "sentence": "A letter slides through the letterbox.",
       "sources": [
         {
           "id": "POSTER-PLAN",
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One British front-door letterbox with one plain envelope partly through the slot; no address, hand or text."
+      "picture_brief": "One British front-door letterbox with one plain envelope partly through the slot; no address, hand or text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P1",
+        "note": "Category mismatch: a letterbox is not a room. Picture shows delivery in progress, whereas 'holds a new letter' implies a stationary letter in a receptacle.",
+        "changes": [
+          {
+            "field": "sentence",
+            "label": "Example sentence",
+            "before": "The letterbox holds a new letter.",
+            "after": "A letter slides through the letterbox."
+          },
+          {
+            "field": "theme",
+            "label": "Poster topic",
+            "before": "Rooms in our house",
+            "after": "Around our house"
+          }
+        ]
+      }
     },
     {
       "word": "saucer",
@@ -1070,7 +1733,20 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One teacup resting squarely on a matching saucer, both fully visible on a plain table; no teapot, people or text."
+      "picture_brief": "One brightly coloured shallow saucer seen from slightly above, large and mostly visible, with a smaller plain teacup resting slightly off-centre on it; no teapot, people or text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P2",
+        "note": "A central teacup would hide the target object; the saucer needs to dominate the composition.",
+        "changes": [
+          {
+            "field": "picture_brief",
+            "label": "Future picture brief",
+            "before": "One teacup resting squarely on a matching saucer, both fully visible on a plain table; no teapot, people or text.",
+            "after": "One brightly coloured shallow saucer seen from slightly above, large and mostly visible, with a smaller plain teacup resting slightly off-centre on it; no teapot, people or text."
+          }
+        ]
+      }
     },
     {
       "word": "semicircle",
@@ -1079,14 +1755,33 @@
       "theme": "Shapes",
       "explanation": "a shape that is exactly half of a circle",
       "thai": "ครึ่งวงกลม — รูปร่างที่เป็นครึ่งหนึ่งของวงกลม",
-      "sentence": "The semicircle is half of the paper circle.",
+      "sentence": "Two semicircles fit together to make a circle.",
       "sources": [
         {
           "id": "POSTER-PLAN",
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One paper circle cut by one straight horizontal line into two equal semicircles, with one half coloured; no hands or text."
+      "picture_brief": "Two equal paper semicircles with one coloured brightly and placed slightly apart from the paler matching half, each with a clearly straight diameter and curved edge; no hands or text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P2",
+        "note": "A full circle divided in two can make the whole circle more salient than the target half-circle. Highlight a recognisable individual semicircle.",
+        "changes": [
+          {
+            "field": "sentence",
+            "label": "Example sentence",
+            "before": "The semicircle is half of the paper circle.",
+            "after": "Two semicircles fit together to make a circle."
+          },
+          {
+            "field": "picture_brief",
+            "label": "Future picture brief",
+            "before": "One paper circle cut by one straight horizontal line into two equal semicircles, with one half coloured; no hands or text.",
+            "after": "Two equal paper semicircles with one coloured brightly and placed slightly apart from the paler matching half, each with a clearly straight diameter and curved edge; no hands or text."
+          }
+        ]
+      }
     },
     {
       "word": "crescent",
@@ -1102,7 +1797,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One large golden crescent shape centred on a dark-blue background, both pointed ends clear; no moon details or text."
+      "picture_brief": "One large golden crescent shape centred on a dark-blue background, both pointed ends clear; no moon details or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Two pointed ends and curved middle fit geometric sense.",
+        "changes": []
+      }
     },
     {
       "word": "drizzle",
@@ -1118,7 +1819,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One red umbrella under very fine, sparse rain droplets with tiny dots on its surface; no person, storm or text."
+      "picture_brief": "One red umbrella under very fine, sparse rain droplets with tiny dots on its surface; no person, storm or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Fine sparse rain and wet umbrella support light-rain sense.",
+        "changes": []
+      }
     },
     {
       "word": "sleet",
@@ -1134,7 +1841,20 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "Close weather scene showing raindrops and small wet snow pellets falling together onto a dark mitten; no person or text."
+      "picture_brief": "Close winter weather scene showing distinct tiny raindrops and soft snowflakes falling together onto a dark mitten; no hard hailstones, ice pellets, person or text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P1",
+        "note": "The UK meteorological sense is mixed rain and snow, not hard pellets; the draft picture risks depicting hail or American ice-pellet sleet.",
+        "changes": [
+          {
+            "field": "picture_brief",
+            "label": "Future picture brief",
+            "before": "Close weather scene showing raindrops and small wet snow pellets falling together onto a dark mitten; no person or text.",
+            "after": "Close winter weather scene showing distinct tiny raindrops and soft snowflakes falling together onto a dark mitten; no hard hailstones, ice pellets, person or text."
+          }
+        ]
+      }
     },
     {
       "word": "cello",
@@ -1150,7 +1870,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One friendly bear seated with a large cello upright between its knees, bow touching strings, paws simplified and clear; no text."
+      "picture_brief": "One friendly bear seated with a large cello upright between its knees, bow touching strings, paws simplified and clear; no text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Bow and upright cello between knees distinguish it from double bass.",
+        "changes": []
+      }
     },
     {
       "word": "clarinet",
@@ -1166,15 +1892,21 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One friendly fox holding a straight black clarinet to its mouth, full instrument visible, paws simplified; no text."
+      "picture_brief": "One friendly fox holding a straight black clarinet to its mouth, full instrument visible, paws simplified; no text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Straight black woodwind with mouthpiece is correct.",
+        "changes": []
+      }
     },
     {
       "word": "saxophone",
-      "sense": "saxophone.brass-woodwind-instrument",
+      "sense": "saxophone.single-reed-woodwind",
       "part_of_speech": "noun",
       "theme": "Animal band",
-      "explanation": "a curved metal wind instrument played with a single reed",
-      "thai": "แซกโซโฟน — เครื่องเป่าโลหะทรงโค้งที่ใช้ลิ้นเดี่ยว",
+      "explanation": "a usually curved metal woodwind instrument played using a single reed",
+      "thai": "แซกโซโฟน — เครื่องเป่าลมไม้ที่ทำจากโลหะและใช้ลิ้นเดี่ยว",
       "sentence": "The lion plays a golden saxophone.",
       "sources": [
         {
@@ -1182,7 +1914,32 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One friendly lion playing a curved golden saxophone, bell and mouthpiece clear, paws simplified; no text."
+      "picture_brief": "One friendly lion playing a curved golden saxophone, bell and mouthpiece clear, paws simplified; no text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P1",
+        "note": "The sense ID says 'brass-woodwind-instrument'. A saxophone is a single-reed woodwind despite its metal body; some varieties are straight.",
+        "changes": [
+          {
+            "field": "explanation",
+            "label": "English definition",
+            "before": "a curved metal wind instrument played with a single reed",
+            "after": "a usually curved metal woodwind instrument played using a single reed"
+          },
+          {
+            "field": "thai",
+            "label": "Thai name and explanation",
+            "before": "แซกโซโฟน — เครื่องเป่าโลหะทรงโค้งที่ใช้ลิ้นเดี่ยว",
+            "after": "แซกโซโฟน — เครื่องเป่าลมไม้ที่ทำจากโลหะและใช้ลิ้นเดี่ยว"
+          },
+          {
+            "field": "sense",
+            "label": "Sense ID",
+            "before": "saxophone.brass-woodwind-instrument",
+            "after": "saxophone.single-reed-woodwind"
+          }
+        ]
+      }
     },
     {
       "word": "recorder",
@@ -1198,7 +1955,13 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One friendly rabbit holding a straight wooden recorder to its mouth, finger holes visible, paws simplified; no text."
+      "picture_brief": "One friendly rabbit holding a straight wooden recorder to its mouth, finger holes visible, paws simplified; no text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Straight finger-holed instrument appropriate; ensure accurate thumb/finger placement.",
+        "changes": []
+      }
     },
     {
       "word": "cymbals",
@@ -1214,15 +1977,21 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One friendly monkey holding exactly two round brass cymbals about to meet, arms simple and fully separated; no crowd or text."
+      "picture_brief": "One friendly monkey holding exactly two round brass cymbals about to meet, arms simple and fully separated; no crowd or text.",
+      "qa": {
+        "decision": "Keep",
+        "priority": null,
+        "note": "Two struck-together clash cymbals match the selected sense.",
+        "changes": []
+      }
     },
     {
       "word": "harmonica",
       "sense": "harmonica.mouth-organ",
       "part_of_speech": "noun",
       "theme": "Animal band",
-      "explanation": "a small instrument played by blowing through rows of holes",
-      "thai": "ฮาร์โมนิกา — เครื่องดนตรีขนาดเล็กที่เล่นโดยเป่าผ่านช่องเรียงกัน",
+      "explanation": "a small instrument played by blowing and drawing air through holes along one side",
+      "thai": "ฮาร์โมนิกา — เครื่องดนตรีขนาดเล็กที่เล่นโดยเป่าและสูดลมผ่านช่องเรียงกัน",
       "sentence": "The mouse plays a silver harmonica.",
       "sources": [
         {
@@ -1230,7 +1999,26 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One friendly mouse holding a small silver harmonica to its mouth, instrument and paws clearly separated; no text."
+      "picture_brief": "One friendly mouse holding a small silver harmonica to its mouth, instrument and paws clearly separated; no text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P1",
+        "note": "Typical harmonicas have one row of air holes, not 'rows of holes'; they use both outgoing and incoming breath.",
+        "changes": [
+          {
+            "field": "explanation",
+            "label": "English definition",
+            "before": "a small instrument played by blowing through rows of holes",
+            "after": "a small instrument played by blowing and drawing air through holes along one side"
+          },
+          {
+            "field": "thai",
+            "label": "Thai name and explanation",
+            "before": "ฮาร์โมนิกา — เครื่องดนตรีขนาดเล็กที่เล่นโดยเป่าผ่านช่องเรียงกัน",
+            "after": "ฮาร์โมนิกา — เครื่องดนตรีขนาดเล็กที่เล่นโดยเป่าและสูดลมผ่านช่องเรียงกัน"
+          }
+        ]
+      }
     },
     {
       "word": "maracas",
@@ -1238,7 +2026,7 @@
       "part_of_speech": "noun",
       "theme": "Animal band",
       "explanation": "a pair of hollow instruments shaken to make a rattling sound",
-      "thai": "มารากัส — เครื่องดนตรีกลวงหนึ่งคู่ที่เขย่าให้เกิดเสียงกรุ๋งกริ๋ง",
+      "thai": "มาราคัส — เครื่องดนตรีกลวงมีด้ามจับที่เขย่าให้เกิดเสียง ใช้ประกอบจังหวะ มักเล่นเป็นคู่",
       "sentence": "The parrot shakes two bright maracas.",
       "sources": [
         {
@@ -1246,23 +2034,61 @@
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One friendly parrot holding exactly two bright maracas, one in each wing, with simple motion lines; no crowd or text."
+      "picture_brief": "One friendly parrot holding exactly two bright maracas, one in each wing, with simple motion lines; no crowd or text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P2",
+        "note": "Thai academic music references commonly spell this instrument มาราคัส, not มารากัส.",
+        "changes": [
+          {
+            "field": "thai",
+            "label": "Thai name and explanation",
+            "before": "มารากัส — เครื่องดนตรีกลวงหนึ่งคู่ที่เขย่าให้เกิดเสียงกรุ๋งกริ๋ง",
+            "after": "มาราคัส — เครื่องดนตรีกลวงมีด้ามจับที่เขย่าให้เกิดเสียง ใช้ประกอบจังหวะ มักเล่นเป็นคู่"
+          }
+        ]
+      }
     },
     {
       "word": "organ",
       "sense": "organ.keyboard-instrument",
       "part_of_speech": "noun",
       "theme": "Animal band",
-      "explanation": "a large keyboard instrument that sends air through pipes to make music",
-      "thai": "ออร์แกน — เครื่องดนตรีคีย์บอร์ดขนาดใหญ่ที่ส่งลมผ่านท่อให้เกิดเสียง",
-      "sentence": "The owl plays the organ keys.",
+      "explanation": "a keyboard instrument that makes music using air through pipes or electronic sounds",
+      "thai": "ออร์แกน — เครื่องดนตรีคีย์บอร์ดที่สร้างเสียงด้วยลมผ่านท่อหรือระบบอิเล็กทรอนิกส์",
+      "sentence": "The owl plays a tune on the organ.",
       "sources": [
         {
           "id": "POSTER-PLAN",
           "reason": "Missing vocabulary needed for the planned Word Book poster topic."
         }
       ],
-      "picture_brief": "One friendly owl seated at a simple pipe organ with large keys and three tall pipes; wings resting clearly on keys, no text."
+      "picture_brief": "One friendly owl seated at a simple pipe organ with large keys and three tall pipes; wings resting clearly on keys, no text.",
+      "qa": {
+        "decision": "Revise",
+        "priority": "P1",
+        "note": "Current definition incorrectly limits generic 'organ' to large pipe organs; electronic organs are also organs. Sentence 'plays the organ keys' is less idiomatic.",
+        "changes": [
+          {
+            "field": "explanation",
+            "label": "English definition",
+            "before": "a large keyboard instrument that sends air through pipes to make music",
+            "after": "a keyboard instrument that makes music using air through pipes or electronic sounds"
+          },
+          {
+            "field": "thai",
+            "label": "Thai name and explanation",
+            "before": "ออร์แกน — เครื่องดนตรีคีย์บอร์ดขนาดใหญ่ที่ส่งลมผ่านท่อให้เกิดเสียง",
+            "after": "ออร์แกน — เครื่องดนตรีคีย์บอร์ดที่สร้างเสียงด้วยลมผ่านท่อหรือระบบอิเล็กทรอนิกส์"
+          },
+          {
+            "field": "sentence",
+            "label": "Example sentence",
+            "before": "The owl plays the organ keys.",
+            "after": "The owl plays a tune on the organ."
+          }
+        ]
+      }
     }
   ],
   "themes": [
@@ -1278,6 +2104,7 @@
     "My family",
     "Transport",
     "Rooms in our house",
+    "Around our house",
     "In the kitchen",
     "Shapes",
     "Weather",
