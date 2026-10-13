@@ -1,12 +1,15 @@
 (function () {
   "use strict";
 
-  var drops = { red: 0, yellow: 0, blue: 0 };
+  var drops = { red: 0, yellow: 0, blue: 0, white: 0, black: 0 };
   var exploreColors = [];
   var colorById = new Map();
   var availableAudioSlugs = new Set();
   var exploreData = null;
   var mixTargets = [];
+  var basicMixTargets = [];
+  var whiteBlackTargets = [];
+  var whiteBlackEnabled = false;
   var activeTargetIndex = 0;
   var discoveredTargetIds = new Set();
   var currentMix = null;
@@ -16,6 +19,22 @@
     return location.pathname.indexOf("/test-apps/") >= 0
       ? "color-lab:test:mix-discoveries:v1"
       : "color-lab:mix-discoveries:v1";
+  }
+
+  function whiteBlackStorageKey() {
+    return location.pathname.indexOf("/test-apps/") >= 0
+      ? "color-lab:test:white-black-enabled:v1"
+      : "color-lab:white-black-enabled:v1";
+  }
+
+  function readWhiteBlackPreference() {
+    try { return localStorage.getItem(whiteBlackStorageKey()) === "true"; }
+    catch (error) { return false; }
+  }
+
+  function saveWhiteBlackPreference() {
+    try { localStorage.setItem(whiteBlackStorageKey(), whiteBlackEnabled ? "true" : "false"); }
+    catch (error) { /* optional preference */ }
   }
 
   function readDiscoveries() {
@@ -68,6 +87,10 @@
         if (!response.ok) return { targets: [] };
         return response.json();
       }).catch(function () { return { targets: [] }; }),
+      fetch("./mix-targets-wk.json").then(function (response) {
+        if (!response.ok) return { targets: [] };
+        return response.json();
+      }).catch(function () { return { targets: [] }; }),
     ]).then(function (results) {
       colorById = new Map(results[0].colors.map(function (color) { return [color.id, color]; }));
       exploreData = results[1];
@@ -78,8 +101,12 @@
         });
       });
       availableAudioSlugs = new Set(results[2]);
-      mixTargets = results[3].targets || [];
+      basicMixTargets = results[3].targets || [];
+      whiteBlackEnabled = readWhiteBlackPreference();
+      whiteBlackTargets = results[4].targets || [];
+      mixTargets = basicMixTargets.concat(whiteBlackEnabled ? whiteBlackTargets : []);
       discoveredTargetIds = readDiscoveries();
+      renderWhiteBlackStage();
       renderFamilies();
       renderTarget();
     }).catch(function () {
@@ -224,6 +251,27 @@
 
   function activeTarget() { return mixTargets[activeTargetIndex] || null; }
 
+  function renderWhiteBlackStage() {
+    var switchButton = byId("white-black-switch");
+    switchButton.setAttribute("aria-checked", whiteBlackEnabled ? "true" : "false");
+    switchButton.classList.toggle("is-on", whiteBlackEnabled);
+    byId("white-black-switch-state").textContent = whiteBlackEnabled ? "On" : "Off";
+    byId("white-pot").hidden = !whiteBlackEnabled;
+    byId("black-pot").hidden = !whiteBlackEnabled;
+    document.querySelector(".paint-side").classList.toggle("is-five-paint", whiteBlackEnabled);
+  }
+
+  function setWhiteBlackStage(enabled) {
+    whiteBlackEnabled = enabled;
+    saveWhiteBlackPreference();
+    mixTargets = basicMixTargets.concat(whiteBlackEnabled ? whiteBlackTargets : []);
+    activeTargetIndex = 0;
+    drops = ColorLabReset.emptyDrops();
+    renderWhiteBlackStage();
+    renderTarget();
+    render();
+  }
+
   function renderTarget() {
     var target = activeTarget();
     var card = byId("mix-target-card");
@@ -248,6 +296,10 @@
       return value - target.centreOklab[index];
     }));
     if (score > target.toleranceOklab) return false;
+    // A target is a one-time discovery, not the name of every nearby mixture. The broad
+    // tolerance can contain several successive mixes, so celebrating an already-found target
+    // here would restart the same clip on every drop (the first target is copper).
+    if (!ColorLabMixNaming.isNewDiscovery(discoveredTargetIds, target.id)) return false;
     discoveredTargetIds.add(target.id);
     saveDiscoveries();
     renderTarget();
@@ -257,7 +309,7 @@
   }
 
   function render() {
-    ["red", "yellow", "blue"].forEach(function (name) {
+    ["red", "yellow", "blue", "white", "black"].forEach(function (name) {
       byId(name + "-count").textContent = String(drops[name]);
     });
     currentMix = ColorLabMixing.mixDrops(drops);
@@ -289,7 +341,7 @@
     var start = source.getBoundingClientRect();
     var bowl = byId("mix-bowl").getBoundingClientRect();
     var drop = document.createElement("span");
-    var colors = { red: "#df493f", yellow: "#f1c62f", blue: "#3866bc" };
+    var colors = { red: "#df493f", yellow: "#f1c62f", blue: "#3866bc", white: "#f7f3e8", black: "#242127" };
     var startX = start.left + start.width * 0.5 - lab.left - 11;
     var startY = start.top + start.height * 0.22 - lab.top;
     var endX = bowl.left + bowl.width * 0.5 - lab.left - 11;
@@ -334,6 +386,9 @@
   byId("mix-bowl").addEventListener("click", revealName);
   byId("reset-button").addEventListener("click", reset);
   byId("next-target").addEventListener("click", nextTarget);
+  byId("white-black-switch").addEventListener("click", function () {
+    setWhiteBlackStage(!whiteBlackEnabled);
+  });
   document.querySelectorAll("[data-mode]").forEach(function (button) {
     button.addEventListener("click", function () { setMode(button.dataset.mode); });
   });

@@ -10,7 +10,7 @@
   // bowl immediately: the earlier two-tap arm/confirm ("Tap again…") read as a dead tap.
   // Kept pure and shared so the regression test and the running app exercise one behaviour.
   function emptyDrops() {
-    return { red: 0, yellow: 0, blue: 0 };
+    return { red: 0, yellow: 0, blue: 0, white: 0, black: 0 };
   }
 
   return {

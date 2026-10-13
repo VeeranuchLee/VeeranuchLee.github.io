@@ -18,6 +18,9 @@
   // Keep the established family rule: one paint uses its own family; two paints use their
   // secondary family plus a 75%-dominant primary; three paints use brown/grey.
   function mixFamilies(drops) {
+    if (drops.white || drops.black) {
+      return ["red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "white", "grey", "black"];
+    }
     var total = drops.red + drops.yellow + drops.blue;
     var used = ["red", "yellow", "blue"].filter(function (c) { return drops[c] > 0; });
     if (used.length === 1) return [used[0]];
@@ -30,6 +33,11 @@
   }
 
   function equalPartsAnchor(drops) {
+    if (drops.white || drops.black) {
+      if (drops.white > 0 && !drops.red && !drops.yellow && !drops.blue && !drops.black) return "white";
+      if (drops.black > 0 && !drops.red && !drops.yellow && !drops.blue && !drops.white) return "black";
+      return null;
+    }
     var used = ["red", "yellow", "blue"].filter(function (c) { return drops[c] > 0; });
     if (!used.length) return null;
     var amount = drops[used[0]];
@@ -46,8 +54,8 @@
     if (anchor) return colors.find(function (color) { return color.displayName === anchor; }) || null;
     var allowed = mixFamilies(drops);
     var exactTarget = targets.find(function (target) {
-      return ["red", "yellow", "blue"].every(function (paint) {
-        return target.provenRecipe[paint] === drops[paint];
+      return ["red", "yellow", "blue", "white", "black"].every(function (paint) {
+        return (target.provenRecipe[paint] || 0) === (drops[paint] || 0);
       });
     });
     if (exactTarget) return colors.find(function (color) { return color.slug === exactTarget.slug; }) || null;
@@ -64,5 +72,14 @@
     return nearest ? nearest.color : null;
   }
 
-  return { mixFamilies: mixFamilies, equalPartsAnchor: equalPartsAnchor, nameMix: nameMix };
+  function isNewDiscovery(discoveredIds, targetId) {
+    return !discoveredIds.has(targetId);
+  }
+
+  return {
+    mixFamilies: mixFamilies,
+    equalPartsAnchor: equalPartsAnchor,
+    nameMix: nameMix,
+    isNewDiscovery: isNewDiscovery,
+  };
 });
