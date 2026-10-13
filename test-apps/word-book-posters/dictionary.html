@@ -4,10 +4,10 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Our Dictionary</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=ca0f8121a-20261013110632"/>
-  <link rel="stylesheet" href="./fonts.css?v=ca0f8121a-20261013110632"/>
+  <link rel="manifest" href="./manifest.webmanifest?v=e2dbdaf45-20261013123854"/>
+  <link rel="stylesheet" href="./fonts.css?v=e2dbdaf45-20261013123854"/>
   <meta name="theme-color" content="#3a1e33"/>
-  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=ca0f8121a-20261013110632"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=e2dbdaf45-20261013123854"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Our Dictionary"/>
@@ -181,7 +181,7 @@
        245px reserve guessed the chrome above the stage and guessed ~60px short, so at
        1024x768 every poster put its bottom label row behind a page scroll. Instead of a
        better guess, the detail view now LOCKS the document to the viewport
-       (body.poster-view: a 100dvh column, no page scroll) and .poster-stage-area takes
+       (body.poster-view: a 100dvh column, no page scroll) and the stage area takes
        whatever height is left; the stage is then the largest EXACT 4:3 box that fits,
        measured against that area with container units (100cqw / 100cqh) -- no number
        that can drift from the real header. The plate fills the stage exactly
@@ -189,7 +189,14 @@
        they scale with the plate and stay beside the things they name. Engines without
        container units fall back to the old dvh arithmetic with a safe 320px reserve:
        a slightly smaller poster, never a scrolling one. The stage itself still never
-       scrolls and never captures pinch: INTERACTION-DIRECTION method C stays unchanged. */
+       scrolls and never captures pinch: INTERACTION-DIRECTION method C stays unchanged.
+       ROUND 4 (owner, 2026-10-13): the poster is a listening surface, not a
+       navigation one. A word label tap plays that word and STAYS on the poster; a strip
+       of small icon cards (one per word, poster order) sits BESIDE the plate in
+       landscape and UNDER it in portrait, and each plays its word's sentence while the
+       matching label glows on the plate. .poster-body holds the stage area and the
+       strip and is the box the strip is measured against; everything still fits the one
+       viewport with no page scroll. */
     .poster-choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;width:100%}
     .poster-choice{min-height:150px;border:0;border-radius:24px;padding:0;overflow:hidden;background:#fff9ed;box-shadow:0 6px 0 #d8b88f;color:#5b3550;font:900 1.08rem/1.25 inherit;cursor:pointer;text-align:left}
     .poster-choice img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:#f3dfc5}
@@ -208,7 +215,13 @@
     body.poster-view .poster-heading{flex:none;margin:0 0 12px}
     .poster-heading h2{font-size:clamp(1.45rem,4vw,2.25rem);text-align:center}
     .poster-back{min-height:60px;min-width:60px;border:0;border-radius:50%;background:#fff;color:#a8386a;box-shadow:0 4px 0 #d69ab4;font:900 1rem inherit;padding:0 17px;cursor:pointer}
-    .poster-stage-area{flex:1;min-height:0;display:flex;container-type:size}
+    /* Landscape is the default: the strip runs down the right of the plate. Portrait
+       turns the body into a column so the same two pieces stack, strip under plate.
+       overflow:hidden on the body is the same promise the lock makes on body.poster-view:
+       nothing inside the poster view may buy layout with a page scroll. */
+    .poster-body{flex:1;min-height:0;display:flex;flex-direction:row;gap:14px;overflow:hidden}
+    @media (orientation: portrait){.poster-body{flex-direction:column}}
+    .poster-stage-area{flex:1;min-width:0;min-height:0;display:flex;container-type:size}
     .poster-stage{position:relative;flex:none;width:min(100%,calc((100vh - 320px)*4/3));width:min(100%,calc((100dvh - 320px)*4/3));max-height:calc(100vh - 320px);max-height:calc(100dvh - 320px);aspect-ratio:4/3;margin:auto;border-radius:28px;overflow:hidden;background-color:#f3dfc5;background-position:center;background-size:contain;background-repeat:no-repeat;box-shadow:inset 0 0 0 5px rgba(255,255,255,.72),0 12px 30px rgba(35,16,31,.28)}
     /* min(100cqw, 133.333cqh) is "the largest 4:3 box that fits the area", because the
        area is the query container this stage sits in. aspect-ratio then supplies the
@@ -223,7 +236,59 @@
     .poster-word.pointer-right::after{left:100%;top:50%;transform:translateY(-50%)}
     .poster-word.pointer-left::after{right:100%;top:50%;transform:translateY(-50%)}
     .poster-word:active{transform:translate(-50%,calc(-50% + 3px));box-shadow:0 2px 0 rgba(89,53,72,.25)}
-    .poster-card-back{margin:0 auto 16px;display:flex}
+    /* Round 4: a label tap only SPEAKS -- it never leaves the poster -- so the tap must
+       never look silent. :active is the press; .speaking is the glow that holds while
+       the word plays (the shared voice clears it on ended); .missed shakes when the
+       clip would not load, the same contract as every .speak button. */
+    .poster-word.speaking{
+      border-color:#a8386a;background:#ffe9f1;color:#a8386a;
+      box-shadow:0 4px 0 rgba(89,53,72,.3),0 0 0 5px rgba(216,58,106,.22);
+    }
+    .poster-word.missed{animation:nope .45s}
+    /* .echo is the label's face while the STRIP plays that word's sentence: the chip
+       being tapped is elsewhere, so this is the label answering on the plate. */
+    .poster-word.echo{
+      border-color:#a8386a;background:linear-gradient(160deg,#fff,#ffe9f1);color:#a8386a;
+      box-shadow:0 4px 0 rgba(89,53,72,.3),0 0 0 5px rgba(216,58,106,.28);
+    }
+    @media (prefers-reduced-motion:reduce){.poster-word.missed{animation:none}}
+
+    /* ── The strip of small cards (owner, 2026-10-13) ──
+       One icon card per word on the poster, in the poster's order: a small square of
+       the word's own card picture with the word under it. Tapping one plays that
+       word's SENTENCE clip and the matching label answers on the plate (.echo above).
+       The grid shape is chosen by sizePosterStrip() from the real measured box, so the
+       whole strip is on screen beside (or under) the plate at both iPad orientations;
+       the CSS here is only the no-measurement fallback and MUST keep the same cell
+       metrics (68px cell, 82px row, 5px gap, 6px padding) as that function. Cells are
+       at least 64 CSS px in both axes -- the page's tablet tap floor. No card is ever
+       a dashed placeholder: only words whose letter is enabled get one, exactly like
+       the labels, and a word with no playable clip at all gets none. */
+    .poster-strip{
+      flex:none;display:grid;
+      grid-template-columns:repeat(var(--cols,3),68px);grid-auto-rows:82px;gap:5px;
+      padding:6px;align-content:center;justify-content:center;
+      border-radius:22px;background:rgba(255,249,238,.82);
+      box-shadow:inset 0 0 0 3px rgba(255,255,255,.75),0 8px 22px rgba(35,16,31,.14);
+    }
+    .poster-chip{
+      min-width:64px;min-height:64px;border:3px solid #f0dcea;border-radius:16px;
+      background:#fffdf5;padding:3px 0;cursor:pointer;overflow:hidden;
+      display:flex;flex-direction:column;align-items:stretch;gap:2px;
+      font:inherit;color:#5b3550;-webkit-tap-highlight-color:transparent;
+      box-shadow:0 3px 0 rgba(89,53,72,.18);transition:transform .1s;
+    }
+    .poster-chip:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(89,53,72,.18)}
+    .poster-chip:focus-visible{outline:4px solid #ffd54f;outline-offset:2px}
+    .poster-chip-pic{flex:1;min-height:0;margin:0 3px;border-radius:10px;overflow:hidden;background:#f6ead9}
+    .poster-chip-pic img{width:100%;height:100%;object-fit:cover;display:block}
+    .poster-chip-word{
+      flex:none;font-weight:900;font-size:.66rem;line-height:1.15;
+      text-align:center;white-space:nowrap;overflow:hidden;
+    }
+    .poster-chip.speaking{border-color:#a8386a;box-shadow:0 3px 0 rgba(89,53,72,.18),0 0 0 4px rgba(216,58,106,.25)}
+    .poster-chip.missed{border-color:#d9c3cf;box-shadow:none;animation:nope .45s}
+    @media (prefers-reduced-motion:reduce){.poster-chip.missed{animation:none}}
     /* Narrow viewports only narrow the labels a little; the >=16px text floor from
        .poster-word itself is never overridden, and the stage needs no case of its own:
        the container-unit sizing already fits any width. */
@@ -398,8 +463,8 @@
   <div class="grid" id="grid"></div>
 </main>
 
-<script src="word-audio.js?v=ca0f8121a-20261013110632"></script>
-<script src="sentence-audio.js?v=ca0f8121a-20261013110632"></script>
+<script src="word-audio.js?v=e2dbdaf45-20261013123854"></script>
+<script src="sentence-audio.js?v=e2dbdaf45-20261013123854"></script>
 <script>
 (function () {
   'use strict';
@@ -408,7 +473,7 @@
   var enabledLetters = null;
   var cards = [], letter = null, query = '';
   var mode = 'az', selectedCollection = null, selectedSubgroup = null;
-  var posters = [], selectedPoster = null, posterSense = null, rowBySense = {};
+  var posters = [], selectedPoster = null, rowBySense = {};
   var collections = [], collectionById = {}, subgroupById = {};
   var restoredState = readState(), scrollByView = restoredState.scrollByView || {};
   if (restoredState.mode === 'collections' || restoredState.mode === 'posters') mode = restoredState.mode;
@@ -461,7 +526,7 @@
   }
   function viewKey() {
     if (mode === 'collections') return 'collections:' + (selectedCollection || 'all') + ':' + (selectedSubgroup || 'all');
-    if (mode === 'posters') return 'posters:' + (selectedPoster || 'all') + ':' + (posterSense || 'poster');
+    if (mode === 'posters') return 'posters:' + (selectedPoster || 'all');
     return 'az:' + (letter || 'a');
   }
   function rememberScroll() {
@@ -488,7 +553,7 @@
     });
   }
   function collectionIconMarkup(c) {
-    return '<img class="owner-group-icon" src="' + esc(c.icon_path) + '?v=ca0f8121a-20261013110632" alt="" ' +
+    return '<img class="owner-group-icon" src="' + esc(c.icon_path) + '?v=e2dbdaf45-20261013123854" alt="" ' +
       'data-fallback="' + esc(c.icon) + '" draggable="false">';
   }
   document.addEventListener('error', function (event) {
@@ -614,7 +679,7 @@
     var word = r[0], sense = r[1], eg = r[3], pic = c.pic;
     var clip = WA ? WA.clipFor(word, sense) : null;
     var art = pic
-      ? '<div class="pic"><img src="' + esc(pic) + '?v=ca0f8121a-20261013110632" alt="" loading="lazy" decoding="async" draggable="false"></div>'
+      ? '<div class="pic"><img src="' + esc(pic) + '?v=e2dbdaf45-20261013123854" alt="" loading="lazy" decoding="async" draggable="false"></div>'
       : '<div class="pic todo"><span>picture to come</span></div>';
     var speak = clip
       ? '<button type="button" class="speak" data-clip="' + esc(clip) + '" aria-label="Hear ' +
@@ -691,39 +756,83 @@
     var x = Number(label[0]), y = Number(label[1]), pointer = label[2] || 'down';
     return '<button type="button" data-poster-sense="' + esc(sense) + '"' +
       (clip ? ' data-clip="' + esc(clip) + '"' : '') + ' style="--x:' + x + '%;--y:' + y + '%"' +
-      ' aria-label="Hear ' + esc(word) + ' and open its card" class="poster-word pointer-' + esc(pointer) + '">' +
+      ' aria-label="Hear ' + esc(word) + '" class="poster-word pointer-' + esc(pointer) + '">' +
       '<span>' + esc(word) + '</span></button>';
+  }
+  /* One small card in the strip (owner, 2026-10-13): a small square of the word's own
+     card picture with the word under it, like an icon. Tapping it plays that word's
+     SENTENCE clip -- the same clip the full card's sentence speaker plays, resolved by
+     the same sentence-audio.js + ledger pair, so an edited sentence can never speak its
+     old wording from the poster. A word whose sentence has no current clip falls back
+     to its WORD clip (the same clip the label and the card's word speaker play) and is
+     listed in the QA note; a word with no playable clip at all gets no card, exactly
+     the dead-tap rule every speaker here follows. Never a dashed placeholder. */
+  function posterChip(r) {
+    var word = r[0], sense = r[1], eg = r[3], pic = r[4];
+    var sentenceClip = SA ? SA.clipFor(sense, eg, ledger) : null;
+    var wordClip = WA ? WA.clipFor(word, sense) : null;
+    var clip = sentenceClip || wordClip;
+    if (!pic || !clip) return '';
+    return '<button type="button" class="poster-chip" data-chip-sense="' + esc(sense) + '"' +
+      ' data-clip="' + esc(clip) + '" data-kind="' + (sentenceClip ? 'sentence' : 'word') + '"' +
+      ' aria-label="' + (sentenceClip ? 'Hear the sentence for ' : 'Hear ') + esc(word) + '">' +
+      '<span class="poster-chip-pic"><img src="' + esc(pic) + '?v=e2dbdaf45-20261013123854" alt="" loading="lazy" decoding="async" draggable="false"></span>' +
+      '<span class="poster-chip-word">' + esc(word) + '</span></button>';
+  }
+  /* Shape the strip so all of it is on screen beside (landscape) or under (portrait)
+     the plate with the whole poster still inside the locked viewport. Landscape keeps
+     the strip NARROW -- the fewest columns the box's height allows rows for -- because
+     strip width is the only thing taken from the plate; portrait lays the cards across
+     and lets them wrap to as many rows as the words need. The four numbers here are
+     the same cell metrics the .poster-strip fallback CSS carries; the fit check
+     measures the rendered result, not this arithmetic. */
+  function sizePosterStrip() {
+    var strip = grid.querySelector('.poster-strip');
+    var body = grid.querySelector('.poster-body');
+    if (!strip || !body || !strip.children.length) return;
+    var box = body.getBoundingClientRect();
+    if (!box.width || !box.height) return;
+    var CELL_W = 68, CELL_H = 82, GAP = 5, PAD = 6;
+    var availW = box.width - 2 * PAD, availH = box.height - 2 * PAD;
+    var cells = strip.children.length, cols;
+    if (window.matchMedia && window.matchMedia('(orientation: portrait)').matches) {
+      var across = Math.max(1, Math.floor((availW + GAP) / (CELL_W + GAP)));
+      cols = Math.max(3, Math.ceil(cells / Math.ceil(cells / across)));
+    } else {
+      var down = Math.max(1, Math.floor((availH + GAP) / (CELL_H + GAP)));
+      cols = Math.max(3, Math.ceil(cells / Math.min(down, Math.ceil(cells / 3))));
+    }
+    strip.style.setProperty('--cols', cols);
   }
   function renderPosters() {
     showCollectionHeading(false); az.hidden = true; grid.className = 'poster-wrap'; count.textContent = '';
     var visible = posters.map(function (p) { return { p: p, rows: availablePoster(p) }; }).filter(function (x) { return x.rows.length; });
     var chosen = visible.find(function (x) { return x.p.id === selectedPoster; });
-    if (posterSense && rowBySense[posterSense]) {
-      document.body.classList.remove('poster-view');
-      grid.innerHTML = '<button class="poster-back poster-card-back" type="button" data-poster-back>← Back to poster</button>' +
-        card({ rows: [rowBySense[posterSense]], pos: null, pic: rowBySense[posterSense][4] });
-      return;
-    }
     if (!chosen) {
       selectedPoster = null;
       document.body.classList.remove('poster-view');
       grid.innerHTML = '<div class="poster-choices">' + visible.map(function (x) {
         return '<button type="button" class="poster-choice" data-poster="' + esc(x.p.id) + '">' +
-          '<img src="' + esc(x.p.plate || ('assets/posters/' + x.p.id + '.webp')) + '?v=ca0f8121a-20261013110632" alt="" loading="lazy" draggable="false">' +
+          '<img src="' + esc(x.p.plate || ('assets/posters/' + x.p.id + '.webp')) + '?v=e2dbdaf45-20261013123854" alt="" loading="lazy" draggable="false">' +
           '<span class="poster-choice-copy">' + esc(x.p.title) + '<span>' + x.rows.length +
           (x.rows.length === 1 ? ' word' : ' words') + '</span></span></button>';
       }).join('') + '</div>';
       count.textContent = 'Choose a poster'; return;
     }
     /* One whole poster, locked to the viewport (see the body.poster-view comment in the
-       CSS): .poster-stage-area receives every height that is left under the header, the
-       mode bar and the title row, and the stage becomes the largest 4:3 plate that fits
-       inside it. */
+       CSS): .poster-body holds the stage area and the strip of small cards, the stage
+       area receives every dimension that is left, and the stage becomes the largest
+       4:3 plate that fits inside it. The strip shares that box -- landscape beside the
+       plate, portrait under it -- so poster and strip are one screen, no scrolling. */
     document.body.classList.add('poster-view');
     var pieces = chosen.rows.map(function (r) { return posterWord(r, chosen.p.labels[r[1]]); });
+    var chips = chosen.rows.map(posterChip).join('');
     grid.innerHTML = '<div class="poster-heading"><button type="button" class="poster-back" data-all-posters aria-label="All posters">←</button><h2>' +
-      esc(chosen.p.title) + '</h2></div><div class="poster-stage-area"><div class="poster-stage ' + esc(chosen.p.layout) + '" data-poster-stage="' + esc(chosen.p.id) + '">' +
-      '<img class="poster-plate" src="' + esc(chosen.p.plate) + '?v=ca0f8121a-20261013110632" alt="" draggable="false">' + pieces.join('') + '</div></div>';
+      esc(chosen.p.title) + '</h2></div><div class="poster-body"><div class="poster-stage-area"><div class="poster-stage ' + esc(chosen.p.layout) + '" data-poster-stage="' + esc(chosen.p.id) + '">' +
+      '<img class="poster-plate" src="' + esc(chosen.p.plate) + '?v=e2dbdaf45-20261013123854" alt="" draggable="false">' + pieces.join('') + '</div></div>' +
+      (chips ? '<div class="poster-strip" role="group" aria-label="Small word cards: tap one to hear its sentence">' + chips + '</div>' : '') +
+      '</div>';
+    sizePosterStrip();
   }
 
   function cardsInCollection(id) {
@@ -776,7 +885,7 @@
   function chooseMode(next) {
     if (mode === next) return;
     rememberScroll();
-    mode = next; query = ''; q.value = ''; clear.hidden = true; posterSense = null;
+    mode = next; query = ''; q.value = ''; clear.hidden = true;
     render(); saveState(); restoreScroll();
   }
   function chooseCollection(id) {
@@ -850,9 +959,19 @@
      rejected play) is checked against it, so a slow failure from an earlier word can
      never mark the button a child has since moved on to. */
   var voice = null, voiceBtn = null;
+  /* The label on the plate that answers while the strip plays its word's sentence
+     (.echo). One at a time, and it clears the moment the clip ends, fails to load, or
+     anything else takes the voice -- the same lifecycle the speaking button has. */
+  var echoLabel = null;
+  function setEcho(label) {
+    if (echoLabel && echoLabel !== label) echoLabel.classList.remove('echo');
+    echoLabel = label || null;
+    if (echoLabel) echoLabel.classList.add('echo');
+  }
   function missed(btn) {
     if (!btn || btn !== voiceBtn) return;
     btn.classList.remove('speaking');
+    setEcho(null);
     btn.classList.remove('missed');
     void btn.offsetWidth;            /* restart the shake on every failed tap */
     btn.classList.add('missed');
@@ -860,6 +979,7 @@
   function hush() {
     if (voice) { try { voice.pause(); } catch (e) {} }
     if (voiceBtn) voiceBtn.classList.remove('speaking');
+    setEcho(null);
     voiceBtn = null;
   }
   function say(btn) {
@@ -868,6 +988,7 @@
       voice = new Audio();
       voice.addEventListener('ended', function () {
         if (voiceBtn) voiceBtn.classList.remove('speaking');
+        setEcho(null);
       });
       voice.addEventListener('error', function () { missed(voiceBtn); });
     }
@@ -892,14 +1013,27 @@
   }
   grid.addEventListener('click', function (e) {
     var posterChoice = e.target.closest('[data-poster]');
-    if (posterChoice) { selectedPoster = posterChoice.getAttribute('data-poster'); posterSense = null; render(); saveState(); scrollTopNow(); return; }
-    if (e.target.closest('[data-all-posters]')) { selectedPoster = null; posterSense = null; render(); saveState(); scrollTopNow(); return; }
-    if (e.target.closest('[data-poster-back]')) { posterSense = null; render(); saveState(); scrollTopNow(); return; }
+    if (posterChoice) { selectedPoster = posterChoice.getAttribute('data-poster'); render(); saveState(); scrollTopNow(); return; }
+    if (e.target.closest('[data-all-posters]')) { selectedPoster = null; render(); saveState(); scrollTopNow(); return; }
     var posterWordButton = e.target.closest('[data-poster-sense]');
     if (posterWordButton) {
+      /* Round 4 (owner, 2026-10-13): a word label tap only SPEAKS. It plays the same
+         clip the card's word speaker plays, the poster stays exactly where it is, and
+         the sentence lives in the strip. The tap always answers visibly: :active
+         presses it, .speaking holds a glow while the word plays, .missed shakes if the
+         clip would not load. */
       if (posterWordButton.getAttribute('data-clip')) say(posterWordButton);
-      posterSense = posterWordButton.getAttribute('data-poster-sense');
-      window.setTimeout(function () { render(); saveState(); scrollTopNow(); }, 180);
+      setEcho(null);
+      return;
+    }
+    var chip = e.target.closest('[data-chip-sense]');
+    if (chip) {
+      say(chip);
+      var sense = chip.getAttribute('data-chip-sense');
+      var labels = grid.querySelectorAll('.poster-word');
+      for (var i = 0; i < labels.length; i++) {
+        if (labels[i].getAttribute('data-poster-sense') === sense) { setEcho(labels[i]); break; }
+      }
       return;
     }
     var collectionButton = e.target.closest('[data-collection]');
@@ -952,6 +1086,9 @@
   });
 
   window.addEventListener('pagehide', function () { rememberScroll(); saveState(); });
+  /* Rotation re-shapes the strip against the new box; outside the poster view the
+     function finds nothing and does nothing. */
+  window.addEventListener('resize', sizePosterStrip);
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
@@ -960,6 +1097,6 @@
   }
 })();
 </script>
-<script src="./tap-zoom-guard.js?v=ca0f8121a-20261013110632"></script>
+<script src="./tap-zoom-guard.js?v=e2dbdaf45-20261013123854"></script>
 </body>
 </html>
