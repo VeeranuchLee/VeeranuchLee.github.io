@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Reading Tree</title>
-<link rel="stylesheet" href="./reader.css?v=aa2d6f512-20261014180018">
-<script src="./js/tap-zoom-guard.js?v=aa2d6f512-20261014180018"></script>
+<link rel="stylesheet" href="./reader.css?v=a4c011018-20261014222924">
+<script src="./js/tap-zoom-guard.js?v=a4c011018-20261014222924"></script>
 </head>
 <body>
 <main class="book" id="book" aria-live="off">
@@ -54,12 +54,12 @@
   </section>
 </main>
 <p class="load-error" id="load-error" hidden>This book could not be opened.</p>
-<script src="./js/narration-mode.js?v=aa2d6f512-20261014180018"></script>
-<script src="./reader.js?v=aa2d6f512-20261014180018"></script>
+<script src="./js/narration-mode.js?v=a4c011018-20261014222924"></script>
+<script src="./reader.js?v=a4c011018-20261014222924"></script>
 <script>
 // Offline worker, published copy only: a Test Hub copy has it stripped (testhub-service-worker.py).
 if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
-  addEventListener('load', function () { Promise.resolve(); });
+  addEventListener('load', function () { void 0; /* staging: no service worker */ });
 }
 </script>
 </body>
