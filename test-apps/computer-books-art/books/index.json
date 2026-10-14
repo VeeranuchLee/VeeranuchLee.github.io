@@ -25,7 +25,41 @@
       "colour": "#536fa6",
       "books": [
         "space-trip",
-        "stars"
+        "mars",
+        "mars-landforms",
+        "jupiter-great-red-spot",
+        "stars",
+        "stars-life-cycle",
+        "comets"
+      ],
+      "sections": [
+        {
+          "title": "Our Solar System",
+          "books": [
+            "space-trip"
+          ]
+        },
+        {
+          "title": "Planets",
+          "books": [
+            "mars",
+            "mars-landforms",
+            "jupiter-great-red-spot"
+          ]
+        },
+        {
+          "title": "Stars",
+          "books": [
+            "stars",
+            "stars-life-cycle"
+          ]
+        },
+        {
+          "title": "Comets",
+          "books": [
+            "comets"
+          ]
+        }
       ]
     },
     {
@@ -126,11 +160,36 @@
     {
       "id": "space-trip",
       "title": "A Trip Through Space",
-      "next": "stars"
+      "next": "mars"
     },
     {
       "id": "stars",
-      "title": "All About Stars"
+      "title": "Stars in the Night Sky",
+      "next": "stars-life-cycle"
+    },
+    {
+      "id": "comets",
+      "title": "All About Comets"
+    },
+    {
+      "id": "mars",
+      "title": "Mars: The Red Planet",
+      "next": "mars-landforms"
+    },
+    {
+      "id": "mars-landforms",
+      "title": "Mars: Giant Volcanoes and a Great Canyon",
+      "next": "jupiter-great-red-spot"
+    },
+    {
+      "id": "jupiter-great-red-spot",
+      "title": "Jupiter and the Great Red Spot",
+      "next": "stars"
+    },
+    {
+      "id": "stars-life-cycle",
+      "title": "How Stars Are Born and Change",
+      "next": "comets"
     },
     {
       "id": "gems",

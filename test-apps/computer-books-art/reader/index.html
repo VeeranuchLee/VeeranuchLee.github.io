@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Reading Tree</title>
-<link rel="stylesheet" href="./reader.css?v=07660a9ba-20261013094858">
-<script src="./js/tap-zoom-guard.js?v=07660a9ba-20261013094858"></script>
+<link rel="stylesheet" href="./reader.css?v=8443834a4-20261014152137">
+<script src="./js/tap-zoom-guard.js?v=8443834a4-20261014152137"></script>
 </head>
 <body>
 <main class="book" id="book" aria-live="off">
@@ -33,7 +33,7 @@
     <button class="nav nav-prev" id="prev" type="button" aria-label="Previous page">
       <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M30 10 L16 24 L30 38" /></svg>
     </button>
-    <div class="reading-mid">
+    <div class="reading-mid" id="reading-mid">
       <button class="speaker" id="speaker" type="button" aria-label="Read this page aloud" data-state="idle">
         <svg class="icon-speak" viewBox="0 0 64 64" aria-hidden="true">
           <path class="cone" d="M10 25 h9 l13 -11 v36 l-13 -11 h-9 z" />
@@ -54,12 +54,12 @@
   </section>
 </main>
 <p class="load-error" id="load-error" hidden>This book could not be opened.</p>
-<script src="./js/narration-mode.js?v=07660a9ba-20261013094858"></script>
-<script src="./reader.js?v=07660a9ba-20261013094858"></script>
+<script src="./js/narration-mode.js?v=8443834a4-20261014152137"></script>
+<script src="./reader.js?v=8443834a4-20261014152137"></script>
 <script>
 // Offline worker, published copy only: a Test Hub copy has it stripped (testhub-service-worker.py).
 if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
-  addEventListener('load', function () { Promise.resolve() /* Test Hub staging: no service worker */; });
+  addEventListener('load', function () { void 0; /* staging: no service worker */ });
 }
 </script>
 </body>
