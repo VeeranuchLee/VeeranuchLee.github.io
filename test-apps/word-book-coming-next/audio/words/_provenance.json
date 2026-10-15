@@ -1,10 +1,10 @@
 {
-  "word": "Coming Next 206 word clips 2026-10-14",
-  "generated": "2026-10-14",
+  "word": "Coming Next 285 held word clips",
+  "generated": "2026-10-15",
   "renders": "controller, render-word-candidates.py, spec word-book/tools/word-candidates-2026-10-14-coming-next/spec.json; run ledger word-book/audio-alignment/sentences/_runs.json (eleven_v4, Alice Xb7hH8MSUJpSbSDYk0k2, one Plain take per sense, owner 2026-10-14)",
   "encode": "afconvert -f m4af -d aac -c 1 -b 64000 -- the word-book/audio/words bank settings (mono AAC 64 kbps, 44.1 kHz); straight transcode, no trim, no level change; afconvert only, never PyAV/ffmpeg",
-  "ships": "staging only (site/test-apps/word-book-coming-next/audio/words/); NOT added to production word-book/audio/words",
-  "count": 206,
+  "ships": "held candidate bank copied to staging only; NOT added to production word-book/audio/words",
+  "count": 285,
   "clips": [
     {
       "sense": "Atlas.greek-mythology",
@@ -139,6 +139,17 @@
       "m4a_sha256": "c8df43390616816503ebae159646bfd5b9682f9e39fd1b40eedf8bbb82234068"
     },
     {
+      "sense": "apricot.fruit",
+      "word": "apricot",
+      "text": "apricot.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/apricot.fruit.v4-plain.mp3",
+      "master_sha256": "c7af1221bedda679b33ed1c1c6f9579f2ee71fa1cc59fd9e073a7a565556c79b",
+      "m4a": "audio/words/apricot.fruit.m4a",
+      "m4a_sha256": "aa2473536f739edcb38a991b771f57141e0f794597d3c00c42c6bdd97e398b39"
+    },
+    {
       "sense": "aqueduct.water-channel",
       "word": "aqueduct",
       "text": "aqueduct.",
@@ -238,6 +249,17 @@
       "m4a_sha256": "8a50b227d4d5b180d391ca17c6b6ab0af5d748a19dd0618480ac2c4ad2a670ba"
     },
     {
+      "sense": "badger.striped-face-mammal",
+      "word": "badger",
+      "text": "badger.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/badger.striped-face-mammal.v4-plain.mp3",
+      "master_sha256": "bc3876eb780e23e1b9e2054ba653bed962db9d8feb81070b88a1b75bc7309485",
+      "m4a": "audio/words/badger.striped-face-mammal.m4a",
+      "m4a_sha256": "f91c35b7bfa73115d6c3f356e0417fa40a01e44f7a27fd1dd943cd945740dd58"
+    },
+    {
       "sense": "beaver.dam-building-mammal",
       "word": "beaver",
       "text": "beaver.",
@@ -247,6 +269,17 @@
       "master_sha256": "fe4e7bc589884859b17a4b3330231f83dceb113e8c468e556b9f3bf37c9cce8d",
       "m4a": "audio/words/beaver.dam-building-mammal.m4a",
       "m4a_sha256": "b7914334f1081b29aa29bfe88b5be50e4f34f15b46bdc64ab9a807a0c82feaa1"
+    },
+    {
+      "sense": "beetroot.vegetable",
+      "word": "beetroot",
+      "text": "beetroot.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/beetroot.vegetable.v4-plain.mp3",
+      "master_sha256": "ecddb04d516c08ec54884ea026c33de0bc2f7308f3d496b4873a47dba70dd67d",
+      "m4a": "audio/words/beetroot.vegetable.m4a",
+      "m4a_sha256": "adba89ffa709cb26dbf9486e20082d2ca6075e88b7df58857c5c214aa8d84c9b"
     },
     {
       "sense": "biography.life-story",
@@ -271,6 +304,17 @@
       "m4a_sha256": "98384c0878bf8672ea48b0b8f27742141d8aadb688ab5a69a377f58d8e016934"
     },
     {
+      "sense": "blackberry.fruit",
+      "word": "blackberry",
+      "text": "blackberry.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/blackberry.fruit.v4-plain.mp3",
+      "master_sha256": "8d395d1b3acb17a6552e8d92b67eab7b736ed694ae1aad11968e5abcc9866bd2",
+      "m4a": "audio/words/blackberry.fruit.m4a",
+      "m4a_sha256": "169210e9f224ab07493a2519fb5a03bfbd5563a6b78433fdc6ccd825cb802fb3"
+    },
+    {
       "sense": "blueprint.detailed-plan",
       "word": "blueprint",
       "text": "blueprint.",
@@ -280,6 +324,17 @@
       "master_sha256": "4d7f05ffc2f6ec6ce9618e947d8d73cf4a2bc6aa16308d5f84683cef7759572f",
       "m4a": "audio/words/blueprint.detailed-plan.m4a",
       "m4a_sha256": "8b7e0ea0689a65abba5d08b38302c80c93a907d64090b6e62c7adfb41a2317d9"
+    },
+    {
+      "sense": "calculator.calculating-device",
+      "word": "calculator",
+      "text": "calculator.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/calculator.calculating-device.v4-plain.mp3",
+      "master_sha256": "d47458fb45fbe8134849126e871f38ed561d41c2833a0af8c0c81f92d93b8941",
+      "m4a": "audio/words/calculator.calculating-device.m4a",
+      "m4a_sha256": "98294cc57a0a0d1b6558b1bcde24242b50e39b81a22f9c48df69b7f6b778ec97"
     },
     {
       "sense": "camouflage.blending-in",
@@ -304,6 +359,28 @@
       "m4a_sha256": "6b057ed8eae36aad9e6380e4d8f31521a37e5bccee7b2411beef946d9ff17e5e"
     },
     {
+      "sense": "cardigan.buttoned-jumper",
+      "word": "cardigan",
+      "text": "cardigan.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/cardigan.buttoned-jumper.v4-plain.mp3",
+      "master_sha256": "7ea916991839e35a0012cfa1602f5b83e1ad9753360b14189dc5fd4c00d49cd5",
+      "m4a": "audio/words/cardigan.buttoned-jumper.m4a",
+      "m4a_sha256": "bf861f683a1c28bfe61a87b3bab094db9212c701f48a8d8f02baf861eb378c3a"
+    },
+    {
+      "sense": "carriage.railway-vehicle",
+      "word": "carriage",
+      "text": "carriage.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/carriage.railway-vehicle.v4-plain.mp3",
+      "master_sha256": "d29200a8551312d3286eda5d6c81ef03acbfa9efd37131b2b1338e1f83c3002b",
+      "m4a": "audio/words/carriage.railway-vehicle.m4a",
+      "m4a_sha256": "3ccb74c29525268e8a18040be34506d993ea735ccf90ebadd8351269238183cb"
+    },
+    {
       "sense": "cartographer.map-maker",
       "word": "cartographer",
       "text": "cartographer.",
@@ -313,6 +390,17 @@
       "master_sha256": "ed599e7906c8778f9f8b4c9faac6a25f2187c0a51b32a76823a3263c20470467",
       "m4a": "audio/words/cartographer.map-maker.m4a",
       "m4a_sha256": "348cdaaaa730b88b0e0b9b977f53165df5f3f1b09b2be66508ec65dc1542c746"
+    },
+    {
+      "sense": "celery.vegetable",
+      "word": "celery",
+      "text": "celery.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/celery.vegetable.v4-plain.mp3",
+      "master_sha256": "aa471b31563b5fe8adf342d75b267c585f2e95176445be5f64e774bbf2764aa9",
+      "m4a": "audio/words/celery.vegetable.m4a",
+      "m4a_sha256": "eb0fe29f02fae15a71b0c121912f826225f787ffbeef31c86f37a2e5bc84c117"
     },
     {
       "sense": "celestial.in-the-sky",
@@ -326,6 +414,28 @@
       "m4a_sha256": "56d6c2b3384c62347c7eb1a349ca198cc2b8beb8ed21880175c9723c1d6c1b82"
     },
     {
+      "sense": "cellar.underground-room",
+      "word": "cellar",
+      "text": "cellar.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/cellar.underground-room.v4-plain.mp3",
+      "master_sha256": "2730a4ba244e13881a1fe8361bbe38635dd3f90f7cdcea442dc479305a477448",
+      "m4a": "audio/words/cellar.underground-room.m4a",
+      "m4a_sha256": "ba0ae9edd8dfcc8639febffc2378f31f90b96fd2df95582e6ff2d33bf2f7aa68"
+    },
+    {
+      "sense": "cello.string-instrument",
+      "word": "cello",
+      "text": "cello.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/cello.string-instrument.v4-plain.mp3",
+      "master_sha256": "80a302c926702e3a7057e115e2478ac4ee51dbfa0b57f33a774feaccd594eac3",
+      "m4a": "audio/words/cello.string-instrument.m4a",
+      "m4a_sha256": "506cf6f7fb8a26eaa1d0f88e3ba7ec7109a0a79315dff6ccb6f4cd6da25df79c"
+    },
+    {
       "sense": "centaur.mythical-creature",
       "word": "centaur",
       "text": "centaur.",
@@ -335,6 +445,17 @@
       "master_sha256": "a7469871d828d9f6ab22f9db645ec8e3aabf251523492f890068d455ad78da44",
       "m4a": "audio/words/centaur.mythical-creature.m4a",
       "m4a_sha256": "3314b3c67d826094bb40d7f577bd357e26a5c6cc17ab3e406874de9b6aab3eb9"
+    },
+    {
+      "sense": "centipede.many-legged-animal",
+      "word": "centipede",
+      "text": "centipede.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/centipede.many-legged-animal.v4-plain.mp3",
+      "master_sha256": "afb019cfe56e1ad814c543926e1e181b4f875a804eb89dff0a07c8cd5313e092",
+      "m4a": "audio/words/centipede.many-legged-animal.m4a",
+      "m4a_sha256": "f2390d10da84f1f9cf8a792ea22b0b3711f45d83c305e8147190c2d687d2d1ed"
     },
     {
       "sense": "cheat.break-rules-unfairly",
@@ -370,6 +491,17 @@
       "m4a_sha256": "1dc514035b75014c3fed72c4dfee468c143141a22b325696fe74d3d952cc6766"
     },
     {
+      "sense": "clarinet.woodwind-instrument",
+      "word": "clarinet",
+      "text": "clarinet.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/clarinet.woodwind-instrument.v4-plain.mp3",
+      "master_sha256": "24f07add418f9eb40e3c00ecdc3e09156060fe49e42b2fca404cc7e013bf16c1",
+      "m4a": "audio/words/clarinet.woodwind-instrument.m4a",
+      "m4a_sha256": "a66f281fac74df55ca841ec6da7c9cf9db5aeff85da43467f71c6af5e68a2aa0"
+    },
+    {
       "sense": "classify.sort-into-groups",
       "word": "classify",
       "text": "classify.",
@@ -379,6 +511,28 @@
       "master_sha256": "a7ed1453d54ee4cbe169b5f076edba79156c261a3f00141fe59398334aaf82ce",
       "m4a": "audio/words/classify.sort-into-groups.m4a",
       "m4a_sha256": "1eabe8649f3572844783a1b23f5aead6ffa6cd7eadaddd176b24379804c9cbc0"
+    },
+    {
+      "sense": "clipboard.board-with-clip",
+      "word": "clipboard",
+      "text": "clipboard.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/clipboard.board-with-clip.v4-plain.mp3",
+      "master_sha256": "b137dc06e6d51023d302e56da5228225a98967528af00dc0a6a3ca21a80ae0e6",
+      "m4a": "audio/words/clipboard.board-with-clip.m4a",
+      "m4a_sha256": "c6da88aa0de38a69d619383264b9966107aad423270729dfd70914c5b2d4bd0e"
+    },
+    {
+      "sense": "clownfish.reef-fish",
+      "word": "clownfish",
+      "text": "clownfish.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/clownfish.reef-fish.v4-plain.mp3",
+      "master_sha256": "3cf0ebaaada430126f017fb38368e262203a8f967c5cbd7819a4ccd09f4ec50d",
+      "m4a": "audio/words/clownfish.reef-fish.m4a",
+      "m4a_sha256": "e19c67bc0f2ae622c0cff20131063b97bb6a50d49be1ccaeae7836680c28c872"
     },
     {
       "sense": "coastline.land-sea-edge",
@@ -458,6 +612,39 @@
       "m4a_sha256": "25943239d49fdcf9beac051eec39b44a77c3f761a961b91dae119b98a519d7f9"
     },
     {
+      "sense": "courgette.vegetable",
+      "word": "courgette",
+      "text": "courgette.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/courgette.vegetable.v4-plain.mp3",
+      "master_sha256": "cea07dee26d5aeed7f47b53b45bbf1c817492bd395896343f8ea14efd729d15e",
+      "m4a": "audio/words/courgette.vegetable.m4a",
+      "m4a_sha256": "2cc5ded9b37feccae563a962132dd91f8d9d9c4556db7c3553e2773f437c7b4c"
+    },
+    {
+      "sense": "cranberry.fruit",
+      "word": "cranberry",
+      "text": "cranberry.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/cranberry.fruit.v4-plain.mp3",
+      "master_sha256": "62def2fd1df43e445125849e045bd0571943b2658aa36f2c0206b8a7582db203",
+      "m4a": "audio/words/cranberry.fruit.m4a",
+      "m4a_sha256": "9243a194304fcbddb8eeb85884d5cd42633ab013046593a26429334cd1e7556f"
+    },
+    {
+      "sense": "crane.lifting-machine",
+      "word": "crane",
+      "text": "crane.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/crane.lifting-machine.v4-plain.mp3",
+      "master_sha256": "a0f94d3e76782ebd388483c370ef9e07d8acf111e58223be24c6a80ab8d9b168",
+      "m4a": "audio/words/crane.lifting-machine.m4a",
+      "m4a_sha256": "462acc8a9346b4523b927f84bc5a2ea1a0e40dd875632afb17458809c81d680b"
+    },
+    {
       "sense": "cranky.easily-annoyed",
       "word": "cranky",
       "text": "cranky.",
@@ -480,6 +667,28 @@
       "m4a_sha256": "12e4183716c7904467c4a30b1a035a130dfdea0f7f928c2e55517db85775ff7e"
     },
     {
+      "sense": "crescent.curved-shape",
+      "word": "crescent",
+      "text": "crescent.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/crescent.curved-shape.v4-plain.mp3",
+      "master_sha256": "51498c034d4d103dfbdca1cb3e2e3538e80abe58f3a8e319df37f65b5aa2bc04",
+      "m4a": "audio/words/crescent.curved-shape.m4a",
+      "m4a_sha256": "670697203e5bb212f3d7336c33c7f443eb472c69a50bfa657ffdcb02be5fd10a"
+    },
+    {
+      "sense": "cross.angry",
+      "word": "cross",
+      "text": "cross.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/cross.angry.v4-plain.mp3",
+      "master_sha256": "663ef6b332d430c8d09ce29dfa8e0f6b43795eec96c27d6fe0a236c278ac2345",
+      "m4a": "audio/words/cross.angry.m4a",
+      "m4a_sha256": "f3cee23c8c40f4596418c5c3058962f5fc8c8894cbc6823cb00d16e18349f1c0"
+    },
+    {
       "sense": "cyclops.mythical-giant",
       "word": "cyclops",
       "text": "cyclops.",
@@ -489,6 +698,17 @@
       "master_sha256": "7d34accce05a49a4f60d980e63bafb5d7bea7fb58cbe31a0966eca7d1cffaac3",
       "m4a": "audio/words/cyclops.mythical-giant.m4a",
       "m4a_sha256": "f7ad818e452cdcaf6b23eff31fe63edb021a4922badd704917bd775de77feafd"
+    },
+    {
+      "sense": "cymbals.clashing-instruments",
+      "word": "cymbals",
+      "text": "cymbals.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/cymbals.clashing-instruments.v4-plain.mp3",
+      "master_sha256": "21af25b8167aeb9a704613066b97940733e405162f1f158f0ae52297bd24e890",
+      "m4a": "audio/words/cymbals.clashing-instruments.m4a",
+      "m4a_sha256": "1d4b49908c9cd877ef28ea955e3d134cf1eac043ba127188af743c0025e62068"
     },
     {
       "sense": "dash.run-quickly",
@@ -568,6 +788,17 @@
       "m4a_sha256": "f32d91956c81eebedc09fb37439c1f8428fb787c2dc17608ec245a553908a289"
     },
     {
+      "sense": "digger.excavating-machine",
+      "word": "digger",
+      "text": "digger.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/digger.excavating-machine.v4-plain.mp3",
+      "master_sha256": "bd0b619400abae939b120de892e14f53576b96fbc8e7a5803e53637f1556e6a3",
+      "m4a": "audio/words/digger.excavating-machine.m4a",
+      "m4a_sha256": "924454be2a2d03c83c332eec981c0b014d4b617d000ebf02d18900c431864231"
+    },
+    {
       "sense": "disappointed.hopes-not-met",
       "word": "disappointed",
       "text": "disappointed.",
@@ -588,6 +819,17 @@
       "master_sha256": "2d23ad21769548144952eb0d83dd84070fc37f3498ce1fcb1cfb46c3e7e24e0d",
       "m4a": "audio/words/distinguish.recognise-difference.m4a",
       "m4a_sha256": "cba31b98fa87eef15efb529ab5d34a45324367b3a23e885a9a249b14ef759624"
+    },
+    {
+      "sense": "doorbell.door-signal",
+      "word": "doorbell",
+      "text": "doorbell.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/doorbell.door-signal.v4-plain.mp3",
+      "master_sha256": "91486a357f3392ca8443804c6ab430a585d3a40b3e38581c14e07ade001e26aa",
+      "m4a": "audio/words/doorbell.door-signal.m4a",
+      "m4a_sha256": "70dc6d3c0d68231c727f44865be9c0cece217a81678c6dda7c23bcb8cf94dbdf"
     },
     {
       "sense": "doorway.opening-for-door",
@@ -612,6 +854,28 @@
       "m4a_sha256": "a3916642c52e6cf2c5e3ee3fd891f4bdf4135db6b520585f4db14cbf9df93fc6"
     },
     {
+      "sense": "dove.bird",
+      "word": "dove",
+      "text": "dove.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/dove.bird.v4-plain.mp3",
+      "master_sha256": "8f7e8cbeb6df17f4a0bd2ad7fffdf64b6388f2f62732618830ae16aa96aad447",
+      "m4a": "audio/words/dove.bird.m4a",
+      "m4a_sha256": "6cd17c84b68f7ea6d53cff55d7e4d938a564e309b0617ce46c297aa4787808f9"
+    },
+    {
+      "sense": "drizzle.light-rain",
+      "word": "drizzle",
+      "text": "drizzle.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/drizzle.light-rain.v4-plain.mp3",
+      "master_sha256": "0b2d452420da98d2486de6aee41a08cef335a46db4248f07548364de93392549",
+      "m4a": "audio/words/drizzle.light-rain.m4a",
+      "m4a_sha256": "096e56970fa3fc8df60b6d04284c1898c7239064010f4d7e0d04736d0c95b489"
+    },
+    {
       "sense": "dynasty.ruling-family",
       "word": "dynasty",
       "text": "dynasty.",
@@ -634,6 +898,17 @@
       "m4a_sha256": "d13b267a701cda641b1bd1fadfca720b25007c55d108a032fb629a74924582a8"
     },
     {
+      "sense": "earwig.pincer-tailed-insect",
+      "word": "earwig",
+      "text": "earwig.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/earwig.pincer-tailed-insect.v4-plain.mp3",
+      "master_sha256": "6d2ce9c0554a0bbea471f06811f523692ec25acb2c23e18d8c2e38bb8aa96b1f",
+      "m4a": "audio/words/earwig.pincer-tailed-insect.m4a",
+      "m4a_sha256": "c3879815ecdd299403b1745abaa26da0c040e5318b4af58765c156a80f9d5b4f"
+    },
+    {
       "sense": "eclipse.light-blocking-event",
       "word": "eclipse",
       "text": "eclipse.",
@@ -654,6 +929,17 @@
       "master_sha256": "37fccbc31348e0af6242183e8012781d328e50af0bd0e5654329cab69e5ffbd3",
       "m4a": "audio/words/ecosystem.living-community.m4a",
       "m4a_sha256": "5d13006f411764a6cff466b94b84ac6c7d3796a0816b5e8fe852385a83e14f57"
+    },
+    {
+      "sense": "eel.long-fish",
+      "word": "eel",
+      "text": "eel.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/eel.long-fish.v4-plain.mp3",
+      "master_sha256": "cf52fffd2c5e7a5b3745d70acac640c588ebfce814cd5d9904cc11279377a1db",
+      "m4a": "audio/words/eel.long-fish.m4a",
+      "m4a_sha256": "a2a887088963ac78e88068836e0c2a1e0b0ff4e2329e1cb1a3516174633de5ee"
     },
     {
       "sense": "eighth.order-eight",
@@ -766,6 +1052,17 @@
       "m4a_sha256": "f591aa037975e2602d4f5e9d01099cf7f0ee6f5bad7eb340e56d525242a0f464"
     },
     {
+      "sense": "eyelash.eye-hair",
+      "word": "eyelash",
+      "text": "eyelash.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/eyelash.eye-hair.v4-plain.mp3",
+      "master_sha256": "9b890963ee797d01002c47f024b5d48fc014ef6e41dba8a397a052df0352b75a",
+      "m4a": "audio/words/eyelash.eye-hair.m4a",
+      "m4a_sha256": "f4273e406266ffc5e11dc5003d7e70a268d9fb2010b0595d31d591d283897f34"
+    },
+    {
       "sense": "feast.large-special-meal",
       "word": "feast",
       "text": "feast.",
@@ -775,6 +1072,17 @@
       "master_sha256": "db8075155ac8b98cc6a1294973604cf1c57e5d1f06353ff6e582f7b529bbbc4f",
       "m4a": "audio/words/feast.large-special-meal.m4a",
       "m4a_sha256": "a5817c8b00ce542d3156f12b757cc59d23ba74cb05d6052a36a7c7432d34bcc8"
+    },
+    {
+      "sense": "felt-tips.colouring-pens",
+      "word": "felt tips",
+      "text": "felt tips.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/felt-tips.colouring-pens.v4-plain.mp3",
+      "master_sha256": "f34c5918ea6040ec8ef531224ab88c94f2fedba1067f34fbe0bde57a3de59a90",
+      "m4a": "audio/words/felt-tips.colouring-pens.m4a",
+      "m4a_sha256": "255e5857ab0de007e5d2f008000ef03bc943bf68c961de189842adffd27ed533"
     },
     {
       "sense": "fetch.go-and-bring",
@@ -797,6 +1105,28 @@
       "master_sha256": "b7efa1dd671f2918aa806c45fbebbf448909a6927c8731f00adb33c81dca8bd9",
       "m4a": "audio/words/fiction.imagined-writing.m4a",
       "m4a_sha256": "e9b47b2eec0261fd8706514ba2b91b724745b69ed3e17a1a01db713de9e9ec12"
+    },
+    {
+      "sense": "fig.fruit",
+      "word": "fig",
+      "text": "fig.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/fig.fruit.v4-plain.mp3",
+      "master_sha256": "ad9585d7fe2fd6ab7e9518b06f7838a51012d252a55dba2ca929e4c3934e8270",
+      "m4a": "audio/words/fig.fruit.m4a",
+      "m4a_sha256": "e66da15a35129fd05bbbbb4f6365e14c8074a6b1423cc4463d21e4ad003e098e"
+    },
+    {
+      "sense": "fireplace.indoor-fire-place",
+      "word": "fireplace",
+      "text": "fireplace.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/fireplace.indoor-fire-place.v4-plain.mp3",
+      "master_sha256": "0644b1a205fe8d4140fe13adeba868c2fbd783ce933511858cc91261af9810cc",
+      "m4a": "audio/words/fireplace.indoor-fire-place.m4a",
+      "m4a_sha256": "7f5c531681d826b79713b70f999e1286244700e51f220d41ea84ebdc55bf3d30"
     },
     {
       "sense": "fossil.preserved-remains",
@@ -863,6 +1193,39 @@
       "master_sha256": "f9fdc3bf0f809629e64c71adb7f7157742eed97b1c2c240444f800fa56838e9f",
       "m4a": "audio/words/grab.take-quickly.m4a",
       "m4a_sha256": "0d6b5c34c3958679f4b29b45e8dde2e1c12d4f0268bd85e2068f19ae176e8726"
+    },
+    {
+      "sense": "grandma.grandmother",
+      "word": "grandma",
+      "text": "grandma.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/grandma.grandmother.v4-plain.mp3",
+      "master_sha256": "e40ccf4f3b6ba8c8fd50c3db42a30caaa4997818241765fb7a530088ec2f718a",
+      "m4a": "audio/words/grandma.grandmother.m4a",
+      "m4a_sha256": "67fac563d54bbe5c47df07d76a840dc99095f35e410ccbaea79aa35beb892363"
+    },
+    {
+      "sense": "grandpa.grandfather",
+      "word": "grandpa",
+      "text": "grandpa.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/grandpa.grandfather.v4-plain.mp3",
+      "master_sha256": "425dc1ae95bf1bff950b104d5a0bd1838694f155fecb869a574d4df4b771cc67",
+      "m4a": "audio/words/grandpa.grandfather.m4a",
+      "m4a_sha256": "ff450df0199c155221ca46734ba9a2db213cfa43549d0190fec313cfe5c738b6"
+    },
+    {
+      "sense": "grapefruit.fruit",
+      "word": "grapefruit",
+      "text": "grapefruit.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/grapefruit.fruit.v4-plain.mp3",
+      "master_sha256": "047e8cdec0768de120fd6d8d72fcfa04e75b126572691d27d571e3308063631f",
+      "m4a": "audio/words/grapefruit.fruit.m4a",
+      "m4a_sha256": "c0870f6dd66e3df7c22cb3c95e553e188cd097639ae33b953a1c07c558c8f480"
     },
     {
       "sense": "grateful.thankful",
@@ -953,6 +1316,17 @@
       "m4a_sha256": "3903899e4b08385249ab2a981dda2a2b9bc9ab6f3aa8dbeceb5a76742167f4ae"
     },
     {
+      "sense": "harmonica.mouth-organ",
+      "word": "harmonica",
+      "text": "harmonica.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/harmonica.mouth-organ.v4-plain.mp3",
+      "master_sha256": "19c5e5e8bbd01479ff848159632edcffbfa8833955b420779d38dbb9d339baa2",
+      "m4a": "audio/words/harmonica.mouth-organ.m4a",
+      "m4a_sha256": "abeedc9f6799d5d56f44f1ba5a8f839f2c91bd2887d363b14d09fead8d97b542"
+    },
+    {
       "sense": "hemisphere.half-earth",
       "word": "hemisphere",
       "text": "hemisphere.",
@@ -962,6 +1336,17 @@
       "master_sha256": "911d346a26519e297f62a6a32f5bdf89c91cf06cc84f0e08e83a82ab88728466",
       "m4a": "audio/words/hemisphere.half-earth.m4a",
       "m4a_sha256": "4b5fb178a8750d6f5d62059cbfc9514226259cc11aa502b5f31b3351c20bb2e2"
+    },
+    {
+      "sense": "herbs.flavouring-plants",
+      "word": "herbs",
+      "text": "herbs.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/herbs.flavouring-plants.v4-plain.mp3",
+      "master_sha256": "e456b433c5665d405108c849e313752762ddd1e0fd6f85a5cf7f84b6ab545a60",
+      "m4a": "audio/words/herbs.flavouring-plants.m4a",
+      "m4a_sha256": "6d89c1acf450e60b077fc0753a473d190e530e6d830e833b2051bb206bf17bc9"
     },
     {
       "sense": "hieroglyph.picture-symbol",
@@ -986,6 +1371,17 @@
       "m4a_sha256": "703abc039b70ce3eb47b08e2d62f2a87e5f00a72da7f826a9ce11708effad580"
     },
     {
+      "sense": "hoodie.hooded-top",
+      "word": "hoodie",
+      "text": "hoodie.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/hoodie.hooded-top.v4-plain.mp3",
+      "master_sha256": "76d079439199e1ee651aefb102d734f7860c003e0413d1d3710b767bcb07f39a",
+      "m4a": "audio/words/hoodie.hooded-top.m4a",
+      "m4a_sha256": "b383bcd349bcc1644cfed009ef73d075b53b2335899c8bb75345a94bb5179436"
+    },
+    {
       "sense": "hopeful.expecting-good",
       "word": "hopeful",
       "text": "hopeful.",
@@ -995,6 +1391,17 @@
       "master_sha256": "93e73637ec9288da3fcbaf6dbf6894add9f8b790d4fa080d746030463c0fcfec",
       "m4a": "audio/words/hopeful.expecting-good.m4a",
       "m4a_sha256": "c7e5030951c15a9029d1863e025b6038227db438457fcd9254ac7a5222b01321"
+    },
+    {
+      "sense": "hot-air-balloon.aircraft",
+      "word": "hot air balloon",
+      "text": "hot air balloon.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/hot-air-balloon.aircraft.v4-plain.mp3",
+      "master_sha256": "d7781dd9cc928d06c1e55c37d447338e8046cb45f27eac4b9526c3dc611e704c",
+      "m4a": "audio/words/hot-air-balloon.aircraft.m4a",
+      "m4a_sha256": "0b0609fb2520264e69b11cedd1854c50a10be8a19f6b0e11954ea4e20b40b319"
     },
     {
       "sense": "hypothesis.testable-explanation",
@@ -1118,6 +1525,17 @@
       "m4a_sha256": "dad89ca0370b1e1fd91df63fdc6f11683b1d1951d2171d1ba394c9d1c1c523bb"
     },
     {
+      "sense": "knuckle.finger-joint",
+      "word": "knuckle",
+      "text": "knuckle.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/knuckle.finger-joint.v4-plain.mp3",
+      "master_sha256": "70d9d1da01f963b48ebe567009d86d05a10222efda050aacb33f32c784a048ea",
+      "m4a": "audio/words/knuckle.finger-joint.m4a",
+      "m4a_sha256": "73901553adb9427fde7192b88d705c391f732c472efdd54f9d50451812b837b7"
+    },
+    {
       "sense": "laboratory.science-workplace",
       "word": "laboratory",
       "text": "laboratory.",
@@ -1151,6 +1569,17 @@
       "m4a_sha256": "2653e6ef74fb45f7c8d4166030556990e622dfd841a591b0eda9efbdfabaee33"
     },
     {
+      "sense": "laptop.portable-computer",
+      "word": "laptop",
+      "text": "laptop.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/laptop.portable-computer.v4-plain.mp3",
+      "master_sha256": "6e995323c7b6f2b20834cb301213ea4ce0865d4c9cb8a7f2b2a53b981e36280d",
+      "m4a": "audio/words/laptop.portable-computer.m4a",
+      "m4a_sha256": "a878b45ceacfd6b157160544ad0b11abd0192143793f23ea365d234db50965e0"
+    },
+    {
       "sense": "latitude.north-south-position",
       "word": "latitude",
       "text": "latitude.",
@@ -1162,6 +1591,17 @@
       "m4a_sha256": "3ef9816518ceeab9480d7425b2fc08a3e16fc4740fdd380d5c0b65180e2cecb8"
     },
     {
+      "sense": "leek.vegetable",
+      "word": "leek",
+      "text": "leek.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/leek.vegetable.v4-plain.mp3",
+      "master_sha256": "ba443004c217fd6a63363acf983264540aca054311c3cb7772562783f4a13e56",
+      "m4a": "audio/words/leek.vegetable.m4a",
+      "m4a_sha256": "0a549f5f283ec354436a894f093e70b9679dd106af17a38da1aab3f068c81f6f"
+    },
+    {
       "sense": "legend.old-story",
       "word": "legend",
       "text": "legend.",
@@ -1171,6 +1611,28 @@
       "master_sha256": "fe8b1f869d7376fdde04f19e02143ec21eee9724170b274764474ad2421e149d",
       "m4a": "audio/words/legend.old-story.m4a",
       "m4a_sha256": "3dbde33c3e6caed31d3683b756924e1425456315b7e17f68dc5b4c1e7720864f"
+    },
+    {
+      "sense": "leopard.spotted-big-cat",
+      "word": "leopard",
+      "text": "leopard.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/leopard.spotted-big-cat.v4-plain.mp3",
+      "master_sha256": "dc9af7a2237589ebd531fdbb24df36cd8ca8d33d0f3cc8a27775a2743f1f92d3",
+      "m4a": "audio/words/leopard.spotted-big-cat.m4a",
+      "m4a_sha256": "041a8641094a15cd49319de180d237f52d96ace3a2600b905bbddfb417d10bfb"
+    },
+    {
+      "sense": "letterbox.mail-slot",
+      "word": "letterbox",
+      "text": "letterbox.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/letterbox.mail-slot.v4-plain.mp3",
+      "master_sha256": "b02791cb2052dabe39902b1d222b6ce0c2397f44c70356f2c8609e38afe7f4a5",
+      "m4a": "audio/words/letterbox.mail-slot.m4a",
+      "m4a_sha256": "75d7f0d4d39c183c0aeed1e01fa112b800604ba9933166b2d089b65492f7cf43"
     },
     {
       "sense": "llama.south-american-animal",
@@ -1195,6 +1657,17 @@
       "m4a_sha256": "37361c2e758f1e1967480a04abf50eb7b5ef3d81dcf05a599f08c3608fe16f0f"
     },
     {
+      "sense": "loft.roof-space",
+      "word": "loft",
+      "text": "loft.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/loft.roof-space.v4-plain.mp3",
+      "master_sha256": "7ebdb3382ae01baf7ac15c6bd0aad99a64124b572a1bcea64fb9b88df791f83e",
+      "m4a": "audio/words/loft.roof-space.m4a",
+      "m4a_sha256": "b3f246dd4042243d2977bb199d2e945b1c1b549cb9b09698ce3d6cdbb225940f"
+    },
+    {
       "sense": "longitude.east-west-position",
       "word": "longitude",
       "text": "longitude.",
@@ -1217,6 +1690,17 @@
       "m4a_sha256": "0ea6afd736cf86021f5583ab42193e617248e9a4bc1c17ac61412e16ce90b856"
     },
     {
+      "sense": "mandarin.fruit",
+      "word": "mandarin",
+      "text": "mandarin.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/mandarin.fruit.v4-plain.mp3",
+      "master_sha256": "6d862cdb1f01c1c445d40019ecb85560629dd51c02d161ccd3cc0a62c3bf8321",
+      "m4a": "audio/words/mandarin.fruit.m4a",
+      "m4a_sha256": "29a8290c4dcafe7414f374a80d98bfafad0a5c99180a90a5906995b8b2551415"
+    },
+    {
       "sense": "manuscript.handwritten-text",
       "word": "manuscript",
       "text": "manuscript.",
@@ -1226,6 +1710,17 @@
       "master_sha256": "1aa637a37a5c68c15e736c1d277b828781cf5f7e42bd6133270c32e49dc3b397",
       "m4a": "audio/words/manuscript.handwritten-text.m4a",
       "m4a_sha256": "1940750bde7669fe5cfee292785eafd556edb8a7f332c2aa601f262fb366ac3e"
+    },
+    {
+      "sense": "maracas.shaking-instruments",
+      "word": "maracas",
+      "text": "maracas.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/maracas.shaking-instruments.v4-plain.mp3",
+      "master_sha256": "da2a55264ce912af17055f417b0e2f443f4b43748f6b2e60b395bb9c2926365e",
+      "m4a": "audio/words/maracas.shaking-instruments.m4a",
+      "m4a_sha256": "2b3c728c920979ad5256aa5dae4c995b25a68bd84345dc11f6bbd16fa9e9bb2b"
     },
     {
       "sense": "mechanism.working-parts",
@@ -1294,6 +1789,28 @@
       "m4a_sha256": "3015d65b8f4b0173a482e22688b06e9a30facc70738d76d27286fadc06771606"
     },
     {
+      "sense": "mittens.hand-coverings",
+      "word": "mittens",
+      "text": "mittens.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/mittens.hand-coverings.v4-plain.mp3",
+      "master_sha256": "69741781a2f281f51cf3ebb9137354cf5776694f558201e872878be73dff4aef",
+      "m4a": "audio/words/mittens.hand-coverings.m4a",
+      "m4a_sha256": "1d6fb5a6adc914de478bad8845b9a999b86d8ec950d6aac51fffd09f5ae4daf3"
+    },
+    {
+      "sense": "mole.burrowing-animal",
+      "word": "mole",
+      "text": "mole.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/mole.burrowing-animal.v4-plain.mp3",
+      "master_sha256": "f0a73ff26ce77c3d7c876e537edf73f6176d64d2efb88408b6c793ffea7f0330",
+      "m4a": "audio/words/mole.burrowing-animal.m4a",
+      "m4a_sha256": "ad9c2df6a3932ff2e56f1c3c2ce4fb02a0e895f6b46d7dc99bd82b72798f39b4"
+    },
+    {
       "sense": "molecule.bonded-atoms",
       "word": "molecule",
       "text": "molecule.",
@@ -1325,6 +1842,17 @@
       "master_sha256": "ce5eac519e19de24f1e5b94ba94902c80a0ea450256ac24a1b6b37f83501611a",
       "m4a": "audio/words/moody.changing-moods.m4a",
       "m4a_sha256": "65e33f57e0277bb02b65e71434190f7783ef896ad1d6e92a4c504ecaa239e891"
+    },
+    {
+      "sense": "mummy.mother",
+      "word": "mummy",
+      "text": "mummy.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/mummy.mother.v4-plain.mp3",
+      "master_sha256": "33706189116655c74e4cb4952e571356759fdff56e47d4ddbc9432d751a05a1e",
+      "m4a": "audio/words/mummy.mother.m4a",
+      "m4a_sha256": "8e2d102ae76af1b513b47f16c13ea1c255cee554036522c85e6a299105ddd111"
     },
     {
       "sense": "munch.chew-noisily",
@@ -1382,6 +1910,17 @@
       "m4a_sha256": "a8baceb59856f0f817ac99a87bd3cd70d76f62c28d6fec283669b7ce8d57c9f6"
     },
     {
+      "sense": "nectarine.fruit",
+      "word": "nectarine",
+      "text": "nectarine.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/nectarine.fruit.v4-plain.mp3",
+      "master_sha256": "2b98bca0a18ef16a4bd428243db0817825b98488249e8812c95e6c9157f5e05f",
+      "m4a": "audio/words/nectarine.fruit.m4a",
+      "m4a_sha256": "9358bc7e59cc7656cdde49251ada87236513148624290470b67e0af3524bcedb"
+    },
+    {
       "sense": "nibble.take-small-bites",
       "word": "nibble",
       "text": "nibble.",
@@ -1415,6 +1954,17 @@
       "m4a_sha256": "99aa2d359ccf76be1ffc2e0949ea2390d067978ae5362f006f7017226d222d21"
     },
     {
+      "sense": "nursery.young-child-room",
+      "word": "nursery",
+      "text": "nursery.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/nursery.young-child-room.v4-plain.mp3",
+      "master_sha256": "3b02362c85d94260a3f2c3d0b03833ba97062d2e85c16c1e1c95bbbae02a1cbf",
+      "m4a": "audio/words/nursery.young-child-room.m4a",
+      "m4a_sha256": "3c083eb1b28e163681d2d03e93cb20a28c92bd5c8d9a37cd5bf6b395b843b4b6"
+    },
+    {
       "sense": "oasis.desert-water-place",
       "word": "oasis",
       "text": "oasis.",
@@ -1435,6 +1985,28 @@
       "master_sha256": "fe1d37fe58a92edd41dd466ab6f74272ea2a26075bd67b64dac08a503f4a62e1",
       "m4a": "audio/words/observatory.space-viewing-place.m4a",
       "m4a_sha256": "b3abf37f1ed0e57599c720830beb5b02366fa53ef53587f1cfd97ee4ab4ff22a"
+    },
+    {
+      "sense": "orca.black-and-white-whale",
+      "word": "orca",
+      "text": "orca.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/orca.black-and-white-whale.v4-plain.mp3",
+      "master_sha256": "bbfccd9f5c88885ebd75c74ea2b2252bff20994cbfe418d33d1b9438f25d13f0",
+      "m4a": "audio/words/orca.black-and-white-whale.m4a",
+      "m4a_sha256": "e7d8e5f97a38e2f30e4ec57cd814349c35632083ff1bc40b6918cf9998a110af"
+    },
+    {
+      "sense": "organ.keyboard-instrument",
+      "word": "organ",
+      "text": "organ.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/organ.keyboard-instrument.v4-plain.mp3",
+      "master_sha256": "8bb0a58992cc52fb36cf3ed6b7ce39f2ebab75fa6d328861fd8cf02c74d5ee8e",
+      "m4a": "audio/words/organ.keyboard-instrument.m4a",
+      "m4a_sha256": "c6cfb08470d5e0cec48cfd8833baa29771855080bc385b9dffb03f3bb386c245"
     },
     {
       "sense": "ostrich.large-flightless-bird",
@@ -1459,6 +2031,28 @@
       "m4a_sha256": "984f6931e98486cfaa4b58b4fb9c7567a8f0a80615d5a498a7b4241298de6d4c"
     },
     {
+      "sense": "paintbrush.painting-tool",
+      "word": "paintbrush",
+      "text": "paintbrush.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/paintbrush.painting-tool.v4-plain.mp3",
+      "master_sha256": "1e4e47e5a4a045998f1198291e6bf45a357a745bb09381c2ce79e8b8509c708a",
+      "m4a": "audio/words/paintbrush.painting-tool.m4a",
+      "m4a_sha256": "d50355594e6cea96dfcf8a7d2f3bd728a76c09b0799086a109b1ab90c428f641"
+    },
+    {
+      "sense": "parsnip.vegetable",
+      "word": "parsnip",
+      "text": "parsnip.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/parsnip.vegetable.v4-plain.mp3",
+      "master_sha256": "c8df6841f47801aafc1016f64ebbea06ed85b008d04170510a16850b42686082",
+      "m4a": "audio/words/parsnip.vegetable.m4a",
+      "m4a_sha256": "99cec69fdc6de48f44303ab6905dba1556dee8f3736c23e2b1a63119a2b79f9b"
+    },
+    {
       "sense": "peaceful.calm-quiet",
       "word": "peaceful",
       "text": "peaceful.",
@@ -1468,6 +2062,17 @@
       "master_sha256": "8d27b336f14f81319e14d458fe650fb934393d66c65a567096ad7fb23e796b6d",
       "m4a": "audio/words/peaceful.calm-quiet.m4a",
       "m4a_sha256": "561dbb98b41c2cc50b07ee8f043cae6415abcc0ff24433a5af4f11eb5832ba94"
+    },
+    {
+      "sense": "peacock.male-peafowl",
+      "word": "peacock",
+      "text": "peacock.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/peacock.male-peafowl.v4-plain.mp3",
+      "master_sha256": "874f87d4bd327a1c146edecec8da9f37d38cba00484a1d08ed7650b6a991c08c",
+      "m4a": "audio/words/peacock.male-peafowl.m4a",
+      "m4a_sha256": "1f6578b8199065649cf133cbea5bac3bf14b9205890f345bd597d3567c12bf7a"
     },
     {
       "sense": "peculiar.strange-unusual",
@@ -1558,6 +2163,17 @@
       "m4a_sha256": "427947d61708dbe2f446c40d64052925a7855f5e04ecdb1f3db31fdba00fc186"
     },
     {
+      "sense": "playroom.room-for-play",
+      "word": "playroom",
+      "text": "playroom.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/playroom.room-for-play.v4-plain.mp3",
+      "master_sha256": "bb9e03a22f782462b8439217a931de8677b3319314026dfaee7617362634877e",
+      "m4a": "audio/words/playroom.room-for-play.m4a",
+      "m4a_sha256": "aa563e095900aa89c81d4a85635b957ff5c8a51d19094b5e3af0e497677f1750"
+    },
+    {
       "sense": "pleased.happy-satisfied",
       "word": "pleased",
       "text": "pleased.",
@@ -1580,6 +2196,17 @@
       "m4a_sha256": "3416ad84fdfa696d9c2fcc130b66e6eb82c80498f77c9895817f4785ca8ebe5c"
     },
     {
+      "sense": "police-car.emergency-vehicle",
+      "word": "police car",
+      "text": "police car.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/police-car.emergency-vehicle.v4-plain.mp3",
+      "master_sha256": "21c6250fc97f2a38055bad0a1b07fede072034edf28cb0087de6069f829f8074",
+      "m4a": "audio/words/police-car.emergency-vehicle.m4a",
+      "m4a_sha256": "51e77dd6c61c0c70937e626f4ec30fc2cafddefc335cd324f9fa95742929ea84"
+    },
+    {
       "sense": "pollination.pollen-transfer",
       "word": "pollination",
       "text": "pollination.",
@@ -1589,6 +2216,17 @@
       "master_sha256": "3a21c70d9441fabc993245452fc03ca2b78c5881862aab6424fb2c92a0c61319",
       "m4a": "audio/words/pollination.pollen-transfer.m4a",
       "m4a_sha256": "ab7b875b49ba2f6fcb020d4ab23ad3faceda13781fb1d5f758614c667112cc97"
+    },
+    {
+      "sense": "pomegranate.fruit",
+      "word": "pomegranate",
+      "text": "pomegranate.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/pomegranate.fruit.v4-plain.mp3",
+      "master_sha256": "3d233d7f55e852324d0596183ee4dae3cbc7eb49ca58460dd4dfc35f2a349bfb",
+      "m4a": "audio/words/pomegranate.fruit.m4a",
+      "m4a_sha256": "a7730c5c13554ac6fbbedf501408f4ac079ae478d96be155811554bc5ed85e9c"
     },
     {
       "sense": "porcupine.spiny-rodent",
@@ -1723,6 +2361,28 @@
       "m4a_sha256": "337bd8d2fef198aea81315ac235532d83ff0efb9d94085913a6184a57e06978f"
     },
     {
+      "sense": "radish.vegetable",
+      "word": "radish",
+      "text": "radish.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/radish.vegetable.v4-plain.mp3",
+      "master_sha256": "04aaeaeb5e8fe8bdda12b6ac65fcae0933536d30dd8952994a4ca98991a3e047",
+      "m4a": "audio/words/radish.vegetable.m4a",
+      "m4a_sha256": "f071961ec056b4759ff4b08ddbfff595730f8b49792abe3b606b29dcddad2f1a"
+    },
+    {
+      "sense": "recorder.flute-like-instrument",
+      "word": "recorder",
+      "text": "recorder.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/recorder.flute-like-instrument.v4-plain.mp3",
+      "master_sha256": "bc6898d9999dc100b9aeb0123a9fb0549c09271727f20358d40eaea947b77249",
+      "m4a": "audio/words/recorder.flute-like-instrument.m4a",
+      "m4a_sha256": "4d05812cb3a8e4fade8447a18a362d01b5f22cd0114d99a6477906da63c6076e"
+    },
+    {
       "sense": "relieved.worry-ended",
       "word": "relieved",
       "text": "relieved.",
@@ -1767,6 +2427,17 @@
       "m4a_sha256": "ba17ac6e49ffe9a0103b6aad0157299c34190ee63b0fabd909ac0734fdff4d32"
     },
     {
+      "sense": "ribs.chest-bones",
+      "word": "ribs",
+      "text": "ribs.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/ribs.chest-bones.v4-plain.mp3",
+      "master_sha256": "58696aea70859e3e4908f93c47fcec4200647f1403679b518c5b5acdef99ee3c",
+      "m4a": "audio/words/ribs.chest-bones.m4a",
+      "m4a_sha256": "ea1128ce86c858bbb584c5b84cc91e96608944b5ededd67c4cac5c0baadde5f8"
+    },
+    {
       "sense": "roar.make-deep-loud-sound",
       "word": "roar",
       "text": "roar.",
@@ -1787,6 +2458,39 @@
       "master_sha256": "ca9f555d133ac34e50b5905d58abdd95c2f412627dbbba760810555d4a5372b8",
       "m4a": "audio/words/sail.travel-on-water.m4a",
       "m4a_sha256": "1e3e200e80400d26e67830cfbc75d3366fa2de8efca054c1f445d1db42fdde17"
+    },
+    {
+      "sense": "sandals.open-shoes",
+      "word": "sandals",
+      "text": "sandals.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/sandals.open-shoes.v4-plain.mp3",
+      "master_sha256": "dfd86bf082ef0e19f8a82a0f719b45dfcc5e64d59c3cab75233b43e274104e30",
+      "m4a": "audio/words/sandals.open-shoes.m4a",
+      "m4a_sha256": "1b1482b64d3fb38a4f34a4a5e734cf758897036066d397494ed62f354c7faa5b"
+    },
+    {
+      "sense": "saucer.cup-plate",
+      "word": "saucer",
+      "text": "saucer.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/saucer.cup-plate.v4-plain.mp3",
+      "master_sha256": "3a6c4264af6952224f24051d4934974a92de606d3c34f006dd2e596d13a0b9dc",
+      "m4a": "audio/words/saucer.cup-plate.m4a",
+      "m4a_sha256": "b24b7c63eaba7ac933d69c9382c40eac1c2a993dc28cb7a210115d6d7f60c809"
+    },
+    {
+      "sense": "saxophone.single-reed-woodwind",
+      "word": "saxophone",
+      "text": "saxophone.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/saxophone.single-reed-woodwind.v4-plain.mp3",
+      "master_sha256": "08b426361335e51fb4780d942e38a8aa89a5c647e8aa3dd75315cd540b602d89",
+      "m4a": "audio/words/saxophone.single-reed-woodwind.m4a",
+      "m4a_sha256": "e60c42b30b4d909564ed7ee51026ec4c872f1a91b56087663fcf264c7e325722"
     },
     {
       "sense": "scatter.spread-apart",
@@ -1822,6 +2526,17 @@
       "m4a_sha256": "3d4a64ca00912feefa4e07dc4f840a4e17e475972dcb6368b02fc2c787458563"
     },
     {
+      "sense": "semicircle.half-circle",
+      "word": "semicircle",
+      "text": "semicircle.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/semicircle.half-circle.v4-plain.mp3",
+      "master_sha256": "e3bf985d11ee7ac31ec592d4d78a889e9f94803bd20ed2aa570f497c9b365e3f",
+      "m4a": "audio/words/semicircle.half-circle.m4a",
+      "m4a_sha256": "46a69347a49b7519b648ab94db6bb83f0773ae28f486ce766dd084d79169a9c1"
+    },
+    {
       "sense": "shrug.raise-shoulders",
       "word": "shrug",
       "text": "shrug.",
@@ -1855,6 +2570,28 @@
       "m4a_sha256": "414997ca16857fe7dfc48f0bc2abb5ec44012e7c3e26c3e662351e377091c736"
     },
     {
+      "sense": "sleet.rain-and-snow",
+      "word": "sleet",
+      "text": "sleet.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/sleet.rain-and-snow.v4-plain.mp3",
+      "master_sha256": "11b77a2b5195bcd8b59c67c8319b7aacc192705932515f5dea6064128e78e55b",
+      "m4a": "audio/words/sleet.rain-and-snow.m4a",
+      "m4a_sha256": "1e0a1c16ad70835612d2e621b6a954d420bc96d167a9a34b24b66fb94217346e"
+    },
+    {
+      "sense": "slippers.indoor-shoes",
+      "word": "slippers",
+      "text": "slippers.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/slippers.indoor-shoes.v4-plain.mp3",
+      "master_sha256": "83412bdea0d072695ffb735328eefcc394fb0f4a4226670fe011544f62721ab1",
+      "m4a": "audio/words/slippers.indoor-shoes.m4a",
+      "m4a_sha256": "cbb751eb375240528e3bac55c469ae9b004e846a609ef64de0a32fe4a5cf6bbf"
+    },
+    {
       "sense": "sneak.move-secretly",
       "word": "sneak",
       "text": "sneak.",
@@ -1886,6 +2623,17 @@
       "master_sha256": "1d78e8e244db5557a388da5cc5559f5d464c66b5a920b54edbcf33ec55c870b2",
       "m4a": "audio/words/snore.breathe-noisily-asleep.m4a",
       "m4a_sha256": "471b4449fc3f45abbc2e055c78b4b9f6c5277c6121426a0c605814152c176123"
+    },
+    {
+      "sense": "spine.backbone",
+      "word": "spine",
+      "text": "spine.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/spine.backbone.v4-plain.mp3",
+      "master_sha256": "3add1f9f27bf18f4b3d2f5a3f2223f0fb283aefbb1f56e36ddb7e8e5ddfbf54e",
+      "m4a": "audio/words/spine.backbone.m4a",
+      "m4a_sha256": "a1dd431072d939390ee00b6bb9b6b99814e96b7cc16914bde647fff51c5ce131"
     },
     {
       "sense": "splash.scatter-liquid",
@@ -1932,6 +2680,17 @@
       "m4a_sha256": "305c16eb1388ed08f293773af055e62e15b41e4bfecf127f8ed52804c5b68e19"
     },
     {
+      "sense": "squid.sea-animal",
+      "word": "squid",
+      "text": "squid.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/squid.sea-animal.v4-plain.mp3",
+      "master_sha256": "3d4b46287240e02fb148b3cd4d60f747046e326c8a2d0d1cd0a60f759a1a7509",
+      "m4a": "audio/words/squid.sea-animal.m4a",
+      "m4a_sha256": "712382a8d661955085338db6ae77a07cddb8ce3077f05ffc58a93e6bb71dd16d"
+    },
+    {
       "sense": "stack.place-in-pile",
       "word": "stack",
       "text": "stack.",
@@ -1941,6 +2700,17 @@
       "master_sha256": "fb50ac3cd7b2ecaca0646cadd825270b4a4033783b433d0fa2e657f4491240e7",
       "m4a": "audio/words/stack.place-in-pile.m4a",
       "m4a_sha256": "4beff9eec70342249e7b8d7b904e7814d87a4181081fa8a6cc4519be7fb45d94"
+    },
+    {
+      "sense": "stairs.steps",
+      "word": "stairs",
+      "text": "stairs.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/stairs.steps.v4-plain.mp3",
+      "master_sha256": "dfb71f6670e6b0e107f3800f4d77969f17178509dfe90371473a311127640f14",
+      "m4a": "audio/words/stairs.steps.m4a",
+      "m4a_sha256": "ef4c292663155b34d2a28ccf5efa8f3d0866529d3a7617c2a08a70860fb5d0cf"
     },
     {
       "sense": "stanza.poem-lines-group",
@@ -1954,6 +2724,17 @@
       "m4a_sha256": "63fca7e2b811d93963685b5c179cedb417d881301c892cf4bc0422c20fea9aae"
     },
     {
+      "sense": "stapler.paper-fastener",
+      "word": "stapler",
+      "text": "stapler.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/stapler.paper-fastener.v4-plain.mp3",
+      "master_sha256": "bb1e67739cc0640143f898b479425ae9d112e6eed7be05d41651bcba27d8cb3a",
+      "m4a": "audio/words/stapler.paper-fastener.m4a",
+      "m4a_sha256": "5d71e31c1d824f3aaaa1831e7ef00a0eb653a1d03f7f20cdeaa8e21e1c66f84a"
+    },
+    {
       "sense": "startled.suddenly-surprised",
       "word": "startled",
       "text": "startled.",
@@ -1963,6 +2744,17 @@
       "master_sha256": "44cb582be4b5a1bded8a2586aa0b338738171608f5af7095d78e3f4407fe06ed",
       "m4a": "audio/words/startled.suddenly-surprised.m4a",
       "m4a_sha256": "a94c2f2126b6fbcacf9d3858a51b9277180d5254f9cf14f2ba932ae1bfadc6fc"
+    },
+    {
+      "sense": "stingray.flat-sea-fish",
+      "word": "stingray",
+      "text": "stingray.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/stingray.flat-sea-fish.v4-plain.mp3",
+      "master_sha256": "0542ac2d3e3ebfd1893e068a9e1764a3d9c7db72233721a893ae7c1750e1e0a0",
+      "m4a": "audio/words/stingray.flat-sea-fish.m4a",
+      "m4a_sha256": "d4c5ff4cf2bc23558acf0433dcdf276cf4e1f0297babea0ab45f8208a2c3f7f8"
     },
     {
       "sense": "stomp.step-heavily",
@@ -2031,6 +2823,28 @@
       "m4a_sha256": "994dc74afd959252fb408d757e077b5fa4e7f44a964a12da2321dc97f4df55ac"
     },
     {
+      "sense": "throat.neck-inside",
+      "word": "throat",
+      "text": "throat.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/throat.neck-inside.v4-plain.mp3",
+      "master_sha256": "70a42d801272aadd24878a22ba3aa728be203c33b2380c94e09003b760b3895a",
+      "m4a": "audio/words/throat.neck-inside.m4a",
+      "m4a_sha256": "03abfe052d53262bb8c3eebd0fe8355d10906caefb1b609470fca360ea913745"
+    },
+    {
+      "sense": "tie.neckwear",
+      "word": "tie",
+      "text": "tie.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/tie.neckwear.v4-plain.mp3",
+      "master_sha256": "5fe35f0c5d60128c618318364ced5bc87be389769b80f0dec22c7dc1194b8eb1",
+      "m4a": "audio/words/tie.neckwear.m4a",
+      "m4a_sha256": "ddd0fc44f7b3418770cfebb2bf45d6eac4527561f469d3e407e656f5bb705921"
+    },
+    {
       "sense": "tiptoe.walk-quietly",
       "word": "tiptoe",
       "text": "tiptoe.",
@@ -2062,6 +2876,28 @@
       "master_sha256": "e3a91a7c874658f54cb4c219affc0eb78d013d940bbadfe6025283563a0c298c",
       "m4a": "audio/words/toss.throw-lightly.m4a",
       "m4a_sha256": "15f9a90bf2211d6f92db3c289564fac62b40c50a4b2cc743349ab582311d1301"
+    },
+    {
+      "sense": "trainers.sports-shoes",
+      "word": "trainers",
+      "text": "trainers.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/trainers.sports-shoes.v4-plain.mp3",
+      "master_sha256": "221a536190db0d26debaf4ff8dd696cc8c1c0de05691c4bc1e1e04c3484718e5",
+      "m4a": "audio/words/trainers.sports-shoes.m4a",
+      "m4a_sha256": "04f31cb5deac68f6baba3b2e73c69fc110099885b94873426595ccbb08bbb3d2"
+    },
+    {
+      "sense": "tram.street-rail-vehicle",
+      "word": "tram",
+      "text": "tram.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/tram.street-rail-vehicle.v4-plain.mp3",
+      "master_sha256": "a05ce8c47100722a3991f79651f8ae6eb6380f3d72e9823ed55f246a012ccbb4",
+      "m4a": "audio/words/tram.street-rail-vehicle.m4a",
+      "m4a_sha256": "834b1d0028f1db9375dca02984db71de17cac4c8f19a2d3583ad82de46fe2536"
     },
     {
       "sense": "transform.change-completely",
@@ -2108,6 +2944,17 @@
       "m4a_sha256": "c4618512691db61e719c8b7e884bfe6438580029c93542459553155bea8d3aed"
     },
     {
+      "sense": "turkey.bird",
+      "word": "turkey",
+      "text": "turkey.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/turkey.bird.v4-plain.mp3",
+      "master_sha256": "1a570860b63775f382bab7b36525361daf98168f84be32ed61f95c6f817c46b9",
+      "m4a": "audio/words/turkey.bird.m4a",
+      "m4a_sha256": "e42b5f3c5a9bd5be6af5fc9dc1648a5b00f27112f2661330c3b66e93eb71ee08"
+    },
+    {
       "sense": "twirl.turn-round-quickly",
       "word": "twirl",
       "text": "twirl.",
@@ -2128,6 +2975,17 @@
       "master_sha256": "e3164fec99b8296532baf585c961bf1143330003861d97ada528a7850ceb300f",
       "m4a": "audio/words/uncomfortable.not-at-ease.m4a",
       "m4a_sha256": "274290aa3972e53bace3e8bea764aed50d1664b47a725ca24366da0dc1f0d596"
+    },
+    {
+      "sense": "underground.city-railway",
+      "word": "underground",
+      "text": "underground.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/underground.city-railway.v4-plain.mp3",
+      "master_sha256": "31db8df230f13cdb1ae6506dd3ee8a98bf7af5a0eefa56e480ab12797071c37f",
+      "m4a": "audio/words/underground.city-railway.m4a",
+      "m4a_sha256": "4aac8dab617fb7be4b5f3134a7971091ab44446d509851b6f1acc984f2648d8b"
     },
     {
       "sense": "uneasy.worried-uncomfortable",
@@ -2216,6 +3074,17 @@
       "master_sha256": "b61bd052dfbdacf2cf554744704d545ec294cc0fc244cedd786a37ec948f3425",
       "m4a": "audio/words/wiggle.move-side-to-side.m4a",
       "m4a_sha256": "075eb7a6e90090979f6221ec65aa42a6d894084b060aaf0ff89db83e5862bedb"
+    },
+    {
+      "sense": "woodlouse.small-crustacean",
+      "word": "woodlouse",
+      "text": "woodlouse.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "master": "word-book/audio-source/word-candidates/woodlouse.small-crustacean.v4-plain.mp3",
+      "master_sha256": "9dd38e2f1a02be3170157767a947b26415a8b5994014c0b23e08e7db41a6ea79",
+      "m4a": "audio/words/woodlouse.small-crustacean.m4a",
+      "m4a_sha256": "7eea448d1b7a4cca723d8829ace303abaf532bc037ec914c18a26823fa37925f"
     },
     {
       "sense": "woodpecker.tree-tapping-bird",

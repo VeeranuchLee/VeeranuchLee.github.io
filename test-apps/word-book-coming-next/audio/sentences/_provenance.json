@@ -1,0 +1,1438 @@
+{
+  "why": "WHAT EACH SENTENCE CLIP ACTUALLY SAYS, pinned to its bytes. An .m4a carries no record of the words it was rendered from, and a dictionary sentence is mutable (shared-data/dictionary/sentence-corrections.json rewrites them). So the thing that produces the bytes records them: tools/render-dictionary-sentences.py writes {text, sha256} here the moment each clip is transcoded. sentence-audio.js plays a clip only when its text here equals the card's displayed sentence exactly, and tools/check-sentence-audio.mjs fails on any clip that is stale, orphaned, duplicated, missing or whose bytes no longer match. Keyed by SENSE, the permanent concept key, so a reworded sentence keeps its asset's name. Empty until the owner approves a render; never hand-edit an entry to make a stale clip pass.",
+  "writtenBy": "word-book/tools/render-dictionary-sentences.py; checked by word-book/tools/check-sentence-audio.mjs; resolved by word-book/sentence-audio.js",
+  "voice": "Alice - Clear, Engaging, Educational (British)",
+  "voiceId": "Xb7hH8MSUJpSbSDYk0k2",
+  "model": "eleven_multilingual_v2",
+  "format": "m4a",
+  "encoding": "AAC, mono, 64 kbps, via afconvert -- identical to audio/words/",
+  "status": "held candidate audio for the staging-only Word Book Coming Next 285 review; not shipped by sentence-audio.js",
+  "source_manifest": "coordination/drafts/word-book-coming-next-200/sentence-render-manifest.json",
+  "clips": {
+    "Atlas.greek-mythology": {
+      "text": "Atlas held up the sky in Greek mythology.",
+      "sha256": "7ba61fa3e9c07d0e420d7aeef3de7eca49c7fc36b6cfec37e660cb0047a3f4fd",
+      "alignment": "audio-alignment/sentences/Atlas.greek-mythology.json"
+    },
+    "Titan.saturn-moon": {
+      "text": "Titan is Saturn's largest moon.",
+      "sha256": "1773fad3c45247f8c9f532015227a2a518f3821b1275133f8f9570b361b38cd6",
+      "alignment": "audio-alignment/sentences/Titan.saturn-moon.json"
+    },
+    "aardvark.long-snouted-mammal": {
+      "text": "The aardvark sniffs beside an anthill.",
+      "sha256": "623a00368b2ddb46e41eb2cbca8a591d9b24888ce30cf095483dbe1283168741",
+      "alignment": "audio-alignment/sentences/aardvark.long-snouted-mammal.json"
+    },
+    "acorn.oak-tree-nut": {
+      "text": "A squirrel holds an acorn in its paws.",
+      "sha256": "0b0e8aa8ac0b1ebb75af876b9cb8d6ca64ae227a78d2db2fb7c78da3c1d9180e",
+      "alignment": "audio-alignment/sentences/acorn.oak-tree-nut.json"
+    },
+    "adapt.change-to-fit": {
+      "text": "Fennec foxes adapt with furry feet for hot sand.",
+      "sha256": "0638c80ef5e188cc79fdb84e19ebf96a1912f83b3b37decdd5e5527164e207b6",
+      "alignment": "audio-alignment/sentences/adapt.change-to-fit.json"
+    },
+    "adaptation.survival-feature": {
+      "text": "Thick fur is an adaptation for cold places.",
+      "sha256": "579e1b808710f984ff0039135b690fd6b5e7349aa27534cdb2ecb08cefe2f403",
+      "alignment": "audio-alignment/sentences/adaptation.survival-feature.json"
+    },
+    "adventure.exciting-experience": {
+      "text": "Our forest adventure begins beside the old oak.",
+      "sha256": "51ec4223202f0e6f7adc2b533a74613355891c55e9ed66ec895ed6a7925ade1b",
+      "alignment": "audio-alignment/sentences/adventure.exciting-experience.json"
+    },
+    "algorithm.step-by-step-rules": {
+      "text": "The robot followed an algorithm to reach the door.",
+      "sha256": "3b2581e587d7af222b8943180078603bf2fca4583b1cb08dea47b760f250c4ab",
+      "alignment": "audio-alignment/sentences/algorithm.step-by-step-rules.json"
+    },
+    "analyse.examine-carefully": {
+      "text": "We analyse three leaves to find what they share.",
+      "sha256": "2b2e1aa45992d911113019b7f120ee18f92ce3a6ed6a5352329e67d7eb478157",
+      "alignment": "audio-alignment/sentences/analyse.examine-carefully.json"
+    },
+    "annoyed.slightly-angry": {
+      "text": "Dad feels annoyed by the dripping tap.",
+      "sha256": "4e0ee49f0aff19a24b97730808a2a2a861816afbd1d756b67c700df82f5efdc9",
+      "alignment": "audio-alignment/sentences/annoyed.slightly-angry.json"
+    },
+    "antelope.fast-hoofed-animal": {
+      "text": "The antelope runs across the grassland.",
+      "sha256": "123a387df44b4c584b616133776795915d59616cea9292762f7b1540fde5cc6b",
+      "alignment": "audio-alignment/sentences/antelope.fast-hoofed-animal.json"
+    },
+    "anxious.worried-uneasy": {
+      "text": "Nina feels anxious before her first swimming lesson.",
+      "sha256": "8c2e9aa9829286a4e28d989029924169ec0a24b339f038812566f0b54100f08b",
+      "alignment": "audio-alignment/sentences/anxious.worried-uneasy.json"
+    },
+    "apricot.fruit": {
+      "text": "The apricot has soft orange flesh.",
+      "sha256": "6fcb554e408869eb9e1fe227a126f332e8113bde9885926cf0d8a3bc74a82b65",
+      "alignment": "audio-alignment/sentences/apricot.fruit.json"
+    },
+    "aqueduct.water-channel": {
+      "text": "Water flows through the ancient stone aqueduct.",
+      "sha256": "a7294b7d135f4d15ff1520d9e4dcc6252cc72317e8e4ebb23052cf13e21e2c6f",
+      "alignment": "audio-alignment/sentences/aqueduct.water-channel.json"
+    },
+    "archaeologist.past-researcher": {
+      "text": "The archaeologist kneels beside an ancient bowl.",
+      "sha256": "2ee31e9cc975c9721aa37d5d5f6827b01acd83bf5303acdac04d5be0ae932cc5",
+      "alignment": "audio-alignment/sentences/archaeologist.past-researcher.json"
+    },
+    "archipelago.island-group": {
+      "text": "The archipelago has many islands in a blue sea.",
+      "sha256": "9d76e06b690aa8c9e497d58a79da066ac14787655ad8c58f9f580b01636ee368",
+      "alignment": "audio-alignment/sentences/archipelago.island-group.json"
+    },
+    "artefact.human-made-object": {
+      "text": "The museum displayed a Bronze Age artefact.",
+      "sha256": "d83cef680630d152a1b2a48e8488acb928b44778a0f8cc3bf072a627a45bd87a",
+      "alignment": "audio-alignment/sentences/artefact.human-made-object.json"
+    },
+    "ashamed.sorry-about-wrongdoing": {
+      "text": "Leo feels ashamed after blaming his sister.",
+      "sha256": "136cd63f04077525f8df5f68420a0c9f637165d7c6904ec004d1738cc97625d3",
+      "alignment": "audio-alignment/sentences/ashamed.sorry-about-wrongdoing.json"
+    },
+    "astronomy.space-science": {
+      "text": "Mina studies the Moon because she loves astronomy.",
+      "sha256": "63582dda5dd183848205073e42cbbb1ecd0fb2aba5497e6a1e77aa3dc9c7a54c",
+      "alignment": "audio-alignment/sentences/astronomy.space-science.json"
+    },
+    "atom.smallest-element-unit": {
+      "text": "An atom is too tiny to see without special tools.",
+      "sha256": "16047ec7ae61d3d0b3cd4cd44123e230961dd4417eee6ab846cbd14cf31ccf3e",
+      "alignment": "audio-alignment/sentences/atom.smallest-element-unit.json"
+    },
+    "aurora.sky-lights": {
+      "text": "A green aurora shimmered across the northern sky.",
+      "sha256": "c044767b2dcbd2d06ee7c648ce1ceb21f131028ea19ff4bf6bc0ee18eb1dd35b",
+      "alignment": "audio-alignment/sentences/aurora.sky-lights.json"
+    },
+    "axe.wood-cutting-tool": {
+      "text": "The axe leans against a pile of logs.",
+      "sha256": "5003254e45bfe1546747f849bdc7ddb3af2943e9b32f112e6878417fb7663e31",
+      "alignment": "audio-alignment/sentences/axe.wood-cutting-tool.json"
+    },
+    "badger.striped-face-mammal": {
+      "text": "The badger walks beside its burrow.",
+      "sha256": "ae3821846464b3b820a7faf87b8adadb9f957557087b8528aa8f58e54e27c6e1",
+      "alignment": "audio-alignment/sentences/badger.striped-face-mammal.json"
+    },
+    "beaver.dam-building-mammal": {
+      "text": "The beaver carries a branch through the pond.",
+      "sha256": "32ae43b3aff1345bfdbd42ae2169c67d87929f17c9f5f5fd057b54088169bac9",
+      "alignment": "audio-alignment/sentences/beaver.dam-building-mammal.json"
+    },
+    "beetroot.vegetable": {
+      "text": "The beetroot is dark red inside.",
+      "sha256": "5e620803d154161733e8a1d7f0a22d01eca53800c85cbeec95fb8bc28c9778f7",
+      "alignment": "audio-alignment/sentences/beetroot.vegetable.json"
+    },
+    "biography.life-story": {
+      "text": "Mina reads a biography beside the scientist's portrait.",
+      "sha256": "32f9269c20cc34896276ac27a46e0dcbf2773c19b7cfa976d45ae9306f4cfca1",
+      "alignment": "audio-alignment/sentences/biography.life-story.json"
+    },
+    "bioluminescence.living-light": {
+      "text": "The firefly's bioluminescence glows green at night.",
+      "sha256": "70d7f7ea994499035bb09aff9ed71789d5cfb0af211edcaa31e8c2a822f74283",
+      "alignment": "audio-alignment/sentences/bioluminescence.living-light.json"
+    },
+    "blackberry.fruit": {
+      "text": "The blackberry is ripe and dark purple.",
+      "sha256": "096d1904790087a79725451510b03558d9db2d9f1f3290dc6845fe177eeee90c",
+      "alignment": "audio-alignment/sentences/blackberry.fruit.json"
+    },
+    "blueprint.detailed-plan": {
+      "text": "The blueprint shows the plan for a little playhouse.",
+      "sha256": "284a3319e8825fd3690dcacbd719cce3a789e80b4f1ad561fd471675c8f341fe",
+      "alignment": "audio-alignment/sentences/blueprint.detailed-plan.json"
+    },
+    "calculator.calculating-device": {
+      "text": "We use a calculator to work out sums.",
+      "sha256": "99254fddcb03a0bf960abc92f62dea3fb81340c00ec17f0d8968f4d88ab78852",
+      "alignment": "audio-alignment/sentences/calculator.calculating-device.json"
+    },
+    "camouflage.blending-in": {
+      "text": "The stick insect's camouflage hid it among twigs.",
+      "sha256": "8e867c7adad1dc6921cefa658ff0a2440c8ad77ce3a3a90f5ce9e693d1e9d77e",
+      "alignment": "audio-alignment/sentences/camouflage.blending-in.json"
+    },
+    "canyon.deep-valley": {
+      "text": "A river flowed along the bottom of the canyon.",
+      "sha256": "f30210e4830d33d09380dbcce2819cb87ee3a81b0da6b09d286101123cfd3a7f",
+      "alignment": "audio-alignment/sentences/canyon.deep-valley.json"
+    },
+    "cardigan.buttoned-jumper": {
+      "text": "The yellow cardigan has round buttons.",
+      "sha256": "2b17ef281a95344ad6b423700124c63e0afaddefd475549ff0a17b67cf13c6a0",
+      "alignment": "audio-alignment/sentences/cardigan.buttoned-jumper.json"
+    },
+    "carriage.railway-vehicle": {
+      "text": "The red carriage follows the engine.",
+      "sha256": "c5b50a2068d6fec2bf5367ec18c0ba57291490c522a1d352b47527f932822f79",
+      "alignment": "audio-alignment/sentences/carriage.railway-vehicle.json"
+    },
+    "cartographer.map-maker": {
+      "text": "The cartographer drew mountains on the new map.",
+      "sha256": "00fc33120e30210fa22f2c7e75955845cc986af5ea23cf35a12f43ba0c6b0d32",
+      "alignment": "audio-alignment/sentences/cartographer.map-maker.json"
+    },
+    "celery.vegetable": {
+      "text": "The celery has long, crisp stalks.",
+      "sha256": "1f9abc11b317ec209d7e08a1808e3031e6815d905cf617ff7ac95751129ed2a8",
+      "alignment": "audio-alignment/sentences/celery.vegetable.json"
+    },
+    "celestial.in-the-sky": {
+      "text": "The twinkling stars are celestial objects.",
+      "sha256": "2b71ac64dc9ca01c62407b4cc4404f04592ddcaf10e7329bc1ba66f525c9016e",
+      "alignment": "audio-alignment/sentences/celestial.in-the-sky.json"
+    },
+    "cellar.underground-room": {
+      "text": "The cellar is below the kitchen.",
+      "sha256": "be606f7e8febdaeaae5139629987740f9f61fda703623fc5dce1cf97a8978cce",
+      "alignment": "audio-alignment/sentences/cellar.underground-room.json"
+    },
+    "cello.string-instrument": {
+      "text": "The bear plays the cello with a bow.",
+      "sha256": "66b9a1faf9bc6007f6f754d5ab685f8993011a40bec383ca1c967146cf4f13c4",
+      "alignment": "audio-alignment/sentences/cello.string-instrument.json"
+    },
+    "centaur.mythical-creature": {
+      "text": "The centaur galloped through the ancient forest.",
+      "sha256": "f24dd61529b0353d34268cb5e774fb93ed87f1b8a3967861b66a89b014e0ea8e",
+      "alignment": "audio-alignment/sentences/centaur.mythical-creature.json"
+    },
+    "centipede.many-legged-animal": {
+      "text": "The centipede crawls across a flat stone.",
+      "sha256": "cb8627b2c98d3f05c65ec472b9943aefb6ca06665e43daafdf372603dc05e2c3",
+      "alignment": "audio-alignment/sentences/centipede.many-legged-animal.json"
+    },
+    "cheat.break-rules-unfairly": {
+      "text": "It is not fair to cheat in a game.",
+      "sha256": "f7515d6f3d9f2f46fb43e3213143b285edb01fc718e1d1a40bf5638a0cd3edc8",
+      "alignment": "audio-alignment/sentences/cheat.break-rules-unfairly.json"
+    },
+    "cheetah.fast-spotted-cat": {
+      "text": "The cheetah races across the open grass.",
+      "sha256": "7b58aa5ca05190cbc9d575b8ce567c410b53a4ea7429534f522b922b2dce0692",
+      "alignment": "audio-alignment/sentences/cheetah.fast-spotted-cat.json"
+    },
+    "civilisation.organised-society": {
+      "text": "Ancient Egyptian civilisation built cities beside the Nile.",
+      "sha256": "128348d3213c8fb6596dd7f690058386c67ae43ad7a5507c08879f9989369139",
+      "alignment": "audio-alignment/sentences/civilisation.organised-society.json"
+    },
+    "clarinet.woodwind-instrument": {
+      "text": "The fox plays a black clarinet.",
+      "sha256": "c46c8f96f62fe06ea057cef628ad599894a5f9e8a466853d6a5d869bbe36b7f3",
+      "alignment": "audio-alignment/sentences/clarinet.woodwind-instrument.json"
+    },
+    "classify.sort-into-groups": {
+      "text": "We classify the animals into birds and fish.",
+      "sha256": "0e0186c0de9beb189339d15ae65938041bec312c897c9d50dff47280f03338f9",
+      "alignment": "audio-alignment/sentences/classify.sort-into-groups.json"
+    },
+    "clipboard.board-with-clip": {
+      "text": "The clipboard holds one sheet of paper.",
+      "sha256": "daa3cc5e20604dec124d701767f75704da9b2bd4fe0022c2d17575e2ee606d57",
+      "alignment": "audio-alignment/sentences/clipboard.board-with-clip.json"
+    },
+    "clownfish.reef-fish": {
+      "text": "The clownfish shelters among sea anemone tentacles.",
+      "sha256": "a70e837735207a108f3091c8afb602935d19f15be303a8726487476950d41c7c",
+      "alignment": "audio-alignment/sentences/clownfish.reef-fish.json"
+    },
+    "coastline.land-sea-edge": {
+      "text": "The island has a rocky coastline.",
+      "sha256": "e3cf927c3f17974bf7a0339bf48da823adab0a3524b3b8efa9f66ecaf51af6b0",
+      "alignment": "audio-alignment/sentences/coastline.land-sea-edge.json"
+    },
+    "confused.not-understanding": {
+      "text": "Mali feels confused by the mixed-up directions.",
+      "sha256": "fc0290ce494a6d31e71d80ed012659b9f29086dfb732830fba69ed018942d6aa",
+      "alignment": "audio-alignment/sentences/confused.not-understanding.json"
+    },
+    "consequence.result-of-action": {
+      "text": "A wet floor was one consequence of the spill.",
+      "sha256": "c381d51adcd084995eaf9fd7995251823c6d26a61c0a972260d46abe4ed23c3b",
+      "alignment": "audio-alignment/sentences/consequence.result-of-action.json"
+    },
+    "constellation.star-pattern": {
+      "text": "The constellation Orion shone in the night sky.",
+      "sha256": "05f30af936fe5dc3cf3385c0be54193d283689da6bed11434714399e8af787f1",
+      "alignment": "audio-alignment/sentences/constellation.star-pattern.json"
+    },
+    "contrast.compare-differences": {
+      "text": "Contrast the smooth pebble with the rough rock.",
+      "sha256": "48d62b2c5ef68d8b2dc4434e3963757b66cbe33c817626221b6b0cfbc5e1c95b",
+      "alignment": "audio-alignment/sentences/contrast.compare-differences.json"
+    },
+    "cosmos.universe": {
+      "text": "The cosmos contains countless stars and galaxies.",
+      "sha256": "19eb750d03705a0646c2754f09b431762fb219382309dc2f48eb7d3081c93986",
+      "alignment": "audio-alignment/sentences/cosmos.universe.json"
+    },
+    "cottage.small-country-house": {
+      "text": "The cosy cottage has flowers by the door.",
+      "sha256": "8b1d02bc833dca8395727902e327aebc31dd01c21d41e581b0592d0daf882aaa",
+      "alignment": "audio-alignment/sentences/cottage.small-country-house.json"
+    },
+    "courgette.vegetable": {
+      "text": "The courgette grows beneath broad leaves.",
+      "sha256": "085a61ab4e14dafd82135bbe5b9c6e98bb1479bc41a7d4f005bdda109aa75c45",
+      "alignment": "audio-alignment/sentences/courgette.vegetable.json"
+    },
+    "cranberry.fruit": {
+      "text": "The cranberry is small, round and red.",
+      "sha256": "7f142241844acc5625519e48b4cbf8c66614958a839960beeab8de1aab3dc523",
+      "alignment": "audio-alignment/sentences/cranberry.fruit.json"
+    },
+    "crane.lifting-machine": {
+      "text": "The crane lifts one beam above the ground.",
+      "sha256": "8d1eec4bd1fa5f4402035b2b89fbcb176ae8a26c67ca99432c582ce2010898c6",
+      "alignment": "audio-alignment/sentences/crane.lifting-machine.json"
+    },
+    "cranky.easily-annoyed": {
+      "text": "The tired toddler feels cranky before bedtime.",
+      "sha256": "7fc800645c7a6d4864ba562aa3a05d80fbe9ae7e17b4e9713d8b8a512c93bf8d",
+      "alignment": "audio-alignment/sentences/cranky.easily-annoyed.json"
+    },
+    "crater.round-hollow": {
+      "text": "An asteroid impact made the crater.",
+      "sha256": "86554766421b2424e14265e99b438393b6aee75055a76174823f951006343cd0",
+      "alignment": "audio-alignment/sentences/crater.round-hollow.json"
+    },
+    "crescent.curved-shape": {
+      "text": "The crescent has two pointed ends.",
+      "sha256": "4d371b3af88ce39c17a61fa8fd5355394ece04f94009051cc540f0bef8dfc0e6",
+      "alignment": "audio-alignment/sentences/crescent.curved-shape.json"
+    },
+    "cross.angry": {
+      "text": "Mina feels cross when someone moves in front of her in the queue.",
+      "sha256": "594210271153a9a8e238aa6d4aa63102e278d15329ed8f8f7334b6a46db721f9",
+      "alignment": "audio-alignment/sentences/cross.angry.json"
+    },
+    "cyclops.mythical-giant": {
+      "text": "The cyclops had one eye in his forehead.",
+      "sha256": "b128239a7c1e072945d1cfbe327db38569a5b180bf0f3812ea6393516d75aa81",
+      "alignment": "audio-alignment/sentences/cyclops.mythical-giant.json"
+    },
+    "cymbals.clashing-instruments": {
+      "text": "The monkey clashes the cymbals together.",
+      "sha256": "e8693b33f1016e2d1bb42cedec72e0fcf5c5782c23c7100d02350191abf2fe2f",
+      "alignment": "audio-alignment/sentences/cymbals.clashing-instruments.json"
+    },
+    "dash.run-quickly": {
+      "text": "The puppy dashes to greet Grandma.",
+      "sha256": "e3f2088fedf471db89aea10c3ba9fd0890fd679aa8dd6dadb14b14d0857a1316",
+      "alignment": "audio-alignment/sentences/dash.run-quickly.json"
+    },
+    "decipher.work-out-meaning": {
+      "text": "We decipher the big picture symbols on the cave wall.",
+      "sha256": "5a8d14c13b79961a4e32b3f2eb4d720b59bfb5a413fff8203e11697ff915bf90",
+      "alignment": "audio-alignment/sentences/decipher.work-out-meaning.json"
+    },
+    "delighted.very-pleased": {
+      "text": "Grandma feels delighted by the handmade card.",
+      "sha256": "b5ec26904adba46d1416fd7d6122b83bb6c33b020e4de49cd2d0739b342c19a3",
+      "alignment": "audio-alignment/sentences/delighted.very-pleased.json"
+    },
+    "delta.river-mouth-land": {
+      "text": "The river spreads into channels across the delta.",
+      "sha256": "a684191e950b0132fb02e25f5ee9ad0d93391f0aa205077442d305004c07d546",
+      "alignment": "audio-alignment/sentences/delta.river-mouth-land.json"
+    },
+    "den.animal-home": {
+      "text": "The fox carries leaves into its den.",
+      "sha256": "82028cdb14587bc61b7826f48b826c51fbcfa17184674222ddb0b8171577ac22",
+      "alignment": "audio-alignment/sentences/den.animal-home.json"
+    },
+    "determined.not-giving-up": {
+      "text": "Nina is determined to climb the little hill.",
+      "sha256": "5484ad6db8bbdb00aee0dcecb577403cb3af93a15f08266ebba252d70601cd01",
+      "alignment": "audio-alignment/sentences/determined.not-giving-up.json"
+    },
+    "dialogue.spoken-conversation": {
+      "text": "The friends use dialogue to plan their treehouse.",
+      "sha256": "0cc0e57704dd05cbf02195a9544e51e04f3a9bfa31ffc9fc910a0669d8f58773",
+      "alignment": "audio-alignment/sentences/dialogue.spoken-conversation.json"
+    },
+    "digger.excavating-machine": {
+      "text": "The digger scoops soil with its bucket.",
+      "sha256": "9fd22c32ccb04de1619dd4bbe618522e0c37e7d05e5e2d8cb1cb3ece257e8b10",
+      "alignment": "audio-alignment/sentences/digger.excavating-machine.json"
+    },
+    "disappointed.hopes-not-met": {
+      "text": "Mina feels disappointed when the picnic is cancelled.",
+      "sha256": "c16b9cda9370aa320143d5bb8355799505ad478578f9f5a72d7d7d90d4800e4a",
+      "alignment": "audio-alignment/sentences/disappointed.hopes-not-met.json"
+    },
+    "distinguish.recognise-difference": {
+      "text": "Can you distinguish the moth from the leaf?",
+      "sha256": "f8a24da3fcce3e9e4fd2f51efe176e184e10a1237ede6615444d39dc02246143",
+      "alignment": "audio-alignment/sentences/distinguish.recognise-difference.json"
+    },
+    "doorbell.door-signal": {
+      "text": "The doorbell rings inside the house.",
+      "sha256": "7f028d46db887ded29c72c71278ccea590a49db18b720c793cba73a94912dd4d",
+      "alignment": "audio-alignment/sentences/doorbell.door-signal.json"
+    },
+    "doorway.opening-for-door": {
+      "text": "A tiny mouse waits in the doorway.",
+      "sha256": "0b8c9a5db0f85b06affd5f2626160247ce080abe51f034e6bf919c0e16ddfb04",
+      "alignment": "audio-alignment/sentences/doorway.opening-for-door.json"
+    },
+    "doughnut.ring-shaped-cake": {
+      "text": "The pink doughnut has colourful sprinkles.",
+      "sha256": "b636ec20398c957641f23a164724d71032fde6ffaf09c1c59738be699f503cd9",
+      "alignment": "audio-alignment/sentences/doughnut.ring-shaped-cake.json"
+    },
+    "dove.bird": {
+      "text": "The white dove perches on a branch.",
+      "sha256": "68cf51d649d9ce52cfe12ff554c7d511f590f769c9c3a708c8290eb10146630b",
+      "alignment": "audio-alignment/sentences/dove.bird.json"
+    },
+    "drizzle.light-rain": {
+      "text": "A light drizzle dots the red umbrella.",
+      "sha256": "46205c065258db08c341e2040836ed5567764a54e0ce8888c4d08fbda90a79db",
+      "alignment": "audio-alignment/sentences/drizzle.light-rain.json"
+    },
+    "dynasty.ruling-family": {
+      "text": "The dynasty ruled the kingdom for generations.",
+      "sha256": "c9a21bd12e8fbd73debdf6ffdeef91fb116b621a8c3d40dd2f444b3383af16bf",
+      "alignment": "audio-alignment/sentences/dynasty.ruling-family.json"
+    },
+    "eager.wanting-to-begin": {
+      "text": "Ben is eager to plant the seeds.",
+      "sha256": "57e16b46d1ddeabcec1780097600511fb3bf379deff3b896afd7c69acd7ff1b9",
+      "alignment": "audio-alignment/sentences/eager.wanting-to-begin.json"
+    },
+    "earwig.pincer-tailed-insect": {
+      "text": "The earwig rests beneath a flowerpot.",
+      "sha256": "3ce50d4b7ed7e4f1c818d9e3d027ed264b616b44e780ff3323ad9ba44b3e48f2",
+      "alignment": "audio-alignment/sentences/earwig.pincer-tailed-insect.json"
+    },
+    "eclipse.light-blocking-event": {
+      "text": "The Moon covered the Sun during the eclipse.",
+      "sha256": "2bb290d93a67a967be2ebff41de03af4ab52dba1aaa861d2e6767cfae3c568fa",
+      "alignment": "audio-alignment/sentences/eclipse.light-blocking-event.json"
+    },
+    "ecosystem.living-community": {
+      "text": "A pond ecosystem includes plants, animals and water.",
+      "sha256": "bfb74994c59779a81503a94e05541594a87c53b0f61fc6bfad8c6888e6136d9a",
+      "alignment": "audio-alignment/sentences/ecosystem.living-community.json"
+    },
+    "eel.long-fish": {
+      "text": "The eel slips between the rocks.",
+      "sha256": "132905ae0c5eba8f2a9af5612ff6155414ed6dcb2779d76176ef61cdde12e189",
+      "alignment": "audio-alignment/sentences/eel.long-fish.json"
+    },
+    "eighth.order-eight": {
+      "text": "The eighth runner wears a green shirt.",
+      "sha256": "87305758b390e1215f4983276171e12b55a96a8ca97807b3d5cd2e95d8093759",
+      "alignment": "audio-alignment/sentences/eighth.order-eight.json"
+    },
+    "embarrassed.self-conscious": {
+      "text": "Lina feels embarrassed by yoghurt on her nose.",
+      "sha256": "a4dbcf103c7d4d5c121c0be351300397dbd30acd7abf71f14302fb25368e33ed",
+      "alignment": "audio-alignment/sentences/embarrassed.self-conscious.json"
+    },
+    "emerge.come-out": {
+      "text": "A chick emerges from its egg.",
+      "sha256": "fce9a9be8569eb3ae4e0afccb7021d3683644b45905967022c7b23e3b851e14c",
+      "alignment": "audio-alignment/sentences/emerge.come-out.json"
+    },
+    "empire.ruled-territories": {
+      "text": "The Roman Empire included lands around the Mediterranean.",
+      "sha256": "fbd5d97f57e4374633faa13625b3823e05966538750ff2d8e7565bb8314a51b2",
+      "alignment": "audio-alignment/sentences/empire.ruled-territories.json"
+    },
+    "engine.machine-making-movement": {
+      "text": "The train engine pulls three little carriages.",
+      "sha256": "4f40e63a1b1a887a19df985f2819a261e4f54b0dfdc5b2a423c3bfe7a916fa94",
+      "alignment": "audio-alignment/sentences/engine.machine-making-movement.json"
+    },
+    "equator.earth-line": {
+      "text": "The equator divides Earth into two hemispheres.",
+      "sha256": "79e5c8dea2f6c8e303c768626c83f8b786462d7e5a2f49e5846a84d2bceb7465",
+      "alignment": "audio-alignment/sentences/equator.earth-line.json"
+    },
+    "escape.get-free": {
+      "text": "The ladybird escapes from the open jar.",
+      "sha256": "cbea6cedb756e74f10c879ef45d104204c7010eebfb114fafb170e5dc47d5867",
+      "alignment": "audio-alignment/sentences/escape.get-free.json"
+    },
+    "evidence.supporting-information": {
+      "text": "The footprints were evidence that an animal passed.",
+      "sha256": "bc155bc2c34c303a831917b26e1f5d5a31b6f3cc42dac9c053d863a17f338b67",
+      "alignment": "audio-alignment/sentences/evidence.supporting-information.json"
+    },
+    "exoplanet.outside-solar-system": {
+      "text": "Scientists discovered an exoplanet around a distant star.",
+      "sha256": "62f8adbd7dfe3be71cac8301886bd8c1e709df38e34e01109ac9598fe143aec6",
+      "alignment": "audio-alignment/sentences/exoplanet.outside-solar-system.json"
+    },
+    "extinct.no-longer-living": {
+      "text": "The dodo is extinct.",
+      "sha256": "cee89c93c29af2f69c08ba55f8d5a6b012109aabe03449613bb84301c8488dbd",
+      "alignment": "audio-alignment/sentences/extinct.no-longer-living.json"
+    },
+    "eyelash.eye-hair": {
+      "text": "An eyelash grows along the edge of my eyelid.",
+      "sha256": "b4779aa124070c847d9f51aeb6226040aafe6a68ee2b47f78da78f01bf610930",
+      "alignment": "audio-alignment/sentences/eyelash.eye-hair.json"
+    },
+    "feast.large-special-meal": {
+      "text": "A family shares a feast beneath a shady tree.",
+      "sha256": "fc7fb942676d64c2073769db11d4d50379fec5262dc79e475a483be32ed8c358",
+      "alignment": "audio-alignment/sentences/feast.large-special-meal.json"
+    },
+    "felt-tips.colouring-pens": {
+      "text": "The felt tips draw bright lines.",
+      "sha256": "80f42dfe6c128c62a64930e3016125c25d25b9439230554660ce0df6847eaa92",
+      "alignment": "audio-alignment/sentences/felt-tips.colouring-pens.json"
+    },
+    "fetch.go-and-bring": {
+      "text": "The dog fetches the blue ball.",
+      "sha256": "e2a8a04753ff04ece92c55f0809f32e6216bab9523b11f216f93f771754d11ac",
+      "alignment": "audio-alignment/sentences/fetch.go-and-bring.json"
+    },
+    "fiction.imagined-writing": {
+      "text": "A story about a talking fox is fiction.",
+      "sha256": "a5e8d0003b04acd61f6363a38ed555161f59193fbc08d2a5304ab7ea02287cd2",
+      "alignment": "audio-alignment/sentences/fiction.imagined-writing.json"
+    },
+    "fig.fruit": {
+      "text": "The fig is pink inside.",
+      "sha256": "a0c547c262d6061c4f68c5aa54b2522f77b02edb7d6e3ed1010ee7834610fd0a",
+      "alignment": "audio-alignment/sentences/fig.fruit.json"
+    },
+    "fireplace.indoor-fire-place": {
+      "text": "The fireplace warms the sitting room.",
+      "sha256": "b8fe6dc7f2bc8959a8247884e7b7f810c9a7c02b2a43a13e9011a0c0c79a4342",
+      "alignment": "audio-alignment/sentences/fireplace.indoor-fire-place.json"
+    },
+    "fossil.preserved-remains": {
+      "text": "The rock held a fossil of a shell.",
+      "sha256": "0b598c1961cabb147bd2e4cc856bf066c082a6bef9dbd7e94283dcaf3c4c8b8f",
+      "alignment": "audio-alignment/sentences/fossil.preserved-remains.json"
+    },
+    "furious.very-angry": {
+      "text": "The queen feels furious about the muddy throne.",
+      "sha256": "aa64000cefeddf3127b6c08ff56dcef060c2d531dfa331cf53416827911c9747",
+      "alignment": "audio-alignment/sentences/furious.very-angry.json"
+    },
+    "gasp.breathe-in-suddenly": {
+      "text": "Mia gasps when a butterfly lands on her hand.",
+      "sha256": "3f88c3e000e67636a533426c46071445dd93378e541642ba83d752fa19a2a6c7",
+      "alignment": "audio-alignment/sentences/gasp.breathe-in-suddenly.json"
+    },
+    "genre.kind-of-art": {
+      "text": "A dragon on the cover shows the book's fantasy genre.",
+      "sha256": "0b58c026de2cde9673dd65ecda42f052653e7dc39a403e1b413435021db2a9b2",
+      "alignment": "audio-alignment/sentences/genre.kind-of-art.json"
+    },
+    "gobble.eat-quickly": {
+      "text": "The ducklings gobble their peas.",
+      "sha256": "5b24a9c8f31db9432ef71aca32c033235564c1161bbc774afae30e9ee745f86a",
+      "alignment": "audio-alignment/sentences/gobble.eat-quickly.json"
+    },
+    "grab.take-quickly": {
+      "text": "Leo grabs his hat before it blows away.",
+      "sha256": "e1eed66e3eab4308c92a2a0f7243f293377647f791f275696db1cd3fae0bc407",
+      "alignment": "audio-alignment/sentences/grab.take-quickly.json"
+    },
+    "grandma.grandmother": {
+      "text": "Grandma reads me a story beside the sunny window.",
+      "sha256": "0f016d04c358b7eb72710f1e5a2e6d17dc20448d15d34d535c2ae9724a2427e9",
+      "alignment": "audio-alignment/sentences/grandma.grandmother.json"
+    },
+    "grandpa.grandfather": {
+      "text": "Grandpa shows me how to water the tomato plants.",
+      "sha256": "676e892b4aac0043837206654407228e899ce83c2ed0a5974401df79b5be297f",
+      "alignment": "audio-alignment/sentences/grandpa.grandfather.json"
+    },
+    "grapefruit.fruit": {
+      "text": "The grapefruit has pink, juicy segments.",
+      "sha256": "76cc244e71a6a606a67bbe294f1f91de391b415a2cd2659e21047caaea609418",
+      "alignment": "audio-alignment/sentences/grapefruit.fruit.json"
+    },
+    "grateful.thankful": {
+      "text": "Ari feels grateful when his friend helps him.",
+      "sha256": "954d965612a40c8c692498fe9d002a917fd01cb8006d6a17e3bf737910fa4972",
+      "alignment": "audio-alignment/sentences/grateful.thankful.json"
+    },
+    "griffin.mythical-creature": {
+      "text": "The griffin guarded the golden treasure.",
+      "sha256": "121972f6190b8e49daae7fcb86b84dc659950d1e0fc460bb30153b97e1a80e9c",
+      "alignment": "audio-alignment/sentences/griffin.mythical-creature.json"
+    },
+    "grumpy.bad-tempered": {
+      "text": "Kai feels grumpy when his tower falls.",
+      "sha256": "eabfd3784dd33e71bb42bf8687644aae5ecb0d263d5c6c2907484781c67e331c",
+      "alignment": "audio-alignment/sentences/grumpy.bad-tempered.json"
+    },
+    "guardian.protector": {
+      "text": "The dragon was the guardian of the gate.",
+      "sha256": "1f35b1bdb4bb073ed0a5cfdf6f29f8ab8103243a34d854132979c3c6512829b2",
+      "alignment": "audio-alignment/sentences/guardian.protector.json"
+    },
+    "guilty.feeling-responsible": {
+      "text": "Nina feels guilty after hiding the broken cup.",
+      "sha256": "47b7d8872f674e05280bd76fcd9630be610a99359c3f918216a1eed0fb014da9",
+      "alignment": "audio-alignment/sentences/guilty.feeling-responsible.json"
+    },
+    "gulp.swallow-quickly": {
+      "text": "Ben gulps his water after the race.",
+      "sha256": "429c64ec105192c17ad1005e8a193dcffe05497e0f3773d737c9246df6e0861f",
+      "alignment": "audio-alignment/sentences/gulp.swallow-quickly.json"
+    },
+    "habitat.natural-home": {
+      "text": "A coral reef is a habitat for many fish.",
+      "sha256": "9a98f615f64c3b65aedd3caf3c6b373b259d2e5a1053df0d5173cd766a78e444",
+      "alignment": "audio-alignment/sentences/habitat.natural-home.json"
+    },
+    "hammer.tool-for-hitting": {
+      "text": "A blue hammer sits on the workbench.",
+      "sha256": "95ad68242c209c95666502a7d45ae37e18390937db7b1a7c08823f92280d6f71",
+      "alignment": "audio-alignment/sentences/hammer.tool-for-hitting.json"
+    },
+    "harmonica.mouth-organ": {
+      "text": "The mouse plays a silver harmonica.",
+      "sha256": "ecf77efc74dac3cd558f7c561650e3a8e47c1ad898c9de1c11bcdb9d0fd5e5a6",
+      "alignment": "audio-alignment/sentences/harmonica.mouth-organ.json"
+    },
+    "hemisphere.half-earth": {
+      "text": "Thailand lies in the Northern Hemisphere.",
+      "sha256": "9fe0840ea578f1065d7cbef4a9267cd34c7575c25a42b7db7a8ced324f1fabe2",
+      "alignment": "audio-alignment/sentences/hemisphere.half-earth.json"
+    },
+    "herbs.flavouring-plants": {
+      "text": "Fresh herbs add flavour to the soup.",
+      "sha256": "c697a1db59a2fa5af2289ce99a16d1c67d09258ee8f898d457b71da7b7f2b0e5",
+      "alignment": "audio-alignment/sentences/herbs.flavouring-plants.json"
+    },
+    "hieroglyph.picture-symbol": {
+      "text": "The hieroglyph represented a bird.",
+      "sha256": "10936df543dc542b2bfd792ebef86e5e5095db39cebe4258c4af6e5137069dc1",
+      "alignment": "audio-alignment/sentences/hieroglyph.picture-symbol.json"
+    },
+    "homesick.missing-home": {
+      "text": "Mali feels homesick on her first night away.",
+      "sha256": "6137e01e1d99fc9e68527a61b63f026724510064501c78558131615bf4030fff",
+      "alignment": "audio-alignment/sentences/homesick.missing-home.json"
+    },
+    "hoodie.hooded-top": {
+      "text": "The hoodie has a soft hood.",
+      "sha256": "c97e5bc3b5c23c55432214b3d96ba749f57f9b86b07298d9d2d2663b8cea36b0",
+      "alignment": "audio-alignment/sentences/hoodie.hooded-top.json"
+    },
+    "hopeful.expecting-good": {
+      "text": "We feel hopeful when the seed sprouts.",
+      "sha256": "84c6a5625e4bb98efb387bff02d6c8c20ecd9724fd7f5ab51cf20471e0ddee31",
+      "alignment": "audio-alignment/sentences/hopeful.expecting-good.json"
+    },
+    "hot-air-balloon.aircraft": {
+      "text": "The hot air balloon floats above the fields.",
+      "sha256": "e13a1f452481dac7855c41b0940f93832106a814a2c07dd8db3922534ce0af46",
+      "alignment": "audio-alignment/sentences/hot-air-balloon.aircraft.json"
+    },
+    "hypothesis.testable-explanation": {
+      "text": "Our hypothesis predicted which seed would sprout first.",
+      "sha256": "448cf91e93f56913e129a2daa023f0687248fa9974945481777694e1445eb643",
+      "alignment": "audio-alignment/sentences/hypothesis.testable-explanation.json"
+    },
+    "igloo.snow-block-shelter": {
+      "text": "The igloo has a low tunnel entrance.",
+      "sha256": "521ab3781bf7922d58a75c41174cfdd01fe36cc3f45c54761a602c6a22902fa8",
+      "alignment": "audio-alignment/sentences/igloo.snow-block-shelter.json"
+    },
+    "impatient.unwilling-to-wait": {
+      "text": "Tom feels impatient while the biscuits cool.",
+      "sha256": "7deffc69b7e1e7f2034d50c3131d5ccbdaa45c153fa7cf24eb78a6bb73c81925",
+      "alignment": "audio-alignment/sentences/impatient.unwilling-to-wait.json"
+    },
+    "indigo.colour": {
+      "text": "Indigo forms a deep blue-violet band in the rainbow.",
+      "sha256": "8fc60e1ea547007571127e9669abc1ecd7fe239fe82b2a3bb0be04a126035a83",
+      "alignment": "audio-alignment/sentences/indigo.colour.json"
+    },
+    "infer.reach-conclusion": {
+      "text": "The wet grass lets us infer that it rained.",
+      "sha256": "0bc1a57bebe9f24672c8f1b8a54b1fd26454bb3721850140d3a6f9218865d30e",
+      "alignment": "audio-alignment/sentences/infer.reach-conclusion.json"
+    },
+    "intricate.many-small-parts": {
+      "text": "The spider built an intricate web.",
+      "sha256": "20d84f3deadb4091a003d13414131af0fb588145e91f391dd95a100eeb6220bf",
+      "alignment": "audio-alignment/sentences/intricate.many-small-parts.json"
+    },
+    "jaguar.spotted-big-cat": {
+      "text": "The jaguar rests on a wide tree branch.",
+      "sha256": "b57da2dea3786eb8bb423e43d66ba3e4118bf525354c9edbc97cd61c17242834",
+      "alignment": "audio-alignment/sentences/jaguar.spotted-big-cat.json"
+    },
+    "jealous.wanting-what-another-has": {
+      "text": "Sam feels jealous of his friend's new kite.",
+      "sha256": "dc42049d342428687b4826ec230b72185428196412ee67d8bf54aa35f282ffe8",
+      "alignment": "audio-alignment/sentences/jealous.wanting-what-another-has.json"
+    },
+    "journey.travel-from-place-to-place": {
+      "text": "The long journey ends at Grandma's cottage.",
+      "sha256": "4b9003e8c7911c73ddd27029cf974efa47b0de6afe0480f4fce8137730e80058",
+      "alignment": "audio-alignment/sentences/journey.travel-from-place-to-place.json"
+    },
+    "joyful.full-of-happiness": {
+      "text": "The family feels joyful at the reunion.",
+      "sha256": "20b7751e880db325e75f315b378466dbf213ac42ba19ec126f15013e61e10a40",
+      "alignment": "audio-alignment/sentences/joyful.full-of-happiness.json"
+    },
+    "kingdom.land-ruled-by-monarch": {
+      "text": "A kind queen rules the peaceful kingdom.",
+      "sha256": "0d7ae18ddddfb50f97a0e08b5017adf254808418f2a55ca781eb20fccca1d3ec",
+      "alignment": "audio-alignment/sentences/kingdom.land-ruled-by-monarch.json"
+    },
+    "knuckle.finger-joint": {
+      "text": "Each knuckle helps my finger bend.",
+      "sha256": "68344472a70fad7f4d4b1b49cfb0f40c12d9309cc1aab126490444ac9ff96e65",
+      "alignment": "audio-alignment/sentences/knuckle.finger-joint.json"
+    },
+    "laboratory.science-workplace": {
+      "text": "The scientists tested the water in the laboratory.",
+      "sha256": "16cbb955aa83e78f297f03b17e9774ce9bd3c9010c48ed1f88bc70fbb21dbca8",
+      "alignment": "audio-alignment/sentences/laboratory.science-workplace.json"
+    },
+    "labyrinth.complicated-maze": {
+      "text": "The explorers followed a thread through the labyrinth.",
+      "sha256": "a4b7814738602c50e893fa1d7b36440dee560554e9285ef7d8d0a35ca92edf0d",
+      "alignment": "audio-alignment/sentences/labyrinth.complicated-maze.json"
+    },
+    "lantern.protected-portable-light": {
+      "text": "The lantern glows beside the tent.",
+      "sha256": "436c3eca5406197a56879d7709df96be9f1d710f8ae6d14ea60a6ab2d905f51d",
+      "alignment": "audio-alignment/sentences/lantern.protected-portable-light.json"
+    },
+    "laptop.portable-computer": {
+      "text": "The laptop is open on the desk.",
+      "sha256": "a963f74aaabd468688d3e874088529d72d7dadc820811367d7063a38f0020231",
+      "alignment": "audio-alignment/sentences/laptop.portable-computer.json"
+    },
+    "latitude.north-south-position": {
+      "text": "Lines of latitude run around a globe like belts.",
+      "sha256": "e43340f5bdf6289a28630c854c0e7c4622d3d474201a2071f034b8d1fdd1ef20",
+      "alignment": "audio-alignment/sentences/latitude.north-south-position.json"
+    },
+    "leek.vegetable": {
+      "text": "The leek has a white base and flat green leaves.",
+      "sha256": "4d8cfce6f1a2ca56f14b9d071c6dbfc1bf75a61160b7f9af1299f4a1ac44a744",
+      "alignment": "audio-alignment/sentences/leek.vegetable.json"
+    },
+    "legend.old-story": {
+      "text": "Grandma shares a legend about a sleeping mountain.",
+      "sha256": "53c54b8f3929df2c7c605e13ecef64d78fbd333c89cb3bb797a3cb2164d74858",
+      "alignment": "audio-alignment/sentences/legend.old-story.json"
+    },
+    "leopard.spotted-big-cat": {
+      "text": "The leopard rests on a tree branch.",
+      "sha256": "6b05b4da398625993a65f1f39f20276553fa5f70b6756edb6c8b4649011adb89",
+      "alignment": "audio-alignment/sentences/leopard.spotted-big-cat.json"
+    },
+    "letterbox.mail-slot": {
+      "text": "A letter slides through the letterbox.",
+      "sha256": "06f827d8c0d708be395c1cf9dc65ddf9d59074e0d3c2e92948bbd5846c32b199",
+      "alignment": "audio-alignment/sentences/letterbox.mail-slot.json"
+    },
+    "llama.south-american-animal": {
+      "text": "The llama stands beside a mountain path.",
+      "sha256": "985837646686352567a81b147018cb7ecb152667293a522d55f515d3100b08a7",
+      "alignment": "audio-alignment/sentences/llama.south-american-animal.json"
+    },
+    "lobster.large-sea-crustacean": {
+      "text": "The lobster walks across the sandy seabed.",
+      "sha256": "1307d007d654332be0f9db102da6361f1dc435f7889f5be930dc166adcdcdb25",
+      "alignment": "audio-alignment/sentences/lobster.large-sea-crustacean.json"
+    },
+    "loft.roof-space": {
+      "text": "The loft is tucked beneath the roof.",
+      "sha256": "50a04f1cedaa995fe547082b0ec65621e7f336b4cbd8392383a2b2efcbabd5fe",
+      "alignment": "audio-alignment/sentences/loft.roof-space.json"
+    },
+    "longitude.east-west-position": {
+      "text": "Lines of longitude run from top to bottom of a globe.",
+      "sha256": "22f65f10e499b0be29f12cf01967f6c49324b751c51bc844999eb4099f46446e",
+      "alignment": "audio-alignment/sentences/longitude.east-west-position.json"
+    },
+    "majestic.grand-impressive": {
+      "text": "The majestic whale rose from the sea.",
+      "sha256": "d5c418e6929b60fa28f743ee2101898044d7ae8a17182df8579d20051ca226eb",
+      "alignment": "audio-alignment/sentences/majestic.grand-impressive.json"
+    },
+    "mandarin.fruit": {
+      "text": "I peel the mandarin and separate its juicy segments.",
+      "sha256": "5b5f0a5eb8ac56e2e6aa692071ab78c499ede84cee11abadfc0748347ebb14c3",
+      "alignment": "audio-alignment/sentences/mandarin.fruit.json"
+    },
+    "manuscript.handwritten-text": {
+      "text": "The library protected the ancient manuscript.",
+      "sha256": "1573ad795df3b4ad6d27f1bcc594011e5b21bb39ab254125c8814ebe66258499",
+      "alignment": "audio-alignment/sentences/manuscript.handwritten-text.json"
+    },
+    "maracas.shaking-instruments": {
+      "text": "The parrot shakes two bright maracas.",
+      "sha256": "0aebc825dbb1590d8bea9f85ba158a8c3444fe7879d426e8654a3d8732a90b1a",
+      "alignment": "audio-alignment/sentences/maracas.shaking-instruments.json"
+    },
+    "mechanism.working-parts": {
+      "text": "The toy's wheel mechanism makes its wings flap.",
+      "sha256": "756af4cf3e74c144fcc7a860593c28a936633a9e142180044ad4aed73b685d21",
+      "alignment": "audio-alignment/sentences/mechanism.working-parts.json"
+    },
+    "metamorphosis.body-change": {
+      "text": "A caterpillar becomes a butterfly through metamorphosis.",
+      "sha256": "7bbdf5003050e55575dc60c3792c401dc208430101a243423152bf1ba36ab1fb",
+      "alignment": "audio-alignment/sentences/metamorphosis.body-change.json"
+    },
+    "metaphor.direct-comparison": {
+      "text": "The metaphor calls the snow a white blanket.",
+      "sha256": "8f6f638f7d40c63d894949de7903732785f894e8bc4e5a7f507369b27e177ed8",
+      "alignment": "audio-alignment/sentences/metaphor.direct-comparison.json"
+    },
+    "microscope.magnifying-instrument": {
+      "text": "We viewed onion cells through the microscope.",
+      "sha256": "31d3763c8be84373494a33b742ecbdda5f4ef1494d84ba5232cf21aee567e260",
+      "alignment": "audio-alignment/sentences/microscope.magnifying-instrument.json"
+    },
+    "minotaur.greek-mythology": {
+      "text": "The minotaur lived inside the labyrinth.",
+      "sha256": "f328214a4f7f4e1b02f26901a876e421eaa19c32428cc2da976acb1053cc7ae0",
+      "alignment": "audio-alignment/sentences/minotaur.greek-mythology.json"
+    },
+    "miserable.very-unhappy": {
+      "text": "The wet puppy looks miserable in the rain.",
+      "sha256": "aafc4bae5ce7e394d1ff02b983250ab100ea408d81f526fd48365ab77b724500",
+      "alignment": "audio-alignment/sentences/miserable.very-unhappy.json"
+    },
+    "mittens.hand-coverings": {
+      "text": "The mittens keep both hands warm.",
+      "sha256": "84a606265468abb6aff68f3cf7a2416cdfea1871d2a05bdd51a6099c0ff06df9",
+      "alignment": "audio-alignment/sentences/mittens.hand-coverings.json"
+    },
+    "mole.burrowing-animal": {
+      "text": "The mole pushes up a mound of soil.",
+      "sha256": "44fd3462f84dc3c57758328385376848aa7fbed0a1fe8fda97653050e84052a0",
+      "alignment": "audio-alignment/sentences/mole.burrowing-animal.json"
+    },
+    "molecule.bonded-atoms": {
+      "text": "A water molecule has two hydrogen atoms and one oxygen atom.",
+      "sha256": "0793358c1916e8a93b36d4f045959707f19936d40d974bcb5e650288b519fc1c",
+      "alignment": "audio-alignment/sentences/molecule.bonded-atoms.json"
+    },
+    "monument.memorial-structure": {
+      "text": "Flowers surround a monument to the city's helpers.",
+      "sha256": "79bc6830da6ebade622106c21f180aa69dc3103652ca1a5b8511caaedb44a3bc",
+      "alignment": "audio-alignment/sentences/monument.memorial-structure.json"
+    },
+    "moody.changing-moods": {
+      "text": "The moody dragon smiles, then begins to sulk.",
+      "sha256": "cb7b07e41dedbe632262be29e61b334f3009c56ca078367e7705aa830b4a9fa6",
+      "alignment": "audio-alignment/sentences/moody.changing-moods.json"
+    },
+    "mummy.mother": {
+      "text": "Mummy packs fruit for our picnic.",
+      "sha256": "0875b794baab0bfa8927066607081543e20f1ea2807710cab54cf63856c996dd",
+      "alignment": "audio-alignment/sentences/mummy.mother.json"
+    },
+    "munch.chew-noisily": {
+      "text": "The rabbit munches a crisp carrot.",
+      "sha256": "dc1e6d4fa7e9f908d93c975079d88e6c3b55a5e6f518d806e30f4926301ab1c8",
+      "alignment": "audio-alignment/sentences/munch.chew-noisily.json"
+    },
+    "mystery.unexplained-puzzle": {
+      "text": "The missing biscuit becomes a kitchen mystery.",
+      "sha256": "164513b3d14f76dbe7b6ef43476775383b1a10b3904bc88204dc34385f806cf9",
+      "alignment": "audio-alignment/sentences/mystery.unexplained-puzzle.json"
+    },
+    "myth.traditional-story": {
+      "text": "In one myth, the Sun rides a golden chariot.",
+      "sha256": "3bb01a2e611f85f7c781780901a0d7cde1df10b64d16174b7940bf6f0b9220d1",
+      "alignment": "audio-alignment/sentences/myth.traditional-story.json"
+    },
+    "mythology.collection-of-myths": {
+      "text": "Greek mythology has many stories about gods and heroes.",
+      "sha256": "6018a4029738555adeed1a93508e6d79ac3364f1ce7c50e9ab81c922649bee58",
+      "alignment": "audio-alignment/sentences/mythology.collection-of-myths.json"
+    },
+    "nebula.gas-dust-cloud": {
+      "text": "New stars formed inside the colourful nebula.",
+      "sha256": "dfe88fc76829c3592f0d9cb13473c600039f0f4c6786b0c20194fe9d4b9a8342",
+      "alignment": "audio-alignment/sentences/nebula.gas-dust-cloud.json"
+    },
+    "nectarine.fruit": {
+      "text": "The nectarine has smooth red skin.",
+      "sha256": "8464ffc98ccb32710436be15638960e044b43a58aa10ac671114aae2ee1ed5fc",
+      "alignment": "audio-alignment/sentences/nectarine.fruit.json"
+    },
+    "nibble.take-small-bites": {
+      "text": "The mouse nibbles a piece of toast.",
+      "sha256": "58d4dec9408d0013c77d72bf842f1bc9a295e455252009e2f0e3f4c9825f7234",
+      "alignment": "audio-alignment/sentences/nibble.take-small-bites.json"
+    },
+    "ninth.order-nine": {
+      "text": "The ninth duck in the queue carries a leaf.",
+      "sha256": "6b150b444b291a38be00725c030068cd0da69b4875156aee5a8e3be7d5a872c7",
+      "alignment": "audio-alignment/sentences/ninth.order-nine.json"
+    },
+    "nocturnal.active-at-night": {
+      "text": "The owl is nocturnal, so it hunts at night.",
+      "sha256": "586c6b86685ce0f1e9dbe7d322f97e2a0acbfffa86a1ae1386fb32a8eb184fc2",
+      "alignment": "audio-alignment/sentences/nocturnal.active-at-night.json"
+    },
+    "nursery.young-child-room": {
+      "text": "The nursery has a cot and a soft rug.",
+      "sha256": "cdc8b4a2f8c25da9097d40f7d9c651e735e0ee5174e51a2c9f708f369d86bcbf",
+      "alignment": "audio-alignment/sentences/nursery.young-child-room.json"
+    },
+    "oasis.desert-water-place": {
+      "text": "Palm trees grew beside the oasis.",
+      "sha256": "f0962821cd54870e40bf58a8606f79ac5c80d687d34e115995a6176657e179d8",
+      "alignment": "audio-alignment/sentences/oasis.desert-water-place.json"
+    },
+    "observatory.space-viewing-place": {
+      "text": "The observatory opened its telescope dome at night.",
+      "sha256": "b89d8304c3052a77fc0540992e2257b718683b7d034b6138753289d875163401",
+      "alignment": "audio-alignment/sentences/observatory.space-viewing-place.json"
+    },
+    "orca.black-and-white-whale": {
+      "text": "The orca has bold black-and-white markings.",
+      "sha256": "7843be745fa9ed1ae9005ed8b21a7ffcd0633e04837f4e20e9f4a2f3072d6ab8",
+      "alignment": "audio-alignment/sentences/orca.black-and-white-whale.json"
+    },
+    "organ.keyboard-instrument": {
+      "text": "The owl plays a tune on the organ.",
+      "sha256": "da4320be7423debd06d55586ebce9740e4068a92041e65ba62d0bb02796e7a18",
+      "alignment": "audio-alignment/sentences/organ.keyboard-instrument.json"
+    },
+    "ostrich.large-flightless-bird": {
+      "text": "The ostrich runs on its long legs.",
+      "sha256": "0ab953e2c27da08403171a78abe9efa043a6144b41b2ff619336d3adba62fb3a",
+      "alignment": "audio-alignment/sentences/ostrich.large-flightless-bird.json"
+    },
+    "paddle.move-small-boat": {
+      "text": "We paddle the canoe across the calm pond.",
+      "sha256": "5c4038b6462fb280cbe2c4cf00f20b307566f51538e99e4991732f3efc9b31e2",
+      "alignment": "audio-alignment/sentences/paddle.move-small-boat.json"
+    },
+    "paintbrush.painting-tool": {
+      "text": "The paintbrush makes a blue stripe.",
+      "sha256": "9a129654e4af49e466c5529d237822353176785b4146af6e96209db8238f7720",
+      "alignment": "audio-alignment/sentences/paintbrush.painting-tool.json"
+    },
+    "parsnip.vegetable": {
+      "text": "The parsnip is a long, pale root.",
+      "sha256": "94153b0058cdb16bade3e2d33c6b16b107a7fb31c5aec77bf4bb08ecbec04ee1",
+      "alignment": "audio-alignment/sentences/parsnip.vegetable.json"
+    },
+    "peaceful.calm-quiet": {
+      "text": "The quiet garden makes Grandpa feel peaceful.",
+      "sha256": "521b727181e20500f8216240364ae1cfc953de6f61f764bc82cebfe2eeeafa3b",
+      "alignment": "audio-alignment/sentences/peaceful.calm-quiet.json"
+    },
+    "peacock.male-peafowl": {
+      "text": "The peacock spreads his colourful feathers.",
+      "sha256": "cc6f661e333eaadd5c518e1b94dc813407f5c26eb28ac58e5c5881d67f638104",
+      "alignment": "audio-alignment/sentences/peacock.male-peafowl.json"
+    },
+    "peculiar.strange-unusual": {
+      "text": "We noticed a peculiar pattern on the shell.",
+      "sha256": "f9ab3c63712255ff744f9d9f21dbbabd45b0493be5991ff32f763e5938fae095",
+      "alignment": "audio-alignment/sentences/peculiar.strange-unusual.json"
+    },
+    "pegasus.greek-mythology": {
+      "text": "Pegasus flew high above the mountains.",
+      "sha256": "2e89fd43dfc747e6df72933a257be44a353942f9154f292456bd6338cd930dee",
+      "alignment": "audio-alignment/sentences/pegasus.greek-mythology.json"
+    },
+    "pelican.large-pouched-bird": {
+      "text": "The pelican floats with its long bill above the water.",
+      "sha256": "f033db6ddb8122c0f84ea6f93475481740547ffb55c9939266dd605e6b024b1e",
+      "alignment": "audio-alignment/sentences/pelican.large-pouched-bird.json"
+    },
+    "peninsula.landform": {
+      "text": "The peninsula reaches far into the sea.",
+      "sha256": "88b0439c19a04ca2970049728a0956a662a2ba8cc0207bacac8d90bfe84bba80",
+      "alignment": "audio-alignment/sentences/peninsula.landform.json"
+    },
+    "pharaoh.ancient-egypt-ruler": {
+      "text": "The pharaoh ruled ancient Egypt.",
+      "sha256": "498b594212a8920f01986b12a77227776425287fad1b23dc878ccd5e289c9f2a",
+      "alignment": "audio-alignment/sentences/pharaoh.ancient-egypt-ruler.json"
+    },
+    "phoenix.mythical-bird": {
+      "text": "The phoenix rose brightly from the ashes.",
+      "sha256": "63a2bd871ca6cce6f37c135c1ee6af5fb5b173f937bc72ca461260a9b4474d24",
+      "alignment": "audio-alignment/sentences/phoenix.mythical-bird.json"
+    },
+    "planetarium.sky-show-building": {
+      "text": "The planetarium showed us a journey past Saturn.",
+      "sha256": "1caf1841b6de682a5ec6d8f047f52d2400faa5c256dade01c2ead78f7eff5b3b",
+      "alignment": "audio-alignment/sentences/planetarium.sky-show-building.json"
+    },
+    "plateau.high-flat-land": {
+      "text": "The plateau rises above the surrounding plains.",
+      "sha256": "7903aba33194ebd1978e74565dda16f36de307dc4c6ed6dbf7bb0a37cd55b706",
+      "alignment": "audio-alignment/sentences/plateau.high-flat-land.json"
+    },
+    "playroom.room-for-play": {
+      "text": "The playroom has blocks and a toy train.",
+      "sha256": "e3ee86fcfb63add6deb9b80dc20060318e9f7ba7748a5978b62d0b2b1b4eb876",
+      "alignment": "audio-alignment/sentences/playroom.room-for-play.json"
+    },
+    "pleased.happy-satisfied": {
+      "text": "Mum feels pleased with the tidy shelf.",
+      "sha256": "ca814eb9829e5e31ae510357160d2902546ac27cd1ce8d05233bf7c607e9cd9b",
+      "alignment": "audio-alignment/sentences/pleased.happy-satisfied.json"
+    },
+    "plot.story-events": {
+      "text": "The plot follows a lost duckling searching for its mother.",
+      "sha256": "d513f884498e6f4698ce82185d4e2e75754e5f05f1b8683d5c2499747a12367a",
+      "alignment": "audio-alignment/sentences/plot.story-events.json"
+    },
+    "police-car.emergency-vehicle": {
+      "text": "The police car has blue lights on its roof.",
+      "sha256": "52d2a88a3261c6e0600cd112a92618e8c91402a8c79e862d99cba7be6f59d933",
+      "alignment": "audio-alignment/sentences/police-car.emergency-vehicle.json"
+    },
+    "pollination.pollen-transfer": {
+      "text": "Bees help with pollination as they visit flowers.",
+      "sha256": "4b73ea4e8991eb8ef7ff69660200b2b27650fdca52187b76b9d991f796e1f77a",
+      "alignment": "audio-alignment/sentences/pollination.pollen-transfer.json"
+    },
+    "pomegranate.fruit": {
+      "text": "The pomegranate is full of red seeds.",
+      "sha256": "a4c80c00dbca8abc1d5b22e3a08a5c3fc98fb9055fc8edd7b2f144d345721fa7",
+      "alignment": "audio-alignment/sentences/pomegranate.fruit.json"
+    },
+    "porcupine.spiny-rodent": {
+      "text": "The porcupine walks beneath the leafy bushes.",
+      "sha256": "e2d2075b4ec3e7404d1aed29d0ad3015b93d5d758ef45e5ac4098a7806f5df62",
+      "alignment": "audio-alignment/sentences/porcupine.spiny-rodent.json"
+    },
+    "predator.hunting-animal": {
+      "text": "A ladybird is a predator that hunts aphids.",
+      "sha256": "2232fe6043bb52ce3049be11cdced9478c2c6d48c42e24da7c414bc32dc7c737",
+      "alignment": "audio-alignment/sentences/predator.hunting-animal.json"
+    },
+    "predict.say-future-result": {
+      "text": "Dark clouds help us predict rain.",
+      "sha256": "ac361f21be4b231b1ffbe87a6562e25ad2e23c2c86c64029cae5527e2eadb1f6",
+      "alignment": "audio-alignment/sentences/predict.say-future-result.json"
+    },
+    "preserve.protect-from-damage": {
+      "text": "Museums preserve important objects from the past.",
+      "sha256": "c580155236f88710f94bf9de7b423c1c0ca61f49a6eaa2bca16733f7df8312cd",
+      "alignment": "audio-alignment/sentences/preserve.protect-from-damage.json"
+    },
+    "prey.hunted-animal": {
+      "text": "The rabbit escaped before it became prey.",
+      "sha256": "841f266477e02a61c5626defc7931bf0e73cf5d33b28687791899d7e2663251c",
+      "alignment": "audio-alignment/sentences/prey.hunted-animal.json"
+    },
+    "prism.light-splitting-object": {
+      "text": "The prism split sunlight into rainbow colours.",
+      "sha256": "7e4375ef87e505d8db470bbaf0cfcd5fece09e9baaa13e898840e65d6a079cd7",
+      "alignment": "audio-alignment/sentences/prism.light-splitting-object.json"
+    },
+    "prophecy.prediction": {
+      "text": "The prophecy says a white dove will mark the hero's return.",
+      "sha256": "18e49144b577c6368534dfc22c185f8d84ceb7c1c0a2545d1cb5e877c4a6fd22",
+      "alignment": "audio-alignment/sentences/prophecy.prediction.json"
+    },
+    "prototype.first-test-model": {
+      "text": "The cardboard car is our first prototype.",
+      "sha256": "80b8d07583b99dda2c6fe5dcd41121af7652ead695e97624d495af4cf25078e8",
+      "alignment": "audio-alignment/sentences/prototype.first-test-model.json"
+    },
+    "puzzled.confused-curious": {
+      "text": "Ari looks puzzled by a boot hanging in the tree.",
+      "sha256": "7b06c202b4ae82c99d9de55bd0311c2334ffc3c7c874a92f8e15847e81096a1b",
+      "alignment": "audio-alignment/sentences/puzzled.confused-curious.json"
+    },
+    "quest.difficult-search": {
+      "text": "The knight began a quest for the lost crown.",
+      "sha256": "0829aafc16de3c4335a88cff035c66817c0ad9edb39fda7f3d8df3cec297abd5",
+      "alignment": "audio-alignment/sentences/quest.difficult-search.json"
+    },
+    "quilt.thick-stitched-cover": {
+      "text": "The patchwork quilt covers the little bed.",
+      "sha256": "5c031b200c7e8906b52af0b989a5c6e3dcf7fa267f72f08ea516c8f14b505cf4",
+      "alignment": "audio-alignment/sentences/quilt.thick-stitched-cover.json"
+    },
+    "raccoon.masked-mammal": {
+      "text": "The raccoon holds a red apple.",
+      "sha256": "d58923dcaf270004dc2f3e748d0ec1ccf29cb24b2fdaa0b9dace2bba2d07cbf2",
+      "alignment": "audio-alignment/sentences/raccoon.masked-mammal.json"
+    },
+    "radish.vegetable": {
+      "text": "The radish has a red root and green leaves.",
+      "sha256": "913796ad701f6dddf7e4d36e3c765942bcce422e7de1dee7a3fa3e464162fb88",
+      "alignment": "audio-alignment/sentences/radish.vegetable.json"
+    },
+    "recorder.flute-like-instrument": {
+      "text": "The rabbit plays a wooden recorder.",
+      "sha256": "59633d718724bc2d9a11d2426f1f782d5b8e8244dd6ecdc4e4a03bb1a2087789",
+      "alignment": "audio-alignment/sentences/recorder.flute-like-instrument.json"
+    },
+    "relieved.worry-ended": {
+      "text": "Mali feels relieved when she finds her book.",
+      "sha256": "52a2212fa0607287a02656ec3e33589a7fd965a07cc066504682458046db55b1",
+      "alignment": "audio-alignment/sentences/relieved.worry-ended.json"
+    },
+    "rescue.save-from-danger": {
+      "text": "The firefighter rescues a kitten from the tree.",
+      "sha256": "bf13eee655d39124e1b6c3315be82bcbe5fa56834b4c95c31acb35079f31e0bd",
+      "alignment": "audio-alignment/sentences/rescue.save-from-danger.json"
+    },
+    "resilient.recovers-well": {
+      "text": "A resilient flower stands tall after heavy rain.",
+      "sha256": "5af4d989d61d957b728968dc4f89b2e3d4fba05ca44a25c963ab73ecf26cc66e",
+      "alignment": "audio-alignment/sentences/resilient.recovers-well.json"
+    },
+    "reveal.make-known": {
+      "text": "The opening curtain reveals a bright puppet stage.",
+      "sha256": "2a6ddc193ba72ba47b8c141b5eb12a28ff8e7c9a3ce708e6881e645b822b2961",
+      "alignment": "audio-alignment/sentences/reveal.make-known.json"
+    },
+    "ribs.chest-bones": {
+      "text": "The ribs protect my heart and lungs.",
+      "sha256": "c3a1e592f3a0b853ba270fd66cc960612574fc319e00a76de1945a8922ef7674",
+      "alignment": "audio-alignment/sentences/ribs.chest-bones.json"
+    },
+    "roar.make-deep-loud-sound": {
+      "text": "The friendly lion roars from a rocky hill.",
+      "sha256": "c32d6e0b855451915037b81a5abb526e160813c4526494bf916411aaa9342493",
+      "alignment": "audio-alignment/sentences/roar.make-deep-loud-sound.json"
+    },
+    "sail.travel-on-water": {
+      "text": "The little boat sails across the bay.",
+      "sha256": "57a8f8d650e762539a3e8a2406c49537d60189f3357355dd702e8bb1991b1641",
+      "alignment": "audio-alignment/sentences/sail.travel-on-water.json"
+    },
+    "sandals.open-shoes": {
+      "text": "The sandals have straps across the toes.",
+      "sha256": "1244df8561583fb2736603bff7a94f1f572203d30e116472029e4de8f61ffa8a",
+      "alignment": "audio-alignment/sentences/sandals.open-shoes.json"
+    },
+    "saucer.cup-plate": {
+      "text": "The cup rests on its saucer.",
+      "sha256": "e94ce9e6ee4416dc7423a4017ef7ed897370f78975b0210689c9bfd7c8edd416",
+      "alignment": "audio-alignment/sentences/saucer.cup-plate.json"
+    },
+    "saxophone.single-reed-woodwind": {
+      "text": "The lion plays a golden saxophone.",
+      "sha256": "c87aeaaacb41aeef736f488aed61c4b915291726f88b5a2f28aaf3bd9bd2d394",
+      "alignment": "audio-alignment/sentences/saxophone.single-reed-woodwind.json"
+    },
+    "scatter.spread-apart": {
+      "text": "The pigeons scatter across the square.",
+      "sha256": "3a3514b9d547fd0e2039181a2d74f32ad84131ce0a452498210357d17769651e",
+      "alignment": "audio-alignment/sentences/scatter.spread-apart.json"
+    },
+    "sculpture.three-dimensional-art": {
+      "text": "The sculpture was carved from stone.",
+      "sha256": "30695683902309b419366e066e43b5fff39ed4a6de93414e0a592b7bdf4ba76a",
+      "alignment": "audio-alignment/sentences/sculpture.three-dimensional-art.json"
+    },
+    "secret.hidden-information": {
+      "text": "The covered gift stays a secret until Mum arrives.",
+      "sha256": "353165783f6fc663d448800550cd76a328d8c3425303703f67f2b6dfab838c73",
+      "alignment": "audio-alignment/sentences/secret.hidden-information.json"
+    },
+    "semicircle.half-circle": {
+      "text": "Two semicircles fit together to make a circle.",
+      "sha256": "641ff3fbab1c7fc019c0d8002bf2f4b8e91f0b3a07d16d4a25ebbb6e0c6e0c2b",
+      "alignment": "audio-alignment/sentences/semicircle.half-circle.json"
+    },
+    "shrug.raise-shoulders": {
+      "text": "Nina shrugs when she cannot choose a colour.",
+      "sha256": "3f26c6c943071981ca40d57b54e09f106cad546a9e9a7f7d16989812c63c0c5e",
+      "alignment": "audio-alignment/sentences/shrug.raise-shoulders.json"
+    },
+    "silhouette.dark-outline": {
+      "text": "We saw the bird's silhouette against the sunset.",
+      "sha256": "ebd8d171068188e2db2bf718cde9570a0dbd4e50c5a16680a92420577e2d894a",
+      "alignment": "audio-alignment/sentences/silhouette.dark-outline.json"
+    },
+    "simile.like-as-comparison": {
+      "text": "The child was as quiet as a mouse.",
+      "sha256": "24f3a9f4df4455e77aa6a57b9838a051c7608caed3abc0fc6fbb9be21cab6bd6",
+      "alignment": "audio-alignment/sentences/simile.like-as-comparison.json"
+    },
+    "sleet.rain-and-snow": {
+      "text": "Sleet falls as wet snow and rain together.",
+      "sha256": "1a1c1bc2125fec09e662e5a4659c43d2f664731fad3dbb895950bd633f51efdf",
+      "alignment": "audio-alignment/sentences/sleet.rain-and-snow.json"
+    },
+    "slippers.indoor-shoes": {
+      "text": "The slippers keep Grandma's feet warm.",
+      "sha256": "58afdd84cdf383b5ade956520a82276d1d37d51aa957f908c8fc2922341b3da5",
+      "alignment": "audio-alignment/sentences/slippers.indoor-shoes.json"
+    },
+    "sneak.move-secretly": {
+      "text": "The cat sneaks towards the empty box.",
+      "sha256": "e5bcfd19aaa850203ed233f3e1c04f35a4632b9a4b6d06db4873671ed4181e15",
+      "alignment": "audio-alignment/sentences/sneak.move-secretly.json"
+    },
+    "sniff.smell-with-short-breaths": {
+      "text": "The rabbit sniffs the fresh mint.",
+      "sha256": "027daee0940ed5a4928935bc16e78d481f34ffa24ce846ee31b29a04ce5e8087",
+      "alignment": "audio-alignment/sentences/sniff.smell-with-short-breaths.json"
+    },
+    "snore.breathe-noisily-asleep": {
+      "text": "Grandpa snores softly in the armchair.",
+      "sha256": "8d7d9c8195617bb87a2bc88db8ffde05ff62fe13aec2ab2ea69550a518f81fc5",
+      "alignment": "audio-alignment/sentences/snore.breathe-noisily-asleep.json"
+    },
+    "spine.backbone": {
+      "text": "The spine supports my back.",
+      "sha256": "b1f7e98472e7f5f1d59a6a016cbfc0af62a1cac1e07898ef894db8900c380db7",
+      "alignment": "audio-alignment/sentences/spine.backbone.json"
+    },
+    "splash.scatter-liquid": {
+      "text": "The children splash water with their boots.",
+      "sha256": "c9348f256f20d972963ffd489a93a1b55a048e5877cba551e036f39968196426",
+      "alignment": "audio-alignment/sentences/splash.scatter-liquid.json"
+    },
+    "sprint.run-very-fast": {
+      "text": "Mali sprints towards the finish ribbon.",
+      "sha256": "8066659546637fc7158cb3637cd2a795cd1d599d59c2eaed6e8f6198ca2b94bc",
+      "alignment": "audio-alignment/sentences/sprint.run-very-fast.json"
+    },
+    "squeak.make-high-sound": {
+      "text": "The little mouse squeaks beside its nest.",
+      "sha256": "122103f012cf2e2aedf2a9f1ca4ab460563e0c7f7f74bd9dc9ff33c39df0a245",
+      "alignment": "audio-alignment/sentences/squeak.make-high-sound.json"
+    },
+    "squeal.make-high-loud-cry": {
+      "text": "Mina squeals when bubbles fill the room.",
+      "sha256": "fd82706dc8fd3c8b9076006ec5eb2b056e907fd34b3de01e9c7bcfa8c13592af",
+      "alignment": "audio-alignment/sentences/squeal.make-high-loud-cry.json"
+    },
+    "squid.sea-animal": {
+      "text": "The squid stretches out its two longer tentacles.",
+      "sha256": "2d408241247d0e9b9ced7c64313f106877b274cff5b3070058dbff031533783f",
+      "alignment": "audio-alignment/sentences/squid.sea-animal.json"
+    },
+    "stack.place-in-pile": {
+      "text": "We stack the blocks into a tall tower.",
+      "sha256": "db3978e5a0afdfb2dac610fd2fc3a8daa54aefe0cd6fb044d313dd2914fc6c2e",
+      "alignment": "audio-alignment/sentences/stack.place-in-pile.json"
+    },
+    "stairs.steps": {
+      "text": "The stairs lead to the bedrooms.",
+      "sha256": "5d1da6ce7e9d70210297cbb133851695c44440bd985854a2869c46d69ca7282a",
+      "alignment": "audio-alignment/sentences/stairs.steps.json"
+    },
+    "stanza.poem-lines-group": {
+      "text": "A blank line separates each stanza in the poem.",
+      "sha256": "b0aa12ce2d98e1c55f1a96de5f6a2e62a08ef3aa1aaed09b23b51282332b086f",
+      "alignment": "audio-alignment/sentences/stanza.poem-lines-group.json"
+    },
+    "stapler.paper-fastener": {
+      "text": "The stapler fastens the two sheets together.",
+      "sha256": "08c2948d08fe23a7d69b3ef600ab9bff0ff0ea6c40c278f27e6d0ae65c43738d",
+      "alignment": "audio-alignment/sentences/stapler.paper-fastener.json"
+    },
+    "startled.suddenly-surprised": {
+      "text": "The popping toast makes Mina feel startled.",
+      "sha256": "74c9e6a292ef9c92336f64c17cbff5746a8f1937d0095ae7cb99f92e728d7c65",
+      "alignment": "audio-alignment/sentences/startled.suddenly-surprised.json"
+    },
+    "stingray.flat-sea-fish": {
+      "text": "The stingray glides above the sandy seabed.",
+      "sha256": "8597a245f88334a50970edd62d722594ecd139e5c69101eeb8d7657fd70cff85",
+      "alignment": "audio-alignment/sentences/stingray.flat-sea-fish.json"
+    },
+    "stomp.step-heavily": {
+      "text": "The children stomp through crunchy leaves.",
+      "sha256": "d68235bfa2440bf7cd6937a544fa919cef4bc9a2f04a08f7947b31c23e66dc37",
+      "alignment": "audio-alignment/sentences/stomp.step-heavily.json"
+    },
+    "strait.narrow-waterway": {
+      "text": "Ships sailed through the narrow strait.",
+      "sha256": "f0bb6d4e28e2e6344738b86dc54d4e49f39662cc5ad5ead1d525deb8a569e436",
+      "alignment": "audio-alignment/sentences/strait.narrow-waterway.json"
+    },
+    "supernova.exploding-star": {
+      "text": "The supernova shone brightly in a distant galaxy.",
+      "sha256": "8f17709f77856239fb0821eec44f3647334f3cba89741fc935915f9755b9d688",
+      "alignment": "audio-alignment/sentences/supernova.exploding-star.json"
+    },
+    "swoop.move-down-quickly": {
+      "text": "The swallow swoops down towards the water.",
+      "sha256": "f7fc57d982888f32bcb517fce46591e7ea7dbe729522c8a86084312c75937b69",
+      "alignment": "audio-alignment/sentences/swoop.move-down-quickly.json"
+    },
+    "teapot.container-for-tea": {
+      "text": "Steam curls above the blue teapot.",
+      "sha256": "5784382ffbb2e32bbf0a0fd2fd3e21786f3e92fcf2436a27914828703d3e432c",
+      "alignment": "audio-alignment/sentences/teapot.container-for-tea.json"
+    },
+    "thrilled.very-excited": {
+      "text": "Ari feels thrilled to ride the little train.",
+      "sha256": "44b7227524e28ca0badb8c785fc7414f7165003f33ac1c4127bab473e3c6d583",
+      "alignment": "audio-alignment/sentences/thrilled.very-excited.json"
+    },
+    "throat.neck-inside": {
+      "text": "My throat helps me swallow water.",
+      "sha256": "70f02a715e5661eff5249d271fcc54e9feff81aef6deb81c8e81cf90bdb5b119",
+      "alignment": "audio-alignment/sentences/throat.neck-inside.json"
+    },
+    "tie.neckwear": {
+      "text": "Dad's blue tie hangs beneath his collar.",
+      "sha256": "0d41939c79bd278a2ec7230828c25c4416a2f0699cc9c13b6dc10ea1beaefe4e",
+      "alignment": "audio-alignment/sentences/tie.neckwear.json"
+    },
+    "tiptoe.walk-quietly": {
+      "text": "Mina tiptoes past the sleeping kitten.",
+      "sha256": "57d1750b6c25c8f295594abc291a8a2a74cbe69abb1370bfde045bb24ab28200",
+      "alignment": "audio-alignment/sentences/tiptoe.walk-quietly.json"
+    },
+    "titan.greek-mythology": {
+      "text": "The Titans ruled before the Olympian gods.",
+      "sha256": "363c1ba38b334ce575445ae91d3a808551b4d7cfa8602054bcbaedd2c7fcd072",
+      "alignment": "audio-alignment/sentences/titan.greek-mythology.json"
+    },
+    "toss.throw-lightly": {
+      "text": "Dad tosses the beanbag into the basket.",
+      "sha256": "0c655b3f6001bcc1d3f320d76f3a5c715ab37b2cc54c6c3d471fd3e22d5bbc31",
+      "alignment": "audio-alignment/sentences/toss.throw-lightly.json"
+    },
+    "trainers.sports-shoes": {
+      "text": "The trainers are ready by the door.",
+      "sha256": "639a4d360f981f88400e4ecfa4927a32f18469412b3a203e7085cc1b6f6c304a",
+      "alignment": "audio-alignment/sentences/trainers.sports-shoes.json"
+    },
+    "tram.street-rail-vehicle": {
+      "text": "The tram runs on rails through the town.",
+      "sha256": "2301fa5838096d44bab64b8fe8a3e7ec8e07e69cd3db350b6f5b1913c209a709",
+      "alignment": "audio-alignment/sentences/tram.street-rail-vehicle.json"
+    },
+    "transform.change-completely": {
+      "text": "Baking transforms sticky dough into golden bread.",
+      "sha256": "32465a9a1ab829d3649cf9c2e499652bb72485c22f51cc3e0ce5aef07db1df3d",
+      "alignment": "audio-alignment/sentences/transform.change-completely.json"
+    },
+    "trot.move-with-quick-steps": {
+      "text": "The pony trots across the flower meadow.",
+      "sha256": "555592e0da815b0fece03cc275a6ee7aa4d417aca63303eb8ca3ec61eae61771",
+      "alignment": "audio-alignment/sentences/trot.move-with-quick-steps.json"
+    },
+    "tug.pull-hard": {
+      "text": "The puppy tugs the rope toy.",
+      "sha256": "bf4f5ccbae9706447711570efd59d146280939669b646b61160bb8d9d492cba1",
+      "alignment": "audio-alignment/sentences/tug.pull-hard.json"
+    },
+    "tumble.fall-and-roll": {
+      "text": "The soft toys tumble from the basket.",
+      "sha256": "2fdc6b41a26c20910f3bdb98691533523ae0e5c9971b6546a6e83450e33909b2",
+      "alignment": "audio-alignment/sentences/tumble.fall-and-roll.json"
+    },
+    "turkey.bird": {
+      "text": "The turkey fans its broad tail.",
+      "sha256": "9184e5d119cbae67931d14d1c571256f83c94e026dcbf0aded75546bc6617b7a",
+      "alignment": "audio-alignment/sentences/turkey.bird.json"
+    },
+    "twirl.turn-round-quickly": {
+      "text": "The dancer twirls under the paper stars.",
+      "sha256": "97a52942bde1543dac6fee34740b10c9c5ba34a242f742750b8185a31b473705",
+      "alignment": "audio-alignment/sentences/twirl.turn-round-quickly.json"
+    },
+    "uncomfortable.not-at-ease": {
+      "text": "The scratchy jumper makes Leo uncomfortable.",
+      "sha256": "500a813dbd10bec31e16f9eb5891ccdb5869f971453ab6f8292b3d5007b105da",
+      "alignment": "audio-alignment/sentences/uncomfortable.not-at-ease.json"
+    },
+    "underground.city-railway": {
+      "text": "The underground train stops at the station.",
+      "sha256": "88d1f86f6bf1e732013cde984c44e51c64e6ff6cb9f37f7210f6908e1480a629",
+      "alignment": "audio-alignment/sentences/underground.city-railway.json"
+    },
+    "uneasy.worried-uncomfortable": {
+      "text": "Ben feels uneasy beside the tall shadowy tree.",
+      "sha256": "b8a5bc9aba339af9de48d9295b94b9a8c95567798ca8289ca17ca3f3c64e642c",
+      "alignment": "audio-alignment/sentences/uneasy.worried-uncomfortable.json"
+    },
+    "upset.unhappy-worried": {
+      "text": "Ben feels upset about his torn picture.",
+      "sha256": "2eafc023d4fe77d14a7f6fb10717e1b5db48ba4720fa737fa53083a27d5ff443",
+      "alignment": "audio-alignment/sentences/upset.unhappy-worried.json"
+    },
+    "vest.sleeveless-underwear": {
+      "text": "Mina wears a white vest under her jumper.",
+      "sha256": "033ec1961c47c691695a1c762992845fe8dc9afcc84a8def6d3ed96d5018aead",
+      "alignment": "audio-alignment/sentences/vest.sleeveless-underwear.json"
+    },
+    "violet.colour": {
+      "text": "Violet flowers fill the little garden pot.",
+      "sha256": "a07c9d7f621052de70f33f955b3403fa8fc1d90958e76990d2a404fdcce79118",
+      "alignment": "audio-alignment/sentences/violet.colour.json"
+    },
+    "vivid.bright-clear": {
+      "text": "The artist painted a vivid orange sunset.",
+      "sha256": "6b205157d33ff18d7d0033278f1fec1a25cbb551b7383457aafec18c54204ab3",
+      "alignment": "audio-alignment/sentences/vivid.bright-clear.json"
+    },
+    "walrus.tusked-sea-mammal": {
+      "text": "The walrus rests beside the cold sea.",
+      "sha256": "21d88a187954e98d6432e1b806f93a1c7236d67ae58f6e03874c92a0d016aa9c",
+      "alignment": "audio-alignment/sentences/walrus.tusked-sea-mammal.json"
+    },
+    "wander.walk-without-fixed-direction": {
+      "text": "The ducklings wander around the garden path.",
+      "sha256": "305e0ae3b35a40fc812cbe0b73109500a8322d10fdb9c850510c9bd8460c98d9",
+      "alignment": "audio-alignment/sentences/wander.walk-without-fixed-direction.json"
+    },
+    "wiggle.move-side-to-side": {
+      "text": "The puppy wiggles its tail with joy.",
+      "sha256": "f726d59d73aeb3c81bd181332a34ea992dfdd9fec548e3bce7765cd6021d842b",
+      "alignment": "audio-alignment/sentences/wiggle.move-side-to-side.json"
+    },
+    "woodlouse.small-crustacean": {
+      "text": "The woodlouse hides beneath a damp log.",
+      "sha256": "c687b0da158753e9ebd1b67326a48d7b1136d149ada837194def1ef9aa2735f4",
+      "alignment": "audio-alignment/sentences/woodlouse.small-crustacean.json"
+    },
+    "woodpecker.tree-tapping-bird": {
+      "text": "The woodpecker taps the old tree trunk.",
+      "sha256": "4fcd2dcd210161632265db3dcceaee94a30c270e8877a85d9c4822b6af673ec0",
+      "alignment": "audio-alignment/sentences/woodpecker.tree-tapping-bird.json"
+    },
+    "yak.long-haired-animal": {
+      "text": "The yak has thick hair for cold mountains.",
+      "sha256": "a23f6847eaebb462e2a8bbef3fcdaa0634a7afc1261335d9ab11b95a4d90ad18",
+      "alignment": "audio-alignment/sentences/yak.long-haired-animal.json"
+    },
+    "yarn.thread-for-knitting": {
+      "text": "The kitten watches a ball of yarn.",
+      "sha256": "c6a768b631951dfdf6515d76d930e4d0243ad1eca384c9f9559277e82effdb65",
+      "alignment": "audio-alignment/sentences/yarn.thread-for-knitting.json"
+    },
+    "zeppelin.rigid-airship": {
+      "text": "The silver zeppelin floats above the town.",
+      "sha256": "58107468efee0c1ef5e5001186457ced1f1cbc0483718c7c68154784fdf86602",
+      "alignment": "audio-alignment/sentences/zeppelin.rigid-airship.json"
+    },
+    "zoom.move-very-fast": {
+      "text": "The toy car zooms down the ramp.",
+      "sha256": "3e027ba1b35ea294d7000d4a50d8f87053293ac7f2e1507fb95d9408e3d0a1bd",
+      "alignment": "audio-alignment/sentences/zoom.move-very-fast.json"
+    }
+  }
+}
