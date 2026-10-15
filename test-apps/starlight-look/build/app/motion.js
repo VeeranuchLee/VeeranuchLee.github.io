@@ -1,6 +1,7 @@
 (function(){
 "use strict";
 var activeSequence=null;
+var ALLOW_PAINTED_IDLE_LOOPS=false;
 function calm(){return !window.Starlight||window.Starlight.calm}
 function frameCycle(img,frames,ms){
   var index=0,timer=0,manualPause=false,destroyed=false;
@@ -14,6 +15,10 @@ function frameCycle(img,frames,ms){
   if(window.Starlight)window.Starlight.onCalm(sync);
   show(0);sync();
   return {pause:function(v){manualPause=v!==false;sync()},reset:function(){show(0);sync()},destroy:function(){destroyed=true;stop();document.removeEventListener("visibilitychange",visibility)}};
+}
+function paintedCycle(img,frames,ms){
+  if(!ALLOW_PAINTED_IDLE_LOOPS){img.src=frames[0];return {pause:function(){},reset:function(){img.src=frames[0]},destroy:function(){}}}
+  return frameCycle(img,frames,ms);
 }
 function sequence(steps,reduced){
   if(activeSequence)activeSequence.cancel();
@@ -40,5 +45,5 @@ function glints(root,points){
   document.addEventListener("visibilitychange",sync);if(window.Starlight)window.Starlight.onCalm(sync);sync();
   return {destroy:function(){document.removeEventListener("visibilitychange",sync);nodes.forEach(function(n){n.remove()})}};
 }
-window.StarlightMotion={frameCycle:frameCycle,sequence:sequence,glints:glints,cancel:function(){if(activeSequence)activeSequence.cancel()}};
+window.StarlightMotion={frameCycle:frameCycle,paintedCycle:paintedCycle,sequence:sequence,glints:glints,cancel:function(){if(activeSequence)activeSequence.cancel()},paintedIdleLoopsEnabled:ALLOW_PAINTED_IDLE_LOOPS};
 })();
