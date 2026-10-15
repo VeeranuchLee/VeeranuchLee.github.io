@@ -6,7 +6,7 @@
   "model": "eleven_multilingual_v2",
   "format": "m4a",
   "encoding": "AAC, mono, 64 kbps, via afconvert -- identical to audio/words/",
-  "status": "held candidate audio for the staging-only Word Book Coming Next 285 review; not shipped by sentence-audio.js",
+  "status": "held candidate audio for the staging-only Word Book Coming Next 285 review; not shipped by sentence-audio.js. Six clips were replaced on 2026-10-15 from the owner review batch 1/2 eleven_v4 takes (minotaur, hemisphere, guilty, jaguar, laboratory, maracas); each replaced entry records its chosen take, master and previous clip under \"replaced\".",
   "source_manifest": "coordination/drafts/word-book-coming-next-200/sentence-render-manifest.json",
   "clips": {
     "Atlas.greek-mythology": {
@@ -585,9 +585,21 @@
       "alignment": "audio-alignment/sentences/guardian.protector.json"
     },
     "guilty.feeling-responsible": {
-      "text": "Nina feels guilty after hiding the broken cup.",
-      "sha256": "47b7d8872f674e05280bd76fcd9630be610a99359c3f918216a1eed0fb014da9",
-      "alignment": "audio-alignment/sentences/guilty.feeling-responsible.json"
+      "text": "Asha feels guilty after hiding the broken cup.",
+      "sha256": "04072f1ddb8d923c43cccc4163a02cce87ff12d17895c0d702be6984a247b5a6",
+      "alignment": "audio-alignment/word-candidates/guilty.feeling-responsible.sentence.owner-batch02-take1.json",
+      "model": "eleven_v4",
+      "replaced": {
+        "date": "2026-10-15",
+        "owner_batch": 2,
+        "take": "guilty.feeling-responsible.sentence.owner-batch02-take1",
+        "master": "audio-source/word-candidates/guilty.feeling-responsible.sentence.owner-batch02-take1.mp3",
+        "master_sha256": "74d38e48c60cf29325ee7a945cfacb9e3cca99d6b45ff2d9b694bee05a2b3764",
+        "previous_sha256": "47b7d8872f674e05280bd76fcd9630be610a99359c3f918216a1eed0fb014da9",
+        "previous_alignment": "audio-alignment/sentences/guilty.feeling-responsible.json",
+        "why": "Owner batch 2: replace overused Nina with Asha; new text, new take.",
+        "audio_identity": "held m4a decoded against every take; the chosen take matches at aligned MAD ~1e2, all others >=1.5e3"
+      }
     },
     "gulp.swallow-quickly": {
       "text": "Ben gulps his water after the race.",
@@ -610,9 +622,21 @@
       "alignment": "audio-alignment/sentences/harmonica.mouth-organ.json"
     },
     "hemisphere.half-earth": {
-      "text": "Thailand lies in the Northern Hemisphere.",
-      "sha256": "9fe0840ea578f1065d7cbef4a9267cd34c7575c25a42b7db7a8ced324f1fabe2",
-      "alignment": "audio-alignment/sentences/hemisphere.half-earth.json"
+      "text": "The equator divides Earth into two hemispheres.",
+      "sha256": "c435f4994cceaa7db20bf6b9c857d8b0cffdbaa4569f51d90214d0653d6736fb",
+      "alignment": "audio-alignment/word-candidates/hemisphere.half-earth.sentence.owner-batch01-take1.json",
+      "model": "eleven_v4",
+      "replaced": {
+        "date": "2026-10-15",
+        "owner_batch": 1,
+        "take": "hemisphere.half-earth.sentence.owner-batch01-take1",
+        "master": "audio-source/word-candidates/hemisphere.half-earth.sentence.owner-batch01-take1.mp3",
+        "master_sha256": "9d6e6cfba3de2337739c55c3d084098c1c21980952e1e99a74f62a52d94fb11b",
+        "previous_sha256": "9fe0840ea578f1065d7cbef4a9267cd34c7575c25a42b7db7a8ced324f1fabe2",
+        "previous_alignment": "audio-alignment/sentences/hemisphere.half-earth.json",
+        "why": "Owner batch 1: old Thailand sentence could not be drawn truthfully; new equator sentence, new take.",
+        "audio_identity": "held m4a decoded against every take; the chosen take matches at aligned MAD ~1e2, all others >=1.5e3"
+      }
     },
     "herbs.flavouring-plants": {
       "text": "Fresh herbs add flavour to the soup.",
@@ -675,9 +699,21 @@
       "alignment": "audio-alignment/sentences/intricate.many-small-parts.json"
     },
     "jaguar.spotted-big-cat": {
-      "text": "The jaguar rests on a wide tree branch.",
-      "sha256": "b57da2dea3786eb8bb423e43d66ba3e4118bf525354c9edbc97cd61c17242834",
-      "alignment": "audio-alignment/sentences/jaguar.spotted-big-cat.json"
+      "text": "The jaguar swims across the river.",
+      "sha256": "a2880dbae2ff84b4bb05654db28761e9dc7a9ed8e381303452f9c5489dccfc02",
+      "alignment": "audio-alignment/word-candidates/jaguar.spotted-big-cat.sentence.owner-batch02-take1.json",
+      "model": "eleven_v4",
+      "replaced": {
+        "date": "2026-10-15",
+        "owner_batch": 2,
+        "take": "jaguar.spotted-big-cat.sentence.owner-batch02-take1",
+        "master": "audio-source/word-candidates/jaguar.spotted-big-cat.sentence.owner-batch02-take1.mp3",
+        "master_sha256": "4eaf140ce4e7bea7d79d2de4c93314aca1edf5d1fdd5357533e26c0c0766a6b6",
+        "previous_sha256": "b57da2dea3786eb8bb423e43d66ba3e4118bf525354c9edbc97cd61c17242834",
+        "previous_alignment": "audio-alignment/sentences/jaguar.spotted-big-cat.json",
+        "why": "Owner batch 2: distinguish jaguar from the leopard sentence; new text, new take.",
+        "audio_identity": "held m4a decoded against every take; the chosen take matches at aligned MAD ~1e2, all others >=1.5e3"
+      }
     },
     "jealous.wanting-what-another-has": {
       "text": "Sam feels jealous of his friend's new kite.",
@@ -706,8 +742,20 @@
     },
     "laboratory.science-workplace": {
       "text": "The scientists tested the water in the laboratory.",
-      "sha256": "16cbb955aa83e78f297f03b17e9774ce9bd3c9010c48ed1f88bc70fbb21dbca8",
-      "alignment": "audio-alignment/sentences/laboratory.science-workplace.json"
+      "sha256": "bcdb48012a4d651ed23e372f817c122838e7220b9a8177d0e4b3456b1b157547",
+      "alignment": "audio-alignment/word-candidates/laboratory.science-workplace.sentence.owner-batch02-take1.json",
+      "model": "eleven_v4",
+      "replaced": {
+        "date": "2026-10-15",
+        "owner_batch": 2,
+        "take": "laboratory.science-workplace.sentence.owner-batch02-take1",
+        "master": "audio-source/word-candidates/laboratory.science-workplace.sentence.owner-batch02-take1.mp3",
+        "master_sha256": "fda7b9c2833189783cc2dc9a462ffd3cc682f215e2d46b37cdc7fa7bd2e12275",
+        "previous_sha256": "16cbb955aa83e78f297f03b17e9774ce9bd3c9010c48ed1f88bc70fbb21dbca8",
+        "previous_alignment": "audio-alignment/sentences/laboratory.science-workplace.json",
+        "why": "Owner batch 2: improve the laboratory pronunciation; same text, new take.",
+        "audio_identity": "held m4a decoded against every take; the chosen take matches at aligned MAD ~1e2, all others >=1.5e3"
+      }
     },
     "labyrinth.complicated-maze": {
       "text": "The explorers followed a thread through the labyrinth.",
@@ -785,9 +833,21 @@
       "alignment": "audio-alignment/sentences/manuscript.handwritten-text.json"
     },
     "maracas.shaking-instruments": {
-      "text": "The parrot shakes two bright maracas.",
-      "sha256": "0aebc825dbb1590d8bea9f85ba158a8c3444fe7879d426e8654a3d8732a90b1a",
-      "alignment": "audio-alignment/sentences/maracas.shaking-instruments.json"
+      "text": "Omar shakes two bright maracas.",
+      "sha256": "972acd1fdb296c1b6564dc4fead48b37d3492bdf7170c0b2e01be462d9625d06",
+      "alignment": "audio-alignment/word-candidates/maracas.shaken-instrument.sentence.owner-batch02-take1.json",
+      "model": "eleven_v4",
+      "replaced": {
+        "date": "2026-10-15",
+        "owner_batch": 2,
+        "take": "maracas.shaken-instrument.sentence.owner-batch02-take1",
+        "master": "audio-source/word-candidates/maracas.shaken-instrument.sentence.owner-batch02-take1.mp3",
+        "master_sha256": "2918665b824fca2c24b43e8514d9173357c72e0538a0f9b9be64002ea5c6eea5",
+        "previous_sha256": "0aebc825dbb1590d8bea9f85ba158a8c3444fe7879d426e8654a3d8732a90b1a",
+        "previous_alignment": "audio-alignment/sentences/maracas.shaking-instruments.json",
+        "why": "Owner batch 2: a parrot cannot shake maracas; Omar sentence, new take.",
+        "audio_identity": "held m4a decoded against every take; the chosen take matches at aligned MAD ~1e2, all others >=1.5e3"
+      }
     },
     "mechanism.working-parts": {
       "text": "The toy's wheel mechanism makes its wings flap.",
@@ -811,8 +871,20 @@
     },
     "minotaur.greek-mythology": {
       "text": "The minotaur lived inside the labyrinth.",
-      "sha256": "f328214a4f7f4e1b02f26901a876e421eaa19c32428cc2da976acb1053cc7ae0",
-      "alignment": "audio-alignment/sentences/minotaur.greek-mythology.json"
+      "sha256": "2a21d76f54781f8ea44ccf215c20a26ad84d7542b91889572f53bd22a97ffe26",
+      "alignment": "audio-alignment/word-candidates/minotaur.greek-mythology.sentence.owner-batch01-take2.json",
+      "model": "eleven_v4",
+      "replaced": {
+        "date": "2026-10-15",
+        "owner_batch": 1,
+        "take": "minotaur.greek-mythology.sentence.owner-batch01-take2",
+        "master": "audio-source/word-candidates/minotaur.greek-mythology.sentence.owner-batch01-take2.mp3",
+        "master_sha256": "85456d865140f5f4b93e1e5b7e5e080bab2408342bf095c35da29cdfbd1bc8d1",
+        "previous_sha256": "f328214a4f7f4e1b02f26901a876e421eaa19c32428cc2da976acb1053cc7ae0",
+        "previous_alignment": "audio-alignment/sentences/minotaur.greek-mythology.json",
+        "why": "Owner batch 1: word and sentence must say the same MY-nuh-tor; v4 plain take selected after ASR passed all three.",
+        "audio_identity": "held m4a decoded against every take; the chosen take matches at aligned MAD ~1e2, all others >=1.5e3"
+      }
     },
     "miserable.very-unhappy": {
       "text": "The wet puppy looks miserable in the rain.",

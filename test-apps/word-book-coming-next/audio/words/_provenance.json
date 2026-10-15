@@ -1,7 +1,7 @@
 {
   "word": "Coming Next 285 held word clips",
   "generated": "2026-10-15",
-  "renders": "controller, render-word-candidates.py, spec word-book/tools/word-candidates-2026-10-14-coming-next/spec.json; run ledger word-book/audio-alignment/sentences/_runs.json (eleven_v4, Alice Xb7hH8MSUJpSbSDYk0k2, one Plain take per sense, owner 2026-10-14)",
+  "renders": "controller, render-word-candidates.py, spec word-book/tools/word-candidates-2026-10-14-coming-next/spec.json; run ledger word-book/audio-alignment/sentences/_runs.json (eleven_v4, Alice Xb7hH8MSUJpSbSDYk0k2, one Plain take per sense, owner 2026-10-14). Three word clips (dynasty, laboratory, fig) were replaced on 2026-10-15 from the owner review batch 1/2 takes named in the spec. fig was replaced AGAIN on 2026-10-15 evening: every eleven_v4 take transcribed as Figure (batch-2 takes 1-3 plus three voicefix variants), so the held clip is the eleven_flash_v2_5 take that passed local ASR — a noted one-off exception to the batch's v4 default; fig-voicefix-asr-report.md is the gate record.",
   "encode": "afconvert -f m4af -d aac -c 1 -b 64000 -- the word-book/audio/words bank settings (mono AAC 64 kbps, 44.1 kHz); straight transcode, no trim, no level change; afconvert only, never PyAV/ffmpeg",
   "ships": "held candidate bank copied to staging only; NOT added to production word-book/audio/words",
   "count": 285,
@@ -881,10 +881,10 @@
       "text": "dynasty.",
       "model": "eleven_v4",
       "voice": "Alice - Clear, Engaging, Educational (British)",
-      "master": "word-book/audio-source/word-candidates/dynasty.ruling-family.v1014-plain.mp3",
-      "master_sha256": "8514613912012076da68c8bd88ff47b3c85960a18a89741f443ed4601b334dad",
+      "master": "word-book/audio-source/word-candidates/dynasty.ruling-family.word.owner-batch01-take1.mp3",
+      "master_sha256": "4d1c73d9a4fab06bc40e54d7954a3b3461b2918e95ce73e567cbddb2c8650c8f",
       "m4a": "audio/words/dynasty.ruling-family.m4a",
-      "m4a_sha256": "30e7b025eaaf7d854583ddd66f469d6391b65950d4237ce4dc8304c9ff8cccaa"
+      "m4a_sha256": "f89fd7fe560d3087d2bb95ba3d1573b158c2b8e9e7a504065d3da5f8f236f25e"
     },
     {
       "sense": "eager.wanting-to-begin",
@@ -1110,12 +1110,12 @@
       "sense": "fig.fruit",
       "word": "fig",
       "text": "fig.",
-      "model": "eleven_v4",
+      "model": "eleven_flash_v2_5",
       "voice": "Alice - Clear, Engaging, Educational (British)",
-      "master": "word-book/audio-source/word-candidates/fig.fruit.v4-plain.mp3",
-      "master_sha256": "ad9585d7fe2fd6ab7e9518b06f7838a51012d252a55dba2ca929e4c3934e8270",
+      "master": "word-book/audio-source/word-candidates/fig.fruit.word.voicefix-flash25.mp3",
+      "master_sha256": "b269099fad32088fc6236ce8099f6bd1485aa78d40e86444fc3c6560babd0b34",
       "m4a": "audio/words/fig.fruit.m4a",
-      "m4a_sha256": "e66da15a35129fd05bbbbb4f6365e14c8074a6b1423cc4463d21e4ad003e098e"
+      "m4a_sha256": "acf0b9d988e544d02c14827efe2d6a1859b0f3f9578914a0aa64ed522407416c"
     },
     {
       "sense": "fireplace.indoor-fire-place",
@@ -1541,10 +1541,10 @@
       "text": "laboratory.",
       "model": "eleven_v4",
       "voice": "Alice - Clear, Engaging, Educational (British)",
-      "master": "word-book/audio-source/word-candidates/laboratory.science-workplace.v1014-plain.mp3",
-      "master_sha256": "495e93f0116d322f02cf39d3ca4bfe519e1b1245c9b71fadbdb983d1c210ab18",
+      "master": "word-book/audio-source/word-candidates/laboratory.science-workplace.word.owner-batch02-take2.mp3",
+      "master_sha256": "f84ceb53f168ac59822323763f148a8f5f103867662951f5c0e5af4e5b87546c",
       "m4a": "audio/words/laboratory.science-workplace.m4a",
-      "m4a_sha256": "bc3b66998120c8fd3be51dd77025687b2a9ccebfa582d4979458fc612df744cc"
+      "m4a_sha256": "575ea314943929604b63347ec911fe077a6004f041100282200c97bb5cde3bf4"
     },
     {
       "sense": "labyrinth.complicated-maze",
