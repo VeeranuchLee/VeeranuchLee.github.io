@@ -1,0 +1,5122 @@
+{
+  "$schema": "Word Book ordered poster definitions, 2026-10-11",
+  "$note": "Sense IDs are deliberate: posters must never pick the wrong homograph. Production filters every item through data/letters.json and hides a poster when fewer than min_released items remain. Test Hub staging rewrites letters.json to all letters.",
+  "live": ["solar-system", "months", "weekdays", "seasons", "rainbow", "day", "story-order", "feelings", "body", "rooms-house", "weather"],
+  "$note_live": "Owner 2026-10-15 approved these posters for the public Word Book; the Test Hub copy shows only the posters not listed here.",
+  "held_rows": [
+    ["eighth", "eighth.order-eight", "ที่แปด; อยู่ในลำดับที่แปด", "The eighth runner wears a green shirt.", "assets/words/eighth.order-eight.webp", ["numbers-amounts"], ["numbers-compare-order"]],
+    ["indigo", "indigo.colour", "สีคราม; สีน้ำเงินอมม่วงเข้มที่อยู่ระหว่างสีน้ำเงินกับสีม่วงในรุ้ง", "Indigo forms a deep blue-violet band in the rainbow.", "assets/words/indigo.colour.webp", ["colours"], []],
+    ["ninth", "ninth.order-nine", "ที่เก้า; อยู่ในลำดับที่เก้า", "The ninth duck in the queue carries a leaf.", "assets/words/ninth.order-nine.webp", ["numbers-amounts"], ["numbers-compare-order"]],
+    ["violet", "violet.colour", "สีม่วง; สีน้ำเงินอมม่วงที่อยู่ปลายแถบสีของรุ้ง", "Violet flowers fill the little garden pot.", "assets/words/violet.colour.webp", ["colours"], []]
+  ],
+  "posters": [
+    {
+      "id": "numbers-0-10",
+      "title": "Numbers 0–10",
+      "group": "Numbers",
+      "layout": "number-line",
+      "plate": "assets/posters/numbers-0-10.webp",
+      "pointer": false,
+      "labels": {
+        "zero.number": [
+          24.0,
+          39.5
+        ],
+        "one.number": [
+          35.0,
+          39.5
+        ],
+        "two.number": [
+          46.0,
+          39.5
+        ],
+        "three.number": [
+          57.0,
+          39.5
+        ],
+        "four.number": [
+          68.0,
+          39.5
+        ],
+        "five.number": [
+          79.0,
+          39.5
+        ],
+        "six.number": [
+          90.0,
+          39.5
+        ],
+        "seven.number": [
+          30.0,
+          81.5
+        ],
+        "eight.number": [
+          43.0,
+          81.5
+        ],
+        "nine.number": [
+          56.0,
+          81.5
+        ],
+        "ten.number": [
+          71.0,
+          81.5
+        ]
+      },
+      "item_boxes": {
+        "zero.number": [
+          19.0,
+          25,
+          10,
+          19.5
+        ],
+        "one.number": [
+          30.0,
+          24.5,
+          10,
+          20.0
+        ],
+        "two.number": [
+          41.0,
+          24.5,
+          10,
+          20.0
+        ],
+        "three.number": [
+          52.0,
+          24.5,
+          10,
+          20.0
+        ],
+        "four.number": [
+          63.0,
+          24,
+          10,
+          20.5
+        ],
+        "five.number": [
+          74.0,
+          23.5,
+          10,
+          21.0
+        ],
+        "six.number": [
+          85.0,
+          23,
+          10,
+          21.5
+        ],
+        "seven.number": [
+          25.0,
+          62.5,
+          10,
+          24.0
+        ],
+        "eight.number": [
+          38.0,
+          64,
+          10,
+          22.5
+        ],
+        "nine.number": [
+          51.0,
+          65,
+          10,
+          21.5
+        ],
+        "ten.number": [
+          66.0,
+          66,
+          10,
+          20.5
+        ]
+      },
+      "digit_boxes": {
+        "zero.number": [
+          21.5,
+          25,
+          5,
+          8
+        ],
+        "one.number": [
+          32.5,
+          24.5,
+          5,
+          8
+        ],
+        "two.number": [
+          43.5,
+          24.5,
+          5,
+          8
+        ],
+        "three.number": [
+          54.5,
+          24.5,
+          5,
+          8
+        ],
+        "four.number": [
+          65.5,
+          24,
+          5,
+          8
+        ],
+        "five.number": [
+          76.5,
+          23.5,
+          5,
+          8
+        ],
+        "six.number": [
+          87.5,
+          23,
+          5,
+          8
+        ],
+        "seven.number": [
+          27.5,
+          62.5,
+          5,
+          9
+        ],
+        "eight.number": [
+          40.5,
+          64,
+          5,
+          9
+        ],
+        "nine.number": [
+          53.5,
+          65,
+          5,
+          9
+        ],
+        "ten.number": [
+          67.5,
+          66,
+          7,
+          9
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "zero.number",
+        "one.number",
+        "two.number",
+        "three.number",
+        "four.number",
+        "five.number",
+        "six.number",
+        "seven.number",
+        "eight.number",
+        "nine.number",
+        "ten.number"
+      ]
+    },
+    {
+      "id": "numbers-11-20",
+      "title": "Numbers 11–20",
+      "group": "Numbers",
+      "layout": "number-line",
+      "plate": "assets/posters/numbers-11-20.webp",
+      "pointer": false,
+      "labels": {
+        "eleven.number": [
+          32.5,
+          43.5
+        ],
+        "twelve.number": [
+          50.5,
+          43.5
+        ],
+        "thirteen.number": [
+          67.5,
+          43.5
+        ],
+        "fourteen.number": [
+          12.5,
+          82.5
+        ],
+        "fifteen.number": [
+          25.5,
+          82.5
+        ],
+        "sixteen.number": [
+          38.5,
+          82.5
+        ],
+        "seventeen.number": [
+          51.0,
+          82.5
+        ],
+        "eighteen.number": [
+          63.5,
+          82.5
+        ],
+        "nineteen.number": [
+          76.0,
+          82.5
+        ],
+        "twenty.number": [
+          90.5,
+          82.5
+        ]
+      },
+      "item_boxes": {
+        "eleven.number": [
+          27.5,
+          26,
+          10,
+          22.5
+        ],
+        "twelve.number": [
+          45.5,
+          26,
+          10,
+          22.5
+        ],
+        "thirteen.number": [
+          62.5,
+          26,
+          10,
+          22.5
+        ],
+        "fourteen.number": [
+          7.5,
+          63,
+          10,
+          24.5
+        ],
+        "fifteen.number": [
+          20.5,
+          65,
+          10,
+          22.5
+        ],
+        "sixteen.number": [
+          33.5,
+          66,
+          10,
+          21.5
+        ],
+        "seventeen.number": [
+          46.0,
+          66,
+          10,
+          21.5
+        ],
+        "eighteen.number": [
+          58.5,
+          66,
+          10,
+          21.5
+        ],
+        "nineteen.number": [
+          71.0,
+          65,
+          10,
+          22.5
+        ],
+        "twenty.number": [
+          85.5,
+          63,
+          10,
+          24.5
+        ]
+      },
+      "digit_boxes": {
+        "eleven.number": [
+          29,
+          26,
+          7,
+          9
+        ],
+        "twelve.number": [
+          47,
+          26,
+          7,
+          9
+        ],
+        "thirteen.number": [
+          64,
+          26,
+          7,
+          9
+        ],
+        "fourteen.number": [
+          9,
+          63,
+          7,
+          9
+        ],
+        "fifteen.number": [
+          22,
+          65,
+          7,
+          9
+        ],
+        "sixteen.number": [
+          35,
+          66,
+          7,
+          9
+        ],
+        "seventeen.number": [
+          47.5,
+          66,
+          7,
+          9
+        ],
+        "eighteen.number": [
+          60,
+          66,
+          7,
+          9
+        ],
+        "nineteen.number": [
+          72.5,
+          65,
+          7,
+          9
+        ],
+        "twenty.number": [
+          87,
+          63,
+          7,
+          9
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "eleven.number",
+        "twelve.number",
+        "thirteen.number",
+        "fourteen.number",
+        "fifteen.number",
+        "sixteen.number",
+        "seventeen.number",
+        "eighteen.number",
+        "nineteen.number",
+        "twenty.number"
+      ]
+    },
+    {
+      "id": "ordinals",
+      "title": "First to tenth",
+      "layout": "race",
+      "plate": "assets/posters/ordinals.webp",
+      "pointer": false,
+      "labels": {
+        "first.order-one": [
+          93,
+          30
+        ],
+        "second.order-two": [
+          66.5,
+          33
+        ],
+        "third.order-three": [
+          54,
+          30
+        ],
+        "fourth.order-four": [
+          44,
+          28
+        ],
+        "fifth.order-five": [
+          36,
+          15
+        ],
+        "sixth.order-six": [
+          29,
+          25
+        ],
+        "seventh.order-seven": [
+          22,
+          13
+        ],
+        "eighth.order-eight": [
+          15,
+          23
+        ],
+        "ninth.order-nine": [
+          9,
+          9.5
+        ],
+        "tenth.order-ten": [
+          5.5,
+          19
+        ]
+      },
+      "item_boxes": {
+        "first.order-one": [
+          88,
+          25,
+          10,
+          40
+        ],
+        "second.order-two": [
+          61,
+          28,
+          11,
+          30
+        ],
+        "third.order-three": [
+          49,
+          25,
+          10,
+          30
+        ],
+        "fourth.order-four": [
+          39,
+          23,
+          10,
+          28
+        ],
+        "fifth.order-five": [
+          31,
+          10,
+          10,
+          38
+        ],
+        "sixth.order-six": [
+          24,
+          20,
+          9,
+          26
+        ],
+        "seventh.order-seven": [
+          16,
+          8,
+          11,
+          38
+        ],
+        "eighth.order-eight": [
+          10,
+          18,
+          9,
+          24
+        ],
+        "ninth.order-nine": [
+          4,
+          4,
+          9,
+          36
+        ],
+        "tenth.order-ten": [
+          0,
+          14,
+          9,
+          22
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "first.order-one",
+        "second.order-two",
+        "third.order-three",
+        "fourth.order-four",
+        "fifth.order-five",
+        "sixth.order-six",
+        "seventh.order-seven",
+        "eighth.order-eight",
+        "ninth.order-nine",
+        "tenth.order-ten"
+      ]
+    },
+    {
+      "id": "solar-system",
+      "title": "From the Sun",
+      "layout": "solar",
+      "plate": "assets/posters/solar-system.webp",
+      "pointer": false,
+      "labels": {
+        "sun.our-star": [
+          6,
+          50
+        ],
+        "mercury.planet": [
+          15,
+          41
+        ],
+        "venus.planet": [
+          21,
+          59.5
+        ],
+        "earth.our-planet": [
+          30,
+          38.5
+        ],
+        "mars.planet": [
+          39,
+          59
+        ],
+        "jupiter.planet": [
+          52.4,
+          33
+        ],
+        "saturn.planet": [
+          69.7,
+          62.5
+        ],
+        "uranus.planet": [
+          84,
+          38.5
+        ],
+        "neptune.planet": [
+          93.5,
+          61
+        ]
+      },
+      "item_boxes": {
+        "sun.our-star": [
+          0,
+          12,
+          11,
+          64
+        ],
+        "mercury.planet": [
+          9,
+          36,
+          12,
+          16
+        ],
+        "venus.planet": [
+          16,
+          45,
+          10,
+          20
+        ],
+        "earth.our-planet": [
+          24,
+          33,
+          12,
+          23
+        ],
+        "mars.planet": [
+          34,
+          45,
+          10,
+          20
+        ],
+        "jupiter.planet": [
+          44,
+          28,
+          17,
+          33
+        ],
+        "saturn.planet": [
+          59,
+          40,
+          20,
+          28
+        ],
+        "uranus.planet": [
+          78,
+          33,
+          12,
+          23
+        ],
+        "neptune.planet": [
+          88,
+          44,
+          12,
+          23
+        ]
+      },
+      "min_released": 4,
+      "senses": [
+        "sun.our-star",
+        "mercury.planet",
+        "venus.planet",
+        "earth.our-planet",
+        "mars.planet",
+        "jupiter.planet",
+        "saturn.planet",
+        "uranus.planet",
+        "neptune.planet"
+      ]
+    },
+    {
+      "id": "months",
+      "title": "Months of the year",
+      "layout": "year-wheel",
+      "plate": "assets/posters/months.webp",
+      "pointer": false,
+      "labels": {
+        "january.month": [
+          24,
+          15,
+          "down"
+        ],
+        "february.month": [
+          48,
+          13,
+          "down"
+        ],
+        "march.month": [
+          73,
+          16,
+          "down"
+        ],
+        "april.month": [
+          87,
+          31,
+          "left"
+        ],
+        "may.month": [
+          87,
+          51,
+          "left"
+        ],
+        "june.month": [
+          86,
+          72,
+          "left"
+        ],
+        "july.month": [
+          72,
+          87,
+          "up"
+        ],
+        "august.month": [
+          49,
+          88,
+          "up"
+        ],
+        "september.month": [
+          25,
+          87,
+          "up"
+        ],
+        "october.month": [
+          12,
+          70,
+          "right"
+        ],
+        "november.month": [
+          12,
+          49,
+          "right"
+        ],
+        "december.month": [
+          12,
+          29,
+          "right"
+        ]
+      },
+      "item_boxes": {
+        "january.month": [
+          16,
+          7,
+          16,
+          16
+        ],
+        "february.month": [
+          40,
+          5,
+          16,
+          16
+        ],
+        "march.month": [
+          65,
+          8,
+          16,
+          16
+        ],
+        "april.month": [
+          79,
+          23,
+          16,
+          16
+        ],
+        "may.month": [
+          79,
+          43,
+          16,
+          16
+        ],
+        "june.month": [
+          78,
+          64,
+          16,
+          16
+        ],
+        "july.month": [
+          64,
+          79,
+          16,
+          16
+        ],
+        "august.month": [
+          41,
+          80,
+          16,
+          16
+        ],
+        "september.month": [
+          17,
+          79,
+          16,
+          16
+        ],
+        "october.month": [
+          4,
+          62,
+          16,
+          16
+        ],
+        "november.month": [
+          4,
+          41,
+          16,
+          16
+        ],
+        "december.month": [
+          4,
+          21,
+          16,
+          16
+        ]
+      },
+      "min_released": 4,
+      "senses": [
+        "january.month",
+        "february.month",
+        "march.month",
+        "april.month",
+        "may.month",
+        "june.month",
+        "july.month",
+        "august.month",
+        "september.month",
+        "october.month",
+        "november.month",
+        "december.month"
+      ]
+    },
+    {
+      "id": "weekdays",
+      "title": "Days of the week",
+      "layout": "week-strip",
+      "plate": "assets/posters/weekdays.webp",
+      "pointer": false,
+      "label_outlines": {
+        "monday.weekday": "#f2c200",
+        "tuesday.weekday": "#ec6fa8",
+        "wednesday.weekday": "#2e9e4f",
+        "thursday.weekday": "#f57c00",
+        "friday.weekday": "#29a8e0",
+        "saturday.weekday": "#8e44ad",
+        "sunday.weekday": "#e53935"
+      },
+      "labels": {
+        "monday.weekday": [
+          8.1,
+          60
+        ],
+        "tuesday.weekday": [
+          20.4,
+          61
+        ],
+        "wednesday.weekday": [
+          34,
+          71
+        ],
+        "thursday.weekday": [
+          48.3,
+          70.5
+        ],
+        "friday.weekday": [
+          64.3,
+          70.5
+        ],
+        "saturday.weekday": [
+          79.1,
+          68
+        ],
+        "sunday.weekday": [
+          92,
+          65.5
+        ]
+      },
+      "item_boxes": {
+        "monday.weekday": [
+          1,
+          44,
+          14,
+          19
+        ],
+        "tuesday.weekday": [
+          14,
+          50,
+          13,
+          17
+        ],
+        "wednesday.weekday": [
+          27,
+          52,
+          14,
+          23
+        ],
+        "thursday.weekday": [
+          41,
+          51,
+          14,
+          23
+        ],
+        "friday.weekday": [
+          57,
+          53,
+          14,
+          21
+        ],
+        "saturday.weekday": [
+          72,
+          48,
+          14,
+          23
+        ],
+        "sunday.weekday": [
+          85,
+          47,
+          14,
+          22
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "monday.weekday",
+        "tuesday.weekday",
+        "wednesday.weekday",
+        "thursday.weekday",
+        "friday.weekday",
+        "saturday.weekday",
+        "sunday.weekday"
+      ]
+    },
+    {
+      "id": "seasons",
+      "title": "Four seasons",
+      "layout": "season-cycle",
+      "plate": "assets/posters/seasons.webp",
+      "pointer": false,
+      "labels": {
+        "spring.season": [
+          20,
+          38
+        ],
+        "summer.season": [
+          80,
+          38
+        ],
+        "autumn.season": [
+          80,
+          72
+        ],
+        "winter.season": [
+          20,
+          72
+        ]
+      },
+      "item_boxes": {
+        "spring.season": [
+          2,
+          3,
+          46,
+          44
+        ],
+        "summer.season": [
+          52,
+          3,
+          46,
+          44
+        ],
+        "autumn.season": [
+          52,
+          53,
+          46,
+          44
+        ],
+        "winter.season": [
+          2,
+          53,
+          46,
+          44
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "spring.season",
+        "summer.season",
+        "autumn.season",
+        "winter.season"
+      ]
+    },
+    {
+      "id": "rainbow",
+      "title": "Rainbow order",
+      "layout": "rainbow",
+      "plate": "assets/posters/rainbow.webp",
+      "pointer": false,
+      "label_outlines": {
+        "red.colour": "#e53935",
+        "orange.colour": "#fb8c00",
+        "yellow.colour": "#f2c200",
+        "green.colour": "#43a047",
+        "blue.colour": "#1e88e5",
+        "indigo.colour": "#3f3dbd",
+        "violet.colour": "#8e44ad"
+      },
+      "labels": {
+        "red.colour": [
+          14.6,
+          30.9
+        ],
+        "orange.colour": [
+          27.8,
+          20.8
+        ],
+        "yellow.colour": [
+          41.6,
+          17.3
+        ],
+        "green.colour": [
+          54.8,
+          20.1
+        ],
+        "blue.colour": [
+          65.0,
+          27.7
+        ],
+        "indigo.colour": [
+          72.7,
+          37.9
+        ],
+        "violet.colour": [
+          78.4,
+          50.2
+        ]
+      },
+      "item_boxes": {
+        "red.colour": [
+          8.6,
+          25.9,
+          12,
+          10
+        ],
+        "orange.colour": [
+          21.8,
+          15.8,
+          12,
+          10
+        ],
+        "yellow.colour": [
+          35.6,
+          12.3,
+          12,
+          10
+        ],
+        "green.colour": [
+          48.8,
+          15.1,
+          12,
+          10
+        ],
+        "blue.colour": [
+          59.0,
+          22.7,
+          12,
+          10
+        ],
+        "indigo.colour": [
+          66.7,
+          32.9,
+          12,
+          10
+        ],
+        "violet.colour": [
+          72.4,
+          45.2,
+          12,
+          10
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "red.colour",
+        "orange.colour",
+        "yellow.colour",
+        "green.colour",
+        "blue.colour",
+        "indigo.colour",
+        "violet.colour"
+      ]
+    },
+    {
+      "id": "day",
+      "title": "Through the day",
+      "layout": "day-sky",
+      "plate": "assets/posters/day.webp",
+      "pointer": false,
+      "labels": {
+        "morning.early-day": [
+          13,
+          36
+        ],
+        "afternoon.after-noon": [
+          38,
+          36
+        ],
+        "evening.late-day": [
+          63,
+          36
+        ],
+        "night.dark-part-of-day": [
+          88,
+          36
+        ]
+      },
+      "item_boxes": {
+        "morning.early-day": [
+          2,
+          4,
+          22,
+          50
+        ],
+        "afternoon.after-noon": [
+          27,
+          4,
+          22,
+          50
+        ],
+        "evening.late-day": [
+          52,
+          4,
+          22,
+          50
+        ],
+        "night.dark-part-of-day": [
+          77,
+          4,
+          21,
+          50
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "morning.early-day",
+        "afternoon.after-noon",
+        "evening.late-day",
+        "night.dark-part-of-day"
+      ]
+    },
+    {
+      "id": "meals",
+      "title": "Meals through the day",
+      "layout": "meal-table",
+      "plate": "assets/posters/meals.webp",
+      "pointer": true,
+      "labels": {
+        "breakfast.morning-meal": [
+          16.5,
+          58,
+          16.5,
+          66
+        ],
+        "lunch.midday-meal": [
+          50,
+          54,
+          50,
+          66
+        ],
+        "dinner.main-evening-meal": [
+          83.5,
+          58,
+          83.5,
+          66
+        ]
+      },
+      "item_boxes": {
+        "breakfast.morning-meal": [
+          14.5,
+          64,
+          4,
+          4
+        ],
+        "lunch.midday-meal": [
+          48,
+          64,
+          4,
+          4
+        ],
+        "dinner.main-evening-meal": [
+          81.5,
+          64,
+          4,
+          4
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "breakfast.morning-meal",
+        "lunch.midday-meal",
+        "dinner.main-evening-meal"
+      ]
+    },
+    {
+      "id": "time-units",
+      "title": "Small time to big time",
+      "layout": "time-steps",
+      "plate": "assets/posters/time-units.webp",
+      "pointer": true,
+      "labels": {
+        "second.time-unit": [
+          8,
+          57
+        ],
+        "minute.time-unit": [
+          22,
+          48
+        ],
+        "hour.time-unit": [
+          35,
+          39
+        ],
+        "day.twenty-four-hours": [
+          50,
+          29
+        ],
+        "week.seven-days": [
+          63.5,
+          20
+        ],
+        "month.calendar-period": [
+          76.5,
+          11
+        ],
+        "year.twelve-months": [
+          90,
+          31
+        ]
+      },
+      "item_boxes": {
+        "second.time-unit": [
+          3,
+          65,
+          10,
+          17
+        ],
+        "minute.time-unit": [
+          17,
+          57,
+          10,
+          18
+        ],
+        "hour.time-unit": [
+          29,
+          48,
+          12,
+          19
+        ],
+        "day.twenty-four-hours": [
+          43,
+          38,
+          14,
+          21
+        ],
+        "week.seven-days": [
+          57,
+          29,
+          13,
+          20
+        ],
+        "month.calendar-period": [
+          70,
+          20,
+          13,
+          19
+        ],
+        "year.twelve-months": [
+          83,
+          7,
+          14,
+          22
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "second.time-unit",
+        "minute.time-unit",
+        "hour.time-unit",
+        "day.twenty-four-hours",
+        "week.seven-days",
+        "month.calendar-period",
+        "year.twelve-months"
+      ]
+    },
+    {
+      "id": "sizes",
+      "title": "Small to big",
+      "layout": "size-steps",
+      "plate": "assets/posters/sizes.webp",
+      "pointer": true,
+      "labels": {
+        "tiny.very-small": [
+          10,
+          51
+        ],
+        "small.little-size": [
+          26.5,
+          45
+        ],
+        "large.big-size": [
+          49,
+          35
+        ],
+        "huge.very-big": [
+          80.5,
+          19
+        ]
+      },
+      "item_boxes": {
+        "tiny.very-small": [
+          6,
+          61,
+          8,
+          8
+        ],
+        "small.little-size": [
+          20,
+          55,
+          13,
+          12
+        ],
+        "large.big-size": [
+          38,
+          45,
+          22,
+          21
+        ],
+        "huge.very-big": [
+          65,
+          29,
+          31,
+          37
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "tiny.very-small",
+        "small.little-size",
+        "large.big-size",
+        "huge.very-big"
+      ]
+    },
+    {
+      "id": "growing-up",
+      "title": "Growing up",
+      "layout": "growth-path",
+      "plate": "assets/posters/growing-up.webp",
+      "pointer": true,
+      "labels": {
+        "baby.very-young-child": [
+          13.5,
+          84
+        ],
+        "child.young-person": [
+          36.5,
+          84
+        ],
+        "teenager.young-person": [
+          61,
+          84
+        ],
+        "adult.grown-person": [
+          86,
+          84
+        ]
+      },
+      "item_boxes": {
+        "baby.very-young-child": [
+          5,
+          39,
+          17,
+          35
+        ],
+        "child.young-person": [
+          28,
+          23,
+          17,
+          52
+        ],
+        "teenager.young-person": [
+          52,
+          12,
+          18,
+          63
+        ],
+        "adult.grown-person": [
+          77,
+          19,
+          18,
+          56
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "baby.very-young-child",
+        "child.young-person",
+        "teenager.young-person",
+        "adult.grown-person"
+      ]
+    },
+    {
+      "id": "story-order",
+      "title": "A story has an order",
+      "layout": "story-path",
+      "plate": "assets/posters/story-order.webp",
+      "pointer": false,
+      "labels": {
+        "beginning.start": [
+          17,
+          13
+        ],
+        "middle.central-part": [
+          50,
+          13
+        ],
+        "end.finish-an-activity": [
+          83,
+          13
+        ]
+      },
+      "item_boxes": {
+        "beginning.start": [
+          1,
+          2,
+          32,
+          94
+        ],
+        "middle.central-part": [
+          34,
+          2,
+          32,
+          94
+        ],
+        "end.finish-an-activity": [
+          67,
+          2,
+          32,
+          94
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "beginning.start",
+        "middle.central-part",
+        "end.finish-an-activity"
+      ]
+    },
+    {
+      "id": "positions",
+      "title": "Where is it?",
+      "layout": "position-scene",
+      "plate": "assets/posters/position-scene.webp",
+      "pointer": true,
+      "labels": {
+        "on.touching-the-top": [
+          48,
+          23,
+          48,
+          31
+        ],
+        "in.inside": [
+          42,
+          57,
+          49,
+          52
+        ],
+        "under.lower-than": [
+          58,
+          61,
+          50,
+          66
+        ],
+        "behind.at-the-back-of": [
+          12,
+          50,
+          17,
+          48
+        ],
+        "above.higher-than": [
+          43,
+          9,
+          50,
+          15
+        ],
+        "below.lower-than": [
+          57,
+          78,
+          50,
+          85
+        ],
+        "beside.next-to": [
+          91,
+          55,
+          86,
+          64
+        ],
+        "over.above-and-across": [
+          79,
+          8,
+          72,
+          15
+        ],
+        "inside.inner-place": [
+          57,
+          39,
+          50,
+          45
+        ],
+        "outside.outer-place": [
+          91,
+          73,
+          86,
+          64
+        ],
+        "between.in-the-middle-of": [
+          50,
+          93,
+          50,
+          86
+        ]
+      },
+      "item_boxes": {
+        "on.touching-the-top": [
+          53,
+          29,
+          10,
+          10
+        ],
+        "in.inside": [
+          41,
+          48,
+          8,
+          8
+        ],
+        "under.lower-than": [
+          55,
+          60,
+          10,
+          10
+        ],
+        "behind.at-the-back-of": [
+          12,
+          38,
+          10,
+          20
+        ],
+        "above.higher-than": [
+          22,
+          18,
+          10,
+          12
+        ],
+        "below.lower-than": [
+          56,
+          72,
+          10,
+          10
+        ],
+        "beside.next-to": [
+          84,
+          42,
+          10,
+          22
+        ],
+        "over.above-and-across": [
+          77,
+          15,
+          13,
+          12
+        ],
+        "inside.inner-place": [
+          55,
+          42,
+          10,
+          12
+        ],
+        "outside.outer-place": [
+          85,
+          67,
+          10,
+          12
+        ],
+        "between.in-the-middle-of": [
+          45,
+          82,
+          10,
+          11
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "on.touching-the-top",
+        "in.inside",
+        "under.lower-than",
+        "behind.at-the-back-of",
+        "above.higher-than",
+        "below.lower-than",
+        "beside.next-to",
+        "over.above-and-across",
+        "inside.inner-place",
+        "outside.outer-place",
+        "between.in-the-middle-of"
+      ]
+    },
+    {
+      "id": "fruit-stall",
+      "title": "The fruit stall",
+      "group": "Fruits",
+      "layout": "fruit-stall",
+      "plate": "assets/posters/fruit-stall.webp",
+      "pointer": true,
+      "labels": {
+        "apple.fruit": [
+          13,
+          42,
+          13,
+          34
+        ],
+        "banana.fruit": [
+          28,
+          17,
+          28,
+          25
+        ],
+        "orange.fruit": [
+          44,
+          43,
+          44,
+          35
+        ],
+        "grape.fruit": [
+          59,
+          23,
+          59,
+          33
+        ],
+        "mango.fruit": [
+          76,
+          23,
+          84,
+          34
+        ],
+        "watermelon.fruit": [
+          13,
+          74,
+          13,
+          82
+        ],
+        "strawberry.fruit": [
+          14,
+          57,
+          22,
+          57
+        ],
+        "pineapple.fruit": [
+          36,
+          70,
+          31,
+          56
+        ],
+        "lemon.fruit": [
+          50,
+          70,
+          50,
+          58
+        ],
+        "cherry.fruit": [
+          64,
+          50,
+          64,
+          58
+        ],
+        "coconut.fruit": [
+          80,
+          65,
+          87,
+          53
+        ],
+        "melon.fruit": [
+          88,
+          88,
+          88,
+          80
+        ]
+      },
+      "item_boxes": {
+        "apple.fruit": [
+          11,
+          32,
+          4,
+          4
+        ],
+        "banana.fruit": [
+          26,
+          23,
+          4,
+          4
+        ],
+        "orange.fruit": [
+          42,
+          33,
+          4,
+          4
+        ],
+        "grape.fruit": [
+          57,
+          31,
+          4,
+          4
+        ],
+        "mango.fruit": [
+          76,
+          26,
+          17,
+          18
+        ],
+        "watermelon.fruit": [
+          11,
+          80,
+          4,
+          4
+        ],
+        "strawberry.fruit": [
+          20,
+          55,
+          4,
+          4
+        ],
+        "pineapple.fruit": [
+          25,
+          42,
+          12,
+          22
+        ],
+        "lemon.fruit": [
+          48,
+          56,
+          4,
+          4
+        ],
+        "cherry.fruit": [
+          62,
+          56,
+          4,
+          4
+        ],
+        "coconut.fruit": [
+          80,
+          44,
+          17,
+          20
+        ],
+        "melon.fruit": [
+          86,
+          78,
+          4,
+          4
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "apple.fruit",
+        "banana.fruit",
+        "orange.fruit",
+        "grape.fruit",
+        "mango.fruit",
+        "watermelon.fruit",
+        "strawberry.fruit",
+        "pineapple.fruit",
+        "lemon.fruit",
+        "cherry.fruit",
+        "coconut.fruit",
+        "melon.fruit"
+      ]
+    },
+    {
+      "id": "more-fruits",
+      "title": "More fruits",
+      "group": "Fruits",
+      "layout": "more-fruits",
+      "plate": "assets/posters/more-fruits.webp",
+      "pointer": true,
+      "labels": {
+        "avocado.fruit": [
+          10,
+          32,
+          10,
+          20
+        ],
+        "kiwi.fruit": [
+          25,
+          32,
+          25,
+          20
+        ],
+        "lime.fruit": [
+          40,
+          32,
+          40,
+          20
+        ],
+        "blueberry.fruit": [
+          55,
+          32,
+          55,
+          20
+        ],
+        "peach.fruit": [
+          74,
+          32,
+          74,
+          20
+        ],
+        "pear.fruit": [
+          90,
+          8,
+          90,
+          20
+        ],
+        "durian.fruit": [
+          12,
+          69,
+          12,
+          57
+        ],
+        "mangosteen.fruit": [
+          27,
+          69,
+          27,
+          57
+        ],
+        "longan.fruit": [
+          42,
+          49,
+          42,
+          57
+        ],
+        "lychee.fruit": [
+          57,
+          69,
+          57,
+          57
+        ],
+        "guava.fruit": [
+          72,
+          69,
+          72,
+          57
+        ],
+        "jackfruit.fruit": [
+          88,
+          45,
+          88,
+          57
+        ]
+      },
+      "item_boxes": {
+        "avocado.fruit": [
+          8,
+          18,
+          4,
+          4
+        ],
+        "kiwi.fruit": [
+          23,
+          18,
+          4,
+          4
+        ],
+        "lime.fruit": [
+          38,
+          18,
+          4,
+          4
+        ],
+        "blueberry.fruit": [
+          53,
+          18,
+          4,
+          4
+        ],
+        "peach.fruit": [
+          72,
+          18,
+          4,
+          4
+        ],
+        "pear.fruit": [
+          88,
+          18,
+          4,
+          4
+        ],
+        "durian.fruit": [
+          10,
+          55,
+          4,
+          4
+        ],
+        "mangosteen.fruit": [
+          25,
+          55,
+          4,
+          4
+        ],
+        "longan.fruit": [
+          40,
+          55,
+          4,
+          4
+        ],
+        "lychee.fruit": [
+          55,
+          55,
+          4,
+          4
+        ],
+        "guava.fruit": [
+          70,
+          55,
+          4,
+          4
+        ],
+        "jackfruit.fruit": [
+          86,
+          55,
+          4,
+          4
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "avocado.fruit",
+        "kiwi.fruit",
+        "lime.fruit",
+        "blueberry.fruit",
+        "peach.fruit",
+        "pear.fruit",
+        "durian.fruit",
+        "mangosteen.fruit",
+        "longan.fruit",
+        "lychee.fruit",
+        "guava.fruit",
+        "jackfruit.fruit"
+      ]
+    },
+    {
+      "id": "vegetable-garden",
+      "title": "The vegetable garden",
+      "group": "Vegetables",
+      "layout": "vegetable-garden",
+      "plate": "assets/posters/vegetable-garden.webp",
+      "pointer": true,
+      "labels": {
+        "carrot.vegetable": [
+          45,
+          73,
+          45,
+          65
+        ],
+        "potato.vegetable": [
+          17,
+          88,
+          14,
+          81
+        ],
+        "tomato.food": [
+          58,
+          88,
+          53,
+          80
+        ],
+        "onion.vegetable": [
+          48,
+          42,
+          48,
+          50
+        ],
+        "corn.food": [
+          15,
+          22,
+          15,
+          30
+        ],
+        "broccoli.vegetable": [
+          20,
+          46,
+          20,
+          54
+        ],
+        "cabbage.vegetable": [
+          82,
+          66,
+          82,
+          58
+        ],
+        "cucumber.food": [
+          72,
+          44,
+          72,
+          52
+        ],
+        "lettuce.vegetable": [
+          15,
+          68,
+          14,
+          59
+        ],
+        "pea.food": [
+          80,
+          23,
+          80,
+          35
+        ],
+        "bean.food": [
+          62,
+          30,
+          74,
+          30
+        ],
+        "pumpkin.food": [
+          90,
+          91,
+          90,
+          83
+        ]
+      },
+      "item_boxes": {
+        "carrot.vegetable": [
+          43,
+          63,
+          4,
+          4
+        ],
+        "potato.vegetable": [
+          6,
+          75,
+          19,
+          13
+        ],
+        "tomato.food": [
+          43,
+          75,
+          20,
+          13
+        ],
+        "onion.vegetable": [
+          46,
+          48,
+          4,
+          4
+        ],
+        "corn.food": [
+          13,
+          28,
+          4,
+          4
+        ],
+        "broccoli.vegetable": [
+          18,
+          52,
+          4,
+          4
+        ],
+        "cabbage.vegetable": [
+          80,
+          56,
+          4,
+          4
+        ],
+        "cucumber.food": [
+          70,
+          50,
+          4,
+          4
+        ],
+        "lettuce.vegetable": [
+          2,
+          55,
+          27,
+          16
+        ],
+        "pea.food": [
+          78,
+          33,
+          4,
+          4
+        ],
+        "bean.food": [
+          72,
+          28,
+          4,
+          4
+        ],
+        "pumpkin.food": [
+          88,
+          81,
+          4,
+          4
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "carrot.vegetable",
+        "potato.vegetable",
+        "tomato.food",
+        "onion.vegetable",
+        "corn.food",
+        "broccoli.vegetable",
+        "cabbage.vegetable",
+        "cucumber.food",
+        "lettuce.vegetable",
+        "pea.food",
+        "bean.food",
+        "pumpkin.food"
+      ]
+    },
+    {
+      "id": "more-vegetables",
+      "title": "More vegetables",
+      "group": "Vegetables",
+      "layout": "more-vegetables",
+      "plate": "assets/posters/more-vegetables.webp",
+      "pointer": true,
+      "labels": {
+        "aubergine.vegetable": [
+          14,
+          30,
+          14,
+          18
+        ],
+        "cauliflower.vegetable": [
+          15,
+          62,
+          15,
+          70
+        ],
+        "chilli.food": [
+          27,
+          6,
+          27,
+          18
+        ],
+        "garlic.food": [
+          50,
+          30,
+          50,
+          18
+        ],
+        "ginger.food": [
+          37,
+          58,
+          37,
+          48
+        ],
+        "pepper.vegetable": [
+          55,
+          59,
+          55,
+          49
+        ],
+        "spinach.vegetable": [
+          72,
+          59,
+          72,
+          49
+        ],
+        "spring-onion.vegetable": [
+          88,
+          28,
+          88,
+          36
+        ],
+        "sweet-potato.vegetable": [
+          83,
+          84,
+          83,
+          76
+        ]
+      },
+      "item_boxes": {
+        "aubergine.vegetable": [
+          12,
+          16,
+          4,
+          4
+        ],
+        "cauliflower.vegetable": [
+          13,
+          68,
+          4,
+          4
+        ],
+        "chilli.food": [
+          25,
+          16,
+          4,
+          4
+        ],
+        "garlic.food": [
+          48,
+          16,
+          4,
+          4
+        ],
+        "ginger.food": [
+          35,
+          46,
+          4,
+          4
+        ],
+        "pepper.vegetable": [
+          53,
+          47,
+          4,
+          4
+        ],
+        "spinach.vegetable": [
+          70,
+          47,
+          4,
+          4
+        ],
+        "spring-onion.vegetable": [
+          86,
+          34,
+          4,
+          4
+        ],
+        "sweet-potato.vegetable": [
+          81,
+          74,
+          4,
+          4
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "aubergine.vegetable",
+        "cauliflower.vegetable",
+        "chilli.food",
+        "garlic.food",
+        "ginger.food",
+        "pepper.vegetable",
+        "spinach.vegetable",
+        "spring-onion.vegetable",
+        "sweet-potato.vegetable"
+      ]
+    },
+    {
+      "id": "farm",
+      "title": "On the farm",
+      "group": "Animals",
+      "layout": "farm",
+      "plate": "assets/posters/farm.webp",
+      "pointer": true,
+      "labels": {
+        "cow.animal": [
+          14,
+          23,
+          14,
+          31
+        ],
+        "horse.animal": [
+          35,
+          16,
+          35,
+          24
+        ],
+        "pig.animal": [
+          26,
+          59,
+          27,
+          48
+        ],
+        "sheep.animal": [
+          38,
+          51,
+          38,
+          43
+        ],
+        "goat.animal": [
+          66,
+          32,
+          67,
+          41
+        ],
+        "donkey.animal": [
+          83,
+          26,
+          83,
+          34
+        ],
+        "duck.animal": [
+          11,
+          90,
+          11,
+          82
+        ],
+        "chicken.animal": [
+          55,
+          57,
+          55,
+          65
+        ],
+        "dog.animal": [
+          73,
+          82,
+          73,
+          74
+        ],
+        "cat.animal": [
+          86,
+          58,
+          86,
+          66
+        ],
+        "mouse.animal": [
+          91,
+          94,
+          91,
+          88
+        ],
+        "goose.animal": [
+          40,
+          73,
+          40,
+          81
+        ]
+      },
+      "item_boxes": {
+        "cow.animal": [
+          12,
+          29,
+          4,
+          4
+        ],
+        "horse.animal": [
+          33,
+          22,
+          4,
+          4
+        ],
+        "pig.animal": [
+          19,
+          42,
+          17,
+          14
+        ],
+        "sheep.animal": [
+          36,
+          41,
+          4,
+          4
+        ],
+        "goat.animal": [
+          61,
+          33,
+          15,
+          20
+        ],
+        "donkey.animal": [
+          81,
+          32,
+          4,
+          4
+        ],
+        "duck.animal": [
+          9,
+          80,
+          4,
+          4
+        ],
+        "chicken.animal": [
+          53,
+          63,
+          4,
+          4
+        ],
+        "dog.animal": [
+          71,
+          72,
+          4,
+          4
+        ],
+        "cat.animal": [
+          84,
+          64,
+          4,
+          4
+        ],
+        "mouse.animal": [
+          89,
+          86,
+          4,
+          4
+        ],
+        "goose.animal": [
+          38,
+          79,
+          4,
+          4
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "cow.animal",
+        "horse.animal",
+        "pig.animal",
+        "sheep.animal",
+        "goat.animal",
+        "donkey.animal",
+        "duck.animal",
+        "chicken.animal",
+        "dog.animal",
+        "cat.animal",
+        "mouse.animal",
+        "goose.animal"
+      ]
+    },
+    {
+      "id": "wild-animals",
+      "title": "Wild animals",
+      "group": "Animals",
+      "layout": "wild-animals",
+      "plate": "assets/posters/wild-animals.webp",
+      "pointer": true,
+      "labels": {
+        "lion.animal": [
+          17,
+          12,
+          17,
+          20
+        ],
+        "tiger.animal": [
+          42,
+          30,
+          42,
+          22
+        ],
+        "elephant.animal": [
+          67,
+          20,
+          67,
+          28
+        ],
+        "giraffe.animal": [
+          90,
+          12,
+          90,
+          20
+        ],
+        "monkey.animal": [
+          18,
+          53,
+          18,
+          45
+        ],
+        "bear.animal": [
+          39,
+          58,
+          39,
+          50
+        ],
+        "zebra.animal": [
+          57,
+          58,
+          57,
+          48
+        ],
+        "panda.animal": [
+          78,
+          59,
+          78,
+          51
+        ],
+        "fox.animal": [
+          18,
+          80,
+          18,
+          72
+        ],
+        "kangaroo.animal": [
+          43,
+          86,
+          43,
+          78
+        ],
+        "koala.animal": [
+          88,
+          83,
+          88,
+          75
+        ],
+        "wolf.animal": [
+          67,
+          85,
+          67,
+          77
+        ]
+      },
+      "item_boxes": {
+        "lion.animal": [
+          15,
+          18,
+          4,
+          4
+        ],
+        "tiger.animal": [
+          40,
+          20,
+          4,
+          4
+        ],
+        "elephant.animal": [
+          65,
+          26,
+          4,
+          4
+        ],
+        "giraffe.animal": [
+          88,
+          18,
+          4,
+          4
+        ],
+        "monkey.animal": [
+          16,
+          43,
+          4,
+          4
+        ],
+        "bear.animal": [
+          37,
+          48,
+          4,
+          4
+        ],
+        "zebra.animal": [
+          55,
+          46,
+          4,
+          4
+        ],
+        "panda.animal": [
+          76,
+          49,
+          4,
+          4
+        ],
+        "fox.animal": [
+          16,
+          70,
+          4,
+          4
+        ],
+        "kangaroo.animal": [
+          41,
+          76,
+          4,
+          4
+        ],
+        "koala.animal": [
+          86,
+          73,
+          4,
+          4
+        ],
+        "wolf.animal": [
+          65,
+          75,
+          4,
+          4
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "lion.animal",
+        "tiger.animal",
+        "elephant.animal",
+        "giraffe.animal",
+        "monkey.animal",
+        "bear.animal",
+        "zebra.animal",
+        "panda.animal",
+        "fox.animal",
+        "kangaroo.animal",
+        "koala.animal",
+        "wolf.animal"
+      ]
+    },
+    {
+      "id": "sea",
+      "title": "In the sea",
+      "group": "Animals",
+      "layout": "sea",
+      "plate": "assets/posters/sea.webp",
+      "pointer": true,
+      "labels": {
+        "fish.animal": [
+          54,
+          37,
+          54,
+          45
+        ],
+        "dolphin.animal": [
+          37,
+          44,
+          37,
+          32
+        ],
+        "crab.animal": [
+          42,
+          94,
+          42,
+          87
+        ],
+        "jellyfish.animal": [
+          15,
+          35,
+          15,
+          43
+        ],
+        "shark.animal": [
+          69,
+          63,
+          69,
+          55
+        ],
+        "whale.animal": [
+          75,
+          22,
+          75,
+          30
+        ],
+        "octopus.animal": [
+          13,
+          72,
+          13,
+          80
+        ],
+        "turtle.animal": [
+          47,
+          60,
+          47,
+          68
+        ],
+        "starfish.animal": [
+          67,
+          80,
+          67,
+          88
+        ],
+        "seahorse.animal": [
+          84,
+          64,
+          84,
+          72
+        ],
+        "seal.animal": [
+          15,
+          6,
+          15,
+          14
+        ],
+        "shrimp.animal": [
+          87,
+          94,
+          87,
+          88
+        ]
+      },
+      "item_boxes": {
+        "fish.animal": [
+          52,
+          43,
+          4,
+          4
+        ],
+        "dolphin.animal": [
+          35,
+          30,
+          4,
+          4
+        ],
+        "crab.animal": [
+          40,
+          85,
+          4,
+          4
+        ],
+        "jellyfish.animal": [
+          13,
+          41,
+          4,
+          4
+        ],
+        "shark.animal": [
+          67,
+          53,
+          4,
+          4
+        ],
+        "whale.animal": [
+          73,
+          28,
+          4,
+          4
+        ],
+        "octopus.animal": [
+          11,
+          78,
+          4,
+          4
+        ],
+        "turtle.animal": [
+          45,
+          66,
+          4,
+          4
+        ],
+        "starfish.animal": [
+          65,
+          86,
+          4,
+          4
+        ],
+        "seahorse.animal": [
+          82,
+          70,
+          4,
+          4
+        ],
+        "seal.animal": [
+          13,
+          12,
+          4,
+          4
+        ],
+        "shrimp.animal": [
+          85,
+          86,
+          4,
+          4
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "fish.animal",
+        "dolphin.animal",
+        "crab.animal",
+        "jellyfish.animal",
+        "shark.animal",
+        "whale.animal",
+        "octopus.animal",
+        "turtle.animal",
+        "starfish.animal",
+        "seahorse.animal",
+        "seal.animal",
+        "shrimp.animal"
+      ]
+    },
+    {
+      "id": "bugs",
+      "title": "Bugs and little creatures",
+      "group": "Animals",
+      "layout": "bugs",
+      "plate": "assets/posters/bugs.webp",
+      "pointer": true,
+      "labels": {
+        "ant.insect": [
+          12,
+          8,
+          12,
+          16
+        ],
+        "bee.insect": [
+          31,
+          30,
+          31,
+          18
+        ],
+        "butterfly.insect": [
+          61,
+          30,
+          63,
+          14
+        ],
+        "ladybird.insect": [
+          10,
+          46,
+          10,
+          38
+        ],
+        "beetle.insect": [
+          26,
+          59,
+          26,
+          51
+        ],
+        "grasshopper.insect": [
+          62,
+          53,
+          62,
+          44
+        ],
+        "dragonfly.insect": [
+          88,
+          26,
+          88,
+          18
+        ],
+        "caterpillar.insect-larva": [
+          84,
+          53,
+          84,
+          45
+        ],
+        "fly.insect": [
+          17,
+          73,
+          13,
+          73
+        ],
+        "moth.insect": [
+          43,
+          71,
+          43,
+          83
+        ],
+        "snail.animal": [
+          76,
+          77,
+          76,
+          85
+        ],
+        "spider.animal": [
+          90,
+          78,
+          90,
+          70
+        ]
+      },
+      "item_boxes": {
+        "ant.insect": [
+          10,
+          14,
+          4,
+          4
+        ],
+        "bee.insect": [
+          29,
+          16,
+          4,
+          4
+        ],
+        "butterfly.insect": [
+          53,
+          2,
+          20,
+          22
+        ],
+        "ladybird.insect": [
+          8,
+          36,
+          4,
+          4
+        ],
+        "beetle.insect": [
+          24,
+          49,
+          4,
+          4
+        ],
+        "grasshopper.insect": [
+          47,
+          38,
+          21,
+          19
+        ],
+        "dragonfly.insect": [
+          86,
+          16,
+          4,
+          4
+        ],
+        "caterpillar.insect-larva": [
+          82,
+          43,
+          4,
+          4
+        ],
+        "fly.insect": [
+          2,
+          64,
+          22,
+          16
+        ],
+        "moth.insect": [
+          41,
+          81,
+          4,
+          4
+        ],
+        "snail.animal": [
+          74,
+          83,
+          4,
+          4
+        ],
+        "spider.animal": [
+          88,
+          68,
+          4,
+          4
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "ant.insect",
+        "bee.insect",
+        "butterfly.insect",
+        "ladybird.insect",
+        "beetle.insect",
+        "grasshopper.insect",
+        "dragonfly.insect",
+        "caterpillar.insect-larva",
+        "fly.insect",
+        "moth.insect",
+        "snail.animal",
+        "spider.animal"
+      ]
+    },
+    {
+      "id": "feelings",
+      "title": "How do they feel?",
+      "group": "Feelings",
+      "layout": "feelings",
+      "plate": "assets/posters/feelings.webp",
+      "pointer": false,
+      "labels": {
+        "happy.pleased": [
+          13,
+          24,
+          13,
+          14
+        ],
+        "sad.unhappy": [
+          38,
+          24,
+          38,
+          14
+        ],
+        "angry.feeling-cross": [
+          63,
+          24,
+          63,
+          14
+        ],
+        "scared.frightened": [
+          88,
+          24,
+          88,
+          14
+        ],
+        "excited.eager-and-happy": [
+          13,
+          57,
+          13,
+          47
+        ],
+        "bored.not-interested": [
+          38,
+          57,
+          38,
+          47
+        ],
+        "calm.not-upset": [
+          63,
+          57,
+          63,
+          47
+        ],
+        "shy.not-confident-with-people": [
+          88,
+          57,
+          88,
+          47
+        ],
+        "surprised.not-expecting": [
+          13,
+          90,
+          13,
+          80
+        ],
+        "tired.needing-rest": [
+          38,
+          90,
+          38,
+          80
+        ],
+        "lonely.sad-to-be-alone": [
+          63,
+          90,
+          63,
+          80
+        ],
+        "curious.wanting-to-discover": [
+          88,
+          90,
+          88,
+          80
+        ]
+      },
+      "item_boxes": {
+        "happy.pleased": [
+          11,
+          12,
+          4,
+          4
+        ],
+        "sad.unhappy": [
+          36,
+          12,
+          4,
+          4
+        ],
+        "angry.feeling-cross": [
+          61,
+          12,
+          4,
+          4
+        ],
+        "scared.frightened": [
+          86,
+          12,
+          4,
+          4
+        ],
+        "excited.eager-and-happy": [
+          11,
+          45,
+          4,
+          4
+        ],
+        "bored.not-interested": [
+          36,
+          45,
+          4,
+          4
+        ],
+        "calm.not-upset": [
+          61,
+          45,
+          4,
+          4
+        ],
+        "shy.not-confident-with-people": [
+          86,
+          45,
+          4,
+          4
+        ],
+        "surprised.not-expecting": [
+          11,
+          78,
+          4,
+          4
+        ],
+        "tired.needing-rest": [
+          36,
+          78,
+          4,
+          4
+        ],
+        "lonely.sad-to-be-alone": [
+          61,
+          78,
+          4,
+          4
+        ],
+        "curious.wanting-to-discover": [
+          86,
+          78,
+          4,
+          4
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "happy.pleased",
+        "sad.unhappy",
+        "angry.feeling-cross",
+        "scared.frightened",
+        "excited.eager-and-happy",
+        "bored.not-interested",
+        "calm.not-upset",
+        "shy.not-confident-with-people",
+        "surprised.not-expecting",
+        "tired.needing-rest",
+        "lonely.sad-to-be-alone",
+        "curious.wanting-to-discover"
+      ],
+      "directLabels": "below-face"
+    },
+    {
+      "id": "school-desk",
+      "title": "My school desk",
+      "group": "School things",
+      "layout": "school-desk",
+      "plate": "assets/posters/school-desk.webp",
+      "pointer": true,
+      "labels": {
+        "book.reading-object": [
+          29,
+          62,
+          28,
+          50
+        ],
+        "notebook.writing-book": [
+          62,
+          49,
+          62,
+          61
+        ],
+        "atlas.map-book": [
+          48,
+          28,
+          48,
+          20
+        ],
+        "dictionary.word-reference": [
+          84,
+          16,
+          84,
+          24
+        ],
+        "blackboard.writing-board": [
+          16,
+          12,
+          16,
+          20
+        ],
+        "desk.work-table": [
+          50,
+          75,
+          50,
+          68
+        ],
+        "backpack.back-carried-bag": [
+          18,
+          74,
+          18,
+          82
+        ],
+        "bookmark.page-marker": [
+          34,
+          42,
+          27,
+          43
+        ],
+        "crayon.colouring-tool": [
+          79,
+          43,
+          79,
+          55
+        ],
+        "chalk.writing-material": [
+          16,
+          41,
+          12,
+          35
+        ],
+        "marker.writing-tool": [
+          70,
+          75,
+          70,
+          67
+        ],
+        "eraser.rubbing-tool": [
+          88,
+          73,
+          88,
+          65
+        ]
+      },
+      "item_boxes": {
+        "book.reading-object": [
+          4,
+          37,
+          44,
+          31
+        ],
+        "notebook.writing-book": [
+          60,
+          59,
+          4,
+          4
+        ],
+        "atlas.map-book": [
+          46,
+          18,
+          4,
+          4
+        ],
+        "dictionary.word-reference": [
+          82,
+          22,
+          4,
+          4
+        ],
+        "blackboard.writing-board": [
+          14,
+          18,
+          4,
+          4
+        ],
+        "desk.work-table": [
+          0,
+          65,
+          100,
+          11
+        ],
+        "backpack.back-carried-bag": [
+          16,
+          80,
+          4,
+          4
+        ],
+        "bookmark.page-marker": [
+          25,
+          35,
+          6,
+          16
+        ],
+        "crayon.colouring-tool": [
+          77,
+          53,
+          4,
+          4
+        ],
+        "chalk.writing-material": [
+          5,
+          32,
+          14,
+          7
+        ],
+        "marker.writing-tool": [
+          61,
+          64,
+          18,
+          7
+        ],
+        "eraser.rubbing-tool": [
+          84,
+          61,
+          11,
+          8
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "book.reading-object",
+        "notebook.writing-book",
+        "atlas.map-book",
+        "dictionary.word-reference",
+        "blackboard.writing-board",
+        "desk.work-table",
+        "backpack.back-carried-bag",
+        "bookmark.page-marker",
+        "crayon.colouring-tool",
+        "chalk.writing-material",
+        "marker.writing-tool",
+        "eraser.rubbing-tool"
+      ]
+    },
+    {
+      "id": "pencil-case",
+      "title": "In my pencil case",
+      "group": "School things",
+      "layout": "pencil-case",
+      "plate": "assets/posters/pencil-case.webp",
+      "pointer": true,
+      "labels": {
+        "pencil.writing-tool": [
+          27,
+          27,
+          27,
+          15
+        ],
+        "pen.writing-tool": [
+          67,
+          24,
+          67,
+          14
+        ],
+        "ruler.measuring-tool": [
+          82,
+          45,
+          82,
+          37
+        ],
+        "paper.material": [
+          21,
+          56,
+          21,
+          48
+        ],
+        "scissors.cutting-tool": [
+          38,
+          65,
+          38,
+          77
+        ],
+        "sharpener.pencil-tool": [
+          62,
+          70,
+          62,
+          82
+        ],
+        "pencil-case.stationery-container": [
+          55,
+          41,
+          55,
+          49
+        ],
+        "glue.sticky-material": [
+          87,
+          67,
+          87,
+          75
+        ]
+      },
+      "item_boxes": {
+        "pencil.writing-tool": [
+          25,
+          13,
+          4,
+          4
+        ],
+        "pen.writing-tool": [
+          65,
+          12,
+          4,
+          4
+        ],
+        "ruler.measuring-tool": [
+          80,
+          35,
+          4,
+          4
+        ],
+        "paper.material": [
+          19,
+          46,
+          4,
+          4
+        ],
+        "scissors.cutting-tool": [
+          36,
+          75,
+          4,
+          4
+        ],
+        "sharpener.pencil-tool": [
+          60,
+          80,
+          4,
+          4
+        ],
+        "pencil-case.stationery-container": [
+          53,
+          47,
+          4,
+          4
+        ],
+        "glue.sticky-material": [
+          85,
+          73,
+          4,
+          4
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "pencil.writing-tool",
+        "pen.writing-tool",
+        "ruler.measuring-tool",
+        "paper.material",
+        "scissors.cutting-tool",
+        "sharpener.pencil-tool",
+        "pencil-case.stationery-container",
+        "glue.sticky-material"
+      ]
+    },
+    {
+      "id": "washing-line",
+      "title": "Clothes on the washing line",
+      "group": "Clothes",
+      "layout": "washing-line",
+      "plate": "assets/posters/washing-line.webp",
+      "pointer": true,
+      "labels": {
+        "shirt.clothing": [
+          15,
+          23,
+          15,
+          35
+        ],
+        "dress.clothing": [
+          27,
+          50,
+          27,
+          38
+        ],
+        "trousers.clothing": [
+          41,
+          52,
+          41,
+          40
+        ],
+        "shorts.clothing": [
+          52,
+          22,
+          52,
+          34
+        ],
+        "skirt.clothing": [
+          62,
+          51,
+          62,
+          39
+        ],
+        "sock.clothing": [
+          70,
+          20,
+          70,
+          30
+        ],
+        "shoe.footwear": [
+          25,
+          74,
+          25,
+          82
+        ],
+        "boot.footwear": [
+          63,
+          72,
+          63,
+          82
+        ],
+        "jumper.clothing": [
+          78,
+          50,
+          78,
+          38
+        ],
+        "jacket.clothing": [
+          88,
+          27,
+          88,
+          35
+        ],
+        "coat.clothing": [
+          94,
+          70,
+          94,
+          62
+        ],
+        "hat.headwear": [
+          94,
+          6,
+          94,
+          12
+        ]
+      },
+      "item_boxes": {
+        "shirt.clothing": [
+          13,
+          33,
+          4,
+          4
+        ],
+        "dress.clothing": [
+          25,
+          36,
+          4,
+          4
+        ],
+        "trousers.clothing": [
+          39,
+          38,
+          4,
+          4
+        ],
+        "shorts.clothing": [
+          50,
+          32,
+          4,
+          4
+        ],
+        "skirt.clothing": [
+          60,
+          37,
+          4,
+          4
+        ],
+        "sock.clothing": [
+          68,
+          28,
+          4,
+          4
+        ],
+        "shoe.footwear": [
+          23,
+          80,
+          4,
+          4
+        ],
+        "boot.footwear": [
+          61,
+          80,
+          4,
+          4
+        ],
+        "jumper.clothing": [
+          76,
+          36,
+          4,
+          4
+        ],
+        "jacket.clothing": [
+          86,
+          33,
+          4,
+          4
+        ],
+        "coat.clothing": [
+          92,
+          60,
+          4,
+          4
+        ],
+        "hat.headwear": [
+          92,
+          10,
+          4,
+          4
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "shirt.clothing",
+        "dress.clothing",
+        "trousers.clothing",
+        "shorts.clothing",
+        "skirt.clothing",
+        "sock.clothing",
+        "shoe.footwear",
+        "boot.footwear",
+        "jumper.clothing",
+        "jacket.clothing",
+        "coat.clothing",
+        "hat.headwear"
+      ]
+    },
+    {
+      "id": "dressing-up",
+      "title": "The dressing-up box",
+      "group": "Clothes",
+      "layout": "dressing-up",
+      "plate": "assets/posters/dressing-up.webp",
+      "pointer": true,
+      "labels": {
+        "cap.headwear": [
+          9,
+          8,
+          9,
+          18
+        ],
+        "scarf.clothing": [
+          21,
+          36,
+          21,
+          24
+        ],
+        "glove.clothing": [
+          88,
+          25,
+          88,
+          17
+        ],
+        "belt.clothing": [
+          32,
+          37,
+          32,
+          25
+        ],
+        "apron.protective-clothing": [
+          86,
+          73,
+          86,
+          65
+        ],
+        "glasses.eyewear": [
+          10,
+          57,
+          8,
+          63
+        ],
+        "crown.royal-headwear": [
+          38,
+          51,
+          36,
+          41
+        ],
+        "costume.dress-up-clothes": [
+          54,
+          51,
+          52,
+          39
+        ],
+        "helmet.protective-headwear": [
+          68,
+          51,
+          65,
+          39
+        ],
+        "bow.ribbon-knot": [
+          27,
+          68,
+          25,
+          61
+        ],
+        "bracelet.jewellery": [
+          14,
+          80,
+          11,
+          73
+        ],
+        "necklace.jewellery": [
+          34,
+          82,
+          27,
+          72
+        ]
+      },
+      "item_boxes": {
+        "cap.headwear": [
+          7,
+          16,
+          4,
+          4
+        ],
+        "scarf.clothing": [
+          19,
+          22,
+          4,
+          4
+        ],
+        "glove.clothing": [
+          86,
+          15,
+          4,
+          4
+        ],
+        "belt.clothing": [
+          30,
+          23,
+          4,
+          4
+        ],
+        "apron.protective-clothing": [
+          84,
+          63,
+          4,
+          4
+        ],
+        "glasses.eyewear": [
+          2,
+          59,
+          16,
+          7
+        ],
+        "crown.royal-headwear": [
+          29,
+          32,
+          14,
+          15
+        ],
+        "costume.dress-up-clothes": [
+          43,
+          30,
+          20,
+          18
+        ],
+        "helmet.protective-headwear": [
+          61,
+          31,
+          12,
+          17
+        ],
+        "bow.ribbon-knot": [
+          20,
+          56,
+          13,
+          9
+        ],
+        "bracelet.jewellery": [
+          4,
+          68,
+          16,
+          9
+        ],
+        "necklace.jewellery": [
+          21,
+          64,
+          14,
+          13
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "cap.headwear",
+        "scarf.clothing",
+        "glove.clothing",
+        "belt.clothing",
+        "apron.protective-clothing",
+        "glasses.eyewear",
+        "crown.royal-headwear",
+        "costume.dress-up-clothes",
+        "helmet.protective-headwear",
+        "bow.ribbon-knot",
+        "bracelet.jewellery",
+        "necklace.jewellery"
+      ]
+    },
+    {
+      "id": "face",
+      "title": "My face",
+      "group": "People",
+      "layout": "face",
+      "plate": "assets/posters/face.webp",
+      "pointer": true,
+      "labels": {
+        "head.body-part": [
+          50,
+          6,
+          50,
+          10
+        ],
+        "hair.body-covering": [
+          17,
+          18,
+          23,
+          22
+        ],
+        "eyebrow.body-part": [
+          29,
+          34,
+          38,
+          40
+        ],
+        "eye.body-part": [
+          27,
+          47,
+          38,
+          48
+        ],
+        "ear.body-part": [
+          17,
+          59,
+          27,
+          58
+        ],
+        "cheek.body-part": [
+          27,
+          72,
+          35,
+          59
+        ],
+        "nose.body-part": [
+          58,
+          52,
+          48,
+          56
+        ],
+        "mouth.body-part": [
+          61,
+          66,
+          49,
+          65
+        ],
+        "face.body-part": [
+          74,
+          57,
+          62,
+          60
+        ],
+        "chin.body-part": [
+          58,
+          79,
+          49,
+          76
+        ]
+      },
+      "item_boxes": {
+        "head.body-part": [
+          48,
+          8,
+          4,
+          4
+        ],
+        "hair.body-covering": [
+          21,
+          20,
+          4,
+          4
+        ],
+        "eyebrow.body-part": [
+          36,
+          38,
+          4,
+          4
+        ],
+        "eye.body-part": [
+          36,
+          46,
+          4,
+          4
+        ],
+        "ear.body-part": [
+          25,
+          56,
+          4,
+          4
+        ],
+        "cheek.body-part": [
+          33,
+          57,
+          4,
+          4
+        ],
+        "nose.body-part": [
+          46,
+          54,
+          4,
+          4
+        ],
+        "mouth.body-part": [
+          47,
+          63,
+          4,
+          4
+        ],
+        "face.body-part": [
+          60,
+          58,
+          4,
+          4
+        ],
+        "chin.body-part": [
+          47,
+          74,
+          4,
+          4
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "head.body-part",
+        "hair.body-covering",
+        "eyebrow.body-part",
+        "eye.body-part",
+        "ear.body-part",
+        "cheek.body-part",
+        "nose.body-part",
+        "mouth.body-part",
+        "face.body-part",
+        "chin.body-part"
+      ]
+    },
+    {
+      "id": "body",
+      "title": "My body",
+      "group": "People",
+      "layout": "body",
+      "plate": "assets/posters/body.webp",
+      "pointer": true,
+      "labels": {
+        "finger.body-part": [
+          18,
+          7,
+          22,
+          12
+        ],
+        "hand.body-part": [
+          82,
+          7,
+          78,
+          14
+        ],
+        "elbow.body-part": [
+          25,
+          22,
+          30,
+          22
+        ],
+        "arm.body-part": [
+          75,
+          23,
+          69,
+          23
+        ],
+        "shoulder.body-part": [
+          39,
+          32,
+          42,
+          31
+        ],
+        "tummy.stomach-informal": [
+          58,
+          48,
+          52,
+          48
+        ],
+        "leg.body-part": [
+          36,
+          62,
+          40,
+          64
+        ],
+        "knee.body-part": [
+          66,
+          70,
+          62,
+          70
+        ],
+        "foot.body-part": [
+          31,
+          91,
+          26,
+          91
+        ],
+        "toe.body-part": [
+          72,
+          92,
+          75,
+          94
+        ]
+      },
+      "item_boxes": {
+        "finger.body-part": [
+          20,
+          10,
+          4,
+          4
+        ],
+        "hand.body-part": [
+          76,
+          12,
+          4,
+          4
+        ],
+        "elbow.body-part": [
+          28,
+          20,
+          4,
+          4
+        ],
+        "arm.body-part": [
+          67,
+          21,
+          4,
+          4
+        ],
+        "shoulder.body-part": [
+          40,
+          29,
+          4,
+          4
+        ],
+        "tummy.stomach-informal": [
+          50,
+          46,
+          4,
+          4
+        ],
+        "leg.body-part": [
+          38,
+          62,
+          4,
+          4
+        ],
+        "knee.body-part": [
+          60,
+          68,
+          4,
+          4
+        ],
+        "foot.body-part": [
+          24,
+          89,
+          4,
+          4
+        ],
+        "toe.body-part": [
+          73,
+          92,
+          4,
+          4
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "finger.body-part",
+        "hand.body-part",
+        "elbow.body-part",
+        "arm.body-part",
+        "shoulder.body-part",
+        "tummy.stomach-informal",
+        "leg.body-part",
+        "knee.body-part",
+        "foot.body-part",
+        "toe.body-part"
+      ]
+    },
+    {
+      "id": "family",
+      "title": "My family",
+      "group": "People",
+      "layout": "family",
+      "plate": "assets/posters/family.webp",
+      "pointer": true,
+      "labels": {
+        "family.relatives": [
+          52,
+          60,
+          52,
+          48
+        ],
+        "baby.very-young-child": [
+          56,
+          30,
+          56,
+          42
+        ],
+        "boy.young-person": [
+          26,
+          63,
+          26,
+          75
+        ],
+        "girl.young-person": [
+          42,
+          88,
+          42,
+          76
+        ],
+        "dad.father-informal": [
+          39,
+          38,
+          51,
+          38
+        ],
+        "mum.mother-informal": [
+          63,
+          59,
+          63,
+          47
+        ],
+        "brother.family-role": [
+          72,
+          83,
+          72,
+          75
+        ],
+        "grandfather.family-role": [
+          18,
+          15,
+          18,
+          27
+        ],
+        "grandmother.family-role": [
+          38,
+          28,
+          30,
+          28
+        ],
+        "aunt.family-role": [
+          80,
+          25,
+          80,
+          33
+        ],
+        "cousin.family-role": [
+          84,
+          58,
+          84,
+          68
+        ],
+        "daughter.family-role": [
+          39,
+          58,
+          39,
+          70
+        ]
+      },
+      "item_boxes": {
+        "family.relatives": [
+          50,
+          46,
+          4,
+          4
+        ],
+        "baby.very-young-child": [
+          54,
+          40,
+          4,
+          4
+        ],
+        "boy.young-person": [
+          24,
+          73,
+          4,
+          4
+        ],
+        "girl.young-person": [
+          40,
+          74,
+          4,
+          4
+        ],
+        "dad.father-informal": [
+          49,
+          36,
+          4,
+          4
+        ],
+        "mum.mother-informal": [
+          61,
+          45,
+          4,
+          4
+        ],
+        "brother.family-role": [
+          70,
+          73,
+          4,
+          4
+        ],
+        "grandfather.family-role": [
+          16,
+          25,
+          4,
+          4
+        ],
+        "grandmother.family-role": [
+          28,
+          26,
+          4,
+          4
+        ],
+        "aunt.family-role": [
+          78,
+          31,
+          4,
+          4
+        ],
+        "cousin.family-role": [
+          82,
+          66,
+          4,
+          4
+        ],
+        "daughter.family-role": [
+          37,
+          68,
+          4,
+          4
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "family.relatives",
+        "baby.very-young-child",
+        "boy.young-person",
+        "girl.young-person",
+        "dad.father-informal",
+        "mum.mother-informal",
+        "brother.family-role",
+        "grandfather.family-role",
+        "grandmother.family-role",
+        "aunt.family-role",
+        "cousin.family-role",
+        "daughter.family-role"
+      ]
+    },
+    {
+      "id": "helpers",
+      "title": "People who help us",
+      "group": "People",
+      "layout": "helpers",
+      "plate": "assets/posters/helpers.webp",
+      "pointer": true,
+      "labels": {
+        "doctor.occupation": [
+          14,
+          15,
+          14,
+          27
+        ],
+        "nurse.occupation": [
+          30,
+          39,
+          30,
+          27
+        ],
+        "dentist.occupation": [
+          45,
+          39,
+          45,
+          27
+        ],
+        "firefighter.occupation": [
+          60,
+          15,
+          60,
+          27
+        ],
+        "farmer.occupation": [
+          76,
+          39,
+          76,
+          27
+        ],
+        "baker.occupation": [
+          90,
+          15,
+          90,
+          27
+        ],
+        "chef.occupation": [
+          14,
+          54,
+          14,
+          66
+        ],
+        "builder.occupation": [
+          30,
+          78,
+          30,
+          66
+        ],
+        "driver.occupation": [
+          45,
+          54,
+          45,
+          66
+        ],
+        "mechanic.occupation": [
+          60,
+          54,
+          60,
+          66
+        ],
+        "astronaut.space-traveller": [
+          76,
+          78,
+          76,
+          66
+        ],
+        "librarian.occupation": [
+          90,
+          54,
+          90,
+          66
+        ]
+      },
+      "item_boxes": {
+        "doctor.occupation": [
+          12,
+          25,
+          4,
+          4
+        ],
+        "nurse.occupation": [
+          28,
+          25,
+          4,
+          4
+        ],
+        "dentist.occupation": [
+          43,
+          25,
+          4,
+          4
+        ],
+        "firefighter.occupation": [
+          58,
+          25,
+          4,
+          4
+        ],
+        "farmer.occupation": [
+          74,
+          25,
+          4,
+          4
+        ],
+        "baker.occupation": [
+          88,
+          25,
+          4,
+          4
+        ],
+        "chef.occupation": [
+          12,
+          64,
+          4,
+          4
+        ],
+        "builder.occupation": [
+          28,
+          64,
+          4,
+          4
+        ],
+        "driver.occupation": [
+          43,
+          64,
+          4,
+          4
+        ],
+        "mechanic.occupation": [
+          58,
+          64,
+          4,
+          4
+        ],
+        "astronaut.space-traveller": [
+          74,
+          64,
+          4,
+          4
+        ],
+        "librarian.occupation": [
+          88,
+          64,
+          4,
+          4
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "doctor.occupation",
+        "nurse.occupation",
+        "dentist.occupation",
+        "firefighter.occupation",
+        "farmer.occupation",
+        "baker.occupation",
+        "chef.occupation",
+        "builder.occupation",
+        "driver.occupation",
+        "mechanic.occupation",
+        "astronaut.space-traveller",
+        "librarian.occupation"
+      ]
+    },
+    {
+      "id": "things-that-go",
+      "title": "Things that go",
+      "group": "Everyday life",
+      "layout": "things-that-go",
+      "plate": "assets/posters/things-that-go.webp",
+      "pointer": true,
+      "labels": {
+        "car.road-vehicle": [
+          17,
+          66,
+          17,
+          58
+        ],
+        "bus.road-vehicle": [
+          53,
+          52,
+          53,
+          60
+        ],
+        "bicycle.pedal-vehicle": [
+          20,
+          94,
+          20,
+          91
+        ],
+        "motorbike.motor-vehicle": [
+          87,
+          52,
+          87,
+          60
+        ],
+        "lorry.large-goods-vehicle": [
+          31,
+          77,
+          19,
+          77
+        ],
+        "ambulance.medical-vehicle": [
+          54,
+          85,
+          54,
+          77
+        ],
+        "fire-engine.emergency-vehicle": [
+          85,
+          85,
+          85,
+          77
+        ],
+        "tractor.farm-vehicle": [
+          27,
+          39,
+          27,
+          47
+        ],
+        "boat.water-vehicle": [
+          25,
+          24,
+          25,
+          32
+        ],
+        "ferry.crossing-boat": [
+          75,
+          39,
+          75,
+          31
+        ],
+        "aeroplane.flying-vehicle": [
+          24,
+          6,
+          24,
+          12
+        ],
+        "helicopter.flying-vehicle": [
+          75,
+          6,
+          75,
+          12
+        ]
+      },
+      "item_boxes": {
+        "car.road-vehicle": [
+          15,
+          56,
+          4,
+          4
+        ],
+        "bus.road-vehicle": [
+          51,
+          58,
+          4,
+          4
+        ],
+        "bicycle.pedal-vehicle": [
+          18,
+          89,
+          4,
+          4
+        ],
+        "motorbike.motor-vehicle": [
+          85,
+          58,
+          4,
+          4
+        ],
+        "lorry.large-goods-vehicle": [
+          17,
+          75,
+          4,
+          4
+        ],
+        "ambulance.medical-vehicle": [
+          52,
+          75,
+          4,
+          4
+        ],
+        "fire-engine.emergency-vehicle": [
+          83,
+          75,
+          4,
+          4
+        ],
+        "tractor.farm-vehicle": [
+          25,
+          45,
+          4,
+          4
+        ],
+        "boat.water-vehicle": [
+          23,
+          30,
+          4,
+          4
+        ],
+        "ferry.crossing-boat": [
+          73,
+          29,
+          4,
+          4
+        ],
+        "aeroplane.flying-vehicle": [
+          22,
+          10,
+          4,
+          4
+        ],
+        "helicopter.flying-vehicle": [
+          73,
+          10,
+          4,
+          4
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "car.road-vehicle",
+        "bus.road-vehicle",
+        "bicycle.pedal-vehicle",
+        "motorbike.motor-vehicle",
+        "lorry.large-goods-vehicle",
+        "ambulance.medical-vehicle",
+        "fire-engine.emergency-vehicle",
+        "tractor.farm-vehicle",
+        "boat.water-vehicle",
+        "ferry.crossing-boat",
+        "aeroplane.flying-vehicle",
+        "helicopter.flying-vehicle"
+      ]
+    },
+    {
+      "id": "rooms-house",
+      "title": "Rooms in our house",
+      "group": "Home",
+      "layout": "rooms-house",
+      "plate": "assets/posters/rooms-house.webp",
+      "pointer": false,
+      "labels": {
+        "house.building": [
+          24,
+          9
+        ],
+        "kitchen.room": [
+          69,
+          55
+        ],
+        "bathroom.room": [
+          69,
+          28
+        ],
+        "bedroom.room": [
+          28,
+          28
+        ],
+        "living-room.room": [
+          27,
+          55
+        ],
+        "dining-room.room": [
+          49,
+          55
+        ],
+        "hallway.passage": [
+          50,
+          29
+        ],
+        "attic.roof-space": [
+          50,
+          13
+        ],
+        "basement.underground-room": [
+          27,
+          80
+        ],
+        "garage.car-building": [
+          89,
+          57
+        ],
+        "balcony.outdoor-platform": [
+          10,
+          29
+        ],
+        "garden.growing-space": [
+          50,
+          94
+        ]
+      },
+      "item_boxes": {
+        "house.building": [
+          16,
+          3,
+          16,
+          12
+        ],
+        "kitchen.room": [
+          62,
+          50,
+          14,
+          10
+        ],
+        "bathroom.room": [
+          62,
+          23,
+          14,
+          10
+        ],
+        "bedroom.room": [
+          21,
+          23,
+          14,
+          10
+        ],
+        "living-room.room": [
+          20,
+          50,
+          14,
+          10
+        ],
+        "dining-room.room": [
+          42,
+          50,
+          14,
+          10
+        ],
+        "hallway.passage": [
+          43,
+          24,
+          14,
+          10
+        ],
+        "attic.roof-space": [
+          43,
+          8,
+          14,
+          10
+        ],
+        "basement.underground-room": [
+          20,
+          75,
+          14,
+          10
+        ],
+        "garage.car-building": [
+          82,
+          52,
+          14,
+          10
+        ],
+        "balcony.outdoor-platform": [
+          3,
+          24,
+          14,
+          10
+        ],
+        "garden.growing-space": [
+          43,
+          89,
+          14,
+          10
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "house.building",
+        "kitchen.room",
+        "bathroom.room",
+        "bedroom.room",
+        "living-room.room",
+        "dining-room.room",
+        "hallway.passage",
+        "attic.roof-space",
+        "basement.underground-room",
+        "garage.car-building",
+        "balcony.outdoor-platform",
+        "garden.growing-space"
+      ]
+    },
+    {
+      "id": "kitchen",
+      "title": "In the kitchen",
+      "group": "Home",
+      "layout": "kitchen",
+      "plate": "assets/posters/kitchen.webp",
+      "pointer": true,
+      "labels": {
+        "bowl.dish": [
+          26,
+          60,
+          26,
+          48
+        ],
+        "cup.drinking-container": [
+          34,
+          15,
+          34,
+          27
+        ],
+        "mug.drinking-container": [
+          42,
+          15,
+          42,
+          27
+        ],
+        "fork.eating-tool": [
+          43,
+          54,
+          43,
+          42
+        ],
+        "chopsticks.eating-tool": [
+          47,
+          34,
+          47,
+          42
+        ],
+        "knife.cutting-tool": [
+          73,
+          58,
+          73,
+          50
+        ],
+        "kettle.water-container": [
+          58,
+          55,
+          58,
+          43
+        ],
+        "cooker.cooking-appliance": [
+          58,
+          75,
+          58,
+          67
+        ],
+        "fridge.cool-storage": [
+          12,
+          41,
+          12,
+          53
+        ],
+        "dishwasher.appliance": [
+          86,
+          80,
+          86,
+          72
+        ],
+        "microwave.cooking-appliance": [
+          78,
+          26,
+          78,
+          38
+        ],
+        "apron.protective-clothing": [
+          93.9,
+          46,
+          94,
+          34
+        ]
+      },
+      "item_boxes": {
+        "bowl.dish": [
+          24,
+          46,
+          4,
+          4
+        ],
+        "cup.drinking-container": [
+          32,
+          25,
+          4,
+          4
+        ],
+        "mug.drinking-container": [
+          40,
+          25,
+          4,
+          4
+        ],
+        "fork.eating-tool": [
+          41,
+          40,
+          4,
+          4
+        ],
+        "chopsticks.eating-tool": [
+          45,
+          40,
+          4,
+          4
+        ],
+        "knife.cutting-tool": [
+          71,
+          48,
+          4,
+          4
+        ],
+        "kettle.water-container": [
+          56,
+          41,
+          4,
+          4
+        ],
+        "cooker.cooking-appliance": [
+          56,
+          65,
+          4,
+          4
+        ],
+        "fridge.cool-storage": [
+          10,
+          51,
+          4,
+          4
+        ],
+        "dishwasher.appliance": [
+          84,
+          70,
+          4,
+          4
+        ],
+        "microwave.cooking-appliance": [
+          76,
+          36,
+          4,
+          4
+        ],
+        "apron.protective-clothing": [
+          92,
+          32,
+          4,
+          4
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "bowl.dish",
+        "cup.drinking-container",
+        "mug.drinking-container",
+        "fork.eating-tool",
+        "chopsticks.eating-tool",
+        "knife.cutting-tool",
+        "kettle.water-container",
+        "cooker.cooking-appliance",
+        "fridge.cool-storage",
+        "dishwasher.appliance",
+        "microwave.cooking-appliance",
+        "apron.protective-clothing"
+      ]
+    },
+    {
+      "id": "opposites",
+      "title": "Opposite pairs",
+      "group": "Ideas",
+      "layout": "opposites",
+      "plate": "assets/posters/opposites.webp",
+      "pointer": true,
+      "labels": {
+        "big.large-size": [
+          8,
+          7
+        ],
+        "little.small-size": [
+          24.8,
+          7
+        ],
+        "hot.high-temperature": [
+          41.6,
+          7
+        ],
+        "cold.low-temperature": [
+          58.4,
+          7
+        ],
+        "day.twenty-four-hours": [
+          75.2,
+          7
+        ],
+        "night.dark-part-of-day": [
+          92,
+          7
+        ],
+        "up.towards-a-higher-place": [
+          8,
+          93
+        ],
+        "down.towards-a-lower-place": [
+          24.8,
+          93
+        ],
+        "full.containing-all-it-can": [
+          41.6,
+          93
+        ],
+        "empty.containing-nothing": [
+          58.4,
+          93
+        ],
+        "clean.not-dirty": [
+          75.2,
+          93
+        ],
+        "dirty.not-clean": [
+          92,
+          93
+        ]
+      },
+      "item_boxes": {
+        "big.large-size": [
+          9.7,
+          21.7,
+          0.6,
+          0.6
+        ],
+        "little.small-size": [
+          24.7,
+          24.7,
+          0.6,
+          0.6
+        ],
+        "hot.high-temperature": [
+          40.7,
+          23.7,
+          0.6,
+          0.6
+        ],
+        "cold.low-temperature": [
+          56.7,
+          24.7,
+          0.6,
+          0.6
+        ],
+        "day.twenty-four-hours": [
+          73.7,
+          21.7,
+          0.6,
+          0.6
+        ],
+        "night.dark-part-of-day": [
+          89.7,
+          21.7,
+          0.6,
+          0.6
+        ],
+        "up.towards-a-higher-place": [
+          9.7,
+          71.7,
+          0.6,
+          0.6
+        ],
+        "down.towards-a-lower-place": [
+          24.7,
+          76.7,
+          0.6,
+          0.6
+        ],
+        "full.containing-all-it-can": [
+          41.7,
+          74.7,
+          0.6,
+          0.6
+        ],
+        "empty.containing-nothing": [
+          57.7,
+          74.7,
+          0.6,
+          0.6
+        ],
+        "clean.not-dirty": [
+          74.7,
+          76.7,
+          0.6,
+          0.6
+        ],
+        "dirty.not-clean": [
+          90.7,
+          76.7,
+          0.6,
+          0.6
+        ]
+      },
+      "min_released": 3,
+      "senses": [
+        "big.large-size",
+        "little.small-size",
+        "hot.high-temperature",
+        "cold.low-temperature",
+        "day.twenty-four-hours",
+        "night.dark-part-of-day",
+        "up.towards-a-higher-place",
+        "down.towards-a-lower-place",
+        "full.containing-all-it-can",
+        "empty.containing-nothing",
+        "clean.not-dirty",
+        "dirty.not-clean"
+      ]
+    },
+    {
+      "id": "shapes",
+      "title": "Shapes",
+      "group": "Ideas",
+      "layout": "shapes",
+      "plate": "assets/posters/shapes.webp",
+      "pointer": true,
+      "labels": {
+        "circle.shape": [25, 7, 25, 16],
+        "diamond.shape": [41, 7, 41, 16],
+        "square.square-shaped": [57, 7, 57, 16],
+        "triangle.shape": [74, 7, 74, 16],
+        "cube.solid-shape": [22, 63, 22, 54],
+        "cone.solid-shape": [40, 63, 40, 54],
+        "cylinder.solid-shape": [59, 63, 59, 54],
+        "hexagon.shape": [77, 63, 77, 54],
+        "rectangle.shape": [16, 94, 16, 87],
+        "oval.shape": [43, 94, 43, 87],
+        "sphere.solid-shape": [65, 94, 65, 87],
+        "octagon.shape": [87, 94, 87, 87]
+      },
+      "item_boxes": {
+        "circle.shape": [23, 14, 4, 4],
+        "diamond.shape": [39, 14, 4, 4],
+        "square.square-shaped": [55, 14, 4, 4],
+        "triangle.shape": [72, 14, 4, 4],
+        "cube.solid-shape": [20, 52, 4, 4],
+        "cone.solid-shape": [38, 52, 4, 4],
+        "cylinder.solid-shape": [57, 52, 4, 4],
+        "hexagon.shape": [75, 52, 4, 4],
+        "rectangle.shape": [14, 85, 4, 4],
+        "oval.shape": [41, 85, 4, 4],
+        "sphere.solid-shape": [63, 85, 4, 4],
+        "octagon.shape": [85, 85, 4, 4]
+      },
+      "min_released": 3,
+      "senses": [
+        "circle.shape",
+        "diamond.shape",
+        "square.square-shaped",
+        "triangle.shape",
+        "cube.solid-shape",
+        "cone.solid-shape",
+        "cylinder.solid-shape",
+        "hexagon.shape",
+        "rectangle.shape",
+        "oval.shape",
+        "sphere.solid-shape",
+        "octagon.shape"
+      ]
+    },
+    {
+      "id": "weather",
+      "title": "Weather",
+      "group": "Nature",
+      "layout": "weather",
+      "plate": "assets/posters/weather.webp",
+      "pointer": false,
+      "labels": {
+        "cloud.sky-water": [10, 42],
+        "fog.weather": [29, 42],
+        "hot.high-temperature": [48, 42],
+        "sun.our-star": [69, 42],
+        "cold.low-temperature": [90, 42],
+        "rain.weather": [9, 93],
+        "storm.rough-weather": [29, 93],
+        "rainbow.sky-colours": [50, 93],
+        "snow.weather": [70, 93],
+        "wind.moving-air": [90, 93]
+      },
+      "item_boxes": {
+        "cloud.sky-water": [3, 37, 14, 10],
+        "fog.weather": [22, 37, 14, 10],
+        "hot.high-temperature": [41, 37, 14, 10],
+        "sun.our-star": [62, 37, 14, 10],
+        "cold.low-temperature": [83, 37, 14, 10],
+        "rain.weather": [2, 88, 14, 10],
+        "storm.rough-weather": [22, 88, 14, 10],
+        "rainbow.sky-colours": [43, 88, 14, 10],
+        "snow.weather": [63, 88, 14, 10],
+        "wind.moving-air": [83, 88, 14, 10]
+      },
+      "min_released": 3,
+      "senses": [
+        "cloud.sky-water",
+        "fog.weather",
+        "hot.high-temperature",
+        "cold.low-temperature",
+        "sun.our-star",
+        "rain.weather",
+        "storm.rough-weather",
+        "rainbow.sky-colours",
+        "snow.weather",
+        "wind.moving-air"
+      ]
+    },
+    {
+      "id": "animal-band",
+      "title": "The animal band",
+      "group": "Music",
+      "layout": "animal-band",
+      "plate": "assets/posters/animal-band.webp",
+      "pointer": true,
+      "labels": {
+        "drum.instrument": [12, 47, 12, 38],
+        "flute.instrument": [31, 47, 31, 32],
+        "guitar.instrument": [51, 47, 51, 38],
+        "harp.instrument": [72, 47, 72, 35],
+        "bell.ringing-instrument": [93, 47, 93, 37],
+        "piano.instrument": [10, 88, 10, 77],
+        "violin.instrument": [39, 84, 39, 72],
+        "trumpet.instrument": [59, 81, 60, 68],
+        "tambourine.instrument": [75, 84, 77, 72],
+        "xylophone.instrument": [92, 88, 91, 76]
+      },
+      "item_boxes": {
+        "drum.instrument": [10, 36, 4, 4],
+        "flute.instrument": [29, 30, 4, 4],
+        "guitar.instrument": [49, 36, 4, 4],
+        "harp.instrument": [70, 33, 4, 4],
+        "bell.ringing-instrument": [91, 35, 4, 4],
+        "piano.instrument": [8, 75, 4, 4],
+        "violin.instrument": [37, 70, 4, 4],
+        "trumpet.instrument": [58, 66, 4, 4],
+        "tambourine.instrument": [75, 70, 4, 4],
+        "xylophone.instrument": [89, 74, 4, 4]
+      },
+      "min_released": 3,
+      "senses": [
+        "drum.instrument",
+        "flute.instrument",
+        "guitar.instrument",
+        "harp.instrument",
+        "bell.ringing-instrument",
+        "piano.instrument",
+        "violin.instrument",
+        "trumpet.instrument",
+        "tambourine.instrument",
+        "xylophone.instrument"
+      ]
+    }
+  ]
+}

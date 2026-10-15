@@ -82,8 +82,12 @@
    all 26 letters. Owner, verbatim: "puzzle card -> approved. can we have it on live next?
    this time we'll have all the letter live." Ships the approved puzzle.thinking-game picture.
    A worker bump arms the release; production publish still needs the owner's SHA-bound
-   approval. */
-const CACHE_NAME='word-book-v12';
+   approval.
+   v12 -> v13, 2026-10-15: Posters mode, with only the 11 owner-approved posters live
+   (data/posters.json `live`). Owner, verbatim: "pls put the approved ones on live (public
+   main hub)". The other 28 posters stay on the Test Hub only. A worker bump arms the
+   release; production publish still needs the owner's SHA-bound approval. */
+const CACHE_NAME='word-book-v13';
 const SHELL=['./','./index.html','./dictionary.html','./fonts.css',
   './fonts/Nunito-latin.woff2','./fonts/Nunito-latin-ext.woff2','./fonts/FredokaOne-latin.woff2',
   './manifest.webmanifest','./data/dictionary.json','./data/letters.json','./data/features.json','./word-audio.js',
