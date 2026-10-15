@@ -1,0 +1,107 @@
+{
+  "tool": "Codex built-in image generation",
+  "model": "OpenAI built-in image model (model identifier not exposed)",
+  "date": "2026-10-10",
+  "style": "Calm luminous classic storybook watercolor on warm cream paper; restrained teal, dusty blue, and coral; soft cutaway diagrams; no text.",
+  "qa": "PASS: all ten accepted masters inspected at full size and runtime size; every visible hand, face, limb, mechanism, and Vanilla scale checked. Exactly attempt 1 was rejected after external review for the wrong dog identity and a center seam; attempt 2 is accepted.",
+  "images": [
+    {"name":"cover","master":"../art-source/cover-qa-attempt1.png","prompt":"Older girl and younger boy at a generic desktop computer in a warm home study, with tiny 4 kg papillon Vanilla; full bodies and clear hands."},
+    {"name":"many-jobs","master":"../art-source/many-jobs-attempt1.png","prompt":"One computer visibly connected to picture, music, and drawing jobs."},
+    {"name":"three-steps","master":"../art-source/three-steps-qa-attempt1.png","prompt":"Left-to-right tap input, linked instruction blocks in a computer cutaway, and flower output."},
+    {"name":"input","master":"../art-source/input-qa-attempt2.png","prompt":"Tap, blank keyboard, and sound inputs with arrows flowing into one computer."},
+    {"name":"instructions-inside","master":"../art-source/instructions-inside-independent-qa-nopeople.png","prompt":"After four face-edit attempts failed the no-speckle rule, remove both people and all human remnants; preserve the three lesson panels, arrows, ordered color sequences and three large tabletop blocks."},
+    {"name":"output","master":"../art-source/output-attempt1.png","prompt":"Arrows flow out of one computer toward picture, sound, abstract words, and moving toy."},
+    {"name":"very-fast","master":"../art-source/very-fast-attempt1.png","prompt":"Many small instruction cards flow through a transparent machine and assemble a mosaic flower."},
+    {"name":"exactly","master":"../art-source/exactly-triangle-attempt1.png","prompt":"Reference edit of the accepted exactly page: in each diagram, make the monitor triangle the same silhouette, proportions and colour as its instruction-card triangle, allowing only uniform scale and rotation; retain the correct blue roof and keep the identical red piece deliberately misplaced so the second result remains visibly wrong; preserve the room, arrows, children, Vanilla and all other content."},
+    {"name":"computers-inside","master":"../art-source/computers-inside-attempt1.png","prompt":"Washing-machine and traffic-controller cutaways reveal small generic controller boards."},
+    {"name":"closing","master":"../art-source/closing-qa-attempt2.png","prompt":"The two children and tiny Vanilla compare a desktop screen with a safe inset of the controller inside a closed washing machine."}
+  ],
+  "rejected": [
+    {"master":"../art-source/exactly-attempt1-rejected-wrong-dog-seam.png","reason":"External review: brown floppy-eared spaniel with blue collar was not Vanilla; faint vertical center seam."}
+  ],
+  "vanilla_size_review": {"date":"2026-10-10","verdict":"PASS","redrawn":["cover"],"retained":["exactly","closing"],"prompt":"Precise-object edit: change only Vanilla and adjacent pixels; preserve composition and style; small 4 kg papillon at 27–30% of comparable child height; shoulder near knee; exact markings, four paws, hands, no new text or seams."},
+  "art_qa_2026_10_11": {
+    "verdict": "PASS after redraw",
+    "redrawn": ["cover", "three-steps", "input", "instructions-inside", "exactly", "closing"],
+    "prompt_change": "Every scene or partial limb now locks identity and clothing to reading-tree-cast.webp: older girl in pink floral dress and cream cardigan; younger boy in blue-and-white short-sleeve striped shirt and blue shorts. Vanilla is explicitly 25–30% of child height. Appliance mechanisms near children must use a closed appliance plus a separate cutaway inset, never exposed wiring within reach. Preserve page-specific input/instruction/output mechanisms, require attached five-finger hands and forbid readable text, logos and seams.",
+    "rejected_attempts": [
+      "input qa attempt 1: coral and solid-blue sleeves did not match the canonical cast",
+      "exactly qa attempts 1 and 2: Vanilla remained larger than one-third child height",
+      "closing qa attempt 1: children stood beside an opened washer with exposed electronics"
+    ]
+  },
+  "adult_outfit_review_2026_10_12": {
+    "verdict": "PASS after reference edit",
+    "inventory": {"instructions-inside":"Mommy — teal cardigan over cream top (REJECT); edited to medium blue cardigan over plain white top (PASS)"},
+    "redrawn": ["instructions-inside"],
+    "retained": [],
+    "prompt": "Precise-object reference edit: change only Mommy's clothing to a medium blue cardigan over a plain white top and blue jeans if visible; preserve composition, pose, face, hands, child, diagrams, blocks and labels."
+  },
+  "independent_full_resolution_qa_2026_10_15": {"tool":"Codex built-in image generation reference edit","verdict":"PASS owner fallback after 4 rejected face attempts","redrawn":["instructions-inside"],"people_removed":["instructions-inside"],"master":"../art-source/instructions-inside-independent-qa-nopeople.png","qa":"Full-resolution inspection: no people or human remnants; all three lesson panels, arrows, ordered color sequences and lower tabletop blocks remain complete."},
+  "round_3_vanilla_and_identity_2026_10_12": {
+    "verdict": "PASS after reference edit",
+    "inventory": {"instructions-inside":"The blue-cardigan adult was designated Mommy in the accepted outfit round but had dark curly hair and a different face (REJECT); face and hair edited to recurring Mommy identity while preserving pose and accepted clothing (PASS)"},
+    "redrawn": ["instructions-inside"],
+    "retained": ["cover", "many-jobs", "three-steps", "input", "output", "very-fast", "exactly", "computers-inside", "closing"],
+    "prompt": "Identity-preserve reference edit: change only Mommy's face and hair to fair skin and auburn/light-brown hair in a loose bun; retain her exact pose, gaze, expression, medium-blue cardigan, plain white top, hands, child, blocks, diagrams and composition."
+  },
+  "exactly_piece_match_2026_10_15": {
+    "tool": "Codex built-in image generation reference edit",
+    "date": "2026-10-15",
+    "reference": "../art-source/exactly-qa-attempt3.png",
+    "master": "../art-source/exactly-triangle-attempt1.png",
+    "verdict": "PASS",
+    "prompt": "Change only the simple geometric pieces in the two instruction strips and monitor drawings. Within each diagram, the screen triangle is the same piece as the instruction-card triangle in silhouette, proportions and colour, with only uniform scaling and rotation allowed. Keep the blue piece as the correct roof and the red piece deliberately misplaced so the second output remains wrong. Preserve the children, Vanilla, room, screens, arrows and every other object.",
+    "qa": "reading-app/qa/2026-10-15-exactly-triangle/before-after-crops.webp; strict side-by-side card/screen crop review. The prior irregular red screen roof is rejected; the accepted red screen piece is the same broad right-pointing triangle as its card and remains visibly misplaced. The blue pair and both diagrams' red/teal square colours and roles were rechecked."
+  },
+  "exactly_vanilla_size_2026_10_15": {
+    "tool": "Codex built-in image generation reference edit",
+    "model": "OpenAI built-in image model (model identifier not exposed)",
+    "date": "2026-10-15",
+    "reference": "../art-source/exactly-triangle-attempt1.png",
+    "master": "../art-source/exactly-vanilla-size-attempt2.png",
+    "verdict": "PASS attempt 2",
+    "measurement": "Compared with Book 1 cover-size and closing plus the series people-check page; accepted target keeps Vanilla a 3.5 kg small Papillon with ear-to-paw height at the boy's knee rather than the prior below-knee scale.",
+    "prompt": "Precise-object reference edit: enlarge only Vanilla about 15%, uniformly, with all four paws anchored to the rug and upright ear tips ending at the boy's knee joint. Preserve her pose, gaze, markings, long coat and butterfly ears; preserve the boy, hands, room, screens, arrows, all geometric pieces and the approved triangle correction.",
+    "qa": "reading-app/qa/2026-10-15-exactly-triangle/vanilla-before-after.webp; full-page inspection plus separate Vanilla and boy-hands crops. PASS: four grounded paws, four natural legs, correct fringed Papillon ears and blaze, unchanged natural hands and unchanged lesson diagrams.",
+    "rejected": [
+      {"attempt": 1, "reason": "Vanilla became too large: ear tips rose above the knee toward mid-thigh."}
+    ]
+  },
+  "watercolour_pilot_2026_10_15": {
+    "tool": "Codex built-in image generation reference edit",
+    "model": "OpenAI built-in image model (model identifier not exposed)",
+    "date": "2026-10-15",
+    "verdict": "PASS for owner pilot review",
+    "style": "Clearly traditional, bright, child-friendly watercolour: visible warm paper tooth, transparent layered washes, soft wet edges, pigment pooling, gentle granulation, loose hand-painted edges and light colour bleeding; diagrams remain readable at iPad size.",
+    "prompt": "Change only the rendering medium of the supplied accepted page into unmistakable traditional watercolour. Preserve the exact canvas, crop, composition, positions, scale, perspective, palette relationships, lighting, every object, connection, face, hand, finger, character identity, Vanilla detail, arrow direction and lesson meaning. Add or remove nothing; no text, logos, seams or ruled vector finish.",
+    "images": [
+      {"name":"cover","reference":"../art-source/cover-qa-attempt1.png","master":"../art-source/cover-watercolour-attempt1.png","qa":"PASS: full page plus face/hand crop; recurring children, clean faces, clothes, poses, visible fingers, Vanilla identity/scale, computer and room contents preserved."},
+      {"name":"many-jobs","reference":"../art-source/many-jobs-attempt1.png","master":"../art-source/many-jobs-watercolour-attempt1.png","qa":"PASS: exactly one central computer, three job vignettes, three outward arrows, three music notes, drawing hand/stylus and flower output preserved."},
+      {"name":"three-steps","reference":"../art-source/three-steps-qa-attempt1.png","master":"../art-source/three-steps-watercolour-attempt3.png","qa":"PASS after two rejected cheek-speckle attempts: clean face, tapping hand, two main rightward arrows, red-yellow-blue block order, two internal rightward arrows, circuitry and flower output preserved."}
+    ],
+    "rejected": [
+      {"master":"../art-source/raw/three-steps-watercolour-attempt1.png","reason":"Pale cheek speckling violated the clean-face rule."},
+      {"master":"Codex generated attempt 2 (not accepted as a master)","reason":"Two distinct white cheek dots remained after the first cleanup."}
+    ],
+    "qa_sheet": "../../../qa/2026-10-15-watercolour-pilot/before-after.jpg"
+  },
+  "watercolour_restyle_2026_10_15": {
+    "tool": "Codex built-in image generation reference edit",
+    "model": "OpenAI built-in image model (model identifier not exposed)",
+    "date": "2026-10-15",
+    "verdict": "PASS",
+    "style": "Traditional watercolour matching the owner-approved pilot: visible warm paper tooth, transparent layered washes, soft wet edges, gentle granulation, loose hand-painted edges and light colour bleeding.",
+    "prompt": "Change only the rendering medium of the supplied accepted page into unmistakable traditional watercolour. Preserve exact canvas, crop, composition, positions, scale, perspective, palette relationships, lighting, every object, connection, face, hand, finger, character identity, Vanilla detail, arrow direction and lesson meaning. Add or remove nothing; no new text, logos, seams or ruled vector finish.",
+    "images": [
+      {"name":"input","reference":"../art-source/input-qa-attempt2.png","master":"../art-source/input-watercolour-attempt1.png","verdict":"PASS"},
+      {"name":"instructions-inside","reference":"../art-source/instructions-inside-independent-qa-nopeople.png","master":"../art-source/instructions-inside-watercolour-attempt1.png","verdict":"PASS"},
+      {"name":"output","reference":"../art-source/output-attempt1.png","master":"../art-source/output-watercolour-attempt1.png","verdict":"PASS"},
+      {"name":"very-fast","reference":"../art-source/very-fast-attempt1.png","master":"../art-source/very-fast-watercolour-attempt1.png","verdict":"PASS"},
+      {"name":"exactly","reference":"../art-source/exactly-vanilla-size-attempt2.png","master":"../art-source/exactly-watercolour-attempt1.png","verdict":"PASS"},
+      {"name":"computers-inside","reference":"../art-source/computers-inside-attempt1.png","master":"../art-source/computers-inside-watercolour-attempt1.png","verdict":"PASS"}
+    ],
+    "qa": "Full-page and detail review: composition, arrow direction, device/diagram relationships, children, clean faces, hands, Vanilla identity/scale, appliances and traffic controller preserved. No new text or logos.",
+    "evidence": "../../../qa/2026-10-15-watercolour-restyle/what-computers-do-before-after.jpg"
+  }
+}

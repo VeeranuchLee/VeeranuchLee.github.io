@@ -1,0 +1,63 @@
+{
+  "tool": "Codex built-in image generation",
+  "model": "OpenAI built-in image model (model identifier not exposed)",
+  "date": "2026-10-10",
+  "style": "Soft classic watercolor on warm cream paper; restrained teal, coral, and gold; clear mechanism-first compositions; no readable text.",
+  "runtime_encoding": "Pillow WebP, 1024x1024, quality 85, method 6",
+  "references": ["../../../../shared-art/kid-characters/sheets/reading-tree-cast.webp", "../../what-computers-do/art/cover.webp"],
+  "verdict": "PASS: accepted vanilla-grid attempt 3 shows tiny papillon Vanilla wholly inside the bottom-left start square, facing upward beside a clear upward facing arrow in the same square; exact 5x4 route and eight command cards verified.",
+  "images": ["cover","you-are-in-charge","draw-a-house","one-step","order","be-exact","vanilla-grid","wrong-step","fix-and-try","closing"],
+  "rejected": [
+    "draw-a-house attempt 1: duplicate cast",
+    "fix-and-try attempt 1: wrong grid size",
+    "fix-and-try attempt 2: duplicate dog",
+    "fix-and-try attempt 3: wrong grid size",
+    "vanilla-grid attempt 1: external review found no clear facing arrow in/on the start square and Vanilla faced the viewer",
+    "vanilla-grid attempt 2: Vanilla faced upward but the facing arrow landed in the next square rather than the start square"
+  ],
+  "vanilla_size_review": {"date":"2026-10-10","verdict":"PASS","redrawn":["cover","draw-a-house","one-step","order","wrong-step","closing"],"retained":["you-are-in-charge","be-exact","vanilla-grid","fix-and-try"],"prompt":"Precise-object edit: change only Vanilla and adjacent pixels; preserve composition, diagrams and style; small 4 kg papillon at 27–30% of comparable child height; shoulder near knee; exact markings, four paws, hands, no new text or seams."},
+  "art_qa_2026_10_11": {
+    "verdict": "PASS after redraw",
+    "redrawn": ["you-are-in-charge", "vanilla-grid", "wrong-step", "fix-and-try"],
+    "retained": ["cover", "draw-a-house", "one-step", "order", "be-exact", "closing"],
+    "prompt_change": "Every cast scene now locks the older girl to a pink floral dress and cream cardigan, the younger boy to a blue-and-white short-sleeve striped shirt and blue shorts, and Vanilla below the boy's knee at 25–30% of full child height. Grid prompts require a 5-by-4 grid and enumerate the exact eight-card sequence (three up, one right turn, four right). Wrong-step prompts require Vanilla physically at the slipper and the dashed route ending there; fix-and-try prompts require Vanilla at the treat. All hands must be attached, five-fingered, correctly chiral and visibly grip or point.",
+    "rejected_attempts": ["you-are-in-charge qa attempt 1: Vanilla remained about 40% of boy height", "wrong-step qa attempt 1: Vanilla remained at the start rather than at the slipper", "fix-and-try qa attempt 1: only seven instruction cards", "fix-and-try qa attempt 2: nine instruction cards"]
+  },
+  "adult_outfit_review_2026_10_12": {
+    "verdict": "PASS",
+    "inventory": "No adults appear on any of the 10 cover/page illustrations.",
+    "redrawn": [],
+    "retained": []
+  },
+  "owner_corrections_2026_10_14": {
+    "tool": "Codex built-in image generation reference edit",
+    "verdict": "PASS at full source resolution",
+    "redrawn": ["you-are-in-charge", "be-exact", "vanilla-grid", "wrong-step", "fix-and-try", "closing"],
+    "summary": "Vanilla enlarged consistently on you-are-in-charge; be-exact arrows reversed into the boy's travel direction; grid trilogy changed to one consistent original unbranded white-and-blue coding robot with A-E/1-4 labels, robot A1 and Vanilla E4; closing route corrected to five numbered alternating footprints pointing from hall to bed.",
+    "rejected_attempts": ["closing attempt 1: duplicated footprint 5", "closing attempt 2: toes faced back toward the children", "closing attempt 3: correct direction but did not clearly alternate feet"],
+    "masters": ["raw/you-are-in-charge-owner-2026-10-14-attempt1.png", "raw/be-exact-owner-2026-10-14-attempt1.png", "raw/vanilla-grid-robot-attempt1.png", "raw/wrong-step-robot-attempt1.png", "raw/fix-and-try-robot-attempt1.png", "raw/closing-footprints-attempt4.png"]
+  },
+  "closing_depth_correction_2026_10_14": {
+    "tool": "Codex built-in image generation reference edit",
+    "verdict": "PASS at full 1254x1254 source resolution on attempt 1",
+    "summary": "Exactly five alternating footprints recede from the children through the open right-hand bedroom doorway: 4 is on the wooden threshold and 5 is inside the bedroom heading toward the visible bed. Toes follow the route; numerals 1-5 are upright and readable. Children, Vanilla, rooms and style are retained.",
+    "replaces": "raw/closing-footprints-attempt4.png",
+    "master": "raw/closing-footprints-depth-attempt1.png",
+    "prompt": "Change only the five glowing numbered footprints and immediately covered floor pixels. Put 1 before the children, 2-3 receding toward the open right-hand bedroom doorway, 4 on its threshold, and 5 inside the bedroom heading toward the bed; exactly five, alternate feet, toes forward, upright readable numbers; preserve every other scene element."
+  },
+  "watercolour_restyle_2026_10_15": {
+    "tool": "Codex built-in image generation reference edit",
+    "model": "OpenAI built-in image model (model identifier not exposed)",
+    "date": "2026-10-15",
+    "verdict": "PASS",
+    "prompt": "Change only the rendering medium into unmistakable traditional watercolour. Preserve exact grid geometry, every cell, row and column, A-E and 1-4 label positions, robot and goal positions, obstacles, route, arrows and command cards; add or remove nothing.",
+    "images": [
+      {"name":"cover","reference":"../art-source/raw/cover-size-attempt1.png","master":"../art-source/raw/cover-watercolour-attempt1.png","verdict":"PASS"},
+      {"name":"vanilla-grid","reference":"../art-source/raw/vanilla-grid-robot-attempt1.png","master":"../art-source/raw/vanilla-grid-watercolour-attempt1.png","verdict":"PASS"},
+      {"name":"wrong-step","reference":"../art-source/raw/wrong-step-robot-attempt1.png","master":"../art-source/raw/wrong-step-watercolour-attempt1.png","verdict":"PASS"},
+      {"name":"fix-and-try","reference":"../art-source/raw/fix-and-try-robot-attempt1.png","master":"../art-source/raw/fix-and-try-watercolour-attempt1.png","verdict":"PASS"}
+    ],
+    "qa": "Side-by-side full-page review preserves all 5 columns, 4 rows, A-E/1-4 labels, consistent unbranded robot, Vanilla E4 goal, slipper D3 wrong-route endpoint, exact routes and eight-card command strips. check-book3-grid.py passes.",
+    "evidence": "../../../qa/2026-10-15-watercolour-restyle/exact-instructions-before-after.jpg"
+  }
+}

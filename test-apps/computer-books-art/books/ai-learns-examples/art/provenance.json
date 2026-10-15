@@ -1,0 +1,58 @@
+{
+  "tool": "Codex built-in image generation",
+  "model": "OpenAI built-in image model (model identifier not exposed)",
+  "date": "2026-10-10",
+  "style": "Soft classic watercolor on warm cream paper; restrained teal, coral, and gold; mechanism-first learned-pattern diagrams; no robots or readable text.",
+  "runtime_encoding": "Pillow WebP, 1024x1024, quality 85, method 6",
+  "references": ["../../../../shared-art/kid-characters/sheets/reading-tree-cast.webp", "../../what-stays-private/art/cover.webp"],
+  "verdict": "PASS after independent art QA redraw",
+  "images": ["cover","many-examples","patterns","dogs","guess","not-a-person","can-be-wrong","people-check","you-can-check","closing"],
+  "rejected": [],
+  "art_qa_2026_10_11": {
+    "verdict": "PASS after redraw",
+    "redrawn": ["many-examples", "dogs", "people-check", "you-can-check", "closing"],
+    "retained": ["cover", "patterns", "guess", "not-a-person", "can-be-wrong"],
+    "prompt_change": "AI-learning prompts now require a literal left-to-right mechanism: labeled training examples flow into a pattern-comparison lens and a visible output emerges. Exact labels are permitted and required when the sentence relies on names; all other text remains forbidden. Human-check scenes must pair one unambiguously wrong output with a concrete trusted correction. Closing art must visibly connect learned clues to a wrong output the child can explain. Every living Vanilla is independently scale-locked and rechecked at one-quarter to one-third of full child height.",
+    "rejected_attempts": ["many-examples qa attempt 1: Vanilla exceeded one-third child height", "many-examples qa attempt 2: Vanilla fell below one-quarter child height", "dogs qa attempt 1: Vanilla exceeded one-third child height", "dogs qa attempt 2: Vanilla fell below one-quarter child height", "dogs qa attempt 3: Vanilla jumped above one-third child height", "people-check qa attempt 1: Vanilla exceeded one-third child height", "people-check qa attempt 2: Vanilla fell slightly below one-quarter child height", "you-can-check qa attempt 1: Vanilla exceeded one-third child height", "closing qa attempt 1: Vanilla exceeded one-third child height"]
+  },
+  "vanilla_size_review": {"date":"2026-10-10","verdict":"PASS","redrawn":["cover","many-examples","patterns","dogs","guess","not-a-person","can-be-wrong","people-check","you-can-check","closing"],"retained":[],"prompt":"Precise-object edit: change only living Vanilla and adjacent pixels, never example cards; preserve composition, diagrams and style; small 4 kg papillon at 27–30% of comparable child height; exact markings, paws, hands, no new text or seams."},
+  "adult_outfit_review_2026_10_12": {
+    "verdict": "PASS",
+    "inventory": {"people-check":"Grandma — dark forest-green cardigan over plain white blouse (PASS; canonical)"},
+    "redrawn": [],
+    "retained": ["people-check"]
+  },
+  "owner_corrections_2026_10_14": {
+    "tool": "Codex built-in image generation reference edit",
+    "verdict": "PASS at full source resolution",
+    "redrawn": ["dogs", "guess"],
+    "summary": "Living Vanilla moved off the tabletop on dogs and both guess panels; her body remains floor-side with only front paws allowed at the table edge, at the established Book 6 size. Lesson cards and diagrams are unchanged.",
+    "masters": ["raw/dogs-vanilla-floor-attempt1.png", "raw/guess-vanilla-floor-attempt1.png"]
+  },
+  "independent_full_resolution_qa_2026_10_15": {"tool":"Codex built-in image generation reference edit","verdict":"PASS attempt 1 on all four pages","redrawn":["patterns","dogs","people-check","closing"],"masters":["raw/patterns-independent-qa-attempt1.png","raw/dogs-independent-qa-attempt1.png","raw/people-check-independent-qa-attempt1.png","raw/closing-independent-qa-attempt1.png"],"summary":"Patterns and dogs place living Vanilla fully on the floor beside the table. People-check and closing use clean, calm recurring child faces; closing retains Vanilla on the approved garden stair."},
+  "dogs_furniture_correction_2026_10_15": {"tool":"Codex built-in image generation reference edit","verdict":"PASS attempt 1 at full source resolution","master":"raw/dogs-vanilla-chair-attempt1.png","master_sha256":"157120269466ee679d84ddb4188feaa57a8f79a80b89088ec8da76f63cf50e35","runtime_sha256":"ef42b57c116cbe05dc21ab184aacf5ff3e3511bcb65fdbd87d172e7f0f7bf246","summary":"Vanilla is unmistakably off the table: both hind paws and her hindquarters stand on the visible wooden chair seat behind the table, while only her two front paws rest on the table edge. The cards, magnifier diagram and garden remain unchanged."},
+  "face_consistency_resume_2026_10_14": {"tool":"Codex built-in image generation","verdict":"PASS","redrawn":[],"children_removed":["patterns"],"master":"raw/patterns-people-removed-attempt1.png","summary":"Patterns now carries the lesson with dog/cat example panels and seven example cards; all people are removed and living Vanilla is grounded on the floor."},
+  "face_consistency_2026_10_14": {
+    "tool": "Codex built-in image generation reference edit",
+    "verdict": "PARTIAL PASS at full source resolution",
+    "redrawn": ["cover"],
+    "children_removed": ["many-examples", "dogs", "guess", "not-a-person", "can-be-wrong"],
+    "retained_blocked": ["patterns", "people-check", "you-can-check", "closing"],
+    "summary": "Accepted only pages that passed strict identity, clean-cheek, anatomy, Vanilla and composition checks. Rejected attempts were not promoted.",
+    "masters": ["raw/cover-face-attempt2.png", "raw/many-examples-remove-attempt1.png", "raw/dogs-remove-attempt1.png", "raw/guess-remove-attempt1.png", "raw/not-a-person-remove-attempt1.png", "raw/can-be-wrong-remove-attempt1.png"]
+  },
+  "watercolour_restyle_2026_10_15": {
+    "tool": "Codex built-in image generation reference edit",
+    "model": "OpenAI built-in image model (model identifier not exposed)",
+    "date": "2026-10-15",
+    "verdict": "PASS after one rejected stale-reference attempt",
+    "images": [
+      {"name":"patterns","reference":"../art-source/raw/patterns-people-removed-attempt1.png","master":"../art-source/raw/patterns-watercolour-attempt1.png","verdict":"PASS"},
+      {"name":"dogs","reference":"../art-source/raw/dogs-vanilla-chair-attempt1.png","master":"../art-source/raw/dogs-watercolour-attempt2.png","verdict":"PASS attempt 2"}
+    ],
+    "rejected": [{"master":"../art-source/raw/dogs-watercolour-attempt1.png","reason":"Based on the older floor master and reintroduced both children; rejected before runtime promotion."}],
+    "prompt": "Change only the rendering medium into unmistakable traditional watercolour; preserve every example card, existing label, animal, row, arrow, magnifying pattern diagram, output panel, checkmark and Vanilla position; add or remove nothing.",
+    "qa": "Patterns remains people-free with seven lower example cards, two training rows, two output guesses and grounded Vanilla. Dogs remains people-free; all six labeled input cards, magnifier clues, two labeled outputs, checkmarks and chair-positioned Vanilla are preserved.",
+    "evidence": "../../../qa/2026-10-15-watercolour-restyle/ai-learns-examples-before-after.jpg"
+  }
+}
