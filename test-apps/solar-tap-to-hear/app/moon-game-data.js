@@ -534,11 +534,11 @@ window.MOON_GAME_DATA = {
     "key": "francisco",
     "name": "Francisco",
     "planet": "uranus",
-    "shortFact": "The closest of Uranus's far-out moons.",
-    "text": "Francisco, a moon of Uranus. The closest of Uranus's far-out moons.",
+    "shortFact": "The closest of its far-out moons.",
+    "text": "Francisco, a moon of Uranus. The closest of its far-out moons.",
     "diameterKm": 22,
     "audio": "moon-facts/francisco.m4a",
-    "sourceFile": "solar-system-game/assets/audio/174-francisco-a-moon-of-uranus-the-closest-of-uranus-s-f.m4a"
+    "sourceFile": "solar-system-game/assets/audio/226-francisco-a-moon-of-uranus-the-closest-of-its-far-ou.m4a"
   },
   "stephano": {
     "key": "stephano",
