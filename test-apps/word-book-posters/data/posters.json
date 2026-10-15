@@ -446,109 +446,109 @@
       "title": "First to tenth",
       "layout": "race",
       "plate": "assets/posters/ordinals.webp",
-      "pointer": true,
+      "pointer": false,
       "labels": {
         "first.order-one": [
-          94,
-          88
+          93,
+          30
         ],
         "second.order-two": [
-          84.2,
-          94
+          66.5,
+          33
         ],
         "third.order-three": [
-          74.4,
-          88
+          54,
+          30
         ],
         "fourth.order-four": [
-          64.6,
-          94
+          44,
+          28
         ],
         "fifth.order-five": [
-          54.8,
-          88
+          36,
+          15
         ],
         "sixth.order-six": [
-          45,
-          94
+          29,
+          25
         ],
         "seventh.order-seven": [
-          35.2,
-          88
+          22,
+          13
         ],
         "eighth.order-eight": [
-          25.4,
-          94
+          15,
+          23
         ],
         "ninth.order-nine": [
-          15.6,
-          88
+          9,
+          9.5
         ],
         "tenth.order-ten": [
-          5.8,
-          94
+          5.5,
+          19
         ]
       },
       "item_boxes": {
         "first.order-one": [
-          84,
-          42,
-          12,
-          38
+          88,
+          25,
+          10,
+          40
         ],
         "second.order-two": [
-          73,
-          43,
+          61,
+          28,
           11,
-          36
+          30
         ],
         "third.order-three": [
-          62,
-          42,
-          11,
-          36
+          49,
+          25,
+          10,
+          30
         ],
         "fourth.order-four": [
-          51,
-          42,
-          11,
-          35
+          39,
+          23,
+          10,
+          28
         ],
         "fifth.order-five": [
-          40,
-          41,
-          11,
-          35
+          31,
+          10,
+          10,
+          38
         ],
         "sixth.order-six": [
-          29,
-          40,
-          11,
-          34
+          24,
+          20,
+          9,
+          26
         ],
         "seventh.order-seven": [
-          18,
-          39,
+          16,
+          8,
           11,
-          33
+          38
         ],
         "eighth.order-eight": [
-          11,
-          37,
-          7,
-          29
+          10,
+          18,
+          9,
+          24
         ],
         "ninth.order-nine": [
-          5,
-          35,
-          7,
-          29
+          4,
+          4,
+          9,
+          36
         ],
         "tenth.order-ten": [
           0,
-          32,
-          7,
-          28
+          14,
+          9,
+          22
         ]
       },
       "min_released": 3,
@@ -570,99 +570,99 @@
       "title": "From the Sun",
       "layout": "solar",
       "plate": "assets/posters/solar-system.webp",
-      "pointer": true,
+      "pointer": false,
       "labels": {
         "sun.our-star": [
-          7,
-          91
+          6,
+          50
         ],
         "mercury.planet": [
-          18,
-          72
+          15,
+          41
         ],
         "venus.planet": [
-          26,
-          86
+          21,
+          59.5
         ],
         "earth.our-planet": [
-          34.5,
-          72
+          30,
+          38.5
         ],
         "mars.planet": [
-          43,
-          86
+          39,
+          59
         ],
         "jupiter.planet": [
-          55.5,
-          72
+          52.4,
+          33
         ],
         "saturn.planet": [
-          69,
-          86
+          69.7,
+          62.5
         ],
         "uranus.planet": [
-          81.5,
-          72
+          84,
+          38.5
         ],
         "neptune.planet": [
-          92.5,
-          86
+          93.5,
+          61
         ]
       },
       "item_boxes": {
         "sun.our-star": [
           0,
-          18,
-          14,
-          68
+          12,
+          11,
+          64
         ],
         "mercury.planet": [
-          16,
-          49,
-          4,
-          7
+          9,
+          36,
+          12,
+          16
         ],
         "venus.planet": [
-          23,
+          16,
           45,
-          6,
-          10
-        ],
-        "earth.our-planet": [
-          31,
-          43,
-          7,
-          12
-        ],
-        "mars.planet": [
-          40,
-          45,
-          6,
-          10
-        ],
-        "jupiter.planet": [
-          49,
-          34,
-          13,
-          22
-        ],
-        "saturn.planet": [
-          62,
-          35,
-          14,
+          10,
           20
         ],
+        "earth.our-planet": [
+          24,
+          33,
+          12,
+          23
+        ],
+        "mars.planet": [
+          34,
+          45,
+          10,
+          20
+        ],
+        "jupiter.planet": [
+          44,
+          28,
+          17,
+          33
+        ],
+        "saturn.planet": [
+          59,
+          40,
+          20,
+          28
+        ],
         "uranus.planet": [
-          77,
-          39,
-          9,
-          15
+          78,
+          33,
+          12,
+          23
         ],
         "neptune.planet": [
           88,
-          39,
-          9,
-          15
+          44,
+          12,
+          23
         ]
       },
       "min_released": 4,
@@ -841,79 +841,88 @@
       "title": "Days of the week",
       "layout": "week-strip",
       "plate": "assets/posters/weekdays.webp",
-      "pointer": true,
+      "pointer": false,
+      "label_outlines": {
+        "monday.weekday": "#f2c200",
+        "tuesday.weekday": "#ec6fa8",
+        "wednesday.weekday": "#2e9e4f",
+        "thursday.weekday": "#f57c00",
+        "friday.weekday": "#29a8e0",
+        "saturday.weekday": "#8e44ad",
+        "sunday.weekday": "#e53935"
+      },
       "labels": {
         "monday.weekday": [
-          11.5,
-          32
+          8.1,
+          60
         ],
         "tuesday.weekday": [
-          25.5,
-          36
+          20.4,
+          61
         ],
         "wednesday.weekday": [
-          37,
-          32
+          34,
+          71
         ],
         "thursday.weekday": [
-          49.5,
-          36
+          48.3,
+          70.5
         ],
         "friday.weekday": [
-          61.5,
-          32
+          64.3,
+          70.5
         ],
         "saturday.weekday": [
-          75,
-          36
+          79.1,
+          68
         ],
         "sunday.weekday": [
-          89,
-          32
+          92,
+          65.5
         ]
       },
       "item_boxes": {
         "monday.weekday": [
-          6,
-          42,
-          11,
-          24
+          1,
+          44,
+          14,
+          19
         ],
         "tuesday.weekday": [
-          20,
-          47,
-          11,
+          14,
+          50,
+          13,
           17
         ],
         "wednesday.weekday": [
-          31,
-          43,
-          12,
-          20
+          27,
+          52,
+          14,
+          23
         ],
         "thursday.weekday": [
-          44,
-          45,
-          11,
-          19
+          41,
+          51,
+          14,
+          23
         ],
         "friday.weekday": [
-          56,
-          44,
-          11,
-          20
+          57,
+          53,
+          14,
+          21
         ],
         "saturday.weekday": [
-          69,
-          43,
-          12,
-          22
+          72,
+          48,
+          14,
+          23
         ],
         "sunday.weekday": [
-          83,
-          42,
-          12,
-          23
+          85,
+          47,
+          14,
+          22
         ]
       },
       "min_released": 3,
@@ -991,78 +1000,87 @@
       "layout": "rainbow",
       "plate": "assets/posters/rainbow.webp",
       "pointer": false,
+      "label_outlines": {
+        "red.colour": "#e53935",
+        "orange.colour": "#fb8c00",
+        "yellow.colour": "#f2c200",
+        "green.colour": "#43a047",
+        "blue.colour": "#1e88e5",
+        "indigo.colour": "#3f3dbd",
+        "violet.colour": "#8e44ad"
+      },
       "labels": {
         "red.colour": [
-          22,
-          26
+          14.6,
+          30.9
         ],
         "orange.colour": [
-          34,
-          27
+          27.8,
+          20.8
         ],
         "yellow.colour": [
-          46,
-          30
+          41.6,
+          17.3
         ],
         "green.colour": [
-          58,
-          34
+          54.8,
+          20.1
         ],
         "blue.colour": [
-          70,
-          40
+          65.0,
+          27.7
         ],
         "indigo.colour": [
-          76,
-          47
+          72.7,
+          37.9
         ],
         "violet.colour": [
-          80,
-          55
+          78.4,
+          50.2
         ]
       },
       "item_boxes": {
         "red.colour": [
-          14,
-          19,
-          70,
-          14
+          8.6,
+          25.9,
+          12,
+          10
         ],
         "orange.colour": [
-          18,
-          21,
-          64,
-          14
+          21.8,
+          15.8,
+          12,
+          10
         ],
         "yellow.colour": [
-          21,
-          24,
-          59,
-          14
+          35.6,
+          12.3,
+          12,
+          10
         ],
         "green.colour": [
-          24,
-          28,
-          54,
-          14
+          48.8,
+          15.1,
+          12,
+          10
         ],
         "blue.colour": [
-          27,
-          33,
-          48,
-          14
+          59.0,
+          22.7,
+          12,
+          10
         ],
         "indigo.colour": [
-          30,
-          38,
-          43,
-          13
+          66.7,
+          32.9,
+          12,
+          10
         ],
         "violet.colour": [
-          33,
-          44,
-          38,
-          13
+          72.4,
+          45.2,
+          12,
+          10
         ]
       },
       "min_released": 3,
