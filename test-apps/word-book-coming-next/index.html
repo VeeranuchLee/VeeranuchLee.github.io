@@ -37,8 +37,8 @@ del{background:#ffe3e3}ins{background:#dff5e9;text-decoration:none}
 .pic.todo span{font-weight:900;font-size:.72rem;color:#c9a8bb;letter-spacing:.04em}
 .body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px}
 .head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
-.head .word{flex:1;min-width:0;overflow-wrap:anywhere;padding-top:12px;font-family:'Fredoka One',Nunito,sans-serif;font-size:1.5rem;line-height:1.1;color:#3a1e33}
-.pn{flex:none;margin-top:14px;padding:2px 8px;border-radius:50px;background:#d9f2ff;color:#2a6a8f;border:2px solid #b7dffa;font-weight:900;font-size:.68rem}
+.head .word{flex:1;min-width:0;overflow-wrap:normal;word-break:normal;hyphens:none;padding-top:12px;font-family:'Fredoka One',Nunito,sans-serif;font-size:1.5rem;line-height:1.1;color:#3a1e33}
+.pn{align-self:flex-start;padding:2px 8px;border-radius:50px;background:#d9f2ff;color:#2a6a8f;border:2px solid #b7dffa;font-weight:900;font-size:.68rem}
 .thai{font-family:"Noto Sans Thai","Thonburi",ui-rounded,system-ui,sans-serif;font-size:1.05rem;font-weight:700;color:#a8386a;line-height:1.35}
 .egline{display:flex;align-items:flex-start;gap:8px;margin-top:2px}
 .egline .eg{flex:1;min-width:0;margin-top:0;padding-top:4px;font-size:.9rem;font-weight:700;color:#6b5260;line-height:1.4}
@@ -83,8 +83,9 @@ function visible(e){const q=query.toLowerCase();return (filter==='All'||(filter=
 function cardHtml(e){const d=saved[e.sense]||{},decision=decisionOf(e);
 return `<article class="card" data-sense="${esc(e.sense)}">`+
 (e.picture?`<div class="pic"><img src="${esc(e.picture)}" alt="" loading="lazy" decoding="async" draggable="false"></div>`:`<div class="pic todo"><span>picture to come</span></div>`)+
-`<div class="body"><div class="head"><p class="word">${esc(e.word)}</p>${e.proper_name?'<span class="pn">proper name</span>':''}`+
+`<div class="body"><div class="head"><p class="word">${esc(e.word)}</p>`+
 `${e.word_clip?`<button type="button" class="speak" data-clip="${esc(e.word_clip)}" aria-label="Hear ${esc(e.word)}">${SPEAKER}</button>`:''}</div>`+
+`${e.proper_name?'<span class="pn">proper name</span>':''}`+
 `<p class="thai" lang="th">${esc(e.thai)}</p>`+
 `<div class="egline"><p class="eg">${esc(e.sentence)}</p><button type="button" class="speak sentence-speak" data-clip="${esc(e.sentence_clip)}" aria-label="Hear the sentence">${BUBBLE}</button></div>`+
 `<div class="mini"><div class="choices" role="group" aria-label="Decision for ${esc(e.word)}">${['keep','revise','skip'].map(x=>`<button type="button" class="decision ${decision===x?'on':''}" data-value="${x}">${x[0].toUpperCase()+x.slice(1)}</button>`).join('')}</div>`+
@@ -92,7 +93,13 @@ return `<article class="card" data-sense="${esc(e.sense)}">`+
 `<button type="button" class="dtoggle" aria-expanded="false">Details</button>`+
 `<div class="details" hidden><p><b>Meaning:</b> ${esc(e.explanation)}</p><p><b>Picture brief:</b> ${esc(e.picture_brief)}</p><p class="meta">${esc(e.part_of_speech)} · ${esc(e.theme)} · ${esc(e.sense)}</p></div>`+
 `</div></div></article>`}
-function render(){const all=DATA.entries.filter(visible),pages=Math.max(1,Math.ceil(all.length/PAGE_SIZE));page=Math.min(page,pages);const list=all.slice((page-1)*PAGE_SIZE,page*PAGE_SIZE);hush();cards.innerHTML=list.map(cardHtml).join('')||'<p class="empty">No cards match these filters.</p>';$('#pageText').textContent=`Page ${page} of ${pages} · ${all.length} matching senses`;$('#prevPage').disabled=page===1;$('#nextPage').disabled=page===pages;progress()}
+function fitWords(){cards.querySelectorAll('.word').forEach(word=>{let size=1.5;word.style.fontSize='';while(word.scrollWidth>word.clientWidth&&size>1.05){size=Math.max(1.05,size-.05);word.style.fontSize=`${size.toFixed(2)}rem`}})}
+function render(){const all=DATA.entries.filter(visible),pages=Math.max(1,Math.ceil(all.length/PAGE_SIZE));page=Math.min(page,pages);const list=all.slice((page-1)*PAGE_SIZE,page*PAGE_SIZE);hush();cards.innerHTML=list.map(cardHtml).join('')||'<p class="empty">No cards match these filters.</p>';$('#pageText').textContent=`Page ${page} of ${pages} · ${all.length} matching senses`;$('#prevPage').disabled=page===1;$('#nextPage').disabled=page===pages;progress();fitWords()}
+let fitFrame=0;
+function scheduleWordFit(){cancelAnimationFrame(fitFrame);fitFrame=requestAnimationFrame(fitWords)}
+addEventListener('resize',scheduleWordFit);
+addEventListener('orientationchange',scheduleWordFit);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(scheduleWordFit);
 function stats(){const total=DATA.entries.length,count=v=>DATA.entries.filter(e=>decisionOf(e)===v).length,keep=count('keep'),revise=count('revise'),skip=count('skip'),reviewed=keep+revise+skip;return {total,keep,revise,skip,reviewed,not_reviewed:total-reviewed}}
 function newDecisionCount(){return DATA.entries.filter(e=>decisionOf(e)&&!(saved[e.sense]||{}).copied_at).length}
 function progress(){const s=stats();$('#progressText').textContent=`Reviewed ${s.reviewed} of ${s.total} · Keep ${s.keep} · Revise ${s.revise} · Skip ${s.skip} · Not yet reviewed ${s.not_reviewed}`;$('#counts').textContent='';$('#barFill').style.width=`${s.reviewed/s.total*100}%`;$('#copyNew').textContent=`Copy new decisions (${newDecisionCount()})`}
