@@ -574,7 +574,7 @@
         const el=document.createElement(missing?'div':'a');
         el.className='card '+s.side+(missing?' missing':'');
         if(!missing){
-          el.href='./'+s.path+'/';
+          el.href='./'+s.path+'/'+(s.entry||'');
         }
         const title=document.createElement('h3');
         title.textContent=s.title;
@@ -609,7 +609,7 @@
       for(const s of archived){
         const item=document.createElement('li');
         const link=document.createElement('a');
-        link.href='./'+s.path+'/';
+        link.href='./'+s.path+'/'+(s.entry||'');
         link.textContent=s.title;
         item.appendChild(link);
         archiveList.appendChild(item);
