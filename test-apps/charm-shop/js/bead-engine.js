@@ -4,26 +4,26 @@
   else root.BeadEngine = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
-  const LAYOUT_VERSION = 3;
-  const TYPES = { necklace: 15, bracelet: 11, earrings: 12 };
+  const LAYOUT_VERSION = 4;
+  const TYPES = { necklace: 9, bracelet: 8, earrings: 8 };
   const layouts = {
     editor: {
-      necklace:{kind:'necklace',left:8,right:92,top:18,bottom:65},
-      bracelet:{kind:'bracelet',cx:50,cy:49,rx:31,ry:28},
-      earrings:{kind:'earrings',leftTop:34,rightTop:66,top:15,bottom:70,spread:14}
+      necklace:{kind:'necklace',left:13,right:147,top:16,bottom:68},
+      bracelet:{kind:'bracelet',cx:80,cy:49,rx:43,ry:30},
+      earrings:{kind:'earrings',leftTop:55,rightTop:105,top:15,bottom:68,spread:18}
     },
     character: {
       necklace:{kind:'necklace',left:41,right:60,top:38,bottom:48},
-      bracelet:{kind:'bracelet',cx:47,cy:83,rx:3.1,ry:4.1},
+      bracelet:{kind:'bracelet',cx:47,cy:83,rx:2.6,ry:3.6},
       earrings:{kind:'earrings',leftTop:39,rightTop:61,top:29,bottom:36.8,spread:1}
     },
     display: {
-      necklace:{kind:'necklace',left:36,right:64,top:24,bottom:52},
-      bracelet:{kind:'bracelet',cx:19,cy:54,rx:10.5,ry:5.5},
-      earrings:{kind:'earrings',leftTop:80,rightTop:92,top:41,bottom:51,spread:2}
+      necklace:{kind:'necklace',left:37,right:63,top:24,bottom:52},
+      bracelet:{kind:'bracelet',cx:19,cy:54,rx:10.2,ry:5.2},
+      earrings:{kind:'earrings',leftTop:80,rightTop:92,top:41,bottom:50,spread:1}
     }
   };
-  const desiredRadii = {editor:3.8,character:1.35,display:1.7};
+  const desiredRadii = {editor:6.2,character:1.35,display:1.7};
   const boxes = {
     character:{necklace:{x1:40,y1:37,x2:61,y2:50},bracelet:{x1:43,y1:78,x2:51,y2:88},earrings:{x1:37,y1:27,x2:63,y2:38}},
     display:{necklace:{x1:35,y1:22,x2:65,y2:55},bracelet:{x1:7,y1:47,x2:31,y2:61},earrings:{x1:77,y1:39,x2:95,y2:52}}

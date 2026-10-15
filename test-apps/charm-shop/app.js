@@ -9,8 +9,8 @@
   ];
   const charms = ["daisy", "butterfly", "strawberry", "cat", "bow", "heart", "moon", "seashell"];
   const familyNames = {round:"Wood", pearl:"Pearl", crystal:"Crystal", heart:"Heart", flower:"Flower", star:"Star"};
-  let state = E.create("necklace"), selected = null, currentColor = colors[0], muted = false, audio = null;
-  let gift = {paper:"#d98f9c", ribbon:"#d3a43b"}, displayMode = "character", renderSerial = 0;
+  let state = E.create("necklace"), selected = null, currentColor = colors[0], currentFamily = families[0], muted = false, audio = null;
+  let gift = {paper:"#d98f9c", ribbon:"#d3a43b"}, displayMode = "character", renderSerial = 0, bounceAttachedCharm = false;
   const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
   const NS = "http://www.w3.org/2000/svg";
   const el = (name, attrs={}) => { const n=document.createElementNS(NS,name); Object.entries(attrs).forEach(([k,v])=>n.setAttribute(k,v)); return n; };
@@ -57,36 +57,46 @@
     const r=data.radius;
     data.items.forEach(p=>{
       if(mode!=="editor"&&!p.item)return;
-      const g=el("g",{class:`slot${p.index===selected?" selected":""}`,"data-index":p.index});
+      const isSelected=p.index===selected, isNext=p.index===E.nextFree(state);
+      const g=el("g",{class:`slot${isSelected?" selected":""}${!p.item&&isNext?" next-slot":""}`,"data-index":p.index});
       if(mode==="editor"){
-        g.append(el("circle",{class:"slot-hit",cx:p.x,cy:p.y,r:7.4,fill:"transparent"}));
-        if(!p.item)g.append(el("circle",{class:"slot-guide",cx:p.x,cy:p.y,r:2.25,fill:"none",stroke:"#8e705e","stroke-width":.5,"stroke-dasharray":"1 1"}));
+        g.append(el("circle",{class:"slot-hit",cx:p.x,cy:p.y,r:9,fill:"transparent"}));
+        if(!p.item)g.append(el("circle",{class:"slot-guide",cx:p.x,cy:p.y,r:r+.65,fill:"none",stroke:"#f8dfae","stroke-width":1.1,"stroke-dasharray":"2.2 1.8"}));
       }
       if(p.item)g.append(shapeFor(p.item,p.x,p.y,r,`${renderId}-${p.index}`));
-      if(mode==="editor")g.addEventListener("click",()=>{selected=p.index;render();sound("click");});
+      if(mode==="editor"&&isSelected&&p.item){
+        const remove=el("g",{class:"bead-remove",role:"button","aria-label":"Remove this bead",tabindex:"0"});
+        remove.append(el("circle",{class:"bead-remove-hit",cx:p.x+r*.78,cy:p.y-r*.78,r:5.5,fill:"transparent",stroke:"none"}));
+        remove.append(el("circle",{cx:p.x+r*.78,cy:p.y-r*.78,r:3.25}));
+        remove.append(el("path",{d:`M ${p.x+r*.78-1.25} ${p.y-r*.78-1.25} L ${p.x+r*.78+1.25} ${p.y-r*.78+1.25} M ${p.x+r*.78+1.25} ${p.y-r*.78-1.25} L ${p.x+r*.78-1.25} ${p.y-r*.78+1.25}`}));
+        const removeSelected=event=>{event.stopPropagation();state=E.remove(state,p.index);selected=null;render();sound("click");};
+        remove.addEventListener("click",removeSelected);remove.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" ")removeSelected(event);});g.append(remove);
+      }
+      if(mode==="editor")g.addEventListener("click",()=>{selected=p.item?p.index:null;render();sound("click");});
       target.append(g);
     });
-    if(data.centrepiece){ const size=mode==="editor"?13:data.profile==="display"?6:4.8; data.charmPositions.forEach(p=>{target.append(el("path",{class:"jump-ring",d:`M ${p.attachX} ${p.attachY} L ${p.x} ${p.y-size/2}`,fill:"none",stroke:cordColor,"stroke-width":mode==="editor"?.8:.28}));target.append(el("circle",{class:"jump-ring",cx:p.x,cy:p.ringY,r:mode==="editor"?1.35:.45,fill:"none",stroke:cordColor,"stroke-width":mode==="editor"?.65:.22}));target.append(charmImage(data.centrepiece,p.x,p.y,size));}); }
+    if(data.centrepiece){ const size=mode==="editor"?13:data.profile==="display"?6:4.8; data.charmPositions.forEach(p=>{target.append(el("path",{class:"jump-ring",d:`M ${p.attachX} ${p.attachY} L ${p.x} ${p.y-size/2}`,fill:"none",stroke:cordColor,"stroke-width":mode==="editor"?.8:.28}));target.append(el("circle",{class:"jump-ring",cx:p.x,cy:p.ringY,r:mode==="editor"?1.35:.45,fill:"none",stroke:cordColor,"stroke-width":mode==="editor"?.65:.22}));const charm=charmImage(data.centrepiece,p.x,p.y,size);if(mode==="editor"&&bounceAttachedCharm)charm.classList.add("charm-bounce");target.append(charm);}); }
   }
-  function render(){ svgPiece($("#cord"),E.renderData(state)); $("#mirror").setAttribute("aria-pressed",state.mirror); $("#mirror").classList.toggle("selected",state.mirror); $$(".swatch").forEach(b=>b.classList.toggle("selected",b.dataset.name===currentColor[0])); }
+  function render(){ svgPiece($("#cord"),E.renderData(state)); $("#mirror").setAttribute("aria-pressed",state.mirror); $("#mirror").classList.toggle("selected",state.mirror); $$(".family").forEach(b=>b.classList.toggle("selected",b.dataset.family===currentFamily)); renderSwatches(); }
   function fullFeedback(){ const stage=$("#jewel-stage"); stage.classList.remove("wiggle"); void stage.offsetWidth; stage.classList.add("wiggle"); sound("full"); bubble("The cord is full — choose a bead to replace!"); }
-  function addFamily(family){ if(selected===null&&E.nextFree(state)<0){fullFeedback();return;} state=E.place(state,{family,color:currentColor[1],name:currentColor[0]},selected); selected=null; render(); $("#cord").classList.add("snap"); setTimeout(()=>$("#cord").classList.remove("snap"),220); sound("snap"); }
-  function chooseColor(name,color){ currentColor=[name,color]; if(selected!==null&&state.slots[selected]){ const item={...state.slots[selected],color,name}; state=E.place(state,item,selected); selected=null; sound("snap"); } else sound("click"); render(); }
+  function addBead(name,color){ currentColor=[name,color];if(selected===null&&E.nextFree(state)<0){fullFeedback();return;}state=E.place(state,{family:currentFamily,color,name},selected);selected=null;render();$("#cord").classList.add("snap");setTimeout(()=>$("#cord").classList.remove("snap"),220);sound("snap"); }
+  function chooseFamily(family){currentFamily=family;if(selected!==null&&state.slots[selected]){state=E.place(state,{...state.slots[selected],family},selected);selected=null;sound("snap");}else sound("click");render();}
+  function renderSwatches(){ $$(".swatch").forEach((b,i)=>{b.replaceChildren();b.setAttribute("aria-label",`Add ${colors[i][0]} ${familyNames[currentFamily]} bead`);const svg=el("svg",{viewBox:"0 0 28 28","aria-hidden":"true"});svg.append(shapeFor({family:currentFamily,color:colors[i][1]},14,14,8,`swatch-${renderSerial}-${i}`));b.append(svg);}); }
   function buildTray(){
-    families.forEach(f=>{const b=document.createElement("button");b.className=`family family-${f}`;b.innerHTML=`<span class="material-icon ${f}"></span><small>${familyNames[f]}</small>`;b.setAttribute("aria-label",`Add ${familyNames[f]} bead`);b.onclick=()=>addFamily(f);$("#families").append(b);});
-    colors.forEach(([name,color])=>{const b=document.createElement("button");b.className="swatch";b.style.setProperty("--swatch",color);b.dataset.name=name;b.innerHTML=`<span></span><small>${name}</small>`;b.onclick=()=>chooseColor(name,color);$("#colors").append(b);});
-    charms.forEach(c=>{const b=document.createElement("button");b.className="charm";b.innerHTML=`<img src="assets/charms/${c}.webp" alt=""><small>${c}</small>`;b.setAttribute("aria-label",`Choose ${c} centrepiece`);b.onclick=()=>{state=E.setOption(state,"centrepiece",c);render();sound("snap");};$("#charms").append(b);});
+    families.forEach(f=>{const b=document.createElement("button");b.className=`family family-${f}`;b.dataset.family=f;b.innerHTML=`<span class="material-icon ${f}"></span><small>${familyNames[f]}</small>`;b.setAttribute("aria-label",`Choose ${familyNames[f]} shape`);b.onclick=()=>chooseFamily(f);$("#families").append(b);});
+    colors.forEach(([name,color])=>{const b=document.createElement("button");b.className="swatch";b.dataset.name=name;b.setAttribute("aria-label",`Add ${name} ${familyNames[currentFamily]} bead`);b.onclick=()=>addBead(name,color);$("#colors").append(b);});
+    charms.forEach(c=>{const b=document.createElement("button");b.className="charm";b.innerHTML=`<img src="assets/charms/${c}.webp" alt=""><small>${c}</small>`;b.setAttribute("aria-label",`Attach ${c} charm`);b.onclick=()=>{state=E.setOption(state,"centrepiece",c);bounceAttachedCharm=true;render();bounceAttachedCharm=false;b.classList.remove("bounce");void b.offsetWidth;b.classList.add("bounce");sound("snap");};$("#charms").append(b);});
     families.forEach(f=>colors.forEach(([n,c])=>{const d=document.createElement("div");d.className=`bead-preview ${f}`;d.style.setProperty("--bead",c);d.title=`${n} ${f}`;$("#collection-grid").append(d);}));
   }
   function save(){ const record=E.deserialize(E.serialize(state));record.id=record.id||`${Date.now()}`;const all=loadAll();try{const ix=all.findIndex(x=>x.id===record.id);if(ix>=0)all[ix]=record;else all.unshift(record);localStorage.setItem("little-charm-designs",JSON.stringify(all.slice(0,12)));state=record;state.history=[];}catch{}sound("ding");bubble("Saved in your jewellery box!"); }
-  function loadAll(){try{const parsed=JSON.parse(localStorage.getItem("little-charm-designs")||"[]");if(!Array.isArray(parsed))return[];return parsed.filter(r=>r&&E.TYPES[r.type]&&Array.isArray(r.slots)&&r.slots.length===E.TYPES[r.type]).map(r=>E.deserialize(r));}catch{return[];}}
+  function loadAll(){try{const parsed=JSON.parse(localStorage.getItem("little-charm-designs")||"[]");if(!Array.isArray(parsed))return[];return parsed.filter(r=>r&&r.layoutVersion===E.LAYOUT_VERSION&&E.TYPES[r.type]&&Array.isArray(r.slots)&&r.slots.length===E.TYPES[r.type]).map(r=>E.deserialize(r));}catch{return[];}}
   function renderTry(){ const profile=displayMode==="display"?"display":"character";svgPiece($(".overlay-jewel"),E.renderData(state,profile),"display"); }
   function renderGallery(){const box=$("#saved-grid"),all=loadAll();box.replaceChildren();$("#empty").hidden=all.length>0;all.slice(0,6).forEach(d=>{const b=document.createElement("button"),s=el("svg",{viewBox:"0 0 100 100"});svgPiece(s,E.renderData(d),"display");b.append(s);b.onclick=()=>{state=E.deserialize(d);selected=null;screen("workshop");render();};box.append(b);});}
   $$('[data-open]').forEach(b=>b.onclick=()=>{state=E.create(b.dataset.open);selected=null;screen("workshop");render();sound("click");});
   $$('[data-screen]').forEach(b=>b.onclick=()=>{screen(b.dataset.screen);sound("click");});
   $$(".type-tabs button").forEach(b=>b.onclick=()=>{state=E.create(b.dataset.type);selected=null;render();sound("click");});
   $("#undo").onclick=()=>{state=E.undo(state);selected=null;render();sound("click");};
-  $("#remove").onclick=()=>{if(selected!==null&&state.slots[selected]){state=E.remove(state,selected);selected=null;render();sound("click");}else bubble("Tap a bead first, then remove.");};
+  $("#remove").onclick=()=>{if(selected!==null&&state.slots[selected]){state=E.remove(state,selected);selected=null;render();sound("click");}else{sound("click");bubble("Tap a bead — its × appears right on it.");}};
   $("#mirror").onclick=()=>{state=E.setOption(state,"mirror",!state.mirror);render();sound("click");};
   $$(".cord-choice").forEach(b=>b.onclick=()=>{state=E.setOption(state,"cord",b.dataset.cord);render();sound("click");});
   $$(".finish").forEach(b=>b.onclick=()=>{selected=null;screen("tryon");}); $("#save").onclick=save;

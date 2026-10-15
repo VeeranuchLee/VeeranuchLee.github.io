@@ -72,7 +72,7 @@ h1 {
 #workshop {
   background:
     linear-gradient(#6b3f2f99, #43281fbb),
-    url("assets/boutique.webp?v=48ea8d0be-20261012081152") center / cover;
+    url("assets/boutique.webp?v=269679ac7-20261015102033") center / cover;
 }
 .plate {
   position: absolute;
@@ -81,6 +81,15 @@ h1 {
   height: 100%;
   object-fit: cover;
 }
+#shop { padding:0; background:#4b2c2c; }
+#shop .plate,
+#shop .hotspots {
+  inset:50% auto auto 50%;
+  width:min(100vw, 133.333vh);
+  height:min(100vh, 75vw);
+  transform:translate(-50%,-50%);
+}
+#shop .plate { object-fit:contain; }
 .hotspots {
   position: absolute;
   inset: 0;
@@ -92,12 +101,31 @@ h1 {
   width: calc(var(--w) * 1%);
   height: calc(var(--h) * 1%);
   clip-path: var(--clip);
-  opacity: 0.02;
-  background: white;
+  opacity:1;
+  border:0;
+  box-shadow:none;
+  background:transparent;
 }
 .hotspots button:focus-visible {
-  opacity: 0.25;
+  background:#fff4;
+  outline:4px solid #fff9;
 }
+.hotspots button::after {
+  content:"";
+  position:absolute;
+  left:var(--gx,52%);
+  top:var(--gy,38%);
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  opacity:0;
+  background:radial-gradient(circle,#fff 0 12%,#fff8 18% 30%,transparent 68%);
+  box-shadow:0 0 10px 3px #fff9;
+  animation:hub-glint 10.5s ease-in-out infinite;
+  pointer-events:none;
+}
+.hotspots button:nth-child(2)::after{animation-delay:-9s;--gx:34%;--gy:46%}.hotspots button:nth-child(3)::after{animation-delay:-7.5s;--gx:70%;--gy:32%}.hotspots button:nth-child(4)::after{animation-delay:-6s;--gx:74%;--gy:54%}.hotspots button:nth-child(5)::after{animation-delay:-4.5s;--gx:48%;--gy:30%}.hotspots button:nth-child(6)::after{animation-delay:-3s;--gx:65%;--gy:62%}.hotspots button:nth-child(7)::after{animation-delay:-1.5s;--gx:48%;--gy:42%}
+@keyframes hub-glint{0%,7%,100%{opacity:0;transform:scale(.35) rotate(0)}2.5%{opacity:.9;transform:scale(1) rotate(45deg)}5%{opacity:0;transform:scale(.55) rotate(90deg)}}
 #bubble {
   position: absolute;
   left: 50%;
@@ -138,7 +166,7 @@ h1 {
   flex-wrap: wrap;
 }
 .type-tabs button { min-height: 58px; background:#f7e4d2; }
-.toolbar button { width:64px; min-width:64px; padding:4px 3px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; }
+.toolbar button { width:68px; min-width:68px; min-height:68px; padding:4px 3px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; }
 .toolbar small, .charm small, .family small, .swatch small, #display small { display:block; font-size:10px; line-height:1; text-transform:capitalize; }
 .jewel-stage {
   height: 58%;
@@ -158,10 +186,13 @@ h1 {
   cursor: pointer;
 }
 .slot-hit { pointer-events:all; }
-.slot-guide { opacity:.55; }
+.slot-guide { opacity:.88; }
 .slot.selected {
-  filter: drop-shadow(0 0 5px #ffca3a);
+  filter: drop-shadow(0 0 4px #fff) drop-shadow(0 0 7px #ffca3a);
 }
+.next-slot .slot-guide { transform-box:fill-box;transform-origin:center;animation:next-slot 1.8s ease-in-out infinite; }
+@keyframes next-slot{0%,100%{transform:scale(.9);opacity:.78}50%{transform:scale(1.13);opacity:1}}
+.bead-remove circle:not(.bead-remove-hit){fill:#a93f50;stroke:#fff;stroke-width:.75}.bead-remove path{fill:none;stroke:#fff;stroke-width:.8;stroke-linecap:round}.bead-remove{cursor:pointer}.bead-remove-hit{pointer-events:all}
 .tray {
   position: absolute;
   right: 1%;
@@ -171,12 +202,16 @@ h1 {
   overflow: auto;
   padding: 12px;
   border-radius: 25px;
-  background:
-    repeating-linear-gradient(to bottom, transparent 0 132px, #744329 132px 143px),
-    linear-gradient(90deg,#9a6440,#c08a60 8%,#a66b45 92%,#75442c);
+  background:linear-gradient(90deg,#9a6440,#c08a60 8%,#a66b45 92%,#75442c);
   border: 7px solid #6d4028;
   box-shadow: inset 0 2px #e6b580, 0 10px 28px #2d160f88;
 }
+.tray-group{margin:0 0 12px;padding:8px 5px 10px;border-radius:16px;background:#f8dec9cc;box-shadow:inset 0 0 0 3px #fff5,0 4px 0 #744329}
+.picture-heading{display:flex;align-items:center;justify-content:center;gap:8px;margin:0 0 7px;color:#6f3d3d;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.picture-heading>span:first-child{position:relative;display:inline-block;width:38px;height:25px}
+.heading-shapes i{position:absolute;top:5px;width:16px;height:16px;background:#d76f8a;border:2px solid #fff8}.heading-shapes i:nth-child(1){left:0;border-radius:50%}.heading-shapes i:nth-child(2){left:11px;transform:rotate(45deg);background:#69aab7}.heading-shapes i:nth-child(3){right:0;clip-path:polygon(50% 0,100% 100%,0 100%);background:#e3b347}
+.heading-rainbow{border:6px solid #d95d76;border-color:#d95d76 #e3b347 #59a99f #806bbb;border-bottom-color:transparent;border-radius:50%}
+.heading-charm{color:#d95376;font-size:28px;line-height:25px;text-align:center;text-shadow:0 2px #fff}
 .tray button {
   min-width: 64px;
   width:64px;
@@ -189,7 +224,7 @@ h1 {
   width: 64px;
   padding:4px;
 }
-.swatch > span { display:block; width:34px; height:34px; margin:auto; border-radius:50%; background:radial-gradient(circle at 32% 25%,#fff 0 8%,var(--swatch) 35%,#5128 100%); box-shadow:0 2px 4px #3215; }
+.swatch svg { display:block;width:48px;height:48px;margin:auto;overflow:visible;filter:drop-shadow(0 2px 2px #3215) }
 .charm {
   padding:2px;
 }
@@ -200,7 +235,7 @@ h1 {
 .material-icon.heart { border-radius:50% 50% 45% 45%; clip-path:polygon(50% 95%,5% 42%,12% 14%,35% 5%,50% 22%,65% 5%,88% 14%,95% 42%); }
 .material-icon.flower { clip-path:polygon(50% 0,62% 30%,88% 12%,72% 39%,100% 50%,72% 61%,88% 88%,61% 71%,50% 100%,39% 71%,12% 88%,28% 61%,0 50%,28% 39%,12% 12%,39% 30%); }
 .material-icon.star { clip-path:polygon(50% 0,62% 35%,100% 36%,69% 58%,80% 96%,50% 73%,20% 96%,31% 58%,0 36%,38% 35%); }
-.tool-picture { width:34px; height:34px; position:relative; display:block; }
+.tool-picture { width:42px; height:42px; position:relative; display:block; transform:scale(1.15); }
 .undo-icon::before { content:""; position:absolute; inset:5px; border:5px solid #815061; border-right-color:transparent; border-radius:50%; }
 .undo-icon::after { content:""; position:absolute; left:0; top:3px; border:8px solid transparent; border-right-color:#815061; transform:rotate(18deg); }
 .remove-icon::before,.remove-icon::after { content:""; position:absolute; left:15px; top:2px; width:5px; height:30px; border-radius:3px; background:#b95862; transform:rotate(45deg); }
@@ -216,6 +251,8 @@ h1 {
 @keyframes snap-in { 0%{transform:scale(.35)} 70%{transform:scale(1.18)} 100%{transform:scale(1)} }
 .wiggle { animation:wiggle .32s ease-in-out; }
 @keyframes wiggle { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-9px)} 75%{transform:translateX(9px)} }
+.bounce,.charm-bounce{animation:charm-bounce .38s ease-out;transform-box:fill-box;transform-origin:center}
+@keyframes charm-bounce{0%{transform:scale(.5)}55%{transform:scale(1.28)}100%{transform:scale(1)}}
 .art-screen {
   padding: 0;
 }
@@ -399,4 +436,26 @@ h1 {
   h1 {
     font-size: 22px;
   }
+}
+@media (prefers-reduced-motion:reduce){.hotspots button::after,.next-slot .slot-guide,.bounce,.charm-bounce{animation:none}.hotspots button::after{display:none}}
+
+/* Landscape iPad (owner 2026-10-15, controller QA): four beads per row so the shape,
+   colour and charm groups all fit the tray without a scroll a child would not find. */
+@media (orientation: landscape) {
+  .tray { padding: 8px; }
+  .tray-group { margin-bottom: 8px; padding: 6px 4px 8px; }
+  #families, #colors, #charms { gap: 5px; }
+  .tray button, .swatch { min-width: 58px; width: 58px; min-height: 58px; }
+  .swatch svg { width: 44px; height: 44px; }
+  .charm img { width: 40px; height: 40px; }
+}
+/* Portrait iPad: one row per group (6 shapes, 10 colours, 8 charms) so all three fit. */
+@media (orientation: portrait) {
+  .worktop { bottom: 42% !important; }
+  .tray { top: 59% !important; padding: 8px; }
+  .tray-group { margin-bottom: 6px; padding: 5px 4px 7px; }
+  #families, #colors, #charms { gap: 5px; flex-wrap: nowrap; }
+  .tray button, .swatch { min-width: 58px; width: 58px; min-height: 58px; }
+  .swatch svg { width: 44px; height: 44px; }
+  .charm img { width: 40px; height: 40px; }
 }

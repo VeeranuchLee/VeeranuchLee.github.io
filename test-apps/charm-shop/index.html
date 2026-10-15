@@ -8,8 +8,8 @@
     />
     <meta name="theme-color" content="#b96f79" />
     <title>Little Charm Shop</title>
-    <link rel="stylesheet" href="styles.css?v=48ea8d0be-20261012081152" />
-    <script src="tap-zoom-guard.js?v=48ea8d0be-20261012081152"></script>
+    <link rel="stylesheet" href="styles.css?v=269679ac7-20261015102033" />
+    <script src="tap-zoom-guard.js?v=269679ac7-20261015102033"></script>
   </head>
   <body>
     <main id="app">
@@ -21,7 +21,7 @@
       <section class="screen active" id="shop">
         <img
           class="plate"
-          src="assets/boutique.webp?v=48ea8d0be-20261012081152"
+          src="assets/boutique.webp?v=269679ac7-20261015102033"
           alt="A cosy jewellery boutique"
         />
         <div class="hotspots">
@@ -154,11 +154,7 @@
             ><button data-type="earrings">Earrings</button>
           </div>
           <div id="jewel-stage" class="jewel-stage">
-            <svg
-              id="cord"
-              viewBox="0 0 100 100"
-              aria-label="Your jewellery"
-            ></svg>
+            <svg id="cord" viewBox="0 0 160 100" aria-label="Your jewellery"></svg>
           </div>
           <div class="toolbar">
             <button id="undo" aria-label="Undo"><span class="tool-picture undo-icon"></span><small>Undo</small></button
@@ -171,16 +167,25 @@
           </div>
         </div>
         <div class="tray">
-          <div id="families"></div>
-          <div id="colors"></div>
-          <div id="charms"></div>
+          <section class="tray-group shape-group" aria-label="Choose a bead shape">
+            <div class="picture-heading"><span class="heading-shapes" aria-hidden="true"><i></i><i></i><i></i></span><span>Shape</span></div>
+            <div id="families"></div>
+          </section>
+          <section class="tray-group colour-group" aria-label="Add a coloured bead">
+            <div class="picture-heading"><span class="heading-rainbow" aria-hidden="true"></span><span>Colour beads</span></div>
+            <div id="colors"></div>
+          </section>
+          <section class="tray-group charm-group" aria-label="Add a charm">
+            <div class="picture-heading"><span class="heading-charm" aria-hidden="true">♥</span><span>Charm</span></div>
+            <div id="charms"></div>
+          </section>
         </div>
       </section>
       <section class="screen art-screen" id="tryon">
         <img
           id="try-bg"
           class="plate"
-          src="assets/try-on-character.webp?v=48ea8d0be-20261012081152"
+          src="assets/try-on-character.webp?v=269679ac7-20261015102033"
           alt="A friendly character trying on jewellery"
         /><svg class="overlay-jewel" viewBox="0 0 100 100"></svg>
         <div class="bottom-actions">
@@ -193,7 +198,7 @@
       <section class="screen art-screen" id="wrap">
         <img
           class="plate"
-          src="assets/gift-wrap.webp?v=48ea8d0be-20261012081152"
+          src="assets/gift-wrap.webp?v=269679ac7-20261015102033"
           alt="Gift wrapping station"
         />
         <div class="wrap-controls">
@@ -230,7 +235,7 @@
       <section class="screen art-screen" id="gallery">
         <img
           class="plate"
-          src="assets/jewellery-box.webp?v=48ea8d0be-20261012081152"
+          src="assets/jewellery-box.webp?v=269679ac7-20261015102033"
           alt="An open jewellery box"
         />
         <div id="saved-grid"></div>
@@ -242,8 +247,8 @@
         <button data-open="necklace">Start making</button>
       </section>
     </main>
-    <script src="js/bead-engine.js?v=48ea8d0be-20261012081152"></script>
-    <script src="app.js?v=48ea8d0be-20261012081152"></script>
+    <script src="js/bead-engine.js?v=269679ac7-20261015102033"></script>
+    <script src="app.js?v=269679ac7-20261015102033"></script>
     <script>
       if ("serviceWorker" in navigator)
         Promise.resolve() /* Test Hub staging: no service worker */;
