@@ -89,11 +89,24 @@
    release; production publish still needs the owner's SHA-bound approval. */
 /* v13 -> v14, 2026-10-15 afternoon: 11 more owner-approved posters go live (numbers 0-10
    and 11-20, first to tenth, meals, time, sizes, growing up, fruit stall, more fruits,
-   vegetable garden with its new sign plate, animal band). Owner: "approve list". */
-const CACHE_NAME='word-book-v14';
+   vegetable garden with its new sign plate, animal band). Owner: "approve list".
+   v14 -> v15, 2026-10-15: Dictionary Spell adds a separate control and a stable spelling.js
+   URL. The 26 Alice letter clips share the range-aware cache-on-first-play path (not
+   precached). A worker bump arms the release; publishing needs the owner's SHA approval.
+   v15 -> v16, 2026-10-15: dictionary headwords never split inside a word. Visible long
+   words shrink only as far as 70% to remain beside Hear and Spell; multi-word entries
+   still wrap at spaces. A worker bump arms the release; publishing needs the owner's
+   SHA-bound approval.
+   v16 -> v17, 2026-10-15 (controller QA round 2): the headword takes its own full-width
+   line at the top of the card body, and Hear + Spell move to a left-aligned row beneath
+   it, unchanged in size. Sharing one row left the word a ~42px box at 768x1024 that
+   clipped even at the 70% floor ("zebr", "zooke"). The shrink floor stays as a safety
+   net only. A worker bump arms the release; publishing needs the owner's SHA-bound
+   approval. */
+const CACHE_NAME='word-book-v17';
 const SHELL=['./','./index.html','./dictionary.html','./fonts.css',
   './fonts/Nunito-latin.woff2','./fonts/Nunito-latin-ext.woff2','./fonts/FredokaOne-latin.woff2',
-  './manifest.webmanifest','./data/dictionary.json','./data/letters.json','./data/features.json','./word-audio.js',
+  './manifest.webmanifest','./data/dictionary.json','./data/letters.json','./data/features.json','./word-audio.js','./spelling.js',
   './sentence-audio.js','./audio/sentences/rendered.json','./tap-zoom-guard.js','./grammar-game.html','./grammar-game.css','./grammar-game.js','./data/grammar-questions.json','./audio/grammar/rendered.json','./room-label.css','./room-label.js',
   './assets/icons/dictionary.webp','./assets/icons/spelling.webp',
   './assets/icons/writing-book.webp','./assets/icons/spelling-exam.webp',
@@ -165,7 +178,7 @@ function wordClip(request){
 self.addEventListener('fetch',e=>{
   if(e.request.method!=='GET')return;
   const url=new URL(e.request.url);
-  if(url.origin===location.origin&&(url.pathname.indexOf('/audio/words/')>-1||url.pathname.indexOf('/audio/sentences/')>-1)&&url.pathname.endsWith('.m4a')){
+  if(url.origin===location.origin&&(url.pathname.indexOf('/audio/words/')>-1||url.pathname.indexOf('/audio/sentences/')>-1||url.pathname.indexOf('/audio/letters/')>-1)&&url.pathname.endsWith('.m4a')){
     e.respondWith(wordClip(e.request));return;
   }
   /* status===200, not r.ok: ok includes 206, which cache.put() rejects (the hub's bed is

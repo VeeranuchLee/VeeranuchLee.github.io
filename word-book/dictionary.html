@@ -336,10 +336,11 @@
     .eg{font-size:.9rem;font-weight:700;color:#6b5260;line-height:1.4;margin-top:2px}
 
     /* ── Hear it ──
-       Every card that has a clip carries one round speaker beside its word. 64px, the
-       same size as the A-Z buttons, so it clears a finger on the target iPad. Beside
-       the WORD, not under the sentence: the clip says the headword, and a child who
-       cannot read the sentence yet can still find the thing that speaks. Tapping while
+       Every card that has a clip carries one round speaker directly under its word.
+       64px, the same size as the A-Z buttons, so it clears a finger on the target iPad.
+       Still the word's own control, not the sentence's: the clip says the headword, and
+       a child who cannot read the sentence yet can still find the thing that speaks.
+       Tapping while
        it speaks starts the word again from the top -- repeating a word is what a child
        practising it wants.
        Two states a child can see: `.speaking` (filled, while the word plays) and
@@ -350,8 +351,23 @@
        A card listed in word-audio.js UNRENDERED has no speaker at all -- a speaker that
        can only fail is a dead tap. That table is empty since 2026-09-22 (the eight
        homograph senses were rendered), so every card speaks its word. */
-    .head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
-    .head .word{flex:1;min-width:0;overflow-wrap:anywhere;padding-top:12px}
+    /* THE WORD OWNS A FULL-WIDTH LINE (controller QA round 2, 2026-10-15). Round 1 kept
+       the word beside the two 64px controls, which left it a ~42px column at 768x1024:
+       every word sat on the shrink floor and the longest still clipped ("zebr",
+       "zooke"). So the card body runs word, then the control row, then Thai. A headword
+       may wrap only at a real space; single-token words -- including hyphenated words
+       such as hide-and-seek -- stay intact, and the measured fit pass below steps only a
+       word wider than the whole card line down to 70% of this normal size. */
+    .word{overflow-wrap:normal;word-break:normal;hyphens:none}
+    .word-text.single-token{white-space:nowrap}
+    .word-letter{border-radius:.28em;padding:0 .02em;transition:background .12s,color .12s,box-shadow .12s}
+    .word.current-word .word-letter{background:#ffd54f;box-shadow:0 0 0 2px #ffd54f}
+    .word-letter.current{background:#ffd54f;color:#3a1e33;box-shadow:0 0 0 3px #fff,0 0 0 6px #ef9f23}
+    /* The control row under the word: left-aligned so it reads as the word's own row,
+       and its buttons keep their fixed tap sizes (below) -- this row never sizes the
+       headword again. Omitted entirely on a card with no clip: no dead controls, and no
+       empty gap where the row would have been. */
+    .word-actions{display:flex;align-items:center;justify-content:flex-start;gap:8px;margin-top:4px}
     .speak{
       flex:none;width:64px;height:64px;border-radius:50%;cursor:pointer;
       display:inline-flex;align-items:center;justify-content:center;padding:0;
@@ -395,6 +411,23 @@
     .speak.eg-speak:active{box-shadow:0 1px 0 #d9bfd0}
     .speak.eg-speak svg{width:28px;height:28px}
     .speak.eg-speak.speaking{background:linear-gradient(160deg,#b98aa5,#8a5c76);color:#fff;border-color:#8a5c76}
+
+    /* Spell is deliberately not another round speaker: its letter tiles and short label
+       tell a child that this control does something different. It keeps the same 64px
+       tap floor and shares the ONE action row under the word with Hear, so it adds no
+       row of its own. */
+    .spell{
+      min-width:76px;height:64px;padding:5px 9px;border-radius:16px;border:2.5px solid #6d8dc9;
+      background:linear-gradient(135deg,#f7fbff,#e5efff);color:#36598e;box-shadow:0 4px 0 #6d8dc9;
+      display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+      font:900 .72rem 'Nunito',sans-serif;cursor:pointer;touch-action:manipulation;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .spell-icon{font-family:'Fredoka One',Nunito,sans-serif;font-size:1.05rem;line-height:1;letter-spacing:.04em}
+    .spell:active{transform:translateY(3px);box-shadow:0 1px 0 #6d8dc9}
+    .spell:focus-visible{outline:4px solid #ffd54f;outline-offset:3px}
+    .spell.speaking{background:linear-gradient(160deg,#7ba3e4,#466aa5);color:#fff;border-color:#36598e}
+    .spell.missed{animation:nope .45s;color:#756d72;border-color:#bcb4b9;box-shadow:0 4px 0 #bcb4b9}
 
     /* ── One word, several senses (a merged card; data `groups`) ──
        Each sense sits under the headword as its own block: a part-of-speech tag, then the
@@ -478,6 +511,7 @@
 
 <script src="word-audio.js"></script>
 <script src="sentence-audio.js"></script>
+<script src="spelling.js"></script>
 <script>
 (function () {
   'use strict';
@@ -612,6 +646,17 @@
     '<path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/>' +
     '<g class="waves"><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></g>' +
     '<g class="no"><path d="M16 9.5l5 5M21 9.5l-5 5"/></g></svg>';
+  var SPELLING = window.Spelling || null;
+
+  function spellingWord(word) {
+    var letters = Array.prototype.map.call(String(word), function (character, index) {
+      return /^[a-z]$/i.test(character)
+        ? '<span class="word-letter" data-letter-index="' + index + '">' + esc(character) + '</span>'
+        : esc(character);
+    }).join('');
+    return '<span class="word-text' + (/\s/.test(String(word)) ? '' : ' single-token') + '">' +
+      letters + '</span>';
+  }
 
   /* ONE WORD, SEVERAL SENSES, ONE CARD -- only where the owner said so (data `groups`,
      built from shared-data/dictionary/card-groups.json; `answer` on 2026-09-23: "merge
@@ -704,15 +749,24 @@
       ? '<button type="button" class="speak" data-clip="' + esc(clip) + '" aria-label="Hear ' +
         esc(word) + '">' + SPEAKER + '</button>'
       : '';
+    var spell = clip && SPELLING
+      ? '<button type="button" class="spell" data-spell-word="' + esc(word) + '" data-word-clip="' +
+        esc(clip) + '" aria-label="Spell ' + esc(word) + '"><span class="spell-icon" aria-hidden="true">A·B·C</span><span>Spell</span></button>'
+      : '';
     var senses = c.pos
       ? '<ol class="senses">' + c.rows.map(function (s, i) {
           return '<li class="sense" data-sense="' + esc(s[1]) + '">' +
             '<p class="pos">' + esc(c.pos[i]) + '</p>' + says(s) + '</li>';
         }).join('') + '</ol>'
       : says(r);
+    /* Word first, on the body's full-width top line; the controls follow on their own
+       left-aligned row, rendered only when the card has at least one (word-audio's
+       UNRENDERED table is empty since 2026-09-22, so in practice every card has both). */
+    var actions = speak + spell;
     return '<article class="card' + (c.pos ? ' merged' : '') + '">' + art +
       '<div class="body">' +
-      '<div class="head"><p class="word">' + esc(word) + '</p>' + speak + '</div>' +
+      '<p class="word" aria-label="' + esc(word) + '">' + spellingWord(word) + '</p>' +
+      (actions ? '<div class="word-actions">' + actions + '</div>' : '') +
       senses +
       '</div></article>';
   }
@@ -764,6 +818,31 @@
        appending them one at a time re-lays out the page 283 times. */
     grid.innerHTML = found.map(card).join('');
     count.textContent = found.length === 1 ? '1 word' : found.length + ' words';
+    fitVisibleWords();
+  }
+
+  /* Fit only the cards currently rendered in the grid. CSS owns normal wrapping; this
+     measured pass is the safety net for a single long token wider than the word's own
+     full-width line, which the shipped font metrics say should almost never happen: the
+     widest headwords (hide-and-seek, multiplication) measure ~165px at the normal size
+     against the ~203px a 768px three-column card gives them.
+     Reset first so rotating back to a roomier viewport restores the normal 1.5rem size. */
+  function fitVisibleWords() {
+    var words = grid.querySelectorAll('.card .word');
+    for (var i = 0; i < words.length; i++) {
+      var word = words[i], size = 1.5;
+      word.style.fontSize = '';
+      while (word.scrollWidth > word.clientWidth && size > 1.05) {
+        size = Math.max(1.05, size - 0.05);
+        word.style.fontSize = size.toFixed(2) + 'rem';
+      }
+    }
+  }
+
+  var wordFitFrame = 0;
+  function scheduleWordFit() {
+    window.cancelAnimationFrame(wordFitFrame);
+    wordFitFrame = window.requestAnimationFrame(fitVisibleWords);
   }
 
   /* Owner 2026-10-15: "put the approved ones on live ... on the test hub ... only list
@@ -1029,7 +1108,8 @@
      voiceBtn is the button the voice is serving now. Every late event (ended, error, a
      rejected play) is checked against it, so a slow failure from an earlier word can
      never mark the button a child has since moved on to. */
-  var voice = null, voiceBtn = null;
+  var voice = null, voiceBtn = null, voiceDone = null, voiceFailed = null;
+  var audioGeneration = 0, spellTimer = null, activeLetter = null;
   /* The label on the plate that answers while the strip plays its word's sentence
      (.echo). One at a time, and it clears the moment the clip ends, fails to load, or
      anything else takes the voice -- the same lifecycle the speaking button has. */
@@ -1047,40 +1127,123 @@
     void btn.offsetWidth;            /* restart the shake on every failed tap */
     btn.classList.add('missed');
   }
+  function clearLetter() {
+    if (activeLetter) activeLetter.classList.remove('current');
+    activeLetter = null;
+    var lit = document.querySelectorAll('.word.current-word');
+    for (var i = 0; i < lit.length; i++) lit[i].classList.remove('current-word');
+  }
   function hush() {
+    audioGeneration += 1;
+    if (spellTimer !== null) window.clearTimeout(spellTimer);
+    spellTimer = null;
     if (voice) { try { voice.pause(); } catch (e) {} }
     if (voiceBtn) voiceBtn.classList.remove('speaking');
+    clearLetter();
     setEcho(null);
     voiceBtn = null;
+    voiceDone = null;
+    voiceFailed = null;
   }
-  function say(btn) {
-    var clip = btn.getAttribute('data-clip');
+  function ensureVoice() {
     if (!voice) {
       voice = new Audio();
       voice.addEventListener('ended', function () {
-        if (voiceBtn) voiceBtn.classList.remove('speaking');
-        setEcho(null);
+        var done = voiceDone;
+        voiceDone = null; voiceFailed = null;
+        if (done) done();
+        else {
+          if (voiceBtn) voiceBtn.classList.remove('speaking');
+          setEcho(null);
+        }
       });
-      voice.addEventListener('error', function () { missed(voiceBtn); });
+      voice.addEventListener('error', function () {
+        var failed = voiceFailed;
+        voiceDone = null; voiceFailed = null;
+        if (failed) failed();
+        else missed(voiceBtn);
+      });
     }
+  }
+  function playOwned(clip, generation, done, failed) {
+    if (generation !== audioGeneration) return;
+    ensureVoice();
+    voiceDone = function () { if (generation === audioGeneration) done(); };
+    voiceFailed = function () { if (generation === audioGeneration) failed(); };
+    try {
+      if (voice.getAttribute('src') !== clip || voice.error) voice.src = clip;
+      else voice.currentTime = 0;
+      var p = voice.play();
+      if (p && typeof p.then === 'function') p.then(null, function (err) {
+        if (err && err.name === 'AbortError') return;
+        if (generation === audioGeneration && voiceFailed) voiceFailed();
+      });
+    } catch (e) { if (generation === audioGeneration && voiceFailed) voiceFailed(); }
+  }
+  function say(btn) {
+    var clip = btn.getAttribute('data-clip');
+    hush();
+    var generation = audioGeneration;
     if (voiceBtn && voiceBtn !== btn) voiceBtn.classList.remove('speaking');
     voiceBtn = btn;
     btn.classList.remove('missed');
     btn.classList.add('speaking');
-    try {
-      /* A new word, or a retry after a failure, loads the file; the same word again
-         only rewinds, so a repeated tap never re-downloads anything. */
-      if (voice.getAttribute('src') !== clip || voice.error) voice.src = clip;
-      else voice.currentTime = 0;
-      var p = voice.play();
-      if (p && typeof p.then === 'function') {
-        p.then(null, function (err) {
-          /* AbortError means a newer tap replaced this one: not a failure. */
-          if (err && err.name === 'AbortError') return;
-          missed(btn);
-        });
-      }
-    } catch (e) { missed(btn); }
+    playOwned(clip, generation, function () {
+      if (voiceBtn === btn) btn.classList.remove('speaking');
+      setEcho(null);
+    }, function () { missed(btn); });
+  }
+  function spell(btn) {
+    hush();
+    var generation = audioGeneration;
+    var steps = SPELLING.steps(btn.getAttribute('data-spell-word'));
+    var wordNode = btn.closest('.card').querySelector('.word');
+    var at = 0;
+    voiceBtn = btn;
+    btn.classList.remove('missed');
+    btn.classList.add('speaking');
+
+    function wait(ms, next) {
+      spellTimer = window.setTimeout(function () {
+        spellTimer = null;
+        if (generation === audioGeneration) next();
+      }, ms);
+    }
+    function finish() {
+      if (generation !== audioGeneration) return;
+      clearLetter();
+      btn.classList.remove('speaking');
+      voiceBtn = null;
+    }
+    function nextLetter() {
+      if (generation !== audioGeneration) return;
+      clearLetter();
+      if (at >= steps.length) { wait(SPELLING.PAUSE_MS, sayWord); return; }
+      var step = steps[at++];
+      if (step.kind === 'pause') { wait(SPELLING.PAUSE_MS, nextLetter); return; }
+      if (step.kind !== 'letter') { nextLetter(); return; }
+      activeLetter = wordNode.querySelector('[data-letter-index="' + step.index + '"]');
+      if (activeLetter) activeLetter.classList.add('current');
+      playOwned(step.clip, generation, nextLetter, function () {
+        /* Pending letter clips are expected in this no-render candidate. Keep the
+           matching letter lit long enough to follow, then continue silently. */
+        if (voice) { try { voice.pause(); } catch (e) {} }
+        wait(SPELLING.MISSING_LETTER_MS, nextLetter);
+      });
+    }
+    /* Owner 2026-10-15: spell first, then read the word ("upon click the ABC button, spell
+       first, then read word"). The whole word lights up while it is said. */
+    function sayWord() {
+      if (generation !== audioGeneration) return;
+      clearLetter();
+      wordNode.classList.add('current-word');
+      playOwned(btn.getAttribute('data-word-clip'), generation, function () {
+        wordNode.classList.remove('current-word'); finish();
+      }, function () {
+        wordNode.classList.remove('current-word'); btn.classList.add('missed'); finish();
+      });
+    }
+    nextLetter();
   }
   grid.addEventListener('click', function (e) {
     var posterChoice = e.target.closest('[data-poster]');
@@ -1109,6 +1272,8 @@
     }
     var collectionButton = e.target.closest('[data-collection]');
     if (collectionButton) { chooseCollection(collectionButton.getAttribute('data-collection')); return; }
+    var spellButton = e.target.closest('button.spell');
+    if (spellButton) { spell(spellButton); return; }
     var b = e.target.closest('button.speak');
     if (b) say(b);
   });
@@ -1163,10 +1328,13 @@
     count.textContent = '';
   });
 
-  window.addEventListener('pagehide', function () { rememberScroll(); saveState(); });
+  window.addEventListener('pagehide', function () { hush(); rememberScroll(); saveState(); });
+  document.addEventListener('visibilitychange', function () { if (document.hidden) hush(); });
   /* Rotation re-shapes the strip against the new box; outside the poster view the
      function finds nothing and does nothing. */
-  window.addEventListener('resize', sizePosterStrip);
+  window.addEventListener('resize', function () { sizePosterStrip(); scheduleWordFit(); });
+  window.addEventListener('orientationchange', scheduleWordFit);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(scheduleWordFit);
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
