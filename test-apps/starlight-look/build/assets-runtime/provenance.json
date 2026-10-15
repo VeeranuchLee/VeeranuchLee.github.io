@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-15",
+  "tool": "Codex built-in image generation/editing",
+  "source": "Owner-approved starlight-storybook/mockups plates from the external-data sidecar",
+  "prompt": "Edit the exact approved Page 3 crop into three subtle registered phases. Change only tiny local details in the boiling surface granulation, corona filaments, and core glow. Preserve the exact camera, centre, outline, size, corona extent, cutaway geometry, layer boundaries, starfield, overall brightness, palette, and composition. Separately remove the star to make the balance-animation under-plate.",
+  "review": {
+    "rawGeneratedFrames02To04": "REJECT — all three editor outputs changed the star diameter/cutaway geometry and returned a different canvas shape, so none was used directly.",
+    "frame01": "PASS — untouched 720x600 crop from the approved Page 3 runtime plate.",
+    "frame02": "PASS — generated texture source constrained to a 12% feathered interior blend over frame 01; exact silhouette, centre, wedge boundaries, brightness, and 720x600 registration retained.",
+    "frame03": "PASS — generated texture source constrained to a 12% feathered interior blend over frame 01; exact silhouette, centre, wedge boundaries, brightness, and 720x600 registration retained.",
+    "frame04": "PASS — generated texture source constrained to a 12% feathered interior blend over frame 01; exact silhouette, centre, wedge boundaries, brightness, and 720x600 registration retained.",
+    "underPlate": "PASS — generated starfield replacement, normalized to the same 720x600 crop and visually reviewed without the removed star.",
+    "pages": [3]
+  },
+  "motion": "Four-frame Page 3 crop cycle at 460 ms. Frame 1 is the untouched approved crop. The helper holds frame 1 in Calm/prefers-reduced-motion mode and pauses the cycle when the document is hidden. Pages 2, 4, and 5 are static under the superseding animation direction."
+}
