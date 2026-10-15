@@ -654,14 +654,14 @@
       rails.forEach(function (r) { c.moveTo(r[0], r[1]); c.lineTo(r[2], r[3]); });
       c.stroke();
     }
-    var o = lw / 2 + 1; // keep the outer rail fully inside the canvas
     for (var k = 0; k < n * n; k++) {
       var cx = (k % n) * cp, cy = Math.floor(k / n) * cp;
       var col = k % n, row = Math.floor(k / n);
-      if (!MC.isOpen(m, k, "up")) rail(cx, Math.max(o, cy), cx + cp, Math.max(o, cy));
-      if (!MC.isOpen(m, k, "left")) rail(Math.max(o, cx), cy, Math.max(o, cx), cy + cp);
-      if (col === n - 1 && !MC.isOpen(m, k, "right")) rail(R.px - o, cy, R.px - o, cy + cp);
-      if (row === n - 1 && !MC.isOpen(m, k, "down")) rail(cx, R.px - o, cx + cp, R.px - o);
+      // The maze edge remains closed in MazeCore and MazeMovement; it simply is not
+      // painted as a redundant wooden frame around the whole board. Every closed edge
+      // between two in-grid cells is still drawn once, from its lower/right-hand cell.
+      if (row > 0 && !MC.isOpen(m, k, "up")) rail(cx, cy, cx + cp, cy);
+      if (col > 0 && !MC.isOpen(m, k, "left")) rail(cx, cy, cx, cy + cp);
     }
     strokeAll("#8a5a2e", lw + 3);
     strokeAll("#c98a4b", lw);
