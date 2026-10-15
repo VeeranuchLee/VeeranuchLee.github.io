@@ -1,6 +1,12 @@
 {
   "$schema": "Word Book ordered poster definitions, 2026-10-11",
   "$note": "Sense IDs are deliberate: posters must never pick the wrong homograph. Production filters every item through data/letters.json and hides a poster when fewer than min_released items remain. Test Hub staging rewrites letters.json to all letters.",
+  "held_rows": [
+    ["eighth", "eighth.order-eight", "ที่แปด; อยู่ในลำดับที่แปด", "The eighth runner wears a green shirt.", "assets/words/eighth.order-eight.webp", ["numbers-amounts"], ["numbers-compare-order"]],
+    ["indigo", "indigo.colour", "สีคราม; สีน้ำเงินอมม่วงเข้มที่อยู่ระหว่างสีน้ำเงินกับสีม่วงในรุ้ง", "Indigo forms a deep blue-violet band in the rainbow.", "assets/words/indigo.colour.webp", ["colours"], []],
+    ["ninth", "ninth.order-nine", "ที่เก้า; อยู่ในลำดับที่เก้า", "The ninth duck in the queue carries a leaf.", "assets/words/ninth.order-nine.webp", ["numbers-amounts"], ["numbers-compare-order"]],
+    ["violet", "violet.colour", "สีม่วง; สีน้ำเงินอมม่วงที่อยู่ปลายแถบสีของรุ้ง", "Violet flowers fill the little garden pot.", "assets/words/violet.colour.webp", ["colours"], []]
+  ],
   "posters": [
     {
       "id": "numbers-0-10",
@@ -443,35 +449,43 @@
       "pointer": true,
       "labels": {
         "first.order-one": [
-          90,
+          94,
           88
         ],
         "second.order-two": [
-          78.5,
+          84.2,
           94
         ],
         "third.order-three": [
-          67.5,
+          74.4,
           88
         ],
         "fourth.order-four": [
-          56.5,
+          64.6,
           94
         ],
         "fifth.order-five": [
-          45.5,
+          54.8,
           88
         ],
         "sixth.order-six": [
-          34.5,
+          45,
           94
         ],
         "seventh.order-seven": [
-          23.5,
+          35.2,
+          88
+        ],
+        "eighth.order-eight": [
+          25.4,
+          94
+        ],
+        "ninth.order-nine": [
+          15.6,
           88
         ],
         "tenth.order-ten": [
-          9.5,
+          5.8,
           94
         ]
       },
@@ -518,11 +532,23 @@
           11,
           33
         ],
-        "tenth.order-ten": [
-          4,
-          36,
+        "eighth.order-eight": [
           11,
-          31
+          37,
+          7,
+          29
+        ],
+        "ninth.order-nine": [
+          5,
+          35,
+          7,
+          29
+        ],
+        "tenth.order-ten": [
+          0,
+          32,
+          7,
+          28
         ]
       },
       "min_released": 3,
@@ -534,6 +560,8 @@
         "fifth.order-five",
         "sixth.order-six",
         "seventh.order-seven",
+        "eighth.order-eight",
+        "ninth.order-nine",
         "tenth.order-ten"
       ]
     },
@@ -983,6 +1011,14 @@
         "blue.colour": [
           70,
           40
+        ],
+        "indigo.colour": [
+          76,
+          47
+        ],
+        "violet.colour": [
+          80,
+          55
         ]
       },
       "item_boxes": {
@@ -1015,6 +1051,18 @@
           33,
           48,
           14
+        ],
+        "indigo.colour": [
+          30,
+          38,
+          43,
+          13
+        ],
+        "violet.colour": [
+          33,
+          44,
+          38,
+          13
         ]
       },
       "min_released": 3,
@@ -1023,7 +1071,9 @@
         "orange.colour",
         "yellow.colour",
         "green.colour",
-        "blue.colour"
+        "blue.colour",
+        "indigo.colour",
+        "violet.colour"
       ]
     },
     {

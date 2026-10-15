@@ -4,10 +4,10 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Our Dictionary</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=2402efc35-20261013211543"/>
-  <link rel="stylesheet" href="./fonts.css?v=2402efc35-20261013211543"/>
+  <link rel="manifest" href="./manifest.webmanifest?v=fc369734b-20261015083316"/>
+  <link rel="stylesheet" href="./fonts.css?v=fc369734b-20261015083316"/>
   <meta name="theme-color" content="#3a1e33"/>
-  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=2402efc35-20261013211543"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=fc369734b-20261015083316"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Our Dictionary"/>
@@ -463,8 +463,8 @@
   <div class="grid" id="grid"></div>
 </main>
 
-<script src="word-audio.js?v=2402efc35-20261013211543"></script>
-<script src="sentence-audio.js?v=2402efc35-20261013211543"></script>
+<script src="word-audio.js?v=fc369734b-20261015083316"></script>
+<script src="sentence-audio.js?v=fc369734b-20261015083316"></script>
 <script>
 (function () {
   'use strict';
@@ -553,7 +553,7 @@
     });
   }
   function collectionIconMarkup(c) {
-    return '<img class="owner-group-icon" src="' + esc(c.icon_path) + '?v=2402efc35-20261013211543" alt="" ' +
+    return '<img class="owner-group-icon" src="' + esc(c.icon_path) + '?v=fc369734b-20261015083316" alt="" ' +
       'data-fallback="' + esc(c.icon) + '" draggable="false">';
   }
   document.addEventListener('error', function (event) {
@@ -679,7 +679,7 @@
     var word = r[0], sense = r[1], eg = r[3], pic = c.pic;
     var clip = WA ? WA.clipFor(word, sense) : null;
     var art = pic
-      ? '<div class="pic"><img src="' + esc(pic) + '?v=2402efc35-20261013211543" alt="" loading="lazy" decoding="async" draggable="false"></div>'
+      ? '<div class="pic"><img src="' + esc(pic) + '?v=fc369734b-20261015083316" alt="" loading="lazy" decoding="async" draggable="false"></div>'
       : '<div class="pic todo"><span>picture to come</span></div>';
     var speak = clip
       ? '<button type="button" class="speak" data-clip="' + esc(clip) + '" aria-label="Hear ' +
@@ -776,20 +776,21 @@
      card picture with the word under it, like an icon. Tapping it plays that word's
      SENTENCE clip -- the same clip the full card's sentence speaker plays, resolved by
      the same sentence-audio.js + ledger pair, so an edited sentence can never speak its
-     old wording from the poster. A word whose sentence has no current clip falls back
-     to its WORD clip (the same clip the label and the card's word speaker play) and is
-     listed in the QA note; a word with no playable clip at all gets no card, exactly
-     the dead-tap rule every speaker here follows. Never a dashed placeholder. */
+     old wording from the poster. The four held poster-only words get no small card
+     until their sentences are rendered: their plate labels still speak the word, and
+     there is no misleading sentence button. Existing dictionary words retain the
+     documented word-clip fallback. Never a dashed placeholder. */
   function posterChip(r) {
     var word = r[0], sense = r[1], eg = r[3], pic = r[4];
     var sentenceClip = SA ? SA.clipFor(sense, eg, ledger) : null;
+    var held = WA && WA.HELD_POSTER_FILES && WA.HELD_POSTER_FILES[sense];
     var wordClip = WA ? WA.clipFor(word, sense) : null;
-    var clip = sentenceClip || wordClip;
+    var clip = sentenceClip || (!held && wordClip);
     if (!pic || !clip) return '';
     return '<button type="button" class="poster-chip" data-chip-sense="' + esc(sense) + '"' +
       ' data-clip="' + esc(clip) + '" data-kind="' + (sentenceClip ? 'sentence' : 'word') + '"' +
       ' aria-label="' + (sentenceClip ? 'Hear the sentence for ' : 'Hear ') + esc(word) + '">' +
-      '<span class="poster-chip-pic"><img src="' + esc(pic) + '?v=2402efc35-20261013211543" alt="" loading="lazy" decoding="async" draggable="false"></span>' +
+      '<span class="poster-chip-pic"><img src="' + esc(pic) + '?v=fc369734b-20261015083316" alt="" loading="lazy" decoding="async" draggable="false"></span>' +
       '<span class="poster-chip-word">' + esc(word) + '</span></button>';
   }
   /* Shape the strip so all of it is on screen beside (landscape) or under (portrait)
@@ -844,7 +845,7 @@
       grid.innerHTML = '<div class="poster-groups">' + groups.map(function (name) {
         return '<section class="poster-group"><h2>' + esc(name) + '</h2><div class="poster-choices">' + byGroup[name].map(function (x) {
           return '<button type="button" class="poster-choice" data-poster="' + esc(x.p.id) + '">' +
-          '<img src="' + esc(x.p.plate || ('assets/posters/' + x.p.id + '.webp')) + '?v=2402efc35-20261013211543" alt="" loading="lazy" draggable="false">' +
+          '<img src="' + esc(x.p.plate || ('assets/posters/' + x.p.id + '.webp')) + '?v=fc369734b-20261015083316" alt="" loading="lazy" draggable="false">' +
           '<span class="poster-choice-copy">' + esc(x.p.title) + '<span>' + x.rows.length +
           (x.rows.length === 1 ? ' word' : ' words') + '</span></span></button>';
         }).join('') + '</div></section>';
@@ -867,7 +868,7 @@
     var chips = chosen.rows.map(posterChip).join('');
     grid.innerHTML = '<div class="poster-heading"><button type="button" class="poster-back" data-all-posters aria-label="All posters">←</button><h2>' +
       esc(chosen.p.title) + '</h2></div><div class="poster-body"><div class="poster-stage-area"><div class="poster-stage ' + esc(chosen.p.layout) + '" data-poster-stage="' + esc(chosen.p.id) + '">' +
-      '<img class="poster-plate" src="' + esc(chosen.p.plate) + '?v=2402efc35-20261013211543" alt="" draggable="false">' +
+      '<img class="poster-plate" src="' + esc(chosen.p.plate) + '?v=fc369734b-20261015083316" alt="" draggable="false">' +
       (chosen.p.pointer ? '<svg class="poster-pointers" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">' + pointers.join('') + '</svg>' : '') + pieces.join('') + '</div></div>' +
       (chips ? '<div class="poster-strip" role="group" aria-label="Small word cards: tap one to hear its sentence">' + chips + '</div>' : '') +
       '</div>';
@@ -1100,9 +1101,16 @@
   }).then(function (values) {
     var d = values[0];
     ledger = values[1];
-    posters = (values[2] && values[2].posters) || [];
+    var posterData = values[2] || {};
+    posters = posterData.posters || [];
     filterData(d);
     (d.rows || []).forEach(function (r) { rowBySense[r[1]] = r; });
+    /* The full dictionary source remains owned by held PR #1352. These four rows make
+       only this held poster candidate complete, using the same final sense IDs; they
+       must not leak into A-Z search or collection cards ahead of that held merge. */
+    (posterData.held_rows || []).forEach(function (r) {
+      if (lettersFor().indexOf(String(r[0]).charAt(0).toLowerCase()) > -1) rowBySense[r[1]] = r;
+    });
     collections = d.collections || [];
     collections.forEach(function (c) {
       collectionById[c.id] = c;
@@ -1136,6 +1144,6 @@
   }
 })();
 </script>
-<script src="./tap-zoom-guard.js?v=2402efc35-20261013211543"></script>
+<script src="./tap-zoom-guard.js?v=fc369734b-20261015083316"></script>
 </body>
 </html>
