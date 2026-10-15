@@ -1125,16 +1125,31 @@
     var max = list.reduce(function (n, m) { return Math.max(n, Number(m.diameterKm) || 0); }, 1);
     scene.dataset.rowCapacity = String(p.rowCapacity || list.length);
     if (p.diameterSource) scene.dataset.diameterSource = p.diameterSource;
-    list.forEach(function (m) {
+    var factPanel = el("div", "dd-moon-fact-panel");
+    factPanel.setAttribute("aria-live", "polite");
+    factPanel.hidden = true;
+    factPanel.appendChild(el("strong", null, ""));
+    factPanel.appendChild(el("span", null, ""));
+
+    function hearFact(button, m) {
+      if (!m.fact || !m.factAudio) return;
+      factPanel.firstChild.textContent = m.name;
+      factPanel.lastChild.textContent = m.fact;
+      factPanel.hidden = false;
+      playDirectClip(button, m.fact, m.factAudio);
+    }
+
+    function moonCell(m, more) {
       var isSmall = m.family ? m.family === "small" : m.diameterKm < threshold;
-      var cell = el("div", "dd-moon-cell" + (isSmall ? " dd-moon-cell-small" : ""));
-      if (p.rowCapacity) {
+      var cell = el("div", "dd-moon-cell" + (isSmall ? " dd-moon-cell-small" : "") +
+        (more ? " dd-moon-cell-more" : ""));
+      if (p.rowCapacity && !more) {
         cell.style.flex = "0 1 calc(" + (100 / p.rowCapacity).toFixed(3) + "% - 10px)";
       }
       cell.dataset.moon = m.key;
       var body = el("button", "dd-moon-body");
       body.type = "button";
-      body.setAttribute("aria-label", "Open " + m.name);
+      body.setAttribute("aria-label", "Hear a fact about " + m.name);
       var art = document.createElement("img");
       art.src = m.image; art.alt = ""; art.decoding = "async";
       var holder = art;
@@ -1154,10 +1169,10 @@
         art.style.setProperty("--moon-size", (m.diameterKm / max * 116).toFixed(2) + "px");
       }
       body.appendChild(holder);
-      body.addEventListener("click", function () { openTarget(m.targetPage); });
+      body.addEventListener("click", function () { hearFact(body, m); });
       cell.appendChild(body);
-      cell.appendChild(nameTag(m.name, m.say, "dd-moon-name"));
-      if (isSmall) {
+      cell.appendChild(nameTag(m.name, m.say, "dd-moon-name", m.factAudio));
+      if (isSmall && !more) {
         var actual = el("span", "dd-moon-actual");
         var dot = el("span", "dd-moon-dot");
         dot.style.setProperty("--actual-size", Math.max(1, m.diameterKm / max * 116).toFixed(2) + "px");
@@ -1165,10 +1180,42 @@
         actual.appendChild(el("span", null, "Actual size · same scale"));
         cell.appendChild(actual);
       }
-      (isSmall ? small : big).appendChild(cell);
+      if (m.targetPage) {
+        var open = el("button", "dd-moon-open", "Explore");
+        open.type = "button";
+        open.setAttribute("aria-label", "Open " + m.name);
+        open.addEventListener("click", function () { openTarget(m.targetPage); });
+        cell.appendChild(open);
+      }
+      return cell;
+    }
+
+    list.filter(function (m) { return !m.section; }).forEach(function (m) {
+      (m.family === "small" || (!m.family && m.diameterKm < threshold) ? small : big)
+        .appendChild(moonCell(m, false));
     });
     scene.appendChild(big);
     if (small.children.length) scene.appendChild(zoom);
+    var sectionNames = [];
+    list.forEach(function (m) {
+      if (m.section && sectionNames.indexOf(m.section) < 0) sectionNames.push(m.section);
+    });
+    if (sectionNames.length) {
+      var moreHead = el("div", "dd-more-moons-head");
+      moreHead.appendChild(el("span", "dd-zoom-pill", "More moons"));
+      scene.appendChild(moreHead);
+      sectionNames.forEach(function (name) {
+        var group = el("section", "dd-more-moons-group");
+        group.appendChild(el("h3", null, name));
+        var grid = el("div", "dd-more-moons-grid");
+        list.filter(function (m) { return m.section === name; }).forEach(function (m) {
+          grid.appendChild(moonCell(m, true));
+        });
+        group.appendChild(grid);
+        scene.appendChild(group);
+      });
+    }
+    scene.appendChild(factPanel);
     elBody.appendChild(scene);
   }
 
@@ -1473,13 +1520,39 @@
     });
   }
 
-  function nameTag(name, text, extraClass) {
+  /* Moon facts reuse the Solar System Game's already-rendered AAC files. The
+     displayed string is carried separately and must equal the clip transcript;
+     unlike name tags, the runtime path is explicit and needs no page narration
+     map entry. */
+  function playDirectClip(tag, text, file) {
+    clearPulse();
+    cancelSpeech();
+    pulsing = tag;
+    tag.dataset.playing = "true";
+    pulseTimer = setTimeout(clearPulse,
+      Math.max(PULSE_MS_MIN, (text || "").length * PULSE_MS_PER_CHAR));
+    if (!file) return;
+    var mine = ++nameToken;
+    if (!nameAudio) nameAudio = new Audio();
+    nameAudio.src = (window.__NARRATION_BASE || "assets-runtime/narration/") + file;
+    nameAudio.onended = function () { if (mine === nameToken) clearPulse(); };
+    nameAudio.onerror = function () { if (mine === nameToken) clearPulse(); };
+    var played = nameAudio.play();
+    if (played && played.catch) played.catch(function () {
+      if (mine === nameToken) clearPulse();
+    });
+  }
+
+  function nameTag(name, text, extraClass, directFile) {
     var tag = el("button", "dd-name-tag" + (extraClass ? " " + extraClass : ""));
     tag.type = "button";
     tag.setAttribute("aria-label", "Hear the name " + name);
     tag.appendChild(el("span", "dd-name-tag-text", name));
     tag.insertAdjacentHTML("beforeend", EAR);
-    tag.addEventListener("click", function () { playNameTag(tag, text || ""); });
+    tag.addEventListener("click", function () {
+      if (directFile) playDirectClip(tag, text || "", directFile);
+      else playNameTag(tag, text || "");
+    });
     return tag;
   }
 

@@ -902,3 +902,109 @@ window.BOOK_NAV = {
     }
   ]
 };
+
+/* The Solar System Game is the canonical inventory for this expansion. Its
+   exact spoken sentences and already-rendered clip paths are generated into
+   app/moon-game-data.js. Keep explorer-specific navigation and painted art
+   here, then enrich every roster entry from that shared data. */
+(function addCompleteMoonRosters() {
+  var game = window.MOON_GAME_DATA || {};
+  function art(page, key) {
+    return "assets-runtime/standard/" + page + "/moon-cutouts/" + key + "-isolated-hero-v1.webp";
+  }
+  function entry(key, page, section, extra) {
+    var g = game[key];
+    if (!g) throw new Error("Missing generated moon data for " + key);
+    return Object.assign({
+      key: key,
+      name: g.name,
+      say: g.text,
+      fact: g.text,
+      factAudio: g.audio,
+      diameterKm: g.diameterKm,
+      image: art(page, key),
+      section: section || null
+    }, extra || {});
+  }
+  function findDive(id) {
+    return window.BOOK_NAV.deepDives.find(function (d) { return d.id === id; });
+  }
+
+  /* Existing featured rows retain their destinations and book art. The body
+     now speaks the exact game fact; the explicit Explore control navigates. */
+  window.BOOK_NAV.deepDives.forEach(function (d) {
+    (d.menus || []).filter(function (m) { return m.layoutType === "moon-roster"; })
+      .forEach(function (m) {
+        m.moons.forEach(function (moon) {
+          var g = game[moon.key];
+          if (!g) return;
+          moon.fact = g.text;
+          moon.factAudio = g.audio;
+          moon.say = g.text;
+          if (!moon.diameterKm) moon.diameterKm = g.diameterKm;
+        });
+      });
+  });
+
+  var uranus = findDive("uranus-moons");
+  var uRoster = uranus.menus[0];
+  [
+    ["puck", "Inner moons"], ["cordelia", "Inner moons"], ["ophelia", "Inner moons"],
+    ["bianca", "Inner moons"], ["cressida", "Inner moons"], ["desdemona", "Inner moons"],
+    ["juliet", "Inner moons"], ["portia", "Inner moons"], ["rosalind", "Inner moons"],
+    ["cupid", "Inner moons"], ["belinda", "Inner moons"], ["perdita", "Inner moons"],
+    ["mab", "Inner moons"], ["francisco", "Far-out moons"], ["caliban", "Far-out moons"],
+    ["stephano", "Far-out moons"], ["trinculo", "Far-out moons"], ["sycorax", "Far-out moons"],
+    ["margaret", "Far-out moons"], ["prospero", "Far-out moons"], ["setebos", "Far-out moons"],
+    ["ferdinand", "Far-out moons"]
+  ].forEach(function (x) { uRoster.moons.push(entry(x[0], "page-16", x[1])); });
+  uRoster.subtitle = "Five featured moons, plus every moon from the planet game";
+
+  window.BOOK_NAV.deepDives.push({
+    id: "neptune-moons",
+    title: "Neptune's moons",
+    sourcePage: "page-18",
+    launchFrom: ["page-17", "page-18"],
+    launchLabel: "Explore Neptune's moons",
+    menus: [{
+      id: "n0", title: "Triton and Neptune's other moons",
+      subtitle: "Tap any moon to hear its short fact",
+      layoutType: "moon-roster", zoomBelowKm: 500, rowCapacity: 3,
+      diameterSource: "JPL Solar System Dynamics / NASA diameters recorded in the Solar System Game moon roster; copied 2026-10-15",
+      moons: [
+        entry("triton", "page-18", null, { family: "big", factOnly: true, image: "assets-runtime/standard/page-02/moon-triton.webp" }),
+        entry("naiad", "page-18", "Inner moons"), entry("thalassa", "page-18", "Inner moons"),
+        entry("despina", "page-18", "Inner moons"), entry("galatea", "page-18", "Inner moons"),
+        entry("larissa", "page-18", "Inner moons"), entry("hippocamp", "page-18", "Inner moons"),
+        entry("proteus", "page-18", "Inner moons"), entry("nereid", "page-18", "Far-out moons"),
+        entry("halimede", "page-18", "Far-out moons"), entry("sao", "page-18", "Far-out moons"),
+        entry("laomedeia", "page-18", "Far-out moons"), entry("psamathe", "page-18", "Far-out moons"),
+        entry("neso", "page-18", "Far-out moons")
+      ]
+    }],
+    pages: []
+  });
+
+  window.BOOK_NAV.deepDives.push({
+    id: "pluto-moons",
+    title: "Pluto and dwarf-world moons",
+    sourcePage: "page-19",
+    launchFrom: ["page-19"],
+    launchLabel: "Explore the moons",
+    menus: [{
+      id: "p0", title: "Pluto's five moons",
+      subtitle: "Charon is featured; the four little moons are zoomed in",
+      layoutType: "moon-roster", zoomBelowKm: 100, rowCapacity: 2,
+      diameterSource: "JPL Solar System Dynamics / NASA diameters recorded in the Solar System Game moon roster; copied 2026-10-15",
+      moons: [
+        entry("charon", "page-19", null, { family: "big", factOnly: true, image: art("page-19", "charon") }),
+        entry("nix", "page-19", "Pluto's small moons"), entry("hydra", "page-19", "Pluto's small moons"),
+        entry("kerberos", "page-19", "Pluto's small moons"), entry("styx", "page-19", "Pluto's small moons"),
+        entry("hiiaka", "page-19", "Other dwarf-world moons"),
+        entry("namaka", "page-19", "Other dwarf-world moons"),
+        entry("dysnomia", "page-19", "Other dwarf-world moons")
+      ]
+    }],
+    pages: []
+  });
+})();

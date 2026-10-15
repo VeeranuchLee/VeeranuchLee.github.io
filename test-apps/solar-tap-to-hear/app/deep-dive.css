@@ -703,14 +703,78 @@ button.dd-fact:focus-visible { outline: 3px solid #237da1; outline-offset: 1px; 
   border-radius: 50%;
   background: #e8d7bd;
 }
+.dd-moon-open {
+  min-width: 64px;
+  min-height: 44px;
+  border: 1px solid rgba(142,234,255,.55);
+  border-radius: 999px;
+  background: rgba(11,41,72,.92);
+  color: #dff8ff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+.dd-moon-open:focus-visible { outline: 3px solid var(--dd-gold); outline-offset: 2px; }
+.dd-more-moons-head { margin-top: 2px; }
+.dd-more-moons-group {
+  border: 2px solid rgba(255,216,77,.62);
+  border-radius: 16px;
+  padding: 8px;
+  background: linear-gradient(180deg, rgba(33,70,118,.72), rgba(9,26,52,.88));
+}
+.dd-more-moons-group h3 {
+  margin: 0 0 6px;
+  color: #fff2b7;
+  font-size: clamp(13px,1.45vw,17px);
+}
+.dd-more-moons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(82px, 1fr));
+  gap: 6px;
+}
+.dd-moon-cell-more {
+  min-width: 0;
+  min-height: 112px;
+  align-content: center;
+  padding: 2px;
+}
+.dd-moon-cell-more .dd-moon-body { min-width: 64px; min-height: 64px; }
+.dd-moon-cell-more .dd-moon-body > img {
+  width: clamp(54px,7vw,76px);
+  height: clamp(54px,7vw,76px);
+}
+.dd-moon-cell-more .dd-moon-name {
+  width: 100%;
+  min-width: 64px;
+  padding-inline: 4px;
+  font-size: clamp(11px,1.15vw,14px);
+}
+.dd-moon-fact-panel {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  min-height: 64px;
+  border: 2px solid #8eeaff;
+  border-radius: 14px;
+  padding: 8px 12px;
+  background: rgba(5,23,45,.97);
+  color: #fff;
+  display: grid;
+  gap: 2px;
+  font-size: clamp(13px,1.35vw,17px);
+}
+.dd-moon-fact-panel[hidden] { display: none; }
+.dd-moon-fact-panel strong { color: #ffe27d; }
 @media (max-width: 820px) {
   .dd-moon-small-row { gap: 2px; }
   .dd-moon-cell-small { padding-inline: 1px; }
   .dd-moon-actual { grid-template-columns: 10px minmax(0,1fr); font-size: 10px; }
+  .dd-more-moons-grid { grid-template-columns: repeat(4, minmax(64px,1fr)); }
 }
 @media (orientation: portrait) and (max-width: 820px) {
   .dd-moon-small-row { flex-wrap: wrap; }
   .dd-moon-cell-small { flex: 1 1 30%; }
+  .dd-more-moons-grid { grid-template-columns: repeat(3, minmax(64px,1fr)); }
 }
 
 /* ---- Calm mode ----
