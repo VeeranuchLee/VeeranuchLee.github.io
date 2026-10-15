@@ -391,8 +391,10 @@
      ============================================================ */
   function openDeepDive(id, opts) {
     var dd = deepDiveById(id);
-    if (!dd || !dd.pages || !dd.pages.length) {
-      console.error("[book-nav] no deep dive called " + id + ", or it has no pages.");
+    /* A moon explorer may be menu-only (Neptune, Pluto: every moon is a fact tap, no body
+       page). Refusing those left "Explore Neptune's moons" silent (owner, 2026-10-15). */
+    if (!dd || !((dd.pages && dd.pages.length) || (dd.menus && dd.menus.length))) {
+      console.error("[book-nav] no deep dive called " + id + ", or it has no pages or menus.");
       return;
     }
     buildShell();
@@ -1171,7 +1173,10 @@
       body.appendChild(holder);
       body.addEventListener("click", function () { hearFact(body, m); });
       cell.appendChild(body);
-      cell.appendChild(nameTag(m.name, m.say, "dd-moon-name", m.factAudio));
+      /* The name tag plays the same fact clip as the moon, so it must show the same words
+         in the fact panel; it used to leave the previous moon's text there (owner, 2026-10-15). */
+      cell.appendChild(nameTag(m.name, m.say, "dd-moon-name", m.factAudio,
+        m.fact && m.factAudio ? function (tag) { hearFact(tag, m); } : null));
       if (isSmall && !more) {
         var actual = el("span", "dd-moon-actual");
         var dot = el("span", "dd-moon-dot");
@@ -1543,13 +1548,14 @@
     });
   }
 
-  function nameTag(name, text, extraClass, directFile) {
+  function nameTag(name, text, extraClass, directFile, onTap) {
     var tag = el("button", "dd-name-tag" + (extraClass ? " " + extraClass : ""));
     tag.type = "button";
     tag.setAttribute("aria-label", "Hear the name " + name);
     tag.appendChild(el("span", "dd-name-tag-text", name));
     tag.insertAdjacentHTML("beforeend", EAR);
     tag.addEventListener("click", function () {
+      if (onTap) { onTap(tag); return; }
       if (directFile) playDirectClip(tag, text || "", directFile);
       else playNameTag(tag, text || "");
     });
