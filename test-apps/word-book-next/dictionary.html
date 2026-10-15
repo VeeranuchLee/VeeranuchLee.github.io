@@ -4,10 +4,10 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Our Dictionary</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=bd87e34f9-20261015174349"/>
-  <link rel="stylesheet" href="./fonts.css?v=bd87e34f9-20261015174349"/>
+  <link rel="manifest" href="./manifest.webmanifest?v=f2cf9c674-20261015180152"/>
+  <link rel="stylesheet" href="./fonts.css?v=f2cf9c674-20261015180152"/>
   <meta name="theme-color" content="#3a1e33"/>
-  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=bd87e34f9-20261015174349"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=f2cf9c674-20261015180152"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Our Dictionary"/>
@@ -356,6 +356,7 @@
        break-word only splits a word wider than the whole card. */
     .head .word{flex:1 1 auto;min-width:min-content;max-width:100%;overflow-wrap:break-word;padding-top:12px}
     .word-letter{border-radius:.28em;padding:0 .02em;transition:background .12s,color .12s,box-shadow .12s}
+    .word.current-word .word-letter{background:#ffd54f;box-shadow:0 0 0 2px #ffd54f}
     .word-letter.current{background:#ffd54f;color:#3a1e33;box-shadow:0 0 0 3px #fff,0 0 0 6px #ef9f23}
     .word-actions{display:flex;align-items:center;gap:8px;flex:none}
     .speak{
@@ -498,9 +499,9 @@
   <div class="grid" id="grid"></div>
 </main>
 
-<script src="word-audio.js?v=bd87e34f9-20261015174349"></script>
-<script src="sentence-audio.js?v=bd87e34f9-20261015174349"></script>
-<script src="spelling.js?v=bd87e34f9-20261015174349"></script>
+<script src="word-audio.js?v=f2cf9c674-20261015180152"></script>
+<script src="sentence-audio.js?v=f2cf9c674-20261015180152"></script>
+<script src="spelling.js?v=f2cf9c674-20261015180152"></script>
 <script>
 (function () {
   'use strict';
@@ -595,7 +596,7 @@
     });
   }
   function collectionIconMarkup(c) {
-    return '<img class="owner-group-icon" src="' + esc(c.icon_path) + '?v=bd87e34f9-20261015174349" alt="" ' +
+    return '<img class="owner-group-icon" src="' + esc(c.icon_path) + '?v=f2cf9c674-20261015180152" alt="" ' +
       'data-fallback="' + esc(c.icon) + '" draggable="false">';
   }
   document.addEventListener('error', function (event) {
@@ -730,7 +731,7 @@
     var word = r[0], sense = r[1], eg = r[3], pic = c.pic;
     var clip = WA ? WA.clipFor(word, sense) : null;
     var art = pic
-      ? '<div class="pic"><img src="' + esc(pic) + '?v=bd87e34f9-20261015174349" alt="" loading="lazy" decoding="async" draggable="false"></div>'
+      ? '<div class="pic"><img src="' + esc(pic) + '?v=f2cf9c674-20261015180152" alt="" loading="lazy" decoding="async" draggable="false"></div>'
       : '<div class="pic todo"><span>picture to come</span></div>';
     var speak = clip
       ? '<button type="button" class="speak" data-clip="' + esc(clip) + '" aria-label="Hear ' +
@@ -858,7 +859,7 @@
     return '<button type="button" class="poster-chip" data-chip-sense="' + esc(sense) + '"' +
       ' data-clip="' + esc(clip) + '" data-kind="' + (sentenceClip ? 'sentence' : 'word') + '"' +
       ' aria-label="' + (sentenceClip ? 'Hear the sentence for ' : 'Hear ') + esc(word) + '">' +
-      '<span class="poster-chip-pic"><img src="' + esc(pic) + '?v=bd87e34f9-20261015174349" alt="" loading="lazy" decoding="async" draggable="false"></span>' +
+      '<span class="poster-chip-pic"><img src="' + esc(pic) + '?v=f2cf9c674-20261015180152" alt="" loading="lazy" decoding="async" draggable="false"></span>' +
       '<span class="poster-chip-word">' + esc(word) + '</span></button>';
   }
   /* Shape the strip so all of it is on screen beside (landscape) or under (portrait)
@@ -913,7 +914,7 @@
       grid.innerHTML = '<div class="poster-groups">' + groups.map(function (name) {
         return '<section class="poster-group"><h2>' + esc(name) + '</h2><div class="poster-choices">' + byGroup[name].map(function (x) {
           return '<button type="button" class="poster-choice" data-poster="' + esc(x.p.id) + '">' +
-          '<img src="' + esc(x.p.plate || ('assets/posters/' + x.p.id + '.webp')) + '?v=bd87e34f9-20261015174349" alt="" loading="lazy" draggable="false">' +
+          '<img src="' + esc(x.p.plate || ('assets/posters/' + x.p.id + '.webp')) + '?v=f2cf9c674-20261015180152" alt="" loading="lazy" draggable="false">' +
           '<span class="poster-choice-copy">' + esc(x.p.title) + '<span>' + x.rows.length +
           (x.rows.length === 1 ? ' word' : ' words') + '</span></span></button>';
         }).join('') + '</div></section>';
@@ -936,7 +937,7 @@
     var chips = chosen.rows.map(posterChip).join('');
     grid.innerHTML = '<div class="poster-heading"><button type="button" class="poster-back" data-all-posters aria-label="All posters">←</button><h2>' +
       esc(chosen.p.title) + '</h2></div><div class="poster-body"><div class="poster-stage-area"><div class="poster-stage ' + esc(chosen.p.layout) + '" data-poster-stage="' + esc(chosen.p.id) + '">' +
-      '<img class="poster-plate" src="' + esc(chosen.p.plate) + '?v=bd87e34f9-20261015174349" alt="" draggable="false">' +
+      '<img class="poster-plate" src="' + esc(chosen.p.plate) + '?v=f2cf9c674-20261015180152" alt="" draggable="false">' +
       (chosen.p.pointer ? '<svg class="poster-pointers" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">' + pointers.join('') + '</svg>' : '') + pieces.join('') + '</div></div>' +
       (chips ? '<div class="poster-strip" role="group" aria-label="Small word cards: tap one to hear its sentence">' + chips + '</div>' : '') +
       '</div>';
@@ -1088,6 +1089,8 @@
   function clearLetter() {
     if (activeLetter) activeLetter.classList.remove('current');
     activeLetter = null;
+    var lit = document.querySelectorAll('.word.current-word');
+    for (var i = 0; i < lit.length; i++) lit[i].classList.remove('current-word');
   }
   function hush() {
     audioGeneration += 1;
@@ -1174,7 +1177,7 @@
     function nextLetter() {
       if (generation !== audioGeneration) return;
       clearLetter();
-      if (at >= steps.length) { finish(); return; }
+      if (at >= steps.length) { wait(SPELLING.PAUSE_MS, sayWord); return; }
       var step = steps[at++];
       if (step.kind === 'pause') { wait(SPELLING.PAUSE_MS, nextLetter); return; }
       if (step.kind !== 'letter') { nextLetter(); return; }
@@ -1187,11 +1190,19 @@
         wait(SPELLING.MISSING_LETTER_MS, nextLetter);
       });
     }
-    function afterWord() { wait(SPELLING.PAUSE_MS, nextLetter); }
-    playOwned(btn.getAttribute('data-word-clip'), generation, afterWord, function () {
-      btn.classList.add('missed');
-      afterWord();
-    });
+    /* Owner 2026-10-15: spell first, then read the word ("upon click the ABC button, spell
+       first, then read word"). The whole word lights up while it is said. */
+    function sayWord() {
+      if (generation !== audioGeneration) return;
+      clearLetter();
+      wordNode.classList.add('current-word');
+      playOwned(btn.getAttribute('data-word-clip'), generation, function () {
+        wordNode.classList.remove('current-word'); finish();
+      }, function () {
+        wordNode.classList.remove('current-word'); btn.classList.add('missed'); finish();
+      });
+    }
+    nextLetter();
   }
   grid.addEventListener('click', function (e) {
     var posterChoice = e.target.closest('[data-poster]');
@@ -1289,6 +1300,6 @@
   }
 })();
 </script>
-<script src="./tap-zoom-guard.js?v=bd87e34f9-20261015174349"></script>
+<script src="./tap-zoom-guard.js?v=f2cf9c674-20261015180152"></script>
 </body>
 </html>
