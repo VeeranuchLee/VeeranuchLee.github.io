@@ -12,21 +12,24 @@
       bracelet:{kind:'bracelet',cx:80,cy:49,rx:43,ry:30},
       earrings:{kind:'earrings',leftTop:55,rightTop:105,top:15,bottom:68,spread:18}
     },
+    /* Try-on and display coordinates are in the 4:3 picture's own space: x = % of the
+       picture's width, y = % of its height x 0.75 (overlay viewBox 0 0 100 75), measured
+       on try-on-character.webp and display-stand.webp (controller, 2026-10-15). */
     character: {
-      necklace:{kind:'necklace',left:41,right:60,top:38,bottom:48},
-      bracelet:{kind:'bracelet',cx:47,cy:83,rx:2.6,ry:3.6},
-      earrings:{kind:'earrings',leftTop:39,rightTop:61,top:29,bottom:36.8,spread:1}
+      necklace:{kind:'necklace',left:43.5,right:56.5,top:30.75,bottom:43.5},
+      bracelet:{kind:'bracelet',cx:43.5,cy:63,rx:2.6,ry:2},
+      earrings:{kind:'earrings',leftTop:39.5,rightTop:60.5,top:24.75,bottom:31.5,spread:1}
     },
     display: {
-      necklace:{kind:'necklace',left:37,right:63,top:24,bottom:52},
-      bracelet:{kind:'bracelet',cx:19,cy:54,rx:10.2,ry:5.2},
-      earrings:{kind:'earrings',leftTop:80,rightTop:92,top:41,bottom:50,spread:1}
+      necklace:{kind:'necklace',left:43,right:57,top:18,bottom:33.75},
+      bracelet:{kind:'bracelet',cx:19,cy:41.25,rx:2.2,ry:5.5},
+      earrings:{kind:'earrings',leftTop:77.5,rightTop:92.5,top:33,bottom:41,spread:1.2}
     }
   };
   const desiredRadii = {editor:6.2,character:1.35,display:1.7};
   const boxes = {
-    character:{necklace:{x1:40,y1:37,x2:61,y2:50},bracelet:{x1:43,y1:78,x2:51,y2:88},earrings:{x1:37,y1:27,x2:63,y2:38}},
-    display:{necklace:{x1:35,y1:22,x2:65,y2:55},bracelet:{x1:7,y1:47,x2:31,y2:61},earrings:{x1:77,y1:39,x2:95,y2:52}}
+    character:{necklace:{x1:40,y1:28,x2:60,y2:53},bracelet:{x1:39,y1:58,x2:48,y2:68},earrings:{x1:36,y1:22,x2:64,y2:38}},
+    display:{necklace:{x1:38,y1:15,x2:62,y2:45},bracelet:{x1:14,y1:33,x2:24,y2:50},earrings:{x1:74,y1:30,x2:96,y2:49}}
   };
   const clone = v => JSON.parse(JSON.stringify(v));
   function centreOrder(n){const middle=Math.floor((n-1)/2),order=[middle];for(let d=1;order.length<n;d++){if(middle+d<n)order.push(middle+d);if(middle-d>=0)order.push(middle-d);}return order;}
@@ -40,7 +43,15 @@
   function undo(state){const s=clone(state),p=s.history.pop();if(!p)return s;Object.assign(s,p);return s;}
   function setOption(state,key,value){const s=clone(state);push(s);s[key]=value;return s;}
   function point(layout,i,n){
-    if(layout.kind==='necklace'){const t=i/(n-1);return{x:layout.left+(layout.right-layout.left)*t,y:layout.top+4*(layout.bottom-layout.top)*t*(1-t)};}
+    if(layout.kind==='necklace'){
+      /* Beads are spaced evenly ALONG the cord (arc length), not evenly left to right,
+         so they never bunch at the bottom of the curve where it is flattest. */
+      const at=t=>({x:layout.left+(layout.right-layout.left)*t,y:layout.top+4*(layout.bottom-layout.top)*t*(1-t)});
+      const steps=240,len=[0];let prev=at(0);
+      for(let k=1;k<=steps;k++){const q=at(k/steps);len.push(len[k-1]+Math.hypot(q.x-prev.x,q.y-prev.y));prev=q;}
+      const goal=len[steps]*i/(n-1);let k=0;while(k<steps&&len[k+1]<goal)k++;
+      const span=len[k+1]-len[k]||1;return at((k+(goal-len[k])/span)/steps);
+    }
     if(layout.kind==='bracelet'){const a=Math.PI*2*i/n-Math.PI/2;return{x:layout.cx+layout.rx*Math.cos(a),y:layout.cy+layout.ry*Math.sin(a)};}
     const half=n/2,j=i%half,t=j/(half-1),side=i<half?-1:1,top=side<0?layout.leftTop:layout.rightTop;
     return{x:top+side*layout.spread*(2*t-t*t),y:layout.top+(layout.bottom-layout.top)*t};

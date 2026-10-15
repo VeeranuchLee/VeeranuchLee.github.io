@@ -72,7 +72,7 @@ h1 {
 #workshop {
   background:
     linear-gradient(#6b3f2f99, #43281fbb),
-    url("assets/boutique.webp?v=269679ac7-20261015102033") center / cover;
+    url("assets/boutique.webp?v=3f72c2242-20261015135813") center / cover;
 }
 .plate {
   position: absolute;
@@ -459,3 +459,10 @@ h1 {
   .swatch svg { width: 44px; height: 44px; }
   .charm img { width: 40px; height: 40px; }
 }
+/* Try-on (controller 2026-10-15): the picture and the jewellery layer share one 4:3 box,
+   so jewellery coordinates are the picture's own (viewBox 0 0 100 75) at every screen shape. */
+#tryon .plate, #tryon .overlay-jewel {
+  inset:50% auto auto 50%; width:min(100vw, 133.333vh); height:min(100vh, 75vw); transform:translate(-50%,-50%);
+}
+#tryon .plate { object-fit:contain; }
+#tryon { background:#f3e3d6; }
