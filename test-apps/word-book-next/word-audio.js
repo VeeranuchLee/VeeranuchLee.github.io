@@ -57,6 +57,15 @@
      manifest lists as unrendered appears here. */
   var SENSE_KEYED = ['bow', 'close', 'tear', 'volume', 'wind'];
 
+  /* Owner-requested poster words held here ahead of their full dictionary merge.
+     Preserve the reviewed, already-rendered sense-keyed filenames byte-for-byte. */
+  var HELD_POSTER_FILES = {
+    'eighth.order-eight': 'eighth.order-eight.m4a',
+    'indigo.colour': 'indigo.colour.m4a',
+    'ninth.order-nine': 'ninth.order-nine.m4a',
+    'violet.colour': 'violet.colour.m4a'
+  };
+
   var UNRENDERED = {};
 
   function slug(word) {
@@ -65,7 +74,8 @@
 
   /* Where this card's clip lives, whether or not it has been rendered yet. */
   function pathFor(word, sense) {
-    return DIR + (SENSE_KEYED.indexOf(word) > -1 ? sense : slug(word)) + '.m4a';
+    return DIR + (HELD_POSTER_FILES[sense] ||
+      ((SENSE_KEYED.indexOf(word) > -1 ? sense : slug(word)) + '.m4a'));
   }
 
   /* The clip a card plays, or null when the card is a documented exception. */
@@ -76,6 +86,7 @@
   var api = {
     DIR: DIR,
     SENSE_KEYED: SENSE_KEYED.slice(),
+    HELD_POSTER_FILES: Object.assign({}, HELD_POSTER_FILES),
     UNRENDERED: UNRENDERED,
     slug: slug,
     pathFor: pathFor,
