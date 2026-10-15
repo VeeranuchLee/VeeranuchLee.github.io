@@ -6,14 +6,14 @@
   font-style: normal;
   font-weight: 400 900;
   font-display: swap;
-  src: url(./fonts/Nunito-latin.woff2?v=e5433ca58-20261015111009) format('woff2');
+  src: url(./fonts/Nunito-latin.woff2?v=e5433ca58-20261015125054) format('woff2');
 }
 @font-face {
   font-family: 'Fredoka One';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(./fonts/FredokaOne-latin.woff2?v=e5433ca58-20261015111009) format('woff2');
+  src: url(./fonts/FredokaOne-latin.woff2?v=e5433ca58-20261015125054) format('woff2');
 }
 
 :root {
@@ -440,3 +440,16 @@ button { font: inherit; }
   .reading-mid.has-more-text::before { left: 74px; }
   :root { --text-size: 26px; --title-size: 38px; }
 }
+
+/* ---- dev view (Test Hub only; owner 2026-10-15) ---- */
+.dev-words {
+  position: fixed; left: 12px; bottom: 12px; z-index: 50;
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 48px; padding: 6px 14px 6px 8px; border-radius: 14px;
+  border: 2px dashed #8a4fb8; background: #f6edff; color: #4b2a66;
+  font-weight: 800; font-size: 15px; cursor: pointer; touch-action: manipulation;
+  box-shadow: 0 3px 10px rgba(47, 58, 77, .18);
+}
+.dev-words .dev-tag { background: #8a4fb8; color: #fff; border-radius: 6px; padding: 2px 6px; font-size: 11px; letter-spacing: .06em; }
+.dev-words[data-state="playing"] { background: #8a4fb8; color: #fff; }
+.dev-words[data-state="playing"] .dev-tag { background: #fff; color: #8a4fb8; }

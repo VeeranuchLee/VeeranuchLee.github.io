@@ -537,6 +537,40 @@
     }
   }
 
+  // ---------------------------------------------------------------- dev view
+  // Owner 2026-10-15: on the Test Hub only (never the live bookshelf), a "Word by word"
+  // button reads the page with the tap-a-word clips, to compare against the rendered
+  // sentence narration. ?dev=1 shows it locally. It uses the same run/stop rules as the
+  // speaker, so the two never talk over each other.
+  var DEV = /\/test-apps\//.test(location.pathname) || /[?&]dev=1(?:&|$)/.test(location.search);
+  if (DEV) {
+    var devWords = document.createElement("button");
+    devWords.type = "button";
+    devWords.className = "dev-words";
+    devWords.setAttribute("data-state", "idle");
+    devWords.innerHTML = '<span class="dev-tag">DEV</span><span class="dev-label">Word by word</span>';
+    document.body.appendChild(devWords);
+    var setDev = function (state) {
+      devWords.setAttribute("data-state", state);
+      devWords.querySelector(".dev-label").textContent = state === "playing" ? "Stop" : "Word by word";
+    };
+    var stopAllBase = stopAll;
+    stopAll = function () { stopAllBase(); setDev("idle"); };
+    devWords.addEventListener("click", function () {
+      unlock();
+      if (devWords.getAttribute("data-state") === "playing") { stopAll(); return; }
+      stopAll();
+      var myRun = run;
+      if (!wordButtons.length) return;
+      setDev("playing");
+      readWordsPage(myRun).then(function () {
+        if (myRun !== run) return;
+        clearHighlight();
+        setDev("idle");
+      });
+    });
+  }
+
   // ---------------------------------------------------------------- events
   el.speaker.addEventListener("click", function () {
     unlock();
