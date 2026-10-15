@@ -26,7 +26,7 @@ body {
   min-height: 100dvh;
   overflow-x: hidden;
   overflow: hidden;
-  background: #f7e7d1 url("./assets/art/background-portrait.webp?v=f20956b43-20261013110702") center / cover fixed no-repeat;
+  background: #f7e7d1 url("./assets/art/background-portrait.webp?v=ba054e3dd-20261015083407") center / cover fixed no-repeat;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -142,7 +142,8 @@ h1 {
 .family-button:focus-visible,
 .family-back:focus-visible,
 .shade-card-main:focus-visible,
-.speaker-button:focus-visible {
+.speaker-button:focus-visible,
+.found-colour:focus-visible {
   outline: 5px solid #493a43;
   outline-offset: 3px;
 }
@@ -208,7 +209,7 @@ h2 {
   width: 118px;
   height: 56px;
   flex: none;
-  background: url("./assets/art/white-black-switch-track.webp?v=f20956b43-20261013110702") center / contain no-repeat;
+  background: url("./assets/art/white-black-switch-track.webp?v=ba054e3dd-20261015083407") center / contain no-repeat;
   filter: grayscale(0.45) brightness(0.82);
   transition: filter 160ms ease;
 }
@@ -219,7 +220,7 @@ h2 {
   left: 6px;
   width: 46px;
   height: 46px;
-  background: url("./assets/art/white-black-switch-knob.webp?v=f20956b43-20261013110702") center / contain no-repeat;
+  background: url("./assets/art/white-black-switch-knob.webp?v=ba054e3dd-20261015083407") center / contain no-repeat;
   filter: grayscale(0.55) brightness(0.78);
   transition: transform 160ms ease;
 }
@@ -469,8 +470,8 @@ h2 {
 
 .crayon-tint {
   background: var(--shade);
-  -webkit-mask: url("./assets/explore/crayon-colour-mask.webp?v=f20956b43-20261013110702") center / contain no-repeat;
-  mask: url("./assets/explore/crayon-colour-mask.webp?v=f20956b43-20261013110702") center / contain no-repeat;
+  -webkit-mask: url("./assets/explore/crayon-colour-mask.webp?v=ba054e3dd-20261015083407") center / contain no-repeat;
+  mask: url("./assets/explore/crayon-colour-mask.webp?v=ba054e3dd-20261015083407") center / contain no-repeat;
 }
 
 .crayon-frame {
@@ -640,10 +641,72 @@ h2 {
 .explore-side {
   min-height: 0;
   display: grid;
-  grid-template-rows: auto auto minmax(210px, 1fr) auto 68px;
+  grid-template-rows: auto auto minmax(170px, 1fr) auto 68px;
   justify-items: center;
   align-items: center;
   gap: 5px;
+}
+
+.found-colours {
+  width: 100%;
+  min-width: 0;
+  padding: 7px 10px 8px;
+  border: 3px solid rgba(255, 255, 255, 0.88);
+  border-radius: 25px 31px 24px 29px;
+  background: rgba(255, 245, 222, 0.86);
+  box-shadow: 0 4px 0 rgba(73, 58, 67, 0.1);
+  overflow: hidden;
+}
+
+.found-colours-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.found-colours h3 { margin: 0; color: #65435f; font-size: clamp(16px, 2.1vw, 21px); }
+.found-colours-heading span { flex: none; font-size: clamp(12px, 1.6vw, 15px); font-weight: 900; }
+.found-colours > p { margin: 7px 0 3px; text-align: center; font-size: 14px; font-weight: 800; }
+.found-colours > p[hidden] { display: none; }
+
+.found-colours-list {
+  min-height: 58px;
+  display: flex;
+  align-items: start;
+  gap: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+}
+
+.found-colour {
+  width: 70px;
+  min-width: 70px;
+  min-height: 58px;
+  padding: 1px 2px 0;
+  display: grid;
+  justify-items: center;
+  gap: 1px;
+  border: 0;
+  background: transparent;
+  color: #493a43;
+  font: inherit;
+}
+
+button.found-colour { cursor: pointer; }
+.found-colour-swatch {
+  width: 44px;
+  height: 44px;
+  display: block;
+  border: 3px solid rgba(73, 58, 67, 0.24);
+  border-radius: 48% 52% 46% 54% / 53% 46% 54% 47%;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.42), transparent 34%),
+    var(--found-colour);
+  box-shadow: inset -5px -4px 0 rgba(73, 58, 67, 0.1), 0 3px 0 rgba(73, 58, 67, 0.13);
+}
+.found-colour-name { max-width: 70px; font-size: 11px; font-weight: 950; line-height: 1.05; text-align: center; text-transform: lowercase; }
+.found-colour.is-new .found-colour-swatch { animation: found-colour-pop 520ms ease both; }
+@keyframes found-colour-pop {
+  0% { opacity: 0; transform: scale(.35) rotate(-15deg); }
+  55% { opacity: 1; transform: scale(1.2) rotate(7deg); filter: drop-shadow(0 0 7px #ffd33d); }
+  100% { transform: scale(1) rotate(0); }
 }
 
 .mix-bowl {
@@ -679,8 +742,8 @@ h2 {
   width: 100%;
   height: 100%;
   background-color: var(--bowl-decoration, #A56BDB);
-  -webkit-mask-image: url("./assets/art/mixing-bowl-decoration-mask.png?v=f20956b43-20261013110702");
-  mask-image: url("./assets/art/mixing-bowl-decoration-mask.png?v=f20956b43-20261013110702");
+  -webkit-mask-image: url("./assets/art/mixing-bowl-decoration-mask.png?v=ba054e3dd-20261015083407");
+  mask-image: url("./assets/art/mixing-bowl-decoration-mask.png?v=ba054e3dd-20261015083407");
   -webkit-mask-position: center;
   mask-position: center;
   -webkit-mask-repeat: no-repeat;
@@ -742,7 +805,7 @@ h2 {
   min-height: 64px;
   padding: 9px 26px 13px;
   border: 0;
-  background: transparent url("./assets/art/reset-plaque.webp?v=f20956b43-20261013110702") center / 100% 100% no-repeat;
+  background: transparent url("./assets/art/reset-plaque.webp?v=ba054e3dd-20261015083407") center / 100% 100% no-repeat;
   color: #60405f;
   font-weight: 900;
   text-shadow: 0 2px 0 rgba(255, 255, 255, 0.9);
@@ -790,7 +853,7 @@ h2 {
 }
 
 @media (orientation: landscape) {
-  body { background-image: url("./assets/art/background-landscape.webp?v=f20956b43-20261013110702"); }
+  body { background-image: url("./assets/art/background-landscape.webp?v=ba054e3dd-20261015083407"); }
 }
 
 /* Five paints wrap 3 + 2 in every orientation. The wrap used to live only inside the
@@ -809,7 +872,7 @@ h2 {
      label size): a narrower pot lets the centred max-content pill poke past its edge,
      which the pot reports as scrollWidth > clientWidth. */
   .paint-side.is-five-paint .paint-pot { width: min(13.5vw, 132px); min-height: 132px; padding-bottom: 32px; }
-  .explore-side { grid-template-rows: auto auto minmax(250px, 1fr) auto 68px; }
+  .explore-side { grid-template-rows: auto auto minmax(210px, 1fr) auto 68px; }
   .mix-bowl { width: min(43vw, 480px); height: min(48vh, 330px); }
   .family-shelf { grid-template-columns: repeat(6, minmax(0, 1fr)); }
   .family-button { min-height: clamp(92px, 18vh, 126px); }
@@ -824,8 +887,8 @@ h2 {
   .title-lockup { padding: 5px 16px 7px; }
   .paint-side, .explore-side { padding: 8px 12px; }
   .paint-pot { min-height: 128px; padding-bottom: 34px; }
-  .explore-side { grid-template-rows: auto auto minmax(200px, 1fr) 58px 64px; }
-  .mix-bowl { min-height: 200px; height: min(31vh, 240px); width: min(40vw, 360px); }
+  .explore-side { grid-template-rows: auto auto minmax(160px, 1fr) 58px 64px; }
+  .mix-bowl { min-height: 160px; height: min(25vh, 200px); width: min(36vw, 330px); }
   .mode-switch { min-height: 64px; }
   .mode-tab { min-height: 64px; }
   .explore-panel { padding: 8px 12px; }
@@ -838,9 +901,9 @@ h2 {
 }
 
 @media (orientation: portrait) {
-  .explore-side { grid-template-rows: auto auto minmax(170px, 1fr) auto 64px; gap: 4px; }
+  .explore-side { grid-template-rows: auto auto minmax(150px, 1fr) auto 64px; gap: 4px; }
   .mix-target-card { min-height: 62px; margin: 0; }
-  .mix-bowl { min-height: 170px; height: min(18vh, 188px); width: min(52vw, 282px); }
+  .mix-bowl { min-height: 150px; height: min(16vh, 172px); width: min(48vw, 260px); }
 
   /* Five paints, portrait: Red/Yellow/Blue across the top, White/Black centred below
      (2026-10-13 QA: one row pushed Black off-screen). At pot sizes that fit the stacked
@@ -857,8 +920,8 @@ h2 {
   .paint-side.is-five-paint .paint-pot { grid-column: auto / span 2; width: min(24vw, 122px); padding-bottom: 26px; }
   .paint-side.is-five-paint .paint-pot:nth-child(4) { grid-column: 2 / span 2; }
   .paint-side.is-five-paint .paint-pot:nth-child(5) { grid-column: 4 / span 2; }
-  .paint-side.is-five-paint ~ .explore-side { padding: 6px 10px; grid-template-rows: auto auto minmax(140px, 1fr) auto 64px; gap: 3px; }
-  .paint-side.is-five-paint ~ .explore-side .mix-bowl { width: min(48vw, 222px); height: min(18vh, 148px); min-height: 140px; }
+  .paint-side.is-five-paint ~ .explore-side { padding: 6px 10px; grid-template-rows: auto auto minmax(120px, 1fr) auto 64px; gap: 3px; }
+  .paint-side.is-five-paint ~ .explore-side .mix-bowl { width: min(44vw, 205px); height: min(15vh, 132px); min-height: 120px; }
   .paint-side.is-five-paint ~ .explore-side .colour-name { min-height: 44px; padding: 6px 14px; }
 }
 
@@ -867,6 +930,7 @@ h2 {
   .reset-button.is-armed,
   .paint-drop { animation: none; }
   .paint-drop { display: none; }
+  .found-colour.is-new .found-colour-swatch { animation: none; }
   .family-button,
   .shade-card,
   .shade-object,

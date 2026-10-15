@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Color Lab</title>
   <meta name="theme-color" content="#F8E9D5">
-  <link rel="manifest" href="./manifest.webmanifest?v=f20956b43-20261013110702">
-  <link rel="icon" href="./assets/icons/icon-192.png?v=f20956b43-20261013110702">
-  <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png?v=f20956b43-20261013110702">
-  <link rel="stylesheet" href="./styles.css?v=f20956b43-20261013110702">
+  <link rel="manifest" href="./manifest.webmanifest?v=ba054e3dd-20261015083407">
+  <link rel="icon" href="./assets/icons/icon-192.png?v=ba054e3dd-20261015083407">
+  <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png?v=ba054e3dd-20261015083407">
+  <link rel="stylesheet" href="./styles.css?v=ba054e3dd-20261015083407">
 </head>
 <body>
   <a id="hub" class="hub-btn" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games">&larr;</a>
   <main class="lab-shell">
     <header class="lab-header">
-      <img class="lab-mark" src="./assets/art/header-palette.webp?v=f20956b43-20261013110702" alt="" width="180" height="180">
+      <img class="lab-mark" src="./assets/art/header-palette.webp?v=ba054e3dd-20261015083407" alt="" width="180" height="180">
       <div class="title-lockup">
         <h1>Color Lab</h1>
         <p>Mix paint or explore color names.</p>
@@ -35,23 +35,23 @@
         </button>
         <div class="paint-pots" aria-label="Choose paint">
           <button class="paint-pot paint-red" type="button" data-paint="red" aria-label="Add one red drop">
-            <img src="./assets/art/pot-red.webp?v=f20956b43-20261013110702" alt="" width="320" height="320">
+            <img src="./assets/art/pot-red.webp?v=ba054e3dd-20261015083407" alt="" width="320" height="320">
             <span class="pot-label"><span>Red</span><strong id="red-count">0</strong></span>
           </button>
           <button class="paint-pot paint-yellow" type="button" data-paint="yellow" aria-label="Add one yellow drop">
-            <img src="./assets/art/pot-yellow.webp?v=f20956b43-20261013110702" alt="" width="320" height="320">
+            <img src="./assets/art/pot-yellow.webp?v=ba054e3dd-20261015083407" alt="" width="320" height="320">
             <span class="pot-label"><span>Yellow</span><strong id="yellow-count">0</strong></span>
           </button>
           <button class="paint-pot paint-blue" type="button" data-paint="blue" aria-label="Add one blue drop">
-            <img src="./assets/art/pot-blue.webp?v=f20956b43-20261013110702" alt="" width="320" height="320">
+            <img src="./assets/art/pot-blue.webp?v=ba054e3dd-20261015083407" alt="" width="320" height="320">
             <span class="pot-label"><span>Blue</span><strong id="blue-count">0</strong></span>
           </button>
           <button id="white-pot" class="paint-pot paint-white modifier-pot" type="button" data-paint="white" aria-label="Add one white drop" hidden>
-            <img src="./assets/art/pot-white.webp?v=f20956b43-20261013110702" alt="" width="320" height="320">
+            <img src="./assets/art/pot-white.webp?v=ba054e3dd-20261015083407" alt="" width="320" height="320">
             <span class="pot-label"><span>White</span><strong id="white-count">0</strong></span>
           </button>
           <button id="black-pot" class="paint-pot paint-black modifier-pot" type="button" data-paint="black" aria-label="Add one black drop" hidden>
-            <img src="./assets/art/pot-black.webp?v=f20956b43-20261013110702" alt="" width="320" height="320">
+            <img src="./assets/art/pot-black.webp?v=ba054e3dd-20261015083407" alt="" width="320" height="320">
             <span class="pot-label"><span>Black</span><strong id="black-count">0</strong></span>
           </button>
         </div>
@@ -64,8 +64,16 @@
           <span class="mix-target-copy"><small>Can you make…</small><strong id="mix-target-name"></strong><span id="mix-target-progress"></span></span>
           <button id="next-target" type="button" aria-label="Try another colour target">Another</button>
         </div>
+        <section class="found-colours" aria-labelledby="found-colours-title">
+          <div class="found-colours-heading">
+            <h3 id="found-colours-title">Colours you found</h3>
+            <span id="found-colours-count">0 colours found</span>
+          </div>
+          <p id="found-colours-empty">Your colours will appear here.</p>
+          <div id="found-colours-list" class="found-colours-list" aria-live="polite"></div>
+        </section>
         <button id="mix-bowl" class="mix-bowl is-empty" type="button" aria-label="Mixing bowl. Add paint first.">
-          <img id="bowl-art" class="bowl-art" src="./assets/art/mixing-bowl-cream.webp?v=f20956b43-20261013110702" alt="" width="600" height="400">
+          <img id="bowl-art" class="bowl-art" src="./assets/art/mixing-bowl-cream.webp?v=ba054e3dd-20261015083407" alt="" width="600" height="400">
           <span class="bowl-decoration" aria-hidden="true"></span>
           <span id="mix-paint" class="mix-paint" aria-hidden="true"></span>
         </button>
@@ -101,11 +109,11 @@
   </main>
 
   <!-- Method C: this byte-identical guard must load before app tap handlers. -->
-  <script src="./tap-zoom-guard.js?v=f20956b43-20261013110702"></script>
-  <script src="./mixing-model.js?v=f20956b43-20261013110702"></script>
-  <script src="./mix-naming.js?v=f20956b43-20261013110702"></script>
-  <script src="./reset-model.js?v=f20956b43-20261013110702"></script>
-  <script src="./app.js?v=f20956b43-20261013110702"></script>
+  <script src="./tap-zoom-guard.js?v=ba054e3dd-20261015083407"></script>
+  <script src="./mixing-model.js?v=ba054e3dd-20261015083407"></script>
+  <script src="./mix-naming.js?v=ba054e3dd-20261015083407"></script>
+  <script src="./reset-model.js?v=ba054e3dd-20261015083407"></script>
+  <script src="./app.js?v=ba054e3dd-20261015083407"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function () {

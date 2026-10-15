@@ -76,10 +76,38 @@
     return !discoveredIds.has(targetId);
   }
 
+  function parseFoundColours(serialized) {
+    try {
+      var saved = JSON.parse(serialized || "[]");
+      if (!Array.isArray(saved)) return [];
+      var seen = new Set();
+      return saved.filter(function (colour) {
+        if (!colour || typeof colour.slug !== "string" || typeof colour.displayName !== "string" ||
+            !/^#[0-9A-Fa-f]{6}$/.test(colour.colorHex || "") || seen.has(colour.slug)) return false;
+        seen.add(colour.slug);
+        return true;
+      }).map(function (colour) {
+        return { slug: colour.slug, displayName: colour.displayName, colorHex: colour.colorHex };
+      });
+    } catch (error) { return []; }
+  }
+
+  function addFoundColour(foundColours, colour) {
+    if (!colour || foundColours.some(function (found) { return found.slug === colour.slug; })) {
+      return { colours: foundColours, added: false };
+    }
+    return {
+      colours: [{ slug: colour.slug, displayName: colour.displayName, colorHex: colour.colorHex }].concat(foundColours),
+      added: true,
+    };
+  }
+
   return {
     mixFamilies: mixFamilies,
     equalPartsAnchor: equalPartsAnchor,
     nameMix: nameMix,
     isNewDiscovery: isNewDiscovery,
+    parseFoundColours: parseFoundColours,
+    addFoundColour: addFoundColour,
   };
 });
