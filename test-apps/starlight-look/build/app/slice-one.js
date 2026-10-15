@@ -12,7 +12,7 @@ function addMotion(data){
   var m=data.motion,wrap=el("div","star-motion"),under=el("img","star-underplate"),img=el("img","star-frame"),arrows=el("div","balance-arrows");
   [wrap].forEach(function(n){n.style.left=m.crop.x+"%";n.style.top=m.crop.y+"%";n.style.width=m.crop.w+"%";n.style.height=m.crop.h+"%"});
   under.src=m.underPlate;under.alt="";img.alt="Animated cutaway model of a star";arrows.innerHTML='<i class="in n"></i><i class="in e"></i><i class="in s"></i><i class="in w"></i><i class="out n"></i><i class="out e"></i><i class="out s"></i><i class="out w"></i>';
-  wrap.append(under,img,arrows);stage.appendChild(wrap);var cycle=window.StarlightMotion.frameCycle(img,m.frames,m.ms);
+  wrap.append(under,img,arrows);stage.appendChild(wrap);var cycle=window.StarlightMotion.paintedCycle(img,m.frames,m.ms);
   return {play:function(kind){
     cycle.pause(true);wrap.classList.remove("gravity","pressure","balanced","reduced");void wrap.offsetWidth;
     var cls=kind===0?"gravity":kind===1?"pressure":"balanced";

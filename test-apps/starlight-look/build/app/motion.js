@@ -1,7 +1,7 @@
 (function(){
 "use strict";
 var activeSequence=null;
-var ALLOW_PAINTED_IDLE_LOOPS=false;
+var ALLOW_PAINTED_IDLE_LOOPS=true;
 function calm(){return !window.Starlight||window.Starlight.calm}
 function frameCycle(img,frames,ms){
   var index=0,timer=0,manualPause=false,destroyed=false;
