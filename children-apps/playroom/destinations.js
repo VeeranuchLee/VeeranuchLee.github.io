@@ -289,6 +289,8 @@ window.PLAYROOM = {
       href: "../our-maze/", tile: "./assets/our-maze.webp", tone: ["#8a6d46", "#5c462b", "#f9f1e4"] },
     { id: "memory-echo", landmark: "arcade", name: "Memory Echo", desc: "Watch, remember and echo the pattern",
       href: "../memory-echo/", tile: "./assets/memory-echo.webp", tone: ["#29a8df", "#1676a8", "#e8f8ff"] },
+    { id: "number-lab", landmark: "arcade", name: "Number Lab", desc: "Match numbers and grow bigger pieces",
+      href: "../number-lab/", tile: "./assets/number-lab.webp", tone: ["#2f8bd8", "#1c568f", "#edf7ff"] },
     { id: "flags", landmark: "world", name: "Flags", desc: "Explore flags and name the country",
       href: "../flags/", tile: "./assets/flags.webp", tone: ["#c0392b", "#8e2a20", "#fdecea"] },
     { id: "periodic-table", landmark: "science", name: "Periodic Table",

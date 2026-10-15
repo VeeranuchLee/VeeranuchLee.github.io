@@ -142,8 +142,11 @@
  *                  object and in the painted category rooms. SHELL gains room-label.*,
  *                  badges.*, discovery-room.webp and the three inactive-landmark layers, and
  *                  drops scene.webp.
+ *   v44 2026-10-15  Number Lab joins Arcade (owner: "let's get number lab on main hub
+ *                  -> game."). SHELL gains `assets/number-lab.webp`, composed only from
+ *                  the app's existing runtime tile atlas.
  */
-const CACHE_NAME = "children-apps-v43";
+const CACHE_NAME = "children-apps-v44";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
@@ -169,6 +172,7 @@ const SHELL = [
   "./assets/nail-salon.webp",
   "./assets/color-lab.webp",
   "./assets/memory-echo.webp",
+  "./assets/number-lab.webp",
   "./assets/october-homework.webp",
   "./assets/read-write.webp",
   "./playroom/playroom.css",
