@@ -490,6 +490,12 @@
   var collections = [], collectionById = {}, subgroupById = {};
   var restoredState = readState(), scrollByView = restoredState.scrollByView || {};
   if (restoredState.mode === 'collections' || restoredState.mode === 'posters') mode = restoredState.mode;
+  /* ?mode=posters (or collections / az) opens that view directly -- the Test Hub "Posters"
+     card links here so the owner lands on the posters, not the Word Book hub (2026-10-15). */
+  (function () {
+    var m = /[?&]mode=(az|collections|posters)(?:&|$)/.exec((window.location && window.location.search) || '');
+    if (m) mode = m[1];
+  })();
   if (typeof restoredState.collection === 'string') selectedCollection = restoredState.collection;
   if (typeof restoredState.subgroup === 'string') selectedSubgroup = restoredState.subgroup;
   if (typeof restoredState.poster === 'string') selectedPoster = restoredState.poster;

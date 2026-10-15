@@ -87,7 +87,10 @@
    (data/posters.json `live`). Owner, verbatim: "pls put the approved ones on live (public
    main hub)". The other 28 posters stay on the Test Hub only. A worker bump arms the
    release; production publish still needs the owner's SHA-bound approval. */
-const CACHE_NAME='word-book-v13';
+/* v13 -> v14, 2026-10-15 afternoon: 11 more owner-approved posters go live (numbers 0-10
+   and 11-20, first to tenth, meals, time, sizes, growing up, fruit stall, more fruits,
+   vegetable garden with its new sign plate, animal band). Owner: "approve list". */
+const CACHE_NAME='word-book-v14';
 const SHELL=['./','./index.html','./dictionary.html','./fonts.css',
   './fonts/Nunito-latin.woff2','./fonts/Nunito-latin-ext.woff2','./fonts/FredokaOne-latin.woff2',
   './manifest.webmanifest','./data/dictionary.json','./data/letters.json','./data/features.json','./word-audio.js',
