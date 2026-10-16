@@ -1,0 +1,32 @@
+{
+  "kingdom": "intergalactic-space",
+  "generated": "2026-10-16",
+  "tool": "Codex built-in image generation",
+  "model_path": "built-in image_gen",
+  "reference": "Approved Princess Unicorn v2 runtime assets were used only for camera, scale, lighting, material finish, and chess silhouette grammar.",
+  "shared_piece_prompt": "Premium warm children's storybook painted board-game miniature; tactile ceramic and wood; rounded friendly forms; restrained detail; front three-quarter camera; top-left key light and cool rim; one isolated full figurine; transparent background; complete pedestal; no text, watermark, props, shadows, extra figures, or frightening traits; whole-body contour readable at 60–80 px.",
+  "assets": {
+    "pieces/dawn-king.webp": {"source": "../../masters/intergalactic-space/dawn-king.png", "prompt": "King Orion Beacon, calm friendly space captain; Dawn cloud white, sky cyan, coral orange and warm gold; tallest and broadest stepped classic king, heavy mantle, oversized crown helmet, one isolated star antenna finial."},
+    "pieces/dawn-queen.webp": {"source": "../../masters/intergalactic-space/dawn-queen.png", "prompt": "Queen Nova Swift, friendly engineer-princess; Dawn palette; classic queen with large many-point orbital coronet, sharply pinched waist and dramatic bell/trumpet lower body."},
+    "pieces/dawn-bishop.webp": {"source": "../../masters/intergalactic-space/dawn-bishop.png", "prompt": "Dr Quasar, kind two-eyed alien scientist; Dawn palette; clearly shorter slim classic bishop with a tall comet-teardrop hood and huge diagonal contour notch."},
+    "pieces/dawn-knight.webp": {"source": "../../masters/intergalactic-space/dawn-knight.png", "prompt": "Astrohoof; Dawn palette; only side-facing horse-family head, rounded astronaut helmet, clear muzzle, ear and arched neck; no rider, horn or wings."},
+    "pieces/dawn-rook.webp": {"source": "../../masters/intergalactic-space/dawn-rook.png", "prompt": "Starbase Seven; Dawn palette; broad squat launch tower with flat battlement crown and four large rounded crenellations; no rocket nose, flames or antenna."},
+    "pieces/dawn-pawn.webp": {"source": "../../masters/intergalactic-space/dawn-pawn.png", "prompt": "Pocket Rover; Dawn palette; smallest classic pawn, dominant perfectly round friendly robot dome over compact tapered body; no antenna or props."},
+    "pieces/dusk-king.webp": {"source": "../../masters/intergalactic-space/dusk-king.png", "prompt": "King Orion Beacon; Dusk deep navy, ultraviolet, magenta and cool silver; tallest and broadest stepped classic king, heavy mantle, oversized crown helmet, one isolated star antenna finial."},
+    "pieces/dusk-queen.webp": {"source": "../../masters/intergalactic-space/dusk-queen.png", "prompt": "Queen Nova Swift; Dusk palette; classic queen with large many-point orbital coronet, sharply pinched waist and dramatic bell/trumpet lower body."},
+    "pieces/dusk-bishop.webp": {"source": "../../masters/intergalactic-space/dusk-bishop.png", "prompt": "Dr Quasar; Dusk palette; kind alien scientist, clearly shorter slim classic bishop with tall comet-teardrop hood and huge diagonal contour notch."},
+    "pieces/dusk-knight.webp": {"source": "../../masters/intergalactic-space/dusk-knight.png", "prompt": "Astrohoof; Dusk palette; only side-facing horse-family head, rounded astronaut helmet, clear muzzle, ear and arched neck; no rider, horn or wings."},
+    "pieces/dusk-rook.webp": {"source": "../../masters/intergalactic-space/dusk-rook.png", "prompt": "Starbase Seven; Dusk palette; broad squat launch tower with flat battlement crown and four large crenellations; no rocket nose, flames or antenna."},
+    "pieces/dusk-pawn.webp": {"source": "../../masters/intergalactic-space/dusk-pawn.png", "prompt": "Pocket Rover; Dusk palette; smallest classic pawn, dominant perfectly round friendly robot dome over compact tapered body; no antenna or props."},
+    "board.webp": {"source": "../../masters/intergalactic-space/board.png", "prompt": "Edit the existing exact straight top-down 8x8 board, changing only the 64 playable square colours: dark squares become clearly lighter mid-tone dusty periwinkle / soft space-blue, roughly mid-grey in luminance, and light squares become pale mist blue. Preserve the exact square geometry and alignment, bottom-right light square, spacecraft-panel border, gold trim, constellation corners, ornaments, crop and hand-painted nebula style; no pieces, text, coordinates, targets, perspective or extra objects.", "iteration": "Controller contrast correction, 2026-10-17. The first board's deep-navy squares caused Dusk navy/violet pieces to disappear. The corrected board uses mean sampled centre luminance about 143/255 for dark squares and 225/255 for light squares; both Dawn and Dusk pieces read on both square colours in the regenerated mock-ups and greyscale blur plate."},
+    "picker-card.webp": {"source": "../../masters/intergalactic-space/picker-card.png", "prompt": "Vertical Starlight Alliance picker portrait: Orion, Nova and Astrohoof before a friendly fleet and cozy space station; ornate spacecraft frame and empty lower ribbon; no text, weapons or battle."},
+    "story.webp": {
+      "source": "../../masters/intergalactic-space/story.png",
+      "generated": "2026-10-17",
+      "prompt": "Landscape 4:3 warm children's storybook illustration of the Starlight Alliance rescue-pod repair: Nova reconnects shared power, Quasar repairs the bent antenna, Astrohoof brings tools, Pocket Rovers place guide beacons, Orion calmly oversees, and Starbase Seven guards the corridor. Preserve the approved Dawn cast faces, costumes, helmet and crown shapes, motifs and cloud-white/cyan/coral/gold colours while showing living characters without chess pedestals; gentle top-left golden light and cool rim; one clear cooperative moment; friendly faces and sound hands; no text, weapons, battle or frightening imagery.",
+      "reference": "The six approved Dawn piece masters were consolidated into one identity sheet and supplied as the generation reference.",
+      "master_size": "1800x1350",
+      "runtime_export": "1200x900 WebP, quality 85"
+    }
+  }
+}

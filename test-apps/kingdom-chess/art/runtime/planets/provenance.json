@@ -1,0 +1,95 @@
+{
+  "set": "Planets — The Sunlit System",
+  "date": "2026-10-16",
+  "tool": "OpenAI Codex built-in image generation (image_gen)",
+  "use_case": "stylized-concept / illustration-story",
+  "shared_piece_prompt": "One Planets-kingdom chess figurine matching the approved Princess Unicorn v2 set: premium warm painterly storybook miniature, tactile ceramic and painted wood, friendly face, front three-quarter camera, gentle top-left key light, soft cool rim, full subject on a shared round celestial pedestal, classic whole-body chess silhouette readable at 80 px, isolated on removable chroma key, no cast shadow, text, watermark, weapons, extra figures, or malformed anatomy. Dawn uses sun-cream, sky blue, terracotta and warm gold on a pale luminous base with broad gold rim. Dusk uses space navy, Neptune blue and rust red on a deep base with broad cool-silver rim.",
+  "assets": [
+    {
+      "image": "pieces/dawn-king.webp",
+      "master": "art/masters/planets/dawn-king.png",
+      "prompt": "King Sol, Dawn: the friendly Sun, a star and never a planet; tallest and broadest stepped body; huge crown topped by one isolated eight-point star finial; bold golden rays; sun-cream, sky blue, terracotta and warm gold."
+    },
+    {
+      "image": "pieces/dusk-king.webp",
+      "master": "art/masters/planets/dusk-king.png",
+      "prompt": "King Sol, Dusk: the friendly Sun, a star and never a planet; tallest and broadest stepped body; huge silver-edged crown topped by one isolated star finial; bold rays; space navy, Neptune blue, rust red and cool silver."
+    },
+    {
+      "image": "pieces/dawn-queen.webp",
+      "master": "art/masters/planets/dawn-queen.png",
+      "prompt": "Reference edit of the accepted Queen Earth, Dawn: preserve the kind ruler, spiky queen silhouette, pose and sun-cream/sky-blue/warm-gold palette; enlarge a bold blue-green Earth globe high in her coronet beside exactly one Moon, and simplify the cloak's continents and oceans so Earth remains unmistakable at 80 px."
+    },
+    {
+      "image": "pieces/dusk-queen.webp",
+      "master": "art/masters/planets/dusk-queen.png",
+      "prompt": "Reference edit of the accepted Queen Earth, Dusk: preserve the kind ruler, spiky queen silhouette, pose and navy/Neptune-blue/cool-silver palette; replace the central crown star with a bold blue-green Earth globe beside exactly one Moon, retain large readable cloak continents, and keep rust to a small lining accent."
+    },
+    {
+      "image": "pieces/dawn-bishop.webp",
+      "master": "art/masters/planets/dawn-bishop.png",
+      "prompt": "Bishop Saturn, Dawn: clearly shorter and very slim; friendly Saturn face; true attached rings rise into a tall pointed teardrop/mitre outline with a large visible diagonal notch; narrow closed column; pale base and gold rim."
+    },
+    {
+      "image": "pieces/dusk-bishop.webp",
+      "master": "art/masters/planets/dusk-bishop.png",
+      "prompt": "Bishop Saturn, Dusk: clearly shorter and very slim; friendly Saturn face; true attached silver-edged rings rise into a tall pointed teardrop/mitre outline with a large visible diagonal notch; narrow navy/rust column."
+    },
+    {
+      "image": "pieces/dawn-knight.webp",
+      "master": "art/masters/planets/dawn-knight.png",
+      "prompt": "Reference edit of the accepted Dawn knight: preserve the hornless side-facing horse head, comet-tail mane, two moon medallions and silhouette; make sun-cream and pale sky-blue dominant with warm gold trim, leaving Mars rust only in small crater and medallion accents."
+    },
+    {
+      "image": "pieces/dusk-knight.webp",
+      "master": "art/masters/planets/dusk-knight.png",
+      "prompt": "Reference edit of the Dusk knight: remove the unicorn horn completely and restore a smooth horse forehead; preserve the side-facing horse head, comet-tail mane, two moon medallions and silhouette; make space navy and Neptune blue dominant with cool silver trim and only small Mars-rust accents."
+    },
+    {
+      "image": "pieces/dawn-rook.webp",
+      "master": "art/masters/planets/dawn-rook.png",
+      "prompt": "Reference edit of the accepted Dawn rook: preserve the broad crenellated tower, Great Red Spot and silhouette; make sun-cream, pale sky-blue and warm gold dominate every large area, with Jupiter orange and rust retained only as small factual accents."
+    },
+    {
+      "image": "pieces/dusk-rook.webp",
+      "master": "art/masters/planets/dusk-rook.png",
+      "prompt": "Reference edit of the accepted Dusk rook: preserve the broad crenellated tower, Great Red Spot and silhouette; convert the broad Jupiter bands to space navy, Neptune blue and cool silver, retaining only one small muted rust Great Red Spot accent."
+    },
+    {
+      "image": "pieces/dawn-pawn.webp",
+      "master": "art/masters/planets/dawn-pawn.png",
+      "prompt": "Moon Messenger pawn, Dawn: smallest piece; one dominant round cratered moon head, explicitly a moon and not a planet; tiny simple closed body; no crown, hat, rings or hands; pale base and gold rim."
+    },
+    {
+      "image": "pieces/dusk-pawn.webp",
+      "master": "art/masters/planets/dusk-pawn.png",
+      "prompt": "Moon Messenger pawn, Dusk: smallest piece; one dominant round cool-blue cratered moon head, explicitly a moon and not a planet; tiny simple closed navy body; no crown, hat, rings or hands; deep base and silver rim."
+    },
+    {
+      "image": "board.webp",
+      "master": "art/masters/planets/board.png",
+      "prompt": "Exact straight top-down empty 8 by 8 Planets chess board with exactly 64 calm pale-starlight and blue-grey squares, light near-right square, elliptical-orbit border, small round moon corner medallions, warm-gold celestial trim; no pieces, perspective, coordinates, labels or text."
+    },
+    {
+      "image": "picker-card.webp",
+      "master": "art/masters/planets/picker-card.png",
+      "prompt": "Portrait Sunlit System picker card matching the Princess Unicorn card's painterly finish and ornate framing: King Sol visibly a star; Queen Earth with exactly one Moon; rusty side-facing Mars comet-horse with exactly two moons; true-ringed Saturn; Jupiter visibly the largest planet with one Great Red Spot; smaller worlds on graceful orbit arcs; no Pluto, humanoids, banner or text."
+    },
+    {
+      "image": "story.webp",
+      "master": "art/masters/planets/story.png",
+      "date": "2026-10-17",
+      "tool": "OpenAI Codex built-in image generation (image_gen)",
+      "use_case": "illustration-story",
+      "references": [
+        "qa/2026-10-16-planets/contact-sheet.png",
+        "art/masters/planets/dawn-queen.png",
+        "art/masters/planets/dawn-king.png",
+        "art/masters/planets/dawn-knight.png",
+        "art/masters/planets/dawn-rook.png"
+      ],
+      "prompt": "Full-page landscape 4:3 children's board-game handbook illustration for The Moon Map. Translate the exact approved Planets cast into living, pedestal-free story characters. Queen Earth paints the missing curved orbit back around a small Moon Messenger's planet while the relieved messenger, King Sol as the central Sun/star, true-ringed Saturn, broad Jupiter Stormkeep and hornless Mars Comet-Rider with two moon medallions compare observations around a glowing celestial map. Planets visibly follow elliptical paths around the Sun; the restored moon path curves around its planet. Warm painterly storybook finish, tactile brush texture, gentle top-left golden light, friendly faces, five fingers on visible humanoid hands, no text, watermark, chessboard, pedestals, weapons, frightening expressions or incorrect orbital relationships."
+    }
+  ],
+  "processing": "Masters were generated or reference-edited with Codex image generation and retain alpha for all figurines. The 2026-10-17 controller-QA fix reference-edited both queens, knights and rooks from their accepted masters; kings, bishops, pawns, board and picker were preserved. build_qa.py crops only alpha >= 8 for bounds, preserves antialiased RGBA pixels, and bottom-centres types into lossless 160x160 WebPs at the approved occupied-height ladder: King 88%, Queen 84%, Bishop 78%, Knight 75%, Rook 70%, Pawn 58%. Its 60 px greyscale-blur plate now preserves painted luminance instead of flattening every piece to black, so it tests side contrast as well as blurred recognition. The 2048x2048 board master was resampled from the accepted generated square render before the 1024x1024 runtime export. The picker runtime is 480x640. The accepted story render was resampled to a 1600x1200 PNG master, then exported by build_qa.py as exact 1200x900 quality-85 WebP; story-review.jpg places it beside the six Dawn runtime identities."
+}

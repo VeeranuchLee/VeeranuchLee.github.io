@@ -1,0 +1,11 @@
+{
+  "asset": "Professor Hoot tutorial guide",
+  "date": "2026-10-17",
+  "tool": "OpenAI Codex built-in image generation (image_gen)",
+  "use_case": "background-extraction and precise-object-edit",
+  "images": ["guide.webp", "happy.webp", "thinking.webp", "cheering.webp"],
+  "masters": ["art/masters/guide/guide.png", "art/masters/guide/happy.png", "art/masters/guide/thinking.png", "art/masters/guide/cheering.png"],
+  "prompt": "Professor Hoot, a tiny round tawny-and-cream owl in a soft blue scholar cap with gold star pin, matching the warm painterly Kingdom Chess style; default, happy, thinking and cheering expressions; full body; clean transparent background; no text or props.",
+  "review": "PASS: one recognisable character across four clearly differentiated friendly expressions; full-body crops; transparent corners and alpha channel verified.",
+  "processing": "Built-in generation returned native RGBA masters. Visible alpha bounds are fitted with padding into 512x512 alpha WebPs by chess-app/tools/build-handbook-assets.py."
+}

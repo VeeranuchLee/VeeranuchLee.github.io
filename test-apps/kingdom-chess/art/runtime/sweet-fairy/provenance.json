@@ -1,0 +1,25 @@
+{
+  "kingdom": "sweet-fairy",
+  "created": "2026-10-16",
+  "tool": "OpenAI Codex built-in image generation (gpt-image)",
+  "reference_set": "chess-app/art/runtime/princess-unicorn/ (approved v2 camera, pedestal, scale, painterly finish, and whole-body chess silhouette grammar)",
+  "assets": {
+    "pieces/dawn-king.webp": "King Bram Bramblecoat; Dawn buttercream, peach, mint and warm copper; tallest broad stepped king body; oversized crown with isolated flower-star finial; friendly gardener; front three-quarter; top-left light; no text.",
+    "pieces/dusk-king.webp": "King Bram Bramblecoat; Dusk blackberry, forest teal, mulberry and pale rose-gold; tallest broad stepped king body; oversized crown with isolated flower-star finial; friendly gardener; front three-quarter; top-left light; no text.",
+    "pieces/dawn-queen.webp": "Queen Faye Honeyblossom; Dawn palette; large many-point flower coronet, pinched waist and broad bell skirt; folded wings; friendly fairy princess; front three-quarter; no text.",
+    "pieces/dusk-queen.webp": "Queen Faye Honeyblossom; Dusk palette; large many-point flower coronet, pinched waist and broad bell skirt; folded wings; friendly fairy princess; front three-quarter; no text.",
+    "pieces/dawn-bishop.webp": "Bishop Mallow Quill; Dawn palette; short slim column and tall teardrop petal mitre with large diagonal notch; diagonal map scroll; front three-quarter; no text.",
+    "pieces/dusk-bishop.webp": "Bishop Mallow Quill; Dusk palette; short slim column and tall teardrop petal mitre with large diagonal notch; diagonal map scroll; front three-quarter; no text.",
+    "pieces/dawn-knight.webp": "Knight Pip Thistledown; Dawn palette; only side-facing piece; pony-shaped fairy steed with arched neck, horse profile and leaf wings; no rider or text.",
+    "pieces/dusk-knight.webp": "Knight Pip Thistledown; Dusk palette; only side-facing piece; pony-shaped fairy steed with arched neck, horse profile and leaf wings; no rider or text.",
+    "pieces/dawn-rook.webp": "Rook Acorn Hall; Dawn palette; broad squat acorn tower with large petal battlements; architectural, no face or text.",
+    "pieces/dusk-rook.webp": "Rook Acorn Hall; Dusk palette; broad squat acorn tower with large petal battlements; architectural, no face or text.",
+    "pieces/dawn-pawn.webp": "Dewdrop Sprite; Dawn palette; smallest piece; oversized round dewdrop head, compact conical body and folded wings; friendly; no text.",
+    "pieces/dusk-pawn.webp": "Dewdrop Sprite; Dusk palette; smallest piece; oversized round dewdrop head, compact conical body and folded wings; friendly; no text.",
+    "board.webp": "Exact empty 8x8 orthographic board; vanilla and soft moss squares; flower-vine border and four honeycomb corner medallions; quiet texture; no coordinates, pieces or text.",
+    "picker-card.webp": "Honeyblossom Glade beneath giant flowers; Queen Faye with Dewdrop Sprites, honeycomb lanterns and flower vines; Dawn center with Dusk edge accents; portrait 3:4; no text.",
+    "story.webp": "The Seed That Would Not Hurry handbook scene; Queen Faye, King Bram, Mallow Quill, Pip Thistledown, Acorn Hall and Dewdrop Sprites gather as the silver moonflower opens at nightfall; Dawn identity references; living characters without chess pedestals; warm painterly 4:3 storybook finish; top-left light; no text."
+  },
+  "postprocess": "Generated RGBA piece masters were alpha-cropped and proportionally normalized into 160x160 canvases at the approved occupied-height ladder (King 88%, Queen 84%, Bishop 78%, Knight 75%, Rook 70%, Pawn 58%). Board and picker masters were high-quality resized/cropped to the specified runtime dimensions. Piece, board and picker runtime WebPs use lossless encoding. The generated 1448x1086 RGB story source was Lanczos-resampled to a 2000x1500 PNG master and a 1200x900 WebP runtime at quality 85.",
+  "safety": "No text, watermark, weapons, frightening expressions, or extra figures in the chess pieces. Visible human hands were reviewed for five fingers."
+}
