@@ -1,257 +1,41 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width,initial-scale=1,viewport-fit=cover"
-    />
-    <meta name="theme-color" content="#b96f79" />
-    <title>Little Charm Shop</title>
-    <link rel="stylesheet" href="styles.css?v=3f72c2242-20261015135813" />
-    <script src="tap-zoom-guard.js?v=3f72c2242-20261015135813"></script>
-  </head>
-  <body>
-    <main id="app">
-      <header>
-        <button class="round" id="home" aria-label="Boutique">⌂</button>
-        <h1>Little Charm Shop</h1>
-        <button class="round" id="mute" aria-label="Mute sound">♪</button>
-      </header>
-      <section class="screen active" id="shop">
-        <img
-          class="plate"
-          src="assets/boutique.webp?v=3f72c2242-20261015135813"
-          alt="A cosy jewellery boutique"
-        />
-        <div class="hotspots">
-          <button
-            style="
-              --x: 55;
-              --y: 8;
-              --w: 35;
-              --h: 34;
-              --clip: polygon(4% 0, 96% 0, 100% 28%, 88% 100%, 12% 100%, 0 28%);
-            "
-            data-open="necklace"
-            aria-label="Make a necklace"
-          ></button
-          ><button
-            style="
-              --x: 27;
-              --y: 46;
-              --w: 29;
-              --h: 24;
-              --clip: polygon(
-                5% 20%,
-                95% 20%,
-                100% 65%,
-                90% 100%,
-                10% 100%,
-                0 65%
-              );
-            "
-            data-open="bracelet"
-            aria-label="Make a bracelet"
-          ></button
-          ><button
-            style="
-              --x: 2;
-              --y: 46;
-              --w: 23;
-              --h: 29;
-              --clip: polygon(
-                12% 0,
-                88% 0,
-                100% 20%,
-                100% 94%,
-                82% 100%,
-                18% 100%,
-                0 94%,
-                0 20%
-              );
-            "
-            data-open="earrings"
-            aria-label="Make earrings"
-          ></button
-          ><button
-            style="
-              --x: 7;
-              --y: 7;
-              --w: 45;
-              --h: 39;
-              --clip: polygon(
-                4% 6%,
-                96% 6%,
-                100% 18%,
-                100% 94%,
-                92% 100%,
-                8% 100%,
-                0 94%,
-                0 18%
-              );
-            "
-            data-screen="collection"
-            aria-label="Bead collection"
-          ></button
-          ><button
-            style="
-              --x: 52;
-              --y: 40;
-              --w: 21;
-              --h: 31;
-              --clip: polygon(
-                28% 0,
-                72% 0,
-                88% 18%,
-                100% 100%,
-                0 100%,
-                12% 18%
-              );
-            "
-            data-screen="tryon"
-            aria-label="Try on jewellery"
-          ></button
-          ><button
-            style="
-              --x: 75;
-              --y: 43;
-              --w: 24;
-              --h: 33;
-              --clip: polygon(12% 0, 88% 0, 100% 18%, 94% 100%, 6% 100%, 0 18%);
-            "
-            data-screen="wrap"
-            aria-label="Gift wrap and register"
-          ></button
-          ><button
-            style="
-              --x: 36;
-              --y: 73;
-              --w: 28;
-              --h: 20;
-              --clip: polygon(
-                6% 18%,
-                18% 0,
-                82% 0,
-                94% 18%,
-                100% 88%,
-                92% 100%,
-                8% 100%,
-                0 88%
-              );
-            "
-            data-screen="gallery"
-            aria-label="Saved jewellery box"
-          ></button>
-        </div>
-        <div id="bubble" role="status"></div>
-      </section>
-      <section class="screen" id="workshop">
-        <div class="worktop">
-          <div class="type-tabs">
-            <button data-type="necklace">Necklace</button
-            ><button data-type="bracelet">Bracelet</button
-            ><button data-type="earrings">Earrings</button>
-          </div>
-          <div id="jewel-stage" class="jewel-stage">
-            <svg id="cord" viewBox="0 0 160 100" aria-label="Your jewellery"></svg>
-          </div>
-          <div class="toolbar">
-            <button id="undo" aria-label="Undo"><span class="tool-picture undo-icon"></span><small>Undo</small></button
-            ><button id="remove" aria-label="Remove selected bead"><span class="tool-picture remove-icon"></span><small>Remove</small></button
-            ><button id="mirror" aria-pressed="false"><span class="tool-picture mirror-icon"></span><small>Mirror</small></button
-            ><button class="cord-choice" data-cord="gold"><span class="tool-picture cord-icon gold"></span><small>Gold</small></button
-            ><button class="cord-choice" data-cord="silver"><span class="tool-picture cord-icon silver"></span><small>Silver</small></button
-            ><button class="cord-choice" data-cord="colourful"><span class="tool-picture cord-icon rainbow"></span><small>Rainbow</small></button
-            ><button class="finish"><span class="tool-picture finish-icon"></span><small>Finish</small></button>
-          </div>
-        </div>
-        <div class="tray">
-          <section class="tray-group shape-group" aria-label="Choose a bead shape">
-            <div class="picture-heading"><span class="heading-shapes" aria-hidden="true"><i></i><i></i><i></i></span><span>Shape</span></div>
-            <div id="families"></div>
-          </section>
-          <section class="tray-group colour-group" aria-label="Add a coloured bead">
-            <div class="picture-heading"><span class="heading-rainbow" aria-hidden="true"></span><span>Colour beads</span></div>
-            <div id="colors"></div>
-          </section>
-          <section class="tray-group charm-group" aria-label="Add a charm">
-            <div class="picture-heading"><span class="heading-charm" aria-hidden="true">♥</span><span>Charm</span></div>
-            <div id="charms"></div>
-          </section>
-        </div>
-      </section>
-      <section class="screen art-screen" id="tryon">
-        <img
-          id="try-bg"
-          class="plate"
-          src="assets/try-on-character.webp?v=3f72c2242-20261015135813"
-          alt="A friendly character trying on jewellery"
-        /><svg class="overlay-jewel" viewBox="0 0 100 75"></svg>
-        <div class="bottom-actions">
-          <button id="display"><span class="tool-picture display-icon"></span><small class="tool-label">Display</small></button
-          ><button id="save">Save in box</button
-          ><button data-screen="wrap">Gift wrap</button
-          ><button data-screen="workshop">Edit</button>
-        </div>
-      </section>
-      <section class="screen art-screen" id="wrap">
-        <img
-          class="plate"
-          src="assets/gift-wrap.webp?v=3f72c2242-20261015135813"
-          alt="Gift wrapping station"
-        />
-        <div class="wrap-controls">
-          <div>
-            <button data-paper="#d98f9c">🌸</button
-            ><button data-paper="#f4e5c9">🤍</button
-            ><button data-paper="#9caf88">🌿</button
-            ><button data-paper="#b8a2d8">💜</button>
-          </div>
-          <div>
-            <button data-ribbon="rose">🎀</button
-            ><button data-ribbon="gold">〰</button
-            ><button data-ribbon="sage">🎗</button>
-          </div>
-          <select id="card">
-            <option>For Mum</option>
-            <option>For Dad</option>
-            <option>For a Friend</option>
-            <option>For Me</option></select
-          ><button id="register">Wrap &amp; print receipt</button>
-        </div>
-        <div id="gift" hidden>
-          <div class="gift-box" aria-label="Your wrapped present">
-            <span class="gift-ribbon-v"></span><span class="gift-ribbon-h"></span
-            ><span class="gift-bow">♥</span>
-          </div>
-          <div class="receipt">
-            Little Charm Shop<br /><span id="receipt-piece"
-              >A special creation</span
-            ><br /><span id="receipt-card">For a Friend</span><br />Made with care ♥
-          </div>
-        </div>
-      </section>
-      <section class="screen art-screen" id="gallery">
-        <img
-          class="plate"
-          src="assets/jewellery-box.webp?v=3f72c2242-20261015135813"
-          alt="An open jewellery box"
-        />
-        <div id="saved-grid"></div>
-        <p id="empty">Your saved creations will sparkle here.</p>
-      </section>
-      <section class="screen collection" id="collection">
-        <h2>Bead collection</h2>
-        <div id="collection-grid"></div>
-        <button data-open="necklace">Start making</button>
-      </section>
-    </main>
-    <script src="js/bead-engine.js?v=3f72c2242-20261015135813"></script>
-    <script src="app.js?v=3f72c2242-20261015135813"></script>
-    <script>
-      if ("serviceWorker" in navigator)
-        Promise.resolve() /* Test Hub staging: no service worker */;
-    </script>
-  </body>
-</html>
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#b96f79"><title>Little Charm Shop</title>
+  <link rel="stylesheet" href="styles.css?v=200facf4b-20261017204738"><script src="tap-zoom-guard.js?v=200facf4b-20261017204738"></script>
+</head>
+<body><main id="app">
+  <header><button class="round" id="home" aria-label="Choose jewellery">⌂</button><h1>Little Charm Shop</h1><button class="round" id="mute" aria-label="Mute sound">♪</button></header>
+
+  <section class="screen active" id="catalogue">
+    <div class="catalogue-card"><div class="catalogue-heading"><h2>Choose something lovely</h2><button id="open-saved"><span>💝</span>My designs</button></div>
+      <nav class="type-tabs" aria-label="Jewellery type">
+        <button data-type="necklace"><span>📿</span>Necklaces</button><button data-type="bracelet"><span>💫</span>Bracelets</button>
+        <button data-type="earrings"><span>💎</span>Earrings</button><button data-type="hairpin"><span>🎀</span>Hairpins</button>
+      </nav><div id="model-grid" aria-label="Ready-made designs"></div>
+    </div>
+  </section>
+
+  <section class="screen" id="customise">
+    <div class="editor-card"><button id="back-models" class="back" aria-label="Choose another model">‹ Models</button><h2 id="model-name">My jewellery</h2>
+      <div class="jewel-stage"><svg id="jewel" viewBox="0 0 160 100" aria-label="Tap a jewel to change it"></svg><p id="tap-hint">Tap any jewel</p></div>
+      <div class="choices"><div><h3>Colour</h3><div id="colours" class="picture-options"></div></div><div><h3>Special effect</h3><div id="effects" class="picture-options effects"></div></div></div>
+    </div>
+    <nav class="destinations" aria-label="Where should it go?">
+      <button data-destination="wear"><span class="action-picture wear-picture">👧</span><b>Wear it</b></button>
+      <button data-destination="box"><span class="action-picture box-picture">🎁</span><b>Gift box</b></button>
+      <button data-destination="display"><span class="action-picture display-picture">♙</span><b>Display</b></button>
+    </nav>
+  </section>
+
+  <section class="screen result-screen" id="result">
+    <img id="result-bg" class="plate" src="assets/try-on-character.webp?v=200facf4b-20261017204738" alt="Your jewellery being worn">
+    <svg id="result-jewel" class="overlay-jewel" viewBox="0 0 100 75"></svg>
+    <div id="gift-box" hidden><div class="box-lid">🎀</div><div class="box-piece"><svg viewBox="0 0 100 75"></svg></div></div>
+    <button id="edit-again" class="edit-again"><span>✏️</span><b>Change it</b></button>
+  </section>
+
+  <section class="screen" id="saved"><div class="saved-card"><button id="saved-back" class="back">‹ Models</button><h2>My jewellery box</h2><p id="saved-empty">Your decorated designs will appear here.</p><div id="saved-grid"></div></div></section>
+</main><script src="js/bead-engine.js?v=200facf4b-20261017204738"></script><script src="app.js?v=200facf4b-20261017204738"></script>
+<script>if("serviceWorker" in navigator)Promise.resolve() /* Test Hub staging: no service worker */;</script></body></html>

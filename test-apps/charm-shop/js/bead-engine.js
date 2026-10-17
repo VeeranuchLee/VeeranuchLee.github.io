@@ -1,80 +1,74 @@
 (function (root, factory) {
   const api = factory();
-  if (typeof module === 'object' && module.exports) module.exports = api;
+  if (typeof module === "object" && module.exports) module.exports = api;
   else root.BeadEngine = api;
-})(typeof globalThis !== 'undefined' ? globalThis : this, function () {
-  'use strict';
-  const LAYOUT_VERSION = 4;
-  const TYPES = { necklace: 9, bracelet: 8, earrings: 8 };
-  const layouts = {
-    editor: {
-      necklace:{kind:'necklace',left:13,right:147,top:16,bottom:68},
-      bracelet:{kind:'bracelet',cx:80,cy:49,rx:43,ry:30},
-      earrings:{kind:'earrings',leftTop:55,rightTop:105,top:15,bottom:68,spread:18}
-    },
-    /* Try-on and display coordinates are in the 4:3 picture's own space: x = % of the
-       picture's width, y = % of its height x 0.75 (overlay viewBox 0 0 100 75), measured
-       on try-on-character.webp and display-stand.webp (controller, 2026-10-15). */
-    character: {
-      necklace:{kind:'necklace',left:43.5,right:56.5,top:30.75,bottom:43.5},
-      bracelet:{kind:'bracelet',cx:43.5,cy:63,rx:2.6,ry:2},
-      earrings:{kind:'earrings',leftTop:39.5,rightTop:60.5,top:24.75,bottom:31.5,spread:1}
-    },
-    display: {
-      necklace:{kind:'necklace',left:43,right:57,top:18,bottom:33.75},
-      bracelet:{kind:'bracelet',cx:19,cy:41.25,rx:2.2,ry:5.5},
-      earrings:{kind:'earrings',leftTop:77.5,rightTop:92.5,top:33,bottom:41,spread:1.2}
-    }
+})(typeof globalThis !== "undefined" ? globalThis : this, function () {
+  "use strict";
+
+  const LAYOUT_VERSION = 5;
+  const TYPES = { necklace: 9, bracelet: 8, earrings: 8, hairpin: 7 };
+  const MODEL_COUNTS = {
+    necklace: [7, 9, 9, 8, 7, 9], bracelet: [6, 8, 9, 9, 7, 8],
+    earrings: [4, 8, 6, 8, 6, 8], hairpin: [7, 6, 7, 7, 7, 6]
   };
-  const desiredRadii = {editor:6.2,character:1.35,display:1.7};
   const boxes = {
-    character:{necklace:{x1:40,y1:28,x2:60,y2:53},bracelet:{x1:39,y1:58,x2:48,y2:68},earrings:{x1:36,y1:22,x2:64,y2:38}},
-    display:{necklace:{x1:38,y1:15,x2:62,y2:45},bracelet:{x1:14,y1:33,x2:24,y2:50},earrings:{x1:74,y1:30,x2:96,y2:49}}
+    editor: {necklace:[17,13,126,66],bracelet:[41,16,78,68],earrings:[37,12,86,70],hairpin:[39,22,82,52]},
+    character: {necklace:[43.2,31.2,13.6,12],bracelet:[40.2,60.2,6.7,5.3],earrings:[38.2,23.6,23.5,8.2],hairpin:[36.2,9.4,7,5.8]},
+    display: {necklace:[42.8,17.5,14.4,16.8],bracelet:[8.5,35.8,21,9.8],earrings:[78.1,30.5,15.6,12.2],hairpin:[74.5,42.3,14,8.2]}
   };
-  const clone = v => JSON.parse(JSON.stringify(v));
-  function centreOrder(n){const middle=Math.floor((n-1)/2),order=[middle];for(let d=1;order.length<n;d++){if(middle+d<n)order.push(middle+d);if(middle-d>=0)order.push(middle-d);}return order;}
-  function fillOrder(type){const n=TYPES[type]||TYPES.necklace;if(type==='earrings'){const half=n/2;return Array.from({length:half},(_,i)=>half-1-i);}return centreOrder(n);}
-  function create(type='necklace'){const count=TYPES[type]||TYPES.necklace;return{id:null,type,cord:'gold',mirror:type==='earrings',centrepiece:null,slots:Array(count).fill(null),history:[],layoutVersion:LAYOUT_VERSION,updated:Date.now()};}
-  function push(s){s.history.push({slots:clone(s.slots),centrepiece:s.centrepiece,cord:s.cord,mirror:s.mirror});if(s.history.length>40)s.history.shift();}
-  function mate(s,i){return s.slots.length-1-i;}
-  function nextFree(state){for(const i of fillOrder(state.type)){if(!state.slots[i]&&(!state.mirror||!state.slots[mate(state,i)]))return i;}return -1;}
-  function place(state,item,index){const s=clone(state);const i=Number.isInteger(index)?index:nextFree(s);if(i<0)return s;push(s);s.slots[i]=clone(item);if(s.mirror)s.slots[mate(s,i)]=clone(item);s.updated=Date.now();return s;}
-  function remove(state,index){const s=clone(state);push(s);s.slots[index]=null;if(s.mirror)s.slots[mate(s,index)]=null;return s;}
-  function undo(state){const s=clone(state),p=s.history.pop();if(!p)return s;Object.assign(s,p);return s;}
-  function setOption(state,key,value){const s=clone(state);push(s);s[key]=value;return s;}
-  function point(layout,i,n){
-    if(layout.kind==='necklace'){
-      /* Beads are spaced evenly ALONG the cord (arc length), not evenly left to right,
-         so they never bunch at the bottom of the curve where it is flattest. */
-      const at=t=>({x:layout.left+(layout.right-layout.left)*t,y:layout.top+4*(layout.bottom-layout.top)*t*(1-t)});
-      const steps=240,len=[0];let prev=at(0);
-      for(let k=1;k<=steps;k++){const q=at(k/steps);len.push(len[k-1]+Math.hypot(q.x-prev.x,q.y-prev.y));prev=q;}
-      const goal=len[steps]*i/(n-1);let k=0;while(k<steps&&len[k+1]<goal)k++;
-      const span=len[k+1]-len[k]||1;return at((k+(goal-len[k])/span)/steps);
+  const desiredRadii = {editor:6.8,character:1.05,display:1.2};
+  const clone = value => JSON.parse(JSON.stringify(value));
+  const line = (n,a,b,y=52)=>Array.from({length:n},(_,i)=>({x:a+(b-a)*i/(n-1),y}));
+  const ellipse = (n,cx=50,cy=50,rx=43,ry=34,start=-Math.PI/2)=>Array.from({length:n},(_,i)=>{const a=start+Math.PI*2*i/n;return{x:cx+rx*Math.cos(a),y:cy+ry*Math.sin(a)}});
+
+  function modelNumber(modelId) { return Math.max(0, Math.min(5, Number(String(modelId||"").split("-").at(-1))-1 || 0)); }
+  function rawGeometry(type, model=0) {
+    const count=MODEL_COUNTS[type][model]; let points=[], hardware="";
+    if(type==="necklace"){
+      if(model===0){points=[{x:50,y:78},...line(6,34,66,39)];hardware="M8 10 Q50 106 92 10";}
+      if(model===1){points=Array.from({length:count},(_,i)=>{const t=i/(count-1);return{x:7+86*t,y:10+66*4*t*(1-t)}});hardware="M7 10 Q50 101 93 10";}
+      if(model===2){points=Array.from({length:count},(_,i)=>{const t=i/(count-1);return{x:11+78*t,y:12+55*4*t*(1-t)+(i%2?10:0)}});hardware="M8 10 Q50 92 92 10 M15 17 Q50 105 85 17";}
+      if(model===3){points=Array.from({length:count},(_,i)=>({x:9+82*i/(count-1),y:28+7*Math.sin(i*Math.PI/(count-1))}));hardware="M7 27 Q50 43 93 27";}
+      if(model===4){points=[{x:50,y:76},{x:50,y:56},...line(5,27,73,37)];hardware="M9 10 Q50 96 91 10 M50 54 L50 76";}
+      if(model===5){points=[{x:50,y:75},{x:40,y:67},{x:60,y:67},{x:32,y:55},{x:68,y:55},{x:24,y:42},{x:76,y:42},{x:16,y:27},{x:84,y:27}];hardware="M8 10 Q50 96 92 10";}
+    } else if(type==="bracelet"){
+      if(model===0){points=ellipse(count,50,50,38,31);hardware="M50 15 A40 35 0 1 1 49.9 15";}
+      if(model===1){points=ellipse(count,50,48,39,29);hardware="M50 17 A40 31 0 1 1 49.9 17";}
+      if(model===2){points=ellipse(count,50,50,40,33);hardware="M50 16 A41 34 0 1 1 49.9 16";}
+      if(model===3){points=Array.from({length:count},(_,i)=>({x:9+82*i/(count-1),y:50+(i%2?4:-4)}));hardware="M7 50 Q50 42 93 50";}
+      if(model===4){points=ellipse(count,50,49,39,31).map((p,i)=>({...p,y:p.y+(i%2?5:0)}));hardware="M50 16 A40 34 0 1 1 49.9 16";}
+      if(model===5){points=Array.from({length:count},(_,i)=>({x:10+80*i/(count-1),y:44+(i%2?12:0)}));hardware="M7 43 L93 57 M7 57 L93 43";}
+    } else if(type==="earrings"){
+      const pair=(left)=>left.flatMap(p=>[p,{x:100-p.x,y:p.y}]);
+      if(model===0){points=pair([{x:27,y:36},{x:27,y:64}]);hardware="M27 12 Q18 20 27 29 M73 12 Q82 20 73 29";}
+      if(model===1){points=ellipse(4,27,51,15,24).concat(ellipse(4,73,51,15,24));hardware="M27 12 Q18 20 27 26 M73 12 Q82 20 73 26";}
+      if(model===2){points=pair([{x:25,y:34},{x:18,y:60},{x:32,y:60}]);hardware="M25 11 Q16 20 25 29 M75 11 Q84 20 75 29";}
+      if(model===3){points=pair([{x:26,y:31},{x:18,y:48},{x:34,y:48},{x:26,y:69}]);hardware="M26 10 Q17 19 26 27 M74 10 Q83 19 74 27";}
+      if(model===4){points=pair([{x:25,y:33},{x:25,y:53},{x:25,y:72}]);hardware="M25 10 Q16 19 25 28 M75 10 Q84 19 75 28";}
+      if(model===5){points=pair([{x:18,y:27},{x:24,y:39},{x:30,y:51},{x:36,y:63}]);hardware="M18 10 Q10 17 18 23 M82 10 Q90 17 82 23";}
+    } else {
+      if(model===0){points=[{x:50,y:49},{x:37,y:40},{x:27,y:31},{x:63,y:40},{x:73,y:31},{x:31,y:58},{x:69,y:58}];hardware="M9 54 L91 54 M50 49 C30 12 12 23 30 49 C12 75 34 79 50 52 C66 79 88 75 70 49 C88 23 70 12 50 49";}
+      if(model===1){points=line(count,25,75,43);hardware="M8 53 Q50 38 92 53 M10 60 L88 60";}
+      if(model===2){points=[{x:50,y:47},...ellipse(6,50,47,24,22)];hardware="M10 60 L90 60 M50 23 C66 23 76 34 76 47 C76 63 62 70 50 70 C38 70 24 63 24 47 C24 34 34 23 50 23";}
+      if(model===3){points=line(count,20,80,48);hardware="M9 35 L91 35 L91 62 L9 62 Z M4 67 L96 67";}
+      if(model===4){points=[{x:50,y:48},{x:35,y:34},{x:65,y:34},{x:32,y:60},{x:68,y:60},{x:20,y:47},{x:80,y:47}];hardware="M8 65 L92 65 M50 48 C35 12 8 25 28 49 C8 72 36 82 50 48 C64 82 92 72 72 49 C92 25 65 12 50 48";}
+      if(model===5){points=[{x:36,y:43},{x:29,y:31},{x:23,y:46},{x:30,y:56},{x:66,y:36},{x:76,y:50}];hardware="M8 61 Q52 43 92 58 M36 22 A20 20 0 1 0 51 54 M66 22 L70 34 L83 35 L73 43 L77 56 L66 49 L55 56 L59 43 L49 35 L62 34 Z";}
     }
-    if(layout.kind==='bracelet'){const a=Math.PI*2*i/n-Math.PI/2;return{x:layout.cx+layout.rx*Math.cos(a),y:layout.cy+layout.ry*Math.sin(a)};}
-    const half=n/2,j=i%half,t=j/(half-1),side=i<half?-1:1,top=side<0?layout.leftTop:layout.rightTop;
-    return{x:top+side*layout.spread*(2*t-t*t),y:layout.top+(layout.bottom-layout.top)*t};
+    return {points,hardware};
   }
-  function positions(type,profile='editor'){const n=TYPES[type]||TYPES.necklace,layout=layouts[profile][type];return Array.from({length:n},(_,i)=>point(layout,i,n));}
-  function cordPath(type,profile='editor'){
-    const l=layouts[profile][type];
-    if(type==='necklace')return`M ${l.left} ${l.top} Q ${(l.left+l.right)/2} ${2*l.bottom-l.top} ${l.right} ${l.top}`;
-    if(type==='bracelet')return`M ${l.cx} ${l.cy-l.ry} A ${l.rx} ${l.ry} 0 1 1 ${l.cx-.001} ${l.cy-l.ry} Z`;
-    const lx=l.leftTop-l.spread,rx=l.rightTop+l.spread,controlY=(l.top+l.bottom)/2;
-    return`M ${l.leftTop} ${l.top} Q ${lx} ${controlY} ${lx} ${l.bottom} M ${l.rightTop} ${l.top} Q ${rx} ${controlY} ${rx} ${l.bottom}`;
+  function mapPoint(p,box){const[x,y,w,h]=box;return{x:x+p.x*w/100,y:y+p.y*h/100};}
+  function geometry(type,modelId,profile="editor") {const raw=rawGeometry(type,modelNumber(modelId)),box=boxes[profile][type],[x,y,w,h]=box;return{points:raw.points.map(p=>mapPoint(p,box)),hardware:raw.hardware,hardwareTransform:`translate(${x} ${y}) scale(${w/100} ${h/100})`};}
+  function positions(type,profile="editor",modelId=`${type}-1`) {return geometry(type,modelId,profile).points;}
+  function cordPath(type,profile="editor",modelId=`${type}-1`) {return geometry(type,modelId,profile).hardware;}
+  function safeRadius(type,profile="editor",modelId=`${type}-1`) {
+    const p=positions(type,profile,modelId),desired=desiredRadii[profile];let nearest=Infinity;
+    for(let i=0;i<p.length;i++)for(let j=i+1;j<p.length;j++)nearest=Math.min(nearest,Math.hypot(p[i].x-p[j].x,p[i].y-p[j].y));
+    return Math.min(desired,nearest/2.5);
   }
-  function safeRadius(type,profile='editor'){const points=positions(type,profile),desired=desiredRadii[profile]||desiredRadii.editor;let nearest=Infinity;for(let i=0;i<points.length;i++)for(let j=i+1;j<points.length;j++)nearest=Math.min(nearest,Math.hypot(points[i].x-points[j].x,points[i].y-points[j].y));return Math.min(desired,Math.max(.3,nearest/2.5-.06));}
-  function anchorBox(type,profile){return clone(boxes[profile][type]);}
-  function charmPositions(type,profile='editor'){
-    const p=positions(type,profile),size=profile==='editor'?13:profile==='display'?6:4.8,r=safeRadius(type,profile),gap=profile==='editor'?2.2:.7;
-    const hanging=(anchor,xOffset=0)=>({x:anchor.x+xOffset,y:anchor.y+r+gap+size/2,attachX:anchor.x,attachY:anchor.y+r,ringY:anchor.y+r+gap*.55});
-    if(type==='earrings'){const half=p.length/2;return[hanging(p[half-1]),hanging(p[p.length-1])];}
-    if(type==='bracelet'){return[hanging(p[Math.floor(p.length/2)])];}
-    return[hanging(p[Math.floor(p.length/2)])];
-  }
-  function renderData(state,profile='editor'){return{type:state.type,cord:state.cord,cordPath:cordPath(state.type,profile),centrepiece:state.centrepiece,profile,radius:safeRadius(state.type,profile),charmPositions:charmPositions(state.type,profile),items:positions(state.type,profile).map((p,i)=>({...p,item:clone(state.slots[i]),index:i}))};}
-  function serialize(state){const s=clone(state);delete s.history;return JSON.stringify(s);}
-  function deserialize(raw){const parsed=typeof raw==='string'?JSON.parse(raw):clone(raw),base=create(parsed.type);if((parsed.layoutVersion||1)<LAYOUT_VERSION){const migrated=Array(base.slots.length).fill(null),order=fillOrder(parsed.type);parsed.slots.forEach((item,i)=>{if(order[i]!==undefined)migrated[order[i]]=item;});parsed.slots=migrated;}return{...base,...parsed,layoutVersion:LAYOUT_VERSION,history:[]};}
-  return{TYPES,LAYOUT_VERSION,create,place,remove,undo,setOption,nextFree,fillOrder,positions,cordPath,safeRadius,charmPositions,anchorBox,renderData,serialize,deserialize,clone};
+  function create(type="necklace",modelId=`${type}-1`,jewels=[]) {return{id:null,type,modelId,jewels:clone(jewels),layoutVersion:LAYOUT_VERSION,updated:Date.now()};}
+  function customize(state,index,patch){const next=clone(state);if(!next.jewels[index])return next;next.jewels[index]={...next.jewels[index],...patch};next.updated=Date.now();return next;}
+  function renderData(state,profile="editor") {const g=geometry(state.type,state.modelId,profile);return{type:state.type,profile,cordPath:g.hardware,cordTransform:g.hardwareTransform,radius:safeRadius(state.type,profile,state.modelId),items:g.points.map((p,index)=>({...p,index,item:clone(state.jewels[index])}))};}
+  function serialize(state){return JSON.stringify(state);}
+  function deserialize(raw){const value=typeof raw==="string"?JSON.parse(raw):clone(raw);if(value.layoutVersion!==LAYOUT_VERSION)throw new Error("Old save layout");return{...value,layoutVersion:LAYOUT_VERSION};}
+  return{LAYOUT_VERSION,TYPES,MODEL_COUNTS,create,customize,positions,cordPath,safeRadius,renderData,serialize,deserialize,clone};
 });
