@@ -1,0 +1,53 @@
+{
+  "$comment": "Controller handoff only. English narration lines exactly as rendered by the reader; Quick Words and all Thai translations are structurally excluded. No audio was rendered by this task. The current reader ultimately plays these as pre-rendered word clips.",
+  "narration_lines": [
+    "Moving Water Around the City",
+    "A city is full of hard surfaces. Roofs and roads cannot drink rain, so the water must be carried.",
+    "Under the streets, drains and pipes catch the water and lead it away.",
+    "Canals are wide water roads in the city. They carry the water toward the river.",
+    "Floodgates open to let water out. Floodgates close when the river is higher than the canal.",
+    "When gates close, pumps push the canal's water up into the river.",
+    "Deep under the city, big drainage tunnels carry water fast to the river.",
+    "Parks and ponds can hold water like a monkey holds food in its cheeks. In Thailand, this is called the Monkey Cheek scheme.",
+    "Drains, canals, gates, pumps, tunnels and ponds work as one drainage system. They give the water a way out, or a place to wait.",
+    "Across the city, water keeps moving."
+  ],
+  "render_plan": {
+    "command": "python3 reading-app/tools/render-words.py --plan",
+    "words": [
+      "canal",
+      "canal's",
+      "cannot",
+      "carried",
+      "cheeks",
+      "city's",
+      "close",
+      "drainage",
+      "floodgates",
+      "gates",
+      "higher",
+      "holds",
+      "keeps",
+      "moving",
+      "parks",
+      "pipes",
+      "pumps",
+      "streets",
+      "surfaces",
+      "toward",
+      "tunnels"
+    ],
+    "word_count": 21,
+    "characters": 151,
+    "worst_case_credits": 151,
+    "result": "plan only; nothing sent and nothing spent"
+  },
+  "render_status": "word clips rendered 2026-10-05 (rain-books-3-6 integration)",
+  "pending_word_clips": ["floodgate", "pipe", "pump"],
+  "accepted_fix_audio_handoff": {
+    "missing_in_reading_bank": ["scheme"],
+    "paid_render_words": ["scheme"],
+    "reusable_word_book_words": [],
+    "result": "plan only; nothing sent and nothing spent"
+  }
+}

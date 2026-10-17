@@ -1,0 +1,65 @@
+{
+  "tool": "Codex built-in image generation",
+  "model": "OpenAI built-in image model (model identifier not exposed)",
+  "date": "2026-10-10",
+  "style": "Soft classic watercolor on warm cream paper; restrained teal, coral, and gold; calm mechanism-first privacy scenes; no readable text.",
+  "runtime_encoding": "Pillow WebP, 1024x1024, quality 85, method 6",
+  "references": ["../../../../shared-art/kid-characters/sheets/reading-tree-cast.webp", "../../find-things-online/art/cover.webp"],
+  "verdict": "PASS after independent art QA redraw",
+  "images": ["cover","private-things","what-counts","photos-too","password","who-to-trust","share-the-good","ask-first","closing"],
+  "rejected": ["what-counts attempt 1: unattached extra hand holding the school card"],
+  "art_qa_2026_10_11": {
+    "verdict": "PASS after redraw",
+    "redrawn": ["private-things", "photos-too", "password", "who-to-trust", "share-the-good", "ask-first"],
+    "retained": ["cover", "what-counts", "closing"],
+    "prompt_change": "Privacy prompts now require the sentence mechanism to be literal and visible on a front-facing device: private details or a harmless drawing in a preview, a share arrow visibly stopped at a pause symbol, and the child asking a trusted adult before transmission. Password scenes must show a protected account, password dots and a closed shield/lock rather than a physical lockbox. Photo scenes must visibly identify face, clothing/uniform and location clues and show the pictured child's consent before sharing. All cast scenes lock canonical clothes, attached five-finger hands with real grips, and Vanilla at 27% of full child height.",
+    "rejected_attempts": ["who-to-trust qa attempt 1: Vanilla remained about 38% of boy height", "who-to-trust qa attempt 2: Vanilla fell below one-quarter child height", "who-to-trust qa attempt 3: Vanilla jumped above one-third child height"]
+  },
+  "vanilla_size_review": {"date":"2026-10-10","verdict":"PASS","redrawn":["cover","private-things","photos-too","password","share-the-good","ask-first","closing"],"retained":["who-to-trust"],"prompt":"Precise-object edit: change only Vanilla and adjacent pixels; preserve composition, lesson props and style; small 4 kg papillon at 27–30% of comparable child height; exact markings, paws, hands, no new text or seams."},
+  "adult_outfit_review_2026_10_12": {
+    "verdict": "PASS after reference edits",
+    "inventory": {
+      "private-things": "Mommy — blue cardigan over floral cream blouse (REJECT); blue cardigan over plain white top (PASS)",
+      "photos-too": "Mommy — cream knit top (REJECT); blue cardigan over plain white top (PASS)",
+      "password": "Mommy — pink floral blouse (REJECT); blue cardigan over plain white top (PASS)",
+      "who-to-trust": "Mommy, Father and Grandma wore noncanonical outfits (REJECT); all three edited to their series-canonical outfits (PASS)",
+      "share-the-good": "Mommy — cream knit top (REJECT); blue cardigan over plain white top (PASS)",
+      "ask-first": "Mommy — cream floral top (REJECT); blue cardigan over plain white top (PASS)"
+    },
+    "redrawn": ["private-things", "photos-too", "password", "who-to-trust", "share-the-good", "ask-first"],
+    "retained": [],
+    "prompt": "Precise-object reference edits: change only adult clothing. Mommy: medium blue cardigan, plain white top, blue jeans. Father: dark sage-green button-front shirt, tan trousers. Grandma: dark forest-green cardigan, plain white blouse, muted green skirt. Preserve composition, poses, faces, hands, children, Vanilla, devices, marks and labels."
+  },
+  "round_3_vanilla_and_identity_2026_10_13": {
+    "verdict": "PASS after reference edits",
+    "inventory": {
+      "private-things": "Vanilla sat oversized on the dining tabletop (REJECT); removed (PASS)",
+      "photos-too": "Vanilla sat oversized on the dining tabletop (REJECT); removed (PASS)",
+      "password": "Vanilla sat oversized on the dining tabletop (REJECT); removed (PASS)",
+      "share-the-good": "Vanilla sat oversized on the dining tabletop with a head nearly child-sized (REJECT); removed (PASS)",
+      "ask-first": "Vanilla sat oversized on the dining tabletop (REJECT); removed (PASS)"
+    },
+    "redrawn": ["private-things", "photos-too", "password", "share-the-good", "ask-first"],
+    "retained": ["cover", "what-counts", "who-to-trust", "closing"],
+    "prompt": "Precise-object reference edit: remove only Vanilla from the dining table and reconstruct the occluded tabletop/background; preserve every person, accepted adult identity and clothing, pose, hand, device, lesson mechanism and composition."
+  },
+  "children_face_style_review_2026_10_14": {
+    "tool": "Codex built-in image generation",
+    "references": ["../../what-computers-do/art/cover.webp", "../../exact-instructions/art/cover.webp", "../../exact-instructions/art/draw-a-house.webp"],
+    "verdict": "PASS",
+    "redrawn": ["cover", "private-things", "photos-too", "password", "who-to-trust", "share-the-good", "ask-first", "closing"],
+    "children_removed": ["what-counts"],
+    "masters": {"cover":"../art-source/raw/cover-face-qa-attempt2.png", "private-things":"../art-source/raw/private-things-face-qa-attempt1.png", "what-counts":"../art-source/raw/what-counts-face-qa-attempt1.png", "photos-too":"../art-source/raw/photos-too-face-qa-attempt1.png", "password":"../art-source/raw/password-face-qa-attempt1.png", "who-to-trust":"../art-source/raw/who-to-trust-face-qa-attempt1.png", "share-the-good":"../art-source/raw/share-the-good-face-qa-attempt1.png", "ask-first":"../art-source/raw/ask-first-face-qa-attempt1.png", "closing":"../art-source/raw/closing-face-qa-attempt1.png"},
+    "rejected_attempts": ["cover attempt 1 copied the Book 3 grid composition instead of preserving the Book 5 garden"],
+    "qa": "Full-resolution side-by-side pass: accepted pages preserve original composition and privacy mechanism; recurring faces/hair and restrained watercolor match Book 1/3; no freckles; hands attached; adults and accepted outfits retained; Vanilla small, young and on the floor; no logos."
+  },
+  "people_removal_and_screen_orientation_2026_10_14": {
+    "tool": "Codex built-in image generation",
+    "model": "OpenAI built-in image model (model identifier not exposed)",
+    "decision": "Owner chose Remove people too for private-things, password, photos-too, share-the-good and ask-first.",
+    "removed": ["private-things", "password", "photos-too", "share-the-good", "ask-first"],
+    "masters": {"private-things":"../art-source/raw/private-things-people-removed-attempt1.png", "password":"../art-source/raw/password-people-removed-attempt1.png", "photos-too":"../art-source/raw/photos-too-people-removed-attempt1.png", "share-the-good":"../art-source/raw/share-the-good-people-removed-attempt1.png", "ask-first":"../art-source/raw/ask-first-people-removed-attempt1.png"},
+    "prompt": "Precise-object edit: remove every person and all body parts; reconstruct the room; place the tablet alone on a small table stand with its screen facing the viewer; preserve each page's existing privacy lesson graphic, side icons, room props and watercolor style; no stray fingers, logos or text.",
+    "verdict": "PASS on attempt 1 for all five pages after full-resolution inspection; all people and stray body parts are absent, tablets stand independently, screens face the viewer, and the lesson mechanisms remain clear."
+  }
+}

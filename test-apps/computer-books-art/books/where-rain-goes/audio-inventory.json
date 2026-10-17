@@ -1,0 +1,34 @@
+{
+  "$comment": "Controller handoff only. English narration lines exactly as rendered by the reader; Quick Words and all Thai translations are structurally excluded. No audio was rendered by this task. The current reader ultimately plays these as pre-rendered word clips.",
+  "narration_lines": [
+    "Where Does the Rain Go?",
+    "Rain lands on soil, grass, roofs and roads. Each landing is the start of a different journey.",
+    "Soil is like a sponge. It drinks the rain.",
+    "A sponge can fill up. Soil that is full of water is called saturated soil. When rain comes faster than full soil can take it in, water stays on top.",
+    "Extra water flows across the ground. This flowing water is called runoff. It slides to lower places.",
+    "In towns, water slips into drains under the street.",
+    "Drains lead to canals. Canals lead to rivers. Rivers carry water to the sea.",
+    "Some water waits in puddles and leaves. The sun lifts it back up as vapour. This is evaporation.",
+    "People also catch rain. Tanks, ponds and reservoirs keep it for dry days.",
+    "Every drop of rain takes one of these journeys. Water that is stored can journey again another day.",
+    "Our paper boats follow the water downhill. Next time it rains, watch where the water goes!"
+  ],
+  "render_plan": {
+    "command": "python3 reading-app/tools/render-words.py --plan",
+    "words": [
+      "evaporation",
+      "flowing",
+      "runoff",
+      "saturated"
+    ],
+    "word_count": 4,
+    "characters": 37,
+    "worst_case_credits": 37,
+    "reusable_word_book_copy": [
+      "this"
+    ],
+    "result": "plan only; nothing sent and nothing spent; build-word-bank.py can copy this without a paid render"
+  },
+  "render_status": "word clips rendered 2026-10-05 (rain-books-3-6 integration)",
+  "pending_word_clips": ["tank"]
+}

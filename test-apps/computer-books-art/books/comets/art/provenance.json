@@ -1,0 +1,94 @@
+{
+  "tool": "Codex built-in image generation",
+  "model": "OpenAI built-in image model (model identifier not exposed)",
+  "date": "2026-10-13",
+  "style": "Soft classic watercolour storybook on cream paper; gentle washes, restrained vintage palette, calm composition, visible watercolour texture and soft edges; no text.",
+  "runtime_encoding": "Pillow WebP, 1024x1024, quality 85, method 6",
+  "images": [
+    {
+      "name": "cover",
+      "runtime_sha256": "291786d8fbc47551e4dbfd426b4b10f46af885fed02881a521ad961abfda5859",
+      "master_sha256": "01d96d749f2fdcc1965d1b09193e686b9b516576ba473480843308b9393aea16",
+      "references": ["../../../../shared-art/kid-characters/sheets/reading-tree-cast.webp", "../../space-trip/art/cover.webp", "../../stars/art/cover.webp"],
+      "verdict": "PASS",
+      "attempt": 3,
+      "prompt": "A huge pale blue-white two-tailed comet above a small ochre observing tent; exact girl and younger boy seated separately cross-legged with countable anatomy; tiny 4 kg Papillon standing side-on with four visible legs; brass telescope safely aside; exact soft classic watercolour; thumbnail-distinct from Books 1-2; calm lower strip; no text.",
+      "rejected": "Attempt 1: Vanilla's legs were hidden in the girl's lap. Attempt 2: Vanilla's seated hind-leg structure was not fully countable. Both were rejected because any anatomy caveat is a rejection."
+    },
+    {
+      "name": "dirty-snowball",
+      "runtime_sha256": "02e6d727eb166287ff574ce592f2fb1c1859332e9ad07877f54e36bb456a12e8",
+      "master_sha256": "d8df6716d1e5fc9ac3c3e1dcdf3282f5e157e7b8f4025f900352ce114f85d767",
+      "references": ["../../space-trip/art/sun.webp", "../../stars/art/star-colours.webp"],
+      "verdict": "PASS",
+      "attempt": 1,
+      "prompt": "One irregular dark comet nucleus with embedded water-ice patches, rock chips and dust in deep space, no coma or tail, object-only scientific watercolour, calm lower strip, no text."
+    },
+    {
+      "name": "long-path",
+      "runtime_sha256": "f378078728f3b5f0a35b8790e40a09125408ee1c7eb46c28b6c45dabf941d9d4",
+      "master_sha256": "bfa0b2a94cd601f196e1144c2a97bda8cd111157569b9aed2e6a9e6da103a2d0",
+      "references": ["../../space-trip/art/solar-system.webp"],
+      "verdict": "PASS",
+      "attempt": 2,
+      "prompt": "One warm Sun at the focus of one long narrow oval path; exactly one inactive dark comet nucleus without coma or tail at the far end; tiny Earth for scale; no extra loops, arrows or text.",
+      "rejected": "Attempt 1: extra inner loops made the orbit ambiguous and the faraway nucleus incorrectly carried a bright tail."
+    },
+    {
+      "name": "coma-grows",
+      "runtime_sha256": "13abb575a8a6e7317fa5b6207c12bfc9ad899021fc80d855008a750655e069eb",
+      "master_sha256": "4bad226acfa13582f969c71d5f83f531497cd14a1ff3375caeaf63f03367b4f3",
+      "references": ["../../space-trip/art/sun.webp", "../../stars/art/why-stars-twinkle.webp"],
+      "verdict": "PASS",
+      "attempt": 1,
+      "prompt": "Rugged icy nucleus near the Sun releasing pale gas and dust into one large fuzzy coma, before long tails form; scientific watercolour; no labels or text."
+    },
+    {
+      "name": "two-tails",
+      "runtime_sha256": "1a48c0075af1e533bae8c386f90faaf3f47daeed82a907f3da52c470f4ff473c",
+      "master_sha256": "c5898512960fa2e22d18572089fcbb26bd2f78ada0be770095dba351402e2f07",
+      "references": ["../../stars/art/why-stars-twinkle.webp", "../../space-trip/art/sun.webp"],
+      "verdict": "PASS",
+      "attempt": 1,
+      "prompt": "Sun at far left, comet head to its right, broad curved cream dust tail and narrow straight blue gas tail both extending away from the Sun; no arrows, labels or text."
+    },
+    {
+      "name": "far-and-faint",
+      "runtime_sha256": "4b634580c0ba962a0cd3a2d6b49e75b515d488e6263e8942e48561d2e00a245b",
+      "master_sha256": "8dd62949a5c90a69a56145eb377ee78d997bc397172e13b81b6d5d8b3ca11937",
+      "references": ["../../stars/art/far-away.webp", "../../space-trip/art/cover.webp"],
+      "verdict": "PASS",
+      "attempt": 2,
+      "prompt": "Brass telescope alone on the grassy hill at night; circular eyepiece inset reveals a tiny faint comet smudge otherwise lost among the stars; no people, animals, labels or text.",
+      "rejected": "Attempt 1: the rear-view cast left hands and Vanilla's legs hidden, preventing a caveat-free anatomy verdict."
+    },
+    {
+      "name": "halley-returns",
+      "runtime_sha256": "42b4190606005e68179fa52e6727ad6b187f41f87e95df87dea786954b466859",
+      "master_sha256": "657267dc345886789acc6007c717fa1ae11b3e2889b3d7f4c68df0a05d238138",
+      "references": ["../../space-trip/art/cover.webp", "../../stars/art/goodnight-stars.webp"],
+      "verdict": "PASS",
+      "attempt": 1,
+      "prompt": "Halley's Comet over one grassy hill flowing through spring, autumn and winter bands to suggest passing years; brass telescope alone; two tails away from the horizon Sun glow; no clocks, numerals or text."
+    },
+    {
+      "name": "comet-dust",
+      "runtime_sha256": "802fe5415097a92a88eb06bcbf42a61c9bba93c2eeb143f0287dc72b347c0cd9",
+      "master_sha256": "82ad573c416eb71a6b6bfc0fe542fe198a8f618c70bfea733e193aff3ae2cf70",
+      "references": ["../../space-trip/art/earth-moon.webp", "../../stars/art/why-stars-twinkle.webp"],
+      "verdict": "PASS",
+      "attempt": 1,
+      "prompt": "Earth crossing a curved ribbon of tiny comet dust grains; grains entering the thin atmosphere become short meteor streaks; small distant comet continues away; no impacts, arrows or text."
+    },
+    {
+      "name": "goodnight-comet",
+      "runtime_sha256": "0769dcf45fb6c839406588a0b29d306f57609e112f43aea03d2986cbf200b92f",
+      "master_sha256": "f63bdcb24526b65b922dfae2798ddaad7372f9afbed92af5d86329ec3e613ca5",
+      "references": ["../../../../shared-art/kid-characters/sheets/reading-tree-cast.webp", "../../stars/art/goodnight-stars.webp"],
+      "verdict": "PASS",
+      "attempt": 2,
+      "prompt": "Exact children seated separately cross-legged on a ground blanket with complete countable anatomy; tiny Vanilla standing side-on with four visible legs; folded telescope aside; departing two-tailed comet; no pointing, held objects or text.",
+      "rejected": "Attempt 1: sleeping bags hid both children's legs and curled Vanilla's hind legs, preventing a caveat-free anatomy verdict."
+    }
+  ]
+}

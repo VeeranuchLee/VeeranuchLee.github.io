@@ -6,7 +6,7 @@
   "qa": "PASS: 11 accepted masters inspected at full size and runtime size, including every visible hand, the repeated drawing, and Vanilla identity/scale. REJECT: storage attempt 1 had colored edge artifacts; saved attempt 1 and what-is-a-file attempt 1 used the wrong dog; their attempt 2 redraws are accepted.",
   "images": [
     {"name":"cover","master":"../art-source/cover-face-qa-attempt2.png","prompt":"Reference redraw both children to the Book 1/3 identities and watercolor style; keep composition and corrected device/chair geometry; restore the boy's grey shoes; no freckles or glossy eyes.","runtime_sha256":"d2c8284329aecbb477202ab1c0b7ec3769bd5a1049980607af7157191fe86da8"},
-    {"name":"where-did-it-go","master":"../art-source/where-did-it-go-independent-qa-attempt2.png","prompt":"Reference redraw the girl to the Book 1/3 identity with clean unmarked cheeks, small quiet eyes, straight chestnut bob, cream cardigan and pink floral collared dress; soften the pixel-dab texture while preserving the drawing upright for her.","runtime_sha256":"2b8ee20b9aeaec4ffecd21a89b4b925fcc27c4cc9e0e84664e0c69f8f6b46bd3"},
+    {"name":"where-did-it-go","master":"../art-source/where-did-it-go-round3-attempt1.png","prompt":"Precise local reference edit of the controller-approved round-2 attempt 1: remove only faint freckle-like brown speckles from both cheeks and the bridge, tip and sides of the nose; retain the soft pink blush; hard-lock the eyes and mouth; preserve every other image area, including the accepted cardigan ribbing, hands, fingertip/tree contact, tablet lesson and room.","runtime_sha256":"d4e61b6b58884b529d90d6e5ef922aff4575a72e73d61b65cfe7c0d754a0b072"},
     {"name":"not-saved","master":"../art-source/not-saved-owner-fix-attempt1.png","prompt":"Reference-edit the existing two-panel page to remove both children completely, including every face, body, hand, arm, finger and edge remnant. Preserve the same room, table, light, divider, watercolor style and palette. Left: a self-supported generic tablet shows the upright sun-house-tree drawing while a clear blue arrow and sparkles carry it down into the open blue cloud-marked storage box. Right: a self-supported generic tablet shows the same upright drawing with a large clear Save button below. No logos or screen text.","runtime_sha256":"6ab38794bbce4e27765feb2d4be56bcc396fd651da8e1f40dac053e49127daf0"},
     {"name":"saved","master":"../art-source/saved-face-qa-attempt1.png","prompt":"Remove every child and Vanilla; retain the drawing-to-file-to-organized-place mechanism in the reference watercolor style.","runtime_sha256":"3351df712e898f9f0912e3394b34d84e6b11251a2954f5a1a2d041da1c40167c"},
     {"name":"check-saved","master":"../art-source/check-saved-face-qa-attempt1.png","prompt":"Remove every child and show the four-step draw/save/close/reopen sequence with supported upright tablets.","runtime_sha256":"803adcd53c9790d20e6a33452fbf0ef76a91ec3f9fc03fb957c2205824db1769"},
@@ -86,5 +86,16 @@
     ],
     "qa": "Full-page and detail review: every repeated sun-house-tree drawing, all six filename tiles, folder contents, picture/story/music file icons, save symbols, arrows, supported devices and four-step closing sequence preserved; no people or human remnants introduced.",
     "evidence": "../../../qa/2026-10-15-watercolour-restyle/where-file-goes-before-after.jpg"
+  },
+  "where_did_it_go_round3_2026_10_17": {
+    "tool": "Codex built-in image generation reference edit plus a local feathered cheek-and-nose mask over the approved source",
+    "model": "OpenAI built-in image model (model identifier not exposed)",
+    "date": "2026-10-17",
+    "attempts": 1,
+    "verdict": "PASS",
+    "source": "../../../qa/_untracked-1017/round2/where-did-it-go-attempt1-rejected.png",
+    "prompt": "Remove every faint freckle-like brown speckle from both cheeks and the bridge, tip and sides of the nose only. Reconstruct clean watercolor skin while retaining the soft pink blush. Keep the eyes, mouth, identity, hair, clothing, hands, tablet, drawing lesson, composition and background unchanged; accepted cardigan ribbing is not a defect.",
+    "qa": "Full-resolution face crop passes with no cheek or nose speckles, retained blush, and no new artefacts. Both eye regions and the mouth are byte-identical to the approved source. The accepted model retouch was composited through a feathered mask limited to cheek and nose skin; every pixel outside that mask is byte-identical to the approved source. Runtime rebuilt at 1024x1024 WebP quality 85 method 6.",
+    "evidence": "../../../qa/_untracked-1017/round3/"
   }
 }

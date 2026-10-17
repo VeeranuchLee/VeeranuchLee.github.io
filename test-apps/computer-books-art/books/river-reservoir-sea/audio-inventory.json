@@ -1,0 +1,52 @@
+{
+  "$comment": "Controller handoff only. English narration lines exactly as rendered by the reader; Quick Words and all Thai translations are structurally excluded. No audio was rendered by this task. The current reader ultimately plays these as pre-rendered word clips.",
+  "narration_lines": [
+    "Rivers, Reservoirs & the Sea",
+    "Rain in the hills runs into streams. The streams join and become a river. The land that sends water to it is the river basin.",
+    "Rain that falls upstream in the hills travels downstream. It reaches different places at different times.",
+    "When more water comes, the river rises. People watch its water level.",
+    "A dam is a strong wall across a valley. The lake behind it is the reservoir.",
+    "Water flowing into the reservoir is inflow. The dam releases water for the river, the farms and the towns below.",
+    "When a narrow stretch cannot carry all the water arriving, the water level rises upstream. This is called backwater.",
+    "The river mouth is where the river ends at the sea. At high tide the sea level is higher, and the river flows out more slowly.",
+    "Rain, streams, reservoirs, rivers and the sea are one system. Water moves through all of it, every day.",
+    "River water travels downhill towards another river, a lake or the sea."
+  ],
+  "render_plan": {
+    "command": "python3 reading-app/tools/render-words.py --plan",
+    "words": [
+      "area",
+      "basin",
+      "carries",
+      "catching",
+      "dam",
+      "downstream",
+      "ends",
+      "falls",
+      "farms",
+      "higher",
+      "hills",
+      "lets",
+      "level",
+      "moves",
+      "passes",
+      "piles",
+      "reaches",
+      "reservoir",
+      "rises",
+      "runs",
+      "streams"
+    ],
+    "word_count": 21,
+    "characters": 140,
+    "worst_case_credits": 140,
+    "result": "plan only; nothing sent and nothing spent"
+  },
+  "render_status": "word clips rendered 2026-10-05 (rain-books-3-6 integration)",
+  "accepted_fix_audio_handoff": {
+    "missing_in_reading_bank": ["towards"],
+    "paid_render_words": [],
+    "reusable_word_book_words": ["towards"],
+    "result": "free bank copy pending; no paid render needed"
+  }
+}
