@@ -1,16 +1,31 @@
 {
-  "asset": "Kingdom Chess handbook cover",
+  "asset": "Kingdom Chess handbook cover — final five-kingdom cast",
   "date": "2026-10-17",
   "tool": "OpenAI Codex built-in image generation (image_gen)",
   "use_case": "illustration-story",
   "image": "cover.webp",
   "master": "art/masters/handbook/cover.png",
-  "prompt": "All five kingdoms' queens and kings gathered happily around a giant open storybook chessboard in a magical shared hall; ten distinct friendly royals; premium warm painterly board-game booklet cover; top-left light; living characters, no pedestals, conflict or text.",
+  "master_sha256": "046faff8d6bee21b730b18eb246782f205ceec162d7b937a7ad8d60237bd603e",
+  "runtime_sha256": "e51f75dad2ddba99a99ce4e708123013794ba7c5fe6cff1fa7e5e1a1a3babe56",
+  "prompt": "Use the supplied five-row final-cast reference sheet as identity and style authority. Paint exactly one king and one queen from each of Princess Unicorn, Princess Mermaid, Sweet Fairy, Intergalactic Space and Planets—ten friendly adult royals—gathered happily around a giant open storybook whose pages form a magical chessboard. Preserve the final faces, skin tones, crowns, hair, costume motifs and kingdom palettes while translating the figurines into living characters without pedestals. Queen Nerina must have a clearly visible mermaid tail; King Bram must be a jolly bearded gardener-king; Orion and Nova must wear white-and-sky-blue space robes; King Sol must unmistakably be the Sun; Queen Earth must wear a blue-and-green continents-and-oceans gown with a globe coronet. Use a balanced 4:3 landscape ensemble, warm premium painterly storybook finish, luminous top-left light, friendly faces, coherent natural anatomy and five-finger hands. No extra characters, duplication, text, labels, logos, watermark or border.",
   "references": [
-    "art/masters/princess-unicorn/dawn-queen.png",
-    "art/masters/princess-unicorn/dawn-king.png",
-    "design/DESIGN.md"
+    "art/runtime/princess-unicorn/story.webp",
+    "art/runtime/princess-unicorn/pieces/dawn-king.webp",
+    "art/runtime/princess-unicorn/pieces/dawn-queen.webp",
+    "art/runtime/princess-mermaid/story.webp",
+    "art/runtime/princess-mermaid/pieces/dawn-king.webp",
+    "art/runtime/princess-mermaid/pieces/dawn-queen.webp",
+    "art/runtime/sweet-fairy/story.webp",
+    "art/runtime/sweet-fairy/pieces/dawn-king.webp",
+    "art/runtime/sweet-fairy/pieces/dawn-queen.webp",
+    "art/runtime/intergalactic-space/story.webp",
+    "art/runtime/intergalactic-space/pieces/dawn-king.webp",
+    "art/runtime/intergalactic-space/pieces/dawn-queen.webp",
+    "art/runtime/planets/story.webp",
+    "art/runtime/planets/pieces/dawn-king.webp",
+    "art/runtime/planets/pieces/dawn-queen.webp"
   ],
-  "review": "PASS: exactly five queen/king pairs are visible, the book-board is the focal point, expressions are friendly, and no text appears.",
-  "processing": "Master 1448x1086 PNG retained; resized to 1200x900 quality-85 WebP by chess-app/tools/build-handbook-assets.py. Other-kingdom designs are provisional pending their final approved art."
+  "review": "PASS on first complete generation: exactly ten living adult royals appear as five readable kingdom pairs; Nerina's tail, Bram's gardener identity, Orion and Nova's white/sky-blue space dress, Sol's Sun identity, and Earth's globe coronet and continents-and-oceans gown are explicit. Faces are friendly, visible hands and anatomy are coherent, the storybook chessboard is the focal point, and no text appears.",
+  "qa": "qa/2026-10-17-cover/review.jpg (ignored; runtime cover beside all ten final Dawn royal pieces)",
+  "processing": "Built-in output retained as a 1448×1086 RGB PNG master; resized with Lanczos to 1200×900 and encoded as RGB WebP at quality 85 (method 6)."
 }
