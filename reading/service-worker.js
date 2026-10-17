@@ -17,6 +17,7 @@
    to the existing word clips until their page narration is rendered.
 
    v11 2026-10-09: All About Stars (stars) un-drafted with the Space set; its art, page clips and timing join SHELL.
+   v15 2026-10-17: Computer Book 1, What Does a Computer Do? (what-computers-do), un-drafted as the first book of the Computer & Digital World set (owner, 2026-10-17: "Book 1 only, prepare the release"); its art, page clips and timing and 35 new word clips join SHELL. The other five Computer Books stay on agent/codex-computer-books-review.
    v14 2026-10-14: Space wave 2 un-drafted (owner: "the rest -> approved."): Mars: The Red Planet, Mars: Giant Volcanoes and a Great Canyon, Jupiter and the Great Red Spot, How Stars Are Born and Change; Space box sections; stars renamed Stars in the Night Sky; their art, page clips and timing join SHELL.
    v13 2026-10-13: All About Comets (comets) un-drafted as Space Book 3 (owner: "the rest of the comet book -> approved."); its art, page clips and timing join SHELL; numbers become tappable words (76, 2061 clips).
    v10 2026-10-09: Rain Books 8–10 (street-under-water, stay-out-of-floodwater,
@@ -29,7 +30,7 @@
 
    Navigations carry a query (?book=space-trip, ?from=wordbook), so they are matched with
    ignoreSearch; data and audio requests are matched exactly. */
-const CACHE_NAME = 'reading-v14';
+const CACHE_NAME = 'reading-v15';
 const CACHE_PREFIX = 'reading-v';
 const SHELL = [
   './',
@@ -1397,6 +1398,61 @@ const SHELL = [
   './audio/pages/comets/long-path.timing.json',
   './audio/pages/comets/two-tails.m4a',
   './audio/pages/comets/two-tails.timing.json',
+  './audio/pages/what-computers-do/closing.m4a',
+  './audio/pages/what-computers-do/closing.timing.json',
+  './audio/pages/what-computers-do/computers-inside.m4a',
+  './audio/pages/what-computers-do/computers-inside.timing.json',
+  './audio/pages/what-computers-do/cover.m4a',
+  './audio/pages/what-computers-do/cover.timing.json',
+  './audio/pages/what-computers-do/exactly.m4a',
+  './audio/pages/what-computers-do/exactly.timing.json',
+  './audio/pages/what-computers-do/input.m4a',
+  './audio/pages/what-computers-do/input.timing.json',
+  './audio/pages/what-computers-do/instructions-inside.m4a',
+  './audio/pages/what-computers-do/instructions-inside.timing.json',
+  './audio/pages/what-computers-do/many-jobs.m4a',
+  './audio/pages/what-computers-do/many-jobs.timing.json',
+  './audio/pages/what-computers-do/output.m4a',
+  './audio/pages/what-computers-do/output.timing.json',
+  './audio/pages/what-computers-do/three-steps.m4a',
+  './audio/pages/what-computers-do/three-steps.timing.json',
+  './audio/pages/what-computers-do/very-fast.m4a',
+  './audio/pages/what-computers-do/very-fast.timing.json',
+  './audio/words/cabinet.m4a',
+  './audio/words/computer.m4a',
+  './audio/words/computers.m4a',
+  './audio/words/controller.m4a',
+  './audio/words/create.m4a',
+  './audio/words/exact.m4a',
+  './audio/words/information.m4a',
+  './audio/words/input.m4a',
+  './audio/words/instructions.m4a',
+  './audio/words/jobs.m4a',
+  './audio/words/machine.m4a',
+  './audio/words/movement.m4a',
+  './audio/words/output.m4a',
+  './audio/words/pictures.m4a',
+  './audio/words/play.m4a',
+  './audio/words/produces.m4a',
+  './audio/words/program.m4a',
+  './audio/words/programs.m4a',
+  './audio/words/receives.m4a',
+  './audio/words/result.m4a',
+  './audio/words/roadside.m4a',
+  './audio/words/screen.m4a',
+  './audio/words/songs.m4a',
+  './audio/words/sound.m4a',
+  './audio/words/speed.m4a',
+  './audio/words/tap.m4a',
+  './audio/words/traffic.m4a',
+  './audio/words/typed.m4a',
+  './audio/words/uses.m4a',
+  './audio/words/washing.m4a',
+  './audio/words/without.m4a',
+  './audio/words/word.m4a',
+  './audio/words/words.m4a',
+  './audio/words/write.m4a',
+  './audio/words/wrong.m4a',
   './books/stars/art/closest-star.webp',
   './books/stars/art/cover.webp',
   './books/stars/art/far-away.webp',
@@ -1416,6 +1472,17 @@ const SHELL = [
   './books/comets/art/long-path.webp',
   './books/comets/art/two-tails.webp',
   './books/comets/book.json',
+  './books/what-computers-do/art/closing.webp',
+  './books/what-computers-do/art/computers-inside.webp',
+  './books/what-computers-do/art/cover.webp',
+  './books/what-computers-do/art/exactly.webp',
+  './books/what-computers-do/art/input.webp',
+  './books/what-computers-do/art/instructions-inside.webp',
+  './books/what-computers-do/art/many-jobs.webp',
+  './books/what-computers-do/art/output.webp',
+  './books/what-computers-do/art/three-steps.webp',
+  './books/what-computers-do/art/very-fast.webp',
+  './books/what-computers-do/book.json',
 ];
 self.addEventListener('install', event => event.waitUntil(
   caches.open(CACHE_NAME).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting())));
