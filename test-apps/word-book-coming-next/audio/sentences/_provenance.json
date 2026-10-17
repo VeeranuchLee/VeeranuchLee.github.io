@@ -6,7 +6,7 @@
   "model": "eleven_multilingual_v2",
   "format": "m4a",
   "encoding": "AAC, mono, 64 kbps, via afconvert -- identical to audio/words/",
-  "status": "held candidate audio for the staging-only Word Book Coming Next 285 review; not shipped by sentence-audio.js. Six clips were replaced on 2026-10-15 from the owner review batch 1/2 eleven_v4 takes (minotaur, hemisphere, guilty, jaguar, laboratory, maracas); each replaced entry records its chosen take, master and previous clip under \"replaced\".",
+  "status": "held candidate audio for the staging-only Word Book Coming Next 285 review; not shipped by sentence-audio.js. Six clips were replaced on 2026-10-15 from the owner review batch 1/2 eleven_v4 takes (minotaur, hemisphere, guilty, jaguar, laboratory, maracas); each replaced entry records its chosen take, master and previous clip under \"replaced\". Four sentence clips (minotaur, dynasty, simile, shrug) were replaced again on 2026-10-17 from the owner review batch 3 takes; each replaced entry records its take, master and previous clip under \"replaced\".",
   "source_manifest": "coordination/drafts/word-book-coming-next-200/sentence-render-manifest.json",
   "clips": {
     "Atlas.greek-mythology": {
@@ -406,8 +406,19 @@
     },
     "dynasty.ruling-family": {
       "text": "The dynasty ruled the kingdom for generations.",
-      "sha256": "c9a21bd12e8fbd73debdf6ffdeef91fb116b621a8c3d40dd2f444b3383af16bf",
-      "alignment": "audio-alignment/sentences/dynasty.ruling-family.json"
+      "sha256": "37db517febe9e0d0f9c703ba3563c0c42968f658699ddf7719a95db1711008bf",
+      "alignment": "audio-alignment/word-candidates/dynasty.ruling-family.sentence.owner-batch03-phonetic.json",
+      "model": "eleven_multilingual_v2",
+      "replaced": {
+        "date": "2026-10-17",
+        "owner_batch": 3,
+        "take": "dynasty.ruling-family.sentence.owner-batch03-phonetic",
+        "master": "audio-source/word-candidates/dynasty.ruling-family.sentence.owner-batch03-phonetic.mp3",
+        "master_sha256": "3121a91d1808b0842fe411019d9e49ad0da2705076a2fabdecc28d5ca8236139",
+        "previous_sha256": "c9a21bd12e8fbd73debdf6ffdeef91fb116b621a8c3d40dd2f444b3383af16bf",
+        "previous_alignment": "audio-alignment/sentences/dynasty.ruling-family.json",
+        "why": "Owner batch 3: sentence must say DIN-uh-stee to match the word clip; ASR hears 'Din As-D / Din Asdi' for the word."
+      }
     },
     "eager.wanting-to-begin": {
       "text": "Ben is eager to plant the seeds.",
@@ -871,19 +882,29 @@
     },
     "minotaur.greek-mythology": {
       "text": "The minotaur lived inside the labyrinth.",
-      "sha256": "2a21d76f54781f8ea44ccf215c20a26ad84d7542b91889572f53bd22a97ffe26",
-      "alignment": "audio-alignment/word-candidates/minotaur.greek-mythology.sentence.owner-batch01-take2.json",
+      "sha256": "2eca8d1469a438ce8c31b642c3c1f82164e9852acf41c63dc8d4b85e03909628",
+      "alignment": "audio-alignment/word-candidates/minotaur.greek-mythology.sentence.owner-batch03-phonetic.json",
       "model": "eleven_v4",
       "replaced": {
-        "date": "2026-10-15",
-        "owner_batch": 1,
-        "take": "minotaur.greek-mythology.sentence.owner-batch01-take2",
-        "master": "audio-source/word-candidates/minotaur.greek-mythology.sentence.owner-batch01-take2.mp3",
-        "master_sha256": "85456d865140f5f4b93e1e5b7e5e080bab2408342bf095c35da29cdfbd1bc8d1",
-        "previous_sha256": "f328214a4f7f4e1b02f26901a876e421eaa19c32428cc2da976acb1053cc7ae0",
-        "previous_alignment": "audio-alignment/sentences/minotaur.greek-mythology.json",
-        "why": "Owner batch 1: word and sentence must say the same MY-nuh-tor; v4 plain take selected after ASR passed all three.",
-        "audio_identity": "held m4a decoded against every take; the chosen take matches at aligned MAD ~1e2, all others >=1.5e3"
+        "date": "2026-10-17",
+        "owner_batch": 3,
+        "take": "minotaur.greek-mythology.sentence.owner-batch03-phonetic",
+        "master": "audio-source/word-candidates/minotaur.greek-mythology.sentence.owner-batch03-phonetic.mp3",
+        "master_sha256": "a3647a304169dd673937a17eac4dc8b55f025b0c2e8387761e714329c0e40ef2",
+        "previous_sha256": "2a21d76f54781f8ea44ccf215c20a26ad84d7542b91889572f53bd22a97ffe26",
+        "previous_alignment": "audio-alignment/word-candidates/minotaur.greek-mythology.sentence.owner-batch01-take2.json",
+        "why": "Owner batch 3: word and sentence must both say British MY-nuh-taw; the phonetic-spelled take pairs with the phonetic word clip (isolated-word ASR of the two matches: 'Mine at all' / 'Minutol'; the natural-context take read 'minor tour').",
+        "earlier_replacement": {
+          "date": "2026-10-15",
+          "owner_batch": 1,
+          "take": "minotaur.greek-mythology.sentence.owner-batch01-take2",
+          "master": "audio-source/word-candidates/minotaur.greek-mythology.sentence.owner-batch01-take2.mp3",
+          "master_sha256": "85456d865140f5f4b93e1e5b7e5e080bab2408342bf095c35da29cdfbd1bc8d1",
+          "previous_sha256": "f328214a4f7f4e1b02f26901a876e421eaa19c32428cc2da976acb1053cc7ae0",
+          "previous_alignment": "audio-alignment/sentences/minotaur.greek-mythology.json",
+          "why": "Owner batch 1: word and sentence must say the same MY-nuh-tor; v4 plain take selected after ASR passed all three.",
+          "audio_identity": "held m4a decoded against every take; the chosen take matches at aligned MAD ~1e2, all others >=1.5e3"
+        }
       }
     },
     "miserable.very-unhappy": {
@@ -1232,9 +1253,20 @@
       "alignment": "audio-alignment/sentences/semicircle.half-circle.json"
     },
     "shrug.raise-shoulders": {
-      "text": "Nina shrugs when she cannot choose a colour.",
-      "sha256": "3f26c6c943071981ca40d57b54e09f106cad546a9e9a7f7d16989812c63c0c5e",
-      "alignment": "audio-alignment/sentences/shrug.raise-shoulders.json"
+      "text": "Sam shrugs when he cannot choose a colour.",
+      "sha256": "bb2b2c6eeb262f7ec84af285c5ede14f7c21db432bf0bc29aee27bd0b73a6f34",
+      "alignment": "audio-alignment/word-candidates/shrug.raise-shoulders.sentence.owner-batch03.json",
+      "model": "eleven_multilingual_v2",
+      "replaced": {
+        "date": "2026-10-17",
+        "owner_batch": 3,
+        "take": "shrug.raise-shoulders.sentence.owner-batch03",
+        "master": "audio-source/word-candidates/shrug.raise-shoulders.sentence.owner-batch03.mp3",
+        "master_sha256": "0563c4a6e7f42eeb742b8184207e7f1b3e39b292d9e8bf46e43d7e33ee9afa26",
+        "previous_sha256": "3f26c6c943071981ca40d57b54e09f106cad546a9e9a7f7d16989812c63c0c5e",
+        "previous_alignment": "audio-alignment/sentences/shrug.raise-shoulders.json",
+        "why": "Owner batch 3: replace overused name Nina with Sam."
+      }
     },
     "silhouette.dark-outline": {
       "text": "We saw the bird's silhouette against the sunset.",
@@ -1242,9 +1274,20 @@
       "alignment": "audio-alignment/sentences/silhouette.dark-outline.json"
     },
     "simile.like-as-comparison": {
-      "text": "The child was as quiet as a mouse.",
-      "sha256": "24f3a9f4df4455e77aa6a57b9838a051c7608caed3abc0fc6fbb9be21cab6bd6",
-      "alignment": "audio-alignment/sentences/simile.like-as-comparison.json"
+      "text": "As light as a feather is a simile.",
+      "sha256": "36960cf121038ba0a02080248f1189902569d8e345da408fc4a074b7b16033c8",
+      "alignment": "audio-alignment/word-candidates/simile.like-as-comparison.sentence.owner-batch03.json",
+      "model": "eleven_multilingual_v2",
+      "replaced": {
+        "date": "2026-10-17",
+        "owner_batch": 3,
+        "take": "simile.like-as-comparison.sentence.owner-batch03",
+        "master": "audio-source/word-candidates/simile.like-as-comparison.sentence.owner-batch03.mp3",
+        "master_sha256": "7b997e615ad68a5b861daa45c52699da9957b03780c9a52e6d4685a0250e7751",
+        "previous_sha256": "24f3a9f4df4455e77aa6a57b9838a051c7608caed3abc0fc6fbb9be21cab6bd6",
+        "previous_alignment": "audio-alignment/sentences/simile.like-as-comparison.json",
+        "why": "Owner batch 3: sentence must be about the word simile, not just an example."
+      }
     },
     "sleet.rain-and-snow": {
       "text": "Sleet falls as wet snow and rain together.",

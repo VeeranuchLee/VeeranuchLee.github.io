@@ -1,6 +1,6 @@
 {
   "word": "Coming Next 285 held word clips",
-  "generated": "2026-10-15",
+  "generated": "2026-10-17",
   "renders": "controller, render-word-candidates.py, spec word-book/tools/word-candidates-2026-10-14-coming-next/spec.json; run ledger word-book/audio-alignment/sentences/_runs.json (eleven_v4, Alice Xb7hH8MSUJpSbSDYk0k2, one Plain take per sense, owner 2026-10-14). Three word clips (dynasty, laboratory, fig) were replaced on 2026-10-15 from the owner review batch 1/2 takes named in the spec. fig was replaced AGAIN on 2026-10-15 evening: every eleven_v4 take transcribed as Figure (batch-2 takes 1-3 plus three voicefix variants), so the held clip is the eleven_flash_v2_5 take that passed local ASR — a noted one-off exception to the batch's v4 default; fig-voicefix-asr-report.md is the gate record.",
   "encode": "afconvert -f m4af -d aac -c 1 -b 64000 -- the word-book/audio/words bank settings (mono AAC 64 kbps, 44.1 kHz); straight transcode, no trim, no level change; afconvert only, never PyAV/ffmpeg",
   "ships": "held candidate bank copied to staging only; NOT added to production word-book/audio/words",
@@ -1156,10 +1156,10 @@
       "text": "gasp.",
       "model": "eleven_v4",
       "voice": "Alice - Clear, Engaging, Educational (British)",
-      "master": "word-book/audio-source/word-candidates/gasp.breathe-in-suddenly.v1014-plain.mp3",
-      "master_sha256": "dcd5a8a39b0e04d9db68806dac1f6eb4b7bd6c2bcc241a6d34e26ef0af707d7b",
+      "master": "word-book/audio-source/word-candidates/gasp.breathe-in-suddenly.word.owner-batch03-calm1.mp3",
+      "master_sha256": "db67c066b83808f84408a8549b4f6d155a34de8b530cc37d33420630c04b1495",
       "m4a": "audio/words/gasp.breathe-in-suddenly.m4a",
-      "m4a_sha256": "61c776750db8976f6ff080f2988d5b576da178f3c7fcf81dc7bb84a0be9502a3"
+      "m4a_sha256": "479802e433362dda6dfa98cdce26bdec7a161fdf56cf26eecc91f16b05ae9198"
     },
     {
       "sense": "genre.kind-of-art",
@@ -1769,13 +1769,13 @@
     {
       "sense": "minotaur.greek-mythology",
       "word": "minotaur",
-      "text": "minotaur.",
+      "text": "MY-nuh-taw.",
       "model": "eleven_v4",
       "voice": "Alice - Clear, Engaging, Educational (British)",
-      "master": "word-book/audio-source/word-candidates/minotaur.greek-mythology.v1014-plain.mp3",
-      "master_sha256": "69015deebdf9c4c9c9e5ca9d39f45213b11d7c4239b82d7ff2778db566354b44",
+      "master": "word-book/audio-source/word-candidates/minotaur.greek-mythology.word.owner-batch03-phonetic.mp3",
+      "master_sha256": "9f1e94852732773f12d7ce40d09738fd916b50610a910a9fba3668e426939496",
       "m4a": "audio/words/minotaur.greek-mythology.m4a",
-      "m4a_sha256": "acadfcc45cf6f67428f06f4e0181d681b823fad5e7c9f93fae353a26e47787b7"
+      "m4a_sha256": "83bcd4dc1f533cf81b5db0436daaf5011361fcc6bbd35e49df45dd4c98cd1cdf"
     },
     {
       "sense": "miserable.very-unhappy",
@@ -2674,10 +2674,10 @@
       "text": "squeal.",
       "model": "eleven_v4",
       "voice": "Alice - Clear, Engaging, Educational (British)",
-      "master": "word-book/audio-source/word-candidates/squeal.make-high-loud-cry.v1014-plain.mp3",
-      "master_sha256": "3a196454e996bf06f7a10b478c8f1ab65f23a3ddb56cb96c74d2cefc5fa1abbe",
+      "master": "word-book/audio-source/word-candidates/squeal.make-high-loud-cry.word.owner-batch03-calm1.mp3",
+      "master_sha256": "38f3a34b9567e0743cf347fccb220b8c8caebcaecde2cb476b23ca8736135d81",
       "m4a": "audio/words/squeal.make-high-loud-cry.m4a",
-      "m4a_sha256": "305c16eb1388ed08f293773af055e62e15b41e4bfecf127f8ed52804c5b68e19"
+      "m4a_sha256": "cd1cc4ab0fe830a0ca34ccfc6d8ed64ced08ea2c07aca7c891122c61ad5d696b"
     },
     {
       "sense": "squid.sea-animal",
