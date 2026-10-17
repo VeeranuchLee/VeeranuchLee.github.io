@@ -1,0 +1,194 @@
+# Our Word Book. scripts/ship-list.py is the only reader of this file; it decides WHAT may
+# be published, and release/registry.json decides WHERE.
+
+[ship]
+index.html
+dictionary.html
+tap-zoom-guard.js
+# The shared Room label (name bubble on hover/press/focus): a byte-identical copy of the Discovery
+# Room's site/children-apps/playroom/room-label.* (word-book/tools/check-experience.mjs enforces it).
+room-label.css
+room-label.js
+# THE one audio resolver: which clip each dictionary card speaks. The page loads it; the
+# coverage gate (tools/check-audio-coverage.mjs) require()s the same file.
+word-audio.js
+spelling.js
+# ...and its sibling for the example sentences (owner spec, 2026-09-22). The page loads
+# it; tools/check-sentence-audio.mjs require()s the same file.
+sentence-audio.js
+fonts.css
+fonts/**
+manifest.webmanifest
+service-worker.js
+assets/icons/**
+assets/word-groups/**
+assets/posters/**
+assets/backdrop.webp
+# The Room view plate (owner-provided ChatGPT image, 2026-10-07; qa/2026-10-07-room-hub/PROVENANCE.md).
+assets/room-plate.webp
+# The hub's music bed. NOT in the service worker SHELL on purpose -- 864 KB added to
+# every child's first install, to serve a feature that is off by default, is the wrong
+# trade; the fetch handler caches it the first time it actually plays. Same reasoning as
+# children-apps' own bed and the Space Hub's.
+audio/word-bed.m4a
+data/dictionary.json
+# Ordered poster definitions used by dictionary.html's Posters mode.
+data/posters.json
+# Letter gate: which headword initials are wired in the shipped app. The strip, search,
+# A-Z and counts all read this file; missing/unreadable falls back to all letters.
+data/letters.json
+# Feature gate (2026-10-07): {"grammar": false} keeps the held Grammar Game card hidden.
+data/features.json
+# THE GRAMMAR GAME ships and is ON (owner 2026-10-08, "Everything on Test Hub"): data/features.json ships {"grammar": true} and the page, css, js, questions and rendered.json are in service-worker.js SHELL.
+grammar-game.html
+grammar-game.css
+grammar-game.js
+assets/grammar/**
+data/grammar-questions.json
+audio/grammar/rendered.json
+audio/grammar/*.m4a
+# Not in the service worker SHELL on purpose: 145 pictures today and 2,098 eventually is
+# far too much to precache on install. They are runtime-cached on first view instead.
+assets/words/**
+
+# The spoken headwords: 2,020 clips in the pinned British voice (AUDIO-DIRECTION.md
+# decision 11), 26 MB. NOT in the service worker SHELL, for the same reason the pictures
+# are not -- precaching 26 MB on install to serve a tap that may never come is the wrong
+# trade. Cached on first play by the worker's range-aware branch (an <audio> fetch is a
+# 206 that cache.put() refuses, so the worker keeps the whole 200 and slices ranges from it).
+audio/words/**
+
+# The 26 reusable Alice letter-name clips (rendered and selected 2026-10-15; provenance in
+# audio/letters.manifest.json). The worker range-caches them on first play; not precached.
+audio/letters/*.m4a
+
+# The spoken example sentences, audio/sentences/<sense>.m4a, plus rendered.json -- the
+# record of the exact text each clip says, which the PAGE reads to decide whether a card
+# may show its sentence speaker (so it ships; it is not a private render record). None
+# rendered yet. Clips are NOT in the worker SHELL (cached on first play, like the words);
+# the ledger is, so the page knows offline which cards have a current clip.
+audio/sentences/**
+
+[private]
+# The bed's render record -- tool, model, prompt, credits measured, loop seam ratio. It is
+# about the work, not part of the app: index.html plays audio/word-bed.m4a directly and
+# never reads this file.
+audio/word-bed.provenance.json
+# The render record: which voice ID spoke the clips, what was rendered, what was
+# deliberately not. It is about the work, not part of the app -- the app resolves a clip
+# by slugifying the headword and never reads this file.
+audio/words.manifest.json
+audio/letters.manifest.json
+# NOT .publish-manifest itself: scripts/ship-list.py drops it before classifying anything,
+# because the manifest describes the publish and is never part of the app. Listing it here
+# matches no tracked file and preflight refuses the commit -- which is how this line came
+# out again.
+README.md
+work_progress_and_other_discussion.md
+POSTERS-PLAN.md
+# The coverage record: which of Word Book's behaviours the suite actually exercises,
+# and which it deliberately does not claim. It is about the work, not part of the app.
+COVERAGE.md
+# The owner's 2026-09-23 brief for deriving a second word candidate out of the sentence
+# audio, with its credit estimate. It is about the work -- a spend decision and a QA plan --
+# and no page or tool reads it.
+SENTENCE-AUDIO-EXTRACTION-SPEC.md
+GRAMMAR-GAME-SPEC.md
+audio/grammar/pending.json
+tools/**
+# Round-6 controller instructions for the prepared `ALL.` candidate: work notes, not app code.
+tools/word-candidates-r6/README.md
+# Round-7 controller instructions for the IPA phoneme-tag test candidates: work notes, not app code.
+tools/word-candidates-r7/README.md
+# The ElevenLabs character timings of each paid sentence master (CG-185, owner decision
+# 2026-09-23), written by tools/render-dictionary-sentences.py, plus _runs.json, what each
+# paid run cost on both meters. Tracked because they are the irreplaceable half of a paid
+# render -- they cannot be regenerated without buying the audio again -- and they are what
+# the free extracted-word cut is made from. No page reads them.
+audio-alignment/**
+# QA instruments for the owner, not part of the app. This one is DEPLOYED, but to the Test
+# Hub at /test-apps/counting-art-review/ as a standalone staging page -- it must never ride
+# into word-book's production tree, where it would ship a review tool to children.
+qa/**
+# QA records written for the owner (CG-188's classification of the multi-card words, and any
+# later ones). About the work; no page reads them.
+# Dated QA notes in Markdown -- the owner's pronunciation QA snapshots and consolidations
+# (CG-185). About the work, not the app. A wildcard never matches .md, so they need this.
+# The consolidated pronunciation QA report: about the work, never shipped.
+# The QA's own findings, which `qa/**` cannot carry: a wildcard never matches Markdown
+# here, deliberately, so that publishing a document is always a named act. This one is a
+# measurement of an art-generator change and a redraw estimate -- about the work, never
+# part of the app.
+qa/*.md
+# Poster-by-poster feet/base label audit; private work evidence, never app content.
+qa/2026-10-16-labels-at-feet/LIST.md
+qa/posters-1011/PROVENANCE.md
+qa/posters-1011/NEW-POSTERS-PLAN-2026-10-13.md
+qa/posters-1011/NEW-POSTERS-PROVENANCE-2026-10-13.md
+qa/posters-1012/PROVENANCE.md
+qa/posters-1013/NUMBERS-SPLIT-PROVENANCE.md
+qa/posters-1013/LABEL-ITEM-AUDIT.md
+qa/posters-1013/BODY-SPLIT-QA.md
+qa/posters-1013/OZ-COMPLETION-PROVENANCE.md
+# Held poster-word provenance and sentence-audio render handoff; work evidence only.
+qa/posters-1015/HELD-WORD-ASSETS.md
+# Direct-label plate provenance and visual QA verdict; work evidence only.
+qa/posters-1015-direct/PROVENANCE.md
+# Split positions proposal, binary art verdicts and provenance; work evidence only.
+qa/2026-10-15-positions-split/ART-VERDICTS.md
+qa/2026-10-15-positions-split/PROPOSAL.md
+qa/2026-10-15-positions-split/PROVENANCE.md
+# Owner O/P round reports live one directory deeper than the dated top-level QA notes.
+# They are work records for review, never production app content.
+qa/owner-op-1001/jigsaw-overuse.md
+qa/2026-10-09-voice/asr-report.md
+qa/owner-op-1001/report.md
+# Owner S/T picture-correction decisions and rejected attempts; QA record only.
+qa/owner-st-1002/report.md
+# Owner U–Z picture-correction decisions and rejected attempts; QA record only.
+qa/owner-uz-1003/report.md
+# 9 October picture-fix verdicts and the one deferred sentence-audio render.
+qa/art-fixes-1009/report.md
+qa/art-fixes-1009/AUDIO-TO-RENDER.md
+# 13 October O-Z puzzle reference-edit verdicts; private QA evidence only.
+qa/art-fixes-1013/report.md
+qa/partner-redo-1009/report.md
+qa/partner-redo-1009/AUDIO-TO-RENDER.md
+# The C/D release per-card table (2026-10-02), private like every other QA record.
+qa/cd-release-1002/CARDS.md
+# Owner round-two full-size C/D art verdicts (2026-10-02), private QA evidence.
+qa/cd-owner2-1002/review.md
+# Owner round-three full-size C/D art verdicts (2026-10-02), private QA evidence.
+qa/cd-owner3-1002/review.md
+# Country-map controller-reject full-size verdict and public-domain reference record.
+qa/country4-1002/review.md
+# Count audit table and decisions (2026-10-06); private QA evidence.
+qa/count-audit-1006/report.md
+# Globe-hand full-size/card-size verdict (2026-10-06); private QA evidence.
+qa/globe-1006/report.md
+# Finished-crown full-size/card-size verdict (2026-10-07); private QA evidence.
+qa/five-crown-1007/report.md
+# Icon-card full-size/card-size verdict (2026-10-07); private QA evidence.
+qa/icon-card-1007/report.md
+# Seven-card redraw full-size/card-size verdict and month consistency audit (2026-10-07); private QA evidence.
+qa/redraw7-1007/report.md
+# 27-card user-facing-object redraw verdict (2026-10-08); private QA evidence.
+qa/redraw27-1007/report.md
+# Five-card owner-review art-fix verdict (2026-10-08); private QA evidence.
+qa/art-fixes-1008/report.md
+# Six-card owner-review follow-up verdict (2026-10-08); private QA evidence.
+qa/art-fixes-1008b/report.md
+# Hundred-chart geometry and 1–100 sequence verdict (2026-10-06); private QA evidence.
+qa/hundred-chart-1006/report.md
+# Hundred-chart native-resolution raised-hand crops (2026-10-06); private QA evidence.
+# Word Groups sense-level classification and homograph decisions; work evidence only.
+qa/2026-10-07-word-groups/QA.md
+qa/2026-10-07-room-hub/PLAN.md
+qa/2026-10-07-room-hub/PROVENANCE.md
+# Owner-made source sheets and their dated cut/contact-sheet QA are work material, not app assets.
+art-source/word-groups-icons-owner-2026-10-08/**
+# Full-resolution generated poster masters are external working assets; prompt/provenance remains private QA material below.
+qa/2026-10-08-word-group-icons/QA.md
+qa/2026-10-09-voice-b/asr-report.md
+# Held ElevenLabs candidate clips awaiting owner listening; not wired into the app (owner direction 2026-10-17).
+audio/candidates/**
