@@ -102,7 +102,7 @@
     status(text, who);
     if (!store.sound) return;
     loadNarration().then(function (map) {
-      var file = map && map[String(page)] && map[String(page)][text];
+      var file = map && ((map[String(page)] && map[String(page)][text]) || (map.shared && map.shared[text]));
       if (!file) {
         if (missing.indexOf(text) < 0) missing.push(text);
         return;                        // silent, and honestly so
