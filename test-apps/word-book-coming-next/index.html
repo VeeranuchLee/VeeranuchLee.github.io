@@ -21,7 +21,7 @@ del{background:#ffe3e3}ins{background:#dff5e9;text-decoration:none}
 .chips::-webkit-scrollbar,.letters::-webkit-scrollbar{display:none}
 .chip,.letter,.pager button,.exports button{min-height:48px;border:2.5px solid #e8cddd;border-radius:14px;background:#fff;color:#8a5c76;font:800 .95rem 'Nunito',sans-serif;padding:6px 13px;cursor:pointer;white-space:nowrap}
 .chip[aria-pressed=true],.letter[aria-pressed=true]{background:#a8386a;color:#fff;border-color:#a8386a}
-.letter{min-width:48px;padding:6px 8px}
+.letter{min-width:48px;padding:6px 8px} .letters{flex-wrap:wrap;overflow:visible} .letter:disabled{opacity:.35;cursor:default}
 .status{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;align-items:center;margin:10px 0 4px;font-weight:800;font-size:.88rem;color:#8a5c76}
 .bar{height:12px;border-radius:10px;background:#f0dcea;overflow:hidden;flex:1;min-width:120px}
 .bar i{display:block;height:100%;width:0;background:#69bda7}
@@ -159,7 +159,7 @@ const sp=e.target.closest('button.speak');if(sp)say(sp)});
 cards.addEventListener('input',e=>{if(e.target.classList.contains('note')){const art=e.target.closest('.card'),sense=art.dataset.sense,before=saved[sense]||{};saved[sense]={...before,note:e.target.value};if(before.note!==e.target.value)delete saved[sense].copied_at;persist();progress()}});
 $('#search').oninput=e=>{query=e.target.value.trim();page=1;render()};
 $('#themes').onclick=e=>{if(e.target.dataset.value){filter=e.target.dataset.value;page=1;setPressed($('#themes'),filter);render()}};
-$('#letters').onclick=e=>{if(e.target.dataset.value){letter=e.target.dataset.value;page=1;setPressed($('#letters'),letter);render()}};
+$('#letters').onclick=e=>{const b=e.target.closest('[data-value]');if(b&&!b.disabled){letter=b.dataset.value;page=1;setPressed($('#letters'),letter);render()}}; const renderCore=render; render=function(){renderCore();const keep=letter;for(const b of document.querySelectorAll('#letters .letter')){if(b.dataset.value==='All')continue;letter=b.dataset.value;const n=DATA.entries.filter(visible).length;b.disabled=n===0;b.title=n+' cards'}letter=keep};
 function pageUp(){scrollTo({top:$('#cards').offsetTop-150,behavior:'smooth'})}
 $('#prevPage').onclick=()=>{if(page>1){page--;render();pageUp()}};
 $('#nextPage').onclick=()=>{page++;render();pageUp()};
