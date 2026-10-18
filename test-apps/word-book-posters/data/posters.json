@@ -1974,68 +1974,68 @@
         "on.touching-the-top": [
           48.0,
           23.0,
-          48,
-          31
+          53.7,
+          29.7
         ],
         "in.inside": [
           42.0,
           57.0,
-          49,
-          52
+          42.2,
+          53.7
         ],
         "under.lower-than": [
           58.0,
           61.0,
-          50,
-          66
+          58.2,
+          64.18
         ],
         "behind.at-the-back-of": [
           12.0,
           50.0,
-          17,
-          48
+          17.75,
+          50.2
         ],
         "above.higher-than": [
           43.0,
           9.0,
-          50,
-          15
+          31.2,
+          18.7
         ],
         "below.lower-than": [
           57.0,
           78.0,
-          50,
-          85
+          62.38,
+          78.2
         ],
         "beside.next-to": [
           91.0,
           55.0,
-          86,
-          64
+          91.2,
+          51.7
         ],
         "over.above-and-across": [
           79.0,
           8.0,
-          72,
-          15
+          79.2,
+          15.7
         ],
         "inside.inner-place": [
           57.0,
           39.0,
-          50,
-          45
+          57.2,
+          42.7
         ],
         "outside.outer-place": [
           91.0,
           73.0,
-          86,
-          64
+          91.2,
+          76.18
         ],
         "between.in-the-middle-of": [
           50.0,
           93.0,
-          50,
-          86
+          50.2,
+          89.7
         ]
       },
       "item_boxes": {
@@ -2046,22 +2046,22 @@
           10
         ],
         "in.inside": [
-          41,
-          48,
-          8,
-          8
+          41.0,
+          48.0,
+          8.0,
+          6.45
         ],
         "under.lower-than": [
-          55,
-          60,
-          10,
-          10
+          55.0,
+          63.48,
+          10.0,
+          6.52
         ],
         "behind.at-the-back-of": [
-          12,
-          38,
-          10,
-          20
+          17.05,
+          38.0,
+          4.95,
+          20.0
         ],
         "above.higher-than": [
           22,
@@ -2070,16 +2070,16 @@
           12
         ],
         "below.lower-than": [
-          56,
-          72,
-          10,
-          10
+          61.68,
+          72.0,
+          4.32,
+          10.0
         ],
         "beside.next-to": [
-          84,
-          42,
-          10,
-          22
+          84.0,
+          42.0,
+          10.0,
+          10.45
         ],
         "over.above-and-across": [
           77,
@@ -2094,16 +2094,16 @@
           12
         ],
         "outside.outer-place": [
-          85,
-          67,
-          10,
-          12
+          85.0,
+          75.48,
+          10.0,
+          3.52
         ],
         "between.in-the-middle-of": [
-          45,
-          82,
-          10,
-          11
+          45.0,
+          82.0,
+          10.0,
+          8.45
         ]
       },
       "min_released": 3,
@@ -2119,7 +2119,9 @@
         "inside.inner-place",
         "outside.outer-place",
         "between.in-the-middle-of"
-      ]
+      ],
+      "longPointers": true,
+      "longPointersReason": "Labels sit in adjacent clear space around each relation pair; the shortest honest leaders exceed 1.5x label height (owner clearance pass, 2026-10-18)."
     },
     {
       "id": "positions-1",
@@ -2127,31 +2129,43 @@
       "group": "Where is it?",
       "layout": "position-scenes",
       "plate": "assets/posters/positions-1.webp",
-      "pointer": false,
+      "pointer": true,
       "labels": {
         "on.touching-the-top": [
           17.0,
-          27.0
+          47.0,
+          17.2,
+          34.2
         ],
         "in.inside": [
           47.0,
-          29.0
+          49.0,
+          47.2,
+          35.2
         ],
         "under.lower-than": [
           80.0,
-          41.0
+          50.0,
+          80.2,
+          46.7
         ],
         "over.above-and-across": [
-          16.5,
-          61.0
+          27.0,
+          56.0,
+          20.7,
+          56.2
         ],
         "beside.next-to": [
           38.0,
-          74.0
+          91.5,
+          38.2,
+          83.2
         ],
         "between.in-the-middle-of": [
           81.0,
-          74.0
+          91.5,
+          81.2,
+          82.2
         ]
       },
       "item_boxes": {
@@ -2168,15 +2182,15 @@
           13
         ],
         "under.lower-than": [
-          75,
-          34,
-          10,
-          14
+          75.0,
+          34.0,
+          10.0,
+          13.44
         ],
         "over.above-and-across": [
           8,
           54,
-          17,
+          13.4,
           14
         ],
         "beside.next-to": [
@@ -2232,7 +2246,9 @@
         "over.above-and-across",
         "beside.next-to",
         "between.in-the-middle-of"
-      ]
+      ],
+      "longPointers": true,
+      "longPointersReason": "Relation labels sit on the clear floor beside/below each complete pair after the owner clearance pass (2026-10-18); leaders back to the pairs legitimately exceed 1.5x label height."
     },
     {
       "id": "positions-2",
@@ -2240,27 +2256,37 @@
       "group": "Where is it?",
       "layout": "position-scenes",
       "plate": "assets/posters/positions-2.webp",
-      "pointer": false,
+      "pointer": true,
       "labels": {
         "above.higher-than": [
           19.5,
-          17.0
+          28.0,
+          19.7,
+          23.2
         ],
         "below.lower-than": [
           55.0,
-          40.0
+          51.0,
+          52.2,
+          42.2
         ],
         "inside.inner-place": [
           47.0,
-          81.0
+          94.0,
+          47.2,
+          77.2
         ],
         "outside.outer-place": [
           79.0,
-          36.0
+          48.0,
+          79.2,
+          42.2
         ],
         "behind.at-the-back-of": [
           84.5,
-          69.0
+          85.0,
+          84.7,
+          76.2
         ]
       },
       "item_boxes": {
@@ -2329,7 +2355,9 @@
         "inside.inner-place",
         "outside.outer-place",
         "behind.at-the-back-of"
-      ]
+      ],
+      "longPointers": true,
+      "longPointersReason": "Relation labels sit immediately below/beside each pair after the owner clearance pass (2026-10-18); leaders back to the pairs legitimately exceed 1.5x label height."
     },
     {
       "id": "fruit-stall",
@@ -2489,9 +2517,9 @@
           "clip": "audio/posters/sentences/banana.fruit.m4a"
         },
         "orange.fruit": {
-          "text": "An orange sits in the wooden crate.",
+          "text": "Each orange rests in a wicker basket.",
           "word": "orange",
-          "clip": "audio/posters/sentences/orange.fruit.m4a"
+          "clip": "audio/posters/sentences/orange.fruit-v2.m4a"
         },
         "grape.fruit": {
           "text": "Each grape grows in a bunch.",
@@ -2499,9 +2527,9 @@
           "clip": "audio/posters/sentences/grape.fruit.m4a"
         },
         "mango.fruit": {
-          "text": "Each mango lies in the wooden trough.",
+          "text": "Each mango rests in a wooden crate.",
           "word": "mango",
-          "clip": "audio/posters/sentences/mango.fruit.m4a"
+          "clip": "audio/posters/sentences/mango.fruit-v2.m4a"
         },
         "watermelon.fruit": {
           "text": "The big watermelon sits on the scale.",
@@ -2519,24 +2547,24 @@
           "clip": "audio/sentences/pineapple.fruit.m4a"
         },
         "lemon.fruit": {
-          "text": "The yellow lemon sits in the crate.",
+          "text": "Each lemon rests in a wicker basket.",
           "word": "lemon",
-          "clip": "audio/posters/sentences/lemon.fruit.m4a"
+          "clip": "audio/posters/sentences/lemon.fruit-v2.m4a"
         },
         "cherry.fruit": {
-          "text": "One red cherry sits in the basket.",
+          "text": "Each cherry sits in the wicker basket.",
           "word": "cherry",
-          "clip": "audio/posters/sentences/cherry.fruit.m4a"
+          "clip": "audio/posters/sentences/cherry.fruit-v2.m4a"
         },
         "coconut.fruit": {
-          "text": "The coconut sits in the wooden trough.",
+          "text": "Each coconut has a rough brown shell.",
           "word": "coconut",
-          "clip": "audio/posters/sentences/coconut.fruit.m4a"
+          "clip": "audio/posters/sentences/coconut.fruit-v2.m4a"
         },
         "melon.fruit": {
-          "text": "The round melon sits in its basket.",
+          "text": "The round melon rests in a wooden crate.",
           "word": "melon",
-          "clip": "audio/posters/sentences/melon.fruit.m4a"
+          "clip": "audio/posters/sentences/melon.fruit-v2.m4a"
         }
       }
     },
@@ -2728,19 +2756,19 @@
           "clip": "audio/posters/sentences/mangosteen.fruit.m4a"
         },
         "longan.fruit": {
-          "text": "Each longan hangs in the bunch.",
+          "text": "Each longan rests in the wicker basket.",
           "word": "longan",
-          "clip": "audio/posters/sentences/longan.fruit.m4a"
+          "clip": "audio/posters/sentences/longan.fruit-v2.m4a"
         },
         "lychee.fruit": {
-          "text": "The lychee bunch sits in the basket.",
+          "text": "Each lychee rests in the wooden bowl.",
           "word": "lychee",
-          "clip": "audio/posters/sentences/lychee.fruit.m4a"
+          "clip": "audio/posters/sentences/lychee.fruit-v2.m4a"
         },
         "guava.fruit": {
-          "text": "The guava sits in the big basket.",
+          "text": "The green guava sits in the white bowl.",
           "word": "guava",
-          "clip": "audio/posters/sentences/guava.fruit.m4a"
+          "clip": "audio/posters/sentences/guava.fruit-v2.m4a"
         },
         "jackfruit.fruit": {
           "text": "The jackfruit has a bumpy skin.",
@@ -2931,9 +2959,9 @@
           "clip": "audio/posters/sentences/potato.vegetable.m4a"
         },
         "tomato.food": {
-          "text": "One tomato sits in the harvest basket.",
+          "text": "Each tomato rests in the harvest basket.",
           "word": "tomato",
-          "clip": "audio/posters/sentences/tomato.food.m4a"
+          "clip": "audio/posters/sentences/tomato.food-v2.m4a"
         },
         "onion.vegetable": {
           "text": "Each onion pokes through the soil.",
@@ -2976,9 +3004,9 @@
           "clip": "audio/sentences/bean.food.m4a"
         },
         "pumpkin.food": {
-          "text": "The pumpkin is bigger than my head.",
+          "text": "The orange pumpkin rests on the soil.",
           "word": "pumpkin",
-          "clip": "audio/sentences/pumpkin.food.m4a"
+          "clip": "audio/posters/sentences/pumpkin.food-v2.m4a"
         }
       }
     },
@@ -3056,13 +3084,13 @@
           13,
           61,
           4,
-          11
+          17.87
         ],
         "chilli.food": [
           25,
           5,
-          4,
-          15
+          4.42,
+          22.87
         ],
         "garlic.food": [
           48,
@@ -3092,7 +3120,7 @@
           86,
           27,
           4,
-          11
+          17.87
         ],
         "sweet-potato.vegetable": [
           81,
@@ -3115,9 +3143,9 @@
       ],
       "sentences": {
         "aubergine.vegetable": {
-          "text": "The purple aubergine hangs on the string.",
+          "text": "The purple aubergine rests in a hanging basket.",
           "word": "aubergine",
-          "clip": "audio/posters/sentences/aubergine.vegetable.m4a"
+          "clip": "audio/posters/sentences/aubergine.vegetable-v2.m4a"
         },
         "cauliflower.vegetable": {
           "text": "The white cauliflower sits in the basket.",
@@ -3125,19 +3153,19 @@
           "clip": "audio/posters/sentences/cauliflower.vegetable.m4a"
         },
         "chilli.food": {
-          "text": "Each chilli hangs on the string.",
+          "text": "Each red chilli rests in a hanging basket.",
           "word": "chilli",
-          "clip": "audio/posters/sentences/chilli.food.m4a"
+          "clip": "audio/posters/sentences/chilli.food-v2.m4a"
         },
         "garlic.food": {
-          "text": "The garlic braid lies on the sill.",
+          "text": "The garlic braid hangs beside the window.",
           "word": "garlic",
-          "clip": "audio/posters/sentences/garlic.food.m4a"
+          "clip": "audio/posters/sentences/garlic.food-v2.m4a"
         },
         "ginger.food": {
-          "text": "The ginger root sits on the sill.",
+          "text": "Each ginger root rests in a metal colander.",
           "word": "ginger",
-          "clip": "audio/posters/sentences/ginger.food.m4a"
+          "clip": "audio/posters/sentences/ginger.food-v2.m4a"
         },
         "pepper.vegetable": {
           "text": "The pepper sits in the colander.",
@@ -3150,9 +3178,9 @@
           "clip": "audio/posters/sentences/spinach.vegetable.m4a"
         },
         "spring-onion.vegetable": {
-          "text": "One spring onion stands in the jar.",
+          "text": "The spring onion stands upright in a jar.",
           "word": "spring onion",
-          "clip": "audio/posters/sentences/spring-onion.vegetable.m4a"
+          "clip": "audio/posters/sentences/spring-onion.vegetable-v2.m4a"
         },
         "sweet-potato.vegetable": {
           "text": "The sweet potato lies in the basket.",
@@ -3188,10 +3216,10 @@
           48
         ],
         "sheep.animal": [
-          38.0,
-          51.0,
-          38,
-          43
+          46.0,
+          52.0,
+          46,
+          49
         ],
         "goat.animal": [
           67.0,
@@ -3247,13 +3275,13 @@
           12,
           22,
           4,
-          11
+          17.87
         ],
         "horse.animal": [
-          33,
+          30.99,
           15,
-          4,
-          11
+          6.01,
+          24.87
         ],
         "pig.animal": [
           19,
@@ -3264,8 +3292,8 @@
         "sheep.animal": [
           36,
           41,
-          4,
-          11
+          10.8,
+          11.87
         ],
         "goat.animal": [
           61,
@@ -3277,19 +3305,19 @@
           81,
           25,
           4,
-          11
+          27.87
         ],
         "duck.animal": [
           9,
           80,
-          4,
+          8.82,
           11
         ],
         "chicken.animal": [
           53,
           56,
-          4,
-          11
+          5.84,
+          14.87
         ],
         "dog.animal": [
           71,
@@ -3301,7 +3329,7 @@
           84,
           57,
           4,
-          11
+          17.87
         ],
         "mouse.animal": [
           89,
@@ -3313,7 +3341,7 @@
           38,
           72,
           4,
-          11
+          17.87
         ]
       },
       "min_released": 3,
@@ -3333,19 +3361,19 @@
       ],
       "sentences": {
         "cow.animal": {
-          "text": "The cow eats grass in the field.",
+          "text": "The cow stands on the green grass.",
           "word": "cow",
-          "clip": "audio/sentences/cow.animal.m4a"
+          "clip": "audio/posters/sentences/cow.animal-v2.m4a"
         },
         "horse.animal": {
-          "text": "The horse trots beside the fence.",
+          "text": "The horse stands beside the fence.",
           "word": "horse",
-          "clip": "audio/sentences/horse.animal.m4a"
+          "clip": "audio/posters/sentences/horse.animal-v2.m4a"
         },
         "pig.animal": {
-          "text": "The pig rolls in a muddy puddle.",
+          "text": "The pig stands in a muddy puddle.",
           "word": "pig",
-          "clip": "audio/sentences/pig.animal.m4a"
+          "clip": "audio/posters/sentences/pig.animal-v2.m4a"
         },
         "sheep.animal": {
           "text": "The sheep has a thick woolly coat.",
@@ -3353,9 +3381,9 @@
           "clip": "audio/sentences/sheep.animal.m4a"
         },
         "goat.animal": {
-          "text": "The goat stands on a rock.",
+          "text": "The goat stands on the grass.",
           "word": "goat",
-          "clip": "audio/sentences/goat.animal.m4a"
+          "clip": "audio/posters/sentences/goat.animal-v2.m4a"
         },
         "donkey.animal": {
           "text": "The donkey stands by the fence.",
@@ -3368,24 +3396,24 @@
           "clip": "audio/sentences/duck.animal.m4a"
         },
         "chicken.animal": {
-          "text": "The chicken scratches the ground.",
+          "text": "The chicken stands on the grass.",
           "word": "chicken",
-          "clip": "audio/sentences/chicken.animal.m4a"
+          "clip": "audio/posters/sentences/chicken.animal-v2.m4a"
         },
         "dog.animal": {
-          "text": "The dog rests on the porch.",
+          "text": "The dog sits on the grass.",
           "word": "dog",
-          "clip": "audio/posters/sentences/dog.animal.m4a"
+          "clip": "audio/posters/sentences/dog.animal-v2.m4a"
         },
         "cat.animal": {
-          "text": "The cat sits on the hay bale.",
+          "text": "The cat sits on the grass.",
           "word": "cat",
-          "clip": "audio/posters/sentences/cat.animal.m4a"
+          "clip": "audio/posters/sentences/cat.animal-v2.m4a"
         },
         "mouse.animal": {
-          "text": "The mouse sits by the grain sack.",
+          "text": "The mouse sits on a grey rock.",
           "word": "mouse",
-          "clip": "audio/posters/sentences/mouse.animal.m4a"
+          "clip": "audio/posters/sentences/mouse.animal-v2.m4a"
         },
         "goose.animal": {
           "text": "The goose stretches its long neck.",
@@ -3480,7 +3508,7 @@
           15,
           11,
           4,
-          11
+          17.87
         ],
         "tiger.animal": [
           40,
@@ -3492,24 +3520,24 @@
           65,
           19,
           4,
-          11
+          17.87
         ],
         "giraffe.animal": [
           88,
           11,
           4,
-          11
+          17.87
         ],
         "monkey.animal": [
-          16,
+          13.0,
           43,
-          4,
+          7.0,
           11
         ],
         "bear.animal": [
-          37,
+          33.06,
           48,
-          4,
+          7.94,
           11
         ],
         "zebra.animal": [
@@ -3566,9 +3594,9 @@
       ],
       "sentences": {
         "lion.animal": {
-          "text": "The lion sits on the rock.",
+          "text": "The lion stands on a flat rock.",
           "word": "lion",
-          "clip": "audio/posters/sentences/lion.animal.m4a"
+          "clip": "audio/posters/sentences/lion.animal-v2.m4a"
         },
         "tiger.animal": {
           "text": "The tiger has dark stripes.",
@@ -3581,14 +3609,14 @@
           "clip": "audio/posters/sentences/elephant.animal.m4a"
         },
         "giraffe.animal": {
-          "text": "A giraffe reaches the highest leaves.",
+          "text": "The giraffe stands in the sunny grassland.",
           "word": "giraffe",
-          "clip": "audio/sentences/giraffe.animal.m4a"
+          "clip": "audio/posters/sentences/giraffe.animal-v2.m4a"
         },
         "monkey.animal": {
-          "text": "A monkey swings from a branch.",
+          "text": "The monkey sits on a tree branch.",
           "word": "monkey",
-          "clip": "audio/sentences/monkey.animal.m4a"
+          "clip": "audio/posters/sentences/monkey.animal-v2.m4a"
         },
         "bear.animal": {
           "text": "The bear stands by the river.",
@@ -3596,14 +3624,14 @@
           "clip": "audio/posters/sentences/bear.animal.m4a"
         },
         "zebra.animal": {
-          "text": "The zebra walks along the path.",
+          "text": "The zebra stands beside the water.",
           "word": "zebra",
-          "clip": "audio/posters/sentences/zebra.animal.m4a"
+          "clip": "audio/posters/sentences/zebra.animal-v2.m4a"
         },
         "panda.animal": {
-          "text": "A panda sits beside some bamboo.",
+          "text": "The panda walks beside the bamboo.",
           "word": "panda",
-          "clip": "audio/sentences/panda.animal.m4a"
+          "clip": "audio/posters/sentences/panda.animal-v2.m4a"
         },
         "fox.animal": {
           "text": "The fox stands at the wood's edge.",
@@ -3616,14 +3644,14 @@
           "clip": "audio/posters/sentences/kangaroo.animal.m4a"
         },
         "koala.animal": {
-          "text": "The koala sits on the hill.",
+          "text": "The koala clings to the tree trunk.",
           "word": "koala",
-          "clip": "audio/posters/sentences/koala.animal.m4a"
+          "clip": "audio/posters/sentences/koala.animal-v2.m4a"
         },
         "wolf.animal": {
-          "text": "The wolf howls on the hill.",
+          "text": "The wolf stands on a flat rock.",
           "word": "wolf",
-          "clip": "audio/sentences/wolf.animal.m4a"
+          "clip": "audio/posters/sentences/wolf.animal-v2.m4a"
         }
       }
     },
@@ -3713,12 +3741,12 @@
           52,
           36,
           4,
-          11
+          13.37
         ],
         "dolphin.animal": [
-          35,
+          34.14,
           30,
-          4,
+          4.86,
           15
         ],
         "crab.animal": [
@@ -3731,7 +3759,7 @@
           13,
           34,
           4,
-          11
+          17.86
         ],
         "shark.animal": [
           67,
@@ -3743,37 +3771,37 @@
           73,
           21,
           4,
-          11
+          17.87
         ],
         "octopus.animal": [
           11,
           71,
           4,
-          11
+          17.87
         ],
         "turtle.animal": [
           45,
           59,
           4,
-          11
+          17.86
         ],
         "starfish.animal": [
           65,
           79,
           4,
-          11
+          15.87
         ],
         "seahorse.animal": [
-          82,
+          81.04,
           63,
-          4,
-          11
+          4.96,
+          13.86
         ],
         "seal.animal": [
           13,
           5,
           4,
-          11
+          17.87
         ],
         "shrimp.animal": [
           85,
@@ -3799,9 +3827,9 @@
       ],
       "sentences": {
         "fish.animal": {
-          "text": "A silver fish swims past the coral.",
+          "text": "An orange fish swims through the water.",
           "word": "fish",
-          "clip": "audio/sentences/fish.animal.m4a"
+          "clip": "audio/posters/sentences/fish.animal-v2.m4a"
         },
         "dolphin.animal": {
           "text": "The dolphin swims in the bright sea.",
@@ -3809,9 +3837,9 @@
           "clip": "audio/posters/sentences/dolphin.animal.m4a"
         },
         "crab.animal": {
-          "text": "The crab walks sideways across the sand.",
+          "text": "The orange crab stands on the sand.",
           "word": "crab",
-          "clip": "audio/sentences/crab.animal.m4a"
+          "clip": "audio/posters/sentences/crab.animal-v2.m4a"
         },
         "jellyfish.animal": {
           "text": "The jellyfish drifts through the water.",
@@ -3829,9 +3857,9 @@
           "clip": "audio/posters/sentences/whale.animal.m4a"
         },
         "octopus.animal": {
-          "text": "The octopus slips into a rocky hole.",
+          "text": "The octopus rests inside a rocky hollow.",
           "word": "octopus",
-          "clip": "audio/sentences/octopus.animal.m4a"
+          "clip": "audio/posters/sentences/octopus.animal-v2.m4a"
         },
         "turtle.animal": {
           "text": "A sea turtle swims past the reef.",
@@ -3844,9 +3872,9 @@
           "clip": "audio/posters/sentences/starfish.animal.m4a"
         },
         "seahorse.animal": {
-          "text": "The seahorse holds on to the coral.",
+          "text": "The seahorse floats beside the coral.",
           "word": "seahorse",
-          "clip": "audio/posters/sentences/seahorse.animal.m4a"
+          "clip": "audio/posters/sentences/seahorse.animal-v2.m4a"
         },
         "seal.animal": {
           "text": "The seal rests on a rock.",
@@ -3854,9 +3882,9 @@
           "clip": "audio/sentences/seal.animal.m4a"
         },
         "shrimp.animal": {
-          "text": "The little shrimp hides by the seaweed.",
+          "text": "The shrimp swims above the colourful coral.",
           "word": "shrimp",
-          "clip": "audio/posters/sentences/shrimp.animal.m4a"
+          "clip": "audio/posters/sentences/shrimp.animal-v2.m4a"
         }
       }
     },
@@ -3946,49 +3974,49 @@
           10,
           7,
           4,
-          11
+          18.87
         ],
         "bee.insect": [
           29,
           16,
           4,
-          15
+          16.87
         ],
         "butterfly.insect": [
           53,
           2,
           20,
-          29
+          30.87
         ],
         "ladybird.insect": [
           8,
           36,
           4,
-          11
+          12.87
         ],
         "beetle.insect": [
           24,
           49,
           4,
-          11
+          12.87
         ],
         "grasshopper.insect": [
           47,
           38,
           21,
-          19
+          20.87
         ],
         "dragonfly.insect": [
           86,
           16,
           4,
-          11
+          13.87
         ],
         "caterpillar.insect-larva": [
           82,
           43,
           4,
-          11
+          13.87
         ],
         "fly.insect": [
           2,
@@ -4000,19 +4028,19 @@
           41,
           70,
           4,
-          15
+          23.87
         ],
         "snail.animal": [
           74,
           76,
           4,
-          11
+          19.87
         ],
         "spider.animal": [
           88,
           68,
           4,
-          11
+          13.87
         ]
       },
       "min_released": 3,
@@ -4032,14 +4060,14 @@
       ],
       "sentences": {
         "ant.insect": {
-          "text": "The ants march along the wall.",
+          "text": "The ant walks across the brick wall.",
           "word": "ant",
-          "clip": "audio/posters/sentences/ant.insect.m4a"
+          "clip": "audio/posters/sentences/ant.insect-v2.m4a"
         },
         "bee.insect": {
-          "text": "The bee lands on the flower.",
+          "text": "The bee hovers above the purple flowers.",
           "word": "bee",
-          "clip": "audio/posters/sentences/bee.insect.m4a"
+          "clip": "audio/posters/sentences/bee.insect-v2.m4a"
         },
         "butterfly.insect": {
           "text": "The butterfly has pretty wings.",
@@ -4052,9 +4080,9 @@
           "clip": "audio/sentences/ladybird.insect.m4a"
         },
         "beetle.insect": {
-          "text": "The beetle hides under the log.",
+          "text": "The beetle crawls over the fallen log.",
           "word": "beetle",
-          "clip": "audio/posters/sentences/beetle.insect.m4a"
+          "clip": "audio/posters/sentences/beetle.insect-v2.m4a"
         },
         "grasshopper.insect": {
           "text": "The grasshopper sits on a grass blade.",
@@ -4062,14 +4090,14 @@
           "clip": "audio/posters/sentences/grasshopper.insect.m4a"
         },
         "dragonfly.insect": {
-          "text": "The dragonfly hovers over the puddle.",
+          "text": "The dragonfly rests on the wooden fence.",
           "word": "dragonfly",
-          "clip": "audio/posters/sentences/dragonfly.insect.m4a"
+          "clip": "audio/posters/sentences/dragonfly.insect-v2.m4a"
         },
         "caterpillar.insect-larva": {
-          "text": "The caterpillar crawls along the fence.",
+          "text": "The caterpillar crawls across a green leaf.",
           "word": "caterpillar",
-          "clip": "audio/posters/sentences/caterpillar.insect-larva.m4a"
+          "clip": "audio/posters/sentences/caterpillar.insect-larva-v2.m4a"
         },
         "fly.insect": {
           "text": "The little fly has two wings.",
@@ -4077,19 +4105,19 @@
           "clip": "audio/posters/sentences/fly.insect.m4a"
         },
         "moth.insect": {
-          "text": "The moth rests on the garden wall.",
+          "text": "The moth rests on a grey rock.",
           "word": "moth",
-          "clip": "audio/posters/sentences/moth.insect.m4a"
+          "clip": "audio/posters/sentences/moth.insect-v2.m4a"
         },
         "snail.animal": {
-          "text": "The snail climbs the flower pot.",
+          "text": "The snail crawls across the soil.",
           "word": "snail",
-          "clip": "audio/posters/sentences/snail.animal.m4a"
+          "clip": "audio/posters/sentences/snail.animal-v2.m4a"
         },
         "spider.animal": {
-          "text": "A spider spins a web.",
+          "text": "The spider waits in its web.",
           "word": "spider",
-          "clip": "audio/sentences/spider.animal.m4a"
+          "clip": "audio/posters/sentences/spider.animal-v2.m4a"
         }
       }
     },
@@ -4316,9 +4344,9 @@
           "clip": "audio/posters/sentences/tired.needing-rest.m4a"
         },
         "lonely.sad-to-be-alone": {
-          "text": "The lonely child looks towards the window.",
+          "text": "The lonely child looks quietly to one side.",
           "word": "lonely",
-          "clip": "audio/posters/sentences/lonely.sad-to-be-alone.m4a"
+          "clip": "audio/posters/sentences/lonely.sad-to-be-alone-v2.m4a"
         },
         "curious.wanting-to-discover": {
           "text": "The curious child leans in to look.",
@@ -4418,7 +4446,7 @@
         "notebook.writing-book": [
           60,
           48,
-          4,
+          5.83,
           15
         ],
         "atlas.map-book": [
@@ -4430,14 +4458,14 @@
         "dictionary.word-reference": [
           82,
           15,
-          4,
-          11
+          12.39,
+          28.87
         ],
         "blackboard.writing-board": [
           14,
           11,
           4,
-          11
+          17.87
         ],
         "desk.work-table": [
           0,
@@ -4449,25 +4477,25 @@
           16,
           73,
           4,
-          11
+          17.87
         ],
         "bookmark.page-marker": [
           25,
           35,
           10,
-          16
+          16.72
         ],
         "crayon.colouring-tool": [
           77,
           42,
-          4,
-          15
+          4.82,
+          18.87
         ],
         "chalk.writing-material": [
           5,
           32,
           14,
-          10
+          11.87
         ],
         "marker.writing-tool": [
           61,
@@ -4539,9 +4567,9 @@
           "clip": "audio/posters/sentences/bookmark.page-marker.m4a"
         },
         "crayon.colouring-tool": {
-          "text": "The crayons stand in the jam jar.",
+          "text": "Each crayon lies flat in a colourful group.",
           "word": "crayon",
-          "clip": "audio/posters/sentences/crayon.colouring-tool.m4a"
+          "clip": "audio/posters/sentences/crayon.colouring-tool-v2.m4a"
         },
         "chalk.writing-material": {
           "text": "The chalk sits beside the blackboard.",
@@ -4549,9 +4577,9 @@
           "clip": "audio/posters/sentences/chalk.writing-material.m4a"
         },
         "marker.writing-tool": {
-          "text": "The marker lies on the tray.",
+          "text": "The marker lies flat near the front edge.",
           "word": "marker",
-          "clip": "audio/posters/sentences/marker.writing-tool.m4a"
+          "clip": "audio/posters/sentences/marker.writing-tool-v2.m4a"
         },
         "eraser.rubbing-tool": {
           "text": "The eraser sits beside the marker.",
@@ -4621,7 +4649,7 @@
         "pencil.writing-tool": [
           25,
           13,
-          4,
+          4.64,
           15
         ],
         "pen.writing-tool": [
@@ -4646,25 +4674,25 @@
           36,
           64,
           4,
-          15
+          21.87
         ],
         "sharpener.pencil-tool": [
           60,
           69,
           4,
-          15
+          21.87
         ],
         "pencil-case.stationery-container": [
           53,
           40,
           4,
-          11
+          17.87
         ],
         "glue.sticky-material": [
           85,
           66,
           4,
-          11
+          17.87
         ]
       },
       "min_released": 3,
@@ -4705,9 +4733,9 @@
           "clip": "audio/posters/sentences/scissors.cutting-tool.m4a"
         },
         "sharpener.pencil-tool": {
-          "text": "The sharpener sits near the pencil.",
+          "text": "The green sharpener rests near the bottom edge.",
           "word": "sharpener",
-          "clip": "audio/posters/sentences/sharpener.pencil-tool.m4a"
+          "clip": "audio/posters/sentences/sharpener.pencil-tool-v2.m4a"
         },
         "pencil-case.stationery-container": {
           "text": "The pencil case lies open on the desk.",
@@ -4807,7 +4835,7 @@
           13,
           22,
           4,
-          15
+          24.87
         ],
         "dress.clothing": [
           25,
@@ -4816,64 +4844,64 @@
           15
         ],
         "trousers.clothing": [
-          39,
+          33.05,
           38,
-          4,
-          15
+          9.95,
+          19.87
         ],
         "shorts.clothing": [
-          50,
+          41.04,
           21,
-          4,
-          15
+          12.96,
+          15.87
         ],
         "skirt.clothing": [
-          60,
+          53.67,
           37,
-          4,
+          10.33,
           15
         ],
         "sock.clothing": [
-          68,
+          57.04,
           19,
-          4,
-          13
+          14.96,
+          14.87
         ],
         "shoe.footwear": [
           23,
           73,
           4,
-          11
+          17.87
         ],
         "boot.footwear": [
           61,
           71,
           4,
-          13
+          19.87
         ],
         "jumper.clothing": [
-          76,
+          69.92,
           36,
-          4,
+          10.08,
           15
         ],
         "jacket.clothing": [
-          86,
+          83.57,
           26,
-          4,
+          6.43,
           11
         ],
         "coat.clothing": [
           92,
           60,
           4,
-          11
+          24.87
         ],
         "hat.headwear": [
           92,
           5,
           4,
-          9
+          15.87
         ]
       },
       "min_released": 3,
@@ -4933,9 +4961,9 @@
           "clip": "audio/posters/sentences/boot.footwear.m4a"
         },
         "jumper.clothing": {
-          "text": "The jumper hangs at the end of the line.",
+          "text": "The green jumper hangs on the washing line.",
           "word": "jumper",
-          "clip": "audio/posters/sentences/jumper.clothing.m4a"
+          "clip": "audio/posters/sentences/jumper.clothing-v2.m4a"
         },
         "jacket.clothing": {
           "text": "The jacket flaps in the breeze.",
@@ -5040,13 +5068,13 @@
           7,
           7,
           4,
-          13
+          19.86
         ],
         "scarf.clothing": [
-          19,
+          18.01,
           22,
-          4,
-          15
+          4.99,
+          28.87
         ],
         "glove.clothing": [
           86,
@@ -5055,9 +5083,9 @@
           11
         ],
         "belt.clothing": [
-          30,
+          25.52,
           23,
-          4,
+          8.48,
           15
         ],
         "apron.protective-clothing": [
@@ -5070,7 +5098,7 @@
           2,
           56,
           16,
-          10
+          10.72
         ],
         "crown.royal-headwear": [
           29,
@@ -5193,67 +5221,67 @@
       "group": "People",
       "layout": "face",
       "plate": "assets/posters/face.webp",
-      "pointer": false,
+      "pointer": true,
       "labels": {
         "head.body-part": [
-          50.0,
-          6.0,
-          50,
-          10
+          8.0,
+          8.0,
+          48.7,
+          8.2
         ],
         "hair.body-covering": [
-          17.0,
-          18.0,
-          23,
-          22
+          8.0,
+          20.0,
+          16.7,
+          20.2
         ],
         "eyebrow.body-part": [
-          29.0,
-          34.0,
-          38,
-          40
+          9.4,
+          33.0,
+          28.7,
+          33.7
         ],
         "eye.body-part": [
-          27.0,
-          47.0,
-          38,
-          48
+          8.0,
+          45.0,
+          26.7,
+          46.7
         ],
         "ear.body-part": [
-          17.0,
-          59.0,
-          27,
-          58
+          8.0,
+          57.0,
+          16.7,
+          57.2
         ],
         "cheek.body-part": [
-          27.0,
+          92.0,
           72.0,
-          35,
-          59
+          36.2,
+          72.2
         ],
         "nose.body-part": [
-          58.0,
-          52.0,
-          48,
-          56
+          92.0,
+          42.0,
+          58.2,
+          52.2
         ],
         "mouth.body-part": [
-          61.0,
-          66.0,
-          49,
-          65
+          92.0,
+          57.0,
+          61.2,
+          63.7
         ],
         "face.body-part": [
-          74.0,
-          57.0,
-          62,
-          60
+          92.0,
+          29.0,
+          74.2,
+          43.7
         ],
         "chin.body-part": [
-          58.0,
-          79.0,
-          49,
-          76
+          92.0,
+          84.0,
+          58.2,
+          79.2
         ]
       },
       "item_boxes": {
@@ -5306,10 +5334,10 @@
           4
         ],
         "face.body-part": [
-          60,
-          56,
-          15,
-          6
+          64,
+          43,
+          11,
+          4
         ],
         "chin.body-part": [
           47,
@@ -5382,7 +5410,9 @@
           "word": "chin",
           "clip": "audio/posters/sentences/chin.body-part.m4a"
         }
-      }
+      },
+      "longPointers": true,
+      "longPointersReason": "Labels sit in the clear side margins; leaders to the central face features legitimately exceed 1.5x label height (owner clearance pass, 2026-10-18)."
     },
     {
       "id": "body",
@@ -5395,62 +5425,62 @@
         "finger.body-part": [
           18.0,
           7.0,
-          22,
-          12
+          20.7,
+          10.7
         ],
         "hand.body-part": [
           82.0,
           7.0,
-          78,
-          14
+          79.2,
+          12.7
         ],
         "elbow.body-part": [
           25.0,
           22.0,
-          30,
-          22
+          29.88,
+          22.2
         ],
         "arm.body-part": [
           76.9,
           23.0,
-          69,
-          23
+          70.2,
+          23.2
         ],
         "shoulder.body-part": [
-          39.0,
-          32.0,
-          42,
-          31
+          34.0,
+          34.0,
+          40.7,
+          32.2
         ],
         "tummy.stomach-informal": [
-          58.0,
+          75.0,
           48.0,
-          52,
-          48
+          53.2,
+          48.2
         ],
         "leg.body-part": [
           36.0,
           62.0,
-          40,
-          64
+          39.36,
+          62.7
         ],
         "knee.body-part": [
-          66.0,
+          70.5,
           70.0,
-          62,
-          70
+          63.2,
+          70.2
         ],
         "foot.body-part": [
           31.0,
           91.0,
-          26,
-          91
+          24.93,
+          91.2
         ],
         "toe.body-part": [
-          72.0,
+          83.0,
           92.0,
-          75,
-          94
+          76.2,
+          92.7
         ]
       },
       "item_boxes": {
@@ -5467,10 +5497,10 @@
           4
         ],
         "elbow.body-part": [
-          28,
-          20,
-          4,
-          4
+          29.18,
+          20.0,
+          2.82,
+          4.0
         ],
         "arm.body-part": [
           67,
@@ -5491,10 +5521,10 @@
           4
         ],
         "leg.body-part": [
-          38,
-          62,
-          4,
-          4
+          38.66,
+          62.0,
+          3.34,
+          4.0
         ],
         "knee.body-part": [
           60,
@@ -5503,10 +5533,10 @@
           4
         ],
         "foot.body-part": [
-          24,
-          89,
-          4,
-          4
+          24.0,
+          89.0,
+          1.86,
+          4.0
         ],
         "toe.body-part": [
           73,
@@ -5579,7 +5609,9 @@
           "word": "toe",
           "clip": "audio/posters/sentences/toe.body-part.m4a"
         }
-      }
+      },
+      "longPointers": true,
+      "longPointersReason": "Labels sit in clear space away from the body; the tummy leader legitimately exceeds 1.5x label height (owner clearance pass, 2026-10-18)."
     },
     {
       "id": "family",
@@ -5587,79 +5619,79 @@
       "group": "People",
       "layout": "family",
       "plate": "assets/posters/family.webp",
-      "pointer": false,
+      "pointer": true,
       "labels": {
         "family.relatives": [
           54.7,
           5.5,
-          54.7,
-          3
+          53.2,
+          46.7
         ],
         "baby.very-young-child": [
-          55.0,
-          58.0,
-          55,
-          54
+          56.0,
+          59.0,
+          56.2,
+          43.2
         ],
         "boy.young-person": [
           13.0,
           92.0,
-          13,
-          89
+          24.7,
+          76.2
         ],
         "girl.young-person": [
           48.5,
           94.0,
-          43,
-          91
+          43.2,
+          88.2
         ],
         "dad.father-informal": [
-          46.0,
-          50.0,
-          46,
-          47
+          42.0,
+          5.5,
+          42.2,
+          36.7
         ],
         "mum.mother-informal": [
-          67.0,
-          54.0,
-          59,
-          51
+          68.0,
+          5.5,
+          64.2,
+          45.7
         ],
         "brother.family-role": [
           64.0,
           94.0,
-          64,
-          91
+          70.7,
+          83.2
         ],
         "grandfather.family-role": [
           10.91,
           8.6,
-          9.8,
-          6
+          16.7,
+          14.7
         ],
         "grandmother.family-role": [
           30.92,
-          10.0,
-          28.3,
-          7.5
+          13.0,
+          30.7,
+          26.7
         ],
         "aunt.family-role": [
-          78.83,
-          58.0,
-          78,
-          55
+          88.0,
+          7.0,
+          81.2,
+          24.7
         ],
         "cousin.family-role": [
           85.0,
           94.0,
-          85,
-          91
+          85.2,
+          69.2
         ],
         "daughter.family-role": [
           35.0,
           94.0,
-          35,
-          91
+          37.7,
+          71.2
         ]
       },
       "item_boxes": {
@@ -5667,7 +5699,7 @@
           50,
           46,
           4,
-          15
+          10
         ],
         "baby.very-young-child": [
           54,
@@ -5753,9 +5785,9 @@
       ],
       "sentences": {
         "family.relatives": {
-          "text": "The family stands together in the garden.",
+          "text": "The family gathers together in the garden.",
           "word": "family",
-          "clip": "audio/posters/sentences/family.relatives.m4a"
+          "clip": "audio/posters/sentences/family.relatives-v2.m4a"
         },
         "baby.very-young-child": {
           "text": "The baby is the youngest one.",
@@ -5768,19 +5800,19 @@
           "clip": "audio/posters/sentences/boy.young-person.m4a"
         },
         "girl.young-person": {
-          "text": "The girl throws the ball.",
+          "text": "The girl runs across the grass.",
           "word": "girl",
-          "clip": "audio/posters/sentences/girl.young-person.m4a"
+          "clip": "audio/posters/sentences/girl.young-person-v2.m4a"
         },
         "dad.father-informal": {
-          "text": "Dad stands with Mum and the baby.",
+          "text": "Dad kneels on the garden grass.",
           "word": "dad",
-          "clip": "audio/posters/sentences/dad.father-informal.m4a"
+          "clip": "audio/posters/sentences/dad.father-informal-v2.m4a"
         },
         "mum.mother-informal": {
-          "text": "Mum stands beside Dad in the garden.",
+          "text": "Mum kneels on the garden grass.",
           "word": "mum",
-          "clip": "audio/posters/sentences/mum.mother-informal.m4a"
+          "clip": "audio/posters/sentences/mum.mother-informal-v2.m4a"
         },
         "brother.family-role": {
           "text": "My brother plays with our cousin.",
@@ -5798,9 +5830,9 @@
           "clip": "audio/posters/sentences/grandmother.family-role.m4a"
         },
         "aunt.family-role": {
-          "text": "My aunt pushes the swing.",
+          "text": "My aunt holds the empty swing.",
           "word": "aunt",
-          "clip": "audio/posters/sentences/aunt.family-role.m4a"
+          "clip": "audio/posters/sentences/aunt.family-role-v2.m4a"
         },
         "cousin.family-role": {
           "text": "My cousin is here to play.",
@@ -5812,7 +5844,9 @@
           "word": "daughter",
           "clip": "audio/posters/sentences/daughter.family-role.m4a"
         }
-      }
+      },
+      "longPointers": true,
+      "longPointersReason": "Labels sit in the clear top/bottom margins; leaders to the people legitimately exceed 1.5x label height (owner clearance pass, 2026-10-18)."
     },
     {
       "id": "helpers",
@@ -5900,73 +5934,73 @@
           12,
           14,
           4,
-          15
+          32.87
         ],
         "nurse.occupation": [
           28,
           25,
           4,
-          15
+          21.87
         ],
         "dentist.occupation": [
           43,
           25,
           4,
-          15
+          21.87
         ],
         "firefighter.occupation": [
           58,
           14,
           4,
-          15
+          32.87
         ],
         "farmer.occupation": [
           74,
           25,
           4,
-          15
+          21.87
         ],
         "baker.occupation": [
           88,
           14,
           4,
-          15
+          32.87
         ],
         "chef.occupation": [
           12,
           53,
           4,
-          15
+          36.87
         ],
         "builder.occupation": [
           28,
           64,
           4,
-          15
+          25.87
         ],
         "driver.occupation": [
           43,
           53,
           4,
-          15
+          36.87
         ],
         "mechanic.occupation": [
           58,
           53,
           4,
-          15
+          36.87
         ],
         "astronaut.space-traveller": [
           74,
           64,
           4,
-          15
+          25.87
         ],
         "librarian.occupation": [
           88,
           53,
-          4,
-          15
+          5.98,
+          36.87
         ]
       },
       "min_released": 3,
@@ -6026,9 +6060,9 @@
           "clip": "audio/posters/sentences/builder.occupation.m4a"
         },
         "driver.occupation": {
-          "text": "The driver sits in the bus.",
+          "text": "The driver stands and waves hello.",
           "word": "driver",
-          "clip": "audio/posters/sentences/driver.occupation.m4a"
+          "clip": "audio/posters/sentences/driver.occupation-v2.m4a"
         },
         "mechanic.occupation": {
           "text": "The mechanic checks our car.",
@@ -6139,7 +6173,7 @@
           51,
           51,
           4,
-          11
+          14.87
         ],
         "bicycle.pedal-vehicle": [
           18,
@@ -6151,13 +6185,13 @@
           85,
           51,
           4,
-          11
+          14.87
         ],
         "lorry.large-goods-vehicle": [
-          17,
-          75,
-          15,
-          4
+          14.65,
+          70.07,
+          17.35,
+          8.93
         ],
         "ambulance.medical-vehicle": [
           52,
@@ -6175,13 +6209,13 @@
           25,
           38,
           4,
-          11
+          14.87
         ],
         "boat.water-vehicle": [
+          21.03,
           23,
-          23,
-          4,
-          11
+          5.97,
+          14.87
         ],
         "ferry.crossing-boat": [
           73,
@@ -6193,13 +6227,13 @@
           22,
           5,
           4,
-          9
+          15.87
         ],
         "helicopter.flying-vehicle": [
           73,
           5,
           4,
-          9
+          15.87
         ]
       },
       "min_released": 3,
@@ -6219,44 +6253,44 @@
       ],
       "sentences": {
         "car.road-vehicle": {
-          "text": "The car drives along the road.",
+          "text": "The red car is on the road.",
           "word": "car",
-          "clip": "audio/posters/sentences/car.road-vehicle.m4a"
+          "clip": "audio/posters/sentences/car.road-vehicle-v2.m4a"
         },
         "bus.road-vehicle": {
-          "text": "The big bus travels along the road.",
+          "text": "The big blue bus is on the road.",
           "word": "bus",
-          "clip": "audio/posters/sentences/bus.road-vehicle.m4a"
+          "clip": "audio/posters/sentences/bus.road-vehicle-v2.m4a"
         },
         "bicycle.pedal-vehicle": {
-          "text": "The bicycle rolls along the cycle lane.",
+          "text": "The blue bicycle is in the cycle lane.",
           "word": "bicycle",
-          "clip": "audio/posters/sentences/bicycle.pedal-vehicle.m4a"
+          "clip": "audio/posters/sentences/bicycle.pedal-vehicle-v2.m4a"
         },
         "motorbike.motor-vehicle": {
-          "text": "The motorbike zooms along the road.",
+          "text": "The red motorbike is on the road.",
           "word": "motorbike",
-          "clip": "audio/posters/sentences/motorbike.motor-vehicle.m4a"
+          "clip": "audio/posters/sentences/motorbike.motor-vehicle-v2.m4a"
         },
         "lorry.large-goods-vehicle": {
-          "text": "The long lorry drives along the road.",
+          "text": "The long white lorry is on the road.",
           "word": "lorry",
-          "clip": "audio/posters/sentences/lorry.large-goods-vehicle.m4a"
+          "clip": "audio/posters/sentences/lorry.large-goods-vehicle-v2.m4a"
         },
         "ambulance.medical-vehicle": {
-          "text": "The ambulance rushes down the road.",
+          "text": "The white ambulance is on the road.",
           "word": "ambulance",
-          "clip": "audio/posters/sentences/ambulance.medical-vehicle.m4a"
+          "clip": "audio/posters/sentences/ambulance.medical-vehicle-v2.m4a"
         },
         "fire-engine.emergency-vehicle": {
-          "text": "The fire engine races to the rescue.",
+          "text": "The red fire engine is on the road.",
           "word": "fire engine",
-          "clip": "audio/posters/sentences/fire-engine.emergency-vehicle.m4a"
+          "clip": "audio/posters/sentences/fire-engine.emergency-vehicle-v2.m4a"
         },
         "tractor.farm-vehicle": {
-          "text": "The tractor turns into the farm lane.",
+          "text": "The green tractor is on the farm lane.",
           "word": "tractor",
-          "clip": "audio/posters/sentences/tractor.farm-vehicle.m4a"
+          "clip": "audio/posters/sentences/tractor.farm-vehicle-v2.m4a"
         },
         "boat.water-vehicle": {
           "text": "The little boat sails on the river.",
@@ -6458,9 +6492,9 @@
           "clip": "audio/sentences/dining-room.room.m4a"
         },
         "hallway.passage": {
-          "text": "The hallway has the front door.",
+          "text": "The hallway has doors on both sides.",
           "word": "hallway",
-          "clip": "audio/posters/sentences/hallway.passage.m4a"
+          "clip": "audio/posters/sentences/hallway.passage-v2.m4a"
         },
         "attic.roof-space": {
           "text": "The attic is at the top of the house.",
@@ -6581,25 +6615,25 @@
           32,
           14,
           4,
-          15
+          21.87
         ],
         "mug.drinking-container": [
           40,
           14,
-          4,
-          15
+          5.83,
+          21.87
         ],
         "fork.eating-tool": [
           41,
           40,
           4,
-          15
+          15.72
         ],
         "chopsticks.eating-tool": [
           45,
           33,
           4,
-          11
+          15.67
         ],
         "knife.cutting-tool": [
           71,
@@ -6611,7 +6645,7 @@
           56,
           41,
           4,
-          15
+          15.72
         ],
         "cooker.cooking-appliance": [
           56,
@@ -6623,7 +6657,7 @@
           10,
           40,
           4,
-          15
+          21.87
         ],
         "dishwasher.appliance": [
           84,
@@ -6635,7 +6669,7 @@
           76,
           25,
           4,
-          15
+          21.87
         ],
         "apron.protective-clothing": [
           92,
@@ -6661,9 +6695,9 @@
       ],
       "sentences": {
         "bowl.dish": {
-          "text": "The bowl is full of fruit.",
+          "text": "The empty bowl sits on the worktop.",
           "word": "bowl",
-          "clip": "audio/posters/sentences/bowl.dish.m4a"
+          "clip": "audio/posters/sentences/bowl.dish-v2.m4a"
         },
         "cup.drinking-container": {
           "text": "The cup hangs on its hook.",
@@ -6900,19 +6934,19 @@
           "clip": "audio/posters/sentences/night.dark-part-of-day.m4a"
         },
         "up.towards-a-higher-place": {
-          "text": "The cat climbs up the ladder.",
+          "text": "The cat waits up on the tall stool.",
           "word": "up",
-          "clip": "audio/posters/sentences/up.towards-a-higher-place.m4a"
+          "clip": "audio/posters/sentences/up.towards-a-higher-place-v2.m4a"
         },
         "down.towards-a-lower-place": {
-          "text": "The other cat climbs down.",
+          "text": "The other cat sits down on the floor.",
           "word": "down",
-          "clip": "audio/posters/sentences/down.towards-a-lower-place.m4a"
+          "clip": "audio/posters/sentences/down.towards-a-lower-place-v2.m4a"
         },
         "full.containing-all-it-can": {
-          "text": "One glass is full to the top.",
+          "text": "The glass is not full.",
           "word": "full",
-          "clip": "audio/posters/sentences/full.containing-all-it-can.m4a"
+          "clip": "audio/posters/sentences/full.containing-all-it-can-v2.m4a"
         },
         "empty.containing-nothing": {
           "text": "The other glass is empty.",
@@ -7017,25 +7051,25 @@
           23,
           6,
           4,
-          12
+          36.87
         ],
         "diamond.shape": [
           39,
           6,
           4,
-          12
+          36.87
         ],
         "square.square-shaped": [
           55,
           6,
           4,
-          12
+          36.87
         ],
         "triangle.shape": [
           72,
           6,
           4,
-          12
+          36.87
         ],
         "cube.solid-shape": [
           20,
