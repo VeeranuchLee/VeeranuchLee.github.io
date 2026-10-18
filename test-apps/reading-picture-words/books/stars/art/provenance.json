@@ -1,0 +1,83 @@
+{
+  "tool": "Codex built-in image generation",
+  "model": "OpenAI built-in image model (model identifier not exposed)",
+  "date": "2026-10-09",
+  "style": "Soft classic watercolour storybook on cream paper; gentle washes, restrained vintage palette, calm composition, visible watercolour texture and soft edges; no text.",
+  "runtime_encoding": "Pillow WebP, 1024x1024, quality 85, method 6",
+  "images": [
+    {
+      "name": "cover",
+      "runtime_sha256": "ff231c40ff86f78cb4250ac6f2cf4bc530971b73598386e989ef350950e17a6b",
+      "master_sha256": "4909e9cfb33d7364c469873b2ce401ef1995ac2c365e78f950689636d28f569d",
+      "references": ["../../../../shared-art/kid-characters/sheets/reading-tree-cast.webp", "../../space-trip/art/cover.webp", "stars-at-night.webp", "find-orion.webp"],
+      "verdict": "PASS",
+      "attempt": 2,
+      "prompt": "Bold overhead view of the exact girl, younger boy and small 4 kg Papillon Vanilla lying on a violet picnic blanket beneath an immense indigo-violet Milky Way and faint joined constellation; preserve cast identities, outfits, scale and soft classic watercolour style; correct hands, limbs and faces; no telescope, pointing, dusk hill, orange horizon or text.",
+      "rejected": "Attempt 1 was previously accepted for anatomy and identity, then rejected by the owner because its standing hill, telescope, pointing pose and blue-orange dusk composition looked too similar to A Trip Through Space at thumbnail size."
+    },
+    {
+      "name": "stars-at-night",
+      "runtime_sha256": "40dc2ac243973b4015afbe5dc2acc9c42cc1579704157b72657fb07d26351bfe",
+      "master_sha256": "063e6cad76f237516d4a2ad74d88cfb9588f3e1831dd7a1fecd60d27c75b6394",
+      "references": ["../../space-trip/art/cover.webp", "../art-source/raw/cover-attempt1.png"],
+      "verdict": "PASS",
+      "attempt": 1,
+      "prompt": "Same cast seated together on a cream blanket at true night as many stars become visible; telescope nearby; calm and safe; exact identities and scale; no text."
+    },
+    {
+      "name": "closest-star",
+      "runtime_sha256": "1af873ff40071b0fb4fcad6fb785583de0721f3a04d03209b2e02eb39657aeb8",
+      "master_sha256": "08947af090602a78e2dc525d0605198a0ddcc1d9b25f290923cb844c576c653c",
+      "references": ["../../space-trip/art/sun.webp", "../../space-trip/art/cover.webp"],
+      "verdict": "PASS",
+      "attempt": 1,
+      "prompt": "One large dignified golden Sun, tiny Earth, and a small hill vignette of the cast and telescope, clearly teaching that the Sun is our closest star; no face or text."
+    },
+    {
+      "name": "far-away",
+      "runtime_sha256": "a4caeea75f788c56f31e7beeb746ae5287e0078291e5a942d57e9d508850192e",
+      "master_sha256": "7347d276ea93fc153ac5d2b5db8ef3129ccf16671ff582ad85d6311af8c0c7d3",
+      "references": ["../../space-trip/art/back-home.webp", "../art-source/raw/stars-at-night-attempt1.png"],
+      "verdict": "PASS",
+      "attempt": 1,
+      "prompt": "Same cast seen mostly from behind using the telescope; one point star opens into a soft inset showing its enormous glowing sphere, explaining apparent size through distance; no text."
+    },
+    {
+      "name": "star-colours",
+      "runtime_sha256": "607ac5e3afa71006a261f6ee92b6a7ee97d35b93cd001d4aab47da7282cce7a8",
+      "master_sha256": "48dca8a4e8232c436c4792f925cc18d1e20279cef6b927a0d94ed054f0d8f995",
+      "references": ["../../space-trip/art/sun.webp", "../../space-trip/art/earth-moon.webp"],
+      "verdict": "PASS",
+      "attempt": 1,
+      "prompt": "Exactly three separate natural star spheres: blue-white and brightest, golden-yellow, and red-orange with a softer glow; scientifically clear object-only page; no text."
+    },
+    {
+      "name": "find-orion",
+      "runtime_sha256": "efc88be8bb6e06ee619f951fb21e958e55118b00b5ce361810e0d9f61f5e01d2",
+      "master_sha256": "0e50cae41ca3c5842cbd3cf49de2956ba6b24a46e1a34528f607548cc658e37a",
+      "references": ["../art-source/raw/stars-at-night-attempt1.png", "../../space-trip/art/cover.webp"],
+      "verdict": "PASS",
+      "attempt": 2,
+      "prompt": "Exact cast from behind finding Orion: four corner stars, three belt stars and short sword with faint guide lines; girl points with a complete five-digit hand; no text.",
+      "rejected": "Attempt 1: REJECT — the raised pointing hand did not show an unambiguous five-finger structure."
+    },
+    {
+      "name": "why-stars-twinkle",
+      "runtime_sha256": "7433a9496dce64655e3f5af5a56c108d04d5d358b9acd78b97f159d636196140",
+      "master_sha256": "a0a5df98e4e54cef8f7a9b8781e83527a442df57e9e85e338af40bdf40336e40",
+      "references": ["../art-source/raw/far-away-attempt1.png", "../../space-trip/art/earth-moon.webp"],
+      "verdict": "PASS",
+      "attempt": 1,
+      "prompt": "A steady distant star sends light through soft moving air layers that bend the path before it reaches the hill telescope; small cast watches from behind; no text."
+    },
+    {
+      "name": "goodnight-stars",
+      "runtime_sha256": "816b739f02142c469ad2426136af6b7b23cfd4ee56c19dd2514d052daf4a77d6",
+      "master_sha256": "53e4694248b3b6c072a1743cfd1ea9c748c7878c04519f96cad53482d11e6f2a",
+      "references": ["../../space-trip/art/back-home.webp", "../art-source/raw/stars-at-night-attempt1.png"],
+      "verdict": "PASS",
+      "attempt": 1,
+      "prompt": "Late-night closing on the same hill: sleepy exact children under a cream quilt, tiny Vanilla asleep beside them, telescope angled down, calm stars above; hands tucked away; no text."
+    }
+  ]
+}

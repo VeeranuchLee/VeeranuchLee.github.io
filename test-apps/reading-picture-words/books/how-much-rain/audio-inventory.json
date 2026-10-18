@@ -1,0 +1,27 @@
+{
+  "$comment": "Controller handoff only. English narration lines exactly as rendered by the reader; Quick Words and all Thai translations are structurally excluded. No audio was rendered by this task. The current reader ultimately plays these as pre-rendered word clips.",
+  "narration_lines": [
+    "How Much Rain Fell?",
+    "A rain gauge catches the rain. Its scale tells us how many millimetres of rain fell.",
+    "One millimetre of rain is one litre of water on every square metre.",
+    "Ten millimetres of rain gives ten litres on every square metre.",
+    "Rain can fall fast or slow. Fast rain is called heavy rain. Slow rain is light rain.",
+    "The rain adds up. The total is accumulated rainfall. First five, then ten more, then fifteen more.",
+    "A short heavy shower and a long gentle rain can give the same total.",
+    "When the news says one hundred millimetres, picture one hundred litres on every square metre.",
+    "Weather stations across Thailand measure the rain.",
+    "Next time it rains, we can read our own rain gauge."
+  ],
+  "render_plan": {
+    "command": "python3 reading-app/tools/render-words.py --plan",
+    "words": [
+      "accumulated",
+      "rainfall"
+    ],
+    "word_count": 2,
+    "characters": 21,
+    "worst_case_credits": 21,
+    "result": "plan only; nothing sent and nothing spent"
+  },
+  "render_status": "word clips rendered 2026-10-05 (rain-books-3-6 integration)"
+}

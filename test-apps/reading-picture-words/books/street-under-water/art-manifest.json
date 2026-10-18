@@ -1,0 +1,18 @@
+{
+  "format": 1,
+  "book": "street-under-water",
+  "runtime": {"width": 1024, "height": 1024, "format": "webp", "quality": 85},
+  "style": "calm luminous paper-cut watercolour and gouache science storybook on textured cream paper",
+  "continuity": "shared-street-v1: fixed camera and landmark geometry shared by Books 8–10",
+  "pages": [
+    {"id": "cover", "continuity": "shared-street-v1 flooded", "scene": "Cast and grown-up on raised dry threshold observing calm flooded street; Vanilla 1/4–1/3 child height.", "acceptance": "all feet dry; exact cast; no hidden limbs; no text"},
+    {"id": "our-street", "continuity": "shared-street-v1 dry master", "scene": "Dry road, pavement, curb, lower-left drain, three steps, centre pothole, planted verge, upper-right cabinet, rubbish shelter and canal corner.", "acceptance": "all landmarks distinct and spatially reusable"},
+    {"id": "rain-keeps-falling", "continuity": "shared-street-v1 exact flooded pair", "scene": "Same camera; opaque standing water hides road, curb, drain, pothole and bottom step.", "acceptance": "camera and geometry match our-street"},
+    {"id": "where-did-everything-go", "continuity": "shared-street-v1 flooded detail", "scene": "Child-height opaque surface with subtle empty callout rings at curb, drain and pothole positions.", "acceptance": "questions readable visually without exposing hazards"},
+    {"id": "look-under-water", "continuity": "shared-street-v1 transparent cutaway", "scene": "Half-transparent water reveals curb, deep drain, pothole, uneven paving, branch, mild metal, runoff route and cabinet base.", "acceptance": "five hotspot mechanisms clear; no electrical arc"},
+    {"id": "water-can-move", "continuity": "shared-street-v1 flooded", "scene": "Single gentle flow direction carries leaf, capped bottle, branch and small empty bin; cast behind dry barrier.", "acceptance": "no person or animal in water"},
+    {"id": "water-connects-places", "continuity": "shared-neighbourhood-v1 overhead", "scene": "One connected route links road, drain, garden edge, rubbish shelter and canal; leaf and bottle travel continuously.", "acceptance": "all connections physically continuous"},
+    {"id": "hard-to-see", "continuity": "science-insets-v1", "scene": "Four calm insets: hidden metal, drain-water mixing, magnified generic germs, damaged cabinet base near water.", "acceptance": "no graphic sewage, lightning icon or child near hazard"},
+    {"id": "same-place-different-rules", "continuity": "shared-street-v1 exact dry/flooded split", "scene": "Aligned 50/50 street: cast walks on dry pavement left and stays with grown-up on raised ground right.", "acceptance": "halves share exact camera and landmark positions"}
+  ]
+}

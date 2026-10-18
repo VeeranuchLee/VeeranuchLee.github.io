@@ -1,0 +1,29 @@
+{
+ "$comment": "Two maps. \"overrides\": per-word text sent to the voice instead of the default \"<word>.\" -- for words a bare render mispronounces (the solar-storybook Sun /su:n/ lesson); keyed by the lowercased word, used by render-words.py for the tap-a-word clips. \"narration\": whole-word, case-sensitive substitutions applied by render-pages.py ONLY to the text SENT to the TTS for page narration (owner 2026-10-14: the displayed word Io is narrated \"Eye-oh\", Thai ไอโอ, not \"ee-oh\"). The displayed page text, timing words and word highlighting never change: the returned character alignment is mapped back onto the displayed text, and provenance records the substitution as \"sent_text\". Replacements are not re-substituted. Both maps stay empty until a clip fails listening QA.",
+ "overrides": {
+  "metre": "meter.",
+  "keep": "keep!",
+  "metres": "meters.",
+  "bhumibol": "Bhumibol.",
+  "chao": "Chao.",
+  "phraya": "Phraya.",
+  "sirikit": "Sirikit.",
+  "76": "seventy-six.",
+  "2061": "twenty sixty-one.",
+  "600": "six hundred.",
+  "687": "six hundred and eighty-seven.",
+  "io": "Eye-oh.",
+  "europa": "Europa.",
+  "ganymede": "Ganymede.",
+  "callisto": "Callisto.",
+  "olympus": "Olympus.",
+  "tharsis": "Tharsis.",
+  "valles": "Valles.",
+  "marineris": "Marineris.",
+  "martian": "Martian.",
+  "nebulae": "nebulae."
+ },
+ "narration": {
+  "Io": "Eye-oh"
+ }
+}
