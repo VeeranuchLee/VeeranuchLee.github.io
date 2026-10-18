@@ -1,7 +1,7 @@
 {
   "word": "Coming Next 288 held word clips",
   "generated": "2026-10-18",
-  "renders": "controller, render-word-candidates.py, spec word-book/tools/word-candidates-2026-10-14-coming-next/spec.json; run ledger word-book/audio-alignment/sentences/_runs.json (eleven_v4, Alice Xb7hH8MSUJpSbSDYk0k2, one Plain take per sense, owner 2026-10-14). Three word clips (dynasty, laboratory, fig) were replaced on 2026-10-15 from the owner review batch 1/2 takes named in the spec. fig was replaced AGAIN on 2026-10-15 evening: every eleven_v4 take transcribed as Figure (batch-2 takes 1-3 plus three voicefix variants), so the held clip is the eleven_flash_v2_5 take that passed local ASR — a noted one-off exception to the batch's v4 default; fig-voicefix-asr-report.md is the gate record.",
+  "renders": "controller, render-word-candidates.py, spec word-book/tools/word-candidates-2026-10-14-coming-next/spec.json; run ledger word-book/audio-alignment/sentences/_runs.json (eleven_v4, Alice Xb7hH8MSUJpSbSDYk0k2, one Plain take per sense, owner 2026-10-14). Three word clips (dynasty, laboratory, fig) were replaced on 2026-10-15 from the owner review batch 1/2 takes named in the spec. fig was replaced AGAIN on 2026-10-15 evening: every eleven_v4 take transcribed as Figure (batch-2 takes 1-3 plus three voicefix variants), so the held clip is the eleven_flash_v2_5 take that passed local ASR — a noted one-off exception to the batch's v4 default; fig-voicefix-asr-report.md is the gate record. Owner batch 5 (2026-10-18) promoted two batch-4 A/B/C listening choices into the runtime bank: squeal Take A (eleven_flash_v2_5) and gasp Take B (eleven_multilingual_v2) — takes encoded from their already-paid masters in commit 18fa7997e and copied byte-for-byte; no new render.",
   "encode": "afconvert -f m4af -d aac -c 1 -b 64000 -- the word-book/audio/words bank settings (mono AAC 64 kbps, 44.1 kHz); straight transcode, no trim, no level change; afconvert only, never PyAV/ffmpeg",
   "ships": "held candidate bank copied to staging only; NOT added to production word-book/audio/words",
   "count": 288,
@@ -1154,12 +1154,12 @@
       "sense": "gasp.breathe-in-suddenly",
       "word": "gasp",
       "text": "gasp.",
-      "model": "eleven_v4",
+      "model": "eleven_multilingual_v2",
       "voice": "Alice - Clear, Engaging, Educational (British)",
-      "master": "word-book/audio-source/word-candidates/gasp.breathe-in-suddenly.word.owner-batch03-calm1.mp3",
-      "master_sha256": "db67c066b83808f84408a8549b4f6d155a34de8b530cc37d33420630c04b1495",
+      "master": "word-book/audio-source/word-candidates/gasp.breathe-in-suddenly.word.owner-batch04-take-b.mp3",
+      "master_sha256": "9570c2837a6051bb61c2de45214059cb732e4846f026c8f1b449c37cdf1adda8",
       "m4a": "audio/words/gasp.breathe-in-suddenly.m4a",
-      "m4a_sha256": "479802e433362dda6dfa98cdce26bdec7a161fdf56cf26eecc91f16b05ae9198"
+      "m4a_sha256": "8796eda53525656c2306a43af46ea601c5240c3902ae4a1bb5037072c4682b9c"
     },
     {
       "sense": "genre.kind-of-art",
@@ -2672,12 +2672,12 @@
       "sense": "squeal.make-high-loud-cry",
       "word": "squeal",
       "text": "squeal.",
-      "model": "eleven_v4",
+      "model": "eleven_flash_v2_5",
       "voice": "Alice - Clear, Engaging, Educational (British)",
-      "master": "word-book/audio-source/word-candidates/squeal.make-high-loud-cry.word.owner-batch03-calm1.mp3",
-      "master_sha256": "38f3a34b9567e0743cf347fccb220b8c8caebcaecde2cb476b23ca8736135d81",
+      "master": "word-book/audio-source/word-candidates/squeal.make-high-loud-cry.word.owner-batch04-take-a.mp3",
+      "master_sha256": "f02df58a9350a5145874ffb030ddf0288e69234228de8ebc0ab8467575879c8a",
       "m4a": "audio/words/squeal.make-high-loud-cry.m4a",
-      "m4a_sha256": "cd1cc4ab0fe830a0ca34ccfc6d8ed64ced08ea2c07aca7c891122c61ad5d696b"
+      "m4a_sha256": "82619189327c3a833584d7551d2a23f527239e4129167ce754a9a229697cb088"
     },
     {
       "sense": "squid.sea-animal",

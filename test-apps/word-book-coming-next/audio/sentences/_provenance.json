@@ -6,7 +6,7 @@
   "model": "eleven_multilingual_v2",
   "format": "m4a",
   "encoding": "AAC, mono, 64 kbps, via afconvert -- identical to audio/words/",
-  "status": "held candidate audio for the staging-only Word Book Coming Next 285 review; not shipped by sentence-audio.js. Six clips were replaced on 2026-10-15 from the owner review batch 1/2 eleven_v4 takes (minotaur, hemisphere, guilty, jaguar, laboratory, maracas); each replaced entry records its chosen take, master and previous clip under \"replaced\". Four sentence clips (minotaur, dynasty, simile, shrug) were replaced again on 2026-10-17 from the owner review batch 3 takes; each replaced entry records its take, master and previous clip under \"replaced\". Two sentence clips (shrug, semicircle) were replaced again on 2026-10-18 from the owner review batch 4 takes; each replaced entry records its take, master and previous clip under \"replaced\", with the batch-3 chain preserved under \"earlier_replacement\".",
+  "status": "held candidate audio for the staging-only Word Book Coming Next 285 review; not shipped by sentence-audio.js. Six clips were replaced on 2026-10-15 from the owner review batch 1/2 eleven_v4 takes (minotaur, hemisphere, guilty, jaguar, laboratory, maracas); each replaced entry records its chosen take, master and previous clip under \"replaced\". Four sentence clips (minotaur, dynasty, simile, shrug) were replaced again on 2026-10-17 from the owner review batch 3 takes; each replaced entry records its take, master and previous clip under \"replaced\". Two sentence clips (shrug, semicircle) were replaced again on 2026-10-18 from the owner review batch 4 takes; each replaced entry records its take, master and previous clip under \"replaced\", with the batch-3 chain preserved under \"earlier_replacement\". The dynasty sentence clip was replaced again on 2026-10-18 by owner review batch 5: the chosen batch-4 Take C (eleven_flash_v2_5) became the card clip, with the batch-3 chain preserved under \"earlier_replacement\".",
   "source_manifest": "coordination/drafts/word-book-coming-next-200/sentence-render-manifest.json",
   "clips": {
     "Atlas.greek-mythology": {
@@ -406,18 +406,28 @@
     },
     "dynasty.ruling-family": {
       "text": "The dynasty ruled the kingdom for generations.",
-      "sha256": "37db517febe9e0d0f9c703ba3563c0c42968f658699ddf7719a95db1711008bf",
-      "alignment": "audio-alignment/word-candidates/dynasty.ruling-family.sentence.owner-batch03-phonetic.json",
-      "model": "eleven_multilingual_v2",
+      "sha256": "afebbaa7a282bb2a219342f69de6fc89e4c8317af31f35c3d66da0aa293cf34f",
+      "alignment": "audio-alignment/word-candidates/dynasty.ruling-family.sentence.owner-batch04-take-c.json",
+      "model": "eleven_flash_v2_5",
       "replaced": {
-        "date": "2026-10-17",
-        "owner_batch": 3,
-        "take": "dynasty.ruling-family.sentence.owner-batch03-phonetic",
-        "master": "audio-source/word-candidates/dynasty.ruling-family.sentence.owner-batch03-phonetic.mp3",
-        "master_sha256": "3121a91d1808b0842fe411019d9e49ad0da2705076a2fabdecc28d5ca8236139",
-        "previous_sha256": "c9a21bd12e8fbd73debdf6ffdeef91fb116b621a8c3d40dd2f444b3383af16bf",
-        "previous_alignment": "audio-alignment/sentences/dynasty.ruling-family.json",
-        "why": "Owner batch 3: sentence must say DIN-uh-stee to match the word clip; ASR hears 'Din As-D / Din Asdi' for the word."
+        "date": "2026-10-18",
+        "owner_batch": 5,
+        "take": "dynasty.ruling-family.sentence.owner-batch04-take-c",
+        "master": "audio-source/word-candidates/dynasty.ruling-family.sentence.owner-batch04-take-c.mp3",
+        "master_sha256": "fbbf8e5d8c19582c85cb5d9826fd56a72a0ba275a92b315ef3db267efe2f186d",
+        "previous_sha256": "37db517febe9e0d0f9c703ba3563c0c42968f658699ddf7719a95db1711008bf",
+        "previous_alignment": "audio-alignment/word-candidates/dynasty.ruling-family.sentence.owner-batch03-phonetic.json",
+        "why": "Owner batch 5: listening review chose Take C (eleven_flash_v2_5, natural sentence text) from the batch-4 A/B/C choices; the batch-3 phonetic replacement chain is preserved under earlier_replacement.",
+        "earlier_replacement": {
+          "date": "2026-10-17",
+          "owner_batch": 3,
+          "take": "dynasty.ruling-family.sentence.owner-batch03-phonetic",
+          "master": "audio-source/word-candidates/dynasty.ruling-family.sentence.owner-batch03-phonetic.mp3",
+          "master_sha256": "3121a91d1808b0842fe411019d9e49ad0da2705076a2fabdecc28d5ca8236139",
+          "previous_sha256": "c9a21bd12e8fbd73debdf6ffdeef91fb116b621a8c3d40dd2f444b3383af16bf",
+          "previous_alignment": "audio-alignment/sentences/dynasty.ruling-family.json",
+          "why": "Owner batch 3: sentence must say DIN-uh-stee to match the word clip; ASR hears 'Din As-D / Din Asdi' for the word."
+        }
       }
     },
     "eager.wanting-to-begin": {
