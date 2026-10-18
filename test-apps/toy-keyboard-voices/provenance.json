@@ -1,0 +1,147 @@
+{
+  "$purpose": "Toy Keyboard guidance voice auditions, owner-approved spend 2026-10-18. NOT app clips: nothing here is wired into toy-keyboard-app; the app stays silent until the owner picks.",
+  "policy": "AUDIO-DIRECTION.md decisions 1, 3, 5, 8; provenance is a shipping requirement. Voice Design only - no Voice Library, no cloning, no real-person prompts.",
+  "line": "Recording stopped. Let's play it back!",
+  "model": "eleven_multilingual_v2",
+  "meters": {
+    "before_task": {
+      "subscription_used": 106293,
+      "subscription_limit": 122393,
+      "read_at": "2026-10-18T17:47 ICT (first tool run)"
+    },
+    "after_settled": {
+      "subscription_used": 106682,
+      "subscription_limit": 122393,
+      "read_at": "2026-10-18T18:01 ICT (two consecutive equal reads after the lag window)"
+    },
+    "spent_measured_task": 389,
+    "spend_note": "389 credits total, cap 1,000. Two crashes cost real money and are recorded honestly: run 1 parsed the TTS body as JSON and discarded a successful ~20-credit Alice render; run 2 crashed one line after the first Voice Design generation and lost its three preview IDs, so the generation (~130 credits) was repeated in run 3 -- the orphaned previews are preserved under paid-masters/_superseded/2026-10-18/. The speech meter lags: the tool's settle loop read too early on the final run (reported 0); the figure here is from the settled re-read."
+  },
+  "existing": [
+    {
+      "key": "alice",
+      "label": "Alice (Word Book voice)",
+      "voiceId": "Xb7hH8MSUJpSbSDYk0k2",
+      "origin": "existing repo voice"
+    },
+    {
+      "key": "storybook",
+      "label": "Storybook narrator (Ari's book)",
+      "voiceId": "b1nETcsssv4YQrki3NcR",
+      "origin": "existing repo voice"
+    }
+  ],
+  "design": {
+    "prompt": "A warm, playful young woman with a clear British English voice - a friendly music teacher at a toy piano, delighted by the song you just made. Bright and encouraging, with a smile you can hear, but never babyish: crisp, lively diction, short happy phrases, a slight musical lilt as if she might sing the next word. Perfect studio audio quality, completely clean, no background noise or music.",
+    "auditionText": "Recording! Recording stopped. Let's play it back! Finished! Press record to make a new song! Ready to make some music?",
+    "model": "eleven_multilingual_ttv_v2",
+    "saved": [
+      {
+        "generatedVoiceId": "myV3z8imrZkvUNSJSniK",
+        "voiceId": "myV3z8imrZkvUNSJSniK",
+        "savedName": "Toy Keyboard Friend 1",
+        "asr_on_preview": 1.0
+      },
+      {
+        "generatedVoiceId": "mW3VQGGgza3Za5sYwPcl",
+        "voiceId": "mW3VQGGgza3Za5sYwPcl",
+        "savedName": "Toy Keyboard Friend 2",
+        "asr_on_preview": 1.0
+      }
+    ],
+    "not_saved": [
+      {
+        "generatedVoiceId": "Yg28OXHOErnJzN6727nS",
+        "master": "toy-keyboard-app/audio/masters/audition-design-2.mp3",
+        "asr_on_preview": 1.0
+      }
+    ],
+    "voiceIdsCreated": [
+      "myV3z8imrZkvUNSJSniK",
+      "mW3VQGGgza3Za5sYwPcl"
+    ],
+    "waste_note": "Three previews generated per call; previews 1 and 3 became the saved options (ASR 1.000 each, tie broken on preview size); preview 2 (Yg28OXHOErnJzN6727nS, ASR 1.000) is kept unsaved as master audition-design-2.mp3 and can still be saved later if the owner asks."
+  },
+  "clips": {
+    "alice": {
+      "text": "Recording stopped. Let's play it back!",
+      "voiceId": "Xb7hH8MSUJpSbSDYk0k2",
+      "master": "toy-keyboard-app/audio/masters/audition-alice.mp3",
+      "clip": "site/test-apps/toy-keyboard-voices/audio/alice.m4a",
+      "bytes": 13904,
+      "master_bytes": 36823
+    },
+    "storybook": {
+      "text": "Recording stopped. Let's play it back!",
+      "voiceId": "b1nETcsssv4YQrki3NcR",
+      "master": "toy-keyboard-app/audio/masters/audition-storybook.mp3",
+      "clip": "site/test-apps/toy-keyboard-voices/audio/storybook.m4a",
+      "bytes": 12587,
+      "master_bytes": 30136
+    },
+    "design-1": {
+      "text": "Recording stopped. Let's play it back!",
+      "voiceId": "myV3z8imrZkvUNSJSniK",
+      "generatedVoiceId": "myV3z8imrZkvUNSJSniK",
+      "savedName": "Toy Keyboard Friend 1",
+      "master": "toy-keyboard-app/audio/masters/audition-line-design-1.mp3",
+      "clip": "site/test-apps/toy-keyboard-voices/audio/design-1.m4a",
+      "bytes": 13670,
+      "asr_on_preview": 1.0
+    },
+    "design-2": {
+      "text": "Recording stopped. Let's play it back!",
+      "voiceId": "mW3VQGGgza3Za5sYwPcl",
+      "generatedVoiceId": "mW3VQGGgza3Za5sYwPcl",
+      "savedName": "Toy Keyboard Friend 2",
+      "master": "toy-keyboard-app/audio/masters/audition-line-design-2.mp3",
+      "clip": "site/test-apps/toy-keyboard-voices/audio/design-2.m4a",
+      "bytes": 15078,
+      "asr_on_preview": 1.0
+    }
+  },
+  "renders": {
+    "alice.m4a": {
+      "text": "Recording stopped. Let's play it back!",
+      "voiceId": "Xb7hH8MSUJpSbSDYk0k2",
+      "voice": "Alice - Clear, Engaging, Educational (decision 11)",
+      "model": "eleven_multilingual_v2",
+      "tool": "ElevenLabs text-to-speech",
+      "renderedOn": "2026-10-18",
+      "origin": "existing designed-then-pinned voice, reused with owner precedent (decision 13 pattern)"
+    },
+    "storybook.m4a": {
+      "text": "Recording stopped. Let's play it back!",
+      "voiceId": "b1nETcsssv4YQrki3NcR",
+      "voice": "Solar Storybook narrator",
+      "model": "eleven_multilingual_v2",
+      "tool": "ElevenLabs text-to-speech",
+      "renderedOn": "2026-10-18",
+      "origin": "existing Voice Design voice (category: generated, 2026-08-28), named by the owner as an audition candidate"
+    },
+    "design-1.m4a": {
+      "text": "Recording stopped. Let's play it back!",
+      "voiceId": "myV3z8imrZkvUNSJSniK",
+      "voice": "Toy Keyboard Friend 1 (saved preview 1 of 3)",
+      "model": "eleven_multilingual_v2",
+      "tool": "ElevenLabs text-to-speech via saved Voice Design preview",
+      "designPrompt": "A warm, playful young woman with a clear British English voice - a friendly music teacher at a toy piano, delighted by the song you just made. Bright and encouraging, with a smile you can hear, but never babyish: crisp, lively diction, short happy phrases, a slight musical lilt as if she might sing the next word. Perfect studio audio quality, completely clean, no background noise or music.",
+      "designAuditionText": "Recording! Recording stopped. Let's play it back! Finished! Press record to make a new song! Ready to make some music?",
+      "designModel": "eleven_multilingual_ttv_v2",
+      "renderedOn": "2026-10-18",
+      "origin": "Voice Design 2026-10-18; not cloned, not from the Voice Library, no real person named"
+    },
+    "design-2.m4a": {
+      "text": "Recording stopped. Let's play it back!",
+      "voiceId": "mW3VQGGgza3Za5sYwPcl",
+      "voice": "Toy Keyboard Friend 2 (saved preview 3 of 3)",
+      "model": "eleven_multilingual_v2",
+      "tool": "ElevenLabs text-to-speech via saved Voice Design preview",
+      "designPrompt": "A warm, playful young woman with a clear British English voice - a friendly music teacher at a toy piano, delighted by the song you just made. Bright and encouraging, with a smile you can hear, but never babyish: crisp, lively diction, short happy phrases, a slight musical lilt as if she might sing the next word. Perfect studio audio quality, completely clean, no background noise or music.",
+      "designAuditionText": "Recording! Recording stopped. Let's play it back! Finished! Press record to make a new song! Ready to make some music?",
+      "designModel": "eleven_multilingual_ttv_v2",
+      "renderedOn": "2026-10-18",
+      "origin": "Voice Design 2026-10-18; not cloned, not from the Voice Library, no real person named"
+    }
+  }
+}

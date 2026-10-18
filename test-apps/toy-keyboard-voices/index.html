@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Toy Keyboard: pick the guidance voice</title>
+<style>
+  html,body{touch-action:manipulation}
+  body{margin:0;padding:22px 16px 70px;font:17px/1.5 "Avenir Next",system-ui,-apple-system,sans-serif;color:#2c2440;background:#f6f1ff}
+  .wrap{max-width:820px;margin:0 auto}
+  h1{font-size:1.5rem;margin:0 0 6px;color:#4b2e83}
+  .lede{margin:0 0 8px;color:#5d5377}
+  .badge{display:inline-block;background:#ffe3a9;border:2px solid #b77a00;border-radius:999px;padding:4px 12px;font-weight:700;font-size:.82rem;margin:0 0 14px}
+  .listenfor{background:#fffdf4;border-left:8px solid #e5a728;border-radius:14px;padding:10px 14px;margin:0 0 20px;font-weight:600;color:#5d5377}
+  .card{background:#fff;border:3px solid #e4d9f7;border-radius:22px;padding:16px 18px;margin:14px 0;box-shadow:0 6px 0 #e4d9f7}
+  .card.picked{border-color:#5ac08f;box-shadow:0 6px 0 #5ac08f}
+  .kind{display:inline-block;border-radius:999px;padding:3px 11px;font-size:.72rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+  .kind.existing{background:#e8ecff;color:#3350c4}
+  .kind.new{background:#e2f7ea;color:#14713d}
+  h2{margin:0;font-size:1.15rem;color:#3b2a63}
+  .meta{margin:3px 0 12px;font-size:.85rem;color:#8a7ba6}
+  .words{font-size:1.06rem;font-weight:700;color:#2c2440;margin:0 0 12px}
+  .row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  button.play{width:64px;height:64px;border-radius:50%;border:3px solid #8f6fe8;background:linear-gradient(140deg,#fff,#f0e8ff);color:#4b2e83;font-size:22px;cursor:pointer;box-shadow:0 4px 0 #8f6fe8;-webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:transform .1s}
+  button.play:active{transform:translateY(3px);box-shadow:0 1px 0 #8f6fe8}
+  button.play.playing{background:linear-gradient(160deg,#8f6fe8,#6a45d0);color:#fff;border-color:#6a45d0}
+  .level{font-size:.78rem;color:#a294bd;font-variant-numeric:tabular-nums}
+  button.pick{min-height:52px;border:3px solid #5ac08f;border-radius:16px;background:#fff;color:#14713d;font:800 1rem "Avenir Next",system-ui,sans-serif;padding:8px 18px;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+  button.pick[aria-pressed=true]{background:#5ac08f;color:#fff}
+  .asr{font-size:.78rem;color:#8a7ba6;margin-top:10px}
+  .note{width:100%;margin-top:10px;border:2px solid #e4d9f7;border-radius:14px;padding:10px 12px;font:600 .95rem "Avenir Next",system-ui,sans-serif;color:#2c2440;min-height:52px}
+  .exports{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0}
+  .exports button{min-height:52px;border:3px solid #4b2e83;border-radius:16px;background:#4b2e83;color:#fff;font:800 .95rem "Avenir Next",system-ui,sans-serif;padding:8px 16px;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+  .exports button.ghost{background:#fff;color:#4b2e83}
+  #status{font-weight:700;color:#8a7ba6}
+  .about{background:#f1ecfb;border-radius:16px;padding:12px 16px;font-size:.86rem;color:#5d5377}
+  .about code{background:#fff;border-radius:6px;padding:1px 6px;font-size:.8rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Toy Keyboard: pick the guidance voice</h1>
+  <p class="lede">Every option says the same line &mdash; what the keyboard will say when you stop recording: <strong>&ldquo;Recording stopped. Let&rsquo;s play it back!&rdquo;</strong></p>
+  <span class="badge">Audition &mdash; nothing is wired into the app yet</span>
+  <p class="listenfor"><strong>Listen for:</strong> warm, but still crisp on a two-second line. Not solemn (a short line must not sound like an announcement), not babyish, and friendly enough to hear after <em>every</em> song. Play them back to back.</p>
+
+  <div class="card" id="card-alice">
+    <span class="kind existing">Existing voice</span>
+    <h2>A &mdash; Alice, the Word Book voice</h2>
+    <p class="meta">Already the voice of Word Book, Reading Tree, Color Lab and Nail Salon. British, warm, clear. Reusing her makes the toy keyboard sound like the rest of the books.</p>
+    <p class="words">&ldquo;Recording stopped. Let&rsquo;s play it back!&rdquo;</p>
+    <div class="row">
+      <button class="play" data-src="audio/alice.m4a" aria-label="Play option A">&#9654;</button>
+      <span class="level">measuring&hellip;</span>
+      <button class="pick" data-key="alice" aria-pressed="false">I pick this one</button>
+    </div>
+    <p class="asr">Speech check: PASS 0.944 &middot; voice Xb7hH8MSUJpSbSDYk0k2 &middot; eleven_multilingual_v2</p>
+    <textarea class="note" data-key="alice" placeholder="Notes for A (optional)"></textarea>
+  </div>
+
+  <div class="card" id="card-storybook">
+    <span class="kind existing">Existing voice</span>
+    <h2>B &mdash; the Solar Storybook narrator</h2>
+    <p class="meta">The narrator of Ari&rsquo;s space book. Gentle storytelling warmth with a bit more colour than Alice. Reusing her costs nothing new.</p>
+    <p class="words">&ldquo;Recording stopped. Let&rsquo;s play it back!&rdquo;</p>
+    <div class="row">
+      <button class="play" data-src="audio/storybook.m4a" aria-label="Play option B">&#9654;</button>
+      <span class="level">measuring&hellip;</span>
+      <button class="pick" data-key="storybook" aria-pressed="false">I pick this one</button>
+    </div>
+    <p class="asr">Speech check: PASS 1.000 &middot; voice b1nETcsssv4YQrki3NcR &middot; eleven_multilingual_v2</p>
+    <textarea class="note" data-key="storybook" placeholder="Notes for B (optional)"></textarea>
+  </div>
+
+  <div class="card" id="card-design-1">
+    <span class="kind new">New voice &mdash; designed for this keyboard</span>
+    <h2>C &mdash; Toy Keyboard Friend 1</h2>
+    <p class="meta">Designed today from a text prompt (a warm, playful British music-teacher voice; no real person, nothing cloned). Brighter and more playful than A and B.</p>
+    <p class="words">&ldquo;Recording stopped. Let&rsquo;s play it back!&rdquo;</p>
+    <div class="row">
+      <button class="play" data-src="audio/design-1.m4a" aria-label="Play option C">&#9654;</button>
+      <span class="level">measuring&hellip;</span>
+      <button class="pick" data-key="design-1" aria-pressed="false">I pick this one</button>
+    </div>
+    <p class="asr">Speech check: PASS 1.000 &middot; new voice myV3z8imrZkvUNSJSniK &middot; eleven_multilingual_v2</p>
+    <textarea class="note" data-key="design-1" placeholder="Notes for C (optional)"></textarea>
+  </div>
+
+  <div class="card" id="card-design-2">
+    <span class="kind new">New voice &mdash; designed for this keyboard</span>
+    <h2>D &mdash; Toy Keyboard Friend 2</h2>
+    <p class="meta">Second take from the same design &mdash; same brief, a different reading. If you like the new direction but not this take, say so in the notes: a third take exists and can be saved.</p>
+    <p class="words">&ldquo;Recording stopped. Let&rsquo;s play it back!&rdquo;</p>
+    <div class="row">
+      <button class="play" data-src="audio/design-2.m4a" aria-label="Play option D">&#9654;</button>
+      <span class="level">measuring&hellip;</span>
+      <button class="pick" data-key="design-2" aria-pressed="false">I pick this one</button>
+    </div>
+    <p class="asr">Speech check: PASS 1.000 &middot; new voice mW3VQGGgza3Za5sYwPcl &middot; eleven_multilingual_v2</p>
+    <textarea class="note" data-key="design-2" placeholder="Notes for D (optional)"></textarea>
+  </div>
+
+  <div class="exports">
+    <button id="copy">&#128203; Copy my pick</button>
+    <button id="download" class="ghost">&#11015;&#65039; Download JSON</button>
+    <button id="reset" class="ghost">Start over</button>
+  </div>
+  <p id="status"></p>
+
+  <div class="about">
+    <p><strong>What happens next.</strong> Your pick gets recorded in <code>toy-keyboard-app/audio/guidance/manifest.json</code>, the four guidance lines are rendered in that voice, and only then does the keyboard speak. The four lines: <em>Recording!</em> &middot; <em>Recording stopped. Let&rsquo;s play it back!</em> &middot; <em>Finished!</em> &middot; <em>Press record to make a new song!</em></p>
+    <p>Every clip here is AI-generated (ElevenLabs); none is a recording of a real person. Audition spend: 389 of the 1,000 approved credits. Full record: <code>provenance.json</code> beside this page; speech-check report: <code>asr-report.md</code>.</p>
+  </div>
+</div>
+
+<script>
+  // Loudness-match before playing (the voice-candidates compare.html habit):
+  // clips arrive at different levels and the louder one wins a blind test.
+  // Decode once, measure RMS, apply a gain to a common target, never past the
+  // clip's peak headroom. Nothing is modified on disk.
+  const TARGET = 0.1;
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const loaded = new Map();
+  let source = null;
+  const stop = () => {
+    document.querySelectorAll("button.play.playing").forEach(b => b.classList.remove("playing"));
+    if (source) { try { source.stop(); } catch (e) {} source = null; }
+  };
+  async function clip(src) {
+    if (loaded.has(src)) return loaded.get(src);
+    const buf = await ctx.decodeAudioData(await (await fetch(src)).arrayBuffer());
+    const d = buf.getChannelData(0);
+    let sum = 0, peak = 0;
+    for (let i = 0; i < d.length; i++) { sum += d[i] * d[i]; const a = Math.abs(d[i]); if (a > peak) peak = a; }
+    const rms = Math.sqrt(sum / d.length);
+    const gain = Math.min(TARGET / (rms || 1), 0.98 / (peak || 1), 8);
+    const entry = { buf, rms, gain };
+    loaded.set(src, entry);
+    return entry;
+  }
+  document.querySelectorAll("button.play").forEach(b => b.addEventListener("click", async () => {
+    const was = b.classList.contains("playing");
+    stop();
+    if (was) return;
+    b.classList.add("playing");
+    const { buf, gain } = await clip(b.dataset.src);
+    if (!b.classList.contains("playing")) return;
+    const g = ctx.createGain(); g.gain.value = gain; g.connect(ctx.destination);
+    source = ctx.createBufferSource(); source.buffer = buf; source.connect(g);
+    source.onended = stop; ctx.resume(); source.start();
+  }));
+  window.addEventListener("load", async () => {
+    for (const b of document.querySelectorAll("button.play")) {
+      const c = await clip(b.dataset.src);
+      const el = b.parentElement.querySelector(".level");
+      if (el) el.textContent = (20 * Math.log10(c.rms)).toFixed(1) + " dBFS \u2192 played matched";
+    }
+  });
+
+  // The pick + notes, kept on this device and exported as JSON like the other
+  // review pages.
+  const KEY = "toy-keyboard-voices-pick";
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) { saved = {}; }
+  const status = document.getElementById("status");
+  function paint() {
+    document.querySelectorAll("button.pick").forEach(b => {
+      const on = b.dataset.key === saved.pick;
+      b.setAttribute("aria-pressed", String(on));
+      b.closest(".card").classList.toggle("picked", on);
+    });
+    document.querySelectorAll("textarea.note").forEach(t => { t.value = saved.notes && saved.notes[t.dataset.key] || ""; });
+  }
+  function persist() { try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) { status.textContent = "Could not store your pick on this device, but Copy still works."; } }
+  document.querySelectorAll("button.pick").forEach(b => b.addEventListener("click", () => {
+    saved.pick = (saved.pick === b.dataset.key) ? undefined : b.dataset.key;
+    persist(); paint();
+    status.textContent = saved.pick ? "Picked " + saved.pick + "." : "Pick cleared.";
+  }));
+  document.querySelectorAll("textarea.note").forEach(t => t.addEventListener("input", () => {
+    saved.notes = saved.notes || {}; saved.notes[t.dataset.key] = t.value; persist();
+  }));
+  function exportData() {
+    return { page: "toy-keyboard-voices", pick: saved.pick || null,
+             notes: saved.notes || {}, picked_at: new Date().toISOString() };
+  }
+  document.getElementById("copy").onclick = async () => {
+    try { await navigator.clipboard.writeText(JSON.stringify(exportData(), null, 2));
+      status.textContent = "Copied. Paste it back to the agent."; }
+    catch (e) { status.textContent = "Clipboard unavailable; use Download JSON."; }
+  };
+  document.getElementById("download").onclick = () => {
+    const b = new Blob([JSON.stringify(exportData(), null, 2) + "\n"], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(b); a.download = "toy-keyboard-voices-pick.json"; a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    status.textContent = "JSON downloaded.";
+  };
+  document.getElementById("reset").onclick = () => { saved = {}; persist(); paint(); status.textContent = "Cleared."; };
+  paint();
+</script>
+</body>
+</html>
