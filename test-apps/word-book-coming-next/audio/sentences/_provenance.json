@@ -6,7 +6,7 @@
   "model": "eleven_multilingual_v2",
   "format": "m4a",
   "encoding": "AAC, mono, 64 kbps, via afconvert -- identical to audio/words/",
-  "status": "held candidate audio for the staging-only Word Book Coming Next 285 review; not shipped by sentence-audio.js. Six clips were replaced on 2026-10-15 from the owner review batch 1/2 eleven_v4 takes (minotaur, hemisphere, guilty, jaguar, laboratory, maracas); each replaced entry records its chosen take, master and previous clip under \"replaced\". Four sentence clips (minotaur, dynasty, simile, shrug) were replaced again on 2026-10-17 from the owner review batch 3 takes; each replaced entry records its take, master and previous clip under \"replaced\".",
+  "status": "held candidate audio for the staging-only Word Book Coming Next 285 review; not shipped by sentence-audio.js. Six clips were replaced on 2026-10-15 from the owner review batch 1/2 eleven_v4 takes (minotaur, hemisphere, guilty, jaguar, laboratory, maracas); each replaced entry records its chosen take, master and previous clip under \"replaced\". Four sentence clips (minotaur, dynasty, simile, shrug) were replaced again on 2026-10-17 from the owner review batch 3 takes; each replaced entry records its take, master and previous clip under \"replaced\". Two sentence clips (shrug, semicircle) were replaced again on 2026-10-18 from the owner review batch 4 takes; each replaced entry records its take, master and previous clip under \"replaced\", with the batch-3 chain preserved under \"earlier_replacement\".",
   "source_manifest": "coordination/drafts/word-book-coming-next-200/sentence-render-manifest.json",
   "clips": {
     "Atlas.greek-mythology": {
@@ -1248,24 +1248,45 @@
       "alignment": "audio-alignment/sentences/secret.hidden-information.json"
     },
     "semicircle.half-circle": {
-      "text": "Two semicircles fit together to make a circle.",
-      "sha256": "641ff3fbab1c7fc019c0d8002bf2f4b8e91f0b3a07d16d4a25ebbb6e0c6e0c2b",
-      "alignment": "audio-alignment/sentences/semicircle.half-circle.json"
-    },
-    "shrug.raise-shoulders": {
-      "text": "Sam shrugs when he cannot choose a colour.",
-      "sha256": "bb2b2c6eeb262f7ec84af285c5ede14f7c21db432bf0bc29aee27bd0b73a6f34",
-      "alignment": "audio-alignment/word-candidates/shrug.raise-shoulders.sentence.owner-batch03.json",
+      "text": "Two paper semicircles sit side by side.",
+      "sha256": "28f4b74c4d717a8c61c20b1d7450a6e35910605961dbbd8622dec658bcc25533",
+      "alignment": "audio-alignment/word-candidates/semicircle.half-circle.sentence.owner-batch04.json",
       "model": "eleven_multilingual_v2",
       "replaced": {
-        "date": "2026-10-17",
-        "owner_batch": 3,
-        "take": "shrug.raise-shoulders.sentence.owner-batch03",
-        "master": "audio-source/word-candidates/shrug.raise-shoulders.sentence.owner-batch03.mp3",
-        "master_sha256": "0563c4a6e7f42eeb742b8184207e7f1b3e39b292d9e8bf46e43d7e33ee9afa26",
-        "previous_sha256": "3f26c6c943071981ca40d57b54e09f106cad546a9e9a7f7d16989812c63c0c5e",
-        "previous_alignment": "audio-alignment/sentences/shrug.raise-shoulders.json",
-        "why": "Owner batch 3: replace overused name Nina with Sam."
+        "date": "2026-10-18",
+        "owner_batch": 4,
+        "take": "semicircle.half-circle.sentence.owner-batch04",
+        "master": "audio-source/word-candidates/semicircle.half-circle.sentence.owner-batch04.mp3",
+        "master_sha256": "95c577f085ea2b6119b0ebdf106fed502ce869225136085893670592bef83435",
+        "previous_sha256": "641ff3fbab1c7fc019c0d8002bf2f4b8e91f0b3a07d16d4a25ebbb6e0c6e0c2b",
+        "previous_alignment": "audio-alignment/sentences/semicircle.half-circle.json",
+        "why": "Owner batch 4: match the existing clean picture, which shows two separate semicircles side by side rather than fitting together into a circle."
+      }
+    },
+    "shrug.raise-shoulders": {
+      "text": "Sam shrugs when she cannot choose a colour.",
+      "sha256": "4e1f6b32e9f67a7eef46f4dcf44ed88a68e6446504fdca3acfc39a46abe75c93",
+      "alignment": "audio-alignment/word-candidates/shrug.raise-shoulders.sentence.owner-batch04.json",
+      "model": "eleven_multilingual_v2",
+      "replaced": {
+        "date": "2026-10-18",
+        "owner_batch": 4,
+        "take": "shrug.raise-shoulders.sentence.owner-batch04",
+        "master": "audio-source/word-candidates/shrug.raise-shoulders.sentence.owner-batch04.mp3",
+        "master_sha256": "72a3b7d188ad2257a851fd08a5527240976def77178368c40ab0aebc8b6aeee9",
+        "previous_sha256": "bb2b2c6eeb262f7ec84af285c5ede14f7c21db432bf0bc29aee27bd0b73a6f34",
+        "previous_alignment": "audio-alignment/word-candidates/shrug.raise-shoulders.sentence.owner-batch03.json",
+        "why": "Owner batch 4: the picture is a girl, so correct the pronoun while retaining the name.",
+        "earlier_replacement": {
+          "date": "2026-10-17",
+          "owner_batch": 3,
+          "take": "shrug.raise-shoulders.sentence.owner-batch03",
+          "master": "audio-source/word-candidates/shrug.raise-shoulders.sentence.owner-batch03.mp3",
+          "master_sha256": "0563c4a6e7f42eeb742b8184207e7f1b3e39b292d9e8bf46e43d7e33ee9afa26",
+          "previous_sha256": "3f26c6c943071981ca40d57b54e09f106cad546a9e9a7f7d16989812c63c0c5e",
+          "previous_alignment": "audio-alignment/sentences/shrug.raise-shoulders.json",
+          "why": "Owner batch 3: replace overused name Nina with Sam."
+        }
       }
     },
     "silhouette.dark-outline": {

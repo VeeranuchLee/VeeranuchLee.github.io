@@ -1,6 +1,6 @@
 {
   "word": "Coming Next 285 held word clips",
-  "generated": "2026-10-17",
+  "generated": "2026-10-18",
   "renders": "controller, render-word-candidates.py, spec word-book/tools/word-candidates-2026-10-14-coming-next/spec.json; run ledger word-book/audio-alignment/sentences/_runs.json (eleven_v4, Alice Xb7hH8MSUJpSbSDYk0k2, one Plain take per sense, owner 2026-10-14). Three word clips (dynasty, laboratory, fig) were replaced on 2026-10-15 from the owner review batch 1/2 takes named in the spec. fig was replaced AGAIN on 2026-10-15 evening: every eleven_v4 take transcribed as Figure (batch-2 takes 1-3 plus three voicefix variants), so the held clip is the eleven_flash_v2_5 take that passed local ASR — a noted one-off exception to the batch's v4 default; fig-voicefix-asr-report.md is the gate record.",
   "encode": "afconvert -f m4af -d aac -c 1 -b 64000 -- the word-book/audio/words bank settings (mono AAC 64 kbps, 44.1 kHz); straight transcode, no trim, no level change; afconvert only, never PyAV/ffmpeg",
   "ships": "held candidate bank copied to staging only; NOT added to production word-book/audio/words",
