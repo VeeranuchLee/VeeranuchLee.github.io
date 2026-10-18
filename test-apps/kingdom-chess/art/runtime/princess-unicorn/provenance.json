@@ -148,5 +148,15 @@
     ],
     "review": "PASS: cast is recognisable from approved pieces; visible hands are anatomically coherent with five fingers; the shared-light restoration is one clear story moment; no text appears in the art.",
     "processing": "Master 1448x1086 PNG retained; deterministically resized to 1200x900 quality-85 WebP by chess-app/tools/build-handbook-assets.py."
+  },
+  "look_r2_pilot": {
+    "date": "2026-10-18",
+    "tool": "OpenAI Codex built-in image generation (image_gen)",
+    "use_case": "stylized-concept",
+    "runtime": ["pieces/dawn-{king,queen,bishop,knight,rook,pawn}.webp", "pieces/dusk-{king,queen,bishop,knight,rook,pawn}.webp", "portraits/{king,queen,bishop,knight,rook,pawn}.webp"],
+    "ignored_masters": ["art/masters/look-r2/unicorn-dawn-pieces.png", "art/masters/look-r2/unicorn-dusk-pieces.png"],
+    "prompt": "Exact label-free 3x2 source sheet in King, Queen, Bishop / Knight, Rook, Pawn order. Character-topped classic silhouettes in cream, pearl, warm gold and blush pink for Dawn or rich plum, berry, gold and silver for Dusk: cross-and-heart king, crown-and-heart queen, gem-slit bishop, friendly unicorn knight, heart castle rook and heart pawn. Strong outline, compact grounding shadow, recognisable at 56–70 px; no text, board or extra objects.",
+    "portraits": "Deterministic square crops of design/look-r1/portraits-unicorn.png; names remain live UI text.",
+    "processing": "chess-app/tools/build-look-r2-pilot.py cuts the six sheet cells, removes their generated backdrop, fits them to the shared 192px type ladder, writes lossless WebP runtime pieces, exports 320px portrait WebPs, and creates the 76px QA contact sheet. Source sheets remain ignored masters for controller staging."
   }
 }
