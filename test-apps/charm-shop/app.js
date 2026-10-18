@@ -57,10 +57,11 @@
     svg.replaceChildren();const data=E.renderData(design,profile),id=++renderId;
     if(profile==="display"&&design.type==="hairpin")svg.append(node("rect",{class:"hairpin-display-card",x:72.2,y:39.2,width:18.6,height:14.8,rx:1.8}));
     svg.append(node("path",{class:`jewel-cord ${design.type}`,d:data.cordPath,transform:data.cordTransform,fill:"none",stroke:"#d8ab42","stroke-width":profile==="editor"?3.2:1.1,"vector-effect":"non-scaling-stroke","stroke-linecap":"round","stroke-linejoin":"round"}));
+    data.bails.forEach(b=>svg.append(node("circle",{class:"jewel-bail",cx:b.x,cy:b.y,r:b.r,fill:"none",stroke:"#d8ab42","stroke-width":2.2,"vector-effect":"non-scaling-stroke"})));
     data.items.forEach(p=>{if(!p.item)return;const g=node("g",{class:`jewel ${interactive&&p.index===selected?"selected":""}`,"data-index":p.index});
-      if(interactive)g.append(node("circle",{class:"hit",cx:p.x,cy:p.y,r:10.5,fill:"transparent"}));
+      if(interactive)g.append(node("circle",{class:"hit",cx:p.x,cy:p.y,r:9,fill:"transparent"}));
       g.append(jewelShape(p.item,p.x,p.y,data.radius,`${id}-${p.index}`));
-      if(interactive&&p.index===selected)g.append(node("circle",{class:"selection-ring",cx:p.x,cy:p.y,r:10.2}));
+      if(interactive&&p.index===selected)g.append(node("circle",{class:"selection-ring",cx:p.x,cy:p.y,r:data.radius*(p.item.size||1)+2.2}));
       if(interactive){g.setAttribute("role","button");g.setAttribute("tabindex","0");g.setAttribute("aria-label",`Jewel ${p.index+1}`);const choose=()=>{selected=p.index;draw(svg,state,"editor",true);updateChoiceState();sound(440)};g.addEventListener("click",choose);g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" ")choose()});}
       svg.append(g);
     });

@@ -12,11 +12,11 @@
     earrings: [4, 8, 6, 8, 6, 8], hairpin: [7, 6, 7, 7, 7, 6]
   };
   const boxes = {
-    editor: {necklace:[17,13,126,66],bracelet:[41,16,78,68],earrings:[37,12,86,70],hairpin:[39,22,82,52]},
+    editor: {necklace:[10,10,140,80],bracelet:[10,10,140,80],earrings:[10,10,140,80],hairpin:[14,10,132,80]},
     character: {necklace:[43.2,31.2,13.6,12],bracelet:[40.2,60.2,6.7,5.3],earrings:[38.2,23.6,23.5,8.2],hairpin:[36.2,9.4,7,5.8]},
     display: {necklace:[42.8,17.5,14.4,16.8],bracelet:[8.5,35.8,21,9.8],earrings:[78.1,30.5,15.6,12.2],hairpin:[74.5,42.3,14,8.2]}
   };
-  const desiredRadii = {editor:6.8,character:1.05,display:1.2};
+  const desiredRadii = {editor:10.1,character:1.05,display:1.2};
   const clone = value => JSON.parse(JSON.stringify(value));
   const line = (n,a,b,y=52)=>Array.from({length:n},(_,i)=>({x:a+(b-a)*i/(n-1),y}));
   const ellipse = (n,cx=50,cy=50,rx=43,ry=34,start=-Math.PI/2)=>Array.from({length:n},(_,i)=>{const a=start+Math.PI*2*i/n;return{x:cx+rx*Math.cos(a),y:cy+ry*Math.sin(a)}});
@@ -57,18 +57,85 @@
     return {points,hardware};
   }
   function mapPoint(p,box){const[x,y,w,h]=box;return{x:x+p.x*w/100,y:y+p.y*h/100};}
-  function geometry(type,modelId,profile="editor") {const raw=rawGeometry(type,modelNumber(modelId)),box=boxes[profile][type],[x,y,w,h]=box;return{points:raw.points.map(p=>mapPoint(p,box)),hardware:raw.hardware,hardwareTransform:`translate(${x} ${y}) scale(${w/100} ${h/100})`};}
+  function editorPoints(points, sizes=[],type="",model=0) {
+    const xs=points.map(p=>p.x),ys=points.map(p=>p.y),minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys);
+    const spread=points.map(p=>({
+      x:34+(p.x-minX)*92/(maxX-minX||1),
+      y:maxY===minY?50:25+(p.y-minY)*50/(maxY-minY)
+    }));
+    if(type==="necklace"&&(model===0||model===4)){
+      const start=model===4?2:1,chain=spread.slice(start).sort((a,b)=>a.x-b.x);
+      chain.forEach(p=>{p.y=25+25*(1-Math.abs((p.x-80)/46));});
+      spread[0].x=80;spread[0].y=84;
+      if(model===4){spread[1].x=80;spread[1].y=65;}
+    }
+    // Keep the 44px touch circles separate at the smallest iPad editor scale.
+    // Moving only editor points lets dense beads follow a roomier version of the
+    // same silhouette while the worn and display profiles stay pixel-stable.
+    for(let pass=0;pass<240;pass++){
+      let moved=false;
+      for(let i=0;i<spread.length;i++)for(let j=i+1;j<spread.length;j++){
+        const dx=spread[j].x-spread[i].x,dy=spread[j].y-spread[i].y,distance=Math.hypot(dx,dy);
+        const radiusI=desiredRadii.editor*(sizes[i]||1),radiusJ=desiredRadii.editor*(sizes[j]||1);
+        const minimum=Math.max(19,radiusI+radiusJ-.2*Math.min(radiusI,radiusJ));
+        if(distance>=minimum)continue;
+        const amount=(minimum-distance)/2+.01,ux=distance>.01?dx/distance:0,uy=distance>.01?dy/distance:((i+j)%2?1:-1);
+        spread[i].x-=ux*amount;spread[i].y-=uy*amount;spread[j].x+=ux*amount;spread[j].y+=uy*amount;moved=true;
+      }
+      if(!moved)break;
+    }
+    return spread;
+  }
+  const pointCommand=(p,first=false)=>`${first?"M":"L"}${p.x.toFixed(2)} ${p.y.toFixed(2)}`;
+  function through(points,close=false){return points.map((p,i)=>pointCommand(p,i===0)).join(" ")+(close?" Z":"");}
+  function editorHardware(type,model,points){
+    const paths=[];
+    if(type==="necklace"){
+      const pendant=model===0||model===4,chain=points.filter((_,i)=>!pendant||i>(model===4?1:0)).sort((a,b)=>a.x-b.x);
+      paths.push(through(chain));
+      if(pendant){
+        const pendantPoint=points[0],connector=model===4?points[1]:chain.reduce((a,b)=>a.y>b.y?a:b),topY=pendantPoint.y-desiredRadii.editor*(model===0?1.65:1.55);
+        paths.push(`M${connector.x.toFixed(2)} ${connector.y.toFixed(2)} L${pendantPoint.x.toFixed(2)} ${topY.toFixed(2)}`);
+      }
+    } else if(type==="bracelet"){
+      paths.push(through((model===0||model===1||model===2||model===4)?points:[...points].sort((a,b)=>a.x-b.x),model===0||model===1||model===2||model===4));
+    } else if(type==="earrings"){
+      const halves=[points.filter(p=>p.x<80),points.filter(p=>p.x>=80)];
+      halves.forEach(half=>{
+        const ordered=model===1?half:[...half].sort((a,b)=>a.y-b.y);
+        paths.push(through(ordered,model===1||model===2));
+        const top=ordered.reduce((a,b)=>a.y<b.y?a:b),side=top.x<80?-1:1;
+        paths.push(`M${top.x.toFixed(2)} ${top.y.toFixed(2)} Q${(top.x+side*8).toFixed(2)} ${(top.y-12).toFixed(2)} ${top.x.toFixed(2)} ${(top.y-18).toFixed(2)}`);
+      });
+    } else {
+      const ordered=(model===0||model===2||model===4||model===5)?points:[...points].sort((a,b)=>a.x-b.x);
+      paths.push(through(ordered,model===2||model===4));
+      const ys=points.map(p=>p.y),baseY=Math.max(...ys)+12;
+      paths.push(`M${Math.min(...points.map(p=>p.x)).toFixed(2)} ${baseY.toFixed(2)} L${Math.max(...points.map(p=>p.x)).toFixed(2)} ${baseY.toFixed(2)}`);
+    }
+    return paths.join(" ");
+  }
+  function geometry(type,modelId,profile="editor",sizes=[]) {
+    const model=modelNumber(modelId),raw=rawGeometry(type,model),box=boxes[profile][type],[x,y,w,h]=box;
+    if(profile==="editor"){
+      const points=editorPoints(raw.points,sizes,type,model);
+      return{points,hardware:editorHardware(type,model,points),hardwareTransform:"",bails:(type==="necklace"&&(model===0||model===4))?[{x:points[0].x,y:points[0].y-desiredRadii.editor*sizes[0]-2.6,r:3.2}]:[]};
+    }
+    return{points:raw.points.map(p=>mapPoint(p,box)),hardware:raw.hardware,hardwareTransform:`translate(${x} ${y}) scale(${w/100} ${h/100})`,bails:[]};
+  }
   function positions(type,profile="editor",modelId=`${type}-1`) {return geometry(type,modelId,profile).points;}
+  function profileBox(type,profile="editor") {return clone(boxes[profile][type]);}
   function cordPath(type,profile="editor",modelId=`${type}-1`) {return geometry(type,modelId,profile).hardware;}
   function safeRadius(type,profile="editor",modelId=`${type}-1`) {
+    if(profile==="editor")return desiredRadii.editor;
     const p=positions(type,profile,modelId),desired=desiredRadii[profile];let nearest=Infinity;
     for(let i=0;i<p.length;i++)for(let j=i+1;j<p.length;j++)nearest=Math.min(nearest,Math.hypot(p[i].x-p[j].x,p[i].y-p[j].y));
     return Math.min(desired,nearest/2.5);
   }
   function create(type="necklace",modelId=`${type}-1`,jewels=[]) {return{id:null,type,modelId,jewels:clone(jewels),layoutVersion:LAYOUT_VERSION,updated:Date.now()};}
   function customize(state,index,patch){const next=clone(state);if(!next.jewels[index])return next;next.jewels[index]={...next.jewels[index],...patch};next.updated=Date.now();return next;}
-  function renderData(state,profile="editor") {const g=geometry(state.type,state.modelId,profile);return{type:state.type,profile,cordPath:g.hardware,cordTransform:g.hardwareTransform,radius:safeRadius(state.type,profile,state.modelId),items:g.points.map((p,index)=>({...p,index,item:clone(state.jewels[index])}))};}
+  function renderData(state,profile="editor") {const g=geometry(state.type,state.modelId,profile,state.jewels.map(j=>j?.size||1));return{type:state.type,profile,cordPath:g.hardware,cordTransform:g.hardwareTransform,bails:g.bails,radius:safeRadius(state.type,profile,state.modelId),items:g.points.map((p,index)=>({...p,index,item:clone(state.jewels[index])}))};}
   function serialize(state){return JSON.stringify(state);}
   function deserialize(raw){const value=typeof raw==="string"?JSON.parse(raw):clone(raw);if(value.layoutVersion!==LAYOUT_VERSION)throw new Error("Old save layout");return{...value,layoutVersion:LAYOUT_VERSION};}
-  return{LAYOUT_VERSION,TYPES,MODEL_COUNTS,create,customize,positions,cordPath,safeRadius,renderData,serialize,deserialize,clone};
+  return{LAYOUT_VERSION,TYPES,MODEL_COUNTS,create,customize,positions,profileBox,cordPath,safeRadius,renderData,serialize,deserialize,clone};
 });
