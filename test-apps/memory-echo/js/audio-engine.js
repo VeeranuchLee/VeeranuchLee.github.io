@@ -3,18 +3,65 @@ const NUMBER_FREQ = [261.63, 293.66, 329.63, 349.23, 392, 440, 493.88, 523.25, 5
 const MUSIC_FREQ = [261.63, 293.66, 329.63, 349.23, 392, 440, 493.88, 523.25];
 
 export class AudioEngine {
-  constructor() { this.context = null; this.master = null; this.voices = new Map(); }
+  constructor() { this.context = null; this.master = null; this.voices = new Map(); this.mediaUnlockAttempted = false; }
+
+  usePlaybackSession() {
+    const session = globalThis.navigator?.audioSession;
+    if (!session) return false;
+    try { session.type = "playback"; return true; } catch { return false; }
+  }
+
+  bridgeOlderWebKit() {
+    if (this.mediaUnlockAttempted) return;
+    this.mediaUnlockAttempted = true;
+    try {
+      const sampleRate = 8000;
+      const samples = 200;
+      const wav = new Uint8Array(44 + samples);
+      const view = new DataView(wav.buffer);
+      const text = (offset, value) => [...value].forEach((char, i) => view.setUint8(offset + i, char.charCodeAt(0)));
+      text(0, "RIFF"); view.setUint32(4, 36 + samples, true); text(8, "WAVE"); text(12, "fmt ");
+      view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true);
+      view.setUint32(24, sampleRate, true); view.setUint32(28, sampleRate, true);
+      view.setUint16(32, 1, true); view.setUint16(34, 8, true); text(36, "data"); view.setUint32(40, samples, true);
+      wav.fill(128, 44);
+
+      const url = URL.createObjectURL(new Blob([wav], { type: "audio/wav" }));
+      const audio = new Audio();
+      audio.preload = "auto";
+      audio.playsInline = true;
+      audio.setAttribute("playsinline", "");
+      audio.src = url;
+      let released = false;
+      const release = () => {
+        if (released) return;
+        released = true;
+        audio.pause();
+        audio.removeAttribute("src");
+        audio.load();
+        URL.revokeObjectURL(url);
+      };
+      audio.addEventListener("ended", release, { once: true });
+      setTimeout(release, 250);
+      const play = audio.play();
+      if (play?.catch) play.catch(release);
+    } catch { /* Web Audio resume below remains the primary unlock path. */ }
+  }
 
   async unlock() {
+    if (!this.usePlaybackSession() && !this.mediaUnlockAttempted) this.bridgeOlderWebKit();
     if (!this.context) {
       const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContext) return;
+      if (!AudioContext) return false;
       this.context = new AudioContext();
       this.master = this.context.createGain();
       this.master.gain.value = .6;
       this.master.connect(this.context.destination);
     }
-    if (this.context.state === "suspended") await this.context.resume();
+    if (this.context.state !== "running" && this.context.state !== "closed") {
+      try { await this.context.resume(); } catch { return false; }
+    }
+    return this.context.state === "running";
   }
 
   stopAll() {
