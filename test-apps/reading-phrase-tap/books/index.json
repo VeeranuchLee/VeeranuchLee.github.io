@@ -1,0 +1,225 @@
+{
+  "format": 2,
+  "shelf": [
+    {
+      "type": "set",
+      "id": "space"
+    },
+    {
+      "type": "book",
+      "id": "gems"
+    },
+    {
+      "type": "set",
+      "id": "weather-water"
+    },
+    {
+      "type": "set",
+      "id": "computers"
+    }
+  ],
+  "sets": [
+    {
+      "id": "space",
+      "title": "Space",
+      "colour": "#536fa6",
+      "books": [
+        "space-trip",
+        "mars",
+        "mars-landforms",
+        "jupiter-great-red-spot",
+        "stars",
+        "stars-life-cycle",
+        "comets"
+      ],
+      "sections": [
+        {
+          "title": "Our Solar System",
+          "books": [
+            "space-trip"
+          ]
+        },
+        {
+          "title": "Planets",
+          "books": [
+            "mars",
+            "mars-landforms",
+            "jupiter-great-red-spot"
+          ]
+        },
+        {
+          "title": "Stars",
+          "books": [
+            "stars",
+            "stars-life-cycle"
+          ]
+        },
+        {
+          "title": "Comets",
+          "books": [
+            "comets"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "weather-water",
+      "title": "Weather & Water",
+      "colour": "#5f8fb8",
+      "books": [
+        "how-much-rain",
+        "where-rain-goes",
+        "why-places-flood",
+        "city-water-moves",
+        "river-reservoir-sea",
+        "reading-flood-news",
+        "how-dams-work",
+        "street-under-water",
+        "stay-out-of-floodwater",
+        "when-water-goes-away"
+      ]
+    },
+    {
+      "id": "computers",
+      "title": "Computer & Digital World",
+      "colour": "#6a7fb0",
+      "books": [
+        "what-computers-do",
+        "where-file-goes",
+        "exact-instructions",
+        "what-stays-private"
+      ],
+      "sections": [
+        {
+          "title": "Using Computers",
+          "books": [
+            "what-computers-do"
+          ]
+        },
+        {
+          "title": "Making & Data",
+          "books": [
+            "where-file-goes"
+          ]
+        },
+        {
+          "title": "Coding",
+          "books": [
+            "exact-instructions"
+          ]
+        },
+        {
+          "title": "Internet & Digital World",
+          "books": [
+            "what-stays-private"
+          ]
+        },
+        {
+          "title": "AI",
+          "books": []
+        }
+      ]
+    }
+  ],
+  "books": [
+    {
+      "id": "what-computers-do",
+      "title": "What Does a Computer Do?",
+      "next": "where-file-goes"
+    },
+    {
+      "id": "where-file-goes",
+      "title": "Where Did My File Go?",
+      "next": "exact-instructions"
+    },
+    {
+      "id": "exact-instructions",
+      "title": "Give the Computer Exact Instructions"
+    },
+    {
+      "id": "what-stays-private",
+      "title": "What Should Stay Private?"
+    },
+    {
+      "id": "space-trip",
+      "title": "A Trip Through Space",
+      "next": "mars"
+    },
+    {
+      "id": "stars",
+      "title": "Stars in the Night Sky",
+      "next": "stars-life-cycle"
+    },
+    {
+      "id": "comets",
+      "title": "All About Comets"
+    },
+    {
+      "id": "mars",
+      "title": "Mars: The Red Planet",
+      "next": "mars-landforms"
+    },
+    {
+      "id": "mars-landforms",
+      "title": "Mars: Giant Volcanoes and a Great Canyon",
+      "next": "jupiter-great-red-spot"
+    },
+    {
+      "id": "jupiter-great-red-spot",
+      "title": "Jupiter and the Great Red Spot",
+      "next": "stars"
+    },
+    {
+      "id": "stars-life-cycle",
+      "title": "How Stars Are Born and Change",
+      "next": "comets"
+    },
+    {
+      "id": "gems",
+      "title": "A World of Gems"
+    },
+    {
+      "id": "how-much-rain",
+      "title": "How Much Rain Fell?"
+    },
+    {
+      "id": "where-rain-goes",
+      "title": "Where Does the Rain Go?"
+    },
+    {
+      "id": "why-places-flood",
+      "title": "Why Does This Place Flood?"
+    },
+    {
+      "id": "city-water-moves",
+      "title": "Moving Water Around the City"
+    },
+    {
+      "id": "river-reservoir-sea",
+      "title": "Rivers, Reservoirs & the Sea"
+    },
+    {
+      "id": "reading-flood-news",
+      "title": "Reading Flood News"
+    },
+    {
+      "id": "how-dams-work",
+      "title": "How Does a Dam Work?",
+      "next": "street-under-water"
+    },
+    {
+      "id": "street-under-water",
+      "title": "The Street Under the Water",
+      "next": "stay-out-of-floodwater"
+    },
+    {
+      "id": "stay-out-of-floodwater",
+      "title": "Why We Stay Out of Floodwater",
+      "next": "when-water-goes-away"
+    },
+    {
+      "id": "when-water-goes-away",
+      "title": "When the Water Goes Away"
+    }
+  ]
+}
