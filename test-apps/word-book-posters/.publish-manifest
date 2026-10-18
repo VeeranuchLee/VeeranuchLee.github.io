@@ -68,6 +68,10 @@ audio/letters/*.m4a
 # rendered yet. Clips are NOT in the worker SHELL (cached on first play, like the words);
 # the ledger is, so the page knows offline which cards have a current clip.
 audio/sentences/**
+# The eleven owner-approved "Where is it?" poster sentences. Unlike the 2,000-card
+# sentence library these are a tiny fixed teaching set and are precached with the two
+# posters, so every visible sentence control works offline from first load.
+audio/posters/positions/*.m4a
 
 [private]
 # The bed's render record -- tool, model, prompt, credits measured, loop seam ratio. It is
@@ -79,6 +83,8 @@ audio/word-bed.provenance.json
 # by slugifying the headword and never reads this file.
 audio/words.manifest.json
 audio/letters.manifest.json
+audio/posters/positions/provenance.json
+audio/posters/positions/PROVENANCE.md
 # NOT .publish-manifest itself: scripts/ship-list.py drops it before classifying anything,
 # because the manifest describes the publish and is never part of the app. Listing it here
 # matches no tracked file and preflight refuses the commit -- which is how this line came
