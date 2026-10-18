@@ -1,10 +1,10 @@
 {
-  "word": "Coming Next 285 held word clips",
+  "word": "Coming Next 288 held word clips",
   "generated": "2026-10-18",
   "renders": "controller, render-word-candidates.py, spec word-book/tools/word-candidates-2026-10-14-coming-next/spec.json; run ledger word-book/audio-alignment/sentences/_runs.json (eleven_v4, Alice Xb7hH8MSUJpSbSDYk0k2, one Plain take per sense, owner 2026-10-14). Three word clips (dynasty, laboratory, fig) were replaced on 2026-10-15 from the owner review batch 1/2 takes named in the spec. fig was replaced AGAIN on 2026-10-15 evening: every eleven_v4 take transcribed as Figure (batch-2 takes 1-3 plus three voicefix variants), so the held clip is the eleven_flash_v2_5 take that passed local ASR — a noted one-off exception to the batch's v4 default; fig-voicefix-asr-report.md is the gate record.",
   "encode": "afconvert -f m4af -d aac -c 1 -b 64000 -- the word-book/audio/words bank settings (mono AAC 64 kbps, 44.1 kHz); straight transcode, no trim, no level change; afconvert only, never PyAV/ffmpeg",
   "ships": "held candidate bank copied to staging only; NOT added to production word-book/audio/words",
-  "count": 285,
+  "count": 288,
   "clips": [
     {
       "sense": "Atlas.greek-mythology",
@@ -3140,6 +3140,39 @@
       "master_sha256": "10e5f28f76602198b59717d16df62dbc9573e210fa8ea08f41032478d525e9f8",
       "m4a": "audio/words/zoom.move-very-fast.m4a",
       "m4a_sha256": "50d24b2a12843befbc4bd84479d10705e9b7611c3673a5e5f5814ad211c2b519"
+    },
+    {
+      "sense": "candy.candy-sweets",
+      "word": "candy",
+      "text": "candy.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "voiceId": "Xb7hH8MSUJpSbSDYk0k2",
+      "m4a": "audio/words/candy.candy-sweets.m4a",
+      "m4a_sha256": "863382f4b267ed8f14491d4534070111aeb24b10a496ee3d2c0e069a7d3201fe",
+      "source_provenance": "coordination/drafts/word-book-sweets-2026-10-18/audio-provenance.json"
+    },
+    {
+      "sense": "lollipop.sweet-on-stick",
+      "word": "lollipop",
+      "text": "lollipop.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "voiceId": "Xb7hH8MSUJpSbSDYk0k2",
+      "m4a": "audio/words/lollipop.sweet-on-stick.m4a",
+      "m4a_sha256": "2b2dcbd40a3ce515aa7a4076c162998cd348d64de13d5b22f75b89ec48c6c5d0",
+      "source_provenance": "coordination/drafts/word-book-sweets-2026-10-18/audio-provenance.json"
+    },
+    {
+      "sense": "marshmallow.soft-sweet",
+      "word": "marshmallow",
+      "text": "marshmallow.",
+      "model": "eleven_v4",
+      "voice": "Alice - Clear, Engaging, Educational (British)",
+      "voiceId": "Xb7hH8MSUJpSbSDYk0k2",
+      "m4a": "audio/words/marshmallow.soft-sweet.m4a",
+      "m4a_sha256": "73b50bbcb8a068800691eaa7d33e3d5d13197d5f6c95f68f3d1a56e203c551ea",
+      "source_provenance": "coordination/drafts/word-book-sweets-2026-10-18/audio-provenance.json"
     }
   ]
 }
