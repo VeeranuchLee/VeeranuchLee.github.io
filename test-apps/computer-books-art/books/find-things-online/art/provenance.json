@@ -56,5 +56,24 @@
     "prompt": "Change only the rendering medium into unmistakable traditional watercolour; preserve exact composition, recurring faces and clothing, hands, two plain unbranded laptop backs, two separate floating result panels, icons, arrows and lesson meaning; add or remove nothing.",
     "qa": "Full-page and face/hand review preserves the three recurring family members, clean cheeks, hand placement, two plain laptop backs, spider and ladybird result panels, arrows and every icon.",
     "evidence": "../../../qa/2026-10-15-watercolour-restyle/find-things-online-before-after.jpg"
+  },
+  "owner_vanilla_orientation_watercolour_2026_10_18": {
+    "tool": "Codex built-in image generation and reference editing",
+    "model": "OpenAI built-in image model (model identifier not exposed)",
+    "date": "2026-10-18",
+    "verdict": "PASS at full source resolution",
+    "redrawn": ["what-is-searching", "ask-grown-up", "results-can-be-wrong", "anything-you-wonder"],
+    "locally_corrected": ["words-matter"],
+    "masters": [
+      "../art-source/raw/what-is-searching-watercolour-vanilla-attempt1.png",
+      "../art-source/raw/words-matter-vanilla-local-attempt3.png",
+      "../art-source/raw/ask-grown-up-watercolour-orientation-face-clean-attempt1.png",
+      "../art-source/raw/results-can-be-wrong-natural-face-clean-attempt1.png",
+      "../art-source/raw/anything-you-wonder-watercolour-face-clean-attempt1.png"
+    ],
+    "summary": "The supplied clean-watercolour what-is-searching candidate received canonical fully framed Vanilla and clean facial washes. Both words-matter copies now share Vanilla's canonical blaze, patches, ear fringe and body markings. Ask-grown-up is fresh clean watercolour with the rabbit book upright to the children; results-can-be-wrong lays comparison cards naturally toward the family; anything-you-wonder replaces the woven-rug/knit rendering with transparent watercolour and canonical Vanilla. Fresh-generation faces received local speckle cleanup.",
+    "rejected": [
+      "words-matter attempts 1 and 2: corrected Vanilla but regenerated unrelated children and diagrams; rejected before local-only promotion"
+    ]
   }
 }

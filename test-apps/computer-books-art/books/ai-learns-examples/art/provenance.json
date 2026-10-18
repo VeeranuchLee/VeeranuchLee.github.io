@@ -54,5 +54,23 @@
     "prompt": "Change only the rendering medium into unmistakable traditional watercolour; preserve every example card, existing label, animal, row, arrow, magnifying pattern diagram, output panel, checkmark and Vanilla position; add or remove nothing.",
     "qa": "Patterns remains people-free with seven lower example cards, two training rows, two output guesses and grounded Vanilla. Dogs remains people-free; all six labeled input cards, magnifier clues, two labeled outputs, checkmarks and chair-positioned Vanilla are preserved.",
     "evidence": "../../../qa/2026-10-15-watercolour-restyle/ai-learns-examples-before-after.jpg"
+  },
+  "orientation_and_presentation_audit_2026_10_18": {
+    "tool": "Codex built-in image generation reference edit",
+    "model": "OpenAI built-in image model (model identifier not exposed)",
+    "date": "2026-10-18",
+    "verdict": "PASS at full source resolution",
+    "redrawn": ["cover", "people-check", "you-can-check", "closing"],
+    "masters": [
+      "../art-source/raw/cover-orientation-attempt1.png",
+      "../art-source/raw/people-check-orientation-attempt2.png",
+      "../art-source/raw/you-can-check-orientation-attempt1.png",
+      "../art-source/raw/closing-orientation-attempt2.png"
+    ],
+    "summary": "Physical cards and answer materials now face the children using them rather than the camera. The cover and you-can-check cards are held obliquely inward; people-check worksheets lie flat and read upright from the family's side; closing's dog clues and wrong-cat output are rotated toward the seated children. Vanilla retains canonical markings on every edited page.",
+    "rejected": [
+      "people-check attempt 1: display faces remained substantially camera-facing",
+      "closing attempt 1: flat materials were still upright to the reader rather than the children"
+    ]
   }
 }
