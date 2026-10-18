@@ -84,7 +84,10 @@
       "title": "Computer & Digital World",
       "colour": "#6a7fb0",
       "books": [
-        "what-computers-do"
+        "what-computers-do",
+        "where-file-goes",
+        "exact-instructions",
+        "what-stays-private"
       ],
       "sections": [
         {
@@ -95,15 +98,21 @@
         },
         {
           "title": "Making & Data",
-          "books": []
+          "books": [
+            "where-file-goes"
+          ]
         },
         {
           "title": "Coding",
-          "books": []
+          "books": [
+            "exact-instructions"
+          ]
         },
         {
           "title": "Internet & Digital World",
-          "books": []
+          "books": [
+            "what-stays-private"
+          ]
         },
         {
           "title": "AI",
@@ -115,7 +124,21 @@
   "books": [
     {
       "id": "what-computers-do",
-      "title": "What Does a Computer Do?"
+      "title": "What Does a Computer Do?",
+      "next": "where-file-goes"
+    },
+    {
+      "id": "where-file-goes",
+      "title": "Where Did My File Go?",
+      "next": "exact-instructions"
+    },
+    {
+      "id": "exact-instructions",
+      "title": "Give the Computer Exact Instructions"
+    },
+    {
+      "id": "what-stays-private",
+      "title": "What Should Stay Private?"
     },
     {
       "id": "space-trip",
