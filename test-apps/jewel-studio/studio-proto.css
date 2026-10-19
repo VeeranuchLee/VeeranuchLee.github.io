@@ -353,3 +353,50 @@ button {
     font-size: 18px;
   }
 }
+/* Round 5 (2026-10-19): the picker says plainly how many designs exist so far. */
+#categories button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+#categories .count {
+  min-width: 24px;
+  padding: 1px 7px;
+  border-radius: 12px;
+  background: #f1e3ea;
+  color: #6f425d;
+  font-size: 13px;
+}
+#categories .selected .count {
+  background: #fff;
+}
+.coming-soon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  min-height: 150px;
+  padding: 18px;
+  border: 3px dashed #d9bfcc;
+  border-radius: 16px;
+  color: #876f7d;
+  text-align: center;
+}
+.coming-soon b {
+  color: #6f425d;
+  font-size: 17px;
+}
+.paper.real {
+  background: #1d0c19;
+}
+#canvasStack.revealing {
+  animation: jewel-reveal 900ms cubic-bezier(.2, .9, .3, 1.2);
+}
+@keyframes jewel-reveal {
+  0% { transform: scale(.92); filter: brightness(2.4) saturate(.6); }
+  45% { transform: scale(1.03); filter: brightness(1.5); }
+  100% { transform: scale(1); filter: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #canvasStack.revealing { animation: none; }
+}

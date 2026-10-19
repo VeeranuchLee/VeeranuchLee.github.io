@@ -12,6 +12,8 @@
   const VERSION = 3;
   const WIDTH = 900;
   const HEIGHT = 600;
+  const ASSET_VERSION = "r5-20261019";
+  const ALL = "All designs";
   const CATEGORIES = ["Necklaces", "Hair ornaments", "Earrings"];
   const PALETTE = ["#d4a237", "#c5ccd6", "#2384d6", "#bf3c6e", "#2f977e", "#774db4", "#dc5837", "#f6ebda"];
   const TEMPLATES = [
@@ -20,9 +22,12 @@
     { id: "chandelier-pair", title: "Chandelier Earring Pair", category: "Earrings", regionCount: 51 },
   ].map((template) => ({
     ...template,
-    line: `design/coloring-studio/raster/${template.id}-line.png`,
-    regionMap: `design/coloring-studio/raster/${template.id}-regions.png`,
+    line: `design/coloring-studio/raster/${template.id}-line.png?v=${ASSET_VERSION}`,
+    regionMap: `design/coloring-studio/raster/${template.id}-regions.png?v=${ASSET_VERSION}`,
   }));
+  // What an uncoloured part becomes when it is made real: clear diamond, polished gold,
+  // cream pearl. An uncoloured plate is polished gold too, never a flat blank.
+  const UNFILLED = { gem: "#e4ecf8", metal: "#e2b23c", pearl: "#f3e9dc", "enamel/other": "#e2b23c" };
 
   function blankDoc(templateId) {
     return { version: VERSION, id: `studio-${Date.now()}-${Math.random().toString(16).slice(2)}`, templateId, updatedAt: new Date().toISOString(), fills: {}, effects: {}, strokes: [], madeReal: false };
@@ -74,6 +79,165 @@
     return "tinted-metal";
   }
 
+  // One pass over the label map: every region's pixel list, a chamfer distance-to-outline
+  // field, and per-region thickness/centroid/bounds. The finish shades from the distance
+  // field, so facets, domes and bevels follow each part's real shape. Round 4 shaded from
+  // bounding boxes, which left petals, leaves and bands mostly one flat colour.
+  function buildGeometry(labels, width = WIDTH, height = HEIGHT) {
+    const total = width * height;
+    const counts = new Map();
+    for (let i = 0; i < total; i++) { const id = labels[i]; if (id) counts.set(id, (counts.get(id) || 0) + 1); }
+    const pixels = new Map(), fill = new Map();
+    for (const [id, count] of counts) { pixels.set(id, new Int32Array(count)); fill.set(id, 0); }
+    for (let i = 0; i < total; i++) { const id = labels[i]; if (id) { const at = fill.get(id); pixels.get(id)[at] = i; fill.set(id, at + 1); } }
+    const dist = new Float32Array(total);
+    const BIG = 1e6, D = Math.SQRT2;
+    for (let i = 0; i < total; i++) dist[i] = labels[i] ? BIG : 0;
+    for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+      const i = y * width + x; if (!dist[i]) continue;
+      let v = dist[i];
+      if (x > 0) v = Math.min(v, dist[i - 1] + 1); else v = Math.min(v, 1);
+      if (y > 0) { v = Math.min(v, dist[i - width] + 1); if (x > 0) v = Math.min(v, dist[i - width - 1] + D); if (x < width - 1) v = Math.min(v, dist[i - width + 1] + D); } else v = Math.min(v, 1);
+      dist[i] = v;
+    }
+    for (let y = height - 1; y >= 0; y--) for (let x = width - 1; x >= 0; x--) {
+      const i = y * width + x; if (!dist[i]) continue;
+      let v = dist[i];
+      if (x < width - 1) v = Math.min(v, dist[i + 1] + 1); else v = Math.min(v, 1);
+      if (y < height - 1) { v = Math.min(v, dist[i + width] + 1); if (x < width - 1) v = Math.min(v, dist[i + width + 1] + D); if (x > 0) v = Math.min(v, dist[i + width - 1] + D); } else v = Math.min(v, 1);
+      dist[i] = v;
+    }
+    // Normals come from a lightly smoothed copy of the field; the raw chamfer steps show as
+    // stair-step banding on metal and pearls otherwise.
+    let soft = dist;
+    for (let pass = 0; pass < 2; pass++) {
+      const next = new Float32Array(total);
+      for (let y = 1; y < height - 1; y++) for (let x = 1; x < width - 1; x++) {
+        const i = y * width + x; if (!labels[i]) continue;
+        let sum = 0, n = 0;
+        for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) { const j = i + dy * width + dx; if (labels[j] === labels[i] || !labels[j]) { sum += soft[j]; n++; } }
+        next[i] = sum / n;
+      }
+      soft = next;
+    }
+    const stats = new Map();
+    for (const [id, list] of pixels) {
+      let left = width, right = 0, top = height, bottom = 0, sx = 0, sy = 0, maxD = 1;
+      for (let k = 0; k < list.length; k++) { const i = list[k], x = i % width, y = (i - x) / width; if (x < left) left = x; if (x > right) right = x; if (y < top) top = y; if (y > bottom) bottom = y; sx += x; sy += y; if (dist[i] > maxD) maxD = dist[i]; }
+      stats.set(id, { id, n: list.length, left, right, top, bottom, x: (left + right) / 2, y: (top + bottom) / 2, cx: sx / list.length, cy: sy / list.length, maxD });
+    }
+    return { pixels, dist, soft, stats };
+  }
+
+  const clamp01 = (v) => v < 0 ? 0 : v > 1 ? 1 : v;
+  const parseHex = (hex) => String(hex).match(/[a-f\d]{2}/gi).slice(0, 3).map((part) => parseInt(part, 16));
+  function vivid(rgb, minSat = .72) {
+    // Push a child's colour toward a saturated, jewel-like value without changing its hue.
+    let [r, g, b] = rgb.map((v) => v / 255);
+    const max = Math.max(r, g, b), min = Math.min(r, g, b), l = (max + min) / 2, d = max - min;
+    if (d < .11) return rgb.slice(); // near-neutral (white, cream, silver) stays neutral: a clear diamond
+    let h; const s0 = l > .5 ? d / (2 - max - min) : d / (max + min);
+    if (max === r) h = (g - b) / d + (g < b ? 6 : 0); else if (max === g) h = (b - r) / d + 2; else h = (r - g) / d + 4; h /= 6;
+    const s = Math.max(s0, minSat), L = Math.min(.56, Math.max(.36, l));
+    const q = L < .5 ? L * (1 + s) : L + s - L * s, p = 2 * L - q;
+    const hue = (t) => { t = (t + 1) % 1; return t < 1 / 6 ? p + (q - p) * 6 * t : t < .5 ? q : t < 2 / 3 ? p + (q - p) * (2 / 3 - t) * 6 : p; };
+    return [hue(h + 1 / 3) * 255, hue(h) * 255, hue(h - 1 / 3) * 255];
+  }
+  const mixRgb = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
+  const WHITE = [255, 255, 255];
+  const hash = (n) => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
+  // Key light from the upper left, viewer straight on.
+  const LIGHT = (() => { const v = [-.5, -.62, .6], m = Math.hypot(...v); return v.map((c) => c / m); })();
+  const HALF = (() => { const v = [LIGHT[0], LIGHT[1], LIGHT[2] + 1], m = Math.hypot(...v); return v.map((c) => c / m); })();
+  const LIGHT_ANGLE = Math.atan2(LIGHT[1], LIGHT[0]);
+
+  // Shade every pixel of one region into an RGBA buffer. Returns nothing; writes `out`.
+  function shadeRegion(out, geometry, id, material, paint) {
+    const { pixels, dist, soft, stats } = geometry, st = stats.get(id), list = pixels.get(id);
+    if (!st || !list) return;
+    const solid = !paint || !String(paint).startsWith("gradient:");
+    const startHex = !paint ? UNFILLED[material] : solid ? paint : paint.split(":")[1];
+    const endHex = !paint ? startHex : solid ? paint : paint.split(":")[2];
+    const A = parseHex(startHex), B = parseHex(endHex);
+    const kind = !paint && material === "enamel/other" ? "metal" : material;
+    const w = Math.max(1, st.right - st.left), h = Math.max(1, st.bottom - st.top), maxD = st.maxD;
+    const sectors = maxD < 5 ? 6 : maxD < 10 ? 8 : 12;
+    const at = (i) => soft[i] || 0;
+    for (let k = 0; k < list.length; k++) {
+      const i = list[k], x = i % WIDTH, y = (i - x) / WIDTH, o = i * 4;
+      const base = solid ? A : mixRgb(A, B, y / HEIGHT);
+      const d = dist[i], t = clamp01(d / maxD);
+      const gx = (at(i + 1) - at(i - 1)) / 2, gy = (at(i + WIDTH) - at(i - WIDTH)) / 2;
+      let rgb;
+      if (kind === "gem") {
+        const v = vivid(base, .66), dark = mixRgb(v, [10, 6, 22], .8), light = mixRgb(v, WHITE, .5);
+        let b;
+        if (t > .64) {
+          // Table: a bright flat top that darkens away from the light, with one reflected bar.
+          const u = ((x - st.cx) * LIGHT[0] + (y - st.cy) * LIGHT[1]) / Math.max(4, maxD);
+          b = .52 + .3 * u;
+          const bar = Math.abs(((x - st.cx) + (y - st.cy)) / Math.max(4, maxD) + .15);
+          if (bar < .12) b += .3;
+        } else {
+          const ring = t < .3 ? 1 : 0;
+          const s = ((Math.atan2(y - st.cy, x - st.cx) + Math.PI) / (2 * Math.PI)) * sectors + ring * .5;
+          const facet = Math.floor(s), frac = s - facet;
+          const normalAngle = ((facet + .5 - ring * .5) / sectors) * 2 * Math.PI - Math.PI;
+          const lit = .5 + .5 * Math.cos(normalAngle - LIGHT_ANGLE);
+          b = .08 + .86 * (.6 * lit + .4 * hash(facet * 7 + ring * 131 + id * 17));
+          if (ring) b *= .78;
+          const edge = Math.min(frac, 1 - frac) * (2 * Math.PI * Math.max(2, d)) / sectors;
+          if (edge < .9) b = Math.min(1, b + .32);
+          if (Math.abs(t - .3) < .9 / maxD || Math.abs(t - .64) < .9 / maxD) b = Math.min(1, b + .28);
+        }
+        if (d < 1.6) b *= .42;
+        rgb = b < .5 ? mixRgb(dark, v, b / .5) : mixRgb(v, light, (b - .5) / .5);
+        if (b > .88) rgb = mixRgb(rgb, WHITE, Math.min(1, (b - .88) * 6));
+      } else if (kind === "metal") {
+        const curve = Math.sqrt(Math.max(.02, 1 - (1 - t) * (1 - t)));
+        const slope = Math.min(3.2, (1 - t) / curve) * 1.25;
+        let nx = -gx * slope, ny = -gy * slope, nz = 1; const m = Math.hypot(nx, ny, nz); nx /= m; ny /= m; nz /= m;
+        const rx = 2 * nz * nx, ry = 2 * nz * ny;
+        const sweep = ((x - st.left) / w) * .9 + ((y - st.top) / h) * .7;
+        let env = .5 + .5 * Math.sin(ry * 4.4 - rx * 1.8 + .6 + sweep * 3.4);
+        env = Math.pow(env, 1.5);
+        const spec = Math.pow(Math.max(0, nx * HALF[0] + ny * HALF[1] + nz * HALF[2]), 70);
+        const tone = vivid(base, .5), dark = mixRgb(tone, [48, 24, 6], .72), light = mixRgb(tone, WHITE, .72);
+        rgb = mixRgb(dark, light, env);
+        if (d < 1.4) rgb = mixRgb(rgb, [20, 10, 8], .5);
+        rgb = mixRgb(rgb, WHITE, Math.min(1, spec * 1.4));
+      } else if (kind === "pearl") {
+        const curve = Math.sqrt(Math.max(.02, 1 - (1 - t) * (1 - t)));
+        const slope = Math.min(3.5, (1 - t) / curve) * 1.4;
+        let nx = -gx * slope, ny = -gy * slope, nz = 1; const m = Math.hypot(nx, ny, nz); nx /= m; ny /= m; nz /= m;
+        const diffuse = Math.max(0, nx * LIGHT[0] + ny * LIGHT[1] + nz * LIGHT[2]);
+        const nh = Math.max(0, nx * HALF[0] + ny * HALF[1] + nz * HALF[2]);
+        const tone = mixRgb(vivid(base, .5), WHITE, .12);
+        rgb = mixRgb(mixRgb(tone, [60, 40, 55], .5), mixRgb(tone, WHITE, .35), diffuse);
+        const rim = clamp01(1 - t * 2.4);
+        rgb = mixRgb(rgb, [255, 190, 220], rim * .35);
+        rgb = mixRgb(rgb, [190, 240, 230], clamp01(1 - Math.abs(t - .32) * 6) * .18);
+        rgb = mixRgb(rgb, WHITE, Math.min(1, Math.pow(nh, 40) * 1.1 + Math.pow(nh, 8) * .25));
+      } else {
+        // Enamel: saturated colour under glass, a guilloché texture, bevelled glossy edges
+        // and one diagonal window reflection.
+        const tb = clamp01(d / Math.min(maxD, 7));
+        const slope = (1 - tb) * 1.8;
+        let nx = -gx * slope, ny = -gy * slope, nz = 1; const m = Math.hypot(nx, ny, nz); nx /= m; ny /= m; nz /= m;
+        const v = vivid(base, .7);
+        const ring = .9 + .1 * Math.sin(Math.hypot(x - st.cx, y - st.cy) * 1.25);
+        rgb = mixRgb([10, 6, 18], v, (.62 + .38 * tb) * ring);
+        const nh = Math.max(0, nx * HALF[0] + ny * HALF[1] + nz * HALF[2]);
+        rgb = mixRgb(rgb, WHITE, Math.min(1, Math.pow(nh, 45) * 1.2));
+        const u = ((x - st.left) / w) * .8 + ((y - st.top) / h) * .6;
+        const band = Math.max(0, 1 - Math.abs(u - .38) / .09);
+        rgb = mixRgb(rgb, WHITE, band * .42);
+        if (d < 1.4) rgb = mixRgb(rgb, [10, 6, 18], .5);
+      }
+      out[o] = rgb[0]; out[o + 1] = rgb[1]; out[o + 2] = rgb[2]; out[o + 3] = 255;
+    }
+  }
+
   function mount() {
     const $ = (selector) => document.querySelector(selector);
     const $$ = (selector) => [...document.querySelectorAll(selector)];
@@ -82,13 +246,16 @@
     const [colorCanvas, drawCanvas, finishCanvas, effectCanvas, lineCanvas] = canvases;
     const colorContext = colorCanvas.getContext("2d", { willReadFrequently: true });
     const drawContext = drawCanvas.getContext("2d");
-    const finishContext = finishCanvas.getContext("2d");
+    const finishContext = finishCanvas.getContext("2d", { willReadFrequently: true });
     const effectContext = effectCanvas.getContext("2d");
     const lineContext = lineCanvas.getContext("2d");
-    let category = CATEGORIES[0];
+    const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    let category = ALL;
     let doc = null;
     let template = null;
     let labels = null;
+    let geometry = null;
+    let lineImage = null;
     let regionMeta = new Map();
     let tool = "fill";
     let color = PALETTE[2];
@@ -99,8 +266,15 @@
     let history = [];
     let future = [];
     let raf = 0;
-    const regionCache = new Map();
+    let lastFrame = 0;
+    let revealStart = -1;
+    let manifestPromise = null;
+    const maskCache = new Map();
+    const effectCache = new Map();
+    let shared = null; // per-template cached canvases: whole-piece mask, gold outline
+    let real = null; // per Make-it-real build: glow halo + twinkle stars
 
+    const makeCanvas = (w = WIDTH, h = HEIGHT) => { const canvas = document.createElement("canvas"); canvas.width = w; canvas.height = h; return canvas; };
     const loadImage = (src) => new Promise((resolve, reject) => {
       const image = new Image();
       image.onload = () => resolve(image);
@@ -115,36 +289,28 @@
       const rect = lineCanvas.getBoundingClientRect();
       return { x: Math.max(0, Math.min(WIDTH - 1, Math.floor((event.clientX - rect.left) * WIDTH / rect.width))), y: Math.max(0, Math.min(HEIGHT - 1, Math.floor((event.clientY - rect.top) * HEIGHT / rect.height))) };
     };
-    const regionAt = (event) => labels ? labels[point(event).y * WIDTH + point(event).x] : 0;
-    const regionPixels = (id) => {
-      if (!regionCache.has(id)) regionCache.set(id, pixelsForRegion(labels, id));
-      return regionCache.get(id);
-    };
+    const regionAt = (event) => { if (!labels) return 0; const p = point(event); return labels[p.y * WIDTH + p.x]; };
+    const regionPixels = (id) => geometry?.pixels.get(+id) || [];
     function snapshot() {
       history.push(JSON.stringify(doc));
       if (history.length > 30) history.shift();
       future = [];
       updateHistory();
     }
-    function paintRegion(id, paint) {
-      const output = colorContext.getImageData(0, 0, WIDTH, HEIGHT);
-      const solid = !String(paint).startsWith("gradient:");
-      const start = solid ? paint : paint.split(":")[1];
-      const end = solid ? paint : paint.split(":")[2];
-      const parse = (hex) => hex.match(/[a-f\d]{2}/gi).map((part) => parseInt(part, 16));
-      const a = parse(start), b = parse(end);
-      for (const index of regionPixels(+id)) {
-        const y = Math.floor(index / WIDTH), ratio = y / HEIGHT, offset = index * 4;
-        output.data[offset] = a[0] + (b[0] - a[0]) * ratio;
-        output.data[offset + 1] = a[1] + (b[1] - a[1]) * ratio;
-        output.data[offset + 2] = a[2] + (b[2] - a[2]) * ratio;
-        output.data[offset + 3] = 255;
+    function rebuildColor() {
+      const output = colorContext.createImageData(WIDTH, HEIGHT);
+      for (const [id, paint] of Object.entries(doc.fills)) {
+        const solid = !String(paint).startsWith("gradient:");
+        const a = parseHex(solid ? paint : paint.split(":")[1]), b = parseHex(solid ? paint : paint.split(":")[2]);
+        for (const index of regionPixels(id)) {
+          const ratio = Math.floor(index / WIDTH) / HEIGHT, offset = index * 4;
+          output.data[offset] = a[0] + (b[0] - a[0]) * ratio;
+          output.data[offset + 1] = a[1] + (b[1] - a[1]) * ratio;
+          output.data[offset + 2] = a[2] + (b[2] - a[2]) * ratio;
+          output.data[offset + 3] = 255;
+        }
       }
       colorContext.putImageData(output, 0, 0);
-    }
-    function rebuildColor() {
-      colorContext.clearRect(0, 0, WIDTH, HEIGHT);
-      for (const [id, paint] of Object.entries(doc.fills)) paintRegion(id, paint);
     }
     function drawStroke(stroke) {
       if (!stroke.points?.length) return;
@@ -167,124 +333,225 @@
       doc.strokes.forEach(drawStroke);
     }
     function maskFor(id) {
-      const mask = document.createElement("canvas");
-      mask.width = WIDTH; mask.height = HEIGHT;
-      const context = mask.getContext("2d");
-      const image = context.createImageData(WIDTH, HEIGHT);
-      for (const index of regionPixels(+id)) image.data[index * 4 + 3] = 255;
+      id = +id;
+      if (maskCache.has(id)) return maskCache.get(id);
+      const mask = makeCanvas(), context = mask.getContext("2d"), image = context.createImageData(WIDTH, HEIGHT);
+      for (const index of regionPixels(id)) { image.data[index * 4] = 255; image.data[index * 4 + 1] = 255; image.data[index * 4 + 2] = 255; image.data[index * 4 + 3] = 255; }
       context.putImageData(image, 0, 0);
+      maskCache.set(id, mask);
       return mask;
     }
-    function boundsFor(id) {
-      const pixels = regionPixels(+id);
-      let left = WIDTH, right = 0, top = HEIGHT, bottom = 0;
-      pixels.forEach((index) => { const x = index % WIDTH, y = Math.floor(index / WIDTH); left = Math.min(left, x); right = Math.max(right, x); top = Math.min(top, y); bottom = Math.max(bottom, y); });
-      return { left, right, top, bottom, x: (left + right) / 2, y: (top + bottom) / 2 };
+    const boundsFor = (id) => geometry.stats.get(+id);
+    // Soft blur without ctx.filter (older iPad Safari lacks it): shrink, then enlarge smoothly.
+    function softBlur(source, factor) {
+      const small = makeCanvas(Math.ceil(WIDTH / factor), Math.ceil(HEIGHT / factor)), sc = small.getContext("2d");
+      sc.imageSmoothingEnabled = true; sc.imageSmoothingQuality = "high"; sc.drawImage(source, 0, 0, small.width, small.height);
+      const out = makeCanvas(), oc = out.getContext("2d");
+      oc.imageSmoothingEnabled = true; oc.imageSmoothingQuality = "high"; oc.drawImage(small, 0, 0, WIDTH, HEIGHT);
+      return out;
     }
-    function baseColour(id, material) {
-      const paint = doc.fills[id];
-      if (paint) return String(paint).startsWith("gradient:") ? paint.split(":")[1] : paint;
-      return { gem: "#77a9cc", metal: "#d4a237", pearl: "#f6eadb", "enamel/other": "#d98aa8" }[material] || "#d8d0d5";
+    const starSprite = (() => {
+      const sprite = makeCanvas(96, 96), c = sprite.getContext("2d");
+      const glow = c.createRadialGradient(48, 48, 0, 48, 48, 30); glow.addColorStop(0, "rgba(255,255,255,1)"); glow.addColorStop(.25, "rgba(255,250,225,.75)"); glow.addColorStop(1, "rgba(255,240,200,0)");
+      c.fillStyle = glow; c.fillRect(0, 0, 96, 96);
+      c.fillStyle = "white";
+      const ray = (angle, length, width) => { c.save(); c.translate(48, 48); c.rotate(angle); c.beginPath(); c.moveTo(-length, 0); c.quadraticCurveTo(0, -width, length, 0); c.quadraticCurveTo(0, width, -length, 0); c.fill(); c.restore(); };
+      ray(0, 47, 4.5); ray(Math.PI / 2, 47, 4.5); ray(Math.PI / 4, 24, 3); ray(-Math.PI / 4, 24, 3);
+      return sprite;
+    })();
+    function buildShared() {
+      const whole = makeCanvas(), wc = whole.getContext("2d"), image = wc.createImageData(WIDTH, HEIGHT);
+      for (let i = 0; i < labels.length; i++) if (labels[i]) image.data[i * 4 + 3] = 255;
+      wc.putImageData(image, 0, 0);
+      wc.globalCompositeOperation = "source-over"; wc.drawImage(lineImage, 0, 0, WIDTH, HEIGHT);
+      // The drawn outlines become the polished gold setting once the piece is made real.
+      const gold = makeCanvas(), gc = gold.getContext("2d");
+      const metal = gc.createLinearGradient(0, 0, WIDTH * .35, HEIGHT);
+      [["#5a3a10", 0], ["#f7dc84", .08], ["#a8771f", .17], ["#fff1b8", .27], ["#8a5d16", .38], ["#f3cf6a", .5], ["#7a5214", .62], ["#ffe9a3", .74], ["#9c6c1c", .86], ["#f0c862", 1]].forEach(([c, s]) => metal.addColorStop(s, c));
+      gc.fillStyle = metal; gc.fillRect(0, 0, WIDTH, HEIGHT);
+      gc.globalCompositeOperation = "destination-in"; gc.drawImage(lineImage, 0, 0, WIDTH, HEIGHT);
+      const shade = makeCanvas(), shc = shade.getContext("2d");
+      shc.drawImage(lineImage, 0, 0, WIDTH, HEIGHT);
+      shared = { whole, gold, shade };
     }
     function rebuildFinish() {
       finishContext.clearRect(0, 0, WIDTH, HEIGHT);
       finishCanvas.hidden = !doc.madeReal;
       colorCanvas.style.opacity = doc.madeReal ? "0" : "1";
       drawCanvas.style.opacity = doc.madeReal ? "0" : "1";
+      lineCanvas.style.opacity = doc.madeReal ? "0" : "1";
+      $("#paper").classList.toggle("real", !!doc.madeReal);
       const button = $("#makeReal");
       button.setAttribute("aria-pressed", String(!!doc.madeReal));
       button.firstChild.nodeValue = doc.madeReal ? "← Keep colouring " : "✨ Make it real ";
-      if (!doc.madeReal) return;
+      button.querySelector("small").textContent = doc.madeReal ? "Back to flat colours" : "Turn colours into a jewel";
+      if (!doc.madeReal) { real = null; return; }
       const velvet = finishContext.createRadialGradient(WIDTH * .5, HEIGHT * .42, 20, WIDTH * .5, HEIGHT * .48, WIDTH * .72);
-      velvet.addColorStop(0, "#7d4566"); velvet.addColorStop(.55, "#51233e"); velvet.addColorStop(1, "#24101f");
+      velvet.addColorStop(0, "#6e3a5c"); velvet.addColorStop(.55, "#3f1b33"); velvet.addColorStop(1, "#160a14");
       finishContext.fillStyle = velvet; finishContext.fillRect(0, 0, WIDTH, HEIGHT);
-      const wholeMask = document.createElement("canvas"); wholeMask.width = WIDTH; wholeMask.height = HEIGHT;
-      const whole = wholeMask.getContext("2d");
-      for (const id of regionMeta.keys()) whole.drawImage(maskFor(id), 0, 0);
-      finishContext.save(); finishContext.shadowColor = "rgba(62,35,51,.38)"; finishContext.shadowBlur = 18; finishContext.shadowOffsetY = 12; finishContext.globalAlpha = .9; finishContext.drawImage(wholeMask, 0, 0); finishContext.restore();
+      finishContext.save(); finishContext.shadowColor = "rgba(0,0,0,.65)"; finishContext.shadowBlur = 22; finishContext.shadowOffsetY = 14; finishContext.globalAlpha = .85; finishContext.drawImage(shared.whole, 0, 0); finishContext.restore();
+      const image = finishContext.getImageData(0, 0, WIDTH, HEIGHT);
+      for (const [id, meta] of regionMeta) shadeRegion(image.data, geometry, id, meta.material || "gem", doc.fills[id]);
+      finishContext.putImageData(image, 0, 0);
+      if (doc.strokes.length) { finishContext.save(); finishContext.globalAlpha = .9; finishContext.drawImage(drawCanvas, 0, 0); finishContext.restore(); }
+      finishContext.save(); finishContext.globalAlpha = .7; finishContext.drawImage(shared.shade, .8, 1.4); finishContext.restore();
+      finishContext.drawImage(shared.gold, 0, 0);
+      buildRealEffects(image.data);
+    }
+    // Glow halo and twinkle stars for the made-real piece, built once per finish.
+    function buildRealEffects(data) {
+      const bright = makeCanvas(), bc = bright.getContext("2d"), glowImage = bc.createImageData(WIDTH, HEIGHT);
+      const stars = [];
       for (const [id, meta] of regionMeta) {
-        const bounds = boundsFor(id), w = Math.max(1, bounds.right - bounds.left), h = Math.max(1, bounds.bottom - bounds.top);
-        const layer = document.createElement("canvas"); layer.width = WIDTH; layer.height = HEIGHT; const context = layer.getContext("2d");
-        const base = baseColour(id, meta.material);
-        if (meta.material === "gem") {
-          const rim = context.createRadialGradient(bounds.x, bounds.y, 1, bounds.x, bounds.y, Math.max(w, h) * .65); rim.addColorStop(0, "white"); rim.addColorStop(.18, base); rim.addColorStop(.68, base); rim.addColorStop(1, "#160d25"); context.fillStyle = rim; context.fillRect(bounds.left, bounds.top, w, h);
-          const table = [[bounds.x-w*.17,bounds.y],[bounds.x,bounds.y-h*.17],[bounds.x+w*.17,bounds.y],[bounds.x,bounds.y+h*.17]];
-          for (let facet=0;facet<8;facet++) { const a=facet*Math.PI/4,b=(facet+1)*Math.PI/4; context.fillStyle=facet%2?"rgba(255,255,255,.44)":"rgba(20,8,35,.34)"; context.beginPath(); context.moveTo(...table[Math.floor(facet/2)%4]); context.lineTo(bounds.x+Math.cos(a)*w*.58,bounds.y+Math.sin(a)*h*.58); context.lineTo(bounds.x+Math.cos(b)*w*.58,bounds.y+Math.sin(b)*h*.58); context.closePath(); context.fill(); }
-          context.strokeStyle = "rgba(255,255,255,.72)"; context.lineWidth = 2; context.beginPath(); table.forEach((point,index)=>index?context.lineTo(...point):context.moveTo(...point)); context.closePath(); context.stroke();
-          context.fillStyle = "rgba(255,255,255,.9)"; context.beginPath(); context.arc(bounds.left + w * .3, bounds.top + h * .25, Math.max(2, Math.min(w, h) * .1), 0, Math.PI * 2); context.fill();
-        } else if (meta.material === "metal") {
-          const family = metalFamily(base); const bright = family === "silver" ? "#ffffff" : family === "rose-gold" ? "#ffe0d8" : "#fff1aa";
-          const metal = context.createLinearGradient(bounds.left, bounds.top, bounds.right, bounds.bottom); metal.addColorStop(0, "#392b34"); metal.addColorStop(.18, base); metal.addColorStop(.43, bright); metal.addColorStop(.57, base); metal.addColorStop(.8, bright); metal.addColorStop(1, "#4b3437"); context.fillStyle = metal; context.fillRect(bounds.left, bounds.top, w, h);
-        } else if (meta.material === "pearl") {
-          const pearl = context.createRadialGradient(bounds.left + w * .3, bounds.top + h * .25, 1, bounds.x, bounds.y, Math.max(w, h) * .65); pearl.addColorStop(0, "#ffffff"); pearl.addColorStop(.35, "#fff4df"); pearl.addColorStop(.72, base); pearl.addColorStop(1, "#b896aa"); context.fillStyle = pearl; context.fillRect(bounds.left, bounds.top, w, h);
-        } else {
-          const enamel = context.createLinearGradient(bounds.left, bounds.top, bounds.left, bounds.bottom); enamel.addColorStop(0, "white"); enamel.addColorStop(.23, base); enamel.addColorStop(1, base); context.fillStyle = enamel; context.fillRect(bounds.left, bounds.top, w, h);
+        const material = meta.material || "gem", st = geometry.stats.get(id), list = geometry.pixels.get(id);
+        if (!st || !list) continue;
+        const glows = material === "gem" || material === "pearl";
+        if (glows) for (let k = 0; k < list.length; k++) { const o = list[k] * 4; glowImage.data[o] = Math.min(255, data[o] * 1.25 + 40); glowImage.data[o + 1] = Math.min(255, data[o + 1] * 1.25 + 40); glowImage.data[o + 2] = Math.min(255, data[o + 2] * 1.25 + 40); glowImage.data[o + 3] = 255; }
+        const count = material === "gem" ? (st.n > 3500 ? 3 : st.n > 1200 ? 2 : 1) : material === "pearl" ? 1 : st.n > 2000 ? 1 : 0;
+        for (let s = 0; s < count; s++) {
+          // Twinkles sit on the lit side of the part, inside it, never on the background.
+          let best = list[0], bestScore = -1e9;
+          for (let tries = 0; tries < 24; tries++) {
+            const i = list[Math.floor(hash(id * 31 + s * 97 + tries * 13) * list.length)], x = i % WIDTH, y = (i - x) / WIDTH;
+            const score = geometry.dist[i] * .6 - ((x - st.cx) * LIGHT[0] + (y - st.cy) * LIGHT[1]) * -.08 + hash(i) * 2 - (s ? 0 : 0);
+            if (score > bestScore) { bestScore = score; best = i; }
+          }
+          const x = best % WIDTH, y = (best - x) / WIDTH;
+          const radius = material === "gem" ? Math.max(9, Math.min(28, Math.sqrt(st.n) * .55)) : material === "pearl" ? Math.max(7, Math.min(16, Math.sqrt(st.n) * .4)) : 12;
+          stars.push({ x, y, r: radius, phase: hash(id * 3 + s) * Math.PI * 2, speed: 650 + hash(id + s * 5) * 700 });
         }
-        context.globalCompositeOperation = "destination-in"; context.drawImage(maskFor(id), 0, 0); finishContext.drawImage(layer, 0, 0);
       }
+      bc.putImageData(glowImage, 0, 0);
+      const halo = makeCanvas(), hc = halo.getContext("2d");
+      hc.globalCompositeOperation = "lighter";
+      hc.drawImage(softBlur(bright, 10), 0, 0); hc.drawImage(softBlur(bright, 22), 0, 0); hc.drawImage(softBlur(bright, 22), 0, 0);
+      // The halo surrounds each stone; it must not wash the stone itself out to white.
+      hc.globalCompositeOperation = "destination-out"; hc.drawImage(bright, 0, 0);
+      real = { halo, stars: stars.slice(0, 70) };
+    }
+    function star(context, x, y, radius, alpha) {
+      if (radius < .5 || alpha <= 0) return;
+      context.globalAlpha = Math.min(1, alpha);
+      context.drawImage(starSprite, x - radius, y - radius, radius * 2, radius * 2);
+    }
+    function effectAssets(id, spec) {
+      const key = `${id}|${spec.type}|${spec.color}|${spec.intensity}`;
+      if (effectCache.has(key)) return effectCache.get(key);
+      const st = boundsFor(id), list = regionPixels(id), mask = maskFor(id), intensity = spec.intensity || 2, assets = { st, mask };
+      if (spec.type === "glow") {
+        const tint = makeCanvas(), tc = tint.getContext("2d");
+        tc.fillStyle = spec.color || "#ffd43b"; tc.fillRect(st.left - 2, st.top - 2, st.right - st.left + 4, st.bottom - st.top + 4);
+        tc.globalCompositeOperation = "destination-in"; tc.drawImage(mask, 0, 0);
+        // Owner, 2026-10-19: "the glow effect is not good enough ... no need to go subtle."
+        // The light spreads well past the part: enlarged copies of it, blurred wide.
+        // Dilate by a fixed reach (not a scale), so a big drop and a small bead both get a
+        // bold ring of light that does not swallow the rest of the piece.
+        const spread = makeCanvas(), sc = spread.getContext("2d"), reach = 10 + intensity * 7;
+        for (const [radius, alpha] of [[reach, .45], [reach * .55, .8]]) for (let k = 0; k < 16; k++) { const a = k * Math.PI / 8; sc.globalAlpha = alpha; sc.drawImage(tint, Math.cos(a) * radius, Math.sin(a) * radius); }
+        sc.globalAlpha = 1; sc.drawImage(tint, 0, 0);
+        const halo = makeCanvas(), hc = halo.getContext("2d");
+        hc.globalCompositeOperation = "lighter";
+        [6, 12, 20].forEach((factor) => hc.drawImage(softBlur(spread, factor), 0, 0));
+        hc.globalAlpha = .4; hc.drawImage(tint, 0, 0);
+        assets.halo = halo;
+      } else if (spec.type === "sparkle" || spec.type === "glitter") {
+        const count = spec.type === "sparkle" ? 2 + intensity * 2 : 30 + intensity * 40;
+        assets.points = Array.from({ length: Math.min(count, list.length) }, (_, n) => { const i = list[Math.floor(hash(id * 911 + n * 37) * list.length)]; return { x: i % WIDTH, y: Math.floor(i / WIDTH), phase: hash(n + id) * 6.283, speed: 500 + hash(n * 3 + id) * 600 }; });
+      } else {
+        const w = st.right - st.left + 1, h = st.bottom - st.top + 1;
+        assets.scratch = makeCanvas(w, h);
+      }
+      effectCache.set(key, assets);
+      return assets;
     }
     function rebuildEffects(tick = 0) {
       effectContext.clearRect(0, 0, WIDTH, HEIGHT);
-      for (const [id, spec] of Object.entries(doc.effects)) {
-        const mask = maskFor(id), bounds = boundsFor(id), intensity = spec.intensity || 2;
-        if (spec.type === "glow") {
-          const glow = document.createElement("canvas"); glow.width = WIDTH; glow.height = HEIGHT;
-          const context = glow.getContext("2d");
-          context.save(); context.shadowColor = spec.color || "#ffd43b"; context.shadowBlur = 12 + intensity * 8; context.globalAlpha = .9; context.drawImage(mask, 0, 0); context.restore();
-          context.globalCompositeOperation = "destination-out"; context.drawImage(mask, 0, 0);
-          effectContext.drawImage(glow, 0, 0);
-        } else if (spec.type === "sparkle") {
-          effectContext.save();
-          effectContext.fillStyle = "white";
-          effectContext.strokeStyle = "#ffd85a";
-          effectContext.lineWidth = 2;
-          for (let index = 0; index < intensity + 1; index++) {
-            const pulse = .7 + .3 * Math.sin(tick / 340 + index * 2.1);
-            const x = bounds.left + (bounds.right - bounds.left) * (.25 + index / (intensity + 2));
-            const y = bounds.top + (bounds.bottom - bounds.top) * (.35 + (index % 2) * .3);
-            const radius = (6 + intensity * 2) * pulse;
-            effectContext.beginPath();
-            for (let ray = 0; ray < 8; ray++) { const angle = ray * Math.PI / 4, r = ray % 2 ? radius * .22 : radius; effectContext.lineTo(x + Math.cos(angle) * r, y + Math.sin(angle) * r); }
-            effectContext.closePath(); effectContext.fill(); effectContext.stroke();
-          }
-          effectContext.restore();
-        } else {
-          const texture = document.createElement("canvas"); texture.width = WIDTH; texture.height = HEIGHT;
-          const context = texture.getContext("2d");
-          if (spec.type === "glitter") {
-            const seed = +id * 7919;
-            const phase = Math.floor(tick / 140);
-            for (let index = 0; index < 30 + intensity * 30; index++) { const x = bounds.left + ((seed + (index + phase) * 47) % Math.max(1, bounds.right - bounds.left)); const y = bounds.top + ((seed + (index + phase) * 83) % Math.max(1, bounds.bottom - bounds.top)); context.fillStyle = index % 3 ? "#fffbd1" : "white"; context.fillRect(x, y, 2 + index % 2, 2 + index % 2); }
-          } else {
-            const gradient = context.createLinearGradient(bounds.left, bounds.bottom, bounds.right, bounds.top); gradient.addColorStop(.36, "transparent"); gradient.addColorStop(.48, "rgba(255,255,255,.92)"); gradient.addColorStop(.58, "rgba(255,255,255,.28)"); gradient.addColorStop(.7, "transparent"); context.fillStyle = gradient; context.fillRect(bounds.left, bounds.top, bounds.right - bounds.left, bounds.bottom - bounds.top);
-          }
-          context.globalCompositeOperation = "destination-in"; context.drawImage(mask, 0, 0);
-          effectContext.drawImage(texture, 0, 0);
+      effectContext.save();
+      if (doc.madeReal && real) {
+        effectContext.globalCompositeOperation = "lighter";
+        effectContext.globalAlpha = .62 + .33 * Math.sin(tick / 520);
+        effectContext.drawImage(real.halo, 0, 0);
+        for (const s of real.stars) { const pulse = Math.max(0, Math.sin(tick / s.speed * 2 + s.phase)); star(effectContext, s.x, s.y, s.r * (.35 + pulse * pulse * 1.1), .25 + pulse); }
+        const since = revealStart < 0 ? 1e9 : tick - revealStart;
+        if (since >= 0 && since < 1600) {
+          // Celebratory reveal: one bright shimmer sweeps across the piece and a burst of stars.
+          const p = since / 1600, band = makeCanvas(), bc = band.getContext("2d");
+          const xPos = -WIDTH * .3 + p * WIDTH * 1.6;
+          const g = bc.createLinearGradient(xPos - 160, 0, xPos + 160, HEIGHT * .25);
+          g.addColorStop(0, "rgba(255,255,255,0)"); g.addColorStop(.5, "rgba(255,255,255,.95)"); g.addColorStop(1, "rgba(255,255,255,0)");
+          bc.fillStyle = g; bc.fillRect(0, 0, WIDTH, HEIGHT);
+          bc.globalCompositeOperation = "destination-in"; bc.drawImage(shared.whole, 0, 0);
+          effectContext.globalAlpha = 1; effectContext.drawImage(band, 0, 0);
+          real.stars.forEach((s, n) => { const local = clamp01(p * 1.6 - (n % 9) * .07); const burst = Math.sin(local * Math.PI); star(effectContext, s.x, s.y, s.r * 2.6 * burst, burst); });
         }
       }
+      effectContext.restore();
+      for (const [id, spec] of Object.entries(doc.effects)) {
+        if (!geometry.stats.has(+id)) continue;
+        const intensity = spec.intensity || 2, assets = effectAssets(+id, spec), st = assets.st;
+        effectContext.save();
+        if (spec.type === "glow") {
+          effectContext.globalCompositeOperation = doc.madeReal ? "lighter" : "source-over";
+          effectContext.globalAlpha = .7 + .3 * Math.sin(tick / 450 + +id);
+          effectContext.drawImage(assets.halo, 0, 0);
+        } else if (spec.type === "sparkle") {
+          assets.points.forEach((p) => { const pulse = Math.max(0, Math.sin(tick / p.speed * 2 + p.phase)); star(effectContext, p.x, p.y, (9 + intensity * 6) * (.3 + pulse * pulse), .35 + pulse); });
+        } else if (spec.type === "glitter") {
+          effectContext.globalCompositeOperation = doc.madeReal ? "lighter" : "source-over";
+          assets.points.forEach((p, n) => { const pulse = .5 + .5 * Math.sin(tick / (p.speed * .5) + p.phase); effectContext.globalAlpha = .25 + .75 * pulse; effectContext.fillStyle = n % 3 ? "#fff6c4" : n % 2 ? "#ffffff" : "#ffd6f2"; const s = 1.5 + (n % 3) + pulse * 1.5; effectContext.fillRect(p.x - s / 2, p.y - s / 2, s, s); });
+        } else {
+          // Shine: a bright glossy streak that sweeps across the part every few seconds.
+          const c = assets.scratch.getContext("2d"), w = assets.scratch.width, h = assets.scratch.height;
+          const p = ((tick / 2600 + (+id % 7) * .13) % 1) * 1.8 - .4;
+          c.globalCompositeOperation = "source-over"; c.clearRect(0, 0, w, h);
+          const g = c.createLinearGradient(0, h, w, 0);
+          const at = (v) => Math.max(0, Math.min(1, v));
+          g.addColorStop(0, "rgba(255,255,255,0)"); g.addColorStop(at(p - .14), "rgba(255,255,255,0)"); g.addColorStop(at(p), `rgba(255,255,255,${.55 + intensity * .15})`); g.addColorStop(at(p + .1), "rgba(255,255,255,0)"); g.addColorStop(1, "rgba(255,255,255,0)");
+          c.fillStyle = g; c.fillRect(0, 0, w, h);
+          c.fillStyle = `rgba(255,255,255,${.12 + intensity * .06})`; c.fillRect(0, 0, w, h * .45);
+          c.globalCompositeOperation = "destination-in"; c.drawImage(assets.mask, st.left, st.top, w, h, 0, 0, w, h);
+          effectContext.drawImage(assets.scratch, st.left, st.top);
+        }
+        effectContext.restore();
+      }
     }
-    function renderAll() { rebuildColor(); rebuildDraw(); rebuildFinish(); rebuildEffects(); animate(); }
+    function needsAnimation() { return !!doc && (doc.madeReal || Object.keys(doc.effects).length > 0); }
+    function renderAll() { rebuildColor(); rebuildDraw(); rebuildFinish(); rebuildEffects(performance.now()); animate(); }
     function animate() {
-      if (raf || document.hidden || !doc || !Object.values(doc.effects).some((spec) => spec.type === "sparkle" || spec.type === "glitter")) return;
-      const frame = (tick) => { if (document.hidden) { raf = 0; return; } rebuildEffects(tick); raf = requestAnimationFrame(frame); };
+      if (raf || document.hidden || !needsAnimation() || !$("#editor").classList.contains("active")) return;
+      if (reducedMotion) { rebuildEffects(800); return; }
+      const frame = (tick) => {
+        if (document.hidden || !needsAnimation() || !$("#editor").classList.contains("active")) { raf = 0; effectContext.clearRect(0, 0, WIDTH, HEIGHT); return; }
+        if (tick - lastFrame > 30) { lastFrame = tick; rebuildEffects(tick); }
+        raf = requestAnimationFrame(frame);
+      };
       raf = requestAnimationFrame(frame);
+    }
+    function loadManifest() {
+      manifestPromise = manifestPromise || fetch(`design/coloring-studio/raster/manifest.json?v=${ASSET_VERSION}`).then((response) => response.json());
+      return manifestPromise;
     }
     async function open(nextDoc) {
       doc = JSON.parse(JSON.stringify(nextDoc));
       if (doc.version < VERSION) doc.version = VERSION;
       doc.madeReal = !!doc.madeReal;
       template = TEMPLATES.find((candidate) => candidate.id === doc.templateId);
-      history = []; future = []; regionCache.clear();
+      history = []; future = []; maskCache.clear(); effectCache.clear(); real = null; revealStart = -1;
       $("#designTitle").textContent = template.title;
       $("#categoryLabel").textContent = `${template.category} · ${template.regionCount} fillable regions`;
       show("editor");
       $("#message").textContent = "Loading sealed region map…";
-      const [lineImage, regionImage, manifest] = await Promise.all([loadImage(template.line), loadImage(template.regionMap), fetch("design/coloring-studio/raster/manifest.json").then((response) => response.json())]);
+      const [line, regionImage, manifest] = await Promise.all([loadImage(template.line), loadImage(template.regionMap), loadManifest()]);
+      lineImage = line;
       lineContext.clearRect(0, 0, WIDTH, HEIGHT); lineContext.drawImage(lineImage, 0, 0, WIDTH, HEIGHT);
-      const scratch = document.createElement("canvas"); scratch.width = WIDTH; scratch.height = HEIGHT;
-      const scratchContext = scratch.getContext("2d", { willReadFrequently: true }); scratchContext.drawImage(regionImage, 0, 0);
+      const scratch = makeCanvas(), scratchContext = scratch.getContext("2d", { willReadFrequently: true }); scratchContext.drawImage(regionImage, 0, 0);
       labels = decodeRegionMap(scratchContext.getImageData(0, 0, WIDTH, HEIGHT).data);
-      regionMeta = new Map(manifest.designs.find((design) => design.id === template.id).regions.map((region) => [region.id, region]));
+      geometry = buildGeometry(labels);
+      // Every region that exists in the map is shaded; a region missing from the manifest
+      // defaults to gem (stones are the commonest part) rather than rendering nothing.
+      const tagged = new Map(manifest.designs.find((design) => design.id === template.id).regions.map((region) => [region.id, region]));
+      regionMeta = new Map([...geometry.stats.keys()].sort((a, b) => a - b).map((id) => [id, tagged.get(id) || { id, material: "gem" }]));
+      buildShared();
       renderAll(); updateHistory();
       $("#message").textContent = "Tap a bounded jewelry detail to fill it.";
     }
@@ -298,23 +565,39 @@
     }
     lineCanvas.addEventListener("pointerdown", (event) => {
       event.preventDefault();
+      if (!labels) return;
       if (tool === "brush" || tool === "eraser" && !effect) {
         snapshot(); drawing = true; activeStroke = { color, size, eraser: tool === "eraser", points: [point(event)] }; doc.strokes.push(activeStroke); lineCanvas.setPointerCapture?.(event.pointerId); rebuildDraw();
       } else applyRegion(regionAt(event));
     });
     lineCanvas.addEventListener("pointermove", (event) => { if (!drawing || !activeStroke) return; event.preventDefault(); activeStroke.points.push(point(event)); rebuildDraw(); });
-    ["pointerup", "pointercancel"].forEach((name) => lineCanvas.addEventListener(name, () => { drawing = false; activeStroke = null; }));
-    function card(template, savedDoc) {
-      const button = document.createElement("button"); button.className = "design-card";
+    ["pointerup", "pointercancel"].forEach((name) => lineCanvas.addEventListener(name, () => { if (drawing && doc.madeReal) rebuildFinish(); drawing = false; activeStroke = null; }));
+    function card(template, savedDoc, showCategory) {
+      const button = document.createElement("button"); button.className = "design-card"; button.type = "button";
       const image = document.createElement("img"); image.src = template.line; image.alt = `${template.title} blank line art`;
       const strong = document.createElement("b"); strong.textContent = template.title;
-      const small = document.createElement("small"); small.textContent = savedDoc ? `Saved ${new Date(savedDoc.updatedAt).toLocaleDateString()}` : `${template.regionCount} fillable details`;
+      const small = document.createElement("small"); small.textContent = savedDoc ? `Saved ${new Date(savedDoc.updatedAt).toLocaleDateString()}` : `${showCategory ? template.category + " · " : ""}${template.regionCount} parts to colour`;
       button.append(image, strong, small); button.onclick = () => open(savedDoc || blankDoc(template.id)); return button;
     }
     function gallery() {
       const nav = $("#categories"); nav.replaceChildren();
-      CATEGORIES.forEach((name) => { const button = document.createElement("button"); button.textContent = name; button.classList.toggle("selected", name === category); button.onclick = () => { category = name; gallery(); }; nav.append(button); });
-      const grid = $("#designGrid"); grid.replaceChildren(); TEMPLATES.filter((candidate) => candidate.category === category).forEach((candidate) => grid.append(card(candidate)));
+      [ALL, ...CATEGORIES].forEach((name) => {
+        const count = name === ALL ? TEMPLATES.length : TEMPLATES.filter((candidate) => candidate.category === name).length;
+        const button = document.createElement("button"); button.type = "button"; button.dataset.category = name;
+        button.innerHTML = `${name} <span class="count">${count}</span>`;
+        button.classList.toggle("selected", name === category); button.setAttribute("aria-pressed", String(name === category));
+        button.onclick = () => { category = name; gallery(); };
+        nav.append(button);
+      });
+      const grid = $("#designGrid"); grid.replaceChildren();
+      const list = TEMPLATES.filter((candidate) => category === ALL || candidate.category === category);
+      list.forEach((candidate) => grid.append(card(candidate, null, category === ALL)));
+      // There is one design per category so far; say so plainly instead of looking broken.
+      const note = document.createElement("div"); note.className = "coming-soon";
+      note.innerHTML = category === ALL
+        ? `<b>3 designs to try</b><span>One necklace, one hair ornament and one pair of earrings for now. More designs are being drawn.</span>`
+        : `<b>More ${category.toLowerCase()} are being drawn</b><span>This is the only ${category === "Earrings" ? "earring design" : category === "Hair ornaments" ? "hair ornament" : "necklace"} so far. Tap “${ALL}” to see every design.</span>`;
+      grid.append(note);
     }
     function saved() {
       const docs = loadDocs(localStorage), grid = $("#savedGrid"); grid.replaceChildren(); $("#savedEmpty").hidden = !!docs.length;
@@ -328,10 +611,18 @@
     }
     function updateHistory() { $("#undo").disabled = !history.length; $("#redo").disabled = !future.length; }
     $$('[data-tool]').forEach((button) => button.onclick = () => selectTool(button.dataset.tool));
-    PALETTE.forEach((paint, index) => { const button = document.createElement("button"); button.className = "swatch" + (index ? "" : " selected"); button.style.setProperty("--c", paint); button.setAttribute("aria-label", `Colour ${index + 1}`); button.onclick = () => { color = paint; selectTool("fill"); $$(".swatch").forEach((candidate) => candidate.classList.toggle("selected", candidate === button)); }; $("#palette").append(button); });
+    PALETTE.forEach((paint, index) => { const button = document.createElement("button"); button.className = "swatch" + (paint === color ? " selected" : ""); button.style.setProperty("--c", paint); button.setAttribute("aria-label", `Colour ${index + 1}`); button.onclick = () => { color = paint; selectTool("fill"); $$(".swatch").forEach((candidate) => candidate.classList.toggle("selected", candidate === button)); }; $("#palette").append(button); });
     ["sparkle", "glitter", "glow", "shine"].forEach((name) => { const button = document.createElement("button"); button.textContent = { sparkle: "✦ Sparkle", glitter: "⁙ Glitter", glow: "☀ Glow", shine: "◒ Shine" }[name]; button.onclick = () => { effect = name; tool = "effect"; $$('[data-tool]').forEach((candidate) => candidate.classList.remove("selected")); $$("#effects button").forEach((candidate) => candidate.classList.toggle("selected", candidate === button)); $("#message").textContent = `Tap jewelry details to add ${name}.`; }; $("#effects").append(button); });
     $("#clearEffect").onclick = () => selectTool("eraser");
-    $("#makeReal").onclick = () => { snapshot(); doc.madeReal = !doc.madeReal; renderAll(); $("#message").textContent = doc.madeReal ? "Your colours are now a finished jewel. Add extra magic, or go back to keep colouring." : "Colouring view is back. Your colours are still editable."; };
+    $("#makeReal").onclick = () => {
+      snapshot(); doc.madeReal = !doc.madeReal;
+      revealStart = doc.madeReal ? performance.now() : -1;
+      renderAll();
+      const stack = $("#canvasStack"); stack.classList.remove("revealing");
+      if (doc.madeReal && !reducedMotion) { void stack.offsetWidth; stack.classList.add("revealing"); }
+      $("#message").textContent = doc.madeReal ? "Ta-da! Your colours are now a real jewel. Add extra magic, or go back to keep colouring." : "Colouring view is back. Your colours are still editable.";
+    };
+    $("#canvasStack").addEventListener("animationend", (event) => event.currentTarget.classList.remove("revealing"));
     $("#customColor").oninput = (event) => { color = event.target.value; selectTool("fill"); };
     $$('[data-size]').forEach((button) => button.onclick = () => { size = +button.dataset.size; $$('[data-size]').forEach((candidate) => candidate.classList.toggle("selected", candidate === button)); });
     $("#undo").onclick = () => { if (!history.length) return; future.push(JSON.stringify(doc)); doc = JSON.parse(history.pop()); renderAll(); updateHistory(); };
@@ -345,5 +636,5 @@
     document.addEventListener("visibilitychange", () => { if (document.hidden && raf) { cancelAnimationFrame(raf); raf = 0; } else animate(); });
     gallery(); saved(); show("gallery"); legacySummary(localStorage);
   }
-  return { VERSION, SAVE_KEY, LEGACY_KEY, TEMPLATES, PALETTE, blankDoc, validDoc, loadDocs, saveDoc, legacySummary, decodeRegionMap, pixelsForRegion, metalFamily, mount };
+  return { VERSION, SAVE_KEY, LEGACY_KEY, TEMPLATES, CATEGORIES, PALETTE, UNFILLED, blankDoc, validDoc, loadDocs, saveDoc, legacySummary, decodeRegionMap, pixelsForRegion, metalFamily, buildGeometry, shadeRegion, mount };
 });
