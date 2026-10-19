@@ -15,7 +15,7 @@
     return Array.prototype.map.call(String(word), function (character, index) {
       var lower = character.toLowerCase();
       if (/^[a-z]$/.test(lower)) {
-        return { character: character, index: index, kind: 'letter', clip: LETTER_DIR + lower + '.m4a' };
+        return { character: character, index: index, kind: 'letter', clip: LETTER_DIR + lower + '.m4a?v=4c193d87-1019' };
       }
       if (character === ' ' || character === '-') {
         return { character: character, index: index, kind: 'pause', clip: null };

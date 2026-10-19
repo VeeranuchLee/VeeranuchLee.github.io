@@ -75,7 +75,7 @@
   /* Where this card's clip lives, whether or not it has been rendered yet. */
   function pathFor(word, sense) {
     return DIR + (HELD_POSTER_FILES[sense] ||
-      ((SENSE_KEYED.indexOf(word) > -1 ? sense : slug(word)) + '.m4a'));
+      ((SENSE_KEYED.indexOf(word) > -1 ? sense : slug(word)) + '.m4a')) + '?v=4c193d87-1019';
   }
 
   /* The clip a card plays, or null when the card is a documented exception. */
