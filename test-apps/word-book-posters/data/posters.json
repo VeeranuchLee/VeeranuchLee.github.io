@@ -2129,81 +2129,69 @@
       "group": "Where is it?",
       "layout": "position-scenes",
       "plate": "assets/posters/positions-1.webp",
-      "pointer": true,
+      "pointer": false,
       "labels": {
         "on.touching-the-top": [
-          17.0,
-          47.0,
-          17.2,
-          34.2
+          16.9,
+          36.5
         ],
         "in.inside": [
-          47.0,
-          49.0,
           47.2,
-          35.2
+          39.1
         ],
         "under.lower-than": [
-          80.0,
-          50.0,
           80.2,
-          46.7
+          51.5
         ],
         "over.above-and-across": [
-          27.0,
-          56.0,
-          20.7,
-          56.2
+          16.0,
+          68.9
         ],
         "beside.next-to": [
-          38.0,
-          91.5,
-          38.2,
-          83.2
+          38.7,
+          89.2
         ],
         "between.in-the-middle-of": [
-          81.0,
-          91.5,
           81.2,
-          82.2
+          90.8
         ]
       },
       "item_boxes": {
         "on.touching-the-top": [
-          9,
-          19,
-          16,
-          16
+          10.1,
+          20.4,
+          13.2,
+          10.8
         ],
         "in.inside": [
-          40,
-          23,
-          14,
-          13
+          42.6,
+          25.0,
+          9.2,
+          8.8
         ],
         "under.lower-than": [
-          75.0,
-          34.0,
-          10.0,
-          13.44
+          75.9,
+          34.8,
+          8.6,
+          11.4
         ],
         "over.above-and-across": [
-          8,
-          54,
-          13.4,
-          14
+          8.4,
+          53.6,
+          15.5,
+          10.0
         ],
         "beside.next-to": [
-          31,
-          65,
-          14,
-          19
+          32.5,
+          61.0,
+          12.3,
+          22.9
         ],
         "between.in-the-middle-of": [
-          75,
-          65,
-          12,
-          18
+          76.7,
+          60.5,
+          9.5,
+          25.0
         ]
       },
       "sentences": {
@@ -2247,8 +2235,7 @@
         "beside.next-to",
         "between.in-the-middle-of"
       ],
-      "longPointers": true,
-      "longPointersReason": "Relation labels sit on the clear floor beside/below each complete pair after the owner clearance pass (2026-10-18); leaders back to the pairs legitimately exceed 1.5x label height."
+      "directLabels": "below-item"
     },
     {
       "id": "positions-2",
@@ -2256,69 +2243,59 @@
       "group": "Where is it?",
       "layout": "position-scenes",
       "plate": "assets/posters/positions-2.webp",
-      "pointer": true,
+      "pointer": false,
       "labels": {
         "above.higher-than": [
           19.5,
-          28.0,
-          19.7,
-          23.2
+          29.2
         ],
         "below.lower-than": [
-          55.0,
-          51.0,
-          52.2,
-          42.2
+          45.5,
+          46.5
         ],
         "inside.inner-place": [
-          47.0,
-          94.0,
-          47.2,
-          77.2
+          45.7,
+          79.4
         ],
         "outside.outer-place": [
-          79.0,
-          48.0,
           79.2,
-          42.2
+          44.6
         ],
         "behind.at-the-back-of": [
-          84.5,
-          85.0,
-          84.7,
-          76.2
+          83.0,
+          70.0
         ]
       },
       "item_boxes": {
         "above.higher-than": [
-          11,
-          8,
-          17,
-          16
+          12.3,
+          11.2,
+          15.3,
+          12.7
         ],
         "below.lower-than": [
-          40,
-          28,
-          13,
-          15
+          40.8,
+          30.0,
+          10.3,
+          11.2
         ],
         "inside.inner-place": [
-          40,
-          60,
-          14,
-          18
+          38.3,
+          57.3,
+          14.6,
+          16.8
         ],
         "outside.outer-place": [
-          73,
-          28,
-          12,
-          15
+          74.7,
+          30.7,
+          9.0,
+          8.6
         ],
         "behind.at-the-back-of": [
-          78,
-          61,
-          13,
-          16
+          82.5,
+          52.8,
+          3.4,
+          11.9
         ]
       },
       "sentences": {
@@ -2356,8 +2333,7 @@
         "outside.outer-place",
         "behind.at-the-back-of"
       ],
-      "longPointers": true,
-      "longPointersReason": "Relation labels sit immediately below/beside each pair after the owner clearance pass (2026-10-18); leaders back to the pairs legitimately exceed 1.5x label height."
+      "directLabels": "below-item"
     },
     {
       "id": "fruit-stall",
