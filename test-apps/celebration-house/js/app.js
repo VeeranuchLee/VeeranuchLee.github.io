@@ -53,11 +53,15 @@
         });
       })).then(function () {
         pack = packs[idx.defaultEvent];
+        // A placeholder plate is inline SVG (its windows are styleable); a painted plate is
+        // a raster image and must be an <img> -- fetching it as text inlines binary noise.
+        if (!/\.svg(\?|$)/i.test(house.art)) return null;
         return fetch(house.art).then(function (r) { return r.text(); });
       });
     }).then(function (svg) {
-      houseSvgText = svg;
-      $("house").innerHTML = svg;
+      houseSvgText = svg || "";
+      if (svg) $("house").innerHTML = svg;
+      else { $("house").innerHTML = ""; var plate = el("img", "plate"); plate.alt = ""; plate.draggable = false; plate.src = house.art; $("house").appendChild(plate); }
       renderHome();
     }).catch(function (err) {
       document.body.innerHTML = '<p style="color:#fff;padding:30px;font:20px system-ui">Celebration House could not load (' + String(err && err.message || err) + ').</p>';

@@ -82,6 +82,7 @@ button { font-family: inherit; color: inherit; }
 #world { position: absolute; left: 0; top: 0; width: 3200px; height: 2400px; transform-origin: 0 0; }
 #house, #fixtures, #decos { position: absolute; inset: 0; }
 #house svg { width: 100%; height: 100%; display: block; overflow: visible; }
+#house img.plate { width: 100%; height: 100%; display: block; pointer-events: none; -webkit-user-drag: none; user-select: none; }
 #house .win, #house .sky-win { transition: fill 1.2s ease; }
 .night #house .win { fill: #ffd98a; }
 .night #house .sky-win { fill: #1a2558; }
