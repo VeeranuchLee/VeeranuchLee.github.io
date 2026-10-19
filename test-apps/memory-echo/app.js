@@ -253,4 +253,4 @@ document.addEventListener("visibilitychange", async () => {
 setChoice("mode", selectedMode); setChoice("length", startLength); setChoice("speed", speed);
 if ("ResizeObserver" in window) new ResizeObserver(updateInstrumentGeometry).observe(instrument);
 else window.addEventListener("resize", updateInstrumentGeometry, { passive: true });
-if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js").catch(() => {}));
+if ("serviceWorker" in navigator) window.addEventListener("load", () => Promise.resolve() /* Test Hub staging: no service worker */.catch(() => {}));
