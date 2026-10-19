@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <title>Little Jewelry Studio — Phase 1</title>
+    <link rel="stylesheet" href="studio-proto.css?v=c61f8bc24-20261019163211" />
+    <script src="tap-zoom-guard.js?v=c61f8bc24-20261019163211"></script>
+  </head>
+  <body>
+    <main id="studioApp">
+      <header class="top">
+        <button id="back" aria-label="Back">‹</button>
+        <div>
+          <small>PHASE 1 PLAYROOM</small>
+          <h1>Little Jewelry Studio</h1>
+        </div>
+        <button id="myDesigns">My Designs <span id="saveCount">0</span></button>
+      </header>
+      <section id="gallery" class="screen active">
+        <div class="intro">
+          <span>✦</span>
+          <div>
+            <h2>Choose a blank jewel</h2>
+            <p>You are the designer. Pick one, then make it yours.</p>
+          </div>
+        </div>
+        <nav id="categories" aria-label="Jewelry categories"></nav>
+        <div id="designGrid" class="design-grid"></div>
+      </section>
+      <section id="saved" class="screen">
+        <h2>My Designs</h2>
+        <p id="savedEmpty">Your saved jewelry will appear here.</p>
+        <div id="savedGrid" class="design-grid"></div>
+      </section>
+      <section id="editor" class="screen">
+        <div class="editor-heading">
+          <button id="choose">‹ Designs</button>
+          <div>
+            <small id="categoryLabel"></small>
+            <h2 id="designTitle"></h2>
+          </div>
+          <button id="save">Save</button>
+        </div>
+        <div class="workspace">
+          <aside class="tools" id="tools" aria-label="Art tools">
+            <button data-tool="fill" class="selected"><span>▰</span>Fill</button
+            ><button data-tool="gradient"><span>◒</span>Gradient</button
+            ><button data-tool="brush"><span>🖌</span>Brush</button
+            ><button data-tool="eraser"><span>⌫</span>Eraser</button>
+            <button id="undo"><span>↶</span>Undo</button
+            ><button id="redo"><span>↷</span>Redo</button>
+          </aside>
+          <div class="canvas-column">
+            <div class="paper" id="paper">
+              <div id="canvasStack" role="img" aria-label="Jewelry coloring canvas">
+                <canvas id="colorCanvas"></canvas>
+                <canvas id="drawCanvas"></canvas>
+                <canvas id="finishCanvas"></canvas>
+                <canvas id="effectCanvas"></canvas>
+                <canvas id="lineCanvas"></canvas>
+              </div>
+            </div>
+            <div class="zoom">
+              <button id="zoomOut" aria-label="Zoom out">−</button
+              ><input
+                id="zoom"
+                type="range"
+                min="70"
+                max="220"
+                value="100"
+                aria-label="Zoom"
+              /><button id="zoomIn" aria-label="Zoom in">+</button>
+            </div>
+          </div>
+          <aside class="finish">
+            <button id="makeReal" class="make-real" aria-pressed="false">✨ Make it real
+              <small>Turn colours into a jewel</small>
+            </button>
+            <h3>Extra magic</h3>
+            <p>Add these on top, then tap a part.</p>
+            <div id="effects"></div>
+            <label
+              >Intensity
+              <input
+                id="intensity"
+                type="range"
+                min="1"
+                max="3"
+                value="2" /></label
+            ><button id="clearEffect">No effect</button>
+          </aside>
+        </div>
+        <div class="color-dock">
+          <div id="palette"></div>
+          <label class="custom"
+            >Custom <input id="customColor" type="color" value="#e95f9d"
+          /></label>
+          <div class="sizes" aria-label="Brush size">
+            <button data-size="8">●</button
+            ><button data-size="18" class="selected">●</button
+            ><button data-size="34">●</button>
+          </div>
+        </div>
+        <p id="message" aria-live="polite">Tap a closed area to fill it.</p>
+      </section>
+    </main>
+    <script src="studio-proto.js?v=c61f8bc24-20261019163211"></script>
+  </body>
+</html>

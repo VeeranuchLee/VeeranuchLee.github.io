@@ -1,0 +1,355 @@
+:root {
+  font-family: Nunito, "Avenir Next", system-ui, sans-serif;
+  color: #48364e;
+  background: #f7eff4;
+  --rose: #b85f78;
+  --ink: #352d39;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  touch-action: manipulation;
+}
+button,
+input {
+  font: inherit;
+}
+button {
+  min-width: 48px;
+  min-height: 48px;
+  border: 0;
+  border-radius: 16px;
+  background: white;
+  color: inherit;
+  box-shadow: 0 3px 10px #6c40551c;
+  font-weight: 800;
+}
+.top {
+  height: 76px;
+  padding: 10px max(14px, env(safe-area-inset-right)) 8px
+    max(14px, env(safe-area-inset-left));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(110deg, #8f506b, #c9828d);
+  color: white;
+}
+.top h1 {
+  font:
+    800 clamp(20px, 3vw, 30px) / 1 Georgia,
+    serif;
+  margin: 2px;
+}
+.top small {
+  letter-spacing: 0.18em;
+}
+.top button {
+  background: #fff3;
+  border: 1px solid #fff8;
+  color: white;
+  padding: 8px 14px;
+}
+.screen {
+  display: none;
+}
+.screen.active {
+  display: block;
+}
+.intro {
+  max-width: 1050px;
+  margin: 24px auto 14px;
+  padding: 18px 24px;
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 12px 30px #7c50601b;
+}
+.intro > span {
+  font-size: 48px;
+  color: #d99b35;
+}
+.intro h2,
+.intro p {
+  margin: 2px;
+}
+.intro h2,
+.editor-heading h2 {
+  font-family: Georgia, serif;
+}
+#categories {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 14px;
+}
+#categories button {
+  padding: 8px 18px;
+}
+#categories .selected {
+  background: #6f425d;
+  color: white;
+}
+.design-grid {
+  max-width: 1100px;
+  margin: auto;
+  padding: 12px 20px 34px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+  gap: 18px;
+}
+.design-card {
+  padding: 10px;
+  background: #fff;
+}
+.design-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 9/6;
+  object-fit: contain;
+  background: #fffcfa;
+  border-radius: 14px;
+}
+.design-card b,
+.design-card small {
+  display: block;
+  text-align: left;
+  margin: 5px 6px;
+}
+.design-card small {
+  color: #876f7d;
+}
+.editor-heading {
+  height: 68px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+}
+.editor-heading h2,
+.editor-heading small {
+  margin: 0;
+}
+.editor-heading small {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #a05d78;
+}
+.workspace {
+  height: calc(100dvh - 242px);
+  min-height: 440px;
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr) 170px;
+  gap: 10px;
+  padding: 10px;
+}
+.tools,
+.finish {
+  background: #fff;
+  border-radius: 20px;
+  padding: 9px;
+  overflow: auto;
+}
+.tools {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.tools button {
+  font-size: 12px;
+}
+.tools button span {
+  display: block;
+  font-size: 20px;
+}
+.tools .selected,
+.finish .selected {
+  background: #78506d;
+  color: white;
+}
+.finish h3 {
+  margin: 14px 0 4px;
+}
+.finish p {
+  font-size: 12px;
+  margin: 3px 0 8px;
+}
+.finish #effects {
+  display: grid;
+  gap: 6px;
+}
+.finish button {
+  width: 100%;
+  font-size: 13px;
+}
+.finish .make-real {
+  min-height: 74px;
+  color: white;
+  background: linear-gradient(135deg, #9b4f89, #65408d);
+  box-shadow: 0 8px 18px #70426f48, inset 0 1px #fff7;
+  font-size: 17px;
+}
+.finish .make-real small { display: block; margin-top: 4px; font-size: 10px; font-weight: 600; }
+.finish .make-real[aria-pressed="true"] { background: linear-gradient(135deg, #356f67, #335e87); }
+.finish label {
+  display: block;
+  margin: 12px 2px;
+  font-size: 12px;
+}
+.finish input {
+  width: 100%;
+}
+.canvas-column {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: auto;
+}
+.paper {
+  width: min(100%, 900px);
+  height: calc(100% - 48px);
+  min-height: 360px;
+  background: #fff;
+  overflow: auto;
+  border-radius: 22px;
+  box-shadow:
+    inset 0 0 0 2px #dfcbd5,
+    0 9px 30px #63485b1c;
+  touch-action: pinch-zoom;
+}
+#canvasStack {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  margin: auto;
+  transform-origin: top center;
+}
+#canvasStack canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: pinch-zoom;
+}
+#lineCanvas { z-index: 4; }
+#effectCanvas { z-index: 3; pointer-events: none; }
+#finishCanvas { z-index: 2; pointer-events: none; }
+#drawCanvas { z-index: 1; pointer-events: none; }
+#colorCanvas { z-index: 0; pointer-events: none; }
+.zoom {
+  height: 45px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.zoom button {
+  min-width: 40px;
+  min-height: 36px;
+}
+.zoom input {
+  width: 180px;
+}
+.color-dock {
+  min-height: 82px;
+  background: #fff;
+  padding: 8px 14px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+}
+.color-dock #palette {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.swatch {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  min-height: 42px;
+  border-radius: 50%;
+  background: var(--c);
+  box-shadow:
+    inset 0 0 0 3px #fff,
+    0 0 0 1px #bba;
+}
+.swatch.selected {
+  outline: 4px solid #65445b;
+}
+.custom {
+  font-size: 12px;
+  font-weight: bold;
+}
+.custom input {
+  display: block;
+  width: 46px;
+  height: 38px;
+}
+.sizes {
+  display: flex;
+  gap: 3px;
+}
+.sizes button {
+  padding: 0;
+  font-size: var(--s, 15px);
+  min-width: 40px;
+}
+.sizes button.selected {
+  background: #78506d;
+  color: #fff;
+}
+#message {
+  position: fixed;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 3px 12px;
+  background: #52394de6;
+  color: white;
+  border-radius: 12px;
+  font-size: 12px;
+  pointer-events: none;
+}
+@media (max-width: 760px) and (orientation: portrait) {
+  .workspace {
+    height: calc(100dvh - 292px);
+    grid-template-columns: 1fr 138px;
+    grid-template-rows: auto 1fr;
+  }
+  .tools {
+    grid-column: 1/3;
+    flex-direction: row;
+    overflow-x: auto;
+  }
+  .tools button {
+    flex: 0 0 66px;
+  }
+  .canvas-column {
+    grid-column: 1;
+  }
+  .finish {
+    grid-column: 2;
+  }
+  .color-dock {
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+  .color-dock #palette {
+    min-width: 390px;
+  }
+  .top h1 {
+    font-size: 18px;
+  }
+}
