@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- No user-scalable=no / maximum-scale: INTERACTION-DIRECTION.md method C. -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Celebration House</title>
+<meta name="theme-color" content="#1f4d31">
+<link rel="stylesheet" href="styles.css?v=368937474-20261019103948">
+</head>
+<body>
+
+<!-- Icon sprite: every control is a picture first; words are for grown-ups. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 48 48"><path d="M8 24 24 9l16 15" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 22v18h8V30h6v10h8V22" fill="currentColor"/></symbol>
+  <symbol id="i-house" viewBox="0 0 48 48"><path d="M4 22 24 6l20 16v20H4z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="M8 26h32M24 26v16" stroke="currentColor" stroke-width="3.5"/><circle cx="13" cy="34" r="2.6" fill="currentColor"/><circle cx="35" cy="34" r="2.6" fill="currentColor"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 48 48"><path d="M18 12 8 22l10 10" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 22h18a12 12 0 0 1 0 24h-6" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></symbol>
+  <symbol id="i-redo" viewBox="0 0 48 48"><use href="#i-undo" transform="matrix(-1 0 0 1 48 0)"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 48 48"><path d="M24 5a13 13 0 0 0-8 23c2 2 3 4 3 7h10c0-3 1-5 3-7A13 13 0 0 0 24 5z" fill="currentColor"/><rect x="18" y="37" width="12" height="4" rx="2" fill="currentColor"/><rect x="20" y="42" width="8" height="3" rx="1.5" fill="currentColor"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 48 48"><circle cx="24" cy="24" r="9" fill="currentColor"/><g stroke="currentColor" stroke-width="4" stroke-linecap="round"><path d="M24 4v6M24 38v6M4 24h6M38 24h6M10 10l4 4M34 34l4 4M10 38l4-4M34 14l4-4"/></g></symbol>
+  <symbol id="i-moon" viewBox="0 0 48 48"><path d="M30 6a18 18 0 1 0 12 30A15 15 0 0 1 30 6z" fill="currentColor"/><path d="M12 10l1.5 3 3 1.5-3 1.5-1.5 3-1.5-3-3-1.5 3-1.5z" fill="currentColor"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 48 48"><rect x="6" y="14" width="24" height="28" rx="5" fill="none" stroke="currentColor" stroke-width="4.5"/><rect x="18" y="6" width="24" height="28" rx="5" fill="currentColor"/><path d="M30 14v12M24 20h12" stroke="#fff" stroke-width="4" stroke-linecap="round"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 48 48"><path d="M10 13h28M19 13V8h10v5" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 17h22l-2 25H15z" fill="currentColor"/></symbol>
+  <symbol id="i-front" viewBox="0 0 48 48"><rect x="6" y="18" width="22" height="22" rx="4" fill="none" stroke="currentColor" stroke-width="4"/><rect x="18" y="6" width="24" height="24" rx="4" fill="currentColor"/></symbol>
+  <symbol id="i-back" viewBox="0 0 48 48"><rect x="18" y="6" width="24" height="24" rx="4" fill="none" stroke="currentColor" stroke-width="4"/><rect x="6" y="18" width="22" height="22" rx="4" fill="currentColor"/></symbol>
+  <symbol id="i-flip" viewBox="0 0 48 48"><path d="M24 4v40" stroke="currentColor" stroke-width="3" stroke-dasharray="4 4"/><path d="M20 10 6 38h14z" fill="currentColor"/><path d="M28 10l14 28H28z" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round"/></symbol>
+  <symbol id="i-rotate" viewBox="0 0 48 48"><path d="M38 24A14 14 0 1 1 30 11" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M26 4l10 7-10 6z" fill="currentColor"/></symbol>
+  <symbol id="i-resize" viewBox="0 0 48 48"><path d="M10 38 38 10M24 10h14v14M10 24v14h14" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-close" viewBox="0 0 48 48"><path d="M12 12l24 24M36 12 12 36" stroke="currentColor" stroke-width="6" stroke-linecap="round"/></symbol>
+  <symbol id="i-check" viewBox="0 0 48 48"><path d="M9 25l10 10 20-22" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 48 48"><path d="M16 26V11a3 3 0 0 1 6 0v12V8a3 3 0 0 1 6 0v15V10a3 3 0 0 1 6 0v16-8a3 3 0 0 1 6 0v12c0 9-6 15-14 15-6 0-9-3-13-8l-6-8a3 3 0 0 1 4-4z" fill="currentColor"/></symbol>
+  <symbol id="i-hang" viewBox="0 0 48 48"><circle cx="8" cy="12" r="5" fill="currentColor"/><circle cx="40" cy="12" r="5" fill="currentColor"/><path d="M8 12q16 26 32 0" fill="none" stroke="currentColor" stroke-width="3"/><g fill="#ffd36b" stroke="currentColor" stroke-width="1.5"><circle cx="15" cy="21" r="3.4"/><circle cx="24" cy="25" r="3.4"/><circle cx="33" cy="21" r="3.4"/></g></symbol>
+  <symbol id="i-draw" viewBox="0 0 48 48"><path d="M5 38c8-14 14 4 22-8s8-14 14-18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><g fill="#ff7ac8" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="31" r="3.4"/><circle cx="22" cy="32" r="3.4"/><circle cx="31" cy="23" r="3.4"/><circle cx="40" cy="13" r="3.4"/></g></symbol>
+  <symbol id="i-treewrap" viewBox="0 0 48 48"><path d="M24 4 40 40H8z" fill="#3a9a5a" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M18 17l12 3-16 8 21 4" fill="none" stroke="#ffd36b" stroke-width="3" stroke-linecap="round"/><rect x="21" y="40" width="6" height="5" fill="currentColor"/></symbol>
+  <symbol id="i-star" viewBox="0 0 48 48"><path d="M24 3l6 14 15 1-11 10 4 15-14-8-14 8 4-15L3 18l15-1z" fill="currentColor"/></symbol>
+  <symbol id="i-music" viewBox="0 0 48 48"><path d="M18 36V10l22-5v26" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linejoin="round"/><ellipse cx="13" cy="37" rx="7" ry="5.5" fill="currentColor"/><ellipse cx="35" cy="32" rx="7" ry="5.5" fill="currentColor"/></symbol>
+  <symbol id="i-speaker" viewBox="0 0 48 48"><path d="M6 18h9l11-9v30l-11-9H6z" fill="currentColor"/><path d="M32 16a10 10 0 0 1 0 16M36 10a18 18 0 0 1 0 28" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></symbol>
+  <symbol id="i-scene" viewBox="0 0 48 48"><circle cx="16" cy="16" r="8" fill="currentColor"/><path d="M4 42l14-16 9 9 7-7 10 14z" fill="currentColor"/></symbol>
+  <symbol id="i-deco" viewBox="0 0 48 48"><path d="M24 4v6" stroke="currentColor" stroke-width="4"/><circle cx="24" cy="28" r="16" fill="currentColor"/><path d="M9 26q15 8 30 0" stroke="#fff" stroke-width="3.5" fill="none"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 48 48"><path d="M10 24h28" stroke="currentColor" stroke-width="7" stroke-linecap="round"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 48 48"><path d="M10 24h28M24 10v28" stroke="currentColor" stroke-width="7" stroke-linecap="round"/></symbol>
+  <symbol id="i-steady" viewBox="0 0 48 48"><circle cx="24" cy="24" r="10" fill="currentColor"/><circle cx="24" cy="24" r="18" fill="none" stroke="currentColor" stroke-width="3" opacity=".5"/></symbol>
+  <symbol id="i-twinkle" viewBox="0 0 48 48"><path d="M24 4l4 16 16 4-16 4-4 16-4-16-16-4 16-4z" fill="currentColor"/><circle cx="39" cy="9" r="3" fill="currentColor"/><circle cx="9" cy="39" r="2.5" fill="currentColor"/></symbol>
+  <symbol id="i-fade" viewBox="0 0 48 48"><circle cx="15" cy="24" r="9" fill="#ff4f5e"/><circle cx="33" cy="24" r="9" fill="#4fa8ff" opacity=".8"/><path d="M14 40q10 6 20 0" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><path d="M34 40l-4-4M34 40l-5 1" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+  <symbol id="i-power" viewBox="0 0 48 48"><path d="M24 6v18" stroke="currentColor" stroke-width="5.5" stroke-linecap="round"/><path d="M14 13a15 15 0 1 0 20 0" fill="none" stroke="currentColor" stroke-width="5.5" stroke-linecap="round"/></symbol>
+  <symbol id="i-size" viewBox="0 0 48 48"><circle cx="12" cy="30" r="5" fill="currentColor"/><circle cx="32" cy="24" r="11" fill="currentColor"/></symbol>
+  <symbol id="i-spacing" viewBox="0 0 48 48"><circle cx="8" cy="24" r="5" fill="currentColor"/><circle cx="40" cy="24" r="5" fill="currentColor"/><path d="M16 24h16M28 19l5 5-5 5M20 19l-5 5 5 5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+</svg>
+
+<!-- HOME: one card per house. Siblings each keep their own. -->
+<section id="home" class="screen">
+  <h1 class="title"><span class="title-star"><svg><use href="#i-star"/></svg></span> Celebration House</h1>
+  <div id="slots" class="slots"></div>
+</section>
+
+<!-- THE HOUSE -->
+<section id="app" class="screen" hidden>
+  <header id="topbar">
+    <button class="btn round" id="btn-home" aria-label="My houses"><svg><use href="#i-home"/></svg></button>
+    <button class="btn round" id="btn-overview" aria-label="Whole house"><svg><use href="#i-house"/></svg></button>
+    <span class="spacer"></span>
+    <button class="btn round" id="btn-undo" aria-label="Undo"><svg><use href="#i-undo"/></svg></button>
+    <button class="btn round" id="btn-redo" aria-label="Redo"><svg><use href="#i-redo"/></svg></button>
+    <span class="spacer"></span>
+    <button class="btn round switch" id="btn-master" aria-label="All lights on or off" aria-pressed="true"><svg><use href="#i-bulb"/></svg></button>
+    <button class="btn lightup" id="btn-lightup" aria-pressed="false"><svg class="sun"><use href="#i-sun"/></svg><svg class="moon"><use href="#i-moon"/></svg><span>Light Up My House!</span></button>
+  </header>
+
+  <main id="viewport" aria-label="The house">
+    <div id="world">
+      <div id="house"></div>
+      <div id="fixtures"></div>
+      <div id="decos"></div>
+    </div>
+    <div id="night"></div>
+    <canvas id="lights"></canvas>
+    <div id="overlay"></div>
+    <div id="area-name" aria-live="polite"></div>
+    <div id="hint" hidden></div>
+  </main>
+
+  <div id="panel" hidden></div>
+
+  <nav id="dock">
+    <div id="tabs" role="tablist">
+      <button class="tab is-on" data-tab="decorations" aria-label="Decorations"><svg><use href="#i-deco"/></svg></button>
+      <button class="tab" data-tab="lights" aria-label="Lights"><svg><use href="#i-bulb"/></svg></button>
+      <button class="tab" data-tab="music" aria-label="Music"><svg><use href="#i-music"/></svg></button>
+      <button class="tab" data-tab="scene" aria-label="Scene"><svg><use href="#i-scene"/></svg></button>
+    </div>
+    <div id="tray"></div>
+  </nav>
+</section>
+
+<div id="confirm" class="modal" hidden>
+  <div class="modal-card">
+    <div class="modal-pic"></div>
+    <div class="modal-buttons">
+      <button class="btn big no" id="confirm-no" aria-label="No"><svg><use href="#i-close"/></svg></button>
+      <button class="btn big yes" id="confirm-yes" aria-label="Yes"><svg><use href="#i-check"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<script src="./tap-zoom-guard.js?v=368937474-20261019103948"></script>
+<script src="./audio-wake.js?v=368937474-20261019103948"></script>
+<script src="js/geometry.js?v=368937474-20261019103948"></script>
+<script src="js/state.js?v=368937474-20261019103948"></script>
+<script src="js/lights.js?v=368937474-20261019103948"></script>
+<script src="js/audio.js?v=368937474-20261019103948"></script>
+<script src="js/app.js?v=368937474-20261019103948"></script>
+</body>
+</html>

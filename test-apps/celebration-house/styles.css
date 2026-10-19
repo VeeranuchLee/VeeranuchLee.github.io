@@ -1,0 +1,174 @@
+/* Celebration House — design tokens and layout.
+ * Designed to a 9.7" iPad (768 x 1024, both orientations), touch first.
+ * Every control is at least 56 px; selection handles are 52 px. */
+:root {
+  --ink: #3b2a20;
+  --cream: #fff7ea;
+  --paper: #fdf0dc;
+  --evergreen: #1f4d31;
+  --pine: #2f7a4a;
+  --berry: #c4303e;
+  --gold: #f2b833;
+  --sky-day-1: #bfe3f7;
+  --sky-day-2: #eaf6fb;
+  --sky-night-1: #0b1238;
+  --sky-night-2: #26306a;
+  --shadow: 0 3px 0 rgba(59, 42, 32, 0.25), 0 6px 14px rgba(59, 42, 32, 0.18);
+  --tap: 60px;
+  --radius: 20px;
+  --font: ui-rounded, "SF Pro Rounded", "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* INTERACTION-DIRECTION.md method C, layer 1: manipulation on BOTH html and body. */
+html, body { touch-action: manipulation; }
+html, body { margin: 0; height: 100%; background: var(--evergreen); color: var(--ink); font-family: var(--font); overflow: hidden; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+*, *::before, *::after { box-sizing: border-box; }
+img { -webkit-user-drag: none; -webkit-touch-callout: none; }
+button { font-family: inherit; color: inherit; }
+[hidden] { display: none !important; }
+
+.screen { position: fixed; inset: 0; }
+
+/* ---------- buttons ---------- */
+.btn { border: 0; background: var(--cream); box-shadow: var(--shadow); border-radius: var(--radius); min-width: var(--tap); min-height: var(--tap); display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 6px 12px; cursor: pointer; transition: transform 0.12s ease, background 0.2s; }
+.btn:active { transform: translateY(2px) scale(0.97); }
+.btn svg { width: 34px; height: 34px; flex: none; }
+.btn.round { border-radius: 50%; padding: 0; width: var(--tap); height: var(--tap); }
+.btn[disabled] { opacity: 0.38; }
+.btn.is-on, .btn[aria-pressed="true"] { background: #ffe7a1; box-shadow: inset 0 0 0 4px var(--gold), var(--shadow); }
+.btn.big { width: 96px; height: 96px; border-radius: 28px; }
+.btn.big svg { width: 54px; height: 54px; }
+.btn.yes { background: #c9f0d2; color: var(--evergreen); }
+.btn.no { background: #ffd9dc; color: var(--berry); }
+
+/* ---------- home ---------- */
+#home { background: radial-gradient(ellipse at 50% 120%, #2c5a8c 0%, var(--sky-night-1) 70%); color: var(--cream); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; padding: 24px; overflow: auto; }
+.title { margin: 0; font-size: clamp(34px, 6vw, 56px); letter-spacing: 0.5px; text-shadow: 0 3px 0 rgba(0,0,0,0.3); display: flex; align-items: center; gap: 12px; }
+.title-star svg { width: 52px; height: 52px; color: var(--gold); filter: drop-shadow(0 0 10px #ffd45a); }
+.slots { display: flex; gap: 28px; flex-wrap: wrap; justify-content: center; }
+.slot { position: relative; width: 300px; background: var(--paper); color: var(--ink); border-radius: 28px; box-shadow: 0 6px 0 rgba(0,0,0,0.25), 0 14px 30px rgba(0,0,0,0.35); padding: 14px; border: 0; cursor: pointer; text-align: center; }
+.slot:active { transform: translateY(3px); }
+.slot .pic { position: relative; height: 200px; border-radius: 18px; overflow: hidden; background: linear-gradient(var(--sky-night-2), #4b5aa0); }
+.slot .pic img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.slot .pic .roof-badge { position: absolute; left: 12px; top: 10px; width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center; font-size: 28px; font-weight: 900; color: #fff; box-shadow: 0 3px 0 rgba(0,0,0,0.25); }
+.slot .counts { display: flex; justify-content: center; gap: 18px; margin-top: 10px; font-size: 24px; font-weight: 800; min-height: 36px; align-items: center; }
+.slot .counts svg { width: 28px; height: 28px; vertical-align: -6px; margin-right: 4px; }
+.slot .reset { position: absolute; right: -10px; top: -10px; width: 56px; height: 56px; border-radius: 50%; background: #ffd9dc; color: var(--berry); }
+.slot .reset svg { width: 30px; height: 30px; }
+
+/* ---------- app frame ---------- */
+#app { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; grid-template-columns: minmax(0, 1fr); background: var(--evergreen); }
+#app > * { min-width: 0; }
+#topbar { display: flex; align-items: center; gap: 10px; padding: 8px 12px; padding-top: max(8px, env(safe-area-inset-top)); background: var(--evergreen); z-index: 5; }
+#topbar .spacer { flex: 1; }
+.lightup { background: linear-gradient(#ffe48a, var(--gold)); font-weight: 900; font-size: 20px; padding: 6px 18px; border-radius: 32px; min-height: 64px; white-space: nowrap; }
+.lightup .moon { display: none; }
+.lightup[aria-pressed="true"] { background: linear-gradient(#3a4a9a, #1b2560); color: #ffe58a; box-shadow: inset 0 0 0 4px #ffd45a, 0 0 22px rgba(255, 212, 90, 0.75), var(--shadow); }
+.lightup[aria-pressed="true"] .sun { display: none; }
+.lightup[aria-pressed="true"] .moon { display: block; }
+#btn-master[aria-pressed="true"] { color: #b88400; }
+#btn-master[aria-pressed="false"] { color: #8a8a8a; background: #e4ddd2; box-shadow: var(--shadow); }
+
+/* ---------- the scene ---------- */
+/* The scene is the one surface where a TWO-finger pinch is part of the play:
+ * it zooms the house, not the page. INTERACTION-DIRECTION.md keeps `none` for
+ * exactly that class of surface ("two or more fingers at once are part of the
+ * play"). The trap that rule exists to prevent is still closed: if the PAGE
+ * ever ends up zoomed, app.js adds .page-zoomed and the scene hands pinch back
+ * to Safari (pinch-zoom) so the child can always pinch their way out. */
+#viewport { position: relative; overflow: hidden; touch-action: none; background: linear-gradient(var(--sky-day-1), var(--sky-day-2)); transition: background 1.2s ease; cursor: grab; }
+#viewport.page-zoomed { touch-action: pinch-zoom; }
+.night #viewport { background: linear-gradient(var(--sky-night-1), var(--sky-night-2)); }
+#world { position: absolute; left: 0; top: 0; width: 3200px; height: 2400px; transform-origin: 0 0; }
+#house, #fixtures, #decos { position: absolute; inset: 0; }
+#house svg { width: 100%; height: 100%; display: block; overflow: visible; }
+#house .win, #house .sky-win { transition: fill 1.2s ease; }
+.night #house .win { fill: #ffd98a; }
+.night #house .sky-win { fill: #1a2558; }
+.night #house .sky-snow { fill: #c9d4ef; }
+.fixture, .deco { position: absolute; left: 0; top: 0; transform-origin: 50% 50%; pointer-events: none; }
+.deco.is-sel { filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 3px #ffd45a); }
+/* Night: a tint over the house and its decorations; the lights canvas sits
+ * above it, so lit bulbs glow through the dark. */
+#night { position: absolute; inset: 0; background: rgba(14, 20, 58, 0.62); opacity: 0; transition: opacity 1.2s ease; pointer-events: none; }
+.night #night { opacity: 1; }
+#lights { position: absolute; left: 0; top: 0; pointer-events: none; }
+#overlay { position: absolute; inset: 0; pointer-events: none; }
+
+.sel-box { position: absolute; border: 3px dashed #fff; border-radius: 10px; box-shadow: 0 0 0 2px rgba(59, 42, 32, 0.5); pointer-events: none; }
+.handle { position: absolute; width: 52px; height: 52px; margin: -26px 0 0 -26px; border-radius: 50%; background: var(--cream); box-shadow: 0 0 0 3px var(--ink), var(--shadow); display: grid; place-items: center; pointer-events: auto; touch-action: none; color: var(--ink); }
+.handle svg { width: 30px; height: 30px; pointer-events: none; }
+.handle.point { width: 46px; height: 46px; margin: -23px 0 0 -23px; background: #fff7c2; }
+.handle.point.sag { background: #c9f0d2; }
+.handle.point.end { background: #ffd9dc; }
+.minibar { position: absolute; display: flex; gap: 8px; padding: 6px; background: rgba(255, 247, 234, 0.96); border-radius: 22px; box-shadow: var(--shadow); pointer-events: auto; }
+.minibar .btn { min-width: 52px; min-height: 52px; width: 52px; height: 52px; padding: 0; border-radius: 16px; box-shadow: none; background: #fff; }
+.minibar .btn svg { width: 30px; height: 30px; }
+.minibar .btn.danger { color: var(--berry); background: #ffe3e5; }
+
+#area-name { position: absolute; left: 50%; top: 14px; transform: translateX(-50%); background: rgba(255, 247, 234, 0.92); padding: 8px 20px; border-radius: 22px; font-weight: 800; font-size: 22px; box-shadow: var(--shadow); opacity: 0; transition: opacity 0.5s; pointer-events: none; }
+#area-name.show { opacity: 1; }
+#hint { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); background: var(--cream); padding: 10px 18px; border-radius: 22px; font-size: 20px; font-weight: 800; box-shadow: var(--shadow); display: flex; align-items: center; gap: 10px; pointer-events: none; animation: bob 1.6s ease-in-out infinite; white-space: nowrap; }
+#hint svg { width: 34px; height: 34px; }
+@keyframes bob { 50% { transform: translate(-50%, -6px); } }
+
+/* ---------- panel (light / topper editor) ---------- */
+#panel { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(var(--dock-h, 130px) + 8px); width: min(760px, calc(100vw - 16px)); background: rgba(255, 247, 234, 0.97); border-radius: 26px; box-shadow: 0 8px 26px rgba(0, 0, 0, 0.3); padding: 10px 12px; z-index: 6; display: flex; flex-direction: column; gap: 8px; }
+.prow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.prow .btn { min-width: 56px; min-height: 56px; padding: 4px 8px; border-radius: 16px; }
+.prow .gap { width: 10px; }
+.prow .close { margin-left: auto; }
+.swatch { width: 52px; height: 52px; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 0 0 2px var(--ink); cursor: pointer; padding: 0; }
+.swatch.is-on { box-shadow: 0 0 0 4px var(--gold), 0 0 0 7px var(--ink); }
+.swatch.rainbow { background: conic-gradient(#ff4f5e, #ffd36b, #4fd47a, #4fa8ff, #c77dff, #ff4f5e); }
+.custom-colour { position: relative; width: 52px; height: 52px; border-radius: 50%; overflow: hidden; box-shadow: 0 0 0 2px var(--ink); background: conic-gradient(red, yellow, lime, cyan, blue, magenta, red); }
+.custom-colour input { position: absolute; inset: -10px; width: 80px; height: 80px; opacity: 0; cursor: pointer; }
+.custom-colour::after { content: "+"; position: absolute; inset: 0; display: grid; place-items: center; font-size: 30px; font-weight: 900; color: #fff; text-shadow: 0 0 4px #000; pointer-events: none; }
+.stepper { display: inline-flex; align-items: center; gap: 4px; background: #fff; border-radius: 18px; padding: 2px 4px; box-shadow: inset 0 0 0 2px #e8d9c2; }
+.stepper > svg { width: 34px; height: 34px; margin: 0 2px; }
+.stepper .btn { box-shadow: none; background: var(--paper); min-width: 52px; min-height: 52px; }
+.stylepic { width: 64px; height: 44px; display: block; }
+
+/* ---------- dock ---------- */
+#dock { display: flex; gap: 10px; padding: 8px 10px; padding-bottom: max(8px, env(safe-area-inset-bottom)); background: var(--paper); box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.2); z-index: 5; align-items: stretch; }
+#tabs { display: grid; grid-template-columns: repeat(2, 60px); gap: 6px; flex: none; }
+.tab { width: 60px; height: 52px; border: 0; border-radius: 16px; background: #f1e1c8; display: grid; place-items: center; cursor: pointer; }
+.tab svg { width: 32px; height: 32px; }
+.tab.is-on { background: var(--evergreen); color: var(--cream); }
+#tray { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; overflow-x: auto; overflow-y: hidden; touch-action: pan-x; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+#tray::-webkit-scrollbar { display: none; }
+.cat { flex: none; display: flex; align-items: center; gap: 8px; padding-right: 10px; border-right: 3px dotted #d9c3a1; }
+.cat:last-child { border-right: 0; }
+.item { flex: none; width: 92px; height: 92px; border: 0; border-radius: 20px; background: #fff; box-shadow: var(--shadow); display: grid; place-items: center; cursor: pointer; padding: 8px; touch-action: pan-x; }
+.item img { max-width: 100%; max-height: 100%; pointer-events: none; }
+.item:active { transform: scale(0.95); }
+.tray-group { display: flex; gap: 8px; align-items: center; flex: none; padding-right: 10px; border-right: 3px dotted #d9c3a1; }
+.tray-group:last-child { border-right: 0; }
+.tray-group .btn { min-width: 76px; min-height: 76px; border-radius: 20px; }
+.tray-group .btn svg { width: 44px; height: 44px; }
+.tray-group .btn .stylepic { width: 64px; height: 44px; }
+.vol { width: 220px; height: 60px; accent-color: var(--pine); }
+.ghost { position: fixed; left: 0; top: 0; width: 96px; height: 96px; pointer-events: none; z-index: 20; opacity: 0.85; transform: translate(-50%, -50%); filter: drop-shadow(0 6px 8px rgba(0,0,0,0.3)); }
+
+/* ---------- modal ---------- */
+.modal { position: fixed; inset: 0; background: rgba(10, 14, 40, 0.6); display: grid; place-items: center; z-index: 30; }
+.modal-card { background: var(--paper); border-radius: 30px; padding: 24px; display: flex; flex-direction: column; gap: 20px; align-items: center; box-shadow: 0 10px 40px rgba(0,0,0,0.4); }
+.modal-pic { display: flex; align-items: center; gap: 14px; font-size: 22px; font-weight: 800; }
+.modal-pic svg { width: 70px; height: 70px; }
+.modal-buttons { display: flex; gap: 30px; }
+
+/* ---------- narrow / portrait ---------- */
+@media (max-width: 820px) {
+  .lightup span { font-size: 17px; }
+  .lightup { padding: 6px 12px; }
+  #topbar { gap: 8px; padding-left: 8px; padding-right: 8px; }
+}
+@media (max-width: 560px) {
+  :root { --tap: 52px; }
+  .lightup span { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #hint { animation: none; }
+  * { transition-duration: 0.01s !important; }
+}

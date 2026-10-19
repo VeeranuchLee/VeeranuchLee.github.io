@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "id": "christmas",
+  "name": "Christmas",
+  "house": "cottage",
+  "skin": {
+    "skyDay": ["#bfe3f7", "#eaf6fb"],
+    "skyNight": ["#0b1238", "#26306a"],
+    "nightTint": "rgba(14, 20, 58, 0.55)",
+    "snow": true
+  },
+  "music": {
+    "overview": { "synth": { "voice": "pad", "bpm": 66, "notes": [62, 66, 69, 74, null, 69, 66, 69, 59, 62, 66, 71, null, 66, 62, 66, 55, 59, 62, 67, null, 62, 59, 62, 57, 61, 64, 69, null, 64, 61, 64] } },
+    "hallway": { "synth": { "voice": "bells", "bpm": 60, "notes": [76, null, 79, null, 81, null, 79, 76, 74, null, 76, null, 72, null, null, null, 76, null, 74, null, 72, null, 69, 71, 72, null, 67, null, 69, null, null, null] } },
+    "living": { "synth": { "voice": "musicbox", "bpm": 88, "notes": [72, 76, 79, 84, 79, 76, 74, 77, 81, 77, 74, 71, 72, 76, 79, 83, 81, 79, 77, 76, 74, 72, 71, 74, 72, null, 67, null, 72, null, null, null] } }
+  },
+  "categories": [
+    { "id": "tree", "name": "Tree", "icon": "bauble" },
+    { "id": "walls", "name": "Walls", "icon": "wreath" },
+    { "id": "gifts", "name": "Gifts", "icon": "gift" },
+    { "id": "glow", "name": "Glow", "icon": "lantern" }
+  ],
+  "decorations": [
+    { "id": "bauble", "name": "Red bauble", "cat": "tree", "art": "art/bauble.svg", "w": 60, "h": 70, "snap": "tree" },
+    { "id": "teardrop", "name": "Blue teardrop", "cat": "tree", "art": "art/teardrop.svg", "w": 48, "h": 88, "snap": "tree" },
+    { "id": "snowflake", "name": "Snowflake", "cat": "tree", "art": "art/snowflake.svg", "w": 76, "h": 76, "snap": "tree" },
+    { "id": "candy-cane", "name": "Candy cane", "cat": "tree", "art": "art/candy-cane.svg", "w": 48, "h": 112, "snap": "tree" },
+    { "id": "gingerbread", "name": "Gingerbread friend", "cat": "tree", "art": "art/gingerbread.svg", "w": 78, "h": 96, "snap": "tree" },
+    { "id": "bell", "name": "Golden bells", "cat": "walls", "art": "art/bell.svg", "w": 96, "h": 96 },
+    { "id": "bow", "name": "Ribbon bow", "cat": "walls", "art": "art/bow.svg", "w": 96, "h": 72 },
+    { "id": "wreath", "name": "Wreath", "cat": "walls", "art": "art/wreath.svg", "w": 170, "h": 180, "snap": "wall" },
+    { "id": "garland", "name": "Garland", "cat": "walls", "art": "art/garland.svg", "w": 380, "h": 110, "snap": "wall" },
+    { "id": "stocking", "name": "Stocking", "cat": "walls", "art": "art/stocking.svg", "w": 92, "h": 132 },
+    { "id": "gift", "name": "Gift box", "cat": "gifts", "art": "art/gift.svg", "w": 112, "h": 112, "snap": "floor" },
+    { "id": "gift-tall", "name": "Tall gift", "cat": "gifts", "art": "art/gift-tall.svg", "w": 84, "h": 130, "snap": "floor" },
+    { "id": "snowman", "name": "Snowman", "cat": "gifts", "art": "art/snowman.svg", "w": 110, "h": 150, "snap": "floor" },
+    { "id": "candle", "name": "Candle", "cat": "glow", "art": "art/candle.svg", "w": 50, "h": 112, "glow": { "at": [0, -46], "r": 70, "color": "#ffc861" } },
+    { "id": "lantern", "name": "Lantern", "cat": "glow", "art": "art/lantern.svg", "w": 74, "h": 124, "glow": { "at": [0, 12], "r": 110, "color": "#ffb84d" } }
+  ],
+  "lights": {
+    "styles": ["fairy", "globe", "star", "icicle"],
+    "swatches": ["#ffd36b", "#ff4f5e", "#4fd47a", "#4fa8ff", "#c77dff", "#ffffff", "#ff9a3c", "#ff7ac8"],
+    "multi": ["#ff4f5e", "#ffd36b", "#4fd47a", "#4fa8ff", "#c77dff", "#ff9a3c"],
+    "defaultStyle": "fairy"
+  },
+  "fixtures": [
+    {
+      "id": "tree",
+      "type": "tree",
+      "area": "living",
+      "name": "Christmas tree",
+      "art": "art/tree.svg",
+      "rect": [1300, 1500, 440, 600],
+      "topper": {
+        "anchor": [1520, 1526],
+        "size": 74,
+        "designs": ["star", "burst", "snowstar"],
+        "default": { "on": true, "color": "#ffd84a", "design": "star" }
+      },
+      "wrap": { "apex": [1520, 1560], "baseY": 2010, "baseHalfWidth": 190, "rows": 6 }
+    }
+  ]
+}
