@@ -1,0 +1,18 @@
+{
+ "schema": 1,
+ "id": "halloween",
+ "name": "Halloween",
+ "stub": true,
+ "stubNote": "Architecture proof only (phase 2): three placeholder items, its own sky and night, one music pattern. Real pack after Christmas is complete.",
+ "house": "mansion",
+ "skin": { "skyDay": ["#f6c48a", "#fde6c4"], "skyNight": ["#1a0b2e", "#3b1d5a"], "nightTint": "rgba(34, 12, 56, 0.6)", "decoNight": "brightness(0.45) saturate(0.9) hue-rotate(-12deg)" },
+ "music": { "overview": { "synth": { "voice": "pad", "bpm": 64, "notes": [57, null, 60, 64, null, 63, null, 60, 55, null, 59, 62, null, 60, null, 59, 57, null, 60, 64, null, 69, null, 64, 63, null, 59, 55, null, 57, null, null] } } },
+ "categories": [{ "id": "spooky", "name": "Spooky friends", "icon": "pumpkin" }],
+ "decorations": [
+  { "id": "pumpkin", "name": "Pumpkin lantern", "cat": "spooky", "art": "art/pumpkin.svg", "w": 120, "h": 110, "snap": ["floor", "mantel", "window"], "placeholder": true, "glow": { "at": [0, 8], "r": 120, "color": "#ff9a3c" } },
+  { "id": "bat", "name": "Bat", "cat": "spooky", "art": "art/bat.svg", "w": 140, "h": 70, "snap": ["wall", "sky"], "placeholder": true },
+  { "id": "ghost", "name": "Friendly ghost", "cat": "spooky", "art": "art/ghost.svg", "w": 90, "h": 120, "snap": ["sky", "floor"], "placeholder": true }
+ ],
+ "lights": { "styles": ["globe", "fairy", "star"], "swatches": ["#ff9a3c", "#8a4dff", "#4fd47a", "#ffffff"], "multi": ["#ff9a3c", "#8a4dff", "#4fd47a"], "defaultStyle": "globe" },
+ "fixtures": []
+}

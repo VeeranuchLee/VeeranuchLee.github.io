@@ -20,8 +20,8 @@
   function el(tag, cls, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
   function icon(name) { return '<svg><use href="#i-' + name + '"/></svg>'; }
 
-  var viewport = $("viewport"), world = $("world"), decosEl = $("decos"), overlay = $("overlay");
-  var house = null, packs = {}, pack = null, decoIndex = {}, houseSvgText = "";
+  var viewport = $("viewport"), worlds = [$("world"), $("world-front")], decosEl = $("decos"), overlay = $("overlay");
+  var house = null, packs = {}, pack = null, decoIndex = {};
   var store = null, slot = 0;
   var view = { k: 1, tx: 0, ty: 0 }, vw = 0, vh = 0, overviewView = null;
   var currentArea = "overview";
@@ -29,42 +29,107 @@
   var placing = null;                 // { style, mode: "hang" | "draw" }
   var lastStrand = { style: "fairy", colorMode: "multi", color: "#ffd36b", effect: "twinkle", size: 1, spacing: 1 };
   var activeTab = "decorations";
-  var renderer = new window.CHLights.Renderer($("lights"));
+  var trayPack = null;                // which event's library the tray shows (mixing is allowed)
+  var renderer = new window.CHLights.Renderer($("lights"));          // lights in front of decorations
+  var rendererBack = new window.CHLights.Renderer($("lights-back")); // lights behind them
+  rendererBack.cache = renderer.cache;                                // one bulb-layout cache
+  var snapHit = null, snapCue = null, snapCache = null;
   var preview = null;
   var pointers = new Map(), gesture = null;
   var decoEls = new Map();
   var dirty = true, rafOn = false, lastFrame = 0, t0 = performance.now();
 
-  function fetchJSON(u) { return fetch(u).then(function (r) { if (!r.ok) throw new Error(u + " " + r.status); return r.json(); }); }
+  /* Every file the app loads carries the build version (index.html CH_V), so
+   * a Test Hub redeploy can never hide behind Safari's cache — JSON included. */
+  var V = window.CH_V || "";
+  function vurl(u) { return V && !/^data:/.test(u) ? u + (u.indexOf("?") < 0 ? "?" : "&") + "v=" + encodeURIComponent(V) : u; }
+  function fetchJSON(u) { return fetch(vurl(u)).then(function (r) { if (!r.ok) throw new Error(u + " " + r.status); return r.json(); }); }
   function known(p, k) { return !!decoIndex[(p || "christmas") + "/" + k]; }
   function defOf(d) { return decoIndex[d.pack + "/" + d.kind]; }
   function clampN(v, a, b) { return Math.max(a, Math.min(b, v)); }
 
   /* ------------------------------------------------------------ boot */
   function boot() {
-    return Promise.all([fetchJSON("data/house-cottage.json"), fetchJSON("packs/index.json")]).then(function (r) {
+    return fetchJSON("packs/index.json").then(function (idx) {
+      return fetchJSON(idx.house || "data/house-mansion.json").then(function (h) { return [h, idx]; });
+    }).then(function (r) {
       house = r[0];
       var idx = r[1];
       return Promise.all(idx.packs.map(function (p) {
         return fetchJSON(p.path).then(function (pk) {
           pk._base = p.path.replace(/[^/]+$/, "");
           packs[pk.id] = pk;
-          pk.decorations.forEach(function (d) { decoIndex[pk.id + "/" + d.id] = Object.assign({ pack: pk.id, src: pk._base + d.art }, d); });
+          pk.decorations.forEach(function (d) { decoIndex[pk.id + "/" + d.id] = Object.assign({ pack: pk.id, src: vurl(pk._base + d.art) }, d); });
         });
       })).then(function () {
         pack = packs[idx.defaultEvent];
-        // A placeholder plate is inline SVG (its windows are styleable); a painted plate is
-        // a raster image and must be an <img> -- fetching it as text inlines binary noise.
-        if (!/\.svg(\?|$)/i.test(house.art)) return null;
-        return fetch(house.art).then(function (r) { return r.text(); });
+        return renderPlates();
       });
-    }).then(function (svg) {
-      houseSvgText = svg || "";
-      if (svg) $("house").innerHTML = svg;
-      else { $("house").innerHTML = ""; var plate = el("img", "plate"); plate.alt = ""; plate.draggable = false; plate.src = house.art; $("house").appendChild(plate); }
+    }).then(function () {
       renderHome();
     }).catch(function (err) {
       document.body.innerHTML = '<p style="color:#fff;padding:30px;font:20px system-ui">Celebration House could not load (' + String(err && err.message || err) + ').</p>';
+    });
+  }
+
+  /* The house is drawn as plates, each covering its own scene rectangle, in
+   * order: e.g. the ground, the painted house, an extension. A painted plate is
+   * an <img>; a placeholder plate is inline SVG (its windows are styleable).
+   * An area may also carry a sharper DETAIL plate, shown only when zoomed in
+   * far enough that the overview plate would be upscaled (see updateDetail). */
+  function housePlates() { return house.plates || [{ id: "house", art: house.art, rect: house.world }]; }
+  function renderPlates() {
+    var host = $("house");
+    host.innerHTML = "";
+    var jobs = housePlates().map(function (pl) {
+      var box = el("div", "plate");
+      box.dataset.plate = pl.id;
+      placeRect(box, pl.rect);
+      host.appendChild(box);
+      if (/\.svg(\?|$)/i.test(pl.art)) {
+        return fetch(vurl(pl.art)).then(function (r) { return r.text(); }).then(function (t) { box.innerHTML = t; });
+      }
+      var img = el("img"); img.alt = ""; img.draggable = false; img.src = vurl(pl.art);
+      img.style.width = "100%"; img.style.height = "100%";
+      box.appendChild(img);
+      return null;
+    });
+    if (house.dream) {
+      /* The bedroom's dream (Land of Sweets): a plate over the bedroom that
+       * fades in while the child is dreaming (doc.dream). */
+      var dp = el("div", "plate dream");
+      dp.dataset.plate = "dream";
+      placeRect(dp, house.dream.rect);
+      host.appendChild(dp);
+      jobs.push(/\.svg(\?|$)/i.test(house.dream.art)
+        ? fetch(vurl(house.dream.art)).then(function (r) { return r.text(); }).then(function (t) { dp.innerHTML = t; })
+        : (dp.innerHTML = '<img alt="" draggable="false" style="width:100%;height:100%" src="' + vurl(house.dream.art) + '">', null));
+    }
+    house.areas.forEach(function (a) {
+      if (!a.detail) return;
+      var img = el("img", "plate detail"); img.alt = ""; img.draggable = false;
+      img.dataset.detail = a.id;
+      placeRect(img, a.detail.rect || a.rect);
+      host.appendChild(img);
+    });
+    return Promise.all(jobs);
+  }
+  function placeRect(node, r) {
+    node.style.width = r[2] + "px"; node.style.height = r[3] + "px";
+    node.style.transform = "translate(" + r[0] + "px," + r[1] + "px)";
+  }
+  /* Show an area's detail plate only when it is on screen and the overview
+   * plate would be magnified (more than ~1.15 device pixels per plate pixel). */
+  function updateDetail() {
+    var imgs = document.querySelectorAll("img.plate.detail");
+    if (!imgs.length) return;
+    var dpr = Math.min(2, window.devicePixelRatio || 1), sharp = view.k * dpr > 1.15;
+    var a0 = G.toScene(view, 0, 0), a1 = G.toScene(view, vw, vh);
+    Array.prototype.forEach.call(imgs, function (img) {
+      var a = areaById(img.dataset.detail), r = a && (a.detail.rect || a.rect);
+      var on = !!(r && sharp && r[0] < a1[0] && r[0] + r[2] > a0[0] && r[1] < a1[1] && r[1] + r[3] > a0[1]);
+      if (on && !img.getAttribute("src")) img.src = vurl(a.detail.art);
+      img.classList.toggle("show", on);
     });
   }
 
@@ -78,33 +143,97 @@
   /* ------------------------------------------------------------ home */
   function slotSummary(n) { return S.readSlot(n, known); }
 
+  /* Each saved house is a card named by its picture badge. A "+" card starts a
+   * new house (pick a picture first); each card can be renamed (tap the
+   * badge), copied, or removed (with a picture-only yes/no). Never overwrites. */
+  function badgeHtml(b, cls) {
+    var def = b && decoIndex[b.pic];
+    return '<span class="badge ' + (cls || "") + '" style="background:' + ((b && b.color) || S.BADGE_COLOURS[0]) + '">' +
+      (def ? '<img alt="" src="' + def.src + '">' : icon("house")) + "</span>";
+  }
   function renderHome() {
     var wrap = $("slots");
     wrap.innerHTML = "";
-    [0, 1].forEach(function (n) {
+    S.listSlots().forEach(function (n) {
       var doc = slotSummary(n);
-      var used = doc && (doc.decorations.length || doc.strands.length);
-      var card = el("button", "slot");
-      card.setAttribute("aria-label", "House " + (n + 1));
+      if (!doc) return;
+      var card = el("div", "slot");
+      card.setAttribute("role", "button");
+      card.setAttribute("aria-label", "Open this house");
       card.dataset.slot = n;
       card.innerHTML =
-        '<div class="pic"><img alt="" src="' + house.art + '"><span class="roof-badge" style="background:' + (n ? "#3a6fd1" : "#c4303e") + '">' + (n + 1) + "</span></div>" +
-        '<div class="counts">' + (used
-          ? "<span>" + icon("deco") + doc.decorations.length + "</span><span>" + icon("bulb") + doc.strands.length + "</span>"
-          : icon("plus")) + "</div>";
+        '<div class="pic"><img alt="" src="' + vurl(house.thumb || house.art) + '"></div>' +
+        '<div class="counts"><span>' + icon("deco") + doc.decorations.length + "</span><span>" + icon("bulb") + doc.strands.length + "</span></div>";
       card.addEventListener("click", function () { openSlot(n); });
-      if (used) {
-        var reset = el("span", "btn reset", icon("trash"));
-        reset.setAttribute("role", "button");
-        reset.setAttribute("aria-label", "Start this house again");
-        reset.addEventListener("click", function (e) {
-          e.stopPropagation();
-          confirmBox(icon("house") + icon("trash"), function () { S.clearSlot(n); A.play("swish"); renderHome(); });
-        });
-        card.appendChild(reset);
-      }
+      var name = el("button", "name-btn", badgeHtml(doc.badge));
+      name.setAttribute("aria-label", "Change this house's picture"); name.dataset.act = "rename";
+      name.addEventListener("click", function (e) {
+        e.stopPropagation();
+        pickBadge(doc.badge, function (b) { var d = S.readSlot(n, known); if (d) { d.badge = b; S.writeSlot(n, d); } A.play("pop"); renderHome(); });
+      });
+      card.appendChild(name);
+      var tools = el("div", "slot-tools");
+      var dup = el("button", "btn", icon("copy"));
+      dup.setAttribute("aria-label", "Copy this house"); dup.dataset.act = "duplicate";
+      dup.disabled = S.freeSlot() < 0;
+      dup.addEventListener("click", function (e) { e.stopPropagation(); if (S.duplicateSlot(n, known) >= 0) { A.play("sparkle"); renderHome(); } });
+      var del = el("button", "btn danger", icon("trash"));
+      del.setAttribute("aria-label", "Remove this house"); del.dataset.act = "delete";
+      del.addEventListener("click", function (e) {
+        e.stopPropagation();
+        confirmBox(badgeHtml(doc.badge) + icon("trash"), function () { S.clearSlot(n); A.play("swish"); renderHome(); });
+      });
+      tools.appendChild(dup); tools.appendChild(del);
+      card.appendChild(tools);
       wrap.appendChild(card);
     });
+    if (S.freeSlot() >= 0) {
+      var add = el("button", "slot new", '<div class="pic plus">' + icon("plus") + "</div>");
+      add.setAttribute("aria-label", "A new house");
+      add.addEventListener("click", function () {
+        A.kick();
+        var used = S.listSlots().length;
+        pickBadge({ pic: "", color: S.BADGE_COLOURS[used % S.BADGE_COLOURS.length] }, function (b) {
+          var n = S.freeSlot(); if (n < 0) return;
+          var doc = S.blankHouse(house.id, pack.id, defaultFixtureState(pack));
+          doc.badge = b;
+          S.writeSlot(n, doc);
+          openSlot(n);
+        });
+      });
+      wrap.appendChild(add);
+    }
+  }
+
+  /* The picture picker: a row of colours and a grid of pictures. Tapping a
+   * picture chooses it (with the colour showing). No typing anywhere. */
+  function badgePictures() {
+    var out = [];
+    Object.keys(packs).forEach(function (id) {
+      packs[id].decorations.forEach(function (d) { if (!d.placeholder || id !== "christmas") out.push(id + "/" + d.id); });
+    });
+    return out.slice(0, 24);
+  }
+  function pickBadge(current, done) {
+    var box = $("picker"), colour = (current && current.color) || S.BADGE_COLOURS[0];
+    function draw() {
+      var cols = S.BADGE_COLOURS.map(function (c) {
+        return '<button class="swatch' + (c === colour ? " is-on" : "") + '" data-colour="' + c + '" style="background:' + c + '" aria-label="Colour"></button>';
+      }).join("");
+      var pics = badgePictures().map(function (k) {
+        return '<button class="pick' + (current && current.pic === k ? " is-on" : "") + '" data-pic="' + k + '" aria-label="' + decoIndex[k].name + '" style="background:' + colour + '"><img alt="" src="' + decoIndex[k].src + '"></button>';
+      }).join("");
+      box.querySelector(".picker-colours").innerHTML = cols;
+      box.querySelector(".picker-grid").innerHTML = pics;
+    }
+    draw();
+    box.hidden = false;
+    box.onclick = function (e) {
+      var c = e.target.closest("[data-colour]"), p = e.target.closest("[data-pic]");
+      if (c) { colour = c.dataset.colour; A.play("tick"); draw(); }
+      else if (p) { box.hidden = true; box.onclick = null; done({ pic: p.dataset.pic, color: colour }); }
+      else if (e.target.closest("#picker-close") || e.target === box) { box.hidden = true; box.onclick = null; }
+    };
   }
 
   function confirmBox(picHtml, yes) {
@@ -121,9 +250,11 @@
     A.kick();
     slot = n;
     var doc = S.readSlot(n, known) || S.blankHouse(house.id, pack.id, defaultFixtureState(pack));
+    if (!doc.badge.pic) doc.badge.pic = badgePictures()[0] || "";
     var defaults = defaultFixtureState(packs[doc.event] || pack);
     Object.keys(defaults).forEach(function (k) { if (!doc.fixtures[k] || !doc.fixtures[k].topper) doc.fixtures[k] = defaults[k]; });
     pack = packs[doc.event] || pack;
+    trayPack = pack.id;
     store = new S.Store(doc, onChange);
     sel = null; placing = null; preview = null;
     decoEls.forEach(function (e) { e.remove(); }); decoEls.clear();
@@ -156,6 +287,7 @@
     if (sk.skyDay) { st.setProperty("--sky-day-1", sk.skyDay[0]); st.setProperty("--sky-day-2", sk.skyDay[1]); }
     if (sk.skyNight) { st.setProperty("--sky-night-1", sk.skyNight[0]); st.setProperty("--sky-night-2", sk.skyNight[1]); }
     if (sk.nightTint) $("night").style.background = sk.nightTint;
+    if (sk.decoNight) st.setProperty("--deco-night", sk.decoNight); else st.removeProperty("--deco-night");
   }
 
   function renderFixtures() {
@@ -163,7 +295,7 @@
     fx.innerHTML = "";
     packFixtures(pack).forEach(function (f) {
       var img = el("img", "fixture");
-      img.src = pack._base + f.art;
+      img.src = vurl(pack._base + f.art);
       img.alt = "";
       img.style.width = f.rect[2] + "px";
       img.style.height = f.rect[3] + "px";
@@ -178,6 +310,8 @@
   function onChange(doc, initial) {
     if (sel && !selected()) sel = null;
     document.body.classList.toggle("night", !!doc.night);
+    document.body.classList.toggle("dreaming", !!doc.dream);
+    updateDreamButton();
     $("btn-lightup").setAttribute("aria-pressed", doc.night ? "true" : "false");
     $("btn-master").setAttribute("aria-pressed", doc.master ? "true" : "false");
     $("btn-undo").disabled = !store.canUndo();
@@ -205,7 +339,10 @@
     var oldCenter = vw ? G.toScene(view, vw / 2, vh / 2) : null;
     vw = r.width; vh = r.height;
     renderer.resize(vw, vh);
-    overviewView = G.fitRect(house.world, vw, vh, house.overviewPad || 0);
+    rendererBack.resize(vw, vh);
+    /* The whole-house view frames the house and garden (house.overview); the
+     * sky above stays reachable by panning or by tapping it. */
+    overviewView = G.fitRect(house.overview || house.world, vw, vh, house.overviewPad || 0);
     document.documentElement.style.setProperty("--dock-h", $("dock").offsetHeight + "px");
     if (!store) return;
     var a = areaById(currentArea);
@@ -228,7 +365,10 @@
   }
 
   function applyView() {
-    world.style.transform = "translate(" + view.tx + "px," + view.ty + "px) scale(" + view.k + ")";
+    var tf = "translate(" + view.tx + "px," + view.ty + "px) scale(" + view.k + ")";
+    worlds.forEach(function (w) { w.style.transform = tf; });
+    updateDetail();
+    updateDreamButton();
     renderOverlay();
     requestDraw();
   }
@@ -251,16 +391,91 @@
   }
 
   function areaById(id) { return house.areas.filter(function (a) { return a.id === id; })[0] || null; }
+  function inRect(p, r) { return p[0] >= r[0] && p[0] <= r[0] + r[2] && p[1] >= r[1] && p[1] <= r[1] + r[3]; }
+  /* Areas may overlap (the roof area contains the upstairs rooms): the first
+   * listed area containing the point wins, so rooms are listed before roof. */
   function areaAt(p) {
-    return house.areas.filter(function (a) { return a.open && p[0] >= a.rect[0] && p[0] <= a.rect[0] + a.rect[2] && p[1] >= a.rect[1] && p[1] <= a.rect[1] + a.rect[3]; })[0] || null;
+    return house.areas.filter(function (a) { return a.open && inRect(p, a.tap || a.rect); })[0] || null;
+  }
+
+  /* ------------------------------------------------------------ the dream */
+  /* The bedroom can turn into the child's dream (a Land of Sweets). Things
+   * placed while dreaming, inside the bedroom, belong to the dream (layer
+   * "dream") and show only while dreaming; the bedroom's own things hide while
+   * the dream is showing. One tap on the cloud button dreams; one tap wakes. */
+  function inDream(x, y) { return !!(house.dream && inRect([x, y], house.dream.rect)); }
+  function layerAt(x, y) { return store.doc.dream && inDream(x, y) ? "dream" : null; }
+  function setLayer(o, x, y) { var l = layerAt(x, y); if (l) o.layer = l; else delete o.layer; }
+  function strandMid(s) {
+    var xs = s.pts.map(function (p) { return p[0]; }), ys = s.pts.map(function (p) { return p[1]; });
+    return [(Math.min.apply(null, xs) + Math.max.apply(null, xs)) / 2, (Math.min.apply(null, ys) + Math.max.apply(null, ys)) / 2];
+  }
+  function visibleAt(layer, x, y) {
+    var dreaming = !!(store && store.doc.dream);
+    return layer === "dream" ? dreaming : !(dreaming && inDream(x, y));
+  }
+  function decoVisible(d) { return visibleAt(d.layer, d.x, d.y); }
+  function strandVisible(s) { var m = strandMid(s); return visibleAt(s.layer, m[0], m[1]); }
+  function musicKey(id) {
+    var m = pack.music || {};
+    if (store && store.doc.dream && house.dream && id === house.dream.area && m.dream) return "dream";
+    return m[id] ? id : "overview";
+  }
+  function playAreaMusic() {
+    var k = musicKey(currentArea), m = pack.music || {};
+    A.switchTo(m[k] || null, pack.id + "/" + k);
+  }
+  /* Switch the house's holiday: each holiday has its OWN house inside the save
+   * slot (decorations, lights, tree, night). Choosing another parks this one and
+   * brings up that holiday's — a fresh empty house the first time, the old one
+   * when you come back. Nothing is deleted. Undo history starts over. The tray
+   * can still browse any holiday's library. */
+  function setEvent(id) {
+    if (!packs[id] || store.doc.event === id) return;
+    saveNow();
+    var doc = S.switchEvent(store.doc, id, defaultFixtureState(packs[id]));
+    pack = packs[id];
+    trayPack = id;
+    store = new S.Store(doc, onChange);
+    sel = null; placing = null; preview = null;
+    decoEls.forEach(function (e) { e.remove(); }); decoEls.clear();
+    applySkin();
+    renderFixtures();
+    A.play("chime");
+    onChange(store.doc, true);
+    store.commit();
+    playAreaMusic();
+    renderTray();
+  }
+  function packIcon(pk) {
+    var c = pk.categories && pk.categories[0], d = c && decoIndex[pk.id + "/" + c.icon];
+    return d ? '<img alt="" src="' + d.src + '">' : icon("star");
+  }
+
+  function toggleDream() {
+    if (!house.dream) return;
+    store.doc.dream = !store.doc.dream;
+    if (sel && !selected()) sel = null;
+    A.play(store.doc.dream ? "chime" : "dim");
+    store.commit();
+    playAreaMusic();
+  }
+  function updateDreamButton() {
+    var b = $("btn-dream"); if (!b) return;
+    var on = !!(house && house.dream && store && currentArea === house.dream.area);
+    b.hidden = !on;
+    if (!on) return;
+    var p = G.toScreen(view, house.dream.button[0], house.dream.button[1]);
+    b.style.left = clampN(p[0], 46, vw - 46) + "px"; b.style.top = clampN(p[1], 46, vh - 46) + "px";
+    b.setAttribute("aria-pressed", store.doc.dream ? "true" : "false");
   }
 
   var nameTimer = 0;
   function setArea(id) {
     if (id === currentArea) return;
     currentArea = id;
-    var m = pack.music || {};
-    A.switchTo(m[id] || m.overview || null, pack.id + "/" + (m[id] ? id : "overview"));
+    playAreaMusic();
+    updateDreamButton();
     var a = areaById(id), tag = $("area-name");
     tag.textContent = a ? a.name : house.name;
     tag.classList.add("show");
@@ -271,7 +486,9 @@
 
   function settleArea() {
     if (view.k < overviewView.k * 1.35) { setArea("overview"); return; }
-    var a = areaAt(G.toScene(view, vw / 2, vh / 2));
+    var c = G.toScene(view, vw / 2, vh / 2), cur = areaById(currentArea);
+    if (cur && inRect(c, cur.rect)) return;            // still in the same room: stay
+    var a = areaAt(c);
     if (a) setArea(a.id);
   }
 
@@ -296,6 +513,7 @@
       img.style.width = def.w + "px";
       img.style.height = def.h + "px";
       img.style.zIndex = String(d.z);
+      img.style.display = decoVisible(d) ? "" : "none";
       img.style.transform = "translate(" + (d.x - def.w / 2) + "px," + (d.y - def.h / 2) + "px) rotate(" + d.r + "deg) scale(" + (d.flip ? -d.s : d.s) + "," + d.s + ")";
       img.classList.toggle("is-sel", !!(sel && sel.type === "deco" && sel.id === d.id));
     });
@@ -307,8 +525,8 @@
   function findStrand(id) { return store.doc.strands.filter(function (s) { return s.id === id; })[0]; }
   function selected() {
     if (!sel) return null;
-    if (sel.type === "deco") return findDeco(sel.id) || null;
-    if (sel.type === "strand") return findStrand(sel.id) || null;
+    if (sel.type === "deco") { var d = findDeco(sel.id); return d && decoVisible(d) ? d : null; }
+    if (sel.type === "strand") { var s = findStrand(sel.id); return s && strandVisible(s) ? s : null; }
     if (sel.type === "topper") return store.doc.fixtures[sel.id] ? sel : null;
     return null;
   }
@@ -317,7 +535,7 @@
     renderDecos(); renderOverlay(); renderPanel(); requestDraw();
   }
 
-  function placeDecoration(key, at) {
+  function placeDecoration(key, at, trySnap) {
     var def = decoIndex[key]; if (!def) return;
     var p = at || (function () {
       var c = G.toScene(view, vw / 2, vh / 2), j = function () { return (Math.random() - 0.5) * 80; };
@@ -326,8 +544,13 @@
     var id;
     edit(function (doc) {
       id = store.nextId("d");
-      doc.decorations.push({ id: id, pack: def.pack, kind: def.id, x: Math.round(p[0]), y: Math.round(p[1]), s: 1, r: 0, z: maxZ() + 1, flip: false });
+      var d = { id: id, pack: def.pack, kind: def.id, x: Math.round(p[0]), y: Math.round(p[1]), s: 1, r: 0, z: maxZ() + 1, flip: false };
+      var sn = trySnap ? snapFor(d, def) : null;
+      if (sn) { d.x = sn.x; d.y = sn.y; d.r = sn.r; }
+      setLayer(d, d.x, d.y);
+      doc.decorations.push(d);
     });
+    snapCue = null;
     A.play("pop");
     showHint(null);
     select({ type: "deco", id: id });
@@ -339,7 +562,7 @@
       var nid;
       edit(function (doc) {
         nid = store.nextId("d");
-        var c = S.clone(d); c.id = nid; c.x += 40; c.y += 30; c.z = maxZ() + 1;
+        var c = S.clone(d); c.id = nid; c.x += 40; c.y += 30; c.z = maxZ() + 1; setLayer(c, c.x, c.y);
         doc.decorations.push(c);
       });
       A.play("pop");
@@ -362,16 +585,39 @@
     }
   }
 
+  /* ------------------------------------------------------------ snapping */
+  /* Snap targets: the house's own (floors, mantel/shelves, sills, wall hooks)
+   * plus branch tips of any tree the current event brings. Optional — the
+   * magnet in the Scene tab turns it off — and gentle: only within a finger's
+   * reach of a target, and a cue shows where it will settle before the lift. */
+  function snapTargets() {
+    if (snapCache && snapCache.pack === pack.id) return snapCache.list;
+    var list = (house.snaps || []).slice();
+    packFixtures(pack).forEach(function (f) {
+      if (f.wrap) G.treeBranchPoints(f.wrap, f.branchSpacing || 64).forEach(function (p) { list.push({ type: "tree", point: p }); });
+    });
+    snapCache = { pack: pack.id, list: list };
+    return list;
+  }
+  function snapTol() { return clampN(30 / view.k, 14, 90); }
+  function snapFor(d, def) {
+    if (!store.doc.snap) return null;
+    return G.findSnap(d, def, snapTargets(), snapTol());
+  }
+
   /* ------------------------------------------------------------ lights */
-  function newStrand(mode, pts, sag) {
+  function newStrand(mode, pts, sag, extra) {
     var id;
     edit(function (doc) {
       id = store.nextId("s");
       doc.strands.push({
         id: id, mode: mode, pts: pts.map(function (p) { return [Math.round(p[0]), Math.round(p[1])]; }), sag: Math.round(sag || 0),
         style: placing ? placing.style : lastStrand.style, colorMode: lastStrand.colorMode, color: lastStrand.color, palette: null,
-        size: lastStrand.size, spacing: lastStrand.spacing, effect: lastStrand.effect, on: true
+        size: lastStrand.size, spacing: lastStrand.spacing, effect: lastStrand.effect, on: true, behind: false
       });
+      var ns = doc.strands[doc.strands.length - 1];
+      if (extra) Object.assign(ns, extra);
+      var mid = strandMid(ns); setLayer(ns, mid[0], mid[1]);
     });
     A.play("sparkle");
     select({ type: "strand", id: id });
@@ -384,8 +630,18 @@
     if (a && currentArea !== a.id) zoomToArea(a);
     var keepPlacing = placing;
     placing = { style: (placing && placing.style) || lastStrand.style, mode: "draw" };
-    newStrand("path", G.treeWrap(tree.wrap), 0);
+    /* A wrap goes BEHIND decorations: ornaments hang in front of the lights. */
+    newStrand("path", G.treeWrap(tree.wrap), 0, { behind: true });
     placing = keepPlacing;
+  }
+
+  function lightAlong(lp) {
+    var a = areaById(lp.area);
+    if (a && currentArea !== a.id) zoomToArea(a);
+    var keep = placing;
+    placing = { style: lp.style || lastStrand.style, mode: "draw" };
+    newStrand("path", lp.pts, 0);
+    placing = keep;
   }
 
   function selectTopper() {
@@ -408,7 +664,7 @@
   function decoGlows() {
     var out = [];
     store.doc.decorations.forEach(function (d) {
-      var def = defOf(d); if (!def || !def.glow) return;
+      var def = defOf(d); if (!def || !def.glow || !decoVisible(d)) return;
       var r = d.r * Math.PI / 180, ax = def.glow.at[0] * d.s * (d.flip ? -1 : 1), ay = def.glow.at[1] * d.s;
       out.push({ x: d.x + ax * Math.cos(r) - ay * Math.sin(r), y: d.y + ax * Math.sin(r) + ay * Math.cos(r), r: def.glow.r * d.s, color: def.glow.color });
     });
@@ -433,11 +689,14 @@
     var anim = animated();
     if (dirty || (anim && ts - lastFrame > 32)) {      // ~30 fps for effects: gentle on older iPads
       lastFrame = ts; dirty = false;
-      renderer.draw({
+      var o = {
         view: view, doc: store.doc, time: (ts - t0) / 1000, multi: pack.lights.multi,
         preview: preview, selectedId: sel && sel.type === "strand" ? sel.id : null,
-        decoGlows: decoGlows(), toppers: toppers(), windows: house.nightWindows
-      });
+        decoGlows: decoGlows(), toppers: toppers(), windows: house.nightWindows,
+        strands: store.doc.strands.filter(strandVisible)
+      };
+      rendererBack.draw(Object.assign({ layer: "back" }, o));
+      renderer.draw(Object.assign({ layer: "front" }, o));
     }
     if (anim || dirty) requestAnimationFrame(frame); else rafOn = false;
   }
@@ -445,6 +704,7 @@
   /* ------------------------------------------------------------ overlay (handles) */
   function renderOverlay() {
     overlay.innerHTML = "";
+    if (snapCue && store) drawSnapCue(snapCue);
     var it = selected(); if (!it || !store) return;
     if (sel.type === "deco") {
       var def = defOf(it); if (!def) return;
@@ -483,6 +743,20 @@
       }
     }
   }
+  function drawSnapCue(c) {
+    var n = el("div", "snap-cue " + c.kind);
+    if (c.kind === "rect") {
+      var q0 = G.toScreen(view, c.rect[0], c.rect[1]), q1 = G.toScreen(view, c.rect[0] + c.rect[2], c.rect[1] + c.rect[3]);
+      n.style.left = q0[0] + "px"; n.style.top = q0[1] + "px"; n.style.width = (q1[0] - q0[0]) + "px"; n.style.height = (q1[1] - q0[1]) + "px";
+    } else if (c.kind === "point") {
+      var p = G.toScreen(view, c.at[0], c.at[1]);
+      n.style.left = p[0] + "px"; n.style.top = p[1] + "px";
+    } else {
+      var a = G.toScreen(view, c.from[0], c.from[1]), b = G.toScreen(view, c.to[0], c.to[1]);
+      n.style.left = a[0] + "px"; n.style.top = (a[1] - 1) + "px"; n.style.width = Math.max(24, b[0] - a[0]) + "px";
+    }
+    overlay.appendChild(n);
+  }
   function addHandle(kind, p, ic, idx, extra) {
     var h = el("div", "handle" + (ic ? "" : " point") + (extra ? " " + extra : ""), ic ? icon(ic) : "");
     h.dataset.h = kind;
@@ -492,14 +766,23 @@
   }
 
   /* ------------------------------------------------------------ hit testing */
-  function hitTest(p) {
-    var sp = G.toScene(view, p[0], p[1]), doc = store.doc;
+  /* Top to bottom, as drawn: front strands, toppers, decorations, then the
+   * strands that hang behind the decorations. */
+  function strandHit(p, behind) {
+    var doc = store.doc;
     for (var i = doc.strands.length - 1; i >= 0; i--) {
-      var s = doc.strands[i], line = renderer.layout(s).line.map(function (q) { return G.toScreen(view, q[0], q[1]); });
+      var s = doc.strands[i];
+      if (!!s.behind !== behind || !strandVisible(s)) continue;
+      var line = renderer.layout(s).line.map(function (q) { return G.toScreen(view, q[0], q[1]); });
       var probes = s.style === "icicle" ? [p, [p[0], p[1] - 30 * view.k * s.size], [p[0], p[1] - 60 * view.k * s.size]] : [p];
       var tol = Math.max(20, window.CHLights.STYLE[s.style].r * s.size * view.k * 1.6);
       if (probes.some(function (q) { return G.polyDist(q, line) < tol; })) return { type: "strand", id: s.id };
     }
+    return null;
+  }
+  function hitTest(p) {
+    var sp = G.toScene(view, p[0], p[1]), doc = store.doc;
+    var front = strandHit(p, false); if (front) return front;
     var tp = toppers();
     for (var j = 0; j < tp.length; j++) {
       var a = G.toScreen(view, tp[j].anchor[0], tp[j].anchor[1]);
@@ -508,9 +791,9 @@
     var ds = doc.decorations.slice().sort(function (a, b) { return b.z - a.z; });
     for (var k = 0; k < ds.length; k++) {
       var def = defOf(ds[k]);
-      if (def && G.hitBox(sp, ds[k], def.w, def.h, 10 / view.k)) return { type: "deco", id: ds[k].id };
+      if (def && decoVisible(ds[k]) && G.hitBox(sp, ds[k], def.w, def.h, 10 / view.k)) return { type: "deco", id: ds[k].id };
     }
-    return null;
+    return strandHit(p, true);
   }
 
   /* ------------------------------------------------------------ pointer gestures */
@@ -596,6 +879,7 @@
       if (!g.moved) return;
       var d = findDeco(g.orig.id); if (!d) return;
       d.x = Math.round(g.orig.x + dx / view.k); d.y = Math.round(g.orig.y + dy / view.k);
+      snapHit = snapFor(d, defOf(d)); snapCue = snapHit && snapHit.cue;
       renderDecos(); renderOverlay(); requestDraw();
     } else if (g.type === "move-strand") {
       if (far) g.moved = true;
@@ -656,7 +940,15 @@
       }
       requestDraw();
     } else if (g.type !== "none") {
+      if (g.type === "move-deco") {
+        var sh = snapHit; snapHit = null; snapCue = null;
+        var dd = findDeco(g.orig.id);
+        if (sh && dd && g.moved && !cancelled) { dd.x = sh.x; dd.y = sh.y; dd.r = sh.r; A.play("snap"); }
+        if (dd && g.moved) setLayer(dd, dd.x, dd.y);
+      }
+      if (g.type === "move-strand" && g.moved) { var ms = findStrand(g.orig.id); if (ms) { var mm = strandMid(ms); setLayer(ms, mm[0], mm[1]); } }
       if (!store.discardIfUnchanged()) store.commit();
+      renderOverlay();
     }
   }
 
@@ -766,12 +1058,25 @@
     tray.innerHTML = "";
     if (!store) return;
     if (activeTab === "decorations") {
-      pack.categories.forEach(function (cat) {
+      var ids = Object.keys(packs);
+      if (ids.length > 1) {
+        /* Library chips: browse any event's decorations, whatever the house's event. */
+        var gp = el("div", "cat packs");
+        ids.forEach(function (id) {
+          var c = el("button", "pack-chip" + (id === trayPack ? " is-on" : ""), packIcon(packs[id]));
+          c.setAttribute("aria-label", packs[id].name); c.dataset.pack = id;
+          c.addEventListener("click", function () { trayPack = id; A.play("tick"); renderTray(); });
+          gp.appendChild(c);
+        });
+        tray.appendChild(gp);
+      }
+      var tp = packs[trayPack] || pack;
+      tp.categories.forEach(function (cat) {
         var g = el("div", "cat");
-        pack.decorations.filter(function (d) { return d.cat === cat.id; }).forEach(function (d) {
-          var b = el("button", "item", '<img alt="" src="' + pack._base + d.art + '">');
+        tp.decorations.filter(function (d) { return d.cat === cat.id; }).forEach(function (d) {
+          var b = el("button", "item", '<img alt="" src="' + decoIndex[tp.id + "/" + d.id].src + '">');
           b.setAttribute("aria-label", d.name);
-          b.dataset.key = pack.id + "/" + d.id;
+          b.dataset.key = tp.id + "/" + d.id;
           wireTrayItem(b);
           g.appendChild(b);
         });
@@ -822,6 +1127,14 @@
         starB.addEventListener("click", selectTopper);
         g3.appendChild(starB);
       }
+      /* House light paths (e.g. the roof's eaves): one tap hangs a whole
+       * editable strand along the architecture. */
+      (house.lightPaths || []).forEach(function (lp) {
+        var lb = el("button", "btn", icon(lp.icon || "hang"));
+        lb.setAttribute("aria-label", "Lights along the " + lp.id); lb.dataset.path = lp.id;
+        lb.addEventListener("click", function () { lightAlong(lp); });
+        g3.appendChild(lb);
+      });
       tray.appendChild(g3);
     } else if (activeTab === "music") {
       var m = store.doc.music, gm = el("div", "tray-group");
@@ -848,8 +1161,24 @@
       var master = el("button", "btn" + (store.doc.master ? " is-on" : ""), icon("power"));
       master.setAttribute("aria-label", "All lights on or off");
       master.addEventListener("click", toggleMaster);
-      [day, night, master].forEach(function (b) { gs.appendChild(b); });
+      var mag = el("button", "btn" + (store.doc.snap ? " is-on" : ""), icon("magnet"));
+      mag.setAttribute("aria-label", "Snap into place"); mag.setAttribute("aria-pressed", store.doc.snap ? "true" : "false");
+      mag.dataset.act = "snap";
+      mag.addEventListener("click", function () { store.doc.snap = !store.doc.snap; A.play("tick"); store.commit(); });
+      [day, night, master, mag].forEach(function (b) { gs.appendChild(b); });
       tray.appendChild(gs);
+      if (Object.keys(packs).length > 1) {
+        /* The event the whole house celebrates. */
+        var ge = el("div", "tray-group");
+        Object.keys(packs).forEach(function (id) {
+          var eb = el("button", "btn event" + (store.doc.event === id ? " is-on" : ""), packIcon(packs[id]));
+          eb.setAttribute("aria-label", packs[id].name); eb.setAttribute("aria-pressed", store.doc.event === id ? "true" : "false");
+          eb.dataset.event = id;
+          eb.addEventListener("click", function () { setEvent(id); });
+          ge.appendChild(eb);
+        });
+        tray.appendChild(ge);
+      }
       var gh = el("div", "tray-group");
       var whole = el("button", "btn", icon("house"));
       whole.setAttribute("aria-label", "Whole house");
@@ -879,7 +1208,16 @@
           st.ghost = el("img", "ghost"); st.ghost.src = b.querySelector("img").src; st.ghost.alt = "";
           document.body.appendChild(st.ghost);
         }
-        if (st.ghost) { st.ghost.style.left = ev.clientX + "px"; st.ghost.style.top = ev.clientY + "px"; }
+        if (st.ghost) {
+          st.ghost.style.left = ev.clientX + "px"; st.ghost.style.top = ev.clientY + "px";
+          /* Show where it would settle, before the finger lifts. */
+          var r0 = viewport.getBoundingClientRect(), def0 = decoIndex[b.dataset.key];
+          var q = G.toScene(view, ev.clientX - r0.left, ev.clientY - r0.top);
+          var probe = { x: q[0], y: q[1], s: 1, r: 0 };
+          var sn = def0 && ev.clientY < r0.bottom ? snapFor(probe, def0) : null;
+          var cue = sn ? sn.cue : null;
+          if (JSON.stringify(cue) !== JSON.stringify(snapCue)) { snapCue = cue; renderOverlay(); }
+        }
       }
       function end(ev) {
         if (ev.pointerId !== st.id) return;
@@ -888,11 +1226,12 @@
         window.removeEventListener("pointercancel", end);
         if (!st.ghost) return;
         st.ghost.remove();
+        if (snapCue) { snapCue = null; renderOverlay(); }
         b.dataset.dragged = "1";
         if (ev.type === "pointercancel") return;
         var r = viewport.getBoundingClientRect();
         if (ev.clientX >= r.left && ev.clientX <= r.right && ev.clientY >= r.top && ev.clientY <= r.bottom) {
-          placeDecoration(b.dataset.key, G.toScene(view, ev.clientX - r.left, ev.clientY - r.top));
+          placeDecoration(b.dataset.key, G.toScene(view, ev.clientX - r.left, ev.clientY - r.top), true);
         }
       }
       window.addEventListener("pointermove", move);
@@ -972,7 +1311,12 @@
       });
       var cl = el("button", "btn close", icon("close"));
       cl.setAttribute("aria-label", "Done"); cl.addEventListener("click", function () { select(null); });
-      [pw, cp, del, cl].forEach(function (b) { r1.appendChild(b); });
+      /* Lights in front of the decorations, or behind them (ornaments in front). */
+      var lay = el("button", "btn" + (s.behind ? " is-on" : ""), icon(s.behind ? "lights-back" : "lights-front"));
+      lay.setAttribute("aria-label", s.behind ? "Lights behind the decorations" : "Lights in front of the decorations");
+      lay.setAttribute("aria-pressed", s.behind ? "true" : "false"); lay.dataset.act = "behind";
+      lay.addEventListener("click", function () { strandSet(function (x) { x.behind = !x.behind; }); A.play("tick"); });
+      [pw, lay, cp, del, cl].forEach(function (b) { r1.appendChild(b); });
       panel.appendChild(r1);
       panel.appendChild(swatchRow(s.color, s.colorMode === "multi", function (c, continuing) {
         if (continuing) { var f = findStrand(s.id); f.colorMode = "single"; f.color = c; lastStrand.color = c; lastStrand.colorMode = "single"; return; }
@@ -1038,15 +1382,23 @@
     h.hidden = false;
   }
 
+  $("btn-dream").addEventListener("click", function (e) { e.stopPropagation(); toggleDream(); });
+  $("btn-dream").addEventListener("pointerdown", function (e) { e.stopPropagation(); A.kick(); });
+
   /* Test hook for tools/drive-slice.mjs — read-only views of state. */
   window.CH = {
     doc: function () { return store && store.doc; },
     view: function () { return Object.assign({}, view); },
     area: function () { return currentArea; },
     sel: function () { return sel; },
+    slot: function () { return slot; },
     toScreen: function (x, y) { var r = viewport.getBoundingClientRect(), p = G.toScreen(view, x, y); return [p[0] + r.left, p[1] + r.top]; },
     audio: function () { return A.debug(); },
-    undoDepth: function () { return store ? store.undoStack.length : 0; }
+    undoDepth: function () { return store ? store.undoStack.length : 0; },
+    snapTargets: function () { return snapTargets(); },
+    house: function () { return house; },
+    version: V,
+    visible: function (id) { var d = findDeco(id); return !!(d && decoVisible(d)); }
   };
 
   boot();

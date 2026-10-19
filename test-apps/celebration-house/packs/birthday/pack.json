@@ -1,0 +1,18 @@
+{
+ "schema": 1,
+ "id": "birthday",
+ "name": "Birthday party",
+ "stub": true,
+ "stubNote": "Architecture proof only (phase 2): three placeholder items, its own sky and night, one music pattern. Real pack after Christmas is complete.",
+ "house": "mansion",
+ "skin": { "skyDay": ["#ffd6ec", "#fff3c4"], "skyNight": ["#1b1f4d", "#4b3a8a"], "nightTint": "rgba(27, 31, 77, 0.45)" },
+ "music": { "overview": { "synth": { "voice": "musicbox", "bpm": 112, "notes": [72, 72, 74, 72, 77, 76, null, null, 72, 72, 74, 72, 79, 77, null, null, 76, 77, 79, 81, 79, 77, 76, 74, 72, null, 67, null, 72, null, null, null] } } },
+ "categories": [{ "id": "party", "name": "Party", "icon": "balloons" }],
+ "decorations": [
+  { "id": "balloons", "name": "Balloons", "cat": "party", "art": "art/balloons.svg", "w": 120, "h": 190, "snap": ["floor", "wall", "sky"], "placeholder": true },
+  { "id": "cake", "name": "Birthday cake", "cat": "party", "art": "art/cake.svg", "w": 140, "h": 130, "snap": ["mantel", "floor"], "placeholder": true, "glow": { "at": [0, -48], "r": 90, "color": "#ffc861" } },
+  { "id": "bunting", "name": "Bunting", "cat": "party", "art": "art/bunting.svg", "w": 360, "h": 110, "snap": "wall", "placeholder": true }
+ ],
+ "lights": { "styles": ["globe", "fairy", "star"], "swatches": ["#ff7ac8", "#ffd36b", "#4fa8ff", "#4fd47a", "#c77dff"], "multi": ["#ff7ac8", "#ffd36b", "#4fa8ff", "#4fd47a", "#c77dff"], "defaultStyle": "globe" },
+ "fixtures": []
+}

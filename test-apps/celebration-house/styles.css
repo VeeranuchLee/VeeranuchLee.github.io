@@ -50,11 +50,26 @@ button { font-family: inherit; color: inherit; }
 .slot:active { transform: translateY(3px); }
 .slot .pic { position: relative; height: 200px; border-radius: 18px; overflow: hidden; background: linear-gradient(var(--sky-night-2), #4b5aa0); }
 .slot .pic img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
-.slot .pic .roof-badge { position: absolute; left: 12px; top: 10px; width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center; font-size: 28px; font-weight: 900; color: #fff; box-shadow: 0 3px 0 rgba(0,0,0,0.25); }
 .slot .counts { display: flex; justify-content: center; gap: 18px; margin-top: 10px; font-size: 24px; font-weight: 800; min-height: 36px; align-items: center; }
 .slot .counts svg { width: 28px; height: 28px; vertical-align: -6px; margin-right: 4px; }
-.slot .reset { position: absolute; right: -10px; top: -10px; width: 56px; height: 56px; border-radius: 50%; background: #ffd9dc; color: var(--berry); }
-.slot .reset svg { width: 30px; height: 30px; }
+.slots { max-width: 1000px; }
+.slot.new { display: flex; flex-direction: column; justify-content: center; }
+.slot .pic.plus { display: grid; place-items: center; background: rgba(255, 255, 255, 0.5); border: 4px dashed #d9c3a1; color: var(--pine); }
+.slot .pic.plus svg { width: 96px; height: 96px; }
+.badge { width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; box-shadow: 0 0 0 4px #fff, 0 3px 0 4px rgba(0,0,0,0.2); }
+.badge img { width: 74%; height: 74%; object-fit: contain; }
+.badge svg { width: 44px; height: 44px; color: #fff; }
+.name-btn { position: absolute; left: 6px; top: 6px; border: 0; background: none; padding: 0; cursor: pointer; }
+.slot-tools { display: flex; justify-content: center; gap: 14px; margin-top: 8px; }
+.slot-tools .btn { min-width: 60px; min-height: 60px; border-radius: 18px; }
+.slot-tools .btn.danger { background: #ffd9dc; color: var(--berry); }
+.picker-card { position: relative; max-width: min(720px, calc(100vw - 24px)); }
+.picker-colours { justify-content: center; }
+.picker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 12px; width: min(640px, calc(100vw - 72px)); max-height: 60vh; overflow: auto; }
+.pick { width: 84px; height: 84px; border-radius: 50%; border: 0; display: grid; place-items: center; cursor: pointer; box-shadow: 0 0 0 4px #fff, var(--shadow); }
+.pick img { width: 72%; height: 72%; object-fit: contain; pointer-events: none; }
+.pick.is-on { box-shadow: 0 0 0 4px var(--gold), 0 0 0 8px var(--ink); }
+#picker-close { position: absolute; right: -14px; top: -14px; }
 
 /* ---------- app frame ---------- */
 #app { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; grid-template-columns: minmax(0, 1fr); background: var(--evergreen); }
@@ -79,21 +94,41 @@ button { font-family: inherit; color: inherit; }
 #viewport { position: relative; overflow: hidden; touch-action: none; background: linear-gradient(var(--sky-day-1), var(--sky-day-2)); transition: background 1.2s ease; cursor: grab; }
 #viewport.page-zoomed { touch-action: pinch-zoom; }
 .night #viewport { background: linear-gradient(var(--sky-night-1), var(--sky-night-2)); }
-#world { position: absolute; left: 0; top: 0; width: 3200px; height: 2400px; transform-origin: 0 0; }
-#house, #fixtures, #decos { position: absolute; inset: 0; }
-#house svg { width: 100%; height: 100%; display: block; overflow: visible; }
-#house img.plate { width: 100%; height: 100%; display: block; pointer-events: none; -webkit-user-drag: none; user-select: none; }
+/* Two scene layers share one camera transform (set from app.js): #world holds
+ * the house plates and fixtures, #world-front the decorations. The back
+ * lights canvas sits between them, so a strand can hang BEHIND ornaments.
+ * Size 0 + overflow visible: children are placed in scene units, which may be
+ * negative (the porch lies left of x = 0). */
+.world { position: absolute; left: 0; top: 0; width: 0; height: 0; overflow: visible; transform-origin: 0 0; pointer-events: none; }
+#house, #fixtures, #decos { position: absolute; left: 0; top: 0; width: 0; height: 0; overflow: visible; }
+.plate { position: absolute; left: 0; top: 0; transform-origin: 0 0; pointer-events: none; -webkit-user-drag: none; user-select: none; }
+.plate > svg { width: 100%; height: 100%; display: block; overflow: visible; }
+img.plate, .plate > img { display: block; }
+.plate.dream { opacity: 0; transition: opacity 0.9s ease; }
+.dreaming .plate.dream { opacity: 1; }
+.dream-btn { position: absolute; width: 76px; height: 76px; margin: -38px 0 0 -38px; z-index: 3; background: #fff0f7; color: #7a3a8a; box-shadow: 0 0 0 4px #ffc6e0, var(--shadow); animation: float 3s ease-in-out infinite; }
+.dream-btn svg { width: 52px; height: 52px; }
+.dream-btn[aria-pressed="true"] { background: #7a3a8a; color: #ffe7f3; }
+@keyframes float { 50% { transform: translateY(-6px); } }
+.snap-cue.rect { border-radius: 24px; border-width: 3px; box-shadow: inset 0 0 18px rgba(255, 228, 140, 0.5); }
+.plate.detail { opacity: 0; transition: opacity 0.35s ease; }
+.plate.detail.show { opacity: 1; }
 #house .win, #house .sky-win { transition: fill 1.2s ease; }
 .night #house .win { fill: #ffd98a; }
 .night #house .sky-win { fill: #1a2558; }
 .night #house .sky-snow { fill: #c9d4ef; }
 .fixture, .deco { position: absolute; left: 0; top: 0; transform-origin: 50% 50%; pointer-events: none; }
+.deco { transition: filter 1.2s ease; }
 .deco.is-sel { filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 3px #ffd45a); }
+/* Decorations sit above the night tint (so "behind" lights can pass under
+ * them), so night darkens them directly; the pack may tune it (--deco-night). */
+.night .deco { filter: var(--deco-night, brightness(0.5) saturate(0.85)); }
+.night .deco.is-sel { filter: var(--deco-night, brightness(0.5) saturate(0.85)) drop-shadow(0 0 6px #fff) drop-shadow(0 0 3px #ffd45a); }
 /* Night: a tint over the house and its decorations; the lights canvas sits
  * above it, so lit bulbs glow through the dark. */
 #night { position: absolute; inset: 0; background: rgba(14, 20, 58, 0.62); opacity: 0; transition: opacity 1.2s ease; pointer-events: none; }
 .night #night { opacity: 1; }
-#lights { position: absolute; left: 0; top: 0; pointer-events: none; }
+#lights, #lights-back { position: absolute; left: 0; top: 0; pointer-events: none; }
 #overlay { position: absolute; inset: 0; pointer-events: none; }
 
 .sel-box { position: absolute; border: 3px dashed #fff; border-radius: 10px; box-shadow: 0 0 0 2px rgba(59, 42, 32, 0.5); pointer-events: none; }
@@ -102,6 +137,11 @@ button { font-family: inherit; color: inherit; }
 .handle.point { width: 46px; height: 46px; margin: -23px 0 0 -23px; background: #fff7c2; }
 .handle.point.sag { background: #c9f0d2; }
 .handle.point.end { background: #ffd9dc; }
+/* Snap cue: quiet, only while dragging near a place that fits. */
+.snap-cue { position: absolute; pointer-events: none; border: 3px dashed rgba(255, 255, 255, 0.95); box-shadow: 0 0 10px 2px rgba(255, 228, 140, 0.8); animation: cue 1.1s ease-in-out infinite; }
+.snap-cue.point { width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%; }
+.snap-cue.line { height: 0; border-width: 3px 0 0 0; border-radius: 3px; }
+@keyframes cue { 50% { opacity: 0.55; } }
 .minibar { position: absolute; display: flex; gap: 8px; padding: 6px; background: rgba(255, 247, 234, 0.96); border-radius: 22px; box-shadow: var(--shadow); pointer-events: auto; }
 .minibar .btn { min-width: 52px; min-height: 52px; width: 52px; height: 52px; padding: 0; border-radius: 16px; box-shadow: none; background: #fff; }
 .minibar .btn svg { width: 30px; height: 30px; }
@@ -142,6 +182,11 @@ button { font-family: inherit; color: inherit; }
 .cat:last-child { border-right: 0; }
 .item { flex: none; width: 92px; height: 92px; border: 0; border-radius: 20px; background: #fff; box-shadow: var(--shadow); display: grid; place-items: center; cursor: pointer; padding: 8px; touch-action: pan-x; }
 .item img { max-width: 100%; max-height: 100%; pointer-events: none; }
+.cat.packs { display: grid; grid-template-columns: repeat(2, 48px); gap: 6px; align-content: center; }
+.pack-chip { width: 48px; height: 42px; border: 0; border-radius: 14px; background: #f1e1c8; display: grid; place-items: center; padding: 4px; cursor: pointer; touch-action: pan-x; }
+.pack-chip img { max-width: 100%; max-height: 100%; pointer-events: none; }
+.pack-chip.is-on { background: var(--evergreen); box-shadow: inset 0 0 0 3px var(--gold); }
+.tray-group .btn.event img { width: 52px; height: 52px; object-fit: contain; pointer-events: none; }
 .item:active { transform: scale(0.95); }
 .tray-group { display: flex; gap: 8px; align-items: center; flex: none; padding-right: 10px; border-right: 3px dotted #d9c3a1; }
 .tray-group:last-child { border-right: 0; }
@@ -156,6 +201,7 @@ button { font-family: inherit; color: inherit; }
 .modal-card { background: var(--paper); border-radius: 30px; padding: 24px; display: flex; flex-direction: column; gap: 20px; align-items: center; box-shadow: 0 10px 40px rgba(0,0,0,0.4); }
 .modal-pic { display: flex; align-items: center; gap: 14px; font-size: 22px; font-weight: 800; }
 .modal-pic svg { width: 70px; height: 70px; }
+.modal-pic .badge { width: 90px; height: 90px; }
 .modal-buttons { display: flex; gap: 30px; }
 
 /* ---------- narrow / portrait ---------- */
@@ -170,6 +216,6 @@ button { font-family: inherit; color: inherit; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #hint { animation: none; }
+  #hint, .snap-cue, .dream-btn { animation: none; }
   * { transition-duration: 0.01s !important; }
 }

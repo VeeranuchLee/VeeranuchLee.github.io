@@ -2,6 +2,20 @@
   "schema": 1,
   "defaultEvent": "christmas",
   "packs": [
-    { "id": "christmas", "path": "packs/christmas/pack.json" }
-  ]
+    {
+      "id": "christmas",
+      "path": "packs/christmas/pack.json"
+    },
+    {
+      "id": "halloween",
+      "path": "packs/halloween/pack.json",
+      "stub": true
+    },
+    {
+      "id": "birthday",
+      "path": "packs/birthday/pack.json",
+      "stub": true
+    }
+  ],
+  "house": "data/house-mansion.json"
 }

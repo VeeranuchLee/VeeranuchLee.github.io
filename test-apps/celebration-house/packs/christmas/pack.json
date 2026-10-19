@@ -1,63 +1,1019 @@
 {
-  "schema": 1,
-  "id": "christmas",
-  "name": "Christmas",
-  "house": "cottage",
-  "skin": {
-    "skyDay": ["#bfe3f7", "#eaf6fb"],
-    "skyNight": ["#0b1238", "#26306a"],
-    "nightTint": "rgba(14, 20, 58, 0.55)",
-    "snow": true
-  },
-  "music": {
-    "overview": { "synth": { "voice": "pad", "bpm": 66, "notes": [62, 66, 69, 74, null, 69, 66, 69, 59, 62, 66, 71, null, 66, 62, 66, 55, 59, 62, 67, null, 62, 59, 62, 57, 61, 64, 69, null, 64, 61, 64] } },
-    "hallway": { "synth": { "voice": "bells", "bpm": 60, "notes": [76, null, 79, null, 81, null, 79, 76, 74, null, 76, null, 72, null, null, null, 76, null, 74, null, 72, null, 69, 71, 72, null, 67, null, 69, null, null, null] } },
-    "living": { "synth": { "voice": "musicbox", "bpm": 88, "notes": [72, 76, 79, 84, 79, 76, 74, 77, 81, 77, 74, 71, 72, 76, 79, 83, 81, 79, 77, 76, 74, 72, 71, 74, 72, null, 67, null, 72, null, null, null] } }
-  },
-  "categories": [
-    { "id": "tree", "name": "Tree", "icon": "bauble" },
-    { "id": "walls", "name": "Walls", "icon": "wreath" },
-    { "id": "gifts", "name": "Gifts", "icon": "gift" },
-    { "id": "glow", "name": "Glow", "icon": "lantern" }
+ "schema": 1,
+ "id": "christmas",
+ "name": "Christmas",
+ "house": "mansion",
+ "skin": {
+  "skyDay": [
+   "#bfe3f7",
+   "#eaf6fb"
   ],
-  "decorations": [
-    { "id": "bauble", "name": "Red bauble", "cat": "tree", "art": "art/bauble.webp", "w": 60, "h": 70, "snap": "tree" },
-    { "id": "teardrop", "name": "Blue teardrop", "cat": "tree", "art": "art/teardrop.webp", "w": 48, "h": 88, "snap": "tree" },
-    { "id": "snowflake", "name": "Snowflake", "cat": "tree", "art": "art/snowflake.webp", "w": 76, "h": 76, "snap": "tree" },
-    { "id": "candy-cane", "name": "Candy cane", "cat": "tree", "art": "art/candy-cane.webp", "w": 48, "h": 112, "snap": "tree" },
-    { "id": "gingerbread", "name": "Gingerbread friend", "cat": "tree", "art": "art/gingerbread.webp", "w": 78, "h": 96, "snap": "tree" },
-    { "id": "bell", "name": "Golden bells", "cat": "walls", "art": "art/bell.webp", "w": 96, "h": 96 },
-    { "id": "bow", "name": "Ribbon bow", "cat": "walls", "art": "art/bow.webp", "w": 96, "h": 72 },
-    { "id": "wreath", "name": "Wreath", "cat": "walls", "art": "art/wreath.webp", "w": 170, "h": 180, "snap": "wall" },
-    { "id": "garland", "name": "Garland", "cat": "walls", "art": "art/garland.webp", "w": 380, "h": 110, "snap": "wall" },
-    { "id": "stocking", "name": "Stocking", "cat": "walls", "art": "art/stocking.webp", "w": 92, "h": 132 },
-    { "id": "gift", "name": "Gift box", "cat": "gifts", "art": "art/gift.webp", "w": 112, "h": 112, "snap": "floor" },
-    { "id": "gift-tall", "name": "Tall gift", "cat": "gifts", "art": "art/gift-tall.webp", "w": 84, "h": 130, "snap": "floor" },
-    { "id": "snowman", "name": "Snowman", "cat": "gifts", "art": "art/snowman.webp", "w": 110, "h": 150, "snap": "floor" },
-    { "id": "candle", "name": "Candle", "cat": "glow", "art": "art/candle.webp", "w": 50, "h": 112, "glow": { "at": [0, -46], "r": 70, "color": "#ffc861" } },
-    { "id": "lantern", "name": "Lantern", "cat": "glow", "art": "art/lantern.webp", "w": 74, "h": 124, "glow": { "at": [0, 12], "r": 110, "color": "#ffb84d" } }
+  "skyNight": [
+   "#0b1238",
+   "#26306a"
   ],
-  "lights": {
-    "styles": ["fairy", "globe", "star", "icicle"],
-    "swatches": ["#ffd36b", "#ff4f5e", "#4fd47a", "#4fa8ff", "#c77dff", "#ffffff", "#ff9a3c", "#ff7ac8"],
-    "multi": ["#ff4f5e", "#ffd36b", "#4fd47a", "#4fa8ff", "#c77dff", "#ff9a3c"],
-    "defaultStyle": "fairy"
+  "nightTint": "rgba(14, 20, 58, 0.55)",
+  "snow": true
+ },
+ "music": {
+  "overview": {
+   "synth": {
+    "voice": "pad",
+    "bpm": 66,
+    "notes": [
+     62,
+     66,
+     69,
+     74,
+     null,
+     69,
+     66,
+     69,
+     59,
+     62,
+     66,
+     71,
+     null,
+     66,
+     62,
+     66,
+     55,
+     59,
+     62,
+     67,
+     null,
+     62,
+     59,
+     62,
+     57,
+     61,
+     64,
+     69,
+     null,
+     64,
+     61,
+     64
+    ]
+   }
   },
-  "fixtures": [
-    {
-      "id": "tree",
-      "type": "tree",
-      "area": "living",
-      "name": "Christmas tree",
-      "art": "art/tree.webp",
-      "rect": [1300, 1500, 440, 600],
-      "topper": {
-        "anchor": [1520, 1526],
-        "size": 74,
-        "designs": ["star", "burst", "snowstar"],
-        "default": { "on": true, "color": "#ffd84a", "design": "star" }
-      },
-      "wrap": { "apex": [1520, 1560], "baseY": 2010, "baseHalfWidth": 190, "rows": 6 }
+  "hall": {
+   "synth": {
+    "voice": "bells",
+    "bpm": 60,
+    "notes": [
+     76,
+     null,
+     79,
+     null,
+     81,
+     null,
+     79,
+     76,
+     74,
+     null,
+     76,
+     null,
+     72,
+     null,
+     null,
+     null,
+     76,
+     null,
+     74,
+     null,
+     72,
+     null,
+     69,
+     71,
+     72,
+     null,
+     67,
+     null,
+     69,
+     null,
+     null,
+     null
+    ]
+   }
+  },
+  "living": {
+   "synth": {
+    "voice": "musicbox",
+    "bpm": 88,
+    "notes": [
+     72,
+     76,
+     79,
+     84,
+     79,
+     76,
+     74,
+     77,
+     81,
+     77,
+     74,
+     71,
+     72,
+     76,
+     79,
+     83,
+     81,
+     79,
+     77,
+     76,
+     74,
+     72,
+     71,
+     74,
+     72,
+     null,
+     67,
+     null,
+     72,
+     null,
+     null,
+     null
+    ]
+   }
+  },
+  "playroom": {
+   "synth": {
+    "voice": "musicbox",
+    "bpm": 104,
+    "notes": [
+     67,
+     null,
+     67,
+     72,
+     null,
+     72,
+     76,
+     null,
+     74,
+     72,
+     71,
+     72,
+     74,
+     null,
+     67,
+     null,
+     69,
+     null,
+     69,
+     74,
+     null,
+     74,
+     77,
+     null,
+     76,
+     74,
+     72,
+     71,
+     72,
+     null,
+     null,
+     null
+    ]
+   }
+  },
+  "dream": {
+   "synth": {
+    "voice": "bells",
+    "bpm": 56,
+    "notes": [
+     84,
+     null,
+     88,
+     null,
+     91,
+     null,
+     88,
+     84,
+     86,
+     null,
+     89,
+     null,
+     93,
+     null,
+     null,
+     null,
+     83,
+     null,
+     86,
+     null,
+     89,
+     null,
+     86,
+     83,
+     84,
+     null,
+     null,
+     null,
+     79,
+     null,
+     null,
+     null
+    ]
+   }
+  },
+  "sky": {
+   "synth": {
+    "voice": "pad",
+    "bpm": 58,
+    "notes": [
+     74,
+     null,
+     78,
+     81,
+     null,
+     86,
+     null,
+     81,
+     73,
+     null,
+     76,
+     81,
+     null,
+     85,
+     null,
+     81,
+     71,
+     null,
+     74,
+     79,
+     null,
+     83,
+     null,
+     79,
+     69,
+     null,
+     73,
+     76,
+     null,
+     81,
+     null,
+     null
+    ]
+   }
+  },
+  "kitchen": {
+   "synth": {
+    "voice": "musicbox",
+    "bpm": 96,
+    "notes": [
+     72,
+     74,
+     76,
+     72,
+     76,
+     null,
+     79,
+     null,
+     77,
+     76,
+     74,
+     72,
+     74,
+     null,
+     67,
+     null,
+     72,
+     74,
+     76,
+     77,
+     79,
+     null,
+     79,
+     null,
+     81,
+     79,
+     77,
+     76,
+     72,
+     null,
+     null,
+     null
+    ]
+   }
+  }
+ },
+ "categories": [
+  {
+   "id": "tree",
+   "name": "Tree",
+   "icon": "bauble"
+  },
+  {
+   "id": "walls",
+   "name": "Walls",
+   "icon": "wreath"
+  },
+  {
+   "id": "gifts",
+   "name": "Gifts",
+   "icon": "gift"
+  },
+  {
+   "id": "glow",
+   "name": "Glow",
+   "icon": "lantern"
+  },
+  {
+   "id": "toys",
+   "name": "Toys and sweets",
+   "icon": "nutcracker"
+  },
+  {
+   "id": "sky",
+   "name": "Sky",
+   "icon": "sleigh"
+  }
+ ],
+ "decorations": [
+  {
+   "id": "bauble",
+   "name": "Red bauble",
+   "cat": "tree",
+   "art": "art/bauble.webp",
+   "w": 60,
+   "h": 70,
+   "snap": "tree"
+  },
+  {
+   "id": "teardrop",
+   "name": "Blue teardrop",
+   "cat": "tree",
+   "art": "art/teardrop.webp",
+   "w": 48,
+   "h": 88,
+   "snap": "tree"
+  },
+  {
+   "id": "snowflake",
+   "name": "Snowflake",
+   "cat": "tree",
+   "art": "art/snowflake.webp",
+   "w": 76,
+   "h": 76,
+   "snap": "tree"
+  },
+  {
+   "id": "candy-cane",
+   "name": "Candy cane",
+   "cat": "tree",
+   "art": "art/candy-cane.webp",
+   "w": 48,
+   "h": 112,
+   "snap": "tree"
+  },
+  {
+   "id": "gingerbread",
+   "name": "Gingerbread friend",
+   "cat": "tree",
+   "art": "art/gingerbread.webp",
+   "w": 78,
+   "h": 96,
+   "snap": "tree"
+  },
+  {
+   "id": "bell",
+   "name": "Golden bells",
+   "cat": "walls",
+   "art": "art/bell.webp",
+   "w": 96,
+   "h": 96,
+   "snap": [
+    "wall",
+    "tree"
+   ]
+  },
+  {
+   "id": "bow",
+   "name": "Ribbon bow",
+   "cat": "walls",
+   "art": "art/bow.webp",
+   "w": 96,
+   "h": 72,
+   "snap": [
+    "wall",
+    "tree"
+   ]
+  },
+  {
+   "id": "wreath",
+   "name": "Wreath",
+   "cat": "walls",
+   "art": "art/wreath.webp",
+   "w": 170,
+   "h": 180,
+   "snap": "wall"
+  },
+  {
+   "id": "garland",
+   "name": "Garland",
+   "cat": "walls",
+   "art": "art/garland.webp",
+   "w": 380,
+   "h": 110,
+   "snap": "wall"
+  },
+  {
+   "id": "stocking",
+   "name": "Stocking",
+   "cat": "walls",
+   "art": "art/stocking.webp",
+   "w": 92,
+   "h": 132,
+   "snap": "mantel",
+   "hang": true
+  },
+  {
+   "id": "gift",
+   "name": "Gift box",
+   "cat": "gifts",
+   "art": "art/gift.webp",
+   "w": 112,
+   "h": 112,
+   "snap": "floor"
+  },
+  {
+   "id": "gift-tall",
+   "name": "Tall gift",
+   "cat": "gifts",
+   "art": "art/gift-tall.webp",
+   "w": 84,
+   "h": 130,
+   "snap": "floor"
+  },
+  {
+   "id": "snowman",
+   "name": "Snowman",
+   "cat": "gifts",
+   "art": "art/snowman.webp",
+   "w": 110,
+   "h": 150,
+   "snap": [
+    "floor",
+    "mantel"
+   ]
+  },
+  {
+   "id": "candle",
+   "name": "Candle",
+   "cat": "glow",
+   "art": "art/candle.webp",
+   "w": 50,
+   "h": 112,
+   "snap": [
+    "mantel",
+    "window",
+    "floor"
+   ],
+   "glow": {
+    "at": [
+     0,
+     -46
+    ],
+    "r": 70,
+    "color": "#ffc861"
+   }
+  },
+  {
+   "id": "lantern",
+   "name": "Lantern",
+   "cat": "glow",
+   "art": "art/lantern.webp",
+   "w": 74,
+   "h": 124,
+   "snap": [
+    "floor",
+    "mantel",
+    "window"
+   ],
+   "glow": {
+    "at": [
+     0,
+     12
+    ],
+    "r": 110,
+    "color": "#ffb84d"
+   }
+  },
+  {
+   "id": "nutcracker",
+   "name": "Nutcracker",
+   "cat": "toys",
+   "art": "art/nutcracker.webp",
+   "w": 70,
+   "h": 168,
+   "snap": [
+    "floor",
+    "mantel"
+   ]
+  },
+  {
+   "id": "lollipop",
+   "name": "Lollipop",
+   "cat": "toys",
+   "art": "art/lollipop.webp",
+   "w": 70,
+   "h": 140,
+   "snap": [
+    "floor",
+    "mantel",
+    "tree"
+   ]
+  },
+  {
+   "id": "sleigh",
+   "name": "Santa's sleigh",
+   "cat": "sky",
+   "art": "art/sleigh.webp",
+   "w": 520,
+   "h": 260,
+   "snap": "sky"
+  },
+  {
+   "id": "reindeer",
+   "name": "Flying reindeer",
+   "cat": "sky",
+   "art": "art/reindeer.webp",
+   "w": 300,
+   "h": 266,
+   "snap": "sky"
+  },
+  {
+   "id": "moon",
+   "name": "Moon",
+   "cat": "sky",
+   "art": "art/moon.webp",
+   "w": 260,
+   "h": 260,
+   "snap": "sky",
+   "glow": {
+    "at": [
+     0,
+     0
+    ],
+    "r": 320,
+    "color": "#fff1b8"
+   }
+  },
+  {
+   "id": "ornament-star-glass",
+   "name": "Glass star",
+   "cat": "tree",
+   "art": "art/ornament-star-glass.webp",
+   "w": 64,
+   "h": 70,
+   "snap": "tree",
+   "hang": true
+  },
+  {
+   "id": "ornament-pinecone",
+   "name": "Snowy pinecone",
+   "cat": "tree",
+   "art": "art/ornament-pinecone.webp",
+   "w": 46,
+   "h": 78,
+   "snap": "tree",
+   "hang": true
+  },
+  {
+   "id": "ornament-icicle",
+   "name": "Glass icicle",
+   "cat": "tree",
+   "art": "art/ornament-icicle.webp",
+   "w": 26,
+   "h": 110,
+   "snap": "tree",
+   "hang": true
+  },
+  {
+   "id": "ornament-stripe",
+   "name": "Striped bauble",
+   "cat": "tree",
+   "art": "art/ornament-stripe.webp",
+   "w": 58,
+   "h": 66,
+   "snap": "tree",
+   "hang": true
+  },
+  {
+   "id": "ornament-drum",
+   "name": "Drum ornament",
+   "cat": "tree",
+   "art": "art/ornament-drum.webp",
+   "w": 56,
+   "h": 60,
+   "snap": "tree",
+   "hang": true
+  },
+  {
+   "id": "ornament-heart",
+   "name": "Felt heart",
+   "cat": "tree",
+   "art": "art/ornament-heart.webp",
+   "w": 56,
+   "h": 62,
+   "snap": "tree",
+   "hang": true
+  },
+  {
+   "id": "swag-velvet",
+   "name": "Velvet swag",
+   "cat": "walls",
+   "art": "art/swag-velvet.webp",
+   "w": 460,
+   "h": 140,
+   "snap": "wall"
+  },
+  {
+   "id": "wreath-grand",
+   "name": "Grand wreath",
+   "cat": "walls",
+   "art": "art/wreath-grand.webp",
+   "w": 220,
+   "h": 230,
+   "snap": "wall"
+  },
+  {
+   "id": "holly-sprig",
+   "name": "Holly sprig",
+   "cat": "walls",
+   "art": "art/holly-sprig.webp",
+   "w": 110,
+   "h": 70,
+   "snap": [
+    "wall",
+    "mantel"
+   ]
+  },
+  {
+   "id": "star-paper-lantern",
+   "name": "Paper star lantern",
+   "cat": "walls",
+   "art": "art/star-paper-lantern.webp",
+   "w": 120,
+   "h": 150,
+   "snap": "wall",
+   "hang": true
+  },
+  {
+   "id": "stocking-knit",
+   "name": "Knitted stocking",
+   "cat": "walls",
+   "art": "art/stocking-knit.webp",
+   "w": 92,
+   "h": 132,
+   "snap": "mantel",
+   "hang": true
+  },
+  {
+   "id": "stocking-snow",
+   "name": "Snowflake stocking",
+   "cat": "walls",
+   "art": "art/stocking-snow.webp",
+   "w": 92,
+   "h": 132,
+   "snap": "mantel",
+   "hang": true
+  },
+  {
+   "id": "gingerbread-house",
+   "name": "Gingerbread house",
+   "cat": "gifts",
+   "art": "art/gingerbread-house.webp",
+   "w": 170,
+   "h": 150,
+   "snap": "mantel"
+  },
+  {
+   "id": "cookie-plate",
+   "name": "Cookie plate",
+   "cat": "gifts",
+   "art": "art/cookie-plate.webp",
+   "w": 150,
+   "h": 70,
+   "snap": "mantel"
+  },
+  {
+   "id": "cocoa-mug",
+   "name": "Cocoa mug",
+   "cat": "gifts",
+   "art": "art/cocoa-mug.webp",
+   "w": 70,
+   "h": 80,
+   "snap": "mantel"
+  },
+  {
+   "id": "centrepiece",
+   "name": "Candle centrepiece",
+   "cat": "glow",
+   "art": "art/centrepiece.webp",
+   "w": 260,
+   "h": 110,
+   "snap": "mantel"
+  },
+  {
+   "id": "candy-jar",
+   "name": "Candy jar",
+   "cat": "gifts",
+   "art": "art/candy-jar.webp",
+   "w": 80,
+   "h": 110,
+   "snap": "mantel"
+  },
+  {
+   "id": "gift-stack",
+   "name": "Gift stack",
+   "cat": "gifts",
+   "art": "art/gift-stack.webp",
+   "w": 180,
+   "h": 190,
+   "snap": "floor"
+  },
+  {
+   "id": "poinsettia",
+   "name": "Poinsettia",
+   "cat": "gifts",
+   "art": "art/poinsettia.webp",
+   "w": 110,
+   "h": 140,
+   "snap": [
+    "floor",
+    "mantel"
+   ]
+  },
+  {
+   "id": "teddy-scarf",
+   "name": "Scarf teddy",
+   "cat": "toys",
+   "art": "art/teddy-scarf.webp",
+   "w": 100,
+   "h": 120,
+   "snap": [
+    "floor",
+    "mantel"
+   ]
+  },
+  {
+   "id": "nutcracker-drummer",
+   "name": "Nutcracker drummer",
+   "cat": "toys",
+   "art": "art/nutcracker-drummer.webp",
+   "w": 90,
+   "h": 150,
+   "snap": [
+    "floor",
+    "mantel"
+   ]
+  },
+  {
+   "id": "toy-drum",
+   "name": "Toy drum",
+   "cat": "toys",
+   "art": "art/toy-drum.webp",
+   "w": 90,
+   "h": 80,
+   "snap": [
+    "floor",
+    "mantel"
+   ]
+  },
+  {
+   "id": "jack-in-box",
+   "name": "Jack-in-the-box",
+   "cat": "toys",
+   "art": "art/jack-in-box.webp",
+   "w": 90,
+   "h": 140,
+   "snap": [
+    "floor",
+    "mantel"
+   ]
+  },
+  {
+   "id": "toy-train",
+   "name": "Toy train",
+   "cat": "toys",
+   "art": "art/toy-train.webp",
+   "w": 260,
+   "h": 100,
+   "snap": [
+    "floor",
+    "mantel"
+   ]
+  },
+  {
+   "id": "gumdrops",
+   "name": "Gumdrops",
+   "cat": "toys",
+   "art": "art/gumdrops.webp",
+   "w": 120,
+   "h": 80,
+   "snap": [
+    "floor",
+    "mantel"
+   ]
+  },
+  {
+   "id": "cupcake",
+   "name": "Cupcake",
+   "cat": "toys",
+   "art": "art/cupcake.webp",
+   "w": 80,
+   "h": 96,
+   "snap": [
+    "floor",
+    "mantel"
+   ]
+  },
+  {
+   "id": "cotton-candy-cloud",
+   "name": "Cotton-candy cloud",
+   "cat": "toys",
+   "art": "art/cotton-candy-cloud.webp",
+   "w": 220,
+   "h": 120,
+   "snap": [
+    "wall",
+    "sky"
+   ]
+  },
+  {
+   "id": "peppermint",
+   "name": "Peppermint",
+   "cat": "toys",
+   "art": "art/peppermint.webp",
+   "w": 90,
+   "h": 90,
+   "snap": [
+    "wall",
+    "tree"
+   ]
+  },
+  {
+   "id": "macaron-tower",
+   "name": "Macaron tower",
+   "cat": "toys",
+   "art": "art/macaron-tower.webp",
+   "w": 110,
+   "h": 170,
+   "snap": [
+    "floor",
+    "mantel"
+   ]
+  },
+  {
+   "id": "reindeer-lead",
+   "name": "Red-nosed lead reindeer",
+   "cat": "sky",
+   "art": "art/reindeer-lead.webp",
+   "w": 300,
+   "h": 266,
+   "snap": "sky"
+  },
+  {
+   "id": "reindeer-glide",
+   "name": "Gliding reindeer",
+   "cat": "sky",
+   "art": "art/reindeer-glide.webp",
+   "w": 300,
+   "h": 220,
+   "snap": "sky"
+  },
+  {
+   "id": "shooting-star",
+   "name": "Shooting star",
+   "cat": "sky",
+   "art": "art/shooting-star.webp",
+   "w": 300,
+   "h": 120,
+   "snap": "sky"
+  },
+  {
+   "id": "carriage",
+   "name": "Horse-drawn carriage",
+   "cat": "gifts",
+   "art": "art/carriage.webp",
+   "w": 520,
+   "h": 300,
+   "snap": "floor"
+  },
+  {
+   "id": "reindeer-lawn",
+   "name": "Garden reindeer",
+   "cat": "gifts",
+   "art": "art/reindeer-lawn.webp",
+   "w": 180,
+   "h": 200,
+   "snap": "floor"
+  },
+  {
+   "id": "snowman-broom",
+   "name": "Broom snowman",
+   "cat": "gifts",
+   "art": "art/snowman-broom.webp",
+   "w": 130,
+   "h": 170,
+   "snap": "floor"
+  },
+  {
+   "id": "sled-gifts",
+   "name": "Gift sled",
+   "cat": "gifts",
+   "art": "art/sled-gifts.webp",
+   "w": 200,
+   "h": 110,
+   "snap": "floor"
+  },
+  {
+   "id": "urn-fir",
+   "name": "Fir urn",
+   "cat": "gifts",
+   "art": "art/urn-fir.webp",
+   "w": 110,
+   "h": 170,
+   "snap": "floor"
+  },
+  {
+   "id": "santa-mailbox",
+   "name": "Santa mailbox",
+   "cat": "gifts",
+   "art": "art/santa-mailbox.webp",
+   "w": 90,
+   "h": 160,
+   "snap": "floor"
+  }
+ ],
+ "lights": {
+  "styles": [
+   "fairy",
+   "globe",
+   "star",
+   "icicle"
+  ],
+  "swatches": [
+   "#ffd36b",
+   "#ff4f5e",
+   "#4fd47a",
+   "#4fa8ff",
+   "#c77dff",
+   "#ffffff",
+   "#ff9a3c",
+   "#ff7ac8"
+  ],
+  "multi": [
+   "#ff4f5e",
+   "#ffd36b",
+   "#4fd47a",
+   "#4fa8ff",
+   "#c77dff",
+   "#ff9a3c"
+  ],
+  "defaultStyle": "fairy"
+ },
+ "fixtures": [
+  {
+   "id": "tree",
+   "type": "tree",
+   "area": "living",
+   "name": "Christmas tree",
+   "art": "art/tree.webp",
+   "rect": [
+    2990,
+    2250,
+    340,
+    470
+   ],
+   "topper": {
+    "anchor": [
+     3160,
+     2268
+    ],
+    "size": 60,
+    "designs": [
+     "star",
+     "burst",
+     "snowstar"
+    ],
+    "default": {
+     "on": true,
+     "color": "#ffd84a",
+     "design": "star"
     }
-  ]
+   },
+   "wrap": {
+    "apex": [
+     3160,
+     2296
+    ],
+    "baseY": 2640,
+    "baseHalfWidth": 148,
+    "rows": 6
+   },
+   "branchSpacing": 56
+  }
+ ]
 }

@@ -115,6 +115,67 @@
     return pts;
   }
 
+
+  /* Branch tips on a tree cone, row by row: where an ornament's loop can hook.
+   * Derived from the same cone data as the light wrap, so no extra art data. */
+  function treeBranchPoints(w, spacing) {
+    var pts = [], rows = Math.max(2, w.rows || 5), sp = spacing || 64;
+    var top = w.apex[1] + 50, bot = w.baseY - 30;
+    for (var i = 0; i < rows; i++) {
+      var y = top + (bot - top) * i / (rows - 1);
+      var half = w.baseHalfWidth * (y - w.apex[1]) / (w.baseY - w.apex[1]) - 16;
+      if (half < sp / 2) { pts.push([w.apex[0], Math.round(y)]); continue; }
+      var n = Math.max(1, Math.round(2 * half / sp));
+      for (var j = 0; j <= n; j++) pts.push([Math.round(w.apex[0] - half + 2 * half * j / n), Math.round(y)]);
+    }
+    return pts;
+  }
+
+  /* Gentle snapping. `d` is a placed decoration (scene units), `def` its
+   * library entry (w, h, snap, hang), `targets` the snap targets in reach:
+   *   { type, point: [x, y] }            tree branch tips, wall hooks
+   *   { type, line: [x1, x2, y], hangY } floors, mantels/shelves, window sills
+   * Returns the nearest target within `tol` as { x, y, r, dist, cue } or null.
+   * Only items held roughly upright snap (a tilted one is the child's choice),
+   * and a snap straightens them. Free placement is everything else. */
+  function findSnap(d, def, targets, tol) {
+    var types = def && def.snap ? [].concat(def.snap) : [];
+    if (!types.length) return null;
+    var r = ((d.r % 360) + 540) % 360 - 180, upright = Math.abs(r) <= 20;
+    var w = def.w * d.s, h = def.h * d.s, best = null;
+    targets.forEach(function (t) {
+      if (types.indexOf(t.type) < 0) return;
+      var c = null;
+      if (t.rect) {
+        /* A region (the sky): an item poking out of it by less than `tol` is
+         * eased back fully inside; one already inside is left exactly as it is,
+         * tilt and all (a sleigh may swoop). */
+        var R = t.rect, hw = Math.min(w / 2, R[2] / 2), hh = Math.min(h / 2, R[3] / 2);
+        var cx = Math.max(R[0] + hw, Math.min(R[0] + R[2] - hw, d.x)), cy = Math.max(R[1] + hh, Math.min(R[1] + R[3] - hh, d.y));
+        var dr = Math.hypot(cx - d.x, cy - d.y);
+        if (dr > 0 && dr <= tol) c = { x: cx, y: cy, dist: dr, keepR: true, cue: { kind: "rect", rect: R.slice() } };
+      } else if (!upright) {
+        return;                                          // tilted on purpose: the child's choice
+      } else if (t.point) {
+        var hook = t.type === "tree";                      // ornaments hang by their loop
+        var ay = hook ? d.y - h / 2 : d.y, dd = Math.hypot(d.x - t.point[0], ay - t.point[1]);
+        if (dd <= tol) c = { x: t.point[0], y: hook ? t.point[1] + h / 2 : t.point[1], dist: dd, cue: { kind: "point", at: t.point.slice() } };
+      } else if (t.line) {
+        var x1 = t.line[0], x2 = t.line[1];
+        if (d.x < x1 - w / 3 || d.x > x2 + w / 3) return;
+        var hang = !!def.hang, ly = hang && t.hangY != null ? t.hangY : t.line[2];
+        var edge = hang ? d.y - h / 2 : d.y + h / 2, dy = Math.abs(edge - ly);
+        if (dy <= tol) {
+          var x = Math.max(x1, Math.min(x2, d.x));
+          c = { x: x, y: hang ? ly + h / 2 : ly - h / 2, dist: dy, cue: { kind: "line", from: [Math.max(x1, x - w / 2 - 24), ly], to: [Math.min(x2, x + w / 2 + 24), ly] } };
+        }
+      }
+      if (c && (!best || c.dist < best.dist)) { c.r = c.keepR ? d.r : 0; delete c.keepR; c.type = t.type; best = c; }
+    });
+    if (best) { best.x = Math.round(best.x); best.y = Math.round(best.y); }
+    return best;
+  }
+
   /* Rotated-box hit test for a placed decoration (scene units). */
   function hitBox(p, d, w, h, pad) {
     var r = -(d.r || 0) * Math.PI / 180, dx = p[0] - d.x, dy = p[1] - d.y;
@@ -142,7 +203,7 @@
   var api = {
     dist: dist, hangCurve: hangCurve, catmullRom: catmullRom, simplify: simplify, segDist: segDist,
     polyDist: polyDist, strandLine: strandLine, resample: resample, lineLength: lineLength,
-    treeWrap: treeWrap, hitBox: hitBox, zoomAbout: zoomAbout, fitRect: fitRect, toScene: toScene, toScreen: toScreen
+    treeWrap: treeWrap, treeBranchPoints: treeBranchPoints, findSnap: findSnap, hitBox: hitBox, zoomAbout: zoomAbout, fitRect: fitRect, toScene: toScene, toScreen: toScreen
   };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.CHGeom = api;

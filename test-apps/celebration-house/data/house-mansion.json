@@ -1,0 +1,628 @@
+{
+ "id": "mansion",
+ "name": "Celebration House",
+ "schema": 1,
+ "generatedBy": "make-mansion-placeholder.py",
+ "world": [
+  0,
+  0,
+  4800,
+  3600
+ ],
+ "art": "art/house/mansion-overview.webp",
+ "thumb": "art/house/mansion-overview.webp",
+ "overviewPad": 10,
+ "overview": [
+  150,
+  160,
+  4500,
+  3170
+ ],
+ "plates": [
+  {
+   "id": "mansion",
+   "art": "art/house/mansion-overview.webp",
+   "rect": [
+    0,
+    0,
+    4800,
+    3600
+   ],
+   "placeholder": false
+  }
+ ],
+ "areas": [
+  {
+   "id": "bedroom",
+   "name": "Bedroom",
+   "rect": [
+    420,
+    1010,
+    1980,
+    560
+   ],
+   "open": true,
+   "detail": {
+    "art": "art/house/detail-bedroom.webp"
+   }
+  },
+  {
+   "id": "playroom",
+   "name": "Toy room",
+   "rect": [
+    2400,
+    1010,
+    1980,
+    560
+   ],
+   "open": true,
+   "detail": {
+    "art": "art/house/detail-playroom.webp"
+   }
+  },
+  {
+   "id": "library",
+   "name": "Library",
+   "rect": [
+    420,
+    1600,
+    1480,
+    560
+   ],
+   "open": true,
+   "detail": {
+    "art": "art/house/detail-library.webp"
+   }
+  },
+  {
+   "id": "hall",
+   "name": "Grand hall",
+   "rect": [
+    1900,
+    1600,
+    1000,
+    1150
+   ],
+   "open": true,
+   "detail": {
+    "art": "art/house/detail-hall.webp"
+   }
+  },
+  {
+   "id": "dining",
+   "name": "Dining room",
+   "rect": [
+    2900,
+    1600,
+    1480,
+    560
+   ],
+   "open": true,
+   "detail": {
+    "art": "art/house/detail-dining.webp"
+   }
+  },
+  {
+   "id": "kitchen",
+   "name": "Kitchen",
+   "rect": [
+    420,
+    2190,
+    1480,
+    560
+   ],
+   "open": true,
+   "detail": {
+    "art": "art/house/detail-kitchen.webp"
+   }
+  },
+  {
+   "id": "living",
+   "name": "Living room",
+   "rect": [
+    2900,
+    2190,
+    1480,
+    560
+   ],
+   "open": true,
+   "detail": {
+    "art": "art/house/detail-living.webp"
+   }
+  },
+  {
+   "id": "porch",
+   "name": "Front steps",
+   "rect": [
+    1650,
+    2700,
+    1500,
+    560
+   ],
+   "open": true,
+   "tap": [
+    1800,
+    2760,
+    1200,
+    420
+   ]
+  },
+  {
+   "id": "roof",
+   "name": "Roof",
+   "rect": [
+    200,
+    330,
+    4400,
+    720
+   ],
+   "open": true,
+   "tap": [
+    280,
+    560,
+    4240,
+    445
+   ]
+  },
+  {
+   "id": "garden",
+   "name": "Garden",
+   "rect": [
+    0,
+    2760,
+    4800,
+    840
+   ],
+   "open": true
+  },
+  {
+   "id": "sky",
+   "name": "Sky",
+   "rect": [
+    0,
+    0,
+    4800,
+    1000
+   ],
+   "open": true,
+   "tap": [
+    0,
+    0,
+    4800,
+    560
+   ]
+  }
+ ],
+ "dream": {
+  "area": "bedroom",
+  "rect": [
+   420,
+   1010,
+   1980,
+   560
+  ],
+  "art": "art/house/dream-bedroom.webp",
+  "placeholder": false,
+  "button": [
+   2290,
+   1110
+  ]
+ },
+ "lightPaths": [
+  {
+   "id": "eaves",
+   "icon": "roof",
+   "area": "roof",
+   "style": "icicle",
+   "pts": [
+    [
+     300,
+     1004
+    ],
+    [
+     1200,
+     1004
+    ],
+    [
+     2400,
+     1004
+    ],
+    [
+     3600,
+     1004
+    ],
+    [
+     4500,
+     1004
+    ]
+   ]
+  }
+ ],
+ "snaps": [
+  {
+   "type": "floor",
+   "line": [
+    450,
+    2370,
+    1530
+   ]
+  },
+  {
+   "type": "floor",
+   "line": [
+    2430,
+    4350,
+    1530
+   ]
+  },
+  {
+   "type": "floor",
+   "line": [
+    450,
+    1870,
+    2120
+   ]
+  },
+  {
+   "type": "floor",
+   "line": [
+    2930,
+    4350,
+    2120
+   ]
+  },
+  {
+   "type": "floor",
+   "line": [
+    450,
+    1870,
+    2710
+   ]
+  },
+  {
+   "type": "floor",
+   "line": [
+    1930,
+    2870,
+    2710
+   ]
+  },
+  {
+   "type": "floor",
+   "line": [
+    2930,
+    4350,
+    2710
+   ]
+  },
+  {
+   "type": "floor",
+   "line": [
+    1980,
+    2820,
+    2800
+   ]
+  },
+  {
+   "type": "floor",
+   "line": [
+    80,
+    4720,
+    3330
+   ]
+  },
+  {
+   "type": "mantel",
+   "line": [
+    4010,
+    4350,
+    2440
+   ],
+   "hangY": 2468
+  },
+  {
+   "type": "mantel",
+   "line": [
+    900,
+    1240,
+    1850
+   ],
+   "hangY": 1878
+  },
+  {
+   "type": "mantel",
+   "line": [
+    470,
+    1120,
+    2540
+   ]
+  },
+  {
+   "type": "mantel",
+   "line": [
+    1340,
+    1840,
+    2350
+   ]
+  },
+  {
+   "type": "mantel",
+   "line": [
+    3300,
+    3960,
+    2010
+   ]
+  },
+  {
+   "type": "mantel",
+   "line": [
+    4060,
+    4340,
+    2000
+   ]
+  },
+  {
+   "type": "mantel",
+   "line": [
+    2960,
+    3360,
+    1290
+   ]
+  },
+  {
+   "type": "mantel",
+   "line": [
+    470,
+    760,
+    1380
+   ]
+  },
+  {
+   "type": "window",
+   "line": [
+    1770,
+    2010,
+    1396
+   ]
+  },
+  {
+   "type": "window",
+   "line": [
+    2610,
+    2830,
+    1396
+   ]
+  },
+  {
+   "type": "window",
+   "line": [
+    4050,
+    4270,
+    1396
+   ]
+  },
+  {
+   "type": "window",
+   "line": [
+    1630,
+    1830,
+    1986
+   ]
+  },
+  {
+   "type": "window",
+   "line": [
+    3490,
+    3770,
+    1986
+   ]
+  },
+  {
+   "type": "window",
+   "line": [
+    1240,
+    1500,
+    2536
+   ]
+  },
+  {
+   "type": "window",
+   "line": [
+    3510,
+    3810,
+    2586
+   ]
+  },
+  {
+   "type": "wall",
+   "point": [
+    1650,
+    1170
+   ]
+  },
+  {
+   "type": "wall",
+   "point": [
+    2160,
+    1150
+   ]
+  },
+  {
+   "type": "wall",
+   "point": [
+    3020,
+    1150
+   ]
+  },
+  {
+   "type": "wall",
+   "point": [
+    3630,
+    1080
+   ]
+  },
+  {
+   "type": "wall",
+   "point": [
+    1070,
+    1680
+   ]
+  },
+  {
+   "type": "wall",
+   "point": [
+    1500,
+    1740
+   ]
+  },
+  {
+   "type": "wall",
+   "point": [
+    2400,
+    2390
+   ]
+  },
+  {
+   "type": "wall",
+   "point": [
+    2400,
+    1930
+   ]
+  },
+  {
+   "type": "wall",
+   "point": [
+    3200,
+    1700
+   ]
+  },
+  {
+   "type": "wall",
+   "point": [
+    4150,
+    1710
+   ]
+  },
+  {
+   "type": "wall",
+   "point": [
+    700,
+    2300
+   ]
+  },
+  {
+   "type": "wall",
+   "point": [
+    3300,
+    2300
+   ]
+  },
+  {
+   "type": "wall",
+   "point": [
+    4180,
+    2300
+   ]
+  },
+  {
+   "type": "wall",
+   "point": [
+    2120,
+    2860
+   ]
+  },
+  {
+   "type": "wall",
+   "point": [
+    2680,
+    2860
+   ]
+  },
+  {
+   "type": "sky",
+   "rect": [
+    40,
+    40,
+    4720,
+    540
+   ]
+  }
+ ],
+ "nightWindows": [
+  [
+   1410,
+   1120,
+   320
+  ],
+  [
+   3390,
+   1120,
+   320
+  ],
+  [
+   1160,
+   1710,
+   320
+  ],
+  [
+   2400,
+   1710,
+   420
+  ],
+  [
+   3640,
+   1710,
+   320
+  ],
+  [
+   1160,
+   2300,
+   320
+  ],
+  [
+   3640,
+   2300,
+   320
+  ],
+  [
+   930,
+   790,
+   120
+  ],
+  [
+   1570,
+   790,
+   120
+  ],
+  [
+   3450,
+   790,
+   120
+  ],
+  [
+   4090,
+   790,
+   120
+  ],
+  [
+   1720,
+   2865,
+   110
+  ],
+  [
+   3080,
+   2865,
+   110
+  ],
+  [
+   700,
+   2865,
+   110
+  ],
+  [
+   4100,
+   2865,
+   110
+  ]
+ ]
+}

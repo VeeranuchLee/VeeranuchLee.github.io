@@ -109,9 +109,13 @@
     ctx.clearRect(0, 0, this.w, this.h);
     var glowK = doc.night ? 1 : 0.32;
     var self = this;
+    /* Two canvases share this renderer's code: the BACK one sits under the
+     * decorations (house windows + strands marked "behind", e.g. a tree wrap
+     * that ornaments hang in front of); the FRONT one sits over them. */
+    var layer = o.layer || "all", back = layer !== "front", front = layer !== "back";
 
     /* Lit windows of the house itself: warm, steady, night only. */
-    if (doc.night && o.windows) {
+    if (back && doc.night && o.windows) {
       ctx.globalCompositeOperation = "lighter";
       ctx.globalAlpha = 0.75;
       o.windows.forEach(function (w) {
@@ -123,7 +127,7 @@
     }
 
     /* Decorations that give light (candles, lanterns) glow at night. */
-    if (doc.master && o.decoGlows) {
+    if (front && doc.master && o.decoGlows) {
       ctx.globalCompositeOperation = "lighter";
       o.decoGlows.forEach(function (g) {
         var p = G.toScreen(v, g.x, g.y), R = g.r * v.k * (doc.night ? 1 : 0.55);
@@ -136,12 +140,12 @@
       ctx.globalCompositeOperation = "source-over";
     }
 
-    var strands = doc.strands.slice();
-    if (o.preview) strands.push(o.preview);
+    var strands = (o.strands || doc.strands).filter(function (s) { return layer === "all" || (layer === "back") === !!s.behind; });
+    if (o.preview && front) strands.push(o.preview);
     strands.forEach(function (s) {
       self.drawStrand(s, v, t, doc.master && s.on, glowK, s === o.preview, s.id && s.id === o.selectedId);
     });
-    (o.toppers || []).forEach(function (tp) { self.drawTopper(tp, v, t, doc.master && tp.state.on, glowK, tp.selected); });
+    if (front) (o.toppers || []).forEach(function (tp) { self.drawTopper(tp, v, t, doc.master && tp.state.on, glowK, tp.selected); });
   };
 
   Renderer.prototype.drawStrand = function (s, v, t, lit, glowK, isPreview, selected) {

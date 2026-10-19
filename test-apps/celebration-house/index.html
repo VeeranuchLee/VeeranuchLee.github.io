@@ -6,7 +6,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Celebration House</title>
 <meta name="theme-color" content="#1f4d31">
-<link rel="stylesheet" href="styles.css?v=368937474-20261019153351">
+<!-- One version for every file the app loads (scripts, styles, JSON, art):
+     bump it on each Test Hub deploy so Safari cannot keep serving a stale copy.
+     tools/check-data.mjs fails if any ?v= below disagrees with CH_V. -->
+<script>window.CH_V = "2026-10-19-p2f";</script>
+<link rel="stylesheet" href="styles.css?v=2026-10-19-p2f">
 </head>
 <body>
 
@@ -45,6 +49,11 @@
   <symbol id="i-power" viewBox="0 0 48 48"><path d="M24 6v18" stroke="currentColor" stroke-width="5.5" stroke-linecap="round"/><path d="M14 13a15 15 0 1 0 20 0" fill="none" stroke="currentColor" stroke-width="5.5" stroke-linecap="round"/></symbol>
   <symbol id="i-size" viewBox="0 0 48 48"><circle cx="12" cy="30" r="5" fill="currentColor"/><circle cx="32" cy="24" r="11" fill="currentColor"/></symbol>
   <symbol id="i-spacing" viewBox="0 0 48 48"><circle cx="8" cy="24" r="5" fill="currentColor"/><circle cx="40" cy="24" r="5" fill="currentColor"/><path d="M16 24h16M28 19l5 5-5 5M20 19l-5 5 5 5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></symbol>
+  <symbol id="i-magnet" viewBox="0 0 48 48"><path d="M10 8h9v16a5 5 0 0 0 10 0V8h9v16a14 14 0 0 1-28 0z" fill="currentColor"/><path d="M10 8h9v7h-9zM29 8h9v7h-9z" fill="#fff" opacity=".85"/></symbol>
+  <symbol id="i-lights-back" viewBox="0 0 48 48"><path d="M3 14q21 22 42 0" fill="none" stroke="currentColor" stroke-width="3" opacity=".55"/><g opacity=".55"><circle cx="9" cy="20" r="3.5" fill="#ffd36b"/><circle cx="39" cy="20" r="3.5" fill="#ffd36b"/></g><path d="M24 10v6" stroke="currentColor" stroke-width="3"/><circle cx="24" cy="29" r="12" fill="#d82f3c" stroke="currentColor" stroke-width="3"/></symbol>
+  <symbol id="i-lights-front" viewBox="0 0 48 48"><path d="M24 10v6" stroke="currentColor" stroke-width="3" opacity=".55"/><circle cx="24" cy="29" r="12" fill="#d82f3c" opacity=".45"/><path d="M3 14q21 30 42 0" fill="none" stroke="currentColor" stroke-width="3.5"/><g stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="24" r="4" fill="#ffd36b"/><circle cx="24" cy="29" r="4" fill="#4fd47a"/><circle cx="36" cy="24" r="4" fill="#4fa8ff"/></g></symbol>
+  <symbol id="i-dream" viewBox="0 0 48 48"><path d="M10 30a8 8 0 0 1 4-15 11 11 0 0 1 20-2 9 9 0 0 1 4 17z" fill="#fff" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><circle cx="24" cy="21" r="6" fill="#ff7ac8" stroke="currentColor" stroke-width="2"/><path d="M24 27v8" stroke="currentColor" stroke-width="2.5"/><circle cx="12" cy="40" r="3" fill="#fff" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="45" r="2" fill="#fff" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-roof" viewBox="0 0 48 48"><path d="M4 22 24 6l20 16" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 25h32" stroke="currentColor" stroke-width="2.5"/><g stroke="currentColor" stroke-width="1.5" fill="#bfe8ff"><path d="M11 25v8"/><ellipse cx="11" cy="35" rx="2" ry="3.5"/><path d="M19 25v13"/><ellipse cx="19" cy="40" rx="2" ry="3.5"/><path d="M29 25v6"/><ellipse cx="29" cy="33" rx="2" ry="3.5"/><path d="M37 25v11"/><ellipse cx="37" cy="38" rx="2" ry="3.5"/></g></symbol>
 </svg>
 
 <!-- HOME: one card per house. Siblings each keep their own. -->
@@ -67,14 +76,20 @@
   </header>
 
   <main id="viewport" aria-label="The house">
-    <div id="world">
+    <!-- Bottom to top: house + fixtures, night tint, lights marked "behind",
+         decorations (darkened at night by CSS), lights in front, handles. -->
+    <div id="world" class="world">
       <div id="house"></div>
       <div id="fixtures"></div>
-      <div id="decos"></div>
     </div>
     <div id="night"></div>
+    <canvas id="lights-back"></canvas>
+    <div id="world-front" class="world">
+      <div id="decos"></div>
+    </div>
     <canvas id="lights"></canvas>
     <div id="overlay"></div>
+    <button class="btn round dream-btn" id="btn-dream" aria-label="Dream" aria-pressed="false" hidden><svg><use href="#i-dream"/></svg></button>
     <div id="area-name" aria-live="polite"></div>
     <div id="hint" hidden></div>
   </main>
@@ -92,6 +107,14 @@
   </nav>
 </section>
 
+<div id="picker" class="modal" hidden>
+  <div class="modal-card picker-card">
+    <div class="picker-colours prow"></div>
+    <div class="picker-grid"></div>
+    <button class="btn round" id="picker-close" aria-label="Close"><svg><use href="#i-close"/></svg></button>
+  </div>
+</div>
+
 <div id="confirm" class="modal" hidden>
   <div class="modal-card">
     <div class="modal-pic"></div>
@@ -102,12 +125,12 @@
   </div>
 </div>
 
-<script src="./tap-zoom-guard.js?v=368937474-20261019153351"></script>
-<script src="./audio-wake.js?v=368937474-20261019153351"></script>
-<script src="js/geometry.js?v=368937474-20261019153351"></script>
-<script src="js/state.js?v=368937474-20261019153351"></script>
-<script src="js/lights.js?v=368937474-20261019153351"></script>
-<script src="js/audio.js?v=368937474-20261019153351"></script>
-<script src="js/app.js?v=368937474-20261019153351"></script>
+<script src="./tap-zoom-guard.js?v=2026-10-19-p2f"></script>
+<script src="./audio-wake.js?v=2026-10-19-p2f"></script>
+<script src="js/geometry.js?v=2026-10-19-p2f"></script>
+<script src="js/state.js?v=2026-10-19-p2f"></script>
+<script src="js/lights.js?v=2026-10-19-p2f"></script>
+<script src="js/audio.js?v=2026-10-19-p2f"></script>
+<script src="js/app.js?v=2026-10-19-p2f"></script>
 </body>
 </html>

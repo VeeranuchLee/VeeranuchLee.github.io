@@ -47,6 +47,7 @@
     pop: function (t) { tone(sfxBus, "sine", 520, t, 0.005, 0.35, 0.12, 900); },
     tick: function (t) { tone(sfxBus, "triangle", 1200, t, 0.003, 0.12, 0.05); },
     swish: function (t) { tone(sfxBus, "sine", 700, t, 0.01, 0.2, 0.22, 180); },
+    snap: function (t) { tone(sfxBus, "triangle", 880, t, 0.003, 0.12, 0.07); tone(sfxBus, "sine", 1320, t + 0.05, 0.003, 0.08, 0.12); },
     undo: function (t) { tone(sfxBus, "sine", 660, t, 0.005, 0.18, 0.1, 440); },
     chime: function (t) {
       [784, 988, 1175, 1568].forEach(function (f, i) { tone(sfxBus, "sine", f, t + i * 0.09, 0.005, 0.18, 0.9); });
