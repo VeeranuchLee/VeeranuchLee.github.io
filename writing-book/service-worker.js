@@ -102,7 +102,7 @@
 //        that asks for a guard the cache never got.
 // v6 2026-10-09: one narration at a time (stale screen callbacks cannot speak) plus
 //        a cheer and a ~1.35 s pause after each completed word; owner-approved "Good".
-const CACHE_NAME = "writing-book-v6";
+const CACHE_NAME = "writing-book-v7";
 
 /* words.js is the single source of truth for the hundred words and the four papers.
    See THE SHELL above for why this is an import and not a copied list. */
@@ -113,6 +113,7 @@ const Words = self.WritingWords;
 const SHELL = [
   "./",
   "./index.html",
+  "./audio-wake.js",
   "./styles.css",
 
   // Zoom fix C, ahead of the load order below, exactly as index.html declares it.

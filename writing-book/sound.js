@@ -38,6 +38,7 @@
     master.connect(ctx.destination);
     return ctx;
   }
+  if (typeof AudioWake !== "undefined") AudioWake.attach(function () { return ctx; }, function () { ctx = null; master = null; });
 
   /* iPad will not make a sound until a gesture has unlocked the context. */
   function unlock() {
