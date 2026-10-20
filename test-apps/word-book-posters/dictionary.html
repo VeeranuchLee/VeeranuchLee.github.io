@@ -4,10 +4,10 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Our Dictionary</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=0fc412371-20261020152101"/>
-  <link rel="stylesheet" href="./fonts.css?v=0fc412371-20261020152101"/>
+  <link rel="manifest" href="./manifest.webmanifest?v=0fc412371-20261020152137"/>
+  <link rel="stylesheet" href="./fonts.css?v=0fc412371-20261020152137"/>
   <meta name="theme-color" content="#3a1e33"/>
-  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=0fc412371-20261020152101"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=0fc412371-20261020152137"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Our Dictionary"/>
@@ -664,10 +664,10 @@
   <div class="grid" id="grid"></div>
 </main>
 
-<script src="word-audio.js?v=0fc412371-20261020152101"></script>
-<script src="sentence-audio.js?v=0fc412371-20261020152101"></script>
-<script src="spelling.js?v=0fc412371-20261020152101"></script>
-<script src="audio-wake.js?v=0fc412371-20261020152101"></script>
+<script src="word-audio.js?v=0fc412371-20261020152137"></script>
+<script src="sentence-audio.js?v=0fc412371-20261020152137"></script>
+<script src="spelling.js?v=0fc412371-20261020152137"></script>
+<script src="audio-wake.js?v=0fc412371-20261020152137"></script>
 <script>
 (function () {
   'use strict';
@@ -776,7 +776,7 @@
     });
   }
   function collectionIconMarkup(c) {
-    return '<img class="owner-group-icon" src="' + esc(c.icon_path) + '?v=0fc412371-20261020152101" alt="" ' +
+    return '<img class="owner-group-icon" src="' + esc(c.icon_path) + '?v=0fc412371-20261020152137" alt="" ' +
       'data-fallback="' + esc(c.icon) + '" draggable="false">';
   }
   document.addEventListener('error', function (event) {
@@ -913,7 +913,7 @@
     var word = r[0], sense = r[1], eg = r[3], pic = c.pic;
     var clip = WA ? WA.clipFor(word, sense) : null;
     var art = pic
-      ? '<div class="pic"><img src="' + esc(pic) + '?v=0fc412371-20261020152101" alt="" loading="lazy" decoding="async" draggable="false"></div>'
+      ? '<div class="pic"><img src="' + esc(pic) + '?v=0fc412371-20261020152137" alt="" loading="lazy" decoding="async" draggable="false"></div>'
       : '<div class="pic todo"><span>picture to come</span></div>';
     var speak = clip
       ? '<button type="button" class="speak" data-clip="' + esc(clip) + '" aria-label="Hear ' +
@@ -1094,7 +1094,7 @@
     var wordClip = WA ? WA.clipFor(word, sense) : null;
     var clip = sentenceClip || (!held && wordClip);
     if ((!pic && !(box && poster.plate)) || !clip) return '';
-    var picture = pic ? '<img src="' + esc(pic) + '?v=0fc412371-20261020152101" alt="" loading="lazy" decoding="async" draggable="false">' :
+    var picture = pic ? '<img src="' + esc(pic) + '?v=0fc412371-20261020152137" alt="" loading="lazy" decoding="async" draggable="false">' :
       '<span class="poster-chip-crop" data-crop-box="' + box.join(',') + '" style="background-image:url(' + esc(poster.plate) + ');background-size:' +
       (10000 / Math.max(box[2], 1)) + '% ' + (10000 / Math.max(box[3], 1)) + '%;background-position:' +
       (box[2] >= 100 ? 0 : box[0] / (100 - box[2]) * 100) + '% ' + (box[3] >= 100 ? 0 : box[1] / (100 - box[3]) * 100) + '%"></span>';
@@ -1204,7 +1204,7 @@
       grid.innerHTML = '<div class="poster-groups">' + groups.map(function (name) {
         return '<section class="poster-group"><h2>' + esc(name) + '</h2><div class="poster-choices">' + byGroup[name].map(function (x) {
           return '<button type="button" class="poster-choice" data-poster="' + esc(x.p.id) + '">' +
-          '<img src="' + esc(x.p.plate || ('assets/posters/' + x.p.id + '.webp')) + '?v=0fc412371-20261020152101" alt="" loading="lazy" draggable="false">' +
+          '<img src="' + esc(x.p.plate || ('assets/posters/' + x.p.id + '.webp')) + '?v=0fc412371-20261020152137" alt="" loading="lazy" draggable="false">' +
           '<span class="poster-choice-copy">' + esc(x.p.title) + '<span>' + x.rows.length +
           (x.rows.length === 1 ? ' word' : ' words') + '</span></span></button>';
         }).join('') + '</div></section>';
@@ -1273,7 +1273,7 @@
     if (cardsStrip) sentenceRows = '';
     var findTargets = findBank && findBank.game && !cardsStrip ? findBank.eligible.map(findTarget).join('') : '';
     grid.innerHTML = '<div class="poster-heading">' + headingChrome + '</div><div class="poster-body"><div class="poster-stage-area"><div class="poster-stage-wrap"><div class="poster-stage ' + esc(chosen.p.layout) + '" data-poster-stage="' + esc(chosen.p.id) + '">' +
-      '<img class="poster-plate" src="' + esc(chosen.p.plate) + '?v=0fc412371-20261020152101" alt="" draggable="false">' +
+      '<img class="poster-plate" src="' + esc(chosen.p.plate) + '?v=0fc412371-20261020152137" alt="" draggable="false">' +
       (chosen.p.pointer ? '<svg class="poster-pointers" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">' + pointers.join('') + '</svg>' : '') + findTargets + '</div>' +
       '<div class="poster-live">' + pieces.join('') + '</div></div></div>' +
       (sentenceRows ? '<div class="poster-sentence-list' + (sentenceCount > 6 ? ' dense' : '') + '" role="group" aria-label="Sentences: tap one to hear it">' + playEntrance + sentenceRows + '</div>' :
@@ -1923,6 +1923,6 @@
   }
 })();
 </script>
-<script src="./tap-zoom-guard.js?v=0fc412371-20261020152101"></script>
+<script src="./tap-zoom-guard.js?v=0fc412371-20261020152137"></script>
 </body>
 </html>
