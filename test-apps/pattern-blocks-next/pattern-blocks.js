@@ -15,8 +15,8 @@
  *    the finger;
  *  - snapping happens on DROP, within a radius, and a live dashed ghost shows
  *    where the piece will land while it is still in the hand;
- *  - the rotate/delete controls live in one fixed bar — they never move, so
- *    their hit targets never break.
+ *  - rotate/delete remain in the fixed bar; selection also gets a large
+ *    contextual Turn target beside the piece, kept inside the board.
  */
 (function () {
   'use strict';
@@ -90,6 +90,9 @@
               '<g id="pb-fx"></g>' +
             '</g>' +
           '</svg>' +
+          '<button type="button" class="pb-piece-turn" id="pb-piece-turn" hidden aria-label="Turn selected piece">' +
+            '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12a10 10 0 1 1-2.9-7.1" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M22 3v5h-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+          '</button>' +
         '</div>' +
         '<div class="pb-tray" id="pb-tray"></div>' +
       '</div>';
@@ -105,6 +108,7 @@
     var tray = root.querySelector('#pb-tray');
     var cardsRow = root.querySelector('#pb-cards');
     var btnRotate = root.querySelector('#pb-rotate');
+    var btnPieceTurn = root.querySelector('#pb-piece-turn');
     var btnDelete = root.querySelector('#pb-delete');
     var btnClear = root.querySelector('#pb-clear');
     var modeBtns = {};
@@ -124,6 +128,7 @@
       flip.setAttribute('transform', 'matrix(1 0 0 -1 0 ' + view.h + ')');
       drawDots();
       centerOutline();
+      positionPieceTurn();
     }
 
     /* A dot on every lattice point i*(1,0) + j*(1/2, sqrt3/2) inside the
@@ -193,6 +198,7 @@
       if (!el) return;
       el.querySelectorAll('path').forEach(function (p) { p.setAttribute('d', localPath(piece)); });
       place(el, piece);
+      if (piece === selected && !drag) positionPieceTurn();
     }
 
     function raise(piece) {
@@ -222,6 +228,48 @@
     function syncActions() {
       btnRotate.disabled = !selected;
       btnDelete.disabled = !selected;
+      positionPieceTurn();
+    }
+
+    /* Put the contextual control beside the selected piece. Prefer its right,
+       then left, then above/below; reject board-edge candidates and choose the
+       first position that does not cover another block. If a crowded board
+       leaves no clear option, use the candidate with the least overlap. */
+    function positionPieceTurn() {
+      if (!selected || drag) { btnPieceTurn.hidden = true; return; }
+      var selectedEl = gPieces.querySelector('.pb-piece[data-id="' + selected.id + '"]');
+      if (!selectedEl) { btnPieceTurn.hidden = true; return; }
+      var boardRect = svg.getBoundingClientRect();
+      var wrapRect = wrap.getBoundingClientRect();
+      var pieceRect = selectedEl.getBoundingClientRect();
+      var size = 48;
+      var gap = 8;
+      var candidates = [
+        { x: pieceRect.right + gap, y: pieceRect.top + (pieceRect.height - size) / 2 },
+        { x: pieceRect.left - gap - size, y: pieceRect.top + (pieceRect.height - size) / 2 },
+        { x: pieceRect.left + (pieceRect.width - size) / 2, y: pieceRect.top - gap - size },
+        { x: pieceRect.left + (pieceRect.width - size) / 2, y: pieceRect.bottom + gap },
+      ];
+      var otherRects = Array.from(gPieces.querySelectorAll('.pb-piece')).filter(function (el) {
+        return el !== selectedEl;
+      }).map(function (el) { return el.getBoundingClientRect(); });
+      var best = null;
+      candidates.forEach(function (c, order) {
+        if (c.x < boardRect.left + 4 || c.y < boardRect.top + 4 ||
+            c.x + size > boardRect.right - 4 || c.y + size > boardRect.bottom - 4) return;
+        var overlap = otherRects.reduce(function (sum, r) {
+          var w = Math.max(0, Math.min(c.x + size, r.right) - Math.max(c.x, r.left));
+          var h = Math.max(0, Math.min(c.y + size, r.bottom) - Math.max(c.y, r.top));
+          return sum + w * h;
+        }, 0);
+        if (!best || overlap < best.overlap || (overlap === best.overlap && order < best.order)) {
+          best = { x: c.x, y: c.y, overlap: overlap, order: order };
+        }
+      });
+      if (!best) { btnPieceTurn.hidden = true; return; }
+      btnPieceTurn.style.left = (best.x - wrapRect.left) + 'px';
+      btnPieceTurn.style.top = (best.y - wrapRect.top) + 'px';
+      btnPieceTurn.hidden = false;
     }
 
     /* --- drag --------------------------------------------------------------- */
@@ -244,6 +292,7 @@
       var p = toMath(e);
       drag.sx = p.x; drag.sy = p.y;
       snapCandidates = candidatesFor(piece);
+      btnPieceTurn.hidden = true;
       try { svg.setPointerCapture(e.pointerId); } catch (err) { /* best effort */ }
     }
 
@@ -312,6 +361,7 @@
         save();
         checkCard();
       }
+      positionPieceTurn();
       pendingDeselect = false;
     }
 
@@ -378,13 +428,18 @@
     svg.addEventListener('lostpointercapture', function () { if (drag) endDrag({}); });
 
     /* --- actions ---------------------------------------------------------------- */
-    btnRotate.addEventListener('click', function () {
+    function turnSelected() {
       if (!selected) return;
       turnPiece(selected);
       sound.play('rotate');
       save();
       checkCard();
-    });
+      positionPieceTurn();
+    }
+
+    btnRotate.addEventListener('click', turnSelected);
+    btnPieceTurn.addEventListener('pointerdown', function (e) { e.stopPropagation(); });
+    btnPieceTurn.addEventListener('click', turnSelected);
 
     /* Turn: 60 degrees for the hexagon, triangle, blue rhombus and trapezoid
        (any other angle takes their corners off the dots), 30 degrees for the
