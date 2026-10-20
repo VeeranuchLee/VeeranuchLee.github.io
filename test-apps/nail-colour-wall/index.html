@@ -5,18 +5,19 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#ffd9e8">
   <title>Nail Salon</title>
-  <link rel="stylesheet" href="./styles.css?v=b4881884e-20261020152018">
+  <link rel="stylesheet" href="./styles.css?v=91bfdc549-20261020155638">
 </head>
 <body>
   <main class="app" aria-label="Nail Salon">
     <header class="topbar">
-      <div class="logo" aria-label="Nail Salon"><span>💅</span><b>Nail</b><em>Salon</em></div>
+      <div class="logo" aria-label="Nail Salon"><img src="./assets/icons/polish-bottle.webp?v=91bfdc549-20261020155638" alt=""><b>Nail</b><em>Salon</em></div>
       <div class="actions" aria-label="Nail actions">
-        <button id="musicToggle" class="action gold" type="button" aria-label="Salon music off"><span aria-hidden="true">🎵</span><small>Off</small></button>
-        <button id="applyAll" class="action pink" aria-label="Apply this nail design to all nails"><span>✨</span><small>All</small></button>
-        <button id="undo" class="action purple" aria-label="Undo"><span>↶</span></button>
-        <button id="reset" class="action blue" aria-label="Reset selected nail"><span>↻</span></button>
-        <button id="clearAll" class="action clear" type="button" aria-label="Clear all designs"><span>🧹</span><small>Clear all</small></button>
+        <button id="musicToggle" class="action gold" type="button" aria-label="Salon music off"><span aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.5V5.2l10-2v11.6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><ellipse cx="6.4" cy="17.6" rx="3.4" ry="2.7" fill="currentColor"/><ellipse cx="16.4" cy="15" rx="3.4" ry="2.7" fill="currentColor"/></svg></span><small>Off</small></button>
+        <button id="saveDesign" class="action mint" type="button" aria-label="Save this design to My nails"><span aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 20.2C5.5 16.3 2.5 13.1 2.5 9.2 2.5 6.4 4.6 4.3 7.2 4.3c1.6 0 3 .8 3.8 2.1.8-1.3 2.2-2.1 3.8-2.1 2.6 0 4.7 2.1 4.7 4.9" fill="currentColor"/><circle cx="17.5" cy="16.5" r="5.2" fill="currentColor"/><path d="M17.5 13.6v5.8M14.6 16.5h5.8" stroke="#2ea58e" stroke-width="2" stroke-linecap="round"/></svg></span><small>Save</small></button>
+        <button id="applyAll" class="action pink" aria-label="Apply this nail design to all nails"><span aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 2.5l1.9 5.6 5.6 1.9-5.6 1.9L10 17.5l-1.9-5.6L2.5 10l5.6-1.9z" fill="currentColor"/><path d="M18.5 13.5l.9 2.6 2.6.9-2.6.9-.9 2.6-.9-2.6-2.6-.9 2.6-.9z" fill="currentColor"/></svg></span><small>All</small></button>
+        <button id="undo" class="action purple" aria-label="Undo"><span aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5L4 10l5 5" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 10H14a5.5 5.5 0 010 11h-3" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg></span></button>
+        <button id="reset" class="action blue" aria-label="Reset selected nail"><span aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 12a7.5 7.5 0 11-2.2-5.3" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="M18.2 2.8v4.6h-4.6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+        <button id="clearAll" class="action clear" type="button" aria-label="Clear all designs"><span aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 2.5l-7 8.2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M10.2 9.4l4.4 3.7-1.6 2.2c-1.6 2.3-4.2 4.8-8.8 6.2 1-2.2 1.2-4 1.4-5.6.3-2.6 1.9-4.6 4.6-6.5z" fill="currentColor"/><path d="M6.6 16.4l2.4 2M8.7 13.9l2.6 2.2" stroke="#e8579a" stroke-width="1.2" stroke-linecap="round"/></svg></span><small>Clear all</small></button>
       </div>
     </header>
 
@@ -54,14 +55,18 @@
 
     <section class="studio" aria-label="Nail design choices">
       <nav id="tabs" class="tabs" aria-label="Design categories"></nav>
-      <div id="tray" class="tray" aria-live="polite"></div>
+      <div id="trayWrap" class="tray-wrap">
+        <div id="tray" class="tray" aria-live="polite"></div>
+        <button class="tray-more tray-more-left" data-dir="left" type="button" aria-label="Show earlier choices"><span aria-hidden="true">‹</span></button>
+        <button class="tray-more tray-more-right" data-dir="right" type="button" aria-label="Show more choices"><span aria-hidden="true">›</span></button>
+      </div>
     </section>
   </main>
   <audio id="clearVoice" src="./assets/audio/clear-confirmation.m4a" preload="auto" hidden></audio>
-  <script src="./tap-zoom-guard.js?v=b4881884e-20261020152018"></script>
-  <script src="./state-core.js?v=b4881884e-20261020152018"></script>
-  <script src="./colour-wall.js?v=b4881884e-20261020152018"></script>
-  <script src="./app.js?v=b4881884e-20261020152018"></script>
+  <script src="./tap-zoom-guard.js?v=91bfdc549-20261020155638"></script>
+  <script src="./state-core.js?v=91bfdc549-20261020155638"></script>
+  <script src="./colour-wall.js?v=91bfdc549-20261020155638"></script>
+  <script src="./app.js?v=91bfdc549-20261020155638"></script>
   <script>
     if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
       addEventListener('load', () => Promise.resolve() /* Test Hub staging: no service worker */);

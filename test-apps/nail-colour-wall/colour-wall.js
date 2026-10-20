@@ -8,9 +8,10 @@
    gradient is perceptually even, mapped into sRGB by reducing chroma only (never a clipped
    channel), and checked for near-duplicates by tools/check-colour-wall.mjs.
 
-   The tips on the full wall are too small to tap one by one, so a tap on the wall opens a
-   magnifier strip of ten big tips from that stretch of the shelf; a tap there paints the
-   selected nail. Each shelf is ONE canvas (about 600 tips in total), not thousands of nodes.
+   The tips on the full wall are too small to tap one by one, so a tap on the wall frames ten
+   shades of that row and takes them back to the Polish tray, where the child paints as
+   usual (owner, same day, after trying it: the TRAY is where you pick). Each shelf is ONE
+   canvas (540 tips in total), not thousands of nodes.
 
    UMD like state-core.js: Node imports the palette for the checks; the browser gets
    window.NailColourWall. */
@@ -148,12 +149,26 @@
     return `<svg viewBox="0 0 40 56" aria-hidden="true"><path d="M2.4 52 C-.8 34 0 13 4 8 C10 -.6 30 -.6 36 8 C40 13 40.8 34 37.6 52 Q20 46 2.4 52Z" fill="${colour}" stroke="#5a285047" stroke-width="1.4"/><path d="M2.4 52 C-.8 34 0 13 4 8 C10 -.6 30 -.6 36 8 C40 13 40.8 34 37.6 52 Q20 46 2.4 52Z" fill="url(#wallTipShade)"/><ellipse cx="13.6" cy="20" rx="4" ry="13" fill="#fff" opacity=".6" transform="rotate(-7 13.6 20)"/><ellipse cx="25" cy="9.5" rx="2.4" ry="2.6" fill="#fff" opacity=".5"/></svg>`;
   }
 
+  /* The stretch the child last chose on the wall lives in the Polish tray (owner,
+     2026-10-20: "when we select range of color, maybe we get to replace 8-10 of color in
+     the bottom with the range of color"). Remembered per device so it survives a reload. */
+  const GROUP_KEY = 'ns_wall_group_v1';
+  function loadGroup() {
+    try {
+      const g = JSON.parse(localStorage.getItem(GROUP_KEY) || 'null');
+      if (!g || !Array.isArray(g.colours)) return null;
+      const colours = g.colours.filter(x => /^#[0-9a-f]{6}$/.test(x)).slice(0, LENS);
+      return colours.length ? { colours, source: g.source || null } : null;
+    } catch (e) { return null; }
+  }
+  function saveGroup(g) { try { if (g) localStorage.setItem(GROUP_KEY, JSON.stringify(g)); else localStorage.removeItem(GROUP_KEY); } catch (e) {} }
+
   function mount(ctx) {
     const palette = buildPalette();
     const all = new Map();
     palette.forEach(f => f.rows.forEach((row, r) => row.forEach((s, c) => all.set(s.hex, { family: f, r, c }))));
     let lens = null; /* {family, r, c0} */
-    let open = false;
+    let open = false, closing = null;
 
     const overlay = document.createElement('div');
     overlay.className = 'colour-wall';
@@ -163,19 +178,15 @@
     overlay.innerHTML = `
       <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="wallTipShade" x1="0" x2="1"><stop stop-color="#fff" stop-opacity=".25"/><stop offset=".35" stop-color="#fff" stop-opacity="0"/><stop offset=".75" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#28082a" stop-opacity=".2"/></linearGradient></defs></svg>
       <div class="wall-top">
-        <div class="wall-nails" aria-label="Choose a nail"></div>
-        <div class="wall-recent" aria-label="Colours you used"></div>
+        <button class="wall-recent" type="button" aria-label="Put the colours you used in the tray" hidden></button>
         <button class="wall-close" type="button" aria-label="Back to the hand"><span aria-hidden="true">✓</span></button>
       </div>
-      <div class="wall-board"><div class="wall-columns"></div><div class="wall-lens" aria-hidden="true"></div></div>
-      <div class="wall-strip" aria-label="Big nail tips to choose from"></div>`;
+      <div class="wall-board"><div class="wall-columns"></div><div class="wall-lens" aria-hidden="true"></div></div>`;
     document.body.append(overlay);
-    const nailsRow = overlay.querySelector('.wall-nails');
-    const recentRow = overlay.querySelector('.wall-recent');
+    const recentButton = overlay.querySelector('.wall-recent');
     const board = overlay.querySelector('.wall-board');
     const columns = overlay.querySelector('.wall-columns');
     const lensBox = overlay.querySelector('.wall-lens');
-    const strip = overlay.querySelector('.wall-strip');
     const shelves = [];
 
     palette.forEach(f => {
@@ -184,15 +195,15 @@
       shelf.dataset.family = f.id;
       shelf.style.setProperty('--rows', f.rows.length);
       const canvas = document.createElement('canvas');
-      canvas.setAttribute('role', 'img');
-      canvas.setAttribute('aria-label', `${f.label}: ${f.rows.length * f.cols} colours. Tap to look closer.`);
+      canvas.setAttribute('role', 'button');
+      canvas.setAttribute('aria-label', `${f.label}: ${f.rows.length * f.cols} colours. Tap a row to put ten of them in the tray.`);
       shelf.append(canvas);
       shelves.push({ family: f, shelf, canvas });
       canvas.addEventListener('click', e => {
         const box = canvas.getBoundingClientRect();
         const c = Math.min(f.cols - 1, Math.max(0, Math.floor((e.clientX - box.left) / box.width * f.cols)));
         const r = Math.min(f.rows.length - 1, Math.max(0, Math.floor((e.clientY - box.top) / box.height * f.rows.length)));
-        setLens(f, r, c);
+        choose(f, r, c);
       });
     });
     function layoutColumns() {
@@ -237,84 +248,54 @@
     function setLens(family, r, c) {
       const c0 = Math.min(family.cols - LENS, Math.max(0, c - Math.floor(LENS / 2)));
       lens = { family, r, c0 };
-      placeLens(); renderStrip();
+      placeLens();
+      return c0;
     }
-    function current() { return ctx.getNails()[ctx.getSelected()]; }
-    function renderStrip() {
-      strip.replaceChildren();
-      if (!lens) return;
-      const row = lens.family.rows[lens.r].slice(lens.c0, lens.c0 + LENS);
-      const nail = current();
-      row.forEach(s => {
-        const b = document.createElement('button');
-        b.type = 'button';
-        b.className = 'wall-tip' + (nail.finish === 'solid' && nail.polish === s.hex ? ' selected' : '');
-        b.dataset.colour = s.hex;
-        b.setAttribute('aria-label', 'wall polish colour');
-        b.innerHTML = tipSvg(s.hex);
-        b.addEventListener('click', () => pick(s.hex, b));
-        strip.append(b);
-      });
-    }
-    function pick(value, button) {
-      ctx.pick(value);
-      rememberRecent(value);
-      renderTop(); renderStrip();
-      const again = strip.querySelector(`[data-colour="${value}"]`) || button;
-      ctx.feedback(again); ctx.sparkle(again);
-      const mini = nailsRow.querySelector('.wall-nail.selected');
-      if (mini) ctx.sparkle(mini);
+    /* One tap on the wall: frame the stretch, let the child see the frame land, then go
+       back to the hand with those ten shades at the front of the tray. */
+    function choose(family, r, c) {
+      if (closing) return;
+      const c0 = setLens(family, r, c);
+      lensBox.classList.remove('chosen'); void lensBox.offsetWidth; lensBox.classList.add('chosen');
+      const group = { colours: family.rows[r].slice(c0, c0 + LENS).map(s => s.hex), source: { family: family.id, r, c0 } };
+      saveGroup(group);
+      closing = setTimeout(() => { closing = null; hide(group); }, 420);
     }
     function renderTop() {
-      nailsRow.replaceChildren();
-      ctx.getNails().forEach((n, i) => {
-        const b = document.createElement('button');
-        b.type = 'button';
-        b.className = 'wall-nail' + (i === ctx.getSelected() ? ' selected' : '');
-        b.dataset.nail = i;
-        b.setAttribute('aria-label', `Paint nail ${i + 1}`);
-        b.innerHTML = tipSvg(ctx.fillPreview(n));
-        b.addEventListener('click', () => { ctx.select(i); renderTop(); renderStrip(); ctx.sparkle(b); });
-        nailsRow.append(b);
-      });
-      recentRow.replaceChildren();
-      const nail = current();
-      loadRecent().slice(0, 6).forEach(value => {
-        const b = document.createElement('button');
-        b.type = 'button';
-        b.className = 'wall-recent-tip' + (nail.finish === 'solid' && nail.polish === value ? ' selected' : '');
-        b.dataset.colour = value;
-        b.setAttribute('aria-label', 'recent polish colour');
-        b.innerHTML = tipSvg(value);
-        b.addEventListener('click', () => { const hit = all.get(value); if (hit) setLens(hit.family, hit.r, hit.c); pick(value, b); });
-        recentRow.append(b);
-      });
+      const recent = loadRecent();
+      recentButton.hidden = recent.length < 2;
+      recentButton.innerHTML = recent.slice(0, LENS).map(tipSvg).join('');
     }
+    recentButton.addEventListener('click', () => {
+      if (closing) return;
+      const group = { colours: loadRecent().slice(0, LENS), source: 'recent' };
+      saveGroup(group);
+      lens = null; placeLens();
+      hide(group);
+    });
     function show() {
       open = true;
       overlay.hidden = false;
       document.documentElement.classList.add('wall-open');
       layoutColumns(); renderTop();
-      const nail = current(), hit = nail.finish === 'solid' && all.get(nail.polish);
-      const f = hit ? hit.family : palette[0];
-      requestAnimationFrame(() => {
-        drawShelves();
-        if (hit) setLens(f, hit.r, hit.c); else setLens(f, 1, 12);
-      });
+      const g = loadGroup(), src = g && g.source && g.source.family && palette.find(f => f.id === g.source.family);
+      lens = src && src.rows[g.source.r] ? { family: src, r: g.source.r, c0: g.source.c0 } : null;
+      requestAnimationFrame(drawShelves);
       overlay.querySelector('.wall-close').focus({ preventScroll: true });
     }
-    function hide() {
+    function hide(group) {
       open = false;
       overlay.hidden = true;
+      lensBox.classList.remove('chosen');
       document.documentElement.classList.remove('wall-open');
-      ctx.closed();
+      ctx.closed(group || null);
     }
-    overlay.querySelector('.wall-close').addEventListener('click', hide);
-    overlay.addEventListener('keydown', e => { if (e.key === 'Escape') hide(); });
+    overlay.querySelector('.wall-close').addEventListener('click', () => { if (!closing) hide(null); });
+    overlay.addEventListener('keydown', e => { if (e.key === 'Escape' && !closing) hide(null); });
     let resizeTimer = null;
     addEventListener('resize', () => { if (!open) return; clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { layoutColumns(); drawShelves(); }, 120); });
-    return { show, hide, isOpen: () => open, palette, recent: loadRecent, isWallColour: v => all.has(v) };
+    return { show, hide, isOpen: () => open, palette, recent: loadRecent, remember: rememberRecent, group: loadGroup, clearGroup: () => saveGroup(null), isWallColour: v => all.has(v) };
   }
 
-  return { COLS, SMALL_COLS, FAMILIES, buildPalette, hexToOklab, mount, loadRecent, tipSvg, RECENT_KEY };
+  return { COLS, SMALL_COLS, LENS, FAMILIES, buildPalette, hexToOklab, mount, loadRecent, tipSvg, RECENT_KEY, GROUP_KEY };
 }));
