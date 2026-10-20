@@ -8,8 +8,9 @@
  *
  * Sound policy (AUDIO-DIRECTION.md, decided 2026-08-20): interaction sounds
  * are SYNTHESISED AT RUNTIME in WebAudio, never shipped as files. Every
- * tone below is an oscillator envelope — there is no audio file anywhere in
- * this app, and nothing for a child's device to download or licence.
+ * tone below is an oscillator envelope. The one exception is the calm
+ * background bed (assets/audio/music-bed.m4a), reused byte-identical from the
+ * Music hub on the owner's request, 2026-10-20 (see assets/audio/provenance.json).
  */
 (function () {
   'use strict';
@@ -67,6 +68,7 @@
     return {
       play: function (name) {
         if (!enabled) return;
+        if (typeof music !== 'undefined') music.duck();
         var fn = SOUNDS[name];
         if (fn) fn();
       },
@@ -86,6 +88,83 @@
   }
   soundBtn.addEventListener('click', function () { sound.toggle(); syncSoundBtn(); });
   syncSoundBtn();
+
+
+  /* --- Calm background bed ---------------------------------------------------
+   * Starts softly on the first tap (iOS autoplay rule), loops (the file carries
+   * its own seamless loop), sits under the interaction sounds, dips briefly when
+   * one plays, pauses while the page is hidden, and remembers its own switch. */
+  var music = (function () {
+    var KEY = 'toybox.pb.music', SRC = './assets/audio/music-bed.m4a';
+    var FULL = 0.22, DUCKED = 0.12, RAMP_MS = 900, STEP_MS = 50;
+    var el = null, ramp = 0, duckTimer = 0, armed = false, gotGesture = false, on = true;
+    try { on = localStorage.getItem(KEY) !== 'off'; } catch (_) {}
+    function target() { return duckTimer ? DUCKED : FULL; }
+    function fadeTo(v, thenPause) {
+      if (!el) return;
+      if (ramp) clearInterval(ramp);
+      var from = el.volume, steps = Math.max(1, Math.round(RAMP_MS / STEP_MS)), i = 0;
+      ramp = setInterval(function () {
+        i++;
+        el.volume = Math.max(0, Math.min(1, from + (v - from) * (i / steps)));
+        if (i >= steps) { clearInterval(ramp); ramp = 0; if (thenPause) el.pause(); }
+      }, STEP_MS);
+    }
+    function apply() {
+      if (!on || document.hidden || !gotGesture) {
+        if (el && !el.paused) fadeTo(0, true);
+        return;
+      }
+      if (!el) {
+        try { el = new Audio(SRC); } catch (_) { return; }
+        el.loop = true; el.preload = 'auto'; el.volume = 0;
+      }
+      if (ramp) { clearInterval(ramp); ramp = 0; }
+      var p;
+      try { p = el.play(); } catch (_) { return; }
+      if (p && p.then) p.then(function () { fadeTo(target(), false); }, function () { arm(); });
+      else fadeTo(target(), false);
+    }
+    function arm() {
+      if (armed) return;
+      armed = true;
+      var go = function () {
+        window.removeEventListener('pointerdown', go, true);
+        armed = false; gotGesture = true; apply();
+      };
+      window.addEventListener('pointerdown', go, true);
+    }
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) { if (el && !el.paused) { if (ramp) clearInterval(ramp); ramp = 0; el.pause(); } }
+      else apply();
+    });
+    arm();
+    return {
+      get on() { return on; },
+      toggle: function () {
+        on = !on;
+        try { localStorage.setItem(KEY, on ? 'on' : 'off'); } catch (_) {}
+        gotGesture = true; apply();
+        return on;
+      },
+      duck: function () {
+        if (!el || el.paused) return;
+        if (duckTimer) clearTimeout(duckTimer);
+        duckTimer = setTimeout(function () { duckTimer = 0; if (el && !el.paused) fadeTo(FULL, false); }, 700);
+        if (el.volume > DUCKED) { if (ramp) clearInterval(ramp); ramp = 0; el.volume = DUCKED; }
+      },
+      state: function () { return { on: on, exists: !!el, playing: !!(el && !el.paused), volume: el ? +el.volume.toFixed(3) : null }; }
+    };
+  })();
+  window.__pbMusic = music;
+
+  var musicBtn = document.getElementById('toy-music');
+  function syncMusicBtn() {
+    musicBtn.setAttribute('aria-pressed', String(music.on));
+    musicBtn.classList.toggle('is-off', !music.on);
+  }
+  musicBtn.addEventListener('click', function () { music.toggle(); syncMusicBtn(); });
+  syncMusicBtn();
 
   /* The back arrow is a plain link; the tap sound is just politeness on the way. */
   backLink.addEventListener('click', function () { sound.play('tap'); });

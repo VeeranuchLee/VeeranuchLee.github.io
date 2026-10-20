@@ -44,22 +44,19 @@
   }
 
   /* --- Boat ----------------------------------------------------------------
-   * Trapezoid hull with the long edge up, a square deck/cabin stacked on the
-   * left of the gunwale, a triangle flag on the cabin roof, and a rhombus
-   * sail standing on the deck's right edge. NOTE: the deck square is glued
-   * on with rot 6 (180 degrees), so its LOCAL edge 2 lies on the hull and its
-   * local edge 0 is the physical top — the cabin glues to edge 0, not 2.
-   * Hexagon-edge compass for the comments below: e1 top, e2 upper-left,
-   * e3 lower-left, e4 bottom, e5 lower-right, e0 upper-right. */
+   * Trapezoid hull with the long edge up; a square cabin on the left half of
+   * the deck; a blue rhombus sail standing on the right half, leaning forward,
+   * topped by a triangle. Rebuilt 2026-10-20 for the dot lattice: the old boat
+   * stacked a second square on the first and put the flag and sail on it, so
+   * three of its five pieces could never sit on the dots (a square's top edge
+   * is 1 unit up, and lattice rows are sqrt3/2 apart). */
   function boat() {
     var hull = base('trapezoid');
     hull.rot = 6; /* long edge up */
-    var deck = att(hull, 0, 'square', 2);       /* deck on the gunwale, left half */
-    var cabin = att(deck, 0, 'square', 2);      /* cabin stacked on the deck's top */
-    var flag = att(cabin, 0, 'triangle', 0);    /* flag on the cabin roof */
-    var sail = att(cabin, 3, 'rhombus', 0);     /* sail leaning right of the cabin — high
-                                                   enough that its bottom tip clears the hull */
-    return [hull, deck, cabin, flag, sail];
+    var cabin = att(hull, 0, 'square', 2);         /* left half of the deck */
+    var sail = att(hull, 0, 'rhombus', 0, 1);      /* right half, leaning forward */
+    var top = att(sail, 2, 'triangle', 0);         /* sail tip */
+    return [hull, cabin, sail, top];
   }
 
   /* --- Fish ----------------------------------------------------------------
@@ -76,19 +73,21 @@
   }
 
   /* --- House ---------------------------------------------------------------
-   * Four squares in a 2x2 wall and a sawtooth roof of three triangles across
-   * the wall top (up, down, up). A chimney on the 60-degree slope only ever
-   * sticks out sideways (tried in the first draft — the checker's preview
-   * showed it sliding off the roof), so the house ships without one. */
+   * A sawtooth roof of three triangles (up, down, up) with two square walls
+   * hanging under the two up-triangles. Rebuilt 2026-10-20 for the dot
+   * lattice: the old house had a 2x2 square wall with the roof on top, which
+   * puts the roof 2 units up — not a lattice row — so the roof could never sit
+   * on the dots. A square has exactly one edge on a lattice line, so the walls
+   * hang from the roof line instead of the roof resting on the walls. (A
+   * chimney on the 60-degree slope only ever sticks out sideways — tried in
+   * the first draft — so the house still ships without one.) */
   function house() {
-    var sw = base('square');
-    var se = att(sw, 1, 'square', 3);        /* bottom row: two squares */
-    var nw = att(sw, 2, 'square', 0);        /* top row left, on sw's top */
-    var ne = att(se, 2, 'square', 0);        /* top row right, on se's top */
-    var r1 = att(nw, 2, 'triangle', 0);      /* roof: up */
-    var r2 = att(r1, 1, 'triangle', 2);      /* roof: down fills between */
-    var r3 = att(ne, 2, 'triangle', 0);      /* roof: up */
-    return [sw, se, nw, ne, r1, r2, r3];
+    var r1 = base('triangle');                 /* roof: up */
+    var r2 = att(r1, 1, 'triangle', 2);        /* roof: down fills between */
+    var r3 = att(r2, 0, 'triangle', 1);        /* roof: up */
+    var w1 = att(r1, 0, 'square', 2);          /* wall under r1 */
+    var w2 = att(r3, 2, 'square', 2);          /* wall under r3 (r3 is r2's glue turned 120 degrees, so its base is edge 2) */
+    return [r1, r2, r3, w1, w2];
   }
 
   /* --- Rocket --------------------------------------------------------------
@@ -156,9 +155,25 @@
         if (CARDS[i].id === cardId) def = CARDS[i];
       }
       if (!def) return null;
-      cache[cardId] = def.build();
+      cache[cardId] = onDots(def.build());
     }
     return cache[cardId];
+  }
+
+  /* Slide a composed card so its pieces sit on the board's dot lattice
+     (geometry.js, "The dot lattice"): compositions start from a piece centred
+     on the origin, and a triangle's centre is not a dot. Pure translation, so
+     every glued edge stays glued. */
+  function onDots(ts) {
+    for (var i = 0; i < ts.length; i++) {
+      if (G.LATTICE_SHAPES[ts[i].shape]) {
+        var s = G.settle(ts[i]);
+        return ts.map(function (t) {
+          return { shape: t.shape, x: t.x + s.dx, y: t.y + s.dy, rot: t.rot };
+        });
+      }
+    }
+    return ts;
   }
 
   var api = { CARDS: CARDS, targets: targets };

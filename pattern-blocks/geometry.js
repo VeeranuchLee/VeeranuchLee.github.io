@@ -225,6 +225,130 @@
     return null;
   }
 
+  /* --- The dot lattice -----------------------------------------------------
+   * Pattern blocks live on a TRIANGULAR lattice, not a square grid: the points
+   * i*(1,0) + j*(1/2, sqrt3/2) for integers i, j, spacing = one block edge. The
+   * board draws a dot on every one of these points and nowhere else, with the
+   * lattice origin at the maths origin.
+   *
+   * The 60-degree family (hexagon, triangle, blue rhombus, trapezoid) at a
+   * rotation that is a multiple of 60 degrees has EVERY vertex on the lattice
+   * once any one vertex is — each of its edges is a lattice vector. So those
+   * four shapes turn in 60-degree steps and always settle onto the dots.
+   *
+   * The square and the thin rhombus cannot: a square has a 90-degree corner
+   * and the thin rhombus a 30-degree one, so at most one pair of parallel edges
+   * can ever lie along lattice lines. They settle by an edge — two corners on
+   * dots — unless they are close to sharing a whole edge with another piece
+   * (or the card outline), in which case they join that piece instead (that is what lets a child stack two squares,
+   * which no triangular lattice allows). Owner report 2026-10-20: "I think the
+   * guide dots are a bit off?" — see work_progress_and_other_discussion.md. */
+  var LATTICE_SHAPES = { hexagon: true, triangle: true, rhombus: true, trapezoid: true };
+
+  /* Turn step for a shape, in 30-degree units. */
+  function turnStep(shapeName) { return LATTICE_SHAPES[shapeName] ? 2 : 1; }
+
+  function nearestLattice(p) {
+    var j0 = Math.floor(p.y / SQ3_2);
+    var best = null;
+    for (var j = j0 - 1; j <= j0 + 2; j++) {
+      var i = Math.round(p.x - j / 2);
+      for (var di = -1; di <= 1; di++) {
+        var q = { x: (i + di) + j / 2, y: j * SQ3_2 };
+        var d2 = (q.x - p.x) * (q.x - p.x) + (q.y - p.y) * (q.y - p.y);
+        if (!best || d2 < best.d2) best = { x: q.x, y: q.y, d2: d2 };
+      }
+    }
+    return { x: best.x, y: best.y };
+  }
+
+  function onLattice(p, eps) {
+    var q = nearestLattice(p);
+    return Math.abs(q.x - p.x) <= (eps || 1e-9) && Math.abs(q.y - p.y) <= (eps || 1e-9);
+  }
+
+  /* Edges of a placed piece that run along a lattice direction (a multiple
+     of 60 degrees). Returned as [startVertex, endVertex] in world space. */
+  function latticeDirEdges(piece) {
+    var s = SHAPES[piece.shape];
+    var vs = worldVerts(piece);
+    var out = [];
+    for (var i = 0; i < s.edges.length; i++) {
+      var a = vs[s.edges[i][0]], b = vs[s.edges[i][1]];
+      var k = Math.atan2(b.y - a.y, b.x - a.x) / (Math.PI / 3);
+      if (Math.abs(k - Math.round(k)) < 1e-6) out.push([a, b]);
+    }
+    return out;
+  }
+
+  /* Where a dropped (or turned) piece settles. Returns the translation
+     {dx, dy, kind} — kind is 'lattice' or 'piece'. targetPoints are the other
+     pieces' (and the card outline's) snap points. */
+  function settle(piece, targetPoints, radius) {
+    var vs = worldVerts(piece);
+    var L;
+    if (LATTICE_SHAPES[piece.shape]) {
+      L = nearestLattice(vs[0]);
+      return { dx: L.x - vs[0].x, dy: L.y - vs[0].y, kind: 'lattice' };
+    }
+    /* Join another piece by a whole EDGE when one is close: try every
+       (corner, target point) pair within the radius and keep the shift that
+       lands the most corners on target points (ties: the shorter shift). A
+       single-corner touch does not count — it would leave the piece neither
+       joined by an edge nor on the dots. */
+    var join = null;
+    var pts = targetPoints || [];
+    var r2 = radius * radius;
+    for (var i = 0; i < vs.length; i++) {
+      for (var j = 0; j < pts.length; j++) {
+        var tx = pts[j].x - vs[i].x, ty = pts[j].y - vs[i].y;
+        var td = tx * tx + ty * ty;
+        if (td > r2) continue;
+        var hits = 0;
+        for (var a = 0; a < vs.length; a++) {
+          for (var c = 0; c < pts.length; c++) {
+            if (Math.abs(vs[a].x + tx - pts[c].x) < 1e-6 && Math.abs(vs[a].y + ty - pts[c].y) < 1e-6) { hits++; break; }
+          }
+        }
+        if (hits >= 2 && (!join || hits > join.hits || (hits === join.hits && td < join.d2))) {
+          join = { dx: tx, dy: ty, d2: td, hits: hits };
+        }
+      }
+    }
+    if (join) return { dx: join.dx, dy: join.dy, kind: 'piece' };
+    var edges = latticeDirEdges(piece);
+    var best = null;
+    for (var e = 0; e < edges.length; e++) {
+      L = nearestLattice(edges[e][0]);
+      var dx = L.x - edges[e][0].x, dy = L.y - edges[e][0].y;
+      var d2 = dx * dx + dy * dy;
+      if (!best || d2 < best.d2) best = { dx: dx, dy: dy, d2: d2, kind: 'lattice' };
+    }
+    return best ? { dx: best.dx, dy: best.dy, kind: 'lattice' } : { dx: 0, dy: 0, kind: 'none' };
+  }
+
+  /* --- Rendering paths ------------------------------------------------------
+   * TWO frames, and mixing them up drew every piece mirrored about its own
+   * centre from 2026-08-28 until 2026-10-20 (the owner's "dots are a bit off"
+   * report): the board's <g id="pb-flip"> already flips y, so a path drawn
+   * inside it must NOT negate y again.
+   *   boardPath(p)  — local, maths frame (y up): inside the flipped board group,
+   *                   positioned with translate(p.x p.y).
+   *   screenPath(p) — local, screen frame (y down): for unflipped thumbnails,
+   *                   positioned with translate(p.x -p.y).
+   * tools/check-geometry.mjs proves both reproduce worldVerts exactly. */
+  function localPathOf(piece, sign) {
+    var s = SHAPES[piece.shape];
+    var d = '';
+    for (var i = 0; i < s.verts.length; i++) {
+      var v = rotPoint(s.verts[i], piece.rot);
+      d += (i ? 'L' : 'M') + v.x.toFixed(6) + ' ' + (sign * v.y).toFixed(6);
+    }
+    return d + 'Z';
+  }
+  function boardPath(piece) { return localPathOf(piece, 1); }
+  function screenPath(piece) { return localPathOf(piece, -1); }
+
   /* --- Card building ------------------------------------------------------ */
   function basePiece(shapeName) {
     return { shape: shapeName, x: 0, y: 0, rot: 0 };
@@ -239,7 +363,7 @@
      `baseEdge`, gluing the shape's CCW edge `shapeEdge` (at rot 0) onto it.
      See the header comment for why anti-parallel CCW edges imply a clean,
      non-overlapping, outward placement. Returns the new piece. */
-  function attachOutside(base, baseEdge, shapeName, shapeEdge) {
+  function attachOutside(base, baseEdge, shapeName, shapeEdge, along) {
     var bs = SHAPES[base.shape];
     var bvs = worldVerts(base);
     var a = bvs[bs.edges[baseEdge][0]];   /* base edge start  */
@@ -254,6 +378,12 @@
     var steps = Math.round(((want - e0) / Math.PI) * 6);
     steps = ((steps % 12) + 12) % 12;
 
+    /* `along` (optional, in units) slides the glue point from b towards a —
+       for gluing a unit edge onto the far half of the trapezoid's long edge. */
+    if (along) {
+      var len = Math.sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
+      b = { x: b.x + ((a.x - b.x) * along) / len, y: b.y + ((a.y - b.y) * along) / len };
+    }
     var local = ss.verts[ss.edges[shapeEdge][0]];
     var rlocal = rotPoint(local, steps);
     return { shape: shapeName, x: b.x - rlocal.x, y: b.y - rlocal.y, rot: steps };
@@ -322,6 +452,14 @@
     cardComplete: cardComplete,
     bounds: bounds,
     SNAP_RADIUS: SNAP_RADIUS,
+    LATTICE_SHAPES: LATTICE_SHAPES,
+    turnStep: turnStep,
+    nearestLattice: nearestLattice,
+    onLattice: onLattice,
+    latticeDirEdges: latticeDirEdges,
+    settle: settle,
+    boardPath: boardPath,
+    screenPath: screenPath,
     MATCH_TOL: MATCH_TOL,
   };
 

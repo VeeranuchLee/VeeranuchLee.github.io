@@ -15,8 +15,8 @@
  *    the finger;
  *  - snapping happens on DROP, within a radius, and a live dashed ghost shows
  *    where the piece will land while it is still in the hand;
- *  - the rotate/delete controls live in one fixed bar — they never move, so
- *    their hit targets never break.
+ *  - rotate/delete remain in the fixed bar; selection also gets a large
+ *    contextual Turn target beside the piece, kept inside the board.
  */
 (function () {
   'use strict';
@@ -78,20 +78,21 @@
         '<div class="pb-cards" id="pb-cards"></div>' +
         '<div class="pb-board-wrap" id="pb-board-wrap">' +
           '<svg class="pb-board" id="pb-board" preserveAspectRatio="xMidYMid meet">' +
-            '<defs>' +
-              '<pattern id="pb-dots" width="1" height="0.8660254" patternUnits="userSpaceOnUse">' +
-                '<circle cx="0" cy="0" r="0.035" fill="rgba(62,58,71,0.09)"/>' +
-                '<circle cx="0.5" cy="0.4330127" r="0.035" fill="rgba(62,58,71,0.09)"/>' +
-              '</pattern>' +
-            '</defs>' +
             '<g id="pb-flip">' +
-              '<rect id="pb-dots-rect" x="0" y="0" width="10" height="10" fill="url(#pb-dots)"/>' +
+              /* one dot on every point of the blocks' triangular lattice —
+                 see drawDots(). Was an SVG <pattern> tile that clipped the
+                 corner dot to a quarter, so the lattice read as a square grid
+                 with faint ticks between (owner, 2026-10-20). */
+              '<g id="pb-dots" class="pb-dots" aria-hidden="true"></g>' +
               '<g id="pb-outline" class="pb-outline" transform="translate(0 0)"></g>' +
               '<g id="pb-pieces"></g>' +
               '<path id="pb-ghost" class="pb-snap-ghost" d="" style="display:none"/>' +
               '<g id="pb-fx"></g>' +
             '</g>' +
           '</svg>' +
+          '<button type="button" class="pb-piece-turn" id="pb-piece-turn" hidden aria-label="Turn selected piece">' +
+            '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12a10 10 0 1 1-2.9-7.1" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M22 3v5h-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+          '</button>' +
         '</div>' +
         '<div class="pb-tray" id="pb-tray"></div>' +
       '</div>';
@@ -99,7 +100,7 @@
     var wrap = root.querySelector('#pb-board-wrap');
     var svg = root.querySelector('#pb-board');
     var flip = root.querySelector('#pb-flip');
-    var dotsRect = root.querySelector('#pb-dots-rect');
+    var gDots = root.querySelector('#pb-dots');
     var gOutline = root.querySelector('#pb-outline');
     var gPieces = root.querySelector('#pb-pieces');
     var ghost = root.querySelector('#pb-ghost');
@@ -107,6 +108,7 @@
     var tray = root.querySelector('#pb-tray');
     var cardsRow = root.querySelector('#pb-cards');
     var btnRotate = root.querySelector('#pb-rotate');
+    var btnPieceTurn = root.querySelector('#pb-piece-turn');
     var btnDelete = root.querySelector('#pb-delete');
     var btnClear = root.querySelector('#pb-clear');
     var modeBtns = {};
@@ -124,9 +126,26 @@
       view.h = r.height / view.unitPx;
       svg.setAttribute('viewBox', '0 0 ' + view.w + ' ' + view.h);
       flip.setAttribute('transform', 'matrix(1 0 0 -1 0 ' + view.h + ')');
-      dotsRect.setAttribute('width', view.w);
-      dotsRect.setAttribute('height', view.h);
+      drawDots();
       centerOutline();
+      positionPieceTurn();
+    }
+
+    /* A dot on every lattice point i*(1,0) + j*(1/2, sqrt3/2) inside the
+       board — the same points geometry.js settles pieces onto, so a placed
+       hexagon, triangle, blue rhombus or trapezoid has every corner on a dot. */
+    function drawDots() {
+      var h = G.SQ3 / 2;
+      var out = '';
+      var jMax = Math.ceil(view.h / h) + 1;
+      for (var j = -1; j <= jMax; j++) {
+        var y = j * h;
+        var x0 = j / 2 - Math.ceil(j / 2) - 1;
+        for (var x = x0; x <= view.w + 1; x += 1) {
+          out += '<circle cx="' + x.toFixed(6) + '" cy="' + y.toFixed(6) + '" r="0.045"/>';
+        }
+      }
+      gDots.innerHTML = out;
     }
 
     function toMath(e) {
@@ -139,15 +158,13 @@
     }
 
     /* --- piece rendering ------------------------------------------------------ */
-    function localPath(piece) {
-      var s = G.SHAPES[piece.shape];
-      var d = '';
-      for (var i = 0; i < s.verts.length; i++) {
-        var v = G.rotPoint(s.verts[i], piece.rot);
-        d += (i ? 'L' : 'M') + v.x.toFixed(6) + ' ' + (-v.y).toFixed(6);
-      }
-      return d + 'Z';
-    }
+    /* Everything on the board sits inside #pb-flip, which already turns maths
+       (y up) into screen (y down) — so board paths come from G.boardPath and
+       must not negate y themselves. Doing both drew every piece mirrored about
+       its own centre until 2026-10-20: the Flower card's triangles crossed its
+       rhombi on screen while the data was perfect. Unflipped thumbnails (tray,
+       card chips) use G.screenPath. tools/check-geometry.mjs checks both. */
+    var localPath = G.boardPath;
 
     function pieceEl(piece) {
       var s = G.SHAPES[piece.shape];
@@ -181,6 +198,7 @@
       if (!el) return;
       el.querySelectorAll('path').forEach(function (p) { p.setAttribute('d', localPath(piece)); });
       place(el, piece);
+      if (piece === selected && !drag) positionPieceTurn();
     }
 
     function raise(piece) {
@@ -207,9 +225,55 @@
       syncActions();
     }
 
+    /* A hexagon turned 60 degrees looks exactly the same (owner 2026-10-20:
+       "no need to turn"), so it offers no Turn at all. */
+    function canTurn(piece) { return !!piece && piece.shape !== 'hexagon'; }
+
     function syncActions() {
-      btnRotate.disabled = !selected;
+      btnRotate.disabled = !canTurn(selected);
       btnDelete.disabled = !selected;
+      positionPieceTurn();
+    }
+
+    /* Put the contextual control beside the selected piece. Prefer its right,
+       then left, then above/below; reject board-edge candidates and choose the
+       first position that does not cover another block. If a crowded board
+       leaves no clear option, use the candidate with the least overlap. */
+    function positionPieceTurn() {
+      if (!canTurn(selected) || drag) { btnPieceTurn.hidden = true; return; }
+      var selectedEl = gPieces.querySelector('.pb-piece[data-id="' + selected.id + '"]');
+      if (!selectedEl) { btnPieceTurn.hidden = true; return; }
+      var boardRect = svg.getBoundingClientRect();
+      var wrapRect = wrap.getBoundingClientRect();
+      var pieceRect = selectedEl.getBoundingClientRect();
+      var size = 48;
+      var gap = 8;
+      var candidates = [
+        { x: pieceRect.right + gap, y: pieceRect.top + (pieceRect.height - size) / 2 },
+        { x: pieceRect.left - gap - size, y: pieceRect.top + (pieceRect.height - size) / 2 },
+        { x: pieceRect.left + (pieceRect.width - size) / 2, y: pieceRect.top - gap - size },
+        { x: pieceRect.left + (pieceRect.width - size) / 2, y: pieceRect.bottom + gap },
+      ];
+      var otherRects = Array.from(gPieces.querySelectorAll('.pb-piece')).filter(function (el) {
+        return el !== selectedEl;
+      }).map(function (el) { return el.getBoundingClientRect(); });
+      var best = null;
+      candidates.forEach(function (c, order) {
+        if (c.x < boardRect.left + 4 || c.y < boardRect.top + 4 ||
+            c.x + size > boardRect.right - 4 || c.y + size > boardRect.bottom - 4) return;
+        var overlap = otherRects.reduce(function (sum, r) {
+          var w = Math.max(0, Math.min(c.x + size, r.right) - Math.max(c.x, r.left));
+          var h = Math.max(0, Math.min(c.y + size, r.bottom) - Math.max(c.y, r.top));
+          return sum + w * h;
+        }, 0);
+        if (!best || overlap < best.overlap || (overlap === best.overlap && order < best.order)) {
+          best = { x: c.x, y: c.y, overlap: overlap, order: order };
+        }
+      });
+      if (!best) { btnPieceTurn.hidden = true; return; }
+      btnPieceTurn.style.left = (best.x - wrapRect.left) + 'px';
+      btnPieceTurn.style.top = (best.y - wrapRect.top) + 'px';
+      btnPieceTurn.hidden = false;
     }
 
     /* --- drag --------------------------------------------------------------- */
@@ -232,6 +296,7 @@
       var p = toMath(e);
       drag.sx = p.x; drag.sy = p.y;
       snapCandidates = candidatesFor(piece);
+      btnPieceTurn.hidden = true;
       try { svg.setPointerCapture(e.pointerId); } catch (err) { /* best effort */ }
     }
 
@@ -271,8 +336,8 @@
 
     function updateGhost() {
       if (!drag || !drag.moved) { ghost.style.display = 'none'; return; }
-      var best = G.bestSnap(drag.piece, snapCandidates, G.SNAP_RADIUS);
-      if (best) {
+      var best = G.settle(drag.piece, snapCandidates, G.SNAP_RADIUS);
+      if (best.kind !== 'none') {
         var tmp = {
           shape: drag.piece.shape,
           x: drag.piece.x + best.dx, y: drag.piece.y + best.dy,
@@ -294,15 +359,29 @@
       ghost.style.display = 'none';
       snapCandidates = null;
       if (moved) {
-        var best = G.bestSnap(piece, candidatesFor(piece), G.SNAP_RADIUS);
-        if (best) { piece.x += best.dx; piece.y += best.dy; sound.play('snap'); }
-        else { sound.play('place'); }
         clampIn(piece);
+        settlePiece(piece);
         redraw(piece);
         save();
         checkCard();
       }
+      positionPieceTurn();
       pendingDeselect = false;
+    }
+
+    /* Settle onto the dots (or edge-to-edge onto a neighbour, for the square
+       and thin rhombus) — geometry.js settle(). A 'snap' click when the piece
+       now touches another piece or the card outline, a softer 'place' when it
+       only met the dots. */
+    function settlePiece(piece) {
+      var pts = candidatesFor(piece);
+      var s = G.settle(piece, pts, G.SNAP_RADIUS);
+      piece.x += s.dx; piece.y += s.dy;
+      var vs = G.worldVerts(piece);
+      var touches = vs.some(function (v) {
+        return pts.some(function (t) { return Math.abs(t.x - v.x) < 1e-6 && Math.abs(t.y - v.y) < 1e-6; });
+      });
+      sound.play(touches ? 'snap' : 'place');
     }
 
     function clampIn(piece) {
@@ -321,7 +400,7 @@
       var VB = 2.6;
       mini.setAttribute('viewBox', (-VB / 2) + ' ' + (-VB / 2) + ' ' + VB + ' ' + VB);
       var pv = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      pv.setAttribute('d', localPath({ shape: shapeName, x: 0, y: 0, rot: 0 }));
+      pv.setAttribute('d', G.screenPath({ shape: shapeName, x: 0, y: 0, rot: 0 }));
       pv.setAttribute('fill', s.color);
       pv.setAttribute('stroke', s.stroke);
       pv.setAttribute('stroke-width', '0.07');
@@ -353,14 +432,29 @@
     svg.addEventListener('lostpointercapture', function () { if (drag) endDrag({}); });
 
     /* --- actions ---------------------------------------------------------------- */
-    btnRotate.addEventListener('click', function () {
-      if (!selected) return;
-      selected.rot = (selected.rot + 1) % 12;
-      redraw(selected);
+    function turnSelected() {
+      if (!canTurn(selected)) return;
+      turnPiece(selected);
       sound.play('rotate');
       save();
       checkCard();
-    });
+      positionPieceTurn();
+    }
+
+    btnRotate.addEventListener('click', turnSelected);
+    btnPieceTurn.addEventListener('pointerdown', function (e) { e.stopPropagation(); });
+    btnPieceTurn.addEventListener('click', turnSelected);
+
+    /* Turn: 60 degrees for the hexagon, triangle, blue rhombus and trapezoid
+       (any other angle takes their corners off the dots), 30 degrees for the
+       square and thin rhombus. Then re-settle — a triangle turned about its
+       centre lands between dots, so it steps to the nearest dotted spot. */
+    function turnPiece(piece) {
+      piece.rot = (piece.rot + G.turnStep(piece.shape)) % 12;
+      var s = G.settle(piece, candidatesFor(piece), G.SNAP_RADIUS);
+      piece.x += s.dx; piece.y += s.dy;
+      redraw(piece);
+    }
 
     btnDelete.addEventListener('click', function () {
       if (!selected) return;
@@ -420,8 +514,12 @@
       if (!cardId) return;
       var ts = CARDS.targets(cardId);
       var bb = G.bounds(ts);
-      outlineOffset.dx = view.w / 2 - (bb.minX + bb.w / 2);
-      outlineOffset.dy = view.h / 2 - (bb.minY + bb.h / 2);
+      /* centre the card, then round the shift to a whole lattice step so the
+         outline's corners stay on the dots (cards.js builds them on dots) */
+      var off = G.nearestLattice({ x: view.w / 2 - (bb.minX + bb.w / 2),
+                                   y: view.h / 2 - (bb.minY + bb.h / 2) });
+      outlineOffset.dx = off.x;
+      outlineOffset.dy = off.y;
       renderOutline();
     }
 
@@ -447,7 +545,7 @@
                (bb.w + 2 * pad) + ' ' + (bb.h + 2 * pad);
       var svgStr = '<svg viewBox="' + vb + '" aria-hidden="true">';
       ts.forEach(function (t) {
-        svgStr += '<path transform="translate(' + t.x + ' ' + t.y + ')" d="' + localPath(t) +
+        svgStr += '<path transform="translate(' + t.x + ' ' + (-t.y) + ')" d="' + G.screenPath(t) +
                   '" fill="rgba(120,116,130,0.10)" stroke="#8d8698" stroke-width="' +
                   Math.min(bb.w, bb.h) * 0.045 + '" stroke-linejoin="round"/>';
       });
@@ -549,7 +647,12 @@
         if (d && d.v === 1 && Array.isArray(d.pieces)) {
           d.pieces.forEach(function (p) {
             if (!G.SHAPES[p.s]) return;
-            pieces.push({ id: uid++, shape: p.s, x: +p.x || 0, y: +p.y || 0, rot: ((+p.r | 0) % 12 + 12) % 12 });
+            var r = ((+p.r | 0) % 12 + 12) % 12;
+            /* boards saved before the dot lattice (2026-10-20) may hold a
+               60-degree piece at a 30-degree turn; settle() below puts it back
+               on the dots once the view exists */
+            if (G.LATTICE_SHAPES[p.s] && r % 2) r = (r + 1) % 12;
+            pieces.push({ id: uid++, shape: p.s, x: +p.x || 0, y: +p.y || 0, rot: r });
           });
           if (d.mode === 'cards' || d.mode === 'free') mode = d.mode;
           if (d.cardId && CARDS.targets(d.cardId)) cardId = d.cardId;
@@ -569,14 +672,20 @@
       else if ((e.key === 'Delete' || e.key === 'Backspace') && selected) {
         removePiece(selected); sound.play('delete'); save();
       } else if ((e.key === 'r' || e.key === 'R') && selected) {
-        selected.rot = (selected.rot + 1) % 12;
-        redraw(selected); sound.play('rotate'); save(); checkCard();
+        turnPiece(selected);
+        sound.play('rotate'); save(); checkCard();
       }
     }
     window.addEventListener('keydown', onKey);
 
     /* --- go ---------------------------------------------------------------------------- */
     restore();
+    /* settle restored pieces onto the dots (quietly — no sound at load) */
+    pieces.forEach(function (p) {
+      var others = G.snapPoints(pieces.filter(function (q) { return q !== p; }));
+      var s = G.settle(p, others, G.SNAP_RADIUS);
+      p.x += s.dx; p.y += s.dy;
+    });
     buildChips();
     setMode(mode);
     renderPieces();

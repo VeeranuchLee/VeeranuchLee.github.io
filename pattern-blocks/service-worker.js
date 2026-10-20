@@ -18,7 +18,7 @@
 //        the tap, while a multi-finger pinch is never touched. It has to be IN
 //        this list, not merely fetched at runtime: a shell list is only read when
 //        CACHE_NAME changes, so an offline install without it would have no guard.
-const CACHE_NAME = "pattern-blocks-v5";
+const CACHE_NAME = "pattern-blocks-v6";
 
 const SHELL = [
   "./",
@@ -37,6 +37,7 @@ const SHELL = [
   "./fonts/Nunito-latin-ext.woff2",
   "./fonts/FredokaOne-latin.woff2",
 
+  "./assets/audio/music-bed.m4a",
   "./assets/icons/icon-192.png",
   "./assets/icons/icon-512.png",
   "./assets/icons/icon-512-maskable.png",
