@@ -1764,17 +1764,23 @@
       "poster_id": "positions-1",
       "eligible_count": 6,
       "game": true,
+      "mode": "object",
       "eligible": [
         {
           "target_id": "on.touching-the-top",
-          "word": "on",
-          "word_clip": "audio/words/on.m4a",
+          "word": "car",
+          "word_clip": "audio/words/car.m4a",
           "tap_region": [
             10.1,
             20.4,
             13.2,
             10.8
           ],
+          "sentence": {
+            "text": "The toy car is on the stool.",
+            "word": "on",
+            "clip": "audio/posters/positions/on.m4a"
+          },
           "ambiguity_check": {
             "same_word_or_sense": false,
             "max_overlap_ratio": 0,
@@ -1783,14 +1789,19 @@
         },
         {
           "target_id": "in.inside",
-          "word": "in",
-          "word_clip": "audio/words/in.m4a",
+          "word": "duck",
+          "word_clip": "audio/words/duck.m4a",
           "tap_region": [
             42.6,
             25,
             9.2,
             8.8
           ],
+          "sentence": {
+            "text": "The duck is in the bucket.",
+            "word": "in",
+            "clip": "audio/posters/positions/in.m4a"
+          },
           "ambiguity_check": {
             "same_word_or_sense": false,
             "max_overlap_ratio": 0,
@@ -1799,14 +1810,19 @@
         },
         {
           "target_id": "under.lower-than",
-          "word": "under",
-          "word_clip": "audio/words/under.m4a",
+          "word": "ball",
+          "word_clip": "audio/words/ball.m4a",
           "tap_region": [
             75.9,
             34.8,
             8.6,
             11.4
           ],
+          "sentence": {
+            "text": "The ball is under the bench.",
+            "word": "under",
+            "clip": "audio/posters/positions/under.m4a"
+          },
           "ambiguity_check": {
             "same_word_or_sense": false,
             "max_overlap_ratio": 0,
@@ -1815,14 +1831,19 @@
         },
         {
           "target_id": "over.above-and-across",
-          "word": "over",
-          "word_clip": "audio/words/over.m4a",
+          "word": "aeroplane",
+          "word_clip": "audio/words/aeroplane.m4a",
           "tap_region": [
             8.4,
             53.6,
             15.5,
             10
           ],
+          "sentence": {
+            "text": "The aeroplane flies over the house.",
+            "word": "over",
+            "clip": "audio/posters/positions/over.m4a"
+          },
           "ambiguity_check": {
             "same_word_or_sense": false,
             "max_overlap_ratio": 0,
@@ -1831,14 +1852,19 @@
         },
         {
           "target_id": "beside.next-to",
-          "word": "beside",
-          "word_clip": "audio/words/beside.m4a",
+          "word": "teddy",
+          "word_clip": "audio/words/teddy.m4a",
           "tap_region": [
             32.5,
             61,
             12.3,
             22.9
           ],
+          "sentence": {
+            "text": "The teddy sits beside the chest.",
+            "word": "beside",
+            "clip": "audio/posters/positions/beside.m4a"
+          },
           "ambiguity_check": {
             "same_word_or_sense": false,
             "max_overlap_ratio": 0,
@@ -1847,14 +1873,19 @@
         },
         {
           "target_id": "between.in-the-middle-of",
-          "word": "between",
-          "word_clip": "audio/words/between.m4a",
+          "word": "rabbit",
+          "word_clip": "audio/words/rabbit.m4a",
           "tap_region": [
             76.7,
             60.5,
             9.5,
             25
           ],
+          "sentence": {
+            "text": "The rabbit sits between two cushions.",
+            "word": "between",
+            "clip": "audio/posters/positions/between.m4a"
+          },
           "ambiguity_check": {
             "same_word_or_sense": false,
             "max_overlap_ratio": 0,
@@ -1868,17 +1899,24 @@
       "poster_id": "positions-2",
       "eligible_count": 5,
       "game": true,
+      "mode": "object",
       "eligible": [
         {
           "target_id": "above.higher-than",
-          "word": "above",
-          "word_clip": "audio/words/above.m4a",
+          "word": "stars",
+          "word_clip": null,
+          "prompt": "card",
           "tap_region": [
             12.3,
             11.2,
             15.3,
             12.7
           ],
+          "sentence": {
+            "text": "The stars hang above the cot.",
+            "word": "above",
+            "clip": "audio/posters/positions/above.m4a"
+          },
           "ambiguity_check": {
             "same_word_or_sense": false,
             "max_overlap_ratio": 0,
@@ -1887,14 +1925,19 @@
         },
         {
           "target_id": "below.lower-than",
-          "word": "below",
-          "word_clip": "audio/words/below.m4a",
+          "word": "boat",
+          "word_clip": "audio/words/boat.m4a",
           "tap_region": [
             40.8,
             30,
             10.3,
             11.2
           ],
+          "sentence": {
+            "text": "The boat is below the shelf.",
+            "word": "below",
+            "clip": "audio/posters/positions/below.m4a"
+          },
           "ambiguity_check": {
             "same_word_or_sense": false,
             "max_overlap_ratio": 0,
@@ -1903,14 +1946,19 @@
         },
         {
           "target_id": "inside.inner-place",
-          "word": "inside",
-          "word_clip": "audio/words/inside.m4a",
+          "word": "kitten",
+          "word_clip": "audio/words/kitten.m4a",
           "tap_region": [
             38.3,
             57.3,
             14.6,
             16.8
           ],
+          "sentence": {
+            "text": "The kitten is inside the box.",
+            "word": "inside",
+            "clip": "audio/posters/positions/inside.m4a"
+          },
           "ambiguity_check": {
             "same_word_or_sense": false,
             "max_overlap_ratio": 0,
@@ -1919,14 +1967,20 @@
         },
         {
           "target_id": "outside.outer-place",
-          "word": "outside",
-          "word_clip": "audio/words/outside.m4a",
+          "word": "watering can",
+          "word_clip": null,
+          "prompt": "card",
           "tap_region": [
             74.7,
             30.7,
             9,
             8.6
           ],
+          "sentence": {
+            "text": "The watering can is outside the shed.",
+            "word": "outside",
+            "clip": "audio/posters/positions/outside.m4a"
+          },
           "ambiguity_check": {
             "same_word_or_sense": false,
             "max_overlap_ratio": 0,
@@ -1935,14 +1989,19 @@
         },
         {
           "target_id": "behind.at-the-back-of",
-          "word": "behind",
-          "word_clip": "audio/words/behind.m4a",
+          "word": "train",
+          "word_clip": "audio/words/train.m4a",
           "tap_region": [
-            82.5,
-            52.8,
-            3.4,
-            11.9
+            81.4,
+            51.6,
+            5.4,
+            13.6
           ],
+          "sentence": {
+            "text": "The train is behind the screen.",
+            "word": "behind",
+            "clip": "audio/posters/positions/behind.m4a"
+          },
           "ambiguity_check": {
             "same_word_or_sense": false,
             "max_overlap_ratio": 0,

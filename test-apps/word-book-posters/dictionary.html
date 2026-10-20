@@ -4,10 +4,10 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Our Dictionary</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=761fa967b-20261019204021"/>
-  <link rel="stylesheet" href="./fonts.css?v=761fa967b-20261019204021"/>
+  <link rel="manifest" href="./manifest.webmanifest?v=0fc412371-20261020152101"/>
+  <link rel="stylesheet" href="./fonts.css?v=0fc412371-20261020152101"/>
   <meta name="theme-color" content="#3a1e33"/>
-  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=761fa967b-20261019204021"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=0fc412371-20261020152101"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Our Dictionary"/>
@@ -219,9 +219,20 @@
     .poster-back{min-height:60px;min-width:60px;border:0;border-radius:50%;background:#fff;color:#a8386a;box-shadow:0 4px 0 #d69ab4;font:900 1rem inherit;padding:0 17px;cursor:pointer}
     /* One compact entrance; the wrapper is deliberately a choices container so later
        approved activities can become siblings without changing the poster again. */
-    .poster-activities{display:flex;gap:7px}
-    .poster-play{min-height:48px;border:2px solid #a8386a;border-radius:50px;background:#fff;color:#a8386a;
-      box-shadow:0 3px 0 #d69ab4;padding:0 15px;font:900 .95rem Nunito,sans-serif;cursor:pointer}
+    /* Owner 2026-10-20: Play is a sub-mode of Picture -- a big, clear button at the TOP of
+       the side panel (never in the header). Pressing it hides the labels and sentences. */
+    .poster-play{min-height:64px;width:100%;border:3px solid #a8386a;border-radius:20px;background:#a8386a;color:#fff;
+      box-shadow:0 4px 0 #d69ab4;padding:0 18px;font:900 1.35rem Nunito,sans-serif;cursor:pointer;flex:none}
+    .poster-strip .poster-play{grid-column:span 2;min-height:0;font-size:1.2rem;padding:0 8px}
+    .poster-sentence-list .poster-play{grid-column:1 / -1}
+    .poster-sentence-list.dense .poster-play{grid-column:auto;min-height:0;font-size:1.1rem;padding:0 6px}
+    /* Landscape: Play tops the side panel (owner 2026-10-20). Portrait: that panel is already the
+       full height the plate can spare -- one more row shrinks the plate until labels collide
+       (check-posters-fit) -- so portrait shows the same button beside the title instead. */
+    body.find-picture-game .poster-play-head{display:none!important}
+    .poster-play-head{display:none;min-height:48px;width:auto;border-radius:50px;font-size:1rem;padding:0 18px}
+    @media (orientation: portrait){.poster-play-head{display:inline-block;min-height:44px;padding:0 12px;font-size:.95rem}.poster-play-panel{display:none}
+      body.poster-view .poster-heading{gap:8px;flex-wrap:nowrap}body.poster-view .poster-heading h2{font-size:clamp(1.05rem,3.3vw,1.5rem);min-width:0}}
     .poster-play:active{transform:translateY(2px);box-shadow:0 1px 0 #d69ab4}
     .poster-play:focus-visible,.find-action:focus-visible{outline:4px solid #ffd54f;outline-offset:2px}
     /* ── Picture | Cards (owner, 2026-10-18: "we should also provide 'cards view' too.
@@ -266,13 +277,22 @@
     .find-target{display:none;position:absolute;left:var(--x);top:var(--y);width:var(--w);height:var(--h);
       z-index:4;border:0;border-radius:14px;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent}
     body.find-picture-game .find-target{display:block}
-    body.find-picture-game .poster-activities{display:none}
     body.find-picture-game .poster-live{visibility:hidden;pointer-events:none}
     body.find-picture-game .poster-sentence-list,body.find-picture-game .poster-strip{display:none}
     .find-target.is-hint{animation:findHint 1.15s ease-in-out infinite;box-shadow:0 0 0 5px rgba(255,213,79,.48),0 0 24px 9px rgba(255,213,79,.48)}
     .find-target.is-reveal,.find-target.is-correct{animation:findReveal .58s ease-in-out 2;background:rgba(255,213,79,.2);box-shadow:0 0 0 6px #ffd54f,0 0 30px 12px rgba(255,213,79,.65)}
     @keyframes findHint{50%{box-shadow:0 0 0 8px rgba(255,213,79,.3),0 0 34px 13px rgba(255,213,79,.42)}}
     @keyframes findReveal{50%{transform:scale(1.07)}}
+    /* Object-mode Find (owner 2026-10-20): the prompt names the object; its picture card is the
+       hint (pulses at 2 misses) and the poster's sentence is the reward, position word marked. */
+    .find-card{display:none;width:auto;height:76px;max-width:100%;border-radius:12px;border:3px solid #f0dcea;background-color:#fffdf5;background-repeat:no-repeat;box-shadow:0 3px 0 rgba(89,53,72,.18)}
+    .find-card.is-shown{display:block}
+    .find-card.is-pulse{animation:findCardPulse 1s ease-in-out infinite;border-color:#ffd54f;box-shadow:0 0 0 4px rgba(255,213,79,.55)}
+    @keyframes findCardPulse{50%{transform:scale(1.12)}}
+    .find-sentence{display:none;font:900 clamp(.95rem,1.8vw,1.15rem)/1.3 Nunito,sans-serif;color:#5b3550;text-align:center}
+    .find-sentence.is-shown{display:block}
+    .find-sentence mark{background:#ffe08a;color:#5b3550;border-radius:5px;padding:0 4px;font-weight:1000}
+    @media (prefers-reduced-motion:reduce){.find-card.is-pulse{animation:none}}
     @media (prefers-reduced-motion:reduce){.find-target.is-hint,.find-target.is-reveal,.find-target.is-correct{animation:none}}
     .find-panel{display:none;flex:none;width:min(250px,31vw);align-self:center;border-radius:22px;background:#fff9ee;
       box-shadow:inset 0 0 0 3px #fff,0 8px 22px rgba(35,16,31,.16);padding:14px;color:#5b3550;text-align:center}
@@ -644,10 +664,10 @@
   <div class="grid" id="grid"></div>
 </main>
 
-<script src="word-audio.js?v=761fa967b-20261019204021"></script>
-<script src="sentence-audio.js?v=761fa967b-20261019204021"></script>
-<script src="spelling.js?v=761fa967b-20261019204021"></script>
-<script src="audio-wake.js?v=761fa967b-20261019204021"></script>
+<script src="word-audio.js?v=0fc412371-20261020152101"></script>
+<script src="sentence-audio.js?v=0fc412371-20261020152101"></script>
+<script src="spelling.js?v=0fc412371-20261020152101"></script>
+<script src="audio-wake.js?v=0fc412371-20261020152101"></script>
 <script>
 (function () {
   'use strict';
@@ -756,7 +776,7 @@
     });
   }
   function collectionIconMarkup(c) {
-    return '<img class="owner-group-icon" src="' + esc(c.icon_path) + '?v=761fa967b-20261019204021" alt="" ' +
+    return '<img class="owner-group-icon" src="' + esc(c.icon_path) + '?v=0fc412371-20261020152101" alt="" ' +
       'data-fallback="' + esc(c.icon) + '" draggable="false">';
   }
   document.addEventListener('error', function (event) {
@@ -893,7 +913,7 @@
     var word = r[0], sense = r[1], eg = r[3], pic = c.pic;
     var clip = WA ? WA.clipFor(word, sense) : null;
     var art = pic
-      ? '<div class="pic"><img src="' + esc(pic) + '?v=761fa967b-20261019204021" alt="" loading="lazy" decoding="async" draggable="false"></div>'
+      ? '<div class="pic"><img src="' + esc(pic) + '?v=0fc412371-20261020152101" alt="" loading="lazy" decoding="async" draggable="false"></div>'
       : '<div class="pic todo"><span>picture to come</span></div>';
     var speak = clip
       ? '<button type="button" class="speak" data-clip="' + esc(clip) + '" aria-label="Hear ' +
@@ -1074,7 +1094,7 @@
     var wordClip = WA ? WA.clipFor(word, sense) : null;
     var clip = sentenceClip || (!held && wordClip);
     if ((!pic && !(box && poster.plate)) || !clip) return '';
-    var picture = pic ? '<img src="' + esc(pic) + '?v=761fa967b-20261019204021" alt="" loading="lazy" decoding="async" draggable="false">' :
+    var picture = pic ? '<img src="' + esc(pic) + '?v=0fc412371-20261020152101" alt="" loading="lazy" decoding="async" draggable="false">' :
       '<span class="poster-chip-crop" data-crop-box="' + box.join(',') + '" style="background-image:url(' + esc(poster.plate) + ');background-size:' +
       (10000 / Math.max(box[2], 1)) + '% ' + (10000 / Math.max(box[3], 1)) + '%;background-position:' +
       (box[2] >= 100 ? 0 : box[0] / (100 - box[2]) * 100) + '% ' + (box[3] >= 100 ? 0 : box[1] / (100 - box[3]) * 100) + '%"></span>';
@@ -1094,14 +1114,16 @@
   function sizePosterStrip() {
     var strip = grid.querySelector('.poster-strip');
     var body = grid.querySelector('.poster-body');
-    if (!strip || !body || !strip.children.length) return;
+    var chipCount = strip ? strip.querySelectorAll('.poster-chip').length : 0;
+    if (!strip || !body || !chipCount) return;
     var box = body.getBoundingClientRect();
     if (!box.width || !box.height) return;
     var CELL_W = 68, CELL_H = 82, GAP = 5, PAD = 6;
     var availW = box.width - 2 * PAD, availH = box.height - 2 * PAD;
-    var cells = strip.children.length, cols, cellW = CELL_W, cellH = CELL_H;
+    var extra = 0;
+    var cells = chipCount + (strip.querySelector('.poster-play') && !(window.matchMedia && window.matchMedia('(orientation: portrait)').matches) ? 2 : 0), cols, /* Play is a two-cell-wide button first in the grid */ cellW = CELL_W, cellH = CELL_H;
     if (window.matchMedia && window.matchMedia('(orientation: portrait)').matches) {
-      if (cells > 12) {
+      if (chipCount > 12) {
         cols = Math.ceil(cells / 2);
         cellW = Math.max(44, Math.min(CELL_W, (availW - GAP * (cols - 1)) / cols));
         cellH = Math.max(44, Math.min(CELL_H, cellW + 14));
@@ -1110,13 +1132,13 @@
         cols = Math.max(3, Math.ceil(cells / Math.ceil(cells / across)));
       }
     } else {
-      if (cells > 12) {
+      if (chipCount > 12) {
         cols = 2;
         var rows = Math.ceil(cells / cols);
-        cellH = Math.max(44, Math.min(CELL_H, (availH - GAP * (rows - 1)) / rows));
+        cellH = Math.max(44, Math.min(CELL_H, (availH - GAP * (rows + extra - 1)) / (rows + extra)));
         cellW = Math.max(44, Math.min(CELL_W, cellH - 8));
       } else {
-        var down = Math.max(1, Math.floor((availH + GAP) / (CELL_H + GAP)));
+        var down = Math.max(1, Math.floor((availH + GAP) / (CELL_H + GAP)) - extra);
         cols = Math.max(3, Math.ceil(cells / Math.min(down, Math.ceil(cells / 3))));
       }
     }
@@ -1182,7 +1204,7 @@
       grid.innerHTML = '<div class="poster-groups">' + groups.map(function (name) {
         return '<section class="poster-group"><h2>' + esc(name) + '</h2><div class="poster-choices">' + byGroup[name].map(function (x) {
           return '<button type="button" class="poster-choice" data-poster="' + esc(x.p.id) + '">' +
-          '<img src="' + esc(x.p.plate || ('assets/posters/' + x.p.id + '.webp')) + '?v=761fa967b-20261019204021" alt="" loading="lazy" draggable="false">' +
+          '<img src="' + esc(x.p.plate || ('assets/posters/' + x.p.id + '.webp')) + '?v=0fc412371-20261020152101" alt="" loading="lazy" draggable="false">' +
           '<span class="poster-choice-copy">' + esc(x.p.title) + '<span>' + x.rows.length +
           (x.rows.length === 1 ? ' word' : ' words') + '</span></span></button>';
         }).join('') + '</div></section>';
@@ -1199,11 +1221,12 @@
     /* Find the picture is a Picture-view activity only (owner, 2026-10-18): the Play
        entrance rides along only while the plate is the view on screen. */
     var playEntrance = findBank && findBank.game && posterView === 'picture'
-      ? '<div class="poster-activities" role="group" aria-label="Poster activities"><button type="button" class="poster-play" data-find-start>▶ Play</button></div>' : '';
+      ? '<button type="button" class="poster-play poster-play-panel" data-find-start>▶ Play</button>' : '';
+    var playHead = playEntrance ? '<button type="button" class="poster-play poster-play-head" data-find-start>▶ Play</button>' : '';
     /* Both views share one heading: back, title, the Play entrance (Picture only) and
      the small Picture|Cards switch beside it -- never on the art. */
     var headingChrome = '<button type="button" class="poster-back" data-all-posters aria-label="All posters">←</button><h2>' +
-      esc(chosen.p.title) + '</h2>' + playEntrance + posterSwitchMarkup();
+      esc(chosen.p.title) + '</h2>' + playHead + posterSwitchMarkup();
     var cardsStrip = posterView === 'cards' && !!chosen.p.sentences;
     if (posterView === 'cards' && !cardsStrip) {
       /* CARDS (owner, 2026-10-18: "we should also provide 'cards view' too"): the
@@ -1250,12 +1273,12 @@
     if (cardsStrip) sentenceRows = '';
     var findTargets = findBank && findBank.game && !cardsStrip ? findBank.eligible.map(findTarget).join('') : '';
     grid.innerHTML = '<div class="poster-heading">' + headingChrome + '</div><div class="poster-body"><div class="poster-stage-area"><div class="poster-stage-wrap"><div class="poster-stage ' + esc(chosen.p.layout) + '" data-poster-stage="' + esc(chosen.p.id) + '">' +
-      '<img class="poster-plate" src="' + esc(chosen.p.plate) + '?v=761fa967b-20261019204021" alt="" draggable="false">' +
+      '<img class="poster-plate" src="' + esc(chosen.p.plate) + '?v=0fc412371-20261020152101" alt="" draggable="false">' +
       (chosen.p.pointer ? '<svg class="poster-pointers" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">' + pointers.join('') + '</svg>' : '') + findTargets + '</div>' +
       '<div class="poster-live">' + pieces.join('') + '</div></div></div>' +
-      (sentenceRows ? '<div class="poster-sentence-list' + (sentenceCount > 6 ? ' dense' : '') + '" role="group" aria-label="Sentences: tap one to hear it">' + sentenceRows + '</div>' :
-        (chips ? '<div class="poster-strip" role="group" aria-label="Small word cards: tap one to hear its sentence">' + chips + '</div>' : '')) +
-      (findTargets ? '<aside class="find-panel" aria-live="polite"><div class="find-prompt">Find the picture:</div><div class="find-progress"></div><div class="find-actions"><button type="button" class="find-action" data-find-repeat aria-label="Listen again">🔊 Again</button><button type="button" class="find-action" data-find-exit>Exit</button></div></aside>' : '') +
+      (sentenceRows ? '<div class="poster-sentence-list' + (sentenceCount > 6 ? ' dense' : '') + '" role="group" aria-label="Sentences: tap one to hear it">' + playEntrance + sentenceRows + '</div>' :
+        (chips ? '<div class="poster-strip" role="group" aria-label="Small word cards: tap one to hear its sentence">' + playEntrance + chips + '</div>' : '')) +
+      (findTargets ? '<aside class="find-panel" aria-live="polite"><div class="find-prompt">Find the picture:</div><div class="find-card" aria-hidden="true"></div><div class="find-sentence" data-find-sentence></div><div class="find-progress"></div><div class="find-actions"><button type="button" class="find-action" data-find-repeat aria-label="Listen again">🔊 Again</button><button type="button" class="find-action" data-find-exit>Exit</button></div></aside>' : '') +
       '</div>';
     sizePosterStrip();
     layoutPosterHitSplits();
@@ -1607,11 +1630,32 @@
     if (promptNode) promptNode.textContent = prompt;
     if (progress && findGame) progress.textContent = (findGame.index + 1) + ' of ' + findGame.round.length;
   }
+  function findObjectMode() { return !!(findGame && findGame.bank && findGame.bank.mode === 'object'); }
+  /* The object's picture card is the poster's own crop of its tap box. */
+  function setFindCard(target, shown, pulse) {
+    var card = grid.querySelector('.find-card'); if (!card) return;
+    var r = target.tap_region, plate = grid.querySelector('.poster-plate');
+    if (shown && r && plate) {
+      card.style.backgroundImage = 'url("' + plate.getAttribute('src') + '")';
+      card.style.backgroundSize = (10000 / r[2]) + '% ' + (10000 / r[3]) + '%';
+      card.style.backgroundPosition = (r[0] / (100 - r[2]) * 100) + '% ' + (r[1] / (100 - r[3]) * 100) + '%';
+      card.style.aspectRatio = String(r[2] * 4 / (r[3] * 3));
+    }
+    card.classList.toggle('is-shown', !!shown); card.classList.toggle('is-pulse', !!(shown && pulse));
+  }
+  function showFindSentence(sentence) {
+    var node = grid.querySelector('[data-find-sentence]'); if (!node) return;
+    if (sentence) node.innerHTML = highlightedSentence(sentence);
+    node.classList.toggle('is-shown', !!sentence);
+  }
   function askFindQuestion(withIntro) {
     if (!findGame) return;
     clearFindTargets(); findGame.misses = 0; findGame.locked = true;
     findGame.target = findGame.round[findGame.index];
-    updateFindPanel('Find the picture:');
+    if (findObjectMode()) {
+      updateFindPanel('Find the ' + findGame.target.word + ':'); showFindSentence(null);
+      setFindCard(findGame.target, findGame.target.prompt === 'card', false);
+    } else updateFindPanel('Find the picture:');
     playFindQueue([
       { clip: withIntro ? findLineClips.intro : null, pause: 300 },
       { clip: findLineClips.carrier, pause: 320 },
@@ -1642,7 +1686,7 @@
     var posterId = findGame.bank.poster_id;
     findMissed[posterId] = Array.from(findGame.missed);
     findLast[posterId] = findGame.target && findGame.target.target_id;
-    findGame.locked = true; findGame.finished = true; clearFindTargets(); updateFindPanel('You found them all!');
+    findGame.locked = true; findGame.finished = true; clearFindTargets(); updateFindPanel('You found them all!'); setFindCard({}, false); showFindSentence(null);
     var progress = grid.querySelector('.find-progress'); if (progress) progress.textContent = '';
     playFindQueue([{ clip: findLineClips.complete }], function () {
       var actions = grid.querySelector('.find-actions');
@@ -1661,6 +1705,12 @@
     if (targetId === target.target_id) {
       findGame.locked = true; findGame.correct += 1; findSound('right'); if (button) button.classList.add('is-correct');
       var praise = findGame.correct % 3 === 0 ? findPraise[(findGame.correct / 3 - 1) % findPraise.length] : null;
+      if (findObjectMode()) {
+        /* Reward: where it is. The poster's own sentence plays, position word marked. */
+        setFindCard(target, false); showFindSentence(target.sentence);
+        playFindQueue([{ clip: target.sentence.clip, pause: 300 }, { clip: praise }], function () { findTimer = window.setTimeout(advanceFind, 600); });
+        return;
+      }
       playFindQueue([{ clip: target.word_clip, pause: 220 }, { clip: praise }], function () { findTimer = window.setTimeout(advanceFind, 350); });
       return;
     }
@@ -1671,10 +1721,16 @@
       }); return;
     }
     if (findGame.misses === 2) {
-      findGame.locked = true; if (button) button.classList.add('is-hint');
+      findGame.locked = true;
+      if (findObjectMode()) setFindCard(target, true, true); else if (button) button.classList.add('is-hint');
       playFindQueue([{ clip: findLineClips.listenAgain, pause: 280 }, { clip: target.word_clip }], function () { if (findGame) findGame.locked = false; }); return;
     }
     findGame.locked = true; if (button) { button.classList.remove('is-hint'); button.classList.add('is-reveal'); }
+    if (findObjectMode()) {
+      setFindCard(target, false); showFindSentence(target.sentence);
+      playFindQueue([{ clip: findLineClips.reveal, pause: 220 }, { clip: target.sentence.clip }], function () { findTimer = window.setTimeout(advanceFind, 650); });
+      return;
+    }
     playFindQueue([{ clip: findLineClips.reveal, pause: 220 }, { clip: target.word_clip }], function () { findTimer = window.setTimeout(advanceFind, 650); });
   }
   function repeatFind() {
@@ -1867,6 +1923,6 @@
   }
 })();
 </script>
-<script src="./tap-zoom-guard.js?v=761fa967b-20261019204021"></script>
+<script src="./tap-zoom-guard.js?v=0fc412371-20261020152101"></script>
 </body>
 </html>
