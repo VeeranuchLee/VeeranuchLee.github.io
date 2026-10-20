@@ -1332,6 +1332,16 @@ function explainFactsPopup(id) {
       </div>` : ''}`);
 }
 
+// Toy Piano song facts: the same popup shape as the catalogue's true story, with
+// an icon (owner rule: icons, not emoji) and the pre-rendered Listen clip.
+function songFactsPopup({ title, text, clip }) {
+  openPopup(`
+    <h2>${title}</h2>
+    <p class="popup__meta">A true story</p>
+    <p>${text}</p>
+    ${listenMarkup(clip)}`);
+}
+
 function piecePopup(id) {
   const p = pieceById(id);
   const room = roomById(journey.roomId);
@@ -1488,7 +1498,7 @@ function go(view) {
     // Sets currentView first, so the atmosphere stopPiece() restores is the
     // room's own: page tune stopped, nothing started.
     stopPiece();
-    renderPlayroom({ stage, engine, player, journeyCompanionId: journey.companionId, roomId: journey.roomId });
+    renderPlayroom({ stage, engine, player, journeyCompanionId: journey.companionId, roomId: journey.roomId, openSongFacts: songFactsPopup });
   }
 }
 

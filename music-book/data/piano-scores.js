@@ -75,7 +75,7 @@ export const KEYS = {
   'jingle-bells': ['C', 'major', 4],
   'silent-night': ['C', 'major', 3],
   'o-tannenbaum': ['F', 'major', 3],
-  'deck-the-hall': ['C', 'major', 4],
+  'deck-the-hall': ['D', 'major', 4],
   'we-wish-merry-christmas': ['G', 'major', 3],
   'first-noel': ['C', 'major', 3],
   'joy-to-world': ['C', 'major', 4],

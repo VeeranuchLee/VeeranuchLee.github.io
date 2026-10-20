@@ -92,3 +92,36 @@ export async function speakTitle(pieceId) {
     return false;
   }
 }
+
+// A clip at an exact, already-known URL (the Toy Piano tiles, whose paths come
+// from data/playalong-title-clips.js). Same single voice channel and duck as
+// speakTitle, so it never overlaps another title or narration. `onEnd` runs
+// when the clip finishes OR cannot play, so a caller can chain a sound after it
+// instead of laying one on top. A missing clip is silent, never an error.
+const urlCache = new Map();
+export async function speakTitleUrl(url, onEnd = null) {
+  stopTitle();
+  let audio = urlCache.get(url);
+  if (!audio) { audio = new Audio(url); audio.preload = 'none'; urlCache.set(url, audio); }
+  let settled = false;
+  const done = () => { if (settled) return; settled = true; if (onEnd) onEnd(); };
+  try {
+    audio.currentTime = 0;
+    current = audio;
+    if (engine) { engine.connectVoice(audio); engine.duck('voice', true); }
+    audio.onended = () => {
+      if (current === audio) current = null;
+      if (engine) engine.duck('voice', false);
+      done();
+    };
+    audio.onerror = () => { if (current === audio) current = null; if (engine) engine.duck('voice', false); done(); };
+    audio.onpause = () => { if (engine && audio.currentTime < audio.duration) engine.duck('voice', false); };
+    await audio.play();
+    return true;
+  } catch (err) {
+    if (current === audio) current = null;
+    if (engine && audio.paused) engine.duck('voice', false);
+    done();
+    return false;
+  }
+}

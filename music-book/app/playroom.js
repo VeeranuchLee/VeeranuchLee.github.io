@@ -32,6 +32,10 @@
 import { COMPANIONS, companionById } from '../data/instruments.js';
 import { PLAYALONG_SONGS, playalongSongById, CATALOGUE_TO_PLAYALONG } from '../data/playalong-songs.js';
 import { ROOMS } from '../data/rooms.js';
+import { PLAYALONG_TITLE_CLIPS } from '../data/playalong-title-clips.js';
+import { PLAYALONG_FACTS, PLAYALONG_FACT_CLIPS } from '../data/playalong-facts.js';
+import { EXPLANATIONS } from '../data/explanations.js';
+import { speakTitleUrl, stopTitle } from './titles.js';
 
 const roomById = (id) => ROOMS.find((r) => r.id === id);
 
@@ -130,6 +134,7 @@ const STORE_KEY = 'music-book.toyroom';
 
 // ── room state ───────────────────────────────────────────────────────────────
 
+let openSongFacts = null;
 let stage = null;
 let engine = null;
 let player = null;
@@ -452,11 +457,68 @@ function songsToShow() {
   return PLAYALONG_SONGS;
 }
 
+// The library is grouped (owner, 2026-10-19: "Organize by category and
+// difficulty"). Each group opens with a picture-only marker — the players are
+// pre-readers, so a category is an emoji with its name only for screen readers —
+// and inside a group the easiest songs come first. A Music World room's door
+// keeps that room's own order and shows no markers: five songs need no shelves.
+export const CATEGORY_ORDER = ['nursery', 'lullaby', 'traditional', 'international', 'holiday', 'classical', 'thai'];
+const CATEGORY_MARK = {
+  nursery: ['🐣', 'Nursery songs'],
+  lullaby: ['🌙', 'Lullabies'],
+  traditional: ['🪕', 'Traditional songs'],
+  international: ['🌍', 'Songs from around the world'],
+  holiday: ['🎁', 'Holiday songs'],
+  classical: ['🎻', 'Classical music'],
+  thai: ['🐘', 'Thai songs']
+};
+
+export function groupedSongs(songs) {
+  const groups = [];
+  for (const category of CATEGORY_ORDER) {
+    const inGroup = songs
+      .map((song, i) => ({ song, i }))
+      .filter(({ song }) => song.category === category)
+      .sort((a, b) => (a.song.difficulty || 2) - (b.song.difficulty || 2) || a.i - b.i)
+      .map(({ song }) => song);
+    if (inGroup.length) groups.push({ category, songs: inGroup });
+  }
+  const placed = new Set(groups.flatMap((g) => g.songs));
+  const rest = songs.filter((s) => !placed.has(s));
+  if (rest.length) groups.push({ category: null, songs: rest });
+  return groups;
+}
+
+// Facts for a song: the Toy Piano facts (data/playalong-facts.js) or, for a song that
+// is also a catalogue piece, that piece's own facts. `clip` is the pre-rendered
+// audio/explain/<clip>.m4a. Null when there are none: no control is drawn for it.
+export function songFacts(song) {
+  if (PLAYALONG_FACTS[song.id]) return { clip: PLAYALONG_FACT_CLIPS[song.id], text: PLAYALONG_FACTS[song.id] };
+  for (const [catId, playId] of Object.entries(CATALOGUE_TO_PLAYALONG)) {
+    if (playId === song.id && EXPLANATIONS[catId]?.facts?.text) return { clip: `${catId}-facts`, text: EXPLANATIONS[catId].facts.text };
+  }
+  if (EXPLANATIONS[song.id]?.facts?.text) return { clip: `${song.id}-facts`, text: EXPLANATIONS[song.id].facts.text };
+  return null;
+}
+
+const FACTS_ICON = '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false"><path d="M12 2.5a6.5 6.5 0 0 0-3.7 11.8c.6.5 1 1.2 1 2V17h5.4v-.7c0-.8.4-1.5 1-2A6.5 6.5 0 0 0 12 2.5z" fill="currentColor"/><rect x="9.3" y="18.3" width="5.4" height="1.8" rx=".9" fill="currentColor"/><rect x="10.3" y="21" width="3.4" height="1.5" rx=".75" fill="currentColor"/></svg>';
+
 // A song without its painting yet shows its emoji on a dashed tile — a clear
 // placeholder, never an empty one. The corner mark is the hint that this song
 // makes the piano grow.
 function songTilesMarkup() {
-  return songsToShow().map((s) => {
+  if (roomFilteredIds) return tilesMarkup(songsToShow());
+  return groupedSongs(songsToShow()).map((g) => {
+    const mark = g.category && CATEGORY_MARK[g.category];
+    const header = mark
+      ? `<div class="song-group" data-category="${g.category}" role="heading" aria-level="2" aria-label="${mark[1]}"><span aria-hidden="true">${mark[0]}</span></div>`
+      : '';
+    return header + tilesMarkup(g.songs);
+  }).join('');
+}
+
+function tilesMarkup(songs) {
+  return songs.map((s) => {
     const size = songSize(s);
     return `
     <button class="song-tile${s.id === songId ? ' is-current' : ''}${s.art ? '' : ' song-tile--placeholder'}" data-song="${s.id}"
@@ -539,6 +601,7 @@ function renderPlay() {
       <div class="topbar">
         <button class="round-btn" data-goselect aria-label="Choose another song">←</button>
         <div class="toy-songdot" aria-label="${song.title}">${song.emoji}</div>
+        ${songFacts(song) ? `<button class="toy-iconbtn toy-factsbtn" data-song-facts="${song.id}" aria-label="A true story about ${song.title}">${FACTS_ICON}</button>` : ''}
         <div class="toy-playbtns">
           <button class="toy-iconbtn" data-try aria-pressed="false" aria-label="Start over"><span>↺</span></button>
           <button class="toy-iconbtn" data-listen-toy aria-pressed="false" aria-label="Listen"><span class="toy-iconbtn__listen">▶</span></button>
@@ -577,6 +640,7 @@ function updateSelectUI() {
 
 export function renderPlayroom(ctx) {
   ({ stage, engine, player } = ctx);
+  openSongFacts = ctx.openSongFacts || null;
   active = true;
   mode = 'idle';
   turnIndex = -1;
@@ -809,8 +873,17 @@ function wire() {
       songId = chosen;
       writeStore();
       updateSelectUI();
-      if (again) renderPlay();
-      else previewSong(playalongSongById(chosen));
+      if (again) { stopTitle(); renderPlay(); }
+      else {
+        // Say the name, then play the few notes — one after the other, never
+        // together. engine.start() is called inside the tap so the audio
+        // context is unlocked exactly as before; a missing clip falls straight
+        // through to the notes.
+        engine.start();
+        const clip = PLAYALONG_TITLE_CLIPS[chosen];
+        const preview = () => { if (active && songId === chosen && mode === 'idle' && stage.classList.contains('stage--toy-select')) previewSong(playalongSongById(chosen)); };
+        if (clip) speakTitleUrl(clip, preview); else preview();
+      }
       return;
     }
 
@@ -825,7 +898,19 @@ function wire() {
       return;
     }
 
-    if (t.closest('[data-play-go]')) { renderPlay(); return; }
+    if (t.closest('[data-play-go]')) { stopTitle(); renderPlay(); return; }
+
+    const factsBtn = t.closest('[data-song-facts]');
+    if (factsBtn) {
+      const fs = playalongSongById(factsBtn.dataset.songFacts);
+      const facts = fs && songFacts(fs);
+      if (facts && openSongFacts) {
+        if (mode === 'listen') stopListen();
+        engine.stopAll();
+        openSongFacts({ title: fs.title, text: facts.text, clip: facts.clip });
+      }
+      return;
+    }
 
     if (t.closest('[data-goselect]')) {
       if (mode === 'listen') stopListen();
@@ -851,6 +936,7 @@ function wire() {
 // room inert even if some other path swaps the screen first.
 export function leavePlayroom() {
   if (!active) return;
+  stopTitle();
   active = false;
   mode = 'idle';
   turnIndex = -1;
