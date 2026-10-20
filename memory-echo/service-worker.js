@@ -1,4 +1,4 @@
-const CACHE_NAME = "memory-echo-v1";
+const CACHE_NAME = "memory-echo-v2";
 const CACHE_PREFIX = "memory-echo-v";
 const SHELL = [
   "./", "./index.html", "./styles.css", "./app.js", "./tap-zoom-guard.js",

@@ -35,6 +35,7 @@ let phase = "menu";
 let explore = false;
 let lastPress = { key: "", at: 0 };
 let resumeOnVisible = false;
+let replayAfterUnlock = false;
 
 function readSpeed() {
   try { return SPEEDS[localStorage.getItem("memoryEcho.speed")] ? localStorage.getItem("memoryEcho.speed") : "normal"; }
@@ -159,10 +160,13 @@ function refreshStats() {
 }
 
 async function handleSuccess() {
-  const token = scheduler.cancel();
+  const inputToken = scheduler.token();
   const completed = model.sequence.length;
-  model.updateBest(completed); refreshStats(); setPhase("success"); audio.ui("success");
+  model.updateBest(completed); refreshStats(); setPhase("success");
   gameScreen.classList.add("celebrate");
+  if (!await scheduler.wait(340, inputToken)) return;
+  const token = scheduler.cancel();
+  audio.ui("success");
   await scheduler.wait(1050, token);
   gameScreen.classList.remove("celebrate");
   if (!scheduler.current(token)) return;
@@ -191,42 +195,58 @@ async function pressItem(index, pointerId) {
   else if (result.status === "mistake") handleMistake(index);
 }
 
-function enter(mode, isExplore) {
+async function enter(mode, isExplore) {
+  const running = await audio.unlock();
   scheduler.cancel(); selectedMode = mode; explore = isExplore;
   model = new MemoryGame({ mode, startLength, storage: safeStorage() });
   buildInstrument(mode); model.start();
   modePill.textContent = `${MODES[mode].icon}  ${MODES[mode].label}`;
   menu.hidden = true; gameScreen.hidden = false; updateInstrumentGeometry(); refreshStats();
-  if (explore) setPhase("explore"); else watchSequence();
+  if (explore) setPhase("explore");
+  else if (running) watchSequence();
+  else {
+    replayAfterUnlock = true;
+    setPhase("watch", "Tap to hear the pattern");
+  }
 }
 
 function goHome() {
-  scheduler.cancel(); clearHighlights(); explore = false; phase = "menu";
+  scheduler.cancel(); clearHighlights(); explore = false; phase = "menu"; replayAfterUnlock = false;
   gameScreen.classList.remove("celebrate"); gameScreen.hidden = true; menu.hidden = false;
   audio.ui("tap");
 }
 
-document.addEventListener("pointerdown", () => audio.unlock(), { once: true, passive: true });
+document.addEventListener("pointerdown", async () => {
+  const running = await audio.unlock();
+  if (running && replayAfterUnlock) {
+    replayAfterUnlock = false;
+    watchSequence("Here is the pattern again");
+  }
+}, { passive: true });
 document.querySelectorAll("[data-mode]").forEach((button) => button.addEventListener("click", () => { selectedMode = button.dataset.mode; setChoice("mode", selectedMode); audio.ui("tap"); }));
 document.querySelectorAll("[data-length]").forEach((button) => button.addEventListener("click", () => { startLength = Number(button.dataset.length); setChoice("length", startLength); audio.ui("tap"); }));
 document.querySelectorAll("[data-speed]").forEach((button) => button.addEventListener("click", () => { speed = button.dataset.speed; storeSpeed(); setChoice("speed", speed); audio.ui("tap"); }));
 $("#play").addEventListener("click", () => enter(selectedMode, false));
 $("#explore").addEventListener("click", () => enter(selectedMode, true));
 $("#home").addEventListener("click", goHome);
-replay.addEventListener("click", () => { if (phase === "turn") watchSequence("Listen once more"); });
+replay.addEventListener("click", async () => { if (phase === "turn" && await audio.unlock()) watchSequence("Listen once more"); });
 instrument.addEventListener("pointerdown", (event) => {
   const key = event.target.closest(".note-key");
   if (!key || (phase !== "turn" && phase !== "explore")) return;
   event.preventDefault(); pressItem(Number(key.dataset.index), event.pointerId);
 });
-document.addEventListener("visibilitychange", () => {
+document.addEventListener("visibilitychange", async () => {
   if (document.hidden) {
     resumeOnVisible = !gameScreen.hidden && !explore;
     scheduler.cancel(); clearHighlights();
     if (resumeOnVisible) setPhase("watch", "Paused while you were away");
   } else if (resumeOnVisible) {
     resumeOnVisible = false;
-    watchSequence("Here is the pattern again");
+    if (await audio.unlock()) watchSequence("Here is the pattern again");
+    else {
+      replayAfterUnlock = true;
+      setPhase("watch", "Tap to hear the pattern again");
+    }
   }
 });
 
