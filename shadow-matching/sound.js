@@ -77,6 +77,7 @@ var Sound = (function () {
     }
     voices = [];
   }
+  if (typeof AudioWake !== "undefined") AudioWake.attach(function () { return ctx; }, function () { stop(); ctx = null; });
 
   /* notes: [frequency Hz, start offset s, duration s, peak gain, attack s, waveform] */
   function play(name, notes) {
