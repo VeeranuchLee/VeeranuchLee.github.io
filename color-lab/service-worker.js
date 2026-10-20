@@ -1,4 +1,4 @@
-const CACHE_NAME = "color-lab-v3";
+const CACHE_NAME = "color-lab-v4";
 
 const SHELL = [
   "./",
@@ -116,6 +116,7 @@ const SHELL = [
   "./audio/colour-names/cyan-blue.m4a",
   "./audio/colour-names/dark-amber.m4a",
   "./audio/colour-names/dark-chocolate.m4a",
+  "./audio/colour-names/dark-grey.m4a",
   "./audio/colour-names/dark-oak.m4a",
   "./audio/colour-names/dark-purple.m4a",
   "./audio/colour-names/deep-berry-pink.m4a",

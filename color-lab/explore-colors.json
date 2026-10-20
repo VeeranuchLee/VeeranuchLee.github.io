@@ -4556,6 +4556,35 @@
           "mixName": true
         },
         {
+          "id": "owner-dark-grey",
+          "displayName": "dark grey",
+          "slug": "dark-grey",
+          "colorHex": "#6A6A6A",
+          "oklabCentroid": [
+            0.5243041,
+            0,
+            2e-8
+          ],
+          "examples": [
+            "a dark rain cloud",
+            "a dark stone"
+          ],
+          "comparison": "Dark grey is darker than pebble grey and lighter than charcoal grey.",
+          "source": {
+            "dataset": "Color Lab owner requests",
+            "note": "Owner requested ‘dark gray’ on 2026-10-18; displayed and spoken with the app's British ‘grey’ convention."
+          },
+          "familySpacing": {
+            "lighterNeighbour": "pebble grey",
+            "lighterDeltaE2000": 11.2,
+            "darkerNeighbour": "charcoal grey",
+            "darkerDeltaE2000": 8.03,
+            "blackDeltaE2000": 24.46,
+            "meetsApproximateEight": true
+          },
+          "mixName": true
+        },
+        {
           "vocabularyId": "iscc-nbs-266",
           "displayName": "charcoal grey",
           "slug": "charcoal-grey",
@@ -5145,6 +5174,7 @@
       "cyan-blue",
       "dark-amber",
       "dark-chocolate",
+      "dark-grey",
       "dark-oak",
       "dark-purple",
       "deep-berry-pink",
