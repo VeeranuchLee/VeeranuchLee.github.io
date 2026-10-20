@@ -40,6 +40,7 @@
       o.connect(g).connect(c.destination);o.start(t);o.stop(t+len+.02);
     });
   }
+  if (typeof AudioWake !== "undefined") AudioWake.attach(function(){return sound.c},function(){sound.c=null});
   // The cheer on a right answer: a praise word, a little confetti, the chime and (voice on)
   // the same praise spoken. Each spoken line is a rendered clip keyed praise-NN in
   // audio/grammar/rendered.json; the word on screen and the voice always match.

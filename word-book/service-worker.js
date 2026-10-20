@@ -102,9 +102,13 @@
    it, unchanged in size. Sharing one row left the word a ~42px box at 768x1024 that
    clipped even at the 70% floor ("zebr", "zooke"). The shrink floor stays as a safety
    net only. A worker bump arms the release; publishing needs the owner's SHA-bound
-   approval. */
-const CACHE_NAME='word-book-v17';
-const SHELL=['./','./index.html','./dictionary.html','./fonts.css',
+   approval.
+   v17 -> v18, 2026-10-17: the owner chose the calm Alice spelling-letter takes for E,
+   G, O and Z; the other 22 letter clips stay unchanged. A worker bump arms the release;
+   publishing needs the owner's SHA-bound approval. */
+const CACHE_NAME='word-book-v19';
+const SHELL=['./','./index.html',
+  "./audio-wake.js",'./dictionary.html','./fonts.css',
   './fonts/Nunito-latin.woff2','./fonts/Nunito-latin-ext.woff2','./fonts/FredokaOne-latin.woff2',
   './manifest.webmanifest','./data/dictionary.json','./data/letters.json','./data/features.json','./word-audio.js','./spelling.js',
   './sentence-audio.js','./audio/sentences/rendered.json','./tap-zoom-guard.js','./grammar-game.html','./grammar-game.css','./grammar-game.js','./data/grammar-questions.json','./audio/grammar/rendered.json','./room-label.css','./room-label.js',
