@@ -94,6 +94,7 @@
       return this.on;
     },
   };
+  if (typeof AudioWake !== "undefined") AudioWake.attach(function () { return Sound.ctx; }, function () { Sound.ctx = null; });
 
   /* ---------- state ---------- */
 
