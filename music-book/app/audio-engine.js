@@ -60,7 +60,7 @@ export class AudioEngine {
   // the first tap rather than on load.
   start() {
     if (this.ctx) {
-      if (this.ctx.state === 'suspended') this.ctx.resume();
+      if (this.ctx.state !== 'running' && this.ctx.state !== 'closed') this.ctx.resume();
       return this.ctx;
     }
     const Ctx = window.AudioContext || window.webkitAudioContext;
@@ -98,6 +98,14 @@ export class AudioEngine {
     this.reverbBus = this.buses.music.wet;
 
     return this.ctx;
+  }
+
+  rebuild() {
+    if (!this.ctx || this.ctx.state !== 'closed') return this.ctx;
+    this.voices.clear();
+    this.ctx = null; this.master = null; this.reverbBus = null;
+    this.convolver = null; this.instrument = null; this.buses = null; this._noise = null;
+    return this.start();
   }
 
   // A bus has both a dry path to master and a wet path to the shared reverb.

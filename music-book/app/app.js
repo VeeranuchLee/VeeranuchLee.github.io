@@ -21,6 +21,7 @@ const engine = new AudioEngine();
 const player = new Player(engine);
 const musicBed = new MusicBed(engine);
 const ambience = new Ambience(engine);
+if (window.AudioWake) window.AudioWake.attach(() => engine.ctx, () => engine.rebuild());
 configureTitles({ engine });
 configureExplain({ engine });
 configureLearnMore({ engine });
