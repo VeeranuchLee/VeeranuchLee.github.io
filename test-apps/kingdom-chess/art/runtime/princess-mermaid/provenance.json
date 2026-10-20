@@ -112,10 +112,36 @@
     "date": "2026-10-20",
     "tool": "OpenAI Codex built-in image generation (image_gen)",
     "use_case": "stylized-concept",
-    "runtime": ["pieces/dawn-{king,queen,bishop,knight,rook,pawn}.webp", "pieces/dusk-{king,queen,bishop,knight,rook,pawn}.webp", "portraits/{king,queen,bishop,knight,rook,pawn}.webp", "frame.webp"],
-    "ignored_masters": ["art/masters/look-r3/mermaid-dawn-pieces.png", "art/masters/look-r3/mermaid-dusk-pieces.png", "art/masters/look-r3/mermaid-portraits.png", "art/masters/look-r3/mermaid-frame.png"],
+    "runtime": [
+      "pieces/dawn-{king,queen,bishop,knight,rook,pawn}.webp",
+      "pieces/dusk-{king,queen,bishop,knight,rook,pawn}.webp",
+      "portraits/{king,queen,bishop,knight,rook,pawn}.webp",
+      "frame.webp"
+    ],
+    "ignored_masters": [
+      "art/masters/look-r3/mermaid-dawn-pieces.png",
+      "art/masters/look-r3/mermaid-dusk-pieces.png",
+      "art/masters/look-r3/mermaid-portraits.png",
+      "art/masters/look-r3/mermaid-frame.png"
+    ],
     "prompt": "Princess Mermaid boxed-chess set: Maris king, Nerina queen, Coralie bishop, Ripple seahorse knight, Shellwatch coral rook and Bubble Page pawn in exact 3x2 Dawn and Dusk sheets; separate six-cameo portrait sheet; pearl/aqua/coral/gold ornate frame with clear center; no text.",
     "review": "PASS: Dawn pieces accepted on attempt 2 after every human hand was concealed; Dusk pieces, portraits and frame accepted on attempt 1. Exactly six distinct type silhouettes per side; no text; no visible fingers remain to miscount.",
     "processing": "build-look-r3.py cuts the source sheets, fits quality-86 192px pieces to the pilot ladder, exports 320px quality-78 portrait WebPs, a 640px quality-68 frame WebP and the tracked quality-70 WebP contact sheet."
+  },
+  "look_r4_piece_pilot": {
+    "date": "2026-10-20",
+    "tool": "OpenAI Codex built-in image generation (image_gen)",
+    "use_case": "identity-preserve",
+    "runtime": [
+      "pieces/dawn-{king,queen,bishop,knight,rook,pawn}.webp",
+      "pieces/dusk-{king,queen,bishop,knight,rook,pawn}.webp"
+    ],
+    "ignored_masters": [
+      "art/masters/look-r4/mermaid-dawn-pieces.png",
+      "art/masters/look-r4/mermaid-dusk-pieces.png"
+    ],
+    "prompt": "Identity-preserving Princess Mermaid chess tokens matching the six existing portrait cameos: Maris king, Nerina queen, Coralie bishop, Ripple seahorse knight, Shellwatch Tower rook and Bubble Page pawn. Character busts on simple light pearl/sea-glass bases; bright Dawn and cool-ocean Dusk colourways; clear chess silhouettes; painterly storybook style; hidden hands; no text.",
+    "review": "PASS attempt 1 for Dawn and Dusk: all six match the unchanged portrait identities; faces, skin tones, hair and signature accessories are retained; hands are hidden; silhouettes and opposing colourways read at 70 px; no text.",
+    "processing": "The local build pipeline cuts the two 3x2 alpha sheets, keeps the largest connected subject per cell, fits compact quality-1 192px runtime WebPs and builds the indexed PNG portrait/70px contact sheet."
   }
 }
