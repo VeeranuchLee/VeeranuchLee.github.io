@@ -18,11 +18,12 @@
 //        the tap, while a multi-finger pinch is never touched. It has to be IN
 //        this list, not merely fetched at runtime: a shell list is only read when
 //        CACHE_NAME changes, so an offline install without it would have no guard.
-const CACHE_NAME = "pattern-blocks-v4";
+const CACHE_NAME = "pattern-blocks-v5";
 
 const SHELL = [
   "./",
   "./index.html",
+  "./audio-wake.js",
   "./manifest.webmanifest",
   "./styles.css",
   "./fonts.css",

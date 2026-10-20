@@ -32,6 +32,7 @@
       if (ctx.state === 'suspended') ctx.resume();
       return ctx;
     }
+    if (typeof AudioWake !== "undefined") AudioWake.attach(function () { return ctx; }, function () { ctx = null; });
 
     function tone(freq0, freq1, dur, type, vol, when) {
       var c = ac();
