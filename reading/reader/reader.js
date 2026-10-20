@@ -23,12 +23,15 @@
   var WORDS = "../audio/words/";
   var GAP_MS = 90;            // breath between words during page playback
   var STALL_MS = 4000;        // a page clip that has not started playing by now is not going to
+  var PICTURE_WORDS_KEY = "reading-picture-words";
   // Numbers are words too ("76", "2061"): each gets its own spoken clip, never a silent tap.
   var WORD_RE = /[A-Za-z]+(?:'[A-Za-z]+)?|[0-9]+/g;
 
   var el = {
     book: document.getElementById("book"),
     img: document.getElementById("art-img"),
+    pictureWords: document.getElementById("picture-words"),
+    pictureWordsToggle: document.getElementById("picture-words-toggle"),
     discoveries: document.getElementById("discoveries"),
     discoveryCard: document.getElementById("discovery-card"),
     text: document.getElementById("text"),
@@ -56,6 +59,10 @@
   var wordButtons = [];
   var discoveryTimer = 0;
   var fitFrame = 0;
+  // There was no existing reader setting to follow. Start with the optional labels out of the
+  // painting, then remember an explicit choice on this device. Private/blocked storage is fine.
+  var pictureWordsOn = false;
+  try { pictureWordsOn = localStorage.getItem(PICTURE_WORDS_KEY) === "on"; } catch (e) { /* off */ }
 
   // ---------------------------------------------------------------- audio
   // Every clip plays through an <audio> element -- the same path as the page narration.
@@ -181,6 +188,7 @@
 
   function clearHighlight() {
     wordButtons.forEach(function (b) { b.classList.remove("reading-now"); });
+    el.pictureWords.querySelectorAll(".picture-word").forEach(function (b) { b.classList.remove("reading-now"); });
     el.text.classList.remove("page-reading");
   }
 
@@ -422,6 +430,34 @@
     img.alt = "";
   }
 
+  function updatePictureWordsToggle() {
+    el.pictureWordsToggle.setAttribute("aria-pressed", pictureWordsOn ? "true" : "false");
+    el.pictureWordsToggle.setAttribute("aria-label", (pictureWordsOn ? "Hide" : "Show") + " picture labels");
+  }
+
+  // Optional labels are anchored to the square painting, so their percentages survive both
+  // tablet orientations. The visible pill is slim; the button itself keeps a 44px tap target.
+  function renderPictureWords(page) {
+    var items = Array.isArray(page.pictureWords) ? page.pictureWords : [];
+    el.pictureWords.textContent = "";
+    el.pictureWords.hidden = !pictureWordsOn || items.length === 0;
+    items.forEach(function (item) {
+      var button = document.createElement("button");
+      button.type = "button";
+      button.className = "picture-word";
+      button.textContent = item.word;
+      button.style.left = item.x + "%";
+      button.style.top = item.y + "%";
+      button.setAttribute("data-word", slug(item.word));
+      button.setAttribute("aria-label", "Hear " + item.word);
+      button.addEventListener("click", function () {
+        unlock();
+        readOne(button);
+      });
+      el.pictureWords.appendChild(button);
+    });
+  }
+
   // Optional, unscored picture discoveries. Coordinates are percentages of the square
   // painting, so the same data works in both tablet orientations. A tap reveals one short
   // causal sentence; another tap replaces it and it closes itself after six seconds.
@@ -513,6 +549,7 @@
     var page = book.pages[index];
     var go = function () {
       renderArt(page);
+      renderPictureWords(page);
       renderDiscoveries(page);
       renderQuickWords(page);
       renderText(page);
@@ -525,6 +562,7 @@
       el.readNext.hidden = !(last && nextBook);
       // Warm the clips for this page and the next.
       wordButtons.forEach(function (b) { load(b.getAttribute("data-word")); });
+      el.pictureWords.querySelectorAll(".picture-word").forEach(function (b) { load(b.getAttribute("data-word")); });
       if (page.narration && page.narration.timing) loadTiming(page.narration.timing);
       el.book.classList.remove("turning");
       try { history.replaceState(null, "", "?book=" + encodeURIComponent(book.id) + "&page=" + index + setQuery + fromQuery); } catch (e) { /* file: */ }
@@ -576,6 +614,14 @@
     unlock();
     if (el.speaker.getAttribute("data-state") === "playing") stopAll();
     else readPage();
+  });
+  updatePictureWordsToggle();
+  el.pictureWordsToggle.addEventListener("click", function () {
+    stopAll();
+    pictureWordsOn = !pictureWordsOn;
+    try { localStorage.setItem(PICTURE_WORDS_KEY, pictureWordsOn ? "on" : "off"); } catch (e) { /* session only */ }
+    updatePictureWordsToggle();
+    if (book) renderPictureWords(book.pages[index]);
   });
   el.text.addEventListener("click", function (e) {
     var b = e.target.closest ? e.target.closest(".word") : null;

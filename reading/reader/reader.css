@@ -118,6 +118,43 @@ html, body {
 }
 .frame img.loaded { opacity: 1; }
 
+/* Optional picture-word pills. Positions name their nearby object without covering it. */
+.picture-words {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  pointer-events: none;
+}
+.picture-words[hidden] { display: none; }
+.picture-word {
+  position: absolute;
+  min-width: 44px;
+  min-height: 44px;
+  transform: translate(-50%, -50%);
+  padding: 8px 13px;
+  border: 2px solid rgba(255,255,255,.96);
+  border-radius: 999px;
+  background: rgba(247,240,225,.94);
+  box-shadow: 0 3px 0 rgba(217,204,176,.92), 0 5px 12px rgba(47,58,77,.2);
+  color: #27406b;
+  font: 800 clamp(16px, 2.2vmin, 21px)/1 'Nunito', system-ui, sans-serif;
+  pointer-events: auto;
+  cursor: pointer;
+  touch-action: manipulation;
+  white-space: nowrap;
+}
+.picture-word:active, .picture-word.reading-now {
+  transform: translate(-50%, -50%) translateY(3px) scale(.97);
+  background: var(--glow);
+  box-shadow: 0 1px 0 var(--glow-edge), 0 3px 8px rgba(47,58,77,.18);
+}
+.picture-word.failed {
+  color: #fff;
+  background: #b43f36;
+  border-color: #fff;
+  animation: picture-word-failed .3s ease 2;
+}
+
 /* Optional picture discoveries: large visible tap rings, never hover-only and never scored. */
 .discoveries {
   position: absolute;
@@ -195,6 +232,29 @@ html, body {
 .shelf-back .b3 { fill: var(--glow-edge); }
 .shelf-back .ledge { fill: none; stroke: #8a5a31; stroke-width: 4; stroke-linecap: round; }
 .shelf-back:active { transform: translateY(4px) scale(.96); box-shadow: 0 1px 0 #d9ccb0; background: var(--paper-deep); }
+
+.picture-words-toggle {
+  position: absolute;
+  z-index: 5;
+  left: max(1.6vmin, 10px);
+  top: calc(max(1.6vmin, 10px) + 74px);
+  min-width: 64px;
+  min-height: 48px;
+  padding: 5px 9px;
+  display: grid;
+  place-items: center;
+  border: 3px solid #fff;
+  border-radius: 15px;
+  background: var(--paper);
+  box-shadow: 0 4px 0 #d9ccb0, 0 6px 14px rgba(47,58,77,.18);
+  color: var(--accent);
+  font: 800 13px/1 'Nunito', system-ui, sans-serif;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.picture-words-toggle span:first-child { font: 400 21px/1 'Fredoka One', 'Nunito', sans-serif; }
+.picture-words-toggle[aria-pressed="true"] { color: #fff; background: var(--accent); box-shadow: 0 4px 0 var(--accent-press), 0 6px 14px rgba(47,58,77,.18); }
+.picture-words-toggle:active { transform: translateY(3px) scale(.97); box-shadow: 0 1px 0 #d9ccb0; }
 
 /* "Read next" (2026-10-06): on a chain book's last page, the next book's cover sits in the
    top-right corner, mirroring the bookshelf button top-left. Shown only when index.json names a
@@ -415,6 +475,10 @@ button { font: inherit; }
 
 @keyframes pulse { 50% { opacity: .35; } }
 @keyframes nudge { 25% { transform: translateX(-3px); } 75% { transform: translateX(3px); } }
+@keyframes picture-word-failed {
+  25% { transform: translate(-50%, -50%) translateX(-3px); }
+  75% { transform: translate(-50%, -50%) translateX(3px); }
+}
 @keyframes scroll-cue { 50% { transform: translateY(5px); } }
 
 /* Landscape (1024 x 768): the same column, a shorter reading strip but a much wider one. */
@@ -435,6 +499,7 @@ button { font: inherit; }
   .speaker { width: 64px; height: 64px; }
   .shelf-back { width: 56px; height: 56px; }
   .shelf-back svg { width: 34px; height: 34px; }
+  .picture-words-toggle { top: calc(max(1.6vmin, 10px) + 64px); min-width: 56px; padding-left: 6px; padding-right: 6px; }
   .speaker svg { width: 44px; height: 44px; }
   .reading-mid { gap: 10px; }
   .reading-mid.has-more-text::before { left: 74px; }

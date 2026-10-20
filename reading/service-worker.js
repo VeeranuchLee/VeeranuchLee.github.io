@@ -19,6 +19,10 @@
    v11 2026-10-09: All About Stars (stars) un-drafted with the Space set; its art, page clips and timing join SHELL.
    v15 2026-10-17: Computer Book 1, What Does a Computer Do? (what-computers-do), un-drafted as the first book of the Computer & Digital World set (owner, 2026-10-17: "Book 1 only, prepare the release"); its art, page clips and timing and 35 new word clips join SHELL. The other five Computer Books stay on agent/codex-computer-books-review.
    v16 2026-10-18: Computer Books 2, 3 and 5 join their approved shelves: Where Did My File Go? (where-file-goes), Give the Computer Exact Instructions (exact-instructions), and What Should Stay Private? (what-stays-private), with their art, page narration, timing and word clips. Books 4 and 6 remain out of the index and release.
+   v17 2026-10-18: optional tappable picture-word labels, an OFF-by-default remembered toggle,
+   and the six-page Space/Gems pilot join the shared reader. No new SHELL entries: the code
+   (reader.js/.css/index.html) and pilot book.json data were already cached, so this bump
+   refreshes those files on top of the reading-v16 release.
    v14 2026-10-14: Space wave 2 un-drafted (owner: "the rest -> approved."): Mars: The Red Planet, Mars: Giant Volcanoes and a Great Canyon, Jupiter and the Great Red Spot, How Stars Are Born and Change; Space box sections; stars renamed Stars in the Night Sky; their art, page clips and timing join SHELL.
    v13 2026-10-13: All About Comets (comets) un-drafted as Space Book 3 (owner: "the rest of the comet book -> approved."); its art, page clips and timing join SHELL; numbers become tappable words (76, 2061 clips).
    v10 2026-10-09: Rain Books 8–10 (street-under-water, stay-out-of-floodwater,
@@ -31,7 +35,7 @@
 
    Navigations carry a query (?book=space-trip, ?from=wordbook), so they are matched with
    ignoreSearch; data and audio requests are matched exactly. */
-const CACHE_NAME = 'reading-v16';
+const CACHE_NAME = 'reading-v17';
 const CACHE_PREFIX = 'reading-v';
 const SHELL = [
   './',
