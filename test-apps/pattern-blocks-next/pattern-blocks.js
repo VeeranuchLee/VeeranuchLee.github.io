@@ -225,8 +225,12 @@
       syncActions();
     }
 
+    /* A hexagon turned 60 degrees looks exactly the same (owner 2026-10-20:
+       "no need to turn"), so it offers no Turn at all. */
+    function canTurn(piece) { return !!piece && piece.shape !== 'hexagon'; }
+
     function syncActions() {
-      btnRotate.disabled = !selected;
+      btnRotate.disabled = !canTurn(selected);
       btnDelete.disabled = !selected;
       positionPieceTurn();
     }
@@ -236,7 +240,7 @@
        first position that does not cover another block. If a crowded board
        leaves no clear option, use the candidate with the least overlap. */
     function positionPieceTurn() {
-      if (!selected || drag) { btnPieceTurn.hidden = true; return; }
+      if (!canTurn(selected) || drag) { btnPieceTurn.hidden = true; return; }
       var selectedEl = gPieces.querySelector('.pb-piece[data-id="' + selected.id + '"]');
       if (!selectedEl) { btnPieceTurn.hidden = true; return; }
       var boardRect = svg.getBoundingClientRect();
@@ -429,7 +433,7 @@
 
     /* --- actions ---------------------------------------------------------------- */
     function turnSelected() {
-      if (!selected) return;
+      if (!canTurn(selected)) return;
       turnPiece(selected);
       sound.play('rotate');
       save();
