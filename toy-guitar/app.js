@@ -38,6 +38,12 @@ const playEl = $('play');
 const railA = $('railA');
 const railB = $('railB');
 const shell = new AudioShell();
+window.AudioWake.attach(() => shell.ctx, () => {
+  if (rig) { try { rig.dispose(); } catch (e) {} rig = null; }
+  if (pads) { try { pads.stopAll(); } catch (e) {} pads = null; }
+  shell.rebuild();
+  ensureAudio();
+});
 let rig = null;
 let pads = null;
 let layout = null;

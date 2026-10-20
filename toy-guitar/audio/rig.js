@@ -59,6 +59,13 @@ export class AudioShell {
     return ctx;
   }
 
+  rebuild() {
+    if (!this.ctx || this.ctx.state !== 'closed') return this.ctx;
+    this.ctx = null; this.input = null; this.master = null; this.analyser = null;
+    this.workletReady = false; this.workletFailed = false; this.workletPromise = null;
+    return this.prepare();
+  }
+
   // RMS of what is leaving the speakers right now (QA: proves nothing is stuck).
   level() {
     if (!this.analyser) return 0;
