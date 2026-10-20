@@ -47,7 +47,7 @@
 
   function ensureAudio() {
     if (ctx) {
-      if (ctx.state === "suspended") ctx.resume();
+      if (ctx.state !== "running" && ctx.state !== "closed") ctx.resume();
       return ctx;
     }
     const AC = window.AudioContext || window.webkitAudioContext;
@@ -288,6 +288,12 @@
   KB.engine = {
     ensureAudio: ensureAudio,
     ready: () => Boolean(ctx),
+    context: () => ctx,
+    rebuildAudio() {
+      if (!ctx || ctx.state !== "closed") return ctx;
+      held.clear(); sustained.clear(); ctx = null; master = null;
+      return ensureAudio();
+    },
     time: now,
     noteOn: noteOn,
     noteOff: noteOff,

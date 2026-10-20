@@ -90,7 +90,7 @@
  *               cold offline install without it has no zoom fix at all.
 */
 
-const CACHE_NAME = "toy-keyboard-v12";
+const CACHE_NAME = "toy-keyboard-v13";
 
 const SHELL = [
   "./",
@@ -100,6 +100,7 @@ const SHELL = [
   "./toys.css",
   "./fonts.css",
   "./tap-zoom-guard.js",
+  "./js/audio-wake.js",
   "./app.js",
   "./voices.js",
   "./engine.js",

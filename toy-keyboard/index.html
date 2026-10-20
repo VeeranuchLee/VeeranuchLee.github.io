@@ -71,8 +71,10 @@
      full-screen keybed can always pinch back out. That case is the reason the keybeds
      moved from `touch-action: none` to `pinch-zoom` in the same change. -->
 <script src="./tap-zoom-guard.js"></script>
+<script src="./js/audio-wake.js"></script>
 <script src="./voices.js"></script>
 <script src="./engine.js"></script>
+<script>AudioWake.attach(function () { return KB.engine.context(); }, function () { KB.engine.rebuildAudio(); });</script>
 <script src="./recorder.js"></script>
 <script src="./guidance.js"></script>
 <script src="./keybed.js"></script>
