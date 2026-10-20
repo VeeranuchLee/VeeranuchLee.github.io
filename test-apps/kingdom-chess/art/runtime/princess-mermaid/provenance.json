@@ -107,5 +107,15 @@
       "date": "2026-10-16",
       "prompt": "The Quiet Current handbook story: Nerina, Maris, Coralie, Ripple and Bubble Pages guide a safe baby turtle from a giant shell to its family along glowing pearls; approved Dawn cast identity, living characters without pedestals, warm 4:3 painterly lagoon, top-left light, no text."
     }
-  ]
+  ],
+  "look_r3": {
+    "date": "2026-10-20",
+    "tool": "OpenAI Codex built-in image generation (image_gen)",
+    "use_case": "stylized-concept",
+    "runtime": ["pieces/dawn-{king,queen,bishop,knight,rook,pawn}.webp", "pieces/dusk-{king,queen,bishop,knight,rook,pawn}.webp", "portraits/{king,queen,bishop,knight,rook,pawn}.webp", "frame.webp"],
+    "ignored_masters": ["art/masters/look-r3/mermaid-dawn-pieces.png", "art/masters/look-r3/mermaid-dusk-pieces.png", "art/masters/look-r3/mermaid-portraits.png", "art/masters/look-r3/mermaid-frame.png"],
+    "prompt": "Princess Mermaid boxed-chess set: Maris king, Nerina queen, Coralie bishop, Ripple seahorse knight, Shellwatch coral rook and Bubble Page pawn in exact 3x2 Dawn and Dusk sheets; separate six-cameo portrait sheet; pearl/aqua/coral/gold ornate frame with clear center; no text.",
+    "review": "PASS: Dawn pieces accepted on attempt 2 after every human hand was concealed; Dusk pieces, portraits and frame accepted on attempt 1. Exactly six distinct type silhouettes per side; no text; no visible fingers remain to miscount.",
+    "processing": "build-look-r3.py cuts the source sheets, fits quality-86 192px pieces to the pilot ladder, exports 320px quality-78 portrait WebPs, a 640px quality-68 frame WebP and the tracked quality-70 WebP contact sheet."
+  }
 }

@@ -28,5 +28,15 @@
       "master_size": "1800x1350",
       "runtime_export": "1200x900 WebP, quality 85"
     }
+  },
+  "look_r3": {
+    "date": "2026-10-20",
+    "tool": "OpenAI Codex built-in image generation (image_gen)",
+    "use_case": "stylized-concept",
+    "runtime": ["pieces/dawn-{king,queen,bishop,knight,rook,pawn}.webp", "pieces/dusk-{king,queen,bishop,knight,rook,pawn}.webp", "portraits/{king,queen,bishop,knight,rook,pawn}.webp", "frame.webp"],
+    "ignored_masters": ["art/masters/look-r3/space-dawn-pieces.png", "art/masters/look-r3/space-dusk-pieces.png", "art/masters/look-r3/space-portraits.png", "art/masters/look-r3/space-frame.png"],
+    "prompt": "Intergalactic Space boxed-chess set: Orion king, Nova queen, Quasar bishop, Astrohoof robot-horse knight, Starbase Seven rook and Pocket Rover pawn in exact 3x2 Dawn and Dusk sheets; six orbital cameos; ivory/cobalt/navy orbital starbase frame; no text.",
+    "review": "PASS attempt 1 for pieces, portraits and frame: six distinct silhouettes per side remain clear at 70px; no text; Orion, Nova and Quasar have fully concealed hands and no visible fingers.",
+    "processing": "build-look-r3.py removes disconnected sheet bleed, fits quality-86 192px pieces to the pilot ladder, exports quality-78 320px portraits, a quality-68 640px frame and the tracked quality-70 WebP contact sheet."
   }
 }

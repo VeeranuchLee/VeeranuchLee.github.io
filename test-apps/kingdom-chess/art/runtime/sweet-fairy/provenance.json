@@ -21,5 +21,15 @@
     "story.webp": "The Seed That Would Not Hurry handbook scene; Queen Faye, King Bram, Mallow Quill, Pip Thistledown, Acorn Hall and Dewdrop Sprites gather as the silver moonflower opens at nightfall; Dawn identity references; living characters without chess pedestals; warm painterly 4:3 storybook finish; top-left light; no text."
   },
   "postprocess": "Generated RGBA piece masters were alpha-cropped and proportionally normalized into 160x160 canvases at the approved occupied-height ladder (King 88%, Queen 84%, Bishop 78%, Knight 75%, Rook 70%, Pawn 58%). Board and picker masters were high-quality resized/cropped to the specified runtime dimensions. Piece, board and picker runtime WebPs use lossless encoding. The generated 1448x1086 RGB story source was Lanczos-resampled to a 2000x1500 PNG master and a 1200x900 WebP runtime at quality 85.",
-  "safety": "No text, watermark, weapons, frightening expressions, or extra figures in the chess pieces. Visible human hands were reviewed for five fingers."
+  "safety": "No text, watermark, weapons, frightening expressions, or extra figures in the chess pieces. Visible human hands were reviewed for five fingers.",
+  "look_r3": {
+    "date": "2026-10-20",
+    "tool": "OpenAI Codex built-in image generation (image_gen)",
+    "use_case": "stylized-concept",
+    "runtime": ["pieces/dawn-{king,queen,bishop,knight,rook,pawn}.webp", "pieces/dusk-{king,queen,bishop,knight,rook,pawn}.webp", "portraits/{king,queen,bishop,knight,rook,pawn}.webp", "frame.webp"],
+    "ignored_masters": ["art/masters/look-r3/fairy-dawn-pieces.png", "art/masters/look-r3/fairy-dusk-pieces.png", "art/masters/look-r3/fairy-portraits.png", "art/masters/look-r3/fairy-frame.png"],
+    "prompt": "Sweet Fairy boxed-chess set: Bram king, Faye queen, Mallow bishop, Pip pony knight, Acorn Hall rook and Dewdrop Sprite pawn in exact 3x2 Dawn and Dusk sheets; six-cameo portraits; leaf, flower, pearl, acorn and lantern frame; no text.",
+    "review": "PASS: Dawn accepted on attempt 2 after correcting Bram's identity; Dusk, portraits and frame accepted on attempt 1. Exactly six distinct silhouettes per side, no text, and all human/fairy hands concealed so no fingers are visible.",
+    "processing": "build-look-r3.py removes disconnected sheet bleed, fits quality-86 192px pieces to the pilot ladder, exports quality-78 320px portraits, a quality-68 640px frame and the tracked quality-70 WebP contact sheet."
+  }
 }

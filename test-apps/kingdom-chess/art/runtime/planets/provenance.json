@@ -101,5 +101,15 @@
     "prompt": "Exact label-free 3x2 source sheet in King, Queen, Bishop / Knight, Rook, Pawn order. Character-topped classic silhouettes in ivory/royal-blue/warm-gold Dawn or navy/cobalt/cool-gold Dusk: smiling Sun king, Earth queen, ringed Saturn bishop, hornless Mars horse knight with red mane, Jupiter tower rook and cratered Moon pawn. Strong outline, compact grounding shadow, recognisable at 56–70 px; no text, board or extra objects.",
     "portraits": "Deterministic square crops of design/look-r1/portraits-planets.png; names remain live UI text.",
     "processing": "chess-app/tools/build-look-r2-pilot.py cuts the six sheet cells, removes their generated backdrop, fits them to the shared 192px type ladder, writes lossless WebP runtime pieces, exports 320px portrait WebPs, and creates the 76px QA contact sheet. Source sheets remain ignored masters for controller staging."
+  },
+  "look_r3_frame": {
+    "date": "2026-10-20",
+    "tool": "OpenAI Codex built-in image generation (image_gen)",
+    "use_case": "stylized-concept",
+    "runtime": "frame.webp",
+    "ignored_master": "art/masters/look-r3/planets-frame.png",
+    "prompt": "Complete square ornate Sunlit System frame matching the approved mockup: calm royal-blue space, small planets, delicate gold orbit lines, restrained stars, moon and sun medallions and gold scrollwork around a clear square opening; top-down, no board, pieces, portrait, people or text.",
+    "review": "PASS attempt 1: strong Planets identity, clear center, no text or anatomy, and a clean diagonal clipping path for arbitrary pairings.",
+    "processing": "build-look-r3.py resizes the ignored master to a compact 640px quality-68 WebP. Runtime clips it to the Dusk upper-right half."
   }
 }
