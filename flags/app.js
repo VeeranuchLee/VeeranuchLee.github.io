@@ -104,6 +104,7 @@
     if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
     return audioCtx;
   }
+  if (typeof AudioWake !== "undefined") AudioWake.attach(function () { return audioCtx; }, function () { audioCtx = null; });
 
   function tone(freq, start, duration, type, peak) {
     if (!soundOn) return; // the toggle gates the chimes too, not just speech
