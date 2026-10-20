@@ -27,7 +27,7 @@
 //        CACHE_NAME changes, so an offline install without it would have no guard.
 //        tools/check-shell.mjs enforces that: it reads this list and this page's
 //        own references, and fails on a file referenced but not listed.
-const CACHE_NAME = "pattern-pegs-v8";
+const CACHE_NAME = "pattern-pegs-v9";
 
 const SHELL = [
   "./",
@@ -37,6 +37,7 @@ const SHELL = [
   "./tap-zoom-guard.js",
   "./app.js",
   "./js/pattern-core.js",
+  "./js/rule-icons.js",
   "./manifest.webmanifest",
   "./assets/bg-dawn.webp",
   "./assets/fonts/fonts.css",
