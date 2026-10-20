@@ -27,15 +27,7 @@
   document.title = cat.name + ' — Children Games';
   /* Categories without an owner room design preserve the original card-only page. */
   if (!room) {
-    L.appsAt(id).forEach(function (d) {
-      var c = document.createElement('a'); c.className = 'card'; c.href = L.app(d.href); c.dataset.id = d.id;
-      if (d.tone) { c.style.setProperty('--edge', d.tone[0]); c.style.setProperty('--shadow', d.tone[1]); c.style.setProperty('--tint', d.tone[2]); }
-      var art = document.createElement('span'); art.className = 'art'; var img = document.createElement('img');
-      img.src = L.app(d.tile); img.alt = ''; img.width = 96; img.height = 96; if (!d.cutout) img.className = 'tile'; art.appendChild(img);
-      var name = document.createElement('span'); name.className = 'name'; name.textContent = d.name;
-      var desc = document.createElement('span'); desc.className = 'desc'; desc.textContent = d.desc;
-      c.appendChild(art); c.appendChild(name); c.appendChild(desc); grid.appendChild(c);
-    });
+    L.appsInArea(id).forEach(addCard);
     /* No painted room: the shell is cards only, so there is nothing to switch to (a Room view
        here would be an empty dark frame). */
     roomView.hidden = true; cardsView.hidden = false;
@@ -61,10 +53,26 @@
   function polygon(points) {
     return 'polygon(' + points.map(function (p) { return p[0] + '% ' + p[1] + '%'; }).join(',') + ')';
   }
+  function addCard(d) {
+    var c = document.createElement('a');
+    c.className = 'card'; c.href = L.app(d.href); c.dataset.id = d.id;
+    if (d.tone) {
+      c.style.setProperty('--edge', d.tone[0]); c.style.setProperty('--shadow', d.tone[1]);
+      c.style.setProperty('--tint', d.tone[2]);
+    }
+    var art = document.createElement('span'); art.className = 'art';
+    var img = document.createElement('img'); img.src = L.app(d.tile); img.alt = '';
+    img.width = 96; img.height = 96; if (!d.cutout) img.className = 'tile'; art.appendChild(img);
+    var name = document.createElement('span'); name.className = 'name'; name.textContent = d.name;
+    if (THAI.test(d.name)) name.lang = 'th';
+    var desc = document.createElement('span'); desc.className = 'desc'; desc.textContent = d.desc;
+    c.appendChild(art); c.appendChild(name); c.appendChild(desc); grid.appendChild(c);
+  }
   var labelItems = [];
   var badgeCount = 0;
+  var activeObjects = room.objects.filter(function (d) { return d.active !== false; });
   /* Objects with `active: false` are future landmarks: geometry in the data, nothing in the page. */
-  room.objects.filter(function (d) { return d.active !== false; }).forEach(function (d) {
+  activeObjects.forEach(function (d) {
     var a = document.createElement('a');
     a.className = 'room-hotspot';
     a.href = L.app(d.href);
@@ -97,20 +105,20 @@
       spots.appendChild(window.PlayroomBadges.make(d, at[0], at[1], badgeCount++));
     }
 
-    var c = document.createElement('a');
-    c.className = 'card'; c.href = L.app(d.href); c.dataset.id = d.id;
-    if (d.tone) {
-      c.style.setProperty('--edge', d.tone[0]); c.style.setProperty('--shadow', d.tone[1]);
-      c.style.setProperty('--tint', d.tone[2]);
-    }
-    var art = document.createElement('span'); art.className = 'art';
-    var img = document.createElement('img'); img.src = L.app(d.tile); img.alt = '';
-    img.width = 96; img.height = 96; if (!d.cutout) img.className = 'tile'; art.appendChild(img);
-    var name = document.createElement('span'); name.className = 'name'; name.textContent = d.name;
-    if (THAI.test(d.name)) name.lang = 'th';
-    var desc = document.createElement('span'); desc.className = 'desc'; desc.textContent = d.desc;
-    c.appendChild(art); c.appendChild(name); c.appendChild(desc); grid.appendChild(c);
   });
+
+  /* Cards are navigation, not painted geometry. If this room contains APPS-backed objects,
+     draw every app in the category's area from the canonical APPS list, then retain any
+     intentional inline sub-destinations. This is what keeps a newly added Arcade app in both
+     the main Cards view and Puzzles without adding a second room copy. Math and Music contain
+     only purpose-built sub-destinations, so their established room-defined cards stay intact. */
+  var areaApps = L.appsInArea(id);
+  var areaIds = areaApps.map(function (d) { return d.id; });
+  var appsBackThisRoom = activeObjects.some(function (d) { return areaIds.indexOf(d.id) >= 0; });
+  var cardItems = appsBackThisRoom ? areaApps.concat(activeObjects.filter(function (d) {
+    return areaIds.indexOf(d.id) < 0;
+  })) : activeObjects;
+  cardItems.forEach(addCard);
 
   var label = window.RoomLabel.attach(spots.parentNode, labelItems, { avoid: ['.topbar .back', '.view-switch', '.music-btn'] });
 

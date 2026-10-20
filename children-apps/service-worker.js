@@ -145,8 +145,11 @@
  *   v44 2026-10-15  Number Lab joins Arcade (owner: "let's get number lab on main hub
  *                  -> game."). SHELL gains `assets/number-lab.webp`, composed only from
  *                  the app's existing runtime tile atlas.
+ *   v45 2026-10-15  Painted category Cards views now derive membership from the same APPS
+ *                  list as the main Cards view. Puzzles gains Petal Kingdom, Memory Echo
+ *                  and Number Lab; Books gains Animal Book. No art or shell path changes.
  */
-const CACHE_NAME = "children-apps-v44";
+const CACHE_NAME = "children-apps-v45";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */

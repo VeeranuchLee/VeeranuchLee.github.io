@@ -317,8 +317,13 @@ window.PLAYROOM.lib = (function (R) {
   function app(u) { return u.indexOf('./playroom/') === 0 ? abs(u) : abs(u, R.base); }
   function appById(id) { return R.apps.filter(function (a) { return a.id === id; })[0]; }
   function areaById(id) { return R.mainAreas.filter(function (a) { return a.id === id; })[0]; }
-  /* The apps a landmark holds, in APPS order. */
-  function appsAt(id) { return R.apps.filter(function (a) { return a.landmark === id; }); }
+  /* The apps an area holds, in the one canonical APPS order. Category Cards views use this
+     instead of copying the painted room's object list, whose job is only room geometry. */
+  function appsInArea(id) {
+    var area = areaById(id);
+    if (!area) return [];
+    return R.apps.filter(function (a) { return area.landmarks.indexOf(a.landmark) >= 0; });
+  }
   /* The Cards view: every app except the room-only entries. */
   function cards() { return R.apps.filter(function (a) { return a.cards !== false; }); }
   /* Where a landmark's door goes. null = no destination: it receives the inactive treatment. */
@@ -333,7 +338,8 @@ window.PLAYROOM.lib = (function (R) {
     if (direct) return { kind: 'app', href: app(direct.href), app: direct, area: area };
     return null;
   }
-  return { abs: abs, app: app, appById: appById, areaById: areaById, appsAt: appsAt, cards: cards, door: door };
+  return { abs: abs, app: app, appById: appById, areaById: areaById,
+    appsInArea: appsInArea, cards: cards, door: door };
 })(window.PLAYROOM);
 
 /* The painted category rooms borrow an object's words, link and tile from APPS (`app: "<id>"`),
