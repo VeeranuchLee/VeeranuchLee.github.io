@@ -60,6 +60,16 @@
     },
     correct: function () { this.tone(659, 0, 0.22); this.tone(880, 0.09, 0.28); },
     wrong: function () { this.tone(220, 0, 0.18, "triangle", 0.07); },
+    // a bead landing on the peg: a short bright tick over a low knock — wood, not a bell
+    clack: function () {
+      this.tone(1500, 0, 0.035, "triangle", 0.07);
+      this.tone(420, 0.005, 0.07, "sine", 0.09);
+    },
+    // a bead sliding up against its neighbour on the lace: smaller and lighter
+    click: function () {
+      this.tone(2300, 0, 0.025, "triangle", 0.05);
+      this.tone(980, 0.004, 0.045, "sine", 0.05);
+    },
     fanfare: function () {
       this.tone(523, 0, 0.2); this.tone(659, 0.11, 0.2); this.tone(784, 0.22, 0.34);
     },
@@ -308,6 +318,80 @@
     });
   }
 
+  /* Copy the Tower: the piece goes to the TOP of the "Yours" rod and drops down it.
+   * Owner, 2026-10-20, on the first v9 build: "can we have the piece drop from above?"
+   * Flying straight into the socket still read as a box the piece is put in; a real peg
+   * tower is threaded from the top and the bead falls until it rests on the one below.
+   * So: tray -> above the rod (0-38%), fall with gravity easing (38-82%), clack on
+   * landing, small settle bounce. A wrong piece falls and lands the same way, wobbles,
+   * then lifts back off the top of the rod and returns to the tray. ~680 ms right,
+   * ~1.2 s wrong. Reduced motion: the piece fades in at the socket instead.
+   */
+  // Lace the Beads uses the same motion turned on its side. Owner, 2026-10-20: "can we
+  // have bead slide to the left?" The bead flies to the NEEDLE on the right, threads on,
+  // and slides LEFT along the lace until it rests against the knot or the bead before
+  // it; a wrong bead slides in, wobbles, slides back off the needle and returns.
+  // opts: { entry: element the piece threads on at, axis: "y" (rod, falls down) or
+  // "x" (lace, slides left), sound: "clack" | "click" }
+  function dropOnRod(fromEl, toEl, piece, wrong, topEl, opts) {
+    opts = opts || { axis: "y", sound: "clack" };
+    var src = fromEl.querySelector("svg") || fromEl;
+    var a = src.getBoundingClientRect();
+    var b = toEl.getBoundingClientRect();
+    var top = (topEl || toEl).getBoundingClientRect();
+    var f = document.createElement("span");
+    f.className = "flyer";
+    f.innerHTML = pieceBead(piece);
+    f.style.left = a.left + "px";
+    f.style.top = a.top + "px";
+    f.style.width = a.width + "px";
+    f.style.height = a.height + "px";
+    document.body.appendChild(f);
+    var s = a.width ? b.width / a.width : 1;
+    var ax = a.left + a.width / 2, ay = a.top + a.height / 2;
+    var sx = b.left + b.width / 2 - ax, sy = b.top + b.height / 2 - ay;
+    var tx, ty;
+    if (opts.axis === "x") {           // just past the needle tip, on the lace line
+      tx = top.left + top.width * 0.6 + b.width / 2 - ax; ty = sy;
+    } else {                           // just above the top of the rod
+      tx = sx; ty = top.top - b.height * 0.9 - ay;
+    }
+    var ux = opts.axis === "x" ? 6 : 0, uy = opts.axis === "x" ? 0 : -7;   // settle rebound
+    function at(x, y, sc, off, ease) {
+      var k = { transform: "translate(" + x + "px," + y + "px) scale(" + sc + ")" };
+      if (off !== undefined) k.offset = off;
+      if (ease) k.easing = ease;
+      return k;
+    }
+    var FALL = opts.axis === "x"
+      ? "cubic-bezier(.35,0,.6,1)"            // a slide: gets going, then eases to a stop
+      : "cubic-bezier(.55,0,1,.45)";          // accelerates, like something falling
+    var frames, dur, landAt;
+    if (REDUCED) {
+      frames = [{ opacity: 0, transform: "translate(" + sx + "px," + sy + "px) scale(" + s + ")" },
+                { opacity: 1, transform: "translate(" + sx + "px," + sy + "px) scale(" + s + ")" }];
+      dur = wrong ? 500 : 200; landAt = 0.9;
+      if (wrong) frames.push({ opacity: 0, transform: "translate(" + sx + "px," + sy + "px) scale(" + s + ")" });
+    } else if (!wrong) {
+      dur = 680; landAt = 0.82;
+      frames = [at(0, 0, 1, 0, "ease-out"), at(tx, ty, s, 0.38, FALL), at(sx, sy, s, 0.82, "ease-out"),
+                at(sx + ux, sy + uy, s, 0.9, "ease-in"), at(sx, sy, s, 1)];
+    } else {
+      dur = 1250; landAt = 0.46;
+      frames = [at(0, 0, 1, 0, "ease-out"), at(tx, ty, s, 0.22, FALL), at(sx, sy, s, 0.46),
+                opts.axis === "x" ? at(sx, sy - 8, s, 0.52) : at(sx - 8, sy, s, 0.52),
+                opts.axis === "x" ? at(sx, sy + 8, s, 0.58) : at(sx + 8, sy, s, 0.58),
+                at(sx, sy, s, 0.64, "ease-in"),
+                at(tx, ty, s, 0.8, "ease-in-out"), at(0, 0, 1, 1)];
+    }
+    var landed = setTimeout(function () { Sound[opts.sound || "clack"](); }, dur * landAt);
+    return new Promise(function (resolve) {
+      if (!f.animate) { clearTimeout(landed); f.remove(); resolve(); return; }
+      var anim = f.animate(frames, { duration: dur, fill: "forwards" });
+      anim.onfinish = function () { f.remove(); resolve(); };
+    });
+  }
+
   function slotGame(o) {
     // o.slots: slot elements in fill order; o.answers: piece per slot;
     // o.tray: [{btn, piece}]; o.onTeach(i, misses): 2-miss hint; o.onClear(i);
@@ -329,7 +413,7 @@
       var slot = o.slots[g.i];
       g.busy = true;
       if (piece === o.answers[g.i]) {
-        fly(btn, slot, piece, false).then(function () {
+        (o.move || fly)(btn, slot, piece, false).then(function () {
           if (token !== S.token) return;
           slot.classList.remove("next");
           slot.classList.add("filled");
@@ -350,8 +434,9 @@
         Sound.wrong();
         S.clean = false;
         g.misses++;
-        slot.classList.add("nope");
-        fly(btn, slot, piece, true).then(function () {
+        if (!o.move) slot.classList.add("nope");
+        else setTimeout(function () { if (token === S.token) slot.classList.add("nope"); }, REDUCED ? 100 : 560);
+        (o.move || fly)(btn, slot, piece, true).then(function () {
           if (token !== S.token) return;
           slot.classList.remove("nope");
           btn.classList.remove("shake"); void btn.offsetWidth; btn.classList.add("shake");
@@ -468,6 +553,7 @@
 
     S.game = slotGame({
       slots: sockets,
+      move: function (btn, slot, piece, wrong) { return dropOnRod(btn, slot, piece, wrong, sockets[n - 1]); },
       answers: p.target,
       tray: t.tray,
       onNext: function (k) {
@@ -748,8 +834,12 @@
     el("activity-body").appendChild(t.panel);
     S.fit();
 
+    var tip = el("activity-body").querySelector(".lace-tip");
     S.game = slotGame({
       slots: sockets,
+      move: function (btn, slot, piece, wrong) {
+        return dropOnRod(btn, slot, piece, wrong, tip, { axis: "x", sound: "click" });
+      },
       answers: p.sequence,
       tray: t.tray,
       onTeach: function () {
