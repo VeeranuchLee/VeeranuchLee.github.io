@@ -163,12 +163,12 @@ window.PLAYROOM = {
           points: [[68.0,9.7],[100.0,9.7],[100.0,46.0],[68.0,46.0]] },
         { app: "spelling-exam", badgeAt: [16.4, 91.0],
           points: [[2.1,48.3],[30.7,48.3],[30.7,93.0],[2.1,93.0]] },
-        { id: "grammar", name: "Grammar Game", desc: "Future word puzzles", active: false,
+        { app: "grammar-game", badgeAt: [52.6, 86.0],
           points: [[34.2,59.4],[71.1,59.4],[71.1,85.6],[34.2,85.6]] },
         { app: "bookshelf", badgeAt: [85.3, 90.0],
           points: [[71.8,47.0],[100.0,47.0],[100.0,96.7],[71.8,96.7]] }
       ],
-      unmatched: ["picture puzzle cards (future Grammar Game)"]
+      unmatched: []
     },
     maths: {
       /* The pop-up book is Magic Math's two-world plate: rocket/space on the left and
@@ -283,6 +283,8 @@ window.PLAYROOM = {
       href: "../writing-book/", tile: "./assets/writing-book.webp", tone: ["#d99b32", "#9e691e", "#fff3da"] },
     { id: "spelling-exam", landmark: "words", cards: false, name: "Spelling Exam", desc: "Listen and spell the word",
       href: "../spelling-exam/", tile: "./assets/spelling-exam.webp", tone: ["#e46f6f", "#a74747", "#ffeded"] },
+    { id: "grammar-game", landmark: "words", cards: false, name: "Grammar Game", desc: "Pick the word that fits the sentence",
+      href: "../word-book/grammar-game.html", tile: "./assets/grammar-game.webp", tone: ["#7d8ee8", "#4a5bc0", "#eef0ff"] },
     { id: "shadow-matching", landmark: "arcade", name: "Shadow Matching", desc: "Look at the picture, find its shadow",
       href: "../shadow-matching/", tile: "./assets/shadow-matching.webp", tone: ["#2d5d7c", "#1b3e56", "#e4eff6"] },
     { id: "our-maze", landmark: "arcade", name: "Our Maze", desc: "Walk the maze to the flag",

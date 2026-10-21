@@ -148,8 +148,11 @@
  *   v45 2026-10-15  Painted category Cards views now derive membership from the same APPS
  *                  list as the main Cards view. Puzzles gains Petal Kingdom, Memory Echo
  *                  and Number Lab; Books gains Animal Book. No art or shell path changes.
+ *   v46 2026-10-20  Owner: "Grammar game missing from the hub". The Words & Books room's
+ *                  painted puzzle table (inert since the room was drawn) now opens the
+ *                  Grammar Game (../word-book/grammar-game.html); new tile assets/grammar-game.webp.
  */
-const CACHE_NAME = "children-apps-v45";
+const CACHE_NAME = "children-apps-v46";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
