@@ -6,7 +6,7 @@
    together; this book starts where that ended up.
 
    Palette and chrome geometry are Book 1's, deliberately: the back arrow sits
-   top-left, page navigation top-right, and the five controls bottom-right, in
+   top-left, page navigation top-right, and the control chips bottom-right, in
    the same places a child already found them in the first book.
    ========================================================================== */
 
@@ -204,7 +204,6 @@ html,body{touch-action:manipulation}
 .ctrl:hover{background:#285b87}
 .ctrl[aria-pressed=true]{background:#2b6f96}
 .ctrl[hidden]{display:none}
-body.display-calm .story,body.display-calm .question,body.display-calm .feature{opacity:.18}
 
 /* ---------- drawers : the optional deeper layer ----------------------------- */
 .drawer{position:absolute;z-index:70;inset:auto 3% 3%;max-height:74%;overflow:auto;

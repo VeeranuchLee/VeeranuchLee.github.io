@@ -1,0 +1,72 @@
+# What of starlight-storybook/ would go public, and what would not.
+#
+# NOT ENABLED. There is no entry for this app in release/registry.json, no service
+# worker, no deployment repository and no hub card. This file records the intended
+# shape so that when the owner decides to publish it, the decision is about
+# publishing and not about working out what ships. `scripts/ship-list.py` reads it;
+# `scripts/preflight.sh` runs it on every commit, which is why it exists now rather
+# than later.
+#
+# Unlike Book 1, this book's twenty pages load two shared files, so `app/` ships.
+# Book 1 keeps `app/` private because its pages never load it.
+#
+# `index.html` is the cover and is part of the book, so it ships from here rather
+# than being written in the public repository the way Book 1's is.
+
+[ship]
+index.html
+# Zoom fix C: every page above loads it before app/starlight.js, so without this line a
+# published copy would ask for a file the deploy never carried. One root copy serves all
+# twenty pages and the cover -- they are all published in this directory, so this is not
+# the animal-book sibling-copy case.
+tap-zoom-guard.js
+page-01.html
+page-02.html
+page-03.html
+page-04.html
+page-05.html
+page-06.html
+page-07.html
+page-08.html
+page-09.html
+page-10.html
+page-11.html
+page-12.html
+page-13.html
+page-14.html
+page-15.html
+page-16.html
+page-17.html
+page-18.html
+page-19.html
+page-20.html
+app/starlight.css
+app/starlight.js
+app/motion.js
+app/page-*.js
+app/slice-one.css
+app/slice-one-data.js
+app/slice-one.js
+narration/map.json
+narration/lines.json
+narration/clips/**
+assets-runtime/standard/**
+assets-runtime/provenance.json
+
+[private]
+# Controller QA evidence (before/after sheets).
+qa/**
+qa/**/*.md
+# The brief, the page spec, the art plan and the discussion trail.
+*.md
+work_progress_and_other_discussion.md
+# Look-development and provenance for owner review; not integrated or approved app art.
+mockups/**
+# Markdown is deliberately never covered by a broad wildcard in ship-list.py.
+mockups/README.md
+mockups/FACTS.md
+mockups/SMALL-BOX-PLAN.md
+# The self-check harness and the maths checks are for us, not for readers.
+qc/**
+tools/**
+narration/rendered/**

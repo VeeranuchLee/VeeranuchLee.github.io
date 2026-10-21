@@ -12,5 +12,28 @@
     "underPlate": "PASS — generated starfield replacement, normalized to the same 720x600 crop and visually reviewed without the removed star.",
     "pages": [3]
   },
-  "motion": "Four-frame Page 3 crop cycle at 460 ms. Frame 1 is the untouched approved crop. The helper holds frame 1 in Calm/prefers-reduced-motion mode and pauses the cycle when the document is hidden. Pages 2, 4, and 5 are static under the superseding animation direction."
+  "motion": "Four-frame Page 3 crop cycle at 460 ms. Frame 1 is the untouched approved crop. The helper holds frame 1 in Calm/prefers-reduced-motion mode and pauses the cycle when the document is hidden. Pages 2, 4, and 5 are static under the superseding animation direction.",
+  "ariConsistency20261016": {
+    "tool": "Codex built-in image generation/editing",
+    "useCase": "identity-preserve",
+    "identityReferences": [
+      "solar-storybook/assets-runtime/standard/page-01/ari-base.webp",
+      "solar-storybook/assets-runtime/standard/page-01/ari-room-rest-v1.webp",
+      "solar-storybook/assets-runtime/standard/page-02/ari-watch.webp",
+      "solar-storybook/assets-runtime/standard/page-03/ari-dot-bubble-rest.webp",
+      "solar-storybook/assets-runtime/standard/page-04/ari-dot-mercury-rest.webp",
+      "solar-storybook/assets-runtime/standard/page-07/ari-moon-ready-v1.webp",
+      "solar-storybook/assets-runtime/standard/page-08/ari-mars-observe-v1.webp",
+      "solar-storybook/assets-runtime/standard/page-19/ari-dot-pluto-high-five-v1.webp"
+    ],
+    "promptSummary": "Use the current Book 2 page as the exact composition reference and Book 1 Ari/Dot art as identity references. Change only Ari and off-model Dot; preserve scene, pose intent, all teaching content, and all other characters. Lock Ari's face, hair, skin tone, eye style, apparent age, proportions and Book 1 outfit palette; lock Dot's face screen, cyan features and compact white-and-silver proportions. Preserve correct hands with five fingers and handedness.",
+    "review": {
+      "page07": "PASS — both back-facing Ari figures retain the exact thumbs-up pose and handedness; dark tousled hair and blue/gold star clothing now match Book 1; no face is visible to inspect.",
+      "page09": "PASS — Ari's profile now has the canonical warm skin, round young face, dark eye, tousled dark hair and blue/gold star clothing; the girl and all lesson art remain unchanged; no hands are visible.",
+      "page12": "PASS — Ari and Dot match Book 1 astronaut/robot identity, face and proportions; Ari's open hand has five fingers and the other gloved hand remains anatomically plausible with correct handedness.",
+      "page17": "PASS — Ari's face, hair, age and pajamas and Dot's compact robot design match Book 1; Ari's shielding hand and both characters' resting hands retain correct anatomy and handedness."
+    },
+    "method": "Each generated full-page candidate was resized to the approved 1448x1086 plate, then only the local character region was feather-composited over the untouched original so non-character composition remains authoritative.",
+    "qa": "qa/2026-10-16-ari-consistency/REPORT.md"
+  }
 }

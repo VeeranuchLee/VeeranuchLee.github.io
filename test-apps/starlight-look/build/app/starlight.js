@@ -87,38 +87,104 @@
   var narrationTried = false;
   var missing = [];
   var current = null;
+  var chain = null;              // the queued line sequence playing now, if any
 
   function loadNarration() {
     if (narrationTried) return Promise.resolve(narration);
     narrationTried = true;
-    return fetch("narration/map.json", { cache: "no-cache" })
+    /* Plain caching, never no-cache: boot() warms this map before the first
+       gesture, and a forced revalidation round-trip can outlast iOS's user
+       activation, putting a cold page's first play() back outside the tap. */
+    return fetch("narration/map.json")
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (j) { narration = j; return j; })
       .catch(function () { narration = null; return null; });
   }
 
-  function say(text, who) {
-    if (!text) return;
+  /* The element the child tapped to hear a line carries .reading for exactly
+     as long as its clip plays -- Book 1 Page 1's story-overlay highlight, on
+     every line a child can now tap (owner, 2026-10-21: "pls check the voice. i
+     want to hear the voice read if tap on the text."). The state follows the
+     audio, not a timer: it clears on ended/error, and any later say() clears
+     it, because a new tap cancels the previous clip (BUILD-PLAN's audio
+     contract) and a second tap on the same words restarts them. */
+  var readingEl = null;
+  function setReading(el) {
+    if (readingEl && readingEl !== el) readingEl.classList.remove("reading");
+    readingEl = el || null;
+    if (el) el.classList.add("reading");
+  }
+
+  /* onEnd (internal; sayQueue passes it) fires exactly once however the line
+     ends -- played out, failed to load, blocked from autoplay, or sound off --
+     so a queued ask never stalls on a clip that cannot play. onStart
+     (internal) fires only when the clip is genuinely audible, which is how the
+     page-open ask counts itself heard without swallowing the ask for a child
+     whose browser blocked the untouched autoplay. */
+  function say(text, who, sourceEl, onEnd, onStart) {
+    if (!text) { if (onEnd) onEnd(); return; }
     status(text, who);
-    if (!store.sound) return;
-    loadNarration().then(function (map) {
+    setReading(null);
+    if (!onEnd) chain = null;   // a fresh tap-say cancels any queued ask
+    if (!store.sound) { if (onEnd) onEnd(); return; }
+    var play = function (map) {
       var file = map && ((map[String(page)] && map[String(page)][text]) || (map.shared && map.shared[text]));
       if (!file) {
         if (missing.indexOf(text) < 0) missing.push(text);
-        return;                        // silent, and honestly so
+        if (onEnd) onEnd();               // silent, and honestly so
+        return;
       }
       try {
         if (current) { current.pause(); current.currentTime = 0; }
         current = new Audio("narration/" + file);
-        current.play().catch(function () {});
-      } catch (e) {}
-    });
+        var done = false;
+        var finish = function () {
+          if (done) return;
+          done = true;
+          setReading(null);
+          if (onEnd) onEnd();
+        };
+        if (sourceEl) setReading(sourceEl);
+        current.addEventListener("ended", finish);
+        current.addEventListener("error", finish);
+        current.play().then(function () { if (onStart) onStart(); }, finish);
+      } catch (e) { finish(); }
+    };
+    /* iOS honours play() only while the tap's user activation lasts, so a warm
+       map plays right here, synchronously inside the gesture; only a
+       still-cold map waits on the promise. */
+    if (narration) play(narration);
+    else loadNarration().then(play);
+  }
+
+  /* A question is asked in lines -- Dot's lead-in, then the narrator's prompt,
+     then whatever the child's tap earned -- and one gesture pays for the whole
+     sequence: each line starts when the previous clip ends, a line with no
+     clip yet steps straight through (its text still prints, never an error),
+     and any new tap cancels the rest, exactly as a second tap on a single
+     clip always has. An item may carry onStart, fired if that line truly
+     plays. */
+  function sayQueue(items) {
+    var run = { items: items, i: 0 };
+    chain = run;
+    (function next() {
+      if (chain !== run) return;
+      var it = run.items[run.i++];
+      if (!it) { if (chain === run) chain = null; return; }
+      say(it.text, it.who || "", it.sourceEl || null, function () {
+        if (chain === run) next();
+      }, it.onStart || null);
+    })();
   }
 
   /* ---------- the spoken line, printed ------------------------------------- */
   var statusEl = null;
   var statusTimer = 0;
   function status(text, who) {
+    /* Looked up lazily: this runtime boots before the page script appends the
+       slice status bar, and the promise that an unrecorded line is printed and
+       stays silent must not depend on script order. */
+    if (!statusEl) statusEl = document.querySelector(".status,.slice-status");
     if (!statusEl) return;
     statusEl.innerHTML = "";
     if (who) {
@@ -186,7 +252,9 @@
       if (!nav.contains(e.target)) form.hidden = true;
     });
 
-    /* Book 1's four child-facing control chips, in the same order and place. */
+    /* Book 1's child-facing control chips, in the same order and place. The
+       Display chip Book 1 never had is gone (owner, 2026-10-21: "no need for
+       the display button."). */
     var row = document.createElement("div");
     row.className = "page-controls";
     row.innerHTML =
@@ -194,7 +262,6 @@
         (store.sound ? "Sound on" : "Sound off") + '</button>' +
       '<button class="ctrl" id="cCalm" type="button" aria-pressed="' + calm + '" ' +
         'title="Reduced motion">' + (calm ? "Full motion" : "Calm mode") + '</button>' +
-      '<button class="ctrl" id="cDisplay" type="button" aria-pressed="false">Display</button>' +
       '<button class="ctrl" id="cFull" type="button" hidden>Full screen</button>';
     stage.appendChild(row);
 
@@ -203,7 +270,11 @@
       store.sound = !store.sound;
       bSound.setAttribute("aria-pressed", String(store.sound));
       bSound.textContent = store.sound ? "Sound on" : "Sound off";
-      if (!store.sound && current) { current.pause(); }
+      /* Sound-off mid-queue kills the chain too, with say()'s sound-off early
+         return's own semantics: a paused clip never fires "ended", so the
+         queue's remaining lines would otherwise never come, even after Sound
+         is re-enabled. */
+      if (!store.sound) { chain = null; if (current) { current.pause(); setReading(null); } }
       if (store.sound) sfx.tap();
     });
 
@@ -214,11 +285,6 @@
       bCalm.textContent = calm ? "Full motion" : "Calm mode";
       applyCalm();
       API.emit("calm", calm);
-    });
-
-    row.querySelector("#cDisplay").addEventListener("click", function (e) {
-      var on = document.body.classList.toggle("display-calm");
-      e.currentTarget.setAttribute("aria-pressed", String(on));
     });
 
     // A control that cannot work hides itself rather than offering a dead button.
@@ -310,7 +376,19 @@
       var t = e.target.closest && e.target.closest("[data-say]");
       if (!t) return;
       sfx.tap();
-      say(t.dataset.say, t.dataset.who || "");
+      say(t.dataset.say, t.dataset.who || "", t);
+    });
+    /* Tappable text is not always a button (the story paragraph, the question,
+       the cover title). Enter and Space must read those too; real buttons and
+       links already get the browser's own key-to-click translation, so they are
+       skipped here to avoid speaking twice. */
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      var t = e.target.closest && e.target.closest("[data-say]");
+      if (!t || /^(BUTTON|A|INPUT|SELECT|TEXTAREA)$/.test(t.tagName)) return;
+      e.preventDefault();
+      sfx.tap();
+      say(t.dataset.say, t.dataset.who || "", t);
     });
   }
 
@@ -320,6 +398,7 @@
     page: page,
     sfx: sfx,
     say: say,
+    sayQueue: sayQueue,
     status: status,
     get calm() { return calm; },
     get sound() { return store.sound; },
@@ -338,7 +417,7 @@
   function boot() {
     var stage = document.querySelector(".stage");
     if (!stage) return;
-    statusEl = document.querySelector(".status");
+    loadNarration();   // warm the map before any gesture: the first tapped line plays inside the tap
     applyCalm();
     buildChrome(stage);
     wireArt();
