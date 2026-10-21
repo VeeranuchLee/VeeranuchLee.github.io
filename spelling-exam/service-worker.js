@@ -9,7 +9,7 @@
 //        file without the bump caches nothing, and index.html is precached, so an
 //        offline install would otherwise have a page that asks for a guard the cache
 //        never got. v16 was itself never published, so this rides an unpublished bump.
-const CACHE_NAME='spelling-exam-v18';
+const CACHE_NAME='spelling-exam-v19';
 /* handwriting/ is the Writing Book's stroke engine, ported by tools/port-handwriting.js.
    It is precached rather than left to the runtime cache because Write Words is the one
    screen that cannot degrade: without the engine the writing area is a blank rectangle.
