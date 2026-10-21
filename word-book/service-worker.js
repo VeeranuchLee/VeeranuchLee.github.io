@@ -106,7 +106,7 @@
    v17 -> v18, 2026-10-17: the owner chose the calm Alice spelling-letter takes for E,
    G, O and Z; the other 22 letter clips stay unchanged. A worker bump arms the release;
    publishing needs the owner's SHA-bound approval. */
-const CACHE_NAME='word-book-v19';
+const CACHE_NAME='word-book-v20';
 const SHELL=['./','./index.html',
   "./audio-wake.js",'./dictionary.html','./fonts.css',
   './fonts/Nunito-latin.woff2','./fonts/Nunito-latin-ext.woff2','./fonts/FredokaOne-latin.woff2',
