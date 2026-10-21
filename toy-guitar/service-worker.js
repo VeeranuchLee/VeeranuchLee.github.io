@@ -1,4 +1,4 @@
-const CACHE_NAME = "toy-guitar-v2";
+const CACHE_NAME = "toy-guitar-v3";
 
 const SHELL = [
   "./", "./index.html", "./styles.css", "./fonts.css", "./app.js", "./tap-zoom-guard.js", "./js/audio-wake.js", "./manifest.webmanifest",
