@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="audio-wake.js?v=8177c6ea0-20261021230035"></script>
+<script src="audio-wake.js?v=18e0d9f4a-20261021234842"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>Enchanted Spelling Workshop</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=8177c6ea0-20261021230035"/>
-  <link rel="stylesheet" href="./fonts.css?v=8177c6ea0-20261021230035"/>
-  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=8177c6ea0-20261021230035"/>
+  <link rel="manifest" href="./manifest.webmanifest?v=18e0d9f4a-20261021234842"/>
+  <link rel="stylesheet" href="./fonts.css?v=18e0d9f4a-20261021234842"/>
+  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=18e0d9f4a-20261021234842"/>
   <meta name="theme-color" content="#0a0e2d"/>
-  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=8177c6ea0-20261021230035"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=18e0d9f4a-20261021234842"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Magic Spelling"/>
-  <script src="./vendor/react-18.3.1.production.min.js?v=8177c6ea0-20261021230035"></script>
-  <script src="./vendor/react-dom-18.3.1.production.min.js?v=8177c6ea0-20261021230035"></script>
-  <script src="./shared/bg-deco/bg-deco.js?v=8177c6ea0-20261021230035"></script>
-  <script src="./js/tap-zoom-guard.js?v=8177c6ea0-20261021230035"></script>
-  <script src="./vendor/babel-7.26.4.min.js?v=8177c6ea0-20261021230035"></script>
+  <script src="./vendor/react-18.3.1.production.min.js?v=18e0d9f4a-20261021234842"></script>
+  <script src="./vendor/react-dom-18.3.1.production.min.js?v=18e0d9f4a-20261021234842"></script>
+  <script src="./shared/bg-deco/bg-deco.js?v=18e0d9f4a-20261021234842"></script>
+  <script src="./js/tap-zoom-guard.js?v=18e0d9f4a-20261021234842"></script>
+  <script src="./vendor/babel-7.26.4.min.js?v=18e0d9f4a-20261021234842"></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;touch-action:manipulation}
     body{font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden;background:#fce4ec}
@@ -222,7 +222,7 @@
     .shelf-head{position:absolute;top:66px;left:50%;z-index:4;transform:translateX(-50%);font-family:'Fredoka One';color:var(--cream);text-shadow:0 2px 8px var(--ink);font-size:clamp(1.15rem,3vw,1.75rem);white-space:nowrap;background:rgba(43,22,38,.94);border:2px solid var(--gold);border-radius:999px;padding:5px 20px;box-shadow:0 4px 0 #1c0d19}
     .shelf-wrap{position:absolute;top:15%;left:50%;transform:translateX(-50%);width:min(88vw,900px);height:57%;display:flex;align-items:center;gap:6px}.pack-grid{grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:0;max-width:none;min-height:0;height:100%;flex:1}
     .pack-card{position:relative;justify-self:center;align-self:center;width:72%;height:66%;min-height:76px;border:3px solid #d5a72d;border-radius:12px 20px 20px 12px;padding:5px 4px;background:linear-gradient(90deg,#35162f 0 9%,#6d28a9 10% 86%,#3b1663);box-shadow:inset 0 0 0 3px rgba(255,213,79,.15),0 5px 0 #24101f;color:#fff}
-    .pack-card.current{transform:translateY(-5px);filter:drop-shadow(0 0 10px var(--gold))}.pack-card.current::after{content:'';position:absolute;top:-3px;right:12px;width:16px;height:31px;background:#7c3aed;clip-path:polygon(0 0,100% 0,100% 75%,50% 100%,0 75%)}.pack-card.complete::before{content:'✓';position:absolute;top:5px;left:8px;color:var(--gold);font-weight:900}
+    .pack-card.current{transform:translateY(-5px);filter:drop-shadow(0 0 10px var(--gold))}.pack-card.current::after{content:'';position:absolute;top:-3px;right:12px;width:16px;height:31px;background:#7c3aed;clip-path:polygon(0 0,100% 0,100% 75%,50% 100%,0 75%)}
     .pack-num{font-size:clamp(1.35rem,4vw,2rem)}.pack-word{color:#f9eec8}.pack-fraction{font-size:.7rem;font-weight:900}.pack-status{font-size:.62rem;font-weight:900;text-transform:uppercase;letter-spacing:.04em}.pack-stars{font-size:1rem}
     .page-btn{flex:0 0 54px;width:54px;height:66px;border-radius:18px;border:2px solid var(--gold);background:rgba(43,22,38,.94);color:var(--gold);font-size:2rem;font-weight:900}.page-btn:disabled{opacity:.35}.page-row{position:absolute;bottom:12px;left:14px;display:flex;gap:2px;align-items:center;justify-content:center}.page-dot{width:44px;height:44px;border:0;background:transparent;position:relative}.page-dot::after{content:'';position:absolute;width:18px;height:18px;border-radius:50%;border:2px solid var(--gold);background:rgba(43,22,38,.8);inset:13px}.page-dot.active::after{background:var(--gold)}
     .shelf-screen>.continue-btn{position:absolute;right:18px;bottom:14px;z-index:4}
@@ -241,7 +241,7 @@
     .slot.filled,.slot-row.long .slot.filled{background:linear-gradient(145deg,#fff9e5,#e8c87b);border-color:#b27a23;box-shadow:inset 0 2px 4px rgba(116,71,22,.18),0 2px 3px rgba(77,39,14,.18)}
     .tile-tray{box-sizing:border-box;position:absolute;left:var(--tray-left);top:var(--tray-top);display:flex;align-items:center;justify-content:center;width:var(--tray-width);min-height:0;padding:clamp(9px,1.5vh,18px) clamp(8px,1.8vw,24px);border:4px solid #9a6429;border-radius:18px 18px 28px 28px;background:linear-gradient(180deg,rgba(176,118,52,.98) 0,rgba(128,78,34,.98) 14%,rgba(112,66,28,.98) 86%,rgba(150,98,44,.98));box-shadow:inset 0 0 0 3px #e3b85d,inset 0 7px 10px rgba(35,13,31,.55),0 9px 0 #4f2b18,0 13px 18px rgba(32,14,11,.38)}
     .tile-row{max-width:100%}.tile,.tile-row.dense .tile{min-width:44px;min-height:48px;background:linear-gradient(145deg,#fffdf0 0%,#eee0bd 58%,#caa75d 100%)!important;color:#32231c!important;border:2px solid #b47b24;border-radius:10px;box-shadow:inset 2px 2px 2px rgba(255,255,255,.95),inset -3px -3px 4px rgba(115,73,22,.24),0 5px 0 #76501e,0 8px 8px rgba(28,12,9,.42)!important;text-shadow:0 1px 0 #fff;font-family:'Fredoka One','Nunito',sans-serif}.tile:active{transform:translateY(4px) scale(.97);box-shadow:inset 2px 2px 3px rgba(118,78,28,.2),0 1px 0 #76501e!important}.tile.used{opacity:.24;transform:scale(.9)}
-    .praise-banner{position:absolute;left:var(--paper-left);top:var(--praise-top);width:var(--paper-width);color:#4a2340;text-shadow:0 1px 0 #fff2c8;min-height:1.45em;font-size:clamp(.85rem,2.6vw,1.3rem)}.score-row{background:rgba(43,22,38,.94);border-top:2px solid rgba(255,213,79,.6)}.score-badge,.flower-garden{background:#fff5d6;border-color:#b6842b;color:var(--plum)}.flower-slot{font-size:0}.flower-slot::before{content:'✿';font-size:18px;color:#7c3aed}.flower-slot.empty::before{color:#8b806f}.mascot-corner{display:none}
+    .praise-banner{position:absolute;left:var(--paper-left);top:var(--praise-top);width:var(--paper-width);color:#4a2340;text-shadow:0 1px 0 #fff2c8;min-height:1.45em;font-size:clamp(.85rem,2.6vw,1.3rem)}.score-row{background:rgba(43,22,38,.94);border-top:2px solid rgba(255,213,79,.6)}.score-badge,.flower-garden{background:#fff5d6;border-color:#b6842b;color:var(--plum)}.flower-slot{font-size:0}.flower-slot .icon-svg{width:18px;height:18px;color:#7c3aed}.mascot-corner{display:none}
     .complete-panel{width:min(88vw,760px);margin:auto;padding:18px;background:rgba(43,22,38,.9);border:3px solid var(--gold);border-radius:28px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}.complete-panel .book-mascot{width:clamp(100px,16vw,150px);height:clamp(92px,14vw,132px)}.complete-title{color:var(--gold)}.complete-sub{color:var(--cream)}.complete-overlay{position:static;background:none;backdrop-filter:none;padding:0}.complete-stars{font-size:clamp(48px,12vw,78px)}.big-btn{min-height:52px;background:linear-gradient(#8b5cf6,#5b21b6);box-shadow:0 5px 0 #35106d;border:2px solid var(--gold)}.big-btn.alt{background:rgba(58,30,51,.95);box-shadow:0 5px 0 #1c0d19}
     @media (orientation:portrait){.workshop-screen{background-image:linear-gradient(rgba(43,22,38,.12),rgba(43,22,38,.2)),url('assets-runtime/spelling/workshop/grade-room-portrait.webp')}.shelf-screen{background-image:linear-gradient(rgba(43,22,38,.12),rgba(43,22,38,.18)),url('assets-runtime/spelling/workshop/pack-shelf-portrait.webp')}.desk-screen{background-image:url('assets-runtime/spelling/workshop/desk-portrait.webp')}.complete-screen{background-image:url('assets-runtime/spelling/workshop/complete-portrait.webp')}.station-grid{grid-template-columns:repeat(3,minmax(0,1fr));width:min(94vw,720px);gap:8px;margin:auto 0 8px}.station-card{min-height:116px;padding:10px 7px;align-items:center}.station-name{font-size:clamp(.9rem,2.5vw,1.15rem)}.station-progress{font-size:clamp(.65rem,1.8vw,.78rem)}.workshop-title{margin-top:58px}.shelf-wrap{top:14%;width:min(82vw,680px);height:59%}.pack-card{width:68%;height:68%}.shelf-screen .top-bar .bar-label,.shelf-head{top:70px}.shelf-screen>.continue-btn{right:50%;transform:translateX(50%);bottom:18px}.page-row{left:50%;transform:translateX(-50%);bottom:76px}.complete-panel{margin-top:16vh}}
     @media (max-height:520px) and (orientation:landscape){
@@ -594,8 +594,7 @@ function nextWord(s,rng){
 function BgDeco(){
   const target=useRef(null);
   useBgDecoEffect(()=>initBgDeco(target.current,{
-    icons:['✨','🌸','💖','✨','👑','✨','🌸','🦋','✨','💜','🌷','✨','🦄','🌸','✨','💖','🌺','✨','🎀','✨'],
-    glow:'rgba(255,190,220,.6)',count:20,type:'text',topMax:88,sizeMax:32
+    icons:[],glow:'rgba(255,190,220,.6)',count:0,type:'text',topMax:88,sizeMax:32
   }),[]);
   return <div ref={target}/>;
 }
@@ -626,7 +625,7 @@ function FlowerGarden({flowers}){
     <div className="flower-garden" aria-label={`${flowers} of 10 flowers collected`}>
       {Array.from({length:10},(_,i)=>(
         <span key={i} className={`flower-slot ${i<flowers?'filled':'empty'}`}>
-          {i<flowers?['🌸','🌼','🌷','🌺','💖'][i%5]:'·'}
+          {i<flowers?<FlowerIcon/>:null}
         </span>))}
     </div>
   );
@@ -661,6 +660,7 @@ function useFlowerReward(setFlowers,setGardenFull,addBouquet){
    own pink without a second asset. Same two icons Space Math already uses. */
 function SpeakerOnIcon(){return(<svg className="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor" stroke="none"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 6a9 9 0 0 1 0 12"/></svg>);}
 function SpeakerOffIcon(){return(<svg className="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor" stroke="none"/><line x1="16" y1="9" x2="22" y2="15"/><line x1="22" y1="9" x2="16" y2="15"/></svg>);}
+function FlowerIcon(){return(<svg className="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><circle cx="12" cy="6.5" r="3.5"/><circle cx="7.5" cy="11" r="3.5"/><circle cx="16.5" cy="11" r="3.5"/><circle cx="12" cy="15.5" r="3.5"/><circle cx="12" cy="11" r="2" fill="currentColor" stroke="none"/></svg>);}
 
 /* The owner-selected purple book belongs to this workshop only. Other Magic Math games
    retain their robots. Each state uses a cut from the supplied pose sheet, never a CSS
@@ -711,7 +711,7 @@ function TopBar({onBack,label,muted,onToggleMute}){
   return(
     <div className="top-bar">
       <div style={{display:'flex',alignItems:'center',gap:6}}>
-        <span aria-hidden="true" style={{fontSize:26,lineHeight:1}}>🌸</span>
+        <span aria-hidden="true" style={{width:26,height:26,lineHeight:1}}><FlowerIcon/></span>
         <button className="round-btn" aria-label="Back" onClick={()=>{Sound.tap();onBack();}}>←</button>
       </div>
       {label&&<div className="bar-label">{label}</div>}

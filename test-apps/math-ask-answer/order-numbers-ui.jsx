@@ -176,7 +176,7 @@ function OrderNumberBox({index,card,wrong,hint,last}){
       <div className={cls} data-on-box-index={index} role="listitem"
         aria-label={card?`Box ${index+1}: ${orderNumberText(card)} locked`:'Empty answer box'}>
         {card
-          ? <><OrderNumberValue value={card.value} form={card.display}/><span className="on-check" aria-hidden="true">✓</span></>
+          ? <><OrderNumberValue value={card.value} form={card.display}/><span className="on-check" aria-hidden="true"><CheckIcon/></span></>
           : <span className="on-placeholder" aria-hidden="true">?</span>}
       </div>
       {!last&&<span className="on-sep" aria-hidden="true">&lt;</span>}
