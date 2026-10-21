@@ -35,7 +35,7 @@
 
    Navigations carry a query (?book=space-trip, ?from=wordbook), so they are matched with
    ignoreSearch; data and audio requests are matched exactly. */
-const CACHE_NAME = 'reading-v17';
+const CACHE_NAME = 'reading-v18';
 const CACHE_PREFIX = 'reading-v';
 const SHELL = [
   './',
@@ -1680,11 +1680,41 @@ self.addEventListener('activate', event => event.waitUntil(
   caches.keys().then(keys => Promise.all(keys
     .filter(key => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME)
     .map(key => caches.delete(key)))).then(() => self.clients.claim())));
+/* Owner 2026-10-20: "sometimes i press i got read word by word when it should play the
+   sentence clip". Safari on iPad asks for audio with a Range header; answering from the
+   cache with the WHOLE file (status 200) makes it refuse to play, the page clip stalls,
+   and after STALL_MS the reader falls back to word by word -- but only once the clip is
+   cached, which is why it was "sometimes". Answer a ranged request for a cached file with
+   a real 206 slice, so cached (and offline) narration plays. */
+function rangeFrom(cached, header) {
+  return cached.arrayBuffer().then(buf => {
+    const size = buf.byteLength;
+    const m = /bytes=(\d*)-(\d*)/.exec(header || '');
+    if (!m) return new Response(buf, { status: 200, headers: cached.headers });
+    let start, end;
+    if (m[1] === '' && m[2] !== '') { start = Math.max(0, size - Number(m[2])); end = size - 1; }
+    else { start = Number(m[1] || 0); end = m[2] === '' ? size - 1 : Math.min(Number(m[2]), size - 1); }
+    if (start >= size || start > end) {
+      return new Response(null, { status: 416, headers: { 'Content-Range': 'bytes */' + size } });
+    }
+    return new Response(buf.slice(start, end + 1), {
+      status: 206,
+      headers: {
+        'Content-Type': cached.headers.get('Content-Type') || 'audio/mp4',
+        'Content-Range': 'bytes ' + start + '-' + end + '/' + size,
+        'Content-Length': String(end - start + 1),
+        'Accept-Ranges': 'bytes'
+      }
+    });
+  });
+}
+
 self.addEventListener('fetch', event => {
   const req = event.request;
   if (req.method !== 'GET' || new URL(req.url).origin !== self.location.origin) return;
   event.respondWith(
     caches.open(CACHE_NAME).then(cache => cache.match(req, { ignoreSearch: req.mode === 'navigate' }))
+      .then(hit => (hit && req.headers.has('range')) ? rangeFrom(hit, req.headers.get('range')) : hit)
       .then(hit => hit || fetch(req).then(response => {
         if (response && response.status === 200 && response.type === 'basic') {
           const copy = response.clone();
