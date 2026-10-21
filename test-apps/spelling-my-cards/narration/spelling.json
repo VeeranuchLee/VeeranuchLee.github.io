@@ -1,0 +1,6176 @@
+{
+  "app": "math-app",
+  "mode": "Magic Spelling",
+  "generatedBy": "tools/build-spelling-manifest.py",
+  "doNotHandEdit": "Change the word list in spelling/ or the line in the page, then re-run the generator.",
+  "skins": null,
+  "why": "The whole game in one bounded set: every word the child can be asked to spell, spoken by the ABC robot with a real voice instead of the device's adult speechSynthesis (owner decision, 2026-08-29, closing the open item of 2026-08-27). Words that sound identical to another word in the universe carry a spoken context line so the child knows WHICH spelling is asked; the line is never shown as text. Homophones aside, every word is spoken bare, exactly as a teacher dictates.",
+  "format": {
+    "container": "m4a",
+    "codec": "aac",
+    "channels": 1,
+    "sampleRateHz": 24000,
+    "targetPeakDbfs": -3.0,
+    "why": "matches the times-tables set exactly -- one voice across the app, and isolated words need the final-consonant detail even more than numbers do"
+  },
+  "provenance": {
+    "REQUIRED_BEFORE_SHIPPING": "AUDIO-DIRECTION.md: tool, model, date and the prompt or voice. Filled at render time. A file that arrives without them cannot be published.",
+    "tool": "ElevenLabs Voice Design",
+    "model": "mixed",
+    "voiceId": "syTCOMrIG987VoS0EmlL",
+    "voiceName": "Magic Math Narrator",
+    "voiceNote": "The same voice as the maths apps, deliberately: it is one app family, and a second voice would be audible the moment a child moved between games.",
+    "renderedOn": "2026-09-29",
+    "termsCheckedForPublicRedistribution": true,
+    "models": [
+      "eleven_multilingual_v2",
+      "eleven_turbo_v2"
+    ],
+    "newRenderDefaultModel": "eleven_v4"
+  },
+  "counts": {
+    "clips": 739,
+    "characters": 3791
+  },
+  "lines": [
+    {
+      "id": "sp-w-a",
+      "text": "a",
+      "role": "narrator",
+      "note": "G1-01, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-all",
+      "text": "all",
+      "role": "narrator",
+      "note": "G1-01, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-am",
+      "text": "am",
+      "role": "narrator",
+      "note": "G1-01, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-and",
+      "text": "and",
+      "role": "narrator",
+      "note": "G1-01, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-at",
+      "text": "at",
+      "role": "narrator",
+      "note": "G1-01, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-be",
+      "text": "be",
+      "role": "narrator",
+      "note": "G1-01, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-big",
+      "text": "big",
+      "role": "narrator",
+      "note": "G1-01, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-book",
+      "text": "book",
+      "role": "narrator",
+      "note": "G1-01, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-boy",
+      "text": "boy",
+      "role": "narrator",
+      "note": "G1-01, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-but",
+      "text": "but",
+      "role": "narrator",
+      "note": "G1-01, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-called",
+      "text": "called",
+      "role": "narrator",
+      "note": "G1-01, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-came",
+      "text": "came",
+      "role": "narrator",
+      "note": "G1-01, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-can",
+      "text": "can",
+      "role": "narrator",
+      "note": "G1-02, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-car",
+      "text": "car",
+      "role": "narrator",
+      "note": "G1-02, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-come",
+      "text": "come",
+      "role": "narrator",
+      "note": "G1-02, grade 1 -- request context added after 2026-09-28 ear check",
+      "previous_text": "The next word is",
+      "next_text": "Now spell it.",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-day",
+      "text": "day",
+      "role": "narrator",
+      "note": "G1-02, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-did",
+      "text": "did",
+      "role": "narrator",
+      "note": "G1-02, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-do",
+      "text": "do",
+      "role": "narrator",
+      "note": "G1-02, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-for",
+      "text": "for. This gift is for you.",
+      "role": "narrator",
+      "note": "G1-02, grade 1 -- spoken with a context line (sounds like another word)",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-get",
+      "text": "get",
+      "role": "narrator",
+      "note": "G1-02, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-go",
+      "text": "go",
+      "role": "narrator",
+      "note": "G1-02, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-good",
+      "text": "good",
+      "role": "narrator",
+      "note": "G1-02, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-got",
+      "text": "got",
+      "role": "narrator",
+      "note": "G1-02, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-had",
+      "text": "had",
+      "role": "narrator",
+      "note": "G1-02, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-he",
+      "text": "he",
+      "role": "narrator",
+      "note": "G1-03, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-her",
+      "text": "her",
+      "role": "narrator",
+      "note": "G1-03, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-here",
+      "text": "here",
+      "role": "narrator",
+      "note": "G1-03, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-him",
+      "text": "him",
+      "role": "narrator",
+      "note": "G1-03, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-his",
+      "text": "his",
+      "role": "narrator",
+      "note": "G1-03, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-home",
+      "text": "home",
+      "role": "narrator",
+      "note": "G1-03, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-i",
+      "text": "I",
+      "role": "narrator",
+      "note": "G1-03, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-if",
+      "text": "if",
+      "role": "narrator",
+      "note": "G1-03, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-in",
+      "text": "in",
+      "role": "narrator",
+      "note": "G1-03, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-into",
+      "text": "into",
+      "role": "narrator",
+      "note": "G1-03, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-is",
+      "text": "is",
+      "role": "narrator",
+      "note": "G1-03, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-it",
+      "text": "it",
+      "role": "narrator",
+      "note": "G1-03, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-its",
+      "text": "its",
+      "role": "narrator",
+      "note": "G1-04, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-let",
+      "text": "let",
+      "role": "narrator",
+      "note": "G1-04, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-like",
+      "text": "like",
+      "role": "narrator",
+      "note": "G1-04, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-look",
+      "text": "look",
+      "role": "narrator",
+      "note": "G1-04, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-man",
+      "text": "man",
+      "role": "narrator",
+      "note": "G1-04, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-may",
+      "text": "may",
+      "role": "narrator",
+      "note": "G1-04, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-me",
+      "text": "me",
+      "role": "narrator",
+      "note": "G1-04, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-my",
+      "text": "my",
+      "role": "narrator",
+      "note": "G1-04, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-no",
+      "text": "no. No more cookies.",
+      "role": "narrator",
+      "note": "G1-04, grade 1 -- spoken with a context line (sounds like another word)",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-not",
+      "text": "not",
+      "role": "narrator",
+      "note": "G1-04, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-of",
+      "text": "of",
+      "role": "narrator",
+      "note": "G1-04, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-old",
+      "text": "old",
+      "role": "narrator",
+      "note": "G1-04, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-on",
+      "text": "on",
+      "role": "narrator",
+      "note": "G1-05, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-one",
+      "text": "one. I have one nose.",
+      "role": "narrator",
+      "note": "G1-05, grade 1 -- spoken with a context line (sounds like another word)",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-out",
+      "text": "out",
+      "role": "narrator",
+      "note": "G1-05, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-play",
+      "text": "play",
+      "role": "narrator",
+      "note": "G1-05, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-run",
+      "text": "run",
+      "role": "narrator",
+      "note": "G1-05, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-see",
+      "text": "see",
+      "role": "narrator",
+      "note": "G1-05, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-she",
+      "text": "she",
+      "role": "narrator",
+      "note": "G1-05, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-so",
+      "text": "so",
+      "role": "narrator",
+      "note": "G1-05, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-stop",
+      "text": "stop",
+      "role": "narrator",
+      "note": "G1-05, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-the",
+      "text": "the",
+      "role": "narrator",
+      "note": "G1-05, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-this",
+      "text": "this",
+      "role": "narrator",
+      "note": "G1-05, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-to",
+      "text": "to. We go to school.",
+      "role": "narrator",
+      "note": "G1-05, grade 1 -- spoken with a context line (sounds like another word)",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-two",
+      "text": "two. I have two hands.",
+      "role": "narrator",
+      "note": "G1-06, grade 1 -- spoken with a context line (sounds like another word)",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-up",
+      "text": "up",
+      "role": "narrator",
+      "note": "G1-06, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-us",
+      "text": "us",
+      "role": "narrator",
+      "note": "G1-06, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-was",
+      "text": "was",
+      "role": "narrator",
+      "note": "G1-06, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-we",
+      "text": "we",
+      "role": "narrator",
+      "note": "G1-06, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-will",
+      "text": "will",
+      "role": "narrator",
+      "note": "G1-06, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-words",
+      "text": "words",
+      "role": "narrator",
+      "note": "G1-06, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-you",
+      "text": "you",
+      "role": "narrator",
+      "note": "G1-06, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-ball",
+      "text": "ball",
+      "role": "narrator",
+      "note": "G1-06, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-bed",
+      "text": "bed",
+      "role": "narrator",
+      "note": "G1-06, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-box",
+      "text": "box",
+      "role": "narrator",
+      "note": "G1-06, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-cat",
+      "text": "cat",
+      "role": "narrator",
+      "note": "G1-06, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-cow",
+      "text": "cow",
+      "role": "narrator",
+      "note": "G1-07, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-dad",
+      "text": "dad",
+      "role": "narrator",
+      "note": "G1-07, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-dog",
+      "text": "dog",
+      "role": "narrator",
+      "note": "G1-07, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-fat",
+      "text": "fat",
+      "role": "narrator",
+      "note": "G1-07, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-fun",
+      "text": "fun",
+      "role": "narrator",
+      "note": "G1-07, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-hat",
+      "text": "hat",
+      "role": "narrator",
+      "note": "G1-07, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-hen",
+      "text": "hen",
+      "role": "narrator",
+      "note": "G1-07, grade 1 -- request context added after 2026-09-28 ear check",
+      "previous_text": "The next word is",
+      "next_text": "Now spell it.",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-hot",
+      "text": "hot",
+      "role": "narrator",
+      "note": "G1-07, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-mum",
+      "text": "mum",
+      "role": "narrator",
+      "note": "G1-07, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-oh",
+      "text": "oh",
+      "role": "narrator",
+      "note": "G1-07, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-pan",
+      "text": "pan",
+      "role": "narrator",
+      "note": "G1-07, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-pet",
+      "text": "pet",
+      "role": "narrator",
+      "note": "G1-07, grade 1 -- request context added after 2026-09-28 ear check",
+      "previous_text": "The next word is",
+      "next_text": "Now spell it.",
+      "model": "eleven_turbo_v2",
+      "renderedOn": "2026-09-29"
+    },
+    {
+      "id": "sp-w-pig",
+      "text": "pig",
+      "role": "narrator",
+      "note": "G1-08, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-ran",
+      "text": "ran",
+      "role": "narrator",
+      "note": "G1-08, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-rat",
+      "text": "rat",
+      "role": "narrator",
+      "note": "G1-08, grade 1 -- request context added after 2026-09-28 ear check",
+      "previous_text": "The next word is",
+      "next_text": "Now spell it.",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-29"
+    },
+    {
+      "id": "sp-w-red",
+      "text": "red",
+      "role": "narrator",
+      "note": "G1-08, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-ride",
+      "text": "ride",
+      "role": "narrator",
+      "note": "G1-08, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sat",
+      "text": "sat",
+      "role": "narrator",
+      "note": "G1-08, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sit",
+      "text": "sit",
+      "role": "narrator",
+      "note": "G1-08, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-six",
+      "text": "six",
+      "role": "narrator",
+      "note": "G1-08, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sun",
+      "text": "sun",
+      "role": "narrator",
+      "note": "G1-08, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-ten",
+      "text": "ten",
+      "role": "narrator",
+      "note": "G1-08, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-top",
+      "text": "top",
+      "role": "narrator",
+      "note": "G1-08, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-toy",
+      "text": "toy",
+      "role": "narrator",
+      "note": "G1-08, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-yes",
+      "text": "yes",
+      "role": "narrator",
+      "note": "G1-09, grade 1",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-about",
+      "text": "about",
+      "role": "narrator",
+      "note": "G2-01, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-add",
+      "text": "add",
+      "role": "narrator",
+      "note": "G2-01, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-after",
+      "text": "after",
+      "role": "narrator",
+      "note": "G2-01, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-america",
+      "text": "America",
+      "role": "narrator",
+      "note": "G2-01, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-an",
+      "text": "an",
+      "role": "narrator",
+      "note": "G2-01, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-answer",
+      "text": "answer",
+      "role": "narrator",
+      "note": "G2-01, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-any",
+      "text": "any",
+      "role": "narrator",
+      "note": "G2-01, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-are",
+      "text": "are",
+      "role": "narrator",
+      "note": "G2-01, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-as",
+      "text": "as",
+      "role": "narrator",
+      "note": "G2-01, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-ask",
+      "text": "ask",
+      "role": "narrator",
+      "note": "G2-01, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-away",
+      "text": "away",
+      "role": "narrator",
+      "note": "G2-01, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-back",
+      "text": "back",
+      "role": "narrator",
+      "note": "G2-01, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-been",
+      "text": "been",
+      "role": "narrator",
+      "note": "G2-02, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-before",
+      "text": "before",
+      "role": "narrator",
+      "note": "G2-02, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-being",
+      "text": "being",
+      "role": "narrator",
+      "note": "G2-02, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-both",
+      "text": "both",
+      "role": "narrator",
+      "note": "G2-02, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-by",
+      "text": "by. Sit by me.",
+      "role": "narrator",
+      "note": "G2-02, grade 2 -- spoken with a context line (sounds like another word)",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-change",
+      "text": "change",
+      "role": "narrator",
+      "note": "G2-02, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-city",
+      "text": "city",
+      "role": "narrator",
+      "note": "G2-02, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-could",
+      "text": "could",
+      "role": "narrator",
+      "note": "G2-02, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-cut",
+      "text": "cut",
+      "role": "narrator",
+      "note": "G2-02, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-different",
+      "text": "different",
+      "role": "narrator",
+      "note": "G2-02, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-down",
+      "text": "down",
+      "role": "narrator",
+      "note": "G2-02, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-each",
+      "text": "each",
+      "role": "narrator",
+      "note": "G2-02, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-eat",
+      "text": "eat",
+      "role": "narrator",
+      "note": "G2-03, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-end",
+      "text": "end",
+      "role": "narrator",
+      "note": "G2-03, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-far",
+      "text": "far",
+      "role": "narrator",
+      "note": "G2-03, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-father",
+      "text": "father",
+      "role": "narrator",
+      "note": "G2-03, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-feet",
+      "text": "feet",
+      "role": "narrator",
+      "note": "G2-03, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-find",
+      "text": "find",
+      "role": "narrator",
+      "note": "G2-03, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-first",
+      "text": "first",
+      "role": "narrator",
+      "note": "G2-03, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-food",
+      "text": "food",
+      "role": "narrator",
+      "note": "G2-03, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-four",
+      "text": "four. A cat has four legs.",
+      "role": "narrator",
+      "note": "G2-03, grade 2 -- spoken with a context line (sounds like another word)",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-from",
+      "text": "from",
+      "role": "narrator",
+      "note": "G2-03, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-girl",
+      "text": "girl",
+      "role": "narrator",
+      "note": "G2-03, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-give",
+      "text": "give",
+      "role": "narrator",
+      "note": "G2-03, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-grow",
+      "text": "grow",
+      "role": "narrator",
+      "note": "G2-04, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-hand",
+      "text": "hand",
+      "role": "narrator",
+      "note": "G2-04, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-hard",
+      "text": "hard",
+      "role": "narrator",
+      "note": "G2-04, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-has",
+      "text": "has",
+      "role": "narrator",
+      "note": "G2-04, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-have",
+      "text": "have",
+      "role": "narrator",
+      "note": "G2-04, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-hear",
+      "text": "hear",
+      "role": "narrator",
+      "note": "G2-04, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-help",
+      "text": "help",
+      "role": "narrator",
+      "note": "G2-04, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-house",
+      "text": "house",
+      "role": "narrator",
+      "note": "G2-04, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-how",
+      "text": "how",
+      "role": "narrator",
+      "note": "G2-04, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-just",
+      "text": "just",
+      "role": "narrator",
+      "note": "G2-04, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-keep",
+      "text": "keep",
+      "role": "narrator",
+      "note": "G2-04, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-know",
+      "text": "know. I know the answer.",
+      "role": "narrator",
+      "note": "G2-04, grade 2 -- spoken with a context line (sounds like another word)",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-land",
+      "text": "land",
+      "role": "narrator",
+      "note": "G2-05, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-last",
+      "text": "last",
+      "role": "narrator",
+      "note": "G2-05, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-late",
+      "text": "late",
+      "role": "narrator",
+      "note": "G2-05, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-left",
+      "text": "left",
+      "role": "narrator",
+      "note": "G2-05, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-light",
+      "text": "light",
+      "role": "narrator",
+      "note": "G2-05, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-line",
+      "text": "line",
+      "role": "narrator",
+      "note": "G2-05, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-little",
+      "text": "little",
+      "role": "narrator",
+      "note": "G2-05, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-live",
+      "text": "live",
+      "role": "narrator",
+      "note": "G2-05, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-long",
+      "text": "long",
+      "role": "narrator",
+      "note": "G2-05, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-made",
+      "text": "made",
+      "role": "narrator",
+      "note": "G2-05, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-make",
+      "text": "make",
+      "role": "narrator",
+      "note": "G2-05, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-many",
+      "text": "many",
+      "role": "narrator",
+      "note": "G2-05, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-means",
+      "text": "means",
+      "role": "narrator",
+      "note": "G2-06, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-men",
+      "text": "men",
+      "role": "narrator",
+      "note": "G2-06, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-mile",
+      "text": "mile",
+      "role": "narrator",
+      "note": "G2-06, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-miss",
+      "text": "miss",
+      "role": "narrator",
+      "note": "G2-06, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-more",
+      "text": "more",
+      "role": "narrator",
+      "note": "G2-06, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-most",
+      "text": "most",
+      "role": "narrator",
+      "note": "G2-06, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-mother",
+      "text": "mother",
+      "role": "narrator",
+      "note": "G2-06, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-move",
+      "text": "move",
+      "role": "narrator",
+      "note": "G2-06, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-much",
+      "text": "much",
+      "role": "narrator",
+      "note": "G2-06, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-must",
+      "text": "must",
+      "role": "narrator",
+      "note": "G2-06, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-name",
+      "text": "name",
+      "role": "narrator",
+      "note": "G2-06, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-need",
+      "text": "need",
+      "role": "narrator",
+      "note": "G2-06, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-new",
+      "text": "new. I have new shoes.",
+      "role": "narrator",
+      "note": "G2-07, grade 2 -- spoken with a context line (sounds like another word)",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-next",
+      "text": "next",
+      "role": "narrator",
+      "note": "G2-07, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-night",
+      "text": "night",
+      "role": "narrator",
+      "note": "G2-07, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-now",
+      "text": "now",
+      "role": "narrator",
+      "note": "G2-07, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-off",
+      "text": "off",
+      "role": "narrator",
+      "note": "G2-07, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-only",
+      "text": "only",
+      "role": "narrator",
+      "note": "G2-07, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-open",
+      "text": "open",
+      "role": "narrator",
+      "note": "G2-07, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-or",
+      "text": "or",
+      "role": "narrator",
+      "note": "G2-07, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-other",
+      "text": "other",
+      "role": "narrator",
+      "note": "G2-07, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-our",
+      "text": "our",
+      "role": "narrator",
+      "note": "G2-07, grade 2 -- request context added after 2026-09-28 ear check",
+      "previous_text": "The next word is",
+      "next_text": "Now spell it.",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-29"
+    },
+    {
+      "id": "sp-w-over",
+      "text": "over",
+      "role": "narrator",
+      "note": "G2-07, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-page",
+      "text": "page",
+      "role": "narrator",
+      "note": "G2-07, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-part",
+      "text": "part",
+      "role": "narrator",
+      "note": "G2-08, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-plant",
+      "text": "plant",
+      "role": "narrator",
+      "note": "G2-08, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-put",
+      "text": "put",
+      "role": "narrator",
+      "note": "G2-08, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-read",
+      "text": "read",
+      "role": "narrator",
+      "note": "G2-08, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-said",
+      "text": "said",
+      "role": "narrator",
+      "note": "G2-08, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-same",
+      "text": "same",
+      "role": "narrator",
+      "note": "G2-08, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-saw",
+      "text": "saw",
+      "role": "narrator",
+      "note": "G2-08, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-say",
+      "text": "say",
+      "role": "narrator",
+      "note": "G2-08, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-school",
+      "text": "school",
+      "role": "narrator",
+      "note": "G2-08, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sea",
+      "text": "sea",
+      "role": "narrator",
+      "note": "G2-08, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-seem",
+      "text": "seem",
+      "role": "narrator",
+      "note": "G2-08, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sentence",
+      "text": "sentence",
+      "role": "narrator",
+      "note": "G2-08, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-set",
+      "text": "set",
+      "role": "narrator",
+      "note": "G2-09, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-show",
+      "text": "show",
+      "role": "narrator",
+      "note": "G2-09, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-side",
+      "text": "side",
+      "role": "narrator",
+      "note": "G2-09, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-small",
+      "text": "small",
+      "role": "narrator",
+      "note": "G2-09, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-some",
+      "text": "some",
+      "role": "narrator",
+      "note": "G2-09, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-soon",
+      "text": "soon",
+      "role": "narrator",
+      "note": "G2-09, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-spell",
+      "text": "spell",
+      "role": "narrator",
+      "note": "G2-09, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-start",
+      "text": "start",
+      "role": "narrator",
+      "note": "G2-09, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-still",
+      "text": "still",
+      "role": "narrator",
+      "note": "G2-09, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-story",
+      "text": "story",
+      "role": "narrator",
+      "note": "G2-09, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-take",
+      "text": "take",
+      "role": "narrator",
+      "note": "G2-09, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-talk",
+      "text": "talk",
+      "role": "narrator",
+      "note": "G2-09, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-tell",
+      "text": "tell",
+      "role": "narrator",
+      "note": "G2-10, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-than",
+      "text": "than",
+      "role": "narrator",
+      "note": "G2-10, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-that",
+      "text": "that",
+      "role": "narrator",
+      "note": "G2-10, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-them",
+      "text": "them",
+      "role": "narrator",
+      "note": "G2-10, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-then",
+      "text": "then",
+      "role": "narrator",
+      "note": "G2-10, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-there",
+      "text": "there. The ball is over there.",
+      "role": "narrator",
+      "note": "G2-10, grade 2 -- spoken with a context line (sounds like another word)",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-they",
+      "text": "they",
+      "role": "narrator",
+      "note": "G2-10, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-things",
+      "text": "things",
+      "role": "narrator",
+      "note": "G2-10, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-think",
+      "text": "think",
+      "role": "narrator",
+      "note": "G2-10, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-three",
+      "text": "three",
+      "role": "narrator",
+      "note": "G2-10, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-through",
+      "text": "through",
+      "role": "narrator",
+      "note": "G2-10, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-time",
+      "text": "time",
+      "role": "narrator",
+      "note": "G2-10, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-too",
+      "text": "too. This is too big.",
+      "role": "narrator",
+      "note": "G2-11, grade 2 -- spoken with a context line (sounds like another word)",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-took",
+      "text": "took",
+      "role": "narrator",
+      "note": "G2-11, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-tree",
+      "text": "tree",
+      "role": "narrator",
+      "note": "G2-11, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-try",
+      "text": "try",
+      "role": "narrator",
+      "note": "G2-11, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-use",
+      "text": "use",
+      "role": "narrator",
+      "note": "G2-11, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-very",
+      "text": "very",
+      "role": "narrator",
+      "note": "G2-11, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-walk",
+      "text": "walk",
+      "role": "narrator",
+      "note": "G2-11, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-want",
+      "text": "want",
+      "role": "narrator",
+      "note": "G2-11, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-way",
+      "text": "way",
+      "role": "narrator",
+      "note": "G2-11, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-well",
+      "text": "well",
+      "role": "narrator",
+      "note": "G2-11, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-went",
+      "text": "went",
+      "role": "narrator",
+      "note": "G2-11, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-were",
+      "text": "were",
+      "role": "narrator",
+      "note": "G2-11, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-what",
+      "text": "what",
+      "role": "narrator",
+      "note": "G2-12, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-when",
+      "text": "when",
+      "role": "narrator",
+      "note": "G2-12, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-while",
+      "text": "while",
+      "role": "narrator",
+      "note": "G2-12, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-white",
+      "text": "white",
+      "role": "narrator",
+      "note": "G2-12, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-who",
+      "text": "who",
+      "role": "narrator",
+      "note": "G2-12, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-why",
+      "text": "why",
+      "role": "narrator",
+      "note": "G2-12, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-with",
+      "text": "with",
+      "role": "narrator",
+      "note": "G2-12, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-work",
+      "text": "work",
+      "role": "narrator",
+      "note": "G2-12, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-years",
+      "text": "years",
+      "role": "narrator",
+      "note": "G2-12, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-your",
+      "text": "your. Your book is red.",
+      "role": "narrator",
+      "note": "G2-12, grade 2 -- spoken with a context line (sounds like another word)",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-ago",
+      "text": "ago",
+      "role": "narrator",
+      "note": "G2-12, grade 2 -- request context added after 2026-09-28 ear check",
+      "previous_text": "The next word is",
+      "next_text": "Now spell it.",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-apple",
+      "text": "apple",
+      "role": "narrator",
+      "note": "G2-12, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-ate",
+      "text": "ate",
+      "role": "narrator",
+      "note": "G2-13, grade 2 -- request context added after 2026-09-28 ear check",
+      "previous_text": "The next word is",
+      "next_text": "Now spell it.",
+      "model": "eleven_turbo_v2",
+      "renderedOn": "2026-09-29"
+    },
+    {
+      "id": "sp-w-baby",
+      "text": "baby",
+      "role": "narrator",
+      "note": "G2-13, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-bad",
+      "text": "bad",
+      "role": "narrator",
+      "note": "G2-13, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-bag",
+      "text": "bag",
+      "role": "narrator",
+      "note": "G2-13, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-base",
+      "text": "base",
+      "role": "narrator",
+      "note": "G2-13, grade 2 -- request context added after 2026-09-28 ear check",
+      "previous_text": "The next word is",
+      "next_text": "Now spell it.",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-bat",
+      "text": "bat",
+      "role": "narrator",
+      "note": "G2-13, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-bee",
+      "text": "bee",
+      "role": "narrator",
+      "note": "G2-13, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-best",
+      "text": "best",
+      "role": "narrator",
+      "note": "G2-13, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-bike",
+      "text": "bike",
+      "role": "narrator",
+      "note": "G2-13, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-bill",
+      "text": "bill",
+      "role": "narrator",
+      "note": "G2-13, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-bird",
+      "text": "bird",
+      "role": "narrator",
+      "note": "G2-13, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-black",
+      "text": "black",
+      "role": "narrator",
+      "note": "G2-13, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-blue",
+      "text": "blue",
+      "role": "narrator",
+      "note": "G2-14, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-boat",
+      "text": "boat",
+      "role": "narrator",
+      "note": "G2-14, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-bring",
+      "text": "bring",
+      "role": "narrator",
+      "note": "G2-14, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-brother",
+      "text": "brother",
+      "role": "narrator",
+      "note": "G2-14, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-brown",
+      "text": "brown",
+      "role": "narrator",
+      "note": "G2-14, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-bus",
+      "text": "bus",
+      "role": "narrator",
+      "note": "G2-14, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-buy",
+      "text": "buy. We buy bread at the shop.",
+      "role": "narrator",
+      "note": "G2-14, grade 2 -- spoken with a context line (sounds like another word)",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-cake",
+      "text": "cake",
+      "role": "narrator",
+      "note": "G2-14, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-call",
+      "text": "call",
+      "role": "narrator",
+      "note": "G2-14, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-candy",
+      "text": "candy",
+      "role": "narrator",
+      "note": "G2-14, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-child",
+      "text": "child",
+      "role": "narrator",
+      "note": "G2-14, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-clean",
+      "text": "clean",
+      "role": "narrator",
+      "note": "G2-14, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-club",
+      "text": "club",
+      "role": "narrator",
+      "note": "G2-15, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-coat",
+      "text": "coat",
+      "role": "narrator",
+      "note": "G2-15, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-cold",
+      "text": "cold",
+      "role": "narrator",
+      "note": "G2-15, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-coming",
+      "text": "coming",
+      "role": "narrator",
+      "note": "G2-15, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-corn",
+      "text": "corn",
+      "role": "narrator",
+      "note": "G2-15, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-cry",
+      "text": "cry",
+      "role": "narrator",
+      "note": "G2-15, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-cup",
+      "text": "cup",
+      "role": "narrator",
+      "note": "G2-15, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-daddy",
+      "text": "daddy",
+      "role": "narrator",
+      "note": "G2-15, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-dear",
+      "text": "dear",
+      "role": "narrator",
+      "note": "G2-15, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-deep",
+      "text": "deep",
+      "role": "narrator",
+      "note": "G2-15, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-deer",
+      "text": "deer",
+      "role": "narrator",
+      "note": "G2-15, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-doing",
+      "text": "doing",
+      "role": "narrator",
+      "note": "G2-15, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-doll",
+      "text": "doll",
+      "role": "narrator",
+      "note": "G2-16, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-door",
+      "text": "door",
+      "role": "narrator",
+      "note": "G2-16, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-dress",
+      "text": "dress",
+      "role": "narrator",
+      "note": "G2-16, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-drive",
+      "text": "drive",
+      "role": "narrator",
+      "note": "G2-16, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-drop",
+      "text": "drop",
+      "role": "narrator",
+      "note": "G2-16, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-dry",
+      "text": "dry",
+      "role": "narrator",
+      "note": "G2-16, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-duck",
+      "text": "duck",
+      "role": "narrator",
+      "note": "G2-16, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-eating",
+      "text": "eating",
+      "role": "narrator",
+      "note": "G2-16, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-egg",
+      "text": "egg",
+      "role": "narrator",
+      "note": "G2-16, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-fall",
+      "text": "fall",
+      "role": "narrator",
+      "note": "G2-16, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-farm",
+      "text": "farm",
+      "role": "narrator",
+      "note": "G2-16, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-fast",
+      "text": "fast",
+      "role": "narrator",
+      "note": "G2-16, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-feed",
+      "text": "feed",
+      "role": "narrator",
+      "note": "G2-17, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-feel",
+      "text": "feel",
+      "role": "narrator",
+      "note": "G2-17, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-fell",
+      "text": "fell",
+      "role": "narrator",
+      "note": "G2-17, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-fine",
+      "text": "fine",
+      "role": "narrator",
+      "note": "G2-17, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-fire",
+      "text": "fire",
+      "role": "narrator",
+      "note": "G2-17, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-fish",
+      "text": "fish",
+      "role": "narrator",
+      "note": "G2-17, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-five",
+      "text": "five",
+      "role": "narrator",
+      "note": "G2-17, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-fix",
+      "text": "fix",
+      "role": "narrator",
+      "note": "G2-17, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-flag",
+      "text": "flag",
+      "role": "narrator",
+      "note": "G2-17, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-floor",
+      "text": "floor",
+      "role": "narrator",
+      "note": "G2-17, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-fly",
+      "text": "fly",
+      "role": "narrator",
+      "note": "G2-17, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-foot",
+      "text": "foot",
+      "role": "narrator",
+      "note": "G2-17, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-fox",
+      "text": "fox",
+      "role": "narrator",
+      "note": "G2-18, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-full",
+      "text": "full",
+      "role": "narrator",
+      "note": "G2-18, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-funny",
+      "text": "funny",
+      "role": "narrator",
+      "note": "G2-18, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-game",
+      "text": "game",
+      "role": "narrator",
+      "note": "G2-18, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-gas",
+      "text": "gas",
+      "role": "narrator",
+      "note": "G2-18, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-gave",
+      "text": "gave",
+      "role": "narrator",
+      "note": "G2-18, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-glad",
+      "text": "glad",
+      "role": "narrator",
+      "note": "G2-18, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-goat",
+      "text": "goat",
+      "role": "narrator",
+      "note": "G2-18, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-goes",
+      "text": "goes",
+      "role": "narrator",
+      "note": "G2-18, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-going",
+      "text": "going",
+      "role": "narrator",
+      "note": "G2-18, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-gold",
+      "text": "gold",
+      "role": "narrator",
+      "note": "G2-18, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-gone",
+      "text": "gone",
+      "role": "narrator",
+      "note": "G2-18, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-grade",
+      "text": "grade",
+      "role": "narrator",
+      "note": "G2-19, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-grass",
+      "text": "grass",
+      "role": "narrator",
+      "note": "G2-19, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-green",
+      "text": "green",
+      "role": "narrator",
+      "note": "G2-19, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-happy",
+      "text": "happy",
+      "role": "narrator",
+      "note": "G2-19, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-hill",
+      "text": "hill",
+      "role": "narrator",
+      "note": "G2-19, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-hit",
+      "text": "hit",
+      "role": "narrator",
+      "note": "G2-19, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-hold",
+      "text": "hold",
+      "role": "narrator",
+      "note": "G2-19, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-hole",
+      "text": "hole",
+      "role": "narrator",
+      "note": "G2-19, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-hop",
+      "text": "hop",
+      "role": "narrator",
+      "note": "G2-19, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-hope",
+      "text": "hope",
+      "role": "narrator",
+      "note": "G2-19, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-horse",
+      "text": "horse",
+      "role": "narrator",
+      "note": "G2-19, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-ice",
+      "text": "ice",
+      "role": "narrator",
+      "note": "G2-19, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-inch",
+      "text": "inch",
+      "role": "narrator",
+      "note": "G2-20, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-inside",
+      "text": "inside",
+      "role": "narrator",
+      "note": "G2-20, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-job",
+      "text": "job",
+      "role": "narrator",
+      "note": "G2-20, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-jump",
+      "text": "jump",
+      "role": "narrator",
+      "note": "G2-20, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-king",
+      "text": "king",
+      "role": "narrator",
+      "note": "G2-20, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-lake",
+      "text": "lake",
+      "role": "narrator",
+      "note": "G2-20, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-lay",
+      "text": "lay",
+      "role": "narrator",
+      "note": "G2-20, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-leg",
+      "text": "leg",
+      "role": "narrator",
+      "note": "G2-20, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-lives",
+      "text": "lives",
+      "role": "narrator",
+      "note": "G2-20, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-looking",
+      "text": "looking",
+      "role": "narrator",
+      "note": "G2-20, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-lost",
+      "text": "lost",
+      "role": "narrator",
+      "note": "G2-20, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-lot",
+      "text": "lot",
+      "role": "narrator",
+      "note": "G2-20, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-love",
+      "text": "love",
+      "role": "narrator",
+      "note": "G2-21, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-mad",
+      "text": "mad",
+      "role": "narrator",
+      "note": "G2-21, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-meat",
+      "text": "meat",
+      "role": "narrator",
+      "note": "G2-21, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-met",
+      "text": "met",
+      "role": "narrator",
+      "note": "G2-21, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-milk",
+      "text": "milk",
+      "role": "narrator",
+      "note": "G2-21, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-mine",
+      "text": "mine",
+      "role": "narrator",
+      "note": "G2-21, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-moon",
+      "text": "moon",
+      "role": "narrator",
+      "note": "G2-21, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-myself",
+      "text": "myself",
+      "role": "narrator",
+      "note": "G2-21, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-nail",
+      "text": "nail",
+      "role": "narrator",
+      "note": "G2-21, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-nice",
+      "text": "nice",
+      "role": "narrator",
+      "note": "G2-21, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-nine",
+      "text": "nine",
+      "role": "narrator",
+      "note": "G2-21, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-north",
+      "text": "north",
+      "role": "narrator",
+      "note": "G2-21, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-nut",
+      "text": "nut",
+      "role": "narrator",
+      "note": "G2-22, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-outside",
+      "text": "outside",
+      "role": "narrator",
+      "note": "G2-22, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-park",
+      "text": "park",
+      "role": "narrator",
+      "note": "G2-22, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-pay",
+      "text": "pay",
+      "role": "narrator",
+      "note": "G2-22, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-pick",
+      "text": "pick",
+      "role": "narrator",
+      "note": "G2-22, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-playing",
+      "text": "playing",
+      "role": "narrator",
+      "note": "G2-22, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-pony",
+      "text": "pony",
+      "role": "narrator",
+      "note": "G2-22, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-post",
+      "text": "post",
+      "role": "narrator",
+      "note": "G2-22, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-pull",
+      "text": "pull",
+      "role": "narrator",
+      "note": "G2-22, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-rabbit",
+      "text": "rabbit",
+      "role": "narrator",
+      "note": "G2-22, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-rain",
+      "text": "rain",
+      "role": "narrator",
+      "note": "G2-22, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-rest",
+      "text": "rest",
+      "role": "narrator",
+      "note": "G2-22, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-riding",
+      "text": "riding",
+      "role": "narrator",
+      "note": "G2-23, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-road",
+      "text": "road",
+      "role": "narrator",
+      "note": "G2-23, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-rock",
+      "text": "rock",
+      "role": "narrator",
+      "note": "G2-23, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-room",
+      "text": "room",
+      "role": "narrator",
+      "note": "G2-23, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sang",
+      "text": "sang",
+      "role": "narrator",
+      "note": "G2-23, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-seat",
+      "text": "seat",
+      "role": "narrator",
+      "note": "G2-23, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-seen",
+      "text": "seen",
+      "role": "narrator",
+      "note": "G2-23, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-send",
+      "text": "send",
+      "role": "narrator",
+      "note": "G2-23, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-seven",
+      "text": "seven",
+      "role": "narrator",
+      "note": "G2-23, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sheep",
+      "text": "sheep",
+      "role": "narrator",
+      "note": "G2-23, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-ship",
+      "text": "ship",
+      "role": "narrator",
+      "note": "G2-23, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-shoe",
+      "text": "shoe",
+      "role": "narrator",
+      "note": "G2-23, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sick",
+      "text": "sick",
+      "role": "narrator",
+      "note": "G2-24, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sing",
+      "text": "sing",
+      "role": "narrator",
+      "note": "G2-24, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sky",
+      "text": "sky",
+      "role": "narrator",
+      "note": "G2-24, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sleep",
+      "text": "sleep",
+      "role": "narrator",
+      "note": "G2-24, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-snow",
+      "text": "snow",
+      "role": "narrator",
+      "note": "G2-24, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-stay",
+      "text": "stay",
+      "role": "narrator",
+      "note": "G2-24, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-store",
+      "text": "store",
+      "role": "narrator",
+      "note": "G2-24, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-tall",
+      "text": "tall",
+      "role": "narrator",
+      "note": "G2-24, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-teach",
+      "text": "teach",
+      "role": "narrator",
+      "note": "G2-24, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-thank",
+      "text": "thank",
+      "role": "narrator",
+      "note": "G2-24, grade 2 -- request context added after 2026-09-28 ear check",
+      "previous_text": "The next word is",
+      "next_text": "Now spell it.",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-29"
+    },
+    {
+      "id": "sp-w-thing",
+      "text": "thing",
+      "role": "narrator",
+      "note": "G2-24, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-today",
+      "text": "today",
+      "role": "narrator",
+      "note": "G2-24, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-told",
+      "text": "told",
+      "role": "narrator",
+      "note": "G2-25, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-train",
+      "text": "train",
+      "role": "narrator",
+      "note": "G2-25, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-truck",
+      "text": "truck",
+      "role": "narrator",
+      "note": "G2-25, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-warm",
+      "text": "warm",
+      "role": "narrator",
+      "note": "G2-25, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-wash",
+      "text": "wash",
+      "role": "narrator",
+      "note": "G2-25, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-week",
+      "text": "week",
+      "role": "narrator",
+      "note": "G2-25, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-wet",
+      "text": "wet",
+      "role": "narrator",
+      "note": "G2-25, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-wind",
+      "text": "wind",
+      "role": "narrator",
+      "note": "G2-25, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-wish",
+      "text": "wish",
+      "role": "narrator",
+      "note": "G2-25, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-woke",
+      "text": "woke",
+      "role": "narrator",
+      "note": "G2-25, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-wood",
+      "text": "wood",
+      "role": "narrator",
+      "note": "G2-25, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-yellow",
+      "text": "yellow",
+      "role": "narrator",
+      "note": "G2-25, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-yet",
+      "text": "yet",
+      "role": "narrator",
+      "note": "G2-26, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-zoo",
+      "text": "zoo",
+      "role": "narrator",
+      "note": "G2-26, grade 2",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-above",
+      "text": "above",
+      "role": "narrator",
+      "note": "G3-01, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-again",
+      "text": "again",
+      "role": "narrator",
+      "note": "G3-01, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-air",
+      "text": "air",
+      "role": "narrator",
+      "note": "G3-01, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-almost",
+      "text": "almost",
+      "role": "narrator",
+      "note": "G3-01, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-along",
+      "text": "along",
+      "role": "narrator",
+      "note": "G3-01, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-also",
+      "text": "also",
+      "role": "narrator",
+      "note": "G3-01, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-always",
+      "text": "always",
+      "role": "narrator",
+      "note": "G3-01, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-animal",
+      "text": "animal",
+      "role": "narrator",
+      "note": "G3-01, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-another",
+      "text": "another",
+      "role": "narrator",
+      "note": "G3-01, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-around",
+      "text": "around",
+      "role": "narrator",
+      "note": "G3-01, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-because",
+      "text": "because",
+      "role": "narrator",
+      "note": "G3-01, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-began",
+      "text": "began",
+      "role": "narrator",
+      "note": "G3-01, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-begin",
+      "text": "begin",
+      "role": "narrator",
+      "note": "G3-02, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-below",
+      "text": "below",
+      "role": "narrator",
+      "note": "G3-02, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-between",
+      "text": "between",
+      "role": "narrator",
+      "note": "G3-02, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-carry",
+      "text": "carry",
+      "role": "narrator",
+      "note": "G3-02, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-children",
+      "text": "children",
+      "role": "narrator",
+      "note": "G3-02, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-close",
+      "text": "close",
+      "role": "narrator",
+      "note": "G3-02, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-country",
+      "text": "country",
+      "role": "narrator",
+      "note": "G3-02, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-does",
+      "text": "does",
+      "role": "narrator",
+      "note": "G3-02, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-don-t",
+      "text": "don't",
+      "role": "narrator",
+      "note": "G3-02, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-earth",
+      "text": "earth",
+      "role": "narrator",
+      "note": "G3-02, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-enough",
+      "text": "enough",
+      "role": "narrator",
+      "note": "G3-02, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-even",
+      "text": "even",
+      "role": "narrator",
+      "note": "G3-02, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-every",
+      "text": "every",
+      "role": "narrator",
+      "note": "G3-03, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-example",
+      "text": "example",
+      "role": "narrator",
+      "note": "G3-03, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-eyes",
+      "text": "eyes",
+      "role": "narrator",
+      "note": "G3-03, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-face",
+      "text": "face",
+      "role": "narrator",
+      "note": "G3-03, grade 3 -- request context added after 2026-09-28 ear check",
+      "previous_text": "The next word is",
+      "next_text": "Now spell it.",
+      "model": "eleven_turbo_v2",
+      "renderedOn": "2026-09-29"
+    },
+    {
+      "id": "sp-w-family",
+      "text": "family",
+      "role": "narrator",
+      "note": "G3-03, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-few",
+      "text": "few",
+      "role": "narrator",
+      "note": "G3-03, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-follow",
+      "text": "follow",
+      "role": "narrator",
+      "note": "G3-03, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-form",
+      "text": "form",
+      "role": "narrator",
+      "note": "G3-03, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-found",
+      "text": "found",
+      "role": "narrator",
+      "note": "G3-03, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-great",
+      "text": "great",
+      "role": "narrator",
+      "note": "G3-03, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-group",
+      "text": "group",
+      "role": "narrator",
+      "note": "G3-03, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-head",
+      "text": "head",
+      "role": "narrator",
+      "note": "G3-03, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-high",
+      "text": "high",
+      "role": "narrator",
+      "note": "G3-04, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-idea",
+      "text": "idea",
+      "role": "narrator",
+      "note": "G3-04, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-important",
+      "text": "important",
+      "role": "narrator",
+      "note": "G3-04, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-indian",
+      "text": "Indian",
+      "role": "narrator",
+      "note": "G3-04, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-it-s",
+      "text": "it's",
+      "role": "narrator",
+      "note": "G3-04, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-kind",
+      "text": "kind",
+      "role": "narrator",
+      "note": "G3-04, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-large",
+      "text": "large",
+      "role": "narrator",
+      "note": "G3-04, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-learn",
+      "text": "learn",
+      "role": "narrator",
+      "note": "G3-04, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-leave",
+      "text": "leave",
+      "role": "narrator",
+      "note": "G3-04, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-letter",
+      "text": "letter",
+      "role": "narrator",
+      "note": "G3-04, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-life",
+      "text": "life",
+      "role": "narrator",
+      "note": "G3-04, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-list",
+      "text": "list",
+      "role": "narrator",
+      "note": "G3-04, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-might",
+      "text": "might",
+      "role": "narrator",
+      "note": "G3-05, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-mountains",
+      "text": "mountains",
+      "role": "narrator",
+      "note": "G3-05, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-near",
+      "text": "near",
+      "role": "narrator",
+      "note": "G3-05, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-never",
+      "text": "never",
+      "role": "narrator",
+      "note": "G3-05, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-number",
+      "text": "number",
+      "role": "narrator",
+      "note": "G3-05, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-often",
+      "text": "often",
+      "role": "narrator",
+      "note": "G3-05, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-once",
+      "text": "once",
+      "role": "narrator",
+      "note": "G3-05, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-own",
+      "text": "own",
+      "role": "narrator",
+      "note": "G3-05, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-paper",
+      "text": "paper",
+      "role": "narrator",
+      "note": "G3-05, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-people",
+      "text": "people",
+      "role": "narrator",
+      "note": "G3-05, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-picture",
+      "text": "picture",
+      "role": "narrator",
+      "note": "G3-05, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-place",
+      "text": "place",
+      "role": "narrator",
+      "note": "G3-05, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-point",
+      "text": "point",
+      "role": "narrator",
+      "note": "G3-06, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-real",
+      "text": "real",
+      "role": "narrator",
+      "note": "G3-06, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-right",
+      "text": "right. This is my right hand.",
+      "role": "narrator",
+      "note": "G3-06, grade 3 -- spoken with a context line (sounds like another word)",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-river",
+      "text": "river",
+      "role": "narrator",
+      "note": "G3-06, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-second",
+      "text": "second",
+      "role": "narrator",
+      "note": "G3-06, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-should",
+      "text": "should",
+      "role": "narrator",
+      "note": "G3-06, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-something",
+      "text": "something",
+      "role": "narrator",
+      "note": "G3-06, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sometimes",
+      "text": "sometimes",
+      "role": "narrator",
+      "note": "G3-06, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-song",
+      "text": "song",
+      "role": "narrator",
+      "note": "G3-06, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sound",
+      "text": "sound",
+      "role": "narrator",
+      "note": "G3-06, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-state",
+      "text": "state",
+      "role": "narrator",
+      "note": "G3-06, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-study",
+      "text": "study",
+      "role": "narrator",
+      "note": "G3-06, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-such",
+      "text": "such",
+      "role": "narrator",
+      "note": "G3-07, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-their",
+      "text": "their. Their house is big.",
+      "role": "narrator",
+      "note": "G3-07, grade 3 -- spoken with a context line (sounds like another word)",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-these",
+      "text": "these",
+      "role": "narrator",
+      "note": "G3-07, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-those",
+      "text": "those",
+      "role": "narrator",
+      "note": "G3-07, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-thought",
+      "text": "thought",
+      "role": "narrator",
+      "note": "G3-07, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-together",
+      "text": "together",
+      "role": "narrator",
+      "note": "G3-07, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-turn",
+      "text": "turn",
+      "role": "narrator",
+      "note": "G3-07, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-under",
+      "text": "under",
+      "role": "narrator",
+      "note": "G3-07, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-until",
+      "text": "until",
+      "role": "narrator",
+      "note": "G3-07, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-watch",
+      "text": "watch",
+      "role": "narrator",
+      "note": "G3-07, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-water",
+      "text": "water",
+      "role": "narrator",
+      "note": "G3-07, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-where",
+      "text": "where",
+      "role": "narrator",
+      "note": "G3-07, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-which",
+      "text": "which",
+      "role": "narrator",
+      "note": "G3-08, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-without",
+      "text": "without",
+      "role": "narrator",
+      "note": "G3-08, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-world",
+      "text": "world",
+      "role": "narrator",
+      "note": "G3-08, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-would",
+      "text": "would",
+      "role": "narrator",
+      "note": "G3-08, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-write",
+      "text": "write. Write your name.",
+      "role": "narrator",
+      "note": "G3-08, grade 3 -- spoken with a context line (sounds like another word)",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-young",
+      "text": "young",
+      "role": "narrator",
+      "note": "G3-08, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-able",
+      "text": "able",
+      "role": "narrator",
+      "note": "G3-08, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-aeroplane",
+      "text": "aeroplane",
+      "role": "narrator",
+      "note": "G3-08, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-afraid",
+      "text": "afraid",
+      "role": "narrator",
+      "note": "G3-08, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-afternoon",
+      "text": "afternoon",
+      "role": "narrator",
+      "note": "G3-08, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-age",
+      "text": "age",
+      "role": "narrator",
+      "note": "G3-08, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-alone",
+      "text": "alone",
+      "role": "narrator",
+      "note": "G3-08, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-already",
+      "text": "already",
+      "role": "narrator",
+      "note": "G3-09, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-anything",
+      "text": "anything",
+      "role": "narrator",
+      "note": "G3-09, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-art",
+      "text": "art",
+      "role": "narrator",
+      "note": "G3-09, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-aunt",
+      "text": "aunt",
+      "role": "narrator",
+      "note": "G3-09, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-balloon",
+      "text": "balloon",
+      "role": "narrator",
+      "note": "G3-09, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-bark",
+      "text": "bark",
+      "role": "narrator",
+      "note": "G3-09, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-barn",
+      "text": "barn",
+      "role": "narrator",
+      "note": "G3-09, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-basket",
+      "text": "basket",
+      "role": "narrator",
+      "note": "G3-09, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-beach",
+      "text": "beach",
+      "role": "narrator",
+      "note": "G3-09, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-bear",
+      "text": "bear",
+      "role": "narrator",
+      "note": "G3-09, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-become",
+      "text": "become",
+      "role": "narrator",
+      "note": "G3-09, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-behind",
+      "text": "behind",
+      "role": "narrator",
+      "note": "G3-09, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-believe",
+      "text": "believe",
+      "role": "narrator",
+      "note": "G3-10, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-belt",
+      "text": "belt",
+      "role": "narrator",
+      "note": "G3-10, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-better",
+      "text": "better",
+      "role": "narrator",
+      "note": "G3-10, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-birthday",
+      "text": "birthday",
+      "role": "narrator",
+      "note": "G3-10, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-body",
+      "text": "body",
+      "role": "narrator",
+      "note": "G3-10, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-bones",
+      "text": "bones",
+      "role": "narrator",
+      "note": "G3-10, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-born",
+      "text": "born",
+      "role": "narrator",
+      "note": "G3-10, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-bought",
+      "text": "bought",
+      "role": "narrator",
+      "note": "G3-10, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-bread",
+      "text": "bread",
+      "role": "narrator",
+      "note": "G3-10, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-bright",
+      "text": "bright",
+      "role": "narrator",
+      "note": "G3-10, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-broke",
+      "text": "broke",
+      "role": "narrator",
+      "note": "G3-10, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-brought",
+      "text": "brought",
+      "role": "narrator",
+      "note": "G3-10, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-busy",
+      "text": "busy",
+      "role": "narrator",
+      "note": "G3-11, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-cabin",
+      "text": "cabin",
+      "role": "narrator",
+      "note": "G3-11, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-cage",
+      "text": "cage",
+      "role": "narrator",
+      "note": "G3-11, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-camp",
+      "text": "camp",
+      "role": "narrator",
+      "note": "G3-11, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-can-t",
+      "text": "can't",
+      "role": "narrator",
+      "note": "G3-11, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-care",
+      "text": "care",
+      "role": "narrator",
+      "note": "G3-11, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-catch",
+      "text": "catch",
+      "role": "narrator",
+      "note": "G3-11, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-cattle",
+      "text": "cattle",
+      "role": "narrator",
+      "note": "G3-11, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-cave",
+      "text": "cave",
+      "role": "narrator",
+      "note": "G3-11, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-class",
+      "text": "class",
+      "role": "narrator",
+      "note": "G3-11, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-cloth",
+      "text": "cloth",
+      "role": "narrator",
+      "note": "G3-11, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-coal",
+      "text": "coal",
+      "role": "narrator",
+      "note": "G3-11, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-colour",
+      "text": "colour",
+      "role": "narrator",
+      "note": "G3-12, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-corner",
+      "text": "corner",
+      "role": "narrator",
+      "note": "G3-12, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-cotton",
+      "text": "cotton",
+      "role": "narrator",
+      "note": "G3-12, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-cover",
+      "text": "cover",
+      "role": "narrator",
+      "note": "G3-12, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-dark",
+      "text": "dark",
+      "role": "narrator",
+      "note": "G3-12, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-desert",
+      "text": "desert",
+      "role": "narrator",
+      "note": "G3-12, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-didn-t",
+      "text": "didn't",
+      "role": "narrator",
+      "note": "G3-12, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-dinner",
+      "text": "dinner",
+      "role": "narrator",
+      "note": "G3-12, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-dishes",
+      "text": "dishes",
+      "role": "narrator",
+      "note": "G3-12, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-done",
+      "text": "done",
+      "role": "narrator",
+      "note": "G3-12, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-dragon",
+      "text": "dragon",
+      "role": "narrator",
+      "note": "G3-12, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-draw",
+      "text": "draw",
+      "role": "narrator",
+      "note": "G3-12, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-dream",
+      "text": "dream",
+      "role": "narrator",
+      "note": "G3-13, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-drink",
+      "text": "drink",
+      "role": "narrator",
+      "note": "G3-13, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-early",
+      "text": "early",
+      "role": "narrator",
+      "note": "G3-13, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-east",
+      "text": "east",
+      "role": "narrator",
+      "note": "G3-13, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-eight",
+      "text": "eight",
+      "role": "narrator",
+      "note": "G3-13, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-ever",
+      "text": "ever",
+      "role": "narrator",
+      "note": "G3-13, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-everyone",
+      "text": "everyone",
+      "role": "narrator",
+      "note": "G3-13, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-everything",
+      "text": "everything",
+      "role": "narrator",
+      "note": "G3-13, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-feeling",
+      "text": "feeling",
+      "role": "narrator",
+      "note": "G3-13, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-felt",
+      "text": "felt",
+      "role": "narrator",
+      "note": "G3-13, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-fight",
+      "text": "fight",
+      "role": "narrator",
+      "note": "G3-13, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-fishing",
+      "text": "fishing",
+      "role": "narrator",
+      "note": "G3-13, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-flower",
+      "text": "flower",
+      "role": "narrator",
+      "note": "G3-14, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-flying",
+      "text": "flying",
+      "role": "narrator",
+      "note": "G3-14, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-forest",
+      "text": "forest",
+      "role": "narrator",
+      "note": "G3-14, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-forgot",
+      "text": "forgot",
+      "role": "narrator",
+      "note": "G3-14, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-fourth",
+      "text": "fourth",
+      "role": "narrator",
+      "note": "G3-14, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-free",
+      "text": "free",
+      "role": "narrator",
+      "note": "G3-14, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-friday",
+      "text": "Friday",
+      "role": "narrator",
+      "note": "G3-14, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-friend",
+      "text": "friend",
+      "role": "narrator",
+      "note": "G3-14, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-front",
+      "text": "front",
+      "role": "narrator",
+      "note": "G3-14, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-getting",
+      "text": "getting",
+      "role": "narrator",
+      "note": "G3-14, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-given",
+      "text": "given",
+      "role": "narrator",
+      "note": "G3-14, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-grandmother",
+      "text": "grandmother",
+      "role": "narrator",
+      "note": "G3-14, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-grew",
+      "text": "grew",
+      "role": "narrator",
+      "note": "G3-15, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-ground",
+      "text": "ground",
+      "role": "narrator",
+      "note": "G3-15, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-guess",
+      "text": "guess",
+      "role": "narrator",
+      "note": "G3-15, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-hair",
+      "text": "hair",
+      "role": "narrator",
+      "note": "G3-15, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-half",
+      "text": "half",
+      "role": "narrator",
+      "note": "G3-15, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-having",
+      "text": "having",
+      "role": "narrator",
+      "note": "G3-15, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-he-s",
+      "text": "he's",
+      "role": "narrator",
+      "note": "G3-15, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-heard",
+      "text": "heard",
+      "role": "narrator",
+      "note": "G3-15, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-heat",
+      "text": "heat",
+      "role": "narrator",
+      "note": "G3-15, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-hello",
+      "text": "hello",
+      "role": "narrator",
+      "note": "G3-15, grade 3 -- request context added after 2026-09-28 ear check",
+      "previous_text": "The next word is",
+      "next_text": "Now spell it.",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-himself",
+      "text": "himself",
+      "role": "narrator",
+      "note": "G3-15, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-hour",
+      "text": "hour",
+      "role": "narrator",
+      "note": "G3-15, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-hundred",
+      "text": "hundred",
+      "role": "narrator",
+      "note": "G3-16, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-hurry",
+      "text": "hurry",
+      "role": "narrator",
+      "note": "G3-16, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-hurt",
+      "text": "hurt",
+      "role": "narrator",
+      "note": "G3-16, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-i-d",
+      "text": "I'd",
+      "role": "narrator",
+      "note": "G3-16, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-i-ll",
+      "text": "I'll",
+      "role": "narrator",
+      "note": "G3-16, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-i-m",
+      "text": "I'm",
+      "role": "narrator",
+      "note": "G3-16, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-i-ve",
+      "text": "I've",
+      "role": "narrator",
+      "note": "G3-16, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-inches",
+      "text": "inches",
+      "role": "narrator",
+      "note": "G3-16, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-isn-t",
+      "text": "isn't",
+      "role": "narrator",
+      "note": "G3-16, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-kept",
+      "text": "kept",
+      "role": "narrator",
+      "note": "G3-16, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-kids",
+      "text": "kids",
+      "role": "narrator",
+      "note": "G3-16, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-kitten",
+      "text": "kitten",
+      "role": "narrator",
+      "note": "G3-16, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-knew",
+      "text": "knew. I knew the answer.",
+      "role": "narrator",
+      "note": "G3-17, grade 3 -- spoken with a context line (sounds like another word)",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-knife",
+      "text": "knife",
+      "role": "narrator",
+      "note": "G3-17, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-lady",
+      "text": "lady",
+      "role": "narrator",
+      "note": "G3-17, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-largest",
+      "text": "largest",
+      "role": "narrator",
+      "note": "G3-17, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-later",
+      "text": "later",
+      "role": "narrator",
+      "note": "G3-17, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-let-s",
+      "text": "let's",
+      "role": "narrator",
+      "note": "G3-17, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-living",
+      "text": "living",
+      "role": "narrator",
+      "note": "G3-17, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-lovely",
+      "text": "lovely",
+      "role": "narrator",
+      "note": "G3-17, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-loving",
+      "text": "loving",
+      "role": "narrator",
+      "note": "G3-17, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-lunch",
+      "text": "lunch",
+      "role": "narrator",
+      "note": "G3-17, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-mail",
+      "text": "mail",
+      "role": "narrator",
+      "note": "G3-17, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-making",
+      "text": "making",
+      "role": "narrator",
+      "note": "G3-17, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-maybe",
+      "text": "maybe",
+      "role": "narrator",
+      "note": "G3-18, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-mean",
+      "text": "mean",
+      "role": "narrator",
+      "note": "G3-18, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-merry",
+      "text": "merry",
+      "role": "narrator",
+      "note": "G3-18, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-mind",
+      "text": "mind",
+      "role": "narrator",
+      "note": "G3-18, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-money",
+      "text": "money",
+      "role": "narrator",
+      "note": "G3-18, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-month",
+      "text": "month",
+      "role": "narrator",
+      "note": "G3-18, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-morning",
+      "text": "morning",
+      "role": "narrator",
+      "note": "G3-18, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-mouse",
+      "text": "mouse",
+      "role": "narrator",
+      "note": "G3-18, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-mouth",
+      "text": "mouth",
+      "role": "narrator",
+      "note": "G3-18, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-mr",
+      "text": "Mr.",
+      "role": "narrator",
+      "note": "G3-18, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-mrs",
+      "text": "Mrs.",
+      "role": "narrator",
+      "note": "G3-18, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-ms",
+      "text": "Ms.",
+      "role": "narrator",
+      "note": "G3-18, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-music",
+      "text": "music",
+      "role": "narrator",
+      "note": "G3-19, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-nearly",
+      "text": "nearly",
+      "role": "narrator",
+      "note": "G3-19, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-news",
+      "text": "news",
+      "role": "narrator",
+      "note": "G3-19, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-noise",
+      "text": "noise",
+      "role": "narrator",
+      "note": "G3-19, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-nothing",
+      "text": "nothing",
+      "role": "narrator",
+      "note": "G3-19, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-o-clock",
+      "text": "o'clock",
+      "role": "narrator",
+      "note": "G3-19, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-oil",
+      "text": "oil",
+      "role": "narrator",
+      "note": "G3-19, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-orange",
+      "text": "orange",
+      "role": "narrator",
+      "note": "G3-19, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-order",
+      "text": "order",
+      "role": "narrator",
+      "note": "G3-19, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-paint",
+      "text": "paint",
+      "role": "narrator",
+      "note": "G3-19, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-pair",
+      "text": "pair",
+      "role": "narrator",
+      "note": "G3-19, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-party",
+      "text": "party",
+      "role": "narrator",
+      "note": "G3-19, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-pass",
+      "text": "pass",
+      "role": "narrator",
+      "note": "G3-20, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-past",
+      "text": "past",
+      "role": "narrator",
+      "note": "G3-20, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-penny",
+      "text": "penny",
+      "role": "narrator",
+      "note": "G3-20, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-person",
+      "text": "person",
+      "role": "narrator",
+      "note": "G3-20, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-plan",
+      "text": "plan",
+      "role": "narrator",
+      "note": "G3-20, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-plane",
+      "text": "plane",
+      "role": "narrator",
+      "note": "G3-20, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-please",
+      "text": "please",
+      "role": "narrator",
+      "note": "G3-20, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-pocket",
+      "text": "pocket",
+      "role": "narrator",
+      "note": "G3-20, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-poor",
+      "text": "poor",
+      "role": "narrator",
+      "note": "G3-20, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-race",
+      "text": "race",
+      "role": "narrator",
+      "note": "G3-20, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-reach",
+      "text": "reach",
+      "role": "narrator",
+      "note": "G3-20, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-reading",
+      "text": "reading",
+      "role": "narrator",
+      "note": "G3-20, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-ready",
+      "text": "ready",
+      "role": "narrator",
+      "note": "G3-21, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-rich",
+      "text": "rich",
+      "role": "narrator",
+      "note": "G3-21, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-rocket",
+      "text": "rocket",
+      "role": "narrator",
+      "note": "G3-21, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-rode",
+      "text": "rode",
+      "role": "narrator",
+      "note": "G3-21, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-round",
+      "text": "round",
+      "role": "narrator",
+      "note": "G3-21, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-rule",
+      "text": "rule",
+      "role": "narrator",
+      "note": "G3-21, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-running",
+      "text": "running",
+      "role": "narrator",
+      "note": "G3-21, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-salt",
+      "text": "salt",
+      "role": "narrator",
+      "note": "G3-21, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-says",
+      "text": "says",
+      "role": "narrator",
+      "note": "G3-21, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sending",
+      "text": "sending",
+      "role": "narrator",
+      "note": "G3-21, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sent",
+      "text": "sent",
+      "role": "narrator",
+      "note": "G3-21, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-seventh",
+      "text": "seventh",
+      "role": "narrator",
+      "note": "G3-21, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sew",
+      "text": "sew",
+      "role": "narrator",
+      "note": "G3-22, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-shall",
+      "text": "shall",
+      "role": "narrator",
+      "note": "G3-22, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-short",
+      "text": "short",
+      "role": "narrator",
+      "note": "G3-22, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-shot",
+      "text": "shot",
+      "role": "narrator",
+      "note": "G3-22, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sight",
+      "text": "sight",
+      "role": "narrator",
+      "note": "G3-22, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sister",
+      "text": "sister",
+      "role": "narrator",
+      "note": "G3-22, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sitting",
+      "text": "sitting",
+      "role": "narrator",
+      "note": "G3-22, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sixth",
+      "text": "sixth",
+      "role": "narrator",
+      "note": "G3-22, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sledge",
+      "text": "sledge",
+      "role": "narrator",
+      "note": "G3-22, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-smoke",
+      "text": "smoke",
+      "role": "narrator",
+      "note": "G3-22, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-soap",
+      "text": "soap",
+      "role": "narrator",
+      "note": "G3-22, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-someone",
+      "text": "someone",
+      "role": "narrator",
+      "note": "G3-22, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sometime",
+      "text": "sometime",
+      "role": "narrator",
+      "note": "G3-23, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sorry",
+      "text": "sorry",
+      "role": "narrator",
+      "note": "G3-23, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-south",
+      "text": "south",
+      "role": "narrator",
+      "note": "G3-23, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-space",
+      "text": "space",
+      "role": "narrator",
+      "note": "G3-23, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-spelling",
+      "text": "spelling",
+      "role": "narrator",
+      "note": "G3-23, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-spent",
+      "text": "spent",
+      "role": "narrator",
+      "note": "G3-23, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sport",
+      "text": "sport",
+      "role": "narrator",
+      "note": "G3-23, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-spring",
+      "text": "spring",
+      "role": "narrator",
+      "note": "G3-23, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-stairs",
+      "text": "stairs",
+      "role": "narrator",
+      "note": "G3-23, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-stand",
+      "text": "stand",
+      "role": "narrator",
+      "note": "G3-23, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-step",
+      "text": "step",
+      "role": "narrator",
+      "note": "G3-23, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-stick",
+      "text": "stick",
+      "role": "narrator",
+      "note": "G3-23, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-stood",
+      "text": "stood",
+      "role": "narrator",
+      "note": "G3-24, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-stopped",
+      "text": "stopped",
+      "role": "narrator",
+      "note": "G3-24, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-stove",
+      "text": "stove",
+      "role": "narrator",
+      "note": "G3-24, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-street",
+      "text": "street",
+      "role": "narrator",
+      "note": "G3-24, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-strong",
+      "text": "strong",
+      "role": "narrator",
+      "note": "G3-24, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sugar",
+      "text": "sugar",
+      "role": "narrator",
+      "note": "G3-24, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-summer",
+      "text": "summer",
+      "role": "narrator",
+      "note": "G3-24, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-sunday",
+      "text": "Sunday",
+      "role": "narrator",
+      "note": "G3-24, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-supper",
+      "text": "supper",
+      "role": "narrator",
+      "note": "G3-24, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-table",
+      "text": "table",
+      "role": "narrator",
+      "note": "G3-24, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-taken",
+      "text": "taken",
+      "role": "narrator",
+      "note": "G3-24, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-taking",
+      "text": "taking",
+      "role": "narrator",
+      "note": "G3-24, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-talking",
+      "text": "talking",
+      "role": "narrator",
+      "note": "G3-25, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-teacher",
+      "text": "teacher",
+      "role": "narrator",
+      "note": "G3-25, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-team",
+      "text": "team",
+      "role": "narrator",
+      "note": "G3-25, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-teeth",
+      "text": "teeth",
+      "role": "narrator",
+      "note": "G3-25, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-tenth",
+      "text": "tenth",
+      "role": "narrator",
+      "note": "G3-25, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-that-s",
+      "text": "that's",
+      "role": "narrator",
+      "note": "G3-25, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-thinking",
+      "text": "thinking",
+      "role": "narrator",
+      "note": "G3-25, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-third",
+      "text": "third",
+      "role": "narrator",
+      "note": "G3-25, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-throw",
+      "text": "throw",
+      "role": "narrator",
+      "note": "G3-25, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-tonight",
+      "text": "tonight",
+      "role": "narrator",
+      "note": "G3-25, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-trade",
+      "text": "trade",
+      "role": "narrator",
+      "note": "G3-25, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-trick",
+      "text": "trick",
+      "role": "narrator",
+      "note": "G3-25, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-trip",
+      "text": "trip",
+      "role": "narrator",
+      "note": "G3-26, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-trying",
+      "text": "trying",
+      "role": "narrator",
+      "note": "G3-26, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-twelve",
+      "text": "twelve",
+      "role": "narrator",
+      "note": "G3-26, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-twenty",
+      "text": "twenty",
+      "role": "narrator",
+      "note": "G3-26, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-uncle",
+      "text": "uncle",
+      "role": "narrator",
+      "note": "G3-26, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-upon",
+      "text": "upon",
+      "role": "narrator",
+      "note": "G3-26, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-wagon",
+      "text": "wagon",
+      "role": "narrator",
+      "note": "G3-26, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-wait",
+      "text": "wait",
+      "role": "narrator",
+      "note": "G3-26, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-walking",
+      "text": "walking",
+      "role": "narrator",
+      "note": "G3-26, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-wasn-t",
+      "text": "wasn't",
+      "role": "narrator",
+      "note": "G3-26, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-we-re",
+      "text": "we're",
+      "role": "narrator",
+      "note": "G3-26, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-weather",
+      "text": "weather",
+      "role": "narrator",
+      "note": "G3-26, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-west",
+      "text": "west",
+      "role": "narrator",
+      "note": "G3-27, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-wheat",
+      "text": "wheat",
+      "role": "narrator",
+      "note": "G3-27, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-wife",
+      "text": "wife",
+      "role": "narrator",
+      "note": "G3-27, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-wild",
+      "text": "wild",
+      "role": "narrator",
+      "note": "G3-27, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-win",
+      "text": "win",
+      "role": "narrator",
+      "note": "G3-27, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-window",
+      "text": "window",
+      "role": "narrator",
+      "note": "G3-27, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-winter",
+      "text": "winter",
+      "role": "narrator",
+      "note": "G3-27, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-woman",
+      "text": "woman",
+      "role": "narrator",
+      "note": "G3-27, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-won",
+      "text": "won. She won the game.",
+      "role": "narrator",
+      "note": "G3-27, grade 3 -- spoken with a context line (sounds like another word)",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-won-t",
+      "text": "won't",
+      "role": "narrator",
+      "note": "G3-27, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-wool",
+      "text": "wool",
+      "role": "narrator",
+      "note": "G3-27, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-word",
+      "text": "word",
+      "role": "narrator",
+      "note": "G3-27, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-working",
+      "text": "working",
+      "role": "narrator",
+      "note": "G3-28, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-wrong",
+      "text": "wrong",
+      "role": "narrator",
+      "note": "G3-28, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-yard",
+      "text": "yard",
+      "role": "narrator",
+      "note": "G3-28, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-year",
+      "text": "year",
+      "role": "narrator",
+      "note": "G3-28, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-yesterday",
+      "text": "yesterday",
+      "role": "narrator",
+      "note": "G3-28, grade 3",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-w-you-re",
+      "text": "you're. You're my friend.",
+      "role": "narrator",
+      "note": "G3-28, grade 3 -- spoken with a context line (sounds like another word)",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-praise-1",
+      "text": "Great job!",
+      "role": "narrator",
+      "note": "praise, positional like the times-tables set",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-praise-2",
+      "text": "Amazing!",
+      "role": "narrator",
+      "note": "praise, positional like the times-tables set",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-praise-3",
+      "text": "You did it!",
+      "role": "narrator",
+      "note": "praise, positional like the times-tables set",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-praise-4",
+      "text": "Wonderful!",
+      "role": "narrator",
+      "note": "praise, positional like the times-tables set",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-praise-5",
+      "text": "Beautiful!",
+      "role": "narrator",
+      "note": "praise, positional like the times-tables set",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-praise-6",
+      "text": "Magical!",
+      "role": "narrator",
+      "note": "praise, positional like the times-tables set",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-star-1",
+      "text": "One star!",
+      "role": "narrator",
+      "note": "pack complete",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-star-2",
+      "text": "Two stars!",
+      "role": "narrator",
+      "note": "pack complete",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-star-3",
+      "text": "Three stars! Amazing!",
+      "role": "narrator",
+      "note": "pack complete",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    },
+    {
+      "id": "sp-practice",
+      "text": "Let's practice the tricky ones again!",
+      "role": "narrator",
+      "note": "a pass over the words that needed the help ladder",
+      "model": "eleven_multilingual_v2",
+      "renderedOn": "2026-09-28"
+    }
+  ],
+  "isolated_re_renders": {
+    "sp-w-face.m4a": {
+      "word": "face",
+      "sha256": "bdb85de60f4ed3b7bbba5363465ddaae4b8518726ae9df4f523f591be920ec82",
+      "source": {
+        "kind": "isolated re-render from a paid candidate master (tools/render-spelling-candidates.py)",
+        "text": "<phoneme alphabet=\"ipa\" ph=\"feɪs\">face</phoneme>.",
+        "master": "narration/rendered/word-candidates-r8/sp-w-face.ipa-turbo.mp3 (paid, git-ignored; backed up to ~/.local/state/children-games/paid-backup/2026-09-29-word-clips-r8/masters/)",
+        "alignment": "tools/word-candidates-r8/alignment/sp-w-face.ipa-turbo.json",
+        "tool": "math-app/tools/render-spelling-candidates.py (ElevenLabs, AI-generated speech)",
+        "voice": "Magic Math Narrator",
+        "voice_id": "syTCOMrIG987VoS0EmlL",
+        "model": "eleven_turbo_v2",
+        "output_format": "mp3_44100_128",
+        "rendered_at": "2026-09-29",
+        "transcoded_by": "afconvert AAC mono 24kHz 32kbps, matching every other shipped Magic Math spelling clip"
+      },
+      "replaced": {
+        "sha256": "dd53e227042c9ede06a5bef7f0e5e13821458e7cef586bef27a745e223c73863",
+        "backup": "narration/replaced-words/sp-w-face.dd53e227042c.m4a",
+        "note": "Original render from this manifest's own bare-word text, replaced after the owner's 2026-09-29 verdict."
+      },
+      "owner": {
+        "kind": "round8-listen",
+        "verdict": "face/pet -> new ok",
+        "note": "Owner, 2026-09-29 verbatim, after listening to test-apps/audio-check-0929 (round 8).",
+        "task_record": "coordination/tasks/2026-09-29-0830-claude-word-clips-r8-ipa.md"
+      },
+      "shipped": "2026-09-29",
+      "tool": "manual ship following word-book/tools/ship-sentence-cut.py durability/provenance patterns; no new ElevenLabs call for these words (masters already paid for and staged in round 8, PR #1066)"
+    },
+    "sp-w-pet.m4a": {
+      "word": "pet",
+      "sha256": "6471cd761f3d87352c2a15be0a427d58d9a35481257306d4e90bf35e72feea17",
+      "source": {
+        "kind": "isolated re-render from a paid candidate master (tools/render-spelling-candidates.py)",
+        "text": "<phoneme alphabet=\"ipa\" ph=\"pɛt\">pet</phoneme>.",
+        "master": "narration/rendered/word-candidates-r8/sp-w-pet.ipa-turbo.mp3 (paid, git-ignored; backed up to ~/.local/state/children-games/paid-backup/2026-09-29-word-clips-r8/masters/)",
+        "alignment": "tools/word-candidates-r8/alignment/sp-w-pet.ipa-turbo.json",
+        "tool": "math-app/tools/render-spelling-candidates.py (ElevenLabs, AI-generated speech)",
+        "voice": "Magic Math Narrator",
+        "voice_id": "syTCOMrIG987VoS0EmlL",
+        "model": "eleven_turbo_v2",
+        "output_format": "mp3_44100_128",
+        "rendered_at": "2026-09-29",
+        "transcoded_by": "afconvert AAC mono 24kHz 32kbps, matching every other shipped Magic Math spelling clip"
+      },
+      "replaced": {
+        "sha256": "24438d4ec6230d1a851030aedb7c6eac3c6449e2fb41cc65a5ec0ce987c36b89",
+        "backup": "narration/replaced-words/sp-w-pet.24438d4ec623.m4a",
+        "note": "Original render from this manifest's own bare-word text, replaced after the owner's 2026-09-29 verdict."
+      },
+      "owner": {
+        "kind": "round8-listen",
+        "verdict": "face/pet -> new ok",
+        "note": "Owner, 2026-09-29 verbatim, after listening to test-apps/audio-check-0929 (round 8).",
+        "task_record": "coordination/tasks/2026-09-29-0830-claude-word-clips-r8-ipa.md"
+      },
+      "shipped": "2026-09-29",
+      "tool": "manual ship following word-book/tools/ship-sentence-cut.py durability/provenance patterns; no new ElevenLabs call for these words (masters already paid for and staged in round 8, PR #1066)"
+    },
+    "sp-w-rat.m4a": {
+      "word": "rat",
+      "sha256": "7c9b1b0f5714afa28a1ff77eedc2f03a9b0b21c059d90f0cde91b4b7be5f09fa",
+      "source": {
+        "kind": "isolated re-render from a paid candidate master (tools/render-spelling-candidates.py --round r9)",
+        "approach": "multi-context",
+        "take": 3,
+        "text": "rat",
+        "previous_text": "Spell the word",
+        "next_text": ".",
+        "master": "narration/rendered/word-candidates-r9/sp-w-rat.multi-context.mp3 (paid, git-ignored; backed up to ~/.local/state/children-games/paid-backup/2026-09-29-word-clips-r9/masters/)",
+        "alignment": "tools/word-candidates-r9/alignment/sp-w-rat.multi-context.json",
+        "tool": "math-app/tools/render-spelling-candidates.py (ElevenLabs, AI-generated speech)",
+        "voice": "Magic Math Narrator",
+        "voice_id": "syTCOMrIG987VoS0EmlL",
+        "model": "eleven_multilingual_v2",
+        "output_format": "mp3_44100_128",
+        "rendered_at": "2026-09-29",
+        "transcoded_by": "afconvert AAC mono 24kHz 32kbps, matching every other shipped Magic Math spelling clip"
+      },
+      "replaced": {
+        "sha256": "c903c692382391d153fd4d3ef32e3ed64cb5b38ec8fe14bf876cba2f7556a8de",
+        "backup": "narration/replaced-words/sp-w-rat.c903c6923823.m4a",
+        "note": "Round-9 Take 1 (flash-ipa) isolated re-render, replaced after the owner's same-day revised verdict (both to take 3)."
+      },
+      "owner": {
+        "kind": "round9-listen",
+        "verdict": "both to take 3",
+        "note": "Owner, 2026-09-29 verbatim, revising the earlier round-9 verdict ('rat -> take 1 / thank -> take 2') after further listening to test-apps/audio-check-0929b (round 9): \"both to take 3\".",
+        "task_record": "coordination/tasks/2026-09-29-claude-word-clips-r9-ship-and-render.md",
+        "verdict_task": "coordination/tasks/2026-09-29-claude-word-clips-r9-take3.md",
+        "still_open": false
+      },
+      "shipped": "2026-09-29",
+      "tool": "manual ship following word-book/tools/ship-sentence-cut.py durability/provenance patterns; no new ElevenLabs call for this word (master already paid for and staged in round 9, PR #1067)"
+    },
+    "sp-w-thank.m4a": {
+      "word": "thank",
+      "sha256": "879b842cf7a3a849570edb98ec8e294971e4a608e6cb0f889437914398b50390",
+      "source": {
+        "kind": "isolated re-render from a paid candidate master (tools/render-spelling-candidates.py --round r9)",
+        "approach": "multi-context",
+        "take": 3,
+        "text": "thank",
+        "previous_text": "Spell the word",
+        "next_text": ".",
+        "master": "narration/rendered/word-candidates-r9/sp-w-thank.multi-context.mp3 (paid, git-ignored; backed up to ~/.local/state/children-games/paid-backup/2026-09-29-word-clips-r9/masters/)",
+        "alignment": "tools/word-candidates-r9/alignment/sp-w-thank.multi-context.json",
+        "tool": "math-app/tools/render-spelling-candidates.py (ElevenLabs, AI-generated speech)",
+        "voice": "Magic Math Narrator",
+        "voice_id": "syTCOMrIG987VoS0EmlL",
+        "model": "eleven_multilingual_v2",
+        "output_format": "mp3_44100_128",
+        "rendered_at": "2026-09-29",
+        "transcoded_by": "afconvert AAC mono 24kHz 32kbps, matching every other shipped Magic Math spelling clip"
+      },
+      "replaced": {
+        "sha256": "125aaae6877be068a13d387aebd55aba05d4b184a623d931b153369ace174ab2",
+        "backup": "narration/replaced-words/sp-w-thank.125aaae6877b.m4a",
+        "note": "Round-9 Take 2 (turbo-stress) isolated re-render, replaced after the owner's same-day revised verdict (both to take 3)."
+      },
+      "owner": {
+        "kind": "round9-listen",
+        "verdict": "both to take 3",
+        "note": "Owner, 2026-09-29 verbatim, revising the earlier round-9 verdict ('rat -> take 1 / thank -> take 2') after further listening to test-apps/audio-check-0929b (round 9): \"both to take 3\".",
+        "task_record": "coordination/tasks/2026-09-29-claude-word-clips-r9-ship-and-render.md",
+        "verdict_task": "coordination/tasks/2026-09-29-claude-word-clips-r9-take3.md",
+        "still_open": false
+      },
+      "shipped": "2026-09-29",
+      "tool": "manual ship following word-book/tools/ship-sentence-cut.py durability/provenance patterns; no new ElevenLabs call for this word (master already paid for and staged in round 9, PR #1067)"
+    },
+    "sp-w-ate.m4a": {
+      "word": "ate",
+      "sha256": "80ea386f3192abc1dba1065c412b3fdac275e8efacc9bc7c50d51c87054390ee",
+      "source": {
+        "kind": "isolated re-render from a paid candidate master (tools/render-spelling-candidates.py --round r9)",
+        "approach": "turbo-stress",
+        "take": 2,
+        "text": "<phoneme alphabet=\"ipa\" ph=\"ˈeɪt\">ate</phoneme>.",
+        "master": "narration/rendered/word-candidates-r9/sp-w-ate.turbo-stress.mp3 (paid, git-ignored; backed up to ~/.local/state/children-games/paid-backup/2026-09-29-word-clips-r9/masters/)",
+        "alignment": "tools/word-candidates-r9/alignment/sp-w-ate.turbo-stress.json",
+        "tool": "math-app/tools/render-spelling-candidates.py (ElevenLabs, AI-generated speech)",
+        "voice": "Magic Math Narrator",
+        "voice_id": "syTCOMrIG987VoS0EmlL",
+        "model": "eleven_turbo_v2",
+        "output_format": "mp3_44100_128",
+        "rendered_at": "2026-09-29",
+        "transcoded_by": "afconvert AAC mono 24kHz 32kbps, matching every other shipped Magic Math spelling clip"
+      },
+      "replaced": {
+        "sha256": "3d0340c49370f3785cd5213ea581c01ff4570e921726b75c392c114c8c34100e",
+        "backup": "narration/replaced-words/sp-w-ate.3d0340c49370.m4a",
+        "note": "Original render from this manifest's own CONTEXT_RERENDERS text, replaced after the owner's 2026-09-29 round-9 verdict."
+      },
+      "owner": {
+        "kind": "round9-listen",
+        "verdict": "ate -> take 2",
+        "note": "Owner, 2026-09-29 verbatim, after listening to test-apps/audio-check-0929b (round 9).",
+        "task_record": "coordination/tasks/2026-09-29-claude-word-clips-r9-ship-and-render.md",
+        "verdict_task": "coordination/tasks/2026-09-29-claude-word-clips-r9-ship.md",
+        "still_open": false
+      },
+      "shipped": "2026-09-29",
+      "tool": "manual ship following word-book/tools/ship-sentence-cut.py durability/provenance patterns; no new ElevenLabs call for this word (master already paid for and staged in round 9, PR #1067)"
+    },
+    "sp-w-our.m4a": {
+      "word": "our",
+      "sha256": "9e8e8b83a0f8a228d383d5cb98cc383efeb8b17110f14dc7bccc57118bb6333b",
+      "source": {
+        "kind": "isolated re-render from a paid candidate master (tools/render-spelling-candidates.py --round r9)",
+        "approach": "multi-context",
+        "take": 3,
+        "text": "our",
+        "previous_text": "Spell the word",
+        "next_text": ".",
+        "master": "narration/rendered/word-candidates-r9/sp-w-our.multi-context.mp3 (paid, git-ignored; backed up to ~/.local/state/children-games/paid-backup/2026-09-29-word-clips-r9/masters/)",
+        "alignment": "tools/word-candidates-r9/alignment/sp-w-our.multi-context.json",
+        "tool": "math-app/tools/render-spelling-candidates.py (ElevenLabs, AI-generated speech)",
+        "voice": "Magic Math Narrator",
+        "voice_id": "syTCOMrIG987VoS0EmlL",
+        "model": "eleven_multilingual_v2",
+        "output_format": "mp3_44100_128",
+        "rendered_at": "2026-09-29",
+        "transcoded_by": "afconvert AAC mono 24kHz 32kbps, matching every other shipped Magic Math spelling clip"
+      },
+      "replaced": {
+        "sha256": "7e38bcd9709723ec2f31bfb28bd68bdbde5bce0c5a114023ff12b62c085c68f0",
+        "backup": "narration/replaced-words/sp-w-our.7e38bcd97097.m4a",
+        "note": "Original render from this manifest's own CONTEXT_RERENDERS text, replaced after the owner's 2026-09-29 round-9 verdict."
+      },
+      "owner": {
+        "kind": "round9-listen",
+        "verdict": "our -> take 3 (use this one now, it's best as of now, but render again with the next batch because i think we can do better)",
+        "note": "Owner, 2026-09-29 verbatim, after listening to test-apps/audio-check-0929b (round 9).",
+        "task_record": "coordination/tasks/2026-09-29-claude-word-clips-r9-ship-and-render.md",
+        "verdict_task": "coordination/tasks/2026-09-29-claude-word-clips-r9-ship.md",
+        "still_open": true
+      },
+      "shipped": "2026-09-29",
+      "tool": "manual ship following word-book/tools/ship-sentence-cut.py durability/provenance patterns; no new ElevenLabs call for this word (master already paid for and staged in round 9, PR #1067)"
+    }
+  },
+  "isolated_re_renders_note": "Clips listed here are isolated re-renders that replace this manifest's own bare-word render for that id, shipped only on the owner's explicit verdict in a listening comparison. build-spelling-manifest.py's own CONTEXT_RERENDERS text for these six ids is UNCHANGED and must stay unchanged -- see ISOLATED_RERENDERS_R8 / ISOLATED_RERENDERS_R9 above for why re-running render-narration.py or build-runtime-audio.py --force on this set would silently revert them. 'our' is explicitly NOT closed out -- the owner asked for another render pass next batch; see math-app/work_progress_and_other_discussion.md."
+}
