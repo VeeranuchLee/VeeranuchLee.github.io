@@ -10,6 +10,10 @@
   const OPS = ["+", "−", "×", "÷"];
   const MAX_DIGITS = 4;
   const MAX_PLAYERS = 4;
+  const SMALL_PER_BIG = 10;
+  const MAX_BIG_STICKERS = 10;
+  const SCORE_PER_SPECIAL = MAX_BIG_STICKERS * SMALL_PER_BIG;
+  const SPECIAL_DESIGNS = 10;
   const DEFAULT_PLAYERS = [
     { id: "p1", name: "", score: 0 },
     { id: "p2", name: "", score: 0 }
@@ -77,21 +81,56 @@
       let id = typeof player.id === "string" && /^p\d+$/.test(player.id) ? player.id : `p${index + 1}`;
       while (seen.has(id)) id = `p${index + 1}-${seen.size}`;
       seen.add(id);
+      const rawScore = Number.isSafeInteger(player.score) && player.score >= 0 ? player.score : 0;
+      const savedCollection = Array.isArray(player.collection)
+        ? player.collection.filter(value => Number.isInteger(value) && value >= 0 && value < SPECIAL_DESIGNS).slice(0, SPECIAL_DESIGNS)
+        : Array.from({ length: Math.min(Math.floor(rawScore / SCORE_PER_SPECIAL), SPECIAL_DESIGNS) }, (_, design) => design);
       return {
         id,
         name: typeof player.name === "string" ? Array.from(player.name).slice(0, 10).join("") : "",
-        score: Number.isSafeInteger(player.score) && player.score >= 0 ? player.score : 0
+        score: rawScore % SCORE_PER_SPECIAL,
+        collection: savedCollection
       };
     });
-    while (players.length < 2) players.push({ ...DEFAULT_PLAYERS[players.length] });
+    while (players.length < 2) players.push({ ...DEFAULT_PLAYERS[players.length], collection: [] });
     const selectedId = players.some(player => player.id === value?.selectedId) ? value.selectedId : players[0].id;
     return { version: 1, players, selectedId };
   }
 
   function scoreSelected(state) {
     const clean = normalisePlayers(state);
-    return { ...clean, players: clean.players.map(player => player.id === clean.selectedId ? { ...player, score: player.score + 1 } : player) };
+    return { ...clean, players: clean.players.map(player => {
+      if (player.id !== clean.selectedId) return player;
+      const nextScore = player.score + 1;
+      if (nextScore < SCORE_PER_SPECIAL) return { ...player, score: nextScore };
+      const collection = player.collection.length < SPECIAL_DESIGNS
+        ? [...player.collection, player.collection.length]
+        : player.collection;
+      return { ...player, score: 0, collection };
+    }) };
   }
 
-  return { OPS, MAX_DIGITS, MAX_PLAYERS, DEFAULT_PLAYERS, cleanTokens, compute, normalisePlayers, scoreSelected };
+  function isCollectionComplete(player) {
+    return !!player && Array.isArray(player.collection) && player.collection.length >= SPECIAL_DESIGNS;
+  }
+
+  function stickersForScore(score) {
+    const safe = Number.isSafeInteger(score) && score >= 0 ? score % SCORE_PER_SPECIAL : 0;
+    return {
+      big: Math.floor(safe / SMALL_PER_BIG),
+      small: safe % SMALL_PER_BIG
+    };
+  }
+
+  function resetScores(state) {
+    const clean = normalisePlayers(state);
+    return { ...clean, players: clean.players.map(player => ({ ...player, score: 0 })) };
+  }
+
+  function emptyCollections(state) {
+    const clean = normalisePlayers(state);
+    return { ...clean, players: clean.players.map(player => ({ ...player, collection: [] })) };
+  }
+
+  return { OPS, MAX_DIGITS, MAX_PLAYERS, SMALL_PER_BIG, MAX_BIG_STICKERS, SCORE_PER_SPECIAL, SPECIAL_DESIGNS, DEFAULT_PLAYERS, cleanTokens, compute, normalisePlayers, scoreSelected, isCollectionComplete, stickersForScore, resetScores, emptyCollections };
 });

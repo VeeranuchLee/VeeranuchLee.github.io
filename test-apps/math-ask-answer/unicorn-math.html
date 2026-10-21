@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="audio-wake.js?v=18e0d9f4a-20261021234842"></script>
+<script src="audio-wake.js?v=8a6a7e3f0-20261022021526"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <!-- Plain name, deliberately. This read "Magic Math v7" from 7343cc3 until
@@ -10,25 +10,25 @@
        a title that has to be edited on every publish will be wrong again by the
        next one. -->
   <title>Unicorn Math</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=18e0d9f4a-20261021234842"/>
-  <link rel="icon" href="./assets/icons/icon-192.png?v=18e0d9f4a-20261021234842"/>
-  <link rel="stylesheet" href="./fonts.css?v=18e0d9f4a-20261021234842"/>
-  <link rel="stylesheet" href="./css/tap-wait-math.css?v=18e0d9f4a-20261021234842"/>
-  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=18e0d9f4a-20261021234842"/>
+  <link rel="manifest" href="./manifest.webmanifest?v=8a6a7e3f0-20261022021526"/>
+  <link rel="icon" href="./assets/icons/icon-192.png?v=8a6a7e3f0-20261022021526"/>
+  <link rel="stylesheet" href="./fonts.css?v=8a6a7e3f0-20261022021526"/>
+  <link rel="stylesheet" href="./css/tap-wait-math.css?v=8a6a7e3f0-20261022021526"/>
+  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=8a6a7e3f0-20261022021526"/>
   <meta name="theme-color" content="#0a0e2d"/>
-  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=18e0d9f4a-20261021234842"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=8a6a7e3f0-20261022021526"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Magic Math"/>
   <!-- Method C: the pilot guard is first; it ignores every multi-finger gesture. -->
-  <script src="./js/tap-zoom-guard.js?v=18e0d9f4a-20261021234842"></script>
-  <script src="./vendor/react-18.3.1.production.min.js?v=18e0d9f4a-20261021234842"></script>
-  <script src="./vendor/react-dom-18.3.1.production.min.js?v=18e0d9f4a-20261021234842"></script>
-  <script src="./js/tap-wait-engine.js?v=18e0d9f4a-20261021234842"></script>
-  <script src="./js/tap-wait-math.js?v=18e0d9f4a-20261021234842"></script>
-  <script src="./ask-answer-logic.js?v=18e0d9f4a-20261021234842"></script>
-  <script src="./shared/bg-deco/bg-deco.js?v=18e0d9f4a-20261021234842"></script>
-  <script src="./vendor/babel-7.26.4.min.js?v=18e0d9f4a-20261021234842"></script>
+  <script src="./js/tap-zoom-guard.js?v=8a6a7e3f0-20261022021526"></script>
+  <script src="./vendor/react-18.3.1.production.min.js?v=8a6a7e3f0-20261022021526"></script>
+  <script src="./vendor/react-dom-18.3.1.production.min.js?v=8a6a7e3f0-20261022021526"></script>
+  <script src="./js/tap-wait-engine.js?v=8a6a7e3f0-20261022021526"></script>
+  <script src="./js/tap-wait-math.js?v=8a6a7e3f0-20261022021526"></script>
+  <script src="./ask-answer-logic.js?v=8a6a7e3f0-20261022021526"></script>
+  <script src="./shared/bg-deco/bg-deco.js?v=8a6a7e3f0-20261022021526"></script>
+  <script src="./vendor/babel-7.26.4.min.js?v=8a6a7e3f0-20261022021526"></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;touch-action:manipulation}
     body{font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden}
@@ -1451,16 +1451,18 @@
     .np-ghost-op{width:calc(var(--np-tile)*.84);font-size:calc(var(--np-tile)*.44);color:#5e35b1;background:linear-gradient(160deg,#f6f3ff,#e4dcff);box-shadow:0 10px 24px rgba(136,14,79,.35),0 4px 0 #b39ddb}
     @media (max-height:640px){.np-screen{--np-tile:clamp(46px,9vw,56px);--np-tray-tile:clamp(38px,7.5vw,46px);gap:7px}.np-history-restore{padding:4px 14px}.np-rail-wrap{padding:9px 4px}.np-nudge{width:44px;height:44px;font-size:1.45rem}}
     /* ── Ask & Answer (aa1) ── */
-    .aa-screen{overflow-y:auto;gap:9px}.aa-players{display:flex;align-items:stretch;justify-content:center;gap:8px;flex-wrap:wrap;position:relative;z-index:2;width:min(96vw,720px)}
-    .aa-player{width:112px;min-height:82px;padding:6px;border:3px solid rgba(255,255,255,.7);border-radius:16px;background:rgba(255,255,255,.62);color:#6a1b9a;box-shadow:0 4px 0 rgba(136,14,79,.24)}
-    .aa-player.selected{border-color:#f06292;box-shadow:0 0 0 4px rgba(240,98,146,.24),0 4px 0 #ad1457}.aa-name{width:100%;min-height:36px;border:2px solid #ce93d8;border-radius:10px;padding:4px 7px;font:800 .86rem Nunito,sans-serif;color:#6a1b9a;background:#fff;text-align:center}
-    .aa-player-pick{display:block;width:100%;min-height:32px;margin-top:4px;border:0;border-radius:8px;background:transparent;color:inherit;font:900 .8rem Nunito,sans-serif;cursor:pointer}.aa-add,.aa-reset{min-height:44px;border:2.5px solid #ce93d8;border-radius:14px;background:linear-gradient(160deg,#fff,#f8e6fb);color:#8e24aa;font:900 .82rem Nunito,sans-serif;padding:6px 12px;cursor:pointer;box-shadow:0 3px 0 #ce93d8}.aa-add{width:48px;font-size:1.6rem}.aa-player-pick:active,.aa-add:active,.aa-reset:active{transform:translateY(2px)}
+    .aa-screen{overflow:hidden;gap:6px;padding-bottom:10px}.aa-screen .count-title{margin:0}.aa-screen .count-title-sub{line-height:1.05}.aa-players{display:flex;align-items:center;justify-content:center;gap:6px 4px;flex-wrap:wrap;position:relative;z-index:2;width:min(96vw,920px)}
+    .aa-player{width:180px;height:112px;padding:4px;border:3px solid rgba(255,255,255,.7);border-radius:16px;background:rgba(255,255,255,.62);color:#6a1b9a;box-shadow:0 4px 0 rgba(136,14,79,.24)}
+    .aa-player.selected{border-color:#f06292;box-shadow:0 0 0 4px rgba(240,98,146,.24),0 4px 0 #ad1457}.aa-name{width:100%;height:44px;border:2px solid #ce93d8;border-radius:10px;padding:4px 7px;font:800 .86rem Nunito,sans-serif;color:#6a1b9a;background:#fff;text-align:center}
+    .aa-player-pick{display:flex;width:100%;height:58px;margin-top:2px;padding:1px;border:0;border-radius:8px;background:transparent;color:inherit;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:2px}.aa-stickers{display:flex;align-items:center;justify-content:center;min-height:18px;width:100%;white-space:nowrap}.aa-stickers.big{height:34px;min-height:34px}.aa-sticker{width:18px;height:18px;flex:0 0 18px;object-fit:contain;filter:drop-shadow(0 1px 1px rgba(106,27,154,.3))}.aa-stickers.big .aa-sticker{position:relative;width:32px;height:32px;flex:0 0 32px}.aa-stickers.big .aa-sticker+.aa-sticker{margin-left:-18px}.aa-stickers.big .aa-sticker:nth-child(1){z-index:10}.aa-stickers.big .aa-sticker:nth-child(2){z-index:9}.aa-stickers.big .aa-sticker:nth-child(3){z-index:8}.aa-stickers.big .aa-sticker:nth-child(4){z-index:7}.aa-stickers.big .aa-sticker:nth-child(5){z-index:6}.aa-stickers.big .aa-sticker:nth-child(6){z-index:5}.aa-stickers.big .aa-sticker:nth-child(7){z-index:4}.aa-stickers.big .aa-sticker:nth-child(8){z-index:3}.aa-stickers.big .aa-sticker:nth-child(9){z-index:2}.aa-stickers.big .aa-sticker:nth-child(10){z-index:1}.aa-sticker-empty{font:800 .66rem Nunito,sans-serif;opacity:.68}.aa-player{position:relative}.aa-player.merge .aa-stickers.big{animation:aaStickerMerge .55s ease-out}.aa-player.special{animation:aaSpecialEarn .75s ease-out}.aa-add,.aa-reset,.aa-chest{min-height:44px;border:2.5px solid #ce93d8;border-radius:14px;background:linear-gradient(160deg,#fff,#f8e6fb);color:#8e24aa;font:900 .82rem Nunito,sans-serif;padding:6px 12px;cursor:pointer;box-shadow:0 3px 0 #ce93d8}.aa-add{width:48px;font-size:1.6rem}.aa-chest{display:flex;align-items:center;gap:5px}.aa-chest img{width:34px;height:30px;object-fit:contain}.aa-player-pick:active,.aa-add:active,.aa-reset:active,.aa-chest:active{transform:translateY(2px)}
+    .aa-chest-backdrop{position:fixed;inset:0;z-index:50;background:rgba(74,20,140,.55);display:flex;align-items:center;justify-content:center;padding:18px}.aa-chest-panel{position:relative;width:min(94vw,720px);max-height:88vh;overflow:auto;border:4px solid #f8bbd0;border-radius:26px;background:linear-gradient(155deg,#fff,#fce4ec);color:#6a1b9a;padding:22px;box-shadow:0 12px 40px rgba(106,27,154,.35)}.aa-chest-panel h2{text-align:center;margin:0 48px 14px}.aa-chest-close{position:absolute;right:12px;top:10px;width:48px;height:48px;border:3px solid #ce93d8;border-radius:50%;background:#fff;color:#6a1b9a;font:900 1.6rem Nunito,sans-serif}.aa-collection-player{border:2px solid #ce93d8;border-radius:16px;padding:10px;margin:9px 0;background:#fff}.aa-collection-name{font-weight:900}.aa-specials{display:flex;flex-wrap:wrap;gap:7px;min-height:42px;align-items:center;margin:6px 0}.aa-special{width:42px;height:42px;object-fit:contain;filter:drop-shadow(0 2px 2px rgba(106,27,154,.2))}.aa-collection-progress{font-size:.82rem;font-weight:800}.aa-empty-chest{display:block;margin:16px auto 0;min-height:44px;border:2px solid #c2185b;border-radius:14px;background:#fff;color:#ad1457;font:900 .82rem Nunito,sans-serif;padding:7px 14px}.aa-special-toast{position:fixed;z-index:55;left:50%;top:18%;transform:translateX(-50%);padding:10px 18px;border:3px solid #f8bbd0;border-radius:999px;background:#fff;color:#8e24aa;font-weight:900;box-shadow:0 8px 24px rgba(106,27,154,.3);animation:aaSpecialEarn .75s ease-out}
+    @keyframes aaStickerMerge{0%{transform:scale(.65);filter:brightness(1.8)}55%{transform:scale(1.18)}100%{transform:scale(1)}}@keyframes aaSpecialEarn{0%{transform:scale(.65)}55%{transform:scale(1.08)}100%{transform:scale(1)}}@media (prefers-reduced-motion:reduce){.aa-player.merge .aa-stickers.big,.aa-player.special,.aa-special-toast{animation:none}}
     .aa-stage{display:grid;grid-template-columns:minmax(290px,430px) minmax(280px,520px);gap:12px;align-items:start;justify-content:center;width:min(97vw,980px);position:relative;z-index:1}.aa-work{display:flex;flex-direction:column;align-items:center;gap:9px}.aa-card{width:100%;min-height:218px;background:linear-gradient(145deg,#fff,#f8e6fb);border:3px solid #ce93d8;border-radius:24px;padding:14px 18px;color:#6a1b9a;box-shadow:0 5px 0 #ab47bc;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px}.aa-prompt{font-size:clamp(1rem,2.7vw,1.25rem);font-weight:900;text-align:center;color:#8e24aa}.aa-build{min-height:70px;max-width:100%;display:flex;align-items:center;gap:6px;overflow-x:auto;padding:6px}.aa-build-num{font-size:clamp(1.5rem,5vw,2.2rem);font-weight:900;color:#c62828;border:3px solid #ff8a80;border-radius:12px;padding:5px 9px;min-width:48px;text-align:center}.aa-build-op{font-size:clamp(1.5rem,5vw,2.2rem);font-weight:900;color:#8e24aa}.aa-empty{color:#b39ddb;border-style:dashed}.aa-card.wrong{animation:wrongShake .35s ease;border-color:#f44336}
     .aa-column{display:grid;grid-template-columns:34px auto;align-items:center;justify-content:center;gap:2px 8px;font-size:clamp(1.8rem,6vw,2.7rem);font-weight:900;font-variant-numeric:tabular-nums;min-width:170px}.aa-col-op{color:#8e24aa;text-align:center}.aa-col-num{text-align:right;letter-spacing:.08em}.aa-rule{grid-column:1/-1;height:4px;border-radius:3px;background:#8e24aa;margin:2px 0;width:100%}.aa-answer{grid-column:2;text-align:right;min-height:1.2em;letter-spacing:.08em;color:#2e7d32}.aa-answer.empty{color:#b39ddb}.aa-feedback{min-height:28px;font-weight:900;text-align:center;color:#8e24aa}.aa-feedback.good{color:#2e7d32}.aa-feedback.try{color:#ef6c00}
     .aa-keypad{display:grid;grid-template-columns:repeat(5,minmax(48px,62px));gap:7px;justify-content:center}.aa-key{height:50px;border:2.5px solid #ce93d8;border-radius:14px;background:linear-gradient(160deg,#fff,#f8e6fb);color:#8e24aa;font:900 1.35rem Nunito,sans-serif;box-shadow:0 4px 0 #ce93d8;cursor:pointer}.aa-key.op{color:#ad1457;background:linear-gradient(160deg,#fff0f6,#f8d9e7)}.aa-key:active{transform:translateY(3px);box-shadow:0 1px 0 #ce93d8}.aa-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}.aa-action{min-height:48px;border:3px solid #81c784;border-radius:999px;background:linear-gradient(160deg,#fff,#e2f6e3);color:#2e7d32;font:900 .95rem Nunito,sans-serif;padding:8px 18px;box-shadow:0 4px 0 #81c784;cursor:pointer}.aa-action.secondary{border-color:#ce93d8;color:#8e24aa;background:linear-gradient(160deg,#fff,#f8e6fb);box-shadow:0 4px 0 #ce93d8}.aa-action:active{transform:translateY(3px);box-shadow:none}
     .aa-scratch{background:#f6f0df;border:3px solid #c99b55;border-radius:22px;padding:9px;box-shadow:0 5px 0 #80552d;min-height:390px;display:flex;flex-direction:column;gap:8px}.aa-scratch.collapsed{min-height:0;width:100%;padding:0;background:none;border:none;box-shadow:none}.aa-scratch.collapsed .aa-tools,.aa-scratch.collapsed .aa-canvas,.aa-scratch.collapsed .aa-scratch-title{display:none}.aa-scratch-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.aa-scratch.collapsed .aa-scratch-head{justify-content:flex-end}.aa-scratch-title{font-weight:900;color:#5b3b20}.aa-scratch-toggle{min-height:44px;border:2px solid #c99b55;border-radius:13px;background:#fff8e8;color:#5b3b20;font:900 .86rem Nunito,sans-serif;padding:6px 12px;cursor:pointer}.aa-tools{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap}.aa-colour{width:44px;height:44px;border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 2px #9b7544;cursor:pointer}.aa-colour.on{box-shadow:0 0 0 4px #8e24aa}.aa-tool{min-height:44px;border:2px solid #c99b55;border-radius:12px;background:#fff8e8;color:#5b3b20;font:900 .8rem Nunito,sans-serif;padding:5px 10px;cursor:pointer}.aa-tool.on{background:#f3e5f5;border-color:#8e24aa;color:#6a1b9a}.aa-canvas{width:100%;height:285px;background:#fff;border:2px solid #d8c9ad;border-radius:12px;touch-action:pinch-zoom;cursor:crosshair}
-    @media (orientation:portrait),(max-width:760px){.aa-stage{grid-template-columns:1fr;max-width:620px}.aa-scratch{min-height:330px}.aa-canvas{height:230px}.aa-player{width:104px}.aa-screen{padding-left:8px;padding-right:8px}}
-    @media (max-height:740px) and (orientation:landscape){.aa-screen{gap:6px}.aa-card{min-height:180px;padding:8px 14px}.aa-scratch{min-height:330px}.aa-canvas{height:225px}.aa-key{height:44px}.aa-player{min-height:72px}.aa-name{min-height:32px}}
+    @media (orientation:portrait),(max-width:760px){.aa-screen{height:100vh;height:100dvh;min-height:0;padding-left:8px;padding-right:8px}.aa-stage{display:flex;flex:1 1 auto;min-height:0;max-width:620px;gap:8px;flex-direction:column;overflow:hidden}.aa-work{flex:0 0 auto}.aa-card{min-height:118px;padding:8px 14px}.aa-build{min-height:48px;padding:2px}.aa-key{height:44px}.aa-scratch{flex:1 1 auto;min-height:0;overflow:hidden}.aa-canvas{height:200px;min-height:150px;flex:0 0 auto}.aa-players{gap:5px 4px}}
+    @media (max-height:820px) and (orientation:landscape){.aa-card{min-height:150px;padding:8px 14px;gap:5px}.aa-build{min-height:48px;padding:2px}.aa-scratch{min-height:340px}.aa-canvas{height:205px}.aa-key{height:44px}}
     /* ── Number Crossword (p1) ──
        A 5 x 5 board of equations across and down, then the tray. SQUARES HOLD NUMBERS
        and CIRCLES HOLD SIGNS: the two kinds of box and the two kinds of tile differ in
@@ -6143,7 +6145,7 @@ function GamePreview({id}){
   if(id==='r1')return(                      /* Read Big Numbers — grouped slots and a reader */
     <div className="gp gp-tight" aria-hidden="true">
       <div className="gp-row"><span className="gp-num">1</span><span className="gp-gap"/><span className="gp-num">2</span><span className="gp-num">5</span><span className="gp-num">0</span></div>
-      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/unicorn/icons/read-out.webp?v=18e0d9f4a-20261021234842" alt=""/></div>
+      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/unicorn/icons/read-out.webp?v=8a6a7e3f0-20261022021526" alt=""/></div>
     </div>);
   if(id==='s1')return(                      /* Count By — the chant above, the ladder rung below */
     <div className="gp gp-tight" aria-hidden="true">
@@ -6310,7 +6312,7 @@ function CardSticker({id}){
   return <img className="card-sticker" src={`assets/stickers/unicorn/${f}.webp`} alt="" aria-hidden="true" draggable="false" style={{'--sd':(4+(h%7)*.45).toFixed(2)+'s','--sl':'-'+((h%5)*.9).toFixed(1)+'s'}}/>;
 }
 function Stars({count}){
-  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/unicorn/icons/star.webp?v=18e0d9f4a-20261021234842" alt=""/>)}</div>;
+  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/unicorn/icons/star.webp?v=8a6a7e3f0-20261022021526" alt=""/>)}</div>;
 }
 
 /* Only the two hardest games wear this. The absence of a badge is the other
@@ -6325,7 +6327,7 @@ function Stars({count}){
    Unlike Space Math these cards carry no aria-label, so the alt text is what a
    screen reader announces; do not blank it here to match the other theme. */
 function BigKidBadge(){
-  return <div className="mode-card-badge"><img src="assets-runtime/unicorn/icons/big-kids.webp?v=18e0d9f4a-20261021234842" alt="For big kids"/></div>;
+  return <div className="mode-card-badge"><img src="assets-runtime/unicorn/icons/big-kids.webp?v=8a6a7e3f0-20261022021526" alt="For big kids"/></div>;
 }
 
 /* ══ MASCOT ══ */
@@ -6598,7 +6600,7 @@ function TopBar({onBack,muted,onToggleMute,label,score,flowers,bouquets=0}){
   return(
     <div className="top-bar">
       <div style={{display:'flex',alignItems:'center',gap:5}}>
-        <img src="assets-runtime/unicorn/icons/flower-pink.webp?v=18e0d9f4a-20261021234842" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
+        <img src="assets-runtime/unicorn/icons/flower-pink.webp?v=8a6a7e3f0-20261022021526" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
         <button className="back-btn" aria-label="Back home" onClick={()=>{Voice.stop();Sound.tap();onBack();}}>←</button>
       </div>
       {label&&<div className="level-chip">{label}</div>}
@@ -6612,7 +6614,7 @@ function TopBar({onBack,muted,onToggleMute,label,score,flowers,bouquets=0}){
             to count -- so the chip is conditional rather than a permanent 0. Every
             scored game passes a score and sees exactly what it saw before. */}
         {score!=null&&<div style={{display:'flex',alignItems:'center',gap:6}}>
-          <img src="assets-runtime/unicorn/icons/star.webp?v=18e0d9f4a-20261021234842" alt="★" style={{width:34,height:34,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.2))'}}/>
+          <img src="assets-runtime/unicorn/icons/star.webp?v=8a6a7e3f0-20261022021526" alt="★" style={{width:34,height:34,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.2))'}}/>
           <div className="score-badge"><span>{score}</span></div>
         </div>}
         <FlowerGarden flowers={flowers}/>
@@ -9079,8 +9081,8 @@ function numberToWords(s){
 function RobotReader({speaking}){
   return(
     <div className={`rb-robot ${speaking?'talking':''}`} aria-hidden="true">
-      <img className="rb-still" src="assets-runtime/unicorn/icons/robot-reader.webp?v=18e0d9f4a-20261021234842" alt=""/>
-      <img className="rb-talk" src="assets-runtime/unicorn/icons/robot-reader-talk.webp?v=18e0d9f4a-20261021234842" alt=""/>
+      <img className="rb-still" src="assets-runtime/unicorn/icons/robot-reader.webp?v=8a6a7e3f0-20261022021526" alt=""/>
+      <img className="rb-talk" src="assets-runtime/unicorn/icons/robot-reader-talk.webp?v=8a6a7e3f0-20261022021526" alt=""/>
     </div>
   );
 }
@@ -13214,6 +13216,10 @@ function NumberPlayGame({onBack, flowers, gardenFull, setFlowers, setGardenFull,
 
 /* ══ MODE aa1: ASK & ANSWER ══ */
 const AA_STORE='unicornMath.askAnswer.players.v1';
+const AA_STICKER='assets-runtime/unicorn/icons/heart-gem.webp';
+const AA_STICKER_WORD='gem';
+const AA_CHEST='assets-runtime/space/icons/chest.webp';
+const AA_SPECIALS=['crown.webp','rainbow.webp','heart-gem.webp','star-purple.webp','unicorn-flower.webp','sparkle.webp','bouquet.webp','flower-blue.webp','flower-pink.webp','flower-yellow.webp'].map(name=>`assets-runtime/unicorn/icons/${name}`);
 /* Four crayons only (owner 2026-10-21: "just 4 color for scratchpad is enough. don't make UI too crowded.") */
 const AA_COLORS=['#37474f','#e53935','#1e88e5','#43a047'];
 /* one name per crayon, so a screen reader hears eight choices, not one eight times */
@@ -13228,6 +13234,9 @@ function AskAnswerGame({onBack,flowers,bouquets,muted,onToggleMute}){
   const [wrong,setWrong]=useState(false);
   const [correct,setCorrect]=useState(false);
   const [showAnswer,setShowAnswer]=useState(false);
+  const [mergeId,setMergeId]=useState(null);
+  const [specialId,setSpecialId]=useState(null);
+  const [chestOpen,setChestOpen]=useState(false);
   const [players,setPlayers]=useState(()=>{
     try{return AA.normalisePlayers(JSON.parse(localStorage.getItem(AA_STORE)||'null'));}catch(e){return AA.normalisePlayers(null);}
   });
@@ -13239,9 +13248,10 @@ function AskAnswerGame({onBack,flowers,bouquets,muted,onToggleMute}){
      as a bitmap: a resize or a turn of the iPad re-replays the same lines at the new
      size instead of stretching a snapshot, and the drawing stays on screen (shrunk,
      restacked, question changed) until the child leaves the mode. */
-  const canvasRef=useRef(null),drawRef=useRef(null),strokesRef=useRef([]);
+  const scratchRef=useRef(null),canvasRef=useRef(null),drawRef=useRef(null),strokesRef=useRef([]),mergeT=useRef(null),specialT=useRef(null);
   const tap=useCallback(()=>{Sound.setMuted(muted);Sound.tap();},[muted]);
   useEffect(()=>{try{localStorage.setItem(AA_STORE,JSON.stringify(players));}catch(e){}},[players]);
+  useEffect(()=>()=>{clearTimeout(mergeT.current);clearTimeout(specialT.current);},[]);
 
   const paintStroke=useCallback((ctx,stroke)=>{
     const canvas=canvasRef.current,box=canvas.getBoundingClientRect(),scale=canvas.width/box.width,pts=stroke.points;
@@ -13253,13 +13263,17 @@ function AskAnswerGame({onBack,flowers,bouquets,muted,onToggleMute}){
     ctx.stroke();ctx.restore();
   },[]);
   const prepareCanvas=useCallback(()=>{
-    const canvas=canvasRef.current;if(!canvas)return;
+    const scratch=scratchRef.current,canvas=canvasRef.current;if(!scratch||!canvas)return;
+    const children=[...scratch.children],canvasIndex=children.indexOf(canvas),style=getComputedStyle(scratch),gap=parseFloat(style.rowGap)||0;
+    const occupied=children.slice(0,canvasIndex).reduce((sum,node)=>sum+node.getBoundingClientRect().height,0)+gap*Math.max(0,canvasIndex);
+    const available=Math.floor(scratch.clientHeight-(parseFloat(style.paddingTop)||0)-(parseFloat(style.paddingBottom)||0)-occupied);
+    canvas.style.height=`${Math.max(150,available)}px`;
     const rect=canvas.getBoundingClientRect();if(rect.width<40||rect.height<40)return;
     const scale=Math.min(window.devicePixelRatio||1,1.5);canvas.width=Math.round(rect.width*scale);canvas.height=Math.round(rect.height*scale);
     const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
     strokesRef.current.forEach(stroke=>{if(stroke.points.length)paintStroke(ctx,stroke);});
   },[paintStroke]);
-  useEffect(()=>{if(!scratchOpen)return;requestAnimationFrame(()=>prepareCanvas());const resize=()=>prepareCanvas();window.addEventListener('resize',resize);return()=>window.removeEventListener('resize',resize);},[scratchOpen,prepareCanvas]);
+  useEffect(()=>{if(!scratchOpen)return;const resize=()=>requestAnimationFrame(()=>prepareCanvas());resize();window.addEventListener('resize',resize);const observer=window.ResizeObserver?new window.ResizeObserver(resize):null;if(observer)observer.observe(scratchRef.current);return()=>{window.removeEventListener('resize',resize);if(observer)observer.disconnect();};},[scratchOpen,prepareCanvas]);
   const clearScratch=useCallback((withSound=true)=>{strokesRef.current=[];const canvas=canvasRef.current;if(!canvas)return;const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);if(withSound)tap();},[tap]);
   const point=e=>{const r=canvasRef.current.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};};
   const drawStart=e=>{if(e.pointerType==='mouse'&&e.button!==0)return;if(!e.isPrimary)return;try{e.currentTarget.setPointerCapture(e.pointerId);}catch(err){}const stroke={colour,width:eraser?26:penSize,erase:eraser,points:[point(e)]};strokesRef.current.push(stroke);drawRef.current={id:e.pointerId,stroke};paintStroke(canvasRef.current.getContext('2d'),stroke);tap();};
@@ -13269,8 +13283,9 @@ function AskAnswerGame({onBack,flowers,bouquets,muted,onToggleMute}){
   const updatePlayers=next=>setPlayers(AA.normalisePlayers(typeof next==='function'?next(players):next));
   const selectPlayer=id=>{tap();updatePlayers({...players,selectedId:id});};
   const rename=(id,name)=>updatePlayers({...players,players:players.players.map(p=>p.id===id?{...p,name}:p)});
-  const addPlayer=()=>{tap();if(players.players.length>=AA.MAX_PLAYERS)return;const used=new Set(players.players.map(p=>p.id));let n=1;while(used.has(`p${n}`))n+=1;updatePlayers({...players,players:[...players.players,{id:`p${n}`,name:'',score:0}]});};
-  const resetScores=()=>{tap();if(!window.confirm('Reset every player score?'))return;Sound.ding();updatePlayers({...players,players:players.players.map(p=>({...p,score:0}))});};
+  const addPlayer=()=>{tap();if(players.players.length>=AA.MAX_PLAYERS)return;const used=new Set(players.players.map(p=>p.id));let n=1;while(used.has(`p${n}`))n+=1;updatePlayers({...players,players:[...players.players,{id:`p${n}`,name:'',score:0,collection:[]}]});};
+  const resetScores=()=>{tap();if(!window.confirm('Reset every player score?'))return;Sound.ding();updatePlayers(AA.resetScores(players));};
+  const emptyChest=()=>{tap();if(!window.confirm('Empty every player collection? This cannot be undone.'))return;Sound.ding();updatePlayers(AA.emptyCollections(players));};
   /* "007" is not a number a child writes: a zero already alone in the slot refuses
      the next digit out loud, and every value is normalised again before it counts,
      so page and rules agree on one spelling. */
@@ -13283,7 +13298,7 @@ function AskAnswerGame({onBack,flowers,bouquets,muted,onToggleMute}){
   const answerBackspace=()=>{tap();setAnswer(answer.slice(0,-1));setFeedback('');setWrong(false);};
   /* Show answer ends the round: no point can be scored after the reveal, only New
      question opens one. */
-  const check=()=>{tap();if(correct||showAnswer)return;if(!answer){Sound.wrong();setWrong(true);setFeedback('Type an answer first.');return;}if(answer.replace(/^0+(?=\d)/,'')===question.value){Sound.ding();Sound.celebrate();setPlayers(old=>AA.scoreSelected(old));setFeedback('That is right! One point!');setWrong(false);setCorrect(true);setShowAnswer(false);}else{Sound.wrong();setFeedback('Not yet. Try again!');setWrong(true);}};
+  const check=()=>{tap();if(correct||showAnswer)return;if(!answer){Sound.wrong();setWrong(true);setFeedback('Type an answer first.');return;}if(answer.replace(/^0+(?=\d)/,'')===question.value){Sound.ding();Sound.celebrate();const before=AA.stickersForScore(active.score),earned=active.score===AA.SCORE_PER_SPECIAL-1&&!AA.isCollectionComplete(active);setPlayers(old=>AA.scoreSelected(old));if(earned){clearTimeout(specialT.current);setSpecialId(active.id);specialT.current=setTimeout(()=>setSpecialId(null),1800);}else if(before.small===AA.SMALL_PER_BIG-1){clearTimeout(mergeT.current);setMergeId(active.id);mergeT.current=setTimeout(()=>setMergeId(null),650);}setFeedback(earned?'Amazing! A special sticker went into the treasure chest!':'That is right! One small sticker!');setWrong(false);setCorrect(true);setShowAnswer(false);}else{Sound.wrong();setFeedback('Not yet. Try again!');setWrong(true);}};
   const newQuestion=()=>{tap();setStep('ask');setTokens(['']);setQuestion(null);setAnswer('');setFeedback('');setWrong(false);setCorrect(false);setShowAnswer(false);clearScratch(false);};
   const active=players.players.find(p=>p.id===players.selectedId)||players.players[0];
   const rows=question?question.tokens.filter((_,i)=>i%2===0):[];
@@ -13292,12 +13307,15 @@ function AskAnswerGame({onBack,flowers,bouquets,muted,onToggleMute}){
     <div className="screen-bg"/><BgDeco/><TopBar onBack={onBack} muted={muted} onToggleMute={onToggleMute} label="Ask & Answer" flowers={flowers} bouquets={bouquets}/>
     <div className="count-title"><div className="count-title-main">Ask &amp; Answer</div><div className="count-title-sub">Make a question for someone else</div></div>
     <div className="aa-players" aria-label="Choose who answers next">
-      {players.players.map((player,index)=><div key={player.id} className={`aa-player ${player.id===players.selectedId?'selected':''}`}>
-        <input className="aa-name" value={player.name} placeholder="Name" maxLength="10" aria-label={`Player ${index+1} name`} onClick={()=>tap()} onChange={e=>rename(player.id,e.target.value)}/><button className="aa-player-pick" onClick={()=>selectPlayer(player.id)} aria-pressed={player.id===players.selectedId}>Score {player.score}</button>
-      </div>)}
+      {players.players.map((player,index)=>{const stickers=AA.stickersForScore(player.score),name=player.name||`Player ${index+1}`,label=`${name}: ${stickers.big} big ${AA_STICKER_WORD}${stickers.big===1?'':'s'} and ${stickers.small} small ${AA_STICKER_WORD}${stickers.small===1?'':'s'}`;return <div key={player.id} className={`aa-player ${player.id===players.selectedId?'selected':''} ${mergeId===player.id?'merge':''} ${specialId===player.id?'special':''}`}>
+        <input className="aa-name" value={player.name} placeholder="Name" maxLength="10" aria-label={`Player ${index+1} name`} onClick={()=>tap()} onChange={e=>rename(player.id,e.target.value)}/><button className="aa-player-pick" onClick={()=>selectPlayer(player.id)} aria-label={label} aria-pressed={player.id===players.selectedId}><span className="aa-stickers big">{stickers.big?Array.from({length:stickers.big},(_,i)=><img key={i} className="aa-sticker" src={AA_STICKER} alt=""/>):<span className="aa-sticker-empty">Big {AA_STICKER_WORD}s</span>}</span><span className="aa-stickers small">{stickers.small?Array.from({length:stickers.small},(_,i)=><img key={i} className="aa-sticker" src={AA_STICKER} alt=""/>):<span className="aa-sticker-empty">Small {AA_STICKER_WORD}s</span>}</span></button>
+      </div>})}
       {players.players.length<AA.MAX_PLAYERS&&<button className="aa-add" onClick={addPlayer} aria-label="Add player">+</button>}
+      <button className="aa-chest" onClick={()=>{tap();setChestOpen(true);}} aria-label="Open treasure chest"><img src={AA_CHEST} alt=""/>Collections</button>
       <button className="aa-reset" onClick={resetScores}>Reset scores</button>
     </div>
+    {specialId&&<div className="aa-special-toast" role="status">Special sticker earned!</div>}
+    {chestOpen&&<div className="aa-chest-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget)setChestOpen(false);}} role="presentation"><section className="aa-chest-panel" role="dialog" aria-modal="true" aria-labelledby="aa-chest-title"><button className="aa-chest-close" onClick={()=>setChestOpen(false)} aria-label="Close treasure chest">×</button><h2 id="aa-chest-title">Treasure chest</h2>{players.players.map((player,index)=>{const progress=AA.stickersForScore(player.score),name=player.name||`Player ${index+1}`,complete=AA.isCollectionComplete(player);return <div className="aa-collection-player" key={player.id}><div className="aa-collection-name">{name}</div><div className="aa-specials" aria-label={`${name} has ${player.collection.length} special stickers`}>{player.collection.length?player.collection.map((design,i)=><img className="aa-special" key={`${design}-${i}`} src={AA_SPECIALS[design]} alt={`Special sticker ${design+1}`}/>):<span>No special stickers yet</span>}</div><div className="aa-collection-progress">{complete?'Complete! ':''}Progress: {progress.big} big and {progress.small} small {AA_STICKER_WORD}{progress.small===1?'':'s'}</div></div>})}<button className="aa-empty-chest" onClick={emptyChest}>Empty chest</button></section></div>}
     <div className="aa-stage">
       <div className="aa-work">
         <div className={`aa-card ${wrong?'wrong':''}`}>
@@ -13309,7 +13327,7 @@ function AskAnswerGame({onBack,flowers,bouquets,muted,onToggleMute}){
         </div>
         {step==='ask'?<><div className="aa-keypad">{'1234567890'.split('').map(d=><button className="aa-key" key={d} onClick={()=>addDigit(d)}>{d}</button>)}{AA.OPS.map(op=><button className="aa-key op" key={op} onClick={()=>addOp(op)}>{op}</button>)}<button className="aa-key" onClick={backspace} aria-label="Backspace">Back</button></div><div className="aa-actions"><button className="aa-action secondary" onClick={clearQuestion}>Clear</button><button className="aa-action" onClick={setTheQuestion}>Set question</button></div></>:<>{!correct&&!showAnswer&&<div className="aa-keypad">{'1234567890'.split('').map(d=><button className="aa-key" key={d} onClick={()=>typeAnswer(d)}>{d}</button>)}<button className="aa-key" onClick={answerBackspace} aria-label="Backspace">Back</button></div>}<div className="aa-actions">{!correct&&!showAnswer&&<button className="aa-action" onClick={check}>Check</button>}{wrong&&!showAnswer&&<button className="aa-action secondary" onClick={()=>{tap();setShowAnswer(true);setFeedback(`The answer is ${question.value}.`);}}>Show answer</button>}<button className="aa-action secondary" onClick={newQuestion}>New question</button></div></>}
       </div>
-      <div className={`aa-scratch ${scratchOpen?'':'collapsed'}`}>
+      <div ref={scratchRef} className={`aa-scratch ${scratchOpen?'':'collapsed'}`}>
         <div className="aa-scratch-head"><span className="aa-scratch-title">Scratchpad</span><button className="aa-scratch-toggle" onClick={()=>{tap();setScratchOpen(!scratchOpen);}}>{scratchOpen?'Shrink':'Open scratchpad'}</button></div>
         <div className="aa-tools">{AA_COLORS.map((c,index)=><button key={c} className={`aa-colour ${!eraser&&colour===c?'on':''}`} style={{background:c}} aria-label={`Choose the ${AA_COLOR_NAMES[index]} crayon`} onClick={()=>{tap();setColour(c);setEraser(false);}}/>)}{[4,7,12].map(size=><button key={size} className={`aa-tool ${!eraser&&penSize===size?'on':''}`} onClick={()=>{tap();setPenSize(size);setEraser(false);}}>{size===4?'Thin':size===7?'Medium':'Thick'}</button>)}<button className={`aa-tool ${eraser?'on':''}`} onClick={()=>{tap();setEraser(true);}}>Eraser</button><button className="aa-tool" onClick={()=>clearScratch(true)}>Clear page</button></div><canvas ref={canvasRef} className="aa-canvas" aria-label="Drawing scratchpad" onPointerDown={drawStart} onPointerMove={drawMove} onPointerUp={drawEnd} onPointerCancel={drawEnd}/>
       </div>
@@ -15076,23 +15094,23 @@ function Home({onSelect,bouquets=0}){
       <div className="home-tint"/>
       <BgDeco/>
       <div className="home-rainbow home-cloud-row">
-        <img className="home-cloud" src="assets-runtime/unicorn/icons/cloud-pink.webp?v=18e0d9f4a-20261021234842" alt="" style={{animation:'bounce 1.7s 0s ease-in-out infinite alternate'}}/>
-        <img className="home-cloud" src="assets-runtime/unicorn/icons/cloud-blue.webp?v=18e0d9f4a-20261021234842" alt="" style={{animation:'bounce 1.6s .12s ease-in-out infinite alternate'}}/>
+        <img className="home-cloud" src="assets-runtime/unicorn/icons/cloud-pink.webp?v=8a6a7e3f0-20261022021526" alt="" style={{animation:'bounce 1.7s 0s ease-in-out infinite alternate'}}/>
+        <img className="home-cloud" src="assets-runtime/unicorn/icons/cloud-blue.webp?v=8a6a7e3f0-20261022021526" alt="" style={{animation:'bounce 1.6s .12s ease-in-out infinite alternate'}}/>
       </div>
       <div className="home-title">
         {title.map((c,i)=><span key={i} style={{color:TITLE_COLORS[i%TITLE_COLORS.length],animationDelay:`${i*.07}s`,textShadow:`0 3px 0 ${TITLE_COLORS[(i+4)%TITLE_COLORS.length]}55`}}>{c}</span>)}
       </div>
       <div style={{display:'flex',alignItems:'center',gap:8}}>
-        <img src="assets-runtime/unicorn/icons/star.webp?v=18e0d9f4a-20261021234842" alt="" style={{width:32,height:32,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
+        <img src="assets-runtime/unicorn/icons/star.webp?v=8a6a7e3f0-20261022021526" alt="" style={{width:32,height:32,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
         <div className="home-sub">Choose your adventure!</div>
-        <img src="assets-runtime/unicorn/icons/star.webp?v=18e0d9f4a-20261021234842" alt="" style={{width:32,height:32,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
+        <img src="assets-runtime/unicorn/icons/star.webp?v=8a6a7e3f0-20261022021526" alt="" style={{width:32,height:32,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
       </div>
       {bouquets>0&&<div className="home-sub" style={{fontSize:'.85rem'}}><BouquetIcon/> Bouquets collected: {bouquets}</div>}
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=18e0d9f4a-20261021234842" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=8a6a7e3f0-20261022021526" alt=""/>
           <div className="mode-section-label">Play &amp; Explore</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/star.webp?v=18e0d9f4a-20261021234842" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/star.webp?v=8a6a7e3f0-20261022021526" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-rose" onClick={()=>onSelect('np1')}>
@@ -15111,9 +15129,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/bouquet.webp?v=18e0d9f4a-20261021234842" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/bouquet.webp?v=8a6a7e3f0-20261022021526" alt=""/>
           <div className="mode-section-label">Counting &amp; Comparing</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=18e0d9f4a-20261021234842" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=8a6a7e3f0-20261022021526" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-pink"   onClick={()=>onSelect('b1')}>
@@ -15145,9 +15163,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/sparkle.webp?v=18e0d9f4a-20261021234842" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/sparkle.webp?v=8a6a7e3f0-20261022021526" alt=""/>
           <div className="mode-section-label">Number Patterns</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/star-purple.webp?v=18e0d9f4a-20261021234842" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/star-purple.webp?v=8a6a7e3f0-20261022021526" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-purple" onClick={()=>onSelect('sq1')}>
@@ -15176,9 +15194,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=18e0d9f4a-20261021234842" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=8a6a7e3f0-20261022021526" alt=""/>
           <div className="mode-section-label">Make Numbers</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-pink.webp?v=18e0d9f4a-20261021234842" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-pink.webp?v=8a6a7e3f0-20261022021526" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-pink" onClick={()=>onSelect('n1')}>
@@ -15197,9 +15215,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/crown.webp?v=18e0d9f4a-20261021234842" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/crown.webp?v=8a6a7e3f0-20261022021526" alt=""/>
           <div className="mode-section-label">Times &amp; Sharing</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/heart-purple.webp?v=18e0d9f4a-20261021234842" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/heart-purple.webp?v=8a6a7e3f0-20261022021526" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-purple" onClick={()=>onSelect('m1')}>
@@ -15222,9 +15240,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/petal-pink.webp?v=18e0d9f4a-20261021234842" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/petal-pink.webp?v=8a6a7e3f0-20261022021526" alt=""/>
           <div className="mode-section-label">Fractions &amp; Measure</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/petal-purple.webp?v=18e0d9f4a-20261021234842" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/petal-purple.webp?v=8a6a7e3f0-20261022021526" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-magic" onClick={()=>onSelect('f1')}>
@@ -15247,9 +15265,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/heart-gem.webp?v=18e0d9f4a-20261021234842" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/heart-gem.webp?v=8a6a7e3f0-20261022021526" alt=""/>
           <div className="mode-section-label">Solve &amp; Calculate</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-purple.webp?v=18e0d9f4a-20261021234842" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-purple.webp?v=8a6a7e3f0-20261022021526" alt=""/>
         </div>
         <div className="mode-row has-badge">
           <button className="mode-card mc-magic" onClick={()=>onSelect('l2')}>
@@ -15281,7 +15299,7 @@ function Home({onSelect,bouquets=0}){
         </div>
       </div>
       <div style={{display:'flex',justifyContent:'center',padding:'0 8px',animation:'bounce 2s ease-in-out infinite alternate'}}>
-        <img src="assets-runtime/unicorn/icons/rainbow.webp?v=18e0d9f4a-20261021234842" alt="" style={{width:200,objectFit:'contain',filter:'drop-shadow(0 3px 8px rgba(0,0,0,.12))'}}/>
+        <img src="assets-runtime/unicorn/icons/rainbow.webp?v=8a6a7e3f0-20261022021526" alt="" style={{width:200,objectFit:'contain',filter:'drop-shadow(0 3px 8px rgba(0,0,0,.12))'}}/>
       </div>
       {/* AI-voice disclosure. The hub carries one too, but a game is reachable by its
           own URL and most children arrive that way, so the statement has to stand on
