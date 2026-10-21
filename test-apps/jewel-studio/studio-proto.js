@@ -9,16 +9,22 @@
   "use strict";
   const SAVE_KEY = "little-charm-studio-v1";
   const LEGACY_KEY = "little-charm-designs-v5";
-  const VERSION = 3;
+  const VERSION = 4;
   const WIDTH = 900;
   const HEIGHT = 600;
-  const ASSET_VERSION = "r6-cutoff-20261020";
+  const ASSET_VERSION = "r6-regions-20261021";
   const ALL = "All designs";
   const CATEGORIES = ["Necklaces", "Bracelets", "Rings", "Earrings", "Hair ornaments"];
   const PALETTE = ["#d4a237", "#c5ccd6", "#2384d6", "#bf3c6e", "#2f977e", "#774db4", "#dc5837", "#f6ebda"];
+  const METALS = {
+    gold: { label: "Gold", base: "#d4a237", gradient: "linear-gradient(135deg,#6f4610 0%,#fff0a6 28%,#ad781d 49%,#ffe78a 68%,#815214 100%)" },
+    silver: { label: "Silver", base: "#b8c2cf", gradient: "linear-gradient(135deg,#626b76 0%,#ffffff 28%,#a7b0bb 49%,#eef3f8 68%,#707984 100%)" },
+    platinum: { label: "Platinum", base: "#d7e1e7", gradient: "linear-gradient(135deg,#788995 0%,#ffffff 25%,#cbd8df 48%,#f8ffff 69%,#82939e 100%)" },
+    "rose-gold": { label: "Rose gold", base: "#c77f78", gradient: "linear-gradient(135deg,#74413d 0%,#ffd7ca 27%,#b66d68 49%,#ffe2d5 69%,#864b47 100%)" },
+  };
   const TEMPLATES = [
     { id: "floral-necklace", title: "Layered Floral Necklace", category: "Necklaces", regionCount: 58 },
-    { id: "teardrop-pendant", title: "Teardrop Pendant", category: "Necklaces", regionCount: 48 },
+    { id: "teardrop-pendant", title: "Teardrop Pendant", category: "Necklaces", regionCount: 50 },
     { id: "deco-choker", title: "Art Deco Choker", category: "Necklaces", regionCount: 51 },
     { id: "graduated-pearls", title: "Graduated Pearls", category: "Necklaces", regionCount: 34 },
     { id: "oval-locket", title: "Oval Locket", category: "Necklaces", regionCount: 50 },
@@ -41,17 +47,17 @@
     { id: "three-stone-ring", title: "Three-stone Ring", category: "Rings", regionCount: 37 },
     { id: "deco-halo-ring", title: "Art Deco Halo Ring", category: "Rings", regionCount: 50 },
     { id: "botanical-vine-ring", title: "Botanical Vine Ring", category: "Rings", regionCount: 50 },
-    { id: "chandelier-pair", title: "Chandelier Earring Pair", category: "Earrings", regionCount: 51 },
+    { id: "chandelier-pair", title: "Chandelier Earring Pair", category: "Earrings", regionCount: 50 },
     { id: "round-bezel-studs", title: "Round Bezel Studs", category: "Earrings", regionCount: 50 },
     { id: "paneled-hoops", title: "Paneled Hoops", category: "Earrings", regionCount: 50 },
-    { id: "teardrop-drops", title: "Teardrop Drops", category: "Earrings", regionCount: 51 },
-    { id: "deco-dangles", title: "Art Deco Dangles", category: "Earrings", regionCount: 50 },
+    { id: "teardrop-drops", title: "Teardrop Drops", category: "Earrings", regionCount: 54 },
+    { id: "deco-dangles", title: "Art Deco Dangles", category: "Earrings", regionCount: 52 },
     { id: "floral-earrings", title: "Floral Earrings", category: "Earrings", regionCount: 51 },
     { id: "pearl-cluster-drops", title: "Pearl Cluster Drops", category: "Earrings", regionCount: 50 },
     { id: "crescent-star-earrings", title: "Crescent and Star Earrings", category: "Earrings", regionCount: 52 },
     { id: "tiara-comb", title: "Botanical Tiara Comb", category: "Hair ornaments", regionCount: 57 },
     { id: "slender-tiara", title: "Slender Jeweled Tiara", category: "Hair ornaments", regionCount: 50 },
-    { id: "small-royal-crown", title: "Small Royal Crown", category: "Hair ornaments", regionCount: 51 },
+    { id: "small-royal-crown", title: "Small Royal Crown", category: "Hair ornaments", regionCount: 38 },
     { id: "bow-barrette", title: "Bow Barrette", category: "Hair ornaments", regionCount: 38 },
     { id: "decorated-headband", title: "Decorated Headband", category: "Hair ornaments", regionCount: 50 },
     { id: "floral-side-clip", title: "Floral Side Clip", category: "Hair ornaments", regionCount: 50 },
@@ -67,10 +73,10 @@
   const UNFILLED = { gem: "#e4ecf8", metal: "#e2b23c", pearl: "#f3e9dc", "enamel/other": "#e2b23c" };
 
   function blankDoc(templateId) {
-    return { version: VERSION, id: `studio-${Date.now()}-${Math.random().toString(16).slice(2)}`, templateId, updatedAt: new Date().toISOString(), fills: {}, effects: {}, strokes: [], madeReal: false };
+    return { version: VERSION, id: `studio-${Date.now()}-${Math.random().toString(16).slice(2)}`, templateId, updatedAt: new Date().toISOString(), metal: "gold", fills: {}, effects: {}, strokes: [], madeReal: false };
   }
   function validDoc(doc) {
-    return !!(doc && [1, 2, VERSION].includes(doc.version) && TEMPLATES.some((template) => template.id === doc.templateId) && doc.fills && doc.effects && Array.isArray(doc.strokes));
+    return !!(doc && [1, 2, 3, VERSION].includes(doc.version) && TEMPLATES.some((template) => template.id === doc.templateId) && (!doc.metal || METALS[doc.metal]) && doc.fills && doc.effects && Array.isArray(doc.strokes));
   }
   function loadDocs(storage) {
     try {
@@ -107,6 +113,23 @@
     const pixels = [];
     for (let index = 0; index < labels.length; index++) if (labels[index] === id) pixels.push(index);
     return pixels;
+  }
+  function nearestRegion(labels, x, y, radius, width = WIDTH, height = HEIGHT) {
+    x = Math.max(0, Math.min(width - 1, Math.round(x)));
+    y = Math.max(0, Math.min(height - 1, Math.round(y)));
+    const exact = labels[y * width + x];
+    if (exact) return exact;
+    const limit = Math.max(0, Math.ceil(radius));
+    let best = 0, bestDistance = Infinity;
+    for (let dy = -limit; dy <= limit; dy++) for (let dx = -limit; dx <= limit; dx++) {
+      const distance = dx * dx + dy * dy;
+      if (distance > radius * radius || distance >= bestDistance) continue;
+      const px = x + dx, py = y + dy;
+      if (px < 0 || py < 0 || px >= width || py >= height) continue;
+      const candidate = labels[py * width + px];
+      if (candidate) { best = candidate; bestDistance = distance; }
+    }
+    return best;
   }
   function metalFamily(hex) {
     const [r, g, b] = String(hex || "#d4a237").match(/[a-f\d]{2}/gi).map((part) => parseInt(part, 16));
@@ -312,6 +335,16 @@
     let real = null; // per Make-it-real build: glow halo + twinkle stars
 
     const makeCanvas = (w = WIDTH, h = HEIGHT) => { const canvas = document.createElement("canvas"); canvas.width = w; canvas.height = h; return canvas; };
+    let audio = null;
+    function tapFeedback(frequency = 560) {
+      try {
+        audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audio.createOscillator(), gain = audio.createGain(), now = audio.currentTime;
+        oscillator.connect(gain).connect(audio.destination); oscillator.frequency.value = frequency; oscillator.type = "sine";
+        gain.gain.setValueAtTime(.045, now); gain.gain.exponentialRampToValueAtTime(.001, now + .16);
+        oscillator.start(now); oscillator.stop(now + .16);
+      } catch {}
+    }
     const loadImage = (src) => new Promise((resolve, reject) => {
       const image = new Image();
       image.onload = () => resolve(image);
@@ -326,7 +359,14 @@
       const rect = lineCanvas.getBoundingClientRect();
       return { x: Math.max(0, Math.min(WIDTH - 1, Math.floor((event.clientX - rect.left) * WIDTH / rect.width))), y: Math.max(0, Math.min(HEIGHT - 1, Math.floor((event.clientY - rect.top) * HEIGHT / rect.height))) };
     };
-    const regionAt = (event) => { if (!labels) return 0; const p = point(event); return labels[p.y * WIDTH + p.x]; };
+    const regionAt = (event) => {
+      if (!labels) return 0;
+      const p = point(event), rect = lineCanvas.getBoundingClientRect();
+      // A 44 CSS-pixel fingertip may land beside a tiny prong or bead. Resolve
+      // to the nearest fillable part within half a fingertip instead of
+      // requiring the child to hit one exact raster pixel.
+      return nearestRegion(labels, p.x, p.y, 22 * WIDTH / rect.width);
+    };
     const regionPixels = (id) => geometry?.pixels.get(+id) || [];
     function snapshot() {
       history.push(JSON.stringify(doc));
@@ -336,7 +376,11 @@
     }
     function rebuildColor() {
       const output = colorContext.createImageData(WIDTH, HEIGHT);
+      for (const [id, meta] of regionMeta) {
+        if (meta.partClass === "METAL") shadeRegion(output.data, geometry, id, "metal", METALS[doc.metal].base);
+      }
       for (const [id, paint] of Object.entries(doc.fills)) {
+        if (regionMeta.get(+id)?.partClass === "METAL") continue;
         const solid = !String(paint).startsWith("gradient:");
         const a = parseHex(solid ? paint : paint.split(":")[1]), b = parseHex(solid ? paint : paint.split(":")[2]);
         for (const index of regionPixels(id)) {
@@ -401,10 +445,11 @@
       for (let i = 0; i < labels.length; i++) if (labels[i]) image.data[i * 4 + 3] = 255;
       wc.putImageData(image, 0, 0);
       wc.globalCompositeOperation = "source-over"; wc.drawImage(lineImage, 0, 0, WIDTH, HEIGHT);
-      // The drawn outlines become the polished gold setting once the piece is made real.
+      // The drawn outlines become the selected polished metal once the piece is made real.
       const gold = makeCanvas(), gc = gold.getContext("2d");
       const metal = gc.createLinearGradient(0, 0, WIDTH * .35, HEIGHT);
-      [["#5a3a10", 0], ["#f7dc84", .08], ["#a8771f", .17], ["#fff1b8", .27], ["#8a5d16", .38], ["#f3cf6a", .5], ["#7a5214", .62], ["#ffe9a3", .74], ["#9c6c1c", .86], ["#f0c862", 1]].forEach(([c, s]) => metal.addColorStop(s, c));
+      const base = parseHex(METALS[doc.metal].base), dark = mixRgb(base, [25, 18, 18], .62), light = mixRgb(base, WHITE, .72);
+      [[dark, 0], [light, .08], [base, .17], [WHITE, .27], [dark, .38], [light, .5], [dark, .62], [WHITE, .74], [base, .86], [light, 1]].forEach(([c, s]) => metal.addColorStop(s, Array.isArray(c) ? `rgb(${c.map(Math.round).join(",")})` : c));
       gc.fillStyle = metal; gc.fillRect(0, 0, WIDTH, HEIGHT);
       gc.globalCompositeOperation = "destination-in"; gc.drawImage(lineImage, 0, 0, WIDTH, HEIGHT);
       const shade = makeCanvas(), shc = shade.getContext("2d");
@@ -428,7 +473,7 @@
       finishContext.fillStyle = velvet; finishContext.fillRect(0, 0, WIDTH, HEIGHT);
       finishContext.save(); finishContext.shadowColor = "rgba(0,0,0,.65)"; finishContext.shadowBlur = 22; finishContext.shadowOffsetY = 14; finishContext.globalAlpha = .85; finishContext.drawImage(shared.whole, 0, 0); finishContext.restore();
       const image = finishContext.getImageData(0, 0, WIDTH, HEIGHT);
-      for (const [id, meta] of regionMeta) shadeRegion(image.data, geometry, id, meta.material || "gem", doc.fills[id]);
+      for (const [id, meta] of regionMeta) shadeRegion(image.data, geometry, id, meta.material || "gem", meta.partClass === "METAL" ? METALS[doc.metal].base : doc.fills[id]);
       finishContext.putImageData(image, 0, 0);
       if (doc.strokes.length) { finishContext.save(); finishContext.globalAlpha = .9; finishContext.drawImage(drawCanvas, 0, 0); finishContext.restore(); }
       finishContext.save(); finishContext.globalAlpha = .7; finishContext.drawImage(shared.shade, .8, 1.4); finishContext.restore();
@@ -571,6 +616,7 @@
     async function open(nextDoc) {
       doc = JSON.parse(JSON.stringify(nextDoc));
       if (doc.version < VERSION) doc.version = VERSION;
+      doc.metal = METALS[doc.metal] ? doc.metal : "gold";
       doc.madeReal = !!doc.madeReal;
       template = TEMPLATES.find((candidate) => candidate.id === doc.templateId);
       history = []; future = []; maskCache.clear(); effectCache.clear(); real = null; revealStart = -1;
@@ -584,16 +630,33 @@
       const scratch = makeCanvas(), scratchContext = scratch.getContext("2d", { willReadFrequently: true }); scratchContext.drawImage(regionImage, 0, 0);
       labels = decodeRegionMap(scratchContext.getImageData(0, 0, WIDTH, HEIGHT).data);
       geometry = buildGeometry(labels);
-      // Every region that exists in the map is shaded; a region missing from the manifest
-      // defaults to gem (stones are the commonest part) rather than rendering nothing.
+      // Every part must be explicitly classified by the checked design manifest. If the PNG
+      // ever holds an id the manifest lacks, the part degrades to a colourable stone instead
+      // of an undefined meta that throws inside rebuildFinish.
       const tagged = new Map(manifest.designs.find((design) => design.id === template.id).regions.map((region) => [region.id, region]));
-      regionMeta = new Map([...geometry.stats.keys()].sort((a, b) => a - b).map((id) => [id, tagged.get(id) || { id, material: "gem" }]));
+      const unlisted = [];
+      regionMeta = new Map([...geometry.stats.keys()].sort((a, b) => a - b).map((id) => {
+        const region = tagged.get(id);
+        if (region) return [id, region];
+        unlisted.push(id);
+        return [id, { id, material: "gem", partClass: "STONE" }];
+      }));
+      if (unlisted.length) console.warn(`${template.id}: ${unlisted.length} region(s) missing from manifest.json render as colourable stones`, unlisted);
+      // v1–v3 fills on METAL parts are ignored by both views and can never be erased, so they
+      // are dropped here rather than left stranded in doc.fills forever.
+      for (const id of Object.keys(doc.fills)) if (regionMeta.get(+id)?.partClass === "METAL") delete doc.fills[id];
       buildShared();
+      updateMetalPicker();
       renderAll(); updateHistory();
       $("#message").textContent = "Tap a bounded jewelry detail to fill it.";
     }
     function applyRegion(id) {
       if (!id) { $("#message").textContent = "That is background — zoom in and tap a jewelry detail."; return; }
+      if (regionMeta.get(+id)?.partClass === "METAL" && !effect) {
+        tapFeedback(420);
+        $("#message").textContent = "Metal parts follow the metal picker. Choose Gold, Silver, Platinum or Rose gold below.";
+        return;
+      }
       snapshot();
       if (effect) doc.effects[id] = { type: effect, intensity: +$("#intensity").value, color };
       else if (tool === "eraser") { delete doc.fills[id]; delete doc.effects[id]; }
@@ -648,6 +711,38 @@
     }
     function updateHistory() { $("#undo").disabled = !history.length; $("#redo").disabled = !future.length; }
     $$('[data-tool]').forEach((button) => button.onclick = () => selectTool(button.dataset.tool));
+    function updateMetalPicker() {
+      // With no design open there is no chosen metal, so nothing is checked; the first radio
+      // stays tabbable so the group remains reachable by keyboard.
+      const buttons = $$(".metal-choice");
+      const checked = buttons.findIndex((button) => button.dataset.metal === doc?.metal);
+      buttons.forEach((button, index) => {
+        const selected = index === checked;
+        button.classList.toggle("selected", selected); button.setAttribute("aria-checked", String(selected));
+        button.tabIndex = selected || (checked < 0 && index === 0) ? 0 : -1;
+      });
+    }
+    const metalButtons = [];
+    Object.entries(METALS).forEach(([key, spec]) => {
+      const button = document.createElement("button"); button.type = "button"; button.className = "metal-choice"; button.dataset.metal = key; button.setAttribute("role", "radio"); button.setAttribute("aria-label", spec.label); button.style.setProperty("--metal-gradient", spec.gradient); button.textContent = spec.label;
+      button.onclick = () => {
+        if (!doc) return;
+        snapshot(); doc.metal = key; buildShared(); renderAll(); updateMetalPicker(); tapFeedback(600);
+        button.classList.remove("tap-feedback"); void button.offsetWidth; button.classList.add("tap-feedback");
+        $("#message").textContent = `${spec.label} selected. Every metal part changed; your stone colours stayed the same.`;
+      };
+      metalButtons.push(button);
+      $("#metals").append(button);
+    });
+    // Radiogroup keys: arrows move (and apply) the choice; only one tab stop for the group.
+    metalButtons.forEach((button, index) => button.addEventListener("keydown", (event) => {
+      const step = { ArrowLeft: -1, ArrowUp: -1, ArrowRight: 1, ArrowDown: 1 }[event.key];
+      if (!step) return;
+      event.preventDefault();
+      const next = metalButtons[(index + step + metalButtons.length) % metalButtons.length];
+      next.click(); next.focus();
+    }));
+    updateMetalPicker();
     PALETTE.forEach((paint, index) => { const button = document.createElement("button"); button.className = "swatch" + (paint === color ? " selected" : ""); button.style.setProperty("--c", paint); button.setAttribute("aria-label", `Colour ${index + 1}`); button.onclick = () => { color = paint; selectTool("fill"); $$(".swatch").forEach((candidate) => candidate.classList.toggle("selected", candidate === button)); }; $("#palette").append(button); });
     ["sparkle", "glitter", "glow", "shine"].forEach((name) => { const button = document.createElement("button"); button.textContent = { sparkle: "✦ Sparkle", glitter: "⁙ Glitter", glow: "☀ Glow", shine: "◒ Shine" }[name]; button.onclick = () => { effect = name; tool = "effect"; $$('[data-tool]').forEach((candidate) => candidate.classList.remove("selected")); $$("#effects button").forEach((candidate) => candidate.classList.toggle("selected", candidate === button)); $("#message").textContent = `Tap jewelry details to add ${name}.`; }; $("#effects").append(button); });
     $("#clearEffect").onclick = () => selectTool("eraser");
@@ -662,8 +757,10 @@
     $("#canvasStack").addEventListener("animationend", (event) => event.currentTarget.classList.remove("revealing"));
     $("#customColor").oninput = (event) => { color = event.target.value; selectTool("fill"); };
     $$('[data-size]').forEach((button) => button.onclick = () => { size = +button.dataset.size; $$('[data-size]').forEach((candidate) => candidate.classList.toggle("selected", candidate === button)); });
-    $("#undo").onclick = () => { if (!history.length) return; future.push(JSON.stringify(doc)); doc = JSON.parse(history.pop()); renderAll(); updateHistory(); };
-    $("#redo").onclick = () => { if (!future.length) return; history.push(JSON.stringify(doc)); doc = JSON.parse(future.pop()); renderAll(); updateHistory(); };
+    // Restoring doc.metal must also rebuild the metal-tinted shared canvases and the picker
+    // ring, or the canvas and the radio disagree after undoing a metal change.
+    $("#undo").onclick = () => { if (!history.length) return; future.push(JSON.stringify(doc)); doc = JSON.parse(history.pop()); buildShared(); renderAll(); updateMetalPicker(); updateHistory(); };
+    $("#redo").onclick = () => { if (!future.length) return; history.push(JSON.stringify(doc)); doc = JSON.parse(future.pop()); buildShared(); renderAll(); updateMetalPicker(); updateHistory(); };
     $("#zoom").oninput = (event) => $("#canvasStack").style.width = `${event.target.value}%`;
     $("#zoomIn").onclick = () => { $("#zoom").value = Math.min(220, +$("#zoom").value + 10); $("#zoom").oninput({ target: $("#zoom") }); };
     $("#zoomOut").onclick = () => { $("#zoom").value = Math.max(70, +$("#zoom").value - 10); $("#zoom").oninput({ target: $("#zoom") }); };
@@ -673,5 +770,5 @@
     document.addEventListener("visibilitychange", () => { if (document.hidden && raf) { cancelAnimationFrame(raf); raf = 0; } else animate(); });
     gallery(); saved(); show("gallery"); legacySummary(localStorage);
   }
-  return { VERSION, SAVE_KEY, LEGACY_KEY, TEMPLATES, CATEGORIES, PALETTE, UNFILLED, blankDoc, validDoc, loadDocs, saveDoc, legacySummary, decodeRegionMap, pixelsForRegion, metalFamily, buildGeometry, shadeRegion, mount };
+  return { VERSION, SAVE_KEY, LEGACY_KEY, TEMPLATES, CATEGORIES, PALETTE, METALS, UNFILLED, blankDoc, validDoc, loadDocs, saveDoc, legacySummary, decodeRegionMap, pixelsForRegion, nearestRegion, metalFamily, buildGeometry, shadeRegion, mount };
 });

@@ -259,13 +259,65 @@ button {
   width: 180px;
 }
 .color-dock {
-  min-height: 82px;
+  min-height: 96px;
   background: #fff;
   padding: 8px 14px;
   display: flex;
   gap: 14px;
   align-items: center;
   justify-content: center;
+  /* Safety net: if the dock ever exceeds the viewport, controls wrap to a new
+     row instead of being pushed off an unreachable edge. */
+  flex-wrap: wrap;
+}
+.metal-picker {
+  margin: 0;
+  padding: 3px 10px 5px;
+  border: 1px solid #ddcbd4;
+  border-radius: 14px;
+}
+.metal-picker legend {
+  padding: 0 5px;
+  color: #765669;
+  font-size: 11px;
+  font-weight: 800;
+}
+#metals {
+  display: flex;
+  gap: 5px;
+}
+.metal-choice {
+  width: 58px;
+  min-width: 58px;
+  min-height: 58px;
+  padding: 2px 1px;
+  border-radius: 12px;
+  background: transparent;
+  box-shadow: none;
+  font-size: 9px;
+  line-height: 1.05;
+}
+.metal-choice::before {
+  content: "";
+  display: block;
+  width: 34px;
+  height: 34px;
+  margin: 0 auto 3px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--metal-gradient);
+  box-shadow: 0 0 0 1px #806c78, inset 5px 4px 8px #fff9, inset -5px -4px 8px #24140b55;
+}
+.metal-choice.selected {
+  outline: 3px solid #604057;
+  outline-offset: 0;
+  background: #f3e7ed;
+}
+.metal-choice.tap-feedback {
+  animation: metal-tap 180ms ease-out;
+}
+@keyframes metal-tap {
+  50% { transform: scale(.91); }
 }
 .color-dock #palette {
   display: flex;
@@ -322,7 +374,10 @@ button {
   font-size: 12px;
   pointer-events: none;
 }
-@media (max-width: 760px) and (orientation: portrait) {
+/* The dock's single row needs ~890px (metal picker ~269 + palette 385 + custom +
+   sizes + gaps), so portrait relief must cover 768×1024 — the 760px gate left the
+   metal picker clipped off the left edge across 761–890px. */
+@media (max-width: 920px) and (orientation: portrait) {
   .workspace {
     height: calc(100dvh - 292px);
     grid-template-columns: 1fr 138px;
@@ -345,9 +400,13 @@ button {
   .color-dock {
     overflow-x: auto;
     justify-content: flex-start;
+    flex-wrap: nowrap;
   }
   .color-dock #palette {
     min-width: 390px;
+  }
+  .metal-picker {
+    flex: 0 0 auto;
   }
   .top h1 {
     font-size: 18px;

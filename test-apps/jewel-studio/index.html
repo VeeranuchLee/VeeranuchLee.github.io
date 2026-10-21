@@ -7,8 +7,8 @@
       content="width=device-width,initial-scale=1,viewport-fit=cover"
     />
     <title>Little Jewelry Studio — Phase 1</title>
-    <link rel="stylesheet" href="studio-proto.css?v=r5-20261019" />
-    <script src="tap-zoom-guard.js?v=7756fa3a6-20261020211855"></script>
+    <link rel="stylesheet" href="studio-proto.css?v=r6-metal-20261021" />
+    <script src="tap-zoom-guard.js?v=63424dabb-20261021123414"></script>
   </head>
   <body>
     <main id="studioApp">
@@ -95,6 +95,10 @@
           </aside>
         </div>
         <div class="color-dock">
+          <fieldset class="metal-picker">
+            <legend>Choose the metal</legend>
+            <div id="metals" role="radiogroup" aria-label="Choose the metal"></div>
+          </fieldset>
           <div id="palette"></div>
           <label class="custom"
             >Custom <input id="customColor" type="color" value="#e95f9d"
@@ -108,6 +112,6 @@
         <p id="message" aria-live="polite">Tap a closed area to fill it.</p>
       </section>
     </main>
-    <script src="studio-proto.js?v=r5-20261019"></script>
+    <script src="studio-proto.js?v=r6-metal-20261021"></script>
   </body>
 </html>
