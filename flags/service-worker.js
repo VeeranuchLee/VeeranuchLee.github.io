@@ -23,7 +23,7 @@
 // v5 2026-09-30: 30 more countries (69) and the world map -- assets/map/world.js is a
 //        new shell file, the new flag SVGs are in FLAG_CODES, and the home gains a
 //        World map card with three ways to relate a country to the map.
-const CACHE_NAME = "flags-v6";
+const CACHE_NAME = "flags-v7";
 
 const FLAG_CODES = [
   "th", "vn", "la", "kh", "my", "sg", "id", "ph",
