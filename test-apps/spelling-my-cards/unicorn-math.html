@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="audio-wake.js?v=109e2c141-20261021123705"></script>
+<script src="audio-wake.js?v=c109e8c70-20261021170356"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <!-- Plain name, deliberately. This read "Magic Math v7" from 7343cc3 until
@@ -10,24 +10,24 @@
        a title that has to be edited on every publish will be wrong again by the
        next one. -->
   <title>Unicorn Math</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=109e2c141-20261021123705"/>
-  <link rel="icon" href="./assets/icons/icon-192.png?v=109e2c141-20261021123705"/>
-  <link rel="stylesheet" href="./fonts.css?v=109e2c141-20261021123705"/>
-  <link rel="stylesheet" href="./css/tap-wait-math.css?v=109e2c141-20261021123705"/>
-  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=109e2c141-20261021123705"/>
+  <link rel="manifest" href="./manifest.webmanifest?v=c109e8c70-20261021170356"/>
+  <link rel="icon" href="./assets/icons/icon-192.png?v=c109e8c70-20261021170356"/>
+  <link rel="stylesheet" href="./fonts.css?v=c109e8c70-20261021170356"/>
+  <link rel="stylesheet" href="./css/tap-wait-math.css?v=c109e8c70-20261021170356"/>
+  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=c109e8c70-20261021170356"/>
   <meta name="theme-color" content="#0a0e2d"/>
-  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=109e2c141-20261021123705"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=c109e8c70-20261021170356"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Magic Math"/>
   <!-- Method C: the pilot guard is first; it ignores every multi-finger gesture. -->
-  <script src="./js/tap-zoom-guard.js?v=109e2c141-20261021123705"></script>
-  <script src="./vendor/react-18.3.1.production.min.js?v=109e2c141-20261021123705"></script>
-  <script src="./vendor/react-dom-18.3.1.production.min.js?v=109e2c141-20261021123705"></script>
-  <script src="./js/tap-wait-engine.js?v=109e2c141-20261021123705"></script>
-  <script src="./js/tap-wait-math.js?v=109e2c141-20261021123705"></script>
-  <script src="./shared/bg-deco/bg-deco.js?v=109e2c141-20261021123705"></script>
-  <script src="./vendor/babel-7.26.4.min.js?v=109e2c141-20261021123705"></script>
+  <script src="./js/tap-zoom-guard.js?v=c109e8c70-20261021170356"></script>
+  <script src="./vendor/react-18.3.1.production.min.js?v=c109e8c70-20261021170356"></script>
+  <script src="./vendor/react-dom-18.3.1.production.min.js?v=c109e8c70-20261021170356"></script>
+  <script src="./js/tap-wait-engine.js?v=c109e8c70-20261021170356"></script>
+  <script src="./js/tap-wait-math.js?v=c109e8c70-20261021170356"></script>
+  <script src="./shared/bg-deco/bg-deco.js?v=c109e8c70-20261021170356"></script>
+  <script src="./vendor/babel-7.26.4.min.js?v=c109e8c70-20261021170356"></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;touch-action:manipulation}
     body{font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden}
@@ -6131,7 +6131,7 @@ function GamePreview({id}){
   if(id==='r1')return(                      /* Read Big Numbers — grouped slots and a reader */
     <div className="gp gp-tight" aria-hidden="true">
       <div className="gp-row"><span className="gp-num">1</span><span className="gp-gap"/><span className="gp-num">2</span><span className="gp-num">5</span><span className="gp-num">0</span></div>
-      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/unicorn/icons/read-out.webp?v=109e2c141-20261021123705" alt=""/></div>
+      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/unicorn/icons/read-out.webp?v=c109e8c70-20261021170356" alt=""/></div>
     </div>);
   if(id==='s1')return(                      /* Count By — the chant above, the ladder rung below */
     <div className="gp gp-tight" aria-hidden="true">
@@ -6291,7 +6291,7 @@ function CardSticker({id}){
   return <img className="card-sticker" src={`assets/stickers/unicorn/${f}.webp`} alt="" aria-hidden="true" draggable="false" style={{'--sd':(4+(h%7)*.45).toFixed(2)+'s','--sl':'-'+((h%5)*.9).toFixed(1)+'s'}}/>;
 }
 function Stars({count}){
-  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/unicorn/icons/star.webp?v=109e2c141-20261021123705" alt=""/>)}</div>;
+  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/unicorn/icons/star.webp?v=c109e8c70-20261021170356" alt=""/>)}</div>;
 }
 
 /* Only the two hardest games wear this. The absence of a badge is the other
@@ -6306,7 +6306,7 @@ function Stars({count}){
    Unlike Space Math these cards carry no aria-label, so the alt text is what a
    screen reader announces; do not blank it here to match the other theme. */
 function BigKidBadge(){
-  return <div className="mode-card-badge"><img src="assets-runtime/unicorn/icons/big-kids.webp?v=109e2c141-20261021123705" alt="For big kids"/></div>;
+  return <div className="mode-card-badge"><img src="assets-runtime/unicorn/icons/big-kids.webp?v=c109e8c70-20261021170356" alt="For big kids"/></div>;
 }
 
 /* ══ MASCOT ══ */
@@ -6578,7 +6578,7 @@ function TopBar({onBack,muted,onToggleMute,label,score,flowers,bouquets=0}){
   return(
     <div className="top-bar">
       <div style={{display:'flex',alignItems:'center',gap:5}}>
-        <img src="assets-runtime/unicorn/icons/flower-pink.webp?v=109e2c141-20261021123705" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
+        <img src="assets-runtime/unicorn/icons/flower-pink.webp?v=c109e8c70-20261021170356" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
         <button className="back-btn" aria-label="Back home" onClick={()=>{Voice.stop();Sound.tap();onBack();}}>←</button>
       </div>
       {label&&<div className="level-chip">{label}</div>}
@@ -6592,7 +6592,7 @@ function TopBar({onBack,muted,onToggleMute,label,score,flowers,bouquets=0}){
             to count -- so the chip is conditional rather than a permanent 0. Every
             scored game passes a score and sees exactly what it saw before. */}
         {score!=null&&<div style={{display:'flex',alignItems:'center',gap:6}}>
-          <img src="assets-runtime/unicorn/icons/star.webp?v=109e2c141-20261021123705" alt="★" style={{width:34,height:34,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.2))'}}/>
+          <img src="assets-runtime/unicorn/icons/star.webp?v=c109e8c70-20261021170356" alt="★" style={{width:34,height:34,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.2))'}}/>
           <div className="score-badge"><span>{score}</span></div>
         </div>}
         <FlowerGarden flowers={flowers}/>
@@ -9059,8 +9059,8 @@ function numberToWords(s){
 function RobotReader({speaking}){
   return(
     <div className={`rb-robot ${speaking?'talking':''}`} aria-hidden="true">
-      <img className="rb-still" src="assets-runtime/unicorn/icons/robot-reader.webp?v=109e2c141-20261021123705" alt=""/>
-      <img className="rb-talk" src="assets-runtime/unicorn/icons/robot-reader-talk.webp?v=109e2c141-20261021123705" alt=""/>
+      <img className="rb-still" src="assets-runtime/unicorn/icons/robot-reader.webp?v=c109e8c70-20261021170356" alt=""/>
+      <img className="rb-talk" src="assets-runtime/unicorn/icons/robot-reader-talk.webp?v=c109e8c70-20261021170356" alt=""/>
     </div>
   );
 }
@@ -14951,23 +14951,23 @@ function Home({onSelect,bouquets=0}){
       <div className="home-tint"/>
       <BgDeco/>
       <div className="home-rainbow home-cloud-row">
-        <img className="home-cloud" src="assets-runtime/unicorn/icons/cloud-pink.webp?v=109e2c141-20261021123705" alt="" style={{animation:'bounce 1.7s 0s ease-in-out infinite alternate'}}/>
-        <img className="home-cloud" src="assets-runtime/unicorn/icons/cloud-blue.webp?v=109e2c141-20261021123705" alt="" style={{animation:'bounce 1.6s .12s ease-in-out infinite alternate'}}/>
+        <img className="home-cloud" src="assets-runtime/unicorn/icons/cloud-pink.webp?v=c109e8c70-20261021170356" alt="" style={{animation:'bounce 1.7s 0s ease-in-out infinite alternate'}}/>
+        <img className="home-cloud" src="assets-runtime/unicorn/icons/cloud-blue.webp?v=c109e8c70-20261021170356" alt="" style={{animation:'bounce 1.6s .12s ease-in-out infinite alternate'}}/>
       </div>
       <div className="home-title">
         {title.map((c,i)=><span key={i} style={{color:TITLE_COLORS[i%TITLE_COLORS.length],animationDelay:`${i*.07}s`,textShadow:`0 3px 0 ${TITLE_COLORS[(i+4)%TITLE_COLORS.length]}55`}}>{c}</span>)}
       </div>
       <div style={{display:'flex',alignItems:'center',gap:8}}>
-        <img src="assets-runtime/unicorn/icons/star.webp?v=109e2c141-20261021123705" alt="" style={{width:32,height:32,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
+        <img src="assets-runtime/unicorn/icons/star.webp?v=c109e8c70-20261021170356" alt="" style={{width:32,height:32,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
         <div className="home-sub">Choose your adventure!</div>
-        <img src="assets-runtime/unicorn/icons/star.webp?v=109e2c141-20261021123705" alt="" style={{width:32,height:32,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
+        <img src="assets-runtime/unicorn/icons/star.webp?v=c109e8c70-20261021170356" alt="" style={{width:32,height:32,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
       </div>
       {bouquets>0&&<div className="home-sub" style={{fontSize:'.85rem'}}>💐 Bouquets collected: {bouquets}</div>}
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=109e2c141-20261021123705" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=c109e8c70-20261021170356" alt=""/>
           <div className="mode-section-label">Play &amp; Explore</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/star.webp?v=109e2c141-20261021123705" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/star.webp?v=c109e8c70-20261021170356" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-rose" onClick={()=>onSelect('np1')}>
@@ -14986,9 +14986,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/bouquet.webp?v=109e2c141-20261021123705" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/bouquet.webp?v=c109e8c70-20261021170356" alt=""/>
           <div className="mode-section-label">Counting &amp; Comparing</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=109e2c141-20261021123705" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=c109e8c70-20261021170356" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-pink"   onClick={()=>onSelect('b1')}>
@@ -15020,9 +15020,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/sparkle.webp?v=109e2c141-20261021123705" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/sparkle.webp?v=c109e8c70-20261021170356" alt=""/>
           <div className="mode-section-label">Number Patterns</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/star-purple.webp?v=109e2c141-20261021123705" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/star-purple.webp?v=c109e8c70-20261021170356" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-purple" onClick={()=>onSelect('sq1')}>
@@ -15051,9 +15051,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=109e2c141-20261021123705" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=c109e8c70-20261021170356" alt=""/>
           <div className="mode-section-label">Make Numbers</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-pink.webp?v=109e2c141-20261021123705" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-pink.webp?v=c109e8c70-20261021170356" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-pink" onClick={()=>onSelect('n1')}>
@@ -15072,9 +15072,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/crown.webp?v=109e2c141-20261021123705" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/crown.webp?v=c109e8c70-20261021170356" alt=""/>
           <div className="mode-section-label">Times &amp; Sharing</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/heart-purple.webp?v=109e2c141-20261021123705" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/heart-purple.webp?v=c109e8c70-20261021170356" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-purple" onClick={()=>onSelect('m1')}>
@@ -15097,9 +15097,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/petal-pink.webp?v=109e2c141-20261021123705" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/petal-pink.webp?v=c109e8c70-20261021170356" alt=""/>
           <div className="mode-section-label">Fractions &amp; Measure</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/petal-purple.webp?v=109e2c141-20261021123705" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/petal-purple.webp?v=c109e8c70-20261021170356" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-magic" onClick={()=>onSelect('f1')}>
@@ -15122,9 +15122,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/heart-gem.webp?v=109e2c141-20261021123705" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/heart-gem.webp?v=c109e8c70-20261021170356" alt=""/>
           <div className="mode-section-label">Solve &amp; Calculate</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-purple.webp?v=109e2c141-20261021123705" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-purple.webp?v=c109e8c70-20261021170356" alt=""/>
         </div>
         <div className="mode-row has-badge">
           <button className="mode-card mc-magic" onClick={()=>onSelect('l2')}>
@@ -15152,7 +15152,7 @@ function Home({onSelect,bouquets=0}){
         </div>
       </div>
       <div style={{display:'flex',justifyContent:'center',padding:'0 8px',animation:'bounce 2s ease-in-out infinite alternate'}}>
-        <img src="assets-runtime/unicorn/icons/rainbow.webp?v=109e2c141-20261021123705" alt="" style={{width:200,objectFit:'contain',filter:'drop-shadow(0 3px 8px rgba(0,0,0,.12))'}}/>
+        <img src="assets-runtime/unicorn/icons/rainbow.webp?v=c109e8c70-20261021170356" alt="" style={{width:200,objectFit:'contain',filter:'drop-shadow(0 3px 8px rgba(0,0,0,.12))'}}/>
       </div>
       {/* AI-voice disclosure. The hub carries one too, but a game is reachable by its
           own URL and most children arrive that way, so the statement has to stand on
