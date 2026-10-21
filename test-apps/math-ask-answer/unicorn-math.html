@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="audio-wake.js?v=4d6000f72-20261021130149"></script>
+<script src="audio-wake.js?v=8177c6ea0-20261021230035"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <!-- Plain name, deliberately. This read "Magic Math v7" from 7343cc3 until
@@ -10,24 +10,25 @@
        a title that has to be edited on every publish will be wrong again by the
        next one. -->
   <title>Unicorn Math</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=4d6000f72-20261021130149"/>
-  <link rel="icon" href="./assets/icons/icon-192.png?v=4d6000f72-20261021130149"/>
-  <link rel="stylesheet" href="./fonts.css?v=4d6000f72-20261021130149"/>
-  <link rel="stylesheet" href="./css/tap-wait-math.css?v=4d6000f72-20261021130149"/>
-  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=4d6000f72-20261021130149"/>
+  <link rel="manifest" href="./manifest.webmanifest?v=8177c6ea0-20261021230035"/>
+  <link rel="icon" href="./assets/icons/icon-192.png?v=8177c6ea0-20261021230035"/>
+  <link rel="stylesheet" href="./fonts.css?v=8177c6ea0-20261021230035"/>
+  <link rel="stylesheet" href="./css/tap-wait-math.css?v=8177c6ea0-20261021230035"/>
+  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=8177c6ea0-20261021230035"/>
   <meta name="theme-color" content="#0a0e2d"/>
-  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=4d6000f72-20261021130149"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=8177c6ea0-20261021230035"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Magic Math"/>
   <!-- Method C: the pilot guard is first; it ignores every multi-finger gesture. -->
-  <script src="./js/tap-zoom-guard.js?v=4d6000f72-20261021130149"></script>
-  <script src="./vendor/react-18.3.1.production.min.js?v=4d6000f72-20261021130149"></script>
-  <script src="./vendor/react-dom-18.3.1.production.min.js?v=4d6000f72-20261021130149"></script>
-  <script src="./js/tap-wait-engine.js?v=4d6000f72-20261021130149"></script>
-  <script src="./js/tap-wait-math.js?v=4d6000f72-20261021130149"></script>
-  <script src="./shared/bg-deco/bg-deco.js?v=4d6000f72-20261021130149"></script>
-  <script src="./vendor/babel-7.26.4.min.js?v=4d6000f72-20261021130149"></script>
+  <script src="./js/tap-zoom-guard.js?v=8177c6ea0-20261021230035"></script>
+  <script src="./vendor/react-18.3.1.production.min.js?v=8177c6ea0-20261021230035"></script>
+  <script src="./vendor/react-dom-18.3.1.production.min.js?v=8177c6ea0-20261021230035"></script>
+  <script src="./js/tap-wait-engine.js?v=8177c6ea0-20261021230035"></script>
+  <script src="./js/tap-wait-math.js?v=8177c6ea0-20261021230035"></script>
+  <script src="./ask-answer-logic.js?v=8177c6ea0-20261021230035"></script>
+  <script src="./shared/bg-deco/bg-deco.js?v=8177c6ea0-20261021230035"></script>
+  <script src="./vendor/babel-7.26.4.min.js?v=8177c6ea0-20261021230035"></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;touch-action:manipulation}
     body{font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden}
@@ -1449,6 +1450,17 @@
     .np-ghost{position:fixed;z-index:80;width:var(--np-tile);height:var(--np-tile);border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:calc(var(--np-tile)*.5);pointer-events:none;transform:translate(-50%,-58%) rotate(-4deg) scale(1.08);color:#c62828;background:linear-gradient(160deg,#fff8f6,#ffe3dc);box-shadow:0 10px 24px rgba(136,14,79,.35),0 4px 0 #ffb4a2}
     .np-ghost-op{width:calc(var(--np-tile)*.84);font-size:calc(var(--np-tile)*.44);color:#5e35b1;background:linear-gradient(160deg,#f6f3ff,#e4dcff);box-shadow:0 10px 24px rgba(136,14,79,.35),0 4px 0 #b39ddb}
     @media (max-height:640px){.np-screen{--np-tile:clamp(46px,9vw,56px);--np-tray-tile:clamp(38px,7.5vw,46px);gap:7px}.np-history-restore{padding:4px 14px}.np-rail-wrap{padding:9px 4px}.np-nudge{width:44px;height:44px;font-size:1.45rem}}
+    /* ── Ask & Answer (aa1) ── */
+    .aa-screen{overflow-y:auto;gap:9px}.aa-players{display:flex;align-items:stretch;justify-content:center;gap:8px;flex-wrap:wrap;position:relative;z-index:2;width:min(96vw,720px)}
+    .aa-player{width:112px;min-height:82px;padding:6px;border:3px solid rgba(255,255,255,.7);border-radius:16px;background:rgba(255,255,255,.62);color:#6a1b9a;box-shadow:0 4px 0 rgba(136,14,79,.24)}
+    .aa-player.selected{border-color:#f06292;box-shadow:0 0 0 4px rgba(240,98,146,.24),0 4px 0 #ad1457}.aa-name{width:100%;min-height:36px;border:2px solid #ce93d8;border-radius:10px;padding:4px 7px;font:800 .86rem Nunito,sans-serif;color:#6a1b9a;background:#fff;text-align:center}
+    .aa-player-pick{display:block;width:100%;min-height:32px;margin-top:4px;border:0;border-radius:8px;background:transparent;color:inherit;font:900 .8rem Nunito,sans-serif;cursor:pointer}.aa-add,.aa-reset{min-height:44px;border:2.5px solid #ce93d8;border-radius:14px;background:linear-gradient(160deg,#fff,#f8e6fb);color:#8e24aa;font:900 .82rem Nunito,sans-serif;padding:6px 12px;cursor:pointer;box-shadow:0 3px 0 #ce93d8}.aa-add{width:48px;font-size:1.6rem}.aa-player-pick:active,.aa-add:active,.aa-reset:active{transform:translateY(2px)}
+    .aa-stage{display:grid;grid-template-columns:minmax(290px,430px) minmax(280px,520px);gap:12px;align-items:start;justify-content:center;width:min(97vw,980px);position:relative;z-index:1}.aa-work{display:flex;flex-direction:column;align-items:center;gap:9px}.aa-card{width:100%;min-height:218px;background:linear-gradient(145deg,#fff,#f8e6fb);border:3px solid #ce93d8;border-radius:24px;padding:14px 18px;color:#6a1b9a;box-shadow:0 5px 0 #ab47bc;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px}.aa-prompt{font-size:clamp(1rem,2.7vw,1.25rem);font-weight:900;text-align:center;color:#8e24aa}.aa-build{min-height:70px;max-width:100%;display:flex;align-items:center;gap:6px;overflow-x:auto;padding:6px}.aa-build-num{font-size:clamp(1.5rem,5vw,2.2rem);font-weight:900;color:#c62828;border:3px solid #ff8a80;border-radius:12px;padding:5px 9px;min-width:48px;text-align:center}.aa-build-op{font-size:clamp(1.5rem,5vw,2.2rem);font-weight:900;color:#8e24aa}.aa-empty{color:#b39ddb;border-style:dashed}.aa-card.wrong{animation:wrongShake .35s ease;border-color:#f44336}
+    .aa-column{display:grid;grid-template-columns:34px auto;align-items:center;justify-content:center;gap:2px 8px;font-size:clamp(1.8rem,6vw,2.7rem);font-weight:900;font-variant-numeric:tabular-nums;min-width:170px}.aa-col-op{color:#8e24aa;text-align:center}.aa-col-num{text-align:right;letter-spacing:.08em}.aa-rule{grid-column:1/-1;height:4px;border-radius:3px;background:#8e24aa;margin:2px 0;width:100%}.aa-answer{grid-column:2;text-align:right;min-height:1.2em;letter-spacing:.08em;color:#2e7d32}.aa-answer.empty{color:#b39ddb}.aa-feedback{min-height:28px;font-weight:900;text-align:center;color:#8e24aa}.aa-feedback.good{color:#2e7d32}.aa-feedback.try{color:#ef6c00}
+    .aa-keypad{display:grid;grid-template-columns:repeat(5,minmax(48px,62px));gap:7px;justify-content:center}.aa-key{height:50px;border:2.5px solid #ce93d8;border-radius:14px;background:linear-gradient(160deg,#fff,#f8e6fb);color:#8e24aa;font:900 1.35rem Nunito,sans-serif;box-shadow:0 4px 0 #ce93d8;cursor:pointer}.aa-key.op{color:#ad1457;background:linear-gradient(160deg,#fff0f6,#f8d9e7)}.aa-key:active{transform:translateY(3px);box-shadow:0 1px 0 #ce93d8}.aa-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}.aa-action{min-height:48px;border:3px solid #81c784;border-radius:999px;background:linear-gradient(160deg,#fff,#e2f6e3);color:#2e7d32;font:900 .95rem Nunito,sans-serif;padding:8px 18px;box-shadow:0 4px 0 #81c784;cursor:pointer}.aa-action.secondary{border-color:#ce93d8;color:#8e24aa;background:linear-gradient(160deg,#fff,#f8e6fb);box-shadow:0 4px 0 #ce93d8}.aa-action:active{transform:translateY(3px);box-shadow:none}
+    .aa-scratch{background:#f6f0df;border:3px solid #c99b55;border-radius:22px;padding:9px;box-shadow:0 5px 0 #80552d;min-height:390px;display:flex;flex-direction:column;gap:8px}.aa-scratch.collapsed{min-height:0;width:100%;padding:0;background:none;border:none;box-shadow:none}.aa-scratch.collapsed .aa-tools,.aa-scratch.collapsed .aa-canvas,.aa-scratch.collapsed .aa-scratch-title{display:none}.aa-scratch-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.aa-scratch.collapsed .aa-scratch-head{justify-content:flex-end}.aa-scratch-title{font-weight:900;color:#5b3b20}.aa-scratch-toggle{min-height:44px;border:2px solid #c99b55;border-radius:13px;background:#fff8e8;color:#5b3b20;font:900 .86rem Nunito,sans-serif;padding:6px 12px;cursor:pointer}.aa-tools{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap}.aa-colour{width:44px;height:44px;border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 2px #9b7544;cursor:pointer}.aa-colour.on{box-shadow:0 0 0 4px #8e24aa}.aa-tool{min-height:44px;border:2px solid #c99b55;border-radius:12px;background:#fff8e8;color:#5b3b20;font:900 .8rem Nunito,sans-serif;padding:5px 10px;cursor:pointer}.aa-tool.on{background:#f3e5f5;border-color:#8e24aa;color:#6a1b9a}.aa-canvas{width:100%;height:285px;background:#fff;border:2px solid #d8c9ad;border-radius:12px;touch-action:pinch-zoom;cursor:crosshair}
+    @media (orientation:portrait),(max-width:760px){.aa-stage{grid-template-columns:1fr;max-width:620px}.aa-scratch{min-height:330px}.aa-canvas{height:230px}.aa-player{width:104px}.aa-screen{padding-left:8px;padding-right:8px}}
+    @media (max-height:740px) and (orientation:landscape){.aa-screen{gap:6px}.aa-card{min-height:180px;padding:8px 14px}.aa-scratch{min-height:330px}.aa-canvas{height:225px}.aa-key{height:44px}.aa-player{min-height:72px}.aa-name{min-height:32px}}
     /* ── Number Crossword (p1) ──
        A 5 x 5 board of equations across and down, then the tray. SQUARES HOLD NUMBERS
        and CIRCLES HOLD SIGNS: the two kinds of box and the two kinds of tile differ in
@@ -6131,7 +6143,7 @@ function GamePreview({id}){
   if(id==='r1')return(                      /* Read Big Numbers — grouped slots and a reader */
     <div className="gp gp-tight" aria-hidden="true">
       <div className="gp-row"><span className="gp-num">1</span><span className="gp-gap"/><span className="gp-num">2</span><span className="gp-num">5</span><span className="gp-num">0</span></div>
-      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/unicorn/icons/read-out.webp?v=4d6000f72-20261021130149" alt=""/></div>
+      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/unicorn/icons/read-out.webp?v=8177c6ea0-20261021230035" alt=""/></div>
     </div>);
   if(id==='s1')return(                      /* Count By — the chant above, the ladder rung below */
     <div className="gp gp-tight" aria-hidden="true">
@@ -6160,6 +6172,13 @@ function GamePreview({id}){
       <div className="gp-row"><span className="gp-op gp-big">×</span><span className="gp-num">4</span></div>
       <span className="gp-line"/>
       <div className="gp-row">{box}{box}{box}</div>
+    </div>);
+  if(id==='aa1')return(                     /* Ask & Answer — typed sum on a blank scratch page */
+    <div className="gp gp-tight" aria-hidden="true">
+      <div className="gp-row"><span className="gp-num">128</span></div>
+      <div className="gp-row"><span className="gp-op gp-big">+</span><span className="gp-num">47</span></div>
+      <span className="gp-line"/>
+      <div className="gp-row"><span className="gp-num">175</span></div>
     </div>);
   if(id==='g1')return(                      /* Which is Bigger? — two piles, and the sign that reads them */
     <div className="gp" aria-hidden="true">
@@ -6291,7 +6310,7 @@ function CardSticker({id}){
   return <img className="card-sticker" src={`assets/stickers/unicorn/${f}.webp`} alt="" aria-hidden="true" draggable="false" style={{'--sd':(4+(h%7)*.45).toFixed(2)+'s','--sl':'-'+((h%5)*.9).toFixed(1)+'s'}}/>;
 }
 function Stars({count}){
-  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/unicorn/icons/star.webp?v=4d6000f72-20261021130149" alt=""/>)}</div>;
+  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/unicorn/icons/star.webp?v=8177c6ea0-20261021230035" alt=""/>)}</div>;
 }
 
 /* Only the two hardest games wear this. The absence of a badge is the other
@@ -6306,7 +6325,7 @@ function Stars({count}){
    Unlike Space Math these cards carry no aria-label, so the alt text is what a
    screen reader announces; do not blank it here to match the other theme. */
 function BigKidBadge(){
-  return <div className="mode-card-badge"><img src="assets-runtime/unicorn/icons/big-kids.webp?v=4d6000f72-20261021130149" alt="For big kids"/></div>;
+  return <div className="mode-card-badge"><img src="assets-runtime/unicorn/icons/big-kids.webp?v=8177c6ea0-20261021230035" alt="For big kids"/></div>;
 }
 
 /* ══ MASCOT ══ */
@@ -6578,7 +6597,7 @@ function TopBar({onBack,muted,onToggleMute,label,score,flowers,bouquets=0}){
   return(
     <div className="top-bar">
       <div style={{display:'flex',alignItems:'center',gap:5}}>
-        <img src="assets-runtime/unicorn/icons/flower-pink.webp?v=4d6000f72-20261021130149" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
+        <img src="assets-runtime/unicorn/icons/flower-pink.webp?v=8177c6ea0-20261021230035" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
         <button className="back-btn" aria-label="Back home" onClick={()=>{Voice.stop();Sound.tap();onBack();}}>←</button>
       </div>
       {label&&<div className="level-chip">{label}</div>}
@@ -6592,7 +6611,7 @@ function TopBar({onBack,muted,onToggleMute,label,score,flowers,bouquets=0}){
             to count -- so the chip is conditional rather than a permanent 0. Every
             scored game passes a score and sees exactly what it saw before. */}
         {score!=null&&<div style={{display:'flex',alignItems:'center',gap:6}}>
-          <img src="assets-runtime/unicorn/icons/star.webp?v=4d6000f72-20261021130149" alt="★" style={{width:34,height:34,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.2))'}}/>
+          <img src="assets-runtime/unicorn/icons/star.webp?v=8177c6ea0-20261021230035" alt="★" style={{width:34,height:34,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.2))'}}/>
           <div className="score-badge"><span>{score}</span></div>
         </div>}
         <FlowerGarden flowers={flowers}/>
@@ -9059,8 +9078,8 @@ function numberToWords(s){
 function RobotReader({speaking}){
   return(
     <div className={`rb-robot ${speaking?'talking':''}`} aria-hidden="true">
-      <img className="rb-still" src="assets-runtime/unicorn/icons/robot-reader.webp?v=4d6000f72-20261021130149" alt=""/>
-      <img className="rb-talk" src="assets-runtime/unicorn/icons/robot-reader-talk.webp?v=4d6000f72-20261021130149" alt=""/>
+      <img className="rb-still" src="assets-runtime/unicorn/icons/robot-reader.webp?v=8177c6ea0-20261021230035" alt=""/>
+      <img className="rb-talk" src="assets-runtime/unicorn/icons/robot-reader-talk.webp?v=8177c6ea0-20261021230035" alt=""/>
     </div>
   );
 }
@@ -13192,6 +13211,111 @@ function NumberPlayGame({onBack, flowers, gardenFull, setFlowers, setGardenFull,
   );
 }
 
+/* ══ MODE aa1: ASK & ANSWER ══ */
+const AA_STORE='unicornMath.askAnswer.players.v1';
+/* Four crayons only (owner 2026-10-21: "just 4 color for scratchpad is enough. don't make UI too crowded.") */
+const AA_COLORS=['#37474f','#e53935','#1e88e5','#43a047'];
+/* one name per crayon, so a screen reader hears eight choices, not one eight times */
+const AA_COLOR_NAMES=['dark grey','red','blue','green'];
+function AskAnswerGame({onBack,flowers,bouquets,muted,onToggleMute}){
+  const AA=window.AskAnswerLogic;
+  const [step,setStep]=useState('ask');
+  const [tokens,setTokens]=useState(['']);
+  const [question,setQuestion]=useState(null);
+  const [answer,setAnswer]=useState('');
+  const [feedback,setFeedback]=useState('');
+  const [wrong,setWrong]=useState(false);
+  const [correct,setCorrect]=useState(false);
+  const [showAnswer,setShowAnswer]=useState(false);
+  const [players,setPlayers]=useState(()=>{
+    try{return AA.normalisePlayers(JSON.parse(localStorage.getItem(AA_STORE)||'null'));}catch(e){return AA.normalisePlayers(null);}
+  });
+  const [scratchOpen,setScratchOpen]=useState(true);
+  const [colour,setColour]=useState(AA_COLORS[0]);
+  const [penSize,setPenSize]=useState(7);
+  const [eraser,setEraser]=useState(false);
+  /* The scratchpad keeps its strokes as POINTS in the canvas box's own pixels, never
+     as a bitmap: a resize or a turn of the iPad re-replays the same lines at the new
+     size instead of stretching a snapshot, and the drawing stays on screen (shrunk,
+     restacked, question changed) until the child leaves the mode. */
+  const canvasRef=useRef(null),drawRef=useRef(null),strokesRef=useRef([]);
+  const tap=useCallback(()=>{Sound.setMuted(muted);Sound.tap();},[muted]);
+  useEffect(()=>{try{localStorage.setItem(AA_STORE,JSON.stringify(players));}catch(e){}},[players]);
+
+  const paintStroke=useCallback((ctx,stroke)=>{
+    const canvas=canvasRef.current,box=canvas.getBoundingClientRect(),scale=canvas.width/box.width,pts=stroke.points;
+    ctx.save();ctx.strokeStyle=stroke.erase?'#fff':stroke.colour;ctx.lineWidth=stroke.width*scale;ctx.lineCap='round';ctx.lineJoin='round';
+    ctx.beginPath();ctx.moveTo(pts[0].x*scale,pts[0].y*scale);
+    /* a tap with no drag is still a dot: a round cap needs a hair of line to land */
+    if(pts.length===1)ctx.lineTo(pts[0].x*scale+.01,pts[0].y*scale+.01);
+    else for(let i=1;i<pts.length;i+=1)ctx.lineTo(pts[i].x*scale,pts[i].y*scale);
+    ctx.stroke();ctx.restore();
+  },[]);
+  const prepareCanvas=useCallback(()=>{
+    const canvas=canvasRef.current;if(!canvas)return;
+    const rect=canvas.getBoundingClientRect();if(rect.width<40||rect.height<40)return;
+    const scale=Math.min(window.devicePixelRatio||1,1.5);canvas.width=Math.round(rect.width*scale);canvas.height=Math.round(rect.height*scale);
+    const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
+    strokesRef.current.forEach(stroke=>{if(stroke.points.length)paintStroke(ctx,stroke);});
+  },[paintStroke]);
+  useEffect(()=>{if(!scratchOpen)return;requestAnimationFrame(()=>prepareCanvas());const resize=()=>prepareCanvas();window.addEventListener('resize',resize);return()=>window.removeEventListener('resize',resize);},[scratchOpen,prepareCanvas]);
+  const clearScratch=useCallback((withSound=true)=>{strokesRef.current=[];const canvas=canvasRef.current;if(!canvas)return;const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);if(withSound)tap();},[tap]);
+  const point=e=>{const r=canvasRef.current.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};};
+  const drawStart=e=>{if(e.pointerType==='mouse'&&e.button!==0)return;if(!e.isPrimary)return;try{e.currentTarget.setPointerCapture(e.pointerId);}catch(err){}const stroke={colour,width:eraser?26:penSize,erase:eraser,points:[point(e)]};strokesRef.current.push(stroke);drawRef.current={id:e.pointerId,stroke};paintStroke(canvasRef.current.getContext('2d'),stroke);tap();};
+  const drawMove=e=>{const draw=drawRef.current;if(!draw||draw.id!==e.pointerId)return;draw.stroke.points.push(point(e));paintStroke(canvasRef.current.getContext('2d'),draw.stroke);};
+  const drawEnd=e=>{if(drawRef.current&&drawRef.current.id===e.pointerId)drawRef.current=null;};
+
+  const updatePlayers=next=>setPlayers(AA.normalisePlayers(typeof next==='function'?next(players):next));
+  const selectPlayer=id=>{tap();updatePlayers({...players,selectedId:id});};
+  const rename=(id,name)=>updatePlayers({...players,players:players.players.map(p=>p.id===id?{...p,name}:p)});
+  const addPlayer=()=>{tap();if(players.players.length>=AA.MAX_PLAYERS)return;const used=new Set(players.players.map(p=>p.id));let n=1;while(used.has(`p${n}`))n+=1;updatePlayers({...players,players:[...players.players,{id:`p${n}`,name:'',score:0}]});};
+  const resetScores=()=>{tap();if(!window.confirm('Reset every player score?'))return;Sound.ding();updatePlayers({...players,players:players.players.map(p=>({...p,score:0}))});};
+  /* "007" is not a number a child writes: a zero already alone in the slot refuses
+     the next digit out loud, and every value is normalised again before it counts,
+     so page and rules agree on one spelling. */
+  const addDigit=d=>{tap();setFeedback('');const last=tokens[tokens.length-1];if(last==='0'){Sound.wrong();setFeedback('No zero needed at the front.');return;}if(last.length>=AA.MAX_DIGITS)return;setTokens(old=>{const next=old.slice(),i=next.length-1;if(next[i].length>=AA.MAX_DIGITS||next[i]==='0')return next;next[i]+=d;return next;});};
+  const addOp=op=>{tap();setFeedback('');setTokens(old=>old[old.length-1]? [...old,op,'']:old);};
+  const backspace=()=>{tap();setFeedback('');setTokens(old=>{const next=old.slice(),i=next.length-1;if(next[i])next[i]=next[i].slice(0,-1);else if(next.length>1)next.splice(-2);return next;});};
+  const clearQuestion=()=>{tap();setTokens(['']);setFeedback('');};
+  const setTheQuestion=()=>{tap();const result=AA.compute(tokens.map((token,index)=>index%2===0?token.replace(/^0+(?=\d)/,''):token));if(!result.ok){Sound.wrong();const notes={unfinished:'Finish the question first.', 'divide-zero':'Choose a number other than zero to divide by.', 'not-whole':'Try a question with a whole-number answer.',negative:'Try a question whose answer is zero or more.'};setFeedback(notes[result.reason]||'Please change the question.');return;}setQuestion(result);setAnswer('');setWrong(false);setCorrect(false);setShowAnswer(false);setFeedback('Choose who answers next.');setStep('answer');Sound.ding();};
+  const typeAnswer=d=>{tap();if(answer==='0'){Sound.wrong();setFeedback('No zero needed at the front.');return;}setAnswer(answer+d);setFeedback('');setWrong(false);};
+  const answerBackspace=()=>{tap();setAnswer(answer.slice(0,-1));setFeedback('');setWrong(false);};
+  /* Show answer ends the round: no point can be scored after the reveal, only New
+     question opens one. */
+  const check=()=>{tap();if(correct||showAnswer)return;if(!answer){Sound.wrong();setWrong(true);setFeedback('Type an answer first.');return;}if(answer.replace(/^0+(?=\d)/,'')===question.value){Sound.ding();Sound.celebrate();setPlayers(old=>AA.scoreSelected(old));setFeedback('That is right! One point!');setWrong(false);setCorrect(true);setShowAnswer(false);}else{Sound.wrong();setFeedback('Not yet. Try again!');setWrong(true);}};
+  const newQuestion=()=>{tap();setStep('ask');setTokens(['']);setQuestion(null);setAnswer('');setFeedback('');setWrong(false);setCorrect(false);setShowAnswer(false);clearScratch(false);};
+  const active=players.players.find(p=>p.id===players.selectedId)||players.players[0];
+  const rows=question?question.tokens.filter((_,i)=>i%2===0):[];
+  const ops=question?question.tokens.filter((_,i)=>i%2===1):[];
+  return <div className="screen aa-screen">
+    <div className="screen-bg"/><BgDeco/><TopBar onBack={onBack} muted={muted} onToggleMute={onToggleMute} label="Ask & Answer" flowers={flowers} bouquets={bouquets}/>
+    <div className="count-title"><div className="count-title-main">Ask &amp; Answer</div><div className="count-title-sub">Make a question for someone else</div></div>
+    <div className="aa-players" aria-label="Choose who answers next">
+      {players.players.map((player,index)=><div key={player.id} className={`aa-player ${player.id===players.selectedId?'selected':''}`}>
+        <input className="aa-name" value={player.name} placeholder="Name" maxLength="10" aria-label={`Player ${index+1} name`} onClick={()=>tap()} onChange={e=>rename(player.id,e.target.value)}/><button className="aa-player-pick" onClick={()=>selectPlayer(player.id)} aria-pressed={player.id===players.selectedId}>Score {player.score}</button>
+      </div>)}
+      {players.players.length<AA.MAX_PLAYERS&&<button className="aa-add" onClick={addPlayer} aria-label="Add player">+</button>}
+      <button className="aa-reset" onClick={resetScores}>Reset scores</button>
+    </div>
+    <div className="aa-stage">
+      <div className="aa-work">
+        <div className={`aa-card ${wrong?'wrong':''}`}>
+          {step==='ask'?<><div className="aa-prompt">Type the question</div><div className="aa-build">{tokens.map((token,index)=>index%2===0?<span key={index} className={`aa-build-num ${token?'':'aa-empty'}`}>{token||'?'}</span>:<span key={index} className="aa-build-op">{token}</span>)}</div></>:<>
+            <div className="aa-prompt">{active.name||`Player ${players.players.indexOf(active)+1}`} answers</div>
+            <div className="aa-column">{rows.map((row,index)=><React.Fragment key={index}><span className="aa-col-op">{index?ops[index-1]:''}</span><span className="aa-col-num">{row}</span></React.Fragment>)}<span className="aa-rule"/><span className={`aa-answer ${answer||showAnswer?'':'empty'}`}>{showAnswer?question.value:(answer||'?')}</span></div>
+          </>}
+          <div className={`aa-feedback ${feedback.includes('right')?'good':wrong?'try':''}`} aria-live="polite">{feedback}</div>
+        </div>
+        {step==='ask'?<><div className="aa-keypad">{'1234567890'.split('').map(d=><button className="aa-key" key={d} onClick={()=>addDigit(d)}>{d}</button>)}{AA.OPS.map(op=><button className="aa-key op" key={op} onClick={()=>addOp(op)}>{op}</button>)}<button className="aa-key" onClick={backspace} aria-label="Backspace">Back</button></div><div className="aa-actions"><button className="aa-action secondary" onClick={clearQuestion}>Clear</button><button className="aa-action" onClick={setTheQuestion}>Set question</button></div></>:<>{!correct&&!showAnswer&&<div className="aa-keypad">{'1234567890'.split('').map(d=><button className="aa-key" key={d} onClick={()=>typeAnswer(d)}>{d}</button>)}<button className="aa-key" onClick={answerBackspace} aria-label="Backspace">Back</button></div>}<div className="aa-actions">{!correct&&!showAnswer&&<button className="aa-action" onClick={check}>Check</button>}{wrong&&!showAnswer&&<button className="aa-action secondary" onClick={()=>{tap();setShowAnswer(true);setFeedback(`The answer is ${question.value}.`);}}>Show answer</button>}<button className="aa-action secondary" onClick={newQuestion}>New question</button></div></>}
+      </div>
+      <div className={`aa-scratch ${scratchOpen?'':'collapsed'}`}>
+        <div className="aa-scratch-head"><span className="aa-scratch-title">Scratchpad</span><button className="aa-scratch-toggle" onClick={()=>{tap();setScratchOpen(!scratchOpen);}}>{scratchOpen?'Shrink':'Open scratchpad'}</button></div>
+        <div className="aa-tools">{AA_COLORS.map((c,index)=><button key={c} className={`aa-colour ${!eraser&&colour===c?'on':''}`} style={{background:c}} aria-label={`Choose the ${AA_COLOR_NAMES[index]} crayon`} onClick={()=>{tap();setColour(c);setEraser(false);}}/>)}{[4,7,12].map(size=><button key={size} className={`aa-tool ${!eraser&&penSize===size?'on':''}`} onClick={()=>{tap();setPenSize(size);setEraser(false);}}>{size===4?'Thin':size===7?'Medium':'Thick'}</button>)}<button className={`aa-tool ${eraser?'on':''}`} onClick={()=>{tap();setEraser(true);}}>Eraser</button><button className="aa-tool" onClick={()=>clearScratch(true)}>Clear page</button></div><canvas ref={canvasRef} className="aa-canvas" aria-label="Drawing scratchpad" onPointerDown={drawStart} onPointerMove={drawMove} onPointerUp={drawEnd} onPointerCancel={drawEnd}/>
+      </div>
+    </div>
+  </div>;
+}
+
 /* ══ MODE p1: NUMBER CROSSWORD ══
    Owner brief, 2026-09-24 (NUMBER-CROSSWORD-SPEC.md): equations written across and
    down that share their numbers where they cross; the child drags number tiles AND
@@ -14951,23 +15075,23 @@ function Home({onSelect,bouquets=0}){
       <div className="home-tint"/>
       <BgDeco/>
       <div className="home-rainbow home-cloud-row">
-        <img className="home-cloud" src="assets-runtime/unicorn/icons/cloud-pink.webp?v=4d6000f72-20261021130149" alt="" style={{animation:'bounce 1.7s 0s ease-in-out infinite alternate'}}/>
-        <img className="home-cloud" src="assets-runtime/unicorn/icons/cloud-blue.webp?v=4d6000f72-20261021130149" alt="" style={{animation:'bounce 1.6s .12s ease-in-out infinite alternate'}}/>
+        <img className="home-cloud" src="assets-runtime/unicorn/icons/cloud-pink.webp?v=8177c6ea0-20261021230035" alt="" style={{animation:'bounce 1.7s 0s ease-in-out infinite alternate'}}/>
+        <img className="home-cloud" src="assets-runtime/unicorn/icons/cloud-blue.webp?v=8177c6ea0-20261021230035" alt="" style={{animation:'bounce 1.6s .12s ease-in-out infinite alternate'}}/>
       </div>
       <div className="home-title">
         {title.map((c,i)=><span key={i} style={{color:TITLE_COLORS[i%TITLE_COLORS.length],animationDelay:`${i*.07}s`,textShadow:`0 3px 0 ${TITLE_COLORS[(i+4)%TITLE_COLORS.length]}55`}}>{c}</span>)}
       </div>
       <div style={{display:'flex',alignItems:'center',gap:8}}>
-        <img src="assets-runtime/unicorn/icons/star.webp?v=4d6000f72-20261021130149" alt="" style={{width:32,height:32,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
+        <img src="assets-runtime/unicorn/icons/star.webp?v=8177c6ea0-20261021230035" alt="" style={{width:32,height:32,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
         <div className="home-sub">Choose your adventure!</div>
-        <img src="assets-runtime/unicorn/icons/star.webp?v=4d6000f72-20261021130149" alt="" style={{width:32,height:32,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
+        <img src="assets-runtime/unicorn/icons/star.webp?v=8177c6ea0-20261021230035" alt="" style={{width:32,height:32,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
       </div>
       {bouquets>0&&<div className="home-sub" style={{fontSize:'.85rem'}}>💐 Bouquets collected: {bouquets}</div>}
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=4d6000f72-20261021130149" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=8177c6ea0-20261021230035" alt=""/>
           <div className="mode-section-label">Play &amp; Explore</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/star.webp?v=4d6000f72-20261021130149" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/star.webp?v=8177c6ea0-20261021230035" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-rose" onClick={()=>onSelect('np1')}>
@@ -14986,9 +15110,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/bouquet.webp?v=4d6000f72-20261021130149" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/bouquet.webp?v=8177c6ea0-20261021230035" alt=""/>
           <div className="mode-section-label">Counting &amp; Comparing</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=4d6000f72-20261021130149" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=8177c6ea0-20261021230035" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-pink"   onClick={()=>onSelect('b1')}>
@@ -15020,9 +15144,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/sparkle.webp?v=4d6000f72-20261021130149" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/sparkle.webp?v=8177c6ea0-20261021230035" alt=""/>
           <div className="mode-section-label">Number Patterns</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/star-purple.webp?v=4d6000f72-20261021130149" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/star-purple.webp?v=8177c6ea0-20261021230035" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-purple" onClick={()=>onSelect('sq1')}>
@@ -15051,9 +15175,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=4d6000f72-20261021130149" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=8177c6ea0-20261021230035" alt=""/>
           <div className="mode-section-label">Make Numbers</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-pink.webp?v=4d6000f72-20261021130149" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-pink.webp?v=8177c6ea0-20261021230035" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-pink" onClick={()=>onSelect('n1')}>
@@ -15072,9 +15196,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/crown.webp?v=4d6000f72-20261021130149" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/crown.webp?v=8177c6ea0-20261021230035" alt=""/>
           <div className="mode-section-label">Times &amp; Sharing</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/heart-purple.webp?v=4d6000f72-20261021130149" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/heart-purple.webp?v=8177c6ea0-20261021230035" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-purple" onClick={()=>onSelect('m1')}>
@@ -15097,9 +15221,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/petal-pink.webp?v=4d6000f72-20261021130149" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/petal-pink.webp?v=8177c6ea0-20261021230035" alt=""/>
           <div className="mode-section-label">Fractions &amp; Measure</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/petal-purple.webp?v=4d6000f72-20261021130149" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/petal-purple.webp?v=8177c6ea0-20261021230035" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-magic" onClick={()=>onSelect('f1')}>
@@ -15122,9 +15246,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/heart-gem.webp?v=4d6000f72-20261021130149" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/heart-gem.webp?v=8177c6ea0-20261021230035" alt=""/>
           <div className="mode-section-label">Solve &amp; Calculate</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-purple.webp?v=4d6000f72-20261021130149" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-purple.webp?v=8177c6ea0-20261021230035" alt=""/>
         </div>
         <div className="mode-row has-badge">
           <button className="mode-card mc-magic" onClick={()=>onSelect('l2')}>
@@ -15139,6 +15263,10 @@ function Home({onSelect,bouquets=0}){
             <GamePreview id="c2"/><CardSticker id="c2"/>
             <div className="mode-card-label">Carry &amp; Borrow</div><div className="mode-card-sub">For big kids!</div><Stars count={3}/><BigKidBadge/>
           </button>
+          <button className="mode-card mc-rose" onClick={()=>onSelect('aa1')} aria-label="Ask and Answer. Make a question for another player">
+            <GamePreview id="aa1"/>
+            <div className="mode-card-label">Ask &amp; Answer</div><Stars count={2}/>
+          </button>
         </div>
         <div className="mode-row has-badge">
           <button className="mode-card mc-purple" onClick={()=>onSelect('c5')}>
@@ -15152,7 +15280,7 @@ function Home({onSelect,bouquets=0}){
         </div>
       </div>
       <div style={{display:'flex',justifyContent:'center',padding:'0 8px',animation:'bounce 2s ease-in-out infinite alternate'}}>
-        <img src="assets-runtime/unicorn/icons/rainbow.webp?v=4d6000f72-20261021130149" alt="" style={{width:200,objectFit:'contain',filter:'drop-shadow(0 3px 8px rgba(0,0,0,.12))'}}/>
+        <img src="assets-runtime/unicorn/icons/rainbow.webp?v=8177c6ea0-20261021230035" alt="" style={{width:200,objectFit:'contain',filter:'drop-shadow(0 3px 8px rgba(0,0,0,.12))'}}/>
       </div>
       {/* AI-voice disclosure. The hub carries one too, but a game is reachable by its
           own URL and most children arrive that way, so the statement has to stand on
@@ -15242,6 +15370,7 @@ function App(){
   if(mode==='y1')return<MakeItGame {...shared} score={scores.y1} setScore={setScore('y1')}/>;
   if(mode==='sq1')return<SequenceGame {...shared} score={scores.sq1} setScore={setScore('sq1')}/>;
   if(mode==='p1')return<NumberCrosswordGame {...shared}/>;
+  if(mode==='aa1')return<AskAnswerGame {...shared}/>;
   if(mode==='t1')return<TapWaitMathGame {...shared} theme="unicorn" score={scores.t1} setScore={setScore('t1')} onCorrect={addFlower}/>;
   return<Home onSelect={setMode} bouquets={bouquets}/>;
 }

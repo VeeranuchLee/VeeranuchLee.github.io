@@ -8,7 +8,7 @@
   "use strict";
 
   const OPS = ["+", "−", "×", "÷"];
-  const MAX_DIGITS = 15;
+  const MAX_DIGITS = 4;
   const MAX_PLAYERS = 4;
   const DEFAULT_PLAYERS = [
     { id: "p1", name: "", score: 0 },
@@ -67,8 +67,7 @@
     if (result.numerator % result.denominator !== 0n) return { ok: false, reason: "not-whole" };
     const whole = result.numerator / result.denominator;
     if (whole < 0n) return { ok: false, reason: "negative" };
-    if (String(whole).length > MAX_DIGITS) return { ok: false, reason: "too-big" };
-    return { ok: true, value: Number(whole), tokens: clean };
+    return { ok: true, value: String(whole), tokens: clean };
   }
 
   function normalisePlayers(value) {
@@ -80,7 +79,7 @@
       seen.add(id);
       return {
         id,
-        name: typeof player.name === "string" ? player.name.slice(0, 18) : "",
+        name: typeof player.name === "string" ? Array.from(player.name).slice(0, 10).join("") : "",
         score: Number.isSafeInteger(player.score) && player.score >= 0 ? player.score : 0
       };
     });
