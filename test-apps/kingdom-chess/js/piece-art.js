@@ -5,9 +5,9 @@
   var heights={k:.88,q:.84,b:.78,n:.75,r:.70,p:.58};
   var root="./art/runtime/";
   var boundsPromise=fetch("./js/piece-bounds.json").then(function(r){if(!r.ok)throw Error(r.status);return r.json();});
-  function piecePath(kingdom,colourway,type){return root+folders[kingdom]+"/pieces/"+colourway+"-"+names[type]+".webp?v=r6";}
-  function assetPath(kingdom,file){return root+folders[kingdom]+"/"+file+".webp?v=r6";}
-  function portraitPath(kingdom,type){return root+folders[kingdom]+"/portraits/"+names[type]+".webp?v=r6";}
+  function piecePath(kingdom,colourway,type){return root+folders[kingdom]+"/pieces/"+colourway+"-"+names[type]+".webp";}
+  function assetPath(kingdom,file){return root+folders[kingdom]+"/"+file+".webp";}
+  function portraitPath(kingdom,type){return root+folders[kingdom]+"/portraits/"+names[type]+".webp";}
   function framePath(kingdom){return root+folders[kingdom]+"/frame.webp";}
   function geometry(bound,type,square){
     var scale=Math.min(heights[type]*square/bound.height,.92*square/bound.width);

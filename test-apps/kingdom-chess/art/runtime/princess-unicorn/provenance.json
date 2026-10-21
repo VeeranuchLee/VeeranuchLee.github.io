@@ -168,5 +168,16 @@
     "prompt": "Complete square ornate Princess Unicorn frame matching the approved mockup: pink castle towers, roses, pearl-and-gold scrollwork, heart corner medallions and restrained rainbow accents around a clear square opening; top-down, calm, no board, pieces, portrait, people or text.",
     "review": "PASS attempt 1: quiet square rim, clear center, no text or anatomy, and a clean diagonal clipping path for arbitrary pairings.",
     "processing": "build-look-r3.py resizes the ignored master to a compact 640px quality-68 WebP. Runtime clips it to the Dawn lower-left half."
+  },
+  "look_r6_side_distinction": {
+    "date": "2026-10-21",
+    "tool": "OpenAI Codex built-in image generation (image_gen) reference edit plus identity-locked local palette correction",
+    "use_case": "identity-preserve",
+    "runtime": ["pieces/dusk-{king,queen,bishop,knight,rook,pawn}.webp"],
+    "unchanged_runtime": ["pieces/dawn-{king,queen,bishop,knight,rook,pawn}.webp", "portraits/{king,queen,bishop,knight,rook,pawn}.webp", "story.webp"],
+    "ignored_masters": ["art/masters/look-r10/unicorn-dusk-{king,queen,bishop,knight,rook,pawn}.png"],
+    "prompt": "Identity-preserving Princess Unicorn Dusk reference edits: recolour only costume or architectural masses and complete token bases into dominant deep navy and midnight teal; replace gold, copper and amber trim with cool silver or pearl and warm gems with moonstone or icy aqua; allow cool silver-white hair or mane where useful; preserve the exact approved identity, face, skin tone, hairstyle shape, expression, gaze, pose, anatomy, chess-role silhouette, proportions, crop, transparent canvas and watercolour finish; no text.",
+    "review": "REJECT attempt 1 because the otherwise successful model palette edit redrew approved ornament and silhouette details. PASS attempt 2 after an identity-locked local palette correction retained every original pixel position and alpha silhouette while changing only material colours. At exact 90 px, all six Dusk roles read immediately as the dark team on cream #FFF3D9 and lilac #B9A2D4; 300% review confirms unchanged character details, poses and crops. No human hands are visible in any piece; the knight's approved living face remains unchanged.",
+    "processing": "The accepted edit starts from each approved 192x192 RGBA runtime asset, preserves its alpha and geometry exactly, remaps warm metal and costume pixels while retaining the knight's living face, saves a 768px ignored PNG master, and encodes a quality-86 alpha WebP. The tracked PNG evidence sheet shows all twelve pieces on both board colours at exact 90px and 300%. Shared portrait and story files remain unchanged because one side-neutral file serves both teams and depicts living characters rather than Dusk-specific tokens."
   }
 }

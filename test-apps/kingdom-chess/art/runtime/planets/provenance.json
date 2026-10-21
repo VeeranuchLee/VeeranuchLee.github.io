@@ -111,5 +111,29 @@
     "prompt": "Complete square ornate Sunlit System frame matching the approved mockup: calm royal-blue space, small planets, delicate gold orbit lines, restrained stars, moon and sun medallions and gold scrollwork around a clear square opening; top-down, no board, pieces, portrait, people or text.",
     "review": "PASS attempt 1: strong Planets identity, clear center, no text or anatomy, and a clean diagonal clipping path for arbitrary pairings.",
     "processing": "build-look-r3.py resizes the ignored master to a compact 640px quality-68 WebP. Runtime clips it to the Dusk upper-right half."
+  },
+  "look_r8_side_distinction": {
+    "date": "2026-10-21",
+    "tool": "OpenAI Codex built-in image generation (image_gen)",
+    "use_case": "identity-preserve",
+    "runtime": [
+      "pieces/dusk-king.webp",
+      "pieces/dusk-queen.webp",
+      "pieces/dusk-bishop.webp",
+      "pieces/dusk-knight.webp",
+      "pieces/dusk-rook.webp",
+      "pieces/dusk-pawn.webp"
+    ],
+    "ignored_masters": [
+      "art/masters/look-r8/planets-dusk-king.png",
+      "art/masters/look-r8/planets-dusk-queen.png",
+      "art/masters/look-r8/planets-dusk-bishop.png",
+      "art/masters/look-r8/planets-dusk-knight.png",
+      "art/masters/look-r8/planets-dusk-rook.png",
+      "art/masters/look-r8/planets-dusk-pawn.png"
+    ],
+    "prompt": "Reference-edit each exact approved Planets Dusk figurine by changing colour and material accents only. Make the team unmistakably dark at 90 px: dominant deep navy and midnight teal across body and pedestal, very dark navy-teal bases, and cool silver/pearl trim in place of every gold, brass, cream or warm-yellow trim area. Preserve the exact celestial character identity, face or object, pose, anatomy, silhouette, proportions, ornaments, crop, camera, scale, transparent canvas and hand-painted watercolour texture; add or remove nothing.",
+    "processing": "Accepted 1254×1254 RGBA built-in outputs were alpha-cropped, proportionally fitted into each prior 192×192 Dusk piece's occupied box, bottom-centred and exported as quality-86 RGBA WebP. Dawn, shared portraits and story art stayed unchanged. The portrait window is shared by both sides and the handbook story depicts the side-neutral living cast rather than Dusk-specific chess figurines.",
+    "review": "PASS attempt 1 for all six. On design/look-r6/planets-sides.png, every Dusk role reads as the dark team at exact 90 px on cream #FFF3D9 and lilac #B9A2D4; Dawn remains warm blue/gold. The 300% panels verify edges and detail. These celestial pieces have no human hands to crop or finger-count."
   }
 }

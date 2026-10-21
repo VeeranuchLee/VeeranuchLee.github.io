@@ -31,5 +31,16 @@
     "prompt": "Sweet Fairy boxed-chess set: Bram king, Faye queen, Mallow bishop, Pip pony knight, Acorn Hall rook and Dewdrop Sprite pawn in exact 3x2 Dawn and Dusk sheets; six-cameo portraits; leaf, flower, pearl, acorn and lantern frame; no text.",
     "review": "PASS: Dawn accepted on attempt 2 after correcting Bram's identity; Dusk, portraits and frame accepted on attempt 1. Exactly six distinct silhouettes per side, no text, and all human/fairy hands concealed so no fingers are visible.",
     "processing": "build-look-r3.py removes disconnected sheet bleed, fits quality-86 192px pieces to the pilot ladder, exports quality-78 320px portraits, a quality-68 640px frame and the tracked quality-70 WebP contact sheet."
+  },
+  "look_r6_side_distinction": {
+    "date": "2026-10-21",
+    "tool": "OpenAI Codex built-in image generation (image_gen) reference edit plus identity-locked local palette correction",
+    "use_case": "identity-preserve",
+    "runtime": ["pieces/dusk-{king,queen,bishop,knight,rook,pawn}.webp"],
+    "unchanged_runtime": ["pieces/dawn-{king,queen,bishop,knight,rook,pawn}.webp", "portraits/{king,queen,bishop,knight,rook,pawn}.webp", "story.webp"],
+    "ignored_masters": ["art/masters/look-r9/fairy-dusk-{king,queen,bishop,knight,rook,pawn}.png"],
+    "prompt": "Identity-preserving Sweet Fairy Dusk reference edits: recolour only costume or architectural masses and complete token bases into dominant deep navy and midnight teal; replace gold, copper and amber trim with cool silver or pearl and warm gems with moonstone or icy aqua; allow cool silver-white hair where useful; preserve the exact face, skin tone, hairstyle shape, expression, gaze, pose, anatomy, wings, chess-role silhouette, proportions, crop, transparent canvas and watercolour finish; keep hands concealed; no text.",
+    "review": "REJECT attempt 1 because the otherwise successful model palette edit redrew small face, crown, wing, flower and silhouette details. PASS attempt 2 after an identity-locked local palette correction retained every original pixel position and alpha silhouette while changing only material colours. At exact 90 px, all six Dusk roles read immediately as the dark team on cream #FFF3D9 and lilac #B9A2D4; 300% review confirms unchanged faces, hair shapes, poses and crops. Human/fairy hands remain concealed; the knight and rook have no human hands.",
+    "processing": "The accepted edit starts from each approved 192x192 RGBA runtime asset, preserves its alpha and geometry exactly, remaps warm metal and costume pixels while retaining protected living skin/fur, saves a 768px ignored PNG master, and encodes a quality-86 alpha WebP. The tracked PNG evidence sheet shows all twelve pieces on both board colours at exact 90px and 300%. Shared portrait and story files remain unchanged because one side-neutral file serves both teams and depicts living characters rather than Dusk-specific tokens."
   }
 }

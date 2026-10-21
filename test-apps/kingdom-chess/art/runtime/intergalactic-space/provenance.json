@@ -38,5 +38,23 @@
     "prompt": "Intergalactic Space boxed-chess set: Orion king, Nova queen, Quasar bishop, Astrohoof robot-horse knight, Starbase Seven rook and Pocket Rover pawn in exact 3x2 Dawn and Dusk sheets; six orbital cameos; ivory/cobalt/navy orbital starbase frame; no text.",
     "review": "PASS attempt 1 for pieces, portraits and frame: six distinct silhouettes per side remain clear at 70px; no text; Orion, Nova and Quasar have fully concealed hands and no visible fingers.",
     "processing": "build-look-r3.py removes disconnected sheet bleed, fits quality-86 192px pieces to the pilot ladder, exports quality-78 320px portraits, a quality-68 640px frame and the tracked quality-70 WebP contact sheet."
+  },
+  "look_r6_space_sides": {
+    "date": "2026-10-21",
+    "tool": "OpenAI Codex built-in image generation (image_gen)",
+    "use_case": "precise-object-edit",
+    "runtime": ["pieces/dusk-{king,queen,bishop,knight,rook,pawn}.webp"],
+    "ignored_masters_for_sidecar_staging": [
+      "art/masters/look-r7/space-dusk-king.png",
+      "art/masters/look-r7/space-dusk-queen.png",
+      "art/masters/look-r7/space-dusk-bishop.png",
+      "art/masters/look-r7/space-dusk-knight.png",
+      "art/masters/look-r7/space-dusk-rook.png",
+      "art/masters/look-r7/space-dusk-pawn.png"
+    ],
+    "prompt": "Reference-edit each approved Intergalactic Space Dusk figurine by changing colour only: dominant deep navy and midnight teal costume, body and pedestal; cool silver and pearl in place of gold, brass and cream trim; a darker navy-teal shell/base; restrained cobalt, cyan, violet and magenta gem highlights; and platinum silver-white or cool blue-silver hair/mane where useful. Preserve exact character identity, face, expression, skin tone, hairstyle/mane shape, pose, anatomy, chess-role silhouette, accessories, crown/helmet geometry, crop, camera, scale, full pedestal and concealed hands; no text, props, shadow or extra objects.",
+    "processing": "Accepted 1254×1254 RGBA built-in outputs were alpha-cropped, proportionally fitted into each previous 192×192 runtime piece's occupied box, bottom-centred, and exported as quality-86 RGBA WebP. Dawn and all shared portraits stayed byte-for-byte unchanged. Portraits are Dawn-neutral handbook identities rather than side-specific Dusk variants, so no portrait recolour was appropriate.",
+    "review_sheet": "design/look-r6/intergalactic-space-sides.png",
+    "review": "PASS attempt 1. Every Dusk role reads immediately as the dark team at 90 px on both cream #FFF3D9 and lilac #B9A2D4, with midnight navy/teal masses, silver trim and silver-white/cool hair or mane. At 300%, the king, queen and bishop retain concealed hands; the knight, rook and pawn have no human hands."
   }
 }
