@@ -7,7 +7,8 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./assets/icons/icon-192.png">
 <link rel="stylesheet" href="./styles.css">
-</head>
+  <link rel="stylesheet" href="./cg-back.css" />
+  </head>
 <body>
 <main id="stage">
 
@@ -23,9 +24,16 @@
            but in the repo the hub lives under site/, so a relative link would work live and
            404 in every local preview. Carries `hub-btn` so the promotion check greps a class
            and not a URL — a card has moved hubs without its arrow before. -->
-      <a class="round-btn hub-btn" href="https://veeranuchlee.github.io/test-apps/" aria-label="Back to Test Apps">←</a>
+      <span class="cg-back-slot" aria-hidden="true"></span><a class="cg-back" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       <h1 class="title">Pattern Pegs</h1>
-      <button id="sound-toggle" class="round-btn" type="button" aria-label="Sound on or off" aria-pressed="true">🔊</button>
+      <!-- Owner rule, 2026-10-20: no emoji in UI. The speaker-on/speaker-mute emoji are
+           drawn by the operating system
+           (grey metal on macOS, something else again on the iPad) and never matched the
+           beads this app draws itself. The button now carries a drawn speaker, 24px in
+           the 52px disc — the size the emoji rendered at; app.js's paintSound() swaps in
+           the slashed one when muted. Same speaker as writing-book/vocab.js and
+           math-app/magic-spelling.html. aria-label and aria-pressed unchanged. -->
+      <button id="sound-toggle" class="round-btn" type="button" aria-label="Sound on or off" aria-pressed="true"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     </header>
     <nav class="menu-grid" aria-label="Choose an activity">
       <button class="menu-card" type="button" data-activity="copy">

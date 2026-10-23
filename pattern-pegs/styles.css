@@ -62,6 +62,12 @@ body {
    free. */
 .hub-btn { display: grid; place-items: center; text-decoration: none; color: #57443f; }
 
+/* The drawn speaker (owner rule, 2026-10-20: no emoji in UI) centres the same way
+   .hub-btn centres its arrow: an inline SVG sits on the text baseline and would ride
+   a few px high in the disc. Its colour comes from currentColor, so it paints in the
+   button's own ink (#4a3f3a) with no second asset. */
+#sound-toggle { display: grid; place-items: center; }
+
 .status-row { flex: none; }
 
 /* ---------- level dots ---------- */

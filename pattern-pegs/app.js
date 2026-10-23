@@ -914,8 +914,19 @@
   window.addEventListener("resize", function () { if (S.fit) S.fit(); });
 
   var soundBtn = el("sound-toggle");
+  /* Owner rule, 2026-10-20: no emoji in UI. One drawn speaker — the precedent icon from
+     writing-book/vocab.js and math-app/magic-spelling.html — in currentColor ink with
+     rounded strokes: waves when on, a cross-slash over the same speaker when muted.
+     Sized by the svg's own width/height so it stays 24px, the size the emoji rendered
+     at. index.html ships the on icon; this swaps the pair, nothing else changes. */
+  var SPEAKER = '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">' +
+    '<path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/>';
+  var SPEAKER_ON = SPEAKER +
+    '<path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var SPEAKER_OFF = SPEAKER +
+    '<path d="M16 9 22 15M22 9 16 15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   function paintSound() {
-    soundBtn.textContent = Sound.on ? "🔊" : "🔇";
+    soundBtn.innerHTML = Sound.on ? SPEAKER_ON : SPEAKER_OFF;
     soundBtn.setAttribute("aria-pressed", String(Sound.on));
   }
   soundBtn.addEventListener("click", function () { Sound.toggle(); paintSound(); });
