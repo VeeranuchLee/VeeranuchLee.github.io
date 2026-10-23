@@ -13,19 +13,42 @@
     { x:121.1,y:231.2,w:44.5,h:66,r:-32.6 }, { x:190.1,y:42.4,w:44.8,h:63,r:-10.5 },
     { x:291.2,y:-1.2,w:46.9,h:68,r:-0.5 }, { x:382.9,y:26.6,w:44.1,h:65,r:2 }, { x:473.4,y:113.6,w:37.5,h:56,r:11.4 }
   ];
+  /* Owner rule 2026-10-20: no emoji anywhere in the UI. Every icon is drawn here (white on the
+     coloured buttons) or reuses the app's own painted art. tools/check-no-emoji.mjs guards it. */
+  const ICON = {
+    note:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.5V5.2l10-2v11.6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><ellipse cx="6.4" cy="17.6" rx="3.4" ry="2.7" fill="currentColor"/><ellipse cx="16.4" cy="15" rx="3.4" ry="2.7" fill="currentColor"/></svg>',
+    sparkles:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 2.5l1.9 5.6 5.6 1.9-5.6 1.9L10 17.5l-1.9-5.6L2.5 10l5.6-1.9z" fill="currentColor"/><path d="M18.5 13.5l.9 2.6 2.6.9-2.6.9-.9 2.6-.9-2.6-2.6-.9 2.6-.9z" fill="currentColor"/></svg>',
+    broom:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 2.5l-7 8.2" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M10.2 9.4l4.4 3.7-1.6 2.2c-1.6 2.3-4.2 4.8-8.8 6.2 1-2.2 1.2-4 1.4-5.6.3-2.6 1.9-4.6 4.6-6.5z" fill="currentColor"/><path d="M6.6 16.4l2.4 2M8.7 13.9l2.6 2.2" stroke="#e8579a" stroke-width="1.2" stroke-linecap="round"/></svg>',
+    heartPlus:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 20.2C5.5 16.3 2.5 13.1 2.5 9.2 2.5 6.4 4.6 4.3 7.2 4.3c1.6 0 3 .8 3.8 2.1.8-1.3 2.2-2.1 3.8-2.1 2.6 0 4.7 2.1 4.7 4.9" fill="currentColor"/><circle cx="17.5" cy="16.5" r="5.2" fill="currentColor"/><path d="M17.5 13.6v5.8M14.6 16.5h5.8" stroke="#2ea58e" stroke-width="2" stroke-linecap="round"/></svg>',
+    chevronDown:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    chevronUp:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 15l7-7 7 7" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    nailTip:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.2 21.5C4.3 15 4.3 8.5 5.5 6 7 2.6 17 2.6 18.5 6c1.2 2.5 1.2 9 .3 15.5-4.4-1.7-9.2-1.7-13.6 0z" fill="#f15b9c" stroke="#a9406f" stroke-width="1.2"/><path d="M8.6 7.5c-.6 2.5-.6 5.5-.2 8" stroke="#fff" stroke-width="1.8" stroke-linecap="round" opacity=".75"/></svg>',
+    widthArrows:'<svg viewBox="0 0 24 12" aria-hidden="true"><path d="M2 6h20M6 2L2 6l4 4M18 2l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    heightArrows:'<svg viewBox="0 0 12 24" aria-hidden="true"><path d="M6 2v20M2 6l4-4 4 4M2 18l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    undo:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5L4 10l5 5" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 10H14a5.5 5.5 0 010 11h-3" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg>',
+    resetNail:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 12a7.5 7.5 0 11-2.2-5.3" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="M18.2 2.8v4.6h-4.6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    quickReset:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12a7 7 0 102-4.9" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M6.6 2.6v4.8h4.8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+  };
+  window.__nailSalonIcons=ICON;
   const tabs = [
     { id:'shape', icon:'▰', label:'Shape' }, { id:'polish', icon:'<img src="./assets/icons/polish-bottle.webp" alt="">', label:'Polish' },
     { id:'pattern', icon:'✿', label:'Pattern' }, { id:'sticker', icon:'★', label:'Sticker' },
-    { id:'gem', icon:'◆', label:'Gem' }, { id:'sparkle', icon:'✦', label:'Sparkle' }, { id:'accessories', icon:'🎀', label:'Accessories' }
+    { id:'gem', icon:'◆', label:'Gem' }, { id:'sparkle', icon:'✦', label:'Sparkle' }, { id:'accessories', icon:'<img src="./assets/icons/accessory-bow.webp" alt="">', label:'Accessories' }
   ];
-  const polish = ['#f15b9c','#f58aaa','#ff9c87','#ffb35c','#ffd267','#72d8cd','#65bceb','#a989e9','#e9685e','#d8205d','#372d3b','#f3efe9'];
+  /* Quick colours. Owner 2026-10-20: "now it's 12 colors ... i think of make it into 18 colors".
+     The original 12 plus gold, leaf green, mint, navy, light lilac and nude, in rainbow
+     order; every pair is at least 7 apart in OKLab x100 (tools/check-nail-salon.mjs). */
+  const polish = ['#f58aaa','#f15b9c','#d8205d','#e9685e','#ff9c87','#ffb35c','#ffd267','#d9a021','#b4f0b0','#45b46a','#72d8cd','#65bceb','#2a3d8f','#d6c2f5','#a989e9','#d2a990','#f3efe9','#372d3b'];
+  /* While ten shades from the wall lead the tray, these eight basics stay after them, so
+     white, black and the main hues are always one tap away. */
+  const basics = ['#f15b9c','#e9685e','#ffd267','#45b46a','#65bceb','#a989e9','#f3efe9','#372d3b'];
   const stickerPacks = {
-    favourites:{icon:'★',items:['daisy','bow','strawberry','star','heart','rainbow','kitten','cherries'],legacy:true},
-    sweets:{icon:'🧁',items:['cupcake','ice-cream','lollipop','donut','macaron','candy']},
-    animals:{icon:'🐰',items:['bunny','puppy','panda','bear','duck','fox']},
-    garden:{icon:'🌷',items:['tulip','rose','sunflower','leaf','butterfly','ladybird']},
-    sky:{icon:'🌙',items:['moon','planet','rocket','cloud','sun','shooting-star']},
-    ocean:{icon:'🐚',items:['shell','starfish','fish','whale','octopus','pearl']}
+    favourites:{icon:'<img src="./assets/stickers/star.webp" alt="">',items:['daisy','bow','strawberry','star','heart','rainbow','kitten','cherries'],legacy:true},
+    sweets:{icon:'<img src="./assets/stickers/v2/cupcake.webp" alt="">',items:['cupcake','ice-cream','lollipop','donut','macaron','candy']},
+    animals:{icon:'<img src="./assets/stickers/v2/bunny.webp" alt="">',items:['bunny','puppy','panda','bear','duck','fox']},
+    garden:{icon:'<img src="./assets/stickers/v2/tulip.webp" alt="">',items:['tulip','rose','sunflower','leaf','butterfly','ladybird']},
+    sky:{icon:'<img src="./assets/stickers/v2/moon.webp" alt="">',items:['moon','planet','rocket','cloud','sun','shooting-star']},
+    ocean:{icon:'<img src="./assets/stickers/v2/shell.webp" alt="">',items:['shell','starfish','fish','whale','octopus','pearl']}
   };
   const singlePatterns = new Set(['stripes','dots','hearts','stars','checks','flowers','waves','glitter-tip','moon-stars']);
   const gems = [{id:'ruby',art:'gem-heart'},{id:'aqua',art:'gem-blue'},{id:'violet',art:'gem-flower'},{id:'pearl',art:'gem-pearl'},{id:'gold',art:'gem-star'},{id:'mint',art:null}];
@@ -108,13 +131,16 @@
     if(nail.pattern==='stripes'||nail.pattern==='rainbow') for(let x=m.x-55,i=0;x<m.x+m.w+65;x+=12,i++)p.append(el('line',{x1:x,y1:m.y+m.h,x2:x+68,y2:m.y,stroke:nail.pattern==='rainbow'?['#ff557d','#ffb84d','#ffe45e','#55d7a2','#55aef1','#9b72e8'][i%6]:c,'stroke-width':7,opacity:.9}));
     if(nail.pattern==='dots'||nail.pattern==='leopard') for(let y=m.y+12;y<m.y+m.h;y+=17)for(let x=m.x+9;x<m.x+m.w;x+=17){p.append(el('circle',{cx:x,cy:y,r:nail.pattern==='leopard'?6:4,fill:nail.pattern==='leopard'?'#d99a52':c,stroke:nail.pattern==='leopard'?'#5f3b35':'none','stroke-width':2}));}
     if(nail.pattern==='glitter-tip')p.append(el('path',{d:`M${m.x-3} ${m.y+20} Q${m.cx} ${m.y+34} ${m.x+m.w+3} ${m.y+20}V${m.y-4}H${m.x-3}Z`,fill:c,opacity:.88}));
-    if(['hearts','stars','flowers','moon-stars'].includes(nail.pattern)){const chars={hearts:'♥',stars:'★',flowers:'✿','moon-stars':'☾✦'};for(let y=m.y+22;y<m.y+m.h;y+=25){const t=el('text',{x:m.cx,y,'text-anchor':'middle','font-size':16,fill:c});t.textContent=chars[nail.pattern];p.append(t);}}
+    if(nail.pattern==='hearts')for(let y=m.y+22;y<m.y+m.h;y+=25)p.append(heartPath(m.cx,y-6,7,c));
+    if(['stars','flowers','moon-stars'].includes(nail.pattern)){const chars={stars:'★',flowers:'✿','moon-stars':'☾✦'};for(let y=m.y+22;y<m.y+m.h;y+=25){const t=el('text',{x:m.cx,y,'text-anchor':'middle','font-size':16,fill:c});t.textContent=chars[nail.pattern];p.append(t);}}
     if(nail.pattern==='checks')for(let y=m.y;y<m.y+m.h;y+=14)for(let x=m.x;x<m.x+m.w;x+=14)if(((x+y)/14)%2<1)p.append(el('rect',{x,y,width:14,height:14,fill:c,opacity:.8}));
     if(nail.pattern==='waves')for(let y=m.y+14;y<m.y+m.h;y+=18)p.append(el('path',{d:`M${m.x-5} ${y}q10-10 20 0t20 0t20 0`,fill:'none',stroke:c,'stroke-width':5}));
     if(nail.pattern==='marble')for(let i=0;i<4;i++)p.append(el('path',{d:`M${m.x-8} ${m.y+12+i*18} C${m.cx-8} ${m.y+i*14},${m.cx+7} ${m.y+28+i*12},${m.x+m.w+8} ${m.y+8+i*18}`,fill:'none',stroke:['#fff','#bb83dc','#71d9d3','#ffd2e4'][i],'stroke-width':5,opacity:.8}));
     if(nail.pattern==='ombre')p.append(el('rect',{x:m.x,y:m.y,width:m.w,height:m.h,fill:'url(#polishGradient)',opacity:.88}));
     group.append(p);
   }
+  /* A drawn heart (no emoji/text glyph), centred on cx, top of the lobes at y, half-width r. */
+  function heartPath(cx,y,r,fill){return el('path',{d:`M${cx} ${y+r*1.9}C${cx-r*1.6} ${y+r*.9} ${cx-r*1.2} ${y-r*.35} ${cx-r*.55} ${y-r*.2}C${cx-r*.2} ${y-r*.12} ${cx} ${y+r*.2} ${cx} ${y+r*.45}C${cx} ${y+r*.2} ${cx+r*.2} ${y-r*.12} ${cx+r*.55} ${y-r*.2}C${cx+r*1.2} ${y-r*.35} ${cx+r*1.6} ${y+r*.9} ${cx} ${y+r*1.9}Z`,fill});}
   function addSparkle(group,nail,m,clipId,index){
     const effect=sparkleEffect(nail.sparkle);
     if(!effect||effect==='none')return;
@@ -246,16 +272,63 @@
     });
     parent.append(b);
   }
+  let groupJustFilled=false;
+  const colourWall=window.NailColourWall.mount({
+    closed:group=>{
+      renderNails();
+      if(group){activeTab='polish';groupJustFilled=true;renderTabs();}
+      renderTray();
+      if(group){tray.scrollLeft=0;updateTrayHints();const band=tray.querySelector('.wall-group');if(band)sparkleOnSelect(band);}
+    }
+  });
+  window.__nailColourWall=colourWall;
   function addDecorationPips(count,kind){const pips=document.createElement('div');pips.className='choice hint-chip';pips.setAttribute('role','img');pips.setAttribute('aria-label',`${count} ${kind} on this nail, up to 4`);for(let i=0;i<4;i+=1){const pip=document.createElement('i');pip.className='decoration-pip'+(i<count?' filled':'');pips.append(pip);}tray.append(pips);}
+  /* The tray scrolls sideways; a fade and an arrow at either edge show there is more
+     (owner 2026-10-20: "we should also make it scrollable, because i have a hard time
+     selecting white"). */
+  const trayWrap=document.querySelector('#trayWrap');
+  function updateTrayHints(){
+    if(!trayWrap)return;
+    const scrollable=!tray.classList.contains('tray--pattern');
+    const max=tray.scrollWidth-tray.clientWidth;
+    trayWrap.classList.toggle('more-left',scrollable&&tray.scrollLeft>4);
+    trayWrap.classList.toggle('more-right',scrollable&&max-tray.scrollLeft>4);
+  }
+  tray.addEventListener('scroll',updateTrayHints,{passive:true});
+  addEventListener('resize',updateTrayHints);
+  document.querySelectorAll('.tray-more').forEach(b=>b.addEventListener('click',()=>{
+    const dir=b.dataset.dir==='left'?-1:1;
+    tray.scrollBy({left:dir*tray.clientWidth*.7,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+  }));
   function renderTray(){
+    requestAnimationFrame(updateTrayHints);
     tray.replaceChildren();
     tray.className=activeTab==='pattern'?'tray tray--pattern':'tray';
     const nail=state.nails[state.selected];
     if(activeTab==='shape'){
       ['round','square','oval'].forEach(id=>choice(`<i class="shape-icon shape-${id}"></i>`,()=>S.update(state,{shape:id}),nail.shape===id,id+' nail'));
-      ['short','long'].forEach(id=>choice(`<i class="shape-icon shape-round ${id==='long'?'shape-long':''}"></i><small>${id==='short'?'↔':'↕'}</small>`,()=>S.update(state,{length:id}),nail.length===id,id+' nails'));
+      ['short','long'].forEach(id=>choice(`<i class="shape-icon shape-round ${id==='long'?'shape-long':''}"></i><small class="len-icon">${id==='short'?ICON.widthArrows:ICON.heightArrows}</small>`,()=>S.update(state,{length:id}),nail.length===id,id+' nails'));
     } else if(activeTab==='polish'){
-      polish.forEach(c=>choice(`<i class="polish-dot" style="--color:${c}"></i>`,()=>S.update(state,{polish:c,finish:'solid'}),nail.polish===c&&nail.finish==='solid','polish color'));
+      /* 2026-10-20: the colour wall opens from the first tile. A stretch chosen there comes
+         back as ten tiles right after it, in a marked band ending in a "quick colours"
+         reset; the eight basics follow. Without a wall stretch the 18 quick colours show. */
+      const wallTile=document.createElement('button');wallTile.type='button';wallTile.className='choice wall-open-tile';wallTile.setAttribute('aria-label','Open the colour wall');
+      wallTile.innerHTML='<i class="wall-fan" aria-hidden="true">'+['#ff8fc4','#e0479a','#b78cf2','#7d5ee0','#7fc4f5','#3d86dc','#7bdcb4'].map(c=>`<b style="--c:${c}"></b>`).join('')+'</i>';
+      wallTile.addEventListener('click',()=>colourWall.show());tray.append(wallTile);
+      const dot=c=>`<i class="polish-dot" style="--color:${c}"></i>`;
+      const paint=c=>()=>S.update(state,{polish:c,finish:'solid'});
+      const isOn=c=>nail.polish===c&&nail.finish==='solid';
+      const group=colourWall.group();
+      if(group){
+        const band=document.createElement('div');band.className='wall-group'+(groupJustFilled?' fresh':'');band.setAttribute('role','group');band.setAttribute('aria-label','Colours from the wall');
+        group.colours.forEach(c=>choice(dot(c),()=>{paint(c)();colourWall.remember(c);},isOn(c),'wall polish colour',band));
+        const reset=document.createElement('button');reset.type='button';reset.className='choice wall-group-reset';reset.setAttribute('aria-label','Back to the quick colours');
+        reset.innerHTML='<i class="quick-ring" aria-hidden="true">'+basics.map((c,i)=>`<b style="--c:${c};--i:${i}"></b>`).join('')+'<span>'+ICON.quickReset+'</span></i>';
+        reset.addEventListener('click',()=>{colourWall.clearGroup();renderTray();tray.scrollLeft=0;updateTrayHints();sparkleOnSelect(tray.querySelector('.choice:nth-child(2)'));});
+        band.append(reset);tray.append(band);
+        basics.forEach(c=>choice(dot(c),paint(c),isOn(c),'polish color'));
+      } else polish.forEach(c=>choice(dot(c),paint(c),isOn(c),'polish color'));
+      groupJustFilled=false;
       ['glitter','shimmer','chrome'].forEach(id=>choice(`<img class="finish-art" src="./assets/icons/finish-${id}.webp" alt="">`,()=>S.update(state,{finish:id}),nail.finish===id,id));
     } else if(activeTab==='pattern'){
       const patternRow=document.createElement('div');patternRow.className='pattern-choices';
@@ -263,7 +336,7 @@
       tray.append(patternRow);
       if(singlePatterns.has(nail.pattern)){const row=document.createElement('div');row.className='pattern-colours';row.setAttribute('aria-label','Pattern colour');['#ffffff','#ff4f9e','#ffcf45','#55d7a2','#55aef1','#8a62df','#2f2740'].forEach(c=>{const b=document.createElement('button');b.className='pattern-colour'+(nail.patternColor===c?' selected':'');b.style.setProperty('--swatch',c);b.setAttribute('aria-label','Choose pattern colour');b.addEventListener('click',()=>{S.update(state,{patternColor:c});renderNails();renderTray();markFeedback(b);sparkleOnSelect(b);sparkleOnSelect(document.querySelector(`[data-nail="${state.selected}"]`));});row.append(b);});tray.append(row);}
     } else if(activeTab==='sticker'){
-      const switcher=document.createElement('div');switcher.className='pack-switcher';Object.entries(stickerPacks).forEach(([id,p])=>{const b=document.createElement('button');b.className=id===activePack?'selected':'';b.textContent=p.icon;b.setAttribute('aria-label',`${id} sticker pack`);b.addEventListener('click',()=>{activePack=id;renderTray();});switcher.append(b);});tray.append(switcher);
+      const switcher=document.createElement('div');switcher.className='pack-switcher';Object.entries(stickerPacks).forEach(([id,p])=>{const b=document.createElement('button');b.className=id===activePack?'selected':'';b.innerHTML=p.icon;b.setAttribute('aria-label',`${id} sticker pack`);b.addEventListener('click',()=>{activePack=id;renderTray();});switcher.append(b);});tray.append(switcher);
       const pack=stickerPacks[activePack];pack.items.forEach(id=>choice(`<img src="./assets/stickers/${pack.legacy?'':'v2/'}${id}.webp" alt="">`,()=>S.addDecoration(state,'sticker',`${pack.legacy?'':'v2/'}${id}`),false,id));
       addDecorationPips(nail.stickers.length,'stickers');
     } else if(activeTab==='gem'){
@@ -372,7 +445,7 @@
   function armClearAll() {
     if (handIsEmpty()) return;
     clearArmed = true;
-    clearAllButton.innerHTML = '<span>✋</span><small>Tap again</small>';
+    clearAllButton.innerHTML = '<span>'+ICON.broom+'</span><small>Tap again</small>';
     clearAllButton.classList.add('confirming');
     clearAllButton.setAttribute('aria-label', 'Tap again to clear all');
     /* Play the pre-rendered voice clip */
@@ -383,7 +456,7 @@
     }
     clearTimer = setTimeout(() => {
       clearArmed = false;
-      clearAllButton.innerHTML = '<span>🧹</span><small>Clear all</small>';
+      clearAllButton.innerHTML = '<span>'+ICON.broom+'</span><small>Clear all</small>';
       clearAllButton.classList.remove('confirming');
       clearAllButton.setAttribute('aria-label', 'Clear all designs');
     }, clearConfirmMs);
@@ -391,7 +464,7 @@
   function confirmClearAll() {
     clearTimeout(clearTimer);
     clearArmed = false;
-    clearAllButton.innerHTML = '<span>🧹</span><small>Clear all</small>';
+    clearAllButton.innerHTML = '<span>'+ICON.broom+'</span><small>Clear all</small>';
     clearAllButton.classList.remove('confirming');
     clearAllButton.setAttribute('aria-label', 'Clear all designs');
     /* Save to history before wiping the canvas */
@@ -410,7 +483,7 @@
       armClearAll();
     }
   });
-  clearAllButton.innerHTML = '<span>🧹</span><small>Clear all</small>';
+  clearAllButton.innerHTML = '<span>'+ICON.broom+'</span><small>Clear all</small>';
   clearAllButton.setAttribute('aria-label', 'Clear all designs');
 
   /* ══ HISTORY ══
@@ -435,7 +508,7 @@
       const raw = localStorage.getItem(HISTORY_KEY);
       if (!raw) return [];
       const parsed = JSON.parse(raw);
-      return Array.isArray(parsed) ? parsed.slice(0, MAX_HISTORY).filter(d => d && Array.isArray(d.nails) && d.nails.length === S.NAIL_COUNT) : [];
+      return Array.isArray(parsed) ? parsed.slice(0, MAX_HISTORY).map(S.sanitizeDesign).filter(Boolean) : [];
     } catch (e) { return []; }
   }
   function saveHistory() {
@@ -500,9 +573,7 @@
           }
         }
       } else if (nail.pattern === 'hearts') {
-        const t = el('text', { x: 38, y: 58, 'text-anchor': 'middle', 'font-size': 22, fill: c });
-        t.textContent = '♥';
-        pg.append(t);
+        pg.append(heartPath(38, 42, 10, c));
       } else if (nail.pattern === 'glitter-tip') {
         pg.append(el('path', { d: 'M8 32 Q38 12 68 32 V2 H8 Z', fill: c, opacity: .88 }));
       } else if (nail.pattern === 'moon-stars') {
@@ -532,6 +603,16 @@
     }
     return svg;
   }
+  /* My nails can be folded down to a slim tab so the hand gets the room (owner 2026-10-20:
+     "ability to hide 'my nail' so user can see more on the screen"). Remembered per device. */
+  const HISTORY_HIDDEN_KEY = 'ns_history_hidden_v1';
+  let historyHidden = (() => { try { return localStorage.getItem(HISTORY_HIDDEN_KEY) === '1'; } catch (e) { return false; } })();
+  let peekTimer = null;
+  function setHistoryHidden(hidden) {
+    historyHidden = hidden;
+    try { localStorage.setItem(HISTORY_HIDDEN_KEY, hidden ? '1' : '0'); } catch (e) {}
+    renderHistory();
+  }
   function renderHistory() {
     let drawer = document.querySelector('.history-drawer');
     if (!drawer) {
@@ -545,10 +626,21 @@
       return;
     }
     drawer.style.display = 'flex';
+    const folded = historyHidden && !peekTimer;
+    drawer.classList.toggle('folded', folded);
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'history-toggle';
+    toggle.setAttribute('aria-label', folded ? 'Show My nails' : 'Hide My nails');
+    toggle.setAttribute('aria-expanded', String(!folded));
+    toggle.innerHTML = folded ? ICON.chevronUp : ICON.chevronDown;
+    toggle.addEventListener('click', (e) => { e.stopPropagation(); clearTimeout(peekTimer); peekTimer = null; setHistoryHidden(!folded); });
+    drawer.append(toggle);
     const label = document.createElement('div');
     label.className = 'history-label';
-    label.innerHTML = '<span aria-hidden="true">💅</span><small>My nails</small>';
+    label.innerHTML = '<span aria-hidden="true">' + ICON.nailTip + '</span><small>My nails</small>';
     drawer.append(label);
+    if (folded) return;
     const previews = document.createElement('div');
     previews.className = 'history-previews';
     historyCache.forEach((design, i) => {
@@ -566,6 +658,56 @@
     });
     drawer.append(previews);
   }
+
+  /* SAVE without clearing (owner 2026-10-20: "how about add feature to add to the 'my nail'
+     without delete?"). A design already in My nails is not added again: it moves to the
+     front instead. A new one goes to the front; past six, the oldest (last) drops off. */
+  const saveButton = document.querySelector('#saveDesign');
+  function chime() {
+    try {
+      audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+      [660, 880].forEach((f, i) => {
+        const o = audio.createOscillator(), g = audio.createGain(), t = audio.currentTime + .1 + i * .11;
+        o.type = 'triangle'; o.frequency.setValueAtTime(f, t);
+        g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.05, t + .015); g.gain.exponentialRampToValueAtTime(.0001, t + .22);
+        o.connect(g).connect(audio.destination); o.start(t); o.stop(t + .24);
+      });
+    } catch (_e) {}
+  }
+  function flyToHistory(design) {
+    const target = document.querySelector('.history-preview');
+    const from = document.querySelector('#handSvg').getBoundingClientRect();
+    if (!target || prefersReducedMotion()) { if (target) sparkleOnSelect(target); return; }
+    const to = target.getBoundingClientRect();
+    const ghost = document.createElement('div');
+    ghost.className = 'save-flyer';
+    ghost.append(makeNailPreview(design.nails[2]));
+    const size = 96, x0 = from.left + from.width / 2 - size / 2, y0 = from.top + from.height * .35 - size / 2;
+    ghost.style.left = x0 + 'px'; ghost.style.top = y0 + 'px';
+    ghost.style.setProperty('--dx', (to.left + to.width / 2 - size / 2 - x0) + 'px');
+    ghost.style.setProperty('--dy', (to.top + to.height / 2 - size / 2 - y0) + 'px');
+    document.body.append(ghost);
+    target.style.visibility = 'hidden';
+    setTimeout(() => { ghost.remove(); target.style.visibility = ''; sparkleOnSelect(target); }, 650);
+  }
+  function saveDesign() {
+    if (handIsEmpty()) { markFeedback(saveButton); return false; }
+    const current = snapshotDesign();
+    const existing = historyCache.findIndex(d => designsEqual(d, current));
+    if (existing >= 0) historyCache.splice(existing, 1);
+    historyCache.unshift(current);
+    historyCache = historyCache.slice(0, MAX_HISTORY);
+    try { localStorage.setItem(HISTORY_KEY, JSON.stringify(historyCache)); } catch (e) {}
+    /* a folded My nails opens for a moment so the child sees the design go in */
+    if (historyHidden) { clearTimeout(peekTimer); peekTimer = setTimeout(() => { peekTimer = null; renderHistory(); }, 2600); }
+    renderHistory();
+    chime();
+    flyToHistory(current);
+    return existing < 0;
+  }
+  window.__nailSalonSave = saveDesign;
+  saveButton.addEventListener('click', (e) => { e.stopPropagation(); saveDesign(); });
+
   function saveOnExit() {
     /* Natural "done" moments: leaving the tab or switching away.
        Saves only if the current design differs from the last history entry
