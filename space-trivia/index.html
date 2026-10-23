@@ -19,7 +19,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="Space Trivia"/>
-</head>
+  <link rel="stylesheet" href="./cg-back.css" />
+  </head>
 <body>
 <main id="app">
 
@@ -36,13 +37,7 @@
          app mid-mission). The href is set from the HUB_URL constant in
          app.js -- the ONE place the undecided back-arrow destination lives
          (owner decision #5) -- so there is never a second copy of it here. -->
-    <a id="hub-link" class="hub-btn" aria-label="Back to the Space Hub">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2"
-           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-        <path d="M15 5 8 12l7 7"/>
-      </svg>
-      <span>Space Hub</span>
-    </a>
+    <a id="hub-link" class="cg-back" aria-label="Back to the Space Hub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
 
     <h1 class="app-title">Space Trivia</h1>
 
