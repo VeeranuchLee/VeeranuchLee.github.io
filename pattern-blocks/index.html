@@ -18,15 +18,14 @@
     <link rel="apple-touch-icon" href="./assets/icons/icon-192.png" />
     <link rel="stylesheet" href="./fonts.css" />
     <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./cg-back.css" />
   </head>
   <body>
     <!-- One screen: the toy owns the whole app. The back arrow is a plain link to
          the Toy Box shelf (../toy-room/) — navigation, not mounting. -->
     <main class="screen toy-screen">
       <header class="toy-topbar">
-        <a id="toy-back" class="btn btn-icon" href="../toy-room/" aria-label="Back to the toy box">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
+        <span class="cg-back-slot" aria-hidden="true"></span><a id="toy-back" class="cg-back" href="../toy-room/" aria-label="Back to the Toy Box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         <h1 class="toy-title">Pattern Blocks</h1>
         <button id="toy-music" class="btn btn-icon" type="button" aria-label="Music on or off" aria-pressed="true">
           <svg class="ic-music-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V6l10-2v12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="18" r="2.6" fill="currentColor"/><circle cx="16.5" cy="16" r="2.6" fill="currentColor"/></svg>
