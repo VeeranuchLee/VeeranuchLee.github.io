@@ -493,6 +493,10 @@ button {
   touch-action: manipulation;
 }
 
+.speak-button svg {
+  display: block;
+}
+
 .speak-button:active,
 .chip:active,
 .round-nav:active,
@@ -632,3 +636,7 @@ button {
     min-height: 28px;
   }
 }
+
+/* The shared 56px back button (INTERACTION-DIRECTION.md, 2026-10-23) is pinned 16px from the top;
+   the top bar must be tall enough that the mode chips below it start clear of it. */
+.topbar { min-height: 76px; }

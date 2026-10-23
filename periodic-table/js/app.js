@@ -87,8 +87,10 @@
     iconImg.alt = "";
     iconImg.draggable = false;
     iconImg.onerror = function () {
+      // Owner rule 2026-10-20: no emoji a child can see, so a missing drawing
+      // leaves the icon layer empty (element.icon data is never rendered).
       this.onerror = null;
-      this.parentNode.textContent = element.icon;
+      this.remove();
     };
     icon.append(iconImg);
     symbolLine.append(symbol);
@@ -187,8 +189,10 @@
     infoIconImg.alt = "";
     infoIconImg.draggable = false;
     infoIconImg.onerror = function () {
+      // Owner rule 2026-10-20: no emoji a child can see, so a missing drawing
+      // leaves the icon layer empty (element.icon data is never rendered).
       this.onerror = null;
-      this.parentNode.textContent = element.icon;
+      this.remove();
     };
     infoIcon.append(infoIconImg);
     infoPreview.querySelector(".element-name").textContent = element.name;
@@ -405,7 +409,9 @@
   function adjustNavigation() {
     const isTestHub = window.location.pathname.includes("/test-apps/");
     document.getElementById("home-link").href = isTestHub ? "../../children-apps/" : "../children-apps/";
-    document.getElementById("back-link").href = isTestHub ? "../" : "../";
+    /* One way out (INTERACTION-DIRECTION.md, 2026-10-23): the back button goes to Children Games;
+       the old separate Home link is hidden in the page. */
+    document.getElementById("back-link").href = isTestHub ? "../../children-apps/" : "../children-apps/";
   }
 
   function registerWorker() {
