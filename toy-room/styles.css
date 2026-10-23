@@ -1,3 +1,5 @@
+/* The back control is the shared .cg-back (shared/back-button/cg-back.css, 2026-10-23);
+   its old #hub-back rules were removed so they cannot override it. */
 /* Toy Box — the shelf's styles.
  *
  * Design language: warm paper, rounded corners, quiet chrome. The shelf stays
@@ -46,22 +48,6 @@ body {
    that header is centred and a flex child would pull the title off centre. 52px is the
    same disc the toys give their own back arrow, so the target is the toy branch's size
    and not this room's. */
-#hub-back {
-  position: absolute;
-  left: clamp(10px, 2vw, 20px);
-  top: max(clamp(10px, 2vh, 20px), env(safe-area-inset-top));
-  z-index: 2;
-  width: 52px; height: 52px;
-  display: grid; place-items: center;
-  border-radius: 16px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow);
-  color: var(--ink);
-  text-decoration: none;
-}
-#hub-back svg { width: 26px; height: 26px; }
-#hub-back:active { transform: translateY(2px); box-shadow: none; }
 
 /* --- Room (the whole app now) ------------------------------------------------ */
 
