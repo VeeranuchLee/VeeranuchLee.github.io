@@ -18,6 +18,7 @@
     <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png" />
     <link rel="stylesheet" href="./fonts.css" />
     <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./cg-back.css" />
   </head>
   <body>
     <main class="screen" id="app-root">
@@ -37,10 +38,11 @@
              check greps a class and not a URL — a card has moved hubs without its arrow
              before. 2026-09-25: promoted to the children's hub (owner: "promote the flag
              to main hub"), so the arrow now goes to /children-apps/. -->
-        <a id="btn-hub" class="btn btn-icon hub-btn" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to the children's hub">
+        <span class="cg-back-slot" aria-hidden="true"></span>
+        <a id="btn-hub" class="cg-back hub-btn" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <button id="btn-home" class="btn btn-icon" type="button" aria-label="Back to the home screen" hidden>
+        <button id="btn-home" class="cg-back" type="button" aria-label="Back to the home screen" hidden>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <h1 class="topbar-title">Flags</h1>
