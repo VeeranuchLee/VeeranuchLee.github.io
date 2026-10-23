@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Read &amp; Write</title>
+<link rel="stylesheet" href="./css/app.css?v=7d028c6ed-20261023235927">
+<!-- INTERACTION-DIRECTION.md method C, layer 3: byte-identical copy of maze-app/js/tap-zoom-guard.js -->
+<script src="./js/tap-zoom-guard.js?v=7d028c6ed-20261023235927"></script>
+  <link rel="stylesheet" href="./cg-back.css?v=7d028c6ed-20261023235927" />
+  </head>
+<body>
+<section class="screen map" id="map" hidden>
+  <header class="map-head">
+    <!-- Owner 2026-10-02: "promote การบ้านปิดเทอม read&write to main hub" -- the journey's way back
+         to the children's hub, a full URL like Flags and Our Maze, so the Test Hub copy goes there too. -->
+    <span class="cg-back-slot" aria-hidden="true"></span><a id="to-hub" class="cg-back" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    <div class="map-title">
+      <h1>Read &amp; Write</h1>
+      <p class="map-sub">A little reading and writing every day</p>
+    </div>
+    <div class="tally" aria-label="Days finished">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 l6 13 l14 1.5 l-10.5 9.5 l3 14 l-12.5 -7 l-12.5 7 l3 -14 l-10.5 -9.5 l14 -1.5 z"/></svg>
+      <span id="tally">0 / 20</span>
+    </div>
+    <button class="btn quiet map-reset" id="reset" type="button">Start over</button>
+    <button class="btn primary go" id="go-next" type="button">Start</button>
+  </header>
+  <div class="trail" id="trail">
+    <svg class="trail-path" id="trail-path" aria-hidden="true"></svg>
+    <ol class="stops" id="stops"></ol>
+  </div>
+  <p class="toast" id="map-toast" role="status"></p>
+</section>
+
+<section class="screen lesson" id="lesson" hidden>
+  <header class="lesson-head">
+    <button class="btn icon home" id="home" type="button" aria-label="Back to the journey">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 12 l11 -4 l14 5 l11 -4 v27 l-11 4 l-14 -5 l-11 4 z"/><path d="M17 8 v27 M31 13 v27"/></svg>
+    </button>
+    <div class="lesson-title">
+      <span class="day-chip" id="day-chip">Day 1</span>
+      <h2 id="lesson-title"></h2>
+    </div>
+    <ol class="steps" id="steps" aria-label="Steps"></ol>
+  </header>
+  <main class="stage" id="stage"></main>
+  <footer class="lesson-foot" id="foot"></footer>
+</section>
+
+<p class="load-error" id="load-error" hidden>The lessons could not be opened.</p>
+
+<script src="./js/audio-ids.js?v=7d028c6ed-20261023235927"></script>
+<script src="./js/audio.js?v=7d028c6ed-20261023235927"></script>
+<script src="./js/store.js?v=7d028c6ed-20261023235927"></script>
+<script src="./js/write-pad.js?v=7d028c6ed-20261023235927"></script>
+<script src="./js/app.js?v=7d028c6ed-20261023235927"></script>
+<script>
+// Offline worker, published copy only: a Test Hub copy has it stripped (testhub-service-worker.py).
+if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+  addEventListener('load', function () { Promise.resolve /* Test Hub staging: no service worker */ ('./service-worker.js'); });
+}
+</script>
+</body>
+</html>
