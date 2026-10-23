@@ -7,15 +7,14 @@
 <link rel="stylesheet" href="./css/app.css">
 <!-- INTERACTION-DIRECTION.md method C, layer 3: byte-identical copy of maze-app/js/tap-zoom-guard.js -->
 <script src="./js/tap-zoom-guard.js"></script>
-</head>
+  <link rel="stylesheet" href="./cg-back.css" />
+  </head>
 <body>
 <section class="screen map" id="map" hidden>
   <header class="map-head">
     <!-- Owner 2026-10-02: "promote การบ้านปิดเทอม read&write to main hub" -- the journey's way back
          to the children's hub, a full URL like Flags and Our Maze, so the Test Hub copy goes there too. -->
-    <a class="btn icon to-hub" id="to-hub" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to the children's hub">
-      <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M7 23 L24 8 L41 23"/><path d="M12 19 V40 H36 V19"/><path d="M20 40 V29 H28 V40"/></svg>
-    </a>
+    <span class="cg-back-slot" aria-hidden="true"></span><a id="to-hub" class="cg-back" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     <div class="map-title">
       <h1>Read &amp; Write</h1>
       <p class="map-sub">A little reading and writing every day</p>
