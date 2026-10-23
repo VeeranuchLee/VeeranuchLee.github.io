@@ -204,7 +204,7 @@ function home() {
     return setCard(g, playable(g).length);
   }).join('') + (state.mode === 'find' ? cards : '');
   screen(
-    '<header class="topline"><a class="hub" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games">&larr; All games</a>' +
+    '<header class="topline"><span class="cg-back-slot" aria-hidden="true"></span><a class="cg-back" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>' +
     soundButton() + '</header>' +
     '<section class="hero"><h1>Shadow Matching</h1><p>' + LINES.hero + '</p>' +
     '<div class="modes" role="group" aria-label="How to play">' +
