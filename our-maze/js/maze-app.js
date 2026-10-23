@@ -196,7 +196,7 @@
     detachInput();
     app.className = "screen-pick";
     app.innerHTML =
-      '<header class="topline"><a class="hub" href="' + HUB + '" aria-label="Back to Children Games">&larr; All games</a>' +
+      '<header class="topline"><span class="cg-back-slot" aria-hidden="true"></span><a class="cg-back" href="' + HUB + '" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>' +
       speakerButton() + "</header>" +
       '<section class="pick">' +
       '<h1 class="title"><img class="title-flag" data-ph="flag" src="' + SPRITE("flag", "flag") + '" alt="" aria-hidden="true"/>Our Maze</h1>' +

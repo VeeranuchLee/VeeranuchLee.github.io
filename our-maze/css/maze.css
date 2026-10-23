@@ -46,11 +46,15 @@ button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:tra
 .cast{
   --cols:3;--rows:4;--g:16px;
   --tile:min(200px,calc((100vw - 2*var(--gap) - (var(--cols) - 1)*var(--g)) / var(--cols)),
-                   calc((100dvh - var(--top) - 150px - var(--gap) - (var(--rows) - 1)*var(--g)) / var(--rows)));
+                   calc((100dvh - var(--top) - var(--pick-chrome,150px) - var(--gap) - (var(--rows) - 1)*var(--g)) / var(--rows)));
   display:grid;grid-template-columns:repeat(var(--cols),var(--tile));grid-auto-rows:var(--tile);gap:var(--g);
   margin:auto 0;
 }
 @media (orientation:landscape){.cast{--cols:4;--rows:3}}
+/* The Directions / Robot Code tabs (.picker-type, ~84px with margins) joined the picker
+   after the 150px title+question allowance was written, so at 1024x768 the third row ran
+   23px past the bottom of an overflow:hidden screen (2026-10-23 QA sweep). */
+.pick:has(.picker-type) .cast{--pick-chrome:240px}
 .code-cast{--cols:4;--rows:2}
 @media (orientation:landscape){.code-cast{--cols:4;--rows:2}}
 .friend{
