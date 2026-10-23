@@ -9,6 +9,11 @@ const MODES = {
   music: { label: "Music Notes", icon: "♫", prompt: "Play the melody back" }
 };
 
+// Owner rule 2026-10-20: no emoji in the UI. The "Your turn" hand is drawn instead,
+// in the flat rounded style of the other status glyphs; currentColor keeps the panel
+// colour and 1em keeps the .status-icon font sizes (50px, 32px compact).
+const TURN_ICON = '<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false"><path d="M10.6 13.8V5.6a1.4 1.4 0 0 1 2.8 0v8.2z"/><path d="M10 13.2h4a3.2 3.2 0 0 1 3.2 3.2v1a3.2 3.2 0 0 1-3.2 3.2h-4a3.2 3.2 0 0 1-3.2-3.2v-1a3.2 3.2 0 0 1 3.2-3.2z"/><path d="M6.9 14.3a1.85 1.85 0 0 0 0 3.7z"/></svg>';
+
 const $ = (selector) => document.querySelector(selector);
 const menu = $("#menu");
 const gameScreen = $("#game");
@@ -106,12 +111,12 @@ function setPhase(next, copy) {
   statusPanel.className = `status-panel ${next}`;
   const config = {
     watch: ["◉", "Watch & listen", copy || "Remember the pattern"],
-    turn: ["☝", "Your turn", copy || MODES[selectedMode].prompt],
+    turn: [TURN_ICON, "Your turn", copy || MODES[selectedMode].prompt],
     success: ["★", "Wonderful!", copy || "One more joins the pattern"],
     mistake: ["↻", "Let’s watch again", copy || "Same pattern, another try"],
     explore: ["✦", "Explore", copy || "Tap anything and make music"]
   }[next];
-  [statusIcon.textContent, statusTitle.textContent, statusCopy.textContent] = config;
+  [statusIcon.innerHTML, statusTitle.textContent, statusCopy.textContent] = config;
   robot.dataset.pose = next;
   replay.disabled = next === "watch" || next === "success" || next === "mistake" || explore;
   instrument.setAttribute("aria-disabled", String(next !== "turn" && next !== "explore"));

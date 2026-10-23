@@ -1,7 +1,8 @@
-const CACHE_NAME = "memory-echo-v2";
+const CACHE_NAME = "memory-echo-v3";
 const CACHE_PREFIX = "memory-echo-v";
 const SHELL = [
-  "./", "./index.html", "./styles.css", "./app.js", "./tap-zoom-guard.js",
+  "./", "./index.html", "./styles.css",
+  "./cg-back.css", "./app.js", "./tap-zoom-guard.js",
   "./manifest.webmanifest", "./package.json", "./js/game-logic.js", "./js/audio-engine.js", "./js/layout-geometry.js",
   "./fonts/FredokaOne-latin.woff2", "./fonts/Nunito-latin.woff2",
   "./assets/art/pastel-landscape.webp", "./assets/art/echo-robot.webp",
