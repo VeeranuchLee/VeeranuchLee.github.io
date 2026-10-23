@@ -354,6 +354,7 @@
     const show = (id) => {
       $$(".screen").forEach((screen) => screen.classList.toggle("active", screen.id === id));
       $("#back").style.visibility = id === "gallery" ? "hidden" : "visible";
+      $("#hub-back").style.display = id === "gallery" ? "" : "none";
     };
     const point = (event) => {
       const rect = lineCanvas.getBoundingClientRect();

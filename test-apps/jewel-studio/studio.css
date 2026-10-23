@@ -47,7 +47,8 @@ button {
 .top small {
   letter-spacing: 0.18em;
 }
-.top button {
+.top button,
+.top .hub-btn {
   background: #fff3;
   border: 1px solid #fff8;
   color: white;
@@ -459,3 +460,9 @@ button {
 @media (prefers-reduced-motion: reduce) {
   #canvasStack.revealing { animation: none; }
 }
+
+/* Drawn back chevrons (owner rule: no emoji / text glyphs as icons). */
+.top .hub-btn{display:inline-grid;place-items:center;min-width:44px;min-height:44px;border-radius:12px;text-decoration:none}
+.top .hub-btn svg,#back svg{width:22px;height:22px;display:block}
+#back{min-width:44px;min-height:44px;display:inline-grid;place-items:center}
+#hub-back + #back{margin-left:-4px}

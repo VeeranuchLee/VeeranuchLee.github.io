@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#b96f79"><title>Little Charm Shop</title>
-  <link rel="stylesheet" href="styles.css?v=c625b713b-20261018092746"><script src="tap-zoom-guard.js?v=c625b713b-20261018092746"></script>
+  <link rel="stylesheet" href="styles.css?v=a585d2ecf-20261023103035"><script src="tap-zoom-guard.js?v=a585d2ecf-20261023103035"></script>
 </head>
 <body><main id="app">
-  <header><button class="round" id="home" aria-label="Choose jewellery">⌂</button><h1>Little Charm Shop</h1><button class="round" id="mute" aria-label="Mute sound">♪</button></header>
+  <header><div class="hdr-left"><a class="round hub-btn" id="hub-back" href="https://veeranuchlee.github.io/test-apps/" aria-label="Back to Test Apps"><span data-icon="back"></span></a><button class="round" id="home" aria-label="Choose jewellery"><span data-icon="home"></span></button></div><h1>Little Charm Shop</h1><button class="round" id="mute" aria-label="Mute sound"><span data-icon="music"></span></button></header>
 
   <section class="screen active" id="catalogue">
-    <div class="catalogue-card"><div class="catalogue-heading"><h2>Choose something lovely</h2><button id="open-saved"><span>💝</span>My designs</button></div>
+    <div class="catalogue-card"><div class="catalogue-heading"><h2>Choose something lovely</h2><button id="open-saved"><span data-icon="heart"></span>My designs</button></div>
       <nav class="type-tabs" aria-label="Jewellery type">
-        <button data-type="necklace"><span>📿</span>Necklaces</button><button data-type="bracelet"><span>💫</span>Bracelets</button>
-        <button data-type="earrings"><span>💎</span>Earrings</button><button data-type="hairpin"><span>🎀</span>Hairpins</button>
+        <button data-type="necklace"><span data-icon="necklace"></span>Necklaces</button><button data-type="bracelet"><span data-icon="bracelet"></span>Bracelets</button>
+        <button data-type="earrings"><span data-icon="earrings"></span>Earrings</button><button data-type="hairpin"><span data-icon="bow"></span>Hairpins</button>
       </nav><div id="model-grid" aria-label="Ready-made designs"></div>
     </div>
   </section>
@@ -23,19 +23,20 @@
       <div class="choices"><div><h3>Colour</h3><div id="colours" class="picture-options"></div></div><div><h3>Special effect</h3><div id="effects" class="picture-options effects"></div></div></div>
     </div>
     <nav class="destinations" aria-label="Where should it go?">
-      <button data-destination="wear"><span class="action-picture wear-picture">👧</span><b>Wear it</b></button>
-      <button data-destination="box"><span class="action-picture box-picture">🎁</span><b>Gift box</b></button>
-      <button data-destination="display"><span class="action-picture display-picture">♙</span><b>Display</b></button>
+      <button data-destination="wear"><span class="action-picture wear-picture" data-icon="girl"></span><b>Wear it</b></button>
+      <button data-destination="box"><span class="action-picture box-picture" data-icon="gift"></span><b>Gift box</b></button>
+      <button data-destination="display"><span class="action-picture display-picture" data-icon="stand"></span><b>Display</b></button>
     </nav>
   </section>
 
   <section class="screen result-screen" id="result">
-    <img id="result-bg" class="plate" src="assets/try-on-character.webp?v=c625b713b-20261018092746" alt="Your jewellery being worn">
+    <img id="result-bg" class="plate" src="assets/try-on-character.webp?v=a585d2ecf-20261023103035" alt="Your jewellery being worn">
     <svg id="result-jewel" class="overlay-jewel" viewBox="0 0 100 75"></svg>
-    <div id="gift-box" hidden><div class="box-lid">🎀</div><div class="box-piece"><svg viewBox="0 0 100 75"></svg></div></div>
-    <button id="edit-again" class="edit-again"><span>✏️</span><b>Change it</b></button>
+    <div id="gift-box" hidden><div class="box-lid" data-icon="bow"></div><div class="box-piece"><svg viewBox="0 0 100 75"></svg></div></div>
+    <div id="outfits" class="outfit-picker" role="radiogroup" aria-label="Choose her outfit" hidden><button role="radio" data-outfit="original" aria-label="Lilac dress" aria-checked="true"><img src="assets/outfits/original-thumb.webp?v=a585d2ecf-20261023103035" alt=""></button><button role="radio" data-outfit="everyday" aria-label="Denim pinafore" aria-checked="false"><img src="assets/outfits/everyday-thumb.webp?v=a585d2ecf-20261023103035" alt=""></button><button role="radio" data-outfit="party" aria-label="Pink party dress" aria-checked="false"><img src="assets/outfits/party-thumb.webp?v=a585d2ecf-20261023103035" alt=""></button><button role="radio" data-outfit="sunny" aria-label="Yellow sundress" aria-checked="false"><img src="assets/outfits/sunny-thumb.webp?v=a585d2ecf-20261023103035" alt=""></button></div>
+    <button id="edit-again" class="edit-again"><span data-icon="pencil"></span><b>Change it</b></button>
   </section>
 
   <section class="screen" id="saved"><div class="saved-card"><button id="saved-back" class="back">‹ Models</button><h2>My jewellery box</h2><p id="saved-empty">Your decorated designs will appear here.</p><div id="saved-grid"></div></div></section>
-</main><script src="js/bead-engine.js?v=c625b713b-20261018092746"></script><script src="app.js?v=c625b713b-20261018092746"></script>
-<script>if("serviceWorker" in navigator)Promise.resolve() /* Test Hub staging: no service worker */;</script></body></html>
+</main><script src="js/bead-engine.js?v=a585d2ecf-20261023103035"></script><script src="app.js?v=a585d2ecf-20261023103035"></script>
+<script>if("serviceWorker" in navigator)Promise.resolve /* Test Hub staging: no service worker */ ("service-worker.js");</script></body></html>

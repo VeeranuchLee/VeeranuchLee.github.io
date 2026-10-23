@@ -7,13 +7,17 @@
       content="width=device-width,initial-scale=1,viewport-fit=cover"
     />
     <title>Little Jewelry Studio — Phase 1</title>
-    <link rel="stylesheet" href="studio-proto.css?v=r6-metal-20261021" />
-    <script src="tap-zoom-guard.js?v=63424dabb-20261021123414"></script>
+    <link rel="stylesheet" href="studio.css?v=split-20261023" />
+    <script src="tap-zoom-guard.js?v=a585d2ecf-20261023103035"></script>
   </head>
   <body>
     <main id="studioApp">
       <header class="top">
-        <button id="back" aria-label="Back">‹</button>
+        <!-- Its own app since 2026-10-23 (split out of charm-shop-app). The gallery is the top of
+             the studio, so there #back is hidden and this link is the way out. It points at the
+             Test Hub while the studio is staging; promotion must move it (check-hub-back-links.py). -->
+        <a id="hub-back" class="hub-btn" href="https://veeranuchlee.github.io/test-apps/" aria-label="Back to Test Apps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <button id="back" aria-label="Back to the jewels"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <div>
           <small>PHASE 1 PLAYROOM</small>
           <h1>Little Jewelry Studio</h1>
@@ -112,6 +116,6 @@
         <p id="message" aria-live="polite">Tap a closed area to fill it.</p>
       </section>
     </main>
-    <script src="studio-proto.js?v=r6-metal-20261021"></script>
+    <script src="studio.js?v=split-20261023"></script>
   </body>
 </html>
