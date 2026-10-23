@@ -407,10 +407,12 @@
   }
 
   /* The voice button may be on screen when a verdict lands (or lands late), so it
-     is re-read from the single source of truth rather than left stale. */
+     is re-read from the single source of truth rather than left stale. Skipped
+     while the "Listen…" probe is up: toggleVoice's own callback owns putting the
+     state label back, and overwriting here would flash a different label first. */
   function refreshVoiceLabel() {
     var button = document.querySelector('.voice-button');
-    if (button && button.textContent !== '🔊 Listen…') button.textContent = voiceLabel();
+    if (button && !button.dataset.probe) setVoiceLabel(button);
   }
 
   function replayButton() {
@@ -418,9 +420,8 @@
       class: 'replay-button',
       type: 'button',
       'aria-label': 'Say that again',
-      text: '🔊',
       onclick: function () { if (lastSpoken) speak(lastSpoken); }
-    });
+    }, [icon('speaker')]);
   }
 
   /* Pairs a prompt with a replay control. A spoken prompt a slow reader missed is
@@ -428,6 +429,149 @@
      `no-voice` class once speech has been shown not to work. */
   function promptRow(promptNode) {
     return h('div', { class: 'prompt-row' }, [promptNode, replayButton()]);
+  }
+
+  /* ------------------------------------------------------------------ *
+   * Drawn icons — no emoji in the UI (owner rule, 2026-10-20)
+   *
+   * Every emoji a child could see is a small inline SVG drawn in this app's
+   * own hand instead: rounded strokes on a 24x24 grid, currentColor so an icon
+   * takes its button's own colour, sized in em so it keeps the line box the
+   * emoji used to occupy (`.ui-icon`, styles.css). A system emoji is chrome
+   * pretending to be art -- a grey metal speaker on macOS, something else
+   * again on the iPad -- and a flag emoji is worse: Windows prints the letter
+   * pair "TH" where the flag should be.
+   *
+   * Each entry is a list of [tag, attrs]. The <g> in icon() supplies the
+   * rounded stroke; a shape that wants to be solid says so in its own attrs.
+   * ------------------------------------------------------------------ */
+
+  var SVG_NS = 'http://www.w3.org/2000/svg';
+
+  var ICONS = {
+    /* The one speaker shape the book uses, with a slash for muted -- same
+       geometry as writing-book/vocab.js and math-app/magic-spelling.html, so
+       "say that again" reads as the same control in every app it appears in. */
+    speaker: [
+      ['path', { d: 'M11 5 6 9H3v6h3l5 4V5z', fill: 'currentColor', stroke: 'none' }],
+      ['path', { d: 'M15.5 8.5a5 5 0 0 1 0 7' }],
+      ['path', { d: 'M18.5 6a9 9 0 0 1 0 12' }]
+    ],
+    muted: [
+      ['path', { d: 'M11 5 6 9H3v6h3l5 4V5z', fill: 'currentColor', stroke: 'none' }],
+      ['line', { x1: 16, y1: 9, x2: 22, y2: 15 }],
+      ['line', { x1: 22, y1: 9, x2: 16, y2: 15 }]
+    ],
+    home: [
+      ['path', { d: 'M4 11.6 12 5l8 6.6' }],
+      ['path', { d: 'M6.3 10.3v8.4a1 1 0 0 0 1 1h9.4a1 1 0 0 0 1-1v-8.4' }],
+      ['path', { d: 'M10.4 19.7v-4.9h3.2v4.9' }]
+    ],
+    pin: [
+      ['path', { d: 'M12 21s-6.5-5.2-6.5-10a6.5 6.5 0 0 1 13 0C18.5 15.8 12 21 12 21z' }],
+      ['circle', { cx: 12, cy: 10.6, r: 2.4 }]
+    ],
+    clockface: [
+      ['circle', { cx: 12, cy: 12, r: 8.5 }],
+      ['path', { d: 'M12 7.6V12l3.2 1.9' }]
+    ],
+    dice: [
+      ['rect', { x: 4.2, y: 4.2, width: 15.6, height: 15.6, rx: 3.6 }],
+      ['circle', { cx: 8.6, cy: 8.6, r: 1.35, fill: 'currentColor', stroke: 'none' }],
+      ['circle', { cx: 12, cy: 12, r: 1.35, fill: 'currentColor', stroke: 'none' }],
+      ['circle', { cx: 15.4, cy: 15.4, r: 1.35, fill: 'currentColor', stroke: 'none' }]
+    ],
+    bulb: [
+      ['path', { d: 'M12 3.6a5.8 5.8 0 0 1 3.5 10.4c-.7.5-1 1.2-1 2h-5c0-.8-.3-1.5-1-2A5.8 5.8 0 0 1 12 3.6z' }],
+      ['path', { d: 'M9.8 18.9h4.4' }],
+      ['path', { d: 'M10.6 21.1h2.8' }]
+    ],
+    /* c5's scenarios, one drawing per DOINGS row in elapsed.js. */
+    car: [
+      ['path', { d: 'M3.6 16.4v-3.1a1.6 1.6 0 0 1 1.3-1.6l2.7-.5 1.9-3A2 2 0 0 1 11.2 7h3a2 2 0 0 1 1.7.9l1.9 3 2.6.5a1.6 1.6 0 0 1 1.3 1.6v3.4H3.6z' }],
+      ['circle', { cx: 8.1, cy: 17.9, r: 1.5 }],
+      ['circle', { cx: 15.9, cy: 17.9, r: 1.5 }]
+    ],
+    walk: [
+      ['circle', { cx: 13.2, cy: 4.1, r: 1.9 }],
+      ['path', { d: 'M12.8 6.5 11 12.2' }],
+      ['path', { d: 'M11 12.2l3.3 2.1.7 5.3' }],
+      ['path', { d: 'M11 12.2 8.1 15.3l-.6 4.6' }],
+      ['path', { d: 'M12.2 8.4l3.9 2.3' }],
+      ['path', { d: 'M12.2 8.4 8.4 9.8' }]
+    ],
+    cupcake: [
+      ['path', { d: 'M6.4 13.2a5.6 5.6 0 0 1 11.2 0' }],
+      ['path', { d: 'M7.4 13.2l1 6a1.3 1.3 0 0 0 1.3 1.1h4.6a1.3 1.3 0 0 0 1.3-1.1l1-6' }],
+      ['circle', { cx: 12, cy: 5.4, r: 1.5 }]
+    ],
+    book: [
+      ['path', { d: 'M12 6.6C10.4 5.1 8 4.6 4.4 4.9a.8.8 0 0 0-.7.8v11.6c0 .4.3.8.8.8 3.3-.2 5.9.2 7.5 1.7 1.6-1.5 4.2-1.9 7.5-1.7.5 0 .8-.4.8-.8V5.7a.8.8 0 0 0-.7-.8C16 4.6 13.6 5.1 12 6.6z' }],
+      ['path', { d: 'M12 6.6v12.4' }]
+    ],
+    puzzle: [
+      ['path', { d: 'M4 8.6h4.1a2.3 2.3 0 1 1 4.6 0H20V21h-7.6a2.3 2.3 0 1 0-4.6 0H4z' }]
+    ],
+    piano: [
+      ['rect', { x: 3.6, y: 6.6, width: 16.8, height: 10.8, rx: 1.6 }],
+      ['path', { d: 'M3.6 12.6h16.8' }],
+      ['path', { d: 'M9.2 12.6v4.8M14.8 12.6v4.8' }],
+      ['rect', { x: 7.2, y: 6.6, width: 3.2, height: 4, rx: 1, fill: 'currentColor', stroke: 'none' }],
+      ['rect', { x: 13.6, y: 6.6, width: 3.2, height: 4, rx: 1, fill: 'currentColor', stroke: 'none' }]
+    ],
+    swim: [
+      ['circle', { cx: 7.4, cy: 7.2, r: 2.1 }],
+      ['path', { d: 'M3 14.2c1.7-2.9 4.6-4.2 7.7-3.6 2.4.5 4.3-.3 5.6-2.2' }],
+      ['path', { d: 'M2.8 17.3q2.3-2.3 4.6 0t4.6 0t4.6 0t4.6 0' }],
+      ['path', { d: 'M5.5 20.4q2.3-2.3 4.6 0t4.6 0t4.6 0' }]
+    ],
+    film: [
+      ['path', { d: 'M3.8 9.8 5.6 5h14.8l-1.8 4.8H3.8z' }],
+      ['rect', { x: 3.8, y: 9.8, width: 16.6, height: 9, rx: 1.6 }],
+      ['path', { d: 'M8.9 9.2 7.6 5.7M13.2 9.2 11.9 5.7M17.5 9.2 16.2 5.7' }]
+    ],
+    party: [
+      ['rect', { x: 5.2, y: 12.4, width: 13.6, height: 6, rx: 1.4 }],
+      ['path', { d: 'M5.2 15.3q1.7 1.7 3.4 0t3.4 0t3.4 0t3.4 0' }],
+      ['path', { d: 'M12 12.4V8.9' }],
+      ['path', { d: 'M12 5.9c.9.6 1.5 1.2 1.5 2a1.5 1.5 0 0 1-3 0c0-.8.6-1.4 1.5-2z' }]
+    ],
+    train: [
+      ['rect', { x: 4.4, y: 9.6, width: 15.2, height: 7.4, rx: 1.5 }],
+      ['rect', { x: 6, y: 5.8, width: 3, height: 3.8, rx: .8 }],
+      ['rect', { x: 13, y: 11.4, width: 4.2, height: 3, rx: .8 }],
+      ['circle', { cx: 8, cy: 18.6, r: 1.7 }],
+      ['circle', { cx: 15.6, cy: 18.6, r: 1.7 }],
+      ['path', { d: 'M3.4 21.4h17.2' }]
+    ]
+  };
+
+  function icon(name) {
+    var root = document.createElementNS(SVG_NS, 'svg');
+    root.setAttribute('viewBox', '0 0 24 24');
+    root.setAttribute('class', 'ui-icon');
+    root.setAttribute('aria-hidden', 'true');
+    var g = document.createElementNS(SVG_NS, 'g');
+    g.setAttribute('fill', 'none');
+    g.setAttribute('stroke', 'currentColor');
+    g.setAttribute('stroke-width', '2.2');
+    g.setAttribute('stroke-linecap', 'round');
+    g.setAttribute('stroke-linejoin', 'round');
+    (ICONS[name] || []).forEach(function (shape) {
+      var node = document.createElementNS(SVG_NS, shape[0]);
+      Object.keys(shape[1]).forEach(function (key) {
+        node.setAttribute(key, shape[1][key]);
+      });
+      g.appendChild(node);
+    });
+    root.appendChild(g);
+    return root;
+  }
+
+  /* An icon followed by its caption, as children rather than one textContent,
+     so a label can carry both without string-building SVG into text. */
+  function labelChildren(label) {
+    return [icon(label.icon), document.createTextNode(' ' + label.text)];
   }
 
   /* ------------------------------------------------------------------ *
@@ -574,11 +718,12 @@
        link would work live and 404 in every local preview. */
     screen.appendChild(h('div', { class: 'home' }, [
       h('div', { class: 'home-out' }, [
-        h('a', {
-          class: 'back-button hub-button',
-          href: 'https://veeranuchlee.github.io/test-apps/',
-          text: '\u2039 Test Apps'
-        })
+        (function () {
+          /* The shared back button (INTERACTION-DIRECTION.md "The way out", 2026-10-23). */
+          var a = h('a', { class: 'cg-back', href: 'https://veeranuchlee.github.io/children-apps/', 'aria-label': 'Back to Children Games' });
+          a.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+          return a;
+        })()
       ]),
       h('header', { class: 'home-head' }, [
         h('h1', { class: 'title', text: 'Time Book' }),
@@ -588,9 +733,8 @@
       h('button', {
         class: 'ghost-button voice-button',
         type: 'button',
-        text: voiceLabel(),
         onclick: function (event) { toggleVoice(event.currentTarget); }
-      })
+      }, labelChildren(voiceLabel()))
     ]));
   }
 
@@ -599,8 +743,18 @@
      old version answered that tap by silently switching the voice OFF, which is
      exactly how you end up with an app that seems to have no sound at all. */
   function voiceLabel() {
-    if (speechWorks === false) return '🔇 This device has no voice';
-    return speechOn ? '🔊 Voice is on — tap to mute' : '🔇 Muted — tap to hear the voice';
+    if (speechWorks === false) return { icon: 'muted', text: 'This device has no voice' };
+    return speechOn
+      ? { icon: 'speaker', text: 'Voice is on — tap to mute' }
+      : { icon: 'muted', text: 'Muted — tap to hear the voice' };
+  }
+
+  /* Every writer of the voice button's label goes through here, so the drawn
+     speaker and the words can never fall out of step. */
+  function setVoiceLabel(button, label) {
+    label = label || voiceLabel();
+    clear(button);
+    labelChildren(label).forEach(function (child) { button.appendChild(child); });
   }
 
   function toggleVoice(button) {
@@ -619,7 +773,8 @@
           window.speechSynthesis.cancel();
         }
       } catch (err) {}
-      button.textContent = voiceLabel();
+      delete button.dataset.probe;
+      setVoiceLabel(button);
       return;
     }
 
@@ -628,9 +783,11 @@
        find out whether the device speaks at all -- a verdict needs a real utterance
        inside a real user gesture, which is also what iOS Safari requires before it
        will speak at all. */
-    button.textContent = '🔊 Listen…';
+    setVoiceLabel(button, { icon: 'speaker', text: 'Listen…' });
+    button.dataset.probe = '1';
     speak('Voice is on. I will read the questions to you.', function () {
-      button.textContent = voiceLabel();
+      delete button.dataset.probe;
+      setVoiceLabel(button);
     });
   }
 
@@ -1527,9 +1684,8 @@
           h('button', {
             class: 'replay-button wc-replay', type: 'button',
             'aria-label': 'Say that again',
-            text: '🔊',
             onclick: function () { speakLines(arrivalLines()); }
-          }),
+          }, [icon('speaker')]),
           h('div', {
             class: 'wc-dial-tap', role: 'button', tabindex: '0',
             onclick: function () { speakLines(arrivalLines()); }
@@ -1600,7 +1756,10 @@
       new CLOCK.Clock(dial, { minutes: part.minutesSince12, ring: true });
 
       clear(ribbon);
-      ribbon.appendChild(h('span', { class: 'wc-flag', text: here ? here.flag : '🏠' }));
+      /* The drawn flag comes from worldclock.js, which owns the places; the
+         home fallback is this file's own house icon. */
+      ribbon.appendChild(h('span', { class: 'wc-flag' },
+        here ? [WORLD.flagIcon(here.flag)] : [icon('home')]));
       ribbon.appendChild(h('span', {
         class: 'wc-place',
         text: here ? here.name + ', ' + here.country : 'Your time'
@@ -1624,7 +1783,7 @@
           text: WORLD.dateLine(part.weekday, dayShift)
         }));
       }
-      panel.appendChild(h('span', { class: 'wc-panel-hint', text: '🔊' }));
+      panel.appendChild(h('span', { class: 'wc-panel-hint' }, [icon('speaker')]));
 
       WORLD.layoutChips(map, function (city) {
         return shortTime(WORLD.readZone(city.zone, instant));
@@ -1658,9 +1817,9 @@
 
     /* ---- the entry popup -------------------------------------------- */
 
-    /* Speaks on a tap of its 🔊, never on open. AUDIO-DIRECTION forbids autoplay
-       when a dialog opens, and iOS would refuse anyway: this is the first thing
-       in the session, before any gesture. */
+    /* Speaks on a tap of its speaker button, never on open. AUDIO-DIRECTION
+       forbids autoplay when a dialog opens, and iOS would refuse anyway: this
+       is the first thing in the session, before any gesture. */
     function askForTime() {
       var base = home();
       var pick = { hour: (base.hour24 % 12) || 12, minute: base.minute, pm: base.hour24 >= 12 };
@@ -1690,8 +1849,8 @@
           h('h2', { text: WORLD.POPUP[0] }),
           h('button', {
             class: 'replay-button', type: 'button', 'aria-label': 'Say that again',
-            text: '🔊', onclick: function () { speakLines([WORLD.POPUP[0]]); }
-          })
+            onclick: function () { speakLines([WORLD.POPUP[0]]); }
+          }, [icon('speaker')])
         ]),
         h('div', { class: 'wc-sheet-body' }, [
           h('div', { class: 'wc-picker' }, [
@@ -1712,17 +1871,14 @@
           h('div', { class: 'wc-choices' }, [
             h('button', {
               class: 'primary-button wc-choice', type: 'button',
-              text: '📍 ' + WORLD.POPUP[1],
               onclick: function () { start(new Date(), true); }
-            }),
+            }, labelChildren({ icon: 'pin', text: WORLD.POPUP[1] })),
             h('button', {
               class: 'primary-button wc-choice is-green', type: 'button',
-              text: '🕐 ' + WORLD.POPUP[2],
               onclick: function () { start(fromPick(), false); }
-            }),
+            }, labelChildren({ icon: 'clockface', text: WORLD.POPUP[2] })),
             h('button', {
               class: 'primary-button wc-choice is-purple', type: 'button',
-              text: '🎲 ' + WORLD.POPUP[3],
               onclick: function () {
                 pick.hour = 1 + Math.floor(Math.random() * 12);
                 pick.minute = Math.floor(Math.random() * 12) * 5;
@@ -1730,7 +1886,7 @@
                 show();
                 start(fromPick(), false);
               }
-            })
+            }, labelChildren({ icon: 'dice', text: WORLD.POPUP[3] }))
           ])
         ])
       ]);
@@ -1932,7 +2088,7 @@
       var q = ELAPSED.question(step, Math.random() < 0.5);
 
       clear(scene);
-      if (q.emoji) scene.appendChild(h('span', { class: 'scene-emoji', text: q.emoji }));
+      if (q.icon) scene.appendChild(h('span', { class: 'scene-emoji' }, [icon(q.icon)]));
       if (q.scene) scene.appendChild(document.createTextNode(q.scene));
       prompt.textContent = q.ask;
       speak((q.sceneSaid ? q.sceneSaid + ' ' : '') + q.ask);
@@ -2002,7 +2158,7 @@
           onclick: function (event) { judge(event.currentTarget, card.ok, q, reveal); }
         }, [
           h('span', { class: 'doing-name' }, [
-            h('span', { class: 'scene-emoji', text: card.doing.emoji }),
+            h('span', { class: 'scene-emoji' }, [icon(card.doing.icon)]),
             document.createTextNode(ELAPSED.sentenceCase(card.doing.name))
           ]),
           h('span', { class: 'pair' }, [
@@ -2083,7 +2239,10 @@
        no answer. */
     function offerHint() {
       if (misses < 2 || hint.textContent) return false;
-      hint.textContent = '💡 ' + step.hint;
+      /* Icon plus words as children: finishRound resets this line with
+         `textContent = ''`, which empties the element ready for this again. */
+      hint.appendChild(icon('bulb'));
+      hint.appendChild(document.createTextNode(' ' + step.hint));
       speak(step.hint);
       return true;
     }

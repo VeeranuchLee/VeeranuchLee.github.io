@@ -32,19 +32,22 @@
      fifteen-minute film or a four-hour walk to school is exactly the detail a child
      notices and a question generator does not.
 
+     `icon` names a drawing in app.js's ICONS table (owner rule, 2026-10-20: no
+     emoji in the UI). app.js renders it; this file never touches the document.
+
      Every name is written to follow "How long is ___?", so no step has to bend its
      grammar around a plural. */
   var DOINGS = [
-    { emoji: '🚗', name: 'the drive to the pool', min: 10, max: 45 },
-    { emoji: '🚶', name: 'the walk to school',    min: 10, max: 30 },
-    { emoji: '🧁', name: 'baking time',           min: 15, max: 40 },
-    { emoji: '📚', name: 'reading time',          min: 15, max: 45 },
-    { emoji: '🧩', name: 'the puzzle',            min: 20, max: 60 },
-    { emoji: '🎹', name: 'the piano lesson',      min: 30, max: 60 },
-    { emoji: '🏊', name: 'the swim',              min: 30, max: 90 },
-    { emoji: '🎬', name: 'the film',              min: 75, max: 135 },
-    { emoji: '🎂', name: 'the party',             min: 60, max: 180 },
-    { emoji: '🚂', name: 'the train ride',        min: 45, max: 180 }
+    { icon: 'car',     name: 'the drive to the pool', min: 10, max: 45 },
+    { icon: 'walk',    name: 'the walk to school',    min: 10, max: 30 },
+    { icon: 'cupcake', name: 'baking time',           min: 15, max: 40 },
+    { icon: 'book',    name: 'reading time',          min: 15, max: 45 },
+    { icon: 'puzzle',  name: 'the puzzle',            min: 20, max: 60 },
+    { icon: 'piano',   name: 'the piano lesson',      min: 30, max: 60 },
+    { icon: 'swim',    name: 'the swim',              min: 30, max: 90 },
+    { icon: 'film',    name: 'the film',              min: 75, max: 135 },
+    { icon: 'party',   name: 'the party',             min: 60, max: 180 },
+    { icon: 'train',   name: 'the train ride',        min: 45, max: 180 }
   ];
 
   /* Five steps, graded by the ARITHMETIC rather than by the reading:
@@ -338,7 +341,7 @@
       finish: finish,
       shown: shown,
       answer: answer,
-      emoji: chosen.doing.emoji,
+      icon: chosen.doing.icon,
       scene: line(CLOCK.digital(shown)),
       sceneSaid: line(CLOCK.spoken(shown)),
       ask: forwards ? 'What time does it finish?' : 'What time does it start?',
@@ -369,7 +372,7 @@
       start: start,
       lasting: lasting,
       finish: finish,
-      emoji: chosen.doing.emoji,
+      icon: chosen.doing.icon,
       scene: sentenceCase(chosen.doing.name) +
              ' starts at ' + CLOCK.digital(start) + ' and finishes at ' + CLOCK.digital(finish) + '.',
       sceneSaid: sentenceCase(chosen.doing.name) + ' starts at ' + CLOCK.spoken(start) +
@@ -442,7 +445,7 @@
       cards: cards,
       shorter: shorter,
       longer: longer,
-      emoji: '',
+      icon: '',
       scene: '',
       sceneSaid: '',
       ask: 'Which one takes longer?',

@@ -34,30 +34,188 @@
    * from both sides. Keep that property in whatever this list becomes.
    * ------------------------------------------------------------------ */
 
+  /* `flag` is a key into FLAGS below -- a drawn mini flag, not an emoji (owner
+     rule, 2026-10-20). Honolulu's is a hibiscus, the one place marker here that
+     is not a country. */
   var CITIES = [
-    { name: 'Bangkok',        country: 'Thailand',          zone: 'Asia/Bangkok',        lat: 13.75,  lon: 100.50, flag: '🇹🇭' },
-    { name: 'Tokyo',          country: 'Japan',             zone: 'Asia/Tokyo',          lat: 35.68,  lon: 139.69, flag: '🇯🇵' },
-    { name: 'Beijing',        country: 'China',             zone: 'Asia/Shanghai',       lat: 39.90,  lon: 116.40, flag: '🇨🇳' },
-    { name: 'Singapore',      country: 'Singapore',         zone: 'Asia/Singapore',      lat: 1.35,   lon: 103.82, flag: '🇸🇬' },
-    { name: 'Delhi',          country: 'India',             zone: 'Asia/Kolkata',        lat: 28.61,  lon: 77.21,  flag: '🇮🇳' },
-    { name: 'Dubai',          country: 'the Emirates',      zone: 'Asia/Dubai',          lat: 25.20,  lon: 55.27,  flag: '🇦🇪' },
-    { name: 'Moscow',         country: 'Russia',            zone: 'Europe/Moscow',       lat: 55.76,  lon: 37.62,  flag: '🇷🇺' },
-    { name: 'Cairo',          country: 'Egypt',             zone: 'Africa/Cairo',        lat: 30.04,  lon: 31.24,  flag: '🇪🇬' },
-    { name: 'Nairobi',        country: 'Kenya',             zone: 'Africa/Nairobi',      lat: -1.29,  lon: 36.82,  flag: '🇰🇪' },
-    { name: 'Cape Town',      country: 'South Africa',      zone: 'Africa/Johannesburg', lat: -33.92, lon: 18.42,  flag: '🇿🇦' },
-    { name: 'Rome',           country: 'Italy',             zone: 'Europe/Rome',         lat: 41.90,  lon: 12.50,  flag: '🇮🇹' },
-    { name: 'Paris',          country: 'France',            zone: 'Europe/Paris',        lat: 48.86,  lon: 2.35,   flag: '🇫🇷' },
-    { name: 'London',         country: 'England',           zone: 'Europe/London',       lat: 51.51,  lon: -0.13,  flag: '🇬🇧' },
-    { name: 'New York',       country: 'the United States', zone: 'America/New_York',    lat: 40.71,  lon: -74.01, flag: '🇺🇸' },
-    { name: 'Chicago',        country: 'the United States', zone: 'America/Chicago',     lat: 41.88,  lon: -87.63, flag: '🇺🇸' },
-    { name: 'Los Angeles',    country: 'the United States', zone: 'America/Los_Angeles', lat: 34.05,  lon: -118.24, flag: '🇺🇸' },
-    { name: 'Mexico City',    country: 'Mexico',            zone: 'America/Mexico_City', lat: 19.43,  lon: -99.13, flag: '🇲🇽' },
-    { name: 'Rio de Janeiro', country: 'Brazil',            zone: 'America/Sao_Paulo',   lat: -22.91, lon: -43.17, flag: '🇧🇷' },
-    { name: 'Buenos Aires',   country: 'Argentina',         zone: 'America/Argentina/Buenos_Aires', lat: -34.60, lon: -58.38, flag: '🇦🇷' },
-    { name: 'Honolulu',       country: 'Hawaii',            zone: 'Pacific/Honolulu',    lat: 21.31,  lon: -157.86, flag: '🌺' },
-    { name: 'Auckland',       country: 'New Zealand',       zone: 'Pacific/Auckland',    lat: -36.85, lon: 174.76, flag: '🇳🇿' },
-    { name: 'Sydney',         country: 'Australia',         zone: 'Australia/Sydney',    lat: -33.87, lon: 151.21, flag: '🇦🇺' }
+    { name: 'Bangkok',        country: 'Thailand',          zone: 'Asia/Bangkok',        lat: 13.75,  lon: 100.50, flag: 'th' },
+    { name: 'Tokyo',          country: 'Japan',             zone: 'Asia/Tokyo',          lat: 35.68,  lon: 139.69, flag: 'jp' },
+    { name: 'Beijing',        country: 'China',             zone: 'Asia/Shanghai',       lat: 39.90,  lon: 116.40, flag: 'cn' },
+    { name: 'Singapore',      country: 'Singapore',         zone: 'Asia/Singapore',      lat: 1.35,   lon: 103.82, flag: 'sg' },
+    { name: 'Delhi',          country: 'India',             zone: 'Asia/Kolkata',        lat: 28.61,  lon: 77.21,  flag: 'in' },
+    { name: 'Dubai',          country: 'the Emirates',      zone: 'Asia/Dubai',          lat: 25.20,  lon: 55.27,  flag: 'ae' },
+    { name: 'Moscow',         country: 'Russia',            zone: 'Europe/Moscow',       lat: 55.76,  lon: 37.62,  flag: 'ru' },
+    { name: 'Cairo',          country: 'Egypt',             zone: 'Africa/Cairo',        lat: 30.04,  lon: 31.24,  flag: 'eg' },
+    { name: 'Nairobi',        country: 'Kenya',             zone: 'Africa/Nairobi',      lat: -1.29,  lon: 36.82,  flag: 'ke' },
+    { name: 'Cape Town',      country: 'South Africa',      zone: 'Africa/Johannesburg', lat: -33.92, lon: 18.42,  flag: 'za' },
+    { name: 'Rome',           country: 'Italy',             zone: 'Europe/Rome',         lat: 41.90,  lon: 12.50,  flag: 'it' },
+    { name: 'Paris',          country: 'France',            zone: 'Europe/Paris',        lat: 48.86,  lon: 2.35,   flag: 'fr' },
+    { name: 'London',         country: 'England',           zone: 'Europe/London',       lat: 51.51,  lon: -0.13,  flag: 'gb' },
+    { name: 'New York',       country: 'the United States', zone: 'America/New_York',    lat: 40.71,  lon: -74.01, flag: 'us' },
+    { name: 'Chicago',        country: 'the United States', zone: 'America/Chicago',     lat: 41.88,  lon: -87.63, flag: 'us' },
+    { name: 'Los Angeles',    country: 'the United States', zone: 'America/Los_Angeles', lat: 34.05,  lon: -118.24, flag: 'us' },
+    { name: 'Mexico City',    country: 'Mexico',            zone: 'America/Mexico_City', lat: 19.43,  lon: -99.13, flag: 'mx' },
+    { name: 'Rio de Janeiro', country: 'Brazil',            zone: 'America/Sao_Paulo',   lat: -22.91, lon: -43.17, flag: 'br' },
+    { name: 'Buenos Aires',   country: 'Argentina',         zone: 'America/Argentina/Buenos_Aires', lat: -34.60, lon: -58.38, flag: 'ar' },
+    { name: 'Honolulu',       country: 'Hawaii',            zone: 'Pacific/Honolulu',    lat: 21.31,  lon: -157.86, flag: 'hibiscus' },
+    { name: 'Auckland',       country: 'New Zealand',       zone: 'Pacific/Auckland',    lat: -36.85, lon: 174.76, flag: 'nz' },
+    { name: 'Sydney',         country: 'Australia',         zone: 'Australia/Sydney',    lat: -33.87, lon: 151.21, flag: 'au' }
   ];
+
+  /* ------------------------------------------------------------------ *
+   * Mini flags — drawn, not emoji (owner rule, 2026-10-20)
+   *
+   * A flag emoji is the one glyph whose failure is total: Windows has no flag
+   * emoji at all and prints the two-letter country code ("TH") where the flag
+   * should be, and every other platform draws it in its own system style,
+   * which matches nothing else on the screen. So each place gets a small drawn
+   * flag instead, simplified to what still reads at ~20 px: the stripes, the
+   * field, the one motif a child could name. Emblem detail is dropped rather
+   * than shrunk into mush -- Egypt's eagle and Kenya's shield would only
+   * smudge, and the stripes carry the country without them.
+   *
+   * Everything sits in a 24x18 box with rounded corners on a shared white, so
+   * the twenty-two read as one family of drawings rather than twenty-two
+   * shrunken flags.
+   * ------------------------------------------------------------------ */
+
+  /* `stripes` are [colour, weight] stacked along the box (`vertical: true`
+     turns them upright); `parts` are drawn on top, in order. `field` defaults
+     to the shared white and is null for the hibiscus, which is a flower
+     rather than a flag and wants no cloth behind it. */
+  var FLAGS = {
+    th: { stripes: [['#a51931', 1], ['#f4f5f0', 1], ['#2d2a4a', 2], ['#f4f5f0', 1], ['#a51931', 1]] },
+    jp: { field: '#f4f5f0', parts: [['circle', { cx: 12, cy: 9, r: 4.6, fill: '#bc002d' }]] },
+    cn: { field: '#de2910', parts: [['star', { cx: 5.2, cy: 5.6, r: 2.8, fill: '#ffde00' }]] },
+    sg: { stripes: [['#ef3340', 1], ['#f4f5f0', 1]],
+          parts: [['circle', { cx: 4.2, cy: 4.5, r: 2.2, fill: '#f4f5f0' }]] },
+    in: { stripes: [['#ff9933', 1], ['#f4f5f0', 1], ['#138808', 1]],
+          parts: [['circle', { cx: 12, cy: 9, r: 1.4, fill: '#000080' }]] },
+    ae: { field: '#ef3340', parts: [
+            ['rect', { x: 7, y: 0, width: 17, height: 6, fill: '#00732f' }],
+            ['rect', { x: 7, y: 6, width: 17, height: 6, fill: '#f4f5f0' }],
+            ['rect', { x: 7, y: 12, width: 17, height: 6, fill: '#141414' }]
+          ] },
+    ru: { stripes: [['#f4f5f0', 1], ['#0039a6', 1], ['#d52b1e', 1]] },
+    eg: { stripes: [['#ce1126', 1], ['#f4f5f0', 1], ['#141414', 1]],
+          parts: [['circle', { cx: 12, cy: 9, r: 1.5, fill: '#c09300' }]] },
+    ke: { stripes: [['#141414', 3], ['#f4f5f0', 0.5], ['#be0027', 3], ['#f4f5f0', 0.5], ['#006600', 3]] },
+    za: { stripes: [['#de3831', 3], ['#f4f5f0', 0.5], ['#007a4d', 2], ['#f4f5f0', 0.5], ['#001489', 3]] },
+    it: { vertical: true, stripes: [['#008c45', 1], ['#f4f5f0', 1], ['#cd212a', 1]] },
+    fr: { vertical: true, stripes: [['#0055a4', 1], ['#f4f5f0', 1], ['#ef4135', 1]] },
+    gb: { field: '#012169', parts: [
+            ['path', { d: 'M0 0L24 18M24 0L0 18', stroke: '#f4f5f0', 'stroke-width': 3.4, fill: 'none' }],
+            ['path', { d: 'M0 0L24 18M24 0L0 18', stroke: '#c8102e', 'stroke-width': 1.6, fill: 'none' }],
+            ['rect', { x: 9.8, y: 0, width: 4.4, height: 18, fill: '#f4f5f0' }],
+            ['rect', { x: 0, y: 6.8, width: 24, height: 4.4, fill: '#f4f5f0' }],
+            ['rect', { x: 11, y: 0, width: 2, height: 18, fill: '#c8102e' }],
+            ['rect', { x: 0, y: 8, width: 24, height: 2, fill: '#c8102e' }]
+          ] },
+    us: { stripes: [['#b22234', 1], ['#f4f5f0', 1], ['#b22234', 1], ['#f4f5f0', 1],
+                    ['#b22234', 1], ['#f4f5f0', 1], ['#b22234', 1]],
+          parts: [['rect', { x: 0, y: 0, width: 10, height: 8.4, fill: '#3c3b6e' }]] },
+    mx: { vertical: true, stripes: [['#006847', 1], ['#f4f5f0', 1], ['#ce1126', 1]] },
+    br: { field: '#009c3b', parts: [
+            ['path', { d: 'M12 3L21.4 9L12 15L2.6 9Z', fill: '#fedf00' }],
+            ['circle', { cx: 12, cy: 9, r: 2.3, fill: '#002776' }]
+          ] },
+    ar: { stripes: [['#74acdf', 1], ['#f4f5f0', 1], ['#74acdf', 1]],
+          parts: [['circle', { cx: 12, cy: 9, r: 1.7, fill: '#f6b40e' }]] },
+    nz: { field: '#00247d', parts: [
+            ['star', { cx: 16, cy: 4.2, r: 1.7, fill: '#cc142b' }],
+            ['star', { cx: 19.8, cy: 7.6, r: 1.4, fill: '#cc142b' }],
+            ['star', { cx: 16.4, cy: 11.6, r: 1.6, fill: '#cc142b' }],
+            ['star', { cx: 13.4, cy: 6.6, r: 1.1, fill: '#cc142b' }]
+          ] },
+    au: { field: '#012169', parts: [
+            ['path', { d: 'M0 0L11 8.1M11 0L0 8.1', stroke: '#f4f5f0', 'stroke-width': 2, fill: 'none' }],
+            ['path', { d: 'M0 0L11 8.1M11 0L0 8.1', stroke: '#c8102e', 'stroke-width': 0.9, fill: 'none' }],
+            ['rect', { x: 4.6, y: 0, width: 1.8, height: 8.1, fill: '#f4f5f0' }],
+            ['rect', { x: 0, y: 3.15, width: 11, height: 1.8, fill: '#f4f5f0' }],
+            ['rect', { x: 5.1, y: 0, width: 0.8, height: 8.1, fill: '#c8102e' }],
+            ['rect', { x: 0, y: 3.65, width: 11, height: 0.8, fill: '#c8102e' }],
+            ['star', { cx: 16.2, cy: 12.2, r: 2.1, fill: '#f4f5f0' }],
+            ['star', { cx: 20.2, cy: 5.6, r: 1.2, fill: '#f4f5f0' }],
+            ['star', { cx: 19.4, cy: 15.8, r: 1.3, fill: '#f4f5f0' }]
+          ] },
+    /* Honolulu. Five rounded petals round a centre, with the stamen poking
+       through -- the one marker here that is a flower rather than a flag. */
+    hibiscus: { field: null, parts: [
+            ['circle', { cx: 12, cy: 4.4, r: 3.4, fill: '#e2564b' }],
+            ['circle', { cx: 16.4, cy: 7.6, r: 3.4, fill: '#e2564b' }],
+            ['circle', { cx: 14.7, cy: 12.7, r: 3.4, fill: '#e2564b' }],
+            ['circle', { cx: 9.3, cy: 12.7, r: 3.4, fill: '#e2564b' }],
+            ['circle', { cx: 7.6, cy: 7.6, r: 3.4, fill: '#e2564b' }],
+            ['circle', { cx: 12, cy: 9, r: 2, fill: '#f6b40e' }],
+            ['path', { d: 'M12 9l3.4-4.6', stroke: '#f6b40e', 'stroke-width': 1.3, fill: 'none' }],
+            ['circle', { cx: 15.6, cy: 4, r: 0.95, fill: '#f6b40e' }]
+          ] }
+  };
+
+  function starPoints(cx, cy, r) {
+    var points = [];
+    for (var i = 0; i < 10; i += 1) {
+      var radius = i % 2 === 0 ? r : r * 0.45;
+      var angle = -Math.PI / 2 + i * Math.PI / 5;
+      points.push((cx + radius * Math.cos(angle)).toFixed(2) + ',' +
+                  (cy + radius * Math.sin(angle)).toFixed(2));
+    }
+    return points.join(' ');
+  }
+
+  /* One entry point, so every flag on the ribbon is cut from the same cloth:
+     rounded corners, shared white, stripes stacked by weight. Sizing and the
+     em-relative width live in styles.css (`.wc-flag-svg`). */
+  function flagIcon(code) {
+    var spec = FLAGS[code] || {};
+    var root = svg('svg', {
+      class: 'wc-flag-svg',
+      viewBox: '0 0 24 18',
+      'aria-hidden': 'true'
+    });
+
+    /* The rounded corners are a clip rather than a CSS radius, so they hold in
+       the SVG itself wherever the flag is placed. Only one flag is on screen at
+       a time, so a per-code id cannot collide. */
+    var clipId = 'wc-flag-clip-' + code;
+    var defs = svg('defs');
+    var clip = svg('clipPath', { id: clipId });
+    clip.appendChild(svg('rect', { x: 0, y: 0, width: 24, height: 18, rx: 3 }));
+    defs.appendChild(clip);
+    root.appendChild(defs);
+
+    var g = svg('g', { 'clip-path': 'url(#' + clipId + ')' });
+
+    if (spec.field !== null) {
+      g.appendChild(svg('rect', { x: 0, y: 0, width: 24, height: 18, fill: spec.field || '#f4f5f0' }));
+    }
+
+    if (spec.stripes) {
+      var along = spec.vertical ? 24 : 18;
+      var total = spec.stripes.reduce(function (sum, stripe) { return sum + stripe[1]; }, 0);
+      var at = 0;
+      spec.stripes.forEach(function (stripe) {
+        var size = stripe[1] / total * along;
+        g.appendChild(spec.vertical
+          ? svg('rect', { x: at.toFixed(2), y: 0, width: size.toFixed(2), height: 18, fill: stripe[0] })
+          : svg('rect', { x: 0, y: at.toFixed(2), width: 24, height: size.toFixed(2), fill: stripe[0] }));
+        at += size;
+      });
+    }
+
+    (spec.parts || []).forEach(function (part) {
+      if (part[0] === 'star') {
+        g.appendChild(svg('polygon', {
+          points: starPoints(part[1].cx, part[1].cy, part[1].r), fill: part[1].fill
+        }));
+      } else {
+        g.appendChild(svg(part[0], part[1]));
+      }
+    });
+
+    root.appendChild(g);
+    return root;
+  }
 
   /* ------------------------------------------------------------------ *
    * Time — computed, never stored
@@ -502,6 +660,7 @@
     instantFor: instantFor,
     deviceZone: deviceZone,
     cityForZone: cityForZone,
+    flagIcon: flagIcon,
     buildMap: buildMap,
     layoutChips: layoutChips
   };
