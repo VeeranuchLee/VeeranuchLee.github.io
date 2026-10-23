@@ -1,3 +1,5 @@
+/* The back control is the shared .cg-back (shared/back-button/cg-back.css, 2026-10-23);
+   its old #hub rules were removed so they cannot override it. */
 /* Toy Guitar — the shell and the five toys.
  *
  * Toy Keyboard (toy-keyboard-app/toys.css) is the reference: a fixed chrome
@@ -117,16 +119,6 @@ body[data-toy="rock"] {
   display: flex; align-items: center; justify-content: center;
 }
 /* The way out: Toy Keyboard's dark round hub button, 48 px. */
-#hub {
-  position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-  width: 48px; height: 48px; display: grid; place-items: center;
-  border-radius: 50%; border: 1px solid #0d0f15;
-  background: linear-gradient(180deg, #2a2e39, #20232d);
-  box-shadow: 0 2px 8px rgba(0,0,0,.45);
-  color: #dfe3ee; font-size: 24px; line-height: 1; text-decoration: none;
-}
-#hub:active { transform: translateY(-50%) translateY(1px); }
-#hub:focus-visible { outline: 3px solid #ffd166; outline-offset: 2px; }
 
 /* The ribbon: five 64 px chips, 10 px apart, 8 px padding = 376 x 76. */
 #ribbon {
@@ -170,6 +162,9 @@ body[data-toy="rock"] {
 #effects-toggle strong { color: #79d8b1; font-size: 12px; }
 #effects-toggle[aria-pressed="false"] strong { color: #9299a8; }
 .mute { font-size: 14px; }
+/* The drawn hand (index.html): block so it sits on the button's line, and
+   never squeezed when the word hides on small screens. */
+.mute svg { display: block; flex: none; }
 .mute.flash { background: #4a3a14; color: #ffe08a; border-color: #ffc65a; }
 #effects-toggle:active, .mute:active { transform: translateY(1px); }
 #effects-toggle:focus-visible, .mute:focus-visible { outline: 3px solid #ffd166; outline-offset: 2px; }
