@@ -2680,3 +2680,29 @@ button.guide-badge:active { transform: scale(.96); }
   .stage--landing .listen-cue { min-height: 36px; margin-top: .2em; }
   .toy-bubble { transform: scale(.8); transform-origin: top right; }
 }
+
+/* ── drawn UI icons (owner rule, 2026-10-20: no emoji a child can see) ──────
+   Every mark that used to be an emoji glyph — the speakers, the facts lamps,
+   the glossary sparkle, the Toy Piano banner keyboard, the category markers,
+   the Listen toggle, the songs' stand-in note, the celebration — is now a
+   small inline SVG drawn in the book's own hand. They inherit currentColor
+   and size in em, so each tracks exactly the font-size its emoji used to sit
+   in and no surrounding layout has to move. */
+.ui-icon {
+  width: 1em; height: 1em;
+  display: inline-block; vertical-align: -.125em;
+}
+/* The banner heading carries its little keyboard inline with the words. */
+.banner h1 .ui-icon { vertical-align: -.16em; margin-right: .24em; }
+/* The facts lamp keeps the presence the emoji had inside its 44px button —
+   the same 26px the Toy Piano room's own facts lamp draws. */
+.bubble__explain .ui-icon { width: 1.3em; height: 1.3em; vertical-align: -.06em; }
+/* A song without its painting yet: the drawn note sits a little inside the
+   dashed placeholder tile, the way the emoji did before it. */
+.song-tile__emoji .ui-icon { width: .8em; height: .8em; }
+/* PLAY — the song on the stand is its own painted tile now, rounded like the
+   word cards' song pictures. */
+.toy-songdot__art { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
+/* The celebration is a row: sparkle, the song's painting, sparkle. */
+.toy-cheer { display: flex; align-items: center; gap: .3em; }
+.toy-cheer__art { width: 1.15em; height: 1.15em; object-fit: cover; border-radius: 50%; }

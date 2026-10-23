@@ -446,7 +446,7 @@ function wireOrientation() {
 //   Tapping the already-chosen song picture again goes straight to the keys.
 //
 //   PLAY — almost the whole page is the notes and the toy. A back arrow, the
-//   song's own emoji as a reminder of what is on the stand, and two icon
+//   song's own picture as a reminder of what is on the stand, and two icon
 //   buttons: ▶ to hear it, ↺ to start your turn over. Your turn begins by
 //   itself — the first note is already waiting.
 
@@ -459,18 +459,39 @@ function songsToShow() {
 
 // The library is grouped (owner, 2026-10-19: "Organize by category and
 // difficulty"). Each group opens with a picture-only marker — the players are
-// pre-readers, so a category is an emoji with its name only for screen readers —
-// and inside a group the easiest songs come first. A Music World room's door
-// keeps that room's own order and shows no markers: five songs need no shelves.
+// pre-readers, so a category is a small drawn icon with its name only for
+// screen readers — and inside a group the easiest songs come first. A Music
+// World room's door keeps that room's own order and shows no markers: five
+// songs need no shelves.
+//
+// The markers are drawn in the book's own hand (owner rule, 2026-10-20: no
+// emoji in the UI): rounded strokes, currentColor, one em square so each
+// tracks the row's own font-size. The name beside each is for screen readers.
 export const CATEGORY_ORDER = ['nursery', 'lullaby', 'traditional', 'international', 'holiday', 'classical', 'thai'];
+const CATEGORY_ICON = {
+  // A chick: round body, wing, eye, beak, two legs.
+  nursery: '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.6" cy="13" r="6.2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M7 13.6c1.2 1.7 3.5 2.2 5.4 1.2" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="12.8" cy="11.2" r="1" fill="currentColor"/><path d="M16.7 12.3l2.5 1-2.4 1.1z" fill="currentColor"/><path d="M8.4 19.3v1.9M11.8 19.4v1.8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>',
+  // A crescent moon with one star in its hollow.
+  lullaby: '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14.6 3.6a9.2 9.2 0 1 0 5.9 11.6A7.3 7.3 0 0 1 14.6 3.6z" fill="currentColor"/><path d="M18.8 3.2l.6 1.5 1.5.6-1.5.6-.6 1.5-.6-1.5-1.5-.6 1.5-.6z" fill="currentColor"/></svg>',
+  // A banjo: round body, head, neck and peg.
+  traditional: '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="8.7" cy="15.3" r="5.7" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="8.7" cy="15.3" r="2.2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M12.7 11.3 19.4 4.6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="20.3" cy="3.7" r="1" fill="currentColor"/></svg>',
+  // A globe: one circle, the meridian and the equator.
+  international: '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.3" fill="none" stroke="currentColor" stroke-width="1.9"/><ellipse cx="12" cy="12" rx="3.9" ry="8.3" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M3.7 12h16.6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>',
+  // A gift: box, lid, ribbon and bow.
+  holiday: '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.6" y="10.2" width="16.8" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M12 10.2v10" fill="none" stroke="currentColor" stroke-width="1.9"/><rect x="2.6" y="6.6" width="18.8" height="3.6" rx="1.7" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M12 6.6C10.7 4.4 7 4.2 7 6.2c.1 1.8 3.4 1.9 5 .4zM12 6.6c1.3-2.2 5-2.4 5-.4-.1 1.8-3.4 1.9-5 .4z" fill="currentColor"/></svg>',
+  // A violin: two bouts, the f-holes, neck and scroll.
+  classical: '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="16.3" r="4.7" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="12" cy="9.2" r="3.2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M10.3 14.6c.5.8.5 1.9 0 2.9M13.7 14.6c-.5.8-.5 1.9 0 2.9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M12 6V3.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="2.6" r=".9" fill="currentColor"/></svg>',
+  // An elephant's head: the ear, the eye, the trunk curling down.
+  thai: '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.2" cy="11.5" r="6.1" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M5.9 9.4a4.8 4.8 0 0 0 .9 6.6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="12.4" cy="10.2" r="1" fill="currentColor"/><path d="M15.7 13c2 1.4 2.5 4.3 1.3 6.5-.5.9-1.7 1.1-2.4.3" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>'
+};
 const CATEGORY_MARK = {
-  nursery: ['🐣', 'Nursery songs'],
-  lullaby: ['🌙', 'Lullabies'],
-  traditional: ['🪕', 'Traditional songs'],
-  international: ['🌍', 'Songs from around the world'],
-  holiday: ['🎁', 'Holiday songs'],
-  classical: ['🎻', 'Classical music'],
-  thai: ['🐘', 'Thai songs']
+  nursery: [CATEGORY_ICON.nursery, 'Nursery songs'],
+  lullaby: [CATEGORY_ICON.lullaby, 'Lullabies'],
+  traditional: [CATEGORY_ICON.traditional, 'Traditional songs'],
+  international: [CATEGORY_ICON.international, 'Songs from around the world'],
+  holiday: [CATEGORY_ICON.holiday, 'Holiday songs'],
+  classical: [CATEGORY_ICON.classical, 'Classical music'],
+  thai: [CATEGORY_ICON.thai, 'Thai songs']
 };
 
 export function groupedSongs(songs) {
@@ -503,9 +524,25 @@ export function songFacts(song) {
 
 const FACTS_ICON = '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false"><path d="M12 2.5a6.5 6.5 0 0 0-3.7 11.8c.6.5 1 1.2 1 2V17h5.4v-.7c0-.8.4-1.5 1-2A6.5 6.5 0 0 0 12 2.5z" fill="currentColor"/><rect x="9.3" y="18.3" width="5.4" height="1.8" rx=".9" fill="currentColor"/><rect x="10.3" y="21" width="3.4" height="1.5" rx=".75" fill="currentColor"/></svg>';
 
-// A song without its painting yet shows its emoji on a dashed tile — a clear
-// placeholder, never an empty one. The corner mark is the hint that this song
-// makes the piano grow.
+// The room's other drawn marks (owner rule, 2026-10-20: no emoji in the UI —
+// every glyph the operating system used to draw is now a small SVG in the
+// book's own hand, rounded strokes, currentColor, sized in em like FACTS_ICON's
+// siblings in app.js so each tracks the font-size its emoji sat in).
+// A single eighth note — the stand-in wherever a song has no painting yet.
+const NOTE_ICON = '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10.7 17.2V5.6" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/><path d="M10.7 5.6c3.4.9 4.8 3 4.2 6.3-.9-2.2-2.3-3.3-4.2-3.5z" fill="currentColor"/><ellipse cx="7.7" cy="17.4" rx="3.1" ry="2.5" transform="rotate(-16 7.7 17.4)" fill="currentColor"/></svg>';
+// The banner's little keyboard — the same white-keys-and-blacks picture the
+// size marks and the rotate card draw, in one em.
+const PIANO_ICON = '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2.8" y="5.4" width="18.4" height="13.2" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M7.4 5.4v13.2M12 5.4v13.2M16.6 5.4v13.2" fill="none" stroke="currentColor" stroke-width="1.9"/><rect x="5" y="5.4" width="2.4" height="7" rx="1" fill="currentColor"/><rect x="9.6" y="5.4" width="2.4" height="7" rx="1" fill="currentColor"/><rect x="14.2" y="5.4" width="2.4" height="7" rx="1" fill="currentColor"/></svg>';
+// The Listen toggle's two states, swapped in place by setListenUI.
+const PLAY_ICON = '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9.2 5.9c0-.8.9-1.3 1.6-.9l9.3 5.9c.7.4.7 1.4 0 1.8l-9.3 5.9c-.7.4-1.6-.1-1.6-.9z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>';
+const STOP_ICON = '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6.4" y="6.4" width="11.2" height="11.2" rx="2.4" fill="currentColor"/></svg>';
+// The celebration's sparkle burst — pictures, not words, either side of the
+// song's own painting.
+const CHEER_ICON = '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.6c.7 4.3 2.9 6.5 7.2 7.2-4.3.7-6.5 2.9-7.2 7.2-.7-4.3-2.9-6.5-7.2-7.2 4.3-.7 6.5-2.9 7.2-7.2z" fill="currentColor"/><circle cx="19.4" cy="5" r="1.2" fill="currentColor"/><circle cx="4.8" cy="18.8" r="1.2" fill="currentColor"/></svg>';
+
+// A song without its painting yet shows a drawn eighth note on a dashed tile —
+// a clear placeholder, never an empty one. The corner mark is the hint that
+// this song makes the piano grow.
 function songTilesMarkup() {
   if (roomFilteredIds) return tilesMarkup(songsToShow());
   return groupedSongs(songsToShow()).map((g) => {
@@ -525,7 +562,7 @@ function tilesMarkup(songs) {
             data-size="${size}" aria-label="Song: ${s.title}${size === 'small' ? '' : ' (big piano)'}" title="${s.title}">
       ${s.art
         ? `<img class="song-tile__art" src="${s.art}" alt="">`
-        : `<span class="song-tile__emoji">${s.emoji}</span>`}
+        : `<span class="song-tile__emoji">${NOTE_ICON}</span>`}
       ${sizeMarkSvg(size)}
     </button>`;
   }).join('');
@@ -557,7 +594,7 @@ function renderSelect() {
              app.js's go('world') guard sends the arrow back to the landing.
              From a Music World room, the arrow returns to that room. -->
         <button class="round-btn" data-go="${backDest}" aria-label="Back">←</button>
-        <div class="banner banner--slim"><h1>🎹 Toy Piano</h1></div>
+        <div class="banner banner--slim"><h1>${PIANO_ICON} Toy Piano</h1></div>
         <span class="topbar-spacer"></span>
       </div>
 
@@ -600,11 +637,11 @@ function renderPlay() {
     <div class="scrim">
       <div class="topbar">
         <button class="round-btn" data-goselect aria-label="Choose another song">←</button>
-        <div class="toy-songdot" aria-label="${song.title}">${song.emoji}</div>
+        <div class="toy-songdot" aria-label="${song.title}">${song.art ? `<img class="toy-songdot__art" src="${song.art}" alt="">` : NOTE_ICON}</div>
         ${songFacts(song) ? `<button class="toy-iconbtn toy-factsbtn" data-song-facts="${song.id}" aria-label="A true story about ${song.title}">${FACTS_ICON}</button>` : ''}
         <div class="toy-playbtns">
           <button class="toy-iconbtn" data-try aria-pressed="false" aria-label="Start over"><span>↺</span></button>
-          <button class="toy-iconbtn" data-listen-toy aria-pressed="false" aria-label="Listen"><span class="toy-iconbtn__listen">▶</span></button>
+          <button class="toy-iconbtn" data-listen-toy aria-pressed="false" aria-label="Listen"><span class="toy-iconbtn__listen" aria-hidden="true">${PLAY_ICON}</span></button>
         </div>
       </div>
 
@@ -762,7 +799,7 @@ function setListenUI(on) {
   button.setAttribute('aria-pressed', on ? 'true' : 'false');
   button.classList.toggle('is-on', on);
   const icon = button.querySelector('.toy-iconbtn__listen');
-  if (icon) icon.textContent = on ? '⏹' : '▶';
+  if (icon) icon.innerHTML = on ? STOP_ICON : PLAY_ICON;
 }
 
 // Your turn: the next note waits for the child, at the child's own pace.
@@ -820,7 +857,7 @@ function celebrate() {
   banner.setAttribute('role', 'status');
   banner.setAttribute('aria-label', `You played ${song.title}!`);
   // Pictures, not words — the player just played it and knows what this means.
-  banner.textContent = `🎉 ${song.emoji} 🎉`;
+  banner.innerHTML = `${CHEER_ICON}${song.art ? `<img class="toy-cheer__art" src="${song.art}" alt="">` : NOTE_ICON}${CHEER_ICON}`;
   staff.parentNode.insertBefore(banner, staff);
   setTimeout(() => banner.remove(), 2600);
 }

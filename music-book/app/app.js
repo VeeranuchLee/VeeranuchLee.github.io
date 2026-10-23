@@ -597,8 +597,8 @@ const ROOM_SCROLL_HEADING = {
 };
 
 // The small picture on each word card. `art` is a painted icon and wins when
-// present; until one is painted the card shows the placeholder glyph, so no
-// card is ever blank. Keyed by the word's Learn More clip id. Paint each as
+// present; until one is painted the card shows the drawn placeholder note, so
+// no card is ever blank. Keyed by the word's Learn More clip id. Paint each as
 // assets/word-icons/<clip id>.webp and add `art` here.
 const WORD_PICTURE = {
   'chip-melody': { art: 'assets/word-icons/chip-melody.webp' },
@@ -661,11 +661,28 @@ const WORD_PICTURE = {
   'chip-pan-pipes': { art: 'assets/word-icons/chip-pan-pipes.webp' }
 };
 
+// ── drawn icons (owner rule, 2026-10-20: no emoji in the UI) ─────────────────
+//
+// Every mark a child can see is a small inline SVG drawn in the book's own
+// hand — rounded strokes, currentColor — never an emoji glyph, which the
+// operating system renders in its own flat style and never the same way twice
+// (the speaker follows the writing-book/vocab.js and math-app/magic-spelling
+// precedent). Each icon is sized in em (class ui-icon), so it tracks exactly
+// the font-size the emoji it replaces used to sit in, and no layout moves.
+const SPEAKER_ICON = '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>';
+// The same lamp the Toy Piano room draws for its facts button (playroom.js
+// FACTS_ICON), so "a true story" is one shape everywhere in the book.
+const LAMP_ICON = '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.5a6.5 6.5 0 0 0-3.7 11.8c.6.5 1 1.2 1 2V17h5.4v-.7c0-.8.4-1.5 1-2A6.5 6.5 0 0 0 12 2.5z" fill="currentColor"/><rect x="9.3" y="18.3" width="5.4" height="1.8" rx=".9" fill="currentColor"/><rect x="10.3" y="21" width="3.4" height="1.5" rx=".75" fill="currentColor"/></svg>';
+const SPARKLE_ICON = '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3.2c.6 3.7 2.5 5.6 6.2 6.2-3.7.6-5.6 2.5-6.2 6.2-.6-3.7-2.5-5.6-6.2-6.2 3.7-.6 5.6-2.5 6.2-6.2z" fill="currentColor"/><path d="M18.7 14.2c.3 1.9 1.2 2.8 3.1 3.1-1.9.3-2.8 1.2-3.1 3.1-.3-1.9-1.2-2.8-3.1-3.1 1.9-.3 2.8-1.2 3.1-3.1z" fill="currentColor"/></svg>';
+// A word still waiting for its painting shows a drawn eighth note (the 🎵 it
+// used to show) — the same single note a piece with no art falls back to.
+const NOTE_ICON = '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10.7 17.2V5.6" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/><path d="M10.7 5.6c3.4.9 4.8 3 4.2 6.3-.9-2.2-2.3-3.3-4.2-3.5z" fill="currentColor"/><ellipse cx="7.7" cy="17.4" rx="3.1" ry="2.5" transform="rotate(-16 7.7 17.4)" fill="currentColor"/></svg>';
+
 function wordPictureMarkup(clipId) {
-  const pic = WORD_PICTURE[clipId] || { glyph: '🎵' };
+  const pic = WORD_PICTURE[clipId] || { icon: NOTE_ICON };
   return pic.art
     ? `<span class="word-card__picture"><img src="${pic.art}" alt=""></span>`
-    : `<span class="word-card__picture word-card__picture--placeholder" aria-hidden="true">${pic.glyph}</span>`;
+    : `<span class="word-card__picture word-card__picture--placeholder" aria-hidden="true">${pic.icon}</span>`;
 }
 
 // The room's word cards (its own voiced words, then the extra ones that are
@@ -683,17 +700,17 @@ function wordScrollMarkup(room) {
   return `
     <section class="word-scroll" aria-label="Words to hear">
       <button class="word-scroll__heading" ${roomClip ? `data-room-say="${roomClip}"` : ''} aria-label="${heading}. Hear about this room">
-        <span class="word-scroll__speaker" aria-hidden="true">🔊</span><span>${heading}</span>
+        <span class="word-scroll__speaker" aria-hidden="true">${SPEAKER_ICON}</span><span>${heading}</span>
       </button>
       ${words.length || stories.length ? `<div class="word-scroll__cards">
         ${words.map(({ label, clipId }) => `
           <button class="word-card" data-strip-say="${clipId}" aria-label="Hear what ${label} means" aria-pressed="false">
-            <span class="word-card__top"><span class="word-card__speaker" aria-hidden="true">🔊</span>${wordPictureMarkup(clipId)}</span>
+            <span class="word-card__top"><span class="word-card__speaker" aria-hidden="true">${SPEAKER_ICON}</span>${wordPictureMarkup(clipId)}</span>
             <span class="word-card__word">${label}</span>
           </button>`).join('')}
         ${stories.map((p) => `
           <button class="word-card word-card--story" data-story-say="${p.id}" aria-label="A true story about ${p.title}" aria-pressed="false">
-            <span class="word-card__top"><span class="word-card__speaker" aria-hidden="true">🔊</span><span class="word-card__picture word-card__picture--song"><img src="${p.art}" alt=""></span></span>
+            <span class="word-card__top"><span class="word-card__speaker" aria-hidden="true">${SPEAKER_ICON}</span><span class="word-card__picture word-card__picture--song"><img src="${p.art}" alt=""></span></span>
             <span class="word-card__word">True story</span>
           </button>`).join('')}
       </div>` : ''}
@@ -785,7 +802,7 @@ function renderLanding() {
            URL on purpose: published, /music-book/ and /test-apps/ are siblings, but in the
            repo the hub lives under site/, so a relative link would work live and 404 in
            every local preview. -->
-      <a class="round-btn hub-btn" href="https://veeranuchlee.github.io/test-apps/" aria-label="Back to Test Apps">&larr;</a>
+      <span class="cg-back-slot" aria-hidden="true"></span><a class="cg-back" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       <!-- The Toy Piano room's only door. The owner pinned it to the landing's
            top-right on 2026-08-27 and removed the Music World's door the same
            evening: a pre-reader meets the toy on its own, before the journey,
@@ -1209,7 +1226,7 @@ function explainButtonsMarkup(p) {
   if (!ex || !ex.facts) return '';
   return `<div class="bubble__explain-row">
     <button class="bubble__explain bubble__explain--facts" data-explain-facts="${p.id}" aria-label="A true story about ${p.title}">
-      <span aria-hidden="true">💡</span>
+      <span aria-hidden="true">${LAMP_ICON}</span>
     </button>
   </div>`;
 }
@@ -1258,7 +1275,7 @@ function closePopup() {
 function composerPopup(id) {
   const c = composerById(id);
   openPopup(`
-    <h2><button class="popup__say" data-say="composer-${c.id}">${c.name}<span class="popup__say-cue" aria-hidden="true">🔊</span></button></h2>
+    <h2><button class="popup__say" data-say="composer-${c.id}">${c.name}<span class="popup__say-cue" aria-hidden="true">${SPEAKER_ICON}</span></button></h2>
     <p class="popup__meta">${[c.country, (c.birthYear && c.deathYear) ? `${c.birthYear}–${c.deathYear}` : null, c.period].filter(Boolean).join(' · ')}</p>
     <p>${c.summary}</p>
     <p><strong>Known for.</strong> ${c.knownFor}</p>`);
@@ -1303,7 +1320,7 @@ function originLine(room) {
 // 5; AUDIO-DIRECTION.md).
 function listenMarkup(clipId) {
   return `<button class="popup__listen" data-explain-listen="${clipId}" aria-label="Hear this read aloud">
-    <span aria-hidden="true">🔊</span><span>Listen</span>
+    <span aria-hidden="true">${SPEAKER_ICON}</span><span>Listen</span>
   </button>`;
 }
 
@@ -1315,7 +1332,7 @@ function explainFactsPopup(id) {
     .map((gid) => MUSIC_KNOWLEDGE[gid])
     .filter(Boolean);
   openPopup(`
-    <h2>${p.title} <span aria-hidden="true">💡</span></h2>
+    <h2>${p.title} <span aria-hidden="true">${LAMP_ICON}</span></h2>
     <p class="popup__meta">A true story</p>
     <p>${facts.text}</p>
     ${listenMarkup(`${id}-facts`)}
@@ -1325,7 +1342,7 @@ function explainFactsPopup(id) {
           const g = MUSIC_KNOWLEDGE[gid];
           if (!g) return '';
           return `
-            <p class="popup__glossary-line"><span class="popup__glossary-cue" aria-hidden="true">✨</span>
+            <p class="popup__glossary-line"><span class="popup__glossary-cue" aria-hidden="true">${SPARKLE_ICON}</span>
               <span class="popup__glossary-text">${g.text}</span>${listenMarkup(`knowledge-${gid}`)}
             </p>`;
         }).join('')}
@@ -1347,7 +1364,7 @@ function piecePopup(id) {
   const room = roomById(journey.roomId);
   const compare = room?.compareWith?.[id] ?? [];
   openPopup(`
-    <h2><button class="popup__say" data-say="${p.id}">${p.title}<span class="popup__say-cue" aria-hidden="true">🔊</span></button></h2>
+    <h2><button class="popup__say" data-say="${p.id}">${p.title}<span class="popup__say-cue" aria-hidden="true">${SPEAKER_ICON}</span></button></h2>
     ${/* 'traditional' is a catalogue pseudo-composer, not a name a child should
          read under a title — traditional pieces show no byline (their room's
          knowledge popup carries the tradition labels from data). */
