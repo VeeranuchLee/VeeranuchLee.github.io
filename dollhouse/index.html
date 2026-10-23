@@ -8,7 +8,8 @@
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#FDF7F9">
 <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
-</head>
+  <link rel="stylesheet" href="./cg-back.css" />
+  </head>
 <body>
 
 <div id="app">
@@ -19,12 +20,7 @@
     <!-- Back to the TEST hub, which is where this app lives. Each app in this
          estate hard-codes its own hub URL, and pointing a test app at the
          children's hub is how the Test Hub got exposed for eight days once. -->
-    <a class="tool ghost" id="back" href="../test-apps/">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M11.3 4.3 3.6 12l7.7 7.7 1.8-1.8L8.1 13.3H20v-2.6H8.1l5-4.6z"/>
-      </svg>
-      <span>Back</span>
-    </a>
+    <span class="cg-back-slot" aria-hidden="true"></span><a id="back" class="cg-back" href="../test-apps/" aria-label="Back to Test Apps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     <button class="tool is-on" data-tool="move" aria-pressed="true">
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M12 2.6 15 6h-2.2v4.8H17.6V8.6L21 12l-3.4 3.4v-2.2h-4.8V18H15l-3 3.4L9 18h2.2v-4.8H6.4v2.2L3 12l3.4-3.4v2.2h4.8V6H9z"/>

@@ -4,6 +4,7 @@ self.SHELL_ASSETS = [
   "./index.html",
   "./tap-zoom-guard.js",
   "./styles.css",
+  "./cg-back.css",
   "./app.js",
   "./character.js",
   "./make-doll.html",

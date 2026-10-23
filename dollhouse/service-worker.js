@@ -47,7 +47,7 @@
 
 importScripts("./assets/shell.js");
 
-const CACHE_NAME = "dollhouse-v7";
+const CACHE_NAME = "dollhouse-v8";
 const SHELL = self.SHELL_ASSETS;
 
 self.addEventListener("install", (event) => {
