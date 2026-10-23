@@ -206,7 +206,7 @@
        because nothing could notice. See release/registry.json, the word-book note. */
     show('' +
       '<div class="cover">' +
-      '  <div class="cover__out"><a class="bar__back" href="https://veeranuchlee.github.io/word-book/" aria-label="Back to Our Word Book">\u2190</a></div>' +
+      '  <div class="cover__out"><a class="cg-back" href="https://veeranuchlee.github.io/word-book/" aria-label="Back to Our Word Book"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>' +
       '  <div class="cover__head">' +
       '    <h1>Writing Book</h1>' +
       '    <p id="cover-hint">' + currentMode().hint + '</p>' +
