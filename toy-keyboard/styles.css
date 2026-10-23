@@ -1,3 +1,5 @@
+/* The back control is the shared .cg-back (shared/back-button/cg-back.css, 2026-10-23);
+   its old #hub rules were removed so they cannot override it. */
 /* Keyboard — the console.
  *
  * The reference is an older kid's "beat maker" keyboard: black casing, a lit
@@ -77,24 +79,6 @@ body {
    not from vmin alone: 4.4vmin on the 9.7" iPad is 34px, under the 44px this repository
    holds itself to for anything a child has to hit. It clears #edge on purpose — the lit
    strip ends around 13px down. */
-#hub {
-  position: absolute;
-  left: clamp(10px, 2vmin, 24px);
-  top: clamp(15px, 2.7vmin, 30px);
-  z-index: 3;
-  width: max(44px, 4.4vmin); height: max(44px, 4.4vmin);
-  display: grid; place-items: center;
-  border: 1px solid #0d0f15;
-  border-radius: 50%;
-  background: linear-gradient(180deg, #2a2e39, #20232d);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
-  color: #aab1c4;
-  font-size: clamp(18px, 2.6vmin, 24px);
-  line-height: 1;
-  text-decoration: none;
-}
-#hub:active { transform: translateY(1px); color: #eef1f8; }
-#hub:focus-visible { outline: 3px solid #40d6ff; outline-offset: 2px; }
 
 #deck {
   flex: 0 0 auto;

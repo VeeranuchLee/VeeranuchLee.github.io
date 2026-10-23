@@ -1,3 +1,5 @@
+/* The back control is the shared .cg-back (shared/back-button/cg-back.css, 2026-10-23);
+   its old #hub rules were removed so they cannot override it. */
 /* Keyboard — the five toys.
  *
  * styles.css is the Big-Kid console and nothing else: it is the compatibility
@@ -71,16 +73,6 @@
    it would hang off the initial containing block. It belongs to the chrome
    now, on the left of the bar, reachable from all five toys. 48px square,
    over the 44px floor. */
-#hub {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 48px;
-  height: 48px;
-  font-size: 24px;
-}
-#hub:active { transform: translateY(-50%) translateY(1px); color: #eef1f8; }
 
 /* Parent-facing and deliberately plain: it lives opposite the way-out button,
    outside every toy, and occupies space the centred ribbon already leaves
@@ -690,6 +682,18 @@
   color: #7a2540;
 }
 .picture-sound:focus-visible { outline: 3px solid #4f8bff; outline-offset: 3px; }
+
+/* The drawn icons (owner, 2026-10-20: no emoji in the UI). Each glyph is an
+   inline SVG 1em on a side, so the font-size rules that sized each emoji —
+   30px here, 34px on the pad band, 26px and 24px in the castle — size the
+   drawing exactly and no button's geometry moves. Block display is the only
+   change: it drops the text-baseline gap an inline svg would leave inside
+   these centred stacks. One rule covers all four carriers so an icon can
+   never sit half-aligned on one toy but not another. */
+.picture-sound span svg,
+.toy-preschool .padband .pad .ico svg,
+.jewel .ico svg,
+.spad .ico svg { display: block; }
 
 /* The pad band. Four pads where the old five-button rear row used to sit,
    between the sound buttons and the keys, sized by the case's own constants

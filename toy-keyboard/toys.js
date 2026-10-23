@@ -241,6 +241,88 @@
     },
   };
 
+  /* ------------------------------------------------- the drawn icons ---
+     Owner, 2026-10-20: no emoji in the UI. Every glyph a child picks a sound
+     by — the picture buttons, the drum pads, the jewels, the special-sound
+     pads — is a small drawing in this file's house style (one 24 x 24 box,
+     rounded currentColor strokes, as pattern-blocks and magic-spelling
+     already draw theirs), not an emoji-font glyph a tablet may render flat
+     or not at all. The same thing keeps the same drawing wherever a child
+     meets it: one bell, one drum, one set of keys, the way their emoji did
+     double duty before. Each svg is 1em on a side, so the font-size rules
+     that sized the emoji (toys.css) size the drawing too, and it sits in
+     the same aria-hidden span, so a button still says its word and never
+     its picture. */
+
+  const drawIcon = (inner) =>
+    '<svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" ' +
+    'stroke="currentColor" stroke-width="2.2" stroke-linecap="round" ' +
+    'stroke-linejoin="round" aria-hidden="true">' + inner + "</svg>";
+
+  const ICONS = {
+    /* First Piano's pad band: kick, snare, tom, clap. The fist and the
+       clapping hand are the one part no drum photograph backs — the word
+       under each pad settles it, as it did for the emoji before them. */
+    footprint: drawIcon(
+      '<ellipse cx="12" cy="14.9" rx="4.7" ry="6.1"/>' +
+      '<circle cx="5.5" cy="6.3" r="1.2" fill="currentColor" stroke="none"/>' +
+      '<circle cx="8.6" cy="4.2" r="1.2" fill="currentColor" stroke="none"/>' +
+      '<circle cx="12" cy="3.5" r="1.2" fill="currentColor" stroke="none"/>' +
+      '<circle cx="15.4" cy="4.2" r="1.2" fill="currentColor" stroke="none"/>' +
+      '<circle cx="18.5" cy="6.3" r="1.2" fill="currentColor" stroke="none"/>'),
+    drum: drawIcon(
+      '<ellipse cx="12" cy="8.6" rx="7.8" ry="2.9"/>' +
+      '<path d="M4.2 8.6v6.2c0 1.6 3.5 2.9 7.8 2.9s7.8-1.3 7.8-2.9V8.6"/>' +
+      '<path d="M2.6 2.4l5 3.4M21.4 2.4l-5 3.4"/>'),
+    fist: drawIcon(
+      '<rect x="5.4" y="6.8" width="13.2" height="10.8" rx="4.6"/>' +
+      '<path d="M9 6.8v3.4M12 6.8v3.4M15 6.8v3.4"/>' +
+      '<path d="M7 15.6c1.7-1.5 8.3-1.5 10 0"/>'),
+    hands: drawIcon(
+      '<path d="M8.1 12.3V5.9a1.45 1.45 0 0 1 2.9 0v6.4"/>' +
+      '<path d="M11 12.3V4.7a1.45 1.45 0 0 1 2.9 0v7.6"/>' +
+      '<path d="M13.9 12.3V6.6a1.45 1.45 0 0 1 2.9 0v6.5c0 4-2.9 7.4-6.9 8.2"/>' +
+      '<path d="M8.1 12.3c-2.2.4-3.2 2.2-2.5 4.2.7 2 2.2 3.6 4.2 4.2"/>' +
+      '<path d="M3.6 5.4 2.2 4M20.4 5.4 21.8 4"/>'),
+    /* The two voice rows. */
+    keys: drawIcon(
+      '<rect x="3" y="5.4" width="18" height="13.2" rx="2.2"/>' +
+      '<path d="M8.7 5.4v13.2M15.3 5.4v13.2"/>' +
+      '<path d="M6.6 5.4h3.2v5.2H6.6zM14.2 5.4h3.2v5.2h-3.2z" fill="currentColor" stroke="none"/>'),
+    bell: drawIcon(
+      '<path d="M12 3.4a1.35 1.35 0 0 1 1.35 1.35v.55c2.95.95 5 3.6 5 6.75 0 1.9.35 3.35 1.05 4.35H4.6c.7-1 1.05-2.45 1.05-4.35 0-3.15 2.05-5.8 5-6.75v-.55A1.35 1.35 0 0 1 12 3.4z"/>' +
+      '<path d="M9.8 19.6a2.3 2.3 0 0 0 4.4 0"/>'),
+    star: drawIcon(
+      '<path d="M12 3l2.7 5.5 6 .9-4.3 4.2 1 6-5.4-2.8-5.4 2.8 1-6L3.3 9.4l6-.9z"/>'),
+    /* Princess: the three jeweled voices. */
+    musicbox: drawIcon(
+      '<rect x="4.4" y="9.8" width="15.2" height="9.4" rx="2"/>' +
+      '<path d="M15 9.8V6h2.8"/>' +
+      '<circle cx="9.4" cy="16.2" r="1.5" fill="currentColor" stroke="none"/>' +
+      '<path d="M10.9 16.2v-5l3.6 1.1"/>'),
+    sparkle: drawIcon(
+      '<path d="M12 2.9c.75 3.9 2.5 5.65 6.4 6.4-3.9.75-5.65 2.5-6.4 6.4-.75-3.9-2.5-5.65-6.4-6.4 3.9-.75 5.65-2.5 6.4-6.4z"/>' +
+      '<circle cx="5" cy="17.6" r="1.15" fill="currentColor" stroke="none"/>' +
+      '<circle cx="18.9" cy="15" r="1.15" fill="currentColor" stroke="none"/>'),
+    /* Princess: the six special sounds. */
+    harp: drawIcon(
+      '<path d="M6.4 4.6v14.8h12.2"/>' +
+      '<path d="M18.6 19.4C18.6 11.4 13.6 5.4 6.4 4.6"/>' +
+      '<path d="M11.3 6.6v12.8M15.2 9.8v9.6"/>'),
+    wand: drawIcon(
+      '<path d="M4 20l11.2-11.2"/>' +
+      '<path d="M17 3.2c.55 2.2 1.55 3.2 3.75 3.75C18.55 7.5 17.55 8.5 17 10.7c-.55-2.2-1.55-3.2-3.75-3.75C15.45 6.4 16.45 5.4 17 3.2z" fill="currentColor" stroke="none"/>'),
+    horn: drawIcon(
+      '<path d="M3 12.1h8.6M11.6 12.1l6.6-6.3M11.6 12.1l6.3 1"/>' +
+      '<path d="M18.2 5.8c2.3 2.1 2.4 5.1-.3 7.3"/>' +
+      '<path d="M20.2 4.9l1.8-1.4M20.6 14.3l1.8 1"/>'),
+    chime: drawIcon(
+      '<path d="M5 5h14"/>' +
+      '<circle cx="12" cy="3.1" r="1.2"/>' +
+      '<path d="M7.6 5v9.8M12 5v12.2M16.4 5v9.8"/>' +
+      '<circle cx="12" cy="20.6" r="1.5" fill="currentColor" stroke="none"/>'),
+  };
+
   /* ----------------------------------------------------- 🧸 Preschool ---
      The Princess key arrangement at First Piano scale: eighteen keys C4-F5,
      eleven broad naturals and seven real raised accidentals — bigger and
@@ -262,15 +344,15 @@
   /* Pictures before words, as the sound buttons above them already do. The
      word is the child-facing copy: names only. */
   const PRESCHOOL_PADS = [
-    { drum: "kick", icon: "🦶", word: "Kick" },
-    { drum: "snare", icon: "🥁", word: "Snare" },
-    { drum: "tom", icon: "👊", word: "Tom" },
-    { drum: "clap", icon: "👏", word: "Clap" },
+    { drum: "kick", icon: ICONS.footprint, word: "Kick" },
+    { drum: "snare", icon: ICONS.drum, word: "Snare" },
+    { drum: "tom", icon: ICONS.fist, word: "Tom" },
+    { drum: "clap", icon: ICONS.hands, word: "Clap" },
   ];
   const PRESCHOOL_VOICES = [
-    { id: "piano", patch: "toypiano", icon: "🎹", word: "Piano" },
-    { id: "bells", icon: "🔔", word: "Bells" },
-    { id: "stars", patch: "glow", icon: "⭐", word: "Stars" },
+    { id: "piano", patch: "toypiano", icon: ICONS.keys, word: "Piano" },
+    { id: "bells", icon: ICONS.bell, word: "Bells" },
+    { id: "stars", patch: "glow", icon: ICONS.star, word: "Stars" },
   ];
 
   KB.toys.preschool = {
@@ -388,9 +470,9 @@
   ];
 
   const PRINCESS_VOICES = [
-    { id: "piano", patch: "toypiano", icon: "🎹", word: "Piano" },
-    { id: "musicbox", icon: "💫", word: "Music Box" },
-    { id: "sparkle", patch: "bells", icon: "✨", word: "Sparkle" },
+    { id: "piano", patch: "toypiano", icon: ICONS.keys, word: "Piano" },
+    { id: "musicbox", icon: ICONS.musicbox, word: "Music Box" },
+    { id: "sparkle", patch: "bells", icon: ICONS.sparkle, word: "Sparkle" },
   ];
 
   /* The six special sound buttons (owner, 2026-09-15; PRINCESS-SOUND-BUTTONS-
@@ -400,12 +482,12 @@
      owner asked for; the pad's aria-label is the sound's own full name
      ("Royal Fanfare", not "Fanfare"). */
   const PRINCESS_PADS = [
-    { drum: "princess-bell", icon: "🔔", word: "Bell" },
-    { drum: "princess-harp", icon: "🎵", word: "Harp" },
-    { drum: "princess-wand", icon: "🪄", word: "Wand" },
-    { drum: "princess-fanfare", icon: "📯", word: "Fanfare" },
-    { drum: "princess-drum", icon: "🥁", word: "Drum" },
-    { drum: "princess-twinkle", icon: "🌟", word: "Chime" },
+    { drum: "princess-bell", icon: ICONS.bell, word: "Bell" },
+    { drum: "princess-harp", icon: ICONS.harp, word: "Harp" },
+    { drum: "princess-wand", icon: ICONS.wand, word: "Wand" },
+    { drum: "princess-fanfare", icon: ICONS.horn, word: "Fanfare" },
+    { drum: "princess-drum", icon: ICONS.drum, word: "Drum" },
+    { drum: "princess-twinkle", icon: ICONS.chime, word: "Chime" },
   ];
   const padButton = (p) =>
     '<button type="button" class="spad" data-drum="' + p.drum +
