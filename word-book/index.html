@@ -305,7 +305,8 @@
       .music-btn svg{width:26px;height:26px}
     }
   </style>
-</head>
+  <link rel="stylesheet" href="./cg-back.css" />
+  </head>
 <body>
 <div class="backdrop"></div>
 
@@ -321,12 +322,7 @@
 <!-- The URL is absolute for the same reason every game's arrow is: published, the hub is
      a sibling of this app (/word-book/ -> /children-apps/), but in the repo it lives
      under site/, so a relative link would work live and 404 in every local preview. -->
-<a class="hub-btn" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-    <path d="M15 5 8 12l7 7"/>
-  </svg>
-  <span>Children Games</span>
-</a>
+<a class="cg-back" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
 
 <!-- ROOM or CARDS: two equal ways in. The pressed button is the view on screen. -->
 <div class="view-toggle" role="group" aria-label="How to show the choices">

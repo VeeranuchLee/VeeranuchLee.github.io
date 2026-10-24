@@ -55,7 +55,7 @@
      forever. The coverage gate asserts the real invariant: every headword here is either
      listed unrendered or has a clip for each of its senses, and every headword the
      manifest lists as unrendered appears here. */
-  var SENSE_KEYED = ['bow', 'close', 'tear', 'volume', 'wind'];
+  var SENSE_KEYED = ['Atlas', 'bow', 'close', 'tear', 'volume', 'wind'];
 
   /* Owner-requested poster words held here ahead of their full dictionary merge.
      Preserve the reviewed, already-rendered sense-keyed filenames byte-for-byte. */
