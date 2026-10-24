@@ -120,10 +120,8 @@ function later(fn, ms) {
    It is drawn only when there is sound to control: if sound.js did not load or the device has
    no Web Audio, a mute button would be a control that does nothing. Turning sound back on
    plays one quiet note, so the tap is answered; turning it off is answered by the icon. */
-var SPEAKER_ON = '<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M5 12h5l7-6v20l-7-6H5z" fill="currentColor"/>' +
-  '<path d="M21 11.5a6 6 0 0 1 0 9M24.5 8a11 11 0 0 1 0 16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>';
-var SPEAKER_OFF = '<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M5 12h5l7-6v20l-7-6H5z" fill="currentColor"/>' +
-  '<path d="M21.5 12.5l7 7M28.5 12.5l-7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>';
+var SPEAKER_ON = "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M11 5L6 9H3v6h3l5 4z\" fill=\"currentColor\"/><path d=\"M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>";
+var SPEAKER_OFF = "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M11 5L6 9H3v6h3l5 4z\" fill=\"currentColor\"/><path d=\"M16 9l5 6M21 9l-5 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>";
 
 function soundAvailable() {
   try { return typeof Sound !== 'undefined' && Sound.available(); } catch (e) { return false; }
@@ -394,7 +392,7 @@ function ask() {
   }
 
   screen(
-    '<header class="topline"><button class="hub" id="back">&larr; Sets</button>' +
+    '<header class="topline"><button class="hub" id="back"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Sets</button>' +
     '<span class="progress" aria-label="' + (state.i + 1) + ' of ' + state.queue.length + '">' +
     state.queue.map(function (_, n) {
       return '<i class="' + (n < state.i ? 'on' : n === state.i ? 'now' : '') + '"></i>';
@@ -485,7 +483,7 @@ function board() {
   var right = derange(left);
 
   screen(
-    '<header class="topline"><button class="hub" id="back">&larr; Sets</button>' +
+    '<header class="topline"><button class="hub" id="back"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Sets</button>' +
     '<span class="tally" id="tally">0 of ' + BOARD_PAIRS + ' matched</span>' + soundButton() + '</header>' +
     '<p class="askline" id="askline">' + LINES.boardAsk + '</p>' +
     '<section class="board">' +
@@ -545,7 +543,7 @@ function tapTile(b) {
 
 function boardDone() {
   screen(
-    '<header class="topline"><button class="hub" id="back">&larr; Sets</button>' + soundButton() + '</header>' +
+    '<header class="topline"><button class="hub" id="back"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Sets</button>' + soundButton() + '</header>' +
     '<section class="done"><h2>' + LINES.boardDone + '</h2>' +
     '<p>' + BOARD_PAIRS + ' pictures and their shadows.</p>' +
     '<div class="actions"><button class="primary" id="again">Another board</button>' +
@@ -743,7 +741,7 @@ function memory() {
 function renderMemory() {
   var m = state.mem;
   screen(
-    '<header class="topline"><button class="hub" id="back">&larr; Sets</button>' +
+    '<header class="topline"><button class="hub" id="back"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Sets</button>' +
     '<span class="tally" id="tally">' + m.solvedCount + ' of ' + m.total + ' found</span>' + soundButton() + '</header>' +
     '<p class="askline" id="askline">' + LINES.memAsk + '</p>' +
     '<div class="memory-layout"><section class="deck">' + m.cards.map(function (c) {
@@ -830,7 +828,7 @@ function memResolve() {
 
 function memDone() {
   screen(
-    '<header class="topline"><button class="hub" id="back">&larr; Sets</button>' + soundButton() + '</header>' +
+    '<header class="topline"><button class="hub" id="back"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Sets</button>' + soundButton() + '</header>' +
     '<div class="memory-finish"><section class="done"><h2>' + LINES.memDone + '</h2>' +
     '<p>' + state.mem.total + ' pictures and their shadows, in ' + state.mem.turns + ' turns.</p>' +
     '<div class="actions"><button class="primary" id="again">New cards</button>' +
@@ -851,7 +849,7 @@ document.addEventListener('visibilitychange', function () {
 
 function finished() {
   screen(
-    '<header class="topline"><button class="hub" id="back">&larr; Sets</button>' + soundButton() + '</header>' +
+    '<header class="topline"><button class="hub" id="back"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Sets</button>' + soundButton() + '</header>' +
     '<section class="done"><h2>' + LINES[state.mode === 'mirror' ? 'mirrorDone' : 'findDone'] + '</h2>' +
     '<p>' + state.done + ' shadows matched.</p>' +
     '<div class="actions"><button class="primary" id="again">Play this set again</button>' +
