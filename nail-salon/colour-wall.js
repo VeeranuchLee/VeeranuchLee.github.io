@@ -179,7 +179,7 @@
       <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="wallTipShade" x1="0" x2="1"><stop stop-color="#fff" stop-opacity=".25"/><stop offset=".35" stop-color="#fff" stop-opacity="0"/><stop offset=".75" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#28082a" stop-opacity=".2"/></linearGradient></defs></svg>
       <div class="wall-top">
         <button class="wall-recent" type="button" aria-label="Put the colours you used in the tray" hidden></button>
-        <button class="wall-close" type="button" aria-label="Back to the hand"><span aria-hidden="true">✓</span></button>
+        <button class="wall-close" type="button" aria-label="Back to the hand"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </div>
       <div class="wall-board"><div class="wall-columns"></div><div class="wall-lens" aria-hidden="true"></div></div>`;
     document.body.append(overlay);
