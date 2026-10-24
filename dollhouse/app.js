@@ -214,7 +214,7 @@ function buildTray() {
       edit.href = "make-doll.html?edit=" + encodeURIComponent(ch.id);
       edit.title = "Change this doll";
       const pen = document.createElement("b");
-      pen.textContent = "✎";
+      pen.innerHTML = "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M15 4l5 5L9 20H4v-5z\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M13 6l5 5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>";
       edit.append(pen, "Change");
       chip.appendChild(edit);
       tray.appendChild(chip);
