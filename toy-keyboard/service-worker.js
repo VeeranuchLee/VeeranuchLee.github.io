@@ -90,7 +90,7 @@
  *               cold offline install without it has no zoom fix at all.
 */
 
-const CACHE_NAME = "toy-keyboard-v15";
+const CACHE_NAME = "toy-keyboard-v16";
 
 const SHELL = [
   "./",

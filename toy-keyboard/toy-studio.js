@@ -99,10 +99,10 @@
               '<input type="range" class="masterRange" min="0" max="100" value="80" aria-label="Master volume"/></label>' +
           '</div>' +
           '<div class="transport" role="group" aria-label="Record">' +
-            '<button type="button" class="tbtn rec" data-record="start" aria-pressed="false">● <span>Record</span></button>' +
-            '<button type="button" class="tbtn" data-record="stop" disabled>■ <span>Stop</span></button>' +
-            '<button type="button" class="tbtn play not-ready" data-record="play" aria-pressed="false" aria-disabled="true">▶ <span>Play</span></button>' +
-            '<button type="button" class="tbtn" data-record="clear" disabled>✕ <span>Clear</span></button>' +
+            '<button type="button" class="tbtn rec" data-record="start" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="6.5" fill="currentColor"/></svg> <span>Record</span></button>' +
+            '<button type="button" class="tbtn" data-record="stop" disabled><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 7h10v10H7z" fill="currentColor"/></svg> <span>Stop</span></button>' +
+            '<button type="button" class="tbtn play not-ready" data-record="play" aria-pressed="false" aria-disabled="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg> <span>Play</span></button>' +
+            '<button type="button" class="tbtn" data-record="clear" disabled><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> <span>Clear</span></button>' +
             '<p class="record-status" aria-live="polite">Ready</p>' +
           '</div>' +
           '<section class="keybed piano" aria-label="Keys"></section>' +
@@ -419,7 +419,7 @@
           : playing
             ? "Playing…"
             : snap.hasTake
-              ? (snap.ended === "finished" ? "Finished! press ▶ again" : "Your song — press ▶")
+              ? (snap.ended === "finished" ? "Finished! press Play again" : "Your song — press Play")
               : "Ready";
         if (recording) KB.guidance && KB.guidance.play("recording");
         else if (snap.hasTake && snap.ended === "stop") KB.guidance && KB.guidance.play("stopped");

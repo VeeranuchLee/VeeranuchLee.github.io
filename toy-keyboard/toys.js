@@ -56,14 +56,14 @@
      the child is still a UX failure"). Every state a child can be in now says
      what it is and what to do next, instead of the old four words where a
      fresh take, a stopped take and a finished song all said "Your song":
-       Ready / Recording… <clock> / Your song — press ▶ / Playing… <clock of
-       total> / Finished! press ▶ again. Recording pulses, finishing pops, and
+       Ready / Recording… <clock> / Your song — press Play / Playing… <clock of
+       total> / Finished! press Play again. Recording pulses, finishing pops, and
      pressing Record over an existing take says the old song goes away. */
   function mountTransport(host, before) {
     const row = frag(
       '<div class="transport" role="group" aria-label="Record">' +
-        '<button type="button" class="tbtn rec" data-record="start" aria-pressed="false">● <span>Record</span></button>' +
-        '<button type="button" class="tbtn play not-ready" data-record="play" aria-pressed="false" aria-disabled="true">▶ <span>Play</span></button>' +
+        '<button type="button" class="tbtn rec" data-record="start" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="6.5" fill="currentColor"/></svg> <span>Record</span></button>' +
+        '<button type="button" class="tbtn play not-ready" data-record="play" aria-pressed="false" aria-disabled="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg> <span>Play</span></button>' +
         '<p class="record-status" aria-live="polite">Ready <span class="record-time"></span></p>' +
       '</div>');
     const recBtn = row.querySelector('[data-record="start"]');
@@ -124,7 +124,7 @@
       let words = "Ready";
       if (recording) words = "Recording…";
       else if (playing) words = "Playing…";
-      else if (snap.hasTake) words = snap.ended === "finished" ? "Finished! press ▶ again" : "Your song — press ▶";
+      else if (snap.hasTake) words = snap.ended === "finished" ? "Finished! press Play again" : "Your song — press Play";
       if (status.dataset.words) words = status.dataset.words;
       const label = words + " ";
       if (status.textContent !== label + clock.textContent) status.firstChild.nodeValue = label;
@@ -523,7 +523,7 @@
                   '<span class="word">' + v.word + '</span></button>').join("") +
               '</div>' +
               '<button type="button" class="starbtn" aria-label="Play a little tune">' +
-                '<span class="star" aria-hidden="true">★</span>' +
+                '<span class="star" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.8l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 16.9 6.6 19.7l1-6.1L3.2 9.3l6.1-.9z" fill="currentColor"/></svg></span>' +
                 '<span class="word">Tune</span>' +
               '</button>' +
             '</div>' +
