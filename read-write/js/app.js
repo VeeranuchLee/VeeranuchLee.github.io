@@ -24,15 +24,15 @@
   ];
 
   var ICON = {
-    speaker: '<svg viewBox="0 0 64 64" aria-hidden="true"><path class="cone" d="M10 25 h9 l13 -11 v36 l-13 -11 h-9 z"/><path class="wave" d="M40 24 q6 8 0 16"/><path class="wave" d="M46 18 q11 14 0 28"/></svg>',
-    stop: '<svg viewBox="0 0 64 64" aria-hidden="true"><rect class="cone" x="19" y="19" width="26" height="26" rx="5"/></svg>',
+    speaker: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M11 5L6 9H3v6h3l5 4z\" fill=\"currentColor\"/><path d=\"M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+    stop: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M7 7h10v10H7z\" fill=\"currentColor\"/></svg>",
     map: '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 12 l11 -4 l14 5 l11 -4 v27 l-11 4 l-14 -5 l-11 4 z"/><path d="M17 8 v27 M31 13 v27"/></svg>',
-    next: '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M18 10 L32 24 L18 38"/></svg>',
-    back: '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M30 10 L16 24 L30 38"/></svg>',
-    star: '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 l6 13 l14 1.5 l-10.5 9.5 l3 14 l-12.5 -7 l-12.5 7 l3 -14 l-10.5 -9.5 l14 -1.5 z"/></svg>',
-    undo: '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 18 h18 a10 10 0 0 1 0 20 h-10"/><path d="M20 10 l-8 8 l8 8"/></svg>',
+    next: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M9 5l7 7-7 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+    back: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M15 5l-7 7 7 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+    star: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 2.8l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 16.9 6.6 19.7l1-6.1L3.2 9.3l6.1-.9z\" fill=\"currentColor\"/></svg>",
+    undo: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M9 7L4 12l5 5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M4.5 12H14a5.5 5.5 0 0 1 0 11h-2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
     clear: '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M12 14 h24 M19 14 v-4 h10 v4 M15 14 l2 26 h14 l2 -26"/></svg>',
-    tick: '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 25 l9 9 l19 -20"/></svg>'
+    tick: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M5 12.5l4.5 4.5L19 7.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"
   };
 
   var el = {

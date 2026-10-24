@@ -136,10 +136,10 @@ button { font: inherit; color: inherit; }
 @keyframes pulse { 50% { opacity: .3; } }
 
 /* ------------------------------------------------------------------ journey map */
-.map { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.map { overflow: hidden; }
 .map-head {
   display: grid;
-  grid-template-columns: auto 1fr auto auto;
+  grid-template-columns: auto 1fr auto auto auto;
   align-items: center;
   gap: 18px;
   padding: 22px 26px 8px;
@@ -150,8 +150,9 @@ button { font: inherit; color: inherit; }
 .tally { display: flex; align-items: center; gap: 8px; font-family: 'Fredoka One', 'Nunito', sans-serif; font-size: 34px; color: #7a5a00; background: var(--butter-soft); padding: 6px 18px; border-radius: 999px; }
 .tally svg { width: 36px; height: 36px; fill: var(--butter); stroke: #e2b93f; stroke-width: 3; stroke-linejoin: round; }
 .go { font-size: 24px; }
+.map-reset { min-height: 56px; min-width: 104px; padding: 0 14px; font-size: 18px; }
 
-.trail { position: relative; flex: 1 0 auto; padding: 10px 18px 6px; }
+.trail { position: relative; flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; padding: 10px 18px 76px; -webkit-mask-image: linear-gradient(to bottom,#000 calc(100% - 28px),transparent); mask-image: linear-gradient(to bottom,#000 calc(100% - 28px),transparent); }
 .trail-path { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
 .trail-path .trail-all { fill: none; stroke: var(--paper-edge); stroke-width: 10; stroke-linecap: round; stroke-dasharray: 2 20; }
 .trail-path .trail-done { fill: none; stroke: var(--butter); stroke-width: 10; stroke-linecap: round; }
@@ -164,7 +165,7 @@ button { font: inherit; color: inherit; }
   grid-template-columns: repeat(var(--cols, 4), 1fr);
   gap: 10px 8px;
 }
-.stop { display: flex; justify-content: center; }
+.stop { display: flex; justify-content: center; min-height: 180px; }
 .stop-btn {
   border: 0;
   background: transparent;
@@ -206,7 +207,6 @@ button { font: inherit; color: inherit; }
 .stop.stamp .disc { animation: stamp .7s cubic-bezier(.3, 1.6, .5, 1) both; }
 @keyframes beckon { 50% { box-shadow: 0 0 0 10px rgba(63, 111, 181, .16), 0 4px 10px rgba(47, 58, 77, .10); } }
 @keyframes stamp { 0% { transform: scale(.3); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-.map-foot { display: flex; justify-content: flex-end; padding: 4px 20px 16px; }
 .toast {
   position: fixed; left: 50%; bottom: 96px; transform: translate(-50%, 20px);
   margin: 0; padding: 14px 24px; border-radius: 18px;
@@ -214,6 +214,15 @@ button { font: inherit; color: inherit; }
   opacity: 0; pointer-events: none; transition: opacity .2s ease, transform .2s ease;
 }
 .toast.show { opacity: .94; transform: translate(-50%, 0); }
+
+@media (orientation: portrait) and (min-width: 601px) {
+  .map-head { grid-template-columns: auto 1fr auto; gap: 10px 14px; padding-bottom: 10px; }
+  .map-title h1 { font-size: 40px; }
+  .map-sub { font-size: 17px; }
+  .tally { font-size: 29px; padding: 5px 14px; }
+  .map-reset { grid-column: 2; justify-self: end; }
+  .go { grid-column: 3; min-height: 56px; font-size: 21px; padding: 0 18px; }
+}
 
 /* ------------------------------------------------------------------ lesson shell */
 .lesson-head {
@@ -459,6 +468,10 @@ button { font: inherit; color: inherit; }
   .card-word.spk { justify-self: stretch; }
   .num { font-size: 34px; }
   .stops { gap: 4px 8px; }
+  .map-title h1 { font-size: 34px; }
+  .map-sub { font-size: 16px; }
+  .tally { font-size: 27px; padding: 4px 12px; }
+  .go { min-height: 56px; padding: 0 18px; font-size: 20px; }
   .reward { padding-top: 0; }
   .medal, .medal img { width: 190px; height: 190px; }
   .reward h3 { margin-top: 10px; font-size: 40px; }
