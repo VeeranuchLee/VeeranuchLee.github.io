@@ -44,11 +44,8 @@
   /* Drawn rather than set as 🔊: the emoji falls back to a flat monochrome glyph
      in the app's font stack, and this is the one control a child who cannot read
      relies on. */
-  var SPEAKER_ICON =
-    '<svg viewBox="0 0 32 32" width="34" height="34" aria-hidden="true">' +
-    '<path d="M6 12h5l6-5v18l-6-5H6z" fill="#2c3e63"/>' +
-    '<path d="M21 11a7 7 0 0 1 0 10M25 8a11 11 0 0 1 0 16" fill="none" ' +
-    'stroke="#2c3e63" stroke-width="2.4" stroke-linecap="round"/></svg>';
+  var SPEAKER_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 5L6 9H3v6h3l5 4z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var BACK_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
   function pick(list) { return list[Math.floor(Math.random() * list.length)]; }
 
@@ -78,7 +75,7 @@
 
     screen.innerHTML = '' +
       '<div class="bar">' +
-      '  <button class="bar__back" id="back" aria-label="Back to the pages">←</button>' +
+      '  <button class="bar__back" id="back" aria-label="Back to the pages">' + BACK_ICON + '</button>' +
       '  <span class="bar__title">' + page.title + '</span>' +
       '  <span class="says" id="says"></span>' +
       '</div>' +

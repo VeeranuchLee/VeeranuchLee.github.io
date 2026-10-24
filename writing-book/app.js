@@ -21,6 +21,7 @@
   var Strokes = window.WritingStrokes;
   var Words = window.WritingWords;
   var Sound = window.WritingSound;
+  var CG={back:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',close:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',check:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',play:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg>',pencil:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 4l5 5L9 20H4v-5z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 6l5 5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',search:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 15l5.5 5.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',book:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 6.5C10 5 7 4.5 3 5v13c4-.5 7 0 9 1.5 2-1.5 5-2 9-1.5V5c-4-.5-7 0-9 1.5z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 6.5v13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'};
   /* Optional on purpose: if sentences.js is ever absent the cards simply lose
      their badge rather than throwing on every page. */
   var Sentences = window.WritingSentences;
@@ -131,9 +132,9 @@
      book behind all of them. The mode is chosen once on the cover and sticks,
      so picking a page stays a single tap. */
   var MODES = [
-    { id: 'write', icon: '✏️', label: 'Write it', hint: 'Trace the words.' },
-    { id: 'find', icon: '🔎', label: 'Find letters', hint: 'Which letters are in the word?' },
-    { id: 'spell', icon: '🔤', label: 'Spell it', hint: 'Put the letters in order.' }
+    { id: 'write', icon: CG.pencil, label: 'Write it', hint: 'Trace the words.' },
+    { id: 'find', icon: CG.search, label: 'Find letters', hint: 'Which letters are in the word?' },
+    { id: 'spell', icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="8" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="13" y="12" width="8" height="8" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M5 10l2-4 2 4M15 18v-4h2a2 2 0 0 1 0 4z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>', label: 'Spell it', hint: 'Put the letters in order.' }
   ];
 
   var MODE_KEY = 'writing-book/mode/v1';
@@ -206,14 +207,13 @@
        because nothing could notice. See release/registry.json, the word-book note. */
     show('' +
       '<div class="cover">' +
-      '  <div class="cover__out"><a class="cg-back" href="https://veeranuchlee.github.io/word-book/" aria-label="Back to Our Word Book"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>' +
+      '  <div class="cover__toolbar"><span class="cg-back-slot" aria-hidden="true"></span><a class="cg-back" href="https://veeranuchlee.github.io/word-book/" aria-label="Back to Our Word Book"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a><button class="control cover__stickers" id="open-book">' + CG.book + ' My stickers</button></div>' +
       '  <div class="cover__head">' +
       '    <h1>Writing Book</h1>' +
       '    <p id="cover-hint">' + currentMode().hint + '</p>' +
       '  </div>' +
       '  <div class="modes">' + modes + '</div>' +
-      '  <div class="levels">' + cards + '</div>' +
-      '  <div class="cover__book"><button class="control" id="open-book">📖 My stickers</button></div>' +
+      '  <div class="levels" aria-label="Writing levels">' + cards + '</div>' +
       '</div>');
 
     Array.prototype.forEach.call(screen.querySelectorAll('.mode'), function (button) {
@@ -311,13 +311,13 @@
              '<span class="wordcard__pic"><img src="' + Words.picture(entry.slug) +
              '" alt="' + entry.word + '"></span>' +
              '<span class="wordcard__word">' + entry.word + '</span>' +
-             '<span class="wordcard__tick">✓</span></button>';
+             '<span class="wordcard__tick">' + CG.check + '</span></button>';
     }).join('');
 
     var entries = queue.map(function (entry, i) {
       return '<div class="entry" data-i="' + i + '">' +
              '  <div class="entry__row entry__row--model">' +
-             '    <button class="playrow" data-i="' + i + '" aria-label="Watch ' + entry.word + ' being written">▶︎</button>' +
+             '    <button class="playrow" data-i="' + i + '" aria-label="Watch ' + entry.word + ' being written">' + CG.play + '</button>' +
              '    <svg class="rowsvg" data-model="' + i + '" role="img" aria-label="' + entry.word + '"></svg>' +
              '  </div>' +
              '  <div class="entry__row entry__row--trace">' +
@@ -329,7 +329,7 @@
 
     show('' +
       '<div class="bar">' +
-      '  <button class="bar__back" id="back" aria-label="Back to the pages">←</button>' +
+      '  <button class="bar__back" id="back" aria-label="Back to the pages">' + CG.back + '</button>' +
       '  <span class="bar__title">' + page.title + '</span>' +
       '  <span class="says" id="says"></span>' +
       '</div>' +
@@ -516,12 +516,12 @@
         '  <p>Here is your sticker.</p>' +
         '  <img class="sticker" id="sticker" src="' + Words.card(won.slug) + '" alt="' + won.word + '">' +
         (graderLine() ? '<p class="gline-row"><span class="gline">' + graderLine() + '</span>' +
-          '<button class="greset" id="greset" aria-label="Reset grader evidence for a fresh session">✕</button></p>' : '') +
+          '<button class="greset" id="greset" aria-label="Reset grader evidence for a fresh session">' + CG.close + '</button></p>' : '') +
         /* All three ways on from here. Without the third, a child who wanted a
            different page had to go via the sticker book to find one. */
         '  <div class="controls">' +
         '    <button class="control" id="again">Play again</button>' +
-        '    <button class="control" id="book">📖 My stickers</button>' +
+        '    <button class="control" id="book">' + CG.book + ' My stickers</button>' +
         '    <button class="control" id="home">Other pages</button>' +
         '  </div>' +
         '</div>');
@@ -559,7 +559,7 @@
 
     show('' +
       '<div class="bar">' +
-      '  <button class="bar__back" id="back" aria-label="Back to the pages">←</button>' +
+      '  <button class="bar__back" id="back" aria-label="Back to the pages">' + CG.back + '</button>' +
       '  <span class="bar__title">My stickers</span>' +
       '</div>' +
       '<div class="book">' + pages + '</div>');
