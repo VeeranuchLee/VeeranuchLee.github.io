@@ -187,11 +187,20 @@
 
     var chips = [{ id: '', label: 'All' }].concat(d.groups);
     var group = '';      // '' = every group
+    var letter = '';     // '' = every first letter (owner 2026-10-25: "select first letter too")
     var query = '';
+    var CHEVRON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    var TICK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    var firstOf = function (entry) { return entry.w.charAt(0).toLowerCase(); };
+    /* Only letters that have a card: a letter that empties the grid is a dead tap. */
+    var letters = d.cards.map(firstOf).filter(function (ch, i, all) {
+      return /[a-z]/.test(ch) && all.indexOf(ch) === i;
+    }).sort();
 
     root.innerHTML = '' +
       '<div class="bar">' +
-      '  <button class="bar__back" id="pick-back" aria-label="Close Import cards">←</button>' +
+      '  <span class="cg-back-slot" aria-hidden="true"></span>' +
+      '  <button class="cg-back" id="pick-back" aria-label="Back to My cards">' + CHEVRON + '</button>' +
       '  <span class="bar__title">Import cards</span>' +
       '  <span class="pick__count" id="pick-count"></span>' +
       '</div>' +
@@ -199,6 +208,7 @@
       '  <input class="pick__search" id="pick-search" type="search" placeholder="Search words"' +
       '   aria-label="Search words" autocomplete="off" autocapitalize="none" spellcheck="false">' +
       '  <div class="pick__chips" id="pick-chips"></div>' +
+      '  <div class="pick__letters" id="pick-letters" role="group" aria-label="First letter"></div>' +
       '</div>' +
       '<div class="pick__grid" id="pick-grid"></div>' +
       '<div class="pick__done"><button class="control" id="pick-done">Done</button></div>';
@@ -207,6 +217,12 @@
     var grid = root.querySelector('#pick-grid');
     var countNode = root.querySelector('#pick-count');
     var chipsNode = root.querySelector('#pick-chips');
+    var lettersNode = root.querySelector('#pick-letters');
+    /* One back button on screen: the app's own (leave / back) waits under the overlay. */
+    var hiddenBacks = Array.prototype.filter.call(document.querySelectorAll('.cg-back'), function (el) {
+      return !root.contains(el) && !el.hidden;
+    });
+    hiddenBacks.forEach(function (el) { el.hidden = true; });
     var searchNode = root.querySelector('#pick-search');
 
     function feedback(name) {
@@ -234,8 +250,26 @@
       });
     }
 
+    function renderLetters() {
+      lettersNode.innerHTML = [''].concat(letters).map(function (ch) {
+        return '<button class="pick__letter' + (ch === letter ? ' is-on' : '') + '" data-letter="' + ch + '"' +
+               ' aria-pressed="' + (ch === letter) + '"' + (ch ? '' : ' aria-label="All letters"') + '>' +
+               (ch ? ch.toUpperCase() : 'All') + '</button>';
+      }).join('');
+      Array.prototype.forEach.call(lettersNode.querySelectorAll('.pick__letter'), function (button) {
+        button.addEventListener('click', function () {
+          feedback('tap');
+          letter = button.getAttribute('data-letter');
+          renderLetters();
+          renderGrid();
+          grid.scrollTop = 0;
+        });
+      });
+    }
+
     function matches(entry) {
       if (group && entry.g.indexOf(group) === -1) return false;
+      if (letter && firstOf(entry) !== letter) return false;
       /* Substring, not just prefix: a child spelling "hippo" from the middle of
          the word does not know how it starts — that is the very thing they are
          here to practise. */
@@ -249,7 +283,7 @@
         var inTray = has(entry.s);
         return '<button class="pickcard' + (inTray ? ' is-in' : '') + '" data-sense="' + entry.s + '"' +
                ' aria-pressed="' + inTray + '" aria-label="' + entry.w + '">' +
-               '<span class="pickcard__check" aria-hidden="true">✓</span>' +
+               '<span class="pickcard__check" aria-hidden="true">' + TICK + '</span>' +
                '<span class="pickcard__pic"><img src="' + entry.pic + '" alt="" loading="lazy"></span>' +
                '<span class="pickcard__word">' + entry.w + '</span></button>';
       }).join('') : '<p class="pick__empty">No cards found.</p>';
@@ -299,6 +333,7 @@
 
     function close() {
       if (root.parentNode) root.parentNode.removeChild(root);
+      hiddenBacks.forEach(function (el) { el.hidden = false; });
       if (options.onChange) options.onChange();
     }
 
@@ -314,6 +349,7 @@
 
     renderCount();
     renderChips();
+    renderLetters();
     renderGrid();
   }
 

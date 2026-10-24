@@ -152,7 +152,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   position: absolute;
   top: -8px; left: -8px;
   width: 44px; height: 44px;
-  background: url('art/ui/say-bubble.png?v=801ab130a-20261021123656') center/contain no-repeat;
+  background: url('art/ui/say-bubble.png?v=ea94b0296-20261025035806') center/contain no-repeat;
   cursor: pointer;
   z-index: 2;
   filter: drop-shadow(0 2px 4px rgba(60, 48, 30, 0.28));
@@ -419,19 +419,29 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 
 /* ---------- cover / level picker --------------------------------------- */
 
-.cover { padding: 18px 18px 26px; overflow-y: auto; }
+.cover { height: 100%; min-height: 0; padding: 16px 18px 18px; overflow: hidden; display: flex; flex-direction: column; }
 /* The way out of the book, on the cover only. It reuses .bar__back so the arrow that
    leaves the app is the same circle as the arrow that leaves a page. */
-.cover__out { margin-bottom: 2px; }
-.cover__out .bar__back { text-decoration: none; color: inherit; }
-.cover__head { text-align: center; margin-bottom: 16px; }
+.cover__toolbar { min-height: 56px; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 2px; }
+.cover__stickers { min-height: 56px; padding: 8px 18px; }
+.cover__head { text-align: center; margin-bottom: 10px; }
 .cover__head h1 { font-size: 34px; margin: 4px 0 2px; }
 .cover__head p { margin: 0; color: var(--ink-soft); font-size: 18px; }
 
 .levels {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 150px;
   gap: 14px;
+  flex: 1 1 0;
+  height: auto;
+  min-height: 200px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 4px 64px 0;
+  -webkit-mask-image: linear-gradient(to bottom,#000 calc(100% - 28px),transparent);
+  mask-image: linear-gradient(to bottom,#000 calc(100% - 28px),transparent);
 }
 
 .level {
@@ -476,11 +486,6 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   border-radius: 999px; padding: 3px 10px;
 }
 
-.cover__book {
-  margin: 18px auto 0;
-  display: flex;
-}
-
 /* ---------- mode selector ----------------------------------------------- */
 
 .modes {
@@ -507,11 +512,19 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   background: #fff;
   box-shadow: inset 0 0 0 3px var(--start), 0 3px 10px rgba(60, 48, 30, 0.18);
 }
-/* Drawn SVGs, not emoji (the estate rule): the icons scale from their viewBox,
-   so the size is stated here rather than inherited from a font-size. */
-.mode__icon { display: grid; place-items: center; }
-.mode__icon svg { width: 28px; height: 28px; display: block; }
+.mode__icon { font-size: 27px; line-height: 1; } .mode__icon svg,.control svg{width:1em;height:1em;display:inline-block;vertical-align:-.15em}
+.bar__back svg,.wordcard__tick svg,.playrow svg,.greset svg,.speaker svg{width:1em;height:1em;display:inline-block;vertical-align:-.15em}
 .mode__label { font-size: 15px; font-weight: 800; }
+
+@media (orientation: landscape) and (min-width: 700px) {
+  .cover { padding-top: 10px; }
+  .cover__head { margin: 0 190px 6px; min-height: 48px; }
+  .cover__head h1 { font-size: 28px; margin-top: 0; }
+  .cover__head p { font-size: 16px; }
+  .modes { max-width: 620px; width: 100%; margin: 0 auto 8px; }
+  .mode { min-height: 64px; }
+  .levels { width: 100%; grid-auto-rows: 150px; }
+}
 
 /* ---------- the two vocabulary games ------------------------------------- */
 
@@ -923,6 +936,27 @@ input, textarea, [contenteditable="true"] {
   transition: background 140ms ease, box-shadow 140ms ease;
 }
 .pick__chip.is-on { background: #fff; box-shadow: inset 0 0 0 3px var(--start); }
+.pick__letters {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
+}
+.pick__letter {
+  flex: 0 0 auto;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0 10px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: inset 0 0 0 2px rgba(44, 62, 99, 0.14);
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--ink);
+}
+.pick__letter.is-on { background: var(--start); color: #fff; box-shadow: none; }
+.pickcard__check svg { width: 18px; height: 18px; display: block; }
 
 /* The grid is the only part that scrolls vertically; it fills what is left
    between the tools and Done. auto-fill keeps the columns whole at both iPad
