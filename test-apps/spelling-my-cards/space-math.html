@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="audio-wake.js?v=c109e8c70-20261021170356"></script>
+<script src="audio-wake.js?v=60a0ace0a-20261025035813"></script>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Space Math</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=c109e8c70-20261021170356"/>
-  <link rel="icon" href="./assets/icons/icon-192.png?v=c109e8c70-20261021170356"/>
-  <link rel="stylesheet" href="./fonts.css?v=c109e8c70-20261021170356"/>
-  <link rel="stylesheet" href="./css/tap-wait-math.css?v=c109e8c70-20261021170356"/>
-  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=c109e8c70-20261021170356"/>
+  <link rel="manifest" href="./manifest.webmanifest?v=60a0ace0a-20261025035813"/>
+  <link rel="icon" href="./assets/icons/icon-192.png?v=60a0ace0a-20261025035813"/>
+  <link rel="stylesheet" href="./fonts.css?v=60a0ace0a-20261025035813"/>
+  <link rel="stylesheet" href="./css/tap-wait-math.css?v=60a0ace0a-20261025035813"/>
+  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=60a0ace0a-20261025035813"/>
   <meta name="theme-color" content="#0a0e2d"/>
-  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=c109e8c70-20261021170356"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=60a0ace0a-20261025035813"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Magic Math"/>
   <!-- Method C: the pilot guard is first; it ignores every multi-finger gesture. -->
-  <script src="./js/tap-zoom-guard.js?v=c109e8c70-20261021170356"></script>
-  <script src="./vendor/react-18.3.1.production.min.js?v=c109e8c70-20261021170356"></script>
-  <script src="./vendor/react-dom-18.3.1.production.min.js?v=c109e8c70-20261021170356"></script>
-  <script src="./js/tap-wait-engine.js?v=c109e8c70-20261021170356"></script>
-  <script src="./js/tap-wait-math.js?v=c109e8c70-20261021170356"></script>
-  <script src="./shared/bg-deco/bg-deco.js?v=c109e8c70-20261021170356"></script>
-  <script src="./vendor/babel-7.26.4.min.js?v=c109e8c70-20261021170356"></script>
+  <script src="./js/tap-zoom-guard.js?v=60a0ace0a-20261025035813"></script>
+  <script src="./vendor/react-18.3.1.production.min.js?v=60a0ace0a-20261025035813"></script>
+  <script src="./vendor/react-dom-18.3.1.production.min.js?v=60a0ace0a-20261025035813"></script>
+  <script src="./js/tap-wait-engine.js?v=60a0ace0a-20261025035813"></script>
+  <script src="./js/tap-wait-math.js?v=60a0ace0a-20261025035813"></script>
+  <script src="./shared/bg-deco/bg-deco.js?v=60a0ace0a-20261025035813"></script>
+  <script src="./ask-answer-logic.js?v=60a0ace0a-20261025035813"></script>
+  <script src="./vendor/babel-7.26.4.min.js?v=60a0ace0a-20261025035813"></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;touch-action:manipulation}
     body{font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden;background:#0a0e2d}
@@ -1105,11 +1106,11 @@
     .hb-how-card h2{margin:0 0 16px;font-size:clamp(1.7rem,5vw,2.4rem)}
     .hb-how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
     .hb-how-step{display:flex;flex-direction:column;align-items:center;gap:7px;padding:12px 8px;border-radius:18px;background:#e8f0ff;font-weight:900;font-size:clamp(.95rem,2.5vw,1.2rem)}
-    .hb-how-picture{font-size:clamp(2.2rem,7vw,3.2rem);line-height:1}.hb-how-players{display:flex;align-items:center;justify-content:center;gap:8px}.hb-how-players .hb-player-icon{width:54px;height:54px}
+    .hb-how-picture{font-size:clamp(2.2rem,7vw,3.2rem);line-height:1}.hb-how-picture>svg{width:1em;height:1em;vertical-align:middle}.hb-how-players{display:flex;align-items:center;justify-content:center;gap:8px}.hb-how-players .hb-player-icon{width:54px;height:54px}
     .hb-how-go{min-width:180px;min-height:64px;border:0;border-radius:40px;background:#ffd54f;color:#633500;font:900 1.3rem inherit;box-shadow:0 5px 0 #e6a500;cursor:pointer}
     .hb-play-race .hb-board.hb-large{--hb-cell:64px}
     .hb-screen>.ar-strip .fm-btn,.hb-play>.ar-strip .fm-btn{height:64px;min-height:64px;min-width:64px}
-    .hb-roll{min-width:190px;min-height:72px;border:0;border-radius:50px;background:#ffd54f;color:#633500;font:900 1.35rem inherit;box-shadow:0 5px 0 #e6a500;cursor:pointer}
+    .hb-roll{min-width:190px;min-height:72px;border:0;border-radius:50px;background:#ffd54f;color:#633500;font:900 1.35rem inherit;box-shadow:0 5px 0 #e6a500;cursor:pointer}.hb-roll svg{width:1.25em;height:1.25em;vertical-align:-.25em;margin-right:.25em}
     .hb-roll.hb-next-action{animation:hbNextAction 1.5s ease-in-out infinite}
     .hb-roll:disabled{animation:none;opacity:.62;cursor:default}
     @keyframes hbNextAction{50%{transform:scale(1.055);box-shadow:0 7px 0 #e6a500,0 0 0 8px rgba(255,213,79,.24)}}
@@ -1431,6 +1432,19 @@
     .np-ghost{position:fixed;z-index:80;width:var(--np-tile);height:var(--np-tile);border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:calc(var(--np-tile)*.5);pointer-events:none;transform:translate(-50%,-58%) rotate(-4deg) scale(1.08);color:#c62828;background:linear-gradient(160deg,#fff8f6,#ffe3dc);box-shadow:0 10px 24px rgba(0,0,0,.4),0 4px 0 #ffb4a2}
     .np-ghost-op{width:calc(var(--np-tile)*.84);font-size:calc(var(--np-tile)*.44);color:#2f6df6;background:linear-gradient(160deg,#f0f5ff,#d9e7ff);box-shadow:0 10px 24px rgba(0,0,0,.4),0 4px 0 #9db9ff}
     @media (max-height:640px){.np-screen{--np-tile:clamp(46px,9vw,56px);--np-tray-tile:clamp(38px,7.5vw,46px);gap:7px}.np-history-restore{padding:4px 14px}.np-rail-wrap{padding:9px 4px}.np-nudge{width:44px;height:44px;font-size:1.45rem}}
+    /* ── Ask & Answer (aa1) ── */
+    .aa-screen{overflow:hidden;gap:6px;padding-bottom:10px}.aa-screen .count-title{margin:0}.aa-screen .count-title-sub{line-height:1.05}.aa-players{display:flex;align-items:center;justify-content:center;gap:6px 4px;flex-wrap:wrap;position:relative;z-index:2;width:min(96vw,920px)}
+    .aa-player{width:180px;height:112px;padding:4px;border:3px solid rgba(255,255,255,.45);border-radius:16px;background:rgba(10,18,62,.64);color:#fff;box-shadow:0 4px 0 rgba(2,8,35,.5)}
+    .aa-player.selected{border-color:#ffd54f;box-shadow:0 0 0 4px rgba(255,213,79,.28),0 4px 0 #a56b00}.aa-name{width:100%;height:44px;border:2px solid #93b7fb;border-radius:10px;padding:4px 7px;font:800 .86rem Nunito,sans-serif;color:#1a237e;background:#fff;text-align:center}
+    .aa-player-pick{display:flex;width:100%;height:58px;margin-top:2px;padding:1px;border:0;border-radius:8px;background:transparent;color:inherit;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:2px}.aa-stickers{display:flex;align-items:center;justify-content:center;min-height:18px;width:100%;white-space:nowrap}.aa-stickers.big{height:34px;min-height:34px}.aa-sticker{width:18px;height:18px;flex:0 0 18px;object-fit:contain;filter:drop-shadow(0 1px 1px rgba(0,0,0,.35))}.aa-stickers.big .aa-sticker{position:relative;width:32px;height:32px;flex:0 0 32px}.aa-stickers.big .aa-sticker+.aa-sticker{margin-left:-18px}.aa-stickers.big .aa-sticker:nth-child(1){z-index:10}.aa-stickers.big .aa-sticker:nth-child(2){z-index:9}.aa-stickers.big .aa-sticker:nth-child(3){z-index:8}.aa-stickers.big .aa-sticker:nth-child(4){z-index:7}.aa-stickers.big .aa-sticker:nth-child(5){z-index:6}.aa-stickers.big .aa-sticker:nth-child(6){z-index:5}.aa-stickers.big .aa-sticker:nth-child(7){z-index:4}.aa-stickers.big .aa-sticker:nth-child(8){z-index:3}.aa-stickers.big .aa-sticker:nth-child(9){z-index:2}.aa-stickers.big .aa-sticker:nth-child(10){z-index:1}.aa-sticker-empty{font:800 .66rem Nunito,sans-serif;opacity:.72}.aa-player{position:relative}.aa-player.merge .aa-stickers.big{animation:aaStickerMerge .55s ease-out}.aa-player.special{animation:aaSpecialEarn .75s ease-out}.aa-add,.aa-reset,.aa-chest{min-height:44px;border:2.5px solid #93b7fb;border-radius:14px;background:linear-gradient(160deg,#fff,#e8f0ff);color:#2f6df6;font:900 .82rem Nunito,sans-serif;padding:6px 12px;cursor:pointer;box-shadow:0 3px 0 #93b7fb}.aa-add{width:48px;font-size:1.6rem}.aa-chest{display:flex;align-items:center;gap:5px}.aa-chest img{width:34px;height:30px;object-fit:contain}.aa-player-pick:active,.aa-add:active,.aa-reset:active,.aa-chest:active{transform:translateY(2px)}
+    .aa-chest-backdrop{position:fixed;inset:0;z-index:50;background:rgba(2,8,35,.72);display:flex;align-items:center;justify-content:center;padding:18px}.aa-chest-panel{position:relative;width:min(94vw,720px);max-height:88vh;overflow:auto;border:4px solid #ffd54f;border-radius:26px;background:linear-gradient(155deg,#fff,#e8f0ff);color:#1a237e;padding:22px;box-shadow:0 12px 40px rgba(0,0,0,.45)}.aa-chest-panel h2{text-align:center;margin:0 48px 14px}.aa-chest-close{position:absolute;right:12px;top:10px;width:48px;height:48px;border:3px solid #93b7fb;border-radius:50%;background:#fff;color:#1a237e;font:900 1.6rem Nunito,sans-serif}.aa-collection-player{border:2px solid #93b7fb;border-radius:16px;padding:10px;margin:9px 0;background:#fff}.aa-collection-name{font-weight:900}.aa-specials{display:flex;flex-wrap:wrap;gap:7px;min-height:42px;align-items:center;margin:6px 0}.aa-special{width:42px;height:42px;object-fit:contain;filter:drop-shadow(0 2px 2px rgba(0,0,0,.2))}.aa-collection-progress{font-size:.82rem;font-weight:800}.aa-empty-chest{display:block;margin:16px auto 0;min-height:44px;border:2px solid #c62828;border-radius:14px;background:#fff;color:#b71c1c;font:900 .82rem Nunito,sans-serif;padding:7px 14px}.aa-special-toast{position:fixed;z-index:55;left:50%;top:18%;transform:translateX(-50%);padding:10px 18px;border:3px solid #ffd54f;border-radius:999px;background:#fff;color:#5a2ed6;font-weight:900;box-shadow:0 8px 24px rgba(0,0,0,.35);animation:aaSpecialEarn .75s ease-out}
+    @keyframes aaStickerMerge{0%{transform:scale(.65);filter:brightness(1.8)}55%{transform:scale(1.18)}100%{transform:scale(1)}}@keyframes aaSpecialEarn{0%{transform:scale(.65)}55%{transform:scale(1.08)}100%{transform:scale(1)}}@media (prefers-reduced-motion:reduce){.aa-player.merge .aa-stickers.big,.aa-player.special,.aa-special-toast{animation:none}}
+    .aa-stage{display:grid;grid-template-columns:minmax(290px,430px) minmax(280px,520px);gap:12px;align-items:start;justify-content:center;width:min(97vw,980px);position:relative;z-index:1}.aa-work{display:flex;flex-direction:column;align-items:center;gap:9px}.aa-card{width:100%;min-height:218px;background:linear-gradient(145deg,#fff,#e8f0ff);border:3px solid #93b7fb;border-radius:24px;padding:14px 18px;color:#1a237e;box-shadow:0 5px 0 #6d9bf5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px}.aa-prompt{font-size:clamp(1rem,2.7vw,1.25rem);font-weight:900;text-align:center;color:#5a2ed6}.aa-build{min-height:70px;max-width:100%;display:flex;align-items:center;gap:6px;overflow-x:auto;padding:6px}.aa-build-num{font-size:clamp(1.5rem,5vw,2.2rem);font-weight:900;color:#c62828;border:3px solid #ff8a80;border-radius:12px;padding:5px 9px;min-width:48px;text-align:center}.aa-build-op{font-size:clamp(1.5rem,5vw,2.2rem);font-weight:900;color:#2f6df6}.aa-empty{color:#9aa6c6;border-style:dashed}.aa-card.wrong{animation:wrongShake .35s ease;border-color:#f44336}
+    .aa-column{display:grid;grid-template-columns:34px auto;align-items:center;justify-content:center;gap:2px 8px;font-size:clamp(1.8rem,6vw,2.7rem);font-weight:900;font-variant-numeric:tabular-nums;min-width:170px}.aa-col-op{color:#2f6df6;text-align:center}.aa-col-num{text-align:right;letter-spacing:.08em}.aa-rule{grid-column:1/-1;height:4px;border-radius:3px;background:#2f6df6;margin:2px 0;width:100%}.aa-answer{grid-column:2;text-align:right;min-height:1.2em;letter-spacing:.08em;color:#2e7d32}.aa-answer.empty{color:#9aa6c6}.aa-feedback{min-height:28px;font-weight:900;text-align:center;color:#5a2ed6}.aa-feedback.good{color:#2e7d32}.aa-feedback.try{color:#ef6c00}
+    .aa-keypad{display:grid;grid-template-columns:repeat(5,minmax(48px,62px));gap:7px;justify-content:center}.aa-key{height:50px;border:2.5px solid #93b7fb;border-radius:14px;background:linear-gradient(160deg,#fff,#e8f0ff);color:#5a2ed6;font:900 1.35rem Nunito,sans-serif;box-shadow:0 4px 0 #93b7fb;cursor:pointer}.aa-key.op{color:#2f6df6;background:linear-gradient(160deg,#f0f5ff,#d9e7ff)}.aa-key:active{transform:translateY(3px);box-shadow:0 1px 0 #93b7fb}.aa-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}.aa-action{min-height:48px;border:3px solid #81c784;border-radius:999px;background:linear-gradient(160deg,#fff,#e2f6e3);color:#2e7d32;font:900 .95rem Nunito,sans-serif;padding:8px 18px;box-shadow:0 4px 0 #81c784;cursor:pointer}.aa-action.secondary{border-color:#93b7fb;color:#2f6df6;background:linear-gradient(160deg,#fff,#e8f0ff);box-shadow:0 4px 0 #93b7fb}.aa-action:active{transform:translateY(3px);box-shadow:none}
+    .aa-scratch{background:#f6f0df;border:3px solid #c99b55;border-radius:22px;padding:9px;box-shadow:0 5px 0 #80552d;min-height:390px;display:flex;flex-direction:column;gap:8px}.aa-scratch.collapsed{min-height:0;width:100%;padding:0;background:none;border:none;box-shadow:none}.aa-scratch.collapsed .aa-tools,.aa-scratch.collapsed .aa-canvas,.aa-scratch.collapsed .aa-scratch-title{display:none}.aa-scratch-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.aa-scratch.collapsed .aa-scratch-head{justify-content:flex-end}.aa-scratch-title{font-weight:900;color:#5b3b20}.aa-scratch-toggle{min-height:44px;border:2px solid #c99b55;border-radius:13px;background:#fff8e8;color:#5b3b20;font:900 .86rem Nunito,sans-serif;padding:6px 12px;cursor:pointer}.aa-tools{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap}.aa-colour{width:44px;height:44px;border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 2px #9b7544;cursor:pointer}.aa-colour.on{box-shadow:0 0 0 4px #2f6df6}.aa-tool{min-height:44px;border:2px solid #c99b55;border-radius:12px;background:#fff8e8;color:#5b3b20;font:900 .8rem Nunito,sans-serif;padding:5px 10px;cursor:pointer}.aa-tool.on{background:#dceaff;border-color:#2f6df6;color:#1a237e}.aa-canvas{width:100%;height:285px;background:#fff;border:2px solid #d8c9ad;border-radius:12px;touch-action:pinch-zoom;cursor:crosshair}
+    @media (orientation:portrait),(max-width:760px){.aa-screen{height:100vh;height:100dvh;min-height:0;padding-left:8px;padding-right:8px}.aa-stage{display:flex;flex:1 1 auto;min-height:0;max-width:620px;gap:8px;flex-direction:column;overflow:hidden}.aa-work{flex:0 0 auto}.aa-card{min-height:118px;padding:8px 14px}.aa-build{min-height:48px;padding:2px}.aa-key{height:44px}.aa-scratch{flex:1 1 auto;min-height:0;overflow:hidden}.aa-canvas{height:200px;min-height:150px;flex:0 0 auto}.aa-players{gap:5px 4px}}
+    @media (max-height:820px) and (orientation:landscape){.aa-card{min-height:150px;padding:8px 14px;gap:5px}.aa-build{min-height:48px;padding:2px}.aa-scratch{min-height:340px}.aa-canvas{height:205px}.aa-key{height:44px}}
     /* ── Number Crossword (p1) ──
        A 5 x 5 board of equations across and down, then the tray. SQUARES HOLD NUMBERS
        and CIRCLES HOLD SIGNS: the two kinds of box and the two kinds of tile differ in
@@ -6354,12 +6368,12 @@ function BgDeco(){
 }
 
 /* ══ SVG ICON BUTTONS (crisp, no emoji) ══ */
-function MusicOnIcon(){return(<svg className="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.6" fill="currentColor" stroke="none"/><circle cx="16.5" cy="16" r="2.6" fill="currentColor" stroke="none"/></svg>);}
+function MusicOnIcon(){return(<svg className="icon-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 18V5l11-2v13" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/></svg>);}
 function MusicOffIcon(){return(<svg className="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 18V6l10-2v12" opacity=".45"/><circle cx="6.5" cy="18" r="2.6" fill="currentColor" stroke="none" opacity=".45"/><circle cx="16.5" cy="16" r="2.6" fill="currentColor" stroke="none" opacity=".45"/><path d="M3 3l18 18"/></svg>);}
-function SpeakerOnIcon(){return(<svg className="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor" stroke="none"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 6a9 9 0 0 1 0 12"/></svg>);}
-function SpeakerOffIcon(){return(<svg className="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor" stroke="none"/><line x1="16" y1="9" x2="22" y2="15"/><line x1="22" y1="9" x2="16" y2="15"/></svg>);}
-function BackIcon(){return(<svg className="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 18-6-6 6-6"/></svg>);}
-function NextIcon(){return(<svg className="btn-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>);}
+function SpeakerOnIcon(){return(<svg className="icon-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 5L6 9H3v6h3l5 4z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/></svg>);}
+function SpeakerOffIcon(){return(<svg className="icon-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 5L6 9H3v6h3l5 4z" fill="currentColor"/><path d="M16 9l5 6M21 9l-5 6" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/></svg>);}
+function BackIcon(){return(<svg className="icon-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/></svg>);}
+function NextIcon(){return(<svg className="btn-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/></svg>);}
 function PieIcon(){return(<svg className="btn-svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="2.2"/><path d="M12 12 L12 3 A9 9 0 0 1 21 12 Z" fill="currentColor"/></svg>);}
 function BarsIcon(){return(<svg className="btn-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="5" rx="1.6" fill="none" stroke="currentColor" strokeWidth="2"/><rect x="3" y="6" width="9" height="5" rx="1.6" fill="currentColor"/><rect x="3" y="14" width="18" height="5" rx="1.6" fill="none" stroke="currentColor" strokeWidth="2"/><rect x="3" y="14" width="6" height="5" rx="1.6" fill="currentColor"/></svg>);}
 
@@ -6380,6 +6394,7 @@ function BothOpIcon(){return(<svg className="btn-svg" viewBox="0 0 24 24" aria-h
 function TimesOpIcon(){return(<svg className="btn-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.9 6.9l10.2 10.2M17.1 6.9L6.9 17.1" fill="none" stroke="currentColor" strokeWidth="3.4" strokeLinecap="round"/></svg>);}
 function ShareOpIcon(){return(<svg className="btn-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.8 12h14.4" fill="none" stroke="currentColor" strokeWidth="3.4" strokeLinecap="round"/><circle cx="12" cy="6.5" r="1.9" fill="currentColor"/><circle cx="12" cy="17.5" r="1.9" fill="currentColor"/></svg>);}
 function HalfOpIcon(){return(<svg className="btn-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.9a8.1 8.1 0 0 0 0 16.2z" fill="currentColor"/><circle cx="12" cy="12" r="8.1" fill="none" stroke="currentColor" strokeWidth="2.6"/></svg>);}
+function CheckIcon(){return(<svg className="btn-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m5 12.5 4.2 4.2L19 7"/></svg>);}
 
 /* ══ THE ACTIVITY RIBBON (shared) ══
    Owner, 2026-09-12: *"Replace the current pop-up activity selectors with a persistent
@@ -6531,7 +6546,7 @@ function GamePreview({id}){
           as art. This badge is one of the four the owner kept on 2026-08-27; it is the
           one that still reads at the ~22px the card gives it, and it is blue, which the
           others are not. */}
-      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/space/icons/read-out.webp?v=c109e8c70-20261021170356" alt=""/></div>
+      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/space/icons/read-out.webp?v=60a0ace0a-20261025035813" alt=""/></div>
     </div>);
   if(id==='s1')return(                      /* Count By — the chant above, the ladder rung below */
     <div className="gp gp-tight" aria-hidden="true">
@@ -6560,6 +6575,13 @@ function GamePreview({id}){
       <div className="gp-row"><span className="gp-op gp-big">×</span><span className="gp-num">4</span></div>
       <span className="gp-line"/>
       <div className="gp-row">{box}{box}{box}</div>
+    </div>);
+  if(id==='aa1')return(                     /* Ask & Answer — typed sum on a blank scratch page */
+    <div className="gp gp-tight" aria-hidden="true">
+      <div className="gp-row"><span className="gp-num">128</span></div>
+      <div className="gp-row"><span className="gp-op gp-big">+</span><span className="gp-num">47</span></div>
+      <span className="gp-line"/>
+      <div className="gp-row"><span className="gp-num">175</span></div>
     </div>);
   if(id==='g1')return(                      /* Which is Bigger? — two piles, and the sign that reads them */
     <div className="gp" aria-hidden="true">
@@ -6691,7 +6713,7 @@ function CardSticker({id}){
   return <img className="card-sticker" src={`assets/stickers/space/${f}.webp`} alt="" aria-hidden="true" draggable="false" style={{'--sd':(4+(h%7)*.45).toFixed(2)+'s','--sl':'-'+((h%5)*.9).toFixed(1)+'s'}}/>;
 }
 function Stars({count}){
-  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/space/icons/fourstar-gold.webp?v=c109e8c70-20261021170356" alt="" aria-hidden="true"/>)}</div>;
+  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/space/icons/fourstar-gold.webp?v=60a0ace0a-20261025035813" alt="" aria-hidden="true"/>)}</div>;
 }
 
 /* Only the two hardest games wear this. The absence of a badge is the other
@@ -6699,7 +6721,7 @@ function Stars({count}){
    What Number? would land on the child who needs that game most. Nothing is
    locked either — the badge says who you are growing into, not who may tap. */
 function BigKidBadge(){
-  return <div className="mode-card-badge"><img src="assets-runtime/space/icons/big-kids.webp?v=c109e8c70-20261021170356" alt="" aria-hidden="true"/></div>;
+  return <div className="mode-card-badge"><img src="assets-runtime/space/icons/big-kids.webp?v=60a0ace0a-20261025035813" alt="" aria-hidden="true"/></div>;
 }
 
 /* ══ MASCOT ══ */
@@ -6785,10 +6807,10 @@ function JourneyTrack({progress}){
   const from=JOURNEY_STOPS[legIdx],to=JOURNEY_STOPS[legIdx+1];
   const cells=[];
   for(let i=0;i<LEG_LEN;i++){
-    if(i<inLeg)cells.push(<img key={`s${i}`} className="journey-star" src="assets-runtime/space/icons/fourstar-gold.webp?v=c109e8c70-20261021170356" alt=""/>);
+    if(i<inLeg)cells.push(<img key={`s${i}`} className="journey-star" src="assets-runtime/space/icons/fourstar-gold.webp?v=60a0ace0a-20261025035813" alt=""/>);
     else cells.push(<span key={`d${i}`} className="journey-dot"/>);
   }
-  cells.splice(inLeg,0,<img key={`r${inLeg}`} className="journey-rocket" src="assets-runtime/space/icons/rocket.webp?v=c109e8c70-20261021170356" alt=""/>);
+  cells.splice(inLeg,0,<img key={`r${inLeg}`} className="journey-rocket" src="assets-runtime/space/icons/rocket.webp?v=60a0ace0a-20261025035813" alt=""/>);
   return(
     <div className="journey-track" aria-label={`Flying from ${from.title} to ${to.title}, ${inLeg} of ${LEG_LEN} stars`}>
       <img className="journey-node" src={from.icon} alt={from.title}/>
@@ -6848,7 +6870,7 @@ function ArrivalOverlay({stopIdx,factIdx,complete,muted,onClose}){
         <img className="arrival-photo" src={stop.bg} alt=""/>
         <img className="arrival-planet" src={stop.icon} alt={stop.title}/>
         <div className="arrival-title">{complete?'Journey Complete!':`You reached ${stop.title}!`}</div>
-        {complete&&<img className="arrival-trophy" src="assets-runtime/space/icons/trophy.webp?v=c109e8c70-20261021170356" alt="trophy earned"/>}
+        {complete&&<img className="arrival-trophy" src="assets-runtime/space/icons/trophy.webp?v=60a0ace0a-20261025035813" alt="trophy earned"/>}
         <div className="arrival-fact-row">
           <button className="arrival-replay" aria-label="Hear it again" onClick={()=>{Sound.tap();Voice.say(fact);}}><SpeakerOnIcon/></button>
           <div className="arrival-fact" key={i}>{fact}</div>
@@ -6856,7 +6878,7 @@ function ArrivalOverlay({stopIdx,factIdx,complete,muted,onClose}){
         {stop.facts.length>1&&(
           <div className="arrival-more-row">
             <button className="arrival-more" onClick={nextFact}>
-              <img src="assets-runtime/space/icons/sparkle-gold.webp?v=c109e8c70-20261021170356" alt=""/>Another fact!
+              <img src="assets-runtime/space/icons/sparkle-gold.webp?v=60a0ace0a-20261025035813" alt=""/>Another fact!
             </button>
             <div className="arrival-fact-dots" aria-hidden="true">
               {stop.facts.map((f,k)=><span key={k} className={`arrival-fact-dot${k===i?' on':''}`}/>)}
@@ -6864,7 +6886,7 @@ function ArrivalOverlay({stopIdx,factIdx,complete,muted,onClose}){
           </div>
         )}
         <button className="arrival-btn" onClick={onClose}>
-          <img src="assets-runtime/space/icons/rocket.webp?v=c109e8c70-20261021170356" alt=""/>{complete?'New Journey!':'Keep Flying!'}
+          <img src="assets-runtime/space/icons/rocket.webp?v=60a0ace0a-20261025035813" alt=""/>{complete?'New Journey!':'Keep Flying!'}
         </button>
       </div>
     </div>
@@ -6912,7 +6934,7 @@ function TopBar({onBack,muted,onToggleMute,label,score,journey,trophies=0}){
   return(
     <div className="top-bar">
       <div style={{display:'flex',alignItems:'center',gap:5}}>
-        <img src="assets-runtime/space/icons/saturn.webp?v=c109e8c70-20261021170356" alt="" aria-hidden="true" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.3))'}}/>
+        <img src="assets-runtime/space/icons/saturn.webp?v=60a0ace0a-20261025035813" alt="" aria-hidden="true" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.3))'}}/>
         <button className="back-btn" aria-label="Back home" onClick={()=>{Voice.stop();Sound.tap();onBack();}}><BackIcon/></button>
       </div>
       {label&&<div className="level-chip">{label}</div>}
@@ -6926,12 +6948,12 @@ function TopBar({onBack,muted,onToggleMute,label,score,journey,trophies=0}){
             to count -- so the chip is conditional rather than a permanent 0. Every
             scored game passes a score and sees exactly what it saw before. */}
         {score!=null&&<div style={{display:'flex',alignItems:'center',gap:6}}>
-          <img src="assets-runtime/space/icons/star.webp?v=c109e8c70-20261021170356" alt="score" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.3))'}}/>
+          <img src="assets-runtime/space/icons/star.webp?v=60a0ace0a-20261025035813" alt="score" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.3))'}}/>
           <div className="score-badge"><span>{score}</span></div>
         </div>}
         <JourneyTrack progress={journey}/>
         <div className="score-badge" aria-label={`${trophies} journeys completed`}>
-          <img src="assets-runtime/space/icons/trophy.webp?v=c109e8c70-20261021170356" alt="trophies"/><span>{trophies}</span>
+          <img src="assets-runtime/space/icons/trophy.webp?v=60a0ace0a-20261025035813" alt="trophies"/><span>{trophies}</span>
         </div>
       </>}
       <div style={{display:'flex',gap:6}}>
@@ -8029,7 +8051,7 @@ function NumberLineAddSub({onBack, journey, addProgress, trophies, journeyBg, sc
         <div className="line-stack">
           <div className="char-row">
             <div className={`char-inner ${celebrating?'happy':''} ${wrongId!=null?'oops':''}`} style={{left:16+(charPos-min)*50+((!celebrating?54:50)-76)/2}}>
-              <img className="char-img" src="assets-runtime/space/icons/rocket.webp?v=c109e8c70-20261021170356" alt="rocket"/>
+              <img className="char-img" src="assets-runtime/space/icons/rocket.webp?v=60a0ace0a-20261025035813" alt="rocket"/>
             </div>
           </div>
           <div className="hop-arrows">
@@ -8781,6 +8803,7 @@ function MultiplicationGame({onBack, journey, addProgress, trophies, journeyBg, 
   const [digits,setDigits]=useState(()=>Array(answerLength).fill(''));
   const [won,setWon]=useState(false);
   const [wrong,setWrong]=useState(false);
+  const [correct,setCorrect]=useState(false);
   const [confetti,setConf]=useState(false);
   /* True from the finger's down to its up on a slider. The re-deal below follows
      every tick of a drag; the spoken question waits for the release — the Count By
@@ -9391,8 +9414,8 @@ function numberToWords(s){
 function RobotReader({speaking}){
   return(
     <div className={`rb-robot ${speaking?'talking':''}`} aria-hidden="true">
-      <img className="rb-still" src="assets-runtime/space/icons/robot-reader.webp?v=c109e8c70-20261021170356" alt=""/>
-      <img className="rb-talk" src="assets-runtime/space/icons/robot-reader-talk.webp?v=c109e8c70-20261021170356" alt=""/>
+      <img className="rb-still" src="assets-runtime/space/icons/robot-reader.webp?v=60a0ace0a-20261025035813" alt=""/>
+      <img className="rb-talk" src="assets-runtime/space/icons/robot-reader-talk.webp?v=60a0ace0a-20261025035813" alt=""/>
     </div>
   );
 }
@@ -11449,7 +11472,7 @@ function TenFrame({kept=0,gone=0,added=0,flyAway=false,countWhat=null,onCount}){
         <div className="tf-row" key={r}>
           {cells.slice(r*5,r*5+5).map((s,i)=>{const idx=r*5+i;return(
             <span key={i} className={`tf-cell tf-${s} ${marked[idx]&&target(s)?'marked':''}`}
-              onClick={()=>tapCell(idx)}>{s==='gone'?<span className="tf-x" aria-hidden="true">✕</span>:null}</span>
+              onClick={()=>tapCell(idx)}>{s==='gone'?<span className="tf-x" aria-hidden="true"><svg className="icon-svg" viewBox="0 0 24 24" focusable="false"><path d="M7 7l10 10M17 7L7 17" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/></svg></span>:null}</span>
           );})}
         </div>
       ))}
@@ -12449,6 +12472,8 @@ function HundredPatternPlay({muted,reward}){
     {won&&<button className="next-btn" onClick={()=>deal(kind)}>Next</button>}
   </>;
 }
+function DiceIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="3" fill="none" stroke="currentColor" strokeWidth="2.4"/><circle cx="8" cy="8" r="1.4" fill="currentColor"/><circle cx="16" cy="8" r="1.4" fill="currentColor"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/><circle cx="8" cy="16" r="1.4" fill="currentColor"/><circle cx="16" cy="16" r="1.4" fill="currentColor"/></svg>}
+function FlagIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 21V3" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round"/><path d="M6 4h12l-2.5 4L18 12H6z" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/></svg>}
 function HundredRacePlay({muted,reward,playerWon=false,onPlayerWin=()=>{},onReset=()=>{}}){
   const [player,setPlayer]=useState(()=>playerWon?100:1),[cpu,setCpu]=useState(1),[turn,setTurn]=useState('player'),[die,setDie]=useState(null),[result,setResult]=useState(null);
   const [showHelp,setShowHelp]=useState(true),[wrongCell,setWrongCell]=useState(null),[hint,setHint]=useState('');
@@ -12465,14 +12490,14 @@ function HundredRacePlay({muted,reward,playerWon=false,onPlayerWin=()=>{},onRese
       <div className="hb-status"><span className="hb-player-label"><img className="hb-player-icon hb-player-icon-you" src={HB_RACE_PLAYER} alt=""/>You: {player}</span><span className="hb-player-label"><img className="hb-player-icon hb-player-icon-cpu" src={HB_RACE_CPU} alt=""/>CPU: {cpu}</span></div>
       <div className="hb-race-turn" aria-live="polite">{finished|| (turn==='player'?'Your turn':turn==='cpu'?'CPU turn':'Moving…')} {die&&<>Roll: {die}</>}</div>
       <div className="hb-race-hint" aria-live="polite">{hint||'Tap Roll. First to 100 wins!'}</div>
-      {finished?<button className="next-btn" onClick={reset}>Race again</button>:<button className={`hb-roll ${turn==='player'?'hb-next-action':''}`} disabled={turn!=='player'} onClick={roll}>🎲 Roll</button>}
+      {finished?<button className="next-btn" onClick={reset}>Race again</button>:<button className={`hb-roll ${turn==='player'?'hb-next-action':''}`} disabled={turn!=='player'} onClick={roll}><DiceIcon/>Roll</button>}
       <button className="hb-help-btn" onClick={()=>setShowHelp(true)} aria-label="How to play Race to 100">?</button>
     </div>
     {showHelp&&<div className="hb-how" role="dialog" aria-modal="true" aria-labelledby="hb-how-title"><div className="hb-how-card">
       <h2 id="hb-how-title">How to race</h2><div className="hb-how-steps">
-        <div className="hb-how-step"><span className="hb-how-picture">🎲</span><span>1. Tap Roll</span></div>
+        <div className="hb-how-step"><span className="hb-how-picture"><DiceIcon/></span><span>1. Tap Roll</span></div>
         <div className="hb-how-step"><span className="hb-how-picture hb-how-players"><img className="hb-player-icon hb-player-icon-you" src={HB_RACE_PLAYER} alt=""/><img className="hb-player-icon hb-player-icon-cpu" src={HB_RACE_CPU} alt=""/></span><span>2. You race the CPU</span></div>
-        <div className="hb-how-step"><span className="hb-how-picture">🏁100</span><span>3. First to 100 wins!</span></div>
+        <div className="hb-how-step"><span className="hb-how-picture"><FlagIcon/>100</span><span>3. First to 100 wins!</span></div>
       </div><button className="hb-how-go" onClick={()=>{Sound.setMuted(muted);Sound.tap();setShowHelp(false);setHint('Your turn — tap Roll!');}}>Let’s race!</button>
     </div></div>}
   </>;
@@ -13024,7 +13049,7 @@ const NP_OP_WORDS={'+':'plus','−':'minus','×':'times','÷':'divided by','=':'
 const npSentenceWords=tokens=>tokens.map(t=>t.type==='number'
   ?numberToWords(t.digits.map(d=>d.value).join('').replace(/^0+(?=\d)/,'')||'0')
   :NP_OP_WORDS[t.value]).join(' ');
-const NP_FEEDBACK={true:"✓ That's true!",false:'Not true yet — try changing something.',hmm:'Finish your sentence first.',big:'That one is too big for me!'};
+const NP_FEEDBACK={true:"That's true!",false:'Not true yet — try changing something.',hmm:'Finish your sentence first.',big:'That one is too big for me!'};
 /* The three ceiling lines speak in the ROBOT's voice, and that is not a stylistic
    choice twice over. np1 is not in Clips's VOICED set, so a num() line resolves to no
    clip and reaches the ship's computer -- which means (a) these lines cost nothing to
@@ -13418,9 +13443,9 @@ function NumberPlayGame({onBack, journey, addProgress, trophies, journeyBg, mute
       <Mascot kind="rocket" mood={mascot.mood} stamp={mascot.stamp} onPoke={mascot.poke}/>
       <div className="count-title"><div className="count-title-main">Number Toys</div><div className="count-title-sub">Build your own number sentence</div></div>
       <div className="np-controls">
-        <button className="np-btn" onClick={undo} disabled={!undoStack.length} aria-label="Undo">↶ Undo</button>
+        <button className="np-btn" onClick={undo} disabled={!undoStack.length} aria-label="Undo"><svg className="btn-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 7L4 12l5 5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/><path d="M4.5 12H14a5.5 5.5 0 0 1 0 11h-2" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/></svg> Undo</button>
         <button className="np-btn" onClick={clear} aria-label="Clear">Clear</button>
-        <button className="np-btn np-check" onClick={doCheck} aria-label="Check">✓ Check</button>
+        <button className="np-btn np-check" onClick={doCheck} aria-label="Check"><CheckIcon/> Check</button>
       </div>
       {/* The rail is ONE line, always, however long the sentence gets: wrapping a
           number sentence onto a second line teaches a child something untrue about
@@ -13490,7 +13515,7 @@ function NumberPlayGame({onBack, journey, addProgress, trophies, journeyBg, mute
             <div key={h.text} className="np-history-row">
               <button className="np-history-say" onClick={()=>sayEntry(h)} aria-label={`Hear ${h.text}`}><SpeakerOnIcon/></button>
               <button className="np-history-restore" onClick={()=>restore(h)} aria-label={`Restore ${h.text}`}>
-                <span className="np-history-text">{h.text}</span><span className="np-history-tick">✅</span>
+                <span className="np-history-text">{h.text}</span><span className="np-history-tick"><CheckIcon/></span>
               </button>
             </div>
           ))}
@@ -13498,6 +13523,127 @@ function NumberPlayGame({onBack, journey, addProgress, trophies, journeyBg, mute
       {drag&&<div className={`np-ghost ${drag.kind==='op'?'np-ghost-op':''}`} style={{left:drag.x,top:drag.y}} aria-hidden="true">{drag.value}</div>}
     </div>
   );
+}
+
+/* ══ MODE aa1: ASK & ANSWER ══ */
+const AA_STORE='spaceMath.askAnswer.players.v1';
+const AA_STICKER='assets-runtime/space/icons/star.webp';
+const AA_STICKER_WORD='star';
+const AA_CHEST='assets-runtime/space/icons/chest.webp';
+const AA_SPECIALS=['comet.webp','earth.webp','rocket.webp','moon.webp','saturn.webp','sun.webp','satellite.webp','crown.webp','rainbow-star.webp','trophy.webp'].map(name=>`assets-runtime/space/icons/${name}`);
+/* Four crayons only (owner 2026-10-21: "just 4 color for scratchpad is enough. don't make UI too crowded.") */
+const AA_COLORS=['#37474f','#e53935','#1e88e5','#43a047'];
+/* one name per crayon, so a screen reader hears eight choices, not one eight times */
+const AA_COLOR_NAMES=['dark grey','red','blue','green'];
+function AskAnswerGame({onBack,journey,trophies,journeyBg,muted,onToggleMute}){
+  const AA=window.AskAnswerLogic;
+  const [step,setStep]=useState('ask');
+  const [tokens,setTokens]=useState(['']);
+  const [question,setQuestion]=useState(null);
+  const [answer,setAnswer]=useState('');
+  const [feedback,setFeedback]=useState('');
+  const [wrong,setWrong]=useState(false);
+  const [correct,setCorrect]=useState(false);
+  const [showAnswer,setShowAnswer]=useState(false);
+  const [mergeId,setMergeId]=useState(null);
+  const [specialId,setSpecialId]=useState(null);
+  const [chestOpen,setChestOpen]=useState(false);
+  const [players,setPlayers]=useState(()=>{
+    try{return AA.normalisePlayers(JSON.parse(localStorage.getItem(AA_STORE)||'null'));}catch(e){return AA.normalisePlayers(null);}
+  });
+  const [scratchOpen,setScratchOpen]=useState(true);
+  const [colour,setColour]=useState(AA_COLORS[0]);
+  const [penSize,setPenSize]=useState(7);
+  const [eraser,setEraser]=useState(false);
+  /* The scratchpad keeps its strokes as POINTS in the canvas box's own pixels, never
+     as a bitmap: a resize or a turn of the iPad re-replays the same lines at the new
+     size instead of stretching a snapshot, and the drawing stays on screen (shrunk,
+     restacked, question changed) until the child leaves the mode. */
+  const scratchRef=useRef(null),canvasRef=useRef(null),drawRef=useRef(null),strokesRef=useRef([]),mergeT=useRef(null),specialT=useRef(null);
+  const tap=useCallback(()=>{Sound.setMuted(muted);Sound.tap();},[muted]);
+  useEffect(()=>{try{localStorage.setItem(AA_STORE,JSON.stringify(players));}catch(e){}},[players]);
+  useEffect(()=>()=>{clearTimeout(mergeT.current);clearTimeout(specialT.current);},[]);
+
+  const paintStroke=useCallback((ctx,stroke)=>{
+    const canvas=canvasRef.current,box=canvas.getBoundingClientRect(),scale=canvas.width/box.width,pts=stroke.points;
+    ctx.save();ctx.strokeStyle=stroke.erase?'#fff':stroke.colour;ctx.lineWidth=stroke.width*scale;ctx.lineCap='round';ctx.lineJoin='round';
+    ctx.beginPath();ctx.moveTo(pts[0].x*scale,pts[0].y*scale);
+    /* a tap with no drag is still a dot: a round cap needs a hair of line to land */
+    if(pts.length===1)ctx.lineTo(pts[0].x*scale+.01,pts[0].y*scale+.01);
+    else for(let i=1;i<pts.length;i+=1)ctx.lineTo(pts[i].x*scale,pts[i].y*scale);
+    ctx.stroke();ctx.restore();
+  },[]);
+  const prepareCanvas=useCallback(()=>{
+    const scratch=scratchRef.current,canvas=canvasRef.current;if(!scratch||!canvas)return;
+    const children=[...scratch.children],canvasIndex=children.indexOf(canvas),style=getComputedStyle(scratch),gap=parseFloat(style.rowGap)||0;
+    const occupied=children.slice(0,canvasIndex).reduce((sum,node)=>sum+node.getBoundingClientRect().height,0)+gap*Math.max(0,canvasIndex);
+    const available=Math.floor(scratch.clientHeight-(parseFloat(style.paddingTop)||0)-(parseFloat(style.paddingBottom)||0)-occupied);
+    canvas.style.height=`${Math.max(150,available)}px`;
+    const rect=canvas.getBoundingClientRect();if(rect.width<40||rect.height<40)return;
+    const scale=Math.min(window.devicePixelRatio||1,1.5);canvas.width=Math.round(rect.width*scale);canvas.height=Math.round(rect.height*scale);
+    const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
+    strokesRef.current.forEach(stroke=>{if(stroke.points.length)paintStroke(ctx,stroke);});
+  },[paintStroke]);
+  useEffect(()=>{if(!scratchOpen)return;const resize=()=>requestAnimationFrame(()=>prepareCanvas());resize();window.addEventListener('resize',resize);const observer=window.ResizeObserver?new window.ResizeObserver(resize):null;if(observer)observer.observe(scratchRef.current);return()=>{window.removeEventListener('resize',resize);if(observer)observer.disconnect();};},[scratchOpen,prepareCanvas]);
+  const clearScratch=useCallback((withSound=true)=>{strokesRef.current=[];const canvas=canvasRef.current;if(!canvas)return;const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);if(withSound)tap();},[tap]);
+  const point=e=>{const r=canvasRef.current.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};};
+  const drawStart=e=>{if(e.pointerType==='mouse'&&e.button!==0)return;if(!e.isPrimary)return;try{e.currentTarget.setPointerCapture(e.pointerId);}catch(err){}const stroke={colour,width:eraser?26:penSize,erase:eraser,points:[point(e)]};strokesRef.current.push(stroke);drawRef.current={id:e.pointerId,stroke};paintStroke(canvasRef.current.getContext('2d'),stroke);tap();};
+  const drawMove=e=>{const draw=drawRef.current;if(!draw||draw.id!==e.pointerId)return;draw.stroke.points.push(point(e));paintStroke(canvasRef.current.getContext('2d'),draw.stroke);};
+  const drawEnd=e=>{if(drawRef.current&&drawRef.current.id===e.pointerId)drawRef.current=null;};
+
+  const updatePlayers=next=>setPlayers(AA.normalisePlayers(typeof next==='function'?next(players):next));
+  const selectPlayer=id=>{tap();updatePlayers({...players,selectedId:id});};
+  const rename=(id,name)=>updatePlayers({...players,players:players.players.map(p=>p.id===id?{...p,name}:p)});
+  const addPlayer=()=>{tap();if(players.players.length>=AA.MAX_PLAYERS)return;const used=new Set(players.players.map(p=>p.id));let n=1;while(used.has(`p${n}`))n+=1;updatePlayers({...players,players:[...players.players,{id:`p${n}`,name:'',score:0,collection:[]}]});};
+  const resetScores=()=>{tap();if(!window.confirm('Reset every player score?'))return;Sound.ding();updatePlayers(AA.resetScores(players));};
+  const emptyChest=()=>{tap();if(!window.confirm('Empty every player collection? This cannot be undone.'))return;Sound.ding();updatePlayers(AA.emptyCollections(players));};
+  /* "007" is not a number a child writes: a zero already alone in the slot refuses
+     the next digit out loud, and every value is normalised again before it counts,
+     so page and rules agree on one spelling. */
+  const addDigit=d=>{tap();setFeedback('');const last=tokens[tokens.length-1];if(last==='0'){Sound.wrong();setFeedback('No zero needed at the front.');return;}if(last.length>=AA.MAX_DIGITS)return;setTokens(old=>{const next=old.slice(),i=next.length-1;if(next[i].length>=AA.MAX_DIGITS||next[i]==='0')return next;next[i]+=d;return next;});};
+  const addOp=op=>{tap();setFeedback('');setTokens(old=>old[old.length-1]? [...old,op,'']:old);};
+  const backspace=()=>{tap();setFeedback('');setTokens(old=>{const next=old.slice(),i=next.length-1;if(next[i])next[i]=next[i].slice(0,-1);else if(next.length>1)next.splice(-2);return next;});};
+  const clearQuestion=()=>{tap();setTokens(['']);setFeedback('');};
+  const setTheQuestion=()=>{tap();const result=AA.compute(tokens.map((token,index)=>index%2===0?token.replace(/^0+(?=\d)/,''):token));if(!result.ok){Sound.wrong();const notes={unfinished:'Finish the question first.', 'divide-zero':'Choose a number other than zero to divide by.', 'not-whole':'Try a question with a whole-number answer.',negative:'Try a question whose answer is zero or more.'};setFeedback(notes[result.reason]||'Please change the question.');return;}setQuestion(result);setAnswer('');setWrong(false);setCorrect(false);setShowAnswer(false);setFeedback('Choose who answers next.');setStep('answer');Sound.ding();};
+  const typeAnswer=d=>{tap();if(answer==='0'){Sound.wrong();setFeedback('No zero needed at the front.');return;}setAnswer(answer+d);setFeedback('');setWrong(false);};
+  const answerBackspace=()=>{tap();setAnswer(answer.slice(0,-1));setFeedback('');setWrong(false);};
+  /* Show answer ends the round: no point can be scored after the reveal, only New
+     question opens one. */
+  const check=()=>{tap();if(correct||showAnswer)return;if(!answer){Sound.wrong();setWrong(true);setFeedback('Type an answer first.');return;}if(answer.replace(/^0+(?=\d)/,'')===question.value){Sound.ding();Sound.celebrate();const before=AA.stickersForScore(active.score),earned=active.score===AA.SCORE_PER_SPECIAL-1&&!AA.isCollectionComplete(active);setPlayers(old=>AA.scoreSelected(old));if(earned){clearTimeout(specialT.current);setSpecialId(active.id);specialT.current=setTimeout(()=>setSpecialId(null),1800);}else if(before.small===AA.SMALL_PER_BIG-1){clearTimeout(mergeT.current);setMergeId(active.id);mergeT.current=setTimeout(()=>setMergeId(null),650);}setFeedback(earned?'Amazing! A special sticker went into the treasure chest!':'That is right! One small sticker!');setWrong(false);setCorrect(true);setShowAnswer(false);}else{Sound.wrong();setFeedback('Not yet. Try again!');setWrong(true);}};
+  const newQuestion=()=>{tap();setStep('ask');setTokens(['']);setQuestion(null);setAnswer('');setFeedback('');setWrong(false);setCorrect(false);setShowAnswer(false);clearScratch(false);};
+  const active=players.players.find(p=>p.id===players.selectedId)||players.players[0];
+  const rows=question?question.tokens.filter((_,i)=>i%2===0):[];
+  const ops=question?question.tokens.filter((_,i)=>i%2===1):[];
+  return <div className="screen aa-screen" style={{'--game-bg':`url('${journeyBg}')`}}>
+    <div className="screen-bg"/><BgDeco/><TopBar onBack={onBack} muted={muted} onToggleMute={onToggleMute} label="Ask & Answer" journey={journey} trophies={trophies}/>
+    <div className="count-title"><div className="count-title-main">Ask &amp; Answer</div><div className="count-title-sub">Make a question for someone else</div></div>
+    <div className="aa-players" aria-label="Choose who answers next">
+      {players.players.map((player,index)=>{const stickers=AA.stickersForScore(player.score),name=player.name||`Player ${index+1}`,label=`${name}: ${stickers.big} big ${AA_STICKER_WORD}${stickers.big===1?'':'s'} and ${stickers.small} small ${AA_STICKER_WORD}${stickers.small===1?'':'s'}`;return <div key={player.id} className={`aa-player ${player.id===players.selectedId?'selected':''} ${mergeId===player.id?'merge':''} ${specialId===player.id?'special':''}`}>
+        <input className="aa-name" value={player.name} placeholder="Name" maxLength="10" aria-label={`Player ${index+1} name`} onClick={()=>tap()} onChange={e=>rename(player.id,e.target.value)}/><button className="aa-player-pick" onClick={()=>selectPlayer(player.id)} aria-label={label} aria-pressed={player.id===players.selectedId}><span className="aa-stickers big">{stickers.big?Array.from({length:stickers.big},(_,i)=><img key={i} className="aa-sticker" src={AA_STICKER} alt=""/>):<span className="aa-sticker-empty">Big {AA_STICKER_WORD}s</span>}</span><span className="aa-stickers small">{stickers.small?Array.from({length:stickers.small},(_,i)=><img key={i} className="aa-sticker" src={AA_STICKER} alt=""/>):<span className="aa-sticker-empty">Small {AA_STICKER_WORD}s</span>}</span></button>
+      </div>})}
+      {players.players.length<AA.MAX_PLAYERS&&<button className="aa-add" onClick={addPlayer} aria-label="Add player">+</button>}
+      <button className="aa-chest" onClick={()=>{tap();setChestOpen(true);}} aria-label="Open treasure chest"><img src={AA_CHEST} alt=""/>Collections</button>
+      <button className="aa-reset" onClick={resetScores}>Reset scores</button>
+    </div>
+    {specialId&&<div className="aa-special-toast" role="status">Special sticker earned!</div>}
+    {chestOpen&&<div className="aa-chest-backdrop" onMouseDown={e=>{if(e.target===e.currentTarget)setChestOpen(false);}} role="presentation"><section className="aa-chest-panel" role="dialog" aria-modal="true" aria-labelledby="aa-chest-title"><button className="aa-chest-close" onClick={()=>setChestOpen(false)} aria-label="Close treasure chest">×</button><h2 id="aa-chest-title">Treasure chest</h2>{players.players.map((player,index)=>{const progress=AA.stickersForScore(player.score),name=player.name||`Player ${index+1}`,complete=AA.isCollectionComplete(player);return <div className="aa-collection-player" key={player.id}><div className="aa-collection-name">{name}</div><div className="aa-specials" aria-label={`${name} has ${player.collection.length} special stickers`}>{player.collection.length?player.collection.map((design,i)=><img className="aa-special" key={`${design}-${i}`} src={AA_SPECIALS[design]} alt={`Special sticker ${design+1}`}/>):<span>No special stickers yet</span>}</div><div className="aa-collection-progress">{complete?'Complete! ':''}Progress: {progress.big} big and {progress.small} small {AA_STICKER_WORD}{progress.small===1?'':'s'}</div></div>})}<button className="aa-empty-chest" onClick={emptyChest}>Empty chest</button></section></div>}
+    <div className="aa-stage">
+      <div className="aa-work">
+        <div className={`aa-card ${wrong?'wrong':''}`}>
+          {step==='ask'?<><div className="aa-prompt">Type the question</div><div className="aa-build">{tokens.map((token,index)=>index%2===0?<span key={index} className={`aa-build-num ${token?'':'aa-empty'}`}>{token||'?'}</span>:<span key={index} className="aa-build-op">{token}</span>)}</div></>:<>
+            <div className="aa-prompt">{active.name||`Player ${players.players.indexOf(active)+1}`} answers</div>
+            <div className="aa-column">{rows.map((row,index)=><React.Fragment key={index}><span className="aa-col-op">{index?ops[index-1]:''}</span><span className="aa-col-num">{row}</span></React.Fragment>)}<span className="aa-rule"/><span className={`aa-answer ${answer||showAnswer?'':'empty'}`}>{showAnswer?question.value:(answer||'?')}</span></div>
+          </>}
+          <div className={`aa-feedback ${feedback.includes('right')?'good':wrong?'try':''}`} aria-live="polite">{feedback}</div>
+        </div>
+        {step==='ask'?<><div className="aa-keypad">{'1234567890'.split('').map(d=><button className="aa-key" key={d} onClick={()=>addDigit(d)}>{d}</button>)}{AA.OPS.map(op=><button className="aa-key op" key={op} onClick={()=>addOp(op)}>{op}</button>)}<button className="aa-key" onClick={backspace} aria-label="Backspace"><BackspaceIcon/></button></div><div className="aa-actions"><button className="aa-action secondary" onClick={clearQuestion}>Clear</button><button className="aa-action" onClick={setTheQuestion}>Set question</button></div></>:<>{!correct&&!showAnswer&&<div className="aa-keypad">{'1234567890'.split('').map(d=><button className="aa-key" key={d} onClick={()=>typeAnswer(d)}>{d}</button>)}<button className="aa-key" onClick={answerBackspace} aria-label="Backspace"><BackspaceIcon/></button></div>}<div className="aa-actions">{!correct&&!showAnswer&&<button className="aa-action" onClick={check}>Check</button>}{wrong&&!showAnswer&&<button className="aa-action secondary" onClick={()=>{tap();setShowAnswer(true);setFeedback(`The answer is ${question.value}.`);}}>Show answer</button>}<button className="aa-action secondary" onClick={newQuestion}>New question</button></div></>}
+      </div>
+      <div ref={scratchRef} className={`aa-scratch ${scratchOpen?'':'collapsed'}`}>
+        <div className="aa-scratch-head"><span className="aa-scratch-title">Scratchpad</span><button className="aa-scratch-toggle" onClick={()=>{tap();setScratchOpen(!scratchOpen);}}>{scratchOpen?'Shrink':'Open scratchpad'}</button></div>
+        <div className="aa-tools">{AA_COLORS.map((c,index)=><button key={c} className={`aa-colour ${!eraser&&colour===c?'on':''}`} style={{background:c}} aria-label={`Choose the ${AA_COLOR_NAMES[index]} crayon`} onClick={()=>{tap();setColour(c);setEraser(false);}}/>)}{[4,7,12].map(size=><button key={size} className={`aa-tool ${!eraser&&penSize===size?'on':''}`} onClick={()=>{tap();setPenSize(size);setEraser(false);}}>{size===4?'Thin':size===7?'Medium':'Thick'}</button>)}<button className={`aa-tool ${eraser?'on':''}`} onClick={()=>{tap();setEraser(true);}}>Eraser</button><button className="aa-tool" onClick={()=>clearScratch(true)}>Clear page</button></div><canvas ref={canvasRef} className="aa-canvas" aria-label="Drawing scratchpad" onPointerDown={drawStart} onPointerMove={drawMove} onPointerUp={drawEnd} onPointerCancel={drawEnd}/>
+      </div>
+    </div>
+  </div>;
 }
 
 /* ══ MODE p1: NUMBER CROSSWORD ══
@@ -14957,7 +15103,7 @@ function OrderNumberBox({index,card,wrong,hint,last}){
       <div className={cls} data-on-box-index={index} role="listitem"
         aria-label={card?`Box ${index+1}: ${orderNumberText(card)} locked`:'Empty answer box'}>
         {card
-          ? <><OrderNumberValue value={card.value} form={card.display}/><span className="on-check" aria-hidden="true">✓</span></>
+          ? <><OrderNumberValue value={card.value} form={card.display}/><span className="on-check" aria-hidden="true"><CheckIcon/></span></>
           : <span className="on-placeholder" aria-hidden="true">?</span>}
       </div>
       {!last&&<span className="on-sep" aria-hidden="true">&lt;</span>}
@@ -15266,28 +15412,28 @@ function Home({onSelect,trophies=0,journey=0}){
       <div className="home-tint"/>
       <BgDeco/>
       <div className="home-rainbow home-cloud-row">
-        <img className="home-cloud" src="assets-runtime/space/icons/saturn.webp?v=c109e8c70-20261021170356" alt="" style={{animation:'bounce 1.7s 0s ease-in-out infinite alternate'}}/>
-        <img className="home-cloud" src="assets-runtime/space/icons/rocket.webp?v=c109e8c70-20261021170356" alt="" style={{animation:'bounce 1.6s .12s ease-in-out infinite alternate'}}/>
+        <img className="home-cloud" src="assets-runtime/space/icons/saturn.webp?v=60a0ace0a-20261025035813" alt="" style={{animation:'bounce 1.7s 0s ease-in-out infinite alternate'}}/>
+        <img className="home-cloud" src="assets-runtime/space/icons/rocket.webp?v=60a0ace0a-20261025035813" alt="" style={{animation:'bounce 1.6s .12s ease-in-out infinite alternate'}}/>
       </div>
       <div className="home-title">
         {title.map((c,i)=><span key={i} style={{color:TITLE_COLORS[i%TITLE_COLORS.length],animationDelay:`${i*.07}s`,textShadow:`0 3px 0 ${TITLE_COLORS[(i+4)%TITLE_COLORS.length]}55`}}>{c}</span>)}
       </div>
       <div style={{display:'flex',alignItems:'center',gap:8}}>
-        <img src="assets-runtime/space/icons/star.webp?v=c109e8c70-20261021170356" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.3))'}}/>
+        <img src="assets-runtime/space/icons/star.webp?v=60a0ace0a-20261025035813" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.3))'}}/>
         <div className="home-sub">Choose your mission!</div>
-        <img src="assets-runtime/space/icons/star.webp?v=c109e8c70-20261021170356" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.3))'}}/>
+        <img src="assets-runtime/space/icons/star.webp?v=60a0ace0a-20261025035813" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.3))'}}/>
       </div>
       {trophies>0&&<div className="home-sub" style={{fontSize:'.85rem',display:'flex',alignItems:'center',gap:6}}>
-        <img src="assets-runtime/space/icons/trophy.webp?v=c109e8c70-20261021170356" alt="" style={{width:22,height:22,objectFit:'contain'}}/>Journeys completed: {trophies}
+        <img src="assets-runtime/space/icons/trophy.webp?v=60a0ace0a-20261025035813" alt="" style={{width:22,height:22,objectFit:'contain'}}/>Journeys completed: {trophies}
       </div>}
       <div style={{width:'100%',maxWidth:420,display:'flex',justifyContent:'center'}}>
         <JourneyTrack progress={journey}/>
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/space/icons/fourstar-gold.webp?v=c109e8c70-20261021170356" alt=""/>
+          <img className="section-icon" src="assets-runtime/space/icons/fourstar-gold.webp?v=60a0ace0a-20261025035813" alt=""/>
           <div className="mode-section-label">Play &amp; Explore</div>
-          <img className="section-icon" src="assets-runtime/space/icons/sparkle-blue.webp?v=c109e8c70-20261021170356" alt=""/>
+          <img className="section-icon" src="assets-runtime/space/icons/sparkle-blue.webp?v=60a0ace0a-20261025035813" alt=""/>
         </div>
         <div className="mode-row">
           <button className={cardCls('np1','mc-rose')} onClick={()=>pick('np1')} aria-label="Number Toys. Build your own number sentence">
@@ -15306,9 +15452,9 @@ function Home({onSelect,trophies=0,journey=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/space/icons/rocket.webp?v=c109e8c70-20261021170356" alt=""/>
+          <img className="section-icon" src="assets-runtime/space/icons/rocket.webp?v=60a0ace0a-20261025035813" alt=""/>
           <div className="mode-section-label">Counting &amp; Comparing</div>
-          <img className="section-icon" src="assets-runtime/space/icons/moon.webp?v=c109e8c70-20261021170356" alt=""/>
+          <img className="section-icon" src="assets-runtime/space/icons/moon.webp?v=60a0ace0a-20261025035813" alt=""/>
         </div>
         <div className="mode-row">
           <button className={cardCls('b1','mc-pink')} onClick={()=>pick('b1')} aria-label="What Number? Count the blocks">
@@ -15340,9 +15486,9 @@ function Home({onSelect,trophies=0,journey=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/space/icons/comet.webp?v=c109e8c70-20261021170356" alt=""/>
+          <img className="section-icon" src="assets-runtime/space/icons/comet.webp?v=60a0ace0a-20261025035813" alt=""/>
           <div className="mode-section-label">Number Patterns</div>
-          <img className="section-icon" src="assets-runtime/space/icons/star.webp?v=c109e8c70-20261021170356" alt=""/>
+          <img className="section-icon" src="assets-runtime/space/icons/star.webp?v=60a0ace0a-20261025035813" alt=""/>
         </div>
         <div className="mode-row">
           <button className={cardCls('sq1','mc-purple')} onClick={()=>pick('sq1')} aria-label="Sequence. Complete the number pattern">
@@ -15371,9 +15517,9 @@ function Home({onSelect,trophies=0,journey=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/space/icons/fourstar-gold.webp?v=c109e8c70-20261021170356" alt=""/>
+          <img className="section-icon" src="assets-runtime/space/icons/fourstar-gold.webp?v=60a0ace0a-20261025035813" alt=""/>
           <div className="mode-section-label">Make Numbers</div>
-          <img className="section-icon" src="assets-runtime/space/icons/sparkle-blue.webp?v=c109e8c70-20261021170356" alt=""/>
+          <img className="section-icon" src="assets-runtime/space/icons/sparkle-blue.webp?v=60a0ace0a-20261025035813" alt=""/>
         </div>
         <div className="mode-row">
           <button className={cardCls('n1','mc-pink')} onClick={()=>pick('n1')} aria-label="Make 10. Fill it up, or watch them fly">
@@ -15392,9 +15538,9 @@ function Home({onSelect,trophies=0,journey=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/space/icons/saturn.webp?v=c109e8c70-20261021170356" alt=""/>
+          <img className="section-icon" src="assets-runtime/space/icons/saturn.webp?v=60a0ace0a-20261025035813" alt=""/>
           <div className="mode-section-label">Times &amp; Sharing</div>
-          <img className="section-icon" src="assets-runtime/space/icons/starthin.webp?v=c109e8c70-20261021170356" alt=""/>
+          <img className="section-icon" src="assets-runtime/space/icons/starthin.webp?v=60a0ace0a-20261025035813" alt=""/>
         </div>
         <div className="mode-row">
           <button className={cardCls('m1','mc-purple')} onClick={()=>pick('m1')} aria-label="Times Tables">
@@ -15417,9 +15563,9 @@ function Home({onSelect,trophies=0,journey=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/space/icons/crystal-cyan.webp?v=c109e8c70-20261021170356" alt=""/>
+          <img className="section-icon" src="assets-runtime/space/icons/crystal-cyan.webp?v=60a0ace0a-20261025035813" alt=""/>
           <div className="mode-section-label">Fractions &amp; Measure</div>
-          <img className="section-icon" src="assets-runtime/space/icons/crystal-purple.webp?v=c109e8c70-20261021170356" alt=""/>
+          <img className="section-icon" src="assets-runtime/space/icons/crystal-purple.webp?v=60a0ace0a-20261025035813" alt=""/>
         </div>
         <div className="mode-row">
           <button className={cardCls('f1','mc-magic')} onClick={()=>pick('f1')} aria-label="Read Fractions. Tap the pieces">
@@ -15442,15 +15588,11 @@ function Home({onSelect,trophies=0,journey=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/space/icons/satellite.webp?v=c109e8c70-20261021170356" alt=""/>
+          <img className="section-icon" src="assets-runtime/space/icons/satellite.webp?v=60a0ace0a-20261025035813" alt=""/>
           <div className="mode-section-label">Solve &amp; Calculate</div>
-          <img className="section-icon" src="assets-runtime/space/icons/chest.webp?v=c109e8c70-20261021170356" alt=""/>
+          <img className="section-icon" src="assets-runtime/space/icons/chest.webp?v=60a0ace0a-20261025035813" alt=""/>
         </div>
         <div className="mode-row has-badge">
-          <button className={cardCls('l2','mc-magic')} onClick={()=>pick('l2')} aria-label="Add and Subtract">
-            <GamePreview id="l2"/><CardSticker id="l2"/>
-            <div className="mode-card-label">Add &amp; Subtract</div><Stars count={2}/>
-          </button>
           <button className={cardCls('c1','mc-rose')} onClick={()=>pick('c1')} aria-label="Add and Take Away. Column style">
             <GamePreview id="c1"/><CardSticker id="c1"/>
             <div className="mode-card-label">Add &amp; Take Away</div><Stars count={2}/>
@@ -15459,11 +15601,19 @@ function Home({onSelect,trophies=0,journey=0}){
             <GamePreview id="c2"/><CardSticker id="c2"/>
             <div className="mode-card-label">Carry &amp; Borrow</div><Stars count={3}/><BigKidBadge/>
           </button>
-        </div>
-        <div className="mode-row has-badge">
           <button className={cardCls('c5','mc-purple')} onClick={()=>pick('c5')} aria-label="Multiply. Column style. For big kids">
             <GamePreview id="c5"/><CardSticker id="c5"/>
             <div className="mode-card-label">Multiply</div><Stars count={3}/><BigKidBadge/>
+          </button>
+          <button className={cardCls('aa1','mc-rose')} onClick={()=>pick('aa1')} aria-label="Ask and Answer. Make a question for another player">
+            <GamePreview id="aa1"/>
+            <div className="mode-card-label">Ask &amp; Answer</div><Stars count={2}/>
+          </button>
+        </div>
+        <div className="mode-row has-badge">
+          <button className={cardCls('l2','mc-magic')} onClick={()=>pick('l2')} aria-label="Add and Subtract">
+            <GamePreview id="l2"/><CardSticker id="l2"/>
+            <div className="mode-card-label">Add &amp; Subtract</div><Stars count={2}/>
           </button>
           <button className={cardCls('p1','mc-purple')} onClick={()=>pick('p1')} aria-label="Number Crossword. Make every line true">
             <GamePreview id="p1"/><CardSticker id="p1"/>
@@ -15472,7 +15622,7 @@ function Home({onSelect,trophies=0,journey=0}){
         </div>
       </div>
       <div style={{display:'flex',justifyContent:'center',padding:'0 8px',animation:'bounce 2s ease-in-out infinite alternate'}}>
-        <img src="assets-runtime/space/icons/starcloud-blue.webp?v=c109e8c70-20261021170356" alt="" style={{width:64,height:64,objectFit:'contain',filter:'drop-shadow(0 0 12px rgba(140,190,255,.6))'}}/>
+        <img src="assets-runtime/space/icons/starcloud-blue.webp?v=60a0ace0a-20261025035813" alt="" style={{width:64,height:64,objectFit:'contain',filter:'drop-shadow(0 0 12px rgba(140,190,255,.6))'}}/>
       </div>
       {/* AI-voice disclosure. The hub carries one too, but a game is reachable by its
           own URL and most children arrive that way, so the statement has to stand on
@@ -15638,6 +15788,7 @@ function App(){
   else if(mode==='y1')screen=<MakeItGame {...shared} score={scores.y1} setScore={setScore('y1')}/>;
   else if(mode==='sq1')screen=<SequenceGame {...shared} score={scores.sq1} setScore={setScore('sq1')}/>;
   else if(mode==='p1')screen=<NumberCrosswordGame {...shared}/>;
+  else if(mode==='aa1')screen=<AskAnswerGame {...shared}/>;
   else if(mode==='t1')screen=<TapWaitMathGame {...shared} theme="space" score={scores.t1} setScore={setScore('t1')} onCorrect={addProgress}/>;
   else screen=<Home onSelect={setMode} trophies={trophies} journey={journey}/>;
   return<>{screen}{arrivalIdx!=null&&<ArrivalOverlay stopIdx={arrivalIdx} factIdx={arrivalFact} complete={journeyComplete} muted={muted} onClose={closeArrival}/>}</>;
@@ -15649,7 +15800,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
      the browser refuses it, and the games must still run. */
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
-      Promise.resolve() /* Test Hub staging: no service worker */.catch(function () {});
+      Promise.resolve /* Test Hub staging: no service worker */ ('./service-worker.js').catch(function () {});
     });
   }
 </script>

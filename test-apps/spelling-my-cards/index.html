@@ -4,10 +4,10 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Magic Math</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=c109e8c70-20261021170356"/>
-  <link rel="stylesheet" href="./fonts.css?v=c109e8c70-20261021170356"/>
+  <link rel="manifest" href="./manifest.webmanifest?v=60a0ace0a-20261025035813"/>
+  <link rel="stylesheet" href="./fonts.css?v=60a0ace0a-20261025035813"/>
   <meta name="theme-color" content="#0a0e2d"/>
-  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=c109e8c70-20261021170356"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=60a0ace0a-20261025035813"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Magic Math"/>
@@ -89,8 +89,9 @@
     .music-btn.music-off .m-off{display:block}
     .sub{font-weight:800;font-size:clamp(1rem,3.4vw,1.3rem);opacity:.9;margin-top:-14px;text-align:center;text-shadow:0 2px 8px rgba(0,0,0,.5)}
   </style>
-  <link rel="stylesheet" href="./css/math-hub.css?v=c109e8c70-20261021170356"/>
-</head>
+  <link rel="stylesheet" href="./css/math-hub.css?v=60a0ace0a-20261025035813"/>
+  <link rel="stylesheet" href="./cg-back.css?v=60a0ace0a-20261025035813" />
+  </head>
 <body>
 <div class="bg"></div>
 
@@ -99,12 +100,7 @@
      published, the hub is a sibling of this app (/magic-math/ -> /children-apps/), but
      in the repo it lives under site/, so a relative link would work live and 404 in
      every local preview. -->
-<a class="hub-btn" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-    <path d="M15 5 8 12l7 7"/>
-  </svg>
-  <span>Children Games</span>
-</a>
+<a class="cg-back" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
 
 <!-- The two note glyphs are both in the button and CSS shows one, so turning music on
      and off never reaches for the DOM: it is one class on one element. Same drawings
@@ -116,10 +112,10 @@
 
 <main class="wrap">
   <header class="hub-heading">
-    <img class="heading-sticker heading-sticker-left" src="assets/stickers/space/rocket-123.webp?v=c109e8c70-20261021170356" alt="" width="346" height="254" draggable="false" aria-hidden="true"/>
+    <img class="heading-sticker heading-sticker-left" src="assets/stickers/space/rocket-123.webp?v=60a0ace0a-20261025035813" alt="" width="346" height="254" draggable="false" aria-hidden="true"/>
     <h1>Magic <span>Math</span></h1>
     <p class="sub">Pick your world and play</p>
-    <img class="heading-sticker heading-sticker-right" src="assets/stickers/unicorn/number-blocks.webp?v=c109e8c70-20261021170356" alt="" width="273" height="212" draggable="false" aria-hidden="true"/>
+    <img class="heading-sticker heading-sticker-right" src="assets/stickers/unicorn/number-blocks.webp?v=60a0ace0a-20261025035813" alt="" width="273" height="212" draggable="false" aria-hidden="true"/>
   </header>
   <div class="scene-stage">
     <div class="scene-canvas">
@@ -128,7 +124,7 @@
     </div>
   </div>
 </main>
-<script src="./js/math-hub.js?v=c109e8c70-20261021170356"></script>
+<script src="./js/math-hub.js?v=60a0ace0a-20261025035813"></script>
 <script>
 /* ══ MENU MUSIC ══
    The bed the two worlds already play, on the door they are behind. Same file, same
@@ -293,7 +289,7 @@ var Music=(function(){
      the browser refuses it, and the games must still run. */
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
-      Promise.resolve() /* Test Hub staging: no service worker */.catch(function () {});
+      Promise.resolve /* Test Hub staging: no service worker */ ('./service-worker.js').catch(function () {});
     });
   }
 </script>
