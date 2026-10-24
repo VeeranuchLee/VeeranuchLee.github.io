@@ -14,7 +14,7 @@
   </head>
 <body>
   <!-- The way out (INTERACTION-DIRECTION.md, 2026-10-23): this app had none on its first screen. -->
-  <a class="cg-back" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  <a id="leave-app" class="cg-back" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
   <div class="scenery" aria-hidden="true"></div>
   <main class="app-shell">
     <section id="menu" class="screen menu-screen" aria-labelledby="title">
@@ -57,7 +57,7 @@
 
     <section id="game" class="screen game-screen" data-phase="watch" aria-labelledby="status-title" hidden>
       <header class="game-header">
-        <button id="home" class="round-button" type="button" aria-label="Home"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 11l8-7 8 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 10v10h12V10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 20v-5h4v5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <span class="cg-back-slot" aria-hidden="true"></span><button id="home" class="cg-back" type="button" aria-label="Back to the menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <div class="wordmark" aria-label="Memory Echo"><span>Memory</span> Echo</div>
         <div id="mode-pill" class="mode-pill"></div>
       </header>

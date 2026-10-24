@@ -28,6 +28,7 @@ const numberDisplay = $("#number-display");
 const best = $("#best");
 const lengthLabel = $("#length-label");
 const modePill = $("#mode-pill");
+const leaveApp = $("#leave-app");
 const live = $("#live");
 const audio = new AudioEngine();
 const scheduler = new GenerationScheduler({ onCancel: () => { audio.stopAll(); clearHighlights(); } });
@@ -205,7 +206,15 @@ async function enter(mode, isExplore) {
   scheduler.cancel(); selectedMode = mode; explore = isExplore;
   model = new MemoryGame({ mode, startLength, storage: safeStorage() });
   buildInstrument(mode); model.start();
-  modePill.textContent = `${MODES[mode].icon}  ${MODES[mode].label}`;
+  // The icon is drawn SVG markup (or plain text for Numbers); the label is always text.
+  // textContent here printed the raw <svg> code on screen (QA 2026-10-24).
+  const pillIcon = document.createElement("span"); pillIcon.className = "pill-icon";
+  if (String(MODES[mode].icon).trim().startsWith("<svg")) pillIcon.innerHTML = MODES[mode].icon;
+  else pillIcon.textContent = MODES[mode].icon;
+  modePill.replaceChildren(pillIcon, document.createTextNode(" " + MODES[mode].label));
+  // Inside the game the round back button means "back to the menu"; the app's own
+  // "leave to Children Games" link is only for the first screen (INTERACTION-DIRECTION.md).
+  leaveApp.hidden = true;
   menu.hidden = true; gameScreen.hidden = false; updateInstrumentGeometry(); refreshStats();
   if (explore) setPhase("explore");
   else if (running) watchSequence();
@@ -217,7 +226,7 @@ async function enter(mode, isExplore) {
 
 function goHome() {
   scheduler.cancel(); clearHighlights(); explore = false; phase = "menu"; replayAfterUnlock = false;
-  gameScreen.classList.remove("celebrate"); gameScreen.hidden = true; menu.hidden = false;
+  gameScreen.classList.remove("celebrate"); gameScreen.hidden = true; menu.hidden = false; leaveApp.hidden = false;
   audio.ui("tap");
 }
 
