@@ -179,8 +179,7 @@
     var m = SND.isMuted();
     return '<button class="speaker" id="speaker" aria-pressed="' + (!m) + '" aria-label="' +
       (m ? "Sound off. Turn sound on" : "Sound on. Turn sound off") + '">' +
-      (m ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 9l5 6M21 9l-5 6" fill="none" stroke-width="2.2" stroke-linecap="round"/></svg>'
-         : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5c1.6 1.8 1.6 5.2 0 7M18.6 6c3 3.3 3 8.7 0 12" fill="none" stroke-width="2.2" stroke-linecap="round"/></svg>') +
+      (m ? "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M11 5L6 9H3v6h3l5 4z\" fill=\"currentColor\"/><path d=\"M16 9l5 6M21 9l-5 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>" : "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M11 5L6 9H3v6h3l5 4z\" fill=\"currentColor\"/><path d=\"M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>") +
       "</button>";
   }
   function wireSpeaker(onChange) {
@@ -283,14 +282,14 @@
     app.className = "screen-play";
     app.innerHTML =
       '<header class="topline">' +
-      '<button class="hub" id="back" aria-label="' + (S.mazeType === "robot" ? "Pick a different Code Toy" : "Pick a different friend") + '">&larr; ' + (S.mazeType === "robot" ? "Toys" : "Friends") + '</button>' +
+      '<button class="hub" id="back" aria-label="' + (S.mazeType === "robot" ? "Pick a different Code Toy" : "Pick a different friend") + '">' + "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M15 5l-7 7 7 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>" + ' ' + (S.mazeType === "robot" ? "Toys" : "Friends") + '</button>' +
       '<nav class="ladder" aria-label="Maze size">' +
       LADDER.map(function (l, i) {
         var isDone = done.indexOf(i) >= 0;
         var rungName = S.mazeType === "robot" ? ROBOT_LEVELS[i] : l.name;
         return '<button class="rung rung-' + l.tier + (i === S.rung ? " now" : "") + (isDone ? " done" : "") + '" data-rung="' + i +
           '" aria-label="' + rungName + ", " + l.n + " by " + l.n + (isDone ? ", finished in " + choiceName() : "") + '"' + (i === S.rung ? ' aria-current="true"' : "") + ">" +
-          '<span class="dots" aria-hidden="true" style="--n:' + l.n + '">' + new Array(l.n * l.n + 1).join("<i></i>") + "</span>" + (isDone ? '<span class="star" aria-hidden="true">★</span>' : "") + "</button>";
+          '<span class="dots" aria-hidden="true" style="--n:' + l.n + '">' + new Array(l.n * l.n + 1).join("<i></i>") + "</span>" + (isDone ? '<span class="star" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.8l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 16.9 6.6 19.7l1-6.1L3.2 9.3l6.1-.9z" fill="currentColor"/></svg></span>' : "") + "</button>";
       }).join("") +
       "</nav>" + speakerButton() + "</header>" +
       '<section class="stage ' + (S.movement === "plan" ? "stage-plan" : "stage-walk") + (S.trail ? " stage-trail stage-" + S.goal : "") + (S.mazeType === "robot" ? " stage-robot" : "") + '">' +
@@ -443,9 +442,9 @@
       '<div class="plan-heading"><span><strong>Plan the moves</strong><small>' + (S.mazeType === "robot" ? "Add robot commands, then press GO!" : "Add arrows below, then press GO to move the " + friendName + "!") + '</small></span>' +
       '<span class="plan-count" id="plan-count" aria-live="polite">0 / ' + chipCap() + '</span></div>' +
       '<div class="sequence"><div class="move-strip" id="move-strip" aria-label="Planned moves"></div></div>' +
-      '<div class="plan-actions"><button id="undo" class="plan-action undo" disabled aria-label="Undo last move">↶<small>Undo</small></button>' +
-      '<button id="clear-plan" class="plan-action clear" disabled aria-label="Clear moves">✕<small>Clear</small></button>' +
-      '<button id="go" class="plan-action go" disabled><span aria-hidden="true">▶</span> GO</button></div>' +
+      '<div class="plan-actions"><button id="undo" class="plan-action undo" disabled aria-label="Undo last move"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 7L4 12l5 5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 12H14a5.5 5.5 0 0 1 0 11h-2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><small>Undo</small></button>' +
+      '<button id="clear-plan" class="plan-action clear" disabled aria-label="Clear moves"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><small>Clear</small></button>' +
+      '<button id="go" class="plan-action go" disabled><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg> GO</button></div>' +
       '</aside>';
   }
 
@@ -456,9 +455,9 @@
   }
 
   function robotPadButtons() {
-    return robotCommandButton("L", "Turn left", "↶", "robot-left") +
-      robotCommandButton("F", "Forward", "↑", "robot-forward") +
-      robotCommandButton("R", "Turn right", "↷", "robot-right");
+    return robotCommandButton("L", "Turn left", "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M9 7L4 12l5 5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M4.5 12H13a6 6 0 0 1 6 6v1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", "robot-left") +
+      robotCommandButton("F", "Forward", "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 19V5M6 11l6-6 6 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", "robot-forward") +
+      robotCommandButton("R", "Turn right", "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M15 7l5 5-5 5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M19.5 12H11a6 6 0 0 0-6 6v1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", "robot-right");
   }
 
   function robotCommandButton(command, label, glyph, cls) {
@@ -803,7 +802,7 @@
   }
 
   function chipCap() { return PLAN_CAP; }
-  function arrowGlyph(dir) { return { up: "↑", right: "→", down: "↓", left: "←", F: "↑", L: "↶", R: "↷" }[dir]; }
+  function arrowGlyph(dir) { return { up: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 19V5M6 11l6-6 6 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", right: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M9 5l7 7-7 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", down: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 19V5M6 11l6-6 6 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", left: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M15 5l-7 7 7 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", F: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 19V5M6 11l6-6 6 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", L: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M9 7L4 12l5 5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M4.5 12H13a6 6 0 0 1 6 6v1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", R: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M15 7l5 5-5 5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M19.5 12H11a6 6 0 0 0-6 6v1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>" }[dir]; }
   function commandName(dir) { return { F: "forward", L: "turn left", R: "turn right" }[dir] || dir; }
 
   function wirePlan() {
@@ -852,7 +851,7 @@
       // `ask` marks the chip; `question` belongs only to the bubble. Reusing one class for
       // both made the red chip inherit the bubble's 25px position and size.
       var hasQuestion = st.indexOf("ask") >= 0;
-      return '<button class="move-chip' + st + '" data-index="' + i + '" aria-label="Remove ' + dir + ' move">' +
+      return '<button class="move-chip move-' + dir + st + '" data-index="' + i + '" aria-label="Remove ' + dir + ' move">' +
         arrowGlyph(dir) + '<span class="sr-only">' + commandName(dir) + '</span>' + (hasQuestion ? '<span class="question">?</span>' : '') + '</button>';
     }).join("");
     var slotCount = previewSlotCount();
