@@ -92,11 +92,14 @@ button {
   touch-action: manipulation;
 }
 
+[hidden] { display: none; }
+
 .round-nav span:first-child {
   color: var(--blue);
   font-size: 25px;
   line-height: .75;
 }
+.round-nav span:first-child svg { display: block; width: 1em; height: 1em; }
 
 .round-nav.home span:first-child {
   font-size: 22px;
