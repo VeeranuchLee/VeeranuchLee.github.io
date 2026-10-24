@@ -1,4 +1,4 @@
-const CACHE_NAME = "memory-echo-v3";
+const CACHE_NAME = "memory-echo-v4";
 const CACHE_PREFIX = "memory-echo-v";
 const SHELL = [
   "./", "./index.html", "./styles.css",

@@ -42,29 +42,29 @@
       </div>
 
       <div class="settings-panel">
-        <fieldset><legend><span aria-hidden="true">▥</span> Start length</legend><div class="segmented length-choice">
+        <fieldset><legend><span aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 5v14M15 5v14" stroke="currentColor" stroke-width="2"/></svg></span> Start length</legend><div class="segmented length-choice">
           <button type="button" data-length="2" aria-pressed="false">2</button><button type="button" data-length="3" aria-pressed="false">3</button><button class="selected" type="button" data-length="4" aria-pressed="true">4</button><button type="button" data-length="5" aria-pressed="false">5</button>
         </div></fieldset>
-        <fieldset><legend><span aria-hidden="true">◴</span> Speed</legend><div class="segmented speed-choice">
+        <fieldset><legend><span aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 13V7M9 3h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span> Speed</legend><div class="segmented speed-choice">
           <button type="button" data-speed="slow" aria-pressed="false">Slow</button><button class="selected" type="button" data-speed="normal" aria-pressed="true">Normal</button><button type="button" data-speed="fast" aria-pressed="false">Fast</button>
         </div></fieldset>
       </div>
       <div class="menu-actions">
-        <button id="play" class="primary-action" type="button"><span aria-hidden="true">▶</span> Play</button>
-        <button id="explore" class="secondary-action" type="button"><span aria-hidden="true">✦</span> Explore</button>
+        <button id="play" class="primary-action" type="button"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg> Play</button>
+        <button id="explore" class="secondary-action" type="button"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2c.7 6.2 3.8 9.3 10 10-6.2.7-9.3 3.8-10 10-.7-6.2-3.8-9.3-10-10 6.2-.7 9.3-3.8 10-10z" fill="currentColor"/></svg> Explore</button>
       </div>
     </section>
 
     <section id="game" class="screen game-screen" data-phase="watch" aria-labelledby="status-title" hidden>
       <header class="game-header">
-        <button id="home" class="round-button" type="button" aria-label="Home"><span aria-hidden="true">⌂</span></button>
+        <button id="home" class="round-button" type="button" aria-label="Home"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 11l8-7 8 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 10v10h12V10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 20v-5h4v5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <div class="wordmark" aria-label="Memory Echo"><span>Memory</span> Echo</div>
         <div id="mode-pill" class="mode-pill"></div>
       </header>
-      <div class="stats"><span id="length-label">Length 4</span><span id="best">★ Best —</span></div>
+      <div class="stats"><span id="length-label">Length 4</span><span id="best">Best —</span></div>
       <div class="guide-row">
         <div id="status-panel" class="status-panel watch">
-          <span id="status-icon" class="status-icon" aria-hidden="true">◉</span>
+          <span id="status-icon" class="status-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2c.7 6.2 3.8 9.3 10 10-6.2.7-9.3 3.8-10 10-.7-6.2-3.8-9.3-10-10 6.2-.7 9.3-3.8 10-10z" fill="currentColor"/></svg></span>
           <div><h2 id="status-title">Watch &amp; listen</h2><p id="status-copy">Remember the pattern</p></div>
         </div>
         <img id="robot" class="game-robot" src="./assets/art/echo-robot.webp" alt="Echo the robot helps with the pattern">
@@ -72,11 +72,11 @@
       <div class="play-area">
         <div id="number-display" class="number-display" aria-hidden="true"></div>
         <div id="instrument" class="instrument colours" aria-label="Game controls" aria-disabled="true"></div>
-        <div class="sparkles" aria-hidden="true"><i>✦</i><i>★</i><i>✦</i><i>★</i></div>
+        <div class="sparkles" aria-hidden="true"><i><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2c.7 6.2 3.8 9.3 10 10-6.2.7-9.3 3.8-10 10-.7-6.2-3.8-9.3-10-10 6.2-.7 9.3-3.8 10-10z" fill="currentColor"/></svg></i><i><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.8l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 16.9 6.6 19.7l1-6.1L3.2 9.3l6.1-.9z" fill="currentColor"/></svg></i><i><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2c.7 6.2 3.8 9.3 10 10-6.2.7-9.3 3.8-10 10-.7-6.2-3.8-9.3-10-10 6.2-.7 9.3-3.8 10-10z" fill="currentColor"/></svg></i><i><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.8l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 16.9 6.6 19.7l1-6.1L3.2 9.3l6.1-.9z" fill="currentColor"/></svg></i></div>
       </div>
       <footer class="game-footer">
-        <button id="replay" class="replay-button" type="button" disabled><span aria-hidden="true">↻</span> Replay</button>
-        <p class="tip"><span aria-hidden="true">★</span> Listen first, then repeat</p>
+        <button id="replay" class="replay-button" type="button" disabled><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 12a8 8 0 1 1-2.3-5.6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 4v5h-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Replay</button>
+        <p class="tip"><span aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.8l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 16.9 6.6 19.7l1-6.1L3.2 9.3l6.1-.9z" fill="currentColor"/></svg></span> Listen first, then repeat</p>
       </footer>
       <p id="live" class="sr-only" aria-live="polite"></p>
     </section>

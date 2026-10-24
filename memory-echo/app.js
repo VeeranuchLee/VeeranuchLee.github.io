@@ -3,15 +3,15 @@ import { AudioEngine } from "./js/audio-engine.js";
 import { calculateGridGeometry } from "./js/layout-geometry.js";
 
 const SPEEDS = { slow: { step: 900, sound: .58 }, normal: { step: 650, sound: .42 }, fast: { step: 420, sound: .27 } };
-const MODES = {
-  colours: { label: "Colours", icon: "● ● ● ●", prompt: "Tap the colours in order" },
-  numbers: { label: "Numbers", icon: "1 2 3", prompt: "Tap the numbers in order" },
-  music: { label: "Music Notes", icon: "♫", prompt: "Play the melody back" }
-};
-
 // Owner rule 2026-10-20: no emoji in the UI. The "Your turn" hand is drawn instead,
 // in the flat rounded style of the other status glyphs; currentColor keeps the panel
 // colour and 1em keeps the .status-icon font sizes (50px, 32px compact).
+const ICONS = { watch: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2c.7 6.2 3.8 9.3 10 10-6.2.7-9.3 3.8-10 10-.7-6.2-3.8-9.3-10-10 6.2-.7 9.3-3.8 10-10z" fill="currentColor"/></svg>', success: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.8l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 16.9 6.6 19.7l1-6.1L3.2 9.3l6.1-.9z" fill="currentColor"/></svg>', mistake: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 12a8 8 0 1 1-2.3-5.6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 4v5h-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>', explore: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2c.7 6.2 3.8 9.3 10 10-6.2.7-9.3 3.8-10 10-.7-6.2-3.8-9.3-10-10 6.2-.7 9.3-3.8 10-10z" fill="currentColor"/></svg>', note: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 18V5l11-2v13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/></svg>' };
+const MODES = {
+  colours: { label: "Colours", icon: ICONS.watch, prompt: "Tap the colours in order" },
+  numbers: { label: "Numbers", icon: "1 2 3", prompt: "Tap the numbers in order" },
+  music: { label: "Music Notes", icon: ICONS.note, prompt: "Play the melody back" }
+};
 const TURN_ICON = '<svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor" aria-hidden="true" focusable="false"><path d="M10.6 13.8V5.6a1.4 1.4 0 0 1 2.8 0v8.2z"/><path d="M10 13.2h4a3.2 3.2 0 0 1 3.2 3.2v1a3.2 3.2 0 0 1-3.2 3.2h-4a3.2 3.2 0 0 1-3.2-3.2v-1a3.2 3.2 0 0 1 3.2-3.2z"/><path d="M6.9 14.3a1.85 1.85 0 0 0 0 3.7z"/></svg>';
 
 const $ = (selector) => document.querySelector(selector);
@@ -110,11 +110,11 @@ function setPhase(next, copy) {
   gameScreen.dataset.phase = next;
   statusPanel.className = `status-panel ${next}`;
   const config = {
-    watch: ["◉", "Watch & listen", copy || "Remember the pattern"],
+    watch: [ICONS.watch, "Watch & listen", copy || "Remember the pattern"],
     turn: [TURN_ICON, "Your turn", copy || MODES[selectedMode].prompt],
-    success: ["★", "Wonderful!", copy || "One more joins the pattern"],
-    mistake: ["↻", "Let’s watch again", copy || "Same pattern, another try"],
-    explore: ["✦", "Explore", copy || "Tap anything and make music"]
+    success: [ICONS.success, "Wonderful!", copy || "One more joins the pattern"],
+    mistake: [ICONS.mistake, "Let’s watch again", copy || "Same pattern, another try"],
+    explore: [ICONS.explore, "Explore", copy || "Tap anything and make music"]
   }[next];
   [statusIcon.innerHTML, statusTitle.textContent, statusCopy.textContent] = config;
   robot.dataset.pose = next;
@@ -161,7 +161,7 @@ async function watchSequence(message) {
 
 function refreshStats() {
   lengthLabel.textContent = explore ? "Free play" : `Length ${model.sequence.length}`;
-  best.textContent = explore ? "No challenge" : `★ Best ${model.getBest() || "—"}`;
+  best.textContent = explore ? "No challenge" : `Best ${model.getBest() || "—"}`;
 }
 
 async function handleSuccess() {
