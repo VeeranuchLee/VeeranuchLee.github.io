@@ -1,6 +1,6 @@
 // v9 2026-10-20: the salon colour wall (owner: "I want more color").
 // v8 2026-10-01: the pointed almond nail shape is removed (owner: "it's dangerous in real life").
-const CACHE_NAME = 'nail-salon-v10';
+const CACHE_NAME = 'nail-salon-v11';
 const CACHE_PREFIX = 'nail-salon-v';
 const SHELL = ['./','./index.html','./styles.css',
   './cg-back.css','./state-core.js','./app.js','./colour-wall.js','./tap-zoom-guard.js',

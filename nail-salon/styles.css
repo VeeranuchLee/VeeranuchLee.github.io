@@ -231,7 +231,9 @@ html.wall-open,html.wall-open body{overflow:hidden}
 .tabs button span img{width:29px;height:29px}
 .tray{min-height:96px;height:auto;padding:7px 10px;flex-wrap:nowrap;overflow-x:auto;overflow-y:visible}
 .choice{flex-basis:70px;height:76px}
-#handSvg{width:min(100%,690px);height:100%;max-height:none}
+/* The topbar floats over the stage in landscape; keep the fingertips below it so the
+   middle nail is never hidden behind the title (QA 2026-10-24). */
+#handSvg{width:min(100%,690px);height:calc(100% - 64px);margin-top:64px;max-height:none}
 }
 
 @media (max-width:600px){.app{padding-left:6px;padding-right:6px}
