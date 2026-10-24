@@ -22,6 +22,7 @@ import { chapterFor, MAP_BRIDGE_PENDING_VOICE_LINES } from '../data/read-togethe
 import { trackBeats } from './player.js';
 import { noteToFrequency } from './audio-engine.js';
 import { MAP_BRIDGE_CLIP_TEXTS } from './mapbridge-clips.js';
+const RT_BACK='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',RT_PLAY='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg>',RT_MUSIC='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 18V5l11-2v13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/></svg>';
 import { configureMapBridge, speakMapBridgeClip, stopMapBridgeClip } from './mapbridge.js';
 
 // ── deriving the teaching layer from the scores ──────────────────────────────
@@ -277,7 +278,7 @@ const GUIDE_PORTRAITS = {
 // Small tag charms, drawn rather than typed so they read as pictures on the
 // parchment. Keyed by label id; anything unlisted falls back to its data charm.
 const TAG_ICONS = {
-  twinkle: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.7 6.1 6.6.6-5 4.4 1.5 6.5L12 16.7 6.2 20.1l1.5-6.5-5-4.4 6.6-.6z" fill="#f2c230" stroke="#b8860b" stroke-width="1.2" stroke-linejoin="round"/></svg>',
+  twinkle: '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.8l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 16.9 6.6 19.7l1-6.1L3.2 9.3l6.1-.9z" fill="currentColor"/></svg>',
   baa: '<svg viewBox="0 0 32 24" aria-hidden="true"><g fill="#fffdf6" stroke="#6b5a45" stroke-width="1.1"><circle cx="11" cy="10" r="4.2"/><circle cx="16" cy="8.6" r="4.4"/><circle cx="21" cy="10.4" r="4"/><circle cx="13.5" cy="13.6" r="4"/><circle cx="19" cy="13.8" r="4"/></g><ellipse cx="25.6" cy="11.2" rx="3.2" ry="2.7" fill="#3b3430"/><g stroke="#3b3430" stroke-width="1.8" stroke-linecap="round"><path d="M12 17v4.5M15.5 17.4v4.2M19 17.4v4.2M22 17v4.5"/></g></svg>',
   abc: '<span class="rt-tag__abc" aria-hidden="true"><b>A</b><b>B</b><b>C</b></span>'
 };
@@ -552,7 +553,7 @@ export function createChapter(deps) {
           ${plate.hooks.map((h, i) => {
             const l = spr.labels[i];
             const pos = `style="--tx:${h.x / 10}%;--ty:${h.y / 7.5}%"`;
-            if (!heard || !l) return `<span class="rt-hang rt-tagslot" ${pos}><span class="rt-hang__card"><span class="rt-tagslot__placeholder" aria-hidden="true"><span>♪</span><span>?</span></span></span></span>`;
+            if (!heard || !l) return `<span class="rt-hang rt-tagslot" ${pos}><span class="rt-hang__card"><span class="rt-tagslot__placeholder" aria-hidden="true"><span>${RT_MUSIC}</span><span>?</span></span></span></span>`;
             return `
               <button class="rt-hang rt-tag${state.activeLabel === l.id ? ' is-current' : ''}" data-rt-label="${l.id}" ${pos}>
                 <span class="rt-hang__card">
@@ -584,7 +585,7 @@ export function createChapter(deps) {
           <div class="rt-tags" role="group" aria-label="Names for this tune">
             ${spr.labels.map((l) => `
               <button class="rt-tag${state.activeLabel === l.id ? ' is-current' : ''}" data-rt-label="${l.id}">
-                <span class="rt-tag__charm" aria-hidden="true">${l.charm}</span>${esc(l.text)}
+                <span class="rt-tag__charm" aria-hidden="true">${TAG_ICONS[l.id] || l.charm}</span>${esc(l.text)}
               </button>`).join('')}
           </div>` : ''}
         ${active?.note ? `<p class="rt-note">${esc(active.note)}</p>` : ''}
@@ -842,7 +843,7 @@ export function createChapter(deps) {
       <div class="rt-scene rt-scene--mapdesk rt-scene--painted" style="background-image:url(${plate.art})">
         ${complete ? `<p class="rt-map-complete" style="${box({ x: 25, y: 43, w: 50, h: 22 })}">${esc(MAP_BRIDGE_CLIP_TEXTS['mapbridge-complete'])}</p>` : `
           <p class="rt-map-question">Which shape matches this tune? <span>${state.mapIndex + 1} of ${spr.tokens.length}</span></p>
-          <button class="rt-map-hear" data-rt-play="${current.pieceId}:${current.which}">▶ Hear the tune</button>
+          <button class="rt-map-hear" data-rt-play="${current.pieceId}:${current.which}">${RT_PLAY} Hear the tune</button>
           <div class="rt-map-choices" role="group" aria-label="Choose one shape">${choices.map(choice).join('')}</div>
           <p class="rt-map-feedback" aria-live="polite">${esc(state.mapFeedback)}</p>
           ${state.mapCorrect ? '<button class="rt-map-next" data-rt-map-next>Next tune</button>' : ''}`}
@@ -894,7 +895,7 @@ export function createChapter(deps) {
     stage.innerHTML = `
       <div class="rt${plate ? ` rt--painted rt--${spr.scene}` : ''}">
         <div class="rt-top">
-          <button class="round-btn" data-rt-back aria-label="Back">←</button>
+          <button class="round-btn" data-rt-back aria-label="Back">${RT_BACK}</button>
           <div class="rt-head">
             <h1>${esc(spr.title)}</h1>
             <p>${esc(spr.opening)}</p>

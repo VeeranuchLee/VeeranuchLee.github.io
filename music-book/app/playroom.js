@@ -529,16 +529,18 @@ const FACTS_ICON = '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden=
 // book's own hand, rounded strokes, currentColor, sized in em like FACTS_ICON's
 // siblings in app.js so each tracks the font-size its emoji sat in).
 // A single eighth note — the stand-in wherever a song has no painting yet.
-const NOTE_ICON = '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10.7 17.2V5.6" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/><path d="M10.7 5.6c3.4.9 4.8 3 4.2 6.3-.9-2.2-2.3-3.3-4.2-3.5z" fill="currentColor"/><ellipse cx="7.7" cy="17.4" rx="3.1" ry="2.5" transform="rotate(-16 7.7 17.4)" fill="currentColor"/></svg>';
+const NOTE_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 18V5l11-2v13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/></svg>';
 // The banner's little keyboard — the same white-keys-and-blacks picture the
 // size marks and the rotate card draw, in one em.
 const PIANO_ICON = '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2.8" y="5.4" width="18.4" height="13.2" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M7.4 5.4v13.2M12 5.4v13.2M16.6 5.4v13.2" fill="none" stroke="currentColor" stroke-width="1.9"/><rect x="5" y="5.4" width="2.4" height="7" rx="1" fill="currentColor"/><rect x="9.6" y="5.4" width="2.4" height="7" rx="1" fill="currentColor"/><rect x="14.2" y="5.4" width="2.4" height="7" rx="1" fill="currentColor"/></svg>';
 // The Listen toggle's two states, swapped in place by setListenUI.
-const PLAY_ICON = '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9.2 5.9c0-.8.9-1.3 1.6-.9l9.3 5.9c.7.4.7 1.4 0 1.8l-9.3 5.9c-.7.4-1.6-.1-1.6-.9z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>';
-const STOP_ICON = '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6.4" y="6.4" width="11.2" height="11.2" rx="2.4" fill="currentColor"/></svg>';
+const PLAY_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg>';
+const STOP_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 7h10v10H7z" fill="currentColor"/></svg>';
 // The celebration's sparkle burst — pictures, not words, either side of the
 // song's own painting.
-const CHEER_ICON = '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.6c.7 4.3 2.9 6.5 7.2 7.2-4.3.7-6.5 2.9-7.2 7.2-.7-4.3-2.9-6.5-7.2-7.2 4.3-.7 6.5-2.9 7.2-7.2z" fill="currentColor"/><circle cx="19.4" cy="5" r="1.2" fill="currentColor"/><circle cx="4.8" cy="18.8" r="1.2" fill="currentColor"/></svg>';
+const CHEER_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2c.7 6.2 3.8 9.3 10 10-6.2.7-9.3 3.8-10 10-.7-6.2-3.8-9.3-10-10 6.2-.7 9.3-3.8 10-10z" fill="currentColor"/></svg>';
+const BACK_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const REPLAY_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 12a8 8 0 1 1-2.3-5.6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 4v5h-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 // A song without its painting yet shows a drawn eighth note on a dashed tile —
 // a clear placeholder, never an empty one. The corner mark is the hint that
@@ -593,7 +595,7 @@ function renderSelect() {
         <!-- From the landing the room is entered with no companion chosen, so
              app.js's go('world') guard sends the arrow back to the landing.
              From a Music World room, the arrow returns to that room. -->
-        <button class="round-btn" data-go="${backDest}" aria-label="Back">←</button>
+        <button class="round-btn" data-go="${backDest}" aria-label="Back">${BACK_ICON}</button>
         <div class="banner banner--slim"><h1>${PIANO_ICON} Toy Piano</h1></div>
         <span class="topbar-spacer"></span>
       </div>
@@ -604,7 +606,7 @@ function renderSelect() {
         <div class="song-grid" id="toy-songs">${songTilesMarkup()}</div>
         <div class="friend-row" id="toy-friends">${friendTilesMarkup()}</div>
         <button class="go-btn" data-play-go aria-label="Go play">
-          <span class="go-btn__icon">▶</span>
+          <span class="go-btn__icon">${PLAY_ICON}</span>
         </button>
       </div>
     </div>`;
@@ -636,11 +638,11 @@ function renderPlay() {
   stage.innerHTML = `
     <div class="scrim">
       <div class="topbar">
-        <button class="round-btn" data-goselect aria-label="Choose another song">←</button>
+        <button class="round-btn" data-goselect aria-label="Choose another song">${BACK_ICON}</button>
         <div class="toy-songdot" aria-label="${song.title}">${song.art ? `<img class="toy-songdot__art" src="${song.art}" alt="">` : NOTE_ICON}</div>
         ${songFacts(song) ? `<button class="toy-iconbtn toy-factsbtn" data-song-facts="${song.id}" aria-label="A true story about ${song.title}">${FACTS_ICON}</button>` : ''}
         <div class="toy-playbtns">
-          <button class="toy-iconbtn" data-try aria-pressed="false" aria-label="Start over"><span>↺</span></button>
+          <button class="toy-iconbtn" data-try aria-pressed="false" aria-label="Start over"><span aria-hidden="true">${REPLAY_ICON}</span></button>
           <button class="toy-iconbtn" data-listen-toy aria-pressed="false" aria-label="Listen"><span class="toy-iconbtn__listen" aria-hidden="true">${PLAY_ICON}</span></button>
         </div>
       </div>

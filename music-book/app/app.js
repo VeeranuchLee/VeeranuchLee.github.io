@@ -21,6 +21,7 @@ const engine = new AudioEngine();
 const player = new Player(engine);
 const musicBed = new MusicBed(engine);
 const ambience = new Ambience(engine);
+const CG={forward:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',back:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',home:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 11l8-7 8 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 10v10h12V10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 20v-5h4v5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',swap:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 8h14l-3.5-3.5M20 16H6l3.5 3.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',sparkle:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2c.7 6.2 3.8 9.3 10 10-6.2.7-9.3 3.8-10 10-.7-6.2-3.8-9.3-10-10 6.2-.7 9.3-3.8 10-10z" fill="currentColor"/></svg>',music:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 18V5l11-2v13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/></svg>'};
 if (window.AudioWake) window.AudioWake.attach(() => engine.ctx, () => engine.rebuild());
 configureTitles({ engine });
 configureExplain({ engine });
@@ -501,7 +502,7 @@ function roomCompanionMarkup(room) {
 function companionSwitchMarkup(extraClass = '', subtitle = '') {
   const c = companionById(journey.companionId);
   return `<button class="guide-badge companion-switch${extraClass ? ` ${extraClass}` : ''}" data-companion-picker aria-label="${c.name}. Change your companion">
-      <img src="${c.art}" alt=""><span>${c.name}${subtitle}</span><i class="companion-switch__swap" aria-hidden="true">⇄</i>
+      <img src="${c.art}" alt=""><span>${c.name}${subtitle}</span><i class="companion-switch__swap" aria-hidden="true">${CG.swap}</i>
     </button>`;
 }
 
@@ -864,7 +865,7 @@ function renderWorld() {
       </div>
       <div class="world-topbar">
         <div class="world-topbar__left">
-          <button class="world-home" data-go="landing" aria-label="Home — start again"><span aria-hidden="true">⌂</span> Home</button>
+          <button class="world-home" data-go="landing" aria-label="Home — start again"><span aria-hidden="true">${CG.home}</span> Home</button>
           ${songIndexButtonMarkup()}
         </div>
         <div class="world-title"><h1>Music World</h1><p>Six wings, twenty-four rooms.</p></div>
@@ -872,7 +873,7 @@ function renderWorld() {
       </div>
       <p class="world-greeting">${c.greeting}</p>
       <p class="world-motto">A Kinder Brighter World Through Music</p>
-      <div class="world-compass" aria-hidden="true"><span class="world-compass__north">N</span><span class="world-compass__star">✦</span></div>
+      <div class="world-compass" aria-hidden="true"><span class="world-compass__north">N</span><span class="world-compass__star">${CG.sparkle}</span></div>
     </div>`;
   applyAtmosphere();
 }
@@ -943,7 +944,7 @@ function renderIndex() {
   stage.innerHTML = `
     <div class="song-index">
       <div class="topbar song-index__topbar">
-        <button class="round-btn" data-go="world" aria-label="Back to Music World">←</button>
+        <button class="round-btn" data-go="world" aria-label="Back to Music World">${CG.back}</button>
         <div class="banner song-index__banner"><h1>All the Songs</h1><p>Tap a song to go to its room.</p></div>
         ${companionSwitchMarkup()}
       </div>
@@ -1010,7 +1011,7 @@ function renderWing() {
   stage.innerHTML = `
     <div class="scrim${map ? ' wing-map-page' : ''}">
       <div class="topbar">
-        <button class="round-btn" data-go="world" aria-label="Back to Music World">←</button>
+        <button class="round-btn" data-go="world" aria-label="Back to Music World">${CG.back}</button>
         <div class="banner banner--wing"><h1>${wing.title}</h1></div>
         ${companionSwitchMarkup()}
       </div>
@@ -1096,15 +1097,15 @@ function renderRoom() {
   stage.innerHTML = `
     <div class="scrim${scene ? ' room-scene-page' : ''}">
       <div class="topbar">
-        <button class="round-btn" data-go="wing" aria-label="Back to ${wing.title}">←</button>
+        <button class="round-btn" data-go="wing" aria-label="Back to ${wing.title}">${CG.back}</button>
         <div class="banner banner--room"><h1>${room.title}</h1><p>${room.subtitle}</p></div>
         <div class="room-tools">
           <div class="room-mode" role="group" aria-label="Song arrangement">
             <button class="room-mode__choice${roomMode === 'melody' ? ' is-current' : ''}" data-room-mode="melody" aria-pressed="${roomMode === 'melody'}" aria-label="Play melody only">
-              <span class="room-mode__picture" aria-hidden="true">♪</span><small>Melody</small>
+              <span class="room-mode__picture" aria-hidden="true">${CG.music}</span><small>Melody</small>
             </button>
             <button class="room-mode__choice${roomMode === 'piano' ? ' is-current' : ''}" data-room-mode="piano" aria-pressed="${roomMode === 'piano'}" aria-label="Play melody with bass"${hasBass ? '' : ' disabled'}>
-              <span class="room-mode__picture" aria-hidden="true">♪<b>𝄢</b></span><small>${hasBass ? 'Melody + bass' : 'Melody only'}</small>
+              <span class="room-mode__picture" aria-hidden="true">${CG.music}<b>𝄢</b></span><small>${hasBass ? 'Melody + bass' : 'Melody only'}</small>
             </button>
           </div>
           ${companionSwitchMarkup()}
@@ -1235,7 +1236,7 @@ function bubbleMarkup(p, anchor) {
   const big = p.importanceLevel === 3;
   const art = p.art
     ? `<img class="bubble__art" src="${p.art}" alt="">`
-    : `<span class="bubble__art bubble__art--none">♪</span>`;
+    : `<span class="bubble__art bubble__art--none">${CG.music}</span>`;
   return `
     <div class="bubble${big ? ' bubble--large' : ''}" data-piece-wrap="${p.id}"${anchor ? ` style="--ax:${anchor.x}%;--ay:${anchor.y}%"` : ''}>
       <button class="bubble__disc" data-play="${p.id}" aria-label="Play ${p.title}">
@@ -1297,7 +1298,7 @@ function knowledgePopup(room) {
       <p class="popup__meta">${room.openingQuestion}</p>
       <p>${room.thesis}</p>
       ${origins ? `<p><strong>Music from.</strong> ${origins}</p>` : ''}
-      ${crossRoomConnections.length ? `<div class="popup__connections"><strong>Where this room leads.</strong>${crossRoomConnections.map((conn) => `<p class="popup__connection">${conn.label} <em>➜ ${roomById(conn.toRoomId)?.title || ''}</em></p>`).join('')}</div>` : ''}
+      ${crossRoomConnections.length ? `<div class="popup__connections"><strong>Where this room leads.</strong>${crossRoomConnections.map((conn) => `<p class="popup__connection">${conn.label} <em>${CG.forward} ${roomById(conn.toRoomId)?.title || ''}</em></p>`).join('')}</div>` : ''}
     </div>`);
 }
 
@@ -1546,7 +1547,7 @@ stage.addEventListener('error', (event) => {
   if (img.classList.contains('bubble__art') || img.classList.contains('index-tile__art')) {
     const note = document.createElement('span');
     note.className = img.classList.contains('index-tile__art') ? 'index-tile__art index-tile__art--none' : 'bubble__art bubble__art--none';
-    note.textContent = '♪';
+    note.innerHTML = CG.music;
     img.replaceWith(note);
   } else {
     img.style.visibility = 'hidden';
