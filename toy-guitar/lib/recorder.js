@@ -119,6 +119,6 @@ export function createRecorder({ clock, setTimer = setTimeout, clearTimer = clea
 export function stateWords(s) {
   if (s.mode === 'recording') return 'Recording…';
   if (s.mode === 'playing') return 'Playing…';
-  if (s.hasTake) return s.ended === 'finished' ? 'Finished! press ▶ again' : 'Your song — press ▶';
+  if (s.hasTake) return s.ended === 'finished' ? 'Finished! press Play again' : 'Your song — press Play';
   return 'Ready';
 }

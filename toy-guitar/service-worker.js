@@ -1,4 +1,4 @@
-const CACHE_NAME = "toy-guitar-v4";
+const CACHE_NAME = "toy-guitar-v5";
 
 const SHELL = [
   "./", "./index.html", "./styles.css",
