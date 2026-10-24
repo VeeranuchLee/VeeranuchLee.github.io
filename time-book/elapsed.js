@@ -347,7 +347,7 @@
       ask: forwards ? 'What time does it finish?' : 'What time does it start?',
       options: built.options,
       answerLabel: built.answerLabel,
-      good: '✓ ' + built.answerLabel,
+      good: built.answerLabel,
       bad: 'It is ' + built.answerLabel,
       say: CLOCK.spoken(answer),
       also: jumpLine(start, lasting)
@@ -380,7 +380,7 @@
       ask: 'How long is ' + chosen.doing.name + '?',
       options: built.options,
       answerLabel: built.answerLabel,
-      good: '✓ ' + built.answerLabel,
+      good: built.answerLabel,
       bad: 'It is ' + built.answerLabel,
       say: built.answerLabel,
       also: jumpLine(start, lasting)
@@ -450,7 +450,7 @@
       sceneSaid: '',
       ask: 'Which one takes longer?',
       answerLabel: sentenceCase(winner.doing.name) + ' — ' + durationWords(longer),
-      good: '✓ ' + sentenceCase(winner.doing.name) + ' — ' + durationWords(longer),
+      good: sentenceCase(winner.doing.name) + ' — ' + durationWords(longer),
       bad: sentenceCase(winner.doing.name) + ' — ' + durationWords(longer),
       say: sentenceCase(winner.doing.name) + ' takes ' + durationWords(longer) + '.',
       also: durationWords(longer) + ' beats ' + durationWords(shorter) + '.'

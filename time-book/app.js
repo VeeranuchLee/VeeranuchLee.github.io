@@ -25,6 +25,7 @@
 
   var CLOCK = window.TimeBookClock;
   var STORE_KEY = 'time-book-progress-v1';
+  var CG={back:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',forward:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',up:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V5M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',down:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',check:'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'};
 
   /* ------------------------------------------------------------------ *
    * Progress
@@ -584,6 +585,7 @@
       Object.keys(attrs).forEach(function (key) {
         if (key === 'class') node.className = attrs[key];
         else if (key === 'text') node.textContent = attrs[key];
+        else if (key === 'html') node.innerHTML = attrs[key];
         else if (key.slice(0, 2) === 'on') node.addEventListener(key.slice(2), attrs[key]);
         else node.setAttribute(key, attrs[key]);
       });
@@ -688,7 +690,7 @@
         preview,
         h('h2', { text: chapter.title }),
         h('p', { text: chapter.blurb }),
-        done ? h('span', { class: 'card-done', text: '✓ ' + done }) : null
+        done ? h('span', { class: 'card-done', html: CG.check + ' ' + done }) : null
       ]);
 
       /* A live clock on every card, each showing a different time, so the home
@@ -717,24 +719,26 @@
        and /test-apps/ are siblings; in the repo the hub lives under site/, so a relative
        link would work live and 404 in every local preview. */
     screen.appendChild(h('div', { class: 'home' }, [
-      h('div', { class: 'home-out' }, [
+      h('div', { class: 'home-toolbar' }, [
         (function () {
           /* The shared back button (INTERACTION-DIRECTION.md "The way out", 2026-10-23). */
           var a = h('a', { class: 'cg-back', href: 'https://veeranuchlee.github.io/children-apps/', 'aria-label': 'Back to Children Games' });
           a.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
           return a;
-        })()
+        })(),
+        h('button', {
+          class: 'voice-button home-voice',
+          type: 'button',
+          'aria-label': speechOn && speechWorks !== false ? 'Voice is on' : 'Voice is off',
+          'aria-pressed': String(speechOn && speechWorks !== false),
+          onclick: function (event) { toggleVoice(event.currentTarget); }
+        }, [icon(voiceLabel().icon)])
       ]),
       h('header', { class: 'home-head' }, [
         h('h1', { class: 'title', text: 'Time Book' }),
         h('p', { class: 'subtitle', text: 'Learn to read any clock in the world.' })
       ]),
-      h('div', { class: 'chapter-grid' }, cards),
-      h('button', {
-        class: 'ghost-button voice-button',
-        type: 'button',
-        onclick: function (event) { toggleVoice(event.currentTarget); }
-      }, labelChildren(voiceLabel()))
+      h('div', { class: 'chapter-grid' }, cards)
     ]));
   }
 
@@ -754,7 +758,9 @@
   function setVoiceLabel(button, label) {
     label = label || voiceLabel();
     clear(button);
-    labelChildren(label).forEach(function (child) { button.appendChild(child); });
+    button.appendChild(icon(label.icon));
+    button.setAttribute('aria-label', speechOn && speechWorks !== false ? 'Voice is on' : 'Voice is off');
+    button.setAttribute('aria-pressed', String(speechOn && speechWorks !== false));
   }
 
   function toggleVoice(button) {
@@ -870,7 +876,7 @@
     var readout = h('div', { class: 'readout' });
     var copy = h('div', { class: 'copy' });
     var dots = h('div', { class: 'step-dots' });
-    var nextButton = h('button', { class: 'primary-button', type: 'button', text: 'Next →' });
+    var nextButton = h('button', { class: 'primary-button', type: 'button', html: 'Next ' + CG.forward });
 
     nextButton.addEventListener('click', function () {
       markDone('c1:' + MECHANISM_STEPS[index].key);
@@ -918,7 +924,7 @@
         dots.appendChild(h('i', { class: i === index ? 'is-current' : (i < index ? 'is-past' : '') }));
       });
 
-      nextButton.textContent = index < MECHANISM_STEPS.length - 1 ? 'Next →' : 'Finish ✓';
+      nextButton.innerHTML = index < MECHANISM_STEPS.length - 1 ? 'Next ' + CG.forward : 'Finish ' + CG.check;
       renderReadout();
       // Title and body as ONE utterance. The instruction is the useful part to
       // hear, and a single utterance avoids the back-to-back seam entirely.
@@ -981,7 +987,7 @@
         h('span', { class: 'stage-number', text: String(i + 1) }),
         preview,
         h('span', { class: 'stage-name', text: stage.name }),
-        done ? h('span', { class: 'stage-tick', text: '✓' }) : null
+        done ? h('span', { class: 'stage-tick', html: CG.check }) : null
       ]);
 
       new CLOCK.Clock(preview, { minutes: stage.show, face: 'numbers' });
@@ -1158,7 +1164,7 @@
         right += 1;
         button.classList.add('is-right');
         clear(feedback);
-        feedback.appendChild(h('p', { class: 'good', text: '✓ ' + CLOCK.spoken(target) }));
+        feedback.appendChild(h('p', { class: 'good', html: CG.check + ' ' + CLOCK.spoken(target) }));
 
         /* §2.4 lands here rather than in a lesson: the moment the child is right,
            show the other correct names for the same time. On a digits step the
@@ -1187,7 +1193,7 @@
       }
 
       actions.appendChild(h('button', {
-        class: 'primary-button', type: 'button', text: 'Next →', onclick: nextQuestion
+        class: 'primary-button', type: 'button', html: 'Next ' + CG.forward, onclick: nextQuestion
       }));
     }
 
@@ -1239,7 +1245,7 @@
       clear(feedback);
       if (clock.minutes === target) {
         right += 1;
-        feedback.appendChild(h('p', { class: 'good', text: '✓ ' + CLOCK.spoken(target) }));
+        feedback.appendChild(h('p', { class: 'good', html: CG.check + ' ' + CLOCK.spoken(target) }));
         speak('Exactly right');
       } else {
         // Two digital times side by side, not a sentence: what you set, what was
@@ -1261,7 +1267,7 @@
       }
 
       actions.appendChild(h('button', {
-        class: 'primary-button', type: 'button', text: 'Next →', onclick: nextQuestion
+        class: 'primary-button', type: 'button', html: 'Next ' + CG.forward, onclick: nextQuestion
       }));
     }
 
@@ -1276,7 +1282,7 @@
       clear(feedback);
       feedback.appendChild(h('p', {
         class: passed ? 'good' : 'bad',
-        text: passed ? 'This step is yours. ✓' : 'Close. Try this step once more.'
+        html: passed ? 'This step is yours. ' + CG.check : 'Close. Try this step once more.'
       }));
 
       actions.appendChild(h('button', {
@@ -1325,7 +1331,7 @@
           h('span', { class: 'stage-label', text: face.label }),
           h('small', { text: face.note })
         ]),
-        done ? h('span', { class: 'stage-tick', text: '✓' }) : null
+        done ? h('span', { class: 'stage-tick', html: CG.check }) : null
       ]);
 
       /* Each row previews the thing it opens. The two screen-based rows get a real
@@ -1536,7 +1542,7 @@
       }
 
       actions.appendChild(h('button', {
-        class: 'primary-button', type: 'button', text: 'Next →', onclick: nextQuestion
+        class: 'primary-button', type: 'button', html: 'Next ' + CG.forward, onclick: nextQuestion
       }));
     }
 
@@ -1552,7 +1558,7 @@
       clear(feedback);
       feedback.appendChild(h('p', {
         class: passed ? 'good' : 'bad',
-        text: passed ? 'You can read this clock. ✓' : 'Nearly. One more go.'
+        html: passed ? 'You can read this clock. ' + CG.check : 'Nearly. One more go.'
       }));
 
       actions.appendChild(h('button', {
@@ -1699,7 +1705,7 @@
         facts,
         h('div', { class: 'wc-actions' }, [
           h('button', {
-            class: 'ghost-button', type: 'button', text: '← Your time',
+            class: 'ghost-button', type: 'button', html: CG.back + ' Your time',
             onclick: function () { goTo(homeCity, true); }
           }),
           h('button', {
@@ -1836,10 +1842,10 @@
 
       function stepper(box, up, down) {
         return h('div', { class: 'wc-stepper' }, [
-          h('button', { class: 'wc-step', type: 'button', 'aria-label': 'Up', text: '▲',
+          h('button', { class: 'wc-step', type: 'button', 'aria-label': 'Up', html: CG.up,
                         onclick: function () { up(); show(); } }),
           box,
-          h('button', { class: 'wc-step', type: 'button', 'aria-label': 'Down', text: '▼',
+          h('button', { class: 'wc-step', type: 'button', 'aria-label': 'Down', html: CG.down,
                         onclick: function () { down(); show(); } })
         ]);
       }
@@ -2028,7 +2034,7 @@
           h('span', { class: 'stage-label', text: step.name }),
           h('small', { text: step.note })
         ]),
-        done ? h('span', { class: 'stage-tick', text: '✓' }) : null
+        done ? h('span', { class: 'stage-tick', html: CG.check }) : null
       ]);
 
       /* Each card previews the chapter's own idea rather than a time: a dial with a
@@ -2208,7 +2214,7 @@
       if (correct) {
         right += 1;
         button.classList.add('is-right');
-        feedback.appendChild(h('p', { class: 'good', text: q.good }));
+        feedback.appendChild(h('p', { class: 'good', html: CG.check + ' ' + q.good }));
       } else {
         misses += 1;
         button.classList.add('is-wrong');
@@ -2230,7 +2236,7 @@
       if (!offerHint()) speak(q.say);
 
       actions.appendChild(h('button', {
-        class: 'primary-button', type: 'button', text: 'Next →', onclick: nextQuestion
+        class: 'primary-button', type: 'button', html: 'Next ' + CG.forward, onclick: nextQuestion
       }));
     }
 
@@ -2260,7 +2266,7 @@
       clear(feedback);
       feedback.appendChild(h('p', {
         class: passed ? 'good' : 'bad',
-        text: passed ? 'This step is yours. ✓' : 'Close. One more go.'
+        html: passed ? 'This step is yours. ' + CG.check : 'Close. One more go.'
       }));
 
       actions.appendChild(h('button', {

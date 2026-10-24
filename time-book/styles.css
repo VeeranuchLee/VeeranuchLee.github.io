@@ -45,6 +45,8 @@ body {
   margin: 0 auto;
   padding: 24px 18px 56px;
 }
+/* First screen fits the iPad with no scroll (owner rule 2026-10-23); inner screens keep the room. */
+#screen:has(> .home) { padding: 16px 18px 12px; }
 
 h1, h2 { font-family: 'Fredoka One', 'Nunito', sans-serif; font-weight: 400; line-height: 1.15; }
 
@@ -136,9 +138,15 @@ h1, h2 { font-family: 'Fredoka One', 'Nunito', sans-serif; font-weight: 400; lin
  * Home
  * ------------------------------------------------------------------ */
 
-.home-out { margin-bottom: 14px; }
+.home-toolbar {
+  min-height: 56px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 8px;
+}
 .hub-button { display: inline-block; text-decoration: none; }
-.home-head { text-align: center; margin-bottom: 28px; }
+.home-head { text-align: center; margin-bottom: clamp(16px, 3.4vh, 28px); }
 .title { font-size: clamp(2rem, 8vw, 3.2rem); }
 .title::after {
   content: '';
@@ -149,6 +157,23 @@ h1, h2 { font-family: 'Fredoka One', 'Nunito', sans-serif; font-weight: 400; lin
   background: linear-gradient(90deg, var(--minute), #ffd98a);
 }
 .subtitle { margin-top: 12px; color: #c6d0e4; font-weight: 600; }
+
+.home-voice {
+  width: 56px;
+  height: 56px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 2px solid rgba(253, 246, 232, .35);
+  border-radius: 50%;
+  background: rgba(253, 246, 232, .1);
+  color: var(--paper);
+  cursor: pointer;
+}
+.home-voice .ui-icon { width: 28px; height: 28px; }
+.home-voice[aria-pressed="false"] { color: #9aa6bc; }
+.home-voice:focus-visible { outline: 3px solid var(--minute); outline-offset: 3px; }
 
 .chapter-grid {
   display: grid;
@@ -979,3 +1004,4 @@ input, textarea, [contenteditable="true"] {
   -webkit-user-select: text;
   user-select: text;
 }
+.primary-button svg,.ghost-button svg,.card-done svg,.stage-tick svg,.good svg{width:1em;height:1em;display:inline-block;vertical-align:-.14em;flex:none}
