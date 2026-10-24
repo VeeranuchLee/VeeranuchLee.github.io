@@ -989,12 +989,12 @@ function celebrate() {
   const host = document.createElement("div");
   host.className = "celebration";
   host.setAttribute("aria-hidden", "true");
-  const BITS = ["★", "✦", "✧"];
+  const BITS = ["<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 2.8l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 16.9 6.6 19.7l1-6.1L3.2 9.3l6.1-.9z\" fill=\"currentColor\"/></svg>", "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 2c.7 6.2 3.8 9.3 10 10-6.2.7-9.3 3.8-10 10-.7-6.2-3.8-9.3-10-10 6.2-.7 9.3-3.8 10-10z\" fill=\"currentColor\"/></svg>", "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 2c.7 6.2 3.8 9.3 10 10-6.2.7-9.3 3.8-10 10-.7-6.2-3.8-9.3-10-10 6.2-.7 9.3-3.8 10-10z\" fill=\"currentColor\"/></svg>"];
   const COLORS = ["#ffd479", "#7fe3ff", "#eaf1ff", "#aab4f2"];
   for (let i = 0; i < 36; i++) {
     const s = document.createElement("span");
     s.className = "confetti";
-    s.textContent = BITS[i % BITS.length];
+    s.innerHTML = BITS[i % BITS.length];
     s.style.left = (4 + Math.random() * 92) + "%";
     s.style.color = COLORS[i % COLORS.length];
     s.style.fontSize = (14 + Math.random() * 18) + "px";

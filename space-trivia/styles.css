@@ -530,6 +530,7 @@ input, textarea, [contenteditable="true"] {
   top: -8%;
   animation: confetti-fall 1.2s ease-in forwards;
 }
+.confetti svg { display: block; width: 1em; height: 1em; }
 @keyframes confetti-fall {
   0%   { transform: translateY(0) rotate(0deg) scale(.6); opacity: 0; }
   12%  { opacity: 1; }
