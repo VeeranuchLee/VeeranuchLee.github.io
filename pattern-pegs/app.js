@@ -16,6 +16,9 @@
   // Drawing lives in js/rule-icons.js so the Sort-by-Rule data check (Node) and the
   // app draw from one source.
   var beadSVG = RuleIcons.beadSVG;
+  var CG_STAR = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.8l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 16.9 6.6 19.7l1-6.1L3.2 9.3l6.1-.9z" fill="currentColor"/></svg>';
+  var CG_CHECK = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var CG_CROSS = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 7l10 10M17 7L7 17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
   function beadWrap(pieceStr, cls) {
     var parts = pieceStr.split(":");
@@ -140,7 +143,7 @@
     for (var i = 0; i < 10; i++) {
       var s = document.createElement("span");
       s.className = "star" + (i < S.stars ? " earned" : "");
-      s.textContent = "★";
+      s.innerHTML = CG_STAR;
       box.appendChild(s);
     }
   }
@@ -585,7 +588,7 @@
   function badge(btn, text, cls) {
     var b = btn.querySelector(".pick-badge");
     if (!b) { b = document.createElement("span"); b.className = "pick-badge"; btn.appendChild(b); }
-    b.textContent = text;
+    b.innerHTML = text;
     b.className = "pick-badge " + cls;
     return b;
   }
@@ -630,7 +633,7 @@
           b.classList.add("picked");
           b.classList.remove("hint-glow");
           b.setAttribute("aria-pressed", "true");
-          badge(b, "✓", "yes");
+          badge(b, CG_CHECK, "yes");
           banner.classList.remove("teach");
           sparkleAt(b);
           if (st.left <= 0) solvedClean(900);
@@ -639,7 +642,7 @@
           Sound.wrong();
           S.clean = false;
           st.misses++;
-          var bd = badge(b, "✗", "no");
+          var bd = badge(b, CG_CROSS, "no");
           b.classList.remove("shake"); void b.offsetWidth; b.classList.add("shake");
           setTimeout(function () { if (bd.parentNode) bd.remove(); }, 900);
           if (st.misses >= 2) banner.classList.add("teach");
@@ -731,7 +734,7 @@
             spot.innerHTML = pieceBead(piece);
             btn.classList.remove("next");
             btn.classList.add("sorted");
-            badge(btn, "✓", "yes");
+            badge(btn, CG_CHECK, "yes");
             st.i++; st.misses = 0; st.busy = false;
             if (st.i >= pieceBtns.length) solvedClean(900);
             else { Sound.correct(); mark(); }
@@ -743,7 +746,7 @@
           bin.classList.remove("shake"); void bin.offsetWidth; bin.classList.add("shake");
           var x = document.createElement("span");
           x.className = "pick-badge no";
-          x.textContent = "✗";
+          x.innerHTML = CG_CROSS;
           bin.appendChild(x);
           setTimeout(function () { x.remove(); }, 900);
           if (st.misses >= 2) Object.keys(bins).forEach(function (k) { bins[k].classList.add("teach"); });

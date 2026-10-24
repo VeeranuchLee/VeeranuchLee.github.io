@@ -27,7 +27,7 @@
 //        CACHE_NAME changes, so an offline install without it would have no guard.
 //        tools/check-shell.mjs enforces that: it reads this list and this page's
 //        own references, and fails on a file referenced but not listed.
-const CACHE_NAME = "pattern-pegs-v11";
+const CACHE_NAME = "pattern-pegs-v12";
 
 const SHELL = [
   "./",
