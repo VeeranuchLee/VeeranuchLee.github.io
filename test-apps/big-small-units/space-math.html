@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="audio-wake.js?v=335ae488b-20261026010606"></script>
+<script src="audio-wake.js?v=f606a8ceb-20261026013617"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Space Math</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=335ae488b-20261026010606"/>
-  <link rel="icon" href="./assets/icons/icon-192.png?v=335ae488b-20261026010606"/>
-  <link rel="stylesheet" href="./fonts.css?v=335ae488b-20261026010606"/>
-  <link rel="stylesheet" href="./css/tap-wait-math.css?v=335ae488b-20261026010606"/>
-  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=335ae488b-20261026010606"/>
+  <link rel="manifest" href="./manifest.webmanifest?v=f606a8ceb-20261026013617"/>
+  <link rel="icon" href="./assets/icons/icon-192.png?v=f606a8ceb-20261026013617"/>
+  <link rel="stylesheet" href="./fonts.css?v=f606a8ceb-20261026013617"/>
+  <link rel="stylesheet" href="./css/tap-wait-math.css?v=f606a8ceb-20261026013617"/>
+  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=f606a8ceb-20261026013617"/>
   <meta name="theme-color" content="#0a0e2d"/>
-  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=335ae488b-20261026010606"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=f606a8ceb-20261026013617"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Magic Math"/>
   <!-- Method C: the pilot guard is first; it ignores every multi-finger gesture. -->
-  <script src="./js/tap-zoom-guard.js?v=335ae488b-20261026010606"></script>
-  <script src="./vendor/react-18.3.1.production.min.js?v=335ae488b-20261026010606"></script>
-  <script src="./vendor/react-dom-18.3.1.production.min.js?v=335ae488b-20261026010606"></script>
-  <script src="./js/tap-wait-engine.js?v=335ae488b-20261026010606"></script>
-  <script src="./js/tap-wait-math.js?v=335ae488b-20261026010606"></script>
-  <script src="./js/big-small-units.js?v=335ae488b-20261026010606"></script>
-  <script src="./shared/bg-deco/bg-deco.js?v=335ae488b-20261026010606"></script>
-  <script src="./ask-answer-logic.js?v=335ae488b-20261026010606"></script>
-  <script src="./vendor/babel-7.26.4.min.js?v=335ae488b-20261026010606"></script>
+  <script src="./js/tap-zoom-guard.js?v=f606a8ceb-20261026013617"></script>
+  <script src="./vendor/react-18.3.1.production.min.js?v=f606a8ceb-20261026013617"></script>
+  <script src="./vendor/react-dom-18.3.1.production.min.js?v=f606a8ceb-20261026013617"></script>
+  <script src="./js/tap-wait-engine.js?v=f606a8ceb-20261026013617"></script>
+  <script src="./js/tap-wait-math.js?v=f606a8ceb-20261026013617"></script>
+  <script src="./js/big-small-units.js?v=f606a8ceb-20261026013617"></script>
+  <script src="./shared/bg-deco/bg-deco.js?v=f606a8ceb-20261026013617"></script>
+  <script src="./ask-answer-logic.js?v=f606a8ceb-20261026013617"></script>
+  <script src="./vendor/babel-7.26.4.min.js?v=f606a8ceb-20261026013617"></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;touch-action:manipulation}
     body{font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden;background:#0a0e2d}
@@ -74,6 +74,67 @@
     .mode-card{flex:1;min-width:130px;max-width:185px;border-radius:26px;padding:18px 12px 14px;cursor:pointer;border:none;display:flex;flex-direction:column;align-items:center;gap:8px;transition:transform .15s}
     .mode-card:active{transform:translateY(5px) scale(.96)}
     .mode-card-label{font-size:.78rem;font-weight:900;color:rgba(255,255,255,.92);text-shadow:0 2px 4px rgba(0,0,0,.3);text-align:center}
+    /* ── MENU DOORS CSS (shared) ──
+       The eight-door first screen and the one-shelf screen behind each door (owner,
+       2026-10-25). Both screens fit the iPad without scrolling, 768x1024 and 1024x768.
+       Colours that differ per world arrive as custom properties from MENU_THEME. */
+    .home.home-menu{height:100vh;height:100dvh;min-height:0;justify-content:flex-start;gap:10px;padding:12px 16px 4px}
+    .home-menu .menu-top{display:flex;flex-direction:column;align-items:center;gap:6px;flex:0 0 auto;width:100%;padding:0 70px}
+    .home-menu .menu-title-row{display:flex;align-items:center;justify-content:center;gap:10px;min-height:56px}
+    .home-menu .home-title{font-size:clamp(2rem,5.4vw,2.8rem);line-height:1.05}
+    .menu-title-icon{width:44px;height:44px;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.25));animation:bounce 1.7s ease-in-out infinite alternate}
+    .menu-title-icon.b{animation-duration:1.5s;animation-delay:.15s}
+    .menu-status{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;max-width:460px}
+    .menu-status .home-sub{display:flex;align-items:center;gap:6px;font-size:.85rem;padding:5px 14px;flex:0 0 auto}
+    .menu-status .home-sub img{width:22px;height:22px;object-fit:contain}
+    .menu-doors{flex:1 1 auto;min-height:0;width:100%;max-width:1000px;display:grid;gap:12px;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(4,minmax(0,1fr))}
+    .menu-door{-webkit-appearance:none;appearance:none;font:inherit;color:#fff;box-sizing:border-box;position:relative;min-width:0;min-height:0;border:3px solid rgba(255,255,255,.6);border-radius:26px;padding:8px 10px 10px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:4px;background:radial-gradient(120% 70% at 50% 0%,rgba(255,255,255,.28),rgba(255,255,255,0) 60%),linear-gradient(160deg,var(--d1),var(--d2));box-shadow:0 6px 0 rgba(0,0,0,.18),0 10px 22px rgba(0,0,0,.2),inset 0 2px 0 rgba(255,255,255,.35);cursor:pointer;transition:transform .12s,opacity .3s;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+    .menu-door:active{transform:translateY(4px) scale(.98)}
+    .menu-door.dimmed{opacity:.45}
+    .menu-door.launching{animation:mdLaunch 1s ease-in forwards}
+    @keyframes mdLaunch{0%{transform:scale(1)}30%{transform:scale(1.06)}100%{transform:scale(1.02)}}
+    .md-head{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;flex:0 0 auto;min-height:36px}
+    .md-badge{width:36px;height:36px;object-fit:contain;flex:0 0 auto;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
+    .md-name{font-size:1.08rem;font-weight:900;line-height:1.1;text-shadow:0 2px 0 rgba(0,0,0,.22);text-align:center}
+    .md-big{flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center;position:relative}
+    .md-big .gp{zoom:1.05}
+    .md-minis{flex:0 0 auto;display:flex;flex-wrap:wrap;justify-content:center;gap:5px;max-width:100%}
+    .md-mini .gp{zoom:.52}
+    .md-again{background:linear-gradient(160deg,rgba(255,255,255,.96),rgba(255,255,255,.82));border-color:#fff;color:var(--menu-ink)}
+    .md-again-card{position:relative;display:flex}
+    .md-again .md-big .gp{zoom:1.3}
+    .md-again .card-sticker{top:-16px;right:-20px;width:48px}
+    .md-again-label{display:flex;align-items:center;justify-content:center;gap:8px;font-size:1.25rem;font-weight:900;line-height:1;flex:0 0 auto;padding:4px 0 2px}
+    .md-play-svg{width:34px;height:34px;padding:7px;box-sizing:border-box;border-radius:50%;background:var(--menu-ink);color:#fff;box-shadow:0 3px 0 rgba(0,0,0,.18)}
+    @media (orientation:landscape){
+      .menu-doors{grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr))}
+      .md-big .gp{zoom:1.3}
+      .md-again .md-big .gp{zoom:1.5}
+      .md-mini .gp{zoom:.48}
+    }
+    .menu-shelf{flex:1 1 auto;min-height:0;width:100%;max-width:1000px;display:flex;flex-direction:column;align-items:center;gap:8px}
+    .menu-shelf-head{display:flex;align-items:center;justify-content:center;gap:10px;flex:0 0 auto}
+    .menu-shelf-badge{width:52px;height:52px;object-fit:contain;filter:drop-shadow(0 3px 6px rgba(0,0,0,.3))}
+    .menu-shelf-head .mode-section-label{font-size:1.15rem;padding:7px 22px}
+    .menu-shelf .mode-section{--cols:3;--cw:230px;--z:1.85;flex:1 1 auto;min-height:0;max-width:none;display:grid;gap:24px 20px;align-content:center;justify-content:center;grid-template-columns:repeat(var(--cols),minmax(0,var(--cw)))}
+    .menu-shelf.shelf-n4 .mode-section{--cols:2;--cw:300px;--z:2.1}
+    .menu-shelf.shelf-n5 .mode-section,.menu-shelf.shelf-n6 .mode-section{--z:1.65}
+    .menu-shelf .mode-section>.mode-row{display:contents}
+    .menu-shelf .mode-card{max-width:none;min-width:0;width:100%;padding:22px 12px 16px;gap:10px;justify-content:center}
+    .menu-shelf .mode-card .gp{zoom:var(--z)}
+    .home-menu .menu-shelf .mode-card .mode-card-label{font-size:1.12rem;line-height:1.15}
+    .home-menu .menu-shelf .mode-card .mode-card-sub{font-size:.82rem}
+    .menu-shelf .mode-card-stars img{width:24px;height:24px}
+    .menu-shelf .mode-row.has-badge .mode-card-label{min-height:0}
+    @media (orientation:landscape){
+      .menu-shelf .mode-section{--cw:280px;--z:2}
+      .menu-shelf.shelf-n4 .mode-section{--cols:4;--cw:225px;--z:1.75}
+      .menu-shelf.shelf-n5 .mode-section{--cw:270px;--z:1.4}
+      .menu-shelf.shelf-n6 .mode-section{--cw:270px;--z:1.2}
+      .menu-shelf.shelf-n5 .mode-card,.menu-shelf.shelf-n6 .mode-card{padding:16px 12px 12px;gap:6px}
+    }
+    .home-menu .ai-note{margin:0 auto 2px;flex:0 0 auto;font-size:.68rem;line-height:1.35}
+    /* ── END MENU DOORS CSS ── */
     /* ── GAME PREVIEW ──
        A miniature of the screen the child is about to see, not a mascot. Six games is
        too many to tell apart by a decorative planet, and a pre-reader cannot use the
@@ -2647,7 +2708,7 @@
 @media (prefers-reduced-motion:reduce){.on-screen *,.on-screen *::before,.on-screen *::after{animation:none!important;transition:none!important}}
 /* ── END ORDER NUMBERS CSS ── */
   </style>
-  <script src="./cg-update.js?v=335ae488b-20261026010606" defer></script>
+  <script src="./cg-update.js?v=f606a8ceb-20261026013617" defer></script>
 </head>
 <body>
 <div id="root"></div>
@@ -6666,7 +6727,7 @@ function GamePreview({id}){
           as art. This badge is one of the four the owner kept on 2026-08-27; it is the
           one that still reads at the ~22px the card gives it, and it is blue, which the
           others are not. */}
-      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/space/icons/read-out.webp?v=335ae488b-20261026010606" alt=""/></div>
+      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/space/icons/read-out.webp?v=f606a8ceb-20261026013617" alt=""/></div>
     </div>);
   if(id==='s1')return(                      /* Count By — the chant above, the ladder rung below */
     <div className="gp gp-tight" aria-hidden="true">
@@ -6833,7 +6894,7 @@ function CardSticker({id}){
   return <img className="card-sticker" src={`assets/stickers/space/${f}.webp`} alt="" aria-hidden="true" draggable="false" style={{'--sd':(4+(h%7)*.45).toFixed(2)+'s','--sl':'-'+((h%5)*.9).toFixed(1)+'s'}}/>;
 }
 function Stars({count}){
-  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/space/icons/fourstar-gold.webp?v=335ae488b-20261026010606" alt="" aria-hidden="true"/>)}</div>;
+  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/space/icons/fourstar-gold.webp?v=f606a8ceb-20261026013617" alt="" aria-hidden="true"/>)}</div>;
 }
 
 /* Only the two hardest games wear this. The absence of a badge is the other
@@ -6841,7 +6902,7 @@ function Stars({count}){
    What Number? would land on the child who needs that game most. Nothing is
    locked either — the badge says who you are growing into, not who may tap. */
 function BigKidBadge(){
-  return <div className="mode-card-badge"><img src="assets-runtime/space/icons/big-kids.webp?v=335ae488b-20261026010606" alt="" aria-hidden="true"/></div>;
+  return <div className="mode-card-badge"><img src="assets-runtime/space/icons/big-kids.webp?v=f606a8ceb-20261026013617" alt="" aria-hidden="true"/></div>;
 }
 
 /* ══ MASCOT ══ */
@@ -6927,10 +6988,10 @@ function JourneyTrack({progress}){
   const from=JOURNEY_STOPS[legIdx],to=JOURNEY_STOPS[legIdx+1];
   const cells=[];
   for(let i=0;i<LEG_LEN;i++){
-    if(i<inLeg)cells.push(<img key={`s${i}`} className="journey-star" src="assets-runtime/space/icons/fourstar-gold.webp?v=335ae488b-20261026010606" alt=""/>);
+    if(i<inLeg)cells.push(<img key={`s${i}`} className="journey-star" src="assets-runtime/space/icons/fourstar-gold.webp?v=f606a8ceb-20261026013617" alt=""/>);
     else cells.push(<span key={`d${i}`} className="journey-dot"/>);
   }
-  cells.splice(inLeg,0,<img key={`r${inLeg}`} className="journey-rocket" src="assets-runtime/space/icons/rocket.webp?v=335ae488b-20261026010606" alt=""/>);
+  cells.splice(inLeg,0,<img key={`r${inLeg}`} className="journey-rocket" src="assets-runtime/space/icons/rocket.webp?v=f606a8ceb-20261026013617" alt=""/>);
   return(
     <div className="journey-track" aria-label={`Flying from ${from.title} to ${to.title}, ${inLeg} of ${LEG_LEN} stars`}>
       <img className="journey-node" src={from.icon} alt={from.title}/>
@@ -6990,7 +7051,7 @@ function ArrivalOverlay({stopIdx,factIdx,complete,muted,onClose}){
         <img className="arrival-photo" src={stop.bg} alt=""/>
         <img className="arrival-planet" src={stop.icon} alt={stop.title}/>
         <div className="arrival-title">{complete?'Journey Complete!':`You reached ${stop.title}!`}</div>
-        {complete&&<img className="arrival-trophy" src="assets-runtime/space/icons/trophy.webp?v=335ae488b-20261026010606" alt="trophy earned"/>}
+        {complete&&<img className="arrival-trophy" src="assets-runtime/space/icons/trophy.webp?v=f606a8ceb-20261026013617" alt="trophy earned"/>}
         <div className="arrival-fact-row">
           <button className="arrival-replay" aria-label="Hear it again" onClick={()=>{Sound.tap();Voice.say(fact);}}><SpeakerOnIcon/></button>
           <div className="arrival-fact" key={i}>{fact}</div>
@@ -6998,7 +7059,7 @@ function ArrivalOverlay({stopIdx,factIdx,complete,muted,onClose}){
         {stop.facts.length>1&&(
           <div className="arrival-more-row">
             <button className="arrival-more" onClick={nextFact}>
-              <img src="assets-runtime/space/icons/sparkle-gold.webp?v=335ae488b-20261026010606" alt=""/>Another fact!
+              <img src="assets-runtime/space/icons/sparkle-gold.webp?v=f606a8ceb-20261026013617" alt=""/>Another fact!
             </button>
             <div className="arrival-fact-dots" aria-hidden="true">
               {stop.facts.map((f,k)=><span key={k} className={`arrival-fact-dot${k===i?' on':''}`}/>)}
@@ -7006,7 +7067,7 @@ function ArrivalOverlay({stopIdx,factIdx,complete,muted,onClose}){
           </div>
         )}
         <button className="arrival-btn" onClick={onClose}>
-          <img src="assets-runtime/space/icons/rocket.webp?v=335ae488b-20261026010606" alt=""/>{complete?'New Journey!':'Keep Flying!'}
+          <img src="assets-runtime/space/icons/rocket.webp?v=f606a8ceb-20261026013617" alt=""/>{complete?'New Journey!':'Keep Flying!'}
         </button>
       </div>
     </div>
@@ -7054,7 +7115,7 @@ function TopBar({onBack,muted,onToggleMute,label,score,journey,trophies=0}){
   return(
     <div className="top-bar">
       <div style={{display:'flex',alignItems:'center',gap:5}}>
-        <img src="assets-runtime/space/icons/saturn.webp?v=335ae488b-20261026010606" alt="" aria-hidden="true" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.3))'}}/>
+        <img src="assets-runtime/space/icons/saturn.webp?v=f606a8ceb-20261026013617" alt="" aria-hidden="true" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.3))'}}/>
         <button className="back-btn" aria-label="Back home" onClick={()=>{Voice.stop();Sound.tap();onBack();}}><BackIcon/></button>
       </div>
       {label&&<div className="level-chip">{label}</div>}
@@ -7068,12 +7129,12 @@ function TopBar({onBack,muted,onToggleMute,label,score,journey,trophies=0}){
             to count -- so the chip is conditional rather than a permanent 0. Every
             scored game passes a score and sees exactly what it saw before. */}
         {score!=null&&<div style={{display:'flex',alignItems:'center',gap:6}}>
-          <img src="assets-runtime/space/icons/star.webp?v=335ae488b-20261026010606" alt="score" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.3))'}}/>
+          <img src="assets-runtime/space/icons/star.webp?v=f606a8ceb-20261026013617" alt="score" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.3))'}}/>
           <div className="score-badge"><span>{score}</span></div>
         </div>}
         <JourneyTrack progress={journey}/>
         <div className="score-badge" aria-label={`${trophies} journeys completed`}>
-          <img src="assets-runtime/space/icons/trophy.webp?v=335ae488b-20261026010606" alt="trophies"/><span>{trophies}</span>
+          <img src="assets-runtime/space/icons/trophy.webp?v=f606a8ceb-20261026013617" alt="trophies"/><span>{trophies}</span>
         </div>
       </>}
       <div style={{display:'flex',gap:6}}>
@@ -8171,7 +8232,7 @@ function NumberLineAddSub({onBack, journey, addProgress, trophies, journeyBg, sc
         <div className="line-stack">
           <div className="char-row">
             <div className={`char-inner ${celebrating?'happy':''} ${wrongId!=null?'oops':''}`} style={{left:16+(charPos-min)*50+((!celebrating?54:50)-76)/2}}>
-              <img className="char-img" src="assets-runtime/space/icons/rocket.webp?v=335ae488b-20261026010606" alt="rocket"/>
+              <img className="char-img" src="assets-runtime/space/icons/rocket.webp?v=f606a8ceb-20261026013617" alt="rocket"/>
             </div>
           </div>
           <div className="hop-arrows">
@@ -9534,8 +9595,8 @@ function numberToWords(s){
 function RobotReader({speaking}){
   return(
     <div className={`rb-robot ${speaking?'talking':''}`} aria-hidden="true">
-      <img className="rb-still" src="assets-runtime/space/icons/robot-reader.webp?v=335ae488b-20261026010606" alt=""/>
-      <img className="rb-talk" src="assets-runtime/space/icons/robot-reader-talk.webp?v=335ae488b-20261026010606" alt=""/>
+      <img className="rb-still" src="assets-runtime/space/icons/robot-reader.webp?v=f606a8ceb-20261026013617" alt=""/>
+      <img className="rb-talk" src="assets-runtime/space/icons/robot-reader-talk.webp?v=f606a8ceb-20261026013617" alt=""/>
     </div>
   );
 }
@@ -16489,10 +16550,103 @@ function OrderNumbersGame({onBack,score,setScore,muted,topBar,mascotKind,reward,
 }
 /* ══ END ORDER NUMBERS UI ══ */
 
+/* ══ MENU THEME (Space) ══
+   Everything the shared menu below needs that is this world's own: the door colours,
+   one planet badge per shelf, and the key that remembers the last game played. The
+   shelves and their games are the owner's seven of 2026-09-24, in the order the game
+   cards are written in Home; check-math-parity.js holds the two lists together. The
+   sample game on each door is the picture that best says what the shelf is for. */
+const MENU_THEME={
+  lastKey:'sm_last_game',
+  startGame:'b1',
+  vars:{'--menu-ink':'#3b2a9e'},
+  shelves:[
+    {key:'play',name:'Play & Explore',badge:'assets-runtime/space/icons/earth.webp',tint:['#8a7bff','#3e2caa'],sample:'np1',
+      games:[['np1','Number Toys'],['x1','Nine Magic'],['k1','Memory Match']]},
+    {key:'count',name:'Counting & Comparing',badge:'assets-runtime/space/icons/moon.webp',tint:['#5b9bff','#1d4fc4'],sample:'g1',
+      games:[['b1','What Number?'],['b2','Fill the Right Block'],['g1','Which is Bigger?'],['b3',"What's Missing?"],['o1','Order the Numbers']]},
+    {key:'patterns',name:'Number Patterns',badge:'assets-runtime/space/icons/mars.webp',tint:['#ec68a8','#8a2a9e'],sample:'sq1',
+      games:[['sq1','Sequence'],['r1','Big Numbers'],['oe1','Odd or Even?'],['h1','Hundred Board'],['t1','Tap or Wait']]},
+    {key:'make',name:'Make Numbers',badge:'assets-runtime/space/icons/venus.webp',tint:['#2cc2cf','#1a5fa8'],sample:'n1',
+      games:[['n1','Make 10'],['n3','Make 100'],['y1','Make It!']]},
+    {key:'times',name:'Times & Sharing',badge:'assets-runtime/space/icons/jupiter.webp',tint:['#ff9a5a','#c23f6b'],sample:'m1',
+      games:[['m1','Times Tables'],['s1','Count By'],['m2','Table Chart'],['d1','Share It Out']]},
+    {key:'measure',name:'Fractions & Measure',badge:'assets-runtime/space/icons/saturn.webp',tint:['#35c792','#17708a'],sample:'f1',
+      games:[['f1','Fractions'],['q1',"What's the Fraction?"],['u2','Big and Small Units'],['a1','Cover It']]},
+    {key:'solve',name:'Solve & Calculate',badge:'assets-runtime/space/icons/uranus.webp',tint:['#a46cf5','#4b1fa0'],sample:'c1',
+      games:[['c1','Add & Take Away'],['c2','Carry & Borrow'],['c5','Multiply'],['aa1','Ask & Answer'],['l2','Add & Subtract'],['p1','Number Crossword']]},
+  ],
+};
+
+/* ══ MENU DOORS (shared) ══
+   Owner, 2026-10-25: "the math app menu is quite long, and hard to navigate". The home
+   screen was 30 cards on one page, three to four screens tall, and young children mostly
+   stay on the first screen. So the first screen is now eight doors that always fit: the
+   owner's seven shelves of 2026-09-24, unchanged, plus a Start here / Play again door.
+
+   A DOOR SHOWS WHAT IS BEHIND IT. Planet-only doors were rejected ("it looks cute, but
+   it's not really convey information about what are these") and a text list of game
+   names was rejected ("text harder to decode for pre-school"). The chosen direction is
+   "Example + icons": one big sample game picture and a row of small pictures of the
+   shelf's other games, every one of them the live GamePreview the game card itself
+   wears, so what the child taps here is what they find inside.
+
+   THIS BLOCK IS THE SAME IN EVERY WORLD (check-math-parity.js compares it). Everything
+   that differs -- shelf badges, door colours, the remembered-game key, the ink -- lives
+   in that world's MENU_THEME above, so a third world is a new MENU_THEME and nothing
+   here. The game cards themselves stay written out in each Home, because the menu and
+   router inventory checks read them there. */
+const MENU_SHELF_OF={};
+MENU_THEME.shelves.forEach(s=>s.games.forEach(g=>{MENU_SHELF_OF[g[0]]=s.key;}));
+function menuShelf(key){return MENU_THEME.shelves.find(s=>s.key===key)||null;}
+function menuGameName(id){for(const s of MENU_THEME.shelves)for(const g of s.games)if(g[0]===id)return g[1];return '';}
+/* Guarded both ways: a private window, or storage turned off, simply has no Play again. */
+function menuLastGame(){try{const v=localStorage.getItem(MENU_THEME.lastKey);return v&&MENU_SHELF_OF[v]?v:null;}catch(e){return null;}}
+function menuRememberGame(id){if(!MENU_SHELF_OF[id])return;try{localStorage.setItem(MENU_THEME.lastKey,id);}catch(e){}}
+function MenuPlayIcon({again}){
+  return again
+    ?(<svg className="md-play-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round"/><path d="M18.6 3.2v4.6H14" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round"/></svg>)
+    :(<svg className="md-play-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.2v13.6a1 1 0 0 0 1.5.86l11-6.8a1 1 0 0 0 0-1.72l-11-6.8A1 1 0 0 0 8 5.2z" fill="currentColor"/></svg>);
+}
+function MenuDoors({onOpen,onPlay,launching}){
+  const last=useMemo(menuLastGame,[]);
+  const startId=last||MENU_THEME.startGame;
+  return(
+    <div className="menu-doors">
+      {MENU_THEME.shelves.map(s=>{
+        const rest=s.games.filter(g=>g[0]!==s.sample);
+        return(
+          <button key={s.key} className={`menu-door${launching?' dimmed':''}`} style={{'--d1':s.tint[0],'--d2':s.tint[1]}}
+            onClick={()=>{if(launching)return;Sound.tap();onOpen(s.key);}}
+            aria-label={`${s.name}: ${s.games.map(g=>g[1]).join(', ')}`}>
+            <div className="md-head"><img className="md-badge" src={s.badge} alt=""/><span className="md-name">{s.name}</span></div>
+            <div className="md-big"><GamePreview id={s.sample}/></div>
+            <div className={`md-minis md-minis-${rest.length}`}>{rest.map(g=><div key={g[0]} className="md-mini"><GamePreview id={g[0]}/></div>)}</div>
+          </button>
+        );
+      })}
+      <button className={`menu-door md-again${launching===startId?' launching':launching?' dimmed':''}`}
+        onClick={()=>onPlay(startId)} aria-label={`${last?'Play again':'Start here'}: ${menuGameName(startId)}`}>
+        <div className="md-big"><div className="md-again-card"><GamePreview id={startId}/><CardSticker id={startId}/></div></div>
+        <div className="md-again-label"><MenuPlayIcon again={!!last}/><span>{last?'Play again':'Start here'}</span></div>
+      </button>
+    </div>
+  );
+}
+function MenuShelfHead({shelf}){
+  return(
+    <div className="menu-shelf-head">
+      <img className="menu-shelf-badge" src={shelf.badge} alt=""/>
+      <div className="mode-section-label">{shelf.name}</div>
+    </div>
+  );
+}
+/* ══ END MENU DOORS ══ */
+
 /* ══ HOME ══
    Built for pre-readers: each card is a big picture that SPEAKS its name
    when tapped, zooms for feedback, then flies into the game. */
-function Home({onSelect,trophies=0,journey=0}){
+function Home({onSelect,trophies=0,journey=0,shelf=null,setShelf=()=>{}}){
   const [music,setMusic]=useState(()=>Music.enabled());
   const title='Space Math!'.split('');
   const [launching,setLaunching]=useState(null);
@@ -16513,8 +16667,9 @@ function Home({onSelect,trophies=0,journey=0}){
     launchT.current=setTimeout(()=>onSelect(id),1050);
   };
   const cardCls=(id,base)=>`mode-card ${base} ${launching===id?'launching':launching?'dimmed':''}`;
+  const open=menuShelf(shelf);
   return(
-    <div className="home">
+    <div className="home home-menu" style={MENU_THEME.vars}>
       <button className={`music-btn${music?'':' music-off'}`} aria-label={music?'Menu music on':'Menu music off'}
         onClick={()=>{const n=!music;setMusic(n);Music.setEnabled(n);Sound.tap();}}>{music?<MusicOnIcon/>:<MusicOffIcon/>}</button>
       {/* Owner, 2026-08-26: "i also want 'back' to 'main hub' on the top left". It is the
@@ -16535,34 +16690,33 @@ function Home({onSelect,trophies=0,journey=0}){
           site/, and a relative link would have worked live and 404'd in every local
           preview. `index.html` is a file in this same directory in both places, so the
           reason no longer applies and the local preview now walks the whole route. */}
-      <a className="back-btn hub-btn" href="index.html" aria-label="Back to Magic Math"><BackIcon/></a>
+      {/* Owner, 2026-10-25: one more rung on the same ladder. Behind a door the arrow
+          climbs back to the doors; on the doors it leaves for Magic Math as before. */}
+      {open
+        ?<button className="back-btn hub-btn" onClick={()=>{Voice.stop();Sound.tap();setShelf(null);}} aria-label="Back to all the games"><BackIcon/></button>
+        :<a className="back-btn hub-btn" href="index.html" aria-label="Back to Magic Math"><BackIcon/></a>}
       <div className="home-bg"/>
       <div className="home-tint"/>
       <BgDeco/>
-      <div className="home-rainbow home-cloud-row">
-        <img className="home-cloud" src="assets-runtime/space/icons/saturn.webp?v=335ae488b-20261026010606" alt="" style={{animation:'bounce 1.7s 0s ease-in-out infinite alternate'}}/>
-        <img className="home-cloud" src="assets-runtime/space/icons/rocket.webp?v=335ae488b-20261026010606" alt="" style={{animation:'bounce 1.6s .12s ease-in-out infinite alternate'}}/>
-      </div>
-      <div className="home-title">
-        {title.map((c,i)=><span key={i} style={{color:TITLE_COLORS[i%TITLE_COLORS.length],animationDelay:`${i*.07}s`,textShadow:`0 3px 0 ${TITLE_COLORS[(i+4)%TITLE_COLORS.length]}55`}}>{c}</span>)}
-      </div>
-      <div style={{display:'flex',alignItems:'center',gap:8}}>
-        <img src="assets-runtime/space/icons/star.webp?v=335ae488b-20261026010606" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.3))'}}/>
-        <div className="home-sub">Choose your mission!</div>
-        <img src="assets-runtime/space/icons/star.webp?v=335ae488b-20261026010606" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.3))'}}/>
-      </div>
-      {trophies>0&&<div className="home-sub" style={{fontSize:'.85rem',display:'flex',alignItems:'center',gap:6}}>
-        <img src="assets-runtime/space/icons/trophy.webp?v=335ae488b-20261026010606" alt="" style={{width:22,height:22,objectFit:'contain'}}/>Journeys completed: {trophies}
-      </div>}
-      <div style={{width:'100%',maxWidth:420,display:'flex',justifyContent:'center'}}>
-        <JourneyTrack progress={journey}/>
-      </div>
-      <div className="mode-section">
-        <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/space/icons/fourstar-gold.webp?v=335ae488b-20261026010606" alt=""/>
-          <div className="mode-section-label">Play &amp; Explore</div>
-          <img className="section-icon" src="assets-runtime/space/icons/sparkle-blue.webp?v=335ae488b-20261026010606" alt=""/>
+      <div className="menu-top">
+        <div className="menu-title-row">
+          <img className="menu-title-icon" src="assets-runtime/space/icons/saturn.webp?v=f606a8ceb-20261026013617" alt=""/>
+          <div className="home-title">
+            {title.map((c,i)=><span key={i} style={{color:TITLE_COLORS[i%TITLE_COLORS.length],animationDelay:`${i*.07}s`,textShadow:`0 3px 0 ${TITLE_COLORS[(i+4)%TITLE_COLORS.length]}55`}}>{c}</span>)}
+          </div>
+          <img className="menu-title-icon b" src="assets-runtime/space/icons/rocket.webp?v=f606a8ceb-20261026013617" alt=""/>
         </div>
+        {!open&&<div className="menu-status">
+          {trophies>0&&<div className="home-sub">
+            <img src="assets-runtime/space/icons/trophy.webp?v=f606a8ceb-20261026013617" alt=""/>Journeys completed: {trophies}
+          </div>}
+          <JourneyTrack progress={journey}/>
+        </div>}
+      </div>
+      {!open&&<MenuDoors onOpen={setShelf} onPlay={pick} launching={launching}/>}
+      {open&&<div className={`menu-shelf shelf-n${open.games.length}`}>
+        <MenuShelfHead shelf={open}/>
+      {shelf==='play'&&(<div className="mode-section">
         <div className="mode-row">
           <button className={cardCls('np1','mc-rose')} onClick={()=>pick('np1')} aria-label="Number Toys. Build your own number sentence">
             <GamePreview id="np1"/><CardSticker id="np1"/>
@@ -16577,13 +16731,8 @@ function Home({onSelect,trophies=0,journey=0}){
             <div className="mode-card-label">Memory Match</div><Stars count={2}/>
           </button>
         </div>
-      </div>
-      <div className="mode-section">
-        <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/space/icons/rocket.webp?v=335ae488b-20261026010606" alt=""/>
-          <div className="mode-section-label">Counting &amp; Comparing</div>
-          <img className="section-icon" src="assets-runtime/space/icons/moon.webp?v=335ae488b-20261026010606" alt=""/>
-        </div>
+      </div>)}
+      {shelf==='count'&&(<div className="mode-section">
         <div className="mode-row">
           <button className={cardCls('b1','mc-pink')} onClick={()=>pick('b1')} aria-label="What Number? Count the blocks">
             <GamePreview id="b1"/><CardSticker id="b1"/>
@@ -16611,13 +16760,8 @@ function Home({onSelect,trophies=0,journey=0}){
             <div className="mode-card-label">Star Sums</div><Stars count={2}/>
           </button>)}
         </div>
-      </div>
-      <div className="mode-section">
-        <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/space/icons/comet.webp?v=335ae488b-20261026010606" alt=""/>
-          <div className="mode-section-label">Number Patterns</div>
-          <img className="section-icon" src="assets-runtime/space/icons/star.webp?v=335ae488b-20261026010606" alt=""/>
-        </div>
+      </div>)}
+      {shelf==='patterns'&&(<div className="mode-section">
         <div className="mode-row">
           <button className={cardCls('sq1','mc-purple')} onClick={()=>pick('sq1')} aria-label="Sequence. Complete the number pattern">
             <GamePreview id="sq1"/><CardSticker id="sq1"/>
@@ -16642,13 +16786,8 @@ function Home({onSelect,trophies=0,journey=0}){
             <div className="mode-card-label">Tap or Wait</div><Stars count={2}/>
           </button>
         </div>
-      </div>
-      <div className="mode-section">
-        <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/space/icons/fourstar-gold.webp?v=335ae488b-20261026010606" alt=""/>
-          <div className="mode-section-label">Make Numbers</div>
-          <img className="section-icon" src="assets-runtime/space/icons/sparkle-blue.webp?v=335ae488b-20261026010606" alt=""/>
-        </div>
+      </div>)}
+      {shelf==='make'&&(<div className="mode-section">
         <div className="mode-row">
           <button className={cardCls('n1','mc-pink')} onClick={()=>pick('n1')} aria-label="Make 10. Fill it up, or watch them fly">
             <GamePreview id="n1"/><CardSticker id="n1"/>
@@ -16663,13 +16802,8 @@ function Home({onSelect,trophies=0,journey=0}){
             <div className="mode-card-label">Make It!</div><Stars count={1}/>
           </button>
         </div>
-      </div>
-      <div className="mode-section">
-        <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/space/icons/saturn.webp?v=335ae488b-20261026010606" alt=""/>
-          <div className="mode-section-label">Times &amp; Sharing</div>
-          <img className="section-icon" src="assets-runtime/space/icons/starthin.webp?v=335ae488b-20261026010606" alt=""/>
-        </div>
+      </div>)}
+      {shelf==='times'&&(<div className="mode-section">
         <div className="mode-row">
           <button className={cardCls('m1','mc-purple')} onClick={()=>pick('m1')} aria-label="Times Tables">
             <GamePreview id="m1"/><CardSticker id="m1"/>
@@ -16688,13 +16822,8 @@ function Home({onSelect,trophies=0,journey=0}){
             <div className="mode-card-label">Share It Out</div><Stars count={2}/>
           </button>
         </div>
-      </div>
-      <div className="mode-section">
-        <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/space/icons/crystal-cyan.webp?v=335ae488b-20261026010606" alt=""/>
-          <div className="mode-section-label">Fractions &amp; Measure</div>
-          <img className="section-icon" src="assets-runtime/space/icons/crystal-purple.webp?v=335ae488b-20261026010606" alt=""/>
-        </div>
+      </div>)}
+      {shelf==='measure'&&(<div className="mode-section">
         <div className="mode-row">
           <button className={cardCls('f1','mc-magic')} onClick={()=>pick('f1')} aria-label="Read Fractions. Tap the pieces">
             <GamePreview id="f1"/><CardSticker id="f1"/>
@@ -16713,13 +16842,8 @@ function Home({onSelect,trophies=0,journey=0}){
             <div className="mode-card-label">Cover It</div><Stars count={2}/>
           </button>
         </div>
-      </div>
-      <div className="mode-section">
-        <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/space/icons/satellite.webp?v=335ae488b-20261026010606" alt=""/>
-          <div className="mode-section-label">Solve &amp; Calculate</div>
-          <img className="section-icon" src="assets-runtime/space/icons/chest.webp?v=335ae488b-20261026010606" alt=""/>
-        </div>
+      </div>)}
+      {shelf==='solve'&&(<div className="mode-section">
         <div className="mode-row has-badge">
           <button className={cardCls('c1','mc-rose')} onClick={()=>pick('c1')} aria-label="Add and Take Away. Column style">
             <GamePreview id="c1"/><CardSticker id="c1"/>
@@ -16748,10 +16872,8 @@ function Home({onSelect,trophies=0,journey=0}){
             <div className="mode-card-label">Number Crossword</div><Stars count={2}/>
           </button>
         </div>
-      </div>
-      <div style={{display:'flex',justifyContent:'center',padding:'0 8px',animation:'bounce 2s ease-in-out infinite alternate'}}>
-        <img src="assets-runtime/space/icons/starcloud-blue.webp?v=335ae488b-20261026010606" alt="" style={{width:64,height:64,objectFit:'contain',filter:'drop-shadow(0 0 12px rgba(140,190,255,.6))'}}/>
-      </div>
+      </div>)}
+      </div>}
       {/* AI-voice disclosure. The hub carries one too, but a game is reachable by its
           own URL and most children arrive that way, so the statement has to stand on
           its own page. Sized for the adult who looks rather than the child who plays.
@@ -16884,7 +17006,12 @@ function App(){
     /* Menu only — see the MENU MUSIC note. Driven off `mode` rather than set at each
      call site, so a new game added later is silent by default rather than by memory. */
   useEffect(()=>{Music.setWanted(mode===null);},[mode]);
-  const goHome=useCallback(()=>{Voice.stop();clearTimeout(arrivalT.current);setMode(null);},[]);
+  /* A game's way back lands on ITS shelf, not on the doors (owner, 2026-10-25): the
+     child returns to the games beside the one they just played. A #play- deep link
+     has no shelf history either, and lands on the same place. */
+  const [shelf,setShelf]=useState(null);
+  useEffect(()=>{if(mode)menuRememberGame(mode);},[mode]);
+  const goHome=useCallback(()=>{Voice.stop();clearTimeout(arrivalT.current);setShelf(MENU_SHELF_OF[mode]||null);setMode(null);},[mode]);
 
   const shared={onBack:goHome,journey,addProgress,trophies,journeyBg,muted,onToggleMute};
   let screen;
@@ -16918,7 +17045,7 @@ function App(){
   else if(mode==='p1')screen=<NumberCrosswordGame {...shared}/>;
   else if(mode==='aa1')screen=<AskAnswerGame {...shared}/>;
   else if(mode==='t1')screen=<TapWaitMathGame {...shared} theme="space" score={scores.t1} setScore={setScore('t1')} onCorrect={addProgress}/>;
-  else screen=<Home onSelect={setMode} trophies={trophies} journey={journey}/>;
+  else screen=<Home onSelect={setMode} trophies={trophies} journey={journey} shelf={shelf} setShelf={setShelf}/>;
   return<>{screen}{arrivalIdx!=null&&<ArrivalOverlay stopIdx={arrivalIdx} factIdx={arrivalFact} complete={journeyComplete} muted={muted} onClose={closeArrival}/>}</>;
 }
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
