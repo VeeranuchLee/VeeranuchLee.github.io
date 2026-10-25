@@ -1,8 +1,9 @@
-const CACHE_NAME = "toy-guitar-v5";
+const CACHE_NAME = "toy-guitar-v6";
 
 const SHELL = [
   "./", "./index.html", "./styles.css",
-  "./cg-back.css", "./fonts.css", "./app.js", "./tap-zoom-guard.js", "./js/audio-wake.js", "./manifest.webmanifest",
+  "./cg-back.css",
+  "./cg-update.js", "./fonts.css", "./app.js", "./tap-zoom-guard.js", "./js/audio-wake.js", "./manifest.webmanifest",
   "./lib/theory.js", "./lib/string-board.js", "./lib/geometry.js", "./lib/recorder.js", "./lib/performer.js",
   "./lib/toys.js", "./lib/session.js",
   "./audio/ks-worklet.js", "./audio/guitar-models.js", "./audio/rig.js", "./audio/percussion.js",
