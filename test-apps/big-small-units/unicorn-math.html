@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="audio-wake.js?v=e6dbf41c9-20261025201757"></script>
+<script src="audio-wake.js?v=335ae488b-20261026010606"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <!-- Plain name, deliberately. This read "Magic Math v7" from 7343cc3 until
@@ -10,26 +10,26 @@
        a title that has to be edited on every publish will be wrong again by the
        next one. -->
   <title>Unicorn Math</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=e6dbf41c9-20261025201757"/>
-  <link rel="icon" href="./assets/icons/icon-192.png?v=e6dbf41c9-20261025201757"/>
-  <link rel="stylesheet" href="./fonts.css?v=e6dbf41c9-20261025201757"/>
-  <link rel="stylesheet" href="./css/tap-wait-math.css?v=e6dbf41c9-20261025201757"/>
-  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=e6dbf41c9-20261025201757"/>
+  <link rel="manifest" href="./manifest.webmanifest?v=335ae488b-20261026010606"/>
+  <link rel="icon" href="./assets/icons/icon-192.png?v=335ae488b-20261026010606"/>
+  <link rel="stylesheet" href="./fonts.css?v=335ae488b-20261026010606"/>
+  <link rel="stylesheet" href="./css/tap-wait-math.css?v=335ae488b-20261026010606"/>
+  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=335ae488b-20261026010606"/>
   <meta name="theme-color" content="#0a0e2d"/>
-  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=e6dbf41c9-20261025201757"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=335ae488b-20261026010606"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Magic Math"/>
   <!-- Method C: the pilot guard is first; it ignores every multi-finger gesture. -->
-  <script src="./js/tap-zoom-guard.js?v=e6dbf41c9-20261025201757"></script>
-  <script src="./vendor/react-18.3.1.production.min.js?v=e6dbf41c9-20261025201757"></script>
-  <script src="./vendor/react-dom-18.3.1.production.min.js?v=e6dbf41c9-20261025201757"></script>
-  <script src="./js/tap-wait-engine.js?v=e6dbf41c9-20261025201757"></script>
-  <script src="./js/tap-wait-math.js?v=e6dbf41c9-20261025201757"></script>
-  <script src="./js/big-small-units.js?v=e6dbf41c9-20261025201757"></script>
-  <script src="./ask-answer-logic.js?v=e6dbf41c9-20261025201757"></script>
-  <script src="./shared/bg-deco/bg-deco.js?v=e6dbf41c9-20261025201757"></script>
-  <script src="./vendor/babel-7.26.4.min.js?v=e6dbf41c9-20261025201757"></script>
+  <script src="./js/tap-zoom-guard.js?v=335ae488b-20261026010606"></script>
+  <script src="./vendor/react-18.3.1.production.min.js?v=335ae488b-20261026010606"></script>
+  <script src="./vendor/react-dom-18.3.1.production.min.js?v=335ae488b-20261026010606"></script>
+  <script src="./js/tap-wait-engine.js?v=335ae488b-20261026010606"></script>
+  <script src="./js/tap-wait-math.js?v=335ae488b-20261026010606"></script>
+  <script src="./js/big-small-units.js?v=335ae488b-20261026010606"></script>
+  <script src="./ask-answer-logic.js?v=335ae488b-20261026010606"></script>
+  <script src="./shared/bg-deco/bg-deco.js?v=335ae488b-20261026010606"></script>
+  <script src="./vendor/babel-7.26.4.min.js?v=335ae488b-20261026010606"></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;touch-action:manipulation}
     body{font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden}
@@ -1391,17 +1391,50 @@
     .u2-rungs .fm-btn{width:100%;min-width:0;min-height:64px;height:64px;padding:5px;font-size:clamp(.9rem,2.2vw,1.1rem);font-weight:900;white-space:normal;line-height:1.05}
     /* The objects keep their own colours in both themes: an apple is red on a pink
        page and on a night sky. */
-    .u2-wood{fill:#ffe0b2}.u2-wood-dark{fill:#ffb74d}
+    /* Painted, not outlined (owner, 2026-10-25: "my kids like nice color, nice art").
+       The gradients are UnitPaint's defs, drawn once per game into a zero-size SVG. */
+    .u2-paint-box{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}
+    .u2-art .u2-obj{filter:url(#u2f-soft)}
+    .u2-wood{fill:url(#u2g-wood)}.u2-wood-dark{fill:url(#u2g-wood-dark)}
     .u2-knot{fill:#8d6e63}.u2-bow{fill:#ff80ab}
-    .u2-pencil{fill:#ffd54f}.u2-eraser{fill:#f48fb1}.u2-lead{fill:#455a64}
-    .u2-handle{fill:#e57373}.u2-metal{fill:#cfd8dc}.u2-paint{fill:#4fc3f7}
-    .u2-balloon{fill:#ff8a80}.u2-shine{stroke:#fff;stroke-width:5}
-    .u2-apple{fill:#ef5350}.u2-leaf{fill:#81c784}
-    .u2-block{fill:#90caf9}.u2-block-top{fill:#bbdefb}.u2-block-side{fill:#64b5f6}
-    .u2-pillow{fill:#fffde7}.u2-rock{fill:#b0bec5}.u2-book{fill:#a5d6a7}
-    .u2-bucket{fill:#ffcc80}.u2-cup{fill:#fff59d}
-    .u2-pan{fill:#ffe082}.u2-pivot{fill:#ffe082}
-    .u2-sack{fill:#fff3e0}.u2-flour{fill:#ffb74d}.u2-sack-empty{fill:#fffaf2}.u2-weight{fill:#b0bec5}
+    .u2-pencil{fill:url(#u2g-pencil)}.u2-eraser{fill:#f48fb1}.u2-lead{fill:#455a64}
+    .u2-handle{fill:url(#u2g-handle)}.u2-metal{fill:url(#u2g-metal)}.u2-paint{fill:#4fc3f7}
+    .u2-balloon{fill:url(#u2g-balloon)}.u2-shine{stroke:#fff;stroke-width:5;opacity:.85}
+    .u2-apple{fill:url(#u2g-apple)}.u2-leaf{fill:url(#u2g-leaf)}
+    .u2-block{fill:url(#u2g-block)}.u2-block-top{fill:#d8eeff}.u2-block-side{fill:#4a9fe3}
+    .u2-pillow{fill:url(#u2g-pillow)}.u2-rock{fill:url(#u2g-rock)}.u2-book{fill:url(#u2g-book)}
+    .u2-bucket{fill:url(#u2g-bucket)}.u2-cup{fill:url(#u2g-cup)}
+    .u2-pan{fill:url(#u2g-gold)}.u2-pivot{fill:url(#u2g-gold)}
+    .u2-sack{fill:url(#u2g-sack)}.u2-flour{fill:url(#u2g-flour)}.u2-sack-empty{fill:#fffaf2}.u2-weight{fill:url(#u2g-metal)}
+    .u2-mint{fill:url(#u2g-mint)}.u2-lilac{fill:url(#u2g-lilac)}.u2-tape{fill:url(#u2g-tape)}.u2-tape-case{fill:url(#u2g-pink)}
+    .u2-ribbon-fill{fill:url(#u2g-ribbon)}.u2-glass-fill{fill:url(#u2g-glass);fill-opacity:.8}.u2-juice{fill:url(#u2g-juice)}
+    .u2-water-top{stroke:#effcff;stroke-width:3;opacity:.9}
+    .u2-beam-edge{stroke-width:13}.u2-beam{stroke:#ffc94a;stroke-width:7}
+    .u2-scale{fill:url(#u2g-scale)}.u2-face{fill:#fffdfd}
+    .u2-cell{fill:#fff3c4;stroke:#e9bf4f}
+    /* Ticks and pointer pins drawn ON a painted object stay dark in both themes. */
+    .u2-art .u2-ink{stroke:#5a3470}
+    .u2-bead{fill:url(#u2g-bead)}.u2-bead-band{stroke:#ffd1ec;stroke-width:7}
+    .u2-ladybug{fill:url(#u2g-ladybug)}.u2-head{fill:#3b2a3f}.u2-spot{fill:#2b1d2e;stroke:none}.u2-eye{fill:#fff;stroke:none}
+    .u2-grass{fill:url(#u2g-grass)}.u2-tree{fill:#7fcf7a}.u2-trunk{fill:#b7865b}
+    .u2-road{fill:url(#u2g-road)}.u2-stretch{fill:#fff;fill-opacity:.22;stroke:#fff;stroke-opacity:.55}
+    .u2-road-line{stroke:#fff;stroke-width:4;stroke-dasharray:14 12}
+    .u2-art.teach .u2-stretch.u2-piece{fill-opacity:.95}
+    .u2-sun{fill:#ffd95a;stroke:#f5b93a}.u2-cloud{fill:#fff;stroke:#d9c7ef}
+    .u2-glass-shine{stroke:#fff;stroke-width:9;opacity:.7}
+    .u2-house{fill:#fff3e0}.u2-roof{fill:#ff8fb8}.u2-door{fill:#b39ddb}
+    .u2-signpost{stroke:#a1785a;stroke-width:6}.u2-sign{fill:url(#u2g-mint)}.u2-flag{fill:#ff5d9b}
+    .u2-end-line{stroke:#ff4081;stroke-width:3;stroke-dasharray:6 6}
+    .u2-end-dot{fill:#fff;stroke:#ff4081;stroke-width:4}
+    .u2-label.u2-total{font-size:16px}
+    .u2-lay{animation:u2Lay .5s both}
+    @keyframes u2Lay{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+    .u2-choice-text{display:block;font-size:clamp(1rem,2.4vw,1.25rem);line-height:1.15;overflow-wrap:anywhere}
+    .u2-all-tag{flex:0 0 auto;padding:8px 18px;border-radius:999px;font-weight:900;font-size:1.05rem}
+    .u2-world{width:clamp(140px,21.5vw,220px)}
+    .u2-rungs.u2-rungs-5{grid-template-columns:repeat(5,minmax(0,1fr))}
+    .u2-rungs.u2-rungs-8{grid-template-columns:repeat(8,minmax(0,1fr));width:min(96vw,900px);gap:6px}
+    .u2-rungs .fm-btn.u2-mix-tab:not(.on){background:linear-gradient(100deg,#ffe0ef,#eadfff 50%,#d9f1ff)}
     .u2-label.u2-on-object{fill:#4a148c}.u2-label.u2-small{font-size:13px}
     .u2-water-stream{stroke:#4fc3f7;stroke-width:8;opacity:0}
     /* The pour: first glasses lift and tip, new glasses appear and fill. Once. */
@@ -1422,8 +1455,10 @@
     @keyframes u2Stream{0%,48%{opacity:0}55%,85%{opacity:1}95%,100%{opacity:0}}
     @keyframes u2Fill{0%{opacity:.2}60%,100%{opacity:1}}
     .u2-world,.u2-answer,.u2-summary-fact{min-width:0;min-height:64px;border:3px solid #ce93d8;border-radius:22px;background:linear-gradient(160deg,#fff,#fce4ec);color:#7b1fa2;font-family:inherit;font-weight:900;box-shadow:0 5px 0 #ce93d8}
-    .u2-art{border:3px solid rgba(206,147,216,.8);border-radius:24px;background:rgba(255,255,255,.68);color:#8e24aa}
-    .u2-water,.u2-fill,.u2-half{fill:#81d4fa;fill-opacity:.72}
+    .u2-art{border:3px solid rgba(206,147,216,.8);border-radius:24px;background:linear-gradient(180deg,rgba(255,250,255,.92) 0%,rgba(253,240,251,.88) 62%,rgba(240,250,255,.9) 100%);color:#8e24aa}
+    .u2-obj{stroke:#7b4b94}
+    .u2-all-tag{background:#fff;border:3px solid #ce93d8;color:#7b1fa2}
+    .u2-water,.u2-fill,.u2-half{fill:url(#u2g-water);fill-opacity:.88}
     .u2-soft{fill:#f8bbd0;fill-opacity:.7}
     .u2-ribbon,.u2-pointer{stroke:#ff4081;stroke-width:13}
     .u2-target{filter:drop-shadow(0 0 4px #ffd54f)}
@@ -2388,10 +2423,12 @@
        and sound buttons, sets the merged bar's height. */
     .score-badge{background:linear-gradient(135deg,#fff,#fce4ec);border:2px solid #f48fb1;border-radius:50px;padding:5px 14px;font-size:.95rem;font-weight:900;color:#e91e63;box-shadow:0 3px 8px rgba(240,98,146,.2);white-space:nowrap}
     .score-badge span{color:#7b1fa2}
-    .flower-garden{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;padding:6px 8px;background:rgba(255,255,255,.84);border:2px solid #f8bbd0;border-radius:16px;box-shadow:0 3px 10px rgba(240,98,146,.12);max-width:336px;flex:1}
-    .flower-slot{width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:18px;line-height:1}
-    .flower-slot.empty{opacity:.18;color:#c9a5c9;filter:grayscale(.45)}
-    .flower-slot.filled{opacity:1;font-size:20px;background:rgba(252,228,236,.72);border-radius:50%;animation:flowerPop .35s cubic-bezier(.34,1.56,.64,1);filter:drop-shadow(0 2px 3px rgba(123,31,162,.25))}
+    /* A little flower bed: soft pink-to-mint, painted flowers in, sprouts waiting. */
+    .flower-garden{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;padding:6px 8px;background:linear-gradient(180deg,#fffafd 0%,#fff0f7 62%,#eefbe9 100%);border:2px solid #f8bbd0;border-radius:16px;box-shadow:0 3px 10px rgba(240,98,146,.14),inset 0 -3px 0 rgba(165,221,149,.35);max-width:336px;flex:1}
+    .flower-slot{width:24px;height:24px;display:flex;align-items:center;justify-content:center;line-height:1}
+    .flower-slot img,.flower-slot svg{width:100%;height:100%;object-fit:contain;display:block}
+    .flower-slot.empty .garden-sprout{width:96%;height:96%;opacity:.85}
+    .flower-slot.filled img{width:120%;height:120%;max-width:none;flex:none;filter:drop-shadow(0 1.5px 1.5px rgba(173,20,87,.28));animation:flowerPop .35s cubic-bezier(.34,1.56,.64,1)}
     .garden-full-badge{position:absolute;right:0;top:100%;margin-top:4px;background:#fff;border:2px solid #f48fb1;border-radius:999px;padding:4px 10px;color:#e91e63;font-size:.78rem;font-weight:900;box-shadow:0 3px 0 #f48fb1}
     @keyframes flowerPop{from{transform:scale(0) rotate(-12deg)}to{transform:scale(1) rotate(0)}}
     @media (max-width:430px){
@@ -2399,7 +2436,7 @@
       .top-bar{gap:6px}
       .score-badge{padding:5px 10px}
       .flower-garden{gap:2px;padding:5px 6px;max-width:286px}
-      .flower-slot{width:21px;height:21px;font-size:16px}
+      .flower-slot{width:21px;height:21px}
     }
 
     /* ── BUTTONS ── */
@@ -2581,7 +2618,7 @@
 @media (prefers-reduced-motion:reduce){.on-screen *,.on-screen *::before,.on-screen *::after{animation:none!important;transition:none!important}}
 /* ── END ORDER NUMBERS CSS ── */
   </style>
-  <script src="./cg-update.js?v=e6dbf41c9-20261025201757" defer></script>
+  <script src="./cg-update.js?v=335ae488b-20261026010606" defer></script>
 </head>
 <body>
 <div id="root"></div>
@@ -6228,7 +6265,7 @@ function GamePreview({id}){
   if(id==='r1')return(                      /* Read Big Numbers — grouped slots and a reader */
     <div className="gp gp-tight" aria-hidden="true">
       <div className="gp-row"><span className="gp-num">1</span><span className="gp-gap"/><span className="gp-num">2</span><span className="gp-num">5</span><span className="gp-num">0</span></div>
-      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/unicorn/icons/read-out.webp?v=e6dbf41c9-20261025201757" alt=""/></div>
+      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/unicorn/icons/read-out.webp?v=335ae488b-20261026010606" alt=""/></div>
     </div>);
   if(id==='s1')return(                      /* Count By — the chant above, the ladder rung below */
     <div className="gp gp-tight" aria-hidden="true">
@@ -6395,7 +6432,7 @@ function CardSticker({id}){
   return <img className="card-sticker" src={`assets/stickers/unicorn/${f}.webp`} alt="" aria-hidden="true" draggable="false" style={{'--sd':(4+(h%7)*.45).toFixed(2)+'s','--sl':'-'+((h%5)*.9).toFixed(1)+'s'}}/>;
 }
 function Stars({count}){
-  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/unicorn/icons/star.webp?v=e6dbf41c9-20261025201757" alt=""/>)}</div>;
+  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/unicorn/icons/star.webp?v=335ae488b-20261026010606" alt=""/>)}</div>;
 }
 
 /* Only the two hardest games wear this. The absence of a badge is the other
@@ -6410,7 +6447,7 @@ function Stars({count}){
    Unlike Space Math these cards carry no aria-label, so the alt text is what a
    screen reader announces; do not blank it here to match the other theme. */
 function BigKidBadge(){
-  return <div className="mode-card-badge"><img src="assets-runtime/unicorn/icons/big-kids.webp?v=e6dbf41c9-20261025201757" alt="For big kids"/></div>;
+  return <div className="mode-card-badge"><img src="assets-runtime/unicorn/icons/big-kids.webp?v=335ae488b-20261026010606" alt="For big kids"/></div>;
 }
 
 /* ══ MASCOT ══ */
@@ -6487,15 +6524,31 @@ function Mascot({kind='unicorn',mood,stamp,onPoke}){
   );
 }
 
+/* THE GARDEN IS PAINTED (owner, 2026-10-25: "the flowers to collect are not pretty ...
+   my kids like nice color, nice art"). A collected flower is the app's own painted
+   flower art -- the same five flowers the home screen and the sections already use, so
+   it is precached and costs no new asset -- in a fixed colour order (each row starts two colours on,
+   so no column is one colour), so a flower never changes colour as the next arrives. A slot still to fill is a small green sprout
+   with a closed pink bud: a garden that is growing, not grey outlines of what is
+   missing. The line-drawn BouquetIcon stays on the bouquet counter, where it is a sign. */
+const GARDEN_COLOURS=['pink','purple','blue','coral','yellow'];
+function GardenSprout(){
+  return(<svg className="garden-sprout" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 23V12.5" fill="none" stroke="#86c98a" strokeWidth="2.2" strokeLinecap="round"/>
+    <path d="M12 19.2C8 20.2 4.6 18.3 3.6 14.6C7.6 13.8 10.9 15.6 12 19.2Z" fill="#b4e6a3"/>
+    <path d="M12 17C16 18 19.4 16.1 20.4 12.4C16.4 11.6 13.1 13.4 12 17Z" fill="#9edb8c"/>
+    <path d="M12 1.8C7.6 4.4 7.2 10 12 13.4C16.8 10 16.4 4.4 12 1.8Z" fill="#ffd1e6"/>
+    <path d="M12 3.6C9.9 6.2 10 10 12 12.4C14 10 14.1 6.2 12 3.6Z" fill="#ffb0d1"/>
+  </svg>);
+}
 function FlowerGarden({flowers}){
   return(
     <div className="flower-garden" aria-label={`${flowers} of ${MAX_FLOWERS} flowers collected`}>
       {Array.from({length:MAX_FLOWERS},(_,i)=>(
         <span key={i} className={`flower-slot ${i<flowers?'filled':'empty'}`}>
-          {/* An empty slot shows a faint flower to grow into (.flower-slot.empty is
-              the faint style). With nothing in it, a garden of 0 read as an empty
-              white box at the top of every screen. */}
-          <BouquetIcon/>
+          {i<flowers
+            ?<img src={`assets-runtime/unicorn/icons/flower-${GARDEN_COLOURS[(i+Math.floor(i/10)*2)%GARDEN_COLOURS.length]}.webp`} alt=""/>
+            :<GardenSprout/>}
         </span>
       ))}
     </div>
@@ -6688,7 +6741,7 @@ function TopBar({onBack,muted,onToggleMute,label,score,flowers,bouquets=0}){
   return(
     <div className="top-bar">
       <div style={{display:'flex',alignItems:'center',gap:5}}>
-        <img src="assets-runtime/unicorn/icons/flower-pink.webp?v=e6dbf41c9-20261025201757" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
+        <img src="assets-runtime/unicorn/icons/flower-pink.webp?v=335ae488b-20261026010606" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
         <button className="back-btn" aria-label="Back home" onClick={()=>{Voice.stop();Sound.tap();onBack();}}><BackIcon/></button>
       </div>
       {label&&<div className="level-chip">{label}</div>}
@@ -6702,7 +6755,7 @@ function TopBar({onBack,muted,onToggleMute,label,score,flowers,bouquets=0}){
             to count -- so the chip is conditional rather than a permanent 0. Every
             scored game passes a score and sees exactly what it saw before. */}
         {score!=null&&<div style={{display:'flex',alignItems:'center',gap:6}}>
-          <img src="assets-runtime/unicorn/icons/star.webp?v=e6dbf41c9-20261025201757" alt="" style={{width:34,height:34,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.2))'}}/>
+          <img src="assets-runtime/unicorn/icons/star.webp?v=335ae488b-20261026010606" alt="" style={{width:34,height:34,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.2))'}}/>
           <div className="score-badge"><span>{score}</span></div>
         </div>}
         <FlowerGarden flowers={flowers}/>
@@ -9169,8 +9222,8 @@ function numberToWords(s){
 function RobotReader({speaking}){
   return(
     <div className={`rb-robot ${speaking?'talking':''}`} aria-hidden="true">
-      <img className="rb-still" src="assets-runtime/unicorn/icons/robot-reader.webp?v=e6dbf41c9-20261025201757" alt=""/>
-      <img className="rb-talk" src="assets-runtime/unicorn/icons/robot-reader-talk.webp?v=e6dbf41c9-20261025201757" alt=""/>
+      <img className="rb-still" src="assets-runtime/unicorn/icons/robot-reader.webp?v=335ae488b-20261026010606" alt=""/>
+      <img className="rb-talk" src="assets-runtime/unicorn/icons/robot-reader-talk.webp?v=335ae488b-20261026010606" alt=""/>
     </div>
   );
 }
@@ -12636,8 +12689,66 @@ const UNIT_VOICE=[
   'One quarter of a litre is how many millilitres?','Three quarters of a litre is how many millilitres?',
   'How much water is in the jug?','One metre is one hundred centimetres.','One kilogram is one thousand grams.',
   'One litre is one thousand millilitres.','In a Thai market, ten kheed make one kilogram.',
-  'Look: one big unit is made of many small units.','Here is the answer.'
+  'Look: one big unit is made of many small units.','Here is the answer.',
+  /* Round 2 (owner, 2026-10-25): millimetres, kilometres and the Hard rung. Units are
+     spelled out in what is SPOKEN, so the narrator never has to guess at "cm". */
+  'How many millimetres make 1 centimetre?','This bead is 3 centimetres. How many millimetres?',
+  'How long is the ladybug in millimetres?','How many metres make 1 kilometre?',
+  'Half a kilometre is how many metres?','Two kilometres is how many metres?',
+  'Which is longer: half a metre, or two 30 centimetre rulers?',
+  'Which is longer: 1 metre, or three 30 centimetre rulers?',
+  'Which is longer: half a metre, or three 15 centimetre rulers?',
+  'Which is longer: the measuring tape, or five 30 centimetre rulers?',
+  'Which is longer: the measuring tape, or a metre stick and a 30 centimetre ruler?',
+  'How many 30 centimetre rulers make the 150 centimetre tape?',
+  'How many 15 centimetre rulers make the 150 centimetre tape?',
+  'Which ruler fits along the tape exactly five times?',
+  'Lay them end to end and add them up.'
 ];
+
+/* ── The paint box ──
+   Owner, 2026-10-25: "visual is the most important thing here, my kids like nice
+   color, nice art." Every u2 picture is filled from these soft gradients rather than
+   drawn as outlines: one set of defs, rendered once by the game into a zero-size SVG,
+   and named from the stylesheet (.u2-wood{fill:url(#u2g-wood)}), so the answer cards
+   and the big picture paint the same object the same way. Not display:none -- WebKit
+   will not paint a gradient whose defs are in an undisplayed SVG. */
+const UNIT_GRADIENTS=[
+  ['wood','#fff4de','#ffcf8a'],['wood-dark','#ffd9a3','#f4a54a'],
+  ['ribbon','#ffb3d4','#f2588f'],['water','#c9f3ff','#4aa8ec'],
+  ['gold','#fff5bf','#ffc23d'],['metal','#ffffff','#a3b1c2'],
+  ['flour','#ffe7b8','#f4ad4b'],['sack','#fffdf6','#f0dcc0'],
+  ['tape','#fffbc4','#ffd23f'],['road','#e6ddf7','#b9a9de'],
+  ['grass','#e2f9cf','#93d57e'],['pink','#ffe4f1','#ffadd2'],
+  ['mint','#dcfbe9','#7fd9a8'],['lilac','#f0e6ff','#b89bf3'],
+  ['book','#d2f4d3','#78c77f'],['bucket','#ffe6c2','#ffad5c'],
+  ['cup','#fffbd0','#ffdc5c'],['block','#cbe8ff','#68b2f0'],
+  ['pillow','#ffffff','#fde3ef'],['pencil','#fff0a8','#ffc72e'],
+  ['handle','#ffaaa6','#e2575a'],['leaf','#c4efad','#5fb35f'],
+  ['glass','#ffffff','#d9f2ff'],['scale','#ffd9ee','#f396c4'],
+  ['bead','#d9c9ff','#8a63e6'],['juice','#ffe08a','#ffa63d']
+];
+const UNIT_RADIALS=[
+  ['apple','#ff9a8f','#e0302f'],['balloon','#ffd0e3','#ff5d9b'],
+  ['rock','#eef2f6','#8c9bab'],['ladybug','#ff8a7a','#d62b2b']
+];
+function UnitPaint(){
+  return <svg className="u2-paint-box" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+      {UNIT_GRADIENTS.map(([id,a,b])=><linearGradient key={id} id={`u2g-${id}`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor={a}/><stop offset="1" stopColor={b}/>
+      </linearGradient>)}
+      {UNIT_RADIALS.map(([id,a,b])=><radialGradient key={id} id={`u2g-${id}`} cx=".36" cy=".32" r=".75">
+        <stop offset="0" stopColor={a}/><stop offset="1" stopColor={b}/>
+      </radialGradient>)}
+      {/* A soft shadow under each object, so things sit on the page instead of
+          floating on it. */}
+      <filter id="u2f-soft" x="-10%" y="-10%" width="120%" height="135%">
+        <feDropShadow dx="0" dy="3" stdDeviation="2.2" floodColor="#5b2a6e" floodOpacity=".22"/>
+      </filter>
+    </defs>
+  </svg>;
+}
 
 /* One beat of the 2-miss count. The pieces in the picture and the numbers under it
    share it, so the block that lights and the number that appears arrive together. */
@@ -12651,18 +12762,39 @@ const UNIT_POUR_DELAY=1.2;
 const UNIT_POUR_TIME=2.2;
 const UNIT_POUR_LOCK=(UNIT_POUR_DELAY+UNIT_POUR_TIME)*1000+150;
 
+/* The world cards are small paintings of each world: a ruler with a ribbon, a golden
+   balance with an apple, a jug of water -- and for All worlds, one of each. */
+function UnitWorldPicture({world}){
+  if(world==='length')return <g>
+    <rect className="u2-wood" x="10" y="40" width="100" height="24" rx="5"/>
+    <path strokeWidth="2.5" d="M20 40v9M30 40v6M40 40v9M50 40v6M60 40v12M70 40v6M80 40v9M90 40v6M100 40v9"/>
+    <rect className="u2-ribbon-fill" x="14" y="24" width="86" height="9" rx="4.5" strokeWidth="2.5"/>
+    <path className="u2-bow" strokeWidth="2.5" d="M14 28q-10 -12 -3 -14q7 0 3 14zM14 28q-10 12 -3 14q7 0 3 -14z"/>
+  </g>;
+  if(world==='mass')return <g>
+    <path className="u2-post" strokeWidth="3" d="M56 22h8v46h-8zM40 70h40l-4 -6h-32z"/>
+    <path className="u2-beam" d="M18 26H102"/>
+    <path strokeWidth="2" d="M24 26l-10 26M24 26l10 26M96 26l-10 26M96 26l10 26"/>
+    <path className="u2-pan" strokeWidth="3" d="M10 52q14 12 28 0zM82 52q14 12 28 0z"/>
+    <circle className="u2-pivot" cx="60" cy="24" r="6" strokeWidth="3"/>
+    <path className="u2-apple" strokeWidth="2.5" d="M96 50c-4 -4 -11 -1 -10 -7c1 -6 6 -6 10 -4c4 -2 9 -2 10 4c1 6 -6 3 -10 7z"/>
+    <path className="u2-leaf" strokeWidth="2" d="M97 39q5 -5 9 -2q-5 4 -9 2z"/>
+  </g>;
+  if(world==='capacity')return <g>
+    <path className="u2-glass-fill" strokeWidth="0" d="M34 14h44v58H34z"/>
+    <path className="u2-water" strokeWidth="0" d="M36 36h40v34H36z"/>
+    <path strokeWidth="4" d="M34 14v58h44V14M78 26q20 0 20 16q0 16 -20 16"/>
+    <path strokeWidth="2.5" d="M34 30h8M34 44h8M34 58h8"/>
+  </g>;
+  return <g>
+    <g transform="translate(-2 -6) scale(.56)"><UnitWorldPicture world="length"/></g>
+    <g transform="translate(56 -6) scale(.56)"><UnitWorldPicture world="mass"/></g>
+    <g transform="translate(30 32) scale(.56)"><UnitWorldPicture world="capacity"/></g>
+  </g>;
+}
 function UnitWorldIcon({world}){
-  return <svg viewBox="0 0 120 80" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    {world==='length'?<>
-      <rect x="12" y="31" width="96" height="22" rx="5"/>
-      <path d="M28 31v12m16-12v8m16-8v12m16-12v8m16-8v12"/>
-    </>:world==='mass'?<>
-      <path d="M60 13v48M25 28h70M35 28L18 58h34L35 28zm50 0L68 58h34L85 28z"/>
-      <path d="M45 68h30"/>
-    </>:<>
-      <path d="M42 12h36v10c12 8 14 23 14 44H28c0-21 2-36 14-44z"/>
-      <path d="M35 48h50"/>
-    </>}
+  return <svg className="u2-world-art" viewBox="0 0 120 80" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <g className="u2-obj"><UnitWorldPicture world={world}/></g>
   </svg>;
 }
 
@@ -12723,7 +12855,7 @@ function UnitLongThing({kind,len}){
   switch(kind){
     case 'metre-stick':return <UnitMetreStick len={len}/>;
     case 'small-ruler':return <g>
-      <rect className="u2-wood" x="0" y="-12" width={len} height="24" rx="3"/>
+      <rect className="u2-mint" x="0" y="-12" width={len} height="24" rx="3"/>
       <path strokeWidth="2" d={Array.from({length:9},(_,i)=>`M${(i+1)*len/10} -12v${i===4?12:7}`).join('')}/>
     </g>;
     case 'string':return <g>
@@ -12792,16 +12924,19 @@ function UnitStandingThing({kind}){
       <path strokeWidth="3" d="M-12 -30h34M-12 -20h26"/>
     </g>;
     case 'tall-glass':return <g>
-      <rect className="u2-water" x="-13" y="-80" width="26" height="80"/>
+      <rect className="u2-glass-fill" strokeWidth="0" x="-14" y="-102" width="28" height="102"/>
+      <rect className="u2-juice" strokeWidth="0" x="-13" y="-80" width="26" height="80"/>
       <path d="M-14 -102V0H14V-102"/>
     </g>;
     case 'wide-glass':return <g>
-      <rect className="u2-water" x="-41" y="-24" width="82" height="24"/>
+      <rect className="u2-glass-fill" strokeWidth="0" x="-42" y="-38" width="84" height="38"/>
+      <rect className="u2-juice" strokeWidth="0" x="-41" y="-24" width="82" height="24"/>
       <path d="M-42 -38V0H42V-38"/>
     </g>;
     case 'same':return <g>
       {[-22,22].map(x=><g key={x} transform={`translate(${x} 0)`}>
-        <rect className="u2-water" x="-13" y="-40" width="26" height="40"/>
+        <rect className="u2-glass-fill" strokeWidth="0" x="-14" y="-62" width="28" height="62"/>
+        <rect className="u2-juice" strokeWidth="0" x="-13" y="-40" width="26" height="40"/>
         <path d="M-14 -62V0H14V-62"/>
       </g>)}
     </g>;
@@ -12846,16 +12981,24 @@ function UnitObjectGlyph({value}){
 
 /* ── The pictures, one per q.art ── */
 
+/* The Ruler rung: a wooden ruler numbered every 10 cm, a ribbon lying along it from
+   0, and a glowing bead where the ribbon ends -- at levelGeometry('ruler'). */
 function UnitRuler({level=100}){
   const end=BigSmallUnits.levelGeometry('ruler',level).x;
   return <>
-    <rect x="70" y="126" width="460" height="60" rx="8"/>
-    {Array.from({length:11},(_,i)=><g key={i}>
-      <path d={`M${70+i*46} 126v${i%5===0?30:20}`}/>
-      <UnitLabel x={70+i*46} y="211">{i*10}</UnitLabel>
-    </g>)}
-    <path className="u2-ribbon" d={`M70 105H${end}`}/>
-    <circle className="u2-target" cx={end} cy="105" r="7"/>
+    <g className="u2-obj">
+      <rect className="u2-wood" x="56" y="126" width="488" height="66" rx="10"/>
+      <g className="u2-ink">{Array.from({length:101},(_,cm)=><path key={cm} strokeWidth={cm%10===0?4:cm%5===0?2.5:1.4}
+        d={`M${70+cm*4.6} 126v${cm%10===0?28:cm%5===0?18:10}`}/>)}</g>
+      {Array.from({length:11},(_,i)=><text key={i} className="u2-label u2-on-object" x={70+i*46} y="178" textAnchor="middle">{i*10}</text>)}
+    </g>
+    <g className="u2-obj">
+      <rect className="u2-ribbon-fill" x="70" y="97" width={end-70} height="16" rx="4"/>
+      <path className="u2-bow" strokeWidth="3" d="M70 105q-14 -20 -5 -23q9 0 5 23zM70 105q-14 20 -5 23q9 0 5 -23z"/>
+    </g>
+    <path className="u2-end-line" d={`M${end} 88V140`}/>
+    <circle className="u2-target u2-end-dot" cx={end} cy="105" r="8"/>
+    <UnitLabel x="300" y="220">centimetres</UnitLabel>
   </>;
 }
 
@@ -12884,11 +13027,12 @@ function UnitMetreRuler({left,perMetre,metres,y,every}){
   const cm=perMetre/100;
   const tens=metres*10;
   return <g>
-    <path d={`M${left} ${y}H${left+metres*perMetre}`}/>
+    <rect className="u2-tape u2-obj" x={left-8} y={y-2} width={metres*perMetre+16} height="22" rx="5"/>
+    <path className="u2-ink" d={`M${left} ${y}H${left+metres*perMetre}`}/>
     {Array.from({length:tens+1},(_,i)=>{
       const n=i*10,x=left+n*cm,numbered=n%every===0;
       return <g key={n}>
-        <path strokeWidth={numbered?4:2} d={`M${x} ${y}v${numbered?16:9}`}/>
+        <path className="u2-ink" strokeWidth={numbered?4:2} d={`M${x} ${y}v${numbered?16:9}`}/>
         {numbered&&<UnitLabel x={x} y={y+36}>{n}</UnitLabel>}
       </g>;
     })}
@@ -12956,15 +13100,18 @@ function UnitBalanceFrame({g,children}){
     const rim=g.panHalf;
     return <g key={side}>
       <path strokeWidth="3" d={`M${p.beam.x} ${p.beam.y}L${p.beam.x-rim} ${p.panY}M${p.beam.x} ${p.beam.y}L${p.beam.x+rim} ${p.panY}`}/>
-      <path className="u2-pan" d={`M${p.beam.x-rim} ${p.panY}Q${p.beam.x} ${p.panY+30} ${p.beam.x+rim} ${p.panY}Z`}/>
+      <path className="u2-pan u2-obj" d={`M${p.beam.x-rim} ${p.panY}Q${p.beam.x} ${p.panY+30} ${p.beam.x+rim} ${p.panY}Z`}/>
     </g>;
   };
   return <>
-    <path className="u2-post" d={`M300 ${g.pivot.y}V262M246 268h108l-12 -8h-84z`}/>
+    <g className="u2-obj">
+      <path className="u2-post" d={`M293 ${g.pivot.y}H307V262H293ZM240 270h120l-14 -10h-92z`}/>
+    </g>
     {pan('left')}
     {pan('right')}
-    <path strokeWidth="8" d={`M${g.left.beam.x} ${g.left.beam.y}L${g.right.beam.x} ${g.right.beam.y}`}/>
-    <circle className="u2-pivot" cx={g.pivot.x} cy={g.pivot.y} r="9"/>
+    <path className="u2-beam-edge" d={`M${g.left.beam.x} ${g.left.beam.y}L${g.right.beam.x} ${g.right.beam.y}`}/>
+    <path className="u2-beam" d={`M${g.left.beam.x} ${g.left.beam.y}L${g.right.beam.x} ${g.right.beam.y}`}/>
+    <circle className="u2-pivot" cx={g.pivot.x} cy={g.pivot.y} r="10"/>
     {children}
   </>;
 }
@@ -12990,7 +13137,7 @@ function UnitMassWeights(){
   const g=BigSmallUnits.balanceGeometry('level');
   const bag=g.left,weights=g.right;
   return <UnitBalanceFrame g={g}>
-    <g transform={`translate(${bag.beam.x} ${bag.panY+3})`}>
+    <g className="u2-obj" transform={`translate(${bag.beam.x} ${bag.panY+3})`}>
       <path className="u2-sack" d="M-40 0Q-46 -40 -32 -70L-24 -78H24L32 -70Q46 -40 40 0Z"/>
       <path strokeWidth="3" d="M-24 -78l-6 -10M0 -78v-12M24 -78l6 -10"/>
       <text className="u2-label u2-on-object" x="0" y="-30" textAnchor="middle">1 kg</text>
@@ -12998,7 +13145,7 @@ function UnitMassWeights(){
     <UnitLabel x={bag.beam.x} y={bag.panY+44}>flour</UnitLabel>
     {[0,1,2,3].map(i=>{
       const x=weights.beam.x-51+i*34;
-      return <g key={i} transform={`translate(${x} ${weights.panY+3})`}>
+      return <g key={i} className="u2-obj" transform={`translate(${x} ${weights.panY+3})`}>
         <path className="u2-weight u2-piece" style={{animationDelay:`${i*UNIT_STEP}s`}} d="M-15 0L-12 -34H12L15 0Z"/>
         <circle cx="0" cy="-40" r="6"/>
         <text className="u2-label u2-on-object u2-small" x="0" y="-11" textAnchor="middle">250</text>
@@ -13034,7 +13181,7 @@ function UnitQuarterFill({q,kind,teach}){
   const markX=c.half+8/scale;
   return <g transform={`translate(300 222) scale(${scale})`} strokeWidth={5/scale}>
     <defs><clipPath id={clip}><path d={c.path}/></clipPath></defs>
-    {kind==='mass-part'&&<path className="u2-sack-empty" d={c.path}/>}
+    <path className={kind==='mass-part'?'u2-sack-empty':'u2-glass-fill'} d={c.path}/>
     <g clipPath={`url(#${clip})`}>
       {Array.from({length:filled},(_,i)=><rect key={i} className={`${c.cls} u2-piece`} strokeWidth={2/scale} x={-c.half-30} y={-(i+1)*band} width={2*c.half+60} height={band+.5} style={{animationDelay:`${i*UNIT_STEP}s`}}/>)}
     </g>
@@ -13048,21 +13195,28 @@ function UnitQuarterFill({q,kind,teach}){
   </g>;
 }
 
+/* A pink kitchen scale: a coloured rim carries the numbers, the white face carries the
+   ticks and the pointer, and a little bowl sits on top. Every mark, label and the
+   pointer still come from levelGeometry/dialMarkGeometry. */
 function UnitDial({q}){
   const point=BigSmallUnits.levelGeometry('dial',q.level);
   return <>
-    <path d="M223.6 208.4A108 108 0 1 1 376.4 208.4"/>
+    <g className="u2-obj">
+      <rect className="u2-scale" x="148" y="-8" width="304" height="250" rx="60"/>
+      <circle className="u2-face" cx="300" cy="132" r="106"/>
+    </g>
+    <path className="u2-ink" d="M223.6 208.4A108 108 0 1 1 376.4 208.4"/>
     {Array.from({length:21},(_,i)=>{
       const n=i*50,m=BigSmallUnits.dialMarkGeometry(n);
-      return <path key={n} d={`M${m.inner.x} ${m.inner.y}L${m.outer.x} ${m.outer.y}`} strokeWidth={n%250===0?5:2}/>;
+      return <path key={n} className="u2-ink" d={`M${m.inner.x} ${m.inner.y}L${m.outer.x} ${m.outer.y}`} strokeWidth={n%250===0?5:2}/>;
     })}
     {[0,250,500,750,1000].map(n=>{
       const m=BigSmallUnits.dialMarkGeometry(n);
-      return <UnitLabel key={n} x={m.label.x} y={m.label.y+6}>{n===1000?'1,000':n}</UnitLabel>;
+      return <text key={n} className="u2-label u2-on-object" x={m.label.x} y={m.label.y+6} textAnchor="middle">{n===1000?'1,000':n}</text>;
     })}
     <path className="u2-pointer u2-target" d={`M300 132L${point.x} ${point.y}`}/>
-    <circle cx="300" cy="132" r="9"/>
-    <UnitLabel x="300" y="225">grams</UnitLabel>
+    <circle className="u2-pivot u2-ink" cx="300" cy="132" r="10"/>
+    <text className="u2-label u2-on-object" x="300" y="196" textAnchor="middle">grams</text>
   </>;
 }
 
@@ -13074,7 +13228,8 @@ function UnitDial({q}){
 function UnitGlasses(){
   const G=BigSmallUnits.GLASSES,f=G.floor;
   const glass=(x,w,h,juice,cls)=><g className={cls}>
-    <rect className="u2-water u2-pour-juice" x={x-w/2} y={f-juice} width={w} height={juice}/>
+    <rect className="u2-glass-fill" strokeWidth="0" x={x-w/2-3} y={f-h} width={w+6} height={h+3}/>
+    <rect className="u2-juice u2-pour-juice" x={x-w/2} y={f-juice} width={w} height={juice}/>
     <path d={`M${x-w/2-3} ${f-h}V${f+3}H${x+w/2+3}V${f-h}`}/>
   </g>;
   return <g className="u2-pour" style={{'--pour-delay':`${UNIT_POUR_DELAY}s`,'--pour-time':`${UNIT_POUR_TIME}s`}}>
@@ -13108,10 +13263,10 @@ function UnitVessels(){
 
 function UnitLitreCups(){
   return <>
-    <path transform="translate(123 202)" d={UNIT_CONTAINERS['litre-part'].path}/>
+    <path className="u2-water u2-obj" transform="translate(123 202)" d={UNIT_CONTAINERS['litre-part'].path}/>
     <UnitLabel x="123" y="226">1 l</UnitLabel>
     {[0,1,2,3].map(i=><g key={i}>
-      <path className="u2-piece" style={{animationDelay:`${i*UNIT_STEP}s`}} d={`M${245+i*78} 112h62l-8 82h-46z`}/>
+      <path className="u2-water u2-piece u2-obj" style={{animationDelay:`${i*UNIT_STEP}s`}} d={`M${245+i*78} 112h62l-8 82h-46z`}/>
       <UnitLabel x={276+i*78} y="218">250 ml</UnitLabel>
     </g>)}
   </>;
@@ -13120,8 +13275,11 @@ function UnitLitreCups(){
 function UnitJug({q}){
   const line=BigSmallUnits.levelGeometry('jug',q.level).y;
   return <>
+    <path className="u2-glass-fill" strokeWidth="0" d="M180 40h230v162H180z"/>
+    <path className="u2-water u2-target" strokeWidth="0" d={`M185 ${line}H405V197H185z`}/>
+    <path className="u2-water-top" d={`M185 ${line}H405`}/>
+    <path className="u2-glass-shine" d="M388 54V186"/>
     <path d="M180 40h230v162H180zM410 72q90 0 90 65q0 65-90 65"/>
-    <path className="u2-water u2-target" d={`M185 ${line}H405V197H185z`}/>
     {[0,250,500,750,1000].map(n=>{
       const y=BigSmallUnits.levelGeometry('jug',n).y;
       return <g key={n}><path d={`M180 ${y}h30`}/><UnitLabel x="145" y={y+6}>{n===1000?'1,000':n}</UnitLabel></g>;
@@ -13130,8 +13288,196 @@ function UnitJug({q}){
   </>;
 }
 
+/* ── Round 2: millimetres, kilometres and the Hard rung (owner, 2026-10-25) ── */
+
+/* A ruler zoomed until a millimetre is a finger-wide gap: q.span centimetres across,
+   a tick every millimetre, a longer one every 5 mm, a numbered one every centimetre.
+   The thing being measured lies on it from 0 to q.level millimetres (mmGeometry), and
+   a row of cells above the ruler -- one per counted step -- lights at 2 misses. */
+function UnitMmRuler({q,teach}){
+  const x=mm=>BigSmallUnits.mmGeometry(mm,q.span).x;
+  const total=q.span*10;
+  const steps=BigSmallUnits.teachingSteps(q);
+  const end=x(q.level);
+  return <>
+    <g className="u2-obj">
+      <rect className="u2-wood" x={x(0)-18} y="132" width={x(total)-x(0)+36} height="80" rx="12"/>
+      {Array.from({length:total+1},(_,mm)=><path key={mm} className="u2-ink" strokeWidth={mm%10===0?4:mm%5===0?3:2}
+        d={`M${x(mm)} 132v${mm%10===0?34:mm%5===0?24:15}`}/>)}
+      {Array.from({length:q.span+1},(_,c)=><text key={c} className="u2-label u2-on-object" x={x(c*10)} y="192" textAnchor="middle">{c}</text>)}
+      <text className="u2-label u2-on-object u2-small" x={x(total)+2} y="206" textAnchor="end">cm</text>
+    </g>
+    {/* The counted cells sit just above the ruler, one per step of the 2-miss count. */}
+    {teach&&steps.map((v,i)=><rect key={v} className="u2-cell u2-piece" strokeWidth="1.5"
+      x={x(i?steps[i-1]:0)} y="118" width={x(v)-x(i?steps[i-1]:0)} height="12" rx="2"
+      style={{animationDelay:`${i*UNIT_STEP}s`}}/>)}
+    {q.thing==='cm'&&<g>
+      <path strokeWidth="4" d={`M${x(0)} 98v-18H${x(10)}v18`}/>
+      <UnitLabel x={(x(0)+x(10))/2} y="66">1 cm</UnitLabel>
+    </g>}
+    {q.thing==='bead'&&<g className="u2-obj" transform={`translate(${x(0)} 82)`}>
+      <rect className="u2-bead" x="0" y="-24" width={end-x(0)} height="48" rx="24"/>
+      {[.25,.5,.75].map(f=><path key={f} className="u2-bead-band" d={`M${(end-x(0))*f} -23v46`}/>)}
+      <path className="u2-shine" d={`M18 -12H${(end-x(0))*.4}`}/>
+      <path strokeWidth="3" d={`M-14 0H0M${end-x(0)} 0h14`}/>
+    </g>}
+    {q.thing==='ladybug'&&<UnitLadybug x0={x(0)} x1={end} y={96}/>}
+    <path className="u2-end-line" d={`M${end} 52V140`}/>
+  </>;
+}
+
+/* A ladybug from x0 (her tail) to x1 (the front of her head), at the true length. */
+function UnitLadybug({x0,x1,y}){
+  const len=x1-x0,head=len*.24,body=len-head,r=Math.min(body/2,40);
+  const cx=x0+body/2;
+  return <g className="u2-obj">
+    {[-.6,0,.6].map(k=><path key={k} strokeWidth="2.5" d={`M${cx+k*body*.32} ${y+r*.55}l${-4+k*6} ${r*.45}`}/>)}
+    <ellipse className="u2-head" cx={x1-head*.55} cy={y} rx={head*.55} ry={r*.55}/>
+    <ellipse className="u2-ladybug" cx={cx} cy={y} rx={body/2} ry={r*.85}/>
+    <path strokeWidth="2.5" d={`M${x1-body*.02} ${y}H${x0+2}`}/>
+    {[[-.25,-.35],[-.25,.35],[.15,-.45],[.15,.45],[.4,0]].map(([a,b],i)=><circle key={i} className="u2-spot" cx={cx-a*body} cy={y+b*r*.8} r={Math.max(2.5,r*.16)}/>)}
+    <circle className="u2-eye" cx={x1-head*.35} cy={y-r*.18} r={Math.max(1.6,r*.08)}/>
+    <circle className="u2-eye" cx={x1-head*.35} cy={y+r*.18} r={Math.max(1.6,r*.08)}/>
+  </g>;
+}
+
+/* A sunny road: grass, trees, a road with a dashed middle line, a signpost at every
+   kilometre, and a flag where the walk stops (roadGeometry). The road is cut into the
+   counted stretches -- 100 m each up to a kilometre, whole kilometres beyond -- which
+   light in order at 2 misses. No metre number is printed: that is the answer. */
+function UnitKmRoad({q}){
+  const x=m=>BigSmallUnits.roadGeometry(m,q.span).x;
+  const steps=BigSmallUnits.teachingSteps(q);
+  const roadEnd=x(q.span*1000);
+  /* Every stretch of the road is drawn; the ones the count passes are the pieces. */
+  const stretch=q.step;
+  const all=Array.from({length:q.span*1000/stretch},(_,i)=>(i+1)*stretch);
+  return <>
+    <g className="u2-obj">
+      <circle className="u2-sun" cx="62" cy="40" r="22"/>
+      <path className="u2-cloud" d="M232 52a16 16 0 0 1 8 -28a22 22 0 0 1 40 -6a17 17 0 0 1 30 14a13 13 0 0 1 -2 20z"/>
+    </g>
+    <rect className="u2-grass u2-obj" strokeWidth="0" x="8" y="124" width="584" height="108" rx="20"/>
+    {[90,190,290,390,490].map((tx,i)=><g key={tx} className="u2-obj" transform={`translate(${tx+(i%2)*30} ${i%2?120:116})`}>
+      <rect className="u2-trunk" x="-4" y="-6" width="8" height="18" rx="2" strokeWidth="2.5"/>
+      <circle className="u2-tree" cx="0" cy="-20" r="17" strokeWidth="2.5"/>
+    </g>)}
+    <rect className="u2-road u2-obj" x={x(0)-16} y="150" width={roadEnd-x(0)+32} height="48" rx="12"/>
+    {all.map((v,i)=><rect key={v} className={`u2-stretch${v<=q.level?' u2-piece':''}`} strokeWidth="1.5"
+      x={x(v-stretch)+2} y="155" width={x(v)-x(v-stretch)-4} height="38" rx="6"
+      style={v<=q.level?{animationDelay:`${i*UNIT_STEP}s`}:undefined}/>)}
+    <path className="u2-road-line" d={`M${x(0)} 174H${roadEnd}`}/>
+    {/* A little house where the walk begins. */}
+    <g className="u2-obj" transform={`translate(${x(0)} 142)`}>
+      <path className="u2-house" d="M-20 0V-26H20V0Z"/>
+      <path className="u2-roof" d="M-27 -24L0 -46L27 -24Z"/>
+      <rect className="u2-door" x="-6" y="-14" width="12" height="14" rx="2" strokeWidth="2"/>
+    </g>
+    {Array.from({length:q.span},(_,k)=>{
+      const sx=x((k+1)*1000);
+      return <g key={k} className="u2-obj">
+        <path className="u2-signpost" d={`M${sx} 150V82`}/>
+        <rect className="u2-sign" x={sx-38} y="52" width="76" height="34" rx="8"/>
+        <text className="u2-label u2-on-object" x={sx} y="76" textAnchor="middle">{k+1} km</text>
+      </g>;
+    })}
+    {q.level<q.span*1000&&<g className="u2-obj" transform={`translate(${x(q.level)} 150)`}>
+      <path strokeWidth="4" d="M0 0V-62"/>
+      <path className="u2-flag" d="M0 -62L34 -50L0 -38Z"/>
+    </g>}
+  </>;
+}
+
+/* One length part, drawn from (0,0) to (len,0) at the question's scale (`max` cm
+   fills the width): 150 cm is the measuring tape, 100 and 50 cm are metre sticks (a
+   whole one and a half one cut at its 50), anything shorter is a plastic ruler -- 30
+   cm in mint, 15 cm in lilac -- with its length printed on it, the way a real ruler
+   carries it. */
+function UnitLengthPart({cm,max,count}){
+  const len=BigSmallUnits.hardGeometry(cm,max).x-BigSmallUnits.HARD.left;
+  if(cm===150)return <g className="u2-obj">
+    <rect className="u2-tape" x="0" y="-18" width={len} height="36" rx="5"/>
+    {Array.from({length:16},(_,i)=><path key={i} className="u2-ink" strokeWidth={i%5===0?3.5:2} d={`M${i*len/15} -18v${i%5===0?18:10}`}/>)}
+    {[50,100,150].map(n=><text key={n} className="u2-label u2-on-object" x={n===150?len-6:n*len/150} y="13" textAnchor={n===150?'end':'middle'}>{n}</text>)}
+    <rect className="u2-tape-case" x="-34" y="-28" width="34" height="56" rx="12"/>
+    <circle className="u2-pivot" cx="-17" cy="0" r="7" strokeWidth="3"/>
+  </g>;
+  if(cm>=50)return <g className="u2-obj">
+    <UnitMetreStick len={len} pieces={cm/10} thick={32}/>
+    {/* Half a metre carries no printed length: "50 cm" on it would be the answer. */}
+    {cm===100&&<text className="u2-label u2-on-object" x={len/2} y="7" textAnchor="middle">1 m</text>}
+  </g>;
+  return <g className="u2-obj">
+    <rect className={cm===30?'u2-mint':'u2-lilac'} x="0" y="-16" width={len} height="32" rx="5"/>
+    {Array.from({length:cm/5+1},(_,i)=><path key={i} className="u2-ink" strokeWidth="2" d={`M${i*len/(cm/5)} -16v${i%2?7:12}`}/>)}
+    <text className="u2-label u2-on-object" x={len/2} y="11" textAnchor="middle" style={len<70?{fontSize:'14px'}:undefined}>{count!=null?count:`${cm} cm`}</text>
+  </g>;
+}
+
+/* Laid end to end from the start line, each part a step later than the last, with the
+   running total above each join -- the 2-miss help for the Hard rung. */
+function UnitLaidRow({parts,max,y,totals=true,numbered=false}){
+  let at=0;
+  return <g>
+    {parts.map((cm,i)=>{
+      const from=at;at+=cm;
+      const x0=BigSmallUnits.hardGeometry(from,max).x,x1=BigSmallUnits.hardGeometry(at,max).x;
+      return <g key={i} className="u2-lay" style={{animationDelay:`${i*UNIT_STEP}s`}}>
+        <g transform={`translate(${x0} ${y})`}><UnitLengthPart cm={cm} max={max} count={numbered?i+1:null}/></g>
+        {totals&&<text className="u2-label u2-total" x={Math.min(x1,566)} y={y-28} textAnchor={x1>540?'end':'middle'}>{at} cm</text>}
+      </g>;
+    })}
+  </g>;
+}
+
+/* Two rows on one centimetre scale. Before the help, a row of several parts lies in a
+   PILE at the start line, one above another, so the eye sees one ruler, not their sum
+   -- the child has to convert. At 2 misses both rows lie end to end from a dashed
+   start line with their running totals. */
+function UnitHardCompare({q,teach}){
+  const left=BigSmallUnits.HARD.left,max=BigSmallUnits.hardMax(q);
+  const gap=n=>n>1?Math.min(40,108/(n-1)):0;
+  const centre=(r,n)=>teach?[82,206][r]:r===0?78:140+(n-1)*gap(n)/2;
+  return <>
+    {teach&&<path className="u2-start-line" d={`M${left} 34V262`}/>}
+    {q.rows.map((row,r)=>{
+      const n=row.parts.length,y=centre(r,n);
+      const mid=cm=>left+(BigSmallUnits.hardGeometry(cm,max).x-left)/2;
+      if(teach)return <g key={r}>
+        <UnitLaidRow parts={row.parts} max={max} y={y}/>
+        <UnitLabel x={mid(BigSmallUnits.rowLength(row))} y={y+44}>{row.name}</UnitLabel>
+      </g>;
+      return <g key={r}>
+        {/* Drawn bottom first, so each part's printed length stays above the edge of
+            the one lying on it. */}
+        {row.parts.map((cm,i)=>({cm,i})).reverse().map(({cm,i})=><g key={i} transform={`translate(${left} ${y-(n-1)*gap(n)/2+i*gap(n)})`}><UnitLengthPart cm={cm} max={max}/></g>)}
+        <UnitLabel x={mid(Math.max(...row.parts))} y={y+(n-1)*gap(n)/2+42}>{row.name}</UnitLabel>
+      </g>;
+    })}
+  </>;
+}
+
+/* The 150 cm measuring tape across the top and the rulers to try underneath it, each
+   from the start line. At 2 misses the ruler that is being counted is laid along the
+   tape again and again, numbered 1, 2, 3 ... so the answer is something to count. */
+function UnitTapeRulers({q,teach}){
+  const left=BigSmallUnits.HARD.left,max=BigSmallUnits.hardMax(q);
+  return <>
+    <UnitLabel x="300" y="34">measuring tape</UnitLabel>
+    <g transform={`translate(${left} 74)`}><UnitLengthPart cm={q.tape} max={max}/></g>
+    {teach?<>
+      <path className="u2-start-line" d={`M${left} 50V196`}/>
+      <path className="u2-start-line" d={`M${BigSmallUnits.hardGeometry(q.tape,max).x} 50V196`}/>
+      <UnitLaidRow parts={Array.from({length:q.tape/q.tile},()=>q.tile)} max={max} y={156} totals={false} numbered/>
+    </>:q.show.map((cm,i)=>{
+      const y=q.show.length===1?168:146+i*58;
+      return <g key={cm} transform={`translate(${left} ${y})`}><UnitLengthPart cm={cm} max={max}/></g>;
+    })}
+  </>;
+}
+
 /* Taller pictures get a taller viewBox rather than being squeezed into 240. */
-const UNIT_ART_HEIGHT={balance:280,'mass-weights':280,'same-glasses':280};
+const UNIT_ART_HEIGHT={balance:280,'mass-weights':280,'same-glasses':280,'hard-compare':300,'tape-rulers':280};
 
 function UnitLessonDrawing({q,teach}){
   switch(q.art){
@@ -13148,6 +13494,10 @@ function UnitLessonDrawing({q,teach}){
     case 'litre-cups':return <UnitLitreCups/>;
     case 'litre-part':return <UnitQuarterFill q={q} kind={q.art} teach={teach}/>;
     case 'jug':return <UnitJug q={q}/>;
+    case 'mm-ruler':return <UnitMmRuler q={q} teach={teach}/>;
+    case 'km-road':return <UnitKmRoad q={q}/>;
+    case 'hard-compare':return <UnitHardCompare q={q} teach={teach}/>;
+    case 'tape-rulers':return <UnitTapeRulers q={q} teach={teach}/>;
     default:return null;
   }
 }
@@ -13159,7 +13509,8 @@ function UnitLessonArt({q,teach}){
   </svg>;
 }
 
-function UnitAnswerCard({value}){
+function UnitAnswerCard({value,q}){
+  if(BigSmallUnits.TEXT_CARD_ARTS.has(q.art)&&!/^[\d,]+$/.test(value))return <span className="u2-choice-text">{value}</span>;
   const thing=unitThing(value);
   if(!thing)return <span className="u2-choice-number">{value}</span>;
   return <>
@@ -13171,6 +13522,9 @@ function UnitAnswerCard({value}){
 /* The 2-miss help. Counting questions count the small units up to the big one; the
    compare questions have nothing to count, so they get the rule to look with
    instead -- never the answer, which is the 3-miss reveal's job. */
+/* The Hard rung's help is to lay the parts end to end: spoken and printed. */
+const UNIT_LAY_HINT='Lay them end to end and add them up.';
+const UNIT_LAYS=new Set(['hard-compare','tape-rulers']);
 const UNIT_COMPARE_HINT={
   'length-compare':'They all start at the same line. Which one reaches furthest?',
   balance:'The heavier side goes down.',
@@ -13236,11 +13590,13 @@ function BigSmallUnitsGame({onBack,flowers,gardenFull,setFlowers,setGardenFull,s
     setLocked(false);
   },[round]);
 
+  /* A world opens on its 1 m / 1 kg / 1 l rung; All worlds has only its mix. */
   const chooseWorld=nextWorld=>{
     Sound.tap();
+    const first=nextWorld===BigSmallUnits.ALL?1:2;
     setWorld(nextWorld);
-    setRung(2);
-    deal(nextWorld,2);
+    setRung(first);
+    deal(nextWorld,first);
   };
   const chooseRung=nextRung=>{
     setRung(nextRung);
@@ -13251,7 +13607,8 @@ function BigSmallUnitsGame({onBack,flowers,gardenFull,setFlowers,setGardenFull,s
 
   useEffect(()=>{
     if(misses===2){
-      if(q&&unitCounts(q))Voice.say('Look: one big unit is made of many small units.');
+      if(q&&UNIT_LAYS.has(q.art))Voice.say(UNIT_LAY_HINT);
+      else if(q&&unitCounts(q))Voice.say('Look: one big unit is made of many small units.');
       if(q&&q.art==='same-glasses')return pourLock();
     }
     if(misses===3)Voice.say('Here is the answer.');
@@ -13282,11 +13639,14 @@ function BigSmallUnitsGame({onBack,flowers,gardenFull,setFlowers,setGardenFull,s
   };
 
   const next=()=>deal(world,rung,q);
-  const worldDone=world&&[1,2,3,4].every(level=>cleared[world]&&cleared[world][level]);
+  const worldRungs=world&&world!==BigSmallUnits.ALL?BigSmallUnits.WORLDS[world].rungs:[];
+  const worldDone=worldRungs.length>0&&worldRungs.every((_,i)=>cleared[world]&&cleared[world][i+1]);
+  const worldKeys=[...Object.keys(BigSmallUnits.WORLDS),BigSmallUnits.ALL];
   /* The line above the answers: the question, or at 2 misses the help for it. */
-  const line=!q?'':!teach?q.prompt:unitCounts(q)?'Count the small parts.':UNIT_COMPARE_HINT[q.art];
+  const line=!q?'':!teach?q.prompt:UNIT_LAYS.has(q.art)?UNIT_LAY_HINT:unitCounts(q)?'Count the small parts.':UNIT_COMPARE_HINT[q.art];
   return <div className="screen u2-screen">
     <div className="screen-bg"/>
+    <UnitPaint/>
     <Confetti active={confetti}/>
     <BgDeco/>
     <TopBar onBack={onBack} muted={muted} onToggleMute={onToggleMute} score={score} flowers={flowers} bouquets={bouquets} journey={journey} trophies={trophies}/>
@@ -13297,19 +13657,21 @@ function BigSmallUnitsGame({onBack,flowers,gardenFull,setFlowers,setGardenFull,s
     <div className={`u2-stage${world&&!summary?' playing':''}`}>
       {summary?<UnitSummary onClose={()=>{setSummary(false);setWorld(null);}}/>:!world?<>
         <div className="u2-worlds">
-          {Object.keys(BigSmallUnits.WORLDS).map(key=><button className="u2-world" key={key} onClick={()=>chooseWorld(key)}>
-            <UnitWorldIcon world={key}/>{BigSmallUnits.WORLDS[key].title}
+          {worldKeys.map(key=><button className={`u2-world u2-world-${key}`} key={key} onClick={()=>chooseWorld(key)}>
+            <UnitWorldIcon world={key}/>{key===BigSmallUnits.ALL?'All mixed':BigSmallUnits.WORLDS[key].title}
           </button>)}
         </div>
         <button className="u2-summary-btn" onClick={()=>setSummary(true)}>Unit facts</button>
       </>:<>
-        <ActivityRibbon className="u2-rungs" chips={BigSmallUnits.WORLDS[world].rungs.map((label,i)=>({id:String(i+1),label}))} value={String(rung)} onPick={id=>chooseRung(Number(id))} muted={muted} label="Choose a rung"/>
+        {world===BigSmallUnits.ALL
+          ?<div className="u2-all-tag">All worlds mixed</div>
+          :<ActivityRibbon className={`u2-rungs u2-rungs-${worldRungs.length}`} chips={worldRungs.map((label,i)=>({id:String(i+1),label,cls:label===BigSmallUnits.MIX_LABEL?'u2-mix-tab':''}))} value={String(rung)} onPick={id=>chooseRung(Number(id))} muted={muted} label="Choose a rung"/>}
         <UnitLessonArt key={`${round}-${teach?'teach':'ask'}`} q={q} teach={teach}/>
         <div className="u2-teach">{line}</div>
         {teach&&unitCounts(q)&&<UnitTeachingCount q={q}/>}
         <div className={`u2-answers${locked?' waiting':''}`}>
           {q.choices.map(value=><button key={value} disabled={locked} className={`u2-answer ${wrong===value?'wrong':''} ${reveal&&value===q.answer?'reveal':''}`} onClick={()=>tap(value)}>
-            <UnitAnswerCard value={value}/>
+            <UnitAnswerCard value={value} q={q}/>
           </button>)}
         </div>
         <div className="u2-next">
@@ -15883,23 +16245,23 @@ function Home({onSelect,bouquets=0}){
       <div className="home-tint"/>
       <BgDeco/>
       <div className="home-rainbow home-cloud-row">
-        <img className="home-cloud" src="assets-runtime/unicorn/icons/cloud-pink.webp?v=e6dbf41c9-20261025201757" alt="" style={{animation:'bounce 1.7s 0s ease-in-out infinite alternate'}}/>
-        <img className="home-cloud" src="assets-runtime/unicorn/icons/cloud-blue.webp?v=e6dbf41c9-20261025201757" alt="" style={{animation:'bounce 1.6s .12s ease-in-out infinite alternate'}}/>
+        <img className="home-cloud" src="assets-runtime/unicorn/icons/cloud-pink.webp?v=335ae488b-20261026010606" alt="" style={{animation:'bounce 1.7s 0s ease-in-out infinite alternate'}}/>
+        <img className="home-cloud" src="assets-runtime/unicorn/icons/cloud-blue.webp?v=335ae488b-20261026010606" alt="" style={{animation:'bounce 1.6s .12s ease-in-out infinite alternate'}}/>
       </div>
       <div className="home-title">
         {title.map((c,i)=><span key={i} style={{color:TITLE_COLORS[i%TITLE_COLORS.length],animationDelay:`${i*.07}s`,textShadow:`0 3px 0 ${TITLE_COLORS[(i+4)%TITLE_COLORS.length]}55`}}>{c}</span>)}
       </div>
       <div style={{display:'flex',alignItems:'center',gap:8}}>
-        <img src="assets-runtime/unicorn/icons/star.webp?v=e6dbf41c9-20261025201757" alt="" style={{width:32,height:32,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
+        <img src="assets-runtime/unicorn/icons/star.webp?v=335ae488b-20261026010606" alt="" style={{width:32,height:32,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
         <div className="home-sub">Choose your adventure!</div>
-        <img src="assets-runtime/unicorn/icons/star.webp?v=e6dbf41c9-20261025201757" alt="" style={{width:32,height:32,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
+        <img src="assets-runtime/unicorn/icons/star.webp?v=335ae488b-20261026010606" alt="" style={{width:32,height:32,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
       </div>
       {bouquets>0&&<div className="home-sub" style={{fontSize:'.85rem'}}><BouquetIcon/> Bouquets collected: {bouquets}</div>}
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=e6dbf41c9-20261025201757" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=335ae488b-20261026010606" alt=""/>
           <div className="mode-section-label">Play &amp; Explore</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/star.webp?v=e6dbf41c9-20261025201757" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/star.webp?v=335ae488b-20261026010606" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-rose" onClick={()=>onSelect('np1')}>
@@ -15918,9 +16280,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/bouquet.webp?v=e6dbf41c9-20261025201757" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/bouquet.webp?v=335ae488b-20261026010606" alt=""/>
           <div className="mode-section-label">Counting &amp; Comparing</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=e6dbf41c9-20261025201757" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=335ae488b-20261026010606" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-pink"   onClick={()=>onSelect('b1')}>
@@ -15952,9 +16314,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/sparkle.webp?v=e6dbf41c9-20261025201757" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/sparkle.webp?v=335ae488b-20261026010606" alt=""/>
           <div className="mode-section-label">Number Patterns</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/star-purple.webp?v=e6dbf41c9-20261025201757" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/star-purple.webp?v=335ae488b-20261026010606" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-purple" onClick={()=>onSelect('sq1')}>
@@ -15983,9 +16345,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=e6dbf41c9-20261025201757" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-yellow.webp?v=335ae488b-20261026010606" alt=""/>
           <div className="mode-section-label">Make Numbers</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-pink.webp?v=e6dbf41c9-20261025201757" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-pink.webp?v=335ae488b-20261026010606" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-pink" onClick={()=>onSelect('n1')}>
@@ -16004,9 +16366,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/crown.webp?v=e6dbf41c9-20261025201757" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/crown.webp?v=335ae488b-20261026010606" alt=""/>
           <div className="mode-section-label">Times &amp; Sharing</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/heart-purple.webp?v=e6dbf41c9-20261025201757" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/heart-purple.webp?v=335ae488b-20261026010606" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-purple" onClick={()=>onSelect('m1')}>
@@ -16029,9 +16391,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/petal-pink.webp?v=e6dbf41c9-20261025201757" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/petal-pink.webp?v=335ae488b-20261026010606" alt=""/>
           <div className="mode-section-label">Fractions &amp; Measure</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/petal-purple.webp?v=e6dbf41c9-20261025201757" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/petal-purple.webp?v=335ae488b-20261026010606" alt=""/>
         </div>
         <div className="mode-row">
           <button className="mode-card mc-magic" onClick={()=>onSelect('f1')}>
@@ -16054,9 +16416,9 @@ function Home({onSelect,bouquets=0}){
       </div>
       <div className="mode-section">
         <div className="home-section-heading">
-          <img className="section-icon" src="assets-runtime/unicorn/icons/heart-gem.webp?v=e6dbf41c9-20261025201757" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/heart-gem.webp?v=335ae488b-20261026010606" alt=""/>
           <div className="mode-section-label">Solve &amp; Calculate</div>
-          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-purple.webp?v=e6dbf41c9-20261025201757" alt=""/>
+          <img className="section-icon" src="assets-runtime/unicorn/icons/flower-purple.webp?v=335ae488b-20261026010606" alt=""/>
         </div>
         <div className="mode-row has-badge">
           <button className="mode-card mc-magic" onClick={()=>onSelect('l2')}>
@@ -16088,7 +16450,7 @@ function Home({onSelect,bouquets=0}){
         </div>
       </div>
       <div style={{display:'flex',justifyContent:'center',padding:'0 8px',animation:'bounce 2s ease-in-out infinite alternate'}}>
-        <img src="assets-runtime/unicorn/icons/rainbow.webp?v=e6dbf41c9-20261025201757" alt="" style={{width:200,objectFit:'contain',filter:'drop-shadow(0 3px 8px rgba(0,0,0,.12))'}}/>
+        <img src="assets-runtime/unicorn/icons/rainbow.webp?v=335ae488b-20261026010606" alt="" style={{width:200,objectFit:'contain',filter:'drop-shadow(0 3px 8px rgba(0,0,0,.12))'}}/>
       </div>
       {/* AI-voice disclosure. The hub carries one too, but a game is reachable by its
           own URL and most children arrive that way, so the statement has to stand on
