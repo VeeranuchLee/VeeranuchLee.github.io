@@ -1,5 +1,5 @@
 /* The release pipeline reads CACHE_NAME; do not rename it. */
-const CACHE_NAME = 'periodic-table-v5';
+const CACHE_NAME = 'periodic-table-v6';
 
 const SHELL = [
   './',
@@ -7,6 +7,7 @@ const SHELL = [
   './manifest.webmanifest',
   './css/app.css',
   './cg-back.css',
+  './cg-update.js',
   './js/tap-zoom-guard.js',
   './js/elements.js',
   './js/voice.js',
