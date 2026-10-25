@@ -5,20 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Make a Doll</title>
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="cg-back.css">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#FDF7F9">
+  <script src="./cg-update.js" defer></script>
 </head>
 <body>
 
 <div id="app" class="maker">
 
   <div id="tools" role="toolbar" aria-label="Make a doll">
-    <a class="tool ghost" id="back" href="./">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M11.3 4.3 3.6 12l7.7 7.7 1.8-1.8L8.1 13.3H20v-2.6H8.1l5-4.6z"/>
-      </svg>
-      <span>Back</span>
-    </a>
+    <span class="cg-back-slot" aria-hidden="true"></span><a class="cg-back" id="back" href="./" aria-label="Back to the house"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     <div class="spacer"></div>
     <button class="tool done" id="done">
       <svg viewBox="0 0 24 24" aria-hidden="true">
