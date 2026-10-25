@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="audio-wake.js?v=f606a8ceb-20261026013617"></script>
+<script src="audio-wake.js?v=c0b91d247-20261026022222"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <!-- Plain name, deliberately. This read "Magic Math v7" from 7343cc3 until
@@ -10,26 +10,26 @@
        a title that has to be edited on every publish will be wrong again by the
        next one. -->
   <title>Unicorn Math</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=f606a8ceb-20261026013617"/>
-  <link rel="icon" href="./assets/icons/icon-192.png?v=f606a8ceb-20261026013617"/>
-  <link rel="stylesheet" href="./fonts.css?v=f606a8ceb-20261026013617"/>
-  <link rel="stylesheet" href="./css/tap-wait-math.css?v=f606a8ceb-20261026013617"/>
-  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=f606a8ceb-20261026013617"/>
+  <link rel="manifest" href="./manifest.webmanifest?v=c0b91d247-20261026022222"/>
+  <link rel="icon" href="./assets/icons/icon-192.png?v=c0b91d247-20261026022222"/>
+  <link rel="stylesheet" href="./fonts.css?v=c0b91d247-20261026022222"/>
+  <link rel="stylesheet" href="./css/tap-wait-math.css?v=c0b91d247-20261026022222"/>
+  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=c0b91d247-20261026022222"/>
   <meta name="theme-color" content="#0a0e2d"/>
-  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=f606a8ceb-20261026013617"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=c0b91d247-20261026022222"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Magic Math"/>
   <!-- Method C: the pilot guard is first; it ignores every multi-finger gesture. -->
-  <script src="./js/tap-zoom-guard.js?v=f606a8ceb-20261026013617"></script>
-  <script src="./vendor/react-18.3.1.production.min.js?v=f606a8ceb-20261026013617"></script>
-  <script src="./vendor/react-dom-18.3.1.production.min.js?v=f606a8ceb-20261026013617"></script>
-  <script src="./js/tap-wait-engine.js?v=f606a8ceb-20261026013617"></script>
-  <script src="./js/tap-wait-math.js?v=f606a8ceb-20261026013617"></script>
-  <script src="./js/big-small-units.js?v=f606a8ceb-20261026013617"></script>
-  <script src="./ask-answer-logic.js?v=f606a8ceb-20261026013617"></script>
-  <script src="./shared/bg-deco/bg-deco.js?v=f606a8ceb-20261026013617"></script>
-  <script src="./vendor/babel-7.26.4.min.js?v=f606a8ceb-20261026013617"></script>
+  <script src="./js/tap-zoom-guard.js?v=c0b91d247-20261026022222"></script>
+  <script src="./vendor/react-18.3.1.production.min.js?v=c0b91d247-20261026022222"></script>
+  <script src="./vendor/react-dom-18.3.1.production.min.js?v=c0b91d247-20261026022222"></script>
+  <script src="./js/tap-wait-engine.js?v=c0b91d247-20261026022222"></script>
+  <script src="./js/tap-wait-math.js?v=c0b91d247-20261026022222"></script>
+  <script src="./js/big-small-units.js?v=c0b91d247-20261026022222"></script>
+  <script src="./ask-answer-logic.js?v=c0b91d247-20261026022222"></script>
+  <script src="./shared/bg-deco/bg-deco.js?v=c0b91d247-20261026022222"></script>
+  <script src="./vendor/babel-7.26.4.min.js?v=c0b91d247-20261026022222"></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;touch-action:manipulation}
     body{font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden}
@@ -1641,6 +1641,35 @@
     .aa-scratch{background:#f6f0df;border:3px solid #c99b55;border-radius:22px;padding:9px;box-shadow:0 5px 0 #80552d;min-height:390px;display:flex;flex-direction:column;gap:8px}.aa-scratch.collapsed{min-height:0;width:100%;padding:0;background:none;border:none;box-shadow:none}.aa-scratch.collapsed .aa-tools,.aa-scratch.collapsed .aa-canvas,.aa-scratch.collapsed .aa-scratch-title{display:none}.aa-scratch-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.aa-scratch.collapsed .aa-scratch-head{justify-content:flex-end}.aa-scratch-title{font-weight:900;color:#5b3b20}.aa-scratch-toggle{min-height:44px;border:2px solid #c99b55;border-radius:13px;background:#fff8e8;color:#5b3b20;font:900 .86rem Nunito,sans-serif;padding:6px 12px;cursor:pointer}.aa-tools{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap}.aa-colour{width:44px;height:44px;border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 2px #9b7544;cursor:pointer}.aa-colour.on{box-shadow:0 0 0 4px #8e24aa}.aa-tool{min-height:44px;border:2px solid #c99b55;border-radius:12px;background:#fff8e8;color:#5b3b20;font:900 .8rem Nunito,sans-serif;padding:5px 10px;cursor:pointer}.aa-tool.on{background:#f3e5f5;border-color:#8e24aa;color:#6a1b9a}.aa-canvas{width:100%;height:285px;background:#fff;border:2px solid #d8c9ad;border-radius:12px;touch-action:pinch-zoom;cursor:crosshair}
     @media (orientation:portrait),(max-width:760px){.aa-screen{height:100vh;height:100dvh;min-height:0;padding-left:8px;padding-right:8px}.aa-stage{display:flex;flex:1 1 auto;min-height:0;max-width:620px;gap:8px;flex-direction:column;overflow:hidden}.aa-work{flex:0 0 auto}.aa-card{min-height:118px;padding:8px 14px}.aa-build{min-height:48px;padding:2px}.aa-key{height:44px}.aa-scratch{flex:1 1 auto;min-height:0;overflow:hidden}.aa-canvas{height:200px;min-height:150px;flex:0 0 auto}.aa-players{gap:5px 4px}}
     @media (max-height:820px) and (orientation:landscape){.aa-card{min-height:150px;padding:8px 14px;gap:5px}.aa-build{min-height:48px;padding:2px}.aa-scratch{min-height:340px}.aa-canvas{height:205px}.aa-key{height:44px}}
+    /* ── Number Toys scratchpad: Ask & Answer's ScratchPad, shared (owner 2026-10-26) ──
+       Hidden, it is only its show button, centred under "My true sentences". Open on a
+       portrait iPad it sits under the history: the page is pinned to the window and the
+       pad takes what is left, never less than its min-height (which the history-fit
+       effect reads, so the history gives up rows before the page scrolls). Open on a
+       landscape iPad there is no room under the trays, so the toys keep their size as
+       a left column and the pad becomes the right one. */
+    .np-desk,.np-bench{display:contents}
+    .np-scratch{position:relative;z-index:1;width:min(96vw,720px);flex:0 0 auto}
+    .np-scratch.collapsed{width:auto}
+    .np-scratch.collapsed .aa-tools{display:flex}
+    .np-scratch.collapsed .aa-tools>:not(.np-scratch-toggle){display:none}
+    .np-scratch-toggle{min-height:64px;min-width:64px;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:3px solid #c99b55;border-radius:18px;background:linear-gradient(160deg,#fffdf6,#fff1d6);color:#5b3b20;font:900 1rem Nunito,sans-serif;padding:6px 16px;cursor:pointer;box-shadow:0 4px 0 #c99b55}
+    .np-scratch-toggle:active{transform:translateY(3px);box-shadow:0 1px 0 #c99b55}
+    .np-scratch-icon{width:28px;height:28px;flex:0 0 28px}
+    .np-screen.np-scratch-on{height:100vh;height:100dvh;min-height:0}
+    .np-scratch-on .np-scratch{flex:1 1 auto;min-height:250px;padding:8px}
+    .np-scratch-on .aa-canvas{flex:0 0 auto}
+    /* the open pad reaches the bottom-left corner on a portrait iPad: it goes over the mascot, never under it */
+    .screen.np-scratch-on>.mascot-corner{z-index:0}
+    @media (orientation:landscape) and (min-width:900px){
+      .np-scratch-on .np-desk{display:flex;flex:1 1 auto;min-height:0;width:100%;gap:inherit;align-items:stretch}
+      .np-scratch-on .np-bench{display:flex;flex-direction:column;align-items:center;gap:inherit;flex:0 0 min(62%,640px);min-width:0}
+      .np-scratch-on .np-bench>*{max-width:100%}
+      .np-scratch-on .np-scratch{flex:1 1 0;min-width:0;min-height:0;width:auto}
+      /* Hidden, its button waits in the bottom-right corner -- the side the pad opens on --
+         rather than taking a 64px row under the history that 768px of height cannot spare. */
+      .np-scratch.collapsed{position:fixed;right:22px;bottom:22px;z-index:6}
+    }
     /* ── Number Crossword (p1) ──
        A 5 x 5 board of equations across and down, then the tray. SQUARES HOLD NUMBERS
        and CIRCLES HOLD SIGNS: the two kinds of box and the two kinds of tile differ in
@@ -2679,7 +2708,7 @@
 @media (prefers-reduced-motion:reduce){.on-screen *,.on-screen *::before,.on-screen *::after{animation:none!important;transition:none!important}}
 /* ── END ORDER NUMBERS CSS ── */
   </style>
-  <script src="./cg-update.js?v=f606a8ceb-20261026013617" defer></script>
+  <script src="./cg-update.js?v=c0b91d247-20261026022222" defer></script>
 </head>
 <body>
 <div id="root"></div>
@@ -6326,7 +6355,7 @@ function GamePreview({id}){
   if(id==='r1')return(                      /* Read Big Numbers — grouped slots and a reader */
     <div className="gp gp-tight" aria-hidden="true">
       <div className="gp-row"><span className="gp-num">1</span><span className="gp-gap"/><span className="gp-num">2</span><span className="gp-num">5</span><span className="gp-num">0</span></div>
-      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/unicorn/icons/read-out.webp?v=f606a8ceb-20261026013617" alt=""/></div>
+      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/unicorn/icons/read-out.webp?v=c0b91d247-20261026022222" alt=""/></div>
     </div>);
   if(id==='s1')return(                      /* Count By — the chant above, the ladder rung below */
     <div className="gp gp-tight" aria-hidden="true">
@@ -6493,7 +6522,7 @@ function CardSticker({id}){
   return <img className="card-sticker" src={`assets/stickers/unicorn/${f}.webp`} alt="" aria-hidden="true" draggable="false" style={{'--sd':(4+(h%7)*.45).toFixed(2)+'s','--sl':'-'+((h%5)*.9).toFixed(1)+'s'}}/>;
 }
 function Stars({count}){
-  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/unicorn/icons/star.webp?v=f606a8ceb-20261026013617" alt=""/>)}</div>;
+  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/unicorn/icons/star.webp?v=c0b91d247-20261026022222" alt=""/>)}</div>;
 }
 
 /* Only the two hardest games wear this. The absence of a badge is the other
@@ -6508,7 +6537,7 @@ function Stars({count}){
    Unlike Space Math these cards carry no aria-label, so the alt text is what a
    screen reader announces; do not blank it here to match the other theme. */
 function BigKidBadge(){
-  return <div className="mode-card-badge"><img src="assets-runtime/unicorn/icons/big-kids.webp?v=f606a8ceb-20261026013617" alt="For big kids"/></div>;
+  return <div className="mode-card-badge"><img src="assets-runtime/unicorn/icons/big-kids.webp?v=c0b91d247-20261026022222" alt="For big kids"/></div>;
 }
 
 /* ══ MASCOT ══ */
@@ -6802,7 +6831,7 @@ function TopBar({onBack,muted,onToggleMute,label,score,flowers,bouquets=0}){
   return(
     <div className="top-bar">
       <div style={{display:'flex',alignItems:'center',gap:5}}>
-        <img src="assets-runtime/unicorn/icons/flower-pink.webp?v=f606a8ceb-20261026013617" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
+        <img src="assets-runtime/unicorn/icons/flower-pink.webp?v=c0b91d247-20261026022222" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
         <button className="back-btn" aria-label="Back home" onClick={()=>{Voice.stop();Sound.tap();onBack();}}><BackIcon/></button>
       </div>
       {label&&<div className="level-chip">{label}</div>}
@@ -6816,7 +6845,7 @@ function TopBar({onBack,muted,onToggleMute,label,score,flowers,bouquets=0}){
             to count -- so the chip is conditional rather than a permanent 0. Every
             scored game passes a score and sees exactly what it saw before. */}
         {score!=null&&<div style={{display:'flex',alignItems:'center',gap:6}}>
-          <img src="assets-runtime/unicorn/icons/star.webp?v=f606a8ceb-20261026013617" alt="" style={{width:34,height:34,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.2))'}}/>
+          <img src="assets-runtime/unicorn/icons/star.webp?v=c0b91d247-20261026022222" alt="" style={{width:34,height:34,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.2))'}}/>
           <div className="score-badge"><span>{score}</span></div>
         </div>}
         <FlowerGarden flowers={flowers}/>
@@ -9283,8 +9312,8 @@ function numberToWords(s){
 function RobotReader({speaking}){
   return(
     <div className={`rb-robot ${speaking?'talking':''}`} aria-hidden="true">
-      <img className="rb-still" src="assets-runtime/unicorn/icons/robot-reader.webp?v=f606a8ceb-20261026013617" alt=""/>
-      <img className="rb-talk" src="assets-runtime/unicorn/icons/robot-reader-talk.webp?v=f606a8ceb-20261026013617" alt=""/>
+      <img className="rb-still" src="assets-runtime/unicorn/icons/robot-reader.webp?v=c0b91d247-20261026022222" alt=""/>
+      <img className="rb-talk" src="assets-runtime/unicorn/icons/robot-reader-talk.webp?v=c0b91d247-20261026022222" alt=""/>
     </div>
   );
 }
@@ -13940,6 +13969,8 @@ function AreaGame({onBack, flowers, gardenFull, setFlowers, setGardenFull, score
    and a tray press is already carrying a copy (the tray is infinite stampers,
    never a source that runs out). */
 const NP_HIST_KEY='mm_nphist';
+/* Whether the child left the scratchpad open (owner 2026-10-26). */
+const NP_SCRATCH_KEY='mm_npscratch';
 const NP_TRAY_OPS=['+','−','×','÷','=','>','<'];
 const NP_OP_WORDS={'+':'plus','−':'minus','×':'times','÷':'divided by','=':'equals','<':'is less than','>':'is greater than'};
 /* Spoken form of a sentence. numberToWords() is defined with Read Big Numbers,
@@ -13959,9 +13990,13 @@ const NP_FEEDBACK={true:"That's true!",false:'Not true yet — try changing some
 const NP_LIMIT_NUMBER='Oops! That number is too long for me to read. Try a shorter number!';
 const NP_LIMIT_BOARD='Oops! That sentence is too long for me to read. Try a shorter one!';
 const NP_LIMIT_RESULT='That answer is too big for me to work out!';
-/* Five kept, never fewer than three shown. The count that actually fits is measured
-   rather than guessed -- see the fit effect in the component. */
-const NP_HIST_KEEP=5, NP_HIST_MIN=3;
+/* Five kept, and as many shown as fit -- never fewer than the newest one. The count
+   that actually fits is measured rather than guessed -- see the fit effect in the
+   component. The floor used to be three, which a 1024x768 iPad cannot show under the
+   trays without the page scrolling (unicorn's column ends ~50px below the window at
+   three rows), so on a turned iPad the page scrolled. The toys never shrink for the
+   history; the history gives up rows instead, and they come back when there is room. */
+const NP_HIST_KEEP=5, NP_HIST_MIN=1;
 /* A board gesture that crosses the drag threshold inside this long is a FLICK and pans
    the rail; slower than this and it picks the digit up, exactly as before. The window is
    only consulted when the rail actually overflows, so a sentence that fits on screen
@@ -14003,6 +14038,19 @@ function NumberPlayGame({onBack, flowers, gardenFull, setFlowers, setGardenFull,
      which are how a child reliably travels a rail that is wider than the screen. */
   const [ends,setEnds]=useState({left:false,right:false});
   const [histShown,setHistShown]=useState(NP_HIST_KEEP);
+  /* The scratchpad under the history (owner 2026-10-26: "add scratchpad (same as 'make
+     question') on the bottom part (below the history line) make a button to show and
+     hide it too."). It is Ask & Answer's own ScratchPad component, not a copy. Closed
+     by default so the toy looks exactly as it did; the child's choice is remembered. */
+  const [scratchOpen,setScratchOpen]=useState(()=>{try{return localStorage.getItem(NP_SCRATCH_KEY)==='1';}catch(e){return false;}});
+  const scratchTap=useCallback(()=>{Sound.setMuted(muted);Sound.tap();},[muted]);
+  const toggleScratch=()=>{
+    scratchTap();
+    const next=!scratchOpen;
+    setScratchOpen(next);
+    setHistShown(NP_HIST_KEEP);
+    try{localStorage.setItem(NP_SCRATCH_KEY,next?'1':'0');}catch(e){}
+  };
   const screenRef=useRef(null);
   const [drag,setDragState]=useState(null);
   const dragRef=useRef(null);
@@ -14098,14 +14146,27 @@ function NumberPlayGame({onBack, flowers, gardenFull, setFlowers, setGardenFull,
        grow WITH the column when it is taller. The bottom of the last thing in the column
        is the only honest measure, and the padding under it is part of what has to fit. */
     const pad=parseFloat(getComputedStyle(el).paddingBottom)||0;
-    const over=hist.getBoundingClientRect().bottom+(window.scrollY||0)+pad-window.innerHeight;
+    /* The scratchpad, when it sits BELOW the history, is part of the column that has
+       to fit: closed, it is just its show button; open, it is counted at its smallest
+       (its CSS min-height) and grows into whatever the history leaves. Beside the
+       history (iPad landscape) it does not compete for the column at all. */
+    let bottom=hist.getBoundingClientRect().bottom;
+    const sc=el.querySelector('.np-scratch');
+    if(sc&&getComputedStyle(sc).position!=='fixed'){const s=sc.getBoundingClientRect();if(s.top>=bottom-1)bottom=scratchOpen?s.top+(parseFloat(getComputedStyle(sc).minHeight)||0):s.bottom;}
+    const over=bottom+(window.scrollY||0)+pad-window.innerHeight;
     if(over>2){if(histShown>NP_HIST_MIN)setHistShown(histShown-1);return;}
     if(histShown>=NP_HIST_KEEP)return;
     const row=el.querySelector('.np-history-row');
     if(row&&-over>=row.getBoundingClientRect().height+8)setHistShown(histShown+1);
   });
+  /* EVERY resize re-fits, including a turn of the iPad. Resetting to NP_HIST_KEEP alone
+     did nothing when the history already showed five (an unchanged value is no render,
+     so the fit effect never ran again): portrait 768x1024 shows all five, and turning
+     to 1024x768 left five rows under the trays and the page scrolling. The tick forces
+     the render the fit effect needs. */
+  const [,setFitTick]=useState(0);
   useEffect(()=>{
-    const reset=()=>setHistShown(NP_HIST_KEEP);
+    const reset=()=>{setHistShown(NP_HIST_KEEP);setFitTick(t=>t+1);};
     window.addEventListener('resize',reset);
     return()=>window.removeEventListener('resize',reset);
   },[]);
@@ -14332,7 +14393,7 @@ function NumberPlayGame({onBack, flowers, gardenFull, setFlowers, setGardenFull,
   const caretAt=(numId,i)=>!!(overNum&&overNum.numId===numId&&overNum.index===i);
   const swapTarget=drag&&drag.kind==='op'&&drag.over&&drag.over.swap?drag.over.swap:null;
   return(
-    <div className="screen np-screen"
+    <div className={`screen np-screen${scratchOpen?' np-scratch-on':''}`}
       ref={screenRef} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onCancel}>
       <div className="screen-bg"/>
       <Confetti active={confetti}/>
@@ -14343,6 +14404,12 @@ function NumberPlayGame({onBack, flowers, gardenFull, setFlowers, setGardenFull,
           same as every other game. No score chip: there is nothing to win here. */}
       <Mascot kind="unicorn" mood={mascot.mood} stamp={mascot.stamp} onPoke={mascot.poke}/>
       <div className="count-title"><div className="count-title-main">Number Toys</div><div className="count-title-sub">Build your own number sentence</div></div>
+      {/* The desk and the bench are display:contents -- invisible to layout -- except on a
+          landscape iPad with the scratchpad open, where the bench (every toy, at its own
+          size) becomes the left column and the pad the right one. There is no room under
+          the trays at 1024x768 for a pad worth drawing on. */}
+      <div className="np-desk">
+      <div className="np-bench">
       <div className="np-controls">
         <button className="np-btn" onClick={undo} disabled={!undoStack.length} aria-label="Undo"><svg className="btn-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 7L4 12l5 5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/><path d="M4.5 12H14a5.5 5.5 0 0 1 0 11h-2" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/></svg> Undo</button>
         <button className="np-btn" onClick={clear} aria-label="Clear">Clear</button>
@@ -14421,6 +14488,13 @@ function NumberPlayGame({onBack, flowers, gardenFull, setFlowers, setGardenFull,
             </div>
           ))}
       </div>
+      </div>
+      <ScratchPad open={scratchOpen} tap={scratchTap} className="np-scratch"
+        lead={<button className="np-scratch-toggle" onClick={toggleScratch} aria-expanded={scratchOpen}
+          aria-label={scratchOpen?'Hide scratchpad':'Show scratchpad'}>
+          <svg className="np-scratch-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 19.5l1.1-4.4L15.9 4.8a1.9 1.9 0 0 1 2.7 0l.6.6a1.9 1.9 0 0 1 0 2.7L8.9 18.4z" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinejoin="round"/><path d="M14 6.7l3.3 3.3" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/><path d="M12 20h7.5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/></svg>
+          <span>{scratchOpen?'Hide':'Scratchpad'}</span></button>}/>
+      </div>
       {drag&&<div className={`np-ghost ${drag.kind==='op'?'np-ghost-op':''}`} style={{left:drag.x,top:drag.y}} aria-hidden="true">{drag.value}</div>}
     </div>
   );
@@ -14436,35 +14510,25 @@ const AA_SPECIALS=['crown.webp','rainbow.webp','heart-gem.webp','star-purple.web
 const AA_COLORS=['#37474f','#e53935','#1e88e5','#43a047'];
 /* one name per crayon, so a screen reader hears eight choices, not one eight times */
 const AA_COLOR_NAMES=['dark grey','red','blue','green'];
-function AskAnswerGame({onBack,flowers,bouquets,muted,onToggleMute}){
-  const AA=window.AskAnswerLogic;
-  const [step,setStep]=useState('ask');
-  const [tokens,setTokens]=useState(['']);
-  const [question,setQuestion]=useState(null);
-  const [answer,setAnswer]=useState('');
-  const [feedback,setFeedback]=useState('');
-  const [wrong,setWrong]=useState(false);
-  const [correct,setCorrect]=useState(false);
-  const [showAnswer,setShowAnswer]=useState(false);
-  const [mergeId,setMergeId]=useState(null);
-  const [specialId,setSpecialId]=useState(null);
-  const [chestOpen,setChestOpen]=useState(false);
-  const [players,setPlayers]=useState(()=>{
-    try{return AA.normalisePlayers(JSON.parse(localStorage.getItem(AA_STORE)||'null'));}catch(e){return AA.normalisePlayers(null);}
-  });
-  const [scratchOpen,setScratchOpen]=useState(true);
+/* ══ SCRATCH PAD (shared: Ask & Answer and Number Toys) ══
+   One scratchpad, two homes. It was born inside Ask & Answer; the owner asked for
+   "scratchpad (same as 'make question')" under Number Toys' history on 2026-10-26,
+   so it lives here once and both games mount it rather than either keeping a copy.
+   Four crayons only (owner 2026-10-21). The host owns whether it is open and what
+   the toggle looks like: `head` is a row above the tools (Ask & Answer's title and
+   Shrink button), `lead` is a control at the front of the tools row (Number Toys'
+   show/hide button, which also stays visible while collapsed). `clears` is a number
+   the host bumps to wipe the page, e.g. Ask & Answer's New question. */
+function ScratchPad({open,tap,clears,head,lead,className}){
   const [colour,setColour]=useState(AA_COLORS[0]);
   const [penSize,setPenSize]=useState(7);
   const [eraser,setEraser]=useState(false);
   /* The scratchpad keeps its strokes as POINTS in the canvas box's own pixels, never
      as a bitmap: a resize or a turn of the iPad re-replays the same lines at the new
      size instead of stretching a snapshot, and the drawing stays on screen (shrunk,
-     restacked, question changed) until the child leaves the mode. */
-  const scratchRef=useRef(null),canvasRef=useRef(null),drawRef=useRef(null),strokesRef=useRef([]),mergeT=useRef(null),specialT=useRef(null);
-  const tap=useCallback(()=>{Sound.setMuted(muted);Sound.tap();},[muted]);
-  useEffect(()=>{try{localStorage.setItem(AA_STORE,JSON.stringify(players));}catch(e){}},[players]);
-  useEffect(()=>()=>{clearTimeout(mergeT.current);clearTimeout(specialT.current);},[]);
-
+     restacked, question changed, hidden and shown again) until the child leaves the
+     mode. */
+  const scratchRef=useRef(null),canvasRef=useRef(null),drawRef=useRef(null),strokesRef=useRef([]),clearsSeen=useRef(clears);
   const paintStroke=useCallback((ctx,stroke)=>{
     const canvas=canvasRef.current,box=canvas.getBoundingClientRect(),scale=canvas.width/box.width,pts=stroke.points;
     ctx.save();ctx.strokeStyle=stroke.erase?'#fff':stroke.colour;ctx.lineWidth=stroke.width*scale;ctx.lineCap='round';ctx.lineJoin='round';
@@ -14485,12 +14549,43 @@ function AskAnswerGame({onBack,flowers,bouquets,muted,onToggleMute}){
     const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
     strokesRef.current.forEach(stroke=>{if(stroke.points.length)paintStroke(ctx,stroke);});
   },[paintStroke]);
-  useEffect(()=>{if(!scratchOpen)return;const resize=()=>requestAnimationFrame(()=>prepareCanvas());resize();window.addEventListener('resize',resize);const observer=window.ResizeObserver?new window.ResizeObserver(resize):null;if(observer)observer.observe(scratchRef.current);return()=>{window.removeEventListener('resize',resize);if(observer)observer.disconnect();};},[scratchOpen,prepareCanvas]);
+  useEffect(()=>{if(!open)return;const resize=()=>requestAnimationFrame(()=>prepareCanvas());resize();window.addEventListener('resize',resize);const observer=window.ResizeObserver?new window.ResizeObserver(resize):null;if(observer)observer.observe(scratchRef.current);return()=>{window.removeEventListener('resize',resize);if(observer)observer.disconnect();};},[open,prepareCanvas]);
   const clearScratch=useCallback((withSound=true)=>{strokesRef.current=[];const canvas=canvasRef.current;if(!canvas)return;const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);if(withSound)tap();},[tap]);
+  useEffect(()=>{if(clearsSeen.current===clears)return;clearsSeen.current=clears;clearScratch(false);},[clears,clearScratch]);
   const point=e=>{const r=canvasRef.current.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};};
   const drawStart=e=>{if(e.pointerType==='mouse'&&e.button!==0)return;if(!e.isPrimary)return;try{e.currentTarget.setPointerCapture(e.pointerId);}catch(err){}const stroke={colour,width:eraser?26:penSize,erase:eraser,points:[point(e)]};strokesRef.current.push(stroke);drawRef.current={id:e.pointerId,stroke};paintStroke(canvasRef.current.getContext('2d'),stroke);tap();};
   const drawMove=e=>{const draw=drawRef.current;if(!draw||draw.id!==e.pointerId)return;draw.stroke.points.push(point(e));paintStroke(canvasRef.current.getContext('2d'),draw.stroke);};
   const drawEnd=e=>{if(drawRef.current&&drawRef.current.id===e.pointerId)drawRef.current=null;};
+  return <div ref={scratchRef} className={`aa-scratch ${className?className+' ':''}${open?'':'collapsed'}`}>
+    {head}
+    <div className="aa-tools">{lead}{AA_COLORS.map((c,index)=><button key={c} className={`aa-colour ${!eraser&&colour===c?'on':''}`} style={{background:c}} aria-label={`Choose the ${AA_COLOR_NAMES[index]} crayon`} onClick={()=>{tap();setColour(c);setEraser(false);}}/>)}{[4,7,12].map(size=><button key={size} className={`aa-tool ${!eraser&&penSize===size?'on':''}`} onClick={()=>{tap();setPenSize(size);setEraser(false);}}>{size===4?'Thin':size===7?'Medium':'Thick'}</button>)}<button className={`aa-tool ${eraser?'on':''}`} onClick={()=>{tap();setEraser(true);}}>Eraser</button><button className="aa-tool" onClick={()=>clearScratch(true)}>Clear page</button></div>
+    <canvas ref={canvasRef} className="aa-canvas" aria-label="Drawing scratchpad" onPointerDown={drawStart} onPointerMove={drawMove} onPointerUp={drawEnd} onPointerCancel={drawEnd}/>
+  </div>;
+}
+
+function AskAnswerGame({onBack,flowers,bouquets,muted,onToggleMute}){
+  const AA=window.AskAnswerLogic;
+  const [step,setStep]=useState('ask');
+  const [tokens,setTokens]=useState(['']);
+  const [question,setQuestion]=useState(null);
+  const [answer,setAnswer]=useState('');
+  const [feedback,setFeedback]=useState('');
+  const [wrong,setWrong]=useState(false);
+  const [correct,setCorrect]=useState(false);
+  const [showAnswer,setShowAnswer]=useState(false);
+  const [mergeId,setMergeId]=useState(null);
+  const [specialId,setSpecialId]=useState(null);
+  const [chestOpen,setChestOpen]=useState(false);
+  const [players,setPlayers]=useState(()=>{
+    try{return AA.normalisePlayers(JSON.parse(localStorage.getItem(AA_STORE)||'null'));}catch(e){return AA.normalisePlayers(null);}
+  });
+  const [scratchOpen,setScratchOpen]=useState(true);
+  /* Bumped by New question: the shared ScratchPad wipes its page for the next round. */
+  const [scratchClears,setScratchClears]=useState(0);
+  const mergeT=useRef(null),specialT=useRef(null);
+  const tap=useCallback(()=>{Sound.setMuted(muted);Sound.tap();},[muted]);
+  useEffect(()=>{try{localStorage.setItem(AA_STORE,JSON.stringify(players));}catch(e){}},[players]);
+  useEffect(()=>()=>{clearTimeout(mergeT.current);clearTimeout(specialT.current);},[]);
 
   const updatePlayers=next=>setPlayers(AA.normalisePlayers(typeof next==='function'?next(players):next));
   const selectPlayer=id=>{tap();updatePlayers({...players,selectedId:id});};
@@ -14511,7 +14606,7 @@ function AskAnswerGame({onBack,flowers,bouquets,muted,onToggleMute}){
   /* Show answer ends the round: no point can be scored after the reveal, only New
      question opens one. */
   const check=()=>{tap();if(correct||showAnswer)return;if(!answer){Sound.wrong();setWrong(true);setFeedback('Type an answer first.');return;}if(answer.replace(/^0+(?=\d)/,'')===question.value){Sound.ding();Sound.celebrate();const before=AA.stickersForScore(active.score),earned=active.score===AA.SCORE_PER_SPECIAL-1&&!AA.isCollectionComplete(active);setPlayers(old=>AA.scoreSelected(old));if(earned){clearTimeout(specialT.current);setSpecialId(active.id);specialT.current=setTimeout(()=>setSpecialId(null),1800);}else if(before.small===AA.SMALL_PER_BIG-1){clearTimeout(mergeT.current);setMergeId(active.id);mergeT.current=setTimeout(()=>setMergeId(null),650);}setFeedback(earned?'Amazing! A special sticker went into the treasure chest!':'That is right! One small sticker!');setWrong(false);setCorrect(true);setShowAnswer(false);}else{Sound.wrong();setFeedback('Not yet. Try again!');setWrong(true);}};
-  const newQuestion=()=>{tap();setStep('ask');setTokens(['']);setQuestion(null);setAnswer('');setFeedback('');setWrong(false);setCorrect(false);setShowAnswer(false);clearScratch(false);};
+  const newQuestion=()=>{tap();setStep('ask');setTokens(['']);setQuestion(null);setAnswer('');setFeedback('');setWrong(false);setCorrect(false);setShowAnswer(false);setScratchClears(n=>n+1);};
   const active=players.players.find(p=>p.id===players.selectedId)||players.players[0];
   const rows=question?question.tokens.filter((_,i)=>i%2===0):[];
   const ops=question?question.tokens.filter((_,i)=>i%2===1):[];
@@ -14539,10 +14634,8 @@ function AskAnswerGame({onBack,flowers,bouquets,muted,onToggleMute}){
         </div>
         {step==='ask'?<><div className="aa-keypad">{'1234567890'.split('').map(d=><button className="aa-key" key={d} onClick={()=>addDigit(d)}>{d}</button>)}{AA.OPS.map(op=><button className="aa-key op" key={op} onClick={()=>addOp(op)}>{op}</button>)}<button className="aa-key" onClick={backspace} aria-label="Backspace">Back</button></div><div className="aa-actions"><button className="aa-action secondary" onClick={clearQuestion}>Clear</button><button className="aa-action" onClick={setTheQuestion}>Set question</button></div></>:<>{!correct&&!showAnswer&&<div className="aa-keypad">{'1234567890'.split('').map(d=><button className="aa-key" key={d} onClick={()=>typeAnswer(d)}>{d}</button>)}<button className="aa-key" onClick={answerBackspace} aria-label="Backspace">Back</button></div>}<div className="aa-actions">{!correct&&!showAnswer&&<button className="aa-action" onClick={check}>Check</button>}{wrong&&!showAnswer&&<button className="aa-action secondary" onClick={()=>{tap();setShowAnswer(true);setFeedback(`The answer is ${question.value}.`);}}>Show answer</button>}<button className="aa-action secondary" onClick={newQuestion}>New question</button></div></>}
       </div>
-      <div ref={scratchRef} className={`aa-scratch ${scratchOpen?'':'collapsed'}`}>
-        <div className="aa-scratch-head"><span className="aa-scratch-title">Scratchpad</span><button className="aa-scratch-toggle" onClick={()=>{tap();setScratchOpen(!scratchOpen);}}>{scratchOpen?'Shrink':'Open scratchpad'}</button></div>
-        <div className="aa-tools">{AA_COLORS.map((c,index)=><button key={c} className={`aa-colour ${!eraser&&colour===c?'on':''}`} style={{background:c}} aria-label={`Choose the ${AA_COLOR_NAMES[index]} crayon`} onClick={()=>{tap();setColour(c);setEraser(false);}}/>)}{[4,7,12].map(size=><button key={size} className={`aa-tool ${!eraser&&penSize===size?'on':''}`} onClick={()=>{tap();setPenSize(size);setEraser(false);}}>{size===4?'Thin':size===7?'Medium':'Thick'}</button>)}<button className={`aa-tool ${eraser?'on':''}`} onClick={()=>{tap();setEraser(true);}}>Eraser</button><button className="aa-tool" onClick={()=>clearScratch(true)}>Clear page</button></div><canvas ref={canvasRef} className="aa-canvas" aria-label="Drawing scratchpad" onPointerDown={drawStart} onPointerMove={drawMove} onPointerUp={drawEnd} onPointerCancel={drawEnd}/>
-      </div>
+      <ScratchPad open={scratchOpen} tap={tap} clears={scratchClears}
+        head={<div className="aa-scratch-head"><span className="aa-scratch-title">Scratchpad</span><button className="aa-scratch-toggle" onClick={()=>{tap();setScratchOpen(!scratchOpen);}}>{scratchOpen?'Shrink':'Open scratchpad'}</button></div>}/>
     </div>
   </div>;
 }
@@ -16405,11 +16498,11 @@ function Home({onSelect,bouquets=0,shelf=null,setShelf=()=>{}}){
       <BgDeco/>
       <div className="menu-top">
         <div className="menu-title-row">
-          <img className="menu-title-icon" src="assets-runtime/unicorn/icons/cloud-pink.webp?v=f606a8ceb-20261026013617" alt=""/>
+          <img className="menu-title-icon" src="assets-runtime/unicorn/icons/cloud-pink.webp?v=c0b91d247-20261026022222" alt=""/>
           <div className="home-title">
             {title.map((c,i)=><span key={i} style={{color:TITLE_COLORS[i%TITLE_COLORS.length],animationDelay:`${i*.07}s`,textShadow:`0 3px 0 ${TITLE_COLORS[(i+4)%TITLE_COLORS.length]}55`}}>{c}</span>)}
           </div>
-          <img className="menu-title-icon b" src="assets-runtime/unicorn/icons/cloud-blue.webp?v=f606a8ceb-20261026013617" alt=""/>
+          <img className="menu-title-icon b" src="assets-runtime/unicorn/icons/cloud-blue.webp?v=c0b91d247-20261026022222" alt=""/>
         </div>
         {!open&&<div className="menu-status">
           {bouquets>0&&<div className="home-sub"><BouquetIcon/> Bouquets collected: {bouquets}</div>}
