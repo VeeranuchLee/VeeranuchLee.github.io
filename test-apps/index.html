@@ -8,525 +8,72 @@
   <style>
     *{box-sizing:border-box}
     html,body{touch-action:manipulation}
-    body{margin:0;min-height:100svh;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#25343b;background:radial-gradient(circle at 20% 10%,#fff9d9 0 8%,transparent 34%),linear-gradient(145deg,#d9f5ee,#e7e1ff 58%,#ffe8cf);padding:clamp(20px,4vw,48px)}
+    body{margin:0;min-height:100svh;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#25343b;background:radial-gradient(circle at 20% 10%,#fff9d9 0 8%,transparent 34%),linear-gradient(145deg,#d9f5ee,#e7e1ff 58%,#ffe8cf);background-attachment:fixed;padding:clamp(16px,4vw,44px)}
     main{width:min(1100px,100%);margin:auto}
     .eyebrow{font-weight:900;letter-spacing:.13em;text-transform:uppercase;color:#63747a;font-size:.72rem}
-    h1{margin:.2rem 0 .4rem;font-size:clamp(2rem,6vw,3.6rem);line-height:.95;color:#243d52}
-    header p{max-width:38rem;font-size:1.05rem;line-height:1.5;color:#506269;margin:0 0 28px}
-    .hub{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
-    .side{display:grid;gap:18px}
-    .side>h2{font-size:1.25rem;margin:0 0 4px;color:#3d5260}
-    .side>p{margin:0 0 10px;color:#63747a;font-size:.95rem}
-    .grid{display:grid;grid-template-columns:1fr;gap:16px}
-    .card{min-height:140px;display:flex;flex-direction:column;justify-content:space-between;padding:20px;border:3px solid #fff9;border-radius:24px;text-decoration:none;color:inherit;background:linear-gradient(150deg,#ffe7c9,#e2dcff);box-shadow:0 12px 34px #45566c1a;transition:transform .15s,box-shadow .15s;position:relative}
-    .card:hover,.card:focus-visible{transform:translateY(-4px);box-shadow:0 18px 44px #45566c2a;outline:none}
-    .card.candidate{background:linear-gradient(150deg,#fff5c9,#f1c8ff)}
-    .card.experiment{background:linear-gradient(150deg,#c7f5e5,#b8dbff)}
-    .card.missing{opacity:.65;background:linear-gradient(150deg,#e9ecef,#dde2e6);border-color:#d0d5da;pointer-events:none}
-    .card.missing .open{display:none}
-    .card h3{font-size:1.25rem;margin:0 0 6px;color:#243d52}
-    .card p{margin:0;line-height:1.45;color:#42535a;font-size:.98rem}
-    .card .meta{display:flex;justify-content:space-between;align-items:center;margin-top:14px;gap:12px}
-    .card time{font-size:.82rem;color:#63747a;font-weight:600}
-    .card .open{font-weight:900;color:#2d5d7c;font-size:.95rem;min-width:48px;text-align:right}
-    .card .missing-badge{font-size:.82rem;font-weight:900;color:#7b4a4a;background:#f3d9d9;padding:3px 10px;border-radius:999px;white-space:nowrap}
-    .archive{margin-top:30px;padding:14px 18px;border-radius:18px;background:#fff8;box-shadow:0 8px 24px #45566c12}
-    .archive summary{cursor:pointer;font-weight:800;color:#506269}
-    .archive ul{margin:14px 0 2px;padding-left:22px;columns:2;column-gap:36px}
-    .archive li{margin:0 0 8px;break-inside:avoid}
-    .archive a{color:#2d5d7c;text-underline-offset:2px}
-    footer{margin-top:34px;color:#63747a;font-size:.88rem}
-    @media (max-width:600px){
-      .hub{grid-template-columns:1fr}
+    h1{margin:.2rem 0 .4rem;font-size:clamp(2rem,6vw,3.2rem);line-height:.95;color:#243d52}
+    header p{max-width:40rem;font-size:1.05rem;line-height:1.5;color:#506269;margin:0 0 8px}
+    .status-line{font-weight:700;color:#3d5260;margin:0 0 26px}
+    .group{margin:0 0 34px}
+    .group>h2{display:flex;align-items:baseline;gap:10px;font-size:1.35rem;margin:0 0 4px;color:#243d52}
+    .group>h2 .count{font-size:.95rem;font-weight:800;color:#63747a}
+    .group>p{margin:0 0 14px;color:#63747a;font-size:.95rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+    .card{display:flex;flex-direction:column;gap:10px;padding:18px 18px 14px;border:3px solid #fff9;border-radius:22px;background:#fffdf8;box-shadow:0 10px 30px #45566c18;position:relative}
+    .card.your-turn{background:linear-gradient(160deg,#fffdf4,#fff1d6)}
+    .card.answered,.card.waiting-release{background:linear-gradient(160deg,#f7fffb,#e3f6ee)}
+    .card.on-hold{background:#f3f4f6}
+    .card.looked{border-color:#9fd3b8}
+    .card.looked.your-turn{background:linear-gradient(160deg,#fbfffd,#eaf7f0)}
+    .card.missing{opacity:.7}
+    .top{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+    .badge{font-size:.78rem;font-weight:800;letter-spacing:.02em;padding:4px 10px;border-radius:999px;white-space:nowrap}
+    .badge.candidate{background:#f4dcff;color:#5d3576}
+    .badge.experiment{background:#d3ecff;color:#22517a}
+    .badge.missing-badge{background:#f3d9d9;color:#7b4a4a}
+    .waiting{margin-left:auto;font-size:.82rem;font-weight:800;color:#506269;background:#eef2f4;padding:4px 10px;border-radius:999px;white-space:nowrap}
+    .waiting.amber{background:#ffe2a8;color:#7a4b00}
+    .card h3{font-size:1.2rem;line-height:1.25;margin:0;color:#243d52}
+    .card h3 a{color:inherit;text-decoration:none}
+    .ask,.answer{margin:0;font-size:1.02rem;line-height:1.45;font-weight:650;color:#2c3e46}
+    .ask .label,.answer .label{display:block;font-size:.74rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#8a5a00;margin-bottom:2px}
+    .answer .label{color:#2f6b4f}
+    .note{margin:0;font-size:.93rem;line-height:1.45;color:#4d5e65}
+    .dates{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:.85rem;color:#63747a;font-weight:600}
+    .actions{display:flex;gap:10px;align-items:center;margin-top:auto;padding-top:4px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;min-width:48px;padding:0 16px;border-radius:14px;font:inherit;font-weight:800;font-size:.98rem;text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+    .open{background:#2d5d7c;color:#fff;border:0}
+    .open:focus-visible,.tick:focus-visible{outline:3px solid #f0a020;outline-offset:2px}
+    .tick{margin-left:auto;background:#fff;color:#3d5260;border:2px solid #c8d3d8}
+    .tick svg{width:22px;height:22px;flex:none}
+    .tick .box{fill:#fff;stroke:#8a9aa1;stroke-width:2}
+    .tick .mark{fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;opacity:0}
+    .tick[aria-pressed="true"]{background:#e3f6ee;border-color:#5fb38a;color:#22553c}
+    .tick[aria-pressed="true"] .box{fill:#3c9a6c;stroke:#3c9a6c}
+    .tick[aria-pressed="true"] .mark{opacity:1}
+    .archive{margin-top:10px;padding:6px 18px;border-radius:18px;background:#fff8;box-shadow:0 8px 24px #45566c12}
+    .archive summary{cursor:pointer;font-weight:800;color:#506269;min-height:48px;display:flex;align-items:center}
+    .archive ul{margin:4px 0 12px;padding:0;list-style:none;columns:2;column-gap:36px}
+    .archive li{margin:0 0 6px;break-inside:avoid;line-height:1.35}
+    .archive a{color:#2d5d7c;text-underline-offset:2px;display:flex;align-items:center;min-height:44px;padding:6px 0}
+    .archive li span{display:block;font-size:.85rem;color:#63747a;margin-top:-4px}
+    .load-error{padding:18px;border-radius:18px;background:#fff3f0;color:#7b4a4a;font-weight:700}
+    footer{margin-top:30px;color:#63747a;font-size:.88rem}
+    @media (max-width:700px){
+      .grid{grid-template-columns:1fr}
       .archive ul{columns:1}
-      body{padding:18px}
     }
   </style>
-  <script type="application/json" id="slots-fallback">
-[
-  {
-    "path": "memory-echo",
-    "title": "Memory Echo: sequence memory game",
-    "side": "candidate",
-    "note": "A new memory game: watch the pattern, then repeat it. Three games (Colours, Numbers, Music Notes), start lengths 2 to 5, Slow/Normal/Fast, and a free-play Explore. Please try all three on the iPad.",
-    "updated": "2026-10-08",
-    "staged": true
-  },
-  {
-    "path": "magic-spelling-next",
-    "title": "Magic Spelling: Enchanted Workshop (new look)",
-    "side": "candidate",
-    "note": "The redesigned Magic Spelling: a workshop room with three grades, nine-book paged shelves, the writing desk and a finished-page screen, with Continue that picks up where you stopped. Needs your look at the art and iPad touch, rotation and offline QA.",
-    "updated": "2026-10-08",
-    "staged": true
-  },
-  {
-    "path": "hub-discovery-room",
-    "title": "Main hub: Discovery Room",
-    "side": "candidate",
-    "note": "The Discovery Room main menu with category landmarks (Math, Words & Books, Space, Nature, Science & Invention, Our World, Art & Design, Music, Arcade) and name label bubbles. Tap a landmark to open its picker; the Music room is here too. Room and Cards switch at the top left. Computer, Toy Box and Shop are shown faded (not ready yet): tap one and it wiggles and says Coming soon, without opening anything. Please check the fade on the iPad, upright and sideways.",
-    "updated": "2026-10-08",
-    "staged": true
-  },
-  {
-    "path": "writing-book-audio-fix",
-    "title": "Writing Book: one voice at a time",
-    "side": "experiment",
-    "note": "One voice at a time, and now a cheer after each finished word with a quiet pause (about a second and a half) before the next question. Try Write it, Find letters and Spell it; Back during the pause cancels the next question.",
-    "updated": "2026-10-08",
-    "staged": true
-  },
-  {
-    "path": "word-book-next",
-    "title": "Word Book: Next (with today's fixes)",
-    "side": "candidate",
-    "note": "All letters A–Z with every held fix: your voice picks (A–H, M–Z and the N words), the card fixes, and tonight's art follow-up: glasses, sequence, seven and verb are back to the originals; useful has natural eyes; news is just the newspaper.",
-    "updated": "2026-10-08",
-    "staged": true
-  },
-  {
-    "path": "word-book-changes-1008",
-    "title": "Word Book: what changed (8 Oct)",
-    "side": "candidate",
-    "note": "Everything changed in the Word Book since the 6 Oct review, before and after: 39 redrawn pictures (glasses, sequence, seven and verb restored; useful and news redrawn again), the five L-word voice picks (old vs new), Word Groups, the night-time room and the Grammar Game cheer.",
-    "updated": "2026-10-08",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "computer-books-drafts",
-    "title": "Computer & Digital World: read the first ten books (text only)",
-    "side": "candidate",
-    "note": "Today's update: ten books to read now (up from six), as plain text with Quick Words, and a short list at the very top saying what changed. There is no art and no voice yet. The other titles and open questions are at the end.",
-    "updated": "2026-10-08",
-    "staged": true
-  },
-  {
-    "path": "starlight-look",
-    "title": "Follow the Starlight: look preview",
-    "side": "candidate",
-    "note": "Ari & Dot Book 2: the cover and 20 pages as they will look, with the bottom fact strip like Book 1. Look preview only; the interactive parts are not wired yet.",
-    "updated": "2026-10-04",
-    "staged": true
-  },
-  {
-    "path": "color-lab",
-    "title": "Color Lab: first mixing prototype",
-    "side": "candidate",
-    "note": "Tap the red, yellow and blue paint pots to mix them in the bowl (two-colour mixes are now bright), then tap the bowl to hear and see the colour's name. Prototype: names to be reviewed.",
-    "updated": "2026-10-07",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "maze-robot-code",
-    "title": "Our Maze: Robot Code (new maze type)",
-    "side": "experiment",
-    "note": "A new Maze Type: Robot Code. Tell the robot Forward, Turn left or Turn right; the robot now turns to face the way it goes, and Robot Eyes shows what it sees. Needs iPad touch, rotation and pinch QA.",
-    "updated": "2026-10-07",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "math-hundred-modes",
-    "title": "Magic Math: Hundred Board modes (phase 1)",
-    "side": "experiment",
-    "note": "Open Space Math or Unicorn Math and tap Hundred Board: a mode menu offers Move (the old board), Find, Missing, Patterns and Race. Some new spoken prompts may still be silent.",
-    "updated": "2026-10-07",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "magic-spelling-concept",
-    "title": "Magic Spelling: redesign ideas",
-    "side": "candidate",
-    "note": "Three pictures of a possible new Magic Spelling (grade choice, word packs, the writing desk) plus the plan. Nothing to play yet; tell us if the direction feels right.",
-    "updated": "2026-10-08",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "maze-code-toys",
-    "title": "Our Maze: choose Directions or Robot Code first; Code Toys",
-    "side": "experiment",
-    "note": "Robot Code toys now show a small arrow beside the toy that points the way it is heading, so a child can see which way a left or right turn will go. Pick Robot Code, choose a toy, and try the turn buttons.",
-    "updated": "2026-10-08",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "math-race-100",
-    "title": "Magic Math: Race to 100 with You and CPU characters",
-    "side": "experiment",
-    "note": "The race now shows who is who: your rocket (or unicorn) and the CPU robot sit on their own squares and beside You and CPU at the bottom, instead of the little Y and C letters. Open Space Math or Unicorn Math, then Hundred Board, then Race to 100.",
-    "updated": "2026-10-08",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "word-book-n-voice-1008",
-    "title": "Word Book: N words, new voice takes",
-    "side": "experiment",
-    "note": "Eight words: minute, miss, nearly, necklace, nectar, needle, never, nothing. Each has the clip the app plays now and five takes made from different text (plain, exclamation, cut from 'Say ...', said twice, Flash). Pick one per word and press Copy results.",
-    "updated": "2026-10-08",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "word-book-l-voice-1007",
-    "title": "Word Book: L words, new voice takes",
-    "side": "experiment",
-    "note": "You picked v4 for lettuce, like, line, live and lychee. The picks are now in Word Book: Next; this page keeps the listening round for reference.",
-    "updated": "2026-10-07",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "magic-math-stickers",
-    "title": "Magic Math: your sticker art",
-    "side": "experiment",
-    "note": "Your kawaii and space maths stickers: around the open book on the front page, and on the game cards in Space Math and Unicorn Math. They bob gently; nothing you tap has moved.",
-    "updated": "2026-10-07",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "math-carry-answer-only",
-    "title": "Magic Math: Carry & Borrow, Answer Only",
-    "side": "experiment",
-    "note": "Open Space Math or Unicorn Math, tap Carry & Borrow. A new Little Boxes | Answer Only switch sits beside the sum. Answer Only has no little boxes and no crossing out: just fill the answer boxes from the right. Little Boxes works as before. Switching deals a new sum and keeps your score.",
-    "updated": "2026-10-08",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "word-book-changes-1006",
-    "title": "Word Book: what changed today (6 Oct)",
-    "side": "experiment",
-    "note": "Before and after for the 6 Oct Word Book fixes: easy, eleven, twelve, equals, globe, hundred, your 47 A–H voice picks and the new clips. All of it is now in Word Book: Next.",
-    "updated": "2026-10-06",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "fixes-review-1006",
-    "title": "Fixes to check — 6 Oct (before / after)",
-    "side": "experiment",
-    "note": "Every fix you flagged today, before and after, plus the new Word Book voice clips.",
-    "updated": "2026-10-06",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "magic-math-hub-room",
-    "title": "Magic Math: painted front page",
-    "side": "candidate",
-    "note": "Your open-book design: tap the space page for Space Math, the unicorn page for Unicorn Math.",
-    "updated": "2026-10-06",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "word-book-clip-compare-af",
-    "title": "Word Book: A–F voice choices (Now vs v4)",
-    "side": "experiment",
-    "note": "34 A–F words, the clip the app played against a fresh v4 take. Your picks are now in Word Book: Next.",
-    "updated": "2026-10-06",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "narration-v4-compare",
-    "title": "Reading Tree: page narration v2 or v4?",
-    "side": "experiment",
-    "note": "Three pages read aloud by the same voice two ways: A is the current model, B is ElevenLabs v4 (about a quarter of the cost). Pick the more natural one; all page narration will follow your choice.",
-    "updated": "2026-10-05",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "word-book-clip-compare-m",
-    "title": "Word Book: M to Z voice choices",
-    "side": "experiment",
-    "note": "Candidate voices for the M–Z words. Your picks are now in Word Book: Next.",
-    "updated": "2026-10-03",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "rain-book-1",
-    "title": "Bookshelf: Rain Books 1–10",
-    "side": "candidate",
-    "note": "The bookshelf with the ten Rain Books in one Weather & Water box, next to A Trip Through Space and A World of Gems. Open a book to hear it read aloud and tap a word for its clip. A new-words page lets you listen to the new word clips; spoken ? sentences are coming soon.",
-    "updated": "2026-10-08",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "gems-book",
-    "title": "Reading Tree: A World of Gems",
-    "side": "candidate",
-    "note": "Reading Tree's second book, draft, not on the live shelf. Open it from the page and tap any word to hear it.",
-    "updated": "2026-10-03 10:10",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "color-garden-cbn",
-    "title": "Color by Number: closed regions",
-    "side": "experiment",
-    "note": "Every outline closed, so no area stays white. Thin parts (sun rays, branch tips, antennae) share one number bubble per object; one tap fills the whole object. At most 4 bubbles per picture.",
-    "updated": "2026-10-07",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "hub-playroom",
-    "title": "Children Games: playroom hub",
-    "side": "candidate",
-    "note": "Now live — main menu v41, with the Toy Guitar card beside the Toy Keyboard, is in production. This staged copy can be retired.",
-    "updated": "2026-10-07",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "animal-farm",
-    "title": "Animal Book: Farm Room",
-    "side": "candidate",
-    "note": "Now live — the Farm room is in Animal Book v5, with the front door's three room cards (Rainforest, Home & pets, Farm). This staged copy can be retired.",
-    "updated": "2026-10-07",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "animal-garden",
-    "title": "Animal Book: Garden room (birds at the feeder)",
-    "side": "candidate",
-    "note": "Garden & hedgerow room, first scene: eight small birds at the feeder. Tap a bird to hear its name, tap its name for a fact. The front door here carries a temporary fourth card to the room; the real book does not link it yet.",
-    "updated": "2026-10-07",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "number-lab",
-    "title": "Number Lab",
-    "side": "candidate",
-    "note": "Number Lab candidate staging copy; not live yet (no production /number-lab/ page).",
-    "updated": "2026-09-30",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "mars-pilot",
-    "title": "Solar System: Mars Pilot",
-    "side": "candidate",
-    "note": "Mars pilot page for the Solar System game/storybook.",
-    "updated": "2026-09-17",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "bird-flight",
-    "title": "Flying Garden",
-    "side": "candidate",
-    "note": "Tap resting birds and butterflies to watch them fly in the direction they face.",
-    "updated": "2026-08-24",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "space-hub",
-    "title": "Space hub: painted room",
-    "side": "candidate",
-    "note": "Live now — already in production; this staged copy can be retired. The Space hub gets its own owner-painted room (2026-10-04): the storybook, the solar-system model and the space arcade as shaped tap areas, with the card grid still one tap away. Same room treatment as the hub's category pages.",
-    "updated": "2026-10-04",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "music-big-piano",
-    "title": "Music Book: the piano grows",
-    "side": "candidate",
-    "note": "Live now — already in production; this staged copy can be retired. Toy Piano: a song that needs more keys opens a bigger piano (two octaves with black keys). Ten new classical pieces (Für Elise, Minuet in G, Entertainer, Brahms' Lullaby, Canon, Swan Lake...). Seven songs now use their real notes. A tiny keyboard on a tile means it grows.",
-    "updated": "2026-10-03",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "music-book-strip",
-    "title": "Music Book: word scroll in every room",
-    "side": "candidate",
-    "note": "Live now — already in production; this staged copy can be retired. The bottom of every room is now a parchment scroll with big word cards (speaker + picture + word). Tap a word: your companion pops up and explains it. Picture doors to other rooms are gone; the back arrow leads out.",
-    "updated": "2026-10-04",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "october-homework",
-    "title": "การบ้านปิดเทอม ป.2 (ตุลาคม)",
-    "side": "candidate",
-    "note": "Live now — already in production; this staged copy can be retired. October school-break worksheet: 20 งาน × 10 = 200 answers on one journey map. Space by default; add ?theme=unicorn for the Unicorn garden. Progress saves on this device.",
-    "updated": "2026-10-01 14:49",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "flags-map",
-    "title": "Flags: 69 countries + world map",
-    "side": "candidate",
-    "note": "Live now — already in production; this staged copy can be retired. 30 more flags and a world map: tap a flag's country, pick a glowing country's flag, or explore the map.",
-    "updated": "2026-10-01",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "music-book-rooms-b2",
-    "title": "Music Book: painted rooms 7–11",
-    "side": "candidate",
-    "note": "Live now — already in production; this staged copy can be retired. Five more rooms (7-11) become continuous painted scenes, building on batch 1.",
-    "updated": "2026-09-30",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "music-book-rooms-b1",
-    "title": "Music Book: painted rooms (batch 1)",
-    "side": "candidate",
-    "note": "Live now — already in production; this staged copy can be retired. Five rooms (1, 2, 3, 5, 6) become continuous painted scenes like the approved Room 4 pilot.",
-    "updated": "2026-09-30 10:47",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "magic-math-five-sums",
-    "title": "Magic Math: Star Sums",
-    "side": "candidate",
-    "note": "Live now — already in production; this staged copy can be retired. Shared-engine Space and Flower Garden number strategy game with four progressive sum modes.",
-    "updated": "2026-09-30",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "number-whack",
-    "title": "Number Catch",
-    "side": "candidate",
-    "note": "Live now — already in production; this staged copy can be retired. Collect stars (Space) / pick flowers (Unicorn): the Tap or Wait rebuild.",
-    "updated": "2026-09-30",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "space-trivia-60",
-    "title": "Space Trivia: 60 Questions",
-    "side": "experiment",
-    "note": "Live now — already in production; this staged copy can be retired. Owner play-test of the expanded 60-question Space Trivia bank.",
-    "updated": "2026-09-28",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "magic-math-tap-wait",
-    "title": "Magic Math: Tap or Wait",
-    "side": "candidate",
-    "note": "Live now — already in production; this staged copy can be retired. Shared Tap or Wait activity inside both Space Math and Unicorn Math.",
-    "updated": "2026-09-25",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "magic-math-multiply",
-    "title": "Magic Math: Multiply",
-    "side": "candidate",
-    "note": "Live now — already in production; this staged copy can be retired. New multiplication activity in Magic Math.",
-    "updated": "2026-09-23",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "shadow-matching-older-kid",
-    "title": "Shadow Matching: Older Kid",
-    "side": "experiment",
-    "note": "Live now — already in production; this staged copy can be retired. Older-kid difficulty trial for Shadow Matching.",
-    "updated": "2026-09-23",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "magic-math-sequence",
-    "title": "Magic Math: Sequence",
-    "side": "candidate",
-    "note": "Live now — already in production; this staged copy can be retired. New Sequence game in both Space Math and Unicorn Math skins.",
-    "updated": "2026-09-17",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "toy-guitar",
-    "title": "Toy Guitar",
-    "side": "candidate",
-    "note": "Now live — Toy Guitar went live 2026-10-08, beside Toy Keyboard. Five guitars on a ribbon, four drum pads, Record/Play, and amp effects on Electric and Rock. This staged copy can be retired.",
-    "updated": "2026-10-08",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "toy-keyboard-v6",
-    "title": "Toy Keyboard v6",
-    "side": "candidate",
-    "note": "Now live — Toy Keyboard v12 (with the new pads) is in production. This staged copy can be retired.",
-    "updated": "2026-09-15",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "word-book-clip-compare-c2",
-    "title": "Word Book: C Voice Variants Round 2",
-    "side": "experiment",
-    "note": "Not deployed any more: capital and carpenter takes from 30 Sep. The owner can retire this card.",
-    "updated": "2026-09-30",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "tap-wait",
-    "title": "Tap or Wait (latest)",
-    "side": "candidate",
-    "note": "Live now — already in production; this staged copy can be retired. Latest Tap or Wait: whack-a-mole board with painted sprites.",
-    "updated": "2026-09-30",
-    "staged": true,
-    "archived": true
-  },
-  {
-    "path": "math-menu-two-stickers",
-    "title": "Magic Math: calmer start menu with two stickers",
-    "side": "experiment",
-    "note": "The Magic Math start screen used to have twelve bobbing stickers around the picture. Now there are just two quiet ones, one each side of the Magic Math banner. Please check it feels calmer and that Space and Unicorn still open.",
-    "updated": "2026-10-08",
-    "staged": true,
-    "archived": true
-  }
-]
-  </script>
 </head>
 <body>
   <main>
     <header>
       <div class="eyebrow">For test users</div>
       <h1>Test Hub</h1>
-      <p>Two sides: things that may graduate to the main children’s hub, and quick feature trials.</p>
+      <p>Your turn comes first: each card says the one thing we need from you. Tick <b>I've looked</b> to remember on this device that you have seen it.</p>
+      <p class="status-line" id="status-line"></p>
     </header>
-    <div class="hub" id="hub">
-      <section class="side" aria-labelledby="candidate-heading">
-        <h2 id="candidate-heading">Getting ready to go live</h2>
-        <p>Whole apps and books waiting for a final look.</p>
-        <div class="grid" id="candidate-grid"></div>
-      </section>
-      <section class="side" aria-labelledby="experiment-heading">
-        <h2 id="experiment-heading">Feature tests</h2>
-        <p>Single fixes and experiments to try and reject or keep.</p>
-        <div class="grid" id="experiment-grid"></div>
-      </section>
-    </div>
+    <div id="groups"></div>
     <details class="archive" id="archive">
       <summary id="archive-summary">Older test pages</summary>
       <ul id="archive-list"></ul>
@@ -535,84 +82,164 @@
   </main>
   <script>
     (async function(){
-      let slots=[];
-      const fallback=document.getElementById('slots-fallback');
+      const GROUPS=[
+        {status:'your-turn',title:'Your turn',blurb:'Waiting for you to look. Newest first.'},
+        {status:'answered',title:'You answered',blurb:'We have your answer and are working on it.'},
+        {status:'waiting-release',title:'Waiting for release',blurb:'Done and approved; goes live with the next release.'},
+        {status:'on-hold',title:'On hold',blurb:'Paused until you reopen it.'}
+      ];
+      const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const groupsEl=document.getElementById('groups');
+      let slots=null;
       try{
         const res=await fetch('./slots.json',{cache:'no-store'});
-        if(res.ok){
-          slots=await res.json();
-        }else{
-          throw new Error('fetch failed');
-        }
+        if(!res.ok) throw new Error('HTTP '+res.status);
+        slots=await res.json();
       }catch(e){
-        if(fallback){
-          try{slots=JSON.parse(fallback.textContent);}catch(_){slots=[];}
-        }
+        slots=null;
       }
-      if(!Array.isArray(slots)) slots=[];
-      const formatUpdated=value=>{
-        const [date,clock]=value.split(' ');
-        const [year,month,day]=date.split('-').map(Number);
-        const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-        const label=`${day} ${months[month-1]} ${year}`;
-        return clock?`${label} · ${clock}`:label;
+      if(!Array.isArray(slots)){
+        const p=document.createElement('p');
+        p.className='load-error';
+        p.textContent='The list of test pages did not load. Check the connection and reload this page.';
+        groupsEl.appendChild(p);
+        document.getElementById('archive').hidden=true;
+        return;
+      }
+
+      // Per-device memory of "I've looked". Keyed by path + ready_for_you, so a card
+      // put up again with a new date comes back unticked. Storage may be missing
+      // (private mode, blocked site data): the page still works, the tick just
+      // does not survive a reload.
+      const memory={};
+      const storeKey=s=>'testhub-looked:'+s.path+'@'+(s.ready_for_you||'');
+      const readLooked=s=>{
+        const k=storeKey(s);
+        if(k in memory) return memory[k];
+        try{return window.localStorage.getItem(k)==='1';}catch(_){return false;}
       };
-      const byNewest=(a,b)=>{
-        // YYYY-MM-DD HH:MM sorts chronologically; a date-only value sorts as 00:00.
-        const d=b.updated.localeCompare(a.updated);
-        return d!==0?d:a.path.localeCompare(b.path);
+      const writeLooked=(s,on)=>{
+        const k=storeKey(s);
+        memory[k]=on;
+        try{
+          if(on) window.localStorage.setItem(k,'1');
+          else window.localStorage.removeItem(k);
+        }catch(_){}
       };
-      const active=slots.filter(s=>s.archived!==true);
-      const archived=slots.filter(s=>s.archived===true).sort(byNewest);
-      const candidate=document.getElementById('candidate-grid');
-      const experiment=document.getElementById('experiment-grid');
-      const sides={candidate,experiment};
-      for(const s of active){
-        const grid=sides[s.side];
-        if(!grid) continue;
+
+      const parseDate=v=>{
+        if(typeof v!=='string') return null;
+        const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(v);
+        return m?new Date(+m[1],+m[2]-1,+m[3]):null;
+      };
+      const fmt=v=>{const d=parseDate(v);return d?d.getDate()+' '+MONTHS[d.getMonth()]:'';};
+      const today=new Date();today.setHours(0,0,0,0);
+      const daysSince=v=>{const d=parseDate(v);return d?Math.max(0,Math.round((today-d)/86400000)):null;};
+      const newest=field=>(a,b)=>{
+        const d=String(b[field]||'').localeCompare(String(a[field]||''));
+        return d!==0?d:String(a.title).localeCompare(String(b.title));
+      };
+      const hrefFor=s=>'./'+s.path+'/'+(s.entry||'');
+      const el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!=null)n.textContent=text;return n;};
+      const SVGNS='http://www.w3.org/2000/svg';
+      const tickIcon=()=>{
+        const svg=document.createElementNS(SVGNS,'svg');
+        svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('aria-hidden','true');
+        const r=document.createElementNS(SVGNS,'rect');
+        r.setAttribute('x','2');r.setAttribute('y','2');r.setAttribute('width','20');r.setAttribute('height','20');r.setAttribute('rx','6');r.setAttribute('class','box');
+        const p=document.createElementNS(SVGNS,'path');
+        p.setAttribute('d','M7 12.5l3.2 3.2L17 8.8');p.setAttribute('class','mark');
+        svg.appendChild(r);svg.appendChild(p);
+        return svg;
+      };
+
+      const active=slots.filter(s=>s&&s.archived!==true&&s.status!=='retired');
+      const archived=slots.filter(s=>s&&(s.archived===true||s.status==='retired'))
+        .sort((a,b)=>String(b.answered||b.ready_for_you||'').localeCompare(String(a.answered||a.ready_for_you||''))||String(a.title).localeCompare(String(b.title)));
+
+      const statusLine=document.getElementById('status-line');
+      const updateStatusLine=()=>{
+        const mine=active.filter(s=>s.status==='your-turn');
+        const looked=mine.filter(readLooked).length;
+        statusLine.textContent=mine.length===0
+          ?'Nothing is waiting for you.'
+          :mine.length+(mine.length===1?' page waits':' pages wait')+' for you · '+looked+' looked at on this device';
+      };
+
+      const card=s=>{
         const missing=s.staged===false;
-        const el=document.createElement(missing?'div':'a');
-        el.className='card '+s.side+(missing?' missing':'');
+        const c=el('article','card '+s.status+(missing?' missing':''));
+        const top=el('div','top');
+        top.appendChild(el('span','badge '+s.side,s.side==='candidate'?'Going live':'Feature test'));
+        if(missing) top.appendChild(el('span','badge missing-badge','not staged'));
+        if(s.status==='your-turn'){
+          const n=daysSince(s.ready_for_you);
+          if(n!=null){
+            top.appendChild(el('span','waiting'+(n>7?' amber':''),n===0?'New today':'Waiting '+n+(n===1?' day':' days')));
+          }
+        }
+        c.appendChild(top);
+        const h=el('h3');
+        if(missing){h.textContent=s.title;}
+        else{const a=el('a',null,s.title);a.href=hrefFor(s);h.appendChild(a);}
+        c.appendChild(h);
+        if(s.status==='your-turn'&&s.ask){
+          const p=el('p','ask');p.appendChild(el('span','label','We need'));p.appendChild(document.createTextNode(s.ask));c.appendChild(p);
+        }else if(s.answer){
+          const p=el('p','answer');p.appendChild(el('span','label',s.status==='on-hold'?'On hold':'Your answer'));p.appendChild(document.createTextNode(s.answer));c.appendChild(p);
+        }
+        if(s.note) c.appendChild(el('p','note',s.note));
+        const dates=el('div','dates');
+        if(s.ready_for_you&&s.status!=='on-hold'){
+          const t=el('time',null,'New for you '+fmt(s.ready_for_you));t.dateTime=s.ready_for_you;dates.appendChild(t);
+        }
+        if(s.answered){
+          const t=el('time',null,'You answered '+fmt(s.answered));t.dateTime=s.answered;dates.appendChild(t);
+        }
+        if(dates.childNodes.length) c.appendChild(dates);
+        const actions=el('div','actions');
         if(!missing){
-          el.href='./'+s.path+'/'+(s.entry||'');
+          const open=el('a','btn open','Open');open.href=hrefFor(s);
+          open.setAttribute('aria-label','Open '+s.title);
+          actions.appendChild(open);
         }
-        const title=document.createElement('h3');
-        title.textContent=s.title;
-        const note=document.createElement('p');
-        note.textContent=s.note;
-        const meta=document.createElement('div');
-        meta.className='meta';
-        const time=document.createElement('time');
-        time.dateTime=s.updated.replace(' ','T');
-        time.textContent=formatUpdated(s.updated);
-        meta.appendChild(time);
-        if(missing){
-          const badge=document.createElement('span');
-          badge.className='missing-badge';
-          badge.textContent='not staged';
-          meta.appendChild(badge);
-        }else{
-          const open=document.createElement('span');
-          open.className='open';
-          open.textContent='Open →';
-          meta.appendChild(open);
-        }
-        el.appendChild(title);
-        el.appendChild(note);
-        el.appendChild(meta);
-        grid.appendChild(el);
+        const tick=el('button','btn tick');
+        tick.type='button';
+        tick.appendChild(tickIcon());
+        tick.appendChild(el('span',null,"I've looked"));
+        const sync=()=>{const on=readLooked(s);tick.setAttribute('aria-pressed',on?'true':'false');c.classList.toggle('looked',on);};
+        tick.addEventListener('click',()=>{writeLooked(s,!readLooked(s));sync();updateStatusLine();});
+        sync();
+        actions.appendChild(tick);
+        c.appendChild(actions);
+        return c;
+      };
+
+      for(const g of GROUPS){
+        const items=active.filter(s=>s.status===g.status)
+          .sort(newest(g.status==='your-turn'?'ready_for_you':'answered'));
+        if(items.length===0) continue;
+        const sec=el('section','group');
+        sec.id='group-'+g.status;
+        const h=el('h2',null,g.title);
+        h.appendChild(el('span','count',String(items.length)));
+        sec.appendChild(h);
+        sec.appendChild(el('p',null,g.blurb));
+        const grid=el('div','grid');
+        for(const s of items) grid.appendChild(card(s));
+        sec.appendChild(grid);
+        groupsEl.appendChild(sec);
       }
+      updateStatusLine();
+
       const archive=document.getElementById('archive');
-      const archiveSummary=document.getElementById('archive-summary');
-      const archiveList=document.getElementById('archive-list');
-      archiveSummary.textContent=`Older test pages (${archived.length})`;
+      document.getElementById('archive-summary').textContent='Older test pages ('+archived.length+')';
+      const list=document.getElementById('archive-list');
       for(const s of archived){
-        const item=document.createElement('li');
-        const link=document.createElement('a');
-        link.href='./'+s.path+'/'+(s.entry||'');
-        link.textContent=s.title;
-        item.appendChild(link);
-        archiveList.appendChild(item);
+        const li=el('li');
+        const a=el('a',null,s.title);a.href=hrefFor(s);li.appendChild(a);
+        if(s.answer) li.appendChild(el('span',null,s.answer));
+        list.appendChild(li);
       }
       archive.hidden=archived.length===0;
     })();
