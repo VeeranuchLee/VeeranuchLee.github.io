@@ -22,9 +22,10 @@
    for an offline install to have the guard at all. */
 /* space-hub-v6 2026-10-04: the owner's painted Space room, its shaped-door
    renderer and Cards fallback join the offline shell. */
-const CACHE_NAME='space-hub-v8';
+const CACHE_NAME='space-hub-v9';
 const SHELL=['./','./index.html','./fonts.css',
-  './cg-back.css','./tap-zoom-guard.js',
+  './cg-back.css',
+  './cg-update.js','./tap-zoom-guard.js',
   './space-hub-room/room.css','./space-hub-room/room.js','./space-hub-room/scene.webp',
   './fonts/Nunito-latin.woff2','./fonts/Nunito-latin-ext.woff2','./fonts/FredokaOne-latin.woff2',
   './manifest.webmanifest',
