@@ -8,7 +8,8 @@
 <link rel="apple-touch-icon" href="./assets/icons/icon-192.png">
 <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./cg-back.css" />
-  </head>
+    <script src="./cg-update.js" defer></script>
+</head>
 <body>
 <main id="stage">
 
@@ -62,7 +63,7 @@
   <!-- Activity (re-rendered per activity) -->
   <section id="activity" class="screen hidden" aria-label="Activity">
     <header class="topbar">
-      <button id="home-btn" class="round-btn" type="button" aria-label="Back to menu"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 11l8-7 8 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 10v10h12V10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 20v-5h4v5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <span class="cg-back-slot" aria-hidden="true"></span><button id="home-btn" class="cg-back" type="button" aria-label="Back to the games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <h2 id="activity-title" class="title">Activity</h2>
       <div class="status-row">
         <div id="stars" class="stars" aria-label="Solved puzzles"></div>
