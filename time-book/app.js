@@ -807,7 +807,12 @@
     clear(screen);
     screen.appendChild(h('div', { class: 'chapter' }, [
       h('header', { class: 'chapter-head' }, [
-        h('button', { class: 'back-button', type: 'button', text: '‹ Book', onclick: openHome }),
+        (function () {
+          var button = h('button', { class: 'back-button cg-back', type: 'button', 'aria-label': 'Back to the book', onclick: openHome });
+          button.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+          return button;
+        })(),
+        h('span', { class: 'cg-back-slot', 'aria-hidden': 'true' }),
         h('div', { class: 'chapter-titles' }, [
           h('h1', { text: heading }),
           note ? h('p', { text: note }) : null
@@ -1636,7 +1641,7 @@
      * the way back in rather than making them wait for it. */
     function tick() {
       /* The chapter carries no teardown hook, so the timer retires itself once its
-         own dial has left the page -- via '‹ Book', the hub link, or any screen
+         own dial has left the page -- via the chapter back button, the hub link, or any screen
          built after this one. Without this it would repaint a detached dial for
          the rest of the session, and a second visit would run two of them. */
       if (!document.body.contains(dial)) {
@@ -1920,7 +1925,7 @@
       /* A real <dialog>, opened with showModal(), rather than a div that merely
          looks like one. The platform then owns the three things a hand-rolled
          overlay has to get right and this one did not: the background goes inert
-         (Tab cannot reach '‹ Book' behind the question any more, which is what
+         (Tab cannot reach the chapter back button behind the question any more, which is what
          made the popup escapable in the first place), focus moves into the sheet
          and is trapped there, and Escape closes it.
 
@@ -1969,7 +1974,7 @@
       show();
       /* Into `screen`, NOT `document.body` -- so the popup cannot outlive the
          chapter that owns it. On body it was parented outside everything
-         `chapterFrame` clears, and one Tab reaches '‹ Book' behind the popup
+         `chapterFrame` clears, and one Tab reaches the chapter back button behind the popup
          (nothing here traps focus or makes the background inert), so a keyboard
          Enter left the chapter and marooned the popup on top of the home screen:
          the whole book dimmed behind a question about a chapter the child had
