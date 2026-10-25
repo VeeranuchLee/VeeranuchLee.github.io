@@ -20,7 +20,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="Space Trivia"/>
   <link rel="stylesheet" href="./cg-back.css" />
-  </head>
+    <script src="./cg-update.js" defer></script>
+</head>
 <body>
 <main id="app">
 
@@ -89,7 +90,7 @@
     <header class="top">
       <!-- To Start, never out of the app mid-mission (spec §4): the way out
            is the arrow on the Start screen. Wired in app.js. -->
-      <button class="back" id="back" type="button" aria-label="Back to Start">&larr;</button>
+      <span class="cg-back-slot" aria-hidden="true"></span><button class="cg-back" id="back" type="button" aria-label="Back to the start"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <h1>Space Trivia</h1>
       <span class="pill" id="pill" hidden></span>
     </header>

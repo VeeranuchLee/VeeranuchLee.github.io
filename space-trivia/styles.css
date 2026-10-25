@@ -174,22 +174,6 @@ input, textarea, [contenteditable="true"] {
   min-height: 60px;
 }
 
-/* Back arrow: to Start, never out of the app mid-mission (spec §4). 60px
-   square like every back button in the family. */
-.back {
-  border: 0;
-  border-radius: 18px;
-  min-width: 60px;
-  min-height: 60px;
-  background: #fff;
-  box-shadow: 0 5px 0 var(--lavender);
-  color: #333c86;
-  font-size: 26px;
-  font-weight: 900;
-  line-height: 1;
-}
-.back:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--lavender); }
-
 .top h1 {
   flex: 1;
   margin: 0;
