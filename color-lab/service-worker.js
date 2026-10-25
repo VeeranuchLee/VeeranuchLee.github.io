@@ -1,10 +1,11 @@
-const CACHE_NAME = "color-lab-v6";
+const CACHE_NAME = "color-lab-v7";
 
 const SHELL = [
   "./",
   "./index.html",
   "./styles.css",
   "./cg-back.css",
+  "./cg-update.js",
   "./mixing-model.js",
   "./mix-naming.js",
   "./app.js",
