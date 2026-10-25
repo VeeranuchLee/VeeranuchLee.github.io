@@ -865,7 +865,7 @@ function renderWorld() {
       </div>
       <div class="world-topbar">
         <div class="world-topbar__left">
-          <button class="world-home" data-go="landing" aria-label="Home — start again"><span aria-hidden="true">${CG.home}</span> Home</button>
+          <button class="cg-back" data-go="landing" aria-label="Back to the start"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="cg-back-slot" aria-hidden="true"></span>
           ${songIndexButtonMarkup()}
         </div>
         <div class="world-title"><h1>Music World</h1><p>Six wings, twenty-four rooms.</p></div>

@@ -595,7 +595,7 @@ function renderSelect() {
         <!-- From the landing the room is entered with no companion chosen, so
              app.js's go('world') guard sends the arrow back to the landing.
              From a Music World room, the arrow returns to that room. -->
-        <button class="round-btn" data-go="${backDest}" aria-label="Back">${BACK_ICON}</button>
+        <span class="cg-back-slot" aria-hidden="true"></span><button class="cg-back" data-go="${backDest}" aria-label="${room ? `Back to ${room.title}` : 'Back to the menu'}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <div class="banner banner--slim"><h1>${PIANO_ICON} Toy Piano</h1></div>
         <span class="topbar-spacer"></span>
       </div>
