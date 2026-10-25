@@ -9,7 +9,7 @@
 //        file without the bump caches nothing, and index.html is precached, so an
 //        offline install would otherwise have a page that asks for a guard the cache
 //        never got. v16 was itself never published, so this rides an unpublished bump.
-const CACHE_NAME='spelling-exam-v21';
+const CACHE_NAME='spelling-exam-v22';
 /* handwriting/ is the Writing Book's stroke engine, ported by tools/port-handwriting.js.
    It is precached rather than left to the runtime cache because Write Words is the one
    screen that cannot degrade: without the engine the writing area is a blank rectangle.
@@ -17,7 +17,8 @@ const CACHE_NAME='spelling-exam-v21';
    shell here; a v11 shell has never heard of them. */
 const SHELL=['./','./index.html',
   "./audio-wake.js",'./styles.css',
-  './cg-back.css','./tap-zoom-guard.js','./app.js','./manifest.webmanifest','./handwriting/letters.js','./handwriting/strokes.js'];
+  './cg-back.css',
+  './cg-update.js','./tap-zoom-guard.js','./app.js','./manifest.webmanifest','./handwriting/letters.js','./handwriting/strokes.js'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(SHELL))));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith('spelling-exam-v')&&k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(caches.match(e.request).then(hit=>hit||fetch(e.request).then(r=>{if(r.ok&&new URL(e.request.url).origin===location.origin){const copy=r.clone();caches.open(CACHE_NAME).then(c=>c.put(e.request,copy));}return r;})));});
