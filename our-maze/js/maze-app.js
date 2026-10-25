@@ -282,7 +282,7 @@
     app.className = "screen-play";
     app.innerHTML =
       '<header class="topline">' +
-      '<button class="hub" id="back" aria-label="' + (S.mazeType === "robot" ? "Pick a different Code Toy" : "Pick a different friend") + '">' + "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M15 5l-7 7 7 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>" + ' ' + (S.mazeType === "robot" ? "Toys" : "Friends") + '</button>' +
+      '<span class="cg-back-slot" aria-hidden="true"></span><button class="cg-back" id="back" aria-label="' + (S.mazeType === "robot" ? "Back to the toys" : "Back to the friends") + '">' + "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M15 5l-7 7 7 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>" + '</button>' +
       '<nav class="ladder" aria-label="Maze size">' +
       LADDER.map(function (l, i) {
         var isDone = done.indexOf(i) >= 0;

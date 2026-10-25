@@ -1,7 +1,7 @@
 /* CACHE_NAME is the variable the release pipeline's reader expects (publish-app.sh stage 5
    matches /CACHE_NAME\s*=/), and bumping it is what arms a release. Do not rename it. */
 /* v5 2026-10-08: owner-approved release of Robot Code's new maze type, the directional Code Toys, the Code Toy heading arrow and the retired rocket toy. Worker/cache bump only; the controller prepares the release. */
-const CACHE_NAME = 'our-maze-v9';
+const CACHE_NAME = 'our-maze-v10';
 
 /* The SHELL is everything needed to open the picker and play the first maze offline:
    the page, its scripts and styles, the manifest, the sprite roster, and every sprite
@@ -13,6 +13,7 @@ const SHELL = [
   "./audio-wake.js",
   './css/maze.css',
   './cg-back.css',
+  './cg-update.js',
   './js/tap-zoom-guard.js',
   './js/maze-core.js',
   './js/maze-movement.js',
