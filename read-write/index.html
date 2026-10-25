@@ -8,7 +8,8 @@
 <!-- INTERACTION-DIRECTION.md method C, layer 3: byte-identical copy of maze-app/js/tap-zoom-guard.js -->
 <script src="./js/tap-zoom-guard.js"></script>
   <link rel="stylesheet" href="./cg-back.css" />
-  </head>
+    <script src="./cg-update.js" defer></script>
+</head>
 <body>
 <section class="screen map" id="map" hidden>
   <header class="map-head">
@@ -35,9 +36,7 @@
 
 <section class="screen lesson" id="lesson" hidden>
   <header class="lesson-head">
-    <button class="btn icon home" id="home" type="button" aria-label="Back to the journey">
-      <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 12 l11 -4 l14 5 l11 -4 v27 l-11 4 l-14 -5 l-11 4 z"/><path d="M17 8 v27 M31 13 v27"/></svg>
-    </button>
+    <span class="cg-back-slot" aria-hidden="true"></span><button class="cg-back" id="home" type="button" aria-label="Back to the map"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <div class="lesson-title">
       <span class="day-chip" id="day-chip">Day 1</span>
       <h2 id="lesson-title"></h2>
