@@ -5,19 +5,14 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Reading Tree</title>
 <link rel="stylesheet" href="./reader.css">
+<link rel="stylesheet" href="../cg-back.css">
 <script src="./js/tap-zoom-guard.js"></script>
+  <script src="../cg-update.js" defer></script>
 </head>
 <body>
 <main class="book" id="book" aria-live="off">
   <section class="art" id="art">
-    <a class="shelf-back" id="shelf-back" href="../index.html" aria-label="Back to bookshelf">
-      <svg viewBox="5 5 40 38" aria-hidden="true">
-        <rect class="b1" x="9" y="12" width="7" height="24" rx="1.5" />
-        <rect class="b2" x="18" y="9" width="7" height="27" rx="1.5" />
-        <rect class="b3" x="27.5" y="14" width="6" height="22" rx="1.5" transform="rotate(-14 30.5 36)" />
-        <path class="ledge" d="M6 38.5 H42" />
-      </svg>
-    </a>
+    <a class="cg-back" id="shelf-back" href="../index.html" aria-label="Back to the bookshelf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     <div class="frame" id="frame">
       <img id="art-img" alt="" decoding="async">
       <div class="picture-words" id="picture-words" aria-label="Picture word labels" hidden></div>
