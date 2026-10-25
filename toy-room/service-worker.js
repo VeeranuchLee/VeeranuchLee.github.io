@@ -23,7 +23,7 @@
 //        file without the bump caches nothing, and index.html is precached, so an
 //        offline install would otherwise have a page that asks for a guard the cache
 //        never got. v3 was itself never published, so this rides an unpublished bump.
-const CACHE_NAME = "toy-box-v5";
+const CACHE_NAME = "toy-box-v6";
 
 const SHELL = [
   "./",
@@ -32,6 +32,7 @@ const SHELL = [
   "./manifest.webmanifest",
   "./styles.css",
   "./cg-back.css",
+  "./cg-update.js",
   "./fonts.css",
   "./app.js",
   "./shelf.js",
