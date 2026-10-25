@@ -152,7 +152,7 @@
  *                  painted puzzle table (inert since the room was drawn) now opens the
  *                  Grammar Game (../word-book/grammar-game.html); new tile assets/grammar-game.webp.
  */
-const CACHE_NAME = "children-apps-v46";
+const CACHE_NAME = "children-apps-v47";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
@@ -183,6 +183,7 @@ const SHELL = [
   "./assets/read-write.webp",
   "./playroom/playroom.css",
   "./playroom/playroom.js",
+  "./cg-update.js",
   "./playroom/room-label.css",
   "./playroom/room-label.js",
   "./playroom/badges.css",
