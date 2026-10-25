@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="./fonts.css"/>
   <meta name="theme-color" content="#3a1e33"/>
   <link rel="apple-touch-icon" href="./assets/icons/icon-192.png"/>
+  <link rel="stylesheet" href="./cg-back.css"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Our Dictionary"/>
@@ -622,17 +623,13 @@
       .grid.collections{grid-template-columns:1fr}
     }
   </style>
+  <script src="./cg-update.js" defer></script>
 </head>
 <body>
 
 <div class="topbar">
 <div class="bar">
-  <a class="back" href="index.html" aria-label="Back to Our Word Book">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-      <path d="M15 5 8 12l7 7"/>
-    </svg>
-    <span>Our Word Book</span>
-  </a>
+  <span class="cg-back-slot" aria-hidden="true"></span><a class="cg-back" href="index.html" aria-label="Back to Our Word Book"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
   <h1>Our Dictionary</h1>
   <label class="find">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true" focusable="false">
