@@ -72,7 +72,7 @@ button:disabled {
     radial-gradient(circle at 82% 10%, rgba(255,255,255,.7) 0 4px, transparent 5px),
     radial-gradient(circle at 70% 32%, rgba(255,255,255,.45) 0 3px, transparent 4px),
     linear-gradient(150deg, rgba(126,91,220,.34), rgba(82,56,184,.52)),
-    url("./assets/backgrounds/rainbow-castle.jpg?v=01eb0b191-20261026095319");
+    url("./assets/backgrounds/rainbow-castle.jpg");
   background-position: center, center, center, center, center;
   background-repeat: no-repeat;
   background-size: auto, auto, auto, cover, cover;
@@ -827,7 +827,7 @@ button:disabled {
     radial-gradient(circle at 12% 16%, rgba(255,255,255,.55) 0 3px, transparent 4px),
     radial-gradient(circle at 82% 10%, rgba(255,255,255,.7) 0 4px, transparent 5px),
     radial-gradient(circle at 70% 32%, rgba(255,255,255,.45) 0 3px, transparent 4px),
-    url("./assets/menu/menu-bg-portrait.webp?v=01eb0b191-20261026095319");
+    url("./assets/menu/menu-bg-portrait.webp");
   background-position: center;
   background-repeat: no-repeat;
   background-size: auto, auto, auto, cover;
@@ -839,7 +839,7 @@ button:disabled {
       radial-gradient(circle at 12% 16%, rgba(255,255,255,.55) 0 3px, transparent 4px),
       radial-gradient(circle at 82% 10%, rgba(255,255,255,.7) 0 4px, transparent 5px),
       radial-gradient(circle at 70% 32%, rgba(255,255,255,.45) 0 3px, transparent 4px),
-      url("./assets/menu/menu-bg-landscape.webp?v=01eb0b191-20261026095319");
+      url("./assets/menu/menu-bg-landscape.webp");
   }
 }
 
@@ -1560,6 +1560,7 @@ button:disabled {
 .blank-sticker-actions { display: flex; gap: inherit; margin-left: 6px; }
 .blank-sticker-actions[hidden] { display: flex; visibility: hidden; }
 .tool-button--turn { background: linear-gradient(145deg, #9d78f1, #7452dc); font-size: 38px; min-width: 64px; min-height: 64px; }
+.tool-button--turn, .stamp-transform { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; touch-action: manipulation; }
 /* The selected sticker's dashed ring (owner report 2026-10-26: "it leaves gray
    trail after put there and drag/adjust around the area"). The ring used to be
    an outline drawn outside the sticker plus a CSS drop-shadow filter on the
@@ -1576,9 +1577,10 @@ button:disabled {
 .blank-sticker.is-selected { will-change: transform; }
 /* The delete control and the resize handle belong to the selected sticker only:
    at rest a sticker is just art on the page, like every other hotspot here. */
-.blank-sticker__delete, .blank-sticker__handle { position: absolute; display: none; }
+.blank-sticker__delete, .blank-sticker__handle, .blank-sticker__turn { position: absolute; display: none; }
 .blank-sticker.is-selected .blank-sticker__delete,
-.blank-sticker.is-selected .blank-sticker__handle { display: grid; }
+.blank-sticker.is-selected .blank-sticker__handle,
+.blank-sticker.is-selected .blank-sticker__turn { display: grid; }
 .blank-sticker__delete {
   top: -16px; right: -16px; width: 46px; height: 46px; place-items: center;
   border: 3px solid #fff; border-radius: 50%;
@@ -1591,10 +1593,22 @@ button:disabled {
   border: 3px solid #7453bd; border-radius: 50%; background: #fff;
   cursor: nwse-resize; box-shadow: 0 4px 0 rgba(75, 48, 121, .25);
 }
+.blank-sticker__turn {
+  left: -15px; bottom: -15px; width: 46px; height: 46px; padding: 8px;
+  place-items: center; border: 3px solid #7453bd; border-radius: 50%;
+  background: #fff; color: #7453bd; cursor: grab;
+  box-shadow: 0 4px 0 rgba(75, 48, 121, .25);
+  touch-action: pinch-zoom; -webkit-user-select: none; user-select: none;
+  -webkit-touch-callout: none;
+}
+.blank-sticker__turn::before { content: ""; position: absolute; inset: -9px; }
+.blank-sticker__turn svg { display: block; width: 100%; height: 100%; pointer-events: none; }
 .blank-sticker.is-at-top .blank-sticker__delete { top: 4px; }
+.blank-sticker.is-at-left .blank-sticker__turn { left: 4px; }
 .blank-sticker.is-at-right .blank-sticker__delete,
 .blank-sticker.is-at-right .blank-sticker__handle { right: 4px; }
 .blank-sticker.is-at-bottom .blank-sticker__handle { bottom: 4px; }
+.blank-sticker.is-at-bottom .blank-sticker__turn { bottom: 4px; }
 .blank-sticker__handle::after {
   content: ""; width: 15px; height: 15px;
   border-right: 4px solid #7453bd; border-bottom: 4px solid #7453bd;

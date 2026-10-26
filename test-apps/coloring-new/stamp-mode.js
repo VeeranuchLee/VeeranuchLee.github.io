@@ -39,6 +39,7 @@
   const rotateButton = document.querySelector("#stampRotate");
   const flipButton = document.querySelector("#stampFlip");
   const turn = window.cgTurn;
+  const holdTurn = window.cgHoldTurn;
   const packs = window.cgStickerPacks || {};
   const tileArt = window.cgTileArt;
 
@@ -476,10 +477,6 @@
     window.tinyPop(tone, 0.05);
   }
 
-  function rotateSelected() {
-    transformSelected((item) => { item.rot = turn ? turn.next(item.rot || 0) : 0; }, 560);
-  }
-
   function flipSelected() {
     transformSelected((item) => { item.flip = !item.flip; }, 500);
   }
@@ -689,7 +686,31 @@
   undoButton.addEventListener("click", undo);
   clearButton.addEventListener("click", clearPage);
   document.querySelector("#stampSave").addEventListener("click", savePicture);
-  if (rotateButton) rotateButton.addEventListener("click", rotateSelected);
+  if (rotateButton && holdTurn) {
+    let heldItem = null;
+    let heldBefore = null;
+    let heldStart = 0;
+    holdTurn(rotateButton, {
+      begin() {
+        heldItem = selectedItem();
+        if (!heldItem) return false;
+        disarmClear(); heldBefore = cloneItems(); heldStart = heldItem.rot || 0;
+        return true;
+      },
+      turn(degrees) {
+        if (!heldItem) return;
+        heldItem.rot = heldStart + degrees;
+        keepOnPage(heldItem); draw();
+      },
+      end({ tap }) {
+        if (!heldItem) return;
+        if (tap) heldItem.rot = heldStart + (turn ? turn.STEP : 15);
+        keepOnPage(heldItem); history.push(heldBefore); draw(); persist();
+        window.tinyPop(560, 0.05);
+        heldItem = null; heldBefore = null;
+      }
+    });
+  }
   if (flipButton) flipButton.addEventListener("click", flipSelected);
   document.querySelectorAll(".stamp-music").forEach((button) => {
     button.addEventListener("click", () => {

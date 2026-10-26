@@ -48,6 +48,7 @@
   // The packs are shared with Stamping (sticker-kit.js), so the list lives once.
   const THEMED_STAMPS = window.cgStickerPacks;
   const turn = window.cgTurn;
+  const holdTurn = window.cgHoldTurn;
   const tileArt = window.cgTileArt;
   const stickerActions = document.querySelector("#blankStickerActions");
   const categoryLabels = { space: "Space", princess: "Princess", mermaid: "Mermaid", castle: "Magic Castle", animals: "Animals & Pets", ocean: "Ocean", food: "Sweets & Food", vehicles: "Vehicles", home: "Home & Tea Party", dinosaurs: "Dinosaurs", effects: "Magic Effects", abc: "ABC", numbers: "123" };
@@ -75,7 +76,7 @@
   let stickerSeq = 1;
   let selectedStickerId = null;
   const stickerElements = new Map(); // sticker.id -> its live element
-  let stickerGesture = null; // { id, mode: "drag"|"pinch"|"handle", ... }
+  let stickerGesture = null; // { id, mode: "drag"|"pinch"|"handle"|"turn", ... }
   const stickerPointers = new Map(); // pointerId -> { x, y } during a gesture
   const clampScale = (scale) => Math.min(STICKER_MAX_SCALE, Math.max(STICKER_MIN_SCALE, scale));
 
@@ -416,6 +417,7 @@
       const left = sticker.x * page.width - boxWidth / 2;
       const top = sticker.y * page.height - boxHeight / 2;
       element.classList.toggle("is-at-top", top < 20);
+      element.classList.toggle("is-at-left", left < 20);
       element.classList.toggle("is-at-right", page.width - (left + boxWidth) < 20);
       element.classList.toggle("is-at-bottom", page.height - (top + boxHeight) < 20);
     }
@@ -480,11 +482,18 @@
     const handle = document.createElement("span");
     handle.className = "blank-sticker__handle";
     handle.setAttribute("aria-hidden", "true");
+    const turnHandle = document.createElement("button");
+    turnHandle.type = "button";
+    turnHandle.className = "blank-sticker__turn";
+    turnHandle.setAttribute("aria-label", "Drag to turn this sticker");
+    turnHandle.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="8.2" y="10.4" width="9" height="9" rx="2" transform="rotate(20 12.7 14.9)" fill="currentColor"/><path d="M4.2 13.2A8.2 8.2 0 0 1 17.6 5.4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M18.4 1.8v4.4H14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     element.appendChild(remove);
     element.appendChild(handle);
+    element.appendChild(turnHandle);
 
     element.addEventListener("pointerdown", (event) => beginStickerGesture(event, sticker, "sticker"));
     handle.addEventListener("pointerdown", (event) => beginStickerGesture(event, sticker, "handle"));
+    turnHandle.addEventListener("pointerdown", (event) => beginStickerGesture(event, sticker, "turn"));
     return element;
   }
 
@@ -590,6 +599,12 @@
         startScale: sticker.scale, startDistance: Math.max(12, Math.hypot(event.clientX - centre.x, event.clientY - centre.y)) };
       return;
     }
+    if (surface === "turn") {
+      stickerGesture = { id: sticker.id, mode: "turn", before: captureState(), changed: false,
+        centre, startRot: sticker.rot || 0,
+        startAngle: Math.atan2(event.clientY - centre.y, event.clientX - centre.x) };
+      return;
+    }
     stickerGesture = { id: sticker.id, mode: "drag", before: captureState(), changed: false,
       startX: sticker.x, startY: sticker.y, originX: event.clientX, originY: event.clientY };
   }
@@ -607,6 +622,16 @@
       const distance = Math.hypot(event.clientX - (rect.left + rect.width / 2), event.clientY - (rect.top + rect.height / 2));
       const next = clampScale(stickerGesture.startScale * distance / stickerGesture.startDistance);
       if (next !== sticker.scale) { sticker.scale = next; stickerGesture.changed = true; layoutSticker(element, sticker); }
+      return;
+    }
+    if (stickerGesture.mode === "turn") {
+      const angle = Math.atan2(event.clientY - stickerGesture.centre.y, event.clientX - stickerGesture.centre.x);
+      const next = stickerGesture.startRot + (angle - stickerGesture.startAngle) * 180 / Math.PI;
+      if (next !== sticker.rot) {
+        sticker.rot = next;
+        stickerGesture.changed = true;
+        layoutSticker(element, sticker);
+      }
       return;
     }
     // A second finger landing on the sticker turns the drag into a pinch;
@@ -801,7 +826,32 @@
   undoButton.addEventListener("click", undo); redoButton.addEventListener("click", redo); clearButton.addEventListener("click", clearPage);
   const rotateStickerButton = document.querySelector("#blankStickerRotate");
   const flipStickerButton = document.querySelector("#blankStickerFlip");
-  if (rotateStickerButton) rotateStickerButton.addEventListener("click", () => transformSelectedSticker((sticker) => { sticker.rot = turn ? turn.next(sticker.rot || 0) : 0; }, 560));
+  if (rotateStickerButton && holdTurn) {
+    let heldSticker = null;
+    let heldBefore = null;
+    let heldStart = 0;
+    holdTurn(rotateStickerButton, {
+      begin() {
+        heldSticker = stickers.find((item) => item.id === selectedStickerId);
+        const element = heldSticker && stickerElements.get(heldSticker.id);
+        if (!heldSticker || !element || historyBusy) return false;
+        heldBefore = captureState(); heldStart = heldSticker.rot || 0;
+        return true;
+      },
+      turn(degrees) {
+        if (!heldSticker) return;
+        heldSticker.rot = heldStart + degrees;
+        layoutSticker(stickerElements.get(heldSticker.id), heldSticker);
+      },
+      end({ tap }) {
+        if (!heldSticker) return;
+        if (tap) heldSticker.rot = heldStart + (turn ? turn.STEP : 15);
+        layoutSticker(stickerElements.get(heldSticker.id), heldSticker);
+        commit(heldBefore); pop(560, .05);
+        heldSticker = null; heldBefore = null;
+      }
+    });
+  }
   if (flipStickerButton) flipStickerButton.addEventListener("click", () => transformSelectedSticker((sticker) => { sticker.flip = !sticker.flip; }, 500));
   canvas.addEventListener("pointerdown", begin); canvas.addEventListener("pointermove", move); canvas.addEventListener("pointerup", end); canvas.addEventListener("pointercancel", end);
   canvas.addEventListener("contextmenu", (event) => event.preventDefault());

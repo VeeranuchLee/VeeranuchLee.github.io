@@ -73,16 +73,13 @@
   }
 
   // Turn and mirror for a placed stamp or sticker (owner request 2026-10-25:
-  // "add ability to rotate /mirror flip"). One tap turns it 45 degrees
-  // clockwise: a single tap already shows a clear tilt (a rocket flying up and
-  // away, a fish swimming downhill), four taps is upside down and eight is home
-  // again. Quarter turns only offered "lying on its side", and a free-angle
-  // dial is a fine-motor job for a 7-year-old. The mirror is applied first, in
+  // "add ability to rotate /mirror flip"). A quick tap nudges 15 degrees and
+  // holding turns continuously. The mirror is applied first, in
   // the item's own frame, then the turn -- the same order on the stamp canvas
   // and in the sticker's CSS, so what is shown is what is saved.
-  const TURN_STEP = 45;
+  const TURN_STEP = 15;
   function normaliseTurn(value) {
-    const number = Math.round(Number(value) / TURN_STEP) * TURN_STEP;
+    const number = Number(value);
     return Number.isFinite(number) ? ((number % 360) + 360) % 360 : 0;
   }
   window.cgTurn = {
@@ -97,6 +94,37 @@
       return { width: width * cos + height * sin, height: width * sin + height * cos };
     },
     css: (degrees, flip) => `rotate(${normaliseTurn(degrees)}deg)${flip ? " scaleX(-1)" : ""}`
+  };
+
+  // Shared press-and-hold turn gesture: elapsed time gives a steady 90°/s,
+  // while a quick press is one child-visible 15° nudge.
+  window.cgHoldTurn = (button, callbacks) => {
+    if (!button) return;
+    let active = null;
+    const stop = (event, cancelled = false) => {
+      if (!active || (event && event.pointerId !== active.pointerId)) return;
+      const held = performance.now() - active.started;
+      cancelAnimationFrame(active.frame);
+      active = null;
+      callbacks.end({ tap: !cancelled && held < 180, held });
+    };
+    const frame = (now) => {
+      if (!active) return;
+      callbacks.turn((now - active.started) * .09);
+      active.frame = requestAnimationFrame(frame);
+    };
+    button.addEventListener("pointerdown", (event) => {
+      if (active || button.disabled || event.button > 0) return;
+      event.preventDefault();
+      active = { pointerId: event.pointerId, started: performance.now(), frame: 0 };
+      if (callbacks.begin() === false) { active = null; return; }
+      callbacks.turn(0);
+      active.frame = requestAnimationFrame(frame);
+    });
+    window.addEventListener("pointerup", (event) => stop(event));
+    window.addEventListener("pointercancel", (event) => stop(event, true));
+    button.addEventListener("pointerleave", (event) => stop(event, true));
+    button.addEventListener("contextmenu", (event) => event.preventDefault());
   };
 
   // Blank Page's sticker packs, file assets/blank-stamps/<pack>-<name>.webp.
