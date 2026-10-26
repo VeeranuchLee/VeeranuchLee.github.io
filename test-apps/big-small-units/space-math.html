@@ -1622,8 +1622,13 @@
     .aa-stage{display:grid;grid-template-columns:minmax(290px,430px) minmax(280px,520px);gap:12px;align-items:start;justify-content:center;width:min(97vw,980px);position:relative;z-index:1}.aa-work{display:flex;flex-direction:column;align-items:center;gap:9px}.aa-card{width:100%;min-height:218px;background:linear-gradient(145deg,#fff,#e8f0ff);border:3px solid #93b7fb;border-radius:24px;padding:14px 18px;color:#1a237e;box-shadow:0 5px 0 #6d9bf5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px}.aa-prompt{font-size:clamp(1rem,2.7vw,1.25rem);font-weight:900;text-align:center;color:#5a2ed6}.aa-build{min-height:70px;max-width:100%;display:flex;align-items:center;gap:6px;overflow-x:auto;padding:6px}.aa-build-num{font-size:clamp(1.5rem,5vw,2.2rem);font-weight:900;color:#c62828;border:3px solid #ff8a80;border-radius:12px;padding:5px 9px;min-width:48px;text-align:center}.aa-build-op{font-size:clamp(1.5rem,5vw,2.2rem);font-weight:900;color:#2f6df6}.aa-empty{color:#9aa6c6;border-style:dashed}.aa-card.wrong{animation:wrongShake .35s ease;border-color:#f44336}
     .aa-column{display:grid;grid-template-columns:34px auto;align-items:center;justify-content:center;gap:2px 8px;font-size:clamp(1.8rem,6vw,2.7rem);font-weight:900;font-variant-numeric:tabular-nums;min-width:170px}.aa-col-op{color:#2f6df6;text-align:center}.aa-col-num{text-align:right;letter-spacing:.08em}.aa-rule{grid-column:1/-1;height:4px;border-radius:3px;background:#2f6df6;margin:2px 0;width:100%}.aa-answer{grid-column:2;text-align:right;min-height:1.2em;letter-spacing:.08em;color:#2e7d32}.aa-answer.empty{color:#9aa6c6}.aa-feedback{min-height:28px;font-weight:900;text-align:center;color:#5a2ed6}.aa-feedback.good{color:#2e7d32}.aa-feedback.try{color:#ef6c00}
     .aa-keypad{display:grid;grid-template-columns:repeat(5,minmax(48px,62px));gap:7px;justify-content:center}.aa-key{height:50px;border:2.5px solid #93b7fb;border-radius:14px;background:linear-gradient(160deg,#fff,#e8f0ff);color:#5a2ed6;font:900 1.35rem Nunito,sans-serif;box-shadow:0 4px 0 #93b7fb;cursor:pointer}.aa-key.op{color:#2f6df6;background:linear-gradient(160deg,#f0f5ff,#d9e7ff)}.aa-key:active{transform:translateY(3px);box-shadow:0 1px 0 #93b7fb}.aa-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}.aa-action{min-height:48px;border:3px solid #81c784;border-radius:999px;background:linear-gradient(160deg,#fff,#e2f6e3);color:#2e7d32;font:900 .95rem Nunito,sans-serif;padding:8px 18px;box-shadow:0 4px 0 #81c784;cursor:pointer}.aa-action.secondary{border-color:#93b7fb;color:#2f6df6;background:linear-gradient(160deg,#fff,#e8f0ff);box-shadow:0 4px 0 #93b7fb}.aa-action:active{transform:translateY(3px);box-shadow:none}
-    .aa-scratch{background:#f6f0df;border:3px solid #c99b55;border-radius:22px;padding:9px;box-shadow:0 5px 0 #80552d;min-height:390px;display:flex;flex-direction:column;gap:8px}.aa-scratch.collapsed{min-height:0;width:100%;padding:0;background:none;border:none;box-shadow:none}.aa-scratch.collapsed .aa-tools,.aa-scratch.collapsed .aa-canvas,.aa-scratch.collapsed .aa-scratch-title{display:none}.aa-scratch-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.aa-scratch.collapsed .aa-scratch-head{justify-content:flex-end}.aa-scratch-title{font-weight:900;color:#5b3b20}.aa-scratch-toggle{min-height:44px;border:2px solid #c99b55;border-radius:13px;background:#fff8e8;color:#5b3b20;font:900 .86rem Nunito,sans-serif;padding:6px 12px;cursor:pointer}.aa-tools{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap}.aa-colour{width:44px;height:44px;border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 2px #9b7544;cursor:pointer}.aa-colour.on{box-shadow:0 0 0 4px #2f6df6}.aa-tool{min-height:44px;border:2px solid #c99b55;border-radius:12px;background:#fff8e8;color:#5b3b20;font:900 .8rem Nunito,sans-serif;padding:5px 10px;cursor:pointer}.aa-tool.on{background:#dceaff;border-color:#2f6df6;color:#1a237e}.aa-canvas{width:100%;height:285px;background:#fff;border:2px solid #d8c9ad;border-radius:12px;touch-action:pinch-zoom;cursor:crosshair}
-    @media (orientation:portrait),(max-width:760px){.aa-screen{height:100vh;height:100dvh;min-height:0;padding-left:8px;padding-right:8px}.aa-stage{display:flex;flex:1 1 auto;min-height:0;max-width:620px;gap:8px;flex-direction:column;overflow:hidden}.aa-work{flex:0 0 auto}.aa-card{min-height:118px;padding:8px 14px}.aa-build{min-height:48px;padding:2px}.aa-key{height:44px}.aa-scratch{flex:1 1 auto;min-height:0;overflow:hidden}.aa-canvas{height:200px;min-height:150px;flex:0 0 auto}.aa-players{gap:5px 4px}}
+    .aa-scratch{background:#f6f0df;border:3px solid #c99b55;border-radius:22px;padding:9px;box-shadow:0 5px 0 #80552d;min-height:390px;display:flex;flex-direction:column;gap:8px}.aa-scratch.collapsed{min-height:0;width:100%;padding:0;background:none;border:none;box-shadow:none}.aa-scratch.collapsed .aa-tools,.aa-scratch.collapsed .aa-canvas,.aa-scratch.collapsed .aa-scratch-title{display:none}.aa-scratch-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.aa-scratch.collapsed .aa-scratch-head{justify-content:flex-end}.aa-scratch-title{font-weight:900;color:#5b3b20}.aa-scratch-toggle{min-height:44px;border:2px solid #c99b55;border-radius:13px;background:#fff8e8;color:#5b3b20;font:900 .86rem Nunito,sans-serif;padding:6px 12px;cursor:pointer}.aa-tools{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap}.aa-colour{width:64px;height:64px;flex:0 0 64px;border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 2px #9b7544;cursor:pointer}.aa-colour.on{box-shadow:0 0 0 4px #2f6df6}.aa-tool,.aa-size{width:64px;height:64px;flex:0 0 64px;border:3px solid #c99b55;border-radius:18px;background:linear-gradient(160deg,#fffdf6,#fff1d6);color:#5b3b20;padding:9px;cursor:pointer;box-shadow:0 4px 0 #c99b55}.aa-tool:active,.aa-size:active{transform:translateY(3px);box-shadow:0 1px 0 #c99b55}.aa-tool.on{background:#dceaff;border-color:#2f6df6;color:#1a237e}.aa-tool svg,.aa-size svg{display:block;width:100%;height:100%}.aa-canvas{width:100%;height:285px;background:#fff;border:2px solid #d8c9ad;border-radius:12px;touch-action:pinch-zoom;cursor:crosshair}
+    .aa-scratch-toggle{width:64px;height:64px;min-height:64px;flex:0 0 64px;border-radius:18px;padding:9px;box-shadow:0 4px 0 #c99b55}
+    .aa-scratch-toggle svg{display:block;width:100%;height:100%}
+    .aa-scratch.scratch-size-medium{min-width:min(58vw,600px)}.aa-scratch.scratch-size-large{min-width:min(65vw,650px)}
+    .aa-stage:has(.scratch-size-medium){grid-template-columns:minmax(320px,360px) minmax(0,600px)}.aa-stage:has(.scratch-size-large){grid-template-columns:320px minmax(0,648px)}
+    @media (orientation:portrait),(max-width:760px){.aa-screen{height:100vh;height:100dvh;min-height:0;padding-left:8px;padding-right:8px}.aa-stage{display:flex;flex:1 1 auto;min-height:0;max-width:620px;gap:8px;flex-direction:column;overflow:hidden}.aa-work{flex:0 0 auto}.aa-card{min-height:118px;padding:8px 14px}.aa-build{min-height:48px;padding:2px}.aa-key{height:44px}.aa-scratch{flex:1 1 auto;min-width:0;min-height:0;overflow:hidden}.aa-screen:has(.scratch-size-medium) .aa-players{max-height:86px;overflow:hidden}.aa-screen:has(.scratch-size-medium) .aa-player{height:82px}.aa-screen:has(.scratch-size-medium) .aa-player-pick{height:30px}.aa-screen:has(.scratch-size-large) .aa-players{max-height:58px;overflow:hidden}.aa-screen:has(.scratch-size-large) .aa-player{height:54px}.aa-screen:has(.scratch-size-large) .aa-player-pick{display:none}.aa-canvas{height:200px;min-height:150px;flex:0 0 auto}.aa-players{gap:5px 4px}}
+    @media (orientation:portrait),(max-width:760px){.aa-screen:has(.scratch-size-medium) .count-title-sub{display:none}.aa-screen:has(.scratch-size-medium) .aa-players{max-height:54px}.aa-screen:has(.scratch-size-medium) .aa-player{height:54px}.aa-screen:has(.scratch-size-medium) .aa-player-pick{display:none}.aa-screen:has(.scratch-size-large)>.mascot-corner,.aa-screen:has(.scratch-size-large)>.count-title,.aa-screen:has(.scratch-size-large)>.aa-players{display:none}.aa-screen:has(.scratch-size-large) .aa-card{min-height:104px;gap:4px}.aa-screen:has(.scratch-size-large) .aa-build{min-height:42px}}
     @media (max-height:820px) and (orientation:landscape){.aa-card{min-height:150px;padding:8px 14px;gap:5px}.aa-build{min-height:48px;padding:2px}.aa-scratch{min-height:340px}.aa-canvas{height:205px}.aa-key{height:44px}}
     /* ── Number Toys scratchpad: Ask & Answer's ScratchPad, shared (owner 2026-10-26) ──
        Hidden, it is only its show button, centred under "My true sentences". Open on a
@@ -1637,22 +1642,76 @@
     .np-scratch.collapsed{width:auto}
     .np-scratch.collapsed .aa-tools{display:flex}
     .np-scratch.collapsed .aa-tools>:not(.np-scratch-toggle){display:none}
-    .np-scratch-toggle{min-height:64px;min-width:64px;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:3px solid #c99b55;border-radius:18px;background:linear-gradient(160deg,#fffdf6,#fff1d6);color:#5b3b20;font:900 1rem Nunito,sans-serif;padding:6px 16px;cursor:pointer;box-shadow:0 4px 0 #c99b55}
+    .np-scratch-toggle{width:64px;height:64px;flex:0 0 64px;display:inline-flex;align-items:center;justify-content:center;border:3px solid #c99b55;border-radius:18px;background:linear-gradient(160deg,#fffdf6,#fff1d6);color:#5b3b20;padding:9px;cursor:pointer;box-shadow:0 4px 0 #c99b55}
     .np-scratch-toggle:active{transform:translateY(3px);box-shadow:0 1px 0 #c99b55}
-    .np-scratch-icon{width:28px;height:28px;flex:0 0 28px}
+    .np-scratch-icon{display:block;width:100%;height:100%}
     .np-screen.np-scratch-on{height:100vh;height:100dvh;min-height:0}
     .np-scratch-on .np-scratch{flex:1 1 auto;min-height:250px;padding:8px}
+    .np-scratch-on .np-scratch.scratch-size-medium{min-height:400px}
+    .np-scratch-on .np-scratch.scratch-size-large{min-height:590px}
     .np-scratch-on .aa-canvas{flex:0 0 auto}
+    .np-screen:has(.np-scratch.scratch-size-medium) .np-history-row~.np-history-row,
+    .np-screen:has(.np-scratch.scratch-size-large) .np-history-row~.np-history-row{display:none}
+    .np-screen:has(.np-scratch.scratch-size-large)>.mascot-corner,
+    .np-screen:has(.np-scratch.scratch-size-large)>.count-title{display:none}
+    .np-screen:has(.np-scratch.scratch-size-large){gap:3px}
+    .np-screen:has(.np-scratch.scratch-size-large) .np-tray-group{padding-top:3px;padding-bottom:5px}
+    .np-screen:has(.np-scratch.scratch-size-large) .np-tray-label{margin-bottom:2px}
     /* the open pad reaches the bottom-left corner on a portrait iPad: it goes over the mascot, never under it */
     .screen.np-scratch-on>.mascot-corner{z-index:0}
     @media (orientation:landscape) and (min-width:900px){
       .np-scratch-on .np-desk{display:flex;flex:1 1 auto;min-height:0;width:100%;gap:inherit;align-items:stretch}
       .np-scratch-on .np-bench{display:flex;flex-direction:column;align-items:center;gap:inherit;flex:0 0 min(62%,640px);min-width:0}
+      .np-scratch-on .np-desk:has(.scratch-size-medium) .np-bench{flex-basis:min(45%,450px)}
+      .np-scratch-on .np-desk:has(.scratch-size-large) .np-bench{flex-basis:min(36%,360px)}
       .np-scratch-on .np-bench>*{max-width:100%}
       .np-scratch-on .np-scratch{flex:1 1 0;min-width:0;min-height:0;width:auto}
       /* Hidden, its button waits in the bottom-right corner -- the side the pad opens on --
          rather than taking a 64px row under the history that 768px of height cannot spare. */
       .np-scratch.collapsed{position:fixed;right:22px;bottom:22px;z-index:6}
+    }
+    /* Ten 64px picture tools would take two rows. Keep the main eight in one flow row
+       and float Eraser/Clear inside the canvas bottom edge; Ask & Answer floats its
+       collapse control in the opposite corner.
+       Each landscape size also gets a genuinely different width. */
+    .aa-stage .aa-scratch{position:relative;width:100%;min-width:0;padding:7px}
+    .aa-scratch .aa-tools>.aa-tool:nth-last-child(2),
+    .aa-scratch .aa-tools>.aa-tool:last-child{position:absolute;bottom:8px;z-index:3}
+    .aa-scratch .aa-tools>.aa-tool:nth-last-child(2){right:80px}
+    .aa-scratch .aa-tools>.aa-tool:last-child{right:8px}
+    .aa-stage .aa-scratch-head{position:absolute;left:8px;bottom:8px;z-index:3}
+    .aa-stage .aa-scratch.collapsed .aa-scratch-head{position:static}
+    .aa-stage:has(.scratch-size-small){grid-template-columns:minmax(290px,430px) 320px}
+    .aa-stage:has(.scratch-size-medium){grid-template-columns:minmax(290px,430px) 500px}
+    .aa-stage:has(.scratch-size-large){grid-template-columns:320px minmax(0,648px)}
+    @media (orientation:portrait),(max-width:760px){
+      .aa-screen{padding-bottom:0}
+      .aa-screen .count-title-sub{display:none}
+      .aa-screen:has(.scratch-size-small) .aa-player{height:72px}
+      .aa-screen:has(.scratch-size-small) .aa-player-pick{height:30px;overflow:hidden}
+      .aa-screen:has(.scratch-size-small) .aa-card{min-height:104px}
+      .aa-screen:has(.scratch-size-small) .aa-canvas{max-height:150px}
+      .aa-screen:has(.scratch-size-medium) .aa-canvas{max-height:240px}
+    }
+    /* Number Toys keeps every work control, but the open-pad version uses the compact
+       44px toy tier and removes ornamental air. This returns 100+ vertical pixels to
+       the pad without scrolling either orientation. */
+    .np-screen.np-scratch-on{overflow:hidden;--np-tile:54px;--np-tray-tile:44px}
+    .np-screen:has(.np-scratch.scratch-size-medium)>.count-title{display:none}
+    .np-scratch-on .np-controls{gap:10px}
+    .np-scratch-on .np-btn{min-height:48px;padding:6px 14px}
+    .np-scratch-on .np-rail-wrap{padding:4px}
+    .np-scratch-on .np-rail{min-height:70px}
+    .np-scratch-on .np-num{min-height:64px}
+    .np-scratch-on .np-tray-group{padding:3px 8px 6px}
+    .np-scratch-on .np-tray-label{margin-bottom:2px;line-height:1}
+    .np-scratch-on .np-history{gap:2px}
+    .np-scratch-on .np-history-label{line-height:1}
+    .np-scratch-on .np-scratch.scratch-size-large{min-height:540px}
+    @media (orientation:landscape) and (min-width:900px){
+      .np-scratch-on .np-bench{gap:4px;justify-content:space-between}
+      .np-scratch-on .np-scratch.scratch-size-medium,
+      .np-scratch-on .np-scratch.scratch-size-large{min-height:0}
     }
     /* ── Number Crossword (p1) ──
        A 5 x 5 board of equations across and down, then the tray. SQUARES HOLD NUMBERS
@@ -14260,6 +14319,7 @@ function AreaGame({onBack, journey, addProgress, trophies, journeyBg, score, set
 const NP_HIST_KEY='sm_nphist';
 /* Whether the child left the scratchpad open (owner 2026-10-26). */
 const NP_SCRATCH_KEY='sm_npscratch';
+const NP_SCRATCH_SIZE_KEY='sm_npscratchsize';
 const NP_TRAY_OPS=['+','−','×','÷','=','>','<'];
 const NP_OP_WORDS={'+':'plus','−':'minus','×':'times','÷':'divided by','=':'equals','<':'is less than','>':'is greater than'};
 /* Spoken form of a sentence. numberToWords() is defined with Read Big Numbers,
@@ -14777,11 +14837,11 @@ function NumberPlayGame({onBack, journey, addProgress, trophies, journeyBg, mute
           ))}
       </div>
       </div>
-      <ScratchPad open={scratchOpen} tap={scratchTap} className="np-scratch"
+      <ScratchPad open={scratchOpen} tap={scratchTap} className="np-scratch" sizeKey={NP_SCRATCH_SIZE_KEY}
         lead={<button className="np-scratch-toggle" onClick={toggleScratch} aria-expanded={scratchOpen}
-          aria-label={scratchOpen?'Hide scratchpad':'Show scratchpad'}>
-          <svg className="np-scratch-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 19.5l1.1-4.4L15.9 4.8a1.9 1.9 0 0 1 2.7 0l.6.6a1.9 1.9 0 0 1 0 2.7L8.9 18.4z" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinejoin="round"/><path d="M14 6.7l3.3 3.3" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/><path d="M12 20h7.5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/></svg>
-          <span>{scratchOpen?'Hide':'Scratchpad'}</span></button>}/>
+          aria-label={scratchOpen?'Hide scratchpad':'Show scratchpad'} title={scratchOpen?'Hide scratchpad':'Show scratchpad'}>
+          <ScratchToggleIcon open={scratchOpen} numberToys/>
+        </button>}/>
       </div>
       {drag&&<div className={`np-ghost ${drag.kind==='op'?'np-ghost-op':''}`} style={{left:drag.x,top:drag.y}} aria-hidden="true">{drag.value}</div>}
     </div>
@@ -14798,19 +14858,69 @@ const AA_SPECIALS=['comet.webp','earth.webp','rocket.webp','moon.webp','saturn.w
 const AA_COLORS=['#37474f','#e53935','#1e88e5','#43a047'];
 /* one name per crayon, so a screen reader hears eight choices, not one eight times */
 const AA_COLOR_NAMES=['dark grey','red','blue','green'];
+const AA_SCRATCH_SIZE_KEY='sm_aascratchsize';
+const SCRATCH_SIZES=['small','medium','large'];
+function ScratchSizeIcon({size}){
+  const box={small:9,medium:16,large:23}[size];
+  return <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+    <rect x="4" y="4" width="32" height="32" rx="5" fill="#fff" stroke="currentColor" strokeWidth="2.5"/>
+    <rect x={(40-box)/2} y={(40-box)/2} width={box} height={box} rx="2" fill="currentColor"/>
+  </svg>;
+}
+function ScratchToggleIcon({open,numberToys=false}){
+  if(numberToys)return open?<svg className="np-scratch-icon" viewBox="0 0 44 44" aria-hidden="true" focusable="false">
+    <path d="M7 22s5.5-9 15-9 15 9 15 9-5.5 9-15 9S7 22 7 22z" fill="#fff" stroke="currentColor" strokeWidth="2.5"/>
+    <circle cx="22" cy="22" r="5" fill="none" stroke="currentColor" strokeWidth="2.5"/>
+    <path d="M8 8l28 28" stroke="#e05273" strokeWidth="4" strokeLinecap="round"/>
+  </svg>:<svg className="np-scratch-icon" viewBox="0 0 44 44" aria-hidden="true" focusable="false">
+    <path d="M9 35l2.2-8.8L29.8 7.6a4 4 0 0 1 5.6 0l1 1a4 4 0 0 1 0 5.6L17.8 32.8z" fill="#ffe082" stroke="currentColor" strokeWidth="2.5" strokeLinejoin="round"/>
+    <path d="M27 10l7 7M8 36h28" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
+  </svg>;
+  return <svg viewBox="0 0 44 44" aria-hidden="true" focusable="false">
+    <rect x="8" y="8" width="28" height="28" rx="5" fill="#fff" stroke="currentColor" strokeWidth="2.5"/>
+    {open?<path d="M9 22h9m-4-4 4 4-4 4m21-4h-9m4-4-4 4 4 4M22 9v9m-4-4 4 4 4-4m-4 21v-9m-4 4 4-4 4 4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>:<path d="M18 18l-7-7m0 6v-6h6m9 7 7-7m-6 0h6v6m-15 9-7 7m0-6v6h6m9-7 7 7m-6 0h6v-6" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>}
+  </svg>;
+}
+function ScratchTools({lead,padSize,cycleSize,colour,eraser,penSize,chooseColour,choosePen,chooseEraser,clear}){
+  return <div className="aa-tools">
+    {lead}
+    <button className="aa-size" onClick={cycleSize} aria-label={`Change scratchpad size, currently ${padSize}`} title={`Scratchpad size: ${padSize}`}>
+      <ScratchSizeIcon size={padSize}/>
+    </button>
+    {AA_COLORS.map((crayon,index)=><button key={crayon}
+      className={`aa-colour ${!eraser&&colour===crayon?'on':''}`} style={{background:crayon}}
+      aria-label={`Choose the ${AA_COLOR_NAMES[index]} crayon`} title={`${AA_COLOR_NAMES[index]} crayon`}
+      onClick={()=>chooseColour(crayon)}/>)}
+    {[4,7,12].map((width,index)=>{
+      const name=['Thin pen','Medium pen','Thick pen'][index];
+      return <button key={width} className={`aa-tool ${!eraser&&penSize===width?'on':''}`} onClick={()=>choosePen(width)} aria-label={name} title={name}>
+        <svg viewBox="0 0 44 44" aria-hidden="true" focusable="false">
+          <path d="M8 22h28" fill="none" stroke={colour} strokeWidth={width} strokeLinecap="round"/>
+        </svg>
+      </button>;
+    })}
+    <button className={`aa-tool ${eraser?'on':''}`} onClick={chooseEraser} aria-label="Eraser" title="Eraser">
+      <svg viewBox="0 0 44 44" aria-hidden="true" focusable="false"><g transform="rotate(-35 22 22)"><rect x="9" y="13" width="26" height="18" rx="4" fill="#f48fb1" stroke="#6d4c41" strokeWidth="2"/><path d="M25 13h6a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4h-6z" fill="#fff"/><path d="M25 13v18" stroke="#6d4c41" strokeWidth="2"/></g></svg>
+    </button>
+    <button className="aa-tool" onClick={clear} aria-label="Clear the page" title="Clear the page">
+      <svg viewBox="0 0 44 44" aria-hidden="true" focusable="false"><path d="M14 13h16l-1.5 24h-13z" fill="#b3e5fc" stroke="#455a64" strokeWidth="2.5" strokeLinejoin="round"/><path d="M11 13h22M18 9h8M19 18v13M25 18v13" fill="none" stroke="#455a64" strokeWidth="2.5" strokeLinecap="round"/></svg>
+    </button>
+  </div>;
+}
 /* ══ SCRATCH PAD (shared: Ask & Answer and Number Toys) ══
    One scratchpad, two homes. It was born inside Ask & Answer; the owner asked for
    "scratchpad (same as 'make question')" under Number Toys' history on 2026-10-26,
    so it lives here once and both games mount it rather than either keeping a copy.
    Four crayons only (owner 2026-10-21). The host owns whether it is open and what
-   the toggle looks like: `head` is a row above the tools (Ask & Answer's title and
-   Shrink button), `lead` is a control at the front of the tools row (Number Toys'
+   the toggle looks like: `head` holds Ask & Answer's picture-only collapse control;
+   `lead` is a control at the front of the tools row (Number Toys'
    show/hide button, which also stays visible while collapsed). `clears` is a number
    the host bumps to wipe the page, e.g. Ask & Answer's New question. */
-function ScratchPad({open,tap,clears,head,lead,className}){
+function ScratchPad({open,tap,clears,head,lead,className,sizeKey}){
   const [colour,setColour]=useState(AA_COLORS[0]);
   const [penSize,setPenSize]=useState(7);
   const [eraser,setEraser]=useState(false);
+  const [padSize,setPadSize]=useState(()=>{try{const saved=localStorage.getItem(sizeKey);return SCRATCH_SIZES.includes(saved)?saved:'small';}catch(e){return'small';}});
   /* The scratchpad keeps its strokes as POINTS in the canvas box's own pixels, never
      as a bitmap: a resize or a turn of the iPad re-replays the same lines at the new
      size instead of stretching a snapshot, and the drawing stays on screen (shrunk,
@@ -14818,12 +14928,17 @@ function ScratchPad({open,tap,clears,head,lead,className}){
      mode. */
   const scratchRef=useRef(null),canvasRef=useRef(null),drawRef=useRef(null),strokesRef=useRef([]),clearsSeen=useRef(clears);
   const paintStroke=useCallback((ctx,stroke)=>{
-    const canvas=canvasRef.current,box=canvas.getBoundingClientRect(),scale=canvas.width/box.width,pts=stroke.points;
-    ctx.save();ctx.strokeStyle=stroke.erase?'#fff':stroke.colour;ctx.lineWidth=stroke.width*scale;ctx.lineCap='round';ctx.lineJoin='round';
-    ctx.beginPath();ctx.moveTo(pts[0].x*scale,pts[0].y*scale);
+    const canvas=canvasRef.current,box=canvas.getBoundingClientRect(),pixelScale=canvas.width/box.width,pts=stroke.points;
+    /* Uniform fit, not separate X/Y scales: a sum keeps its shape when the child
+       makes the pad wider, taller, smaller, or turns the iPad. Each stroke remembers
+       the canvas box it was drawn in; centring keeps it visible in the new box. */
+    const fit=Math.min(box.width/stroke.box.width,box.height/stroke.box.height),offsetX=(box.width-stroke.box.width*fit)/2,offsetY=(box.height-stroke.box.height*fit)/2;
+    const x=p=>(offsetX+p.x*fit)*pixelScale,y=p=>(offsetY+p.y*fit)*pixelScale;
+    ctx.save();ctx.strokeStyle=stroke.erase?'#fff':stroke.colour;ctx.lineWidth=stroke.width*fit*pixelScale;ctx.lineCap='round';ctx.lineJoin='round';
+    ctx.beginPath();ctx.moveTo(x(pts[0]),y(pts[0]));
     /* a tap with no drag is still a dot: a round cap needs a hair of line to land */
-    if(pts.length===1)ctx.lineTo(pts[0].x*scale+.01,pts[0].y*scale+.01);
-    else for(let i=1;i<pts.length;i+=1)ctx.lineTo(pts[i].x*scale,pts[i].y*scale);
+    if(pts.length===1)ctx.lineTo(x(pts[0])+.01,y(pts[0])+.01);
+    else for(let i=1;i<pts.length;i+=1)ctx.lineTo(x(pts[i]),y(pts[i]));
     ctx.stroke();ctx.restore();
   },[]);
   const prepareCanvas=useCallback(()=>{
@@ -14838,15 +14953,18 @@ function ScratchPad({open,tap,clears,head,lead,className}){
     strokesRef.current.forEach(stroke=>{if(stroke.points.length)paintStroke(ctx,stroke);});
   },[paintStroke]);
   useEffect(()=>{if(!open)return;const resize=()=>requestAnimationFrame(()=>prepareCanvas());resize();window.addEventListener('resize',resize);const observer=window.ResizeObserver?new window.ResizeObserver(resize):null;if(observer)observer.observe(scratchRef.current);return()=>{window.removeEventListener('resize',resize);if(observer)observer.disconnect();};},[open,prepareCanvas]);
+  const cycleSize=()=>{tap();const next=SCRATCH_SIZES[(SCRATCH_SIZES.indexOf(padSize)+1)%SCRATCH_SIZES.length];setPadSize(next);try{localStorage.setItem(sizeKey,next);}catch(e){}};
   const clearScratch=useCallback((withSound=true)=>{strokesRef.current=[];const canvas=canvasRef.current;if(!canvas)return;const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);if(withSound)tap();},[tap]);
   useEffect(()=>{if(clearsSeen.current===clears)return;clearsSeen.current=clears;clearScratch(false);},[clears,clearScratch]);
   const point=e=>{const r=canvasRef.current.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};};
-  const drawStart=e=>{if(e.pointerType==='mouse'&&e.button!==0)return;if(!e.isPrimary)return;try{e.currentTarget.setPointerCapture(e.pointerId);}catch(err){}const stroke={colour,width:eraser?26:penSize,erase:eraser,points:[point(e)]};strokesRef.current.push(stroke);drawRef.current={id:e.pointerId,stroke};paintStroke(canvasRef.current.getContext('2d'),stroke);tap();};
+  const drawStart=e=>{if(e.pointerType==='mouse'&&e.button!==0)return;if(!e.isPrimary)return;try{e.currentTarget.setPointerCapture(e.pointerId);}catch(err){}const r=canvasRef.current.getBoundingClientRect(),stroke={colour,width:eraser?26:penSize,erase:eraser,box:{width:r.width,height:r.height},points:[point(e)]};strokesRef.current.push(stroke);drawRef.current={id:e.pointerId,stroke};paintStroke(canvasRef.current.getContext('2d'),stroke);tap();};
   const drawMove=e=>{const draw=drawRef.current;if(!draw||draw.id!==e.pointerId)return;draw.stroke.points.push(point(e));paintStroke(canvasRef.current.getContext('2d'),draw.stroke);};
   const drawEnd=e=>{if(drawRef.current&&drawRef.current.id===e.pointerId)drawRef.current=null;};
-  return <div ref={scratchRef} className={`aa-scratch ${className?className+' ':''}${open?'':'collapsed'}`}>
+  return <div ref={scratchRef} className={`aa-scratch ${className?className+' ':''}scratch-size-${padSize}${open?'':' collapsed'}`} data-scratch-size={padSize}>
     {head}
-    <div className="aa-tools">{lead}{AA_COLORS.map((c,index)=><button key={c} className={`aa-colour ${!eraser&&colour===c?'on':''}`} style={{background:c}} aria-label={`Choose the ${AA_COLOR_NAMES[index]} crayon`} onClick={()=>{tap();setColour(c);setEraser(false);}}/>)}{[4,7,12].map(size=><button key={size} className={`aa-tool ${!eraser&&penSize===size?'on':''}`} onClick={()=>{tap();setPenSize(size);setEraser(false);}}>{size===4?'Thin':size===7?'Medium':'Thick'}</button>)}<button className={`aa-tool ${eraser?'on':''}`} onClick={()=>{tap();setEraser(true);}}>Eraser</button><button className="aa-tool" onClick={()=>clearScratch(true)}>Clear page</button></div>
+    <ScratchTools lead={lead} padSize={padSize} cycleSize={cycleSize} colour={colour} eraser={eraser} penSize={penSize}
+      chooseColour={next=>{tap();setColour(next);setEraser(false);}} choosePen={next=>{tap();setPenSize(next);setEraser(false);}}
+      chooseEraser={()=>{tap();setEraser(true);}} clear={()=>clearScratch(true)}/>
     <canvas ref={canvasRef} className="aa-canvas" aria-label="Drawing scratchpad" onPointerDown={drawStart} onPointerMove={drawMove} onPointerUp={drawEnd} onPointerCancel={drawEnd}/>
   </div>;
 }
@@ -14922,8 +15040,13 @@ function AskAnswerGame({onBack,journey,trophies,journeyBg,muted,onToggleMute}){
         </div>
         {step==='ask'?<><div className="aa-keypad">{'1234567890'.split('').map(d=><button className="aa-key" key={d} onClick={()=>addDigit(d)}>{d}</button>)}{AA.OPS.map(op=><button className="aa-key op" key={op} onClick={()=>addOp(op)}>{op}</button>)}<button className="aa-key" onClick={backspace} aria-label="Backspace"><BackspaceIcon/></button></div><div className="aa-actions"><button className="aa-action secondary" onClick={clearQuestion}>Clear</button><button className="aa-action" onClick={setTheQuestion}>Set question</button></div></>:<>{!correct&&!showAnswer&&<div className="aa-keypad">{'1234567890'.split('').map(d=><button className="aa-key" key={d} onClick={()=>typeAnswer(d)}>{d}</button>)}<button className="aa-key" onClick={answerBackspace} aria-label="Backspace"><BackspaceIcon/></button></div>}<div className="aa-actions">{!correct&&!showAnswer&&<button className="aa-action" onClick={check}>Check</button>}{wrong&&!showAnswer&&<button className="aa-action secondary" onClick={()=>{tap();setShowAnswer(true);setFeedback(`The answer is ${question.value}.`);}}>Show answer</button>}<button className="aa-action secondary" onClick={newQuestion}>New question</button></div></>}
       </div>
-      <ScratchPad open={scratchOpen} tap={tap} clears={scratchClears}
-        head={<div className="aa-scratch-head"><span className="aa-scratch-title">Scratchpad</span><button className="aa-scratch-toggle" onClick={()=>{tap();setScratchOpen(!scratchOpen);}}>{scratchOpen?'Shrink':'Open scratchpad'}</button></div>}/>
+      <ScratchPad open={scratchOpen} tap={tap} clears={scratchClears} sizeKey={AA_SCRATCH_SIZE_KEY}
+        head={<div className="aa-scratch-head">
+          <button className="aa-scratch-toggle" onClick={()=>{tap();setScratchOpen(!scratchOpen);}}
+            aria-label={scratchOpen?'Shrink scratchpad':'Open scratchpad'} title={scratchOpen?'Shrink scratchpad':'Open scratchpad'}>
+            <ScratchToggleIcon open={scratchOpen}/>
+          </button>
+        </div>}/>
     </div>
   </div>;
 }
