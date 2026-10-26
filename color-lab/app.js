@@ -1,14 +1,21 @@
 (function () {
   "use strict";
 
-  var drops = { red: 0, yellow: 0, blue: 0 };
+  var drops = { red: 0, yellow: 0, blue: 0, white: 0, black: 0 };
   var exploreColors = [];
   var colorById = new Map();
   var availableAudioSlugs = new Set();
   var exploreData = null;
   var mixTargets = [];
+  var basicMixTargets = [];
+  var whiteBlackTargets = [];
+  var whiteBlackEnabled = false;
+  // The target challenge is retained for a possible optional mode, but normal Mix play is
+  // deliberately the open-ended colours-found collection requested by the owner.
+  var MIX_TARGET_CHALLENGE_ENABLED = false;
   var activeTargetIndex = 0;
   var discoveredTargetIds = new Set();
+  var foundColours = [];
   var currentMix = null;
   var EMPTY_BOWL_DECORATION = "#A56BDB";
 
@@ -16,6 +23,38 @@
     return location.pathname.indexOf("/test-apps/") >= 0
       ? "color-lab:test:mix-discoveries:v1"
       : "color-lab:mix-discoveries:v1";
+  }
+
+  function whiteBlackStorageKey() {
+    return location.pathname.indexOf("/test-apps/") >= 0
+      ? "color-lab:test:white-black-enabled:v1"
+      : "color-lab:white-black-enabled:v1";
+  }
+
+  function foundColoursStorageKey() {
+    return location.pathname.indexOf("/test-apps/") >= 0
+      ? "color-lab:test:found-colours:v1"
+      : "color-lab:found-colours:v1";
+  }
+
+  function readFoundColours() {
+    try { return ColorLabMixNaming.parseFoundColours(localStorage.getItem(foundColoursStorageKey())); }
+    catch (error) { return []; }
+  }
+
+  function saveFoundColours() {
+    try { localStorage.setItem(foundColoursStorageKey(), JSON.stringify(foundColours)); }
+    catch (error) { /* the collection still works for this visit */ }
+  }
+
+  function readWhiteBlackPreference() {
+    try { return localStorage.getItem(whiteBlackStorageKey()) === "true"; }
+    catch (error) { return false; }
+  }
+
+  function saveWhiteBlackPreference() {
+    try { localStorage.setItem(whiteBlackStorageKey(), whiteBlackEnabled ? "true" : "false"); }
+    catch (error) { /* optional preference */ }
   }
 
   function readDiscoveries() {
@@ -68,6 +107,10 @@
         if (!response.ok) return { targets: [] };
         return response.json();
       }).catch(function () { return { targets: [] }; }),
+      fetch("./mix-targets-wk.json").then(function (response) {
+        if (!response.ok) return { targets: [] };
+        return response.json();
+      }).catch(function () { return { targets: [] }; }),
     ]).then(function (results) {
       colorById = new Map(results[0].colors.map(function (color) { return [color.id, color]; }));
       exploreData = results[1];
@@ -78,10 +121,16 @@
         });
       });
       availableAudioSlugs = new Set(results[2]);
-      mixTargets = results[3].targets || [];
+      basicMixTargets = results[3].targets || [];
+      whiteBlackEnabled = readWhiteBlackPreference();
+      whiteBlackTargets = results[4].targets || [];
+      mixTargets = basicMixTargets.concat(whiteBlackEnabled ? whiteBlackTargets : []);
       discoveredTargetIds = readDiscoveries();
+      foundColours = readFoundColours();
+      renderWhiteBlackStage();
       renderFamilies();
       renderTarget();
+      renderFoundColours();
     }).catch(function () {
       exploreColors = [];
       byId("family-shelf").textContent = "Color names are still loading…";
@@ -224,10 +273,31 @@
 
   function activeTarget() { return mixTargets[activeTargetIndex] || null; }
 
+  function renderWhiteBlackStage() {
+    var switchButton = byId("white-black-switch");
+    switchButton.setAttribute("aria-checked", whiteBlackEnabled ? "true" : "false");
+    switchButton.classList.toggle("is-on", whiteBlackEnabled);
+    byId("white-black-switch-state").textContent = whiteBlackEnabled ? "On" : "Off";
+    byId("white-pot").hidden = !whiteBlackEnabled;
+    byId("black-pot").hidden = !whiteBlackEnabled;
+    document.querySelector(".paint-side").classList.toggle("is-five-paint", whiteBlackEnabled);
+  }
+
+  function setWhiteBlackStage(enabled) {
+    whiteBlackEnabled = enabled;
+    saveWhiteBlackPreference();
+    mixTargets = basicMixTargets.concat(whiteBlackEnabled ? whiteBlackTargets : []);
+    activeTargetIndex = 0;
+    drops = ColorLabReset.emptyDrops();
+    renderWhiteBlackStage();
+    renderTarget();
+    render();
+  }
+
   function renderTarget() {
     var target = activeTarget();
     var card = byId("mix-target-card");
-    if (!target) { card.hidden = true; return; }
+    if (!MIX_TARGET_CHALLENGE_ENABLED || !target) { card.hidden = true; return; }
     card.hidden = false;
     byId("mix-target-swatch").style.setProperty("--target", target.swatchHex);
     byId("mix-target-name").textContent = target.name;
@@ -242,6 +312,7 @@
   }
 
   function checkTarget() {
+    if (!MIX_TARGET_CHALLENGE_ENABLED) return false;
     var target = activeTarget();
     if (!target || !currentMix) return false;
     var score = Math.hypot.apply(null, currentMix.oklab.map(function (value, index) {
@@ -260,8 +331,61 @@
     return true;
   }
 
+  function makeFoundColour(colour, isNew) {
+    var hasAudio = availableAudioSlugs.has(colour.slug);
+    var item = document.createElement(hasAudio ? "button" : "div");
+    var swatch = document.createElement("span");
+    var name = document.createElement("span");
+    if (hasAudio) {
+      item.type = "button";
+      item.setAttribute("aria-label", "Hear " + colour.displayName);
+      item.addEventListener("click", function () { sayClip(colour.slug); });
+    }
+    item.className = "found-colour" + (hasAudio ? " has-audio" : "") + (isNew ? " is-new" : "");
+    item.style.setProperty("--found-colour", colour.colorHex);
+    swatch.className = "found-colour-swatch";
+    swatch.setAttribute("aria-hidden", "true");
+    name.className = "found-colour-name";
+    name.textContent = colour.displayName;
+    item.append(swatch, name);
+    return item;
+  }
+
+  function renderFoundColours(newSlug) {
+    var shelf = byId("found-colours-list");
+    shelf.replaceChildren();
+    foundColours.forEach(function (colour) {
+      shelf.appendChild(makeFoundColour(colour, colour.slug === newSlug));
+    });
+    byId("found-colours-count").textContent = foundColours.length +
+      (foundColours.length === 1 ? " colour found" : " colours found");
+    byId("found-colours-empty").hidden = foundColours.length > 0;
+    // Newest swatches sit first; bring a fresh find into view even if the shelf was scrolled.
+    if (newSlug) shelf.scrollLeft = 0;
+  }
+
+  function discoverCurrentMix() {
+    if (!currentMix || !exploreColors.length) return null;
+    var named = ColorLabMixNaming.nameMix(
+      currentMix.drops, currentMix.oklab, exploreColors, mixTargets, ColorLabMixing.nearestName
+    );
+    if (!named) return null;
+    var result = ColorLabMixNaming.addFoundColour(foundColours, {
+      slug: named.slug,
+      displayName: named.displayName,
+      colorHex: currentMix.hex,
+    });
+    if (!result.added) return named;
+    foundColours = result.colours;
+    saveFoundColours();
+    renderFoundColours(named.slug);
+    setName("You found " + named.displayName + "!");
+    sayClip(named.slug);
+    return named;
+  }
+
   function render() {
-    ["red", "yellow", "blue"].forEach(function (name) {
+    ["red", "yellow", "blue", "white", "black"].forEach(function (name) {
       byId(name + "-count").textContent = String(drops[name]);
     });
     currentMix = ColorLabMixing.mixDrops(drops);
@@ -280,6 +404,7 @@
     bowl.setAttribute("aria-label", "Mixed color. Tap to explore its name.");
     setName("Tap the bowl!");
     checkTarget();
+    discoverCurrentMix();
   }
 
   function addDrop(name) {
@@ -293,7 +418,7 @@
     var start = source.getBoundingClientRect();
     var bowl = byId("mix-bowl").getBoundingClientRect();
     var drop = document.createElement("span");
-    var colors = { red: "#df493f", yellow: "#f1c62f", blue: "#3866bc" };
+    var colors = { red: "#df493f", yellow: "#f1c62f", blue: "#3866bc", white: "#f7f3e8", black: "#242127" };
     var startX = start.left + start.width * 0.5 - lab.left - 11;
     var startY = start.top + start.height * 0.22 - lab.top;
     var endX = bowl.left + bowl.width * 0.5 - lab.left - 11;
@@ -337,7 +462,10 @@
   });
   byId("mix-bowl").addEventListener("click", revealName);
   byId("reset-button").addEventListener("click", reset);
-  byId("next-target").addEventListener("click", nextTarget);
+  if (MIX_TARGET_CHALLENGE_ENABLED) byId("next-target").addEventListener("click", nextTarget);
+  byId("white-black-switch").addEventListener("click", function () {
+    setWhiteBlackStage(!whiteBlackEnabled);
+  });
   document.querySelectorAll("[data-mode]").forEach(function (button) {
     button.addEventListener("click", function () { setMode(button.dataset.mode); });
   });

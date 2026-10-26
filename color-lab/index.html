@@ -31,6 +31,10 @@
     <section id="mix-panel" class="lab mode-panel" aria-label="Mix Colors">
       <div class="paint-side">
         <h2>Mix Colors</h2>
+        <button id="white-black-switch" class="paint-stage-switch" type="button" role="switch" aria-checked="false" aria-controls="white-pot black-pot">
+          <span class="switch-track" aria-hidden="true"><span class="switch-knob"></span></span>
+          <span class="switch-copy"><strong>White &amp; Black</strong><small id="white-black-switch-state">Off</small></span>
+        </button>
         <div class="paint-pots" aria-label="Choose paint">
           <button class="paint-pot paint-red" type="button" data-paint="red" aria-label="Add one red drop">
             <img src="./assets/art/pot-red.webp" alt="" width="320" height="320">
@@ -44,6 +48,14 @@
             <img src="./assets/art/pot-blue.webp" alt="" width="320" height="320">
             <span class="pot-label"><span>Blue</span><strong id="blue-count">0</strong></span>
           </button>
+          <button id="white-pot" class="paint-pot paint-white modifier-pot" type="button" data-paint="white" aria-label="Add one white drop" hidden>
+            <img src="./assets/art/pot-white.webp" alt="" width="320" height="320">
+            <span class="pot-label"><span>White</span><strong id="white-count">0</strong></span>
+          </button>
+          <button id="black-pot" class="paint-pot paint-black modifier-pot" type="button" data-paint="black" aria-label="Add one black drop" hidden>
+            <img src="./assets/art/pot-black.webp" alt="" width="320" height="320">
+            <span class="pot-label"><span>Black</span><strong id="black-count">0</strong></span>
+          </button>
         </div>
       </div>
 
@@ -54,6 +66,19 @@
           <span class="mix-target-copy"><small>Can you make…</small><strong id="mix-target-name"></strong><span id="mix-target-progress"></span></span>
           <button id="next-target" type="button" aria-label="Try another colour target">Another</button>
         </div>
+        <section class="found-colours" aria-labelledby="found-colours-title">
+          <div class="found-colours-heading">
+            <h3 id="found-colours-title">Colours you found</h3>
+            <span id="found-colours-count">0 colours found</span>
+          </div>
+          <div id="found-colours-empty" class="found-colours-empty">
+            <span class="found-colour-swatch is-placeholder" aria-hidden="true"></span>
+            <span class="found-colour-swatch is-placeholder" aria-hidden="true"></span>
+            <span class="found-colour-swatch is-placeholder" aria-hidden="true"></span>
+            <p>Mix paint to fill your shelf!</p>
+          </div>
+          <div id="found-colours-list" class="found-colours-list" aria-live="polite"></div>
+        </section>
         <button id="mix-bowl" class="mix-bowl is-empty" type="button" aria-label="Mixing bowl. Add paint first.">
           <img id="bowl-art" class="bowl-art" src="./assets/art/mixing-bowl-cream.webp" alt="" width="600" height="400">
           <span class="bowl-decoration" aria-hidden="true"></span>

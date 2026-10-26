@@ -1,4 +1,4 @@
-const CACHE_NAME = "color-lab-v7";
+const CACHE_NAME = "color-lab-v8";
 
 const SHELL = [
   "./",
@@ -8,11 +8,13 @@ const SHELL = [
   "./cg-update.js",
   "./mixing-model.js",
   "./mix-naming.js",
+  "./reset-model.js",
   "./app.js",
   "./tap-zoom-guard.js",
   "./manifest.webmanifest",
   "./explore-colors.json",
   "./mix-targets.json",
+  "./mix-targets-wk.json",
   "./data/iscc-nbs-v1.json",
   "./audio/colour-names/available-clips.json",
   "./assets/art/background-landscape.webp",
@@ -20,10 +22,14 @@ const SHELL = [
   "./assets/art/header-palette.webp",
   "./assets/art/mixing-bowl-cream.webp",
   "./assets/art/mixing-bowl-decoration-mask.png",
+  "./assets/art/pot-black.webp",
   "./assets/art/pot-blue.webp",
   "./assets/art/pot-red.webp",
+  "./assets/art/pot-white.webp",
   "./assets/art/pot-yellow.webp",
   "./assets/art/reset-plaque.webp",
+  "./assets/art/white-black-switch-knob.webp",
+  "./assets/art/white-black-switch-track.webp",
   "./assets/explore/acorn.webp",
   "./assets/explore/apple.webp",
   "./assets/explore/autumn-leaf.webp",

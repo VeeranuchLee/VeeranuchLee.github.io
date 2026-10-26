@@ -142,7 +142,8 @@ h1 {
 .family-button:focus-visible,
 .family-back:focus-visible,
 .shade-card-main:focus-visible,
-.speaker-button:focus-visible {
+.speaker-button:focus-visible,
+.found-colour:focus-visible {
   outline: 5px solid #493a43;
   outline-offset: 3px;
 }
@@ -185,6 +186,53 @@ h2 {
   gap: clamp(5px, 2vw, 22px);
   margin-top: 3px;
 }
+
+.paint-stage-switch {
+  width: min(360px, 94%);
+  min-height: 68px;
+  margin: 6px auto 2px;
+  padding: 4px 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 3px solid rgba(184, 126, 30, 0.34);
+  border-radius: 25px 31px 24px 29px;
+  background: rgba(255, 250, 240, 0.9);
+  color: #65435f;
+  box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.7), 0 4px 0 rgba(94, 63, 75, 0.16);
+  cursor: pointer;
+}
+
+.switch-track {
+  position: relative;
+  width: 118px;
+  height: 56px;
+  flex: none;
+  background: url("./assets/art/white-black-switch-track.webp") center / contain no-repeat;
+  filter: grayscale(0.45) brightness(0.82);
+  transition: filter 160ms ease;
+}
+
+.switch-knob {
+  position: absolute;
+  top: 5px;
+  left: 6px;
+  width: 46px;
+  height: 46px;
+  background: url("./assets/art/white-black-switch-knob.webp") center / contain no-repeat;
+  filter: grayscale(0.55) brightness(0.78);
+  transition: transform 160ms ease;
+}
+
+.paint-stage-switch.is-on .switch-track { filter: saturate(1.08) brightness(1.05); }
+.paint-stage-switch.is-on .switch-knob { transform: translateX(60px); filter: saturate(1.08) brightness(1.08); }
+.paint-stage-switch.is-on { background: rgba(255, 247, 220, 0.96); }
+.switch-copy { display: grid; text-align: left; line-height: 1.05; }
+.switch-copy strong { font-size: clamp(17px, 2.2vw, 21px); }
+.switch-copy small { margin-top: 3px; font-size: 14px; font-weight: 900; }
+.paint-stage-switch:focus-visible { outline: 5px solid #493a43; outline-offset: 3px; }
+.paint-pot[hidden] { display: none; }
 
 .paint-pot {
   position: relative;
@@ -554,26 +602,34 @@ h2 {
 
 .pot-label {
   position: absolute;
-  right: 4%;
+  right: auto;
   bottom: 0;
-  left: 4%;
+  left: 50%;
+  width: max-content;
+  min-width: 88px;
   min-height: 42px;
   padding: 4px 8px 4px 13px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  transform: translateX(-50%);
   border: 2px solid rgba(117, 85, 109, 0.22);
   border-radius: 999px;
   background: rgba(255, 250, 240, 0.94);
   box-shadow: 0 3px 0 rgba(92, 64, 75, 0.12);
   font-size: clamp(15px, 2.3vw, 21px);
   font-weight: 900;
+  white-space: nowrap;
 }
+
+.pot-label > span { flex: none; }
 
 .pot-label strong {
   width: 32px;
   height: 32px;
+  flex: 0 0 32px;
+  box-sizing: border-box;
   display: grid;
   place-items: center;
   border-radius: 50%;
@@ -585,10 +641,96 @@ h2 {
 .explore-side {
   min-height: 0;
   display: grid;
-  grid-template-rows: auto auto minmax(210px, 1fr) auto 68px;
+  grid-template-rows: auto auto minmax(170px, 1fr) auto 68px;
   justify-items: center;
   align-items: center;
   gap: 5px;
+}
+
+.found-colours {
+  width: 100%;
+  min-width: 0;
+  padding: 5px 10px 6px;
+  border: 3px solid rgba(255, 255, 255, 0.88);
+  border-radius: 25px 31px 24px 29px;
+  background: rgba(255, 245, 222, 0.86);
+  box-shadow: 0 4px 0 rgba(73, 58, 67, 0.1);
+  /* Deliberately no hidden overflow here: clipping zeroes a grid item's automatic minimum size, which let
+     the bowl card's auto row squeeze the shelf until it overlapped the "Mixing Bowl"
+     heading in portrait (2026-10-26 WebKit check). The list scrolls on its own. */
+}
+
+.found-colours-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.found-colours h3 { margin: 0; color: #65435f; font-size: clamp(16px, 2.1vw, 21px); line-height: 1.15; }
+.found-colours-heading span { flex: none; font-size: clamp(12px, 1.6vw, 15px); font-weight: 900; }
+
+/* Empty shelf: three dashed paint spots waiting to be filled, the same height as a
+   filled row so the bowl does not jump when the first colour arrives. */
+.found-colours-empty {
+  min-height: 66px;
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.found-colours-empty[hidden] { display: none; }
+.found-colours-empty p { margin-left: 6px; font-size: 15px; font-weight: 900; color: #65435f; }
+.found-colour-swatch.is-placeholder {
+  border: 3px dashed rgba(101, 67, 95, 0.38);
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: none;
+}
+
+.found-colours-list {
+  margin-top: 3px;
+  display: flex;
+  align-items: start;
+  gap: 6px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+}
+.found-colours-list:empty { display: none; }
+
+/* Every swatch is a tap target of at least 64px on each side (it replays the name). */
+.found-colour {
+  flex: none;
+  width: 76px;
+  min-width: 76px;
+  min-height: 66px;
+  padding: 2px 2px 0;
+  display: grid;
+  grid-template-rows: 38px auto;
+  justify-items: center;
+  align-content: start;
+  gap: 2px;
+  border: 0;
+  border-radius: 16px;
+  background: transparent;
+  color: #493a43;
+  font: inherit;
+}
+button.found-colour { cursor: pointer; }
+button.found-colour:active { background: rgba(255, 255, 255, 0.6); }
+.found-colour-swatch {
+  width: 38px;
+  height: 38px;
+  display: block;
+  border: 3px solid rgba(73, 58, 67, 0.24);
+  border-radius: 48% 52% 46% 54% / 53% 46% 54% 47%;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.42), transparent 34%),
+    var(--found-colour);
+  box-shadow: inset -5px -4px 0 rgba(73, 58, 67, 0.1), 0 3px 0 rgba(73, 58, 67, 0.13);
+}
+.found-colour-name { max-width: 74px; font-size: 11px; font-weight: 950; line-height: 1.05; text-align: center; text-transform: lowercase; }
+.found-colour.is-new .found-colour-swatch { animation: found-colour-pop 520ms ease both; }
+@keyframes found-colour-pop {
+  0% { opacity: 0; transform: scale(.35) rotate(-15deg); }
+  55% { opacity: 1; transform: scale(1.2) rotate(7deg); filter: drop-shadow(0 0 7px #ffd33d); }
+  100% { transform: scale(1) rotate(0); }
 }
 
 .mix-bowl {
@@ -738,12 +880,28 @@ h2 {
   body { background-image: url("./assets/art/background-landscape.webp"); }
 }
 
+/* Five paints wrap 3 + 2 in every orientation. The wrap used to live only inside the
+   wide-landscape block below, so iPad portrait kept a single row, the panel grew a
+   horizontal scroll and the Black pot sat off-screen right (controller QA, 2026-10-13).
+   Per-orientation sizing follows in the media queries; the wrap itself is unconditional. */
+.paint-side.is-five-paint .paint-pots { flex-wrap: wrap; }
+
 @media (min-width: 850px) and (orientation: landscape) {
   .lab { grid-template-columns: 1fr 1.08fr; grid-template-rows: 1fr; }
-  .paint-side { display: grid; grid-template-rows: auto 1fr; }
+  .paint-side { display: grid; grid-template-rows: auto auto 1fr; }
   .paint-pots { align-items: center; }
   .paint-pot { width: min(14vw, 150px); }
-  .explore-side { grid-template-rows: auto auto minmax(250px, 1fr) auto 68px; }
+  .paint-side.is-five-paint .paint-pots { flex-wrap: wrap; align-content: center; }
+  /* Wide enough to contain the widest name pill (Yellow, 130px at the 21px landscape
+     label size): a narrower pot lets the centred max-content pill poke past its edge,
+     which the pot reports as scrollWidth > clientWidth. */
+  .paint-side.is-five-paint .paint-pot { width: min(13.5vw, 132px); min-height: 132px; padding-bottom: 32px; }
+  .explore-side { grid-template-rows: auto auto minmax(210px, 1fr) auto 68px; }
+  /* Landscape has height to spare beside the pots: two rows of found colours show
+     twelve at a glance before the shelf needs a sideways swipe. */
+  .found-colours-list { display: grid; grid-auto-flow: column; grid-template-rows: repeat(2, 66px); grid-auto-columns: 76px; justify-content: start; row-gap: 2px; }
+  .found-colours-empty { min-height: 134px; }
+  .found-colours-list:empty { display: none; }
   .mix-bowl { width: min(43vw, 480px); height: min(48vh, 330px); }
   .family-shelf { grid-template-columns: repeat(6, minmax(0, 1fr)); }
   .family-button { min-height: clamp(92px, 18vh, 126px); }
@@ -758,8 +916,8 @@ h2 {
   .title-lockup { padding: 5px 16px 7px; }
   .paint-side, .explore-side { padding: 8px 12px; }
   .paint-pot { min-height: 128px; padding-bottom: 34px; }
-  .explore-side { grid-template-rows: auto auto minmax(200px, 1fr) 58px 64px; }
-  .mix-bowl { min-height: 200px; height: min(31vh, 240px); width: min(40vw, 360px); }
+  .explore-side { grid-template-rows: auto auto minmax(160px, 1fr) 58px 64px; }
+  .mix-bowl { min-height: 160px; height: min(25vh, 200px); width: min(36vw, 330px); }
   .mode-switch { min-height: 64px; }
   .mode-tab { min-height: 64px; }
   .explore-panel { padding: 8px 12px; }
@@ -772,9 +930,28 @@ h2 {
 }
 
 @media (orientation: portrait) {
-  .explore-side { grid-template-rows: auto auto minmax(170px, 1fr) auto 64px; gap: 4px; }
+  .explore-side { grid-template-rows: auto auto minmax(130px, 1fr) auto 64px; gap: 4px; }
   .mix-target-card { min-height: 62px; margin: 0; }
-  .mix-bowl { min-height: 170px; height: min(18vh, 188px); width: min(52vw, 282px); }
+  .mix-bowl { min-height: 130px; height: min(15vh, 150px); width: min(44vw, 230px); }
+
+  /* Five paints, portrait: Red/Yellow/Blue across the top, White/Black centred below
+     (2026-10-13 QA: one row pushed Black off-screen). At pot sizes that fit the stacked
+     panel, all five would still fit one 706px row, so a mere flex-wrap never breaks —
+     instead six half-width tracks pin the layout: each pot spans two, White/Black start
+     one track in, which centres the second row under the first. Pots stay 122px wide —
+     wider than the widest pill (Yellow, 120px at the 768px label size) so no pill
+     overflows its pot — the paint card tightens its padding, and the bowl card yields
+     the rest. The explore rules key off the sibling .paint-side.is-five-paint so the
+     three-pot lesson keeps today's sizes exactly. */
+  .paint-side.is-five-paint { padding: 6px 10px; }
+  .paint-side.is-five-paint .paint-stage-switch { margin: 4px auto 0; }
+  .paint-side.is-five-paint .paint-pots { display: grid; grid-template-columns: repeat(6, minmax(0, auto)); justify-content: center; row-gap: 2px; margin-top: 0; }
+  .paint-side.is-five-paint .paint-pot { grid-column: auto / span 2; width: min(24vw, 122px); padding-bottom: 26px; }
+  .paint-side.is-five-paint .paint-pot:nth-child(4) { grid-column: 2 / span 2; }
+  .paint-side.is-five-paint .paint-pot:nth-child(5) { grid-column: 4 / span 2; }
+  .paint-side.is-five-paint ~ .explore-side { padding: 6px 10px; grid-template-rows: auto auto minmax(108px, 1fr) auto 64px; gap: 3px; }
+  .paint-side.is-five-paint ~ .explore-side .mix-bowl { width: min(40vw, 162px); height: 108px; min-height: 108px; }
+  .paint-side.is-five-paint ~ .explore-side .colour-name { min-height: 44px; padding: 6px 14px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -782,6 +959,7 @@ h2 {
   .reset-button.is-armed,
   .paint-drop { animation: none; }
   .paint-drop { display: none; }
+  .found-colour.is-new .found-colour-swatch { animation: none; }
   .family-button,
   .shade-card,
   .shade-object,
