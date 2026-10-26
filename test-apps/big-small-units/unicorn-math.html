@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="audio-wake.js?v=d87db8a20-20261026093704"></script>
+<script src="audio-wake.js?v=847a279b8-20261026173422"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <!-- Plain name, deliberately. This read "Magic Math v7" from 7343cc3 until
@@ -10,26 +10,26 @@
        a title that has to be edited on every publish will be wrong again by the
        next one. -->
   <title>Unicorn Math</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=d87db8a20-20261026093704"/>
-  <link rel="icon" href="./assets/icons/icon-192.png?v=d87db8a20-20261026093704"/>
-  <link rel="stylesheet" href="./fonts.css?v=d87db8a20-20261026093704"/>
-  <link rel="stylesheet" href="./css/tap-wait-math.css?v=d87db8a20-20261026093704"/>
-  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=d87db8a20-20261026093704"/>
+  <link rel="manifest" href="./manifest.webmanifest?v=847a279b8-20261026173422"/>
+  <link rel="icon" href="./assets/icons/icon-192.png?v=847a279b8-20261026173422"/>
+  <link rel="stylesheet" href="./fonts.css?v=847a279b8-20261026173422"/>
+  <link rel="stylesheet" href="./css/tap-wait-math.css?v=847a279b8-20261026173422"/>
+  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=847a279b8-20261026173422"/>
   <meta name="theme-color" content="#0a0e2d"/>
-  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=d87db8a20-20261026093704"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=847a279b8-20261026173422"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Magic Math"/>
   <!-- Method C: the pilot guard is first; it ignores every multi-finger gesture. -->
-  <script src="./js/tap-zoom-guard.js?v=d87db8a20-20261026093704"></script>
-  <script src="./vendor/react-18.3.1.production.min.js?v=d87db8a20-20261026093704"></script>
-  <script src="./vendor/react-dom-18.3.1.production.min.js?v=d87db8a20-20261026093704"></script>
-  <script src="./js/tap-wait-engine.js?v=d87db8a20-20261026093704"></script>
-  <script src="./js/tap-wait-math.js?v=d87db8a20-20261026093704"></script>
-  <script src="./js/big-small-units.js?v=d87db8a20-20261026093704"></script>
-  <script src="./ask-answer-logic.js?v=d87db8a20-20261026093704"></script>
-  <script src="./shared/bg-deco/bg-deco.js?v=d87db8a20-20261026093704"></script>
-  <script src="./vendor/babel-7.26.4.min.js?v=d87db8a20-20261026093704"></script>
+  <script src="./js/tap-zoom-guard.js?v=847a279b8-20261026173422"></script>
+  <script src="./vendor/react-18.3.1.production.min.js?v=847a279b8-20261026173422"></script>
+  <script src="./vendor/react-dom-18.3.1.production.min.js?v=847a279b8-20261026173422"></script>
+  <script src="./js/tap-wait-engine.js?v=847a279b8-20261026173422"></script>
+  <script src="./js/tap-wait-math.js?v=847a279b8-20261026173422"></script>
+  <script src="./js/big-small-units.js?v=847a279b8-20261026173422"></script>
+  <script src="./ask-answer-logic.js?v=847a279b8-20261026173422"></script>
+  <script src="./shared/bg-deco/bg-deco.js?v=847a279b8-20261026173422"></script>
+  <script src="./vendor/babel-7.26.4.min.js?v=847a279b8-20261026173422"></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;touch-action:manipulation}
     body{font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden}
@@ -2713,7 +2713,7 @@
 @media (prefers-reduced-motion:reduce){.on-screen *,.on-screen *::before,.on-screen *::after{animation:none!important;transition:none!important}}
 /* ── END ORDER NUMBERS CSS ── */
   </style>
-  <script src="./cg-update.js?v=d87db8a20-20261026093704" defer></script>
+  <script src="./cg-update.js?v=847a279b8-20261026173422" defer></script>
 </head>
 <body>
 <div id="root"></div>
@@ -6365,7 +6365,7 @@ function GamePreview({id}){
   if(id==='r1')return(                      /* Read Big Numbers — grouped slots and a reader */
     <div className="gp gp-tight" aria-hidden="true">
       <div className="gp-row"><span className="gp-num">1</span><span className="gp-gap"/><span className="gp-num">2</span><span className="gp-num">5</span><span className="gp-num">0</span></div>
-      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/unicorn/icons/read-out.webp?v=d87db8a20-20261026093704" alt=""/></div>
+      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/unicorn/icons/read-out.webp?v=847a279b8-20261026173422" alt=""/></div>
     </div>);
   if(id==='s1')return(                      /* Count By — the chant above, the ladder rung below */
     <div className="gp gp-tight" aria-hidden="true">
@@ -6532,7 +6532,7 @@ function CardSticker({id}){
   return <img className="card-sticker" src={`assets/stickers/unicorn/${f}.webp`} alt="" aria-hidden="true" draggable="false" style={{'--sd':(4+(h%7)*.45).toFixed(2)+'s','--sl':'-'+((h%5)*.9).toFixed(1)+'s'}}/>;
 }
 function Stars({count}){
-  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/unicorn/icons/star.webp?v=d87db8a20-20261026093704" alt=""/>)}</div>;
+  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/unicorn/icons/star.webp?v=847a279b8-20261026173422" alt=""/>)}</div>;
 }
 
 /* Only the two hardest games wear this. The absence of a badge is the other
@@ -6547,7 +6547,7 @@ function Stars({count}){
    Unlike Space Math these cards carry no aria-label, so the alt text is what a
    screen reader announces; do not blank it here to match the other theme. */
 function BigKidBadge(){
-  return <div className="mode-card-badge"><img src="assets-runtime/unicorn/icons/big-kids.webp?v=d87db8a20-20261026093704" alt="For big kids"/></div>;
+  return <div className="mode-card-badge"><img src="assets-runtime/unicorn/icons/big-kids.webp?v=847a279b8-20261026173422" alt="For big kids"/></div>;
 }
 
 /* ══ MASCOT ══ */
@@ -6840,7 +6840,7 @@ function TopBar({onBack,muted,onToggleMute,label,score,flowers,bouquets=0}){
   return(
     <div className="top-bar">
       <div style={{display:'flex',alignItems:'center',gap:5}}>
-        <img src="assets-runtime/unicorn/icons/flower-pink.webp?v=d87db8a20-20261026093704" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
+        <img src="assets-runtime/unicorn/icons/flower-pink.webp?v=847a279b8-20261026173422" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
         <button className="back-btn" aria-label="Back home" onClick={()=>{Voice.stop();Sound.tap();onBack();}}><BackIcon/></button>
       </div>
       {label&&<div className="level-chip">{label}</div>}
@@ -6854,7 +6854,7 @@ function TopBar({onBack,muted,onToggleMute,label,score,flowers,bouquets=0}){
             to count -- so the chip is conditional rather than a permanent 0. Every
             scored game passes a score and sees exactly what it saw before. */}
         {score!=null&&<div style={{display:'flex',alignItems:'center',gap:6}}>
-          <img src="assets-runtime/unicorn/icons/star.webp?v=d87db8a20-20261026093704" alt="" style={{width:34,height:34,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.2))'}}/>
+          <img src="assets-runtime/unicorn/icons/star.webp?v=847a279b8-20261026173422" alt="" style={{width:34,height:34,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.2))'}}/>
           <div className="score-badge"><span>{score}</span></div>
         </div>}
         <FlowerGarden flowers={flowers}/>
@@ -9321,8 +9321,8 @@ function numberToWords(s){
 function RobotReader({speaking}){
   return(
     <div className={`rb-robot ${speaking?'talking':''}`} aria-hidden="true">
-      <img className="rb-still" src="assets-runtime/unicorn/icons/robot-reader.webp?v=d87db8a20-20261026093704" alt=""/>
-      <img className="rb-talk" src="assets-runtime/unicorn/icons/robot-reader-talk.webp?v=d87db8a20-20261026093704" alt=""/>
+      <img className="rb-still" src="assets-runtime/unicorn/icons/robot-reader.webp?v=847a279b8-20261026173422" alt=""/>
+      <img className="rb-talk" src="assets-runtime/unicorn/icons/robot-reader-talk.webp?v=847a279b8-20261026173422" alt=""/>
     </div>
   );
 }
@@ -16507,11 +16507,11 @@ function Home({onSelect,bouquets=0,shelf=null,setShelf=()=>{}}){
       <BgDeco/>
       <div className="menu-top">
         <div className="menu-title-row">
-          <img className="menu-title-icon" src="assets-runtime/unicorn/icons/cloud-pink.webp?v=d87db8a20-20261026093704" alt=""/>
+          <img className="menu-title-icon" src="assets-runtime/unicorn/icons/cloud-pink.webp?v=847a279b8-20261026173422" alt=""/>
           <div className="home-title">
             {title.map((c,i)=><span key={i} style={{color:TITLE_COLORS[i%TITLE_COLORS.length],animationDelay:`${i*.07}s`,textShadow:`0 3px 0 ${TITLE_COLORS[(i+4)%TITLE_COLORS.length]}55`}}>{c}</span>)}
           </div>
-          <img className="menu-title-icon b" src="assets-runtime/unicorn/icons/cloud-blue.webp?v=d87db8a20-20261026093704" alt=""/>
+          <img className="menu-title-icon b" src="assets-runtime/unicorn/icons/cloud-blue.webp?v=847a279b8-20261026173422" alt=""/>
         </div>
         {!open&&<div className="menu-status">
           {bouquets>0&&<div className="home-sub"><BouquetIcon/> Bouquets collected: {bouquets}</div>}

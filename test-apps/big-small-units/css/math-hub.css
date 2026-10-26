@@ -32,10 +32,30 @@ body{min-height:100svh;overflow:hidden;background:#d7b9cc;touch-action:manipulat
 @media(prefers-reduced-motion:reduce){.world-hotspot{transition:none}}
 
 @media (orientation: portrait){
-  .scene-stage::before{content:"";position:absolute;inset:-40px;background:url(../assets-runtime/hub/scene.webp?v=d87db8a20-20261026093704) center/cover no-repeat;filter:blur(22px) saturate(1.05);opacity:.9}
+  .scene-stage::before{content:"";position:absolute;inset:-40px;background:url(../assets-runtime/hub/scene.webp?v=847a279b8-20261026173422) center/cover no-repeat;filter:blur(22px) saturate(1.05);opacity:.9}
   .scene-canvas{top:54%;left:0;width:100vw;height:auto;transform:translateY(-50%)}
 }
 
 /* Owner, 2026-10-08: keep the painted hub calm with exactly two static decorative stickers,
    one on each side of the unchanged banner. They belong to the heading rather than the scene,
    so they cannot drift onto the book or either world hotspot as the painting crops. */
+
+/* Owner, 2026-10-26: the third world, Mermaid Math. The painting has two pages, so the
+   Mermaid door is a card standing in front of the book: on the desk in landscape, in the
+   empty band under the book in portrait. It is a link with the mermaid friend and her
+   name, at least 132px tall -- a child's finger, not a footnote. */
+.world-cards{position:fixed;z-index:9;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;gap:16px;pointer-events:none}
+.world-card{pointer-events:auto;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;width:clamp(190px,21vw,230px);height:clamp(132px,19vh,168px);padding:0 10px 9px;border-radius:26px;border:3px solid rgba(255,255,255,.92);background:radial-gradient(circle at 50% 18%,rgba(255,255,255,.55),rgba(255,255,255,0) 46%),linear-gradient(165deg,#7fe3d6 0%,#2bb3b0 52%,#7b6fe0 100%);box-shadow:0 6px 0 #1d7f86,0 12px 26px rgba(20,70,90,.35);text-decoration:none;color:#fff;-webkit-tap-highlight-color:transparent;transition:transform .15s ease}
+.world-card:active{transform:translateY(3px);box-shadow:0 3px 0 #1d7f86,0 8px 18px rgba(20,70,90,.3)}
+.world-card:focus-visible{outline:4px solid #ffe06b;outline-offset:3px}
+.wc-art{position:absolute;left:50%;bottom:36px;height:calc(100% + 8px);width:auto;transform:translateX(-50%);filter:drop-shadow(0 5px 8px rgba(20,60,90,.35));pointer-events:none}
+.wc-name{position:relative;font-weight:900;font-size:1.12rem;line-height:1;padding:6px 14px;border-radius:999px;background:rgba(36,40,120,.55);text-shadow:0 2px 4px rgba(20,20,70,.45);white-space:nowrap}
+.wc-shell{position:absolute;width:46px;height:46px;object-fit:contain;bottom:34px;filter:drop-shadow(0 3px 4px rgba(20,60,90,.3));pointer-events:none}
+.wc-shell-a{left:8px;transform:rotate(-14deg)}
+.wc-shell-b{right:8px;transform:rotate(12deg)}
+@media (orientation: portrait){
+  .world-cards{bottom:calc(26px + env(safe-area-inset-bottom))}
+  .world-card{width:min(300px,62vw);height:clamp(150px,19vh,200px)}
+  .wc-shell{width:60px;height:60px;bottom:40px}
+}
+@media(prefers-reduced-motion:reduce){.world-card{transition:none}}
