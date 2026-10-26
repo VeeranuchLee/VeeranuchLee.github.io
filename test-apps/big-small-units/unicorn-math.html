@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="audio-wake.js?v=c0b91d247-20261026022222"></script>
+<script src="audio-wake.js?v=7a44eba10-20261026090057"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <!-- Plain name, deliberately. This read "Magic Math v7" from 7343cc3 until
@@ -10,26 +10,26 @@
        a title that has to be edited on every publish will be wrong again by the
        next one. -->
   <title>Unicorn Math</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=c0b91d247-20261026022222"/>
-  <link rel="icon" href="./assets/icons/icon-192.png?v=c0b91d247-20261026022222"/>
-  <link rel="stylesheet" href="./fonts.css?v=c0b91d247-20261026022222"/>
-  <link rel="stylesheet" href="./css/tap-wait-math.css?v=c0b91d247-20261026022222"/>
-  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=c0b91d247-20261026022222"/>
+  <link rel="manifest" href="./manifest.webmanifest?v=7a44eba10-20261026090057"/>
+  <link rel="icon" href="./assets/icons/icon-192.png?v=7a44eba10-20261026090057"/>
+  <link rel="stylesheet" href="./fonts.css?v=7a44eba10-20261026090057"/>
+  <link rel="stylesheet" href="./css/tap-wait-math.css?v=7a44eba10-20261026090057"/>
+  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=7a44eba10-20261026090057"/>
   <meta name="theme-color" content="#0a0e2d"/>
-  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=c0b91d247-20261026022222"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=7a44eba10-20261026090057"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Magic Math"/>
   <!-- Method C: the pilot guard is first; it ignores every multi-finger gesture. -->
-  <script src="./js/tap-zoom-guard.js?v=c0b91d247-20261026022222"></script>
-  <script src="./vendor/react-18.3.1.production.min.js?v=c0b91d247-20261026022222"></script>
-  <script src="./vendor/react-dom-18.3.1.production.min.js?v=c0b91d247-20261026022222"></script>
-  <script src="./js/tap-wait-engine.js?v=c0b91d247-20261026022222"></script>
-  <script src="./js/tap-wait-math.js?v=c0b91d247-20261026022222"></script>
-  <script src="./js/big-small-units.js?v=c0b91d247-20261026022222"></script>
-  <script src="./ask-answer-logic.js?v=c0b91d247-20261026022222"></script>
-  <script src="./shared/bg-deco/bg-deco.js?v=c0b91d247-20261026022222"></script>
-  <script src="./vendor/babel-7.26.4.min.js?v=c0b91d247-20261026022222"></script>
+  <script src="./js/tap-zoom-guard.js?v=7a44eba10-20261026090057"></script>
+  <script src="./vendor/react-18.3.1.production.min.js?v=7a44eba10-20261026090057"></script>
+  <script src="./vendor/react-dom-18.3.1.production.min.js?v=7a44eba10-20261026090057"></script>
+  <script src="./js/tap-wait-engine.js?v=7a44eba10-20261026090057"></script>
+  <script src="./js/tap-wait-math.js?v=7a44eba10-20261026090057"></script>
+  <script src="./js/big-small-units.js?v=7a44eba10-20261026090057"></script>
+  <script src="./ask-answer-logic.js?v=7a44eba10-20261026090057"></script>
+  <script src="./shared/bg-deco/bg-deco.js?v=7a44eba10-20261026090057"></script>
+  <script src="./vendor/babel-7.26.4.min.js?v=7a44eba10-20261026090057"></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;touch-action:manipulation}
     body{font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden}
@@ -2515,10 +2515,9 @@
     .score-badge span{color:#7b1fa2}
     /* A little flower bed: soft pink-to-mint, painted flowers in, sprouts waiting. */
     .flower-garden{display:grid;grid-template-columns:repeat(10,1fr);gap:3px;padding:6px 8px;background:linear-gradient(180deg,#fffafd 0%,#fff0f7 62%,#eefbe9 100%);border:2px solid #f8bbd0;border-radius:16px;box-shadow:0 3px 10px rgba(240,98,146,.14),inset 0 -3px 0 rgba(165,221,149,.35);max-width:336px;flex:1}
-    .flower-slot{width:24px;height:24px;display:flex;align-items:center;justify-content:center;line-height:1}
-    .flower-slot img,.flower-slot svg{width:100%;height:100%;object-fit:contain;display:block}
-    .flower-slot.empty .garden-sprout{width:96%;height:96%;opacity:.85}
-    .flower-slot.filled img{width:120%;height:120%;max-width:none;flex:none;filter:drop-shadow(0 1.5px 1.5px rgba(173,20,87,.28));animation:flowerPop .35s cubic-bezier(.34,1.56,.64,1)}
+    .flower-slot{width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:18px;line-height:1}
+    .flower-slot.empty{opacity:.18;color:#c9a5c9;filter:grayscale(.45)}
+    .flower-slot.filled{opacity:1;font-size:20px;background:rgba(252,228,236,.72);border-radius:50%;animation:flowerPop .35s cubic-bezier(.34,1.56,.64,1);filter:drop-shadow(0 2px 3px rgba(123,31,162,.25))}
     .garden-full-badge{position:absolute;right:0;top:100%;margin-top:4px;background:#fff;border:2px solid #f48fb1;border-radius:999px;padding:4px 10px;color:#e91e63;font-size:.78rem;font-weight:900;box-shadow:0 3px 0 #f48fb1}
     @keyframes flowerPop{from{transform:scale(0) rotate(-12deg)}to{transform:scale(1) rotate(0)}}
     @media (max-width:430px){
@@ -2526,7 +2525,7 @@
       .top-bar{gap:6px}
       .score-badge{padding:5px 10px}
       .flower-garden{gap:2px;padding:5px 6px;max-width:286px}
-      .flower-slot{width:21px;height:21px}
+      .flower-slot{width:21px;height:21px;font-size:16px}
     }
 
     /* ── BUTTONS ── */
@@ -2708,7 +2707,7 @@
 @media (prefers-reduced-motion:reduce){.on-screen *,.on-screen *::before,.on-screen *::after{animation:none!important;transition:none!important}}
 /* ── END ORDER NUMBERS CSS ── */
   </style>
-  <script src="./cg-update.js?v=c0b91d247-20261026022222" defer></script>
+  <script src="./cg-update.js?v=7a44eba10-20261026090057" defer></script>
 </head>
 <body>
 <div id="root"></div>
@@ -6355,7 +6354,7 @@ function GamePreview({id}){
   if(id==='r1')return(                      /* Read Big Numbers — grouped slots and a reader */
     <div className="gp gp-tight" aria-hidden="true">
       <div className="gp-row"><span className="gp-num">1</span><span className="gp-gap"/><span className="gp-num">2</span><span className="gp-num">5</span><span className="gp-num">0</span></div>
-      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/unicorn/icons/read-out.webp?v=c0b91d247-20261026022222" alt=""/></div>
+      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/unicorn/icons/read-out.webp?v=7a44eba10-20261026090057" alt=""/></div>
     </div>);
   if(id==='s1')return(                      /* Count By — the chant above, the ladder rung below */
     <div className="gp gp-tight" aria-hidden="true">
@@ -6522,7 +6521,7 @@ function CardSticker({id}){
   return <img className="card-sticker" src={`assets/stickers/unicorn/${f}.webp`} alt="" aria-hidden="true" draggable="false" style={{'--sd':(4+(h%7)*.45).toFixed(2)+'s','--sl':'-'+((h%5)*.9).toFixed(1)+'s'}}/>;
 }
 function Stars({count}){
-  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/unicorn/icons/star.webp?v=c0b91d247-20261026022222" alt=""/>)}</div>;
+  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/unicorn/icons/star.webp?v=7a44eba10-20261026090057" alt=""/>)}</div>;
 }
 
 /* Only the two hardest games wear this. The absence of a badge is the other
@@ -6537,7 +6536,7 @@ function Stars({count}){
    Unlike Space Math these cards carry no aria-label, so the alt text is what a
    screen reader announces; do not blank it here to match the other theme. */
 function BigKidBadge(){
-  return <div className="mode-card-badge"><img src="assets-runtime/unicorn/icons/big-kids.webp?v=c0b91d247-20261026022222" alt="For big kids"/></div>;
+  return <div className="mode-card-badge"><img src="assets-runtime/unicorn/icons/big-kids.webp?v=7a44eba10-20261026090057" alt="For big kids"/></div>;
 }
 
 /* ══ MASCOT ══ */
@@ -6614,31 +6613,17 @@ function Mascot({kind='unicorn',mood,stamp,onPoke}){
   );
 }
 
-/* THE GARDEN IS PAINTED (owner, 2026-10-25: "the flowers to collect are not pretty ...
-   my kids like nice color, nice art"). A collected flower is the app's own painted
-   flower art -- the same five flowers the home screen and the sections already use, so
-   it is precached and costs no new asset -- in a fixed colour order (each row starts two colours on,
-   so no column is one colour), so a flower never changes colour as the next arrives. A slot still to fill is a small green sprout
-   with a closed pink bud: a garden that is growing, not grey outlines of what is
-   missing. The line-drawn BouquetIcon stays on the bouquet counter, where it is a sign. */
-const GARDEN_COLOURS=['pink','purple','blue','coral','yellow'];
-function GardenSprout(){
-  return(<svg className="garden-sprout" viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M12 23V12.5" fill="none" stroke="#86c98a" strokeWidth="2.2" strokeLinecap="round"/>
-    <path d="M12 19.2C8 20.2 4.6 18.3 3.6 14.6C7.6 13.8 10.9 15.6 12 19.2Z" fill="#b4e6a3"/>
-    <path d="M12 17C16 18 19.4 16.1 20.4 12.4C16.4 11.6 13.1 13.4 12 17Z" fill="#9edb8c"/>
-    <path d="M12 1.8C7.6 4.4 7.2 10 12 13.4C16.8 10 16.4 4.4 12 1.8Z" fill="#ffd1e6"/>
-    <path d="M12 3.6C9.9 6.2 10 10 12 12.4C14 10 14.1 6.2 12 3.6Z" fill="#ffb0d1"/>
-  </svg>);
-}
+/* Owner 2026-10-26: "pls bring back the previous flowers we used, we used mixed one.
+   and they are pretty." The mixed flower set from before 2026-10-21 returns here as the
+   owner's explicit exception to the 2026-10-20 "no emoji in UI" rule: the collected
+   flowers are the reward picture, not a control. Empty slots are the faint heart again. */
+const FLOWER_TYPES=['🌸','🌼','🌷','🌺','💐'];
 function FlowerGarden({flowers}){
   return(
     <div className="flower-garden" aria-label={`${flowers} of ${MAX_FLOWERS} flowers collected`}>
       {Array.from({length:MAX_FLOWERS},(_,i)=>(
         <span key={i} className={`flower-slot ${i<flowers?'filled':'empty'}`}>
-          {i<flowers
-            ?<img src={`assets-runtime/unicorn/icons/flower-${GARDEN_COLOURS[(i+Math.floor(i/10)*2)%GARDEN_COLOURS.length]}.webp`} alt=""/>
-            :<GardenSprout/>}
+          {i<flowers ? FLOWER_TYPES[i%FLOWER_TYPES.length] : '♡'}
         </span>
       ))}
     </div>
@@ -6831,7 +6816,7 @@ function TopBar({onBack,muted,onToggleMute,label,score,flowers,bouquets=0}){
   return(
     <div className="top-bar">
       <div style={{display:'flex',alignItems:'center',gap:5}}>
-        <img src="assets-runtime/unicorn/icons/flower-pink.webp?v=c0b91d247-20261026022222" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
+        <img src="assets-runtime/unicorn/icons/flower-pink.webp?v=7a44eba10-20261026090057" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
         <button className="back-btn" aria-label="Back home" onClick={()=>{Voice.stop();Sound.tap();onBack();}}><BackIcon/></button>
       </div>
       {label&&<div className="level-chip">{label}</div>}
@@ -6845,7 +6830,7 @@ function TopBar({onBack,muted,onToggleMute,label,score,flowers,bouquets=0}){
             to count -- so the chip is conditional rather than a permanent 0. Every
             scored game passes a score and sees exactly what it saw before. */}
         {score!=null&&<div style={{display:'flex',alignItems:'center',gap:6}}>
-          <img src="assets-runtime/unicorn/icons/star.webp?v=c0b91d247-20261026022222" alt="" style={{width:34,height:34,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.2))'}}/>
+          <img src="assets-runtime/unicorn/icons/star.webp?v=7a44eba10-20261026090057" alt="" style={{width:34,height:34,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.2))'}}/>
           <div className="score-badge"><span>{score}</span></div>
         </div>}
         <FlowerGarden flowers={flowers}/>
@@ -9312,8 +9297,8 @@ function numberToWords(s){
 function RobotReader({speaking}){
   return(
     <div className={`rb-robot ${speaking?'talking':''}`} aria-hidden="true">
-      <img className="rb-still" src="assets-runtime/unicorn/icons/robot-reader.webp?v=c0b91d247-20261026022222" alt=""/>
-      <img className="rb-talk" src="assets-runtime/unicorn/icons/robot-reader-talk.webp?v=c0b91d247-20261026022222" alt=""/>
+      <img className="rb-still" src="assets-runtime/unicorn/icons/robot-reader.webp?v=7a44eba10-20261026090057" alt=""/>
+      <img className="rb-talk" src="assets-runtime/unicorn/icons/robot-reader-talk.webp?v=7a44eba10-20261026090057" alt=""/>
     </div>
   );
 }
@@ -16498,11 +16483,11 @@ function Home({onSelect,bouquets=0,shelf=null,setShelf=()=>{}}){
       <BgDeco/>
       <div className="menu-top">
         <div className="menu-title-row">
-          <img className="menu-title-icon" src="assets-runtime/unicorn/icons/cloud-pink.webp?v=c0b91d247-20261026022222" alt=""/>
+          <img className="menu-title-icon" src="assets-runtime/unicorn/icons/cloud-pink.webp?v=7a44eba10-20261026090057" alt=""/>
           <div className="home-title">
             {title.map((c,i)=><span key={i} style={{color:TITLE_COLORS[i%TITLE_COLORS.length],animationDelay:`${i*.07}s`,textShadow:`0 3px 0 ${TITLE_COLORS[(i+4)%TITLE_COLORS.length]}55`}}>{c}</span>)}
           </div>
-          <img className="menu-title-icon b" src="assets-runtime/unicorn/icons/cloud-blue.webp?v=c0b91d247-20261026022222" alt=""/>
+          <img className="menu-title-icon b" src="assets-runtime/unicorn/icons/cloud-blue.webp?v=7a44eba10-20261026090057" alt=""/>
         </div>
         {!open&&<div className="menu-status">
           {bouquets>0&&<div className="home-sub"><BouquetIcon/> Bouquets collected: {bouquets}</div>}

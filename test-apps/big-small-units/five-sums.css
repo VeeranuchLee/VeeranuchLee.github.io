@@ -34,8 +34,8 @@
 .first-move-hint{position:absolute;top:2px;left:50%;transform:translateX(-50%);background:#fff;color:#432997;font-weight:900;font-size:clamp(13px,1.6vw,17px);padding:4px 12px;border-radius:999px;box-shadow:0 3px 0 #b9a4ff;z-index:3;white-space:nowrap;animation:bob 1.1s ease-in-out infinite}
 .board-wrap{position:relative;border-radius:22px;padding:8%;background:radial-gradient(circle at 50% 20%,#2a3a86,#0d1442);box-shadow:0 6px 16px #0007;overflow:hidden;flex:0 0 auto}
 .garden .board-wrap{background:radial-gradient(circle at 50% 20%,#fff3d6,#ffe1ef);box-shadow:0 6px 16px #77553c66}
-.board-wrap .backdrop{position:absolute;inset:0;background-image:url('assets/space/bg-nebula.png?v=c0b91d247-20261026022222');background-size:cover;background-position:center;opacity:.32;pointer-events:none;z-index:0}
-.garden .board-wrap .backdrop{background-image:url('assets/unicorn/bg-home.png?v=c0b91d247-20261026022222');opacity:.28}
+.board-wrap .backdrop{position:absolute;inset:0;background-image:url('assets/space/bg-nebula.png?v=7a44eba10-20261026090057');background-size:cover;background-position:center;opacity:.32;pointer-events:none;z-index:0}
+.garden .board-wrap .backdrop{background-image:url('assets/unicorn/bg-home.png?v=7a44eba10-20261026090057');opacity:.28}
 .board-wrap .corner{position:absolute;width:15%;max-width:56px;min-width:28px;opacity:.9;pointer-events:none;filter:drop-shadow(0 2px 3px #0006);z-index:1}
 .board-wrap .corner.tl{top:2%;left:2%}.board-wrap .corner.tr{top:2%;right:2%;transform:scaleX(-1)}.board-wrap .corner.bl{bottom:2%;left:2%}.board-wrap .corner.br{bottom:2%;right:2%;transform:scaleX(-1)}
 .board{position:relative;display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:repeat(7,1fr);width:100%;height:100%;touch-action:pinch-zoom;z-index:2}
