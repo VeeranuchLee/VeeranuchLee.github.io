@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="audio-wake.js?v=847a279b8-20261026173422"></script>
+<script src="audio-wake.js"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>Enchanted Spelling Workshop</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=847a279b8-20261026173422"/>
-  <link rel="stylesheet" href="./fonts.css?v=847a279b8-20261026173422"/>
-  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=847a279b8-20261026173422"/>
+  <link rel="manifest" href="./manifest.webmanifest"/>
+  <link rel="stylesheet" href="./fonts.css"/>
+  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css"/>
   <meta name="theme-color" content="#0a0e2d"/>
-  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=847a279b8-20261026173422"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Magic Spelling"/>
-  <script src="./vendor/react-18.3.1.production.min.js?v=847a279b8-20261026173422"></script>
-  <script src="./vendor/react-dom-18.3.1.production.min.js?v=847a279b8-20261026173422"></script>
-  <script src="./shared/bg-deco/bg-deco.js?v=847a279b8-20261026173422"></script>
-  <script src="./js/tap-zoom-guard.js?v=847a279b8-20261026173422"></script>
-  <script src="./vendor/babel-7.26.4.min.js?v=847a279b8-20261026173422"></script>
+  <script src="./vendor/react-18.3.1.production.min.js"></script>
+  <script src="./vendor/react-dom-18.3.1.production.min.js"></script>
+  <script src="./shared/bg-deco/bg-deco.js"></script>
+  <script src="./js/tap-zoom-guard.js"></script>
+  <script src="./vendor/babel-7.26.4.min.js"></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;touch-action:manipulation}
     body{font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden;background:#fce4ec}
@@ -254,7 +254,7 @@
     @media (max-width:560px){.top-bar .round-btn{flex:none;min-width:44px;width:46px;height:46px}.pack-card{width:76%;height:72%;min-height:68px}.shelf-wrap{gap:3px}.page-btn{width:46px;flex-basis:46px}.tile-row.dense .tile{width:44px;height:48px;min-width:44px;min-height:48px}.score-row{gap:4px}.score-badge{padding:4px 8px}}
     @media (prefers-reduced-motion:reduce){.station-card,.pack-card,.tile,.complete-stars span,.confetti-piece{animation:none!important;transition:none!important}.confetti-container{display:none}}
   </style>
-  <script src="./cg-update.js?v=847a279b8-20261026173422" defer></script>
+  <script src="./cg-update.js" defer></script>
 </head>
 <body>
 <div id="root"></div>
@@ -1027,7 +1027,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
      the browser refuses it, and the games must still run. */
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
-      Promise.resolve() /* Test Hub staging: no service worker */.catch(function () {});
+      navigator.serviceWorker.register('./service-worker.js').catch(function () {});
     });
   }
 </script>

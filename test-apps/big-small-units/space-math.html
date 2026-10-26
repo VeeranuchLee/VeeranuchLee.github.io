@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="audio-wake.js?v=847a279b8-20261026173422"></script>
+<script src="audio-wake.js"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Space Math</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=847a279b8-20261026173422"/>
-  <link rel="icon" href="./assets/icons/icon-192.png?v=847a279b8-20261026173422"/>
-  <link rel="stylesheet" href="./fonts.css?v=847a279b8-20261026173422"/>
-  <link rel="stylesheet" href="./css/tap-wait-math.css?v=847a279b8-20261026173422"/>
-  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=847a279b8-20261026173422"/>
+  <link rel="manifest" href="./manifest.webmanifest"/>
+  <link rel="icon" href="./assets/icons/icon-192.png"/>
+  <link rel="stylesheet" href="./fonts.css"/>
+  <link rel="stylesheet" href="./css/tap-wait-math.css"/>
+  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css"/>
   <meta name="theme-color" content="#0a0e2d"/>
-  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=847a279b8-20261026173422"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Magic Math"/>
   <!-- Method C: the pilot guard is first; it ignores every multi-finger gesture. -->
-  <script src="./js/tap-zoom-guard.js?v=847a279b8-20261026173422"></script>
-  <script src="./vendor/react-18.3.1.production.min.js?v=847a279b8-20261026173422"></script>
-  <script src="./vendor/react-dom-18.3.1.production.min.js?v=847a279b8-20261026173422"></script>
-  <script src="./js/tap-wait-engine.js?v=847a279b8-20261026173422"></script>
-  <script src="./js/tap-wait-math.js?v=847a279b8-20261026173422"></script>
-  <script src="./js/big-small-units.js?v=847a279b8-20261026173422"></script>
-  <script src="./shared/bg-deco/bg-deco.js?v=847a279b8-20261026173422"></script>
-  <script src="./ask-answer-logic.js?v=847a279b8-20261026173422"></script>
-  <script src="./vendor/babel-7.26.4.min.js?v=847a279b8-20261026173422"></script>
+  <script src="./js/tap-zoom-guard.js"></script>
+  <script src="./vendor/react-18.3.1.production.min.js"></script>
+  <script src="./vendor/react-dom-18.3.1.production.min.js"></script>
+  <script src="./js/tap-wait-engine.js"></script>
+  <script src="./js/tap-wait-math.js"></script>
+  <script src="./js/big-small-units.js"></script>
+  <script src="./shared/bg-deco/bg-deco.js"></script>
+  <script src="./ask-answer-logic.js"></script>
+  <script src="./vendor/babel-7.26.4.min.js"></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;touch-action:manipulation}
     body{font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden;background:#0a0e2d}
@@ -2737,7 +2737,7 @@
 @media (prefers-reduced-motion:reduce){.on-screen *,.on-screen *::before,.on-screen *::after{animation:none!important;transition:none!important}}
 /* ── END ORDER NUMBERS CSS ── */
   </style>
-  <script src="./cg-update.js?v=847a279b8-20261026173422" defer></script>
+  <script src="./cg-update.js" defer></script>
 </head>
 <body>
 <div id="root"></div>
@@ -6756,7 +6756,7 @@ function GamePreview({id}){
           as art. This badge is one of the four the owner kept on 2026-08-27; it is the
           one that still reads at the ~22px the card gives it, and it is blue, which the
           others are not. */}
-      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/space/icons/read-out.webp?v=847a279b8-20261026173422" alt=""/></div>
+      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/space/icons/read-out.webp" alt=""/></div>
     </div>);
   if(id==='s1')return(                      /* Count By — the chant above, the ladder rung below */
     <div className="gp gp-tight" aria-hidden="true">
@@ -6923,7 +6923,7 @@ function CardSticker({id}){
   return <img className="card-sticker" src={`assets/stickers/space/${f}.webp`} alt="" aria-hidden="true" draggable="false" style={{'--sd':(4+(h%7)*.45).toFixed(2)+'s','--sl':'-'+((h%5)*.9).toFixed(1)+'s'}}/>;
 }
 function Stars({count}){
-  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/space/icons/fourstar-gold.webp?v=847a279b8-20261026173422" alt="" aria-hidden="true"/>)}</div>;
+  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/space/icons/fourstar-gold.webp" alt="" aria-hidden="true"/>)}</div>;
 }
 
 /* Only the two hardest games wear this. The absence of a badge is the other
@@ -6931,7 +6931,7 @@ function Stars({count}){
    What Number? would land on the child who needs that game most. Nothing is
    locked either — the badge says who you are growing into, not who may tap. */
 function BigKidBadge(){
-  return <div className="mode-card-badge"><img src="assets-runtime/space/icons/big-kids.webp?v=847a279b8-20261026173422" alt="" aria-hidden="true"/></div>;
+  return <div className="mode-card-badge"><img src="assets-runtime/space/icons/big-kids.webp" alt="" aria-hidden="true"/></div>;
 }
 
 /* ══ MASCOT ══ */
@@ -7017,10 +7017,10 @@ function JourneyTrack({progress}){
   const from=JOURNEY_STOPS[legIdx],to=JOURNEY_STOPS[legIdx+1];
   const cells=[];
   for(let i=0;i<LEG_LEN;i++){
-    if(i<inLeg)cells.push(<img key={`s${i}`} className="journey-star" src="assets-runtime/space/icons/fourstar-gold.webp?v=847a279b8-20261026173422" alt=""/>);
+    if(i<inLeg)cells.push(<img key={`s${i}`} className="journey-star" src="assets-runtime/space/icons/fourstar-gold.webp" alt=""/>);
     else cells.push(<span key={`d${i}`} className="journey-dot"/>);
   }
-  cells.splice(inLeg,0,<img key={`r${inLeg}`} className="journey-rocket" src="assets-runtime/space/icons/rocket.webp?v=847a279b8-20261026173422" alt=""/>);
+  cells.splice(inLeg,0,<img key={`r${inLeg}`} className="journey-rocket" src="assets-runtime/space/icons/rocket.webp" alt=""/>);
   return(
     <div className="journey-track" aria-label={`Flying from ${from.title} to ${to.title}, ${inLeg} of ${LEG_LEN} stars`}>
       <img className="journey-node" src={from.icon} alt={from.title}/>
@@ -7080,7 +7080,7 @@ function ArrivalOverlay({stopIdx,factIdx,complete,muted,onClose}){
         <img className="arrival-photo" src={stop.bg} alt=""/>
         <img className="arrival-planet" src={stop.icon} alt={stop.title}/>
         <div className="arrival-title">{complete?'Journey Complete!':`You reached ${stop.title}!`}</div>
-        {complete&&<img className="arrival-trophy" src="assets-runtime/space/icons/trophy.webp?v=847a279b8-20261026173422" alt="trophy earned"/>}
+        {complete&&<img className="arrival-trophy" src="assets-runtime/space/icons/trophy.webp" alt="trophy earned"/>}
         <div className="arrival-fact-row">
           <button className="arrival-replay" aria-label="Hear it again" onClick={()=>{Sound.tap();Voice.say(fact);}}><SpeakerOnIcon/></button>
           <div className="arrival-fact" key={i}>{fact}</div>
@@ -7088,7 +7088,7 @@ function ArrivalOverlay({stopIdx,factIdx,complete,muted,onClose}){
         {stop.facts.length>1&&(
           <div className="arrival-more-row">
             <button className="arrival-more" onClick={nextFact}>
-              <img src="assets-runtime/space/icons/sparkle-gold.webp?v=847a279b8-20261026173422" alt=""/>Another fact!
+              <img src="assets-runtime/space/icons/sparkle-gold.webp" alt=""/>Another fact!
             </button>
             <div className="arrival-fact-dots" aria-hidden="true">
               {stop.facts.map((f,k)=><span key={k} className={`arrival-fact-dot${k===i?' on':''}`}/>)}
@@ -7096,7 +7096,7 @@ function ArrivalOverlay({stopIdx,factIdx,complete,muted,onClose}){
           </div>
         )}
         <button className="arrival-btn" onClick={onClose}>
-          <img src="assets-runtime/space/icons/rocket.webp?v=847a279b8-20261026173422" alt=""/>{complete?'New Journey!':'Keep Flying!'}
+          <img src="assets-runtime/space/icons/rocket.webp" alt=""/>{complete?'New Journey!':'Keep Flying!'}
         </button>
       </div>
     </div>
@@ -7144,7 +7144,7 @@ function TopBar({onBack,muted,onToggleMute,label,score,journey,trophies=0}){
   return(
     <div className="top-bar">
       <div style={{display:'flex',alignItems:'center',gap:5}}>
-        <img src="assets-runtime/space/icons/saturn.webp?v=847a279b8-20261026173422" alt="" aria-hidden="true" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.3))'}}/>
+        <img src="assets-runtime/space/icons/saturn.webp" alt="" aria-hidden="true" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.3))'}}/>
         <button className="back-btn" aria-label="Back home" onClick={()=>{Voice.stop();Sound.tap();onBack();}}><BackIcon/></button>
       </div>
       {label&&<div className="level-chip">{label}</div>}
@@ -7158,12 +7158,12 @@ function TopBar({onBack,muted,onToggleMute,label,score,journey,trophies=0}){
             to count -- so the chip is conditional rather than a permanent 0. Every
             scored game passes a score and sees exactly what it saw before. */}
         {score!=null&&<div style={{display:'flex',alignItems:'center',gap:6}}>
-          <img src="assets-runtime/space/icons/star.webp?v=847a279b8-20261026173422" alt="score" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.3))'}}/>
+          <img src="assets-runtime/space/icons/star.webp" alt="score" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.3))'}}/>
           <div className="score-badge"><span>{score}</span></div>
         </div>}
         <JourneyTrack progress={journey}/>
         <div className="score-badge" aria-label={`${trophies} journeys completed`}>
-          <img src="assets-runtime/space/icons/trophy.webp?v=847a279b8-20261026173422" alt="trophies"/><span>{trophies}</span>
+          <img src="assets-runtime/space/icons/trophy.webp" alt="trophies"/><span>{trophies}</span>
         </div>
       </>}
       <div style={{display:'flex',gap:6}}>
@@ -8261,7 +8261,7 @@ function NumberLineAddSub({onBack, journey, addProgress, trophies, journeyBg, sc
         <div className="line-stack">
           <div className="char-row">
             <div className={`char-inner ${celebrating?'happy':''} ${wrongId!=null?'oops':''}`} style={{left:16+(charPos-min)*50+((!celebrating?54:50)-76)/2}}>
-              <img className="char-img" src="assets-runtime/space/icons/rocket.webp?v=847a279b8-20261026173422" alt="rocket"/>
+              <img className="char-img" src="assets-runtime/space/icons/rocket.webp" alt="rocket"/>
             </div>
           </div>
           <div className="hop-arrows">
@@ -9624,8 +9624,8 @@ function numberToWords(s){
 function RobotReader({speaking}){
   return(
     <div className={`rb-robot ${speaking?'talking':''}`} aria-hidden="true">
-      <img className="rb-still" src="assets-runtime/space/icons/robot-reader.webp?v=847a279b8-20261026173422" alt=""/>
-      <img className="rb-talk" src="assets-runtime/space/icons/robot-reader-talk.webp?v=847a279b8-20261026173422" alt=""/>
+      <img className="rb-still" src="assets-runtime/space/icons/robot-reader.webp" alt=""/>
+      <img className="rb-talk" src="assets-runtime/space/icons/robot-reader-talk.webp" alt=""/>
     </div>
   );
 }
@@ -16793,15 +16793,15 @@ function Home({onSelect,trophies=0,journey=0,shelf=null,setShelf=()=>{}}){
       <BgDeco/>
       <div className="menu-top">
         <div className="menu-title-row">
-          <img className="menu-title-icon" src="assets-runtime/space/icons/saturn.webp?v=847a279b8-20261026173422" alt=""/>
+          <img className="menu-title-icon" src="assets-runtime/space/icons/saturn.webp" alt=""/>
           <div className="home-title">
             {title.map((c,i)=><span key={i} style={{color:TITLE_COLORS[i%TITLE_COLORS.length],animationDelay:`${i*.07}s`,textShadow:`0 3px 0 ${TITLE_COLORS[(i+4)%TITLE_COLORS.length]}55`}}>{c}</span>)}
           </div>
-          <img className="menu-title-icon b" src="assets-runtime/space/icons/rocket.webp?v=847a279b8-20261026173422" alt=""/>
+          <img className="menu-title-icon b" src="assets-runtime/space/icons/rocket.webp" alt=""/>
         </div>
         {!open&&<div className="menu-status">
           {trophies>0&&<div className="home-sub">
-            <img src="assets-runtime/space/icons/trophy.webp?v=847a279b8-20261026173422" alt=""/>Journeys completed: {trophies}
+            <img src="assets-runtime/space/icons/trophy.webp" alt=""/>Journeys completed: {trophies}
           </div>}
           <JourneyTrack progress={journey}/>
         </div>}
@@ -17148,7 +17148,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
      the browser refuses it, and the games must still run. */
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
-      Promise.resolve() /* Test Hub staging: no service worker */.catch(function () {});
+      navigator.serviceWorker.register('./service-worker.js').catch(function () {});
     });
   }
 </script>

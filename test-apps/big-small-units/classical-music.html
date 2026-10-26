@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="audio-wake.js?v=847a279b8-20261026173422"></script>
+<script src="audio-wake.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Little Maestro</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=847a279b8-20261026173422"/>
-  <link rel="stylesheet" href="./fonts.css?v=847a279b8-20261026173422"/>
+  <link rel="manifest" href="./manifest.webmanifest"/>
+  <link rel="stylesheet" href="./fonts.css"/>
   <meta name="theme-color" content="#0a0e2d"/>
-  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=847a279b8-20261026173422"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Little Maestro"/>
@@ -394,7 +394,7 @@
   }
   .play-btn svg,.next-btn svg,.hist-title svg,.stars svg{width:1em;height:1em;display:inline-block;vertical-align:-.14em}
 </style>
-  <script src="./cg-update.js?v=847a279b8-20261026173422" defer></script>
+  <script src="./cg-update.js" defer></script>
 </head>
 <body>
 
@@ -901,7 +901,7 @@ renderTeachCard();
      the browser refuses it, and the games must still run. */
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
-      Promise.resolve() /* Test Hub staging: no service worker */.catch(function () {});
+      navigator.serviceWorker.register('./service-worker.js').catch(function () {});
     });
   }
 </script>

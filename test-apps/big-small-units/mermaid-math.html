@@ -4,7 +4,7 @@
      edit unicorn-math.html (or the substitution table in that script) and re-run it.
      check-math-parity.js fails if this file is not exactly what the script writes. -->
 <head>
-<script src="audio-wake.js?v=847a279b8-20261026173422"></script>
+<script src="audio-wake.js"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <!-- Plain name, deliberately. This read "Magic Math v7" from 7343cc3 until
@@ -13,26 +13,26 @@
        a title that has to be edited on every publish will be wrong again by the
        next one. -->
   <title>Mermaid Math</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=847a279b8-20261026173422"/>
-  <link rel="icon" href="./assets/icons/icon-192.png?v=847a279b8-20261026173422"/>
-  <link rel="stylesheet" href="./fonts.css?v=847a279b8-20261026173422"/>
-  <link rel="stylesheet" href="./css/tap-wait-math.css?v=847a279b8-20261026173422"/>
-  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=847a279b8-20261026173422"/>
+  <link rel="manifest" href="./manifest.webmanifest"/>
+  <link rel="icon" href="./assets/icons/icon-192.png"/>
+  <link rel="stylesheet" href="./fonts.css"/>
+  <link rel="stylesheet" href="./css/tap-wait-math.css"/>
+  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css"/>
   <meta name="theme-color" content="#0a0e2d"/>
-  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=847a279b8-20261026173422"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Magic Math"/>
   <!-- Method C: the pilot guard is first; it ignores every multi-finger gesture. -->
-  <script src="./js/tap-zoom-guard.js?v=847a279b8-20261026173422"></script>
-  <script src="./vendor/react-18.3.1.production.min.js?v=847a279b8-20261026173422"></script>
-  <script src="./vendor/react-dom-18.3.1.production.min.js?v=847a279b8-20261026173422"></script>
-  <script src="./js/tap-wait-engine.js?v=847a279b8-20261026173422"></script>
-  <script src="./js/tap-wait-math.js?v=847a279b8-20261026173422"></script>
-  <script src="./js/big-small-units.js?v=847a279b8-20261026173422"></script>
-  <script src="./ask-answer-logic.js?v=847a279b8-20261026173422"></script>
-  <script src="./shared/bg-deco/bg-deco.js?v=847a279b8-20261026173422"></script>
-  <script src="./vendor/babel-7.26.4.min.js?v=847a279b8-20261026173422"></script>
+  <script src="./js/tap-zoom-guard.js"></script>
+  <script src="./vendor/react-18.3.1.production.min.js"></script>
+  <script src="./vendor/react-dom-18.3.1.production.min.js"></script>
+  <script src="./js/tap-wait-engine.js"></script>
+  <script src="./js/tap-wait-math.js"></script>
+  <script src="./js/big-small-units.js"></script>
+  <script src="./ask-answer-logic.js"></script>
+  <script src="./shared/bg-deco/bg-deco.js"></script>
+  <script src="./vendor/babel-7.26.4.min.js"></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;touch-action:manipulation}
     body{font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden}
@@ -2736,7 +2736,7 @@
     }
 
   </style>
-  <script src="./cg-update.js?v=847a279b8-20261026173422" defer></script>
+  <script src="./cg-update.js" defer></script>
 </head>
 <body>
 <div id="root"></div>
@@ -6388,7 +6388,7 @@ function GamePreview({id}){
   if(id==='r1')return(                      /* Read Big Numbers — grouped slots and a reader */
     <div className="gp gp-tight" aria-hidden="true">
       <div className="gp-row"><span className="gp-num">1</span><span className="gp-gap"/><span className="gp-num">2</span><span className="gp-num">5</span><span className="gp-num">0</span></div>
-      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/unicorn/icons/read-out.webp?v=847a279b8-20261026173422" alt=""/></div>
+      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/unicorn/icons/read-out.webp" alt=""/></div>
     </div>);
   if(id==='s1')return(                      /* Count By — the chant above, the ladder rung below */
     <div className="gp gp-tight" aria-hidden="true">
@@ -6555,7 +6555,7 @@ function CardSticker({id}){
   return <img className="card-sticker" src={`assets/stickers/mermaid/${f}.webp`} alt="" aria-hidden="true" draggable="false" style={{'--sd':(4+(h%7)*.45).toFixed(2)+'s','--sl':'-'+((h%5)*.9).toFixed(1)+'s'}}/>;
 }
 function Stars({count}){
-  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/mermaid/icons/star.webp?v=847a279b8-20261026173422" alt=""/>)}</div>;
+  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/mermaid/icons/star.webp" alt=""/>)}</div>;
 }
 
 /* Only the two hardest games wear this. The absence of a badge is the other
@@ -6570,7 +6570,7 @@ function Stars({count}){
    Unlike Space Math these cards carry no aria-label, so the alt text is what a
    screen reader announces; do not blank it here to match the other theme. */
 function BigKidBadge(){
-  return <div className="mode-card-badge"><img src="assets-runtime/unicorn/icons/big-kids.webp?v=847a279b8-20261026173422" alt="For big kids"/></div>;
+  return <div className="mode-card-badge"><img src="assets-runtime/unicorn/icons/big-kids.webp" alt="For big kids"/></div>;
 }
 
 /* ══ MASCOT ══ */
@@ -6746,7 +6746,7 @@ function ShareOpIcon(){return(<svg className="icon-svg" viewBox="0 0 24 24" aria
 function HalfOpIcon(){return(<svg className="icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.9a8.1 8.1 0 0 0 0 16.2z" fill="currentColor"/><circle cx="12" cy="12" r="8.1" fill="none" stroke="currentColor" strokeWidth="2.6"/></svg>);}
 function CheckIcon(){return(<svg className="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m5 12.5 4.2 4.2L19 7"/></svg>);}
 function MusicIcon(){return(<svg className="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 18V6l10-2v12"/><circle cx="6" cy="18" r="3" fill="currentColor" stroke="none"/><circle cx="16" cy="16" r="3" fill="currentColor" stroke="none"/></svg>);}
-function BouquetIcon(){return(<img className="chest-icon" src="assets-runtime/mermaid/icons/shell-treasure-chest.webp?v=847a279b8-20261026173422" alt="" aria-hidden="true" draggable="false"/>);}
+function BouquetIcon(){return(<img className="chest-icon" src="assets-runtime/mermaid/icons/shell-treasure-chest.webp" alt="" aria-hidden="true" draggable="false"/>);}
 
 /* ══ THE ACTIVITY RIBBON (shared) ══
    Owner, 2026-09-12: *"Replace the current pop-up activity selectors with a persistent
@@ -6868,7 +6868,7 @@ function TopBar({onBack,muted,onToggleMute,label,score,flowers,bouquets=0}){
   return(
     <div className="top-bar">
       <div style={{display:'flex',alignItems:'center',gap:5}}>
-        <img src="assets-runtime/mermaid/icons/flower-pink.webp?v=847a279b8-20261026173422" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
+        <img src="assets-runtime/mermaid/icons/flower-pink.webp" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
         <button className="back-btn" aria-label="Back home" onClick={()=>{Voice.stop();Sound.tap();onBack();}}><BackIcon/></button>
       </div>
       {label&&<div className="level-chip">{label}</div>}
@@ -6882,7 +6882,7 @@ function TopBar({onBack,muted,onToggleMute,label,score,flowers,bouquets=0}){
             to count -- so the chip is conditional rather than a permanent 0. Every
             scored game passes a score and sees exactly what it saw before. */}
         {score!=null&&<div style={{display:'flex',alignItems:'center',gap:6}}>
-          <img src="assets-runtime/mermaid/icons/star.webp?v=847a279b8-20261026173422" alt="" style={{width:34,height:34,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.2))'}}/>
+          <img src="assets-runtime/mermaid/icons/star.webp" alt="" style={{width:34,height:34,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.2))'}}/>
           <div className="score-badge"><span>{score}</span></div>
         </div>}
         <FlowerGarden flowers={flowers}/>
@@ -9349,8 +9349,8 @@ function numberToWords(s){
 function RobotReader({speaking}){
   return(
     <div className={`rb-robot ${speaking?'talking':''}`} aria-hidden="true">
-      <img className="rb-still" src="assets-runtime/unicorn/icons/robot-reader.webp?v=847a279b8-20261026173422" alt=""/>
-      <img className="rb-talk" src="assets-runtime/unicorn/icons/robot-reader-talk.webp?v=847a279b8-20261026173422" alt=""/>
+      <img className="rb-still" src="assets-runtime/unicorn/icons/robot-reader.webp" alt=""/>
+      <img className="rb-talk" src="assets-runtime/unicorn/icons/robot-reader-talk.webp" alt=""/>
     </div>
   );
 }
@@ -16535,11 +16535,11 @@ function Home({onSelect,bouquets=0,shelf=null,setShelf=()=>{}}){
       <BgDeco/>
       <div className="menu-top">
         <div className="menu-title-row">
-          <img className="menu-title-icon" src="assets-runtime/mermaid/icons/cloud-pink.webp?v=847a279b8-20261026173422" alt=""/>
+          <img className="menu-title-icon" src="assets-runtime/mermaid/icons/cloud-pink.webp" alt=""/>
           <div className="home-title">
             {title.map((c,i)=><span key={i} style={{color:TITLE_COLORS[i%TITLE_COLORS.length],animationDelay:`${i*.07}s`,textShadow:`0 3px 0 ${TITLE_COLORS[(i+4)%TITLE_COLORS.length]}55`}}>{c}</span>)}
           </div>
-          <img className="menu-title-icon b" src="assets-runtime/mermaid/icons/cloud-blue.webp?v=847a279b8-20261026173422" alt=""/>
+          <img className="menu-title-icon b" src="assets-runtime/mermaid/icons/cloud-blue.webp" alt=""/>
         </div>
         {!open&&<div className="menu-status">
           {bouquets>0&&<div className="home-sub"><BouquetIcon/> Treasure chests: {bouquets}</div>}
@@ -16810,7 +16810,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
      the browser refuses it, and the games must still run. */
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
-      Promise.resolve() /* Test Hub staging: no service worker */.catch(function () {});
+      navigator.serviceWorker.register('./service-worker.js').catch(function () {});
     });
   }
 </script>
