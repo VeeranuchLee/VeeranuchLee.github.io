@@ -13,10 +13,11 @@
   };
   const boxes = {
     editor: {necklace:[10,10,140,80],bracelet:[10,10,140,80],earrings:[10,10,140,80],hairpin:[14,10,132,80]},
-    character: {necklace:[43.2,31.2,13.6,12],bracelet:[40.2,60.2,6.7,5.3],earrings:[38.2,23.6,23.5,8.2],hairpin:[36.2,9.4,7,5.8]},
+    character: {necklace:[39,30.2,22,10.2],bracelet:[39.7,59.4,7.3,6],earrings:[26,17.8,48,12],hairpin:[36.2,9.4,7,5.8]},
     display: {necklace:[42.8,17.5,14.4,16.8],bracelet:[8.5,35.8,21,9.8],earrings:[78.1,30.5,15.6,12.2],hairpin:[74.5,42.3,14,8.2]}
   };
-  const desiredRadii = {editor:10.1,character:1.05,display:1.2};
+  const desiredRadii = {editor:10.1,character:1.1,display:1.2};
+  const characterRadii = {necklace:1.1,bracelet:1,earrings:1.15,hairpin:1};
   const clone = value => JSON.parse(JSON.stringify(value));
   const line = (n,a,b,y=52)=>Array.from({length:n},(_,i)=>({x:a+(b-a)*i/(n-1),y}));
   const ellipse = (n,cx=50,cy=50,rx=43,ry=34,start=-Math.PI/2)=>Array.from({length:n},(_,i)=>{const a=start+Math.PI*2*i/n;return{x:cx+rx*Math.cos(a),y:cy+ry*Math.sin(a)}});
@@ -88,6 +89,10 @@
   }
   const pointCommand=(p,first=false)=>`${first?"M":"L"}${p.x.toFixed(2)} ${p.y.toFixed(2)}`;
   function through(points,close=false){return points.map((p,i)=>pointCommand(p,i===0)).join(" ")+(close?" Z":"");}
+  const wornArc=(count,left=40,right=60,endY=31.8,drop=3.5)=>Array.from({length:count},(_,i)=>{
+    const x=left+(right-left)*i/(count-1),u=(x-(left+right)/2)/((right-left)/2);
+    return{x,y:endY+drop*(1-u*u)};
+  });
   function editorHardware(type,model,points){
     const paths=[];
     if(type==="necklace"){
@@ -121,6 +126,48 @@
       const points=editorPoints(raw.points,sizes,type,model);
       return{points,hardware:editorHardware(type,model,points),hardwareTransform:"",bails:(type==="necklace"&&(model===0||model===4))?[{x:points[0].x,y:points[0].y-desiredRadii.editor*sizes[0]-2.6,r:3.2}]:[]};
     }
+    if(profile==="character"&&type==="earrings"){
+      // The two ears need independent anchors. A single wide box put the old
+      // artwork on the cheeks, while its collision radius reduced small drops
+      // to dots. Keep each model's local silhouette but register both halves
+      // directly from the measured earlobes.
+      const points=raw.points.map(p=>({
+        x:(p.x<50?39:61)+(p.x-(p.x<50?27:73))*.12,
+        y:17.8+p.y*.12
+      }));
+      const paths=[];
+      [points.filter(p=>p.x<50),points.filter(p=>p.x>=50)].forEach(half=>{
+        const ordered=model===1?half:[...half].sort((a,b)=>a.y-b.y);
+        paths.push(through(ordered,model===1||model===2));
+        const top=ordered.reduce((a,b)=>a.y<b.y?a:b),side=top.x<50?-1:1;
+        paths.push(`M${top.x.toFixed(2)} ${top.y.toFixed(2)} Q${(top.x+side*.9).toFixed(2)} ${(top.y-1.5).toFixed(2)} ${(top.x+side*.15).toFixed(2)} ${(top.y-2.7).toFixed(2)}`);
+      });
+      return{points,hardware:paths.join(" "),hardwareTransform:"",bails:[]};
+    }
+    if(profile==="character"&&type==="necklace"){
+      // Wear-it is its own physical layout: every model spans the measured
+      // collarbones, every bead sits on a visible cord, and dense catalogue
+      // coordinates cannot collapse through a small affine box.
+      let points=[],hardware="";
+      if(model===0||model===4){
+        const chain=wornArc(model===0?6:6,40,60,31.8,3.5),pendantSize=characterRadii.necklace*(sizes[0]||(model===0?1.65:1.55)),lowY=35.3;
+        points=[{x:50,y:lowY+pendantSize},...chain];
+        hardware=`M40 31.80 Q50 38.80 60 31.80 M50 35.30 L50 ${lowY.toFixed(2)}`;
+      }else if(model===2){
+        const upper=wornArc(5,40,60,31.3,2.5),lower=wornArc(4,42,58,34.2,2.8);
+        points=[...upper,...lower];hardware="M40 31.30 Q50 36.30 60 31.30 M42 34.20 Q50 39.80 58 34.20";
+      }else{
+        const config=model===1?[9,39.5,60.5,31.5,4]:model===3?[8,41,59,31.1,1.8]:[9,39.5,60.5,31.5,4.2];
+        points=wornArc(...config);hardware=`M${config[1]} ${config[3].toFixed(2)} Q50 ${(config[3]+config[4]*2).toFixed(2)} ${config[2]} ${config[3].toFixed(2)}`;
+      }
+      return{points,hardware,hardwareTransform:"",bails:[]};
+    }
+    if(profile==="character"&&type==="hairpin"){
+      const xs=raw.points.map(p=>p.x),ys=raw.points.map(p=>p.y),minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys);
+      const points=raw.points.map(p=>({x:35.5+(p.x-minX)*9/(maxX-minX||1),y:maxY===minY?12:8.8+(p.y-minY)*6/(maxY-minY)}));
+      const ordered=(model===0||model===2||model===4||model===5)?points:[...points].sort((a,b)=>a.x-b.x),barY=Math.max(...points.map(p=>p.y))+1.15;
+      return{points,hardware:`${through(ordered,model===2||model===4)} M35.2 ${barY.toFixed(2)} L44.8 ${barY.toFixed(2)}`,hardwareTransform:"",bails:[]};
+    }
     return{points:raw.points.map(p=>mapPoint(p,box)),hardware:raw.hardware,hardwareTransform:`translate(${x} ${y}) scale(${w/100} ${h/100})`,bails:[]};
   }
   function positions(type,profile="editor",modelId=`${type}-1`) {return geometry(type,modelId,profile).points;}
@@ -130,12 +177,15 @@
     if(profile==="editor")return desiredRadii.editor;
     const p=positions(type,profile,modelId),desired=desiredRadii[profile];let nearest=Infinity;
     for(let i=0;i<p.length;i++)for(let j=i+1;j<p.length;j++)nearest=Math.min(nearest,Math.hypot(p[i].x-p[j].x,p[i].y-p[j].y));
+    if(profile==="character")return Math.min(characterRadii[type],nearest/2.15);
     return Math.min(desired,nearest/2.5);
   }
   function create(type="necklace",modelId=`${type}-1`,jewels=[]) {return{id:null,type,modelId,jewels:clone(jewels),layoutVersion:LAYOUT_VERSION,updated:Date.now()};}
   function customize(state,index,patch){const next=clone(state);if(!next.jewels[index])return next;next.jewels[index]={...next.jewels[index],...patch};next.updated=Date.now();return next;}
-  function renderData(state,profile="editor") {const g=geometry(state.type,state.modelId,profile,state.jewels.map(j=>j?.size||1));return{type:state.type,profile,cordPath:g.hardware,cordTransform:g.hardwareTransform,bails:g.bails,radius:safeRadius(state.type,profile,state.modelId),items:g.points.map((p,index)=>({...p,index,item:clone(state.jewels[index])}))};}
+  function renderProfile(state,profile) {const g=geometry(state.type,state.modelId,profile,state.jewels.map(j=>j?.size||1));return{type:state.type,profile,cordPath:g.hardware,cordTransform:g.hardwareTransform,bails:g.bails,radius:safeRadius(state.type,profile,state.modelId),items:g.points.map((p,index)=>({...p,index,item:clone(state.jewels[index])}))};}
+  function renderCharacterData(state){return renderProfile(state,"character");}
+  function renderData(state,profile="editor") {return profile==="character"?renderCharacterData(state):renderProfile(state,profile);}
   function serialize(state){return JSON.stringify(state);}
   function deserialize(raw){const value=typeof raw==="string"?JSON.parse(raw):clone(raw);if(value.layoutVersion!==LAYOUT_VERSION)throw new Error("Old save layout");return{...value,layoutVersion:LAYOUT_VERSION};}
-  return{LAYOUT_VERSION,TYPES,MODEL_COUNTS,create,customize,positions,profileBox,cordPath,safeRadius,renderData,serialize,deserialize,clone};
+  return{LAYOUT_VERSION,TYPES,MODEL_COUNTS,create,customize,positions,profileBox,cordPath,safeRadius,renderData,renderCharacterData,serialize,deserialize,clone};
 });
