@@ -1,0 +1,14 @@
+{
+  "generated": "2026-10-26",
+  "tool": "Codex built-in image generation",
+  "style_reference": "coordination/drafts/lemonade-2026-10-26/mockups/ (visual language only; runtime layers are new)",
+  "review": "PASS after controller QA repair: character identities and clothing are consistent across waiting/happy poses; every final customer cutout shows the full animal with no neighbour fragments or background rectangle; all twelve object cutouts are whole; garden plates contain no baked UI or text; no banknote imagery was generated.",
+  "assets": [
+    {"file":"garden-landscape.webp","source":"exec-f771d9f5-9ce6-4491-9457-2bc7dad062cf.png","prompt":"Cosy garden lemonade cart, landscape 4:3, warm gouache, open overlay space, no characters/text/UI."},
+    {"file":"garden-portrait.webp","source":"exec-f27c87f5-b328-44b2-9da9-fcea97df34e3.png","prompt":"Cosy garden lemonade cart, portrait 3:4 companion, warm gouache, open overlay space, no characters/text/UI."},
+    {"file":"customer-poses.webp","source":"exec-e4604e56-b53b-4d70-97d6-2d8a4d48a23f.png","prompt":"Five recurring cute animals in a 5x2 waiting/happy pose sheet with exact identity preservation and cream background."},
+    {"file":"customers/*.webp","source":"exec-b63dbac4-cbd6-4636-a1f8-33188c4afc81.png","prompt":"Edit the approved five-animal pose sheet: replace only its cream background with uniform #ff00ff chroma key; preserve every figure, pose, expression, marking, outfit and cup; no shadows, text or added objects.","processing":"Codex image edit, then remove_chroma_key.py auto-key border with soft matte/despill; crop each of ten 5x2 cells to alpha bounds; Pillow WebP quality 90.","review":"PASS: manually inspected all ten final alpha cutouts on a checkerboard; all ears, paws, tails, hats, aprons, cups and straws are whole and no adjacent character fragment remains."},
+    {"file":"lemonade-objects.webp","source":"exec-7b03183d-ef70-4179-9e41-5f772264d0a4.png","prompt":"Twelve-object 4x3 sheet: four drinks, four stations, lemon dish, tray, flower pot and bunting; cream background."}
+  ],
+  "processing": "Backdrop and source sheets: Pillow 11.3.0 thumbnail to 1200px maximum edge, Lanczos, RGB WebP quality 78 method 6. Object cells: connected cream-background removal and WebP quality 88. Generated originals remain in the Codex generated-images store."
+}
