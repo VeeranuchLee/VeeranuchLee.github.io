@@ -126,6 +126,7 @@
     .menu-shelf .mode-section{--cols:3;--cw:230px;--z:1.85;flex:1 1 auto;min-height:0;max-width:none;display:grid;gap:24px 20px;align-content:center;justify-content:center;grid-template-columns:repeat(var(--cols),minmax(0,var(--cw)))}
     .menu-shelf.shelf-n4 .mode-section{--cols:2;--cw:300px;--z:2.1}
     .menu-shelf.shelf-n5 .mode-section,.menu-shelf.shelf-n6 .mode-section{--z:1.65}
+    .menu-shelf.shelf-n7 .mode-section{--z:1.38;gap:14px 18px}
     .menu-shelf .mode-section>.mode-row{display:contents}
     .menu-shelf .mode-card{max-width:none;min-width:0;width:100%;padding:22px 12px 16px;gap:10px;justify-content:center}
     .menu-shelf .mode-card .gp{zoom:var(--z)}
@@ -138,7 +139,8 @@
       .menu-shelf.shelf-n4 .mode-section{--cols:4;--cw:225px;--z:1.75}
       .menu-shelf.shelf-n5 .mode-section{--cw:270px;--z:1.4}
       .menu-shelf.shelf-n6 .mode-section{--cw:270px;--z:1.2}
-      .menu-shelf.shelf-n5 .mode-card,.menu-shelf.shelf-n6 .mode-card{padding:16px 12px 12px;gap:6px}
+      .menu-shelf.shelf-n7 .mode-section{--cols:4;--cw:220px;--z:1.08;gap:12px 16px}
+      .menu-shelf.shelf-n5 .mode-card,.menu-shelf.shelf-n6 .mode-card,.menu-shelf.shelf-n7 .mode-card{padding:16px 12px 12px;gap:6px}
     }
     .home-menu .ai-note{margin:0 auto 2px;flex:0 0 auto;font-size:.68rem;line-height:1.35}
     /* ── END MENU DOORS CSS ── */
@@ -6392,6 +6394,7 @@ function CharImg({src,fallback='' }){
 /* Each card shows a miniature of its own game screen. See the GAME PREVIEW note in
    the stylesheet for why the mascots that used to sit here are gone. */
 function GamePreview({id}){
+  if(id==='mh1')return <div className="gp" aria-hidden="true"><img src="assets-runtime/unicorn/icons/math-helper.webp" alt="" style={{width:'100%',height:'100%',objectFit:'contain'}}/></div>;
   const box=<span className="gp-box"/>;
   if(id==='b1')return(                      /* What Number? — blocks, then the number */
     <div className="gp" aria-hidden="true">
@@ -16520,7 +16523,7 @@ const MENU_THEME={
     {key:'measure',name:'Fractions & Measure',badge:'assets-runtime/unicorn/icons/heart-gem.webp',tint:['#6fd3b4','#2a8c8e'],sample:'f1',
       games:[['f1','Fractions'],['q1',"What's the Fraction?"],['u2','Big and Small Units'],['a1','Cover It']]},
     {key:'solve',name:'Solve & Calculate',badge:'assets-runtime/unicorn/icons/unicorn-flower.webp',tint:['#bc97f7','#7a3fc8'],sample:'c1',
-      games:[['l2','Add & Subtract'],['c1','Add & Take Away'],['c2','Carry & Borrow'],['aa1','Ask & Answer'],['c5','Multiply'],['p1','Number Crossword']]},
+      games:[['l2','Add & Subtract'],['c1','Add & Take Away'],['c2','Carry & Borrow'],['aa1','Ask & Answer'],['c5','Multiply'],['p1','Number Crossword'],['mh1','My Math Helper']]},
   ],
 };
 
@@ -16802,6 +16805,10 @@ function Home({onSelect,bouquets=0,shelf=null,setShelf=()=>{}}){
           <button className="mode-card mc-purple" onClick={()=>onSelect('p1')}>
             <GamePreview id="p1"/><CardSticker id="p1"/>
             <div className="mode-card-label">Number Crossword</div><div className="mode-card-sub">Make every line true!</div><Stars count={2}/>
+          </button>
+          <button className="mode-card mc-magic math-helper-card" data-menu-id="mh1" onClick={()=>{window.location.href='math-helper.html?world=unicorn'}} aria-label="My Math Helper. Open your interactive maths notebook">
+            <GamePreview id="mh1"/>
+            <div className="mode-card-label">My Math Helper</div>
           </button>
         </div>
       </div>)}

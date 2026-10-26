@@ -16,9 +16,7 @@
       {id:'mermaid',name:'Mermaid Math',desc:'Find a shell for every answer',href:'mermaid-math.html',
         landscapePoints:[[69,34],[77,29],[87,34],[97,31],[97,80],[87,85],[77,79],[69,84]],
         portraitPoints:[[2,65],[15,62],[26,65],[38,61],[50,64],[70,61],[84,65],[98,62],[98,87],[84,90],[70,87],[50,91],[38,87],[26,90],[15,86],[2,84]]}
-    ],
-    helper: {id:'helper',name:'My Math Helper',desc:'Open your interactive math notebook',
-      href:'math-helper.html',icon:'assets-runtime/hub/math-helper-notebook.webp'}
+    ]
   };
   window.MATH_HUB_ROOM = room;
 
@@ -50,23 +48,4 @@
     hotspots.appendChild(link);
   });
 
-  var helper = document.createElement('a');
-  helper.className = 'helper-entry';
-  helper.href = room.helper.href;
-  helper.dataset.id = room.helper.id;
-  helper.setAttribute('aria-label', room.helper.name + '. ' + room.helper.desc);
-  var helperIcon = document.createElement('img');
-  helperIcon.src = room.helper.icon;
-  helperIcon.alt = '';
-  helperIcon.width = 256;
-  helperIcon.height = 256;
-  var helperLabel = document.createElement('span');
-  helperLabel.textContent = room.helper.name;
-  var helperGlint = document.createElement('i');
-  helperGlint.className = 'hub-glint';
-  helperGlint.setAttribute('aria-hidden', 'true');
-  helper.appendChild(helperIcon);
-  helper.appendChild(helperLabel);
-  helper.appendChild(helperGlint);
-  hotspots.appendChild(helper);
 })();
