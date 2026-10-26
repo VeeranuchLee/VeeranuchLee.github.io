@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="audio-wake.js?v=7a44eba10-20261026090057"></script>
+<script src="audio-wake.js?v=d87db8a20-20261026093704"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <!-- Plain name, deliberately. This read "Magic Math v7" from 7343cc3 until
@@ -10,26 +10,26 @@
        a title that has to be edited on every publish will be wrong again by the
        next one. -->
   <title>Unicorn Math</title>
-  <link rel="manifest" href="./manifest.webmanifest?v=7a44eba10-20261026090057"/>
-  <link rel="icon" href="./assets/icons/icon-192.png?v=7a44eba10-20261026090057"/>
-  <link rel="stylesheet" href="./fonts.css?v=7a44eba10-20261026090057"/>
-  <link rel="stylesheet" href="./css/tap-wait-math.css?v=7a44eba10-20261026090057"/>
-  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=7a44eba10-20261026090057"/>
+  <link rel="manifest" href="./manifest.webmanifest?v=d87db8a20-20261026093704"/>
+  <link rel="icon" href="./assets/icons/icon-192.png?v=d87db8a20-20261026093704"/>
+  <link rel="stylesheet" href="./fonts.css?v=d87db8a20-20261026093704"/>
+  <link rel="stylesheet" href="./css/tap-wait-math.css?v=d87db8a20-20261026093704"/>
+  <link rel="stylesheet" href="./shared/bg-deco/bg-deco.css?v=d87db8a20-20261026093704"/>
   <meta name="theme-color" content="#0a0e2d"/>
-  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=7a44eba10-20261026090057"/>
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png?v=d87db8a20-20261026093704"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="Magic Math"/>
   <!-- Method C: the pilot guard is first; it ignores every multi-finger gesture. -->
-  <script src="./js/tap-zoom-guard.js?v=7a44eba10-20261026090057"></script>
-  <script src="./vendor/react-18.3.1.production.min.js?v=7a44eba10-20261026090057"></script>
-  <script src="./vendor/react-dom-18.3.1.production.min.js?v=7a44eba10-20261026090057"></script>
-  <script src="./js/tap-wait-engine.js?v=7a44eba10-20261026090057"></script>
-  <script src="./js/tap-wait-math.js?v=7a44eba10-20261026090057"></script>
-  <script src="./js/big-small-units.js?v=7a44eba10-20261026090057"></script>
-  <script src="./ask-answer-logic.js?v=7a44eba10-20261026090057"></script>
-  <script src="./shared/bg-deco/bg-deco.js?v=7a44eba10-20261026090057"></script>
-  <script src="./vendor/babel-7.26.4.min.js?v=7a44eba10-20261026090057"></script>
+  <script src="./js/tap-zoom-guard.js?v=d87db8a20-20261026093704"></script>
+  <script src="./vendor/react-18.3.1.production.min.js?v=d87db8a20-20261026093704"></script>
+  <script src="./vendor/react-dom-18.3.1.production.min.js?v=d87db8a20-20261026093704"></script>
+  <script src="./js/tap-wait-engine.js?v=d87db8a20-20261026093704"></script>
+  <script src="./js/tap-wait-math.js?v=d87db8a20-20261026093704"></script>
+  <script src="./js/big-small-units.js?v=d87db8a20-20261026093704"></script>
+  <script src="./ask-answer-logic.js?v=d87db8a20-20261026093704"></script>
+  <script src="./shared/bg-deco/bg-deco.js?v=d87db8a20-20261026093704"></script>
+  <script src="./vendor/babel-7.26.4.min.js?v=d87db8a20-20261026093704"></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;touch-action:manipulation}
     body{font-family:'Nunito',sans-serif;min-height:100vh;overflow-x:hidden}
@@ -249,7 +249,7 @@
        sound at the other with nothing between — a 48px row plus the screen gap spent on
        air, while the flower garden and its chips sat in a second row of their own right
        below. They moved up: back, score, garden, bouquets, sound. On this skin the
-       garden is the tall one — three rows of slots for MAX_FLOWERS 30, 94px, the 42px
+       garden is the tall one — three rows of slots for GARDEN_SLOTS 30, 94px, the 42px
        this skin's score row always had over space's journey track — so the merged bar
        is 94px and the 48px buttons sit in it rather than sizing it. Do not give the
        chips their own row back: the middle slot they fill is empty for a reason, and a
@@ -2518,6 +2518,11 @@
     .flower-slot{width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:18px;line-height:1}
     .flower-slot.empty{opacity:.18;color:#c9a5c9;filter:grayscale(.45)}
     .flower-slot.filled{opacity:1;font-size:20px;background:rgba(252,228,236,.72);border-radius:50%;animation:flowerPop .35s cubic-bezier(.34,1.56,.64,1);filter:drop-shadow(0 2px 3px rgba(123,31,162,.25))}
+    .flower-slot img{width:20px;height:20px;object-fit:contain;display:block;pointer-events:none}
+    /* a new bud pops in (flowerPop above); a bud opening into its bloom grows gently */
+    .flower-slot.filled.bloom{animation:flowerOpen .6s ease-out}
+    @keyframes flowerOpen{0%{transform:scale(.72)}60%{transform:scale(1.1)}100%{transform:scale(1)}}
+    @media (prefers-reduced-motion:reduce){.flower-slot.filled,.flower-slot.filled.bloom{animation:none}}
     .garden-full-badge{position:absolute;right:0;top:100%;margin-top:4px;background:#fff;border:2px solid #f48fb1;border-radius:999px;padding:4px 10px;color:#e91e63;font-size:.78rem;font-weight:900;box-shadow:0 3px 0 #f48fb1}
     @keyframes flowerPop{from{transform:scale(0) rotate(-12deg)}to{transform:scale(1) rotate(0)}}
     @media (max-width:430px){
@@ -2526,6 +2531,7 @@
       .score-badge{padding:5px 10px}
       .flower-garden{gap:2px;padding:5px 6px;max-width:286px}
       .flower-slot{width:21px;height:21px;font-size:16px}
+      .flower-slot img{width:18px;height:18px}
     }
 
     /* ── BUTTONS ── */
@@ -2707,7 +2713,7 @@
 @media (prefers-reduced-motion:reduce){.on-screen *,.on-screen *::before,.on-screen *::after{animation:none!important;transition:none!important}}
 /* ── END ORDER NUMBERS CSS ── */
   </style>
-  <script src="./cg-update.js?v=7a44eba10-20261026090057" defer></script>
+  <script src="./cg-update.js?v=d87db8a20-20261026093704" defer></script>
 </head>
 <body>
 <div id="root"></div>
@@ -3474,7 +3480,12 @@ const Music=(()=>{
 
 /* ══ CONSTANTS ══ */
 const rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
-const MAX_FLOWERS=30;
+/* The garden (owner 2026-10-26: "make it bud first, then bloom (so to get full , need
+   to get 60, not 30)"). Thirty places in the bed; each takes two right answers -- the
+   first plants a bud, the second opens it -- so the collection count runs 0..60 and the
+   garden is full, and turns into a bouquet, at GARDEN_STEPS, never at GARDEN_SLOTS. */
+const GARDEN_SLOTS=30;
+const GARDEN_STEPS=GARDEN_SLOTS*2;
 const CONFETTI_C=['#e91e63','#f06292','#9c27b0','#ce93d8','#ffd54f','#fff176','#f48fb1','#ba68c8','#ff8f00','#fff','#f8bbd0','#e1bee7'];
 const NL_COLORS=[['#e91e63','#880e4f'],['#9c27b0','#4a148c'],['#673ab7','#311b92'],['#3f51b5','#1a237e'],['#2196f3','#0d47a1'],['#00bcd4','#006064'],['#4caf50','#1b5e20'],['#ff9800','#e65100'],['#f44336','#b71c1c'],['#e91e63','#880e4f']];
 const TITLE_COLORS=['#e91e63','#f06292','#9c27b0','#7b1fa2','#3f51b5','#2196f3','#00bcd4','#4caf50','#ffeb3b','#ff9800','#e91e63','#9c27b0','#f06292','#ffd54f','#ab47bc','#e91e63'];
@@ -6354,7 +6365,7 @@ function GamePreview({id}){
   if(id==='r1')return(                      /* Read Big Numbers — grouped slots and a reader */
     <div className="gp gp-tight" aria-hidden="true">
       <div className="gp-row"><span className="gp-num">1</span><span className="gp-gap"/><span className="gp-num">2</span><span className="gp-num">5</span><span className="gp-num">0</span></div>
-      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/unicorn/icons/read-out.webp?v=7a44eba10-20261026090057" alt=""/></div>
+      <div className="gp-row" style={{marginTop:4}}><img className="gp-speak" src="assets-runtime/unicorn/icons/read-out.webp?v=d87db8a20-20261026093704" alt=""/></div>
     </div>);
   if(id==='s1')return(                      /* Count By — the chant above, the ladder rung below */
     <div className="gp gp-tight" aria-hidden="true">
@@ -6521,7 +6532,7 @@ function CardSticker({id}){
   return <img className="card-sticker" src={`assets/stickers/unicorn/${f}.webp`} alt="" aria-hidden="true" draggable="false" style={{'--sd':(4+(h%7)*.45).toFixed(2)+'s','--sl':'-'+((h%5)*.9).toFixed(1)+'s'}}/>;
 }
 function Stars({count}){
-  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/unicorn/icons/star.webp?v=7a44eba10-20261026090057" alt=""/>)}</div>;
+  return <div className="mode-card-stars">{Array.from({length:count},(_,i)=><img key={i} src="assets-runtime/unicorn/icons/star.webp?v=d87db8a20-20261026093704" alt=""/>)}</div>;
 }
 
 /* Only the two hardest games wear this. The absence of a badge is the other
@@ -6536,7 +6547,7 @@ function Stars({count}){
    Unlike Space Math these cards carry no aria-label, so the alt text is what a
    screen reader announces; do not blank it here to match the other theme. */
 function BigKidBadge(){
-  return <div className="mode-card-badge"><img src="assets-runtime/unicorn/icons/big-kids.webp?v=7a44eba10-20261026090057" alt="For big kids"/></div>;
+  return <div className="mode-card-badge"><img src="assets-runtime/unicorn/icons/big-kids.webp?v=d87db8a20-20261026093704" alt="For big kids"/></div>;
 }
 
 /* ══ MASCOT ══ */
@@ -6614,18 +6625,30 @@ function Mascot({kind='unicorn',mood,stamp,onPoke}){
 }
 
 /* Owner 2026-10-26: "pls bring back the previous flowers we used, we used mixed one.
-   and they are pretty." The mixed flower set from before 2026-10-21 returns here as the
-   owner's explicit exception to the 2026-10-20 "no emoji in UI" rule: the collected
-   flowers are the reward picture, not a control. Empty slots are the faint heart again. */
-const FLOWER_TYPES=['🌸','🌼','🌷','🌺','💐'];
+   and they are pretty." -- the mixed set (cherry blossom, daisy, tulip, hibiscus,
+   bouquet) in a soft pink circle, the faint heart for an empty place. Later the same day:
+   "it's ok to make new flowers ourselves. but need to be this style. I think you can make
+   it bud first, then bloom". So each kind is now our own emoji-style picture in two
+   stages (assets-runtime/unicorn/icons/garden-<kind>-bud|bloom.webp), in the same order
+   the emoji ran. Place i is a bud at count 2i+1 and a bloom from 2i+2. The pictures are
+   the reward, not a control, so alt="" and the bed carries the one spoken summary. */
+const GARDEN_KINDS=['cherry','daisy','tulip','hibiscus','bouquet'];
+function gardenSlotStage(i,count){return count>=2*i+2?'bloom':count===2*i+1?'bud':'empty';}
+function gardenLabel(count){
+  const blooms=Math.min(GARDEN_SLOTS,Math.floor(Math.max(0,count)/2)), buds=count>0&&count%2===1&&blooms<GARDEN_SLOTS?1:0;
+  return `${blooms} of ${GARDEN_SLOTS} flowers in bloom${buds?', 1 bud':''}`;
+}
 function FlowerGarden({flowers}){
   return(
-    <div className="flower-garden" aria-label={`${flowers} of ${MAX_FLOWERS} flowers collected`}>
-      {Array.from({length:MAX_FLOWERS},(_,i)=>(
-        <span key={i} className={`flower-slot ${i<flowers?'filled':'empty'}`}>
-          {i<flowers ? FLOWER_TYPES[i%FLOWER_TYPES.length] : '♡'}
-        </span>
-      ))}
+    <div className="flower-garden" aria-label={gardenLabel(flowers)}>
+      {Array.from({length:GARDEN_SLOTS},(_,i)=>{
+        const stage=gardenSlotStage(i,flowers);
+        return(
+          <span key={i} className={`flower-slot ${stage==='empty'?'empty':`filled ${stage}`}`}>
+            {stage==='empty' ? '♡' : <img src={`assets-runtime/unicorn/icons/garden-${GARDEN_KINDS[i%GARDEN_KINDS.length]}-${stage}.webp`} alt="" draggable="false"/>}
+          </span>
+        );
+      })}
     </div>
   );
 }
@@ -6641,15 +6664,16 @@ function useFlowerReward(flowers, setFlowers, setGardenFull, muted, onBouquet) {
   return useCallback(() => {
     Sound.setMuted(muted);
     setFlowers(f => {
-      if (f >= MAX_FLOWERS && onBouquet) onBouquet();
-      const nf = f >= MAX_FLOWERS ? 1 : f + 1;
-      if (nf === MAX_FLOWERS) {
+      if (f >= GARDEN_STEPS && onBouquet) onBouquet();
+      const nf = f >= GARDEN_STEPS ? 1 : f + 1;
+      if (nf === GARDEN_STEPS) {
         setGardenFull(true);
         setTimeout(() => Sound.allFlowers(), 300);
       } else {
         setGardenFull(false);
       }
-      if (nf % 10 === 0) {
+      /* a whole row of ten in bloom (20 steps), as the old ten-flower row was */
+      if (nf % 20 === 0) {
         setTimeout(() => Sound.heart(), 200);
       }
       return nf;
@@ -6816,7 +6840,7 @@ function TopBar({onBack,muted,onToggleMute,label,score,flowers,bouquets=0}){
   return(
     <div className="top-bar">
       <div style={{display:'flex',alignItems:'center',gap:5}}>
-        <img src="assets-runtime/unicorn/icons/flower-pink.webp?v=7a44eba10-20261026090057" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
+        <img src="assets-runtime/unicorn/icons/flower-pink.webp?v=d87db8a20-20261026093704" alt="" style={{width:30,height:30,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.15))'}}/>
         <button className="back-btn" aria-label="Back home" onClick={()=>{Voice.stop();Sound.tap();onBack();}}><BackIcon/></button>
       </div>
       {label&&<div className="level-chip">{label}</div>}
@@ -6830,12 +6854,12 @@ function TopBar({onBack,muted,onToggleMute,label,score,flowers,bouquets=0}){
             to count -- so the chip is conditional rather than a permanent 0. Every
             scored game passes a score and sees exactly what it saw before. */}
         {score!=null&&<div style={{display:'flex',alignItems:'center',gap:6}}>
-          <img src="assets-runtime/unicorn/icons/star.webp?v=7a44eba10-20261026090057" alt="" style={{width:34,height:34,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.2))'}}/>
+          <img src="assets-runtime/unicorn/icons/star.webp?v=d87db8a20-20261026093704" alt="" style={{width:34,height:34,objectFit:'contain',filter:'drop-shadow(0 2px 4px rgba(0,0,0,.2))'}}/>
           <div className="score-badge"><span>{score}</span></div>
         </div>}
         <FlowerGarden flowers={flowers}/>
         <div className="score-badge" aria-label={`${bouquets} bouquets collected`}><BouquetIcon/><span>{bouquets}</span></div>
-        {flowers===MAX_FLOWERS&&<div className="garden-full-badge">Garden full! +1 bouquet</div>}
+        {flowers===GARDEN_STEPS&&<div className="garden-full-badge">Garden full! +1 bouquet</div>}
       </>}
       <div style={{display:'flex',gap:6}}>
         <button className="sound-btn" aria-label={muted?'Sound off':'Sound on'} onClick={()=>{onToggleMute();Sound.tap();}}>{muted?<SpeakerOffIcon/>:<SpeakerOnIcon/>}</button>
@@ -6893,7 +6917,7 @@ function BlocksGuided({onBack, flowers, gardenFull, setFlowers, setGardenFull, s
     setProblem(p); setSelectedH(Array(p.h).fill(false)); setSelectedT(Array(p.t).fill(false)); setSelectedO(Array(p.o).fill(false)); setWon(false);
   },[]);
   const nextProblem = useCallback(()=>{
-    if(flowers===MAX_FLOWERS){setFlowers(0);setGardenFull(false);addBouquet();}
+    if(flowers===GARDEN_STEPS){setFlowers(0);setGardenFull(false);addBouquet();}
     resetForProblem(makeProblem(preset));
   },[flowers,setFlowers,setGardenFull,resetForProblem,makeProblem,preset]);
   const applyPreset = p => { setPreset(p); resetForProblem(makeProblem(p)); };
@@ -7001,7 +7025,7 @@ function BlocksFill({onBack, flowers, gardenFull, setFlowers, setGardenFull, sco
   },[]);
 
   const startNextRound = useCallback(() => {
-    if(flowers===MAX_FLOWERS){setFlowers(0);setGardenFull(false);addBouquet();}
+    if(flowers===GARDEN_STEPS){setFlowers(0);setGardenFull(false);addBouquet();}
     setTarget(makeFillTarget(preset)); setWon(false); resetSelection();
   },[preset,flowers,setFlowers,setGardenFull,resetSelection,makeFillTarget]);
 
@@ -7827,7 +7851,7 @@ function MissingGame({onBack, flowers, gardenFull, setFlowers, setGardenFull, sc
   const wholeFraction=mode==='frac'&&problem.answer.k==='frac';
   const resetForProblem=useCallback(p=>{setProblem(p);setFilled(0);setCountL(0);setCountR(0);setEntry('');setNumEntry('');setDenEntry('');setActivePart('n');setWon(false);setWrong(false);setRound(r=>r+1);},[]);
   const next=useCallback(()=>{
-    if(flowers===MAX_FLOWERS){setFlowers(0);setGardenFull(false);addBouquet();}
+    if(flowers===GARDEN_STEPS){setFlowers(0);setGardenFull(false);addBouquet();}
     resetForProblem(MissingEngine.makeMissingProblem(mode,problem,Math.random));
   },[flowers,setFlowers,setGardenFull,addBouquet,mode,problem,resetForProblem]);
   const applyMode=useCallback(id=>{setMode(id);resetForProblem(MissingEngine.makeMissingProblem(id,problem,Math.random));},[problem,resetForProblem]);
@@ -7885,7 +7909,7 @@ function NumberLineAddSub({onBack, flowers, gardenFull, setFlowers, setGardenFul
   const addFlower=useFlowerReward(flowers,setFlowers,setGardenFull,muted,addBouquet);
 
   const next=useCallback(()=>{
-    if(flowers===MAX_FLOWERS){setFlowers(0);setGardenFull(false);addBouquet();}
+    if(flowers===GARDEN_STEPS){setFlowers(0);setGardenFull(false);addBouquet();}
     setProb(makeProbFromPreset(preset));setCel(false);setWrong(null);
   },[preset,flowers,setFlowers,setGardenFull]);
 
@@ -8374,7 +8398,7 @@ function ColumnMath({cardId, onBack, flowers, gardenFull, setFlowers, setGardenF
   },[]);
 
   const next=useCallback(()=>{
-    if(flowers===MAX_FLOWERS){setFlowers(0);setGardenFull(false);addBouquet();}
+    if(flowers===GARDEN_STEPS){setFlowers(0);setGardenFull(false);addBouquet();}
     resetForProblem(deal(tab,rungIdx,problem));
   },[flowers,setFlowers,setGardenFull,addBouquet,deal,tab,rungIdx,problem,resetForProblem]);
 
@@ -8707,7 +8731,7 @@ function MultiplicationGame({onBack, flowers, gardenFull, setFlowers, setGardenF
   useEffect(()=>{if(scrubbing)return;Voice.say(num(`${problem.a} times ${problem.b}?`));},[problem,scrubbing]);
 
   const next=useCallback(()=>{
-    if(flowers===MAX_FLOWERS){setFlowers(0);setGardenFull(false);addBouquet();}
+    if(flowers===GARDEN_STEPS){setFlowers(0);setGardenFull(false);addBouquet();}
     resetForProblem(makeMultiplicationProblem(Math.random,range));
   },[flowers,setFlowers,setGardenFull,range,resetForProblem]);
 
@@ -8887,7 +8911,7 @@ function CountByGame({onBack, flowers, gardenFull, setFlowers, setGardenFull, sc
 
   const next=useCallback(()=>{
     Sound.setMuted(muted); Sound.tap();
-    if(flowers===MAX_FLOWERS){setFlowers(0);setGardenFull(false);addBouquet();}
+    if(flowers===GARDEN_STEPS){setFlowers(0);setGardenFull(false);addBouquet();}
     goToRung(tableDone?0:filled+1);
   },[muted,flowers,setFlowers,setGardenFull,addBouquet,tableDone,filled,goToRung]);
 
@@ -9297,8 +9321,8 @@ function numberToWords(s){
 function RobotReader({speaking}){
   return(
     <div className={`rb-robot ${speaking?'talking':''}`} aria-hidden="true">
-      <img className="rb-still" src="assets-runtime/unicorn/icons/robot-reader.webp?v=7a44eba10-20261026090057" alt=""/>
-      <img className="rb-talk" src="assets-runtime/unicorn/icons/robot-reader-talk.webp?v=7a44eba10-20261026090057" alt=""/>
+      <img className="rb-still" src="assets-runtime/unicorn/icons/robot-reader.webp?v=d87db8a20-20261026093704" alt=""/>
+      <img className="rb-talk" src="assets-runtime/unicorn/icons/robot-reader-talk.webp?v=d87db8a20-20261026093704" alt=""/>
     </div>
   );
 }
@@ -11224,7 +11248,7 @@ function CompareGame({onBack, flowers, gardenFull, setFlowers, setGardenFull, sc
     setProblem(p);setWon(false);setWrongSign(null);setMisses(0);setRound(r=>r+1);
   },[]);
   const next=useCallback(()=>{
-    if(flowers===MAX_FLOWERS){setFlowers(0);setGardenFull(false);addBouquet();}
+    if(flowers===GARDEN_STEPS){setFlowers(0);setGardenFull(false);addBouquet();}
     resetForProblem(CompareEngine.makeCompareProblem(leftRepr,rightRepr,COMPARE_TIER,problem,Math.random));
   },[flowers,setFlowers,setGardenFull,addBouquet,leftRepr,rightRepr,problem,resetForProblem]);
   /* Selector switches thread the current problem as avoid (2026-09-13, when this was
@@ -11692,7 +11716,7 @@ function OddEvenGame({onBack, flowers, gardenFull, setFlowers, setGardenFull, sc
     setProblem(p);setWon(false);setWrongKey(null);setMisses(0);setShowPairs(false);
   },[]);
   const next=useCallback(()=>{
-    if(flowers===MAX_FLOWERS){setFlowers(0);setGardenFull(false);addBouquet();}
+    if(flowers===GARDEN_STEPS){setFlowers(0);setGardenFull(false);addBouquet();}
     resetForProblem(makeOddEvenProblem(Math.random,preset,problem));
   },[flowers,setFlowers,setGardenFull,addBouquet,preset,problem,resetForProblem]);
   const applyPreset=useCallback(p=>{setPreset(p);resetForProblem(makeOddEvenProblem(Math.random,p));},[resetForProblem]);
@@ -11840,7 +11864,7 @@ function TenBondGame({onBack, flowers, gardenFull, setFlowers, setGardenFull, sc
     setWon(false);setWrongTile(null);setMisses(0);setRound(r=>r+1);
   },[]);
   const next=useCallback(()=>{
-    if(flowers===MAX_FLOWERS){setFlowers(0);setGardenFull(false);addBouquet();}
+    if(flowers===GARDEN_STEPS){setFlowers(0);setGardenFull(false);addBouquet();}
     resetForProblem(deal(tab,q.p));
   },[flowers,setFlowers,setGardenFull,addBouquet,deal,tab,q.p,resetForProblem]);
   const applyPreset=useCallback(p=>{setPreset(p);resetForProblem(deal(tab));},[deal,tab,resetForProblem]);
@@ -11977,7 +12001,7 @@ function HundredBondGame({onBack, flowers, gardenFull, setFlowers, setGardenFull
     setWon(false);setWrong(false);setMisses(0);
   },[]);
   const next=useCallback(()=>{
-    if(flowers===MAX_FLOWERS){setFlowers(0);setGardenFull(false);addBouquet();}
+    if(flowers===GARDEN_STEPS){setFlowers(0);setGardenFull(false);addBouquet();}
     resetForProblem(makeHundredBondProblem(Math.random,preset,problem));
   },[flowers,setFlowers,setGardenFull,addBouquet,preset,problem,resetForProblem]);
   const applyPreset=useCallback(p=>{setPreset(p);resetForProblem(makeHundredBondProblem(Math.random,p));},[resetForProblem]);
@@ -12172,7 +12196,7 @@ function HundredMoveGame({onBack, flowers, gardenFull, setFlowers, setGardenFull
     setProblem(p);setWon(false);setWrongCell(null);setMisses(0);setCounted(new Set());
   },[]);
   const next=useCallback(()=>{
-    if(flowers===MAX_FLOWERS){setFlowers(0);setGardenFull(false);addBouquet();}
+    if(flowers===GARDEN_STEPS){setFlowers(0);setGardenFull(false);addBouquet();}
     resetForProblem(makeHundredProblem(Math.random,preset,problem));
   },[flowers,setFlowers,setGardenFull,addBouquet,preset,problem,resetForProblem]);
   const applyPreset=useCallback(p=>{setPreset(p);resetForProblem(makeHundredProblem(Math.random,p));},[resetForProblem]);
@@ -12536,7 +12560,7 @@ function DivisionGame({onBack, flowers, gardenFull, setFlowers, setGardenFull, s
     demoT.current=setTimeout(tick,600);
   },[]);
   const next=useCallback(()=>{
-    if(flowers===MAX_FLOWERS){setFlowers(0);setGardenFull(false);addBouquet();}
+    if(flowers===GARDEN_STEPS){setFlowers(0);setGardenFull(false);addBouquet();}
     resetForProblem(makeDivisionProblem(Math.random,preset,problem));
   },[flowers,setFlowers,setGardenFull,addBouquet,preset,problem,resetForProblem]);
   const applyPreset=useCallback(p=>{setPreset(p);resetForProblem(makeDivisionProblem(Math.random,p));},[resetForProblem]);
@@ -12694,7 +12718,7 @@ function FractionGame({onBack, flowers, gardenFull, setFlowers, setGardenFull, s
     setWon(false);setWrongTile(null);setMisses(0);
   },[]);
   const next=useCallback(()=>{
-    if(flowers===MAX_FLOWERS){setFlowers(0);setGardenFull(false);addBouquet();}
+    if(flowers===GARDEN_STEPS){setFlowers(0);setGardenFull(false);addBouquet();}
     resetForProblem(makeFractionProblem(Math.random,preset,q.p));
   },[flowers,setFlowers,setGardenFull,addBouquet,preset,q.p,resetForProblem]);
   const applyPreset=useCallback(p=>{setPreset(p);resetForProblem(makeFractionProblem(Math.random,p));},[resetForProblem]);
@@ -13891,7 +13915,7 @@ function AreaGame({onBack, flowers, gardenFull, setFlowers, setGardenFull, score
     setWon(false);setWrongTile(null);setMisses(0);setRound(r=>r+1);
   },[]);
   const next=useCallback(()=>{
-    if(flowers===MAX_FLOWERS){setFlowers(0);setGardenFull(false);addBouquet();}
+    if(flowers===GARDEN_STEPS){setFlowers(0);setGardenFull(false);addBouquet();}
     resetForProblem(makeAreaProblem(Math.random,preset,q.p));
   },[flowers,setFlowers,setGardenFull,addBouquet,preset,q.p,resetForProblem]);
   const applyPreset=useCallback(p=>{setPreset(p);resetForProblem(makeAreaProblem(Math.random,p));},[resetForProblem]);
@@ -15377,7 +15401,7 @@ function NineMagicGame({onBack, flowers, gardenFull, setFlowers, setGardenFull, 
   const trick=nineTrick(trickId);
   const resetRound=useCallback(r=>{setRound(r);setShown(false);setWon(false);setWrongN(null);setMisses(0);},[]);
   const next=useCallback(()=>{
-    if(flowers===MAX_FLOWERS){setFlowers(0);setGardenFull(false);addBouquet();}
+    if(flowers===GARDEN_STEPS){setFlowers(0);setGardenFull(false);addBouquet();}
     resetRound(newNineRound(trickId,round.p));
   },[flowers,setFlowers,setGardenFull,addBouquet,trickId,round,resetRound]);
   /* A new trick is a new round, always: every part of the screen belongs to the trick
@@ -15609,7 +15633,7 @@ function MakeItGame({onBack, flowers, gardenFull, setFlowers, setGardenFull, sco
   const sum=picks.reduce((t,i)=>t+problem.tray[i],0);
   const resetRound=useCallback(pr=>{setProblem(pr);setPicks([]);setJudged(null);setWon(false);setMisses(0);},[]);
   const next=useCallback(()=>{
-    if(flowers===MAX_FLOWERS){setFlowers(0);setGardenFull(false);addBouquet();}
+    if(flowers===GARDEN_STEPS){setFlowers(0);setGardenFull(false);addBouquet();}
     resetRound(makeItProblem(Math.random,levelId,problem));
   },[flowers,setFlowers,setGardenFull,addBouquet,levelId,problem,resetRound]);
   /* The slider names its stop by the NUMBER the child sees, and the level id is that
@@ -15813,7 +15837,7 @@ function SequenceGame({onBack, flowers, gardenFull, setFlowers, setGardenFull, s
   },[]);
 
   const next=useCallback(()=>{
-    if(flowers===MAX_FLOWERS){setFlowers(0);setGardenFull(false);addBouquet();}
+    if(flowers===GARDEN_STEPS){setFlowers(0);setGardenFull(false);addBouquet();}
     resetForProblem(SequenceEngine.makeSequenceProblem(preset.family,problem,Math.random));
   },[flowers,setFlowers,setGardenFull,addBouquet,preset,problem,resetForProblem]);
 
@@ -16483,11 +16507,11 @@ function Home({onSelect,bouquets=0,shelf=null,setShelf=()=>{}}){
       <BgDeco/>
       <div className="menu-top">
         <div className="menu-title-row">
-          <img className="menu-title-icon" src="assets-runtime/unicorn/icons/cloud-pink.webp?v=7a44eba10-20261026090057" alt=""/>
+          <img className="menu-title-icon" src="assets-runtime/unicorn/icons/cloud-pink.webp?v=d87db8a20-20261026093704" alt=""/>
           <div className="home-title">
             {title.map((c,i)=><span key={i} style={{color:TITLE_COLORS[i%TITLE_COLORS.length],animationDelay:`${i*.07}s`,textShadow:`0 3px 0 ${TITLE_COLORS[(i+4)%TITLE_COLORS.length]}55`}}>{c}</span>)}
           </div>
-          <img className="menu-title-icon b" src="assets-runtime/unicorn/icons/cloud-blue.webp?v=7a44eba10-20261026090057" alt=""/>
+          <img className="menu-title-icon b" src="assets-runtime/unicorn/icons/cloud-blue.webp?v=d87db8a20-20261026093704" alt=""/>
         </div>
         {!open&&<div className="menu-status">
           {bouquets>0&&<div className="home-sub"><BouquetIcon/> Bouquets collected: {bouquets}</div>}
@@ -16686,7 +16710,7 @@ function App(){
      the path a real child reaches only through the launch animation. Unknown ids fall
      through the routing to the home screen, so a stray hash can never blank the app. */
   const [mode,setMode]=useState(()=>{try{const m=(location.hash.match(/^#play-([a-z]+\d)$/)||[])[1];return m||null;}catch(e){return null;}});
-  // Garden (30 flowers) is per-game by design: kids fill it fresh each game.
+  // Garden (30 places, a bud then a bloom each: full at 60) is per-game by design: kids fill it fresh each game.
   // Full gardens convert to bouquets, which persist forever (localStorage).
   const [flowers,setFlowers]=useState(0);
   const [gardenFull,setGardenFull]=useState(false);
@@ -16714,7 +16738,7 @@ function App(){
   const [shelf,setShelf]=useState(null);
   useEffect(()=>{if(mode)menuRememberGame(mode);},[mode]);
   const goHome=useCallback(()=>{
-    if(flowers===MAX_FLOWERS)addBouquet();
+    if(flowers===GARDEN_STEPS)addBouquet();
     setFlowers(0);setGardenFull(false);setShelf(MENU_SHELF_OF[mode]||null);setMode(null);
   },[flowers,addBouquet,mode]);
 
