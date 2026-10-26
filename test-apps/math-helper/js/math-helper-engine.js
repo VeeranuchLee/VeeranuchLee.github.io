@@ -129,18 +129,18 @@ function division(a, b) {
   let quotientStarted = false;
   dividendDigits.forEach((digit, index) => {
     current = current * 10 + digit;
+    if (!quotientStarted && current < b && index < dividendDigits.length - 1) return;
     const column = width - 1 - index;
     const qDigit = Math.floor(current / b);
     const product = qDigit * b;
     const remainder = current - product;
     const cells = [];
-    if (qDigit > 0 || quotientStarted || index === dividendDigits.length - 1) {
-      quotientStarted = true;
-      cells.push(cell(`quotient-${column}`, qDigit, "quotient", column, out.steps.length, { slot: index }));
-    }
+    const firstQuotientStep = !quotientStarted;
+    quotientStarted = true;
+    cells.push(cell(`quotient-${column}`, qDigit, "quotient", column, out.steps.length, { slot: index }));
     rowCells(`divide-product-${index}`, product, width, "division-product", out.steps.length, width - 1 - index).forEach(item => cells.push(item));
     rowCells(`divide-remainder-${index}`, remainder, width, "remainder", out.steps.length, width - 1 - index).forEach(item => cells.push(item));
-    const step = makeStep(`divide-${index}`, index ? `Bring down the next digit` : `Start at the left`, `${b} goes into ${current} ${qDigit} time${qDigit === 1 ? "" : "s"}. Write ${qDigit}, subtract ${product}, and keep ${remainder}.`, `Division shares the current amount into groups of ${b}; the leftover joins the next digit.`, index ? `Bring down ${digit}. How many groups of ${b} fit in ${current}?` : `How many groups of ${b} fit in ${current}?`, cells, index ? "place value" : "division fact");
+    const step = makeStep(`divide-${index}`, firstQuotientStep ? `Start at the left` : `Bring down the next digit`, `${b} goes into ${current} ${qDigit} time${qDigit === 1 ? "" : "s"}. Write ${qDigit}, subtract ${product}, and keep ${remainder}.`, `Division shares the current amount into groups of ${b}; the leftover joins the next digit.`, firstQuotientStep ? `Use enough digits from the left for groups of ${b} to fit.` : `Bring down ${digit}. How many groups of ${b} fit in ${current}?`, cells, firstQuotientStep ? "division fact" : "place value");
     step.calculation = { current, divisor: b, quotientDigit: qDigit, product, remainder, broughtDown: digit };
     out.steps.push(step);
     out.rows.push({ id: `divide-product-${index}`, label: "−", role: "division-product", upto: index }, { id: `divide-remainder-${index}`, label: "", role: "remainder", upto: index });
