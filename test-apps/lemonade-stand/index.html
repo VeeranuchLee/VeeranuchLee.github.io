@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="cg-back.css"><link rel="stylesheet" href="styles.css"><script src="tap-zoom-guard.js"></script>
 </head>
 <body><main id="app">
+  <div id="review-badge" class="review-badge" hidden>Review: all levels open</div>
   <header><a class="cg-back" href="https://veeranuchlee.github.io/test-apps/" aria-label="Back to Test Apps"><span data-icon="back"></span></a><span class="cg-back-slot" aria-hidden="true"></span><div class="brand"><span class="lemon-mark" aria-hidden="true"></span><h1>Sell Lemonade</h1></div><div class="header-actions"><button id="recipe" class="icon-button picture-icon" aria-label="Open recipe book"><img src="assets/economy/recipe-book.webp" alt=""></button><button id="settings" class="icon-button" aria-label="Settings"><span data-icon="settings"></span></button><button id="sound" class="icon-button" aria-label="Mute sounds"><span data-icon="sound"></span></button></div></header>
   <div id="day-progress" class="day-progress" aria-label="Customer progress"></div>
   <section id="play" class="screen active" aria-live="polite">
@@ -19,4 +20,4 @@
   <section id="reward" class="screen panel-screen"><div class="panel reward-panel"><h2>Shop day complete!</h2><div id="reward-cast" class="reward-cast" aria-label="Five happy customers"></div><div id="score"></div><p id="learning-line"></p><h3>Choose a decoration</h3><div id="decorations" class="decoration-options"></div><button id="new-day" class="primary">New day</button></div></section>
   <dialog id="settings-dialog"><form method="dialog"><h2>Shop settings</h2><button type="button" class="mode selected" data-mode="cosy"><span data-icon="heart"></span><b>Cosy day</b><small>Take all the time you need</small></button><button type="button" class="mode" data-mode="sparkle"><span data-icon="sparkle"></span><b>Sparkle day</b><small>Optional speed sparkles add points</small></button><button class="primary">Done</button></form></dialog>
   <dialog id="recipe-dialog"><div class="recipe-shell"><h2>Recipe book</h2><div id="recipe-tabs"></div><div id="recipe-page"></div><button id="close-recipe" class="primary">Back to the stand</button></div></dialog>
-</main><script src="js/money-engine.js"></script><script src="app.js"></script><script src="cg-update.js"></script></body></html>
+</main><script src="js/money-engine.js"></script><script src="js/audio-player.js"></script><script src="app.js"></script><script src="cg-update.js"></script></body></html>
