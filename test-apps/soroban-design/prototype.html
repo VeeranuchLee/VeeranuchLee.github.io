@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Soroban Garden — interaction proof</title>
+<style>
+  :root{font-family:ui-rounded,"Avenir Next Rounded","Arial Rounded MT Bold",system-ui,sans-serif;color:#4b2c2a;background:#f7d8bd}
+  *{box-sizing:border-box;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+  html,body{width:100%;height:100%;margin:0;overflow:hidden}
+  body{height:100svh;background:radial-gradient(circle at 12% 18%,#fff8dc 0 7%,transparent 28%),radial-gradient(circle at 86% 78%,#bfe6d5 0 4%,transparent 26%),linear-gradient(145deg,#ffd9bf,#f3bdaf 55%,#d8ead3);display:grid;place-items:center;padding:max(8px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))}
+  button{font:inherit;color:inherit;border:0;cursor:pointer}
+  button:focus,.hit:focus{outline:none}
+  button:focus-visible,.hit:focus-visible{outline:5px solid #285bc5;outline-offset:4px}
+  .app{width:min(100%,1024px);height:100%;display:grid;grid-template-rows:64px 24px minmax(0,1fr) 66px;gap:8px;position:relative}
+  .top{display:grid;grid-template-columns:64px 1fr 64px;align-items:center;gap:10px}
+  .icon{width:64px;height:64px;border-radius:22px;background:#fff8e9;border:4px solid #d99055;box-shadow:0 6px 0 #a75f3e,0 10px 22px #874b3530;display:grid;place-items:center}
+  .icon:active,.check:active{transform:translateY(3px);box-shadow:0 3px 0 #a75f3e}
+  .icon svg{width:38px;height:38px;stroke:#9b5940;stroke-width:3.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .target{justify-self:center;height:64px;min-width:min(500px,100%);padding:6px 28px;border-radius:28px;background:#fff8e9;border:4px solid #e4a55e;box-shadow:0 5px 0 #b66b45,0 10px 22px #8f564433;display:flex;align-items:center;justify-content:center;font-size:clamp(34px,5vw,50px);font-weight:900;letter-spacing:.02em}
+  .eyebrow{text-align:center;font-weight:850;color:#784b43;font-size:clamp(17px,2.2vw,21px);line-height:24px}
+  .stage{display:grid;place-items:center;min-height:0;overflow:hidden}
+  .soroban{width:auto;height:100%;max-width:100%;touch-action:pinch-zoom;filter:drop-shadow(0 12px 14px #845b4935)}
+  .frame{fill:#e9a861;stroke:#9e5b39;stroke-width:8}
+  .frame-hi{fill:#f6ca88;opacity:.7}
+  .rod{stroke:#aa7049;stroke-width:11;stroke-linecap:round}
+  .bar{fill:#d88c4c;stroke:#915333;stroke-width:7}
+  .marker{fill:#fff0b1;stroke:#92543a;stroke-width:4}
+  .bead{stroke:#9b4562;stroke-width:5;transition:transform 160ms cubic-bezier(.2,.85,.35,1.18),filter 120ms;transform-box:fill-box;transform-origin:center}
+  .bead.earth{fill:url(#earthGrad)}
+  .bead.heaven{fill:url(#heavenGrad);stroke:#7550a4}
+  .bead.moving{filter:brightness(1.16) drop-shadow(0 0 8px #fff2ad);transform:scale(1.05)}
+  .hit{fill:transparent;cursor:pointer;pointer-events:all}
+  .read-tile{fill:#fff8ea;stroke:#d49355;stroke-width:5}
+  .read-text{font-weight:900;font-size:44px;fill:#4d2c2a;text-anchor:middle;dominant-baseline:middle}
+  .place-text{font-weight:850;font-size:16px;letter-spacing:2px;fill:#744a42;text-anchor:middle}
+  .bottom{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;padding:0 max(2px,2vw)}
+  .feedback{height:64px;border-radius:22px;background:#fff8e9dd;border:3px solid #e5b477;padding:6px 14px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:clamp(17px,2.5vw,24px);font-weight:850;box-shadow:0 7px 18px #83513a24}
+  .feedback.good{background:#e5f7d5;border-color:#79ae63;color:#396535}
+  .feedback.hint{background:#fff0bf;border-color:#dca84c}
+  .check{min-width:150px;height:64px;padding:6px 24px;border-radius:23px;background:linear-gradient(#87c99e,#55a87d);border:4px solid #397458;color:white;font-size:26px;font-weight:900;box-shadow:0 6px 0 #2c664d,0 10px 18px #244c3d30}
+  .pulse{animation:pulse 600ms ease-in-out 2}
+  @keyframes pulse{50%{filter:drop-shadow(0 0 18px #ffe66a)}}
+  @media (prefers-reduced-motion:reduce){.bead{transition:none}.pulse{animation:none}}
+  @media (orientation:portrait){
+    .target{min-width:0;padding-inline:14px;font-size:clamp(32px,8vw,46px)}.soroban{width:100%;height:auto;max-height:100%}.bottom{grid-template-columns:minmax(0,1fr) 132px}.check{min-width:132px;padding-inline:14px}
+  }
+</style>
+</head>
+<body>
+<main class="app" aria-label="Soroban Garden interaction prototype">
+  <header class="top">
+    <button class="icon" id="reset" aria-label="Reset soroban">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M13 14a16 16 0 1 1-3 18"/><path d="M7 13h10v10"/></svg>
+    </button>
+    <div class="target" aria-label="Target number 47">Make 47</div>
+    <button class="icon" id="sound" aria-label="Mute sounds" aria-pressed="false">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 20h8l9-8v24l-9-8H8z"/><path class="waves" d="M31 19c3 3 3 7 0 10M36 14c6 6 6 14 0 20"/></svg>
+    </button>
+  </header>
+  <div class="eyebrow">Tap beads to move them to or from the bar</div>
+  <section class="stage">
+    <svg class="soroban" viewBox="0 0 760 610" role="group" aria-label="Three rod soroban showing hundreds, tens, and ones">
+      <defs>
+        <linearGradient id="earthGrad" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ff9a9c"/><stop offset=".48" stop-color="#ed6680"/><stop offset="1" stop-color="#c84f70"/></linearGradient>
+        <linearGradient id="heavenGrad" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#c99bff"/><stop offset=".5" stop-color="#9a6be0"/><stop offset="1" stop-color="#7550ba"/></linearGradient>
+      </defs>
+      <rect class="frame" x="26" y="10" width="708" height="486" rx="46"/>
+      <rect fill="#fff0d1" x="64" y="54" width="632" height="394" rx="24"/>
+      <rect class="frame-hi" x="50" y="25" width="660" height="28" rx="14"/>
+      <g id="rod-0" data-rod="0"></g>
+      <g id="rod-1" data-rod="1"></g>
+      <g id="rod-2" data-rod="2"></g>
+      <rect class="bar" x="50" y="180" width="660" height="34" rx="16"/>
+      <circle class="marker" cx="380" cy="197" r="9"/>
+      <g id="readings"></g>
+    </svg>
+  </section>
+  <footer class="bottom">
+    <div class="feedback" id="feedback" role="status" aria-live="polite">Make 4 tens and 7 ones.</div>
+    <button class="check" id="check">Check</button>
+  </footer>
+</main>
+<script>
+(()=>{
+  'use strict';
+  const NS='http://www.w3.org/2000/svg';
+  const xs=[190,380,570], places=['HUNDREDS','TENS','ONES'];
+  const state=[{heaven:false,earth:0},{heaven:false,earth:0},{heaven:false,earth:0}];
+  const feedback=document.querySelector('#feedback');
+  const soundButton=document.querySelector('#sound');
+  let misses=0, muted=false, audio=null;
+
+  function svg(tag,attrs={}){const el=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,v));return el}
+  function value(i){return (state[i].heaven?5:0)+state[i].earth}
+  function total(){return value(0)*100+value(1)*10+value(2)}
+  function tone(kind='tap'){
+    if(muted)return;
+    audio ||= new (window.AudioContext||window.webkitAudioContext)();
+    if(audio.state==='suspended')audio.resume();
+    const now=audio.currentTime, osc=audio.createOscillator(), gain=audio.createGain();
+    osc.type=kind==='wrong'?'triangle':'sine';
+    const frequencies={tap:420,land:560,good:660,wrong:180};
+    osc.frequency.setValueAtTime(frequencies[kind],now);
+    if(kind==='good')osc.frequency.exponentialRampToValueAtTime(880,now+.13);
+    gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(kind==='tap'?.055:.075,now+.008);gain.gain.exponentialRampToValueAtTime(.0001,now+(kind==='tap'?.07:.18));
+    osc.connect(gain).connect(audio.destination);osc.start(now);osc.stop(now+.2);
+  }
+  function setFeedback(text,kind=''){
+    feedback.textContent=text;feedback.className='feedback'+(kind?' '+kind:'');
+  }
+  function bead(group,rod,type,index){
+    const b=svg('rect',{class:`bead ${type}`,rx:21,width:102,height:38,'data-kind':type,'data-index':index,'data-rod':rod});
+    const hit=svg('rect',{class:'hit',rx:38,width:130,height:76,'data-kind':type,'data-index':index,'data-rod':rod,role:'button',tabindex:'0','aria-label':`${type} bead on ${places[rod].toLowerCase()} rod`});
+    const activate=chosen=>moveBead(rod,type,chosen,type==='earth'?parts[rod].earth[chosen].b:b);
+    hit.addEventListener('click',e=>activate(type==='earth'?closestEarth(rod,e):index));hit.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();activate(index)}});
+    group.append(b,hit);return {b,hit};
+  }
+  const parts=[];
+  xs.forEach((x,i)=>{
+    const group=document.querySelector(`#rod-${i}`);group.append(svg('line',{class:'rod',x1:x,y1:58,x2:x,y2:458}));
+    const heaven=bead(group,i,'heaven',0), earth=[];for(let n=0;n<4;n++)earth.push(bead(group,i,'earth',n));parts.push({group,heaven,earth});
+  });
+  const readings=document.querySelector('#readings');
+  xs.forEach((x,i)=>{
+    readings.append(svg('rect',{class:'read-tile',x:x-60,y:510,width:120,height:64,rx:20}));
+    const t=svg('text',{class:'read-text',x,y:543,id:`digit-${i}`});t.textContent='0';readings.append(t);
+    const p=svg('text',{class:'place-text',x,y:594});p.textContent=places[i];readings.append(p);
+  });
+  function render(){
+    parts.forEach((p,i)=>{
+      const x=xs[i],hActive=state[i].heaven;
+      const hy=hActive?142:62;p.heaven.b.setAttribute('x',x-51);p.heaven.b.setAttribute('y',hy);p.heaven.hit.setAttribute('x',x-65);p.heaven.hit.setAttribute('y',hy-19);
+      p.earth.forEach((pair,n)=>{
+        const active=n<state[i].earth;const y=active?214+n*39:420-(3-n)*39;pair.b.setAttribute('x',x-51);pair.b.setAttribute('y',y);pair.hit.setAttribute('x',x-65);pair.hit.setAttribute('y',y-19);
+      });
+      document.querySelector(`#digit-${i}`).textContent=value(i);
+    });
+  }
+  function closestEarth(rod,event){
+    const point=document.querySelector('.soroban').createSVGPoint();point.x=event.clientX;point.y=event.clientY;
+    const local=point.matrixTransform(document.querySelector('.soroban').getScreenCTM().inverse());
+    return parts[rod].earth.reduce((best,pair,index)=>Math.abs(+pair.b.getAttribute('y')+19-local.y)<best.distance?{index,distance:Math.abs(+pair.b.getAttribute('y')+19-local.y)}:best,{index:0,distance:Infinity}).index;
+  }
+  function moveBead(rod,kind,index,visual){
+    tone('tap');visual.classList.add('moving');setTimeout(()=>{visual.classList.remove('moving');tone('land')},150);
+    if(kind==='heaven')state[rod].heaven=!state[rod].heaven;
+    else state[rod].earth=index<state[rod].earth?index:index+1;
+    render();setFeedback(total()===47?'That is 47. Tap Check.':'Keep going. Make 4 tens and 7 ones.');
+  }
+  document.querySelector('#check').addEventListener('click',()=>{
+    if(total()===47){misses=0;tone('good');setFeedback('You made 47.','good');return}
+    misses++;tone('wrong');
+    if(misses===1)setFeedback('Keep going — you can do it.');
+    else if(misses===2){setFeedback('4 tens. 7 ones.','hint');parts[1].group.classList.add('pulse');setTimeout(()=>{parts[1].group.classList.remove('pulse');parts[2].group.classList.add('pulse')},650);setTimeout(()=>parts[2].group.classList.remove('pulse'),1300)}
+    else {setFeedback('Watch: 4 tens and 7 ones make 47.','hint');state[0]={heaven:false,earth:0};state[1]={heaven:false,earth:4};state[2]={heaven:true,earth:2};misses=0;render();tone('good')}
+  });
+  document.querySelector('#reset').addEventListener('click',()=>{tone('tap');state.forEach(s=>{s.heaven=false;s.earth=0});misses=0;render();setFeedback('Make 4 tens and 7 ones.')});
+  soundButton.addEventListener('click',()=>{muted=!muted;soundButton.setAttribute('aria-pressed',String(muted));soundButton.setAttribute('aria-label',muted?'Turn sounds on':'Mute sounds');soundButton.querySelector('.waves').style.display=muted?'none':'';if(!muted)tone('tap')});
+
+  // Method C: suppress only a quick second one-finger touch, then re-deliver its click.
+  let last={time:0,x:0,y:0};
+  document.addEventListener('touchend',e=>{
+    if(e.changedTouches.length!==1||e.touches.length)return;
+    const t=e.changedTouches[0],now=Date.now(),near=Math.hypot(t.clientX-last.x,t.clientY-last.y)<40;
+    if(now-last.time<350&&near){e.preventDefault();const target=document.elementFromPoint(t.clientX,t.clientY);if(target?.closest('button,.hit'))(target.closest('button,.hit')).click();last.time=0;return}
+    last={time:now,x:t.clientX,y:t.clientY};
+  },{passive:false});
+  render();
+})();
+</script>
+</body>
+</html>
