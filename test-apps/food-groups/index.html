@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Food Groups</title>
+  <link rel="stylesheet" href="cg-back.css?v=08acf5f95-20261027162733">
+  <link rel="stylesheet" href="styles.css?v=08acf5f95-20261027162733">
+</head>
+<body>
+  <a class="cg-back" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  <main id="app" data-state="home" data-round="0" data-sorted="0">
+    <header class="topbar">
+      <div><h1>Food Groups</h1><p id="progress">Ready to sort?</p></div>
+      <button id="sound-toggle" class="icon-button" type="button" aria-label="Turn sound off" aria-pressed="false"><svg class="sound-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 13h6l7-6v18l-7-6H5z"/><path class="sound-wave" d="M22 11c2.7 2.7 2.7 7.3 0 10M25.5 7.5c4.7 4.7 4.7 12.3 0 17" fill="none"/></svg><span class="mute-slash" aria-hidden="true"></span></button>
+    </header>
+
+    <section id="home-screen" class="screen home-screen">
+      <div class="intro-card">
+        <h2>Where does each food belong?</h2>
+        <p>Drag the food to a group, or tap a group.</p>
+        <button id="start-button" class="primary" type="button">Start round 1</button>
+        <button id="learn-button" class="secondary" type="button">Meet the groups</button>
+        <p class="country-note">This game uses the UK Eatwell Guide. Thailand's nutrition flag separates fruit and vegetables and groups some foods differently.</p>
+      </div>
+    </section>
+
+    <section id="play-screen" class="screen play-screen" hidden>
+      <div class="food-stage">
+        <p id="prompt" class="prompt">Where does it belong?</p>
+        <button id="food-card" class="food-card" type="button" aria-label="Select food">
+          <img id="food-image" alt="">
+          <strong id="food-name"></strong>
+        </button>
+        <div id="speech-bubble" class="speech-bubble" role="status" aria-live="polite"></div>
+      </div>
+      <div id="group-grid" class="group-grid" aria-label="Food groups"></div>
+    </section>
+
+    <section id="finish-screen" class="screen finish-screen" hidden>
+      <div class="finish-card">
+        <h2 id="finish-title">Round complete</h2>
+        <p id="finish-copy">You sorted six foods into their groups.</p>
+        <div id="summary" class="summary"></div>
+        <button id="next-button" class="primary" type="button">Start round 2</button>
+        <button id="replay-button" class="secondary" type="button">Play this round again</button>
+      </div>
+    </section>
+  </main>
+  <script src="tap-zoom-guard.js?v=08acf5f95-20261027162733"></script>
+  <script src="cg-update.js?v=08acf5f95-20261027162733"></script>
+  <script src="app.js?v=08acf5f95-20261027162733"></script>
+  <script>if ('serviceWorker' in navigator) Promise.resolve() /* Test Hub staging: no service worker */;</script>
+</body>
+</html>

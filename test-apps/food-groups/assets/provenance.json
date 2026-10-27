@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-27",
+  "tool": "Codex built-in image generation",
+  "style": "Soft picture-book gouache; isolated recognisable food; no text, brand, hands or faces",
+  "processing": "Generated against a requested flat chroma key; model returned a dark flat field and soft glow. Border colour removed locally with the imagegen skill remove_chroma_key.py helper; encoded as transparent WebP.",
+  "review": "PASS: all 12 foods recognisable at card size; all four replacement badges legible; no baked text, hands or faces. Round-2 group badges are abstract and contain no identifiable food from the full 50-item RESEARCH roster, so they cannot reveal a sorting answer. Raw sources and contact sheet are in coordination/drafts/food-groups-proto-2026-10-27/ because the sidecar was not writable from this worker.",
+  "groupEmblems": {
+    "fruit-veg": { "symbols": ["rainbow", "three leaves", "sparkles"], "depictedFoods": [] },
+    "starchy": { "symbols": ["sunburst", "energy ribbon", "abstract weave"], "depictedFoods": [] },
+    "dairy": { "symbols": ["shield", "bone", "sparkles"], "depictedFoods": [] },
+    "protein": { "symbols": ["interlocking blocks", "growth arrow"], "depictedFoods": [] }
+  },
+  "assets": ["foods/apple.webp","foods/banana.webp","foods/carrot.webp","foods/bread.webp","foods/rice.webp","foods/rice-noodles.webp","foods/milk.webp","foods/yoghurt.webp","foods/cheese.webp","foods/egg.webp","foods/fish.webp","foods/tofu.webp","groups/fruit-veg.webp","groups/starchy.webp","groups/dairy.webp","groups/protein.webp"]
+}
