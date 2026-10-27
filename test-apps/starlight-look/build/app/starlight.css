@@ -249,8 +249,16 @@ html,body{touch-action:manipulation}
   border-radius:50%;background:var(--edge);color:#fff;font-size:1.2rem;font-weight:900;cursor:pointer}
 .note{margin-top:.5rem;color:var(--dim);font-size:clamp(.55rem,.75vw,.78rem)}
 
-/* ---------- portrait : keep Book 1's complete, letterboxed stage ------------ */
+/* ---------- portrait : the whole upright iPad is the page ------------------- */
 @media (max-aspect-ratio:1/1){
+  .book{display:block}
+  .stage{width:100vw;height:100vh;height:100dvh;overflow:hidden;background:#e8d8b6}
+  .hub{top:8px;left:10px;height:64px;min-width:64px;border-radius:16px;font-size:28px}
+  .top-bar{top:8px;right:10px;height:64px}
+  .page-nav{height:64px;padding:5px;border-radius:16px}
+  .page-nav a,.page-jump{height:52px;min-width:52px;border-radius:12px;font-size:18px}
+  .page-jump{min-width:82px}
+  .page-controls .ctrl{width:64px;height:64px}
   .frame{grid-template-columns:minmax(0,1fr);
     grid-template-rows:auto minmax(0,1fr) auto;
     grid-template-areas:"story" "instrument" "footer";
