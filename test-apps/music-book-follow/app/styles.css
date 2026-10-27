@@ -76,6 +76,11 @@ body {
   cursor: pointer;
 }
 .chrome-btn:active { transform: scale(.96); }
+/* Owner 2026-10-27 (iPad QA E): the Sound button is 74×48 (56×48 at its floor),
+   under the repo's 64px tap minimum. Transparent reach: ±8px reaches 64px tall,
+   ±4px makes the 56px floor 64px wide. The button is already absolutely
+   positioned, so the ::after hangs off it directly. */
+.chrome-btn::after { content: ''; position: absolute; inset: -8px -4px; }
 .chrome-btn.is-nudged { animation: nudge .75s ease-out 2; }
 .chrome-btn[aria-pressed="false"] {
   background: linear-gradient(180deg, #e6e2d6, #cfc9b6);
@@ -174,6 +179,7 @@ body {
 .topbar { display: flex; align-items: flex-start; gap: 2%; }
 
 .round-btn {
+  position: relative; /* the ::after reach below positions from the button */
   flex: 0 0 auto;
   width: clamp(42px, 5.4vw, 62px); height: clamp(42px, 5.4vw, 62px);
   border: 0; border-radius: 50%;
@@ -183,6 +189,11 @@ body {
   cursor: pointer;
 }
 .round-btn:active { transform: scale(.94); }
+/* Owner 2026-10-27 (iPad QA E): the back arrow measured 55×55 at 1024 (42px at
+   its floor), under the repo's 64px tap minimum. ±11px of transparent reach
+   clears 64px even at the floor; the only thing it grows over is the banner's
+   edge, which is not a control. */
+.round-btn::after { content: ''; position: absolute; inset: -11px; }
 
 /* The way out of the book, on the landing only. The scrim is inset:0, so this pins to
    the same corner the world screen puts its house button in. */
@@ -247,6 +258,13 @@ body {
 }
 .banner h1 { margin: 0; font-size: clamp(18px, 3.2vw, 38px); letter-spacing: .01em; }
 .banner p { margin: 1px 0 0; font-size: clamp(10px, 1.4vw, 16px); color: var(--ink-soft); }
+/* Owner 2026-10-27 (iPad QA A): the room banner's title reached 33px at 1024
+   wide ("Beethoven's Door Between Two Eras") and wrapped to two lines — the
+   subtitle wrapped too — in 12 room/viewport combinations, growing the banner
+   from 75px to 120-139px. Scoped to .banner--room only: wings, the landing,
+   the world and the Toy Piano's slim banner keep the sizes above. */
+.banner--room h1 { font-size: clamp(14px, 2.1vw, 24px); line-height: 1.1; text-wrap: balance; }
+.banner--room p { font-size: clamp(9px, 1.05vw, 12px); line-height: 1.2; }
 .banner--wing { align-self: flex-start; }
 
 .guide-badge {
@@ -269,6 +287,7 @@ body {
   box-shadow: 0 0 0 3px var(--gold), var(--shadow);
 }
 .room-mode__choice {
+  position: relative; /* the ::after reach below positions from the choice */
   min-width: 48px; min-height: 46px; padding: 3px 6px;
   display: grid; place-items: center;
   border: 0; border-radius: 12px;
@@ -276,6 +295,12 @@ body {
 }
 .room-mode__choice.is-current { background: linear-gradient(180deg, #fff3c9, #ffe08a); box-shadow: inset 0 0 0 2px var(--gold); }
 .room-mode__choice:disabled { cursor: default; opacity: .55; }
+/* Owner 2026-10-27 (iPad QA E): a choice is 48×47, under the repo's 64px tap
+   floor; ±9px of transparent reach clears it. The two choices sit 4px apart, so
+   the reach overlaps that seam — the later button wins it, and no finger aims
+   at a 4px seam between two modes. The "Melody" label itself stays as the owner
+   sized it today. */
+.room-mode__choice::after { content: ''; position: absolute; inset: -9px; }
 .room-mode__picture { min-height: 22px; font: 800 clamp(19px, 2.2vw, 25px)/1 Georgia, serif; }
 .room-mode__picture b { margin-left: 1px; font-size: .82em; }
 .room-mode__choice small { max-width: 8ch; font-family: inherit; font-size: clamp(7px, .82vw, 10px); font-weight: 700; line-height: 1.05; }
@@ -521,7 +546,11 @@ body[data-view="world"] .chrome-btn {
   left: 50%; top: calc(100% + 6px);
   translate: -50% 0;
   width: max-content;
-  max-width: min(30cqw, 220px);
+  /* Owner 2026-10-27 (iPad QA I): "Baroque Stage: Seasons, Water, and
+     Fireworks" wrapped at 220px. 260px keeps the long wing labels on one
+     balanced line; the time-corridor plates were nudged apart to match
+     (WING_MAP, app.js). */
+  max-width: min(30cqw, 260px);
   padding: 5px 10px 6px;
   border-radius: 11px;
   background: rgba(255, 249, 230, .96);
@@ -625,7 +654,15 @@ body[data-view="world"] .chrome-btn {
 
 /* ── a room (its pieces) ──────────────────────────────────────────────────── */
 
-.room-body { flex: 1; display: flex; gap: 2%; padding: 1.6% 0 0; min-height: 0; }
+/* Owner 2026-10-27 (iPad QA B): the note band drew over the top row of song
+   circles. Chosen fix: keep the body a flex child that takes only the height
+   left under the topbar and the band (`flex: 1 1 auto`, never taller), so in
+   the ordinary grid the band pushes the rows down instead of overlapping them.
+   The two abs-positioned layouts cannot be pushed by flow — scene rooms already
+   reserve the band via .room-body--scene's `top`, and the anchored bubbles are
+   pinned to the painting itself, so they get a measured nudge instead
+   (--follow-push, set by showFollowNotes() in app.js). */
+.room-body { flex: 1 1 auto; display: flex; gap: 2%; padding: 1.6% 0 0; min-height: 0; }
 
 /* The listening guide is a picture, never another instrument. It occupies its
    own band between the room header and painting, so neither song art nor the
@@ -764,18 +801,43 @@ body[data-view="world"] .chrome-btn {
   /* Sized by HEIGHT, not width, so the flex column can shrink it when the row
      is short, and kept square by `aspect-ratio` so it shrinks as a disc. The
      starting height is the old width rule — `100cqw` is this bubble's column —
-     so every room that already fitted is pixel-identical. A tap target that
-     gives ground is still enormous next to a fingertip; the art inside it is
-     what gets smaller. */
+     so every room that already fitted is pixel-identical in landscape (portrait
+     now sizes from the stage; the cqh note below). A tap target that gives
+     ground is still enormous next to a fingertip; the art inside it is what
+     gets smaller. */
   flex: 0 1 auto;
-  height: min(19vh, 100cqw); width: auto; aspect-ratio: 1;
+  /* Owner 2026-10-27 (iPad QA F): cqh, not vh — in portrait the 768×1024 screen
+     draws a 768×576 stage, so vh saw the screen, not the stage. The .bubble
+     above is only an inline-size container, so cqh climbs to the room stage's
+     own size container (.stage--room, below) — never the viewport.
+     Owner 2026-10-27 (iPad QA round 2): F's 19cqh (109px portrait) still drew
+     more disc than the anchored rooms can stack. Their portrait rows sit only
+     161-167px apart, and each disc carries a name plate plus a 44px lightbulb
+     row beneath it — at 109px the lightbulb ended up half-hidden under the next
+     row's disc. 15cqh (86px) clears the tightest measured pair (Baroque Stage's
+     same-column rows) with ~10px to spare. Landscape keeps 19cqh — it passed
+     round 1 — via the aspect block below. */
+  height: min(15cqh, 100cqw); width: auto; aspect-ratio: 1;
   padding: 0; border: 0; border-radius: 50%;
   background: #dcd2bb;
   box-shadow: var(--frame);
   cursor: pointer; overflow: hidden;
   transition: transform .15s ease;
 }
-.bubble--large .bubble__disc { height: min(23vh, 100cqw); }
+/* Owner 2026-10-27 (iPad QA round 2): the hero disc has no portrait size of its
+   own any more. 23cqh measured 129px in Beethoven's Door portrait — taller than
+   the row-to-row budget once both name plates and both lightbulb rows are
+   counted — so the row above's lamp reached 24px into it and its own lamp
+   reached 23px into the word scroll. It is capped at the regular disc: a child
+   must see the whole lightbulb, and portrait has no room for a second size. */
+/* Landscape is where the rows have room (223px between them), so the hero disc
+   keeps a sliver of its old size there: 23cqh measured 177px and the top row's
+   lamp still reached 15px into the disc below; 19.5cqh (150px) clears that
+   seam by ~10px. The regular disc keeps round 1's 19cqh, which passed QA. */
+@media (min-aspect-ratio: 1/1) {
+  .bubble__disc { height: min(19cqh, 100cqw); }
+  .bubble--large .bubble__disc { height: min(19.5cqh, 100cqw); }
+}
 .bubble__disc:hover { transform: scale(1.035); }
 .bubble__disc:active { transform: scale(.98); }
 .bubble__art { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -797,6 +859,7 @@ body[data-view="world"] .chrome-btn {
   gap: 8px; margin-top: 6px; z-index: 1;
 }
 .bubble__explain {
+  position: relative; /* the ::after reach below positions from the lamp */
   width: 44px; height: 44px;
   display: flex; align-items: center; justify-content: center;
   border: 0; border-radius: 50%;
@@ -805,6 +868,12 @@ body[data-view="world"] .chrome-btn {
   box-shadow: 0 0 0 2.5px var(--plate-edge), var(--shadow);
   transition: transform .12s ease;
 }
+/* Owner 2026-10-27 (iPad QA E): the lamp is 44×44 against the repo's 64px tap
+   floor; ±10px of transparent reach makes exactly 64×64. The reach climbs 4px
+   over the name plate above it (the row's 6px margin less 10px), and the lamp
+   is later in the DOM, so that seam answers the lamp — the plate keeps all but
+   a 4px sliver of its own, much larger target. */
+.bubble__explain::after { content: ''; position: absolute; inset: -10px; }
 .bubble__explain:hover { transform: scale(1.06); }
 .bubble__explain:active { transform: scale(.95); }
 /* A warm lamp distinct from the gold room-level info-diamond, so a child never
@@ -928,7 +997,12 @@ body[data-view="world"] .chrome-btn {
     left: var(--ax); top: var(--ay);
     width: var(--disc); height: auto;
     justify-content: flex-start;
-    transform: translate(-50%, calc(var(--disc) / -2 - var(--anchor-lift, 0px)));
+    /* --follow-push (owner 2026-10-27, iPad QA B): showFollowNotes() measures
+       the note band and sets this per bubble, but only on bubbles the band
+       actually covers — the bubbles are pinned to the painting, so flow cannot
+       push them and a blanket shift would drive the bottom row into the word
+       scroll. Zero whenever nothing is playing. */
+    transform: translate(-50%, calc(var(--disc) / -2 - var(--anchor-lift, 0px) + var(--follow-push, 0px)));
   }
   .bubble-field--anchored .bubble__disc { flex: 0 0 auto; height: var(--disc); }
   .bubble-field--anchored .bubble__name { max-width: none; white-space: nowrap; }
@@ -962,7 +1036,10 @@ body[data-view="world"] .chrome-btn {
   display: flex; align-items: center; justify-content: center;
   color: #fff6df; font-size: clamp(16px, 2.4vw, 30px); font-weight: 800;
 }
-.info-square__line { display: block; }
+/* Owner 2026-10-27 (iPad QA D): an 11px floor on the composer squares' two
+   lines — they rendered 9px in portrait. Same vw and cap as .info-square__label
+   above, so only the minimum moves. */
+.info-square__line { display: block; font-size: clamp(11px, 1.1vw, 13px); }
 .info-square__label { font-size: clamp(9px, 1.1vw, 13px); font-weight: 800; text-align: center; line-height: 1.15; }
 
 .info-diamond {
@@ -1013,7 +1090,14 @@ body[data-view="world"] .chrome-btn {
    does on the target iPad.) The real fix still belongs to the art-stage
    scene design, which places the guides inside the picture instead of as a
    floating layer. */
+/* The room stage is its own size container (owner 2026-10-27, iPad QA F): the
+   disc heights read cqh, and the bubbles between here and the stage are only
+   inline-size containers — without this rule cqh would find no block-axis
+   container at all and fall back to the small VIEWPORT unit, which in portrait
+   is exactly the 1024px-height bug vh had. Same treatment as .stage--world and
+   .stage--playroom. */
 .stage--room {
+  container-type: size;
   --companion-left: 2.4vw;
   --companion-figure: clamp(54px, 7.5vw, 104px);
   --companion-gap: 8px;
@@ -1121,8 +1205,14 @@ body[data-view="world"] .chrome-btn {
   min-height: 20px; padding: 1px 10px;
   border: 0; border-radius: 9px;
   background: rgba(255,252,242,.7); box-shadow: 0 0 0 1.5px rgba(176,132,68,.6);
-  color: #6b5330; font: inherit; font-size: clamp(9px, 1.05vw, 12px); font-weight: 700; cursor: pointer;
+  /* Owner 2026-10-27 (iPad QA D): 11px floor — the chip rendered 9px in portrait. */
+  color: #6b5330; font: inherit; font-size: clamp(11px, 1.3vw, 13px); font-weight: 700; cursor: pointer;
 }
+/* The chip is 96×20, under the repo's 64px tap floor (owner 2026-10-27, iPad
+   QA E). The transparent ::after supplies the height (±22px); sideways it
+   reaches only 6px because the word cards sit immediately beside and below it
+   and must keep their own taps. */
+.word-scroll__grownups::after { content: ''; position: absolute; inset: -22px -6px; }
 
 /* The room companion is a button (it plays the room's script). The figure
    keeps its size; the button only guarantees a 64px tap target around it. */
@@ -1176,10 +1266,16 @@ body[data-view="world"] .chrome-btn {
 
 .pager { display: flex; justify-content: center; gap: 10px; padding: 1% 0 .4%; }
 .pager__dot {
+  position: relative; /* the ::after reach below positions from the dot */
   width: 14px; height: 14px; border-radius: 50%; border: 0; cursor: pointer;
   background: rgba(255,250,238,.6); box-shadow: 0 0 0 2px var(--gold);
 }
 .pager__dot.is-current { background: var(--gold); }
+/* Owner 2026-10-27 (iPad QA E): a dot is 14×14, and the row's 10px gap is the
+   limit on sideways reach — ±6px already treads 2px into the neighbour, and a
+   full 64×64 box would swallow both neighbouring dots' taps whole. ±12px ×
+   ±6px (38×26) is as much target as the row can give a dot. */
+.pager__dot::after { content: ''; position: absolute; inset: -12px -6px; }
 
 /* ── where this room leads (connections) ──────────────────────────────────── */
 
@@ -2692,6 +2788,15 @@ button.guide-badge:active { transform: scale(.96); }
 /* A word keeps to one line, so a long word widens its card instead of making
    the whole scroll taller and pushing into the painted song places. */
 .word-card__word { white-space: nowrap; }
+/* Owner 2026-10-27 (iPad QA H): a story card names its song now, and a long
+   name must not widen its card the way a single word does — the scroll is a
+   fixed band. Two lines at a smaller size, clamped: the card never overflows
+   and the scroll never grows past its second line. */
+.word-card--story .word-card__word {
+  white-space: normal; overflow-wrap: anywhere;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  font-size: clamp(9px, 1.05vw, 12px); line-height: 1.1;
+}
 .companion-explainer__title { display: block; margin-bottom: 2px; color: #8a5a12; }
 
 /* ── orientation: each menu page uses the screen it is given ─────────────────
@@ -2774,7 +2879,8 @@ button.guide-badge:active { transform: scale(.96); }
   .song-index__banner p { display: none; }
 }
 @media (max-width: 560px), (max-height: 430px) {
-  .room-landmark__name { font-size: 9px; padding: 3px 6px 4px; }
+  /* Owner 2026-10-27 (iPad QA D): 11px floor, same as the room pages' labels. */
+  .room-landmark__name { font-size: 11px; padding: 3px 6px 4px; }
   .stage--landing .listen-cue { min-height: 36px; margin-top: .2em; }
   .toy-bubble { transform: scale(.8); transform-origin: top right; }
 }

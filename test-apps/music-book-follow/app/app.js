@@ -233,7 +233,11 @@ const WING_MAP = {
     'winter-lanterns': { x: 79, y: 38, w: 30, h: 35 }
   } },
   'the-time-corridor': { background: 'assets/wings/w4-map.webp', landmarks: {
-    'baroque-pattern-workshop': { x: 14, y: 34, w: 22, h: 38 },
+    // Owner 2026-10-27 (iPad QA G): "Baroque Pattern Workshop"'s name plate
+    // (left-anchored under x<22) ran 6px into "Baroque Stage: Seasons, Water,
+    // and Fireworks", whose plate grew wider with the 260px wing-label cap.
+    // Two points left parts them; the ellipse stays on its painted bench.
+    'baroque-pattern-workshop': { x: 12, y: 34, w: 22, h: 38 },
     'baroque-stage-seasons-water-fireworks': { x: 38, y: 35, w: 23, h: 37 },
     'vienna-classical-city': { x: 62, y: 35, w: 23, h: 38 },
     'beethoven-door-two-eras': { x: 87, y: 34, w: 22, h: 38 }
@@ -344,18 +348,29 @@ const ROOM_BACKGROUND = {
     'la-bamba': { x: 79, y: 67, w: 20, h: 18, label: 'above' }
   } },
   'celebration-square': { background: 'assets/room-scenes/r10-celebration-square-scene.webp', focus: '50% 50%', scene: {
-    'happy-birthday': { x: 18, y: 29, w: 23, h: 19 },
+    // Owner 2026-10-27 (iPad QA G): the left column is too tight for the
+    // below-button labels to clear each other — "Jingle Bells"'s plate sat on
+    // the "Auld Lang Syne" button. x/y nudges alone cannot open a gap there at
+    // 768×576 (Happy Birthday's plate blocks from above, the word scroll from
+    // below), so both plates flip to the sky side; the ellipses stay exactly
+    // on their painted spots.
+    'happy-birthday': { x: 18, y: 29, w: 23, h: 19, label: 'above' },
     'jolly-good-fellow': { x: 77, y: 30, w: 21, h: 19 },
-    'jingle-bells': { x: 18, y: 56, w: 25, h: 18 },
+    'jingle-bells': { x: 18, y: 56, w: 25, h: 18, label: 'above' },
     'joy-to-world': { x: 76, y: 58, w: 20, h: 18 },
     'auld-lang-syne': { x: 18.5, y: 71.5, w: 17, h: 12 }
   } },
   'winter-lanterns': { background: 'assets/room-scenes/r11-winter-lanterns-scene.webp', focus: '50% 50%', scene: {
     'silent-night': { x: 18, y: 29, w: 25, h: 20 },
     'o-tannenbaum': { x: 78, y: 26, w: 23, h: 20 },
-    'deck-the-hall': { x: 20, y: 54, w: 25, h: 18 },
+    // Owner 2026-10-27 (iPad QA G): "Deck the Hall"'s plate met "The First
+    // Noel"'s above-label between the two buttons. Deck steps down 3 and Noel
+    // up 1, which parts the plates in both orientations while keeping Deck
+    // clear of Silent Night's plate above and Noel's button clear of the word
+    // scroll below.
+    'deck-the-hall': { x: 20, y: 57, w: 25, h: 18 },
     'we-wish-merry-christmas': { x: 75, y: 58, w: 20.5, h: 20 },
-    'first-noel': { x: 16.5, y: 75, w: 21, h: 14, label: 'above' }
+    'first-noel': { x: 16.5, y: 74, w: 21, h: 14, label: 'above' }
   } },
   'baroque-pattern-workshop': { background: 'assets/backgrounds/r12-baroque-pattern-workshop-background.webp', focus: '50% 45%', anchors: {
     'bach-prelude-c-major-bwv-846': { x: 16, y: 35 }, 'bach-air-orchestral-suite-3': { x: 43, y: 35 }, 'bach-jesu-joy': { x: 69, y: 35 }, 'bach-cello-suite-1-prelude': { x: 30, y: 64 }, 'pachelbel-canon-d': { x: 64, y: 64 }
@@ -716,7 +731,11 @@ function wordScrollMarkup(room) {
         ${stories.map((p) => `
           <button class="word-card word-card--story" data-story-say="${p.id}" aria-label="A true story about ${p.title}" aria-pressed="false">
             <span class="word-card__top"><span class="word-card__speaker" aria-hidden="true">${SPEAKER_ICON}</span><span class="word-card__picture word-card__picture--song"><img src="${p.art}" alt=""></span></span>
-            <span class="word-card__word">True story</span>
+            <!-- Owner 2026-10-27 (iPad QA H): the song's own short name, the same
+                 field the scene landmarks use — a room with two stories showed two
+                 identical "True story" chips. The aria-label above still says what
+                 the card is. -->
+            <span class="word-card__word">${p.shortTitle || p.title}</span>
           </button>`).join('')}
       </div>` : ''}
       <button class="word-scroll__grownups" data-knowledge="${room.id}" aria-label="For grown-ups: about this room">For grown-ups</button>
@@ -1169,16 +1188,23 @@ function renderRoom() {
 
     // Anchor percentages describe the painting, but the word scroll is
     // ordinary content whose rendered height changes with the viewport. Keep
-    // the authored x/y point unless the complete bubble (including its name
-    // pill) would enter the scroll; then lift it only far enough to leave
-    // the same 3px clearance required by check-bubble-anchors.mjs.
+    // the authored x/y point unless the complete bubble (name pill and, when
+    // the piece has one, its lightbulb row) would enter the scroll; then lift
+    // it only far enough to leave the same 3px clearance required by
+    // check-bubble-anchors.mjs. Owner 2026-10-27 (iPad QA round 2): lifting
+    // from the name plate alone left the lightbulb itself in the scroll — Ode
+    // to Joy's sat 23px into it in portrait — so the measured bottom is the
+    // bubble's deepest part, not the plate's.
     const linkTops = [...stage.querySelectorAll('.word-scroll')]
       .map((scroll) => scroll.getBoundingClientRect().top);
     if (linkTops.length) {
       const safeBottom = Math.min(...linkTops) - 3;
       for (const bubble of field.querySelectorAll('.bubble')) {
-        const nameBottom = bubble.querySelector('.bubble__name').getBoundingClientRect().bottom;
-        bubble.style.setProperty('--anchor-lift', `${Math.max(0, nameBottom - safeBottom)}px`);
+        const deepest = Math.max(
+          ...[...bubble.querySelectorAll('.bubble__name, .bubble__explain-row')]
+            .map((part) => part.getBoundingClientRect().bottom)
+        );
+        bubble.style.setProperty('--anchor-lift', `${Math.max(0, deepest - safeBottom)}px`);
       }
     }
   }
@@ -1441,6 +1467,26 @@ function followKeyMarkup(model) {
   return `<figcaption>Watch the keys</figcaption><div class="follow-keyboard" aria-hidden="true">${whites}${blacks}</div>`;
 }
 
+// Owner 2026-10-27 (iPad QA B): on anchored rooms the song bubbles are pinned
+// to the painting (percentages of the stage), so the note band draws straight
+// over the top row — flow cannot push them the way it pushes the ordinary grid
+// under .room-body. Measure the band and nudge only the bubbles it actually
+// covers, and only by the minimum: a blanket shift of the whole field would
+// drive the bottom row into the word scroll. Scene rooms need nothing here —
+// their .room-body--scene already reserves the band.
+function pushAnchoredBubblesBelowBand(panel) {
+  const bubbles = [...stage.querySelectorAll('.bubble-field--anchored .bubble')];
+  // Measure from the authored anchor, not from a push an earlier song left.
+  bubbles.forEach((bubble) => bubble.style.setProperty('--follow-push', '0px'));
+  const clearBelow = panel.getBoundingClientRect().bottom + 4;
+  bubbles.forEach((bubble) => {
+    const push = Math.ceil(Math.max(0, clearBelow - bubble.getBoundingClientRect().top));
+    bubble.style.setProperty('--follow-push', `${push}px`);
+    // a pushed bubble moves toward the row below; paint it above that row
+    bubble.style.zIndex = push > 0 ? '2' : '';
+  });
+}
+
 function showFollowNotes(score) {
   const panel = stage.querySelector('[data-room-follow]');
   if (!panel) return null;
@@ -1458,6 +1504,7 @@ function showFollowNotes(score) {
   panel.querySelector('[data-follow-keys]').innerHTML = followKeyMarkup(model);
   panel.hidden = false;
   stage.classList.add('has-follow-notes');
+  pushAnchoredBubblesBelowBand(panel);
   return model;
 }
 
@@ -1468,6 +1515,11 @@ function clearFollowNotes() {
   panel?.querySelectorAll('.is-sounding').forEach((node) => node.classList.remove('is-sounding'));
   if (panel) panel.hidden = true;
   stage.classList.remove('has-follow-notes');
+  stage.querySelectorAll('.bubble-field--anchored .bubble')
+    .forEach((bubble) => {
+      bubble.style.removeProperty('--follow-push');
+      bubble.style.zIndex = '';
+    });
 }
 
 function paintFollowNote(model, index) {
