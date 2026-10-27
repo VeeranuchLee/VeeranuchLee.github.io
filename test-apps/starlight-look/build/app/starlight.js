@@ -101,6 +101,16 @@
       .catch(function () { narration = null; return null; });
   }
 
+  /* Label readiness follows the narration manifest, never a page/label
+     allowlist. Match the clip id in the mapped path as well as the visible
+     text so a stale or crossed mapping cannot claim that the label is ready. */
+  function clipReady(id, text) {
+    return loadNarration().then(function (map) {
+      var file = map && map[String(page)] && map[String(page)][text];
+      return !!file && file.split("/").pop() === id + ".m4a";
+    });
+  }
+
   /* The element the child tapped to hear a line carries .reading for exactly
      as long as its clip plays -- Book 1 Page 1's story-overlay highlight, on
      every line a child can now tap (owner, 2026-10-21: "pls check the voice. i
@@ -503,6 +513,7 @@
     sfx: sfx,
     say: say,
     sayQueue: sayQueue,
+    clipReady: clipReady,
     status: status,
     get calm() { return calm; },
     get sound() { return store.sound; },
