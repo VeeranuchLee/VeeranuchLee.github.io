@@ -35,5 +35,14 @@
     },
     "method": "Each generated full-page candidate was resized to the approved 1448x1086 plate, then only the local character region was feather-composited over the untouched original so non-character composition remains authoritative.",
     "qa": "qa/2026-10-16-ari-consistency/REPORT.md"
+  },
+  "page01PointerRefinement20261027": {
+    "tool": "Codex built-in image generation/editing plus local masked compositing",
+    "useCase": "precise-object-edit",
+    "promptSummary": "Inside the Page 1 night-sky window only, move the cream banded Jupiter lower so it clears the incoming top-bar controls, repair its former position with matching starfield, and make one existing warm point the single brightest white-yellow Venus-like light. Preserve every other object, pixel region, crop, palette, and texture; add no text or UI.",
+    "method": "The editor supplied the repaired starfield. The approved original Jupiter was moved intact with a feathered local mask, and the existing warm point received a small local glow. The final runtime WebP is lossless so decoded pixels outside the three local masks remain those of the approved plate.",
+    "master": "starlight-storybook/raw-downloads/page-01-pointers-r2-master.png (ignored worktree intake; OneDrive sidecar write was sandbox-blocked and the normal untracked-master backup sweep must carry it)",
+    "review": "PASS static plate inspection: Jupiter centre moved from approximately (1200,132) to (1200,205) source pixels; Venus is the brightest warm point at approximately (805,185); Mars, unknown light, blue disc, room, characters, window, houses, and all non-mask regions retain the approved plate.",
+    "qa": "coordination/drafts/starlight-pointers-r2/README.md"
   }
 }

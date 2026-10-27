@@ -180,6 +180,18 @@
   /* ---------- the spoken line, printed ------------------------------------- */
   var statusEl = null;
   var statusTimer = 0;
+  /* `who` is the narration manifest's speaker key (narration/lines.json calls
+     it "role": "narrator" or "dot"), not a byline. "narrator" is jargon a
+     child cannot read, so the book's own voice prints with no prefix at all;
+     a character prints as their display name, capitalised, with ": " after it.
+     A key with no name here still prints, capitalised, never raw. */
+  var SPEAKERS = { dot: "Dot", ari: "Ari" };
+  function speakerName(key) {
+    if (!key) return "";
+    var k = String(key).toLowerCase();
+    if (k === "narrator") return "";
+    return SPEAKERS[k] || (k.charAt(0).toUpperCase() + k.slice(1));
+  }
   function status(text, who) {
     /* Looked up lazily: this runtime boots before the page script appends the
        slice status bar, and the promise that an unrecorded line is printed and
@@ -187,9 +199,10 @@
     if (!statusEl) statusEl = document.querySelector(".status,.slice-status");
     if (!statusEl) return;
     statusEl.innerHTML = "";
-    if (who) {
+    var name = speakerName(who);
+    if (name) {
       var w = document.createElement("span");
-      w.className = "who"; w.textContent = who + ":";
+      w.className = "who"; w.textContent = name + ": ";
       statusEl.appendChild(w);
     }
     statusEl.appendChild(document.createTextNode(text));
@@ -227,7 +240,16 @@
       '<form class="page-goto" hidden><label>Go to <input type="number" min="1" max="' + PAGES +
       '" value="' + page + '" inputmode="numeric" aria-label="Page number"></label>' +
       '<button class="ctrl" type="submit">Go</button></form>';
-    stage.appendChild(nav);
+    /* The nav pill and the picture-button row share one top bar (.top-bar in
+       starlight.css owns the old nav anchor, top 1.5% / right 1.5%). The row is
+       inserted BEFORE the pill so it sits immediately left of it, centred on
+       the pill's own midline; the controls no longer fit below the question
+       panel, where the 64px buttons grew over its bottom edge (see the
+       .page-controls comment in starlight.css). */
+    var bar = document.createElement("div");
+    bar.className = "top-bar";
+    bar.appendChild(nav);
+    stage.appendChild(bar);
 
     var jump = nav.querySelector(".page-jump");
     var form = nav.querySelector(".page-goto");
@@ -252,24 +274,71 @@
       if (!nav.contains(e.target)) form.hidden = true;
     });
 
-    /* Book 1's child-facing control chips, in the same order and place. The
-       Display chip Book 1 never had is gone (owner, 2026-10-21: "no need for
-       the display button."). */
+    /* Book 1's child-facing controls, in the same order and place. The Display
+       chip Book 1 never had is gone (owner, 2026-10-21: "no need for the
+       display button."), and the word chips are picture buttons now (owner,
+       2026-10-27: "this is hard to use for kids. use picture instead.") -- a
+       speaker, a shooting star, four corner arrows, each drawn inline (no
+       emoji, no icon font, no extra file) with chunky currentColor strokes.
+       The words moved into the aria-label rather than away: it names the state
+       and what a tap does. aria-pressed and title are exactly what they were. */
+    /* Each icon is one self-contained inline <svg> (counted per control by
+       qc/check-slice-one.js), stroked in currentColor so the chip's own colour
+       flows through the drawing. */
+    var G = ' fill="none" stroke="currentColor" stroke-width="4.5" ' +
+      'stroke-linecap="round" stroke-linejoin="round"';
+    var SPEAKER = '<path d="M10 19h5l9-8v26l-9-8h-5z"/>';
+    var iSoundOn =
+      '<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g' + G + '>' + SPEAKER +
+      '<path d="M28 18a7 7 0 0 1 0 12"/><path d="M34 12.5a14 14 0 0 1 0 23"/></g></svg>';
+    var iSoundOff =
+      '<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g' + G + '>' + SPEAKER +
+      '<path d="M28 19l10 10"/><path d="M38 19l-10 10"/></g></svg>';
+    var STAR = '<path d="M33 4l2.8 8.2 8.2 2.8-8.2 2.8L33 26l-2.8-8.2L22 15l8.2-2.8z"/>';
+    var iMotion =
+      '<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g' + G + '>' + STAR +
+      '<path d="M26 28L14 40"/><path d="M35 34L26 43"/><path d="M17 19L7 29"/></g></svg>';
+    var iCalm =
+      '<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g' + G + '>' + STAR +
+      '<path d="M8 33h9l-9 9h9"/></g></svg>';
+    var iFullOut =
+      '<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g' + G + '>' +
+      '<path d="M20 20L9 9"/><path d="M9 9h9"/><path d="M9 9v9"/>' +
+      '<path d="M28 20L39 9"/><path d="M39 9h-9"/><path d="M39 9v9"/>' +
+      '<path d="M20 28L9 39"/><path d="M9 39h9"/><path d="M9 39v-9"/>' +
+      '<path d="M28 28L39 39"/><path d="M39 39h-9"/><path d="M39 39v-9"/></g></svg>';
+    var iFullIn =
+      '<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g' + G + '>' +
+      '<path d="M9 9L20 20"/><path d="M20 20h-9"/><path d="M20 20v-9"/>' +
+      '<path d="M39 9L28 20"/><path d="M28 20h9"/><path d="M28 20v-9"/>' +
+      '<path d="M9 39L20 28"/><path d="M20 28h-9"/><path d="M20 28v9"/>' +
+      '<path d="M39 39L28 28"/><path d="M28 28h9"/><path d="M28 28v9"/></g></svg>';
+
     var row = document.createElement("div");
     row.className = "page-controls";
     row.innerHTML =
-      '<button class="ctrl" id="cSound" type="button" aria-pressed="' + store.sound + '">' +
-        (store.sound ? "Sound on" : "Sound off") + '</button>' +
+      '<button class="ctrl" id="cSound" type="button" aria-pressed="' + store.sound + '"></button>' +
       '<button class="ctrl" id="cCalm" type="button" aria-pressed="' + calm + '" ' +
-        'title="Reduced motion">' + (calm ? "Full motion" : "Calm mode") + '</button>' +
-      '<button class="ctrl" id="cFull" type="button" hidden>Full screen</button>';
-    stage.appendChild(row);
+        'title="Reduced motion"></button>' +
+      '<button class="ctrl" id="cFull" type="button" hidden></button>';
+    bar.insertBefore(row, nav);
+
+    function paint(btn, drawing, label) {
+      btn.innerHTML = drawing;
+      btn.setAttribute("aria-label", label);
+    }
 
     var bSound = row.querySelector("#cSound");
+    function paintSound() {
+      paint(bSound, store.sound ? iSoundOn : iSoundOff, store.sound
+        ? "Sound is on. Tap to turn sound off."
+        : "Sound is off. Tap to turn sound on.");
+    }
+    paintSound();
     bSound.addEventListener("click", function () {
       store.sound = !store.sound;
       bSound.setAttribute("aria-pressed", String(store.sound));
-      bSound.textContent = store.sound ? "Sound on" : "Sound off";
+      paintSound();
       /* Sound-off mid-queue kills the chain too, with say()'s sound-off early
          return's own semantics: a paused clip never fires "ended", so the
          queue's remaining lines would otherwise never come, even after Sound
@@ -279,10 +348,16 @@
     });
 
     var bCalm = row.querySelector("#cCalm");
+    function paintCalm() {
+      paint(bCalm, calm ? iCalm : iMotion, calm
+        ? "Motion is calm. Tap for full motion."
+        : "Motion is full. Tap for calm mode.");
+    }
+    paintCalm();
     bCalm.addEventListener("click", function () {
       calm = !calm; store.motion = !calm;
       bCalm.setAttribute("aria-pressed", String(calm));
-      bCalm.textContent = calm ? "Full motion" : "Calm mode";
+      paintCalm();
       applyCalm();
       API.emit("calm", calm);
     });
@@ -290,6 +365,12 @@
     // A control that cannot work hides itself rather than offering a dead button.
     var bFull = row.querySelector("#cFull");
     var root = document.documentElement;
+    function paintFull() {
+      var on = !!(document.fullscreenElement || document.webkitFullscreenElement);
+      paint(bFull, on ? iFullIn : iFullOut, on
+        ? "Full screen is on. Tap to leave full screen."
+        : "Full screen is off. Tap for full screen.");
+    }
     if (root.requestFullscreen || root.webkitRequestFullscreen) {
       bFull.hidden = false;
       bFull.addEventListener("click", function () {
@@ -298,6 +379,11 @@
           else (root.requestFullscreen || root.webkitRequestFullscreen).call(root);
         } catch (e) {}
       });
+      /* The icon follows the browser, not the tap: the escape gesture and the
+         OS's own control change fullscreen state without this button. */
+      document.addEventListener("fullscreenchange", paintFull);
+      document.addEventListener("webkitfullscreenchange", paintFull);
+      paintFull();
     }
 
   }
@@ -317,11 +403,29 @@
   }
 
   /* ---------- evidence badges ---------------------------------------------- */
+  /* The badge glyphs are drawn like the control icons (chunky currentColor
+     strokes, one inline <svg> each), not emoji: an emoji is a different little
+     picture on every platform and some of these render as nothing a child can
+     name. The <i> keeps the badge's own colour, so the drawings follow each
+     kind's palette. */
+  var KG = ' fill="none" stroke="currentColor" stroke-width="4" ' +
+    'stroke-linecap="round" stroke-linejoin="round"';
   var KINDS = {
-    seen:     { icon: "👁", word: "Seen",     blurb: "Someone looked at this, or photographed it." },
-    measured: { icon: "📡", word: "Measured", blurb: "An instrument measured something about it." },
-    inferred: { icon: "🧩", word: "Inferred", blurb: "Nobody can see it directly. The clues point firmly at it." },
-    model:    { icon: "🖼", word: "Model",    blurb: "This picture is a diagram or a scientist's reconstruction." }
+    seen:     { icon: '<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g' + KG + '>' +
+      '<path d="M4 24c6-9 12-13 20-13s14 4 20 13c-6 9-12 13-20 13S10 33 4 24z"/>' +
+      '<circle cx="24" cy="24" r="5.5"/></g></svg>',
+      word: "Seen", blurb: "Someone looked at this, or photographed it." },
+    measured: { icon: '<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g' + KG + '>' +
+      '<circle cx="10" cy="38" r="3.5"/><path d="M19 38a9 9 0 0 0-9-9"/>' +
+      '<path d="M28 38a18 18 0 0 0-18-18"/></g></svg>',
+      word: "Measured", blurb: "An instrument measured something about it." },
+    inferred: { icon: '<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g' + KG + '>' +
+      '<path d="M8 16h9a5 5 0 0 1 10 0h9v8a5 5 0 0 1 0 10v8H8z"/></g></svg>',
+      word: "Inferred", blurb: "Nobody can see it directly. The clues point firmly at it." },
+    model:    { icon: '<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g' + KG + '>' +
+      '<path d="M8 8h32v32H8z"/><circle cx="31" cy="17" r="3.5"/>' +
+      '<path d="M12 31l7-8 5 6 4-4 6 6"/></g></svg>',
+      word: "Model", blurb: "This picture is a diagram or a scientist's reconstruction." }
   };
 
   function wireBadges(stage) {

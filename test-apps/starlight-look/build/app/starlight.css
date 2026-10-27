@@ -6,8 +6,8 @@
    together; this book starts where that ended up.
 
    Palette and chrome geometry are Book 1's, deliberately: the back arrow sits
-   top-left, page navigation top-right, and the control chips bottom-right, in
-   the same places a child already found them in the first book.
+   top-left, and page navigation plus the control buttons share the top-right
+   bar, in the same places a child already found them in the first book.
    ========================================================================== */
 
 :root{
@@ -169,6 +169,10 @@ html,body{touch-action:manipulation}
   box-shadow:0 3px 0 #08182e;font-size:clamp(.58rem,.78vw,.82rem)}
 .badge:hover{background:#17406e}
 .badge i{font-style:normal;font-size:1.15em;line-height:1}
+/* The kind glyph inside <i> is a drawn <svg> now, so it sizes to the emoji
+   slot it replaced (1em of the <i>'s own font-size) and strokes itself in the
+   badge's own colour. */
+.badge i svg,.drawer .kind i svg{width:1em;height:1em;display:block}
 .badge[data-kind=seen]{border-color:#8fd39a;color:#dcf6df}
 .badge[data-kind=measured]{border-color:#7fc7ea;color:#ddf1fc}
 .badge[data-kind=inferred]{border-color:#e3b96a;color:#fbeed2}
@@ -184,7 +188,13 @@ html,body{touch-action:manipulation}
   height:32px;min-width:32px;padding:0 8px;border:1px solid #ffffff33;border-radius:8px;
   background:#16345c;color:#fff;font-weight:900;text-decoration:none}
 .hub:hover{background:#285b87}
-.page-nav{position:absolute;z-index:50;right:1.5%;top:1.5%;display:flex;align-items:center;
+/* The top bar carries both right-hand chrome clusters on one centred line:
+   the picture-button row (.page-controls) immediately left of the page-nav
+   pill. It owns the anchor the pill used to have on its own (top 1.5%,
+   right 1.5%, stage percentages like the rest of the chrome), so the pill
+   keeps its place and the row keeps the pill's top offset and midline. */
+.top-bar{position:absolute;z-index:50;right:1.5%;top:1.5%;display:flex;align-items:center;gap:6px}
+.page-nav{display:flex;align-items:center;
   gap:4px;padding:4px;border:1px solid #71d6e966;border-radius:13px;background:#07152de8}
 .page-nav a,.page-jump{display:grid;place-items:center;height:32px;min-width:32px;
   border:1px solid #71d6e966;border-radius:9px;background:#17496b;color:#fff;
@@ -192,18 +202,38 @@ html,body{touch-action:manipulation}
 .page-nav a:hover,.page-jump:hover{background:#285b87}
 .page-jump{min-width:64px;padding:0 8px}
 .page-nav [aria-disabled=true]{opacity:.35;pointer-events:none}
-.page-goto{position:absolute;right:calc(100% + 6px);top:0;display:flex;gap:4px;padding:6px;
-  border-radius:10px;background:#07152d}
+/* The goto form still pops out to the left, now of the whole bar (its new
+   containing block), centred on the bar's midline like the pill itself. */
+.page-goto{position:absolute;right:calc(100% + 6px);top:50%;transform:translateY(-50%);
+  display:flex;gap:4px;padding:6px;border-radius:10px;background:#07152d}
 .page-goto[hidden]{display:none}
 .page-goto input{width:52px}
 
-.page-controls{position:absolute;z-index:45;right:2%;bottom:24.5%;display:flex;gap:5px;
-  flex-wrap:wrap-reverse;justify-content:flex-end;max-width:56%}
+/* Owner, 2026-10-27: "this is hard to use for kids. use picture instead."
+   The control chips are round picture buttons: 64px tap targets with a ~38px
+   drawn icon, in the chips' own colours. A press scales the button down a
+   touch -- with the immediate icon swap, that is the tap feedback.
+   Moved to the top bar (same day): at 64px the row no longer fitted its old
+   bottom-right anchor (bottom:24.5%) -- it grew about 15px up over the bottom
+   edge of the question panel (bottom:31.5%), and the gap the panel leaves
+   above the fact strip (bottom:1.5% + height:22%) is only ~55px, less than a
+   64px button. No lower spot is free on every page (answer pills pin the
+   painting's top band, the story card owns the left edge), so the row now
+   rides the top bar, immediately left of the page-nav pill, touching nothing.
+   In the bar the row never needs to wrap: it is a plain flex row, static
+   inside .top-bar. */
+.page-controls{display:flex;gap:4px}
+/* .ctrl is also the Go button in .page-goto, so the base chip stays and the
+   picture-button shape is scoped to the row's own three controls. */
 .ctrl{min-height:38px;padding:.3rem .6rem;border:1px solid var(--cyan);border-radius:999px;
   background:#183957;color:#fff;box-shadow:none;font-size:clamp(.56rem,.76vw,.8rem)}
 .ctrl:hover{background:#285b87}
 .ctrl[aria-pressed=true]{background:#2b6f96}
 .ctrl[hidden]{display:none}
+.page-controls .ctrl{display:grid;place-items:center;width:64px;height:64px;min-height:64px;
+  padding:0;border-radius:50%;transition:transform .08s ease-out}
+.page-controls .ctrl:active{transform:scale(.88)}
+.page-controls .ctrl svg{width:38px;height:38px;display:block;pointer-events:none}
 
 /* ---------- drawers : the optional deeper layer ----------------------------- */
 .drawer{position:absolute;z-index:70;inset:auto 3% 3%;max-height:74%;overflow:auto;
@@ -226,7 +256,6 @@ html,body{touch-action:manipulation}
     grid-template-areas:"story" "instrument" "footer";
     padding-top:clamp(44px,7vw,58px)}
   .story{max-height:38vh}
-  .page-controls{max-width:70%}
   .badges{padding-right:0}
   .footer{padding-bottom:44px}
 }
