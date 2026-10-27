@@ -2,7 +2,7 @@
   "asset": "Kingdom Chess mode-card pictures",
   "date": "2026-10-27",
   "tool": "OpenAI Codex built-in image generation (image_gen)",
-  "use_case": "precise-object-edit of chessboards in approved illustrations",
+  "use_case": "precise-object-edit of child skin tone in approved illustrations",
   "images": ["with-friend.webp", "with-helper.webp"],
   "masters": ["art/masters/modes/with-friend.png", "art/masters/modes/with-helper.png"],
   "references": [
@@ -12,7 +12,7 @@
     "art/runtime/princess-mermaid/picker-card.webp",
     "art/runtime/sweet-fairy/picker-card.webp"
   ],
-  "prompt": "Round 3 used the rejected round-2 friend picture as the edit target and changed only its chessboard: insert one additional complete rank, use a higher and squarer board view, preserve eight columns, show nine horizontal boundaries forming eight distinct row bands with seven measurable light/dark transitions on an unobstructed column, keep the far rank in front of the back rail, keep pieces inside squares, and preserve both children and every non-board element. With-helper was not regenerated or re-exported.",
-  "review": "PASS / PASS. With a friend was pixel-counted on the unobstructed fifth column of the 1605x980 master along (844,632) to (849,894): eight alternating row runs at y 632-656, 657-683, 684-717, 718-749, 750-785, 786-820, 821-859, and 860-894, giving seven internal light/dark transitions. With a helper retains the controller-confirmed round-2 PASS and is unchanged.",
-  "processing": "Corrected RGB PNG masters are 1605x980. Each was resized with Lanczos to 360x220 and encoded as quality-88 WebP. Soft painted vignettes are intentionally opaque."
+  "prompt": "Round 4 used each approved 1605x980 picture as its own strict edit target and changed only exposed child skin. Make the girl and two boys noticeably lighter with one consistent natural light-to-light-medium warm peach-brown tone across every face, ear, neck, hand, wrist and arm. Preserve exact identities, faces, expressions, poses, fingers, hair, clothes, Professor Hoot, backgrounds, chessboards, pieces, board geometry, lighting, framing and painterly style; prevent blotches, halos and colour spill.",
+  "review": "PASS / PASS. All three children have an even, natural and consistent lighter warm tone; faces, ears, necks, hands and arms match. Hair and clothing edges remain clean, visible hands retain correct anatomy and finger structure, and no skin-colour spill is visible. Both complete boards were re-counted from master pixels as 8 columns x 8 rows; the friend fifth-column scan retained eight alternating row runs and seven internal transitions.",
+  "processing": "Round-4 RGB PNG masters are 1605x980. Each was resized with Lanczos to 360x220 and encoded as quality-88 WebP. Soft painted vignettes are intentionally opaque."
 }
