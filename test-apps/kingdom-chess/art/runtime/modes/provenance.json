@@ -2,7 +2,7 @@
   "asset": "Kingdom Chess mode-card pictures",
   "date": "2026-10-27",
   "tool": "OpenAI Codex built-in image generation (image_gen)",
-  "use_case": "precise-object-edit of child skin tone in approved illustrations",
+  "use_case": "precise-object-edit of child hairstyles in approved illustrations",
   "images": ["with-friend.webp", "with-helper.webp"],
   "masters": ["art/masters/modes/with-friend.png", "art/masters/modes/with-helper.png"],
   "references": [
@@ -12,7 +12,7 @@
     "art/runtime/princess-mermaid/picker-card.webp",
     "art/runtime/sweet-fairy/picker-card.webp"
   ],
-  "prompt": "Round 4 used each approved 1605x980 picture as its own strict edit target and changed only exposed child skin. Make the girl and two boys noticeably lighter with one consistent natural light-to-light-medium warm peach-brown tone across every face, ear, neck, hand, wrist and arm. Preserve exact identities, faces, expressions, poses, fingers, hair, clothes, Professor Hoot, backgrounds, chessboards, pieces, board geometry, lighting, framing and painterly style; prevent blotches, halos and colour spill.",
-  "review": "PASS / PASS. All three children have an even, natural and consistent lighter warm tone; faces, ears, necks, hands and arms match. Hair and clothing edges remain clean, visible hands retain correct anatomy and finger structure, and no skin-colour spill is visible. Both complete boards were re-counted from master pixels as 8 columns x 8 rows; the friend fifth-column scan retained eight alternating row runs and seven internal transitions.",
-  "processing": "Round-4 RGB PNG masters are 1605x980. Each was resized with Lanczos to 360x220 and encoded as quality-88 WebP. Soft painted vignettes are intentionally opaque."
+  "prompt": "Round 5 used each approved 1605x980 picture as its own strict edit target and changed only curly hair. For With a friend, change the girl's large tight curls into long neat mostly straight hair with a soft natural wave, retaining the exact deep-brown colour, length and complete flower band; leave the boy's already-straight hair unchanged. For With a helper, change the boy's tight curls into a short tidy mostly straight cut with a gentle natural wave and clean tapered sides. Preserve exact identities, faces, skin tones, expressions, ears, poses, fingers, clothes, Professor Hoot, backgrounds, chessboards, pieces, 8x8 board geometry, lighting, framing and painterly style; prevent hairline and ear artifacts.",
+  "review": "PASS / PASS. The girl's long dark hair is now softly wavy and substantially straighter, with the complete flower band seated naturally; the helper boy has a short tidy swept straight-to-softly-wavy cut. Hairlines and ears are clean with no artifacts. Faces, skin tones, expressions, clothes and hands remain intact. Professor Hoot and the backgrounds remain visually consistent. Both complete boards were re-counted from master pixels as 8 columns x 8 rows; the friend fifth-column scan retained eight alternating row runs and seven internal transitions.",
+  "processing": "Round-5 RGB PNG masters are 1605x980. Each was resized with Lanczos to 360x220 and encoded as quality-88 WebP. Soft painted vignettes are intentionally opaque."
 }
