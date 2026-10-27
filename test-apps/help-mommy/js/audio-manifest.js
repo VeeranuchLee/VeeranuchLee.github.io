@@ -1,0 +1,1 @@
+(function(root){'use strict';const clips={};function speak(id,fallback){const bubble=document.querySelector('#text-bubble');if(bubble){bubble.textContent=(clips[id]&&clips[id].text)||fallback||'';bubble.hidden=false;}return Promise.resolve(false);}root.HelpMommyAudio={clips,speak};})(globalThis);
