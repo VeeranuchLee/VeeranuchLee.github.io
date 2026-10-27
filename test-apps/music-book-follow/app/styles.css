@@ -629,7 +629,10 @@ body[data-view="world"] .chrome-btn {
 
 /* The listening guide is a picture, never another instrument. It occupies its
    own band between the room header and painting, so neither song art nor the
-   play/stop target is covered. Only the strip itself scrolls. */
+   play/stop target is covered. The whole song is laid out at once, wrapping to
+   a second line — it never moves sideways (owner 2026-10-27). Only a song too
+   long for two lines makes the strip scroll at all, and then it jumps a line
+   pair at a time (paintFollowNote). */
 .room-follow {
   position: relative; z-index: 6;
   flex: 0 0 auto;
@@ -642,24 +645,40 @@ body[data-view="world"] .chrome-btn {
 }
 .room-follow[hidden] { display: none; }
 .room-follow__strip {
-  display: flex; align-items: center; gap: clamp(5px, .8vw, 9px);
-  min-height: 15px; max-width: min(80vw, 700px); margin: 0 auto; overflow-x: hidden; overflow-y: visible;
-  scroll-behavior: smooth; white-space: nowrap;
-  padding: 0 46%;
+  /* The song wraps — every note is on screen and nothing ever slides sideways
+     (owner 2026-10-27: "it also move from left to right"). The clamp matches
+     .follow-note so the em in max-height below sizes the same line it caps. */
+  position: relative; /* the notes' offsetParent: offsetTop is measured from here */
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+  gap: 2px clamp(3px, .5vw, 6px);
+  font-size: clamp(7px, .82vw, 10px);
+  min-height: 15px; max-width: 100%; margin: 0 auto;
+  /* Exactly two lines of 1em notes plus the 2px row gap above; the 2px terms
+     must stay in step. A longer song is clipped here and paged through by
+     paintFollowNote instead of growing the band. */
+  max-height: calc(2 * 1em * 1 + 2px);
+  overflow: hidden; white-space: normal; padding: 0;
 }
 .follow-note {
-  flex: 0 0 auto; min-width: 1.25em;
-  /* Same size as the song-name labels on the painting (owner 2026-10-27). */
-  color: #3a3f55; font-size: clamp(9.5px, 1.35vw, 13px); font-weight: 800;
+  flex: 0 0 auto; min-width: 1.1em;
+  /* Same size as the "Melody" mode label (owner 2026-10-27). line-height 1
+     keeps every row exactly 1em, which the strip's max-height counts on. */
+  color: #3a3f55; font-size: clamp(7px, .82vw, 10px); font-weight: 800;
   line-height: 1; text-align: center;
   transition: color .12s ease, transform .12s ease;
 }
-.follow-note--rest { width: 1.1em; min-width: 1.1em; height: .6em; }
+/* A rest is a whole line tall (not .6em) so its top edge sits on its row's
+   top like every note around it: paintFollowNote snaps the strip to a note's
+   offsetTop, and only line-tall boxes make that exactly the line's top. */
+.follow-note--rest { width: 1.1em; min-width: 1.1em; height: 1em; }
 .follow-note--rest::after {
-  content: ''; display: block; width: .75em; height: 3px; margin: .28em auto 0;
+  content: ''; display: block; width: .75em; height: 3px;
+  margin: calc((1em - 3px) / 2) auto 0;
   border-radius: 3px; background: #b9aa89;
 }
-.follow-note.is-sounding { color: #c4445d; transform: scale(1.25); }
+/* A transform, never a size change: the highlight grows without reflowing
+   the wrapped rows (owner 2026-10-27). */
+.follow-note.is-sounding { color: #c4445d; transform: scale(1.15); }
 /* A picture of the whole 88-key piano as one long strip, not a playable one
    (owner 2026-10-27). 52 white keys: ~19px each in landscape, ~14px in portrait. */
 .room-follow__keys { margin: 2px auto 0; width: 100%; }
@@ -692,13 +711,18 @@ body[data-view="world"] .chrome-btn {
 }
 .follow-key--white.is-sounding { background: #ffd96d; box-shadow: inset 0 0 0 2px #d79a20; }
 .follow-key--black.is-sounding { background: #e35e76; box-shadow: 0 0 0 2px #ffcf6b; }
-.stage--room-scene.has-follow-notes .room-body--scene { top: clamp(102px, 18vh, 148px); }
+/* ~12px more than the old one-line band needed: the wrapped notes can be one
+   line taller at the clamp (two lines of ~10px + row gap), and the painting
+   must never be covered by the band. */
+.stage--room-scene.has-follow-notes .room-body--scene { top: clamp(114px, 18vh, 160px); }
 
 @media (min-aspect-ratio: 1/1) {
   .room-follow { margin-top: 2px; padding-top: 1px; padding-bottom: 2px; }
-  .room-follow__strip { min-height: 14px; padding-top: 0; padding-bottom: 0; }
+  /* No strip override: the wrapped strip keeps its base min-height/padding —
+     no forced single line, padding stays 0. */
   .follow-keyboard { height: clamp(24px, 4vh, 30px); }
-  .stage--room-scene.has-follow-notes .room-body--scene { top: clamp(82px, 19vh, 112px); }
+  /* Same +12px for the possible second line of notes as portrait above. */
+  .stage--room-scene.has-follow-notes .room-body--scene { top: clamp(94px, 19vh, 124px); }
 }
 
 /* The field is a fixed box on a stage that cannot scroll, so the rows have to

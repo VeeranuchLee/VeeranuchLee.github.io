@@ -1446,11 +1446,15 @@ function showFollowNotes(score) {
   if (!panel) return null;
   const model = followModel(score);
   if (!model.tokens.length || !model.keyboard.whites.length) return null;
-  panel.querySelector('[data-follow-strip]').innerHTML = model.tokens.map((token) =>
+  const strip = panel.querySelector('[data-follow-strip]');
+  strip.innerHTML = model.tokens.map((token) =>
     token.rest
       ? `<span class="follow-note follow-note--rest" data-follow-note="${token.index}" aria-label="Rest"></span>`
       : `<span class="follow-note" data-follow-note="${token.index}">${token.label}</span>`
   ).join('');
+  // A new song starts from its first line pair; paintFollowNote re-jumps if a
+  // long one plays past the two-line window.
+  strip.scrollTop = 0;
   panel.querySelector('[data-follow-keys]').innerHTML = followKeyMarkup(model);
   panel.hidden = false;
   stage.classList.add('has-follow-notes');
@@ -1476,11 +1480,15 @@ function paintFollowNote(model, index) {
   current?.classList.add('is-sounding');
   token?.keys.forEach((key) => panel.querySelector(`[data-follow-key="${key}"]`)?.classList.add('is-sounding'));
   if (current) {
+    // The strip wraps instead of scrolling sideways (owner 2026-10-27), so the
+    // only scroll left is vertical, for a song too long for two lines: a jump,
+    // never smooth, so the line pair holding the sounding note snaps into
+    // view with the sounding line first. The strip is position: relative, so
+    // offsetTop is measured from it, and each note box is exactly one line
+    // tall, so offsetTop is its line's top edge.
     const strip = panel.querySelector('[data-follow-strip]');
-    const target = current.offsetLeft - (strip.clientWidth - current.offsetWidth) / 2;
-    const left = Math.max(0, target);
-    if (typeof strip.scrollTo === 'function') strip.scrollTo({ left, behavior: 'smooth' });
-    else strip.scrollLeft = left;
+    const top = current.offsetTop;
+    if (top < strip.scrollTop || top >= strip.scrollTop + strip.clientHeight) strip.scrollTop = top;
   }
 }
 
