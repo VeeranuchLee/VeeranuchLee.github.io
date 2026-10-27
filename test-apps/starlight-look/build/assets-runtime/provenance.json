@@ -44,5 +44,16 @@
     "master": "starlight-storybook/raw-downloads/page-01-pointers-r2-master.png (ignored worktree intake; OneDrive sidecar write was sandbox-blocked and the normal untracked-master backup sweep must carry it)",
     "review": "PASS static plate inspection: Jupiter centre moved from approximately (1200,132) to (1200,205) source pixels; Venus is the brightest warm point at approximately (805,185); Mars, unknown light, blue disc, room, characters, window, houses, and all non-mask regions retain the approved plate.",
     "qa": "coordination/drafts/starlight-pointers-r2/README.md"
+  },
+  "page01Batch3Fixes20261027": {
+    "tool": "Codex built-in image generation/editing plus local masked compositing",
+    "useCase": "precise-object-edit",
+    "promptSummary": "Remove only the bright cyan-blue planet-like disc near source x=865, y=260 and replace its immediate disc and halo with continuous plain starry sky. Preserve the 1448x1086 canvas and every other object and pixel region; add nothing.",
+    "method": "The full generated frame was rejected because it repainted unrelated pixels. Only a feathered ellipse around the disc was composited over the archived original. The runtime WebP is lossless; all decoded pixels where the repair mask is zero are byte-identical to the before plate. The repair changes 9,473 decoded pixels.",
+    "beforeSha256": "a9a0c6049f2fedcc13df7fc6b0f8ffd06f59aa1e4fe7a41a5e204820d4d7983c",
+    "beforeCopy": "coordination/drafts/starlight-batch3-2026-10-27/before/page-01.webp (git-ignored controller handoff for sidecar archive)",
+    "review": "PASS: the unexplained cyan disc is plain starry sky; Venus, Jupiter, Mars, the labelled star, room, characters and every pixel outside the repair mask remain unchanged.",
+    "bookArt": "starlight-storybook/assets-runtime/standard/page-01-book-open.webp is a byte-for-byte reuse of Book 1 solar-storybook/assets-runtime/standard/page-01/book-open.webp; no generation or repaint.",
+    "lampArt": "No generated off-state was needed. Book 1's lamp uses aligned lighting overlays rather than a swapped crop, and Book 2 follows that model."
   }
 }

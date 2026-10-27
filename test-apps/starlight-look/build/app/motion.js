@@ -45,5 +45,9 @@ function glints(root,points){
   document.addEventListener("visibilitychange",sync);if(window.Starlight)window.Starlight.onCalm(sync);sync();
   return {destroy:function(){document.removeEventListener("visibilitychange",sync);nodes.forEach(function(n){n.remove()})}};
 }
+/* Full motion used to restart all eleven negative-delay CSS loops at once when
+   Calm was switched off. The simultaneous scale/opacity jump read as the
+   whole window snapping. Keep each painted star at rest, then let sparse,
+   independently timed glints breathe in and out. */
 window.StarlightMotion={frameCycle:frameCycle,paintedCycle:paintedCycle,sequence:sequence,glints:glints,cancel:function(){if(activeSequence)activeSequence.cancel()},paintedIdleLoopsEnabled:ALLOW_PAINTED_IDLE_LOOPS};
 })();
