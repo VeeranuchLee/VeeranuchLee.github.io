@@ -1,0 +1,9 @@
+{
+  "generated": "2026-10-27",
+  "tool": "Codex built-in image generation",
+  "assets": [
+    {"file":"painted-room.webp","source_id":"exec-4d303c1e-98f8-4ed0-9f88-850d6c8d18bb","purpose":"quiet painted learning-room background","review":"Accepted: no text, numbers, people or abacus; quiet central field; crop-safe edge decoration."},
+    {"file":"wooden-frame.webp","source_id":"exec-a431606d-be0d-4ece-9740-393fdccb3ccc","edit_source_id":"exec-de4a582e-7e2d-4e54-8a47-262496e2b4de","purpose":"warm beech soroban frame plate","review":"Round 3: removed the baked centre beam so the code-drawn reckoning bar is the only bar; preserved the outer frame and empty panel, with no beads, rods, text or numbers."}
+  ],
+  "processing": "Selected PNG masters were resized and encoded to WebP with Pillow 2026-10-27. For round 3, Codex built-in image editing generated the beam-free reference; only the former beam band was reconstructed in the original 1400x1050 plate, and the result was saved as lossless WebP so decoded pixels outside that band remain identical to the prior runtime. Runtime files contain no baked labels or mathematical state. Full prompts are recorded in the task transcript and task record handoff."
+}
