@@ -1,5 +1,9 @@
 /* Space Trivia — offline cache.
 
+   Owner decision 2026-10-25: the installed worker takes over immediately so
+   cg-update.js can detect it on an open page. cg-update.js will not reload a
+   child-touched page until it has been left alone for at least five minutes.
+
    Bump CACHE_NAME whenever any app file changes, or an installed copy keeps serving
    the old one. A cache-first worker handing back stale code is the failure that looks
    like "my edit did nothing". The release pipeline reads this name too: publish-app.sh
@@ -28,7 +32,7 @@
    so the manifest and every explicitly listed runtime file must exist together. */
 // v4 2026-09-22: zoom-trap fix -- the global gesturestart pinch blocker is
 //        gone estate-wide (INTERACTION-DIRECTION.md); this bump carries it.
-const CACHE_NAME = "space-trivia-v11";
+const CACHE_NAME = "space-trivia-v12";
 
 const APP_FILES = [
   "./",
@@ -109,6 +113,8 @@ self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_FILES))
   );
+  // Owner decision 2026-10-25: cg-update.js defers reloads after child activity.
+  self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
