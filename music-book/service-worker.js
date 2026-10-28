@@ -109,7 +109,7 @@
 
 /* CACHE_NAME is the variable the release pipeline reads (publish-app.sh matches
    /CACHE_NAME\s*=/). Do not rename it; see release/registry.json, music-book. */
-const CACHE_NAME = 'music-book-v13';
+const CACHE_NAME = 'music-book-v14';
 
 // Everything the app needs to START, plus every navigation screen a child sees
 // before a room: landing, World map, and the six wing maps. The app is one ES
@@ -126,6 +126,7 @@ const APP_FILES = [
 
   // Load-bearing modules: app.js and everything its import graph reaches.
   './app/app.js',
+  './app/follow-notes.js',
   './app/audio-wake.js',
   './app/audio-engine.js',
   './app/player.js',

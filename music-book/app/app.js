@@ -16,6 +16,7 @@ import { LEARN_MORE_ROOM_SCRIPTS, LEARN_MORE_WORD_MEANINGS } from './learnmore-c
 import { createChapter } from './read-together.js';
 import { renderPlayroom, leavePlayroom, PITCHES, NOTE_COLORS, BLACK_KEYS, BLACK_COLORS } from './playroom.js';
 import { CATALOGUE_TO_PLAYALONG } from '../data/playalong-songs.js';
+import { followModel, followSchedule, noteLabel } from './follow-notes.js';
 
 const engine = new AudioEngine();
 const player = new Player(engine);
@@ -57,6 +58,7 @@ let exploreOverride = null;
 // The companion explainer above the word scroll: one bubble at a time.
 let stripExplainer = null;
 let stripExplainerTimer = null;
+let followTimers = [];
 
 const pieceById = (id) => PIECES.find((p) => p.id === id);
 const wingById = (id) => WINGS.find((w) => w.id === id);
@@ -183,6 +185,8 @@ function unlockAudio() {
 
 function stopPiece() {
   player.stop();
+  player.onSchedule = () => {};
+  clearFollowNotes();
   engine.duck('piece', false);
   setPlayingUI(null, null);
   applyAtmosphere();          // the page's tune comes back
@@ -229,7 +233,11 @@ const WING_MAP = {
     'winter-lanterns': { x: 79, y: 38, w: 30, h: 35 }
   } },
   'the-time-corridor': { background: 'assets/wings/w4-map.webp', landmarks: {
-    'baroque-pattern-workshop': { x: 14, y: 34, w: 22, h: 38 },
+    // Owner 2026-10-27 (iPad QA G): "Baroque Pattern Workshop"'s name plate
+    // (left-anchored under x<22) ran 6px into "Baroque Stage: Seasons, Water,
+    // and Fireworks", whose plate grew wider with the 260px wing-label cap.
+    // Two points left parts them; the ellipse stays on its painted bench.
+    'baroque-pattern-workshop': { x: 12, y: 34, w: 22, h: 38 },
     'baroque-stage-seasons-water-fireworks': { x: 38, y: 35, w: 23, h: 37 },
     'vienna-classical-city': { x: 62, y: 35, w: 23, h: 38 },
     'beethoven-door-two-eras': { x: 87, y: 34, w: 22, h: 38 }
@@ -340,18 +348,29 @@ const ROOM_BACKGROUND = {
     'la-bamba': { x: 79, y: 67, w: 20, h: 18, label: 'above' }
   } },
   'celebration-square': { background: 'assets/room-scenes/r10-celebration-square-scene.webp', focus: '50% 50%', scene: {
-    'happy-birthday': { x: 18, y: 29, w: 23, h: 19 },
+    // Owner 2026-10-27 (iPad QA G): the left column is too tight for the
+    // below-button labels to clear each other — "Jingle Bells"'s plate sat on
+    // the "Auld Lang Syne" button. x/y nudges alone cannot open a gap there at
+    // 768×576 (Happy Birthday's plate blocks from above, the word scroll from
+    // below), so both plates flip to the sky side; the ellipses stay exactly
+    // on their painted spots.
+    'happy-birthday': { x: 18, y: 29, w: 23, h: 19, label: 'above' },
     'jolly-good-fellow': { x: 77, y: 30, w: 21, h: 19 },
-    'jingle-bells': { x: 18, y: 56, w: 25, h: 18 },
+    'jingle-bells': { x: 18, y: 56, w: 25, h: 18, label: 'above' },
     'joy-to-world': { x: 76, y: 58, w: 20, h: 18 },
     'auld-lang-syne': { x: 18.5, y: 71.5, w: 17, h: 12 }
   } },
   'winter-lanterns': { background: 'assets/room-scenes/r11-winter-lanterns-scene.webp', focus: '50% 50%', scene: {
     'silent-night': { x: 18, y: 29, w: 25, h: 20 },
     'o-tannenbaum': { x: 78, y: 26, w: 23, h: 20 },
-    'deck-the-hall': { x: 20, y: 54, w: 25, h: 18 },
+    // Owner 2026-10-27 (iPad QA G): "Deck the Hall"'s plate met "The First
+    // Noel"'s above-label between the two buttons. Deck steps down 3 and Noel
+    // up 1, which parts the plates in both orientations while keeping Deck
+    // clear of Silent Night's plate above and Noel's button clear of the word
+    // scroll below.
+    'deck-the-hall': { x: 20, y: 57, w: 25, h: 18 },
     'we-wish-merry-christmas': { x: 75, y: 58, w: 20.5, h: 20 },
-    'first-noel': { x: 16.5, y: 75, w: 21, h: 14, label: 'above' }
+    'first-noel': { x: 16.5, y: 74, w: 21, h: 14, label: 'above' }
   } },
   'baroque-pattern-workshop': { background: 'assets/backgrounds/r12-baroque-pattern-workshop-background.webp', focus: '50% 45%', anchors: {
     'bach-prelude-c-major-bwv-846': { x: 16, y: 35 }, 'bach-air-orchestral-suite-3': { x: 43, y: 35 }, 'bach-jesu-joy': { x: 69, y: 35 }, 'bach-cello-suite-1-prelude': { x: 30, y: 64 }, 'pachelbel-canon-d': { x: 64, y: 64 }
@@ -712,7 +731,11 @@ function wordScrollMarkup(room) {
         ${stories.map((p) => `
           <button class="word-card word-card--story" data-story-say="${p.id}" aria-label="A true story about ${p.title}" aria-pressed="false">
             <span class="word-card__top"><span class="word-card__speaker" aria-hidden="true">${SPEAKER_ICON}</span><span class="word-card__picture word-card__picture--song"><img src="${p.art}" alt=""></span></span>
-            <span class="word-card__word">True story</span>
+            <!-- Owner 2026-10-27 (iPad QA H): the song's own short name, the same
+                 field the scene landmarks use — a room with two stories showed two
+                 identical "True story" chips. The aria-label above still says what
+                 the card is. -->
+            <span class="word-card__word">${p.shortTitle || p.title}</span>
           </button>`).join('')}
       </div>` : ''}
       <button class="word-scroll__grownups" data-knowledge="${room.id}" aria-label="For grown-ups: about this room">For grown-ups</button>
@@ -1113,6 +1136,11 @@ function renderRoom() {
         </div>
       </div>
 
+      <section class="room-follow" data-room-follow hidden aria-label="Notes playing now">
+        <div class="room-follow__strip" data-follow-strip></div>
+        <figure class="room-follow__keys" data-follow-keys aria-label="Watch the keys" role="img"></figure>
+      </section>
+
       <div class="room-body${scene ? ' room-body--scene' : ''}">
         ${scene ? `<div class="room-scene-landmarks">
           ${shown.map((p) => sceneLandmarkMarkup(p, scene[p.id])).join('')}
@@ -1160,16 +1188,23 @@ function renderRoom() {
 
     // Anchor percentages describe the painting, but the word scroll is
     // ordinary content whose rendered height changes with the viewport. Keep
-    // the authored x/y point unless the complete bubble (including its name
-    // pill) would enter the scroll; then lift it only far enough to leave
-    // the same 3px clearance required by check-bubble-anchors.mjs.
+    // the authored x/y point unless the complete bubble (name pill and, when
+    // the piece has one, its lightbulb row) would enter the scroll; then lift
+    // it only far enough to leave the same 3px clearance required by
+    // check-bubble-anchors.mjs. Owner 2026-10-27 (iPad QA round 2): lifting
+    // from the name plate alone left the lightbulb itself in the scroll — Ode
+    // to Joy's sat 23px into it in portrait — so the measured bottom is the
+    // bubble's deepest part, not the plate's.
     const linkTops = [...stage.querySelectorAll('.word-scroll')]
       .map((scroll) => scroll.getBoundingClientRect().top);
     if (linkTops.length) {
       const safeBottom = Math.min(...linkTops) - 3;
       for (const bubble of field.querySelectorAll('.bubble')) {
-        const nameBottom = bubble.querySelector('.bubble__name').getBoundingClientRect().bottom;
-        bubble.style.setProperty('--anchor-lift', `${Math.max(0, nameBottom - safeBottom)}px`);
+        const deepest = Math.max(
+          ...[...bubble.querySelectorAll('.bubble__name, .bubble__explain-row')]
+            .map((part) => part.getBoundingClientRect().bottom)
+        );
+        bubble.style.setProperty('--anchor-lift', `${Math.max(0, deepest - safeBottom)}px`);
       }
     }
   }
@@ -1420,6 +1455,116 @@ function scoreFor(p, which) {
   return preferredScore(p);
 }
 
+function followKeyMarkup(model) {
+  const whites = model.keyboard.whites.map(({ pitch }) =>
+    `<span class="follow-key follow-key--white" data-follow-key="${pitch}"><b>${noteLabel(pitch)}</b></span>`
+  ).join('');
+  const blacks = model.keyboard.blacks.map(({ pitch, midi }) => {
+    const whitesBefore = model.keyboard.whites.filter((key) => key.midi < midi).length;
+    const left = (whitesBefore / model.keyboard.whites.length) * 100;
+    return `<span class="follow-key follow-key--black" data-follow-key="${pitch}" style="--key-left:${left}%"></span>`;
+  }).join('');
+  return `<figcaption>Watch the keys</figcaption><div class="follow-keyboard" aria-hidden="true">${whites}${blacks}</div>`;
+}
+
+// Owner 2026-10-27 (iPad QA B): on anchored rooms the song bubbles are pinned
+// to the painting (percentages of the stage), so the note band draws straight
+// over the top row — flow cannot push them the way it pushes the ordinary grid
+// under .room-body. Measure the band and nudge only the bubbles it actually
+// covers, and only by the minimum: a blanket shift of the whole field would
+// drive the bottom row into the word scroll. Scene rooms need nothing here —
+// their .room-body--scene already reserves the band.
+function pushAnchoredBubblesBelowBand(panel) {
+  const bubbles = [...stage.querySelectorAll('.bubble-field--anchored .bubble')];
+  // Measure from the authored anchor, not from a push an earlier song left.
+  bubbles.forEach((bubble) => bubble.style.setProperty('--follow-push', '0px'));
+  const clearBelow = panel.getBoundingClientRect().bottom + 4;
+  bubbles.forEach((bubble) => {
+    const push = Math.ceil(Math.max(0, clearBelow - bubble.getBoundingClientRect().top));
+    bubble.style.setProperty('--follow-push', `${push}px`);
+    // a pushed bubble moves toward the row below; paint it above that row
+    bubble.style.zIndex = push > 0 ? '2' : '';
+  });
+}
+
+function showFollowNotes(score) {
+  const panel = stage.querySelector('[data-room-follow]');
+  if (!panel) return null;
+  const model = followModel(score);
+  if (!model.tokens.length || !model.keyboard.whites.length) return null;
+  const strip = panel.querySelector('[data-follow-strip]');
+  strip.innerHTML = model.tokens.map((token) =>
+    token.rest
+      ? `<span class="follow-note follow-note--rest" data-follow-note="${token.index}" aria-label="Rest"></span>`
+      : `<span class="follow-note" data-follow-note="${token.index}">${token.label}</span>`
+  ).join('');
+  // A new song starts from its first line pair; paintFollowNote re-jumps if a
+  // long one plays past the two-line window.
+  strip.scrollTop = 0;
+  panel.querySelector('[data-follow-keys]').innerHTML = followKeyMarkup(model);
+  panel.hidden = false;
+  stage.classList.add('has-follow-notes');
+  pushAnchoredBubblesBelowBand(panel);
+  return model;
+}
+
+function clearFollowNotes() {
+  followTimers.forEach((timer) => clearTimeout(timer));
+  followTimers = [];
+  const panel = stage.querySelector('[data-room-follow]');
+  panel?.querySelectorAll('.is-sounding').forEach((node) => node.classList.remove('is-sounding'));
+  if (panel) panel.hidden = true;
+  stage.classList.remove('has-follow-notes');
+  stage.querySelectorAll('.bubble-field--anchored .bubble')
+    .forEach((bubble) => {
+      bubble.style.removeProperty('--follow-push');
+      bubble.style.zIndex = '';
+    });
+}
+
+function paintFollowNote(model, index) {
+  const panel = stage.querySelector('[data-room-follow]');
+  if (!panel || !model) return;
+  panel.querySelectorAll('.is-sounding').forEach((node) => node.classList.remove('is-sounding'));
+  if (index < 0) return;
+  const token = model.tokens[index];
+  const current = panel.querySelector(`[data-follow-note="${index}"]`);
+  current?.classList.add('is-sounding');
+  token?.keys.forEach((key) => panel.querySelector(`[data-follow-key="${key}"]`)?.classList.add('is-sounding'));
+  if (current) {
+    // The strip wraps instead of scrolling sideways (owner 2026-10-27), so the
+    // only scroll left is vertical, for a song too long for two lines: a jump,
+    // never smooth, so the line pair holding the sounding note snaps into
+    // view with the sounding line first. The strip is position: relative, so
+    // offsetTop is measured from it, and each note box is exactly one line
+    // tall, so offsetTop is its line's top edge.
+    const strip = panel.querySelector('[data-follow-strip]');
+    const top = current.offsetTop;
+    if (top < strip.scrollTop || top >= strip.scrollTop + strip.clientHeight) strip.scrollTop = top;
+  }
+}
+
+function scheduleFollowNotes(model, timeline, ctx) {
+  followTimers.forEach((timer) => clearTimeout(timer));
+  followTimers = [];
+  const events = followSchedule(model, timeline);
+  const later = (at, callback) => {
+    const timer = setTimeout(callback, Math.max(0, (at - ctx.currentTime) * 1000));
+    timer?.unref?.();
+    followTimers.push(timer);
+  };
+  events.forEach((event, position) => {
+    later(event.at, () => paintFollowNote(model, event.index));
+    // A tiny blank articulation makes repeated letters (C C, G G) visibly
+    // distinct. It is derived from the scheduled end, never from a new tempo.
+    const next = events[position + 1];
+    const clearAt = next && Math.abs(next.at - event.until) < 0.001
+      ? Math.max(event.at, event.until - Math.min(0.03, (event.until - event.at) * 0.08))
+      : event.until;
+    later(clearAt, () => paintFollowNote(model, -1));
+  });
+}
+
 function playPiece(id, which) {
   if (!sound.on) { nudgeSound(); return; }
   const p = pieceById(id);
@@ -1429,7 +1574,9 @@ function playPiece(id, which) {
   // The chapter installs its own note/finish handlers while it is on screen.
   // Explore takes them back here rather than at module load, so returning from
   // a chapter cannot leave Explore driving a contour that is no longer drawn.
+  const follow = showFollowNotes(score);
   player.onNote = () => {};
+  player.onSchedule = (timeline, ctx) => scheduleFollowNotes(follow, timeline, ctx);
 
   if (playingPieceId === id && player.playing) {
     stopPiece();
@@ -1445,6 +1592,7 @@ function playPiece(id, which) {
 }
 
 function pieceFinished() {
+  clearFollowNotes();
   engine.duck('piece', false);
   setPlayingUI(null, null);
   applyAtmosphere();
@@ -1493,6 +1641,7 @@ function go(view) {
   if (currentView === 'playroom') {
     leavePlayroom();
     player.onNote = () => {};
+    player.onSchedule = () => {};
     player.onFinish = pieceFinished;
   }
   if (view === 'landing') { journey.restart(); renderLanding(); }
@@ -1516,6 +1665,7 @@ function go(view) {
     // Sets currentView first, so the atmosphere stopPiece() restores is the
     // room's own: page tune stopped, nothing started.
     stopPiece();
+    player.onSchedule = () => {};
     renderPlayroom({ stage, engine, player, journeyCompanionId: journey.companionId, roomId: journey.roomId, openSongFacts: songFactsPopup });
   }
 }

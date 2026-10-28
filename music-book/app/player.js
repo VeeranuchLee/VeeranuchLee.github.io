@@ -43,6 +43,7 @@ export class Player {
     this.finishTimer = null;
     this.currentIndex = -1;
     this.onNote = () => {};
+    this.onSchedule = () => {};
     this.onFinish = () => {};
   }
 
@@ -107,6 +108,11 @@ export class Player {
     this.startedAt = begin;
     this.playing = true;
     this.currentIndex = -1;
+    // Consumers that need every attack receive the exact AudioContext times
+    // used above. `onNote` remains the coarse current-slot view used by older
+    // screens; it may legitimately skip boundaries when animation frames are
+    // throttled, so it is not a per-note event API.
+    this.onSchedule(this.timeline, ctx);
     this._follow();
 
     // rAF is not a reliable end-of-performance signal: a backgrounded tab (and
