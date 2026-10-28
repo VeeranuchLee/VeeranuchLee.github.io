@@ -303,6 +303,7 @@
   function renderExplore(restoreScroll) {
     screen = 'explore';
     BTN_HOME.hidden = false;
+    labelBack();
     BTN_HUB.hidden = true;
     clearView();
     SPEECH.stop();
@@ -347,6 +348,7 @@
   function renderCountryInfo(country) {
     screen = 'country-info';
     BTN_HOME.hidden = false;
+    labelBack();
     BTN_HUB.hidden = true;
     clearView();
     SPEECH.stop();
@@ -415,13 +417,6 @@
       }
     });
 
-    var backButton = el('button', {
-      class: 'btn info-action info-back info-back-top',
-      type: 'button',
-      text: 'Back to flag browser',
-      onclick: function () { renderExplore(true); }
-    });
-
     var info = el('article', {
       class: 'country-info',
       'data-code': country.code,
@@ -444,7 +439,6 @@
     ]);
 
     VIEW.appendChild(el('div', { class: 'country-info-screen' }, [
-      backButton,
       info,
       el('div', { class: 'info-actions', role: 'group', 'aria-label': country.name + ' controls' }, [
         hearButton, anotherButton
@@ -456,6 +450,7 @@
   function renderQuestion() {
     screen = 'question';
     BTN_HOME.hidden = false;
+    labelBack();
     BTN_HUB.hidden = true;
     clearView();
     SPEECH.stop();
@@ -836,7 +831,7 @@
         var direct = target && inSet(target) ? entries[target] : null;
         function dim(e) { return e.w === undefined ? 0 : Math.max(e.w, e.h) * ctm.a; }
         if (!view.activeRegion && direct && dim(direct) < TAP_MIN && regionByCountry[target]) return 'region:' + regionByCountry[target].id;
-        if (view.activeRegion && target && view.activeRegion.members.indexOf(target) >= 0) return target;
+        if (view.activeRegion) return view.resolveZoomed(ev, ctm, dim);
         if (!view.activeRegion && direct && dim(direct) >= TAP_MIN) return target;
         // The cue sits below the land so geography remains legible. Resolve
         // the tap by map coordinates too: otherwise a quiet, non-game country
@@ -862,8 +857,34 @@
           var dist = Math.sqrt((ev.clientX - sx) * (ev.clientX - sx) + (ev.clientY - sy) * (ev.clientY - sy));
           if (dist <= radius && dist < bestDist) { best = c.code; bestDist = dist; }
         });
-        if (best && view.activeRegion) return best;
         return target;
+      },
+      // Inside an opened region every member carries an invisible TAP_MIN-px
+      // circle, and those circles overlap their neighbours' land. Trusting
+      // whichever circle happened to be drawn last made a tap on the middle of
+      // Greece answer Albania, the Dominican Republic answer Haiti and Guyana
+      // answer Suriname (QA 2026-10-25). So: the game country drawn under the
+      // finger always wins; only over open sea or a country the game does not
+      // cover do the circles claim the tap, and then the nearest centre wins.
+      resolveZoomed: function (ev, ctm, dim) {
+        var stack = document.elementsFromPoint ? document.elementsFromPoint(ev.clientX, ev.clientY) : [ev.target];
+        var land = null;
+        for (var i = 0; i < stack.length; i++) {
+          var n = stack[i];
+          if (n && n.classList && n.classList.contains('land')) { land = n.getAttribute('data-id'); break; }
+        }
+        if (land && inSet(land)) return land;
+        // never smaller than the drawn hit circle, never under TAP_MIN across
+        var radius = Math.max(TAP_MIN / 2, 32 * view.activeRegion.v[2] / 728 * ctm.a);
+        var best = null; var bestDist = radius + 0.001;
+        view.activeRegion.members.forEach(function (id) {
+          var e = entries[id];
+          if (!e || !inSet(id)) return;
+          var sx = ctm.a * e.x + ctm.e; var sy = ctm.d * e.y + ctm.f;
+          var dist = Math.sqrt((ev.clientX - sx) * (ev.clientX - sx) + (ev.clientY - sy) * (ev.clientY - sy));
+          if (dist < bestDist) { best = id; bestDist = dist; }
+        });
+        return best || land;
       },
       mark: function (id, cls, on) {
         (stateNodes[id] || []).forEach(function (node) { flag(node, cls, on); });
@@ -915,6 +936,7 @@
   function beginMapScreen(name) {
     screen = name;
     BTN_HOME.hidden = false;
+    labelBack();
     BTN_HUB.hidden = true;
     clearView();
     SPEECH.stop();
@@ -1160,6 +1182,16 @@
     applySound();
     if (soundOn) SFX.tap();
   });
+
+  /* One back control (INTERACTION-DIRECTION.md, 2026-10-23): the round button means
+     "back one step", so its spoken label names the step it takes. The country page
+     used to add a second "Back to flag browser" pill beside it (QA 2026-10-25). */
+  function labelBack() {
+    BTN_HOME.setAttribute('aria-label',
+      screen === 'country-info' ? 'Back to the flag browser'
+        : (screen === 'map-quiz' || screen === 'map-explore') ? 'Back to the map menu'
+          : 'Back to the home screen');
+  }
 
   BTN_HOME.addEventListener('click', function () {
     SPEECH.stop();
