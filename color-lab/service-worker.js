@@ -1,4 +1,4 @@
-const CACHE_NAME = "color-lab-v8";
+const CACHE_NAME = "color-lab-v9";
 
 const SHELL = [
   "./",
@@ -143,6 +143,7 @@ const SHELL = [
   "./audio/colour-names/family-red.m4a",
   "./audio/colour-names/family-white.m4a",
   "./audio/colour-names/family-yellow.m4a",
+  "./audio/colour-names/grey.m4a",
   "./audio/colour-names/forest-black.m4a",
   "./audio/colour-names/forest-green.m4a",
   "./audio/colour-names/fuchsia.m4a",
@@ -195,6 +196,7 @@ const SHELL = [
   "./audio/colour-names/pebble-grey.m4a",
   "./audio/colour-names/periwinkle.m4a",
   "./audio/colour-names/pine-green.m4a",
+  "./audio/colour-names/pink.m4a",
   "./audio/colour-names/pink-white.m4a",
   "./audio/colour-names/pistachio-green.m4a",
   "./audio/colour-names/plum-black.m4a",

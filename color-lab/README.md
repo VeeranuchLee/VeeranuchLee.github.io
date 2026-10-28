@@ -34,21 +34,22 @@ are evidence of names children may meet, not the app's taxonomy, data model, app
 | `PROPOSAL.md` | Proposed model, activities, progression, UX, scoring, and validation plan |
 | `work_progress_and_other_discussion.md` | Newest-first decision and discussion trail |
 | `index.html`, `styles.css`, `app.js` | Touch-first prototype UI |
-| `explore-colors.json` | Eleven-family, 266-card Explore shelf (260 curated colours, five missing plain teaching anchors, and owner-requested Dark Grey), with sources, Mix-vocabulary flags, examples, comparisons, and spacing evidence |
+| `explore-colors.json` | Complete eleven-family, 372-card Explore shelf, with sources, Mix-vocabulary flags, examples, comparisons, and spacing evidence |
 | `mix-targets.json` | 23 range-scored targets proved reachable by the current six-drop mixer |
-| `audio-plan.json` | Offline colour-name render list; 130 expansion clips await rendering |
+| `audio-plan.json` | Offline colour-name render list; the 104 newest Explore clips await rendering |
 | `audio/colour-names/available-clips.json` | Reviewed clips that the app may play |
 | `mixing-model.js` | Deterministic simple Oklab mixing model |
 | `reachability-report.json`, `reachability-report.md` | Six-drop R/Y/B coverage audit |
 | `tests/` | Node tests and report generator/checker |
 | `.publish-manifest` | Potential publication boundary; the app remains unpublished |
 
-The app reads the shared ISCC–NBS vocabulary plus 130 curated CC0 xkcd survey names. Mix uses
-approved painted art and 23 proved-reachable target neighbourhoods; Explore has 266 child-facing
+The app reads the shared ISCC–NBS vocabulary plus 257 curated CC0 xkcd survey names. Mix uses
+approved painted art, a fixed 161-name teaching vocabulary, and 23 proved-reachable target neighbourhoods; Explore has 372 child-facing
 names. Every card combines a shared painted crayon, code-tinted to its recorded source swatch, with
 a separate swatch; the original 44 reviewed object sprites remain optional familiar examples. The
-original 130 names have reviewed audio; the 130 additions stay safely silent until their offline
-renders are reviewed and added to the availability manifest. The mixer is playful deterministic
+existing 268 names have reviewed audio; the 104 newest additions stay safely silent until their offline
+renders are reviewed and added to the availability manifest. Explore is the complete catalogue, but
+new advanced cards do not join Mix automatically. The mixer is playful deterministic
 interaction design, not a model of how real paint works.
 
 Run the browser-free checks with `node tests/run-tests.js`.
