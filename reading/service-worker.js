@@ -19,6 +19,8 @@
    v11 2026-10-09: All About Stars (stars) un-drafted with the Space set; its art, page clips and timing join SHELL.
    v15 2026-10-17: Computer Book 1, What Does a Computer Do? (what-computers-do), un-drafted as the first book of the Computer & Digital World set (owner, 2026-10-17: "Book 1 only, prepare the release"); its art, page clips and timing and 35 new word clips join SHELL. The other five Computer Books stay on agent/codex-computer-books-review.
    v16 2026-10-18: Computer Books 2, 3 and 5 join their approved shelves: Where Did My File Go? (where-file-goes), Give the Computer Exact Instructions (exact-instructions), and What Should Stay Private? (what-stays-private), with their art, page narration, timing and word clips. Books 4 and 6 remain out of the index and release.
+   v21 2026-10-27: small-word clips from the owner's round-4b picks (2026-10-20): a.m4a is the
+   new C take, and the-vowel.m4a (B2) plays for "the" before a vowel sound only; both are in SHELL.
    v17 2026-10-18: optional tappable picture-word labels, an OFF-by-default remembered toggle,
    and the six-page Space/Gems pilot join the shared reader. No new SHELL entries: the code
    (reader.js/.css/index.html) and pilot book.json data were already cached, so this bump
@@ -35,7 +37,7 @@
 
    Navigations carry a query (?book=space-trip, ?from=wordbook), so they are matched with
    ignoreSearch; data and audio requests are matched exactly. */
-const CACHE_NAME = 'reading-v20';
+const CACHE_NAME = 'reading-v21';
 const CACHE_PREFIX = 'reading-v';
 const SHELL = [
   './',
@@ -761,6 +763,7 @@ const SHELL = [
   './audio/words/tharsis.m4a',
   './audio/words/that.m4a',
   './audio/words/the.m4a',
+  './audio/words/the-vowel.m4a',
   './audio/words/them.m4a',
   './audio/words/then.m4a',
   './audio/words/there.m4a',
@@ -1034,6 +1037,7 @@ const SHELL = [
   './reader/index.html',
   './reader/js/narration-mode.js',
   './reader/js/tap-zoom-guard.js',
+  './reader/js/word-clip-routing.js',
   './reader/reader.css',
   './cg-back.css',
   './cg-update.js',

@@ -7,7 +7,7 @@
  * Natural page narration is preferred when book.json names a pre-rendered page clip.
  * Timing data holds each word highlighted until the next one starts. Missing, failed, or
  * never-started page clips fall back to the original isolated-word sequence. Tapping a word
- * always plays only its word-bank clip.
+ * always plays only its selected word-bank clip.
  * There is NO device text-to-speech and no runtime voice service.
  *
  *   speaker, idle      -> play the natural page clip, or the word sequence as fallback
@@ -149,9 +149,10 @@
   }
 
   // Play one word's clip; resolves true when it ended, false when it could not play.
-  function playWord(word, myRun) {
+  function playWord(word, myRun, nextWord) {
+    var clipWord = ReadingWordClips.clipKey(word, nextWord);
     if (ctx) {
-      return load(word).then(function (buf) {
+      return load(clipWord).then(function (buf) {
         if (myRun !== run) return false;
         if (!buf || !(buf instanceof AudioBuffer)) return false;
         return new Promise(function (done) {
@@ -173,7 +174,7 @@
       a.onerror = function () { end(false); };
       // A word clip is ~1 s; if it has not ended in 4 s something is stuck -- never hang the reader.
       var guard = setTimeout(function () { try { a.pause(); } catch (e) {} end(false); }, 4000);
-      a.src = WORDS + encodeURIComponent(slug(word)) + ".m4a";
+      a.src = WORDS + encodeURIComponent(clipWord) + ".m4a";
       current = a;
       var p = a.play();
       if (p && p.catch) p.catch(function () { end(false); });
@@ -331,7 +332,10 @@
     stopAll();
     var myRun = run;
     b.classList.add("reading-now");
-    playWord(b.getAttribute("data-word"), myRun).then(function (ok) {
+    var position = wordButtons.indexOf(b);
+    var nextWord = position >= 0 && wordButtons[position + 1]
+      ? wordButtons[position + 1].getAttribute("data-word") : "";
+    playWord(b.getAttribute("data-word"), myRun, nextWord).then(function (ok) {
       if (myRun !== run) return;
       if (!ok) flagFailed(b);
       setTimeout(function () { if (myRun === run) b.classList.remove("reading-now"); }, ok ? 120 : 300);
