@@ -1,5 +1,5 @@
 /* The release pipeline reads CACHE_NAME; do not rename it. */
-const CACHE_NAME = 'periodic-table-v6';
+const CACHE_NAME = 'periodic-table-v7';
 
 const SHELL = [
   './',

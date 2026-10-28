@@ -171,6 +171,19 @@ button {
 .game-prompt.is-question {
   border-color: #9bc8fa;
   background: #edf6ff;
+  /* A question may carry Symbol Match's answer buttons. On one ellipsised
+     line they were clipped right out of the ~381px landscape cell (QA
+     2026-10-25: four invisible answers, game unplayable), so a question
+     wraps and its choices get a row of their own. */
+  white-space: normal;
+  overflow: visible;
+}
+
+.game-prompt.is-question .symbol-choices {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 4px 0 0;
 }
 
 .symbol-choices {
@@ -182,7 +195,7 @@ button {
 
 .symbol-choice {
   min-width: 50px;
-  min-height: 30px;
+  min-height: 44px;
   padding: 3px 8px;
   border: 1px solid #a9c9ee;
   border-radius: 10px;
