@@ -61,8 +61,8 @@ body{min-height:100svh;background:#f8cade;overflow-x:hidden}
 .tabs button span img{width:34px;height:34px;object-fit:contain}
 .tabs button.active{background:linear-gradient(#ff75bd,#f344a1);color:white;transform:translateY(-3px)}
 .tray{min-height:116px;background:#fff9fd;border:3px solid #fff;border-radius:24px;box-shadow:0 7px 22px #964b8030;padding:10px;display:flex;align-items:center;gap:10px;overflow-x:auto;scrollbar-width:none}
-.tray.tray--pattern{display:flex;flex-direction:column;gap:8px;overflow-x:visible}
-.tray.tray--pattern .pattern-choices{display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;flex:0 0 auto}
+.tray.tray--pattern{display:flex;flex-direction:column;align-items:stretch;gap:8px;overflow-x:visible}
+.tray.tray--pattern .pattern-choices{display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;flex:0 0 auto;min-width:0}
 .tray.tray--pattern .pattern-choices::-webkit-scrollbar{display:none}
 .tray::-webkit-scrollbar{display:none}
 .choice{flex:0 0 76px;height:82px;border-radius:18px;background:#f7eafa;box-shadow:inset 0 0 0 2px #fff,0 3px 8px #80516920;color:#6a4c7e;display:grid;place-items:center;padding:5px;font-size:28px;font-weight:900;position:relative}
@@ -234,6 +234,11 @@ html.wall-open,html.wall-open body{overflow:hidden}
 /* The topbar floats over the stage in landscape; keep the fingertips below it so the
    middle nail is never hidden behind the title (QA 2026-10-24). */
 #handSvg{width:min(100%,690px);height:calc(100% - 64px);margin-top:64px;max-height:none}
+/* The open My nails drawer sat over the wrist in landscape and hid a worn bracelet
+   or bow, art and tap target both (QA 2026-10-25). The hand is centred, so the
+   drawer stops short of the stage's middle and leaves the wrist clear; its
+   previews still scroll sideways. */
+.history-drawer{width:min(calc(50% - 120px),560px)}
 }
 
 @media (max-width:600px){.app{padding-left:6px;padding-right:6px}

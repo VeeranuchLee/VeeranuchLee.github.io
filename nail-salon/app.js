@@ -287,18 +287,23 @@
      (owner 2026-10-20: "we should also make it scrollable, because i have a hard time
      selecting white"). */
   const trayWrap=document.querySelector('#trayWrap');
+  /* On the Pattern tab the tray is a column (patterns, then pattern colours), so the
+     row that scrolls is .pattern-choices, not the tray. QA 2026-10-25: in portrait
+     that row overflowed the screen with nothing to scroll and 6 of 14 patterns
+     unreachable; the arrows now follow whichever row actually scrolls. */
+  const scroller=()=>tray.classList.contains('tray--pattern')?(tray.querySelector('.pattern-choices')||tray):tray;
   function updateTrayHints(){
     if(!trayWrap)return;
-    const scrollable=!tray.classList.contains('tray--pattern');
-    const max=tray.scrollWidth-tray.clientWidth;
-    trayWrap.classList.toggle('more-left',scrollable&&tray.scrollLeft>4);
-    trayWrap.classList.toggle('more-right',scrollable&&max-tray.scrollLeft>4);
+    const row=scroller();
+    const max=row.scrollWidth-row.clientWidth;
+    trayWrap.classList.toggle('more-left',row.scrollLeft>4);
+    trayWrap.classList.toggle('more-right',max-row.scrollLeft>4);
   }
   tray.addEventListener('scroll',updateTrayHints,{passive:true});
   addEventListener('resize',updateTrayHints);
   document.querySelectorAll('.tray-more').forEach(b=>b.addEventListener('click',()=>{
-    const dir=b.dataset.dir==='left'?-1:1;
-    tray.scrollBy({left:dir*tray.clientWidth*.7,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+    const dir=b.dataset.dir==='left'?-1:1;const row=scroller();
+    row.scrollBy({left:dir*row.clientWidth*.7,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
   }));
   function renderTray(){
     requestAnimationFrame(updateTrayHints);
@@ -331,7 +336,7 @@
       groupJustFilled=false;
       ['glitter','shimmer','chrome'].forEach(id=>choice(`<img class="finish-art" src="./assets/icons/finish-${id}.webp" alt="">`,()=>S.update(state,{finish:id}),nail.finish===id,id));
     } else if(activeTab==='pattern'){
-      const patternRow=document.createElement('div');patternRow.className='pattern-choices';
+      const patternRow=document.createElement('div');patternRow.className='pattern-choices';patternRow.addEventListener('scroll',updateTrayHints,{passive:true});
       ['none','stripes','dots','hearts','stars','checks','rainbow','marble','flowers','waves','ombre','glitter-tip','moon-stars','leopard'].forEach(id=>choice(id==='none'?'○':`<i class="pattern-icon pattern-${id}" style="--base:${nail.polish};--pattern:${nail.patternColor}"></i>`,()=>S.update(state,{pattern:id}),nail.pattern===id,id,patternRow));
       tray.append(patternRow);
       if(singlePatterns.has(nail.pattern)){const row=document.createElement('div');row.className='pattern-colours';row.setAttribute('aria-label','Pattern colour');['#ffffff','#ff4f9e','#ffcf45','#55d7a2','#55aef1','#8a62df','#2f2740'].forEach(c=>{const b=document.createElement('button');b.className='pattern-colour'+(nail.patternColor===c?' selected':'');b.style.setProperty('--swatch',c);b.setAttribute('aria-label','Choose pattern colour');b.addEventListener('click',()=>{S.update(state,{patternColor:c});renderNails();renderTray();markFeedback(b);sparkleOnSelect(b);sparkleOnSelect(document.querySelector(`[data-nail="${state.selected}"]`));});row.append(b);});tray.append(row);}
