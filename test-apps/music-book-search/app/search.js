@@ -159,7 +159,12 @@ export function searchSongs(query) {
   }
   hits.sort((a, b) => a.rank - b.rank
     || a.entry.sortName.localeCompare(b.entry.sortName, 'en'));
-  return hits.slice(0, MAX_RESULTS).map((hit) => hit.entry.id);
+  // Owner 2026-10-28 (option A): a room match only counts when nothing better
+  // matched. "nocturne" sits in The Piano Diary's vocabulary, so every song in
+  // that room matched and looked like a nocturne; now only the Nocturne shows.
+  const best = hits.length ? hits[0].rank : 4;
+  const shown = best < 4 ? hits.filter((hit) => hit.rank < 4) : hits;
+  return shown.slice(0, MAX_RESULTS).map((hit) => hit.entry.id);
 }
 
 // The idea chips offered when nothing matched. The query's own word drops out
