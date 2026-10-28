@@ -2,11 +2,10 @@
    matches /CACHE_NAME\s*=/), and bumping it is what arms a release. Do not rename it; see
    release/registry.json.
 
-   NO skipWaiting, deliberately -- the same shape as word-book, which this page twins. A new
-   worker takes over on the next cold start, not mid-session, so a child never has a page
-   swapped underneath them. The cost is real and worth writing down: an edit appears to
-   have no effect until every tab is closed, and a publish does not reach an already-open
-   app. That is a known trade in this repository, not a bug to fix in a hurry. */
+   SELF-UPDATE TAKEOVER, owner decision 2026-10-25: install calls skipWaiting and activate
+   claims existing clients so cg-update.js can observe the new worker on an open page.
+   cg-update.js protects a child mid-play: it never reloads a page the child touched until
+   that page has been left alone for at least five minutes. */
 /* space-hub-v3: index.html changed (the music toggle and its script), and index.html
    IS precached below, so the version bumps even though SHELL's file list does not.
    audio/space-bed.m4a is DELIBERATELY NOT ADDED to SHELL -- see index.html's Music
@@ -22,7 +21,7 @@
    for an offline install to have the guard at all. */
 /* space-hub-v6 2026-10-04: the owner's painted Space room, its shaped-door
    renderer and Cards fallback join the offline shell. */
-const CACHE_NAME='space-hub-v9';
+const CACHE_NAME='space-hub-v10';
 const SHELL=['./','./index.html','./fonts.css',
   './cg-back.css',
   './cg-update.js','./tap-zoom-guard.js',
@@ -31,6 +30,6 @@ const SHELL=['./','./index.html','./fonts.css',
   './manifest.webmanifest',
   './assets/ari-and-dot.webp','./assets/planets-and-moons.png','./assets/space-trivia.webp','./assets/backdrop.webp',
   './assets/icons/icon-192.png','./assets/icons/icon-512.png'];
-self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(SHELL))));
+self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(SHELL)));self.skipWaiting();});
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith('space-hub-v')&&k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(caches.match(e.request).then(hit=>hit||fetch(e.request).then(r=>{if(r.ok&&new URL(e.request.url).origin===location.origin){const copy=r.clone();caches.open(CACHE_NAME).then(c=>c.put(e.request,copy));}return r;})));});
