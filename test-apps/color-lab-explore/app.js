@@ -75,14 +75,47 @@
     } catch (error) { /* obsolete preference is harmless when storage is unavailable */ }
   }
 
-  // One player for every spoken name (2026-10-06, owner: "let's add voice to color lab"), so a
-  // new tap stops the name before it instead of talking over it. A missing clip stays silent.
+  // One player for every spoken run (2026-10-06, owner: "let's add voice to color lab"), so a
+  // new tap stops the run already playing instead of talking over it. A grown card speaks its
+  // name, examples and comparison one after another (2026-10-28, owner: "I also think we should
+  // add voice for this too"). A missing clip is skipped silently; rendered clips only, never
+  // the browser's built-in voice.
   var voice = null;
-  function sayClip(slug) {
-    if (!availableAudioSlugs.has(slug)) return;
-    try { if (voice) voice.pause(); } catch (e) { /* already stopped */ }
+  var voiceRun = 0;
+  function playClipRun(slugs, run) {
+    if (run !== voiceRun) return;
+    var slug = slugs.shift();
+    if (!slug) return;
+    var playNext = function () { playClipRun(slugs, run); };
+    if (!availableAudioSlugs.has(slug)) { playNext(); return; }
     voice = new Audio("./audio/colour-names/" + slug + ".m4a");
-    voice.play().catch(function () {});
+    voice.addEventListener("ended", playNext);
+    voice.addEventListener("error", playNext);
+    voice.play().catch(playNext);
+  }
+  function sayClips(slugs) {
+    voiceRun += 1;
+    try { if (voice) voice.pause(); } catch (e) { /* already stopped */ }
+    playClipRun(slugs.slice(), voiceRun);
+  }
+  function sayClip(slug) {
+    sayClips([slug]);
+  }
+
+  // Description-clip slugs come from the same explore data the audio plan was generated from:
+  // the n-th unique example pair in shelf order is clip "ex-n", and a card's comparison is
+  // "cmp-" + its slug. Both walks read explore-colors.json, so the ids cannot drift apart.
+  // An example pair's clip is named from its own words ("ex-a-poppy-and-a-toy-fire-engine"), so
+  // adding or reordering cards can never make a card play another card's examples.
+  function exampleClipSlug(examples) {
+    return "ex-" + examples.join(" and ").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  }
+  function descriptionClips(shade) {
+    var clips = [];
+    var examplesSlug = shade.examples && shade.examples.length ? exampleClipSlug(shade.examples) : "";
+    if (examplesSlug) clips.push(examplesSlug);
+    if (shade.comparison) clips.push("cmp-" + shade.slug);
+    return clips;
   }
 
   function byId(id) {
@@ -167,6 +200,11 @@
     });
   }
 
+  // Shared house speaker icon (shared/icons/cg-icons.json "speaker"), pasted byte for byte and
+  // sized/coloured through CSS like every other app icon (owner 2026-10-28: the old CSS-drawn
+  // speaker "look of different style than our normal style").
+  var SPEAKER_ICON = "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M11 5L6 9H3v6h3l5 4z\" fill=\"currentColor\"/><path d=\"M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>";
+
   function makeShadeCard(shade) {
     var vocabularyColor = shade.vocabularyId ? colorById.get(shade.vocabularyId) : null;
     var colorHex = shade.colorHex || vocabularyColor.srgbCentroidHex;
@@ -241,9 +279,13 @@
     card.classList.toggle("has-audio", availableAudioSlugs.has(shade.slug));
     icon.className = "speaker-icon";
     icon.setAttribute("aria-hidden", "true");
+    icon.innerHTML = SPEAKER_ICON;
     speaker.appendChild(icon);
     speaker.addEventListener("click", function () {
-      sayClip(shade.slug);
+      // A grown card reads its whole description; a small card still says just the name.
+      sayClips(card.classList.contains("is-selected")
+        ? [shade.slug].concat(descriptionClips(shade))
+        : [shade.slug]);
     });
     card.append(main, speaker);
     return card;

@@ -563,41 +563,25 @@ h2 {
   border: 3px solid rgba(104, 68, 116, 0.35);
   border-radius: 24px 29px 23px 27px;
   background: rgba(255, 250, 240, 0.95);
+  color: #65435f;
   box-shadow: 0 4px 0 rgba(73, 58, 67, 0.16);
   cursor: pointer;
 }
 
 .speaker-button[hidden] { display: none; }
 
+/* The shared house speaker SVG (shared/icons/cg-icons.json) keeps the old 30px size and takes
+   the button's own colour through currentColor. */
 .speaker-icon {
-  position: relative;
   width: 30px;
   height: 30px;
   display: block;
 }
 
-.speaker-icon::before {
-  position: absolute;
-  top: 9px;
-  left: 2px;
-  width: 9px;
-  height: 12px;
-  content: "";
-  border-radius: 3px;
-  background: #65435f;
-  box-shadow: 7px 0 0 -1px #65435f;
-}
-
-.speaker-icon::after {
-  position: absolute;
-  top: 5px;
-  right: 1px;
-  width: 15px;
-  height: 20px;
-  content: "";
-  border: 4px solid #65435f;
-  border-width: 0 4px 0 0;
-  border-radius: 50%;
+.speaker-icon svg {
+  width: 30px;
+  height: 30px;
+  display: block;
 }
 
 .pot-label {
