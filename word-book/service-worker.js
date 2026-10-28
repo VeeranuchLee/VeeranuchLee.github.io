@@ -2,11 +2,10 @@
    matches /CACHE_NAME\s*=/), and bumping it is what arms a release. Do not rename it; see
    release/registry.json.
 
-   NO skipWaiting, deliberately -- the same shape as spelling-exam-app beside it. A new
-   worker takes over on the next cold start, not mid-session, so a child never has a page
-   swapped underneath them. The cost is real and worth writing down: an edit appears to
-   have no effect until every tab is closed, and a publish does not reach an already-open
-   app. That is a known trade in this repository, not a bug to fix in a hurry.
+   SELF-UPDATE TAKEOVER, owner decision 2026-10-25: install calls skipWaiting and activate
+   claims existing clients so cg-update.js can observe the new worker on an open page.
+   cg-update.js protects a child mid-play: it never reloads a page the child touched until
+   that page has been left alone for at least five minutes.
 
    NOT BUMPED FOR THE 2026-09-22 WORD CLIPS. word-book has never been published: the live
    /word-book/ serves no worker at all and release/registry.json had word-book disabled at
@@ -116,7 +115,7 @@
    the later 79 poster words and final owner choices; Reading Tree 50 plus diamond.gem
    and Sparkling gems; and the latest older-style posters, label moves, ruler crop,
    retired combined Positions poster, and Find Picture Play hit boxes through round 2. */
-const CACHE_NAME='word-book-v22';
+const CACHE_NAME='word-book-v23';
 const SHELL=['./','./index.html',
   "./audio-wake.js",'./dictionary.html','./fonts.css',
   './cg-back.css',
@@ -271,7 +270,7 @@ const SHELL=['./','./index.html',
   './assets/posters/things-that-go.webp','./assets/posters/rooms-house.webp',
   './assets/posters/kitchen.webp','./assets/posters/opposites.webp','./assets/posters/shapes.webp',
   './assets/posters/weather.webp','./assets/posters/animal-band.webp','./assets/posters/gems.webp'];
-self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(SHELL))));
+self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(SHELL)));self.skipWaiting();});
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith('word-book-v')&&k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 /* THE SPOKEN WORDS (audio/words/*.m4a, 2,020 clips, 26 MB) -- cached on first play,
    never precached. Precaching 26 MB on install to serve taps that may never come is the
