@@ -2911,3 +2911,95 @@ button.guide-badge:active { transform: scale(.96); }
 .toy-cheer { display: flex; align-items: center; gap: .3em; }
 .toy-cheer__art { width: 1.15em; height: 1.15em; object-fit: cover; border-radius: 50%; }
 .round-btn svg,.world-home svg,.companion-switch__swap svg,.world-compass__star svg,.room-mode__picture>svg,.bubble__art>svg,.rt-map-hear svg,.go-btn__icon svg{width:1em;height:1em;display:inline-block;vertical-align:-.14em;flex:none}
+
+/* ── the search panel (owner, 2026-10-27) ───────────────────────────────────
+   A round magnifier beside the Songs button opens a search over the whole
+   book: song names, alternate names, composers, rooms, wings and curated idea
+   words (app/search.js). The panel overlays the page rather than re-rendering
+   it, so closing it — the drawn X or Escape — leaves the menu exactly as it
+   was. Results are the song index's own picture tiles. Tap-only: no drag
+   surface, no gesture handling (INTERACTION-DIRECTION.md). */
+
+/* The trigger: the page's own round plate, floored at the 56px round-button
+   standard (INTERACTION-DIRECTION.md, 2026-10-23). It inherits .round-btn's
+   ::after reach, so its tap target clears 64px even at that floor. */
+.search-btn { width: clamp(56px, 5.4vw, 64px); height: clamp(56px, 5.4vw, 64px); }
+.search-btn .ui-icon { width: 1.3em; height: 1.3em; vertical-align: -.16em; }
+
+/* Height follows the visual viewport while open (app.js fitSearchOverlay), so
+   the iPad's on-screen keyboard never covers the field: the panel ends where
+   the keys begin and only the results scroll. */
+.search-overlay {
+  position: fixed; top: 0; left: 0; right: 0; height: 100%; z-index: 19;
+  display: flex; justify-content: center; align-items: flex-start;
+  padding: clamp(10px, 3vh, 28px) 14px 14px;
+  background: rgba(16, 22, 42, .55);
+}
+.search-panel {
+  display: flex; flex-direction: column;
+  width: min(720px, 100%); max-height: 100%;
+  padding: 12px 12px 8px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #fdf7e8, #f2e6c9);
+  box-shadow: 0 0 0 4px var(--gold), 0 20px 50px rgba(0, 0, 0, .4);
+  animation: search-in .16s ease-out;
+}
+@keyframes search-in { from { transform: scale(.97); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .search-panel { animation: none; } }
+
+.search-bar { display: flex; align-items: center; gap: 6px; flex: 0 0 auto; }
+.search-bar__icon {
+  flex: 0 0 auto; display: grid; place-items: center;
+  width: 44px; height: 44px; color: var(--gold-deep);
+}
+.search-bar__icon .ui-icon { width: 30px; height: 30px; }
+/* 22px floor keeps the field readable at arm's length and stops iOS
+   zooming-to-focus, which would slide the panel under its own keyboard. */
+.search-field {
+  flex: 1 1 auto; min-width: 0; min-height: 56px;
+  padding: 4px 14px;
+  border: 0; border-radius: 14px;
+  background: #fffdf6;
+  box-shadow: inset 0 0 0 2.5px var(--plate-edge);
+  color: var(--ink); font: inherit;
+  font-size: clamp(22px, 2.8vw, 30px); font-weight: 700;
+}
+.search-field:focus { outline: none; box-shadow: inset 0 0 0 3px var(--gold); }
+.search-field::placeholder { color: var(--ink-soft); opacity: .7; }
+
+.search-bar__clear, .search-bar__close {
+  flex: 0 0 auto; display: grid; place-items: center;
+  width: 56px; height: 56px;
+  border: 0; border-radius: 50%;
+  background: rgba(30, 43, 69, .14);
+  color: var(--ink); cursor: pointer;
+}
+.search-bar__clear:hover, .search-bar__close:hover { background: rgba(30, 43, 69, .22); }
+.search-bar__clear:active, .search-bar__close:active { transform: scale(.94); }
+.search-bar__clear .ui-icon, .search-bar__close .ui-icon { width: 24px; height: 24px; }
+/* The class's own display: grid would beat the UA's [hidden] rule and keep an
+   empty field's clear button on screen; this restores it. */
+.search-bar__clear[hidden] { display: none; }
+
+/* The results are the index's own tiles (.index-tile inside
+   .song-index__grid); this box is only the scroll container around them. */
+.search-results {
+  flex: 1 1 auto; min-height: 160px;
+  margin-top: 10px; padding: 2px 4px 10px;
+  overflow-y: auto; overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.search-empty {
+  margin: 14px 4px 10px;
+  font-size: clamp(16px, 2vw, 22px); font-weight: 800; color: var(--ink-soft);
+}
+.search-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+.search-chip {
+  min-height: 48px; padding: 8px 18px;
+  border: 0; border-radius: 999px; cursor: pointer;
+  background: linear-gradient(180deg, #fff3c9, #ffe08a);
+  box-shadow: 0 0 0 2px var(--gold);
+  color: var(--ink); font: inherit;
+  font-size: clamp(14px, 1.8vw, 18px); font-weight: 800;
+}
+.search-chip:active { transform: scale(.96); }

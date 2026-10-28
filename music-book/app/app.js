@@ -17,6 +17,7 @@ import { createChapter } from './read-together.js';
 import { renderPlayroom, leavePlayroom, PITCHES, NOTE_COLORS, BLACK_KEYS, BLACK_COLORS } from './playroom.js';
 import { CATALOGUE_TO_PLAYALONG } from '../data/playalong-songs.js';
 import { followModel, followSchedule, noteLabel } from './follow-notes.js';
+import { searchSongs, searchSuggestions } from './search.js';
 
 const engine = new AudioEngine();
 const player = new Player(engine);
@@ -697,6 +698,12 @@ const SPARKLE_ICON = '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true
 // A word still waiting for its painting shows a drawn eighth note (the 🎵 it
 // used to show) — the same single note a piece with no art falls back to.
 const NOTE_ICON = '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10.7 17.2V5.6" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/><path d="M10.7 5.6c3.4.9 4.8 3 4.2 6.3-.9-2.2-2.3-3.3-4.2-3.5z" fill="currentColor"/><ellipse cx="7.7" cy="17.4" rx="3.1" ry="2.5" transform="rotate(-16 7.7 17.4)" fill="currentColor"/></svg>';
+// The search button's magnifying glass, and the panel's clear/close mark —
+// drawn, never an emoji or a text glyph (the owner's 2026-10-20 rule). The mark
+// is the same X the popup already draws (index.html), so closing one thing
+// looks like closing another.
+const SEARCH_ICON = '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.2" cy="10.2" r="6.4" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M14.9 14.9 21 21" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg>';
+const CLOSE_ICON = '<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 function wordPictureMarkup(clipId) {
   const pic = WORD_PICTURE[clipId] || { icon: NOTE_ICON };
@@ -890,6 +897,7 @@ function renderWorld() {
         <div class="world-topbar__left">
           <button class="cg-back" data-go="landing" aria-label="Back to the start"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="cg-back-slot" aria-hidden="true"></span>
           ${songIndexButtonMarkup()}
+          ${searchButtonMarkup()}
         </div>
         <div class="world-title"><h1>Music World</h1><p>Six wings, twenty-four rooms.</p></div>
         ${companionSwitchMarkup('guide-badge--world', '<small>companion</small>')}
@@ -968,6 +976,7 @@ function renderIndex() {
     <div class="song-index">
       <div class="topbar song-index__topbar">
         <button class="round-btn" data-go="world" aria-label="Back to Music World">${CG.back}</button>
+        ${searchButtonMarkup()}
         <div class="banner song-index__banner"><h1>All the Songs</h1><p>Tap a song to go to its room.</p></div>
         ${companionSwitchMarkup()}
       </div>
@@ -1011,6 +1020,148 @@ function openSongFromIndex(pieceId) {
   exploreOverride = room.id;
   pendingFoundPieceId = pieceId;
   renderRoom();
+}
+
+// ── the search panel (owner, 2026-10-27) ─────────────────────────────────────
+//
+// Owner, verbatim: "I want 'search' icon on music book menu page. Such that if
+// I press it, I get the search bar, able to type the song name or idea." The
+// button sits in the world topbar beside Songs, and on the song index, where
+// finding a song by name is that page's own job. The panel is an overlay on
+// document.body rather than a stage re-render: the page underneath is never
+// touched, so the drawn X or Escape returns the child to the menu exactly as it
+// was. Results reuse the index's own picture tiles, and a tile tap goes through
+// openSongFromIndex() — search is one more door into a song's room, not a new
+// place songs live. The matching itself is app/search.js, pure and node-tested.
+
+function searchButtonMarkup() {
+  return `<button class="round-btn search-btn" data-search-open aria-label="Search for a song or an idea">${SEARCH_ICON}</button>`;
+}
+
+let searchOverlay = null;
+let searchTrigger = null;
+let searchViewport = null;
+
+function searchResultsMarkup(query) {
+  const ids = searchSongs(query);
+  if (!ids.length) {
+    const line = query.trim() ? 'No songs match yet. Try another word.' : 'Try a word';
+    return `<p class="search-empty">${line}</p>
+      <div class="search-chips" aria-label="Ideas to try">
+        ${searchSuggestions(query).map((word) => `<button class="search-chip" data-search-chip="${word}">${word}</button>`).join('')}
+      </div>`;
+  }
+  return `<div class="song-index__grid">${ids.map((id) => {
+    const p = pieceById(id);
+    const room = roomById(PIECE_ROOMS[id]?.homeRoomId);
+    return p && room ? songTileMarkup({ p, name: p.shortTitle || p.title, room }) : '';
+  }).join('')}</div>`;
+}
+
+function runSearch() {
+  if (!searchOverlay) return;
+  const field = searchOverlay.querySelector('[data-search-field]');
+  searchOverlay.querySelector('[data-search-results]').innerHTML = searchResultsMarkup(field.value);
+  searchOverlay.querySelector('[data-search-clear]').hidden = !field.value;
+}
+
+// The iPad's on-screen keyboard rises over the bottom of a fixed full-height
+// panel. The overlay's height follows the visual viewport instead, so the field
+// stays above the keys and only the results scroll.
+function fitSearchOverlay() {
+  if (!searchOverlay) return;
+  const viewport = window.visualViewport;
+  searchOverlay.style.height = viewport ? `${Math.round(viewport.height)}px` : '';
+}
+
+function openSearch(trigger) {
+  if (searchOverlay) return;
+  searchTrigger = trigger || null;
+  searchOverlay = document.createElement('div');
+  searchOverlay.className = 'search-overlay';
+  searchOverlay.setAttribute('role', 'dialog');
+  searchOverlay.setAttribute('aria-modal', 'true');
+  searchOverlay.setAttribute('aria-label', 'Search for a song or an idea');
+  searchOverlay.innerHTML = `
+    <div class="search-panel">
+      <div class="search-bar">
+        <span class="search-bar__icon" aria-hidden="true">${SEARCH_ICON}</span>
+        <input class="search-field" data-search-field type="text" autofocus
+          autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"
+          enterkeyhint="search" placeholder="Type a song or an idea"
+          aria-label="Type a song or an idea">
+        <button class="search-bar__clear" data-search-clear aria-label="Clear the search" hidden>${CLOSE_ICON}</button>
+        <button class="search-bar__close" data-search-close aria-label="Close search, back to the map">${CG.back}</button>
+      </div>
+      <div class="search-results" data-search-results aria-live="polite"></div>
+    </div>`;
+  document.body.appendChild(searchOverlay);
+  searchOverlay.addEventListener('click', onSearchOverlayClick);
+  searchOverlay.addEventListener('keydown', onSearchOverlayKeyDown);
+  // A result tile's art can be missing offline; give the overlay the stage's
+  // own broken-picture remedy rather than a disc of broken-image glyphs.
+  searchOverlay.addEventListener('error', onPictureError, true);
+  searchOverlay.querySelector('[data-search-field]').addEventListener('input', runSearch);
+  searchViewport = window.visualViewport;
+  searchViewport?.addEventListener('resize', fitSearchOverlay);
+  fitSearchOverlay();
+  runSearch();
+  searchOverlay.querySelector('[data-search-field]').focus();
+}
+
+function closeSearch() {
+  if (!searchOverlay) return;
+  searchViewport?.removeEventListener('resize', fitSearchOverlay);
+  searchViewport = null;
+  searchOverlay.remove();
+  searchOverlay = null;
+  // The stage may have re-rendered since the panel opened; only a button still
+  // on the page can take the focus back.
+  if (searchTrigger?.isConnected) searchTrigger.focus();
+  searchTrigger = null;
+}
+
+function onSearchOverlayClick(event) {
+  const field = searchOverlay.querySelector('[data-search-field]');
+  const chip = event.target.closest('[data-search-chip]');
+  if (chip) {
+    field.value = chip.dataset.searchChip;
+    runSearch();
+    field.focus();
+    return;
+  }
+  const song = event.target.closest('[data-index-song]');
+  if (song) {
+    closeSearch();
+    openSongFromIndex(song.dataset.indexSong);
+    return;
+  }
+  if (event.target.closest('[data-search-clear]')) {
+    field.value = '';
+    runSearch();
+    field.focus();
+    return;
+  }
+  if (event.target.closest('[data-search-close]') || event.target === searchOverlay) closeSearch();
+}
+
+function onSearchOverlayKeyDown(event) {
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    closeSearch();
+    return;
+  }
+  // enterkeyhint="search" earns its name: Enter opens the best match. A
+  // focused chip or the close button keeps its own Enter — that press meant
+  // the control, not the field.
+  if (event.key === 'Enter') {
+    if (event.target.closest('button')) return;
+    const first = searchOverlay.querySelector('[data-index-song]');
+    if (!first) return;
+    event.preventDefault();
+    closeSearch();
+    openSongFromIndex(first.dataset.indexSong);
+  }
 }
 
 // ── page 3: a wing (its rooms) ───────────────────────────────────────────────
@@ -1690,8 +1841,10 @@ function handleSay(target) {
 // plays; what must not happen is a disc of broken-image glyphs. A song picture
 // that fails becomes the same ♪ disc a piece with no art already shows, and any
 // other picture that fails steps out of the way. `error` does not bubble, hence
-// the capture listener on the stage, which outlives every re-render.
-stage.addEventListener('error', (event) => {
+// this capture listener — registered on the stage (which outlives every
+// re-render) and on the search overlay while it is open, since its result tiles
+// are on document.body, outside the stage.
+function onPictureError(event) {
   const img = event.target;
   if (!img || img.tagName !== 'IMG') return;
   if (img.classList.contains('bubble__art') || img.classList.contains('index-tile__art')) {
@@ -1702,7 +1855,8 @@ stage.addEventListener('error', (event) => {
   } else {
     img.style.visibility = 'hidden';
   }
-}, true);
+}
+stage.addEventListener('error', onPictureError, true);
 
 stage.addEventListener('click', (event) => {
   const t = event.target;
@@ -1711,6 +1865,9 @@ stage.addEventListener('click', (event) => {
 
   const listen = t.closest('[data-listen]');
   if (listen) { unlockAudio(); return; }
+
+  const searchOpen = t.closest('[data-search-open]');
+  if (searchOpen) { openSearch(searchOpen); return; }
 
   if (t.closest('[data-companion-picker]')) { companionPickerPopup(); return; }
 
