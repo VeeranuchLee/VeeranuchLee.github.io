@@ -313,6 +313,45 @@
     byId("name-text").textContent = message;
   }
 
+  var feedbackAudio = null;
+  var emptyFeedbackTimer = 0;
+  function softTap() {
+    try {
+      var AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      feedbackAudio = feedbackAudio && feedbackAudio.state !== "closed" ? feedbackAudio : new AudioContext();
+      if (feedbackAudio.state === "suspended") feedbackAudio.resume();
+      var oscillator = feedbackAudio.createOscillator();
+      var gain = feedbackAudio.createGain();
+      var now = feedbackAudio.currentTime;
+      oscillator.type = "sine";
+      oscillator.frequency.setValueAtTime(310, now);
+      oscillator.frequency.exponentialRampToValueAtTime(230, now + 0.09);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.035, now + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.1);
+      oscillator.connect(gain).connect(feedbackAudio.destination);
+      oscillator.start(now);
+      oscillator.stop(now + 0.11);
+    } catch (error) { /* visual feedback remains available without WebAudio */ }
+  }
+
+  function emptyBowlFeedback(showPaints) {
+    var bowl = byId("mix-bowl");
+    var primaryPots = document.querySelectorAll('[data-paint="red"], [data-paint="yellow"], [data-paint="blue"]');
+    bowl.classList.remove("needs-paint-feedback");
+    primaryPots.forEach(function (pot) { pot.classList.remove("paint-hint"); });
+    void bowl.offsetWidth;
+    bowl.classList.add("needs-paint-feedback");
+    if (showPaints) primaryPots.forEach(function (pot) { pot.classList.add("paint-hint"); });
+    clearTimeout(emptyFeedbackTimer);
+    emptyFeedbackTimer = window.setTimeout(function () {
+      bowl.classList.remove("needs-paint-feedback");
+      primaryPots.forEach(function (pot) { pot.classList.remove("paint-hint"); });
+    }, 850);
+    softTap();
+  }
+
   function activeTarget() { return mixTargets[activeTargetIndex] || null; }
 
   function renderWhiteBlackStage() {
@@ -480,6 +519,7 @@
   function revealName() {
     if (!currentMix) {
       setName("Add some paint!");
+      emptyBowlFeedback(true);
       return;
     }
     var named = ColorLabMixNaming.nameMix(
@@ -492,6 +532,10 @@
   // One tap empties the bowl and returns the name chip to its prompt (2026-10-07).
   // render() rebuilds the bowl ("Add some paint!", empty paint) from the zeroed drops.
   function reset() {
+    if (!currentMix) {
+      emptyBowlFeedback(false);
+      return;
+    }
     drops = ColorLabReset.emptyDrops();
     render();
   }

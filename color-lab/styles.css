@@ -731,6 +731,19 @@ button.found-colour:active { background: rgba(255, 255, 255, 0.6); }
 }
 
 .mix-bowl:active { transform: scale(0.985); }
+.mix-bowl.needs-paint-feedback { animation: empty-bowl-wiggle 320ms ease-in-out; }
+.paint-pot.paint-hint { animation: paint-pot-hint 680ms ease-in-out; }
+
+@keyframes empty-bowl-wiggle {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-1.4deg); }
+  75% { transform: rotate(1.4deg); }
+}
+
+@keyframes paint-pot-hint {
+  0%, 100% { filter: none; }
+  35%, 70% { filter: brightness(1.12) drop-shadow(0 0 12px rgba(255, 241, 160, 0.9)); }
+}
 
 .bowl-art {
   position: absolute;
@@ -939,6 +952,8 @@ button.found-colour:active { background: rgba(255, 255, 255, 0.6); }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .mix-bowl.needs-paint-feedback { animation: none; box-shadow: 0 0 0 5px rgba(255, 241, 160, 0.8); }
+  .paint-pot.paint-hint { animation: none; filter: brightness(1.12) drop-shadow(0 0 8px rgba(255, 241, 160, 0.85)); }
   .mix-bowl.has-paint .mix-paint,
   .reset-button.is-armed,
   .paint-drop { animation: none; }
