@@ -4173,5 +4173,2024 @@ window.REVIEW_ITEMS = [
 "sentence": "The civic centre hosts our community fair.",
 "pic": "pics/699-civic.webp",
 "audio": "audio/699-civic.m4a"
+},
+{
+"rank": 701,
+"word": "mission",
+"sentence": "Our mission is to plant three new trees.",
+"pic": "pics/701-mission.webp",
+"audio": "audio/701-mission.m4a"
+},
+{
+"rank": 702,
+"word": "plasma",
+"sentence": "Glowing plasma fills the tube with purple light.",
+"pic": "pics/702-plasma.webp",
+"audio": "audio/702-plasma.m4a"
+},
+{
+"rank": 703,
+"word": "guided",
+"sentence": "The teacher guided us through the busy museum.",
+"pic": "pics/703-guided.webp",
+"audio": "audio/703-guided.m4a"
+},
+{
+"rank": 704,
+"word": "heavily",
+"sentence": "Rain falls heavily onto the empty playground.",
+"pic": "pics/704-heavily.webp",
+"audio": "audio/704-heavily.m4a"
+},
+{
+"rank": 705,
+"word": "directly",
+"sentence": "The path leads directly to the red gate.",
+"pic": "pics/705-directly.webp",
+"audio": "audio/705-directly.m4a"
+},
+{
+"rank": 706,
+"word": "official",
+"sentence": "The official checks tickets at the stadium gate.",
+"pic": "pics/706-official.webp",
+"audio": "audio/706-official.m4a"
+},
+{
+"rank": 707,
+"word": "status",
+"sentence": "The board shows our train's status with pictures.",
+"pic": "pics/707-status.webp",
+"audio": "audio/707-status.m4a"
+},
+{
+"rank": 708,
+"word": "policy",
+"sentence": "Our school policy keeps the playground tidy.",
+"pic": "pics/708-policy.webp",
+"audio": "audio/708-policy.m4a"
+},
+{
+"rank": 709,
+"word": "hallelujah",
+"sentence": "The choir sings hallelujah at the joyful concert.",
+"pic": "pics/709-hallelujah.webp",
+"audio": "audio/709-hallelujah.m4a"
+},
+{
+"rank": 710,
+"word": "eastern",
+"sentence": "The eastern sky glows when morning begins.",
+"pic": "pics/710-eastern.webp",
+"audio": "audio/710-eastern.m4a"
+},
+{
+"rank": 711,
+"word": "fugue",
+"sentence": "The pianist plays a lively fugue.",
+"pic": "pics/711-fugue.webp",
+"audio": "audio/711-fugue.m4a"
+},
+{
+"rank": 712,
+"word": "dramatic",
+"sentence": "The dramatic storm fills the sky with lightning.",
+"pic": "pics/712-dramatic.webp",
+"audio": "audio/712-dramatic.m4a"
+},
+{
+"rank": 713,
+"word": "treat",
+"sentence": "A juicy peach is my afternoon treat.",
+"pic": "pics/713-treat.webp",
+"audio": "audio/713-treat.m4a"
+},
+{
+"rank": 714,
+"word": "playback",
+"sentence": "The playback lets us hear our song again.",
+"pic": "pics/714-playback.webp",
+"audio": "audio/714-playback.m4a"
+},
+{
+"rank": 715,
+"word": "illustrated",
+"sentence": "The illustrated book shows bright jungle animals.",
+"pic": "pics/715-illustrated.webp",
+"audio": "audio/715-illustrated.m4a"
+},
+{
+"rank": 716,
+"word": "formal",
+"sentence": "Dad wears formal clothes to the wedding.",
+"pic": "pics/716-formal.webp",
+"audio": "audio/716-formal.m4a"
+},
+{
+"rank": 717,
+"word": "attached",
+"sentence": "The basket is attached to my bicycle.",
+"pic": "pics/717-attached.webp",
+"audio": "audio/717-attached.m4a"
+},
+{
+"rank": 718,
+"word": "contour",
+"sentence": "The hill's contour makes a smooth curve.",
+"pic": "pics/718-contour.webp",
+"audio": "audio/718-contour.m4a"
+},
+{
+"rank": 719,
+"word": "notation",
+"sentence": "Music notation guides the pianist's hands.",
+"pic": "pics/719-notation.webp",
+"audio": "audio/719-notation.m4a"
+},
+{
+"rank": 720,
+"word": "identical",
+"sentence": "The identical socks have matching blue stripes.",
+"pic": "pics/720-identical.webp",
+"audio": "audio/720-identical.m4a"
+},
+{
+"rank": 721,
+"word": "earlier",
+"sentence": "We arrived earlier than the school bus.",
+"pic": "pics/721-earlier.webp",
+"audio": "audio/721-earlier.m4a"
+},
+{
+"rank": 722,
+"word": "began",
+"sentence": "The race began when the flag dropped.",
+"pic": "pics/722-began.webp",
+"audio": "audio/722-began.m4a"
+},
+{
+"rank": 723,
+"word": "stages",
+"sentence": "A butterfly grows through several stages.",
+"pic": "pics/723-stages.webp",
+"audio": "audio/723-stages.m4a"
+},
+{
+"rank": 724,
+"word": "figures",
+"sentence": "The toy figures stand inside the castle.",
+"pic": "pics/724-figures.webp",
+"audio": "audio/724-figures.m4a"
+},
+{
+"rank": 725,
+"word": "conversation",
+"sentence": "Our conversation continues over warm cocoa.",
+"pic": "pics/725-conversation.webp",
+"audio": "audio/725-conversation.m4a"
+},
+{
+"rank": 726,
+"word": "storytelling",
+"sentence": "Grandpa uses puppets for lively storytelling.",
+"pic": "pics/726-storytelling.webp",
+"audio": "audio/726-storytelling.m4a"
+},
+{
+"rank": 727,
+"word": "acceleration",
+"sentence": "The car's acceleration pushes it faster down the track.",
+"pic": "pics/727-acceleration.webp",
+"audio": "audio/727-acceleration.m4a"
+},
+{
+"rank": 728,
+"word": "dot",
+"sentence": "I paint one yellow dot on the ladybird.",
+"pic": "pics/728-dot.webp",
+"audio": "audio/728-dot.m4a"
+},
+{
+"rank": 729,
+"word": "extremely",
+"sentence": "The extremely tall sunflower reaches above the fence.",
+"pic": "pics/729-extremely.webp",
+"audio": "audio/729-extremely.m4a"
+},
+{
+"rank": 730,
+"word": "impacts",
+"sentence": "Heavy rain impacts the soft garden soil.",
+"pic": "pics/730-impacts.webp",
+"audio": "audio/730-impacts.m4a"
+},
+{
+"rank": 731,
+"word": "irregular",
+"sentence": "The irregular stone has many uneven sides.",
+"pic": "pics/731-irregular.webp",
+"audio": "audio/731-irregular.m4a"
+},
+{
+"rank": 732,
+"word": "sprays",
+"sentence": "The whale sprays water above the sea.",
+"pic": "pics/732-sprays.webp",
+"audio": "audio/732-sprays.m4a"
+},
+{
+"rank": 733,
+"word": "outermost",
+"sentence": "The outermost ring circles the whole target.",
+"pic": "pics/733-outermost.webp",
+"audio": "audio/733-outermost.m4a"
+},
+{
+"rank": 734,
+"word": "duplicate",
+"sentence": "I build a duplicate of the block tower.",
+"pic": "pics/734-duplicate.webp",
+"audio": "audio/734-duplicate.m4a"
+},
+{
+"rank": 735,
+"word": "mode",
+"sentence": "Night mode makes the tablet screen darker.",
+"pic": "pics/735-mode.webp",
+"audio": "audio/735-mode.m4a"
+},
+{
+"rank": 736,
+"word": "value",
+"sentence": "This coin has the same value as two smaller coins.",
+"pic": "pics/736-value.webp",
+"audio": "audio/736-value.m4a"
+},
+{
+"rank": 737,
+"word": "educational",
+"sentence": "The educational game teaches us about shapes.",
+"pic": "pics/737-educational.webp",
+"audio": "audio/737-educational.m4a"
+},
+{
+"rank": 738,
+"word": "kept",
+"sentence": "I kept the smooth shell in my pocket.",
+"pic": "pics/738-kept.webp",
+"audio": "audio/738-kept.m4a"
+},
+{
+"rank": 739,
+"word": "reduce",
+"sentence": "We reduce waste by reusing the jar.",
+"pic": "pics/739-reduce.webp",
+"audio": "audio/739-reduce.m4a"
+},
+{
+"rank": 740,
+"word": "toccata",
+"sentence": "The organist plays a fast toccata.",
+"pic": "pics/740-toccata.webp",
+"audio": "audio/740-toccata.m4a",
+"note": "Voice check heard: “The Organist plays a fast takata.”"
+},
+{
+"rank": 741,
+"word": "arrival",
+"sentence": "Our arrival makes Grandma wave from the doorway.",
+"pic": "pics/741-arrival.webp",
+"audio": "audio/741-arrival.m4a"
+},
+{
+"rank": 742,
+"word": "pastoral",
+"sentence": "The pastoral painting shows sheep in green fields.",
+"pic": "pics/742-pastoral.webp",
+"audio": "audio/742-pastoral.m4a"
+},
+{
+"rank": 743,
+"word": "serenade",
+"sentence": "The musician plays a gentle serenade below the balcony.",
+"pic": "pics/743-serenade.webp",
+"audio": "audio/743-serenade.m4a"
+},
+{
+"rank": 744,
+"word": "distinctive",
+"sentence": "The zebra has distinctive black and white stripes.",
+"pic": "pics/744-distinctive.webp",
+"audio": "audio/744-distinctive.m4a"
+},
+{
+"rank": 745,
+"word": "represent",
+"sentence": "These counters represent apples in our maths game.",
+"pic": "pics/745-represent.webp",
+"audio": "audio/745-represent.m4a"
+},
+{
+"rank": 746,
+"word": "album",
+"sentence": "Our photo album holds pictures of family holidays.",
+"pic": "pics/746-album.webp",
+"audio": "audio/746-album.m4a"
+},
+{
+"rank": 747,
+"word": "personal",
+"sentence": "My personal drawer holds my special treasures.",
+"pic": "pics/747-personal.webp",
+"audio": "audio/747-personal.m4a"
+},
+{
+"rank": 748,
+"word": "blended",
+"sentence": "The blended berries make a purple smoothie.",
+"pic": "pics/748-blended.webp",
+"audio": "audio/748-blended.m4a"
+},
+{
+"rank": 749,
+"word": "fantasy",
+"sentence": "The fantasy story has a friendly flying dragon.",
+"pic": "pics/749-fantasy.webp",
+"audio": "audio/749-fantasy.m4a"
+},
+{
+"rank": 750,
+"word": "recognisable",
+"sentence": "The lighthouse is recognisable by its bright stripes.",
+"pic": "pics/750-recognisable.webp",
+"audio": "audio/750-recognisable.m4a"
+},
+{
+"rank": 751,
+"word": "circular",
+"sentence": "The circular pond has water lilies around its edge.",
+"pic": "pics/751-circular.webp",
+"audio": "audio/751-circular.m4a"
+},
+{
+"rank": 752,
+"word": "background",
+"sentence": "Snowy mountains fill the picture's background.",
+"pic": "pics/752-background.webp",
+"audio": "audio/752-background.m4a"
+},
+{
+"rank": 753,
+"word": "action",
+"sentence": "The camera captures the football action.",
+"pic": "pics/753-action.webp",
+"audio": "audio/753-action.m4a"
+},
+{
+"rank": 754,
+"word": "purpose",
+"sentence": "The bridge's purpose is helping people cross streams.",
+"pic": "pics/754-purpose.webp",
+"audio": "audio/754-purpose.m4a"
+},
+{
+"rank": 755,
+"word": "parade",
+"sentence": "The colourful parade moves through the town.",
+"pic": "pics/755-parade.webp",
+"audio": "audio/755-parade.m4a"
+},
+{
+"rank": 756,
+"word": "pitch",
+"sentence": "The small whistle makes a high pitch.",
+"pic": "pics/756-pitch.webp",
+"audio": "audio/756-pitch.m4a"
+},
+{
+"rank": 757,
+"word": "advances",
+"sentence": "The tortoise advances slowly towards the lettuce.",
+"pic": "pics/757-advances.webp",
+"audio": "audio/757-advances.m4a",
+"note": "Voice check heard: “The tortoise advances slowly towards the netis.”"
+},
+{
+"rank": 758,
+"word": "styles",
+"sentence": "The dancers wear costumes from different styles.",
+"pic": "pics/758-styles.webp",
+"audio": "audio/758-styles.m4a"
+},
+{
+"rank": 759,
+"word": "neutral",
+"sentence": "Grey and beige are neutral colours.",
+"pic": "pics/759-neutral.webp",
+"audio": "audio/759-neutral.m4a"
+},
+{
+"rank": 760,
+"word": "primary",
+"sentence": "Red is a primary colour in painting.",
+"pic": "pics/760-primary.webp",
+"audio": "audio/760-primary.m4a"
+},
+{
+"rank": 761,
+"word": "gather",
+"sentence": "We gather fallen apples into a basket.",
+"pic": "pics/761-gather.webp",
+"audio": "audio/761-gather.m4a"
+},
+{
+"rank": 762,
+"word": "current",
+"sentence": "The river's current carries leaves downstream.",
+"pic": "pics/762-current.webp",
+"audio": "audio/762-current.m4a"
+},
+{
+"rank": 763,
+"word": "evergreen",
+"sentence": "The evergreen tree keeps its needles through winter.",
+"pic": "pics/763-evergreen.webp",
+"audio": "audio/763-evergreen.m4a"
+},
+{
+"rank": 764,
+"word": "staircase",
+"sentence": "The staircase curves up to the next floor.",
+"pic": "pics/764-staircase.webp",
+"audio": "audio/764-staircase.m4a"
+},
+{
+"rank": 765,
+"word": "sustained",
+"sentence": "The singer holds one sustained note.",
+"pic": "pics/765-sustained.webp",
+"audio": "audio/765-sustained.m4a"
+},
+{
+"rank": 766,
+"word": "roles",
+"sentence": "We swap roles in the pretend shop.",
+"pic": "pics/766-roles.webp",
+"audio": "audio/766-roles.m4a"
+},
+{
+"rank": 767,
+"word": "effects",
+"sentence": "Wind effects make the stage curtains flutter.",
+"pic": "pics/767-effects.webp",
+"audio": "audio/767-effects.m4a"
+},
+{
+"rank": 768,
+"word": "rapid",
+"sentence": "The rapid rabbit races across the field.",
+"pic": "pics/768-rapid.webp",
+"audio": "audio/768-rapid.m4a"
+},
+{
+"rank": 769,
+"word": "transition",
+"sentence": "The sky's transition from day to night begins.",
+"pic": "pics/769-transition.webp",
+"audio": "audio/769-transition.m4a"
+},
+{
+"rank": 770,
+"word": "chamber",
+"sentence": "The tortoise rests inside a warm chamber.",
+"pic": "pics/770-chamber.webp",
+"audio": "audio/770-chamber.m4a"
+},
+{
+"rank": 771,
+"word": "quick",
+"sentence": "The quick squirrel reaches the tree first.",
+"pic": "pics/771-quick.webp",
+"audio": "audio/771-quick.m4a"
+},
+{
+"rank": 772,
+"word": "programme",
+"sentence": "The concert programme shows pictures of each performance.",
+"pic": "pics/772-programme.webp",
+"audio": "audio/772-programme.m4a"
+},
+{
+"rank": 773,
+"word": "virtuoso",
+"sentence": "The violin virtuoso performs for the audience.",
+"pic": "pics/773-virtuoso.webp",
+"audio": "audio/773-virtuoso.m4a"
+},
+{
+"rank": 774,
+"word": "resonance",
+"sentence": "The drum's resonance fills the empty hall.",
+"pic": "pics/774-resonance.webp",
+"audio": "audio/774-resonance.m4a"
+},
+{
+"rank": 775,
+"word": "sunspots",
+"sentence": "Dark sunspots appear on the Sun's surface.",
+"pic": "pics/775-sunspots.webp",
+"audio": "audio/775-sunspots.m4a"
+},
+{
+"rank": 776,
+"word": "flare",
+"sentence": "A bright solar flare bursts from the Sun.",
+"pic": "pics/776-flare.webp",
+"audio": "audio/776-flare.m4a"
+},
+{
+"rank": 777,
+"word": "sudden",
+"sentence": "A sudden gust lifts the empty umbrella.",
+"pic": "pics/777-sudden.webp",
+"audio": "audio/777-sudden.m4a"
+},
+{
+"rank": 778,
+"word": "impact",
+"sentence": "The marble's impact knocks over the toy skittle.",
+"pic": "pics/778-impact.webp",
+"audio": "audio/778-impact.m4a"
+},
+{
+"rank": 779,
+"word": "tango",
+"sentence": "The couple dances a lively tango together.",
+"pic": "pics/779-tango.webp",
+"audio": "audio/779-tango.m4a"
+},
+{
+"rank": 780,
+"word": "nugget",
+"sentence": "The miner finds a gold nugget in the pan.",
+"pic": "pics/780-nugget.webp",
+"audio": "audio/780-nugget.m4a"
+},
+{
+"rank": 781,
+"word": "bloop",
+"sentence": "The water drop makes a soft bloop.",
+"pic": "pics/781-bloop.webp",
+"audio": "audio/781-bloop.m4a"
+},
+{
+"rank": 782,
+"word": "squish",
+"sentence": "I squish the soft clay with my palm.",
+"pic": "pics/782-squish.webp",
+"audio": "audio/782-squish.m4a"
+},
+{
+"rank": 783,
+"word": "frosty",
+"sentence": "The frosty grass crunches beneath our boots.",
+"pic": "pics/783-frosty.webp",
+"audio": "audio/783-frosty.m4a"
+},
+{
+"rank": 784,
+"word": "outward",
+"sentence": "The flower petals spread outward from the centre.",
+"pic": "pics/784-outward.webp",
+"audio": "audio/784-outward.m4a"
+},
+{
+"rank": 785,
+"word": "ember",
+"sentence": "One glowing ember remains in the quiet fireplace.",
+"pic": "pics/785-ember.webp",
+"audio": "audio/785-ember.m4a"
+},
+{
+"rank": 786,
+"word": "trundle",
+"sentence": "The toy trains trundle around the track.",
+"pic": "pics/786-trundle.webp",
+"audio": "audio/786-trundle.m4a"
+},
+{
+"rank": 787,
+"word": "cinder",
+"sentence": "A black cinder rests beside the campfire ring.",
+"pic": "pics/787-cinder.webp",
+"audio": "audio/787-cinder.m4a"
+},
+{
+"rank": 788,
+"word": "whizz",
+"sentence": "Toy rockets whizz along the guide strings.",
+"pic": "pics/788-whizz.webp",
+"audio": "audio/788-whizz.m4a"
+},
+{
+"rank": 789,
+"word": "deposits",
+"sentence": "The river deposits sand along the inside bend.",
+"pic": "pics/789-deposits.webp",
+"audio": "audio/789-deposits.m4a"
+},
+{
+"rank": 790,
+"word": "scoop",
+"sentence": "I scoop yoghurt with my spoon.",
+"pic": "pics/790-scoop.webp",
+"audio": "audio/790-scoop.m4a"
+},
+{
+"rank": 791,
+"word": "orbital",
+"sentence": "The orbital path curves around the planet.",
+"pic": "pics/791-orbital.webp",
+"audio": "audio/791-orbital.m4a"
+},
+{
+"rank": 792,
+"word": "completes",
+"sentence": "Mia completes the puzzle before bedtime.",
+"pic": "pics/792-completes.webp",
+"audio": "audio/792-completes.m4a"
+},
+{
+"rank": 793,
+"word": "helium",
+"sentence": "Helium makes the party balloon float.",
+"pic": "pics/793-helium.webp",
+"audio": "audio/793-helium.m4a"
+},
+{
+"rank": 794,
+"word": "dipper",
+"sentence": "The dipper bird bobs beside the stream.",
+"pic": "pics/794-dipper.webp",
+"audio": "audio/794-dipper.m4a"
+},
+{
+"rank": 795,
+"word": "spray",
+"sentence": "Sea spray splashes over the empty rocks.",
+"pic": "pics/795-spray.webp",
+"audio": "audio/795-spray.m4a"
+},
+{
+"rank": 796,
+"word": "tilt",
+"sentence": "I tilt the jug to pour water.",
+"pic": "pics/796-tilt.webp",
+"audio": "audio/796-tilt.m4a"
+},
+{
+"rank": 797,
+"word": "chip",
+"sentence": "A tiny chip breaks from the old brick.",
+"pic": "pics/797-chip.webp",
+"audio": "audio/797-chip.m4a"
+},
+{
+"rank": 798,
+"word": "drift",
+"sentence": "White clouds drift across the blue sky.",
+"pic": "pics/798-drift.webp",
+"audio": "audio/798-drift.m4a"
+},
+{
+"rank": 799,
+"word": "inner",
+"sentence": "The inner pocket keeps my key secure.",
+"pic": "pics/799-inner.webp",
+"audio": "audio/799-inner.m4a"
+},
+{
+"rank": 800,
+"word": "halo",
+"sentence": "A rainbow halo circles the bright Moon.",
+"pic": "pics/800-halo.webp",
+"audio": "audio/800-halo.m4a"
+},
+{
+"rank": 801,
+"word": "terrain",
+"sentence": "The rocky terrain makes our walk bumpy.",
+"pic": "pics/801-terrain.webp",
+"audio": "audio/801-terrain.m4a"
+},
+{
+"rank": 802,
+"word": "fierce",
+"sentence": "A fierce wind bends the little trees.",
+"pic": "pics/802-fierce.webp",
+"audio": "audio/802-fierce.m4a"
+},
+{
+"rank": 803,
+"word": "streaks",
+"sentence": "Bright streaks of lightning cross the dark sky.",
+"pic": "pics/803-streaks.webp",
+"audio": "audio/803-streaks.m4a"
+},
+{
+"rank": 804,
+"word": "opposite",
+"sentence": "My friend sits opposite me at lunch.",
+"pic": "pics/804-opposite.webp",
+"audio": "audio/804-opposite.m4a"
+},
+{
+"rank": 805,
+"word": "chill",
+"sentence": "The evening chill makes me zip my coat.",
+"pic": "pics/805-chill.webp",
+"audio": "audio/805-chill.m4a"
+},
+{
+"rank": 806,
+"word": "sled",
+"sentence": "The wooden sled glides down the snowy hill.",
+"pic": "pics/806-sled.webp",
+"audio": "audio/806-sled.m4a"
+},
+{
+"rank": 807,
+"word": "companion",
+"sentence": "My teddy is my bedtime companion.",
+"pic": "pics/807-companion.webp",
+"audio": "audio/807-companion.m4a"
+},
+{
+"rank": 808,
+"word": "wisp",
+"sentence": "A wisp of cloud floats above the hill.",
+"pic": "pics/808-wisp.webp",
+"audio": "audio/808-wisp.m4a"
+},
+{
+"rank": 809,
+"word": "cruise",
+"sentence": "We cruise across the calm lake by boat.",
+"pic": "pics/809-cruise.webp",
+"audio": "audio/809-cruise.m4a"
+},
+{
+"rank": 810,
+"word": "cracks",
+"sentence": "Thin cracks spread across the dry mud.",
+"pic": "pics/810-cracks.webp",
+"audio": "audio/810-cracks.m4a"
+},
+{
+"rank": 811,
+"word": "during",
+"sentence": "The lights stay off during the film.",
+"pic": "pics/811-during.webp",
+"audio": "audio/811-during.m4a"
+},
+{
+"rank": 812,
+"word": "design",
+"sentence": "I draw a design for my kite.",
+"pic": "pics/812-design.webp",
+"audio": "audio/812-design.m4a"
+},
+{
+"rank": 813,
+"word": "production",
+"sentence": "Bread production begins early at the bakery.",
+"pic": "pics/813-production.webp",
+"audio": "audio/813-production.m4a"
+},
+{
+"rank": 815,
+"word": "versus",
+"sentence": "Our football match is red versus blue.",
+"pic": "pics/815-versus.webp",
+"audio": "audio/815-versus.m4a"
+},
+{
+"rank": 817,
+"word": "section",
+"sentence": "This section of the orange is juicy.",
+"pic": "pics/817-section.webp",
+"audio": "audio/817-section.m4a"
+},
+{
+"rank": 818,
+"word": "bare",
+"sentence": "The bare tree has no leaves in winter.",
+"pic": "pics/818-bare.webp",
+"audio": "audio/818-bare.m4a"
+},
+{
+"rank": 819,
+"word": "strain",
+"sentence": "Dad uses a colander to strain the pasta.",
+"pic": "pics/819-strain.webp",
+"audio": "audio/819-strain.m4a"
+},
+{
+"rank": 820,
+"word": "taught",
+"sentence": "Grandma taught me how to knit.",
+"pic": "pics/820-taught.webp",
+"audio": "audio/820-taught.m4a"
+},
+{
+"rank": 821,
+"word": "replace",
+"sentence": "We replace the empty roll with a new one.",
+"pic": "pics/821-replace.webp",
+"audio": "audio/821-replace.m4a"
+},
+{
+"rank": 822,
+"word": "pin",
+"sentence": "The pin rests in the pincushion.",
+"pic": "pics/822-pin.webp",
+"audio": "audio/822-pin.m4a"
+},
+{
+"rank": 823,
+"word": "contact",
+"sentence": "The wheels make contact with the road.",
+"pic": "pics/823-contact.webp",
+"audio": "audio/823-contact.m4a"
+},
+{
+"rank": 824,
+"word": "optional",
+"sentence": "The extra sticker is optional for my card.",
+"pic": "pics/824-optional.webp",
+"audio": "audio/824-optional.m4a"
+},
+{
+"rank": 825,
+"word": "entire",
+"sentence": "We finish the entire puzzle together.",
+"pic": "pics/825-entire.webp",
+"audio": "audio/825-entire.m4a"
+},
+{
+"rank": 826,
+"word": "nation",
+"sentence": "A nation shares its land and government.",
+"pic": "pics/826-nation.webp",
+"audio": "audio/826-nation.m4a"
+},
+{
+"rank": 827,
+"word": "particular",
+"sentence": "I choose a particular shell from the beach.",
+"pic": "pics/827-particular.webp",
+"audio": "audio/827-particular.m4a"
+},
+{
+"rank": 828,
+"word": "theatrical",
+"sentence": "Our theatrical costumes sparkle on the stage.",
+"pic": "pics/828-theatrical.webp",
+"audio": "audio/828-theatrical.m4a"
+},
+{
+"rank": 830,
+"word": "merge",
+"sentence": "Two little streams merge into one river.",
+"pic": "pics/830-merge.webp",
+"audio": "audio/830-merge.m4a"
+},
+{
+"rank": 831,
+"word": "participation",
+"sentence": "Everyone earns a badge for participation in sports day.",
+"pic": "pics/831-participation.webp",
+"audio": "audio/831-participation.m4a"
+},
+{
+"rank": 832,
+"word": "tempo",
+"sentence": "The drummer keeps a steady tempo for everyone.",
+"pic": "pics/832-tempo.webp",
+"audio": "audio/832-tempo.m4a"
+},
+{
+"rank": 833,
+"word": "emotion",
+"sentence": "Her smile shows the emotion of joy.",
+"pic": "pics/833-emotion.webp",
+"audio": "audio/833-emotion.m4a"
+},
+{
+"rank": 834,
+"word": "blossom",
+"sentence": "Pink blossom covers the tree each spring.",
+"pic": "pics/834-blossom.webp",
+"audio": "audio/834-blossom.m4a"
+},
+{
+"rank": 836,
+"word": "erase",
+"sentence": "I erase the pencil mark from my page.",
+"pic": "pics/836-erase.webp",
+"audio": "audio/836-erase.m4a"
+},
+{
+"rank": 837,
+"word": "model",
+"sentence": "We build a model rocket from cardboard.",
+"pic": "pics/837-model.webp",
+"audio": "audio/837-model.m4a"
+},
+{
+"rank": 838,
+"word": "veranda",
+"sentence": "We eat breakfast on the sunny veranda.",
+"pic": "pics/838-veranda.webp",
+"audio": "audio/838-veranda.m4a"
+},
+{
+"rank": 839,
+"word": "reflection",
+"sentence": "My reflection appears in the still pond.",
+"pic": "pics/839-reflection.webp",
+"audio": "audio/839-reflection.m4a"
+},
+{
+"rank": 840,
+"word": "presentation",
+"sentence": "Mia gives a presentation about butterflies.",
+"pic": "pics/840-presentation.webp",
+"audio": "audio/840-presentation.m4a"
+},
+{
+"rank": 841,
+"word": "simply",
+"sentence": "I simply press the button to ring.",
+"pic": "pics/841-simply.webp",
+"audio": "audio/841-simply.m4a"
+},
+{
+"rank": 842,
+"word": "gradually",
+"sentence": "The sky gradually brightens before sunrise.",
+"pic": "pics/842-gradually.webp",
+"audio": "audio/842-gradually.m4a"
+},
+{
+"rank": 843,
+"word": "popular",
+"sentence": "The popular swing has a cheerful queue.",
+"pic": "pics/843-popular.webp",
+"audio": "audio/843-popular.m4a"
+},
+{
+"rank": 844,
+"word": "gathering",
+"sentence": "Our family gathering fills the garden with laughter.",
+"pic": "pics/844-gathering.webp",
+"audio": "audio/844-gathering.m4a"
+},
+{
+"rank": 845,
+"word": "construction",
+"sentence": "The bridge is under construction beside the river.",
+"pic": "pics/845-construction.webp",
+"audio": "audio/845-construction.m4a"
+},
+{
+"rank": 846,
+"word": "chords",
+"sentence": "She plays bright chords on the piano.",
+"pic": "pics/846-chords.webp",
+"audio": "audio/846-chords.m4a"
+},
+{
+"rank": 847,
+"word": "outdoor",
+"sentence": "Our outdoor lesson happens under a shady tree.",
+"pic": "pics/847-outdoor.webp",
+"audio": "audio/847-outdoor.m4a"
+},
+{
+"rank": 848,
+"word": "ivory",
+"sentence": "Ivory is a soft creamy white colour.",
+"pic": "pics/848-ivory.webp",
+"audio": "audio/848-ivory.m4a"
+},
+{
+"rank": 849,
+"word": "solo",
+"sentence": "Ben plays a trumpet solo on stage.",
+"pic": "pics/849-solo.webp",
+"audio": "audio/849-solo.m4a"
+},
+{
+"rank": 850,
+"word": "ensemble",
+"sentence": "The musical ensemble plays together on stage.",
+"pic": "pics/850-ensemble.webp",
+"audio": "audio/850-ensemble.m4a"
+},
+{
+"rank": 851,
+"word": "gesture",
+"sentence": "Her waving gesture welcomes us inside.",
+"pic": "pics/851-gesture.webp",
+"audio": "audio/851-gesture.m4a"
+},
+{
+"rank": 852,
+"word": "voices",
+"sentence": "Our voices join together in the song.",
+"pic": "pics/852-voices.webp",
+"audio": "audio/852-voices.m4a"
+},
+{
+"rank": 853,
+"word": "firework",
+"sentence": "A golden firework blooms above the town.",
+"pic": "pics/853-firework.webp",
+"audio": "audio/853-firework.m4a"
+},
+{
+"rank": 854,
+"word": "tile",
+"sentence": "The blue tile fits beside the white one.",
+"pic": "pics/854-tile.webp",
+"audio": "audio/854-tile.m4a"
+},
+{
+"rank": 855,
+"word": "mid",
+"sentence": "The whistle blows mid-race for a short pause.",
+"pic": "pics/855-mid.webp",
+"audio": "audio/855-mid.m4a"
+},
+{
+"rank": 856,
+"word": "wordless",
+"sentence": "The wordless book tells its story through pictures.",
+"pic": "pics/856-wordless.webp",
+"audio": "audio/856-wordless.m4a"
+},
+{
+"rank": 858,
+"word": "recommended",
+"sentence": "The recommended book waits on the library desk.",
+"pic": "pics/858-recommended.webp",
+"audio": "audio/858-recommended.m4a"
+},
+{
+"rank": 859,
+"word": "compartment",
+"sentence": "My lunchbox has a compartment for fruit.",
+"pic": "pics/859-compartment.webp",
+"audio": "audio/859-compartment.m4a"
+},
+{
+"rank": 860,
+"word": "delicate",
+"sentence": "A delicate butterfly rests on the flower.",
+"pic": "pics/860-delicate.webp",
+"audio": "audio/860-delicate.m4a"
+},
+{
+"rank": 861,
+"word": "images",
+"sentence": "The camera captures images of garden birds.",
+"pic": "pics/861-images.webp",
+"audio": "audio/861-images.m4a"
+},
+{
+"rank": 862,
+"word": "sketchbook",
+"sentence": "My sketchbook holds drawings of garden flowers.",
+"pic": "pics/862-sketchbook.webp",
+"audio": "audio/862-sketchbook.m4a"
+},
+{
+"rank": 863,
+"word": "cartoon",
+"sentence": "We watch a funny cartoon about a penguin.",
+"pic": "pics/863-cartoon.webp",
+"audio": "audio/863-cartoon.m4a"
+},
+{
+"rank": 864,
+"word": "rotating",
+"sentence": "The rotating carousel carries us around.",
+"pic": "pics/864-rotating.webp",
+"audio": "audio/864-rotating.m4a"
+},
+{
+"rank": 865,
+"word": "treble",
+"sentence": "The treble notes sound high and bright.",
+"pic": "pics/865-treble.webp",
+"audio": "audio/865-treble.m4a"
+},
+{
+"rank": 866,
+"word": "woke",
+"sentence": "I woke when sunlight reached my pillow.",
+"pic": "pics/866-woke.webp",
+"audio": "audio/866-woke.m4a"
+},
+{
+"rank": 867,
+"word": "specialist",
+"sentence": "The eye specialist checks my vision.",
+"pic": "pics/867-specialist.webp",
+"audio": "audio/867-specialist.m4a"
+},
+{
+"rank": 868,
+"word": "wow",
+"sentence": "We say wow when the rainbow appears.",
+"pic": "pics/868-wow.webp",
+"audio": "audio/868-wow.m4a"
+},
+{
+"rank": 869,
+"word": "sunspot",
+"sentence": "A sunspot looks dark on the bright Sun.",
+"pic": "pics/869-sunspot.webp",
+"audio": "audio/869-sunspot.m4a"
+},
+{
+"rank": 870,
+"word": "prominence",
+"sentence": "A solar prominence loops above the Sun.",
+"pic": "pics/870-prominence.webp",
+"audio": "audio/870-prominence.m4a"
+},
+{
+"rank": 871,
+"word": "protects",
+"sentence": "My helmet protects my head while cycling.",
+"pic": "pics/871-protects.webp",
+"audio": "audio/871-protects.m4a"
+},
+{
+"rank": 872,
+"word": "protected",
+"sentence": "The tiny plant is protected by a glass cover.",
+"pic": "pics/872-protected.webp",
+"audio": "audio/872-protected.m4a"
+},
+{
+"rank": 873,
+"word": "hottest",
+"sentence": "The blue part of the flame is the hottest.",
+"pic": "pics/873-hottest.webp",
+"audio": "audio/873-hottest.m4a"
+},
+{
+"rank": 874,
+"word": "confirmed",
+"sentence": "The vet confirmed our puppy is healthy.",
+"pic": "pics/874-confirmed.webp",
+"audio": "audio/874-confirmed.m4a"
+},
+{
+"rank": 875,
+"word": "research",
+"sentence": "Our research finds facts about whales.",
+"pic": "pics/875-research.webp",
+"audio": "audio/875-research.m4a"
+},
+{
+"rank": 876,
+"word": "drones",
+"sentence": "The drones photograph the empty field from above.",
+"pic": "pics/876-drones.webp",
+"audio": "audio/876-drones.m4a"
+},
+{
+"rank": 877,
+"word": "hang",
+"sentence": "We hang our coats on the hooks.",
+"pic": "pics/877-hang.webp",
+"audio": "audio/877-hang.m4a"
+},
+{
+"rank": 878,
+"word": "percent",
+"sentence": "Fifty percent of the circle is shaded.",
+"pic": "pics/878-percent.webp",
+"audio": "audio/878-percent.m4a",
+"note": "Voice check heard: “50% of the circle is shaded.”"
+},
+{
+"rank": 879,
+"word": "breccia",
+"sentence": "Breccia contains sharp rock pieces joined together.",
+"pic": "pics/879-breccia.webp",
+"audio": "audio/879-breccia.m4a"
+},
+{
+"rank": 880,
+"word": "rust",
+"sentence": "Orange rust covers the old metal gate.",
+"pic": "pics/880-rust.webp",
+"audio": "audio/880-rust.m4a"
+},
+{
+"rank": 881,
+"word": "patches",
+"sentence": "White patches cover the brown cow.",
+"pic": "pics/881-patches.webp",
+"audio": "audio/881-patches.m4a"
+},
+{
+"rank": 882,
+"word": "briny",
+"sentence": "The briny sea water tastes salty.",
+"pic": "pics/882-briny.webp",
+"audio": "audio/882-briny.m4a"
+},
+{
+"rank": 883,
+"word": "mass",
+"sentence": "The balance compares the mass of two toys.",
+"pic": "pics/883-mass.webp",
+"audio": "audio/883-mass.m4a"
+},
+{
+"rank": 884,
+"word": "fractures",
+"sentence": "The geologist finds fractures in the cliff rock.",
+"pic": "pics/884-fractures.webp",
+"audio": "audio/884-fractures.m4a"
+},
+{
+"rank": 885,
+"word": "measurements",
+"sentence": "Our measurements show both plants are growing.",
+"pic": "pics/885-measurements.webp",
+"audio": "audio/885-measurements.m4a"
+},
+{
+"rank": 886,
+"word": "rotation",
+"sentence": "Earth's rotation brings day and night.",
+"pic": "pics/886-rotation.webp",
+"audio": "audio/886-rotation.m4a"
+},
+{
+"rank": 887,
+"word": "gaps",
+"sentence": "The fence has gaps between its wooden posts.",
+"pic": "pics/887-gaps.webp",
+"audio": "audio/887-gaps.m4a"
+},
+{
+"rank": 888,
+"word": "mysterious",
+"sentence": "A mysterious trail of footprints crosses the snow.",
+"pic": "pics/888-mysterious.webp",
+"audio": "audio/888-mysterious.m4a"
+},
+{
+"rank": 889,
+"word": "rift",
+"sentence": "A deep rift splits the rocky ground.",
+"pic": "pics/889-rift.webp",
+"audio": "audio/889-rift.m4a"
+},
+{
+"rank": 890,
+"word": "crust",
+"sentence": "Earth's crust forms its thin outer layer.",
+"pic": "pics/890-crust.webp",
+"audio": "audio/890-crust.m4a"
+},
+{
+"rank": 891,
+"word": "grand",
+"sentence": "The grand hall has tall golden pillars.",
+"pic": "pics/891-grand.webp",
+"audio": "audio/891-grand.m4a"
+},
+{
+"rank": 892,
+"word": "fade",
+"sentence": "The chalk colours fade in the rain.",
+"pic": "pics/892-fade.webp",
+"audio": "audio/892-fade.m4a"
+},
+{
+"rank": 893,
+"word": "windiest",
+"sentence": "The hilltop is the windiest place today.",
+"pic": "pics/893-windiest.webp",
+"audio": "audio/893-windiest.m4a"
+},
+{
+"rank": 894,
+"word": "reason",
+"sentence": "The flat tyre is the reason we stop.",
+"pic": "pics/894-reason.webp",
+"audio": "audio/894-reason.m4a"
+},
+{
+"rank": 895,
+"word": "soaks",
+"sentence": "The sponge soaks up the spilled water.",
+"pic": "pics/895-soaks.webp",
+"audio": "audio/895-soaks.m4a"
+},
+{
+"rank": 896,
+"word": "fountains",
+"sentence": "The fountains spray water high above the pond.",
+"pic": "pics/896-fountains.webp",
+"audio": "audio/896-fountains.m4a"
+},
+{
+"rank": 897,
+"word": "patch",
+"sentence": "Mum sews a patch over the torn knee.",
+"pic": "pics/897-patch.webp",
+"audio": "audio/897-patch.m4a"
+},
+{
+"rank": 898,
+"word": "stony",
+"sentence": "A stony beach has pebbles instead of sand.",
+"pic": "pics/898-stony.webp",
+"audio": "audio/898-stony.m4a"
+},
+{
+"rank": 899,
+"word": "battered",
+"sentence": "The battered suitcase has dents and scratches.",
+"pic": "pics/899-battered.webp",
+"audio": "audio/899-battered.m4a"
+},
+{
+"rank": 900,
+"word": "tiniest",
+"sentence": "The tiniest shell rests beside larger shells.",
+"pic": "pics/900-tiniest.webp",
+"audio": "audio/900-tiniest.m4a"
+},
+{
+"rank": 901,
+"word": "jets",
+"sentence": "Water jets spray from the fountain.",
+"pic": "pics/901-jets.webp",
+"audio": "audio/901-jets.m4a"
+},
+{
+"rank": 902,
+"word": "ridge",
+"sentence": "Snow rests along the mountain ridge.",
+"pic": "pics/902-ridge.webp",
+"audio": "audio/902-ridge.m4a"
+},
+{
+"rank": 903,
+"word": "sweep",
+"sentence": "I sweep the crumbs into a dustpan.",
+"pic": "pics/903-sweep.webp",
+"audio": "audio/903-sweep.m4a"
+},
+{
+"rank": 904,
+"word": "backwards",
+"sentence": "The toy train rolls backwards down the track.",
+"pic": "pics/904-backwards.webp",
+"audio": "audio/904-backwards.m4a"
+},
+{
+"rank": 905,
+"word": "captured",
+"sentence": "The ladybird is captured briefly in a jar.",
+"pic": "pics/905-captured.webp",
+"audio": "audio/905-captured.m4a"
+},
+{
+"rank": 906,
+"word": "interactive",
+"sentence": "This interactive globe lights up when touched.",
+"pic": "pics/906-interactive.webp",
+"audio": "audio/906-interactive.m4a"
+},
+{
+"rank": 907,
+"word": "samples",
+"sentence": "The fabric samples show many colours and textures.",
+"pic": "pics/907-samples.webp",
+"audio": "audio/907-samples.m4a"
+},
+{
+"rank": 908,
+"word": "minimum",
+"sentence": "Two wheels are the minimum for this bicycle.",
+"pic": "pics/908-minimum.webp",
+"audio": "audio/908-minimum.m4a"
+},
+{
+"rank": 910,
+"word": "decision",
+"sentence": "My decision is choosing the red boots.",
+"pic": "pics/910-decision.webp",
+"audio": "audio/910-decision.m4a"
+},
+{
+"rank": 912,
+"word": "triplet",
+"sentence": "The triplet lambs rest beside their mother.",
+"pic": "pics/912-triplet.webp",
+"audio": "audio/912-triplet.m4a"
+},
+{
+"rank": 913,
+"word": "completed",
+"sentence": "The completed puzzle shows a bright butterfly.",
+"pic": "pics/913-completed.webp",
+"audio": "audio/913-completed.m4a"
+},
+{
+"rank": 914,
+"word": "surf",
+"sentence": "We surf on small waves near the beach.",
+"pic": "pics/914-surf.webp",
+"audio": "audio/914-surf.m4a"
+},
+{
+"rank": 915,
+"word": "verify",
+"sentence": "I verify each sock has a matching partner.",
+"pic": "pics/915-verify.webp",
+"audio": "audio/915-verify.m4a"
+},
+{
+"rank": 916,
+"word": "monumental",
+"sentence": "The monumental statue towers above the town square.",
+"pic": "pics/916-monumental.webp",
+"audio": "audio/916-monumental.m4a"
+},
+{
+"rank": 917,
+"word": "vocal",
+"sentence": "The vocal group sings together on stage.",
+"pic": "pics/917-vocal.webp",
+"audio": "audio/917-vocal.m4a"
+},
+{
+"rank": 918,
+"word": "exist",
+"sentence": "Tiny insects exist beneath this old log.",
+"pic": "pics/918-exist.webp",
+"audio": "audio/918-exist.m4a"
+},
+{
+"rank": 919,
+"word": "interaction",
+"sentence": "Our interaction begins with a friendly wave.",
+"pic": "pics/919-interaction.webp",
+"audio": "audio/919-interaction.m4a"
+},
+{
+"rank": 920,
+"word": "mainland",
+"sentence": "The ferry carries us back to the mainland.",
+"pic": "pics/920-mainland.webp",
+"audio": "audio/920-mainland.m4a"
+},
+{
+"rank": 921,
+"word": "international",
+"sentence": "The international space crew works together.",
+"pic": "pics/921-international.webp",
+"audio": "audio/921-international.m4a"
+},
+{
+"rank": 922,
+"word": "entry",
+"sentence": "Our entry is a painted model boat.",
+"pic": "pics/922-entry.webp",
+"audio": "audio/922-entry.m4a"
+},
+{
+"rank": 923,
+"word": "presented",
+"sentence": "The medal is presented to the smiling runner.",
+"pic": "pics/923-presented.webp",
+"audio": "audio/923-presented.m4a"
+},
+{
+"rank": 924,
+"word": "playlist",
+"sentence": "My playlist contains songs for our party.",
+"pic": "pics/924-playlist.webp",
+"audio": "audio/924-playlist.m4a"
+},
+{
+"rank": 925,
+"word": "abstract",
+"sentence": "The abstract painting uses colourful shapes and swirls.",
+"pic": "pics/925-abstract.webp",
+"audio": "audio/925-abstract.m4a"
+},
+{
+"rank": 926,
+"word": "vocabulary",
+"sentence": "Reading every day grows my vocabulary.",
+"pic": "pics/926-vocabulary.webp",
+"audio": "audio/926-vocabulary.m4a"
+},
+{
+"rank": 927,
+"word": "minimal",
+"sentence": "The minimal room has only three chairs.",
+"pic": "pics/927-minimal.webp",
+"audio": "audio/927-minimal.m4a"
+},
+{
+"rank": 928,
+"word": "connections",
+"sentence": "The track connections hold the railway pieces together.",
+"pic": "pics/928-connections.webp",
+"audio": "audio/928-connections.m4a"
+},
+{
+"rank": 929,
+"word": "everywhere",
+"sentence": "Autumn leaves lie everywhere across the park.",
+"pic": "pics/929-everywhere.webp",
+"audio": "audio/929-everywhere.m4a"
+},
+{
+"rank": 930,
+"word": "exotic",
+"sentence": "The exotic fruit has pink skin and white flesh.",
+"pic": "pics/930-exotic.webp",
+"audio": "audio/930-exotic.m4a"
+},
+{
+"rank": 931,
+"word": "regions",
+"sentence": "Polar regions stay cold through every season.",
+"pic": "pics/931-regions.webp",
+"audio": "audio/931-regions.m4a"
+},
+{
+"rank": 932,
+"word": "scrolling",
+"sentence": "Mum is scrolling through photos on her tablet.",
+"pic": "pics/932-scrolling.webp",
+"audio": "audio/932-scrolling.m4a"
+},
+{
+"rank": 933,
+"word": "visibly",
+"sentence": "The muddy footprints are visibly darker than the floor.",
+"pic": "pics/933-visibly.webp",
+"audio": "audio/933-visibly.m4a"
+},
+{
+"rank": 934,
+"word": "driven",
+"sentence": "The little bus is driven by our friendly driver.",
+"pic": "pics/934-driven.webp",
+"audio": "audio/934-driven.m4a"
+},
+{
+"rank": 935,
+"word": "magnifying",
+"sentence": "The magnifying glass makes the beetle look bigger.",
+"pic": "pics/935-magnifying.webp",
+"audio": "audio/935-magnifying.m4a"
+},
+{
+"rank": 936,
+"word": "experience",
+"sentence": "Camping outside is a new experience for me.",
+"pic": "pics/936-experience.webp",
+"audio": "audio/936-experience.m4a"
+},
+{
+"rank": 937,
+"word": "knowledge",
+"sentence": "My knowledge of birds helps me name this robin.",
+"pic": "pics/937-knowledge.webp",
+"audio": "audio/937-knowledge.m4a"
+},
+{
+"rank": 938,
+"word": "physical",
+"sentence": "Running is a physical activity for our bodies.",
+"pic": "pics/938-physical.webp",
+"audio": "audio/938-physical.m4a"
+},
+{
+"rank": 939,
+"word": "rotate",
+"sentence": "I rotate the globe with one hand.",
+"pic": "pics/939-rotate.webp",
+"audio": "audio/939-rotate.m4a"
+},
+{
+"rank": 940,
+"word": "tension",
+"sentence": "The rope has tension during our gentle tug.",
+"pic": "pics/940-tension.webp",
+"audio": "audio/940-tension.m4a"
+},
+{
+"rank": 941,
+"word": "teal",
+"sentence": "The teal scarf is blue-green.",
+"pic": "pics/941-teal.webp",
+"audio": "audio/941-teal.m4a"
+},
+{
+"rank": 942,
+"word": "coral",
+"sentence": "Colourful fish shelter around the coral reef.",
+"pic": "pics/942-coral.webp",
+"audio": "audio/942-coral.m4a"
+},
+{
+"rank": 943,
+"word": "collection",
+"sentence": "My shell collection fills one shallow tray.",
+"pic": "pics/943-collection.webp",
+"audio": "audio/943-collection.m4a"
+},
+{
+"rank": 944,
+"word": "vary",
+"sentence": "Leaf shapes vary across these three trees.",
+"pic": "pics/944-vary.webp",
+"audio": "audio/944-vary.m4a"
+},
+{
+"rank": 945,
+"word": "tools",
+"sentence": "The gardener keeps her tools in a shed.",
+"pic": "pics/945-tools.webp",
+"audio": "audio/945-tools.m4a"
+},
+{
+"rank": 947,
+"word": "motifs",
+"sentence": "Star motifs decorate the blue quilt.",
+"pic": "pics/947-motifs.webp",
+"audio": "audio/947-motifs.m4a"
+},
+{
+"rank": 948,
+"word": "sung",
+"sentence": "The lullaby is sung softly beside the cot.",
+"pic": "pics/948-sung.webp",
+"audio": "audio/948-sung.m4a"
+},
+{
+"rank": 949,
+"word": "accuracy",
+"sentence": "The archer practises accuracy with soft toy arrows.",
+"pic": "pics/949-accuracy.webp",
+"audio": "audio/949-accuracy.m4a"
+},
+{
+"rank": 950,
+"word": "detached",
+"sentence": "The detached button lies beside the coat.",
+"pic": "pics/950-detached.webp",
+"audio": "audio/950-detached.m4a"
+},
+{
+"rank": 951,
+"word": "comfort",
+"sentence": "A warm blanket gives comfort to the puppy.",
+"pic": "pics/951-comfort.webp",
+"audio": "audio/951-comfort.m4a"
+},
+{
+"rank": 952,
+"word": "ranking",
+"sentence": "The race ranking puts the tortoise first.",
+"pic": "pics/952-ranking.webp",
+"audio": "audio/952-ranking.m4a"
+},
+{
+"rank": 953,
+"word": "gently",
+"sentence": "Dad gently brushes the pony's mane.",
+"pic": "pics/953-gently.webp",
+"audio": "audio/953-gently.m4a"
+},
+{
+"rank": 954,
+"word": "depends",
+"sentence": "The kite's flight depends on the wind.",
+"pic": "pics/954-depends.webp",
+"audio": "audio/954-depends.m4a"
+},
+{
+"rank": 955,
+"word": "meanings",
+"sentence": "Pictures can show the meanings of new words.",
+"pic": "pics/955-meanings.webp",
+"audio": "audio/955-meanings.m4a"
+},
+{
+"rank": 957,
+"word": "related",
+"sentence": "The related kittens share the same mother.",
+"pic": "pics/957-related.webp",
+"audio": "audio/957-related.m4a"
+},
+{
+"rank": 958,
+"word": "observation",
+"sentence": "My observation finds a snail under the leaf.",
+"pic": "pics/958-observation.webp",
+"audio": "audio/958-observation.m4a"
+},
+{
+"rank": 959,
+"word": "palettes",
+"sentence": "The two paint palettes hold different colours.",
+"pic": "pics/959-palettes.webp",
+"audio": "audio/959-palettes.m4a"
+},
+{
+"rank": 960,
+"word": "coastal",
+"sentence": "A coastal path follows the edge of the sea.",
+"pic": "pics/960-coastal.webp",
+"audio": "audio/960-coastal.m4a"
+},
+{
+"rank": 961,
+"word": "panels",
+"sentence": "Solar panels collect sunlight on our roof.",
+"pic": "pics/961-panels.webp",
+"audio": "audio/961-panels.m4a"
+},
+{
+"rank": 962,
+"word": "overlay",
+"sentence": "A clear overlay adds raindrops to the picture.",
+"pic": "pics/962-overlay.webp",
+"audio": "audio/962-overlay.m4a"
+},
+{
+"rank": 963,
+"word": "exchange",
+"sentence": "Our book exchange gives each child a new story.",
+"pic": "pics/963-exchange.webp",
+"audio": "audio/963-exchange.m4a"
+},
+{
+"rank": 964,
+"word": "avoiding",
+"sentence": "The cyclist is avoiding the puddle on the path.",
+"pic": "pics/964-avoiding.webp",
+"audio": "audio/964-avoiding.m4a"
+},
+{
+"rank": 965,
+"word": "tropical",
+"sentence": "Tropical flowers grow in the warm rainforest.",
+"pic": "pics/965-tropical.webp",
+"audio": "audio/965-tropical.m4a"
+},
+{
+"rank": 966,
+"word": "turquoise",
+"sentence": "The turquoise water shines beside the white sand.",
+"pic": "pics/966-turquoise.webp",
+"audio": "audio/966-turquoise.m4a"
+},
+{
+"rank": 967,
+"word": "urban",
+"sentence": "The urban park sits between tall buildings.",
+"pic": "pics/967-urban.webp",
+"audio": "audio/967-urban.m4a"
+},
+{
+"rank": 968,
+"word": "differs",
+"sentence": "My striped sock differs from the spotted one.",
+"pic": "pics/968-differs.webp",
+"audio": "audio/968-differs.m4a"
+},
+{
+"rank": 969,
+"word": "trigger",
+"sentence": "I squeeze the trigger on my water sprayer.",
+"pic": "pics/969-trigger.webp",
+"audio": "audio/969-trigger.m4a"
+},
+{
+"rank": 970,
+"word": "accurate",
+"sentence": "The accurate clock matches the school bell.",
+"pic": "pics/970-accurate.webp",
+"audio": "audio/970-accurate.m4a"
+},
+{
+"rank": 971,
+"word": "case",
+"sentence": "My violin rests inside its sturdy case.",
+"pic": "pics/971-case.webp",
+"audio": "audio/971-case.m4a"
+},
+{
+"rank": 973,
+"word": "wrote",
+"sentence": "Grandma wrote me a birthday letter.",
+"pic": "pics/973-wrote.webp",
+"audio": "audio/973-wrote.m4a"
+},
+{
+"rank": 974,
+"word": "parchment",
+"sentence": "The old map is drawn on parchment.",
+"pic": "pics/974-parchment.webp",
+"audio": "audio/974-parchment.m4a"
+},
+{
+"rank": 975,
+"word": "montage",
+"sentence": "The photo montage shows our whole school year.",
+"pic": "pics/975-montage.webp",
+"audio": "audio/975-montage.m4a"
+},
+{
+"rank": 976,
+"word": "sleigh",
+"sentence": "The horse pulls the sleigh through soft snow.",
+"pic": "pics/976-sleigh.webp",
+"audio": "audio/976-sleigh.m4a"
+},
+{
+"rank": 977,
+"word": "custom",
+"sentence": "Our birthday custom includes sharing one cake.",
+"pic": "pics/977-custom.webp",
+"audio": "audio/977-custom.m4a"
+},
+{
+"rank": 978,
+"word": "origins",
+"sentence": "The river's origins are high in the mountains.",
+"pic": "pics/978-origins.webp",
+"audio": "audio/978-origins.m4a"
+},
+{
+"rank": 979,
+"word": "category",
+"sentence": "The apple belongs in the fruit category.",
+"pic": "pics/979-category.webp",
+"audio": "audio/979-category.m4a"
+},
+{
+"rank": 980,
+"word": "translated",
+"sentence": "The story is translated into another language.",
+"pic": "pics/980-translated.webp",
+"audio": "audio/980-translated.m4a"
+},
+{
+"rank": 981,
+"word": "approximately",
+"sentence": "The ribbon is approximately as long as my arm.",
+"pic": "pics/981-approximately.webp",
+"audio": "audio/981-approximately.m4a"
+},
+{
+"rank": 982,
+"word": "simultaneous",
+"sentence": "The simultaneous jumps land at the same moment.",
+"pic": "pics/982-simultaneous.webp",
+"audio": "audio/982-simultaneous.m4a"
+},
+{
+"rank": 983,
+"word": "retain",
+"sentence": "This bottle can retain warm water for hours.",
+"pic": "pics/983-retain.webp",
+"audio": "audio/983-retain.m4a"
+},
+{
+"rank": 984,
+"word": "structures",
+"sentence": "The sand structures include a tower and bridge.",
+"pic": "pics/984-structures.webp",
+"audio": "audio/984-structures.m4a"
+},
+{
+"rank": 985,
+"word": "clarity",
+"sentence": "The water's clarity reveals every pebble below.",
+"pic": "pics/985-clarity.webp",
+"audio": "audio/985-clarity.m4a"
+},
+{
+"rank": 986,
+"word": "definition",
+"sentence": "The definition explains what a new word means.",
+"pic": "pics/986-definition.webp",
+"audio": "audio/986-definition.m4a"
+},
+{
+"rank": 987,
+"word": "wig",
+"sentence": "The actor wears a bright purple wig.",
+"pic": "pics/987-wig.webp",
+"audio": "audio/987-wig.m4a"
+},
+{
+"rank": 988,
+"word": "careers",
+"sentence": "These careers include teaching, farming and nursing.",
+"pic": "pics/988-careers.webp",
+"audio": "audio/988-careers.m4a"
+},
+{
+"rank": 989,
+"word": "foreground",
+"sentence": "Red flowers fill the foreground of the landscape.",
+"pic": "pics/989-foreground.webp",
+"audio": "audio/989-foreground.m4a"
+},
+{
+"rank": 990,
+"word": "excerpts",
+"sentence": "The book excerpts show three short passages.",
+"pic": "pics/990-excerpts.webp",
+"audio": "audio/990-excerpts.m4a"
+},
+{
+"rank": 991,
+"word": "human",
+"sentence": "Every human needs clean water to drink.",
+"pic": "pics/991-human.webp",
+"audio": "audio/991-human.m4a"
+},
+{
+"rank": 992,
+"word": "terrace",
+"sentence": "Pots of herbs grow on our sunny terrace.",
+"pic": "pics/992-terrace.webp",
+"audio": "audio/992-terrace.m4a"
+},
+{
+"rank": 993,
+"word": "entertainment",
+"sentence": "The puppet show provides entertainment for the children.",
+"pic": "pics/993-entertainment.webp",
+"audio": "audio/993-entertainment.m4a"
+},
+{
+"rank": 994,
+"word": "prove",
+"sentence": "The wet footprints prove the dog came inside.",
+"pic": "pics/994-prove.webp",
+"audio": "audio/994-prove.m4a"
+},
+{
+"rank": 995,
+"word": "came",
+"sentence": "Our cat came home before dark.",
+"pic": "pics/995-came.webp",
+"audio": "audio/995-came.m4a"
+},
+{
+"rank": 996,
+"word": "developed",
+"sentence": "The photograph is developed in a dark room.",
+"pic": "pics/996-developed.webp",
+"audio": "audio/996-developed.m4a"
+},
+{
+"rank": 997,
+"word": "figure",
+"sentence": "The clay figure has two arms and legs.",
+"pic": "pics/997-figure.webp",
+"audio": "audio/997-figure.m4a"
+},
+{
+"rank": 998,
+"word": "ripples",
+"sentence": "Raindrops make ripples across the pond.",
+"pic": "pics/998-ripples.webp",
+"audio": "audio/998-ripples.m4a"
 }
 ];
