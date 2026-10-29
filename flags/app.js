@@ -36,6 +36,7 @@
   var STORE_PREFIX = 'flags-app.';
   var QUESTIONS_PER_SESSION = 10;
   var REVEAL_AFTER_TRIES = 3;
+  var SPEAKER_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 5L6 9H3v6h3l5 4z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
   // ---- tiny DOM helper -------------------------------------------------
 
@@ -583,7 +584,7 @@
           el('dt', { text: 'Tiny fact' }), el('dd', { text: fact.text })
         ])
       ]),
-      el('p', { class: 'card-hear-hint', text: '\uD83D\uDD0A ' + line('card.tapToHear') })
+      el('p', { class: 'card-hear-hint', html: SPEAKER_ICON + '<span>' + line('card.tapToHear') + '</span>' })
     ]);
 
     var next = el('button', {
