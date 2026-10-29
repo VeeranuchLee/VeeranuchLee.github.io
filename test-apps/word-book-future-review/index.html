@@ -157,10 +157,15 @@ textarea{width:100%;min-height:40px;padding:6px;font-size:.8rem;border:1px solid
       render();
     });
   });
+  document.getElementById("jump").addEventListener("keydown", function (e) { if (e.key === "Enter") document.getElementById("go").click(); });
   document.getElementById("go").addEventListener("click", function () {
     var n = document.getElementById("jump").value, el = document.getElementById("w" + n);
     if (!el && filter !== "all") { document.querySelector('[data-filter="all"]').click(); el = document.getElementById("w" + n); }
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); else toast("No word number " + n);
+    if (el) {
+      // The sticky header would cover a card scrolled to the very top, so stop just below it.
+      var top = el.getBoundingClientRect().top + window.scrollY - document.querySelector("header").offsetHeight - 8;
+      window.scrollTo({ top: top, behavior: "smooth" });
+    } else toast("No word number " + n);
   });
 
   function feedback() {
