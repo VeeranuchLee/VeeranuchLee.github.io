@@ -115,7 +115,7 @@
    the later 79 poster words and final owner choices; Reading Tree 50 plus diamond.gem
    and Sparkling gems; and the latest older-style posters, label moves, ruler crop,
    retired combined Positions poster, and Find Picture Play hit boxes through round 2. */
-const CACHE_NAME='word-book-v23';
+const CACHE_NAME='word-book-v24';
 const SHELL=['./','./index.html',
   "./audio-wake.js",'./dictionary.html','./fonts.css',
   './cg-back.css',

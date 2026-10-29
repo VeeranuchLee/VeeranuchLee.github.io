@@ -223,7 +223,8 @@
     /* Owner 2026-10-20: Play is a sub-mode of Picture -- a big, clear button at the TOP of
        the side panel (never in the header). Pressing it hides the labels and sentences. */
     .poster-play{min-height:64px;width:100%;border:3px solid #a8386a;border-radius:20px;background:#a8386a;color:#fff;
-      box-shadow:0 4px 0 #d69ab4;padding:0 18px;font:900 1.35rem Nunito,sans-serif;cursor:pointer;flex:none}
+      box-shadow:0 4px 0 #d69ab4;padding:0 18px;font:900 1.35rem Nunito,sans-serif;cursor:pointer;flex:none;display:inline-flex;align-items:center;justify-content:center;gap:7px}
+    .poster-play svg{width:1.15em;height:1.15em}
     .poster-strip .poster-play{grid-column:span 2;min-height:0;font-size:1.2rem;padding:0 8px}
     .poster-sentence-list .poster-play{grid-column:1 / -1}
     .poster-sentence-list.dense .poster-play{grid-column:auto;min-height:0;font-size:1.1rem;padding:0 6px}
@@ -302,7 +303,8 @@
     .find-progress{font-weight:900;color:#a8386a;min-height:1.4em}
     .find-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
     .find-action{min-height:48px;border:2px solid #a8386a;border-radius:50px;background:#fff;color:#a8386a;
-      padding:0 13px;font:900 .88rem Nunito,sans-serif;cursor:pointer}
+      padding:0 13px;font:900 .88rem Nunito,sans-serif;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px}
+    .find-action svg{width:20px;height:20px}
     .find-action.primary{background:#a8386a;color:#fff}
     @media (orientation:portrait){
       .find-panel{width:100%;padding:8px 12px;display:none}
@@ -337,7 +339,7 @@
     .poster-word-text{display:block}
     .poster-word-icon{width:12px;height:12px;flex:none;border-radius:50%;display:grid;place-items:center;
       background:#fffdf5;border:1px solid #a8386a;font-size:7px;line-height:1}
-    .poster-word-icon::before{content:'🔊'}
+    .poster-word-icon svg{display:block;width:8px;height:8px}
     /* The invisible 44px hotspots. They carry the controls' data and states; the pill
        above them carries everything a child sees. The sentence hotspot ends at the
        first letter: a tap on any letter always plays the word. */
@@ -372,6 +374,7 @@
     }
     .poster-word.missed{animation:nope .45s;border-color:#c5224f;color:#9d173c;box-shadow:none}
     .poster-word.missed .poster-word-icon{color:#9d173c;background:#fff0f3;border-color:#c5224f}
+    .poster-word.missed .poster-word-icon svg{display:none}
     .poster-word.missed .poster-word-icon::before{content:'✕'}
     @media (prefers-reduced-motion:reduce){.poster-word.missed{animation:none}}
     /* .echo is the pill's face while the outside list plays that word's sentence: the
@@ -390,12 +393,13 @@
     .poster-sentence-icon{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;
       background:#fffdf5;border:2px solid #a8386a;box-shadow:0 2px 0 rgba(89,53,72,.3);
       font-size:28px;line-height:1}
-    .poster-sentence-icon::before{content:'🔊'}
+    .poster-sentence-icon svg{display:block;width:20px;height:20px}
     .poster-sentence-row:focus-visible{outline:4px solid #ffd54f;outline-offset:2px}
     .poster-sentence-row.speaking .poster-sentence-icon{
       background:#ffe9f1;box-shadow:0 2px 0 rgba(89,53,72,.3),0 0 0 4px rgba(216,58,106,.25)}
     .poster-sentence-row.missed .poster-sentence-icon{
       color:#9d173c;background:#fff0f3;border-color:#c5224f;box-shadow:none}
+    .poster-sentence-row.missed .poster-sentence-icon svg{display:none}
     .poster-sentence-row.missed .poster-sentence-icon::before{content:'✕'}
     .poster-sentence-list{flex:none;width:min(330px,34vw);display:flex;flex-direction:column;justify-content:center;gap:7px;padding:8px;
       border-radius:22px;background:rgba(255,249,238,.88);box-shadow:inset 0 0 0 3px rgba(255,255,255,.75),0 8px 22px rgba(35,16,31,.14)}
@@ -670,6 +674,8 @@
   'use strict';
 
   var ALL_LETTERS = 'abcdefghijklmnopqrstuvwxyz'.split('');
+  var SPEAKER_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 5L6 9H3v6h3l5 4z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var PLAY_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg>';
   var enabledLetters = null;
   var cards = [], letter = null, query = '';
   /* sense id -> the card A–Z/Word Groups draws it on. The poster Cards view shows the
@@ -1037,7 +1043,7 @@
     var word = r[0], sense = r[1], clip = WA ? WA.clipFor(word, sense) : null;
     var x = Number(label[0]), y = Number(label[1]);
     var box = itemBox || [x - 2, y - 2, 4, 4];
-    var icon = sentence ? '<span class="poster-word-icon" aria-hidden="true"></span>' : '';
+    var icon = sentence ? '<span class="poster-word-icon" aria-hidden="true">' + SPEAKER_ICON + '</span>' : '';
     var sentenceHit = sentence ? '<button type="button" class="poster-word-hit sentence" data-poster-sentence="' + esc(sense) + '"' +
       ' data-clip="' + esc(sentence.clip) + '" aria-label="Hear sentence: ' + esc(sentence.text) + '"></button>' : '';
     return '<div class="poster-word' + (sentence ? ' has-sentence' : '') + (outline ? ' outlined' : '') + '"' +
@@ -1072,7 +1078,7 @@
   function posterSentenceRow(sense, sentence) {
     if (!sentence) return '';
     return '<button type="button" class="poster-sentence-row" data-poster-sentence="' + esc(sense) + '" data-clip="' + esc(sentence.clip) +
-      '" aria-label="Hear sentence: ' + esc(sentence.text) + '"><span class="poster-sentence-icon" aria-hidden="true"></span><span>' +
+      '" aria-label="Hear sentence: ' + esc(sentence.text) + '"><span class="poster-sentence-icon" aria-hidden="true">' + SPEAKER_ICON + '</span><span>' +
       highlightedSentence(sentence) + '</span></button>';
   }
   /* One small card in the strip (owner, 2026-10-13): a small square of the word's own
@@ -1218,8 +1224,8 @@
     /* Find the picture is a Picture-view activity only (owner, 2026-10-18): the Play
        entrance rides along only while the plate is the view on screen. */
     var playEntrance = findBank && findBank.game && posterView === 'picture'
-      ? '<button type="button" class="poster-play poster-play-panel" data-find-start>▶ Play</button>' : '';
-    var playHead = playEntrance ? '<button type="button" class="poster-play poster-play-head" data-find-start>▶ Play</button>' : '';
+      ? '<button type="button" class="poster-play poster-play-panel" data-find-start>' + PLAY_ICON + ' Play</button>' : '';
+    var playHead = playEntrance ? '<button type="button" class="poster-play poster-play-head" data-find-start>' + PLAY_ICON + ' Play</button>' : '';
     /* Both views share one heading: back, title, the Play entrance (Picture only) and
      the small Picture|Cards switch beside it -- never on the art. */
     var headingChrome = '<button type="button" class="poster-back" data-all-posters aria-label="All posters">←</button><h2>' +
@@ -1275,7 +1281,7 @@
       '<div class="poster-live">' + pieces.join('') + '</div></div></div>' +
       (sentenceRows ? '<div class="poster-sentence-list' + (sentenceCount > 6 ? ' dense' : '') + '" role="group" aria-label="Sentences: tap one to hear it">' + playEntrance + sentenceRows + '</div>' :
         (chips ? '<div class="poster-strip" role="group" aria-label="Small word cards: tap one to hear its sentence">' + playEntrance + chips + '</div>' : '')) +
-      (findTargets ? '<aside class="find-panel" aria-live="polite"><div class="find-prompt">Find the picture:</div><div class="find-card" aria-hidden="true"></div><div class="find-sentence" data-find-sentence></div><div class="find-progress"></div><div class="find-actions"><button type="button" class="find-action" data-find-repeat aria-label="Listen again">🔊 Again</button><button type="button" class="find-action" data-find-exit>Exit</button></div></aside>' : '') +
+      (findTargets ? '<aside class="find-panel" aria-live="polite"><div class="find-prompt">Find the picture:</div><div class="find-card" aria-hidden="true"></div><div class="find-sentence" data-find-sentence></div><div class="find-progress"></div><div class="find-actions"><button type="button" class="find-action" data-find-repeat aria-label="Listen again">' + SPEAKER_ICON + ' Again</button><button type="button" class="find-action" data-find-exit>Exit</button></div></aside>' : '') +
       '</div>';
     sizePosterStrip();
     layoutPosterHitSplits();
@@ -1675,7 +1681,7 @@
     findGame = { bank: bank, round: makeFindRound(bank), index: 0, misses: 0, locked: true, correct: 0, missed: new Set() };
     armFindWatchdog();
     var actions = grid.querySelector('.find-actions');
-    if (actions) actions.innerHTML = '<button type="button" class="find-action" data-find-repeat aria-label="Listen again">🔊 Again</button><button type="button" class="find-action" data-find-exit>Exit</button>';
+    if (actions) actions.innerHTML = '<button type="button" class="find-action" data-find-repeat aria-label="Listen again">' + SPEAKER_ICON + ' Again</button><button type="button" class="find-action" data-find-exit>Exit</button>';
     askFindQuestion(true);
   }
   function finishFindRound() {

@@ -6,10 +6,12 @@
    the first cut used 56px and turned that check red. */
 #game header{display:flex;align-items:center;gap:12px}
 .voice-toggle,.hear{min-width:64px;min-height:64px;border-radius:50%;border:2px solid rgba(74,91,192,.25);background:#fff;font-size:26px;line-height:1;cursor:pointer}
+.voice-toggle svg,.hear svg{display:block;width:28px;height:28px;margin:auto}
 .voice-toggle{margin-left:auto}
 .voice-toggle[aria-pressed="false"]{opacity:.65}
 .prompt-row{display:flex;align-items:center;justify-content:center;gap:12px;margin:0}
 .prompt-row .prompt{margin:0}
+.lesson-face{color:#f0a02f}.lesson-face svg{display:block;width:54px;height:54px;margin:auto}.listen{display:flex;align-items:center;justify-content:center;gap:8px}.listen svg{width:24px;height:24px}
 
 /* Cheer on a right answer (owner 2026-10-07): a praise word and a short confetti burst. */
 .cheer-pop{position:fixed;left:50%;top:38%;z-index:30;transform:translate(-50%,-50%);pointer-events:none;background:#fff;border:4px solid #ffb3d1;border-radius:999px;padding:10px 30px;font:2.2rem 'Fredoka One',sans-serif;color:#d83b7d;box-shadow:0 10px 30px #6f345040;animation:cheerPop .35s cubic-bezier(.34,1.56,.64,1)}

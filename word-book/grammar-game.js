@@ -4,6 +4,10 @@
   var $=function(id){return document.getElementById(id);};
   var start=$('start'), game=$('game'), finish=$('finish'), choices=$('choices'), answerLine=$('answerLine');
   var audio=new Audio();
+  var SPEAKER_ICON='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 5L6 9H3v6h3l5 4z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var SPEAKER_OFF_ICON='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M11 5L6 9H3v6h3l5 4z" fill="currentColor"/><path d="M16 9l5 6M21 9l-5 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var SPARKLE_ICON='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2c.7 6.2 3.8 9.3 10 10-6.2.7-9.3 3.8-10 10-.7-6.2-3.8-9.3-10-10 6.2-.7 9.3-3.8 10-10z" fill="currentColor"/></svg>';
+  var STAR_ICON='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.8l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 16.9 6.6 19.7l1-6.1L3.2 9.3l6.1-.9z" fill="currentColor"/></svg>';
   // VOICE ON BY DEFAULT (owner, 2026-10-06): each question is read aloud -- the instruction, then the
   // sentence -- unless hearing the sentence would reveal what is tested (those questions carry
   // speakStem:false in the data, so no sentence clip exists for them). The toggle is remembered on
@@ -24,7 +28,7 @@
   function speakQuestion(q,force){if((voiceOn||force)&&q)playQueue([q.id+'-prompt',q.id+'-stem']);}
   function setVoice(on){
     voiceOn=on;try{localStorage.setItem('grammarVoice',on?'on':'off');}catch(e){}
-    var t=$('voiceToggle');if(t){t.setAttribute('aria-pressed',on?'true':'false');t.setAttribute('aria-label',on?'Voice on':'Voice off');t.textContent=on?'🔊':'🔇';}
+    var t=$('voiceToggle');if(t){t.setAttribute('aria-pressed',on?'true':'false');t.setAttribute('aria-label',on?'Voice on':'Voice off');t.innerHTML=on?SPEAKER_ICON:SPEAKER_OFF_ICON;}
     if(!on){queueRun++;try{audio.pause();}catch(e){}}
   }
 
@@ -95,7 +99,7 @@
     }
   }
   function showLesson(title,text,face,clip){
-    $('lessonTitle').textContent=title;$('lessonText').textContent=text;$('lessonFace').textContent=face;
+    $('lessonTitle').textContent=title;$('lessonText').textContent=text;$('lessonFace').innerHTML=face;
     $('listen').hidden=!clip;$('listen').onclick=function(){if(clip){queueRun++;audio.src='./audio/grammar/'+clip.file;audio.currentTime=0;audio.play().catch(function(){});}};
     $('lesson').hidden=false;
   }
@@ -117,14 +121,14 @@
       // Second miss: teach the rule, then let the child try again.
       lessonStage='teach';
       $('continue').textContent='Try again';
-      showLesson('Let’s learn it',q.explanation,'💡',clip);
+      showLesson('Let’s learn it',q.explanation,SPARKLE_ICON,clip);
       resetForRetry(q,btn);
       return;
     }
     // Third miss: reveal the answer and move on.
     lessonStage='reveal';
     $('continue').textContent='Next sentence';
-    showLesson('Here is the answer',q.explanation+' The answer is: '+expected+'.','⭐',clip);
+    showLesson('Here is the answer',q.explanation+' The answer is: '+expected+'.',STAR_ICON,clip);
   }
   function next(){index++;if(index>=10){game.hidden=true;finish.hidden=false;$('finishCopy').textContent='You collected '+stars+' sentence stars.';return;}showQuestion();}
   $('check').addEventListener('click',function(){var q=run[run.length-1];if(placed.length)answer(q,placed);});
