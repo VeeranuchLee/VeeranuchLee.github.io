@@ -73,16 +73,13 @@
   }
 
   // Turn and mirror for a placed stamp or sticker (owner request 2026-10-25:
-  // "add ability to rotate /mirror flip"). One tap turns it 45 degrees
-  // clockwise: a single tap already shows a clear tilt (a rocket flying up and
-  // away, a fish swimming downhill), four taps is upside down and eight is home
-  // again. Quarter turns only offered "lying on its side", and a free-angle
-  // dial is a fine-motor job for a 7-year-old. The mirror is applied first, in
+  // "add ability to rotate /mirror flip"). A quick tap nudges 15 degrees and
+  // holding turns continuously. The mirror is applied first, in
   // the item's own frame, then the turn -- the same order on the stamp canvas
   // and in the sticker's CSS, so what is shown is what is saved.
-  const TURN_STEP = 45;
+  const TURN_STEP = 15;
   function normaliseTurn(value) {
-    const number = Math.round(Number(value) / TURN_STEP) * TURN_STEP;
+    const number = Number(value);
     return Number.isFinite(number) ? ((number % 360) + 360) % 360 : 0;
   }
   window.cgTurn = {
@@ -99,6 +96,37 @@
     css: (degrees, flip) => `rotate(${normaliseTurn(degrees)}deg)${flip ? " scaleX(-1)" : ""}`
   };
 
+  // Shared press-and-hold turn gesture: elapsed time gives a steady 90°/s,
+  // while a quick press is one child-visible 15° nudge.
+  window.cgHoldTurn = (button, callbacks) => {
+    if (!button) return;
+    let active = null;
+    const stop = (event, cancelled = false) => {
+      if (!active || (event && event.pointerId !== active.pointerId)) return;
+      const held = performance.now() - active.started;
+      cancelAnimationFrame(active.frame);
+      active = null;
+      callbacks.end({ tap: !cancelled && held < 180, held });
+    };
+    const frame = (now) => {
+      if (!active) return;
+      callbacks.turn((now - active.started) * .09);
+      active.frame = requestAnimationFrame(frame);
+    };
+    button.addEventListener("pointerdown", (event) => {
+      if (active || button.disabled || event.button > 0) return;
+      event.preventDefault();
+      active = { pointerId: event.pointerId, started: performance.now(), frame: 0 };
+      if (callbacks.begin() === false) { active = null; return; }
+      callbacks.turn(0);
+      active.frame = requestAnimationFrame(frame);
+    });
+    window.addEventListener("pointerup", (event) => stop(event));
+    window.addEventListener("pointercancel", (event) => stop(event, true));
+    button.addEventListener("pointerleave", (event) => stop(event, true));
+    button.addEventListener("contextmenu", (event) => event.preventDefault());
+  };
+
   // Blank Page's sticker packs, file assets/blank-stamps/<pack>-<name>.webp.
   // Stamping reuses these same files for its Space, Princess, Under the Sea
   // and Magic Castle groups (controller decision 2026-10-25: reuse before
@@ -110,8 +138,16 @@
     castle: ["rainbow-castle", "turret", "magic-door", "magic-key", "crystal-ball", "dragon", "unicorn", "potion", "spell-book", "crystal", "wizard-hat", "cauldron", "broom", "shield", "lantern"],
     animals: ["cat", "puppy", "bunny", "panda", "fox", "owl", "hamster", "turtle", "duck", "koala"],
     ocean: ["fish", "octopus", "whale", "starfish", "shell", "crab", "seahorse", "dolphin", "jellyfish", "coral"],
-    food: ["cupcake", "ice-cream", "donut", "strawberry", "lollipop", "cookie", "cake-slice", "watermelon", "cherries", "candy"],
-    vehicles: ["car", "bus", "train", "plane", "boat", "bicycle", "fire-truck", "tractor", "hot-air-balloon", "scooter"]
+    food: ["cupcake", "ice-cream", "donut", "strawberry", "lollipop", "cookie", "cake-slice", "watermelon", "cherries", "candy", "pudding", "macaron", "ice-lolly", "pancake-stack", "fruit-tart"],
+    fruit: ["apple", "banana", "orange", "grapes", "pear", "pineapple", "mango", "peach", "lemon", "kiwi", "blueberries", "coconut", "plum", "papaya", "dragon-fruit"],
+    veg: ["carrot", "broccoli", "tomato", "corn", "peas-pod", "cucumber", "pumpkin", "mushroom", "potato", "onion", "bell-pepper", "aubergine", "lettuce", "sweet-potato", "radish"],
+    meals: ["rice-bowl", "noodle-bowl", "dumplings", "sushi", "fried-egg", "toast", "sandwich", "pizza-slice", "spaghetti", "soup-bowl", "bread-loaf", "croissant", "cheese-wedge", "milk-carton", "rice-ball"],
+    dishes: ["steak-vegetables", "fried-rice", "chicken-curry-rice", "pad-thai", "ramen", "burger", "fish-chips", "roast-chicken", "omelette", "fried-chicken", "salad-bowl", "tacos", "lasagne", "mac-cheese", "bibimbap", "tom-yum-soup", "green-curry", "dim-sum-basket", "pho", "roast-dinner-plate"],
+    vehicles: ["car", "bus", "train", "plane", "boat", "bicycle", "fire-truck", "tractor", "hot-air-balloon", "scooter"],
+    home: ["teapot", "teacup-saucer", "tea-table", "sofa", "armchair", "pink-princess-castle", "cupcake-stand", "lamp", "cushion", "bookshelf"],
+    baby: ["baby-food-jar", "baby-bottle", "bib", "nappy", "pink-crib", "pram", "rattle", "dummy", "high-chair", "baby-bath", "baby-blanket", "onesie", "baby-booties", "cot-mobile", "teething-ring", "spoon-bowl", "sippy-cup", "changing-bag", "stacking-rings", "baby-monitor"],
+    dinosaurs: ["t-rex", "triceratops", "stegosaurus", "brachiosaurus", "diplodocus", "ankylosaurus", "pteranodon", "parasaurolophus", "spinosaurus", "velociraptor", "egg", "baby-hatching"],
+    effects: ["campfire-flames", "candle-flame", "ice-block", "icicles", "snowflakes", "water-splash", "rain-drops", "waves", "bubbles", "smoke-puff", "steam-swirl", "sparkles", "lightning-bolt", "rainbow", "wind-swirl"]
   };
 
   window.cgTileArt = {

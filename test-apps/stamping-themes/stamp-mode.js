@@ -1,8 +1,35 @@
 "use strict";
 
+// Hit testing follows the same transform as drawStamp: mirror in the stamp's
+// local frame, then rotate around its centre. Inverting that transform lets a
+// visible rectangle keep its corners and full aspect ratio as tap targets.
+function pointInStampBounds(point, item, box) {
+  if (!box) return false;
+  const radians = -(item.rot || 0) * Math.PI / 180;
+  const dx = point.x - item.x;
+  const dy = point.y - item.y;
+  let localX = dx * Math.cos(radians) - dy * Math.sin(radians);
+  const localY = dx * Math.sin(radians) + dy * Math.cos(radians);
+  if (item.flip) localX = -localX;
+  const epsilon = 1e-9;
+  return Math.abs(localX) <= box.width / 2 + epsilon
+    && Math.abs(localY) <= box.height / 2 + epsilon;
+}
+
+function stampIndexAtPoint(point, items, boxForItem) {
+  for (let index = items.length - 1; index >= 0; index -= 1) {
+    if (pointInStampBounds(point, items[index], boxForItem(items[index]))) return index;
+  }
+  return -1;
+}
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { pointInStampBounds, stampIndexAtPoint };
+}
+
 // Stamping is free play: no scores or wrong answers. Every visible change is
 // an undoable action, including moving a stamp and clearing the page.
-(() => {
+if (typeof document !== "undefined") (() => {
   const galleryScreen = document.querySelector("#stampGalleryScreen");
   const screen = document.querySelector("#stampScreen");
   const gallery = document.querySelector("#stampGallery");
@@ -39,6 +66,7 @@
   const rotateButton = document.querySelector("#stampRotate");
   const flipButton = document.querySelector("#stampFlip");
   const turn = window.cgTurn;
+  const holdTurn = window.cgHoldTurn;
   const packs = window.cgStickerPacks || {};
   const tileArt = window.cgTileArt;
 
@@ -62,6 +90,9 @@
     { id: "under-the-sea", title: "Under the Sea", cover: "pack-mermaid-tail" },
     { id: "castle", title: "Magic Castle", cover: "pack-castle-rainbow-castle" },
     { id: "school", title: "School", cover: "stamp-school-backpack" },
+    { id: "home", title: "Home & Tea Party", cover: "pack-home-teapot" },
+    { id: "dinosaurs", title: "Dinosaurs", cover: "pack-dinosaurs-t-rex" },
+    { id: "effects", title: "Magic Effects", cover: "pack-effects-campfire-flames" },
     { id: "letters", title: "Letters", coverTile: "ABC" },
     { id: "numbers", title: "Numbers", coverTile: "123" }
   ];
@@ -74,7 +105,10 @@
     ["princess", "princess"],
     ["ocean", "under-the-sea"],
     ["mermaid", "under-the-sea"],
-    ["castle", "castle"]
+    ["castle", "castle"],
+    ["home", "home"],
+    ["dinosaurs", "dinosaurs"],
+    ["effects", "effects"]
   ];
   // The scene gallery's order and names, and the group each scene opens on.
   // Every group stays one tap away; the default only saves a hunt.
@@ -329,13 +363,7 @@
   }
 
   function stampAtPoint(point) {
-    for (let index = items.length - 1; index >= 0; index -= 1) {
-      const item = items[index];
-      if (Math.hypot(point.x - item.x, point.y - item.y) <= item.size / 2) {
-        return index;
-      }
-    }
-    return -1;
+    return stampIndexAtPoint(point, items, stampBox);
   }
 
   function placeStamp(point) {
@@ -468,10 +496,6 @@
     draw();
     persist();
     window.tinyPop(tone, 0.05);
-  }
-
-  function rotateSelected() {
-    transformSelected((item) => { item.rot = turn ? turn.next(item.rot || 0) : 0; }, 560);
   }
 
   function flipSelected() {
@@ -683,7 +707,31 @@
   undoButton.addEventListener("click", undo);
   clearButton.addEventListener("click", clearPage);
   document.querySelector("#stampSave").addEventListener("click", savePicture);
-  if (rotateButton) rotateButton.addEventListener("click", rotateSelected);
+  if (rotateButton && holdTurn) {
+    let heldItem = null;
+    let heldBefore = null;
+    let heldStart = 0;
+    holdTurn(rotateButton, {
+      begin() {
+        heldItem = selectedItem();
+        if (!heldItem) return false;
+        disarmClear(); heldBefore = cloneItems(); heldStart = heldItem.rot || 0;
+        return true;
+      },
+      turn(degrees) {
+        if (!heldItem) return;
+        heldItem.rot = heldStart + degrees;
+        keepOnPage(heldItem); draw();
+      },
+      end({ tap }) {
+        if (!heldItem) return;
+        if (tap) heldItem.rot = heldStart + (turn ? turn.STEP : 15);
+        keepOnPage(heldItem); history.push(heldBefore); draw(); persist();
+        window.tinyPop(560, 0.05);
+        heldItem = null; heldBefore = null;
+      }
+    });
+  }
   if (flipButton) flipButton.addEventListener("click", flipSelected);
   document.querySelectorAll(".stamp-music").forEach((button) => {
     button.addEventListener("click", () => {

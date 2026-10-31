@@ -72,7 +72,7 @@ button:disabled {
     radial-gradient(circle at 82% 10%, rgba(255,255,255,.7) 0 4px, transparent 5px),
     radial-gradient(circle at 70% 32%, rgba(255,255,255,.45) 0 3px, transparent 4px),
     linear-gradient(150deg, rgba(126,91,220,.34), rgba(82,56,184,.52)),
-    url("./assets/backgrounds/rainbow-castle.jpg?v=e6dbf41c9-20261025201758");
+    url("./assets/backgrounds/rainbow-castle.jpg");
   background-position: center, center, center, center, center;
   background-repeat: no-repeat;
   background-size: auto, auto, auto, cover, cover;
@@ -827,7 +827,7 @@ button:disabled {
     radial-gradient(circle at 12% 16%, rgba(255,255,255,.55) 0 3px, transparent 4px),
     radial-gradient(circle at 82% 10%, rgba(255,255,255,.7) 0 4px, transparent 5px),
     radial-gradient(circle at 70% 32%, rgba(255,255,255,.45) 0 3px, transparent 4px),
-    url("./assets/menu/menu-bg-portrait.webp?v=e6dbf41c9-20261025201758");
+    url("./assets/menu/menu-bg-portrait.webp");
   background-position: center;
   background-repeat: no-repeat;
   background-size: auto, auto, auto, cover;
@@ -839,7 +839,7 @@ button:disabled {
       radial-gradient(circle at 12% 16%, rgba(255,255,255,.55) 0 3px, transparent 4px),
       radial-gradient(circle at 82% 10%, rgba(255,255,255,.7) 0 4px, transparent 5px),
       radial-gradient(circle at 70% 32%, rgba(255,255,255,.45) 0 3px, transparent 4px),
-      url("./assets/menu/menu-bg-landscape.webp?v=e6dbf41c9-20261025201758");
+      url("./assets/menu/menu-bg-landscape.webp");
   }
 }
 
@@ -1484,6 +1484,10 @@ button:disabled {
 .blank-screen > .canvas-stage { grid-area: canvas; padding: 4px 8px 7px; }
 .blank-screen > .studio-tools { grid-area: studio; padding-block: 4px 5px; }
 .blank-screen > .color-palette { grid-area: palette; }
+/* blank-page.js sizes the frame to the paper's own shape (owner report
+   2026-10-26): a picture keeps its proportions when the iPad turns, and a
+   picture drawn the other way up sits whole, centred, in the space. These
+   100% values are only the first-paint fallback. */
 .blank-screen .paper-frame {
   width: 100%;
   height: 100%;
@@ -1493,11 +1497,25 @@ button:disabled {
   border-radius: 22px;
   place-items: stretch;
 }
-.blank-tools .primary-tool { flex: 1 0 64px; min-width: 64px; min-height: 68px; padding: 6px 4px; }
-.blank-tools .primary-tool > span:first-child { font-size: 27px; }
-.blank-history { min-width: 64px; min-height: 64px; font-size: 30px; }
-.blank-history:disabled { opacity: .38; filter: grayscale(.7); }
-.blank-choice-tray, .blank-category-tray, .blank-stamp-tray { display: flex; gap: 8px; overflow-x: auto; padding: 7px 3px; scrollbar-width: thin; }
+/* Tool tiles (owner brief, 2026-10-28): the icon sits centred, about 32px,
+   with its label centred beneath -- a row of even tiles instead of wide pills
+   with a tiny icon tucked into the corner. All six icons are drawn in one
+   style and weight (see index.html), and the strip stays one row at 1024x768
+   and 768x1024: six 78px tiles plus gaps want ~510px of the ~730px the
+   portrait strip offers, with no horizontal page scroll. */
+.blank-tools .primary-tool { flex: 1 0 78px; min-width: 78px; min-height: 68px; display: grid; place-content: center; justify-items: center; gap: 3px; padding: 8px 4px; }
+.blank-tools .primary-tool > span:first-child { display: grid; place-items: center; font-size: 32px; line-height: 1; }
+/* Undo/Redo (owner, 2026-10-28, two blank grey squares between the speaker
+   and the broom: "and what's the gray ones?"). They were white arrows on a
+   whitened, greyscaled disabled button, so disabled they read as empty chips.
+   Now: a calm blue button like their neighbours while there is history to
+   step through, and the same arrow only faded (40%) on a light tile in the
+   bar's own style when there is not -- an arrow is always visible. */
+.blank-history { min-width: 64px; min-height: 64px; font-size: 30px; background: linear-gradient(145deg, #6ec6f2, #3f9de0); }
+.blank-history:disabled { background: rgba(255,255,255,.62); color: #4c3e72; opacity: 1; filter: none; }
+.blank-history:disabled svg { opacity: .4; }
+#blankRedo svg { transform: scaleX(-1); }
+.blank-choice-tray, .blank-category-tray, .blank-stamp-tray { display: flex; gap: 8px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; padding: 7px 3px; scrollbar-width: thin; }
 .blank-category-tray, .blank-stamp-tray { padding: 8px 0 10px 8px; }
 .blank-choice-tray[hidden], .blank-stamp-panel[hidden] { display: none; }
 .blank-choice-tray button, .blank-category-tray button, .blank-stamp-choice { flex: 0 0 64px; min-width: 64px; min-height: 64px; border: 3px solid #fff; border-radius: 18px; background: linear-gradient(#fff, #f4ebff); box-shadow: 0 4px 0 rgba(75,48,121,.18); color: #60439b; font: 800 18px/1 system-ui, sans-serif; }
@@ -1505,7 +1523,7 @@ button:disabled {
 /* Slightly larger pack buttons and sticker thumbnails (owner brief, 2026-10-05):
    young thumbs need generous tap targets, and a sticker you can see clearly is
    a sticker you can choose confidently. */
-.blank-category-tray button { flex: 0 0 96px; height: 104px; padding: 4px; white-space: nowrap; overflow: hidden; }
+.blank-category-tray button { flex: 0 0 96px; height: 104px; padding: 4px; white-space: nowrap; overflow: hidden; scroll-snap-align: start; }
 .blank-category-tray button small { display: block; overflow: hidden; font-size: 11px; line-height: 15px; text-overflow: ellipsis; }
 /* grid-template pins the one cell to 72x72 so the cover's height:100%
    resolves: without it a tall cover grew past the box and was cropped (the
@@ -1556,12 +1574,27 @@ button:disabled {
 .blank-sticker-actions { display: flex; gap: inherit; margin-left: 6px; }
 .blank-sticker-actions[hidden] { display: flex; visibility: hidden; }
 .tool-button--turn { background: linear-gradient(145deg, #9d78f1, #7452dc); font-size: 38px; min-width: 64px; min-height: 64px; }
-.blank-sticker.is-selected { outline: 5px dashed #ffe26a; outline-offset: 5px; border-radius: 12px; filter: drop-shadow(0 6px 10px rgba(64, 48, 109, .28)); }
+.tool-button--turn, .stamp-transform { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; touch-action: manipulation; }
+/* The selected sticker's dashed ring (owner report 2026-10-26: "it leaves gray
+   trail after put there and drag/adjust around the area"). The ring used to be
+   an outline drawn outside the sticker plus a CSS drop-shadow filter on the
+   whole moving sticker. WebKit does not always repaint the area a filtered,
+   outlined element leaves as it moves, so the grey-purple shadow of the ring
+   stayed behind wherever the sticker went. The ring is now an ordinary child
+   box with no filter, and the selected sticker moves on its own compositing
+   layer, so the iPad moves it rather than repainting the paper under it. */
+.blank-sticker::before {
+  content: ""; position: absolute; inset: -10px; display: none;
+  border: 5px dashed #ffe26a; border-radius: 16px; pointer-events: none;
+}
+.blank-sticker.is-selected::before { display: block; }
+.blank-sticker.is-selected { will-change: transform; }
 /* The delete control and the resize handle belong to the selected sticker only:
    at rest a sticker is just art on the page, like every other hotspot here. */
-.blank-sticker__delete, .blank-sticker__handle { position: absolute; display: none; }
+.blank-sticker__delete, .blank-sticker__handle, .blank-sticker__turn { position: absolute; display: none; }
 .blank-sticker.is-selected .blank-sticker__delete,
-.blank-sticker.is-selected .blank-sticker__handle { display: grid; }
+.blank-sticker.is-selected .blank-sticker__handle,
+.blank-sticker.is-selected .blank-sticker__turn { display: grid; }
 .blank-sticker__delete {
   top: -16px; right: -16px; width: 46px; height: 46px; place-items: center;
   border: 3px solid #fff; border-radius: 50%;
@@ -1574,10 +1607,22 @@ button:disabled {
   border: 3px solid #7453bd; border-radius: 50%; background: #fff;
   cursor: nwse-resize; box-shadow: 0 4px 0 rgba(75, 48, 121, .25);
 }
+.blank-sticker__turn {
+  left: -15px; bottom: -15px; width: 46px; height: 46px; padding: 8px;
+  place-items: center; border: 3px solid #7453bd; border-radius: 50%;
+  background: #fff; color: #7453bd; cursor: grab;
+  box-shadow: 0 4px 0 rgba(75, 48, 121, .25);
+  touch-action: pinch-zoom; -webkit-user-select: none; user-select: none;
+  -webkit-touch-callout: none;
+}
+.blank-sticker__turn::before { content: ""; position: absolute; inset: -9px; }
+.blank-sticker__turn svg { display: block; width: 100%; height: 100%; pointer-events: none; }
 .blank-sticker.is-at-top .blank-sticker__delete { top: 4px; }
+.blank-sticker.is-at-left .blank-sticker__turn { left: 4px; }
 .blank-sticker.is-at-right .blank-sticker__delete,
 .blank-sticker.is-at-right .blank-sticker__handle { right: 4px; }
 .blank-sticker.is-at-bottom .blank-sticker__handle { bottom: 4px; }
+.blank-sticker.is-at-bottom .blank-sticker__turn { bottom: 4px; }
 .blank-sticker__handle::after {
   content: ""; width: 15px; height: 15px;
   border-right: 4px solid #7453bd; border-bottom: 4px solid #7453bd;
@@ -1607,23 +1652,11 @@ button:disabled {
   .blank-tools { width: 100%; margin: 0; }
 }
 
-/* The eraser's pink block, the same glyph the brush screen's eraser button
-   wears, sized to sit inside a primary-tool button. */
-.eraser-chip {
-  display: grid;
-  place-items: center;
-  height: 25px;
-}
-
-.eraser-chip i {
-  display: block;
-  width: 31px;
-  height: 21px;
-  border: 3px solid #ae4e7f;
-  border-radius: 7px;
-  background: linear-gradient(90deg, #ff98c5 0 63%, #fff 63%);
-  transform: rotate(-33deg);
-}
+/* The Magic picker's choices (owner brief, 2026-10-28): each button carries a
+   small canvas painted by that brush's own drawing code -- a real sample of
+   the stroke, never a text label. */
+.blank-magic-tray button { display: grid; place-items: center; }
+.blank-magic-tray canvas { display: block; width: 56px; height: 28px; }
 
 /* ==========================================================================
    Pixel Mosaic mode — a pegboard-style tile toy (owner concept, 2026-08-27).
