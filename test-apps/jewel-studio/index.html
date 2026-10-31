@@ -7,7 +7,8 @@
       content="width=device-width,initial-scale=1,viewport-fit=cover"
     />
     <title>Little Jewelry Studio — Phase 1</title>
-    <link rel="stylesheet" href="studio.css?v=split-20261023" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="studio.css?v=ui-r4-20261027" />
     <script src="tap-zoom-guard.js"></script>
   </head>
   <body>
@@ -26,7 +27,7 @@
       </header>
       <section id="gallery" class="screen active">
         <div class="intro">
-          <span>✦</span>
+          <span class="intro-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 3c1.8 12.7 7.3 18.2 20 20-12.7 1.8-18.2 7.3-20 20-1.8-12.7-7.3-18.2-20-20 12.7-1.8 18.2-7.3 20-20Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/></svg></span>
           <div>
             <h2>Choose a blank jewel</h2>
             <p>You are the designer. Pick one, then make it yours.</p>
@@ -42,7 +43,7 @@
       </section>
       <section id="editor" class="screen">
         <div class="editor-heading">
-          <button id="choose">‹ Designs</button>
+          <button id="choose"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Designs</span></button>
           <div>
             <small id="categoryLabel"></small>
             <h2 id="designTitle"></h2>
@@ -51,12 +52,12 @@
         </div>
         <div class="workspace">
           <aside class="tools" id="tools" aria-label="Art tools">
-            <button data-tool="fill" class="selected"><span>▰</span>Fill</button
-            ><button data-tool="gradient"><span>◒</span>Gradient</button
-            ><button data-tool="brush"><span>🖌</span>Brush</button
-            ><button data-tool="eraser"><span>⌫</span>Eraser</button>
-            <button id="undo"><span>↶</span>Undo</button
-            ><button id="redo"><span>↷</span>Redo</button>
+            <button data-tool="fill" class="selected"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 4 10 10-6 6-8-8 4-8Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M13 18h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Fill</span></button
+            ><button data-tool="gradient"><svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="gradient-tool" x1="3" y1="3" x2="21" y2="21"><stop stop-color="currentColor"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></linearGradient></defs><circle cx="12" cy="12" r="8" fill="url(#gradient-tool)" stroke="currentColor" stroke-width="2"/></svg><span>Gradient</span></button
+            ><button data-tool="brush"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 15 6-9a2.1 2.1 0 0 0-3-3l-8 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14 14c0 4-2.5 7-7 7-2.3 0-3.7-.8-4-2 2.6.2 2.8-2.2 3.6-4.3A4 4 0 0 1 14 14Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span>Brush</span></button
+            ><button data-tool="eraser"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 15 8-10a2 2 0 0 1 3-.2l4.2 4.1a2 2 0 0 1 .1 2.8L12 20H7l-3-3a1.5 1.5 0 0 1 0-2Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="m9 9 7 7M12 20h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Eraser</span></button>
+            <button id="undo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 8-5 4 5 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 12h8a6 6 0 0 1 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Undo</span></button
+            ><button id="redo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 8 5 4-5 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 12h-8a6 6 0 0 0-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Redo</span></button>
           </aside>
           <div class="canvas-column">
             <div class="paper" id="paper">
@@ -81,7 +82,7 @@
             </div>
           </div>
           <aside class="finish">
-            <button id="makeReal" class="make-real" aria-pressed="false">✨ Make it real
+            <button id="makeReal" class="make-real" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c.8 5.8 3.2 8.2 9 9-5.8.8-8.2 3.2-9 9-.8-5.8-3.2-8.2-9-9 5.8-.8 8.2-3.2 9-9Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M19 2v4M17 4h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span class="make-real-label">Make it real</span>
               <small>Turn colours into a jewel</small>
             </button>
             <h3>Extra magic</h3>
@@ -94,28 +95,33 @@
                 type="range"
                 min="1"
                 max="3"
-                value="2" /></label
+                value="2"
+                aria-label="Effect intensity" /></label
             ><button id="clearEffect">No effect</button>
           </aside>
         </div>
         <div class="color-dock">
-          <fieldset class="metal-picker">
-            <legend>Choose the metal</legend>
-            <div id="metals" role="radiogroup" aria-label="Choose the metal"></div>
-          </fieldset>
-          <div id="palette"></div>
-          <label class="custom"
-            >Custom <input id="customColor" type="color" value="#e95f9d"
-          /></label>
-          <div class="sizes" aria-label="Brush size">
-            <button data-size="8">●</button
-            ><button data-size="18" class="selected">●</button
-            ><button data-size="34">●</button>
+          <div class="dock-row dock-options">
+            <fieldset class="metal-picker">
+              <legend>Choose the metal</legend>
+              <div id="metals" role="radiogroup" aria-label="Choose the metal"></div>
+            </fieldset>
+            <div class="sizes" aria-label="Brush size">
+              <button data-size="8">●</button
+              ><button data-size="18" class="selected">●</button
+              ><button data-size="34">●</button>
+            </div>
+          </div>
+          <div class="dock-row dock-colours">
+            <div id="palette"></div>
+            <label class="custom"
+              >Custom <input id="customColor" type="color" value="#e95f9d" aria-label="Custom colour"
+            /></label>
           </div>
         </div>
         <p id="message" aria-live="polite">Tap a closed area to fill it.</p>
       </section>
     </main>
-    <script src="studio.js?v=split-20261023"></script>
+    <script src="studio.js?v=regions-r7-20261029"></script>
   </body>
 </html>

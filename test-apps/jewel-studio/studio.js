@@ -12,7 +12,7 @@
   const VERSION = 4;
   const WIDTH = 900;
   const HEIGHT = 600;
-  const ASSET_VERSION = "r6-regions-20261021";
+  const ASSET_VERSION = "r7-regions-20261029";
   const ALL = "All designs";
   const CATEGORIES = ["Necklaces", "Bracelets", "Rings", "Earrings", "Hair ornaments"];
   const PALETTE = ["#d4a237", "#c5ccd6", "#2384d6", "#bf3c6e", "#2f977e", "#774db4", "#dc5837", "#f6ebda"];
@@ -39,8 +39,8 @@
     { id: "double-pearl-bracelet", title: "Double Pearl Bracelet", category: "Bracelets", regionCount: 50 },
     { id: "floral-vine-bracelet", title: "Floral Vine Bracelet", category: "Bracelets", regionCount: 50 },
     { id: "deco-link-bracelet", title: "Art Deco Link Bracelet", category: "Bracelets", regionCount: 52 },
-    { id: "round-solitaire", title: "Round Solitaire", category: "Rings", regionCount: 30 },
-    { id: "heart-ring", title: "Heart Ring", category: "Rings", regionCount: 28 },
+    { id: "round-solitaire", title: "Round Solitaire", category: "Rings", regionCount: 31 },
+    { id: "heart-ring", title: "Heart Ring", category: "Rings", regionCount: 29 },
     { id: "flower-cluster-ring", title: "Flower Cluster Ring", category: "Rings", regionCount: 34 },
     { id: "butterfly-ring", title: "Butterfly Ring", category: "Rings", regionCount: 36 },
     { id: "royal-crown-ring", title: "Royal Crown Ring", category: "Rings", regionCount: 46 },
@@ -113,6 +113,23 @@
     const pixels = [];
     for (let index = 0; index < labels.length; index++) if (labels[index] === id) pixels.push(index);
     return pixels;
+  }
+  function paintFlatColors(output, geometry, regionMeta, fills, width = WIDTH, height = HEIGHT) {
+    for (const [id, paint] of Object.entries(fills)) {
+      // Material tags describe the Make-it-real result. They must never pre-colour
+      // a fresh flat design; metal is rendered only by rebuildFinish().
+      if (regionMeta.get(+id)?.partClass === "METAL") continue;
+      const solid = !String(paint).startsWith("gradient:");
+      const a = parseHex(solid ? paint : paint.split(":")[1]), b = parseHex(solid ? paint : paint.split(":")[2]);
+      for (const index of geometry.pixels.get(+id) || []) {
+        const ratio = Math.floor(index / width) / height, offset = index * 4;
+        output[offset] = a[0] + (b[0] - a[0]) * ratio;
+        output[offset + 1] = a[1] + (b[1] - a[1]) * ratio;
+        output[offset + 2] = a[2] + (b[2] - a[2]) * ratio;
+        output[offset + 3] = 255;
+      }
+    }
+    return output;
   }
   function nearestRegion(labels, x, y, radius, width = WIDTH, height = HEIGHT) {
     x = Math.max(0, Math.min(width - 1, Math.round(x)));
@@ -377,21 +394,7 @@
     }
     function rebuildColor() {
       const output = colorContext.createImageData(WIDTH, HEIGHT);
-      for (const [id, meta] of regionMeta) {
-        if (meta.partClass === "METAL") shadeRegion(output.data, geometry, id, "metal", METALS[doc.metal].base);
-      }
-      for (const [id, paint] of Object.entries(doc.fills)) {
-        if (regionMeta.get(+id)?.partClass === "METAL") continue;
-        const solid = !String(paint).startsWith("gradient:");
-        const a = parseHex(solid ? paint : paint.split(":")[1]), b = parseHex(solid ? paint : paint.split(":")[2]);
-        for (const index of regionPixels(id)) {
-          const ratio = Math.floor(index / WIDTH) / HEIGHT, offset = index * 4;
-          output.data[offset] = a[0] + (b[0] - a[0]) * ratio;
-          output.data[offset + 1] = a[1] + (b[1] - a[1]) * ratio;
-          output.data[offset + 2] = a[2] + (b[2] - a[2]) * ratio;
-          output.data[offset + 3] = 255;
-        }
-      }
+      paintFlatColors(output.data, geometry, regionMeta, doc.fills);
       colorContext.putImageData(output, 0, 0);
     }
     function drawStroke(stroke) {
@@ -466,7 +469,7 @@
       $("#paper").classList.toggle("real", !!doc.madeReal);
       const button = $("#makeReal");
       button.setAttribute("aria-pressed", String(!!doc.madeReal));
-      button.firstChild.nodeValue = doc.madeReal ? "← Keep colouring " : "✨ Make it real ";
+      button.querySelector(".make-real-label").textContent = doc.madeReal ? "Keep colouring" : "Make it real";
       button.querySelector("small").textContent = doc.madeReal ? "Back to flat colours" : "Turn colours into a jewel";
       if (!doc.madeReal) { real = null; return; }
       const velvet = finishContext.createRadialGradient(WIDTH * .5, HEIGHT * .42, 20, WIDTH * .5, HEIGHT * .48, WIDTH * .72);
@@ -745,7 +748,13 @@
     }));
     updateMetalPicker();
     PALETTE.forEach((paint, index) => { const button = document.createElement("button"); button.className = "swatch" + (paint === color ? " selected" : ""); button.style.setProperty("--c", paint); button.setAttribute("aria-label", `Colour ${index + 1}`); button.onclick = () => { color = paint; selectTool("fill"); $$(".swatch").forEach((candidate) => candidate.classList.toggle("selected", candidate === button)); }; $("#palette").append(button); });
-    ["sparkle", "glitter", "glow", "shine"].forEach((name) => { const button = document.createElement("button"); button.textContent = { sparkle: "✦ Sparkle", glitter: "⁙ Glitter", glow: "☀ Glow", shine: "◒ Shine" }[name]; button.onclick = () => { effect = name; tool = "effect"; $$('[data-tool]').forEach((candidate) => candidate.classList.remove("selected")); $$("#effects button").forEach((candidate) => candidate.classList.toggle("selected", candidate === button)); $("#message").textContent = `Tap jewelry details to add ${name}.`; }; $("#effects").append(button); });
+    const effectIcons = {
+      sparkle: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c.8 5.8 3.2 8.2 9 9-5.8.8-8.2 3.2-9 9-.8-5.8-3.2-8.2-9-9 5.8-.8 8.2-3.2 9-9Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+      glitter: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="7" r="2" fill="currentColor"/><circle cx="17" cy="6" r="1.5" fill="currentColor"/><circle cx="12" cy="13" r="2.2" fill="currentColor"/><circle cx="6" cy="18" r="1.4" fill="currentColor"/><circle cx="18" cy="18" r="2" fill="currentColor"/></svg>',
+      glow: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+      shine: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 16c2-5 5-8 10-9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'
+    };
+    ["sparkle", "glitter", "glow", "shine"].forEach((name) => { const button = document.createElement("button"); button.innerHTML = `${effectIcons[name]}<span>${name[0].toUpperCase() + name.slice(1)}</span>`; button.onclick = () => { effect = name; tool = "effect"; $$('[data-tool]').forEach((candidate) => candidate.classList.remove("selected")); $$("#effects button").forEach((candidate) => candidate.classList.toggle("selected", candidate === button)); $("#message").textContent = `Tap jewelry details to add ${name}.`; }; $("#effects").append(button); });
     $("#clearEffect").onclick = () => selectTool("eraser");
     $("#makeReal").onclick = () => {
       snapshot(); doc.madeReal = !doc.madeReal;
@@ -771,5 +780,5 @@
     document.addEventListener("visibilitychange", () => { if (document.hidden && raf) { cancelAnimationFrame(raf); raf = 0; } else animate(); });
     gallery(); saved(); show("gallery"); legacySummary(localStorage);
   }
-  return { VERSION, SAVE_KEY, LEGACY_KEY, TEMPLATES, CATEGORIES, PALETTE, METALS, UNFILLED, blankDoc, validDoc, loadDocs, saveDoc, legacySummary, decodeRegionMap, pixelsForRegion, nearestRegion, metalFamily, buildGeometry, shadeRegion, mount };
+  return { VERSION, SAVE_KEY, LEGACY_KEY, TEMPLATES, CATEGORIES, PALETTE, METALS, UNFILLED, blankDoc, validDoc, loadDocs, saveDoc, legacySummary, decodeRegionMap, pixelsForRegion, paintFlatColors, nearestRegion, metalFamily, buildGeometry, shadeRegion, mount };
 });
