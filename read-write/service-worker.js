@@ -24,7 +24,7 @@
    (scripts/testhub-service-worker.py --strip).
 
    Navigations may carry a query (?day=5), so they are matched with ignoreSearch. */
-const CACHE_NAME = 'read-write-v4';
+const CACHE_NAME = 'read-write-v5';
 const CACHE_PREFIX = 'read-write-v';
 const SHELL = [
   './','./css/app.css',
