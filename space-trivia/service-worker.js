@@ -32,7 +32,7 @@
    so the manifest and every explicitly listed runtime file must exist together. */
 // v4 2026-09-22: zoom-trap fix -- the global gesturestart pinch blocker is
 //        gone estate-wide (INTERACTION-DIRECTION.md); this bump carries it.
-const CACHE_NAME = "space-trivia-v12";
+const CACHE_NAME = "space-trivia-v13";
 
 const APP_FILES = [
   "./",
@@ -41,6 +41,7 @@ const APP_FILES = [
   "./styles.css",
   "./cg-back.css",
   "./cg-update.js",
+  "./tap-zoom-guard.js",
   "./app.js",
   "./fonts.css",
   "./fonts/Nunito-latin.woff2",
