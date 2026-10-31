@@ -83,9 +83,17 @@
   function setOutfit(o){outfit=o;try{localStorage.setItem("charmShop.outfit",o)}catch(e){}
     $("#result-bg").src=outfitSrc(o);
     $$("#outfits [data-outfit]").forEach(b=>b.setAttribute("aria-checked",String(b.dataset.outfit===o)));sound(640);}
-  function destination(kind){save();show("result");$("#gift-box").hidden=kind!=="box";$("#result-bg").hidden=kind==="box";$("#result-jewel").hidden=kind==="box";
-    if(kind==="box"){draw($("#gift-box svg"),state,"display");$("#gift-box").classList.remove("wrap");requestAnimationFrame(()=>$("#gift-box").classList.add("wrap"));}
-    else{$("#result-bg").src=kind==="wear"?outfitSrc(outfit):"assets/display-stand.webp";$("#outfits").hidden=kind!=="wear";$("#result-bg").alt=kind==="wear"?"A girl wearing your jewellery":"Your jewellery on the shop display";draw($("#result-jewel"),state,kind==="wear"?"character":"display");}
+  function clearResultSvg(svg){svg.replaceChildren();svg.removeAttribute("data-render-profile");}
+  function destination(kind){
+    save();show("result");
+    const gift=$("#gift-box"),giftSvg=$("#gift-box svg"),bg=$("#result-bg"),jewel=$("#result-jewel"),outfits=$("#outfits");
+    gift.hidden=true;bg.hidden=true;jewel.hidden=true;outfits.hidden=true;gift.classList.remove("wrap");clearResultSvg(giftSvg);clearResultSvg(jewel);
+    if(kind==="box"){
+      gift.hidden=false;draw(giftSvg,state,"box");requestAnimationFrame(()=>gift.classList.add("wrap"));
+    }else{
+      bg.hidden=false;jewel.hidden=false;bg.src=kind==="wear"?outfitSrc(outfit):"assets/display-stand.webp";outfits.hidden=kind!=="wear";
+      bg.alt=kind==="wear"?"A girl wearing your jewellery":"Your jewellery on the shop display";draw(jewel,state,kind==="wear"?"character":"display");
+    }
     sound(kind==="box"?360:780);
   }
   function buildControls(){

@@ -14,9 +14,10 @@
   const boxes = {
     editor: {necklace:[10,10,140,80],bracelet:[10,10,140,80],earrings:[10,10,140,80],hairpin:[14,10,132,80]},
     character: {necklace:[39,30.2,22,10.2],bracelet:[39.7,59.4,7.3,6],earrings:[26,17.8,48,12],hairpin:[36.2,9.4,7,5.8]},
-    display: {necklace:[42.8,17.5,14.4,16.8],bracelet:[8.5,35.8,21,9.8],earrings:[78.1,30.5,15.6,12.2],hairpin:[74.5,42.3,14,8.2]}
+    display: {necklace:[42.8,17.5,14.4,16.8],bracelet:[8.5,35.8,21,9.8],earrings:[78.1,30.5,15.6,12.2],hairpin:[74.5,42.3,14,8.2]},
+    box: {necklace:[20,10,60,50],bracelet:[27,13,46,43],earrings:[19,10,62,48],hairpin:[17,18,66,36]}
   };
-  const desiredRadii = {editor:10.1,character:1.1,display:1.2};
+  const desiredRadii = {editor:10.1,character:1.1,display:1.2,box:3.2};
   const characterRadii = {necklace:1.1,bracelet:1,earrings:1.15,hairpin:1};
   const clone = value => JSON.parse(JSON.stringify(value));
   const line = (n,a,b,y=52)=>Array.from({length:n},(_,i)=>({x:a+(b-a)*i/(n-1),y}));
