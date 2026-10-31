@@ -267,7 +267,14 @@
       card.classList.add("is-selected");
       main.setAttribute("aria-pressed", "true");
       // The chosen card grows to show its examples; keep all of it (and its speaker) in view.
-      if (card.scrollIntoView) card.scrollIntoView({ block: "nearest" });
+      if (card.scrollIntoView) {
+        card.scrollIntoView({ block: "nearest" });
+        // The card grows over a 150ms transition, so measure again once it has finished growing;
+        // otherwise its comparison and speaker can end up below the screen (seen upright, 2026-10-31).
+        setTimeout(function () {
+          if (card.classList.contains("is-selected")) card.scrollIntoView({ block: "nearest", behavior: "smooth" });
+        }, 220);
+      }
       sayClip(shade.slug);
     });
 
