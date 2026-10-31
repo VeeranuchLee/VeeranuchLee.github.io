@@ -188,6 +188,13 @@
     if (!b) return;
     b.onclick = function () { SND.setMuted(!SND.isMuted()); SND.unlock(); if (!SND.isMuted()) SND.pick(); onChange(); };
   }
+  function titleFlag() {
+    return '<svg class="title-flag" viewBox="0 0 100 100" aria-hidden="true">' +
+      '<rect x="28" y="12" width="7" height="76" rx="3.5" fill="#8a6446"/>' +
+      '<ellipse cx="31" cy="88" rx="16" ry="6" fill="#f2c14e"/>' +
+      '<path d="M35 14h44l-9 15 9 15H35z" fill="#e8665a" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>' +
+      '</svg>';
+  }
 
   /* ---------- screen 1: pick a friend ------------------------------------------------ */
 
@@ -199,7 +206,7 @@
       '<header class="topline"><a class="hub" href="' + HUB + '" aria-label="Back to Children Games">&larr; All games</a>' +
       speakerButton() + "</header>" +
       '<section class="pick">' +
-      '<h1 class="title"><img class="title-flag" data-ph="flag" src="' + SPRITE("flag", "flag") + '" alt="" aria-hidden="true"/>Our Maze</h1>' +
+      '<h1 class="title">' + titleFlag() + 'Our Maze</h1>' +
       '<div class="picker-type choice-toggle puzzle-mode-picker" role="group" aria-label="Choose maze type">' + choiceButton("maze-type","directions","Maze",S.mazeType) + choiceButton("maze-type","robot","Robot Code",S.mazeType) + '<button data-puzzle-mode="key">Key Quest</button><button data-puzzle-mode="animal">Animal Escape</button></div>' +
       '<p class="ask">' + (S.mazeType === "robot" ? "Choose a Code Toy" : "Choose a friend") + '</p>' +
       '<div class="cast' + (S.mazeType === "robot" ? " code-cast" : "") + '" role="list">' +
