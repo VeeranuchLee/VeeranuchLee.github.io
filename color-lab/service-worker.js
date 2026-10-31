@@ -1,4 +1,4 @@
-const CACHE_NAME = "color-lab-v11";
+const CACHE_NAME = "color-lab-v12";
 
 const SHELL = [
   "./",
