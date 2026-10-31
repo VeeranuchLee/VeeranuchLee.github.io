@@ -1,0 +1,5383 @@
+{
+  "$schema": "./schema-v1.json",
+  "version": "iscc-nbs-centroids-1.0.0",
+  "description": "Display centroids for the 267 level-3 ISCC-NBS colour-name blocks.",
+  "source": {
+    "publication": "Kelly (1958), Central Notations for the Revised ISCC-NBS Color-Name Blocks",
+    "doi": "https://doi.org/10.6028/jres.061.035",
+    "workingSpace": "D65 Oklab",
+    "displayMapping": "Illuminant C to D65 Bradford adaptation, then Oklab chroma reduction to the sRGB gamut"
+  },
+  "colors": [
+    {
+      "id": "iscc-nbs-001",
+      "name": "vivid pink",
+      "isccNbs": {
+        "id": 1,
+        "level": 3
+      },
+      "munsellCentroid": "1.5R 7/13",
+      "srgbCentroidHex": "#FF8D98",
+      "oklabCentroid": [
+        0.76929,
+        0.133408,
+        0.034942
+      ],
+      "familyTags": [
+        "pink",
+        "vivid"
+      ]
+    },
+    {
+      "id": "iscc-nbs-002",
+      "name": "strong pink",
+      "isccNbs": {
+        "id": 2,
+        "level": 3
+      },
+      "munsellCentroid": "1.5R 7.5/9.1",
+      "srgbCentroidHex": "#FFA1A7",
+      "oklabCentroid": [
+        0.804892,
+        0.107835,
+        0.030276
+      ],
+      "familyTags": [
+        "pink",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-003",
+      "name": "deep pink",
+      "isccNbs": {
+        "id": 3,
+        "level": 3
+      },
+      "munsellCentroid": "1.9R 6.0/11.1",
+      "srgbCentroidHex": "#E46E7B",
+      "oklabCentroid": [
+        0.680666,
+        0.141868,
+        0.037833
+      ],
+      "familyTags": [
+        "pink",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-004",
+      "name": "light pink",
+      "isccNbs": {
+        "id": 4,
+        "level": 3
+      },
+      "munsellCentroid": "2.5R 8.6/5.2",
+      "srgbCentroidHex": "#FFCCCC",
+      "oklabCentroid": [
+        0.889676,
+        0.055059,
+        0.018108
+      ],
+      "familyTags": [
+        "pink",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-005",
+      "name": "moderate pink",
+      "isccNbs": {
+        "id": 5,
+        "level": 3
+      },
+      "munsellCentroid": "2.5R 7.2/5.2",
+      "srgbCentroidHex": "#DDA4A5",
+      "oklabCentroid": [
+        0.772337,
+        0.06458,
+        0.020368
+      ],
+      "familyTags": [
+        "pink",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-006",
+      "name": "dark pink",
+      "isccNbs": {
+        "id": 6,
+        "level": 3
+      },
+      "munsellCentroid": "2.5R 6.0/6.0",
+      "srgbCentroidHex": "#C38284",
+      "oklabCentroid": [
+        0.673372,
+        0.076999,
+        0.02406
+      ],
+      "familyTags": [
+        "pink",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-007",
+      "name": "pale pink",
+      "isccNbs": {
+        "id": 7,
+        "level": 3
+      },
+      "munsellCentroid": "2.5R 8.8/2.3",
+      "srgbCentroidHex": "#EED9D8",
+      "oklabCentroid": [
+        0.902109,
+        0.021811,
+        0.008219
+      ],
+      "familyTags": [
+        "pink",
+        "pale"
+      ]
+    },
+    {
+      "id": "iscc-nbs-008",
+      "name": "grayish pink",
+      "isccNbs": {
+        "id": 8,
+        "level": 3
+      },
+      "munsellCentroid": "2.5R 7.2/2.3",
+      "srgbCentroidHex": "#C4ADAD",
+      "oklabCentroid": [
+        0.76741,
+        0.02543,
+        0.008052
+      ],
+      "familyTags": [
+        "pink",
+        "gray",
+        "neutral",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-009",
+      "name": "pinkish white",
+      "isccNbs": {
+        "id": 9,
+        "level": 3
+      },
+      "munsellCentroid": "7.6R 9.2/1.0",
+      "srgbCentroidHex": "#EFE7E5",
+      "oklabCentroid": [
+        0.93368,
+        0.007542,
+        0.005038
+      ],
+      "familyTags": [
+        "pink",
+        "white",
+        "neutral"
+      ]
+    },
+    {
+      "id": "iscc-nbs-010",
+      "name": "pinkish gray",
+      "isccNbs": {
+        "id": 10,
+        "level": 3
+      },
+      "munsellCentroid": "7.6R 7.5/1.0",
+      "srgbCentroidHex": "#C3B8B6",
+      "oklabCentroid": [
+        0.791113,
+        0.011154,
+        0.006319
+      ],
+      "familyTags": [
+        "pink",
+        "gray",
+        "neutral"
+      ]
+    },
+    {
+      "id": "iscc-nbs-011",
+      "name": "vivid red",
+      "isccNbs": {
+        "id": 11,
+        "level": 3
+      },
+      "munsellCentroid": "5R 4/15",
+      "srgbCentroidHex": "#C10430",
+      "oklabCentroid": [
+        0.513923,
+        0.192024,
+        0.071606
+      ],
+      "familyTags": [
+        "red",
+        "vivid"
+      ]
+    },
+    {
+      "id": "iscc-nbs-012",
+      "name": "strong red",
+      "isccNbs": {
+        "id": 12,
+        "level": 3
+      },
+      "munsellCentroid": "4.0R 4.5/12.0",
+      "srgbCentroidHex": "#C13C4B",
+      "oklabCentroid": [
+        0.553137,
+        0.160066,
+        0.052868
+      ],
+      "familyTags": [
+        "red",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-013",
+      "name": "deep red",
+      "isccNbs": {
+        "id": 13,
+        "level": 3
+      },
+      "munsellCentroid": "5.0R 2.8/9.9",
+      "srgbCentroidHex": "#85102A",
+      "oklabCentroid": [
+        0.39964,
+        0.142378,
+        0.042104
+      ],
+      "familyTags": [
+        "red",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-014",
+      "name": "very deep red",
+      "isccNbs": {
+        "id": 14,
+        "level": 3
+      },
+      "munsellCentroid": "5.0R 1.4/9.0",
+      "srgbCentroidHex": "#500022",
+      "oklabCentroid": [
+        0.277756,
+        0.111543,
+        0.007596
+      ],
+      "familyTags": [
+        "red",
+        "very-deep",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-015",
+      "name": "moderate red",
+      "isccNbs": {
+        "id": 15,
+        "level": 3
+      },
+      "munsellCentroid": "4.0R 4.5/9.1",
+      "srgbCentroidHex": "#B04C52",
+      "oklabCentroid": [
+        0.547381,
+        0.123815,
+        0.042143
+      ],
+      "familyTags": [
+        "red",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-016",
+      "name": "dark red",
+      "isccNbs": {
+        "id": 16,
+        "level": 3
+      },
+      "munsellCentroid": "4.5R 2.8/6.8",
+      "srgbCentroidHex": "#732A33",
+      "oklabCentroid": [
+        0.39401,
+        0.099086,
+        0.027937
+      ],
+      "familyTags": [
+        "red",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-017",
+      "name": "very dark red",
+      "isccNbs": {
+        "id": 17,
+        "level": 3
+      },
+      "munsellCentroid": "3.5R 1.2/4.9",
+      "srgbCentroidHex": "#3F0D21",
+      "oklabCentroid": [
+        0.254521,
+        0.079716,
+        0.000129
+      ],
+      "familyTags": [
+        "red",
+        "very-dark",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-018",
+      "name": "light grayish red",
+      "isccNbs": {
+        "id": 18,
+        "level": 3
+      },
+      "munsellCentroid": "4.9R 6.0/3.4",
+      "srgbCentroidHex": "#B08A88",
+      "oklabCentroid": [
+        0.668684,
+        0.043308,
+        0.017321
+      ],
+      "familyTags": [
+        "red",
+        "gray",
+        "neutral",
+        "light-grayish",
+        "light",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-019",
+      "name": "grayish red",
+      "isccNbs": {
+        "id": 19,
+        "level": 3
+      },
+      "munsellCentroid": "4.6R 4.5/4.7",
+      "srgbCentroidHex": "#945E5D",
+      "oklabCentroid": [
+        0.540783,
+        0.066498,
+        0.025231
+      ],
+      "familyTags": [
+        "red",
+        "gray",
+        "neutral",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-020",
+      "name": "dark grayish red",
+      "isccNbs": {
+        "id": 20,
+        "level": 3
+      },
+      "munsellCentroid": "3.5R 2.7/2.2",
+      "srgbCentroidHex": "#54393C",
+      "oklabCentroid": [
+        0.376528,
+        0.037903,
+        0.00783
+      ],
+      "familyTags": [
+        "red",
+        "gray",
+        "neutral",
+        "dark-grayish",
+        "dark",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-021",
+      "name": "blackish red",
+      "isccNbs": {
+        "id": 21,
+        "level": 3
+      },
+      "munsellCentroid": "3.5R 1.1/1.6",
+      "srgbCentroidHex": "#2C191E",
+      "oklabCentroid": [
+        0.240618,
+        0.031386,
+        0.001388
+      ],
+      "familyTags": [
+        "red",
+        "black",
+        "neutral",
+        "blackish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-022",
+      "name": "reddish gray",
+      "isccNbs": {
+        "id": 22,
+        "level": 3
+      },
+      "munsellCentroid": "6.5R 5.5/1.1",
+      "srgbCentroidHex": "#908482",
+      "oklabCentroid": [
+        0.623403,
+        0.013053,
+        0.00714
+      ],
+      "familyTags": [
+        "red",
+        "gray",
+        "neutral"
+      ]
+    },
+    {
+      "id": "iscc-nbs-023",
+      "name": "dark reddish gray",
+      "isccNbs": {
+        "id": 23,
+        "level": 3
+      },
+      "munsellCentroid": "6.0R 3.5/1.1",
+      "srgbCentroidHex": "#5F504F",
+      "oklabCentroid": [
+        0.445989,
+        0.018635,
+        0.00765
+      ],
+      "familyTags": [
+        "red",
+        "gray",
+        "neutral",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-024",
+      "name": "reddish black",
+      "isccNbs": {
+        "id": 24,
+        "level": 3
+      },
+      "munsellCentroid": "6.0R 0.9/0.8",
+      "srgbCentroidHex": "#211819",
+      "oklabCentroid": [
+        0.220551,
+        0.014308,
+        0.002715
+      ],
+      "familyTags": [
+        "red",
+        "black",
+        "neutral"
+      ]
+    },
+    {
+      "id": "iscc-nbs-025",
+      "name": "vivid yellowish pink",
+      "isccNbs": {
+        "id": 25,
+        "level": 3
+      },
+      "munsellCentroid": "8.0R 7/13",
+      "srgbCentroidHex": "#FF9078",
+      "oklabCentroid": [
+        0.767184,
+        0.116529,
+        0.076222
+      ],
+      "familyTags": [
+        "yellow",
+        "pink",
+        "vivid"
+      ]
+    },
+    {
+      "id": "iscc-nbs-026",
+      "name": "strong yellowish pink",
+      "isccNbs": {
+        "id": 26,
+        "level": 3
+      },
+      "munsellCentroid": "8.0R 7.5/9.0",
+      "srgbCentroidHex": "#FFA38F",
+      "oklabCentroid": [
+        0.802773,
+        0.095489,
+        0.06178
+      ],
+      "familyTags": [
+        "yellow",
+        "pink",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-027",
+      "name": "deep yellowish pink",
+      "isccNbs": {
+        "id": 27,
+        "level": 3
+      },
+      "munsellCentroid": "5.6R 6.0/12.4",
+      "srgbCentroidHex": "#EF6864",
+      "oklabCentroid": [
+        0.683078,
+        0.153081,
+        0.068857
+      ],
+      "familyTags": [
+        "yellow",
+        "pink",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-028",
+      "name": "light yellowish pink",
+      "isccNbs": {
+        "id": 28,
+        "level": 3
+      },
+      "munsellCentroid": "0.7YR 8.6/4.8",
+      "srgbCentroidHex": "#FFCEBB",
+      "oklabCentroid": [
+        0.88913,
+        0.045516,
+        0.041248
+      ],
+      "familyTags": [
+        "yellow",
+        "pink",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-029",
+      "name": "moderate yellowish pink",
+      "isccNbs": {
+        "id": 29,
+        "level": 3
+      },
+      "munsellCentroid": "0.7YR 7.2/4.8",
+      "srgbCentroidHex": "#DDA693",
+      "oklabCentroid": [
+        0.771581,
+        0.054299,
+        0.045295
+      ],
+      "familyTags": [
+        "yellow",
+        "pink",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-030",
+      "name": "dark yellowish pink",
+      "isccNbs": {
+        "id": 30,
+        "level": 3
+      },
+      "munsellCentroid": "7.0R 6.0/6.0",
+      "srgbCentroidHex": "#C48279",
+      "oklabCentroid": [
+        0.671778,
+        0.073736,
+        0.039148
+      ],
+      "familyTags": [
+        "yellow",
+        "pink",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-031",
+      "name": "pale yellowish pink",
+      "isccNbs": {
+        "id": 31,
+        "level": 3
+      },
+      "munsellCentroid": "2.1YR 8.8/2.2",
+      "srgbCentroidHex": "#F0D9CE",
+      "oklabCentroid": [
+        0.901141,
+        0.020121,
+        0.021686
+      ],
+      "familyTags": [
+        "yellow",
+        "pink",
+        "pale"
+      ]
+    },
+    {
+      "id": "iscc-nbs-032",
+      "name": "grayish yellowish pink",
+      "isccNbs": {
+        "id": 32,
+        "level": 3
+      },
+      "munsellCentroid": "0.5YR 7.2/2.3",
+      "srgbCentroidHex": "#C7ADA5",
+      "oklabCentroid": [
+        0.767939,
+        0.025618,
+        0.019789
+      ],
+      "familyTags": [
+        "yellow",
+        "pink",
+        "gray",
+        "neutral",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-033",
+      "name": "brownish pink",
+      "isccNbs": {
+        "id": 33,
+        "level": 3
+      },
+      "munsellCentroid": "6.5YR 7.2/2.2",
+      "srgbCentroidHex": "#C5AF9D",
+      "oklabCentroid": [
+        0.768028,
+        0.017042,
+        0.031368
+      ],
+      "familyTags": [
+        "pink",
+        "brown"
+      ]
+    },
+    {
+      "id": "iscc-nbs-034",
+      "name": "vivid reddish orange",
+      "isccNbs": {
+        "id": 34,
+        "level": 3
+      },
+      "munsellCentroid": "9.5R 5.5/15.5",
+      "srgbCentroidHex": "#EC5119",
+      "oklabCentroid": [
+        0.641483,
+        0.158878,
+        0.122268
+      ],
+      "familyTags": [
+        "red",
+        "orange",
+        "vivid"
+      ]
+    },
+    {
+      "id": "iscc-nbs-035",
+      "name": "strong reddish orange",
+      "isccNbs": {
+        "id": 35,
+        "level": 3
+      },
+      "munsellCentroid": "9.5R 5.5/12.0",
+      "srgbCentroidHex": "#DC603A",
+      "oklabCentroid": [
+        0.637977,
+        0.130568,
+        0.100028
+      ],
+      "familyTags": [
+        "red",
+        "orange",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-036",
+      "name": "deep reddish orange",
+      "isccNbs": {
+        "id": 36,
+        "level": 3
+      },
+      "munsellCentroid": "9.5R 4.0/12.0",
+      "srgbCentroidHex": "#AD3619",
+      "oklabCentroid": [
+        0.505578,
+        0.131895,
+        0.090696
+      ],
+      "familyTags": [
+        "red",
+        "orange",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-037",
+      "name": "moderate reddish orange",
+      "isccNbs": {
+        "id": 37,
+        "level": 3
+      },
+      "munsellCentroid": "9.5R 5.5/9.1",
+      "srgbCentroidHex": "#CC6B4F",
+      "oklabCentroid": [
+        0.634282,
+        0.103806,
+        0.07804
+      ],
+      "familyTags": [
+        "red",
+        "orange",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-038",
+      "name": "dark reddish orange",
+      "isccNbs": {
+        "id": 38,
+        "level": 3
+      },
+      "munsellCentroid": "9.5R 4.0/9.1",
+      "srgbCentroidHex": "#A0432E",
+      "oklabCentroid": [
+        0.503028,
+        0.106501,
+        0.072257
+      ],
+      "familyTags": [
+        "red",
+        "orange",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-039",
+      "name": "grayish reddish orange",
+      "isccNbs": {
+        "id": 39,
+        "level": 3
+      },
+      "munsellCentroid": "0.5YR 5.5/6.0",
+      "srgbCentroidHex": "#B77660",
+      "oklabCentroid": [
+        0.628973,
+        0.068382,
+        0.056214
+      ],
+      "familyTags": [
+        "red",
+        "orange",
+        "gray",
+        "neutral",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-040",
+      "name": "strong reddish brown",
+      "isccNbs": {
+        "id": 40,
+        "level": 3
+      },
+      "munsellCentroid": "0.5YR 3.0/11.2",
+      "srgbCentroidHex": "#8C1C00",
+      "oklabCentroid": [
+        0.417494,
+        0.125477,
+        0.083917
+      ],
+      "familyTags": [
+        "red",
+        "brown",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-041",
+      "name": "deep reddish brown",
+      "isccNbs": {
+        "id": 41,
+        "level": 3
+      },
+      "munsellCentroid": "9.8R 1.5/7.5",
+      "srgbCentroidHex": "#540012",
+      "oklabCentroid": [
+        0.282479,
+        0.107426,
+        0.03579
+      ],
+      "familyTags": [
+        "red",
+        "brown",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-042",
+      "name": "light reddish brown",
+      "isccNbs": {
+        "id": 42,
+        "level": 3
+      },
+      "munsellCentroid": "0.5YR 5.5/4.1",
+      "srgbCentroidHex": "#AA7C6D",
+      "oklabCentroid": [
+        0.627985,
+        0.048291,
+        0.038786
+      ],
+      "familyTags": [
+        "red",
+        "brown",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-043",
+      "name": "moderate reddish brown",
+      "isccNbs": {
+        "id": 43,
+        "level": 3
+      },
+      "munsellCentroid": "9.6R 3.4/5.2",
+      "srgbCentroidHex": "#7B4136",
+      "oklabCentroid": [
+        0.444519,
+        0.070431,
+        0.043707
+      ],
+      "familyTags": [
+        "red",
+        "brown",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-044",
+      "name": "dark reddish brown",
+      "isccNbs": {
+        "id": 44,
+        "level": 3
+      },
+      "munsellCentroid": "9.5R 1.3/3.6",
+      "srgbCentroidHex": "#3D1619",
+      "oklabCentroid": [
+        0.261395,
+        0.058513,
+        0.018598
+      ],
+      "familyTags": [
+        "red",
+        "brown",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-045",
+      "name": "light grayish reddish brown",
+      "isccNbs": {
+        "id": 45,
+        "level": 3
+      },
+      "munsellCentroid": "3.0YR 5.5/2.3",
+      "srgbCentroidHex": "#9B8175",
+      "oklabCentroid": [
+        0.624085,
+        0.025435,
+        0.026444
+      ],
+      "familyTags": [
+        "red",
+        "brown",
+        "gray",
+        "neutral",
+        "light-grayish",
+        "light",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-046",
+      "name": "grayish reddish brown",
+      "isccNbs": {
+        "id": 46,
+        "level": 3
+      },
+      "munsellCentroid": "9.9R 3.4/2.3",
+      "srgbCentroidHex": "#674A45",
+      "oklabCentroid": [
+        0.439021,
+        0.035348,
+        0.020226
+      ],
+      "familyTags": [
+        "red",
+        "brown",
+        "gray",
+        "neutral",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-047",
+      "name": "dark grayish reddish brown",
+      "isccNbs": {
+        "id": 47,
+        "level": 3
+      },
+      "munsellCentroid": "9.5R 2.0/2.0",
+      "srgbCentroidHex": "#412B29",
+      "oklabCentroid": [
+        0.314887,
+        0.030125,
+        0.013963
+      ],
+      "familyTags": [
+        "red",
+        "brown",
+        "gray",
+        "neutral",
+        "dark-grayish",
+        "dark",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-048",
+      "name": "vivid orange",
+      "isccNbs": {
+        "id": 48,
+        "level": 3
+      },
+      "munsellCentroid": "4.5YR 6.6/16",
+      "srgbCentroidHex": "#F58700",
+      "oklabCentroid": [
+        0.729298,
+        0.090265,
+        0.148012
+      ],
+      "familyTags": [
+        "orange",
+        "vivid"
+      ]
+    },
+    {
+      "id": "iscc-nbs-049",
+      "name": "brilliant orange",
+      "isccNbs": {
+        "id": 49,
+        "level": 3
+      },
+      "munsellCentroid": "4.5YR 8.0/12.1",
+      "srgbCentroidHex": "#FFBB87",
+      "oklabCentroid": [
+        0.843505,
+        0.054638,
+        0.08797
+      ],
+      "familyTags": [
+        "orange",
+        "brilliant"
+      ]
+    },
+    {
+      "id": "iscc-nbs-050",
+      "name": "strong orange",
+      "isccNbs": {
+        "id": 50,
+        "level": 3
+      },
+      "munsellCentroid": "4.5YR 6.5/12.1",
+      "srgbCentroidHex": "#ED8629",
+      "oklabCentroid": [
+        0.71849,
+        0.08734,
+        0.133486
+      ],
+      "familyTags": [
+        "orange",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-051",
+      "name": "deep orange",
+      "isccNbs": {
+        "id": 51,
+        "level": 3
+      },
+      "munsellCentroid": "4.5YR 5.0/12.1",
+      "srgbCentroidHex": "#BC6100",
+      "oklabCentroid": [
+        0.589089,
+        0.082166,
+        0.119456
+      ],
+      "familyTags": [
+        "orange",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-052",
+      "name": "light orange",
+      "isccNbs": {
+        "id": 52,
+        "level": 3
+      },
+      "munsellCentroid": "4.5YR 8/8.1",
+      "srgbCentroidHex": "#FFB987",
+      "oklabCentroid": [
+        0.839866,
+        0.057761,
+        0.086571
+      ],
+      "familyTags": [
+        "orange",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-053",
+      "name": "moderate orange",
+      "isccNbs": {
+        "id": 53,
+        "level": 3
+      },
+      "munsellCentroid": "4.6YR 6.5/8.1",
+      "srgbCentroidHex": "#DA8F58",
+      "oklabCentroid": [
+        0.714997,
+        0.064839,
+        0.095679
+      ],
+      "familyTags": [
+        "orange",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-054",
+      "name": "brownish orange",
+      "isccNbs": {
+        "id": 54,
+        "level": 3
+      },
+      "munsellCentroid": "4.5YR 5.0/8.2",
+      "srgbCentroidHex": "#B06732",
+      "oklabCentroid": [
+        0.585724,
+        0.067747,
+        0.093461
+      ],
+      "familyTags": [
+        "orange",
+        "brown"
+      ]
+    },
+    {
+      "id": "iscc-nbs-055",
+      "name": "strong brown",
+      "isccNbs": {
+        "id": 55,
+        "level": 3
+      },
+      "munsellCentroid": "5.0YR 3.5/8",
+      "srgbCentroidHex": "#83420B",
+      "oklabCentroid": [
+        0.452953,
+        0.064325,
+        0.087071
+      ],
+      "familyTags": [
+        "brown",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-056",
+      "name": "deep brown",
+      "isccNbs": {
+        "id": 56,
+        "level": 3
+      },
+      "munsellCentroid": "5.0YR 2.1/6",
+      "srgbCentroidHex": "#552505",
+      "oklabCentroid": [
+        0.327169,
+        0.054095,
+        0.062104
+      ],
+      "familyTags": [
+        "brown",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-057",
+      "name": "light brown",
+      "isccNbs": {
+        "id": 57,
+        "level": 3
+      },
+      "munsellCentroid": "5.5YR 5.5/4.6",
+      "srgbCentroidHex": "#A97D5E",
+      "oklabCentroid": [
+        0.625558,
+        0.0391,
+        0.058357
+      ],
+      "familyTags": [
+        "brown",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-058",
+      "name": "moderate brown",
+      "isccNbs": {
+        "id": 58,
+        "level": 3
+      },
+      "munsellCentroid": "5.5YR 3.5/3.9",
+      "srgbCentroidHex": "#704B34",
+      "oklabCentroid": [
+        0.448322,
+        0.037492,
+        0.048681
+      ],
+      "familyTags": [
+        "brown",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-059",
+      "name": "dark brown",
+      "isccNbs": {
+        "id": 59,
+        "level": 3
+      },
+      "munsellCentroid": "5.5YR 1.6/3.6",
+      "srgbCentroidHex": "#421F0E",
+      "oklabCentroid": [
+        0.284633,
+        0.042697,
+        0.042957
+      ],
+      "familyTags": [
+        "brown",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-060",
+      "name": "light grayish brown",
+      "isccNbs": {
+        "id": 60,
+        "level": 3
+      },
+      "munsellCentroid": "6.5YR 5.5/2.2",
+      "srgbCentroidHex": "#998272",
+      "oklabCentroid": [
+        0.623387,
+        0.020124,
+        0.030675
+      ],
+      "familyTags": [
+        "brown",
+        "gray",
+        "neutral",
+        "light-grayish",
+        "light",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-061",
+      "name": "grayish brown",
+      "isccNbs": {
+        "id": 61,
+        "level": 3
+      },
+      "munsellCentroid": "5.6YR 3.5/2.0",
+      "srgbCentroidHex": "#654F43",
+      "oklabCentroid": [
+        0.446933,
+        0.022691,
+        0.027046
+      ],
+      "familyTags": [
+        "brown",
+        "gray",
+        "neutral",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-062",
+      "name": "dark grayish brown",
+      "isccNbs": {
+        "id": 62,
+        "level": 3
+      },
+      "munsellCentroid": "5.5YR 2.0/1.7",
+      "srgbCentroidHex": "#3D2D26",
+      "oklabCentroid": [
+        0.313347,
+        0.018982,
+        0.018792
+      ],
+      "familyTags": [
+        "brown",
+        "gray",
+        "neutral",
+        "dark-grayish",
+        "dark",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-063",
+      "name": "light brownish gray",
+      "isccNbs": {
+        "id": 63,
+        "level": 3
+      },
+      "munsellCentroid": "6.8YR 5.5/1.0",
+      "srgbCentroidHex": "#8F847D",
+      "oklabCentroid": [
+        0.621018,
+        0.009776,
+        0.013776
+      ],
+      "familyTags": [
+        "brown",
+        "gray",
+        "neutral",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-064",
+      "name": "brownish gray",
+      "isccNbs": {
+        "id": 64,
+        "level": 3
+      },
+      "munsellCentroid": "6.4YR 3.5/0.9",
+      "srgbCentroidHex": "#5C524C",
+      "oklabCentroid": [
+        0.446465,
+        0.009871,
+        0.013076
+      ],
+      "familyTags": [
+        "brown",
+        "gray",
+        "neutral"
+      ]
+    },
+    {
+      "id": "iscc-nbs-065",
+      "name": "brownish black",
+      "isccNbs": {
+        "id": 65,
+        "level": 3
+      },
+      "munsellCentroid": "7.5YR 0.8/0.8",
+      "srgbCentroidHex": "#1E1713",
+      "oklabCentroid": [
+        0.211751,
+        0.008548,
+        0.010692
+      ],
+      "familyTags": [
+        "brown",
+        "black",
+        "neutral"
+      ]
+    },
+    {
+      "id": "iscc-nbs-066",
+      "name": "vivid orange yellow",
+      "isccNbs": {
+        "id": 66,
+        "level": 3
+      },
+      "munsellCentroid": "9.0YR 7.2/16",
+      "srgbCentroidHex": "#F0A400",
+      "oklabCentroid": [
+        0.77338,
+        0.040411,
+        0.157555
+      ],
+      "familyTags": [
+        "orange",
+        "yellow",
+        "vivid"
+      ]
+    },
+    {
+      "id": "iscc-nbs-067",
+      "name": "brilliant orange yellow",
+      "isccNbs": {
+        "id": 67,
+        "level": 3
+      },
+      "munsellCentroid": "9.0YR 8.4/12.1",
+      "srgbCentroidHex": "#FFCB81",
+      "oklabCentroid": [
+        0.872319,
+        0.027668,
+        0.105395
+      ],
+      "familyTags": [
+        "orange",
+        "yellow",
+        "brilliant"
+      ]
+    },
+    {
+      "id": "iscc-nbs-068",
+      "name": "strong orange yellow",
+      "isccNbs": {
+        "id": 68,
+        "level": 3
+      },
+      "munsellCentroid": "9.0YR 7.2/12.1",
+      "srgbCentroidHex": "#F0A311",
+      "oklabCentroid": [
+        0.771839,
+        0.043011,
+        0.154476
+      ],
+      "familyTags": [
+        "orange",
+        "yellow",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-069",
+      "name": "deep orange yellow",
+      "isccNbs": {
+        "id": 69,
+        "level": 3
+      },
+      "munsellCentroid": "9.0YR 6.0/12.1",
+      "srgbCentroidHex": "#C98600",
+      "oklabCentroid": [
+        0.671794,
+        0.039553,
+        0.136812
+      ],
+      "familyTags": [
+        "orange",
+        "yellow",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-070",
+      "name": "light orange yellow",
+      "isccNbs": {
+        "id": 70,
+        "level": 3
+      },
+      "munsellCentroid": "9.0YR 8.6/8.1",
+      "srgbCentroidHex": "#FFD193",
+      "oklabCentroid": [
+        0.886637,
+        0.025328,
+        0.09057
+      ],
+      "familyTags": [
+        "orange",
+        "yellow",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-071",
+      "name": "moderate orange yellow",
+      "isccNbs": {
+        "id": 71,
+        "level": 3
+      },
+      "munsellCentroid": "9.0YR 7.2/8.1",
+      "srgbCentroidHex": "#E2A857",
+      "oklabCentroid": [
+        0.770288,
+        0.033908,
+        0.114505
+      ],
+      "familyTags": [
+        "orange",
+        "yellow",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-072",
+      "name": "dark orange yellow",
+      "isccNbs": {
+        "id": 72,
+        "level": 3
+      },
+      "munsellCentroid": "9.0YR 6.0/8.1",
+      "srgbCentroidHex": "#C18839",
+      "oklabCentroid": [
+        0.668999,
+        0.036221,
+        0.111271
+      ],
+      "familyTags": [
+        "orange",
+        "yellow",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-073",
+      "name": "pale orange yellow",
+      "isccNbs": {
+        "id": 73,
+        "level": 3
+      },
+      "munsellCentroid": "9.1YR 8.6/4.4",
+      "srgbCentroidHex": "#F7D2A3",
+      "oklabCentroid": [
+        0.884018,
+        0.021253,
+        0.070666
+      ],
+      "familyTags": [
+        "orange",
+        "yellow",
+        "pale"
+      ]
+    },
+    {
+      "id": "iscc-nbs-074",
+      "name": "strong yellowish brown",
+      "isccNbs": {
+        "id": 74,
+        "level": 3
+      },
+      "munsellCentroid": "9.0YR 4.6/9.6",
+      "srgbCentroidHex": "#9B6400",
+      "oklabCentroid": [
+        0.549545,
+        0.036474,
+        0.111871
+      ],
+      "familyTags": [
+        "yellow",
+        "brown",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-075",
+      "name": "deep yellowish brown",
+      "isccNbs": {
+        "id": 75,
+        "level": 3
+      },
+      "munsellCentroid": "9.5YR 2.9/6",
+      "srgbCentroidHex": "#623D05",
+      "oklabCentroid": [
+        0.394599,
+        0.028341,
+        0.077481
+      ],
+      "familyTags": [
+        "yellow",
+        "brown",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-076",
+      "name": "light yellowish brown",
+      "isccNbs": {
+        "id": 76,
+        "level": 3
+      },
+      "munsellCentroid": "9.2YR 6.6/4.7",
+      "srgbCentroidHex": "#C29D70",
+      "oklabCentroid": [
+        0.719194,
+        0.023523,
+        0.070869
+      ],
+      "familyTags": [
+        "yellow",
+        "brown",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-077",
+      "name": "moderate yellowish brown",
+      "isccNbs": {
+        "id": 77,
+        "level": 3
+      },
+      "munsellCentroid": "9.5YR 4.5/4.0",
+      "srgbCentroidHex": "#866743",
+      "oklabCentroid": [
+        0.536222,
+        0.022259,
+        0.060771
+      ],
+      "familyTags": [
+        "yellow",
+        "brown",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-078",
+      "name": "dark yellowish brown",
+      "isccNbs": {
+        "id": 78,
+        "level": 3
+      },
+      "munsellCentroid": "9.5YR 2.2/3.7",
+      "srgbCentroidHex": "#493015",
+      "oklabCentroid": [
+        0.332745,
+        0.022089,
+        0.049712
+      ],
+      "familyTags": [
+        "yellow",
+        "brown",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-079",
+      "name": "light grayish yellowish brown",
+      "isccNbs": {
+        "id": 79,
+        "level": 3
+      },
+      "munsellCentroid": "9.5YR 6.4/2.4",
+      "srgbCentroidHex": "#AF9B83",
+      "oklabCentroid": [
+        0.70065,
+        0.012641,
+        0.039154
+      ],
+      "familyTags": [
+        "yellow",
+        "brown",
+        "gray",
+        "neutral",
+        "light-grayish",
+        "light",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-080",
+      "name": "grayish yellowish brown",
+      "isccNbs": {
+        "id": 80,
+        "level": 3
+      },
+      "munsellCentroid": "9.5YR 4.6/2.1",
+      "srgbCentroidHex": "#7E6C59",
+      "oklabCentroid": [
+        0.54306,
+        0.013367,
+        0.033807
+      ],
+      "familyTags": [
+        "yellow",
+        "brown",
+        "gray",
+        "neutral",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-081",
+      "name": "dark grayish yellow brown",
+      "isccNbs": {
+        "id": 81,
+        "level": 3
+      },
+      "munsellCentroid": "9.5YR 2.4/1.8",
+      "srgbCentroidHex": "#45372B",
+      "oklabCentroid": [
+        0.348392,
+        0.013127,
+        0.024961
+      ],
+      "familyTags": [
+        "brown",
+        "yellow",
+        "gray",
+        "neutral",
+        "dark-grayish",
+        "dark",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-082",
+      "name": "vivid yellow",
+      "isccNbs": {
+        "id": 82,
+        "level": 3
+      },
+      "munsellCentroid": "4.0Y 7.8/14.5",
+      "srgbCentroidHex": "#E9BF00",
+      "oklabCentroid": [
+        0.817704,
+        -0.008183,
+        0.167126
+      ],
+      "familyTags": [
+        "yellow",
+        "vivid"
+      ]
+    },
+    {
+      "id": "iscc-nbs-083",
+      "name": "brilliant yellow",
+      "isccNbs": {
+        "id": 83,
+        "level": 3
+      },
+      "munsellCentroid": "4.0Y 8.8/9.5",
+      "srgbCentroidHex": "#FFDB60",
+      "oklabCentroid": [
+        0.899196,
+        -0.007375,
+        0.14507
+      ],
+      "familyTags": [
+        "yellow",
+        "brilliant"
+      ]
+    },
+    {
+      "id": "iscc-nbs-084",
+      "name": "strong yellow",
+      "isccNbs": {
+        "id": 84,
+        "level": 3
+      },
+      "munsellCentroid": "4.0Y 7.2/9.5",
+      "srgbCentroidHex": "#D4AF2E",
+      "oklabCentroid": [
+        0.765949,
+        -0.004528,
+        0.143463
+      ],
+      "familyTags": [
+        "yellow",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-085",
+      "name": "deep yellow",
+      "isccNbs": {
+        "id": 85,
+        "level": 3
+      },
+      "munsellCentroid": "4.0Y 6.0/9.5",
+      "srgbCentroidHex": "#B38F00",
+      "oklabCentroid": [
+        0.664628,
+        -0.001829,
+        0.135789
+      ],
+      "familyTags": [
+        "yellow",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-086",
+      "name": "light yellow",
+      "isccNbs": {
+        "id": 86,
+        "level": 3
+      },
+      "munsellCentroid": "4.0Y 8.8/6.6",
+      "srgbCentroidHex": "#F8DC82",
+      "oklabCentroid": [
+        0.898865,
+        -0.005277,
+        0.114054
+      ],
+      "familyTags": [
+        "yellow",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-087",
+      "name": "moderate yellow",
+      "isccNbs": {
+        "id": 87,
+        "level": 3
+      },
+      "munsellCentroid": "4.0Y 7.2/6.6",
+      "srgbCentroidHex": "#CDB05D",
+      "oklabCentroid": [
+        0.765462,
+        -0.000904,
+        0.108072
+      ],
+      "familyTags": [
+        "yellow",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-088",
+      "name": "dark yellow",
+      "isccNbs": {
+        "id": 88,
+        "level": 3
+      },
+      "munsellCentroid": "4.0Y 6.0/6.6",
+      "srgbCentroidHex": "#AD913F",
+      "oklabCentroid": [
+        0.666046,
+        -0.00065,
+        0.106153
+      ],
+      "familyTags": [
+        "yellow",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-089",
+      "name": "pale yellow",
+      "isccNbs": {
+        "id": 89,
+        "level": 3
+      },
+      "munsellCentroid": "4.2Y 8.9/3.6",
+      "srgbCentroidHex": "#F0E0AC",
+      "oklabCentroid": [
+        0.90706,
+        -0.003648,
+        0.069318
+      ],
+      "familyTags": [
+        "yellow",
+        "pale"
+      ]
+    },
+    {
+      "id": "iscc-nbs-090",
+      "name": "grayish yellow",
+      "isccNbs": {
+        "id": 90,
+        "level": 3
+      },
+      "munsellCentroid": "4.2Y 7.2/3.6",
+      "srgbCentroidHex": "#C2B283",
+      "oklabCentroid": [
+        0.765594,
+        -0.001699,
+        0.06542
+      ],
+      "familyTags": [
+        "yellow",
+        "gray",
+        "neutral",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-091",
+      "name": "dark grayish yellow",
+      "isccNbs": {
+        "id": 91,
+        "level": 3
+      },
+      "munsellCentroid": "4.0Y 6.0/4.1",
+      "srgbCentroidHex": "#A59260",
+      "oklabCentroid": [
+        0.664969,
+        0.000606,
+        0.071296
+      ],
+      "familyTags": [
+        "yellow",
+        "gray",
+        "neutral",
+        "dark-grayish",
+        "dark",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-092",
+      "name": "yellowish white",
+      "isccNbs": {
+        "id": 92,
+        "level": 3
+      },
+      "munsellCentroid": "4.1Y 9.2/1.3",
+      "srgbCentroidHex": "#EEE8D8",
+      "oklabCentroid": [
+        0.931375,
+        7.9e-05,
+        0.022143
+      ],
+      "familyTags": [
+        "yellow",
+        "white",
+        "neutral"
+      ]
+    },
+    {
+      "id": "iscc-nbs-093",
+      "name": "yellowish gray",
+      "isccNbs": {
+        "id": 93,
+        "level": 3
+      },
+      "munsellCentroid": "4.1Y 7.5/1.3",
+      "srgbCentroidHex": "#C1BAA8",
+      "oklabCentroid": [
+        0.789695,
+        0.000344,
+        0.025971
+      ],
+      "familyTags": [
+        "yellow",
+        "gray",
+        "neutral"
+      ]
+    },
+    {
+      "id": "iscc-nbs-094",
+      "name": "light olive brown",
+      "isccNbs": {
+        "id": 94,
+        "level": 3
+      },
+      "munsellCentroid": "2.5Y 5.0/8.4",
+      "srgbCentroidHex": "#9A7405",
+      "oklabCentroid": [
+        0.580871,
+        0.00954,
+        0.117258
+      ],
+      "familyTags": [
+        "olive",
+        "brown",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-095",
+      "name": "moderate olive brown",
+      "isccNbs": {
+        "id": 95,
+        "level": 3
+      },
+      "munsellCentroid": "2.5Y 3.5/6",
+      "srgbCentroidHex": "#6C4F0C",
+      "oklabCentroid": [
+        0.447061,
+        0.01148,
+        0.085964
+      ],
+      "familyTags": [
+        "olive",
+        "brown",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-096",
+      "name": "dark olive brown",
+      "isccNbs": {
+        "id": 96,
+        "level": 3
+      },
+      "munsellCentroid": "2.5Y 1.8/2.5",
+      "srgbCentroidHex": "#382A14",
+      "oklabCentroid": [
+        0.295444,
+        0.008838,
+        0.039651
+      ],
+      "familyTags": [
+        "olive",
+        "brown",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-097",
+      "name": "vivid greenish yellow",
+      "isccNbs": {
+        "id": 97,
+        "level": 3
+      },
+      "munsellCentroid": "9.5Y 7.8/14.5",
+      "srgbCentroidHex": "#CFC800",
+      "oklabCentroid": [
+        0.812111,
+        -0.05143,
+        0.166439
+      ],
+      "familyTags": [
+        "green",
+        "yellow",
+        "vivid"
+      ]
+    },
+    {
+      "id": "iscc-nbs-098",
+      "name": "brilliant greenish yellow",
+      "isccNbs": {
+        "id": 98,
+        "level": 3
+      },
+      "munsellCentroid": "9.5Y 8.8/9.5",
+      "srgbCentroidHex": "#EBE350",
+      "oklabCentroid": [
+        0.896268,
+        -0.045551,
+        0.156476
+      ],
+      "familyTags": [
+        "green",
+        "yellow",
+        "brilliant"
+      ]
+    },
+    {
+      "id": "iscc-nbs-099",
+      "name": "strong greenish yellow",
+      "isccNbs": {
+        "id": 99,
+        "level": 3
+      },
+      "munsellCentroid": "9.5Y 7.2/9.5",
+      "srgbCentroidHex": "#BFB722",
+      "oklabCentroid": [
+        0.762306,
+        -0.043168,
+        0.148447
+      ],
+      "familyTags": [
+        "green",
+        "yellow",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-100",
+      "name": "deep greenish yellow",
+      "isccNbs": {
+        "id": 100,
+        "level": 3
+      },
+      "munsellCentroid": "9.5Y 6.0/9.5",
+      "srgbCentroidHex": "#9E9700",
+      "oklabCentroid": [
+        0.661074,
+        -0.039826,
+        0.135463
+      ],
+      "familyTags": [
+        "green",
+        "yellow",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-101",
+      "name": "light greenish yellow",
+      "isccNbs": {
+        "id": 101,
+        "level": 3
+      },
+      "munsellCentroid": "9.5Y 8.8/6.6",
+      "srgbCentroidHex": "#E8E27D",
+      "oklabCentroid": [
+        0.896497,
+        -0.033293,
+        0.118964
+      ],
+      "familyTags": [
+        "green",
+        "yellow",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-102",
+      "name": "moderate greenish yellow",
+      "isccNbs": {
+        "id": 102,
+        "level": 3
+      },
+      "munsellCentroid": "9.5Y 7.2/6.6",
+      "srgbCentroidHex": "#BCB659",
+      "oklabCentroid": [
+        0.761972,
+        -0.030901,
+        0.111467
+      ],
+      "familyTags": [
+        "green",
+        "yellow",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-103",
+      "name": "dark greenish yellow",
+      "isccNbs": {
+        "id": 103,
+        "level": 3
+      },
+      "munsellCentroid": "9.5Y 6.0/6.6",
+      "srgbCentroidHex": "#9C973A",
+      "oklabCentroid": [
+        0.662225,
+        -0.031961,
+        0.109827
+      ],
+      "familyTags": [
+        "green",
+        "yellow",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-104",
+      "name": "pale greenish yellow",
+      "isccNbs": {
+        "id": 104,
+        "level": 3
+      },
+      "munsellCentroid": "9.5Y 8.9/4.1",
+      "srgbCentroidHex": "#E8E3A3",
+      "oklabCentroid": [
+        0.904705,
+        -0.020148,
+        0.079812
+      ],
+      "familyTags": [
+        "green",
+        "yellow",
+        "pale"
+      ]
+    },
+    {
+      "id": "iscc-nbs-105",
+      "name": "grayish greenish yellow",
+      "isccNbs": {
+        "id": 105,
+        "level": 3
+      },
+      "munsellCentroid": "9.5Y 7.2/4.1",
+      "srgbCentroidHex": "#B9B57B",
+      "oklabCentroid": [
+        0.762487,
+        -0.019632,
+        0.07461
+      ],
+      "familyTags": [
+        "green",
+        "yellow",
+        "gray",
+        "neutral",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-106",
+      "name": "light olive",
+      "isccNbs": {
+        "id": 106,
+        "level": 3
+      },
+      "munsellCentroid": "8.1Y 5.1/8.0",
+      "srgbCentroidHex": "#8A7E00",
+      "oklabCentroid": [
+        0.585534,
+        -0.027276,
+        0.1199
+      ],
+      "familyTags": [
+        "olive",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-107",
+      "name": "moderate olive",
+      "isccNbs": {
+        "id": 107,
+        "level": 3
+      },
+      "munsellCentroid": "8.0Y 3.5/5.8",
+      "srgbCentroidHex": "#5E5407",
+      "oklabCentroid": [
+        0.442246,
+        -0.017081,
+        0.087442
+      ],
+      "familyTags": [
+        "olive",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-108",
+      "name": "dark olive",
+      "isccNbs": {
+        "id": 108,
+        "level": 3
+      },
+      "munsellCentroid": "8.0Y 1.7/3.2",
+      "srgbCentroidHex": "#312B04",
+      "oklabCentroid": [
+        0.287168,
+        -0.009944,
+        0.054645
+      ],
+      "familyTags": [
+        "olive",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-109",
+      "name": "light grayish olive",
+      "isccNbs": {
+        "id": 109,
+        "level": 3
+      },
+      "munsellCentroid": "8.3Y 5.5/2.4",
+      "srgbCentroidHex": "#8C8768",
+      "oklabCentroid": [
+        0.619417,
+        -0.007705,
+        0.044017
+      ],
+      "familyTags": [
+        "olive",
+        "gray",
+        "neutral",
+        "light-grayish",
+        "light",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-110",
+      "name": "grayish olive",
+      "isccNbs": {
+        "id": 110,
+        "level": 3
+      },
+      "munsellCentroid": "8.1Y 3.5/2.3",
+      "srgbCentroidHex": "#59543A",
+      "oklabCentroid": [
+        0.443416,
+        -0.006009,
+        0.03982
+      ],
+      "familyTags": [
+        "olive",
+        "gray",
+        "neutral",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-111",
+      "name": "dark grayish olive",
+      "isccNbs": {
+        "id": 111,
+        "level": 3
+      },
+      "munsellCentroid": "8.0Y 2.0/2.0",
+      "srgbCentroidHex": "#343120",
+      "oklabCentroid": [
+        0.311121,
+        -0.004667,
+        0.028304
+      ],
+      "familyTags": [
+        "olive",
+        "gray",
+        "neutral",
+        "dark-grayish",
+        "dark",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-112",
+      "name": "light olive gray",
+      "isccNbs": {
+        "id": 112,
+        "level": 3
+      },
+      "munsellCentroid": "7.4Y 5.5/1.3",
+      "srgbCentroidHex": "#8A8776",
+      "oklabCentroid": [
+        0.621092,
+        -0.003854,
+        0.024684
+      ],
+      "familyTags": [
+        "olive",
+        "gray",
+        "neutral",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-113",
+      "name": "olive gray",
+      "isccNbs": {
+        "id": 113,
+        "level": 3
+      },
+      "munsellCentroid": "8.1Y 3.5/1.0",
+      "srgbCentroidHex": "#565449",
+      "oklabCentroid": [
+        0.444318,
+        -0.002636,
+        0.017394
+      ],
+      "familyTags": [
+        "olive",
+        "gray",
+        "neutral"
+      ]
+    },
+    {
+      "id": "iscc-nbs-114",
+      "name": "olive black",
+      "isccNbs": {
+        "id": 114,
+        "level": 3
+      },
+      "munsellCentroid": "9.0Y 0.9/0.8",
+      "srgbCentroidHex": "#1B1A14",
+      "oklabCentroid": [
+        0.216718,
+        -0.001874,
+        0.011235
+      ],
+      "familyTags": [
+        "olive",
+        "black",
+        "neutral"
+      ]
+    },
+    {
+      "id": "iscc-nbs-115",
+      "name": "vivid yellow green",
+      "isccNbs": {
+        "id": 115,
+        "level": 3
+      },
+      "munsellCentroid": "5.0GY 7.5/14.5",
+      "srgbCentroidHex": "#A2C900",
+      "oklabCentroid": [
+        0.779197,
+        -0.102509,
+        0.160248
+      ],
+      "familyTags": [
+        "yellow",
+        "green",
+        "vivid"
+      ]
+    },
+    {
+      "id": "iscc-nbs-116",
+      "name": "brilliant yellow green",
+      "isccNbs": {
+        "id": 116,
+        "level": 3
+      },
+      "munsellCentroid": "5.0GY 8.5/9.1",
+      "srgbCentroidHex": "#C5E25C",
+      "oklabCentroid": [
+        0.865464,
+        -0.081629,
+        0.140101
+      ],
+      "familyTags": [
+        "yellow",
+        "green",
+        "brilliant"
+      ]
+    },
+    {
+      "id": "iscc-nbs-117",
+      "name": "strong yellow green",
+      "isccNbs": {
+        "id": 117,
+        "level": 3
+      },
+      "munsellCentroid": "5.0GY 6.0/9.1",
+      "srgbCentroidHex": "#819F1E",
+      "oklabCentroid": [
+        0.656775,
+        -0.0812,
+        0.126713
+      ],
+      "familyTags": [
+        "yellow",
+        "green",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-118",
+      "name": "deep yellow green",
+      "isccNbs": {
+        "id": 118,
+        "level": 3
+      },
+      "munsellCentroid": "5.0GY 4.0/9.1",
+      "srgbCentroidHex": "#4F6900",
+      "oklabCentroid": [
+        0.482128,
+        -0.068977,
+        0.099211
+      ],
+      "familyTags": [
+        "yellow",
+        "green",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-119",
+      "name": "light yellow green",
+      "isccNbs": {
+        "id": 119,
+        "level": 3
+      },
+      "munsellCentroid": "5.0GY 8.6/5.2",
+      "srgbCentroidHex": "#D0E093",
+      "oklabCentroid": [
+        0.876744,
+        -0.047527,
+        0.088933
+      ],
+      "familyTags": [
+        "yellow",
+        "green",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-120",
+      "name": "moderate yellow green",
+      "isccNbs": {
+        "id": 120,
+        "level": 3
+      },
+      "munsellCentroid": "5.0GY 6.0/5.2",
+      "srgbCentroidHex": "#899B59",
+      "oklabCentroid": [
+        0.659457,
+        -0.048272,
+        0.078854
+      ],
+      "familyTags": [
+        "yellow",
+        "green",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-121",
+      "name": "pale yellow green",
+      "isccNbs": {
+        "id": 121,
+        "level": 3
+      },
+      "munsellCentroid": "3.5GY 8.7/2.2",
+      "srgbCentroidHex": "#DADEBA",
+      "oklabCentroid": [
+        0.888171,
+        -0.018404,
+        0.044265
+      ],
+      "familyTags": [
+        "yellow",
+        "green",
+        "pale"
+      ]
+    },
+    {
+      "id": "iscc-nbs-122",
+      "name": "grayish yellow green",
+      "isccNbs": {
+        "id": 122,
+        "level": 3
+      },
+      "munsellCentroid": "4.4GY 6.1/2.2",
+      "srgbCentroidHex": "#92997C",
+      "oklabCentroid": [
+        0.669216,
+        -0.020146,
+        0.036914
+      ],
+      "familyTags": [
+        "yellow",
+        "green",
+        "gray",
+        "neutral",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-123",
+      "name": "strong olive green",
+      "isccNbs": {
+        "id": 123,
+        "level": 3
+      },
+      "munsellCentroid": "5.0GY 3.2/7.8",
+      "srgbCentroidHex": "#3C5400",
+      "oklabCentroid": [
+        0.410829,
+        -0.06209,
+        0.084573
+      ],
+      "familyTags": [
+        "olive",
+        "green",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-124",
+      "name": "deep olive green",
+      "isccNbs": {
+        "id": 124,
+        "level": 3
+      },
+      "munsellCentroid": "5.0GY 2.4/7.1",
+      "srgbCentroidHex": "#2B4000",
+      "oklabCentroid": [
+        0.340833,
+        -0.054005,
+        0.07019
+      ],
+      "familyTags": [
+        "olive",
+        "green",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-125",
+      "name": "moderate olive green",
+      "isccNbs": {
+        "id": 125,
+        "level": 3
+      },
+      "munsellCentroid": "5.0GY 3.5/5.2",
+      "srgbCentroidHex": "#485A20",
+      "oklabCentroid": [
+        0.438883,
+        -0.048337,
+        0.070558
+      ],
+      "familyTags": [
+        "olive",
+        "green",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-126",
+      "name": "dark olive green",
+      "isccNbs": {
+        "id": 126,
+        "level": 3
+      },
+      "munsellCentroid": "5.0GY 1.8/3.7",
+      "srgbCentroidHex": "#23310E",
+      "oklabCentroid": [
+        0.291304,
+        -0.036294,
+        0.046433
+      ],
+      "familyTags": [
+        "olive",
+        "green",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-127",
+      "name": "grayish olive green",
+      "isccNbs": {
+        "id": 127,
+        "level": 3
+      },
+      "munsellCentroid": "5.0GY 3.5/2.2",
+      "srgbCentroidHex": "#4F5740",
+      "oklabCentroid": [
+        0.442833,
+        -0.020738,
+        0.031279
+      ],
+      "familyTags": [
+        "olive",
+        "green",
+        "gray",
+        "neutral",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-128",
+      "name": "dark grayish olive green",
+      "isccNbs": {
+        "id": 128,
+        "level": 3
+      },
+      "munsellCentroid": "5.0GY 2.0/2.0",
+      "srgbCentroidHex": "#2E3325",
+      "oklabCentroid": [
+        0.311651,
+        -0.01395,
+        0.020795
+      ],
+      "familyTags": [
+        "olive",
+        "green",
+        "gray",
+        "neutral",
+        "dark-grayish",
+        "dark",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-129",
+      "name": "vivid yellowish green",
+      "isccNbs": {
+        "id": 129,
+        "level": 3
+      },
+      "munsellCentroid": "0.5G 7/15.5",
+      "srgbCentroidHex": "#00C940",
+      "oklabCentroid": [
+        0.727216,
+        -0.184779,
+        0.125391
+      ],
+      "familyTags": [
+        "yellow",
+        "green",
+        "vivid"
+      ]
+    },
+    {
+      "id": "iscc-nbs-130",
+      "name": "brilliant yellowish green",
+      "isccNbs": {
+        "id": 130,
+        "level": 3
+      },
+      "munsellCentroid": "0.5G 8.0/9.1",
+      "srgbCentroidHex": "#83DC82",
+      "oklabCentroid": [
+        0.816746,
+        -0.121448,
+        0.088745
+      ],
+      "familyTags": [
+        "yellow",
+        "green",
+        "brilliant"
+      ]
+    },
+    {
+      "id": "iscc-nbs-131",
+      "name": "strong yellowish green",
+      "isccNbs": {
+        "id": 131,
+        "level": 3
+      },
+      "munsellCentroid": "0.5G 5.5/9.1",
+      "srgbCentroidHex": "#3B9948",
+      "oklabCentroid": [
+        0.607768,
+        -0.122226,
+        0.082351
+      ],
+      "familyTags": [
+        "yellow",
+        "green",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-132",
+      "name": "deep yellowish green",
+      "isccNbs": {
+        "id": 132,
+        "level": 3
+      },
+      "munsellCentroid": "0.5G 3.5/11.5",
+      "srgbCentroidHex": "#006029",
+      "oklabCentroid": [
+        0.427455,
+        -0.101916,
+        0.058717
+      ],
+      "familyTags": [
+        "yellow",
+        "green",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-133",
+      "name": "very deep yellowish green",
+      "isccNbs": {
+        "id": 133,
+        "level": 3
+      },
+      "munsellCentroid": "0.5G 2.0/9.2",
+      "srgbCentroidHex": "#003819",
+      "oklabCentroid": [
+        0.298545,
+        -0.068892,
+        0.03578
+      ],
+      "familyTags": [
+        "yellow",
+        "green",
+        "very-deep",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-134",
+      "name": "very light yellowish green",
+      "isccNbs": {
+        "id": 134,
+        "level": 3
+      },
+      "munsellCentroid": "0.5G 9.1/5.1",
+      "srgbCentroidHex": "#C0F3BC",
+      "oklabCentroid": [
+        0.914727,
+        -0.07218,
+        0.054403
+      ],
+      "familyTags": [
+        "yellow",
+        "green",
+        "very-light",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-135",
+      "name": "light yellowish green",
+      "isccNbs": {
+        "id": 135,
+        "level": 3
+      },
+      "munsellCentroid": "0.5G 7.5/5.1",
+      "srgbCentroidHex": "#96C794",
+      "oklabCentroid": [
+        0.781632,
+        -0.070926,
+        0.051984
+      ],
+      "familyTags": [
+        "yellow",
+        "green",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-136",
+      "name": "moderate yellowish green",
+      "isccNbs": {
+        "id": 136,
+        "level": 3
+      },
+      "munsellCentroid": "0.5G 5.5/5.1",
+      "srgbCentroidHex": "#639265",
+      "oklabCentroid": [
+        0.613766,
+        -0.069466,
+        0.047729
+      ],
+      "familyTags": [
+        "yellow",
+        "green",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-137",
+      "name": "dark yellowish green",
+      "isccNbs": {
+        "id": 137,
+        "level": 3
+      },
+      "munsellCentroid": "0.5G 3.5/5.1",
+      "srgbCentroidHex": "#305D37",
+      "oklabCentroid": [
+        0.435103,
+        -0.067238,
+        0.042627
+      ],
+      "familyTags": [
+        "yellow",
+        "green",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-138",
+      "name": "very dark yellowish green",
+      "isccNbs": {
+        "id": 138,
+        "level": 3
+      },
+      "munsellCentroid": "0.5G 1.5/4.9",
+      "srgbCentroidHex": "#002D14",
+      "oklabCentroid": [
+        0.260642,
+        -0.059447,
+        0.029627
+      ],
+      "familyTags": [
+        "yellow",
+        "green",
+        "very-dark",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-139",
+      "name": "vivid green",
+      "isccNbs": {
+        "id": 139,
+        "level": 3
+      },
+      "munsellCentroid": "6.5G 5.2/18",
+      "srgbCentroidHex": "#008B6D",
+      "oklabCentroid": [
+        0.566633,
+        -0.109965,
+        0.018138
+      ],
+      "familyTags": [
+        "green",
+        "vivid"
+      ]
+    },
+    {
+      "id": "iscc-nbs-140",
+      "name": "brilliant green",
+      "isccNbs": {
+        "id": 140,
+        "level": 3
+      },
+      "munsellCentroid": "6.0G 7.4/9.1",
+      "srgbCentroidHex": "#41CF9C",
+      "oklabCentroid": [
+        0.766354,
+        -0.136713,
+        0.03711
+      ],
+      "familyTags": [
+        "green",
+        "brilliant"
+      ]
+    },
+    {
+      "id": "iscc-nbs-141",
+      "name": "strong green",
+      "isccNbs": {
+        "id": 141,
+        "level": 3
+      },
+      "munsellCentroid": "6.0G 4.5/9.1",
+      "srgbCentroidHex": "#007B5C",
+      "oklabCentroid": [
+        0.517542,
+        -0.102822,
+        0.02249
+      ],
+      "familyTags": [
+        "green",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-142",
+      "name": "deep green",
+      "isccNbs": {
+        "id": 142,
+        "level": 3
+      },
+      "munsellCentroid": "6.0G 2.3/9.1",
+      "srgbCentroidHex": "#003E2F",
+      "oklabCentroid": [
+        0.323754,
+        -0.062892,
+        0.010518
+      ],
+      "familyTags": [
+        "green",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-143",
+      "name": "very light green",
+      "isccNbs": {
+        "id": 143,
+        "level": 3
+      },
+      "munsellCentroid": "6.0G 8.6/5.1",
+      "srgbCentroidHex": "#9DE8C4",
+      "oklabCentroid": [
+        0.871974,
+        -0.086109,
+        0.026205
+      ],
+      "familyTags": [
+        "green",
+        "very-light",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-144",
+      "name": "light green",
+      "isccNbs": {
+        "id": 144,
+        "level": 3
+      },
+      "munsellCentroid": "6.0G 6.5/5.1",
+      "srgbCentroidHex": "#6BAE90",
+      "oklabCentroid": [
+        0.697323,
+        -0.078946,
+        0.022461
+      ],
+      "familyTags": [
+        "green",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-145",
+      "name": "moderate green",
+      "isccNbs": {
+        "id": 145,
+        "level": 3
+      },
+      "munsellCentroid": "6.0G 4.5/5.1",
+      "srgbCentroidHex": "#36795F",
+      "oklabCentroid": [
+        0.524706,
+        -0.077924,
+        0.020164
+      ],
+      "familyTags": [
+        "green",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-146",
+      "name": "dark green",
+      "isccNbs": {
+        "id": 146,
+        "level": 3
+      },
+      "munsellCentroid": "6.0G 2.7/5.0",
+      "srgbCentroidHex": "#064A37",
+      "oklabCentroid": [
+        0.364716,
+        -0.069425,
+        0.014808
+      ],
+      "familyTags": [
+        "green",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-147",
+      "name": "very dark green",
+      "isccNbs": {
+        "id": 147,
+        "level": 3
+      },
+      "munsellCentroid": "6.0G 1.3/4.9",
+      "srgbCentroidHex": "#00271D",
+      "oklabCentroid": [
+        0.242844,
+        -0.046852,
+        0.007083
+      ],
+      "familyTags": [
+        "green",
+        "very-dark",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-148",
+      "name": "very pale green",
+      "isccNbs": {
+        "id": 148,
+        "level": 3
+      },
+      "munsellCentroid": "9.0G 8.7/1.8",
+      "srgbCentroidHex": "#C4E1D5",
+      "oklabCentroid": [
+        0.885154,
+        -0.034073,
+        0.006726
+      ],
+      "familyTags": [
+        "green",
+        "very-pale",
+        "pale"
+      ]
+    },
+    {
+      "id": "iscc-nbs-149",
+      "name": "pale green",
+      "isccNbs": {
+        "id": 149,
+        "level": 3
+      },
+      "munsellCentroid": "9.0G 6.5/1.8",
+      "srgbCentroidHex": "#8DA69C",
+      "oklabCentroid": [
+        0.702999,
+        -0.030846,
+        0.005759
+      ],
+      "familyTags": [
+        "green",
+        "pale"
+      ]
+    },
+    {
+      "id": "iscc-nbs-150",
+      "name": "grayish green",
+      "isccNbs": {
+        "id": 150,
+        "level": 3
+      },
+      "munsellCentroid": "9.0G 4.5/1.8",
+      "srgbCentroidHex": "#5C716A",
+      "oklabCentroid": [
+        0.529358,
+        -0.027,
+        0.003258
+      ],
+      "familyTags": [
+        "green",
+        "gray",
+        "neutral",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-151",
+      "name": "dark grayish green",
+      "isccNbs": {
+        "id": 151,
+        "level": 3
+      },
+      "munsellCentroid": "9.0G 2.8/1.6",
+      "srgbCentroidHex": "#374641",
+      "oklabCentroid": [
+        0.379324,
+        -0.020888,
+        0.002575
+      ],
+      "familyTags": [
+        "green",
+        "gray",
+        "neutral",
+        "dark-grayish",
+        "dark",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-152",
+      "name": "blackish green",
+      "isccNbs": {
+        "id": 152,
+        "level": 3
+      },
+      "munsellCentroid": "9.0G 1.1/1.4",
+      "srgbCentroidHex": "#16211D",
+      "oklabCentroid": [
+        0.235731,
+        -0.017166,
+        0.002879
+      ],
+      "familyTags": [
+        "green",
+        "black",
+        "neutral",
+        "blackish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-153",
+      "name": "greenish white",
+      "isccNbs": {
+        "id": 153,
+        "level": 3
+      },
+      "munsellCentroid": "7.0G 9.2/0.8",
+      "srgbCentroidHex": "#E0EBE6",
+      "oklabCentroid": [
+        0.930379,
+        -0.013135,
+        0.002889
+      ],
+      "familyTags": [
+        "green",
+        "white",
+        "neutral"
+      ]
+    },
+    {
+      "id": "iscc-nbs-154",
+      "name": "light greenish gray",
+      "isccNbs": {
+        "id": 154,
+        "level": 3
+      },
+      "munsellCentroid": "7.0G 7.5/0.8",
+      "srgbCentroidHex": "#B2BDB8",
+      "oklabCentroid": [
+        0.788318,
+        -0.013667,
+        0.003049
+      ],
+      "familyTags": [
+        "green",
+        "gray",
+        "neutral",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-155",
+      "name": "greenish gray",
+      "isccNbs": {
+        "id": 155,
+        "level": 3
+      },
+      "munsellCentroid": "7.0G 5.5/0.8",
+      "srgbCentroidHex": "#7F8984",
+      "oklabCentroid": [
+        0.620305,
+        -0.013357,
+        0.003623
+      ],
+      "familyTags": [
+        "green",
+        "gray",
+        "neutral"
+      ]
+    },
+    {
+      "id": "iscc-nbs-156",
+      "name": "dark greenish gray",
+      "isccNbs": {
+        "id": 156,
+        "level": 3
+      },
+      "munsellCentroid": "7.0G 3.5/0.8",
+      "srgbCentroidHex": "#4D5652",
+      "oklabCentroid": [
+        0.443857,
+        -0.012779,
+        0.002836
+      ],
+      "familyTags": [
+        "green",
+        "gray",
+        "neutral",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-157",
+      "name": "greenish black",
+      "isccNbs": {
+        "id": 157,
+        "level": 3
+      },
+      "munsellCentroid": "7.5G 0.9/0.7",
+      "srgbCentroidHex": "#161B1A",
+      "oklabCentroid": [
+        0.216529,
+        -0.007754,
+        -0.000319
+      ],
+      "familyTags": [
+        "green",
+        "black",
+        "neutral"
+      ]
+    },
+    {
+      "id": "iscc-nbs-158",
+      "name": "vivid bluish green",
+      "isccNbs": {
+        "id": 158,
+        "level": 3
+      },
+      "munsellCentroid": "4.5BG 5.3/15.5",
+      "srgbCentroidHex": "#008C84",
+      "oklabCentroid": [
+        0.576644,
+        -0.099476,
+        -0.013579
+      ],
+      "familyTags": [
+        "blue",
+        "green",
+        "vivid"
+      ]
+    },
+    {
+      "id": "iscc-nbs-159",
+      "name": "brilliant bluish green",
+      "isccNbs": {
+        "id": 159,
+        "level": 3
+      },
+      "munsellCentroid": "4.5BG 7.3/9.0",
+      "srgbCentroidHex": "#00CBBB",
+      "oklabCentroid": [
+        0.757125,
+        -0.133023,
+        -0.011441
+      ],
+      "familyTags": [
+        "blue",
+        "green",
+        "brilliant"
+      ]
+    },
+    {
+      "id": "iscc-nbs-160",
+      "name": "strong bluish green",
+      "isccNbs": {
+        "id": 160,
+        "level": 3
+      },
+      "munsellCentroid": "4.5BG 4.5/9.0",
+      "srgbCentroidHex": "#007872",
+      "oklabCentroid": [
+        0.516269,
+        -0.088523,
+        -0.013591
+      ],
+      "familyTags": [
+        "blue",
+        "green",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-161",
+      "name": "deep bluish green",
+      "isccNbs": {
+        "id": 161,
+        "level": 3
+      },
+      "munsellCentroid": "4.5BG 2.3/9.0",
+      "srgbCentroidHex": "#003C3B",
+      "oklabCentroid": [
+        0.32206,
+        -0.053776,
+        -0.012373
+      ],
+      "familyTags": [
+        "blue",
+        "green",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-162",
+      "name": "very light bluish green",
+      "isccNbs": {
+        "id": 162,
+        "level": 3
+      },
+      "munsellCentroid": "4.5BG 8.5/5.0",
+      "srgbCentroidHex": "#92E5D6",
+      "oklabCentroid": [
+        0.864504,
+        -0.08394,
+        -0.002356
+      ],
+      "familyTags": [
+        "blue",
+        "green",
+        "very-light",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-163",
+      "name": "light bluish green",
+      "isccNbs": {
+        "id": 163,
+        "level": 3
+      },
+      "munsellCentroid": "4.5BG 6.5/5.0",
+      "srgbCentroidHex": "#61AEA4",
+      "oklabCentroid": [
+        0.698309,
+        -0.077953,
+        -0.00667
+      ],
+      "familyTags": [
+        "blue",
+        "green",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-164",
+      "name": "moderate bluish green",
+      "isccNbs": {
+        "id": 164,
+        "level": 3
+      },
+      "munsellCentroid": "4.5BG 4.5/5.0",
+      "srgbCentroidHex": "#297872",
+      "oklabCentroid": [
+        0.523425,
+        -0.075457,
+        -0.010671
+      ],
+      "familyTags": [
+        "blue",
+        "green",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-165",
+      "name": "dark bluish green",
+      "isccNbs": {
+        "id": 165,
+        "level": 3
+      },
+      "munsellCentroid": "4.5BG 2.7/5.0",
+      "srgbCentroidHex": "#004946",
+      "oklabCentroid": [
+        0.36582,
+        -0.062182,
+        -0.011088
+      ],
+      "familyTags": [
+        "blue",
+        "green",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-166",
+      "name": "very dark bluish green",
+      "isccNbs": {
+        "id": 166,
+        "level": 3
+      },
+      "munsellCentroid": "4.5BG 1.3/4.9",
+      "srgbCentroidHex": "#002626",
+      "oklabCentroid": [
+        0.243211,
+        -0.040144,
+        -0.010612
+      ],
+      "familyTags": [
+        "blue",
+        "green",
+        "very-dark",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-167",
+      "name": "vivid greenish blue",
+      "isccNbs": {
+        "id": 167,
+        "level": 3
+      },
+      "munsellCentroid": "4.5B 5.2/13",
+      "srgbCentroidHex": "#00889D",
+      "oklabCentroid": [
+        0.576041,
+        -0.084234,
+        -0.055834
+      ],
+      "familyTags": [
+        "green",
+        "blue",
+        "vivid"
+      ]
+    },
+    {
+      "id": "iscc-nbs-168",
+      "name": "brilliant greenish blue",
+      "isccNbs": {
+        "id": 168,
+        "level": 3
+      },
+      "munsellCentroid": "4.5B 6.8/9.0",
+      "srgbCentroidHex": "#00B8D5",
+      "oklabCentroid": [
+        0.719815,
+        -0.104668,
+        -0.071511
+      ],
+      "familyTags": [
+        "green",
+        "blue",
+        "brilliant"
+      ]
+    },
+    {
+      "id": "iscc-nbs-169",
+      "name": "strong greenish blue",
+      "isccNbs": {
+        "id": 169,
+        "level": 3
+      },
+      "munsellCentroid": "4.5B 4.5/9.0",
+      "srgbCentroidHex": "#00768B",
+      "oklabCentroid": [
+        0.521199,
+        -0.07496,
+        -0.05423
+      ],
+      "familyTags": [
+        "green",
+        "blue",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-170",
+      "name": "deep greenish blue",
+      "isccNbs": {
+        "id": 170,
+        "level": 3
+      },
+      "munsellCentroid": "4.5B 2.5/9.0",
+      "srgbCentroidHex": "#00404B",
+      "oklabCentroid": [
+        0.341475,
+        -0.04989,
+        -0.033227
+      ],
+      "familyTags": [
+        "green",
+        "blue",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-171",
+      "name": "very light greenish blue",
+      "isccNbs": {
+        "id": 171,
+        "level": 3
+      },
+      "munsellCentroid": "4.5B 8.2/5.2",
+      "srgbCentroidHex": "#8ED9E9",
+      "oklabCentroid": [
+        0.841857,
+        -0.065207,
+        -0.041786
+      ],
+      "familyTags": [
+        "green",
+        "blue",
+        "very-light",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-172",
+      "name": "light greenish blue",
+      "isccNbs": {
+        "id": 172,
+        "level": 3
+      },
+      "munsellCentroid": "4.5B 6.5/5.2",
+      "srgbCentroidHex": "#65ABBB",
+      "oklabCentroid": [
+        0.701021,
+        -0.061522,
+        -0.041629
+      ],
+      "familyTags": [
+        "green",
+        "blue",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-173",
+      "name": "moderate greenish blue",
+      "isccNbs": {
+        "id": 173,
+        "level": 3
+      },
+      "munsellCentroid": "4.5B 4.5/5.2",
+      "srgbCentroidHex": "#2C7688",
+      "oklabCentroid": [
+        0.527856,
+        -0.06149,
+        -0.046131
+      ],
+      "familyTags": [
+        "green",
+        "blue",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-174",
+      "name": "dark greenish blue",
+      "isccNbs": {
+        "id": 174,
+        "level": 3
+      },
+      "munsellCentroid": "4.5B 2.7/5.0",
+      "srgbCentroidHex": "#004757",
+      "oklabCentroid": [
+        0.367796,
+        -0.051575,
+        -0.042233
+      ],
+      "familyTags": [
+        "green",
+        "blue",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-175",
+      "name": "very dark greenish blue",
+      "isccNbs": {
+        "id": 175,
+        "level": 3
+      },
+      "munsellCentroid": "4.5B 1.3/4.9",
+      "srgbCentroidHex": "#00262F",
+      "oklabCentroid": [
+        0.247832,
+        -0.035215,
+        -0.027068
+      ],
+      "familyTags": [
+        "green",
+        "blue",
+        "very-dark",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-176",
+      "name": "vivid blue",
+      "isccNbs": {
+        "id": 176,
+        "level": 3
+      },
+      "munsellCentroid": "3.0PB 4.2/15",
+      "srgbCentroidHex": "#006C98",
+      "oklabCentroid": [
+        0.501959,
+        -0.060727,
+        -0.088421
+      ],
+      "familyTags": [
+        "blue",
+        "vivid"
+      ]
+    },
+    {
+      "id": "iscc-nbs-177",
+      "name": "brilliant blue",
+      "isccNbs": {
+        "id": 177,
+        "level": 3
+      },
+      "munsellCentroid": "3.0PB 6.4/11.0",
+      "srgbCentroidHex": "#43A4EC",
+      "oklabCentroid": [
+        0.69352,
+        -0.060045,
+        -0.125514
+      ],
+      "familyTags": [
+        "blue",
+        "brilliant"
+      ]
+    },
+    {
+      "id": "iscc-nbs-178",
+      "name": "strong blue",
+      "isccNbs": {
+        "id": 178,
+        "level": 3
+      },
+      "munsellCentroid": "3.0PB 4.2/11.0",
+      "srgbCentroidHex": "#006AA2",
+      "oklabCentroid": [
+        0.502744,
+        -0.055749,
+        -0.106291
+      ],
+      "familyTags": [
+        "blue",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-179",
+      "name": "deep blue",
+      "isccNbs": {
+        "id": 179,
+        "level": 3
+      },
+      "munsellCentroid": "3.0PB 2.0/9.0",
+      "srgbCentroidHex": "#00344E",
+      "oklabCentroid": [
+        0.308493,
+        -0.036303,
+        -0.057816
+      ],
+      "familyTags": [
+        "blue",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-180",
+      "name": "very light blue",
+      "isccNbs": {
+        "id": 180,
+        "level": 3
+      },
+      "munsellCentroid": "2.4PB 8.2/7.2",
+      "srgbCentroidHex": "#9CD3FF",
+      "oklabCentroid": [
+        0.844489,
+        -0.038017,
+        -0.074996
+      ],
+      "familyTags": [
+        "blue",
+        "very-light",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-181",
+      "name": "light blue",
+      "isccNbs": {
+        "id": 181,
+        "level": 3
+      },
+      "munsellCentroid": "2.7PB 6.5/7.3",
+      "srgbCentroidHex": "#72A5D2",
+      "oklabCentroid": [
+        0.703359,
+        -0.03483,
+        -0.07845
+      ],
+      "familyTags": [
+        "blue",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-182",
+      "name": "moderate blue",
+      "isccNbs": {
+        "id": 182,
+        "level": 3
+      },
+      "munsellCentroid": "2.9PB 4.2/7.2",
+      "srgbCentroidHex": "#356996",
+      "oklabCentroid": [
+        0.505715,
+        -0.035716,
+        -0.083896
+      ],
+      "familyTags": [
+        "blue",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-183",
+      "name": "dark blue",
+      "isccNbs": {
+        "id": 183,
+        "level": 3
+      },
+      "munsellCentroid": "2.8PB 1.7/5.0",
+      "srgbCentroidHex": "#042C4B",
+      "oklabCentroid": [
+        0.28519,
+        -0.027252,
+        -0.065465
+      ],
+      "familyTags": [
+        "blue",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-184",
+      "name": "very pale blue",
+      "isccNbs": {
+        "id": 184,
+        "level": 3
+      },
+      "munsellCentroid": "0.9PB 8.4/3.0",
+      "srgbCentroidHex": "#BFD6E5",
+      "oklabCentroid": [
+        0.863647,
+        -0.017891,
+        -0.027031
+      ],
+      "familyTags": [
+        "blue",
+        "very-pale",
+        "pale"
+      ]
+    },
+    {
+      "id": "iscc-nbs-185",
+      "name": "pale blue",
+      "isccNbs": {
+        "id": 185,
+        "level": 3
+      },
+      "munsellCentroid": "0.9PB 6.5/3.0",
+      "srgbCentroidHex": "#8EA3B2",
+      "oklabCentroid": [
+        0.704183,
+        -0.016592,
+        -0.027756
+      ],
+      "familyTags": [
+        "blue",
+        "pale"
+      ]
+    },
+    {
+      "id": "iscc-nbs-186",
+      "name": "grayish blue",
+      "isccNbs": {
+        "id": 186,
+        "level": 3
+      },
+      "munsellCentroid": "0.9PB 4.2/3.0",
+      "srgbCentroidHex": "#526879",
+      "oklabCentroid": [
+        0.505977,
+        -0.017926,
+        -0.03336
+      ],
+      "familyTags": [
+        "blue",
+        "gray",
+        "neutral",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-187",
+      "name": "dark grayish blue",
+      "isccNbs": {
+        "id": 187,
+        "level": 3
+      },
+      "munsellCentroid": "9.5B 2.6/1.9",
+      "srgbCentroidHex": "#31404B",
+      "oklabCentroid": [
+        0.362906,
+        -0.013508,
+        -0.023715
+      ],
+      "familyTags": [
+        "blue",
+        "gray",
+        "neutral",
+        "dark-grayish",
+        "dark",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-188",
+      "name": "blackish blue",
+      "isccNbs": {
+        "id": 188,
+        "level": 3
+      },
+      "munsellCentroid": "9.5B 1.1/1.5",
+      "srgbCentroidHex": "#152028",
+      "oklabCentroid": [
+        0.236917,
+        -0.010844,
+        -0.019129
+      ],
+      "familyTags": [
+        "blue",
+        "black",
+        "neutral",
+        "blackish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-189",
+      "name": "bluish white",
+      "isccNbs": {
+        "id": 189,
+        "level": 3
+      },
+      "munsellCentroid": "9.5B 9.1/1.0",
+      "srgbCentroidHex": "#E0E7EA",
+      "oklabCentroid": [
+        0.923514,
+        -0.00605,
+        -0.006177
+      ],
+      "familyTags": [
+        "white",
+        "neutral"
+      ]
+    },
+    {
+      "id": "iscc-nbs-190",
+      "name": "light bluish gray",
+      "isccNbs": {
+        "id": 190,
+        "level": 3
+      },
+      "munsellCentroid": "9.5B 7.5/1.0",
+      "srgbCentroidHex": "#B4BCC0",
+      "oklabCentroid": [
+        0.790147,
+        -0.006947,
+        -0.008065
+      ],
+      "familyTags": [
+        "gray",
+        "neutral",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-191",
+      "name": "bluish gray",
+      "isccNbs": {
+        "id": 191,
+        "level": 3
+      },
+      "munsellCentroid": "9.5B 5.5/1.0",
+      "srgbCentroidHex": "#80888C",
+      "oklabCentroid": [
+        0.621421,
+        -0.00735,
+        -0.008528
+      ],
+      "familyTags": [
+        "gray",
+        "neutral"
+      ]
+    },
+    {
+      "id": "iscc-nbs-192",
+      "name": "dark bluish gray",
+      "isccNbs": {
+        "id": 192,
+        "level": 3
+      },
+      "munsellCentroid": "9.5B 3.5/1.0",
+      "srgbCentroidHex": "#4D555A",
+      "oklabCentroid": [
+        0.444234,
+        -0.007488,
+        -0.010787
+      ],
+      "familyTags": [
+        "gray",
+        "neutral",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-193",
+      "name": "bluish black",
+      "isccNbs": {
+        "id": 193,
+        "level": 3
+      },
+      "munsellCentroid": "9.5B 1.0/0.7",
+      "srgbCentroidHex": "#191D21",
+      "oklabCentroid": [
+        0.228338,
+        -0.003637,
+        -0.00915
+      ],
+      "familyTags": [
+        "black",
+        "neutral"
+      ]
+    },
+    {
+      "id": "iscc-nbs-194",
+      "name": "vivid purplish blue",
+      "isccNbs": {
+        "id": 194,
+        "level": 3
+      },
+      "munsellCentroid": "8.0PB 2.5/22",
+      "srgbCentroidHex": "#4000B4",
+      "oklabCentroid": [
+        0.382434,
+        0.05042,
+        -0.221178
+      ],
+      "familyTags": [
+        "purple",
+        "blue",
+        "vivid"
+      ]
+    },
+    {
+      "id": "iscc-nbs-195",
+      "name": "brilliant purplish blue",
+      "isccNbs": {
+        "id": 195,
+        "level": 3
+      },
+      "munsellCentroid": "8.0PB 6.0/10.8",
+      "srgbCentroidHex": "#818EDC",
+      "oklabCentroid": [
+        0.66877,
+        0.011376,
+        -0.116092
+      ],
+      "familyTags": [
+        "purple",
+        "blue",
+        "brilliant"
+      ]
+    },
+    {
+      "id": "iscc-nbs-196",
+      "name": "strong purplish blue",
+      "isccNbs": {
+        "id": 196,
+        "level": 3
+      },
+      "munsellCentroid": "8.0PB 4.1/11.4",
+      "srgbCentroidHex": "#525BAD",
+      "oklabCentroid": [
+        0.504925,
+        0.013604,
+        -0.128504
+      ],
+      "familyTags": [
+        "purple",
+        "blue",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-197",
+      "name": "deep purplish blue",
+      "isccNbs": {
+        "id": 197,
+        "level": 3
+      },
+      "munsellCentroid": "8.0PB 1.6/9.1",
+      "srgbCentroidHex": "#241E5F",
+      "oklabCentroid": [
+        0.287152,
+        0.021131,
+        -0.109022
+      ],
+      "familyTags": [
+        "purple",
+        "blue",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-198",
+      "name": "very light purplish blue",
+      "isccNbs": {
+        "id": 198,
+        "level": 3
+      },
+      "munsellCentroid": "7.0PB 7.8/6.1",
+      "srgbCentroidHex": "#B2C2EE",
+      "oklabCentroid": [
+        0.816791,
+        -0.00078,
+        -0.064773
+      ],
+      "familyTags": [
+        "purple",
+        "blue",
+        "very-light",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-199",
+      "name": "light purplish blue",
+      "isccNbs": {
+        "id": 199,
+        "level": 3
+      },
+      "munsellCentroid": "7.5PB 6.0/6.8",
+      "srgbCentroidHex": "#8691C1",
+      "oklabCentroid": [
+        0.665783,
+        0.005433,
+        -0.072431
+      ],
+      "familyTags": [
+        "purple",
+        "blue",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-200",
+      "name": "moderate purplish blue",
+      "isccNbs": {
+        "id": 200,
+        "level": 3
+      },
+      "munsellCentroid": "8.0PB 3.5/6.9",
+      "srgbCentroidHex": "#4B4F83",
+      "oklabCentroid": [
+        0.448326,
+        0.013342,
+        -0.083812
+      ],
+      "familyTags": [
+        "purple",
+        "blue",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-201",
+      "name": "dark purplish blue",
+      "isccNbs": {
+        "id": 201,
+        "level": 3
+      },
+      "munsellCentroid": "7.9PB 1.1/4.7",
+      "srgbCentroidHex": "#1B1A3B",
+      "oklabCentroid": [
+        0.238813,
+        0.012869,
+        -0.060372
+      ],
+      "familyTags": [
+        "purple",
+        "blue",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-202",
+      "name": "very pale purplish blue",
+      "isccNbs": {
+        "id": 202,
+        "level": 3
+      },
+      "munsellCentroid": "7.0PB 8.2/4.1",
+      "srgbCentroidHex": "#C3CDE9",
+      "oklabCentroid": [
+        0.849524,
+        -4.2e-05,
+        -0.04062
+      ],
+      "familyTags": [
+        "purple",
+        "blue",
+        "very-pale",
+        "pale"
+      ]
+    },
+    {
+      "id": "iscc-nbs-203",
+      "name": "pale purplish blue",
+      "isccNbs": {
+        "id": 203,
+        "level": 3
+      },
+      "munsellCentroid": "7.0PB 6.0/4.1",
+      "srgbCentroidHex": "#8B93AE",
+      "oklabCentroid": [
+        0.666072,
+        0.001622,
+        -0.041153
+      ],
+      "familyTags": [
+        "purple",
+        "blue",
+        "pale"
+      ]
+    },
+    {
+      "id": "iscc-nbs-204",
+      "name": "grayish purplish blue",
+      "isccNbs": {
+        "id": 204,
+        "level": 3
+      },
+      "munsellCentroid": "7.2PB 3.3/4.0",
+      "srgbCentroidHex": "#474D6C",
+      "oklabCentroid": [
+        0.428065,
+        0.00503,
+        -0.05187
+      ],
+      "familyTags": [
+        "purple",
+        "blue",
+        "gray",
+        "neutral",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-205",
+      "name": "vivid violet",
+      "isccNbs": {
+        "id": 205,
+        "level": 3
+      },
+      "munsellCentroid": "1.0P 2.7/21",
+      "srgbCentroidHex": "#6200A3",
+      "oklabCentroid": [
+        0.403307,
+        0.115137,
+        -0.177965
+      ],
+      "familyTags": [
+        "violet",
+        "vivid"
+      ]
+    },
+    {
+      "id": "iscc-nbs-206",
+      "name": "brilliant violet",
+      "isccNbs": {
+        "id": 206,
+        "level": 3
+      },
+      "munsellCentroid": "1.0P 5.9/11.1",
+      "srgbCentroidHex": "#9884D6",
+      "oklabCentroid": [
+        0.664475,
+        0.049236,
+        -0.110192
+      ],
+      "familyTags": [
+        "violet",
+        "brilliant"
+      ]
+    },
+    {
+      "id": "iscc-nbs-207",
+      "name": "strong violet",
+      "isccNbs": {
+        "id": 207,
+        "level": 3
+      },
+      "munsellCentroid": "1.0P 3.5/11.1",
+      "srgbCentroidHex": "#614296",
+      "oklabCentroid": [
+        0.455639,
+        0.062383,
+        -0.117627
+      ],
+      "familyTags": [
+        "violet",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-208",
+      "name": "deep violet",
+      "isccNbs": {
+        "id": 208,
+        "level": 3
+      },
+      "munsellCentroid": "1.0P 1.4/10.3",
+      "srgbCentroidHex": "#350C59",
+      "oklabCentroid": [
+        0.275294,
+        0.067953,
+        -0.106258
+      ],
+      "familyTags": [
+        "violet",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-209",
+      "name": "very light violet",
+      "isccNbs": {
+        "id": 209,
+        "level": 3
+      },
+      "munsellCentroid": "1.0P 7.9/7",
+      "srgbCentroidHex": "#C8BEF5",
+      "oklabCentroid": [
+        0.828248,
+        0.030061,
+        -0.070971
+      ],
+      "familyTags": [
+        "violet",
+        "very-light",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-210",
+      "name": "light violet",
+      "isccNbs": {
+        "id": 210,
+        "level": 3
+      },
+      "munsellCentroid": "1.0P 6.0/7.2",
+      "srgbCentroidHex": "#978CC0",
+      "oklabCentroid": [
+        0.66876,
+        0.031178,
+        -0.070337
+      ],
+      "familyTags": [
+        "violet",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-211",
+      "name": "moderate violet",
+      "isccNbs": {
+        "id": 211,
+        "level": 3
+      },
+      "munsellCentroid": "1.0P 3.5/7.2",
+      "srgbCentroidHex": "#5C4A81",
+      "oklabCentroid": [
+        0.452203,
+        0.041767,
+        -0.079247
+      ],
+      "familyTags": [
+        "violet",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-212",
+      "name": "dark violet",
+      "isccNbs": {
+        "id": 212,
+        "level": 3
+      },
+      "munsellCentroid": "1.0P 1.3/5.0",
+      "srgbCentroidHex": "#2A1B3F",
+      "oklabCentroid": [
+        0.260629,
+        0.034619,
+        -0.057352
+      ],
+      "familyTags": [
+        "violet",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-213",
+      "name": "very pale violet",
+      "isccNbs": {
+        "id": 213,
+        "level": 3
+      },
+      "munsellCentroid": "1.0P 8.2/4.1",
+      "srgbCentroidHex": "#CECAE7",
+      "oklabCentroid": [
+        0.85128,
+        0.014952,
+        -0.037365
+      ],
+      "familyTags": [
+        "violet",
+        "very-pale",
+        "pale"
+      ]
+    },
+    {
+      "id": "iscc-nbs-214",
+      "name": "pale violet",
+      "isccNbs": {
+        "id": 214,
+        "level": 3
+      },
+      "munsellCentroid": "1.0P 6.0/4.1",
+      "srgbCentroidHex": "#9590AC",
+      "oklabCentroid": [
+        0.667134,
+        0.016453,
+        -0.03802
+      ],
+      "familyTags": [
+        "violet",
+        "pale"
+      ]
+    },
+    {
+      "id": "iscc-nbs-215",
+      "name": "grayish violet",
+      "isccNbs": {
+        "id": 215,
+        "level": 3
+      },
+      "munsellCentroid": "1.0P 3.3/4.1",
+      "srgbCentroidHex": "#53496B",
+      "oklabCentroid": [
+        0.429489,
+        0.026087,
+        -0.050198
+      ],
+      "familyTags": [
+        "violet",
+        "gray",
+        "neutral",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-216",
+      "name": "vivid purple",
+      "isccNbs": {
+        "id": 216,
+        "level": 3
+      },
+      "munsellCentroid": "6.0P 3.5/20",
+      "srgbCentroidHex": "#9100A6",
+      "oklabCentroid": [
+        0.475224,
+        0.176766,
+        -0.141841
+      ],
+      "familyTags": [
+        "purple",
+        "vivid"
+      ]
+    },
+    {
+      "id": "iscc-nbs-217",
+      "name": "brilliant purple",
+      "isccNbs": {
+        "id": 217,
+        "level": 3
+      },
+      "munsellCentroid": "6.0P 6.7/11.1",
+      "srgbCentroidHex": "#CA90DD",
+      "oklabCentroid": [
+        0.736606,
+        0.092007,
+        -0.084151
+      ],
+      "familyTags": [
+        "purple",
+        "brilliant"
+      ]
+    },
+    {
+      "id": "iscc-nbs-218",
+      "name": "strong purple",
+      "isccNbs": {
+        "id": 218,
+        "level": 3
+      },
+      "munsellCentroid": "6.0P 4.5/11.1",
+      "srgbCentroidHex": "#9155A1",
+      "oklabCentroid": [
+        0.547943,
+        0.098911,
+        -0.08625
+      ],
+      "familyTags": [
+        "purple",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-219",
+      "name": "deep purple",
+      "isccNbs": {
+        "id": 219,
+        "level": 3
+      },
+      "munsellCentroid": "6.0P 2.8/10.2",
+      "srgbCentroidHex": "#652873",
+      "oklabCentroid": [
+        0.397687,
+        0.102417,
+        -0.086861
+      ],
+      "familyTags": [
+        "purple",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-220",
+      "name": "very deep purple",
+      "isccNbs": {
+        "id": 220,
+        "level": 3
+      },
+      "munsellCentroid": "6.0P 1.2/10.2",
+      "srgbCentroidHex": "#3D0047",
+      "oklabCentroid": [
+        0.260628,
+        0.096891,
+        -0.07792
+      ],
+      "familyTags": [
+        "purple",
+        "very-deep",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-221",
+      "name": "very light purple",
+      "isccNbs": {
+        "id": 221,
+        "level": 3
+      },
+      "munsellCentroid": "6.0P 8.0/7.2",
+      "srgbCentroidHex": "#DFBBED",
+      "oklabCentroid": [
+        0.839176,
+        0.056956,
+        -0.054212
+      ],
+      "familyTags": [
+        "purple",
+        "very-light",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-222",
+      "name": "light purple",
+      "isccNbs": {
+        "id": 222,
+        "level": 3
+      },
+      "munsellCentroid": "6.0P 6.5/7.2",
+      "srgbCentroidHex": "#B894C3",
+      "oklabCentroid": [
+        0.715348,
+        0.058094,
+        -0.052042
+      ],
+      "familyTags": [
+        "purple",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-223",
+      "name": "moderate purple",
+      "isccNbs": {
+        "id": 223,
+        "level": 3
+      },
+      "munsellCentroid": "6.0P 4.5/7.2",
+      "srgbCentroidHex": "#855F90",
+      "oklabCentroid": [
+        0.543273,
+        0.064766,
+        -0.057376
+      ],
+      "familyTags": [
+        "purple",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-224",
+      "name": "dark purple",
+      "isccNbs": {
+        "id": 224,
+        "level": 3
+      },
+      "munsellCentroid": "6.0P 2.7/5.1",
+      "srgbCentroidHex": "#52365A",
+      "oklabCentroid": [
+        0.380452,
+        0.051803,
+        -0.045793
+      ],
+      "familyTags": [
+        "purple",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-225",
+      "name": "very dark purple",
+      "isccNbs": {
+        "id": 225,
+        "level": 3
+      },
+      "munsellCentroid": "6.0P 1.1/4.9",
+      "srgbCentroidHex": "#2E1335",
+      "oklabCentroid": [
+        0.243933,
+        0.053127,
+        -0.046191
+      ],
+      "familyTags": [
+        "purple",
+        "very-dark",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-226",
+      "name": "very pale purple",
+      "isccNbs": {
+        "id": 226,
+        "level": 3
+      },
+      "munsellCentroid": "5.4P 8.4/3.3",
+      "srgbCentroidHex": "#DACEE3",
+      "oklabCentroid": [
+        0.867428,
+        0.020555,
+        -0.023773
+      ],
+      "familyTags": [
+        "purple",
+        "very-pale",
+        "pale"
+      ]
+    },
+    {
+      "id": "iscc-nbs-227",
+      "name": "pale purple",
+      "isccNbs": {
+        "id": 227,
+        "level": 3
+      },
+      "munsellCentroid": "6.8P 6.4/3.0",
+      "srgbCentroidHex": "#A999AA",
+      "oklabCentroid": [
+        0.702198,
+        0.024676,
+        -0.017938
+      ],
+      "familyTags": [
+        "purple",
+        "pale"
+      ]
+    },
+    {
+      "id": "iscc-nbs-228",
+      "name": "grayish purple",
+      "isccNbs": {
+        "id": 228,
+        "level": 3
+      },
+      "munsellCentroid": "7.8P 4.5/2.9",
+      "srgbCentroidHex": "#79677A",
+      "oklabCentroid": [
+        0.537487,
+        0.029639,
+        -0.021257
+      ],
+      "familyTags": [
+        "purple",
+        "gray",
+        "neutral",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-229",
+      "name": "dark grayish purple",
+      "isccNbs": {
+        "id": 229,
+        "level": 3
+      },
+      "munsellCentroid": "10.0P 2.8/2.0",
+      "srgbCentroidHex": "#4F3E4C",
+      "oklabCentroid": [
+        0.387191,
+        0.028767,
+        -0.015157
+      ],
+      "familyTags": [
+        "purple",
+        "gray",
+        "neutral",
+        "dark-grayish",
+        "dark",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-230",
+      "name": "blackish purple",
+      "isccNbs": {
+        "id": 230,
+        "level": 3
+      },
+      "munsellCentroid": "10.0P 1.0/1.4",
+      "srgbCentroidHex": "#231923",
+      "oklabCentroid": [
+        0.230104,
+        0.020078,
+        -0.013403
+      ],
+      "familyTags": [
+        "purple",
+        "black",
+        "neutral",
+        "blackish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-231",
+      "name": "purplish white",
+      "isccNbs": {
+        "id": 231,
+        "level": 3
+      },
+      "munsellCentroid": "9.0P 9.1/1.0",
+      "srgbCentroidHex": "#E9E4E8",
+      "oklabCentroid": [
+        0.923914,
+        0.006695,
+        -0.003645
+      ],
+      "familyTags": [
+        "white",
+        "neutral"
+      ]
+    },
+    {
+      "id": "iscc-nbs-232",
+      "name": "light purplish gray",
+      "isccNbs": {
+        "id": 232,
+        "level": 3
+      },
+      "munsellCentroid": "9.0P 7.5/1.0",
+      "srgbCentroidHex": "#BEB9BD",
+      "oklabCentroid": [
+        0.791017,
+        0.006962,
+        -0.003767
+      ],
+      "familyTags": [
+        "gray",
+        "neutral",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-233",
+      "name": "purplish gray",
+      "isccNbs": {
+        "id": 233,
+        "level": 3
+      },
+      "munsellCentroid": "10.0P 5.5/1.0",
+      "srgbCentroidHex": "#8B8489",
+      "oklabCentroid": [
+        0.621047,
+        0.010129,
+        -0.004662
+      ],
+      "familyTags": [
+        "gray",
+        "neutral"
+      ]
+    },
+    {
+      "id": "iscc-nbs-234",
+      "name": "dark purplish gray",
+      "isccNbs": {
+        "id": 234,
+        "level": 3
+      },
+      "munsellCentroid": "10.0P 3.5/1.0",
+      "srgbCentroidHex": "#5A5158",
+      "oklabCentroid": [
+        0.446121,
+        0.014449,
+        -0.007291
+      ],
+      "familyTags": [
+        "gray",
+        "neutral",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-235",
+      "name": "purplish black",
+      "isccNbs": {
+        "id": 235,
+        "level": 3
+      },
+      "munsellCentroid": "10.0P 1.0/0.7",
+      "srgbCentroidHex": "#201B20",
+      "oklabCentroid": [
+        0.230029,
+        0.010042,
+        -0.006808
+      ],
+      "familyTags": [
+        "black",
+        "neutral"
+      ]
+    },
+    {
+      "id": "iscc-nbs-236",
+      "name": "vivid reddish purple",
+      "isccNbs": {
+        "id": 236,
+        "level": 3
+      },
+      "munsellCentroid": "1.0RP 4/19",
+      "srgbCentroidHex": "#B20096",
+      "oklabCentroid": [
+        0.51941,
+        0.210873,
+        -0.087897
+      ],
+      "familyTags": [
+        "red",
+        "purple",
+        "vivid"
+      ]
+    },
+    {
+      "id": "iscc-nbs-237",
+      "name": "strong reddish purple",
+      "isccNbs": {
+        "id": 237,
+        "level": 3
+      },
+      "munsellCentroid": "1.0RP 4.5/11.1",
+      "srgbCentroidHex": "#A54C8E",
+      "oklabCentroid": [
+        0.551187,
+        0.132363,
+        -0.052693
+      ],
+      "familyTags": [
+        "red",
+        "purple",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-238",
+      "name": "deep reddish purple",
+      "isccNbs": {
+        "id": 238,
+        "level": 3
+      },
+      "munsellCentroid": "1.0RP 2.8/10.3",
+      "srgbCentroidHex": "#741D65",
+      "oklabCentroid": [
+        0.400291,
+        0.133109,
+        -0.05976
+      ],
+      "familyTags": [
+        "red",
+        "purple",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-239",
+      "name": "very deep reddish purple",
+      "isccNbs": {
+        "id": 239,
+        "level": 3
+      },
+      "munsellCentroid": "1.0RP 1.3/10.3",
+      "srgbCentroidHex": "#450041",
+      "oklabCentroid": [
+        0.271038,
+        0.107637,
+        -0.059211
+      ],
+      "familyTags": [
+        "red",
+        "purple",
+        "very-deep",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-240",
+      "name": "light reddish purple",
+      "isccNbs": {
+        "id": 240,
+        "level": 3
+      },
+      "munsellCentroid": "1.0RP 6.0/7.2",
+      "srgbCentroidHex": "#BA82A7",
+      "oklabCentroid": [
+        0.674098,
+        0.079483,
+        -0.029141
+      ],
+      "familyTags": [
+        "red",
+        "purple",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-241",
+      "name": "moderate reddish purple",
+      "isccNbs": {
+        "id": 241,
+        "level": 3
+      },
+      "munsellCentroid": "1.0RP 4.5/7.2",
+      "srgbCentroidHex": "#935A83",
+      "oklabCentroid": [
+        0.544963,
+        0.086327,
+        -0.035038
+      ],
+      "familyTags": [
+        "red",
+        "purple",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-242",
+      "name": "dark reddish purple",
+      "isccNbs": {
+        "id": 242,
+        "level": 3
+      },
+      "munsellCentroid": "1.0RP 2.7/5.1",
+      "srgbCentroidHex": "#5B3352",
+      "oklabCentroid": [
+        0.38255,
+        0.066807,
+        -0.030168
+      ],
+      "familyTags": [
+        "red",
+        "purple",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-243",
+      "name": "very dark reddish purple",
+      "isccNbs": {
+        "id": 243,
+        "level": 3
+      },
+      "munsellCentroid": "1.0RP 1.1/5.0",
+      "srgbCentroidHex": "#331031",
+      "oklabCentroid": [
+        0.244531,
+        0.064841,
+        -0.037695
+      ],
+      "familyTags": [
+        "red",
+        "purple",
+        "very-dark",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-244",
+      "name": "pale reddish purple",
+      "isccNbs": {
+        "id": 244,
+        "level": 3
+      },
+      "munsellCentroid": "1.0RP 6.0/4.1",
+      "srgbCentroidHex": "#A98B9E",
+      "oklabCentroid": [
+        0.670318,
+        0.042106,
+        -0.015323
+      ],
+      "familyTags": [
+        "red",
+        "purple",
+        "pale"
+      ]
+    },
+    {
+      "id": "iscc-nbs-245",
+      "name": "grayish reddish purple",
+      "isccNbs": {
+        "id": 245,
+        "level": 3
+      },
+      "munsellCentroid": "1.0RP 4.5/4.1",
+      "srgbCentroidHex": "#846379",
+      "oklabCentroid": [
+        0.540446,
+        0.049496,
+        -0.01893
+      ],
+      "familyTags": [
+        "red",
+        "purple",
+        "gray",
+        "neutral",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-246",
+      "name": "brilliant purplish pink",
+      "isccNbs": {
+        "id": 246,
+        "level": 3
+      },
+      "munsellCentroid": "4.0RP 7.9/11",
+      "srgbCentroidHex": "#FFB0D0",
+      "oklabCentroid": [
+        0.841385,
+        0.099303,
+        -0.011439
+      ],
+      "familyTags": [
+        "purple",
+        "pink",
+        "brilliant"
+      ]
+    },
+    {
+      "id": "iscc-nbs-247",
+      "name": "strong purplish pink",
+      "isccNbs": {
+        "id": 247,
+        "level": 3
+      },
+      "munsellCentroid": "4.0RP 7/14.5",
+      "srgbCentroidHex": "#FF87BF",
+      "oklabCentroid": [
+        0.771476,
+        0.156027,
+        -0.021799
+      ],
+      "familyTags": [
+        "purple",
+        "pink",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-248",
+      "name": "deep purplish pink",
+      "isccNbs": {
+        "id": 248,
+        "level": 3
+      },
+      "munsellCentroid": "4.0RP 6.0/12.0",
+      "srgbCentroidHex": "#DC6EA3",
+      "oklabCentroid": [
+        0.681467,
+        0.147625,
+        -0.021928
+      ],
+      "familyTags": [
+        "purple",
+        "pink",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-249",
+      "name": "light purplish pink",
+      "isccNbs": {
+        "id": 249,
+        "level": 3
+      },
+      "munsellCentroid": "4.0RP 8.3/7.1",
+      "srgbCentroidHex": "#FFBED7",
+      "oklabCentroid": [
+        0.867637,
+        0.080342,
+        -0.0085
+      ],
+      "familyTags": [
+        "purple",
+        "pink",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-250",
+      "name": "moderate purplish pink",
+      "isccNbs": {
+        "id": 250,
+        "level": 3
+      },
+      "munsellCentroid": "4.0RP 7.0/7.1",
+      "srgbCentroidHex": "#DC9AB6",
+      "oklabCentroid": [
+        0.75827,
+        0.085555,
+        -0.011765
+      ],
+      "familyTags": [
+        "purple",
+        "pink",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-251",
+      "name": "dark purplish pink",
+      "isccNbs": {
+        "id": 251,
+        "level": 3
+      },
+      "munsellCentroid": "6.0RP 6.0/7.2",
+      "srgbCentroidHex": "#C57F95",
+      "oklabCentroid": [
+        0.675248,
+        0.090712,
+        -0.000948
+      ],
+      "familyTags": [
+        "purple",
+        "pink",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-252",
+      "name": "pale purplish pink",
+      "isccNbs": {
+        "id": 252,
+        "level": 3
+      },
+      "munsellCentroid": "4.0RP 8.5/3.5",
+      "srgbCentroidHex": "#ECCDD8",
+      "oklabCentroid": [
+        0.877463,
+        0.037372,
+        -0.003712
+      ],
+      "familyTags": [
+        "purple",
+        "pink",
+        "pale"
+      ]
+    },
+    {
+      "id": "iscc-nbs-253",
+      "name": "grayish purplish pink",
+      "isccNbs": {
+        "id": 253,
+        "level": 3
+      },
+      "munsellCentroid": "4.0RP 7.0/3.5",
+      "srgbCentroidHex": "#C3A6B1",
+      "oklabCentroid": [
+        0.753915,
+        0.036658,
+        -0.004469
+      ],
+      "familyTags": [
+        "purple",
+        "pink",
+        "gray",
+        "neutral",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-254",
+      "name": "vivid purplish red",
+      "isccNbs": {
+        "id": 254,
+        "level": 3
+      },
+      "munsellCentroid": "7.0RP 4/17",
+      "srgbCentroidHex": "#BC0069",
+      "oklabCentroid": [
+        0.517215,
+        0.21081,
+        -0.009807
+      ],
+      "familyTags": [
+        "purple",
+        "red",
+        "vivid"
+      ]
+    },
+    {
+      "id": "iscc-nbs-255",
+      "name": "strong purplish red",
+      "isccNbs": {
+        "id": 255,
+        "level": 3
+      },
+      "munsellCentroid": "7.0RP 4.5/11.9",
+      "srgbCentroidHex": "#BA3E70",
+      "oklabCentroid": [
+        0.553551,
+        0.165061,
+        -0.002356
+      ],
+      "familyTags": [
+        "purple",
+        "red",
+        "strong"
+      ]
+    },
+    {
+      "id": "iscc-nbs-256",
+      "name": "deep purplish red",
+      "isccNbs": {
+        "id": 256,
+        "level": 3
+      },
+      "munsellCentroid": "7.0RP 2.8/11.0",
+      "srgbCentroidHex": "#84044E",
+      "oklabCentroid": [
+        0.402928,
+        0.162175,
+        -0.01643
+      ],
+      "familyTags": [
+        "purple",
+        "red",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-257",
+      "name": "very deep purplish red",
+      "isccNbs": {
+        "id": 257,
+        "level": 3
+      },
+      "munsellCentroid": "7.0RP 1.3/9.0",
+      "srgbCentroidHex": "#490033",
+      "oklabCentroid": [
+        0.270278,
+        0.111033,
+        -0.029985
+      ],
+      "familyTags": [
+        "purple",
+        "red",
+        "very-deep",
+        "deep"
+      ]
+    },
+    {
+      "id": "iscc-nbs-258",
+      "name": "moderate purplish red",
+      "isccNbs": {
+        "id": 258,
+        "level": 3
+      },
+      "munsellCentroid": "7.0RP 4.5/9.0",
+      "srgbCentroidHex": "#AA4E6E",
+      "oklabCentroid": [
+        0.548988,
+        0.125217,
+        0.000253
+      ],
+      "familyTags": [
+        "purple",
+        "red",
+        "moderate"
+      ]
+    },
+    {
+      "id": "iscc-nbs-259",
+      "name": "dark purplish red",
+      "isccNbs": {
+        "id": 259,
+        "level": 3
+      },
+      "munsellCentroid": "7.0RP 2.7/6.3",
+      "srgbCentroidHex": "#692B46",
+      "oklabCentroid": [
+        0.384931,
+        0.093997,
+        -0.007987
+      ],
+      "familyTags": [
+        "purple",
+        "red",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-260",
+      "name": "very dark purplish red",
+      "isccNbs": {
+        "id": 260,
+        "level": 3
+      },
+      "munsellCentroid": "7.0RP 1.2/4.9",
+      "srgbCentroidHex": "#3B102B",
+      "oklabCentroid": [
+        0.255295,
+        0.074003,
+        -0.019534
+      ],
+      "familyTags": [
+        "purple",
+        "red",
+        "very-dark",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-261",
+      "name": "light grayish purplish red",
+      "isccNbs": {
+        "id": 261,
+        "level": 3
+      },
+      "munsellCentroid": "7.0RP 6.0/4.0",
+      "srgbCentroidHex": "#B08992",
+      "oklabCentroid": [
+        0.669629,
+        0.048916,
+        0.002577
+      ],
+      "familyTags": [
+        "purple",
+        "red",
+        "gray",
+        "neutral",
+        "light-grayish",
+        "light",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-262",
+      "name": "grayish purplish red",
+      "isccNbs": {
+        "id": 262,
+        "level": 3
+      },
+      "munsellCentroid": "7.0RP 4.5/5.2",
+      "srgbCentroidHex": "#935D6D",
+      "oklabCentroid": [
+        0.542376,
+        0.073536,
+        0.000729
+      ],
+      "familyTags": [
+        "purple",
+        "red",
+        "gray",
+        "neutral",
+        "grayish"
+      ]
+    },
+    {
+      "id": "iscc-nbs-263",
+      "name": "white",
+      "isccNbs": {
+        "id": 263,
+        "level": 3
+      },
+      "munsellCentroid": "3.0Y 9.25/0.06",
+      "srgbCentroidHex": "#EAEAE9",
+      "oklabCentroid": [
+        0.936769,
+        -0.000376,
+        0.001175
+      ],
+      "familyTags": [
+        "white",
+        "neutral"
+      ]
+    },
+    {
+      "id": "iscc-nbs-264",
+      "name": "light gray",
+      "isccNbs": {
+        "id": 264,
+        "level": 3
+      },
+      "munsellCentroid": "3.0Y 7.5/0.06",
+      "srgbCentroidHex": "#BBBBBA",
+      "oklabCentroid": [
+        0.791782,
+        -0.000392,
+        0.001246
+      ],
+      "familyTags": [
+        "gray",
+        "neutral",
+        "light"
+      ]
+    },
+    {
+      "id": "iscc-nbs-265",
+      "name": "medium gray",
+      "isccNbs": {
+        "id": 265,
+        "level": 3
+      },
+      "munsellCentroid": "3.0Y 5.5/0.06",
+      "srgbCentroidHex": "#878686",
+      "oklabCentroid": [
+        0.620917,
+        0.001144,
+        0.000283
+      ],
+      "familyTags": [
+        "gray",
+        "neutral"
+      ]
+    },
+    {
+      "id": "iscc-nbs-266",
+      "name": "dark gray",
+      "isccNbs": {
+        "id": 266,
+        "level": 3
+      },
+      "munsellCentroid": "N 3.5/",
+      "srgbCentroidHex": "#545454",
+      "oklabCentroid": [
+        0.445899,
+        1e-06,
+        -5.1e-05
+      ],
+      "familyTags": [
+        "gray",
+        "neutral",
+        "dark"
+      ]
+    },
+    {
+      "id": "iscc-nbs-267",
+      "name": "black",
+      "isccNbs": {
+        "id": 267,
+        "level": 3
+      },
+      "munsellCentroid": "N 1.25/",
+      "srgbCentroidHex": "#212121",
+      "oklabCentroid": [
+        0.247759,
+        1e-06,
+        -2.8e-05
+      ],
+      "familyTags": [
+        "black",
+        "neutral"
+      ]
+    }
+  ]
+}
