@@ -1,5 +1,62 @@
 [
   {
+    "path": "color-lab-names-review",
+    "title": "Color Lab: new colour words",
+    "side": "experiment",
+    "status": "your-turn",
+    "ask": "Answer the five questions in chat (for example: 1 yes, 2 A, 3 later, 4 skip, 5 yes).",
+    "note": "Dot's review of about 180 missing colour names, set beside our count of colour words in 22 classic children's books, boiled down to five choices: \"also called\" words, which new cards, shiny/glittery words, wedding whites, and (new, 31 Oct) hair colours as their own collection.",
+    "ready_for_you": "2026-10-31",
+    "staged": true
+  },
+  {
+    "path": "color-lab-cards",
+    "title": "Color Lab: every colour card says something true",
+    "side": "experiment",
+    "status": "retired",
+    "note": "Before, 237 cards shared a few pasted examples (ruby said \"a seashell\", topaz \"the daytime sky\") and 135 cards said nothing. Now all 372 cards have their own examples, and every \"lighter / darker / warmer\" line is checked against the real colours. 697 new voice lines; a speech check caught 12 slips, which were re-recorded.",
+    "ready_for_you": "2026-10-31",
+    "staged": true,
+    "answered": "2026-10-31",
+    "answer": "Owner: the cards look OK. Published live as color-lab-v12 on 2026-10-31.",
+    "archived": true
+  },
+  {
+    "path": "word-book-future-review",
+    "title": "Word Book: new words 101–1406 (picture + voice)",
+    "side": "experiment",
+    "status": "your-turn",
+    "ask": "Tick Fix picture or Fix voice on any card that needs it, add a comment if you like, then tap Send feedback.",
+    "note": "1,284 new Word Book words (A to Z), each with its picture and recorded sentence. Not in the app yet. Claude checked every picture and clip and sent the faulty ones back for redrawing; 11 cards carry a voice note to listen to.",
+    "ready_for_you": "2026-10-29",
+    "staged": true
+  },
+  {
+    "path": "music-book-search",
+    "title": "Music Book: search for a song or an idea",
+    "side": "experiment",
+    "status": "retired",
+    "note": "Search finds song names, other names, composers, rooms and ideas such as Christmas, lullaby, dance or animals, and forgives a typo. Tap a picture to open that song's page.",
+    "entry": "index.html",
+    "ready_for_you": "2026-10-28",
+    "staged": true,
+    "answered": "2026-10-28",
+    "answer": "Published live in Music Book v15 (2026-10-29).",
+    "archived": true
+  },
+  {
+    "path": "math-helper",
+    "title": "Magic Math: My Math Helper pilot",
+    "side": "candidate",
+    "status": "retired",
+    "note": "A child-controlled squared-paper notebook for any whole-number calculation up to four digits, including carries, borrowing across zeroes, partial products, long division with remainders, and a three-size drawing scratchpad. Pilot voice is deliberately off.",
+    "ready_for_you": "2026-10-26",
+    "staged": true,
+    "archived": true,
+    "answered": "2026-10-27",
+    "answer": "Approved and published live in Magic Math v69."
+  },
+  {
     "path": "first-screens",
     "title": "First screens fit the iPad",
     "side": "experiment",
@@ -63,8 +120,8 @@
     "side": "candidate",
     "status": "your-turn",
     "ask": "Change the metal after colouring: does it change straight away while your stone colours stay?",
-    "note": "Colour any of 40 jewellery designs, choose Gold, Silver, Platinum or Rose gold, then tap Make it real. It is now its own app, apart from Charm Shop. Also try save and reopen on the iPad, upright and sideways.",
-    "ready_for_you": "2026-10-21",
+    "note": "Colour any of 40 jewellery designs, choose Gold, Silver, Platinum or Rose gold, then tap Make it real. It is now its own app, apart from Charm Shop. Also try save and reopen on the iPad, upright and sideways. Also fixed from the 29 Oct bug hunt: the centre stones of Heart Ring and Round Solitaire now take colour, and Brush and Make it real use drawn icons instead of emoji.",
+    "ready_for_you": "2026-10-31",
     "staged": true
   },
   {
@@ -115,22 +172,27 @@
     "path": "reading-picture-words",
     "title": "Bookshelf: tap-a-word picture labels",
     "side": "experiment",
-    "status": "your-turn",
+    "status": "retired",
     "ask": "Turn on Aa Labels in A Trip Through Space: are the labels beside the right things, and should the switch stay?",
     "note": "New switch in the reader (the Aa Labels button, top left): when on, small word labels appear on the pictures and read the word when tapped; when off, nothing shows. Try A Trip Through Space (Sun, Earth & Moon, Saturn) and Gems (geode, diamond, pearls & amber).",
     "ready_for_you": "2026-10-18",
     "entry": "reader/index.html?book=space-trip&page=2",
-    "staged": true
+    "staged": true,
+    "answered": "2026-10-27",
+    "answer": "Approved: labels in the right places and the Aa Labels switch stays (already live).",
+    "archived": true
   },
   {
     "path": "reading-weak-forms",
     "title": "Reading Tree: small words, round 3",
     "side": "experiment",
-    "status": "your-turn",
-    "ask": "For each small word, pick the tight cut, the padded cut, or neither.",
-    "note": "Round 3 at the top: each small word (a, to, the, of, and) cut on its own from the takes you picked in round 2, as a tight cut and a padded cut. Rounds 1 and 2 are below.",
+    "status": "retired",
+    "note": "Round 4b picks applied on agent/claude-weak-forms-r4: a = C, the = B2 before a vowel sound, to/of/and keep their current clips.",
     "ready_for_you": "2026-10-18",
-    "staged": true
+    "answered": "2026-10-20",
+    "answer": "Published live in Reading v21 (2026-10-28): a and the only.",
+    "staged": true,
+    "archived": true
   },
   {
     "path": "word-book-reading-words",
@@ -161,9 +223,9 @@
     "title": "Kingdom Chess",
     "side": "candidate",
     "status": "your-turn",
-    "ask": "Play a little in each of the five kingdoms: does the look work, and is Sweet Fairy's bishop and pawn right now?",
-    "note": "All five kingdoms in the chosen look: ornate frame halves, character pieces and portraits, drawn icons instead of emoji, captured pieces as pictures. Sweet Fairy's dark-side bishop and pawn have their natural skin back. Your menu-screen notes are queued, not started yet.",
-    "ready_for_you": "2026-10-21",
+    "ask": "Choose With a helper > Tutor: does Hoot's step-by-step coaching help, and do the new mode pictures look right?",
+    "note": "Tutor is the new default helper: shows every legal move (captures in red rings), coaches before each move, explains its own moves slowly; Hoot's lines show as text bubbles until voice is approved. New painted With a friend / With a helper pictures. Also fixed from the 29 Oct bug hunt: a finished draw can no longer be played on through See board.",
+    "ready_for_you": "2026-10-31",
     "staged": true
   },
   {
@@ -223,13 +285,23 @@
     "archived": true
   },
   {
+    "path": "lemonade-stand",
+    "title": "Sell Lemonade: first playable shop day",
+    "side": "candidate",
+    "status": "your-turn",
+    "ask": "After level 6, try 'Run your own stand': change the price, buy at the market, and read the end-of-day profit.",
+    "note": "New: a price board (higher price, fewer customers), a daily ingredient market with prices that change, a recipe book (peek is free), and profit = money in minus the cost of ingredients actually used.",
+    "ready_for_you": "2026-10-27",
+    "staged": true
+  },
+  {
     "path": "charm-shop",
     "title": "Little Charm Shop: make jewellery, try outfits",
     "side": "candidate",
     "status": "your-turn",
-    "ask": "Tap Wear it and try the four outfits: does your daughter like them?",
-    "note": "Pick a ready-made necklace, bracelet, earrings or hairpin, colour its jewels and add sparkle, then Wear it: the girl now has four outfits (lilac dress, denim pinafore, party dress, sundress). The colouring studio is now its own app (the Jewel Studio card).",
-    "ready_for_you": "2026-10-23",
+    "ask": "Tap Wear it on the iMac and the iPad: does the necklace now sit properly on her, with the beads spread along the chain?",
+    "note": "Fixed after your iMac screenshot: the worn necklace was drawn tiny with the pendant hanging below the chain on every screen. Now the chain crosses her collarbones, the beads are spaced along it and pendants hang from it, for all six necklaces and four outfits. Also fixed from the 29 Oct bug hunt: Gift box now puts the jewellery inside the box instead of where the last outfit had it.",
+    "ready_for_you": "2026-10-31",
     "staged": true
   },
   {
@@ -238,8 +310,8 @@
     "side": "candidate",
     "status": "your-turn",
     "ask": "Play a few levels of Key Quest and Animal Escape: keep them, change them, or drop them?",
-    "note": "Two calm new puzzle games: plan boulder pushes, keys and switches in Key Quest, then guide Bear, Fox or Rabbit past predictable forest friends in Animal Escape. Please try the levels, Undo, hints, touch controls and both iPad orientations.",
-    "ready_for_you": "2026-10-12",
+    "note": "Two calm new puzzle games: plan boulder pushes, keys and switches in Key Quest, then guide Bear, Fox or Rabbit past predictable forest friends in Animal Escape. Please try the levels, Undo, hints, touch controls and both iPad orientations. Also fixed from the 29 Oct bug hunt: Hint now lights the next piece (then an arrow), and Pocket Key can no longer be won without its key.",
+    "ready_for_you": "2026-10-31",
     "staged": true
   },
   {
@@ -291,12 +363,13 @@
     "path": "color-lab",
     "title": "Color Lab: White and Black switch, colours you found",
     "side": "candidate",
-    "status": "waiting-release",
+    "status": "retired",
     "note": "White & Black switch and the 'Colours you found' shelf. Ready to ship in the next release batch — nothing else to decide here.",
     "answer": "Owner 10-26: expected White & Black and Colours you found live. They had never merged (PR #1337); revived on main 10-26, going out in the next release.",
     "ready_for_you": "2026-10-19",
     "staged": true,
-    "answered": "2026-10-26"
+    "answered": "2026-10-26",
+    "archived": true
   },
   {
     "path": "magic-spelling-next",
@@ -417,10 +490,10 @@
     "title": "Follow the Starlight (Book 2): all 20 pages, voiced",
     "side": "candidate",
     "status": "your-turn",
-    "ask": "Listen especially to Betelgeuse on page 4 and \"Two Dipper stars\" on page 9, and try a few page questions.",
-    "note": "The whole book with narration. Tap any text to hear it; each page leads into Dot's spoken question, and you tap the answer in the picture. The Display button is gone and the story box is tidied.",
-    "ready_for_you": "2026-10-21",
-    "entry": "build/page-01.html",
+    "ask": "Try a few pages: are the new picture buttons, the pointers and the harder questions (pages 1, 3, 4, 7, 9, 11, 17, 20) good?",
+    "note": "Answer labels now point at the right painted objects; Sound/Motion/Full screen are picture buttons in the top bar; 8 giveaway questions fixed (page 1 keeps 'Which light is a star?', answer now 'The unknown light'); 3 new lines recorded. The story box still waits on your choice (bigger painted frames, or title only).",
+    "ready_for_you": "2026-10-27",
+    "entry": "page-01.html",
     "staged": true
   },
   {
@@ -942,41 +1015,135 @@
     "path": "word-book-future-pics",
     "title": "Word Book: future words, pictures 1–10",
     "side": "experiment",
-    "status": "your-turn",
+    "status": "answered",
     "ask": "Do these 10 pictures fit the Word Book? Name any to redo.",
     "note": "First 10 draft pictures for the next Word Book words (icy, layer, magma, neighbourhood, opal, oyster, pile, pipe, pointy, pole), each with its sentence. Not in the app. Do they fit the Word Book? Any to redo?",
     "ready_for_you": "2026-10-21",
-    "staged": true
+    "staged": true,
+    "answered": "2026-10-27",
+    "answer": "Pictures 1-7, 9, 10 OK; 8 (pipe) redraw without the boy."
   },
   {
     "path": "big-small-units",
-    "title": "Magic Math: new menu, Big and Small Units, Mermaid world",
+    "title": "Magic Math: fold-out book front page, Big and Small Units, Mermaid world",
     "side": "candidate",
-    "status": "your-turn",
-    "note": "New Unicorn Math mode: change between big and small units of length, mass and capacity. Round 2 adds mm and km, Hard and Mix levels, an All mixed card, a painted flower garden and coloured pictures.",
-    "ask": "Try the new one-screen menu, Big and Small Units (mm, km, Hard, Mix), the Number Toys scratchpad, the bud-then-bloom flowers, and the new Mermaid world (shells instead of flowers). Do the flowers and shells look nice?",
+    "status": "retired",
+    "note": "The front page is now a fold-out zigzag picture book (no thick book) with Space, Unicorn Land and Mermaid Princess Land and its shell castle; tap a world to play. The small My Math Helper button is a placeholder until that game is ready. Still here: Big and Small Units, the Number Toys scratchpad, bud-then-bloom flowers and the Mermaid world.",
     "entry": "index.html",
     "ready_for_you": "2026-10-26",
-    "staged": true
+    "staged": true,
+    "archived": true,
+    "answered": "2026-10-27",
+    "answer": "Approved and published live in Magic Math v69."
   },
   {
     "path": "stamping-themes",
     "title": "Little Color Garden: new Stamping",
     "side": "candidate",
     "status": "your-turn",
-    "note": "Stamping has five new scenes, letter and number stamps, turn and flip, and calm music. Sticker cut-offs fixed.",
+    "note": "Stamping has five new scenes, letter and number stamps, turn and flip, and calm music. Sticker cut-offs fixed. Also fixed from the 29 Oct bug hunt: dragging a stamp by its visible corner now moves it instead of making a copy.",
     "ask": "Open Stamping: try the Space, Princess, Unicorn, Under the Sea and School scenes, the letter and number stamps, turn and flip, and the calm music. Are any stickers still cut off?",
-    "ready_for_you": "2026-10-25",
+    "ready_for_you": "2026-10-31",
     "staged": true
   },
   {
     "path": "coloring-new",
     "title": "Little Color Garden: new stickers + fixes",
     "side": "candidate",
-    "status": "your-turn",
-    "note": "New Home & Tea Party (with a pink princess castle), Dinosaurs and Magic Effects sticker packs. Blank Page keeps its paper shape when the iPad turns, and dragging a sticker no longer leaves a grey trail.",
-    "ask": "Try the new Home & Tea Party, Dinosaurs and Magic Effects stickers (Blank Page and Stamping). Draw on a Blank Page, turn the iPad: does your picture keep its shape? Drag a sticker around: any grey trail left?",
-    "ready_for_you": "2026-10-26",
+    "status": "retired",
+    "note": "Restaged after merge: every sheet sticker is re-cut by its own shape (no sliced edges or neighbour pieces), and the turn button now turns continuously while held (a tap nudges 15 degrees); the selected Blank Page sticker has a drag-to-turn handle.",
+    "ready_for_you": "2026-10-27",
+    "staged": true,
+    "archived": true,
+    "answered": "2026-10-28",
+    "answer": "Published live in Little Color Garden v39 (2026-10-28)."
+  },
+  {
+    "path": "music-book-follow",
+    "title": "Music Book: watch the notes and keys",
+    "side": "experiment",
+    "status": "retired",
+    "note": "Room names are smaller and fit on one line; the picture circles sit below the note line instead of under it; small labels are bigger; buttons have 64px tap areas; 'True story' chips now show the song name. The note line shows the whole song still, on up to two lines.",
+    "entry": "index.html",
+    "ready_for_you": "2026-10-27",
+    "staged": true,
+    "archived": true,
+    "answered": "2026-10-28",
+    "answer": "Published live in Music Book v14 (2026-10-28)."
+  },
+  {
+    "path": "soroban-design",
+    "title": "Soroban Garden: real abacus design",
+    "side": "candidate",
+    "status": "answered",
+    "note": "A new app that teaches the real abacus (one bead worth 5 above the bar, four worth 1 below). Three painted screens plus a tap prototype; the full proposal is in coordination/drafts/soroban-2026-10-27/proposal.md.",
+    "entry": "index.html",
+    "ready_for_you": "2026-10-27",
+    "answered": "2026-10-27",
+    "answer": "Approved the look; pilot is soroban-garden",
     "staged": true
+  },
+  {
+    "path": "soroban-garden",
+    "title": "Soroban Garden: first playable pilot",
+    "side": "candidate",
+    "status": "your-turn",
+    "ask": "Play several lessons and free play in both iPad orientations: are the real soroban moves, hints and numbers clear and comfortable?",
+    "note": "Nine calm lessons teach one rod, the heaven bead, tens, hundreds, setting and reading to 999; free play offers 3–7 rods, hidden digits and reset. Interaction sound is WebAudio only. Also fixed from the 29 Oct bug hunt: Reset or moving beads on a Read question no longer grades a different number, and a double tap on Check no longer skips a question.",
+    "entry": "index.html",
+    "ready_for_you": "2026-10-31",
+    "staged": true
+  },
+  {
+    "path": "music-book-portrait",
+    "title": "Music Book: upright iPad layout",
+    "side": "experiment",
+    "status": "retired",
+    "note": "Upright, the app now fills the whole screen: the painting runs full width, the title, buttons, notes and keyboard sit above it and the word cards below. Sideways is unchanged.",
+    "entry": "index.html",
+    "ready_for_you": "2026-10-27",
+    "staged": true,
+    "archived": true,
+    "answered": "2026-10-28",
+    "answer": "Published live in Music Book v14 (2026-10-28)."
+  },
+  {
+    "path": "color-lab-explore",
+    "title": "Color Lab: plain Grey and Pink, 104 more colours",
+    "side": "candidate",
+    "status": "retired",
+    "note": "Every grown card now reads its name, then its examples, then its comparison. The speaker uses the same icon as the other apps. 372 colours.",
+    "entry": "index.html",
+    "ready_for_you": "2026-10-28",
+    "staged": true,
+    "archived": true,
+    "answered": "2026-10-28",
+    "answer": "Published live in Color Lab v9 and v10 (2026-10-28/29)."
+  },
+  {
+    "path": "coloring-food-baby",
+    "title": "Coloring: food, dishes and baby stickers",
+    "side": "candidate",
+    "status": "retired",
+    "note": "90 new stickers: 5 more sweets, 15 fruit, 15 vegetables, 15 meals, 20 finished dishes (steak, ramen, pad thai, curry...) and 20 baby items (nappy, pink crib, pram, bottle...).",
+    "entry": "index.html",
+    "ready_for_you": "2026-10-28",
+    "staged": true,
+    "answered": "2026-10-28",
+    "answer": "Published live in Little Color Garden v39 (2026-10-28).",
+    "archived": true
+  },
+  {
+    "path": "coloring-magic",
+    "title": "Coloring: 9 magic brushes and a new tool strip",
+    "side": "experiment",
+    "status": "retired",
+    "note": "Magic now has Rainbow, Sparkle, Stars, Hearts, Bubbles, Glow, Confetti, Flowers and Snow. Tool buttons show a big icon over the word. Undo/Redo keep their arrows (faded until there is something to undo).",
+    "entry": "index.html",
+    "ready_for_you": "2026-10-28",
+    "staged": true,
+    "archived": true,
+    "answered": "2026-10-28",
+    "answer": "Published live in Little Color Garden v39 (2026-10-28)."
   }
 ]
