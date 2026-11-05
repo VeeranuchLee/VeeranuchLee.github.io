@@ -32,8 +32,8 @@
       <button class="place-marker place-sh" type="button" data-place="sh" aria-label="Explore the sh sound at the ship">
         <span class="grapheme">sh</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg>
       </button>
-      <button class="place-marker place-ee" type="button" data-place="ee" aria-label="Explore the ee sound at the beehive">
-        <span class="grapheme">ee</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg>
+      <button class="place-marker place-e" type="button" data-place="e" aria-label="Explore short and long e at the beehive">
+        <span class="grapheme">e</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg>
       </button>
     </div>
     <p class="garden-note">Every place is open. Wander, listen and come back whenever you like.</p>
@@ -50,6 +50,15 @@
         <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M13 9 8 13H4v6h4l5 4Z"/><path d="M18 12a6 6 0 0 1 0 8M22 9a10 10 0 0 1 0 14"/></svg>
       </button>
     </header>
+
+    <div class="vowel-switch" id="vowelSwitch" aria-label="Choose short or long vowel sound" hidden>
+      <button type="button" data-vowel-side="short" aria-pressed="true" aria-label="Short vowel sound">
+        <svg viewBox="0 0 72 30" aria-hidden="true"><path d="M14 15h20"/><circle cx="12" cy="15" r="5"/><circle cx="36" cy="15" r="5"/></svg><span>short</span>
+      </button>
+      <button type="button" data-vowel-side="long" aria-pressed="false" aria-label="Long vowel sound">
+        <svg viewBox="0 0 120 30" aria-hidden="true"><path d="M14 15h88"/><circle cx="12" cy="15" r="5"/><circle cx="104" cy="15" r="5"/></svg><span>long</span>
+      </button>
+    </div>
 
     <div class="place-layout">
       <nav class="material-shelf" aria-label="Choose a sound material">

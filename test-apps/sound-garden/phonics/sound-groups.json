@@ -1,13 +1,15 @@
 {
-  "$schema": "our-word-book.phonics-sound-groups.v2",
+  "$schema": "our-word-book.phonics-sound-groups.v3",
   "$generated": "python3 word-book/phonics/tools/build_sound_groups.py",
-  "status": "runtime authority for the five pilot groups; remaining groups are reviewed expansion candidates",
+  "status": "runtime authority for five pilot groups and five paired vowel places; next ten groups remain reviewed expansion records but are not wired as Garden 2 markers",
   "scheme": {
     "name": "Letters and Sounds teaching order, adapted to 44 phonemes",
     "notes": [
       "x and qu are taught later as two-phoneme spellings /k/+/s/ and /k/+/w/, not as phoneme groups.",
       "The /zh/ phoneme is explicit; voiced/unvoiced th and long/short oo are separate.",
-      "UK MFA is canonical. CMUdict is stored only as a non-canonical cross-check."
+      "UK MFA is canonical. CMUdict is stored only as a non-canonical cross-check.",
+      "The five vowel letters each have reviewed short and long side groups; the 44-phoneme groups remain the underlying sound inventory.",
+      "Long u means British /juː/ here. The /uː/ oo sound in moon remains the separate oo-long group."
     ]
   },
   "sources": {
@@ -18,10 +20,15 @@
   },
   "counts": {
     "phoneme_groups": 44,
-    "live_candidates": 418,
+    "live_candidates": 378,
     "future_candidates_not_live": 14,
     "pilot_groups": 5,
-    "pilot_words": 30
+    "pilot_words": 30,
+    "prepared_expansion_groups": 10,
+    "prepared_expansion_words": 60,
+    "vowel_places": 5,
+    "vowel_side_groups": 10,
+    "vowel_side_words": 60
   },
   "groups": [
     {
@@ -240,22 +247,21 @@
           ]
         },
         {
-          "word": "crab",
-          "sense": "crab.animal",
+          "word": "hat",
+          "sense": "hat.headwear",
           "target_position": "medial",
           "uk_phonemes_mfa": [
-            "k",
-            "ɹ",
+            "h",
             "a",
-            "b"
+            "t"
           ],
-          "cmudict_arpabet_cross_check": "K R AE1 B",
-          "picture": "assets/words/crab.animal.webp",
-          "alice_word_clip": "audio/words/crab.m4a",
+          "cmudict_arpabet_cross_check": "HH AE1 T",
+          "picture": "assets/words/hat.headwear.webp",
+          "alice_word_clip": "audio/words/hat.m4a",
           "grapheme_spans": [
             [
-              2,
-              3
+              1,
+              2
             ]
           ]
         },
@@ -478,7 +484,13 @@
           ],
           "cmudict_arpabet_cross_check": "P EH1 N",
           "picture": "assets/words/pen.writing-tool.webp",
-          "alice_word_clip": "audio/words/pen.m4a"
+          "alice_word_clip": "audio/words/pen.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "pig",
@@ -491,7 +503,13 @@
           ],
           "cmudict_arpabet_cross_check": "P IH1 G",
           "picture": "assets/words/pig.animal.webp",
-          "alice_word_clip": "audio/words/pig.m4a"
+          "alice_word_clip": "audio/words/pig.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "pan",
@@ -504,7 +522,13 @@
           ],
           "cmudict_arpabet_cross_check": "P AE1 N",
           "picture": "assets/words/pan.cooking-container.webp",
-          "alice_word_clip": "audio/words/pan.m4a"
+          "alice_word_clip": "audio/words/pan.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "pot",
@@ -517,7 +541,13 @@
           ],
           "cmudict_arpabet_cross_check": "P AA1 T",
           "picture": "assets/words/pot.cooking-container.webp",
-          "alice_word_clip": "audio/words/pot.m4a"
+          "alice_word_clip": "audio/words/pot.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "cap",
@@ -530,20 +560,13 @@
           ],
           "cmudict_arpabet_cross_check": "K AE1 P",
           "picture": "assets/words/cap.headwear.webp",
-          "alice_word_clip": "audio/words/cap.m4a"
-        },
-        {
-          "word": "map",
-          "sense": "map.place-diagram",
-          "target_position": "final",
-          "uk_phonemes_mfa": [
-            "m",
-            "a",
-            "p"
-          ],
-          "cmudict_arpabet_cross_check": "M AE1 P",
-          "picture": "assets/words/map.place-diagram.webp",
-          "alice_word_clip": "audio/words/map.m4a"
+          "alice_word_clip": "audio/words/cap.m4a",
+          "grapheme_spans": [
+            [
+              2,
+              3
+            ]
+          ]
         },
         {
           "word": "cup",
@@ -556,50 +579,80 @@
           ],
           "cmudict_arpabet_cross_check": "K AH1 P",
           "picture": "assets/words/cup.drinking-container.webp",
-          "alice_word_clip": "audio/words/cup.m4a"
-        },
-        {
-          "word": "ship",
-          "sense": "ship.large-water-vehicle",
-          "target_position": "final",
-          "uk_phonemes_mfa": [
-            "ʃ",
-            "ɪ",
-            "p"
-          ],
-          "cmudict_arpabet_cross_check": "SH IH1 P",
-          "picture": "assets/words/ship.large-water-vehicle.webp",
-          "alice_word_clip": "audio/words/ship.m4a"
-        },
-        {
-          "word": "spoon",
-          "sense": "spoon.eating-tool",
-          "target_position": "medial",
-          "uk_phonemes_mfa": [
-            "s",
-            "p",
-            "ʉː",
-            "n"
-          ],
-          "cmudict_arpabet_cross_check": "S P UW1 N",
-          "picture": "assets/words/spoon.eating-tool.webp",
-          "alice_word_clip": "audio/words/spoon.m4a"
-        },
-        {
-          "word": "apple",
-          "sense": "apple.fruit",
-          "target_position": "medial",
-          "uk_phonemes_mfa": [
-            "a",
-            "p",
-            "ə",
-            "ɫ"
-          ],
-          "cmudict_arpabet_cross_check": "AE1 P AH0 L",
-          "picture": "assets/words/apple.fruit.webp",
-          "alice_word_clip": "audio/words/apple.m4a"
+          "alice_word_clip": "audio/words/cup.m4a",
+          "grapheme_spans": [
+            [
+              2,
+              3
+            ]
+          ]
         }
-      ]
+      ],
+      "sound_garden_expansion": {
+        "status": "prepared-not-wired",
+        "place": "pumpkin patch",
+        "pure_sound_id": "p",
+        "pure_sound_clip": "audio/phonics/p.m4a",
+        "sorting_focus": "initial sound",
+        "sorting_contrasts": [
+          {
+            "sound_id": "p",
+            "senses": [
+              "pen.writing-tool",
+              "pig.animal"
+            ]
+          },
+          {
+            "sound_id": "t",
+            "senses": [
+              "tent.cloth-shelter",
+              "tiger.animal"
+            ]
+          },
+          {
+            "sound_id": "c-k",
+            "senses": [
+              "cat.animal",
+              "cup.drinking-container"
+            ]
+          }
+        ],
+        "builder_senses": [
+          "pen.writing-tool",
+          "pig.animal",
+          "pan.cooking-container",
+          "pot.cooking-container"
+        ],
+        "i_spy_scene": {
+          "target_sense": "pig.animal",
+          "senses": [
+            "pig.animal",
+            "tent.cloth-shelter",
+            "cat.animal",
+            "sun.our-star"
+          ]
+        },
+        "hint": "Listen for the small, crisp p sound.",
+        "rejected_candidates": [
+          {
+            "word": "map",
+            "reason": "The princess and drawn landscape make the intended word slower to name than the chosen objects."
+          },
+          {
+            "word": "ship",
+            "reason": "The word is already a strong sh place example; avoid unnecessary cross-place reuse."
+          },
+          {
+            "word": "spoon",
+            "reason": "The spoon is small inside a large bowl of soup, so soup can win the picture."
+          },
+          {
+            "word": "apple",
+            "reason": "The child and lunchbox compete with the fruit, and apple already anchors the a place."
+          }
+        ],
+        "reviewed": "2026-11-05"
+      }
     },
     {
       "id": "i",
@@ -625,7 +678,13 @@
           ],
           "cmudict_arpabet_cross_check": "IH1 NG K",
           "picture": "assets/words/ink.writing-liquid.webp",
-          "alice_word_clip": "audio/words/ink.m4a"
+          "alice_word_clip": "audio/words/ink.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "pig",
@@ -638,7 +697,13 @@
           ],
           "cmudict_arpabet_cross_check": "P IH1 G",
           "picture": "assets/words/pig.animal.webp",
-          "alice_word_clip": "audio/words/pig.m4a"
+          "alice_word_clip": "audio/words/pig.m4a",
+          "grapheme_spans": [
+            [
+              1,
+              2
+            ]
+          ]
         },
         {
           "word": "fish",
@@ -651,7 +716,13 @@
           ],
           "cmudict_arpabet_cross_check": "F IH1 SH",
           "picture": "assets/words/fish.animal.webp",
-          "alice_word_clip": "audio/words/fish.m4a"
+          "alice_word_clip": "audio/words/fish.m4a",
+          "grapheme_spans": [
+            [
+              1,
+              2
+            ]
+          ]
         },
         {
           "word": "ship",
@@ -664,20 +735,13 @@
           ],
           "cmudict_arpabet_cross_check": "SH IH1 P",
           "picture": "assets/words/ship.large-water-vehicle.webp",
-          "alice_word_clip": "audio/words/ship.m4a"
-        },
-        {
-          "word": "sit",
-          "sense": "sit.rest-on-seat",
-          "target_position": "medial",
-          "uk_phonemes_mfa": [
-            "s",
-            "ɪ",
-            "t"
-          ],
-          "cmudict_arpabet_cross_check": "S IH1 T",
-          "picture": "assets/words/sit.rest-on-seat.webp",
-          "alice_word_clip": "audio/words/sit.m4a"
+          "alice_word_clip": "audio/words/ship.m4a",
+          "grapheme_spans": [
+            [
+              2,
+              3
+            ]
+          ]
         },
         {
           "word": "lid",
@@ -690,7 +754,13 @@
           ],
           "cmudict_arpabet_cross_check": "L IH1 D",
           "picture": "assets/words/lid.container-cover.webp",
-          "alice_word_clip": "audio/words/lid.m4a"
+          "alice_word_clip": "audio/words/lid.m4a",
+          "grapheme_spans": [
+            [
+              1,
+              2
+            ]
+          ]
         },
         {
           "word": "bin",
@@ -703,49 +773,79 @@
           ],
           "cmudict_arpabet_cross_check": "B IH1 N",
           "picture": "assets/words/bin.waste-container.webp",
-          "alice_word_clip": "audio/words/bin.m4a"
-        },
-        {
-          "word": "milk",
-          "sense": "milk.drink",
-          "target_position": "medial",
-          "uk_phonemes_mfa": [
-            "mʲ",
-            "ɪ",
-            "ɫ",
-            "k"
-          ],
-          "cmudict_arpabet_cross_check": "M IH1 L K",
-          "picture": "assets/words/milk.drink.webp",
-          "alice_word_clip": "audio/words/milk.m4a"
-        },
-        {
-          "word": "hill",
-          "sense": "hill.raised-land",
-          "target_position": "medial",
-          "uk_phonemes_mfa": [
-            "ç",
-            "ɪ",
-            "ɫ"
-          ],
-          "cmudict_arpabet_cross_check": "HH IH1 L",
-          "picture": "assets/words/hill.raised-land.webp",
-          "alice_word_clip": "audio/words/hill.m4a"
-        },
-        {
-          "word": "zip",
-          "sense": "zip.fastener",
-          "target_position": "medial",
-          "uk_phonemes_mfa": [
-            "z",
-            "ɪ",
-            "p"
-          ],
-          "cmudict_arpabet_cross_check": "Z IH1 P",
-          "picture": "assets/words/zip.fastener.webp",
-          "alice_word_clip": "audio/words/zip.m4a"
+          "alice_word_clip": "audio/words/bin.m4a",
+          "grapheme_spans": [
+            [
+              1,
+              2
+            ]
+          ]
         }
-      ]
+      ],
+      "sound_garden_expansion": {
+        "status": "prepared-not-wired",
+        "place": "insect hotel",
+        "pure_sound_id": "i",
+        "pure_sound_clip": "audio/phonics/i.m4a",
+        "sorting_focus": "middle vowel sound",
+        "sorting_contrasts": [
+          {
+            "sound_id": "i",
+            "senses": [
+              "pig.animal",
+              "lid.container-cover"
+            ]
+          },
+          {
+            "sound_id": "e",
+            "senses": [
+              "bed.furniture",
+              "hen.female-chicken"
+            ]
+          },
+          {
+            "sound_id": "u",
+            "senses": [
+              "sun.our-star",
+              "cup.drinking-container"
+            ]
+          }
+        ],
+        "builder_senses": [
+          "pig.animal",
+          "lid.container-cover",
+          "bin.waste-container"
+        ],
+        "i_spy_scene": {
+          "target_sense": "fish.animal",
+          "senses": [
+            "fish.animal",
+            "cat.animal",
+            "bed.furniture",
+            "sun.our-star"
+          ]
+        },
+        "hint": "Listen for the short i sound, as in ink.",
+        "rejected_candidates": [
+          {
+            "word": "sit",
+            "reason": "The child and dog scene asks for an action word instead of offering one concrete object."
+          },
+          {
+            "word": "milk",
+            "reason": "The jug, cup and pouring action compete with milk as the immediate name."
+          },
+          {
+            "word": "hill",
+            "reason": "The children and red ball draw attention away from the landform."
+          },
+          {
+            "word": "zip",
+            "reason": "The whole hoodie and child compete with the small fastener."
+          }
+        ],
+        "reviewed": "2026-11-05"
+      }
     },
     {
       "id": "n",
@@ -775,7 +875,13 @@
           ],
           "cmudict_arpabet_cross_check": "N EH1 S T",
           "picture": "assets/words/nest.bird-home.webp",
-          "alice_word_clip": "audio/words/nest.m4a"
+          "alice_word_clip": "audio/words/nest.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "net",
@@ -788,20 +894,13 @@
           ],
           "cmudict_arpabet_cross_check": "N EH1 T",
           "picture": "assets/words/net.mesh-object.webp",
-          "alice_word_clip": "audio/words/net.m4a"
-        },
-        {
-          "word": "nut",
-          "sense": "nut.edible-seed",
-          "target_position": "initial",
-          "uk_phonemes_mfa": [
-            "n",
-            "ɐ",
-            "t"
-          ],
-          "cmudict_arpabet_cross_check": "N AH1 T",
-          "picture": "assets/words/nut.edible-seed.webp",
-          "alice_word_clip": "audio/words/nut.m4a"
+          "alice_word_clip": "audio/words/net.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "nose",
@@ -814,7 +913,13 @@
           ],
           "cmudict_arpabet_cross_check": "N OW1 Z",
           "picture": "assets/words/nose.body-part.webp",
-          "alice_word_clip": "audio/words/nose.m4a"
+          "alice_word_clip": "audio/words/nose.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "moon",
@@ -827,7 +932,13 @@
           ],
           "cmudict_arpabet_cross_check": "M UW1 N",
           "picture": "assets/words/moon.earths-moon.webp",
-          "alice_word_clip": "audio/words/moon.m4a"
+          "alice_word_clip": "audio/words/moon.m4a",
+          "grapheme_spans": [
+            [
+              3,
+              4
+            ]
+          ]
         },
         {
           "word": "sun",
@@ -840,20 +951,13 @@
           ],
           "cmudict_arpabet_cross_check": "S AH1 N",
           "picture": "assets/words/sun.our-star.webp",
-          "alice_word_clip": "audio/words/sun.m4a"
-        },
-        {
-          "word": "pen",
-          "sense": "pen.writing-tool",
-          "target_position": "final",
-          "uk_phonemes_mfa": [
-            "pʰ",
-            "ɛ",
-            "n"
-          ],
-          "cmudict_arpabet_cross_check": "P EH1 N",
-          "picture": "assets/words/pen.writing-tool.webp",
-          "alice_word_clip": "audio/words/pen.m4a"
+          "alice_word_clip": "audio/words/sun.m4a",
+          "grapheme_spans": [
+            [
+              2,
+              3
+            ]
+          ]
         },
         {
           "word": "hen",
@@ -866,36 +970,79 @@
           ],
           "cmudict_arpabet_cross_check": "HH EH1 N",
           "picture": "assets/words/hen.female-chicken.webp",
-          "alice_word_clip": "audio/words/hen.m4a"
-        },
-        {
-          "word": "pan",
-          "sense": "pan.cooking-container",
-          "target_position": "final",
-          "uk_phonemes_mfa": [
-            "pʰ",
-            "a",
-            "n"
-          ],
-          "cmudict_arpabet_cross_check": "P AE1 N",
-          "picture": "assets/words/pan.cooking-container.webp",
-          "alice_word_clip": "audio/words/pan.m4a"
-        },
-        {
-          "word": "snail",
-          "sense": "snail.animal",
-          "target_position": "medial",
-          "uk_phonemes_mfa": [
-            "s",
-            "ɲ",
-            "ej",
-            "ɫ"
-          ],
-          "cmudict_arpabet_cross_check": "S N EY1 L",
-          "picture": "assets/words/snail.animal.webp",
-          "alice_word_clip": "audio/words/snail.m4a"
+          "alice_word_clip": "audio/words/hen.m4a",
+          "grapheme_spans": [
+            [
+              2,
+              3
+            ]
+          ]
         }
-      ]
+      ],
+      "sound_garden_expansion": {
+        "status": "prepared-not-wired",
+        "place": "nest tree",
+        "pure_sound_id": "n",
+        "pure_sound_clip": "audio/phonics/n.m4a",
+        "sorting_focus": "initial sound",
+        "sorting_contrasts": [
+          {
+            "sound_id": "n",
+            "senses": [
+              "nest.bird-home",
+              "nose.body-part"
+            ]
+          },
+          {
+            "sound_id": "m",
+            "senses": [
+              "moon.earths-moon",
+              "map.place-diagram"
+            ]
+          },
+          {
+            "sound_id": "p",
+            "senses": [
+              "pen.writing-tool",
+              "pig.animal"
+            ]
+          }
+        ],
+        "builder_senses": [
+          "net.mesh-object",
+          "sun.our-star",
+          "hen.female-chicken"
+        ],
+        "i_spy_scene": {
+          "target_sense": "nest.bird-home",
+          "senses": [
+            "nest.bird-home",
+            "map.place-diagram",
+            "pig.animal",
+            "dog.animal"
+          ]
+        },
+        "hint": "Listen for the long humming n sound.",
+        "rejected_candidates": [
+          {
+            "word": "nut",
+            "reason": "The squirrel is the dominant subject and it holds an acorn, not an unmistakable generic nut."
+          },
+          {
+            "word": "pen",
+            "reason": "The picture is clear but is reserved for the p wall, avoiding needless duplicate wall cards."
+          },
+          {
+            "word": "pan",
+            "reason": "The fried egg and cook compete with the pan in a busy action scene."
+          },
+          {
+            "word": "snail",
+            "reason": "The n follows s in an initial blend; cleaner initial and final examples establish n first."
+          }
+        ],
+        "reviewed": "2026-11-05"
+      }
     },
     {
       "id": "m",
@@ -924,7 +1071,13 @@
           ],
           "cmudict_arpabet_cross_check": "M UW1 N",
           "picture": "assets/words/moon.earths-moon.webp",
-          "alice_word_clip": "audio/words/moon.m4a"
+          "alice_word_clip": "audio/words/moon.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "map",
@@ -937,7 +1090,13 @@
           ],
           "cmudict_arpabet_cross_check": "M AE1 P",
           "picture": "assets/words/map.place-diagram.webp",
-          "alice_word_clip": "audio/words/map.m4a"
+          "alice_word_clip": "audio/words/map.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "mug",
@@ -950,7 +1109,13 @@
           ],
           "cmudict_arpabet_cross_check": "M AH1 G",
           "picture": "assets/words/mug.drinking-container.webp",
-          "alice_word_clip": "audio/words/mug.m4a"
+          "alice_word_clip": "audio/words/mug.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "mouse",
@@ -963,34 +1128,13 @@
           ],
           "cmudict_arpabet_cross_check": "M AW1 S",
           "picture": "assets/words/mouse.animal.webp",
-          "alice_word_clip": "audio/words/mouse.m4a"
-        },
-        {
-          "word": "milk",
-          "sense": "milk.drink",
-          "target_position": "initial",
-          "uk_phonemes_mfa": [
-            "mʲ",
-            "ɪ",
-            "ɫ",
-            "k"
-          ],
-          "cmudict_arpabet_cross_check": "M IH1 L K",
-          "picture": "assets/words/milk.drink.webp",
-          "alice_word_clip": "audio/words/milk.m4a"
-        },
-        {
-          "word": "ham",
-          "sense": "ham.food",
-          "target_position": "final",
-          "uk_phonemes_mfa": [
-            "h",
-            "a",
-            "m"
-          ],
-          "cmudict_arpabet_cross_check": "HH AE1 M",
-          "picture": "assets/words/ham.food.webp",
-          "alice_word_clip": "audio/words/ham.m4a"
+          "alice_word_clip": "audio/words/mouse.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "drum",
@@ -1004,7 +1148,13 @@
           ],
           "cmudict_arpabet_cross_check": "D R AH1 M",
           "picture": "assets/words/drum.instrument.webp",
-          "alice_word_clip": "audio/words/drum.m4a"
+          "alice_word_clip": "audio/words/drum.m4a",
+          "grapheme_spans": [
+            [
+              3,
+              4
+            ]
+          ]
         },
         {
           "word": "lamp",
@@ -1018,38 +1168,79 @@
           ],
           "cmudict_arpabet_cross_check": "L AE1 M P",
           "picture": "assets/words/lamp.light-object.webp",
-          "alice_word_clip": "audio/words/lamp.m4a"
-        },
-        {
-          "word": "plum",
-          "sense": "plum.fruit",
-          "target_position": "final",
-          "uk_phonemes_mfa": [
-            "p",
-            "l",
-            "ɐ",
-            "m"
-          ],
-          "cmudict_arpabet_cross_check": "P L AH1 M",
-          "picture": "assets/words/plum.fruit.webp",
-          "alice_word_clip": "audio/words/plum.m4a"
-        },
-        {
-          "word": "camel",
-          "sense": "camel.animal",
-          "target_position": "medial",
-          "uk_phonemes_mfa": [
-            "kʰ",
-            "a",
-            "m",
-            "ə",
-            "ɫ"
-          ],
-          "cmudict_arpabet_cross_check": "K AE1 M AH0 L",
-          "picture": "assets/words/camel.animal.webp",
-          "alice_word_clip": "audio/words/camel.m4a"
+          "alice_word_clip": "audio/words/lamp.m4a",
+          "grapheme_spans": [
+            [
+              2,
+              3
+            ]
+          ]
         }
-      ]
+      ],
+      "sound_garden_expansion": {
+        "status": "prepared-not-wired",
+        "place": "mushroom ring",
+        "pure_sound_id": "m",
+        "pure_sound_clip": "audio/phonics/m.m4a",
+        "sorting_focus": "initial sound",
+        "sorting_contrasts": [
+          {
+            "sound_id": "m",
+            "senses": [
+              "moon.earths-moon",
+              "map.place-diagram"
+            ]
+          },
+          {
+            "sound_id": "n",
+            "senses": [
+              "nest.bird-home",
+              "nose.body-part"
+            ]
+          },
+          {
+            "sound_id": "p",
+            "senses": [
+              "pen.writing-tool",
+              "pig.animal"
+            ]
+          }
+        ],
+        "builder_senses": [
+          "map.place-diagram",
+          "mug.drinking-container",
+          "drum.instrument"
+        ],
+        "i_spy_scene": {
+          "target_sense": "mouse.animal",
+          "senses": [
+            "mouse.animal",
+            "nest.bird-home",
+            "pig.animal",
+            "dog.animal"
+          ]
+        },
+        "hint": "Listen for the long humming m sound.",
+        "rejected_candidates": [
+          {
+            "word": "milk",
+            "reason": "The pouring action, jug and cup compete with the liquid."
+          },
+          {
+            "word": "ham",
+            "reason": "The child, bread and sandwich-making scene dilute the ham target."
+          },
+          {
+            "word": "plum",
+            "reason": "The child and bowl of several fruits are less immediate than the chosen single-subject cards."
+          },
+          {
+            "word": "camel",
+            "reason": "The longer word gives a less direct first m example than the short initial and final set."
+          }
+        ],
+        "reviewed": "2026-11-05"
+      }
     },
     {
       "id": "d",
@@ -1077,7 +1268,13 @@
           ],
           "cmudict_arpabet_cross_check": "D AO1 G",
           "picture": "assets/words/dog.animal.webp",
-          "alice_word_clip": "audio/words/dog.m4a"
+          "alice_word_clip": "audio/words/dog.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "duck",
@@ -1090,7 +1287,13 @@
           ],
           "cmudict_arpabet_cross_check": "D AH1 K",
           "picture": "assets/words/duck.animal.webp",
-          "alice_word_clip": "audio/words/duck.m4a"
+          "alice_word_clip": "audio/words/duck.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "door",
@@ -1102,7 +1305,13 @@
           ],
           "cmudict_arpabet_cross_check": "D AO1 R",
           "picture": "assets/words/door.entrance-panel.webp",
-          "alice_word_clip": "audio/words/door.m4a"
+          "alice_word_clip": "audio/words/door.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "dish",
@@ -1115,7 +1324,13 @@
           ],
           "cmudict_arpabet_cross_check": "D IH1 SH",
           "picture": "assets/words/dish.plate-or-bowl.webp",
-          "alice_word_clip": "audio/words/dish.m4a"
+          "alice_word_clip": "audio/words/dish.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "bed",
@@ -1128,46 +1343,13 @@
           ],
           "cmudict_arpabet_cross_check": "B EH1 D",
           "picture": "assets/words/bed.furniture.webp",
-          "alice_word_clip": "audio/words/bed.m4a"
-        },
-        {
-          "word": "red",
-          "sense": "red.colour",
-          "target_position": "final",
-          "uk_phonemes_mfa": [
-            "ɹ",
-            "ɛ",
-            "d"
-          ],
-          "cmudict_arpabet_cross_check": "R EH1 D",
-          "picture": "assets/words/red.colour.webp",
-          "alice_word_clip": "audio/words/red.m4a"
-        },
-        {
-          "word": "mud",
-          "sense": "mud.wet-earth",
-          "target_position": "final",
-          "uk_phonemes_mfa": [
-            "m",
-            "ɐ",
-            "d"
-          ],
-          "cmudict_arpabet_cross_check": "M AH1 D",
-          "picture": "assets/words/mud.wet-earth.webp",
-          "alice_word_clip": "audio/words/mud.m4a"
-        },
-        {
-          "word": "seed",
-          "sense": "seed.plant-part",
-          "target_position": "final",
-          "uk_phonemes_mfa": [
-            "s",
-            "iː",
-            "d"
-          ],
-          "cmudict_arpabet_cross_check": "S IY1 D",
-          "picture": "assets/words/seed.plant-part.webp",
-          "alice_word_clip": "audio/words/seed.m4a"
+          "alice_word_clip": "audio/words/bed.m4a",
+          "grapheme_spans": [
+            [
+              2,
+              3
+            ]
+          ]
         },
         {
           "word": "hand",
@@ -1181,23 +1363,79 @@
           ],
           "cmudict_arpabet_cross_check": "HH AE1 N D",
           "picture": "assets/words/hand.body-part.webp",
-          "alice_word_clip": "audio/words/hand.m4a"
-        },
-        {
-          "word": "pond",
-          "sense": "pond.small-inland-water",
-          "target_position": "final",
-          "uk_phonemes_mfa": [
-            "pʰ",
-            "ɒ",
-            "n",
-            "d"
-          ],
-          "cmudict_arpabet_cross_check": "P AA1 N D",
-          "picture": "assets/words/pond.small-inland-water.webp",
-          "alice_word_clip": "audio/words/pond.m4a"
+          "alice_word_clip": "audio/words/hand.m4a",
+          "grapheme_spans": [
+            [
+              3,
+              4
+            ]
+          ]
         }
-      ]
+      ],
+      "sound_garden_expansion": {
+        "status": "prepared-not-wired",
+        "place": "duck pond",
+        "pure_sound_id": "d",
+        "pure_sound_clip": "audio/phonics/d.m4a",
+        "sorting_focus": "initial sound",
+        "sorting_contrasts": [
+          {
+            "sound_id": "d",
+            "senses": [
+              "dog.animal",
+              "duck.animal"
+            ]
+          },
+          {
+            "sound_id": "t",
+            "senses": [
+              "tent.cloth-shelter",
+              "tiger.animal"
+            ]
+          },
+          {
+            "sound_id": "g",
+            "senses": [
+              "goat.animal",
+              "gate.fence-door"
+            ]
+          }
+        ],
+        "builder_senses": [
+          "dog.animal",
+          "duck.animal",
+          "bed.furniture"
+        ],
+        "i_spy_scene": {
+          "target_sense": "duck.animal",
+          "senses": [
+            "duck.animal",
+            "tent.cloth-shelter",
+            "goat.animal",
+            "pig.animal"
+          ]
+        },
+        "hint": "Listen for the small, crisp d sound.",
+        "rejected_candidates": [
+          {
+            "word": "red",
+            "reason": "The picture teaches a red kite; a child can reasonably name kite instead of the colour."
+          },
+          {
+            "word": "mud",
+            "reason": "The child and jumping action are more salient than the wet earth."
+          },
+          {
+            "word": "seed",
+            "reason": "The planting scene does not show a visible seed clearly enough to name."
+          },
+          {
+            "word": "pond",
+            "reason": "The unicorn dominates the scene, so pond is not the immediate picture word."
+          }
+        ],
+        "reviewed": "2026-11-05"
+      }
     },
     {
       "id": "g",
@@ -1225,7 +1463,13 @@
           ],
           "cmudict_arpabet_cross_check": "G OW1 T",
           "picture": "assets/words/goat.animal.webp",
-          "alice_word_clip": "audio/words/goat.m4a"
+          "alice_word_clip": "audio/words/goat.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "gate",
@@ -1238,7 +1482,13 @@
           ],
           "cmudict_arpabet_cross_check": "G EY1 T",
           "picture": "assets/words/gate.fence-door.webp",
-          "alice_word_clip": "audio/words/gate.m4a"
+          "alice_word_clip": "audio/words/gate.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "gift",
@@ -1252,7 +1502,13 @@
           ],
           "cmudict_arpabet_cross_check": "G IH1 F T",
           "picture": "assets/words/gift.present.webp",
-          "alice_word_clip": "audio/words/gift.m4a"
+          "alice_word_clip": "audio/words/gift.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "goose",
@@ -1265,7 +1521,13 @@
           ],
           "cmudict_arpabet_cross_check": "G UW1 S",
           "picture": "assets/words/goose.animal.webp",
-          "alice_word_clip": "audio/words/goose.m4a"
+          "alice_word_clip": "audio/words/goose.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "bag",
@@ -1278,7 +1540,13 @@
           ],
           "cmudict_arpabet_cross_check": "B AE1 G",
           "picture": "assets/words/bag.container.webp",
-          "alice_word_clip": "audio/words/bag.m4a"
+          "alice_word_clip": "audio/words/bag.m4a",
+          "grapheme_spans": [
+            [
+              2,
+              3
+            ]
+          ]
         },
         {
           "word": "dog",
@@ -1291,62 +1559,79 @@
           ],
           "cmudict_arpabet_cross_check": "D AO1 G",
           "picture": "assets/words/dog.animal.webp",
-          "alice_word_clip": "audio/words/dog.m4a"
-        },
-        {
-          "word": "pig",
-          "sense": "pig.animal",
-          "target_position": "final",
-          "uk_phonemes_mfa": [
-            "pʰ",
-            "ɪ",
-            "ɡ"
-          ],
-          "cmudict_arpabet_cross_check": "P IH1 G",
-          "picture": "assets/words/pig.animal.webp",
-          "alice_word_clip": "audio/words/pig.m4a"
-        },
-        {
-          "word": "frog",
-          "sense": "frog.animal",
-          "target_position": "final",
-          "uk_phonemes_mfa": [
-            "f",
-            "ɹ",
-            "ɒ",
-            "ɡ"
-          ],
-          "cmudict_arpabet_cross_check": "F R AA1 G",
-          "picture": "assets/words/frog.animal.webp",
-          "alice_word_clip": "audio/words/frog.m4a"
-        },
-        {
-          "word": "flag",
-          "sense": "flag.cloth-on-a-pole",
-          "target_position": "final",
-          "uk_phonemes_mfa": [
-            "f",
-            "l",
-            "a",
-            "ɡ"
-          ],
-          "cmudict_arpabet_cross_check": "F L AE1 G",
-          "picture": "assets/words/flag.cloth-on-a-pole.webp",
-          "alice_word_clip": "audio/words/flag.m4a"
-        },
-        {
-          "word": "egg",
-          "sense": "egg.animal-egg",
-          "target_position": "final",
-          "uk_phonemes_mfa": [
-            "ɛ",
-            "ɡ"
-          ],
-          "cmudict_arpabet_cross_check": "EH1 G",
-          "picture": "assets/words/egg.animal-egg.webp",
-          "alice_word_clip": "audio/words/egg.m4a"
+          "alice_word_clip": "audio/words/dog.m4a",
+          "grapheme_spans": [
+            [
+              2,
+              3
+            ]
+          ]
         }
-      ]
+      ],
+      "sound_garden_expansion": {
+        "status": "prepared-not-wired",
+        "place": "garden gate",
+        "pure_sound_id": "g",
+        "pure_sound_clip": "audio/phonics/g.m4a",
+        "sorting_focus": "initial sound",
+        "sorting_contrasts": [
+          {
+            "sound_id": "g",
+            "senses": [
+              "goat.animal",
+              "gate.fence-door"
+            ]
+          },
+          {
+            "sound_id": "c-k",
+            "senses": [
+              "cat.animal",
+              "cup.drinking-container"
+            ]
+          },
+          {
+            "sound_id": "d",
+            "senses": [
+              "dog.animal",
+              "duck.animal"
+            ]
+          }
+        ],
+        "builder_senses": [
+          "bag.container",
+          "dog.animal",
+          "gift.present"
+        ],
+        "i_spy_scene": {
+          "target_sense": "gate.fence-door",
+          "senses": [
+            "gate.fence-door",
+            "cat.animal",
+            "tent.cloth-shelter",
+            "pig.animal"
+          ]
+        },
+        "hint": "Listen for the small, crisp g sound.",
+        "rejected_candidates": [
+          {
+            "word": "pig",
+            "reason": "The picture is clear but already serves p and i; bag and dog cover final g without a third reuse."
+          },
+          {
+            "word": "frog",
+            "reason": "The picture is clear but final g is already covered and frog is retained for the o review set."
+          },
+          {
+            "word": "flag",
+            "reason": "The castle and tower are strong competing names beside the flag."
+          },
+          {
+            "word": "egg",
+            "reason": "The chick is the dominant subject, so the card is more readily named chick."
+          }
+        ],
+        "reviewed": "2026-11-05"
+      }
     },
     {
       "id": "o",
@@ -1376,7 +1661,13 @@
           ],
           "cmudict_arpabet_cross_check": "AA1 K T AH0 P UH2 S",
           "picture": "assets/words/octopus.animal.webp",
-          "alice_word_clip": "audio/words/octopus.m4a"
+          "alice_word_clip": "audio/words/octopus.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "orange",
@@ -1391,7 +1682,13 @@
           ],
           "cmudict_arpabet_cross_check": "AO1 R AH0 N JH",
           "picture": "assets/words/orange.fruit.webp",
-          "alice_word_clip": "audio/words/orange.m4a"
+          "alice_word_clip": "audio/words/orange.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "dog",
@@ -1404,7 +1701,13 @@
           ],
           "cmudict_arpabet_cross_check": "D AO1 G",
           "picture": "assets/words/dog.animal.webp",
-          "alice_word_clip": "audio/words/dog.m4a"
+          "alice_word_clip": "audio/words/dog.m4a",
+          "grapheme_spans": [
+            [
+              1,
+              2
+            ]
+          ]
         },
         {
           "word": "fox",
@@ -1418,7 +1721,13 @@
           ],
           "cmudict_arpabet_cross_check": "F AA1 K S",
           "picture": "assets/words/fox.animal.webp",
-          "alice_word_clip": "audio/words/fox.m4a"
+          "alice_word_clip": "audio/words/fox.m4a",
+          "grapheme_spans": [
+            [
+              1,
+              2
+            ]
+          ]
         },
         {
           "word": "log",
@@ -1431,7 +1740,13 @@
           ],
           "cmudict_arpabet_cross_check": "L AO1 G",
           "picture": "assets/words/log.cut-tree.webp",
-          "alice_word_clip": "audio/words/log.m4a"
+          "alice_word_clip": "audio/words/log.m4a",
+          "grapheme_spans": [
+            [
+              1,
+              2
+            ]
+          ]
         },
         {
           "word": "mop",
@@ -1444,63 +1759,80 @@
           ],
           "cmudict_arpabet_cross_check": "M AA1 P",
           "picture": "assets/words/mop.floor-cleaning-tool.webp",
-          "alice_word_clip": "audio/words/mop.m4a"
-        },
-        {
-          "word": "pot",
-          "sense": "pot.cooking-container",
-          "target_position": "medial",
-          "uk_phonemes_mfa": [
-            "pʰ",
-            "ɒ",
-            "t"
-          ],
-          "cmudict_arpabet_cross_check": "P AA1 T",
-          "picture": "assets/words/pot.cooking-container.webp",
-          "alice_word_clip": "audio/words/pot.m4a"
-        },
-        {
-          "word": "sock",
-          "sense": "sock.clothing",
-          "target_position": "medial",
-          "uk_phonemes_mfa": [
-            "s",
-            "ɒ",
-            "k"
-          ],
-          "cmudict_arpabet_cross_check": "S AA1 K",
-          "picture": "assets/words/sock.clothing.webp",
-          "alice_word_clip": "audio/words/sock.m4a"
-        },
-        {
-          "word": "frog",
-          "sense": "frog.animal",
-          "target_position": "medial",
-          "uk_phonemes_mfa": [
-            "f",
-            "ɹ",
-            "ɒ",
-            "ɡ"
-          ],
-          "cmudict_arpabet_cross_check": "F R AA1 G",
-          "picture": "assets/words/frog.animal.webp",
-          "alice_word_clip": "audio/words/frog.m4a"
-        },
-        {
-          "word": "clock",
-          "sense": "clock.time-object",
-          "target_position": "medial",
-          "uk_phonemes_mfa": [
-            "k",
-            "l",
-            "ɒ",
-            "k"
-          ],
-          "cmudict_arpabet_cross_check": "K L AA1 K",
-          "picture": "assets/words/clock.time-object.webp",
-          "alice_word_clip": "audio/words/clock.m4a"
+          "alice_word_clip": "audio/words/mop.m4a",
+          "grapheme_spans": [
+            [
+              1,
+              2
+            ]
+          ]
         }
-      ]
+      ],
+      "sound_garden_expansion": {
+        "status": "prepared-not-wired",
+        "place": "octopus fountain",
+        "pure_sound_id": "o",
+        "pure_sound_clip": "audio/phonics/o.m4a",
+        "sorting_focus": "middle vowel sound",
+        "sorting_contrasts": [
+          {
+            "sound_id": "o",
+            "senses": [
+              "dog.animal",
+              "fox.animal"
+            ]
+          },
+          {
+            "sound_id": "a",
+            "senses": [
+              "cat.animal",
+              "map.place-diagram"
+            ]
+          },
+          {
+            "sound_id": "u",
+            "senses": [
+              "sun.our-star",
+              "cup.drinking-container"
+            ]
+          }
+        ],
+        "builder_senses": [
+          "dog.animal",
+          "fox.animal",
+          "log.cut-tree",
+          "mop.floor-cleaning-tool"
+        ],
+        "i_spy_scene": {
+          "target_sense": "fox.animal",
+          "senses": [
+            "fox.animal",
+            "cat.animal",
+            "bed.furniture",
+            "sun.our-star"
+          ]
+        },
+        "hint": "Listen for the short o sound, as in octopus.",
+        "rejected_candidates": [
+          {
+            "word": "pot",
+            "reason": "The picture is clear but pot already demonstrates p and t in the prepared and pilot walls."
+          },
+          {
+            "word": "sock",
+            "reason": "Most of the sock is hidden beneath a bed, so bed competes strongly."
+          },
+          {
+            "word": "frog",
+            "reason": "The picture is clear, but the final g also pulls it toward the adjacent g place."
+          },
+          {
+            "word": "clock",
+            "reason": "The wall clock is clear, but the large door and room scene are less immediate than the chosen objects."
+          }
+        ],
+        "reviewed": "2026-11-05"
+      }
     },
     {
       "id": "c-k",
@@ -1529,7 +1861,13 @@
           ],
           "cmudict_arpabet_cross_check": "K AE1 T",
           "picture": "assets/words/cat.animal.webp",
-          "alice_word_clip": "audio/words/cat.m4a"
+          "alice_word_clip": "audio/words/cat.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "cup",
@@ -1542,7 +1880,13 @@
           ],
           "cmudict_arpabet_cross_check": "K AH1 P",
           "picture": "assets/words/cup.drinking-container.webp",
-          "alice_word_clip": "audio/words/cup.m4a"
+          "alice_word_clip": "audio/words/cup.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "kite",
@@ -1556,7 +1900,13 @@
           ],
           "cmudict_arpabet_cross_check": "K AY1 T",
           "picture": "assets/words/kite.flying-toy.webp",
-          "alice_word_clip": "audio/words/kite.m4a"
+          "alice_word_clip": "audio/words/kite.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "key",
@@ -1568,7 +1918,13 @@
           ],
           "cmudict_arpabet_cross_check": "K IY1",
           "picture": "assets/words/key.lock-tool.webp",
-          "alice_word_clip": "audio/words/key.m4a"
+          "alice_word_clip": "audio/words/key.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "duck",
@@ -1581,7 +1937,13 @@
           ],
           "cmudict_arpabet_cross_check": "D AH1 K",
           "picture": "assets/words/duck.animal.webp",
-          "alice_word_clip": "audio/words/duck.m4a"
+          "alice_word_clip": "audio/words/duck.m4a",
+          "grapheme_spans": [
+            [
+              2,
+              4
+            ]
+          ]
         },
         {
           "word": "sock",
@@ -1594,64 +1956,80 @@
           ],
           "cmudict_arpabet_cross_check": "S AA1 K",
           "picture": "assets/words/sock.clothing.webp",
-          "alice_word_clip": "audio/words/sock.m4a"
-        },
-        {
-          "word": "rock",
-          "sense": "rock.stone-material",
-          "target_position": "final",
-          "uk_phonemes_mfa": [
-            "ɹ",
-            "ɒ",
-            "k"
-          ],
-          "cmudict_arpabet_cross_check": "R AA1 K",
-          "picture": "assets/words/rock.stone-material.webp",
-          "alice_word_clip": "audio/words/rock.m4a"
-        },
-        {
-          "word": "cake",
-          "sense": "cake.food",
-          "target_position": "initial",
-          "uk_phonemes_mfa": [
-            "cʰ",
-            "ej",
-            "k"
-          ],
-          "cmudict_arpabet_cross_check": "K EY1 K",
-          "picture": "assets/words/cake.food.webp",
-          "alice_word_clip": "audio/words/cake.m4a"
-        },
-        {
-          "word": "crab",
-          "sense": "crab.animal",
-          "target_position": "initial",
-          "uk_phonemes_mfa": [
-            "k",
-            "ɹ",
-            "a",
-            "b"
-          ],
-          "cmudict_arpabet_cross_check": "K R AE1 B",
-          "picture": "assets/words/crab.animal.webp",
-          "alice_word_clip": "audio/words/crab.m4a"
-        },
-        {
-          "word": "carrot",
-          "sense": "carrot.vegetable",
-          "target_position": "initial",
-          "uk_phonemes_mfa": [
-            "kʰ",
-            "a",
-            "ɹ",
-            "ə",
-            "t"
-          ],
-          "cmudict_arpabet_cross_check": "K AE1 R AH0 T",
-          "picture": "assets/words/carrot.vegetable.webp",
-          "alice_word_clip": "audio/words/carrot.m4a"
+          "alice_word_clip": "audio/words/sock.m4a",
+          "grapheme_spans": [
+            [
+              2,
+              4
+            ]
+          ]
         }
-      ]
+      ],
+      "sound_garden_expansion": {
+        "status": "prepared-not-wired",
+        "place": "cat topiary",
+        "pure_sound_id": "c-k",
+        "pure_sound_clip": "audio/phonics/c-k.m4a",
+        "sorting_focus": "initial sound",
+        "sorting_contrasts": [
+          {
+            "sound_id": "c-k",
+            "senses": [
+              "cat.animal",
+              "cup.drinking-container"
+            ]
+          },
+          {
+            "sound_id": "g",
+            "senses": [
+              "goat.animal",
+              "gate.fence-door"
+            ]
+          },
+          {
+            "sound_id": "p",
+            "senses": [
+              "pen.writing-tool",
+              "pig.animal"
+            ]
+          }
+        ],
+        "builder_senses": [
+          "cat.animal",
+          "cup.drinking-container",
+          "duck.animal",
+          "sock.clothing"
+        ],
+        "i_spy_scene": {
+          "target_sense": "cup.drinking-container",
+          "senses": [
+            "cup.drinking-container",
+            "goat.animal",
+            "tent.cloth-shelter",
+            "pig.animal"
+          ]
+        },
+        "hint": "Listen for the small, crisp c or k sound.",
+        "rejected_candidates": [
+          {
+            "word": "rock",
+            "reason": "The lizard is a competing focal subject on top of the rocks."
+          },
+          {
+            "word": "cake",
+            "reason": "The rocket-shaped cake is likely to be named rocket first."
+          },
+          {
+            "word": "crab",
+            "reason": "The picture is clear but crab already anchors the a wall; c and k need their own spread."
+          },
+          {
+            "word": "carrot",
+            "reason": "The rabbit is the dominant subject while the carrot acts as a prop."
+          }
+        ],
+        "reviewed": "2026-11-05"
+      }
     },
     {
       "id": "e",
@@ -1668,18 +2046,6 @@
       ],
       "words": [
         {
-          "word": "egg",
-          "sense": "egg.animal-egg",
-          "target_position": "initial",
-          "uk_phonemes_mfa": [
-            "ɛ",
-            "ɡ"
-          ],
-          "cmudict_arpabet_cross_check": "EH1 G",
-          "picture": "assets/words/egg.animal-egg.webp",
-          "alice_word_clip": "audio/words/egg.m4a"
-        },
-        {
           "word": "elephant",
           "sense": "elephant.animal",
           "target_position": "initial",
@@ -1694,7 +2060,13 @@
           ],
           "cmudict_arpabet_cross_check": "EH1 L AH0 F AH0 N T",
           "picture": "assets/words/elephant.animal.webp",
-          "alice_word_clip": "audio/words/elephant.m4a"
+          "alice_word_clip": "audio/words/elephant.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "bed",
@@ -1707,7 +2079,13 @@
           ],
           "cmudict_arpabet_cross_check": "B EH1 D",
           "picture": "assets/words/bed.furniture.webp",
-          "alice_word_clip": "audio/words/bed.m4a"
+          "alice_word_clip": "audio/words/bed.m4a",
+          "grapheme_spans": [
+            [
+              1,
+              2
+            ]
+          ]
         },
         {
           "word": "hen",
@@ -1720,7 +2098,13 @@
           ],
           "cmudict_arpabet_cross_check": "HH EH1 N",
           "picture": "assets/words/hen.female-chicken.webp",
-          "alice_word_clip": "audio/words/hen.m4a"
+          "alice_word_clip": "audio/words/hen.m4a",
+          "grapheme_spans": [
+            [
+              1,
+              2
+            ]
+          ]
         },
         {
           "word": "pen",
@@ -1733,33 +2117,13 @@
           ],
           "cmudict_arpabet_cross_check": "P EH1 N",
           "picture": "assets/words/pen.writing-tool.webp",
-          "alice_word_clip": "audio/words/pen.m4a"
-        },
-        {
-          "word": "red",
-          "sense": "red.colour",
-          "target_position": "medial",
-          "uk_phonemes_mfa": [
-            "ɹ",
-            "ɛ",
-            "d"
-          ],
-          "cmudict_arpabet_cross_check": "R EH1 D",
-          "picture": "assets/words/red.colour.webp",
-          "alice_word_clip": "audio/words/red.m4a"
-        },
-        {
-          "word": "net",
-          "sense": "net.mesh-object",
-          "target_position": "medial",
-          "uk_phonemes_mfa": [
-            "n",
-            "ɛ",
-            "t"
-          ],
-          "cmudict_arpabet_cross_check": "N EH1 T",
-          "picture": "assets/words/net.mesh-object.webp",
-          "alice_word_clip": "audio/words/net.m4a"
+          "alice_word_clip": "audio/words/pen.m4a",
+          "grapheme_spans": [
+            [
+              1,
+              2
+            ]
+          ]
         },
         {
           "word": "bell",
@@ -1772,7 +2136,13 @@
           ],
           "cmudict_arpabet_cross_check": "B EH1 L",
           "picture": "assets/words/bell.ringing-instrument.webp",
-          "alice_word_clip": "audio/words/bell.m4a"
+          "alice_word_clip": "audio/words/bell.m4a",
+          "grapheme_spans": [
+            [
+              1,
+              2
+            ]
+          ]
         },
         {
           "word": "tent",
@@ -1786,24 +2156,80 @@
           ],
           "cmudict_arpabet_cross_check": "T EH1 N T",
           "picture": "assets/words/tent.cloth-shelter.webp",
-          "alice_word_clip": "audio/words/tent.m4a"
-        },
-        {
-          "word": "lemon",
-          "sense": "lemon.fruit",
-          "target_position": "medial",
-          "uk_phonemes_mfa": [
-            "l",
-            "ɛ",
-            "m",
-            "ə",
-            "n"
-          ],
-          "cmudict_arpabet_cross_check": "L EH1 M AH0 N",
-          "picture": "assets/words/lemon.fruit.webp",
-          "alice_word_clip": "audio/words/lemon.m4a"
+          "alice_word_clip": "audio/words/tent.m4a",
+          "grapheme_spans": [
+            [
+              1,
+              2
+            ]
+          ]
         }
-      ]
+      ],
+      "sound_garden_expansion": {
+        "status": "prepared-not-wired",
+        "place": "elephant fountain",
+        "pure_sound_id": "e",
+        "pure_sound_clip": "audio/phonics/e.m4a",
+        "sorting_focus": "middle vowel sound",
+        "sorting_contrasts": [
+          {
+            "sound_id": "e",
+            "senses": [
+              "bed.furniture",
+              "hen.female-chicken"
+            ]
+          },
+          {
+            "sound_id": "i",
+            "senses": [
+              "pig.animal",
+              "lid.container-cover"
+            ]
+          },
+          {
+            "sound_id": "a",
+            "senses": [
+              "cat.animal",
+              "map.place-diagram"
+            ]
+          }
+        ],
+        "builder_senses": [
+          "bed.furniture",
+          "hen.female-chicken",
+          "pen.writing-tool",
+          "tent.cloth-shelter"
+        ],
+        "i_spy_scene": {
+          "target_sense": "hen.female-chicken",
+          "senses": [
+            "hen.female-chicken",
+            "fish.animal",
+            "cat.animal",
+            "sun.our-star"
+          ]
+        },
+        "hint": "Listen for the short e sound, as in elephant.",
+        "rejected_candidates": [
+          {
+            "word": "egg",
+            "reason": "The hatching chick is the dominant name, not egg."
+          },
+          {
+            "word": "red",
+            "reason": "The picture is a red kite scene, so kite competes with the colour word."
+          },
+          {
+            "word": "net",
+            "reason": "The football and goal scene can be named goal before net."
+          },
+          {
+            "word": "lemon",
+            "reason": "The isolated floating slice is less natural and immediate than the six selected cards."
+          }
+        ],
+        "reviewed": "2026-11-05"
+      }
     },
     {
       "id": "u",
@@ -1834,7 +2260,13 @@
           ],
           "cmudict_arpabet_cross_check": "AH0 M B R EH1 L AH0",
           "picture": "assets/words/umbrella.rain-shelter.webp",
-          "alice_word_clip": "audio/words/umbrella.m4a"
+          "alice_word_clip": "audio/words/umbrella.m4a",
+          "grapheme_spans": [
+            [
+              0,
+              1
+            ]
+          ]
         },
         {
           "word": "sun",
@@ -1847,7 +2279,13 @@
           ],
           "cmudict_arpabet_cross_check": "S AH1 N",
           "picture": "assets/words/sun.our-star.webp",
-          "alice_word_clip": "audio/words/sun.m4a"
+          "alice_word_clip": "audio/words/sun.m4a",
+          "grapheme_spans": [
+            [
+              1,
+              2
+            ]
+          ]
         },
         {
           "word": "cup",
@@ -1860,7 +2298,13 @@
           ],
           "cmudict_arpabet_cross_check": "K AH1 P",
           "picture": "assets/words/cup.drinking-container.webp",
-          "alice_word_clip": "audio/words/cup.m4a"
+          "alice_word_clip": "audio/words/cup.m4a",
+          "grapheme_spans": [
+            [
+              1,
+              2
+            ]
+          ]
         },
         {
           "word": "bus",
@@ -1873,46 +2317,13 @@
           ],
           "cmudict_arpabet_cross_check": "B AH1 S",
           "picture": "assets/words/bus.road-vehicle.webp",
-          "alice_word_clip": "audio/words/bus.m4a"
-        },
-        {
-          "word": "duck",
-          "sense": "duck.animal",
-          "target_position": "medial",
-          "uk_phonemes_mfa": [
-            "d",
-            "ɐ",
-            "k"
-          ],
-          "cmudict_arpabet_cross_check": "D AH1 K",
-          "picture": "assets/words/duck.animal.webp",
-          "alice_word_clip": "audio/words/duck.m4a"
-        },
-        {
-          "word": "mug",
-          "sense": "mug.drinking-container",
-          "target_position": "medial",
-          "uk_phonemes_mfa": [
-            "m",
-            "ɐ",
-            "ɡ"
-          ],
-          "cmudict_arpabet_cross_check": "M AH1 G",
-          "picture": "assets/words/mug.drinking-container.webp",
-          "alice_word_clip": "audio/words/mug.m4a"
-        },
-        {
-          "word": "nut",
-          "sense": "nut.edible-seed",
-          "target_position": "medial",
-          "uk_phonemes_mfa": [
-            "n",
-            "ɐ",
-            "t"
-          ],
-          "cmudict_arpabet_cross_check": "N AH1 T",
-          "picture": "assets/words/nut.edible-seed.webp",
-          "alice_word_clip": "audio/words/nut.m4a"
+          "alice_word_clip": "audio/words/bus.m4a",
+          "grapheme_spans": [
+            [
+              1,
+              2
+            ]
+          ]
         },
         {
           "word": "drum",
@@ -1926,21 +2337,13 @@
           ],
           "cmudict_arpabet_cross_check": "D R AH1 M",
           "picture": "assets/words/drum.instrument.webp",
-          "alice_word_clip": "audio/words/drum.m4a"
-        },
-        {
-          "word": "jump",
-          "sense": "jump.push-off-ground",
-          "target_position": "medial",
-          "uk_phonemes_mfa": [
-            "dʒ",
-            "ɐ",
-            "m",
-            "p"
-          ],
-          "cmudict_arpabet_cross_check": "JH AH1 M P",
-          "picture": "assets/words/jump.push-off-ground.webp",
-          "alice_word_clip": "audio/words/jump.m4a"
+          "alice_word_clip": "audio/words/drum.m4a",
+          "grapheme_spans": [
+            [
+              2,
+              3
+            ]
+          ]
         },
         {
           "word": "plum",
@@ -1954,9 +2357,81 @@
           ],
           "cmudict_arpabet_cross_check": "P L AH1 M",
           "picture": "assets/words/plum.fruit.webp",
-          "alice_word_clip": "audio/words/plum.m4a"
+          "alice_word_clip": "audio/words/plum.m4a",
+          "grapheme_spans": [
+            [
+              2,
+              3
+            ]
+          ]
         }
-      ]
+      ],
+      "sound_garden_expansion": {
+        "status": "prepared-not-wired",
+        "place": "umbrella arbour",
+        "pure_sound_id": "u",
+        "pure_sound_clip": "audio/phonics/u.m4a",
+        "sorting_focus": "middle vowel sound",
+        "sorting_contrasts": [
+          {
+            "sound_id": "u",
+            "senses": [
+              "sun.our-star",
+              "cup.drinking-container"
+            ]
+          },
+          {
+            "sound_id": "o",
+            "senses": [
+              "dog.animal",
+              "fox.animal"
+            ]
+          },
+          {
+            "sound_id": "a",
+            "senses": [
+              "cat.animal",
+              "map.place-diagram"
+            ]
+          }
+        ],
+        "builder_senses": [
+          "sun.our-star",
+          "cup.drinking-container",
+          "bus.road-vehicle",
+          "drum.instrument",
+          "plum.fruit"
+        ],
+        "i_spy_scene": {
+          "target_sense": "bus.road-vehicle",
+          "senses": [
+            "bus.road-vehicle",
+            "fox.animal",
+            "cat.animal",
+            "bed.furniture"
+          ]
+        },
+        "hint": "Listen for the short u sound, as in umbrella.",
+        "rejected_candidates": [
+          {
+            "word": "duck",
+            "reason": "The picture is clear but duck already belongs to the c/k and d prepared walls."
+          },
+          {
+            "word": "mug",
+            "reason": "The picture is clear but mug already anchors the m wall."
+          },
+          {
+            "word": "nut",
+            "reason": "The squirrel and recognisable acorn make nut an uncertain label."
+          },
+          {
+            "word": "jump",
+            "reason": "The dog and puddle dominate an action that is harder to name from one still image."
+          }
+        ],
+        "reviewed": "2026-11-05"
+      }
     },
     {
       "id": "r",
@@ -4584,6 +5059,25 @@
           ]
         },
         {
+          "word": "tree",
+          "sense": "tree.large-plant",
+          "target_position": "final",
+          "uk_phonemes_mfa": [
+            "tʃ",
+            "ɹ",
+            "iː"
+          ],
+          "cmudict_arpabet_cross_check": "T R IY1",
+          "picture": "assets/words/tree.large-plant.webp",
+          "alice_word_clip": "audio/words/tree.m4a",
+          "grapheme_spans": [
+            [
+              2,
+              4
+            ]
+          ]
+        },
+        {
           "word": "cheese",
           "sense": "cheese.food",
           "target_position": "medial",
@@ -4595,24 +5089,6 @@
           "cmudict_arpabet_cross_check": "CH IY1 Z",
           "picture": "assets/words/cheese.food.webp",
           "alice_word_clip": "audio/words/cheese.m4a",
-          "grapheme_spans": [
-            [
-              2,
-              4
-            ]
-          ]
-        },
-        {
-          "word": "knee",
-          "sense": "knee.body-part",
-          "target_position": "final",
-          "uk_phonemes_mfa": [
-            "ɲ",
-            "iː"
-          ],
-          "cmudict_arpabet_cross_check": "N IY1",
-          "picture": "assets/words/knee.body-part.webp",
-          "alice_word_clip": "audio/words/knee.m4a",
           "grapheme_spans": [
             [
               2,
@@ -4640,40 +5116,40 @@
           ]
         },
         {
-          "word": "tree",
-          "sense": "tree.large-plant",
-          "target_position": "final",
+          "word": "leaf",
+          "sense": "leaf.plant-part",
+          "target_position": "medial",
           "uk_phonemes_mfa": [
-            "tʃ",
-            "ɹ",
-            "iː"
+            "ʎ",
+            "iː",
+            "f"
           ],
-          "cmudict_arpabet_cross_check": "T R IY1",
-          "picture": "assets/words/tree.large-plant.webp",
-          "alice_word_clip": "audio/words/tree.m4a",
+          "cmudict_arpabet_cross_check": "L IY1 F",
+          "picture": "assets/words/leaf.plant-part.webp",
+          "alice_word_clip": "audio/words/leaf.m4a",
           "grapheme_spans": [
             [
-              2,
-              4
+              1,
+              3
             ]
           ]
         },
         {
-          "word": "wheel",
-          "sense": "wheel.round-moving-part",
+          "word": "peach",
+          "sense": "peach.fruit",
           "target_position": "medial",
           "uk_phonemes_mfa": [
-            "w",
+            "pʰ",
             "iː",
-            "ɫ"
+            "tʃ"
           ],
-          "cmudict_arpabet_cross_check": "W IY1 L",
-          "picture": "assets/words/wheel.round-moving-part.webp",
-          "alice_word_clip": "audio/words/wheel.m4a",
+          "cmudict_arpabet_cross_check": "P IY1 CH",
+          "picture": "assets/words/peach.fruit.webp",
+          "alice_word_clip": "audio/words/peach.m4a",
           "grapheme_spans": [
             [
-              2,
-              4
+              1,
+              3
             ]
           ]
         }
@@ -6628,6 +7104,1573 @@
           "alice_word_clip": "audio/words/zebra.m4a"
         }
       ]
+    }
+  ],
+  "vowel_places": [
+    {
+      "id": "a",
+      "letter": "a",
+      "place": "apple tree",
+      "sides": [
+        {
+          "id": "a-short",
+          "length": "short",
+          "label": "short a",
+          "phoneme_ipa": "a",
+          "spellings": [
+            "a"
+          ],
+          "pure_sound_id": "a-short",
+          "pure_sound_clip": "audio/phonics/a-short.m4a",
+          "hint": "Listen for the short a sound, as in ant.",
+          "words": [
+            {
+              "word": "ant",
+              "sense": "ant.insect",
+              "target_position": "initial",
+              "uk_phonemes_mfa": [
+                "a",
+                "n",
+                "t"
+              ],
+              "cmudict_arpabet_cross_check": "AE1 N T",
+              "picture": "assets/words/ant.insect.webp",
+              "alice_word_clip": "audio/words/ant.m4a",
+              "grapheme_spans": [
+                [
+                  0,
+                  1
+                ]
+              ],
+              "grapheme": "a"
+            },
+            {
+              "word": "apple",
+              "sense": "apple.fruit",
+              "target_position": "initial",
+              "uk_phonemes_mfa": [
+                "a",
+                "p",
+                "ə",
+                "ɫ"
+              ],
+              "cmudict_arpabet_cross_check": "AE1 P AH0 L",
+              "picture": "assets/words/apple.fruit.webp",
+              "alice_word_clip": "audio/words/apple.m4a",
+              "grapheme_spans": [
+                [
+                  0,
+                  1
+                ]
+              ],
+              "grapheme": "a"
+            },
+            {
+              "word": "cat",
+              "sense": "cat.animal",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "kʰ",
+                "a",
+                "t"
+              ],
+              "cmudict_arpabet_cross_check": "K AE1 T",
+              "picture": "assets/words/cat.animal.webp",
+              "alice_word_clip": "audio/words/cat.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "a"
+            },
+            {
+              "word": "hat",
+              "sense": "hat.headwear",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "h",
+                "a",
+                "t"
+              ],
+              "cmudict_arpabet_cross_check": "HH AE1 T",
+              "picture": "assets/words/hat.headwear.webp",
+              "alice_word_clip": "audio/words/hat.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "a"
+            },
+            {
+              "word": "map",
+              "sense": "map.place-diagram",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "m",
+                "a",
+                "p"
+              ],
+              "cmudict_arpabet_cross_check": "M AE1 P",
+              "picture": "assets/words/map.place-diagram.webp",
+              "alice_word_clip": "audio/words/map.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "a"
+            },
+            {
+              "word": "bag",
+              "sense": "bag.container",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "b",
+                "a",
+                "ɡ"
+              ],
+              "cmudict_arpabet_cross_check": "B AE1 G",
+              "picture": "assets/words/bag.container.webp",
+              "alice_word_clip": "audio/words/bag.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "a"
+            }
+          ],
+          "builder_senses": [
+            "ant.insect",
+            "apple.fruit",
+            "cat.animal",
+            "hat.headwear"
+          ],
+          "i_spy_target_sense": "hat.headwear",
+          "reviewed": "2026-11-05"
+        },
+        {
+          "id": "a-long",
+          "length": "long",
+          "label": "long a",
+          "phoneme_ipa": "eɪ",
+          "spellings": [
+            "a_e",
+            "ai",
+            "ay"
+          ],
+          "pure_sound_id": "a-long",
+          "pure_sound_clip": "audio/phonics/a-long.m4a",
+          "hint": "Listen for the long a sound, as in snail.",
+          "words": [
+            {
+              "word": "snake",
+              "sense": "snake.animal",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "s",
+                "ɲ",
+                "ej",
+                "k"
+              ],
+              "cmudict_arpabet_cross_check": "S N EY1 K",
+              "picture": "assets/words/snake.animal.webp",
+              "alice_word_clip": "audio/words/snake.m4a",
+              "grapheme_spans": [
+                [
+                  2,
+                  3
+                ],
+                [
+                  4,
+                  5
+                ]
+              ],
+              "grapheme": "a_e"
+            },
+            {
+              "word": "gate",
+              "sense": "gate.fence-door",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "ɡ",
+                "ej",
+                "t"
+              ],
+              "cmudict_arpabet_cross_check": "G EY1 T",
+              "picture": "assets/words/gate.fence-door.webp",
+              "alice_word_clip": "audio/words/gate.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ],
+                [
+                  3,
+                  4
+                ]
+              ],
+              "grapheme": "a_e"
+            },
+            {
+              "word": "snail",
+              "sense": "snail.animal",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "s",
+                "ɲ",
+                "ej",
+                "ɫ"
+              ],
+              "cmudict_arpabet_cross_check": "S N EY1 L",
+              "picture": "assets/words/snail.animal.webp",
+              "alice_word_clip": "audio/words/snail.m4a",
+              "grapheme_spans": [
+                [
+                  2,
+                  4
+                ]
+              ],
+              "grapheme": "ai"
+            },
+            {
+              "word": "train",
+              "sense": "train.rail-vehicle",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "t",
+                "ɹ",
+                "ej",
+                "n"
+              ],
+              "cmudict_arpabet_cross_check": "T R EY1 N",
+              "picture": "assets/words/train.rail-vehicle.webp",
+              "alice_word_clip": "audio/words/train.m4a",
+              "grapheme_spans": [
+                [
+                  2,
+                  4
+                ]
+              ],
+              "grapheme": "ai"
+            },
+            {
+              "word": "tray",
+              "sense": "tray.carrying-surface",
+              "target_position": "final",
+              "uk_phonemes_mfa": [
+                "t",
+                "ɹ",
+                "ej"
+              ],
+              "cmudict_arpabet_cross_check": "T R EY1",
+              "picture": "assets/words/tray.carrying-surface.webp",
+              "alice_word_clip": "audio/words/tray.m4a",
+              "grapheme_spans": [
+                [
+                  2,
+                  4
+                ]
+              ],
+              "grapheme": "ay"
+            },
+            {
+              "word": "stingray",
+              "sense": "stingray.flat-sea-fish",
+              "target_position": "final",
+              "uk_phonemes_mfa": [
+                "s",
+                "tʲ",
+                "ɪ",
+                "ŋ",
+                "ɡ",
+                "ɹ",
+                "ej"
+              ],
+              "cmudict_arpabet_cross_check": null,
+              "picture": "assets/words/stingray.flat-sea-fish.webp",
+              "alice_word_clip": "audio/words/stingray.m4a",
+              "grapheme_spans": [
+                [
+                  6,
+                  8
+                ]
+              ],
+              "grapheme": "ay"
+            }
+          ],
+          "builder_senses": [
+            "snake.animal",
+            "gate.fence-door",
+            "snail.animal",
+            "train.rail-vehicle"
+          ],
+          "i_spy_target_sense": "train.rail-vehicle",
+          "reviewed": "2026-11-05"
+        }
+      ],
+      "sorting_contrast": [
+        "a-short",
+        "a-long"
+      ],
+      "reviewed": "2026-11-05"
+    },
+    {
+      "id": "e",
+      "letter": "e",
+      "place": "beehive by a tree",
+      "sides": [
+        {
+          "id": "e-short",
+          "length": "short",
+          "label": "short e",
+          "phoneme_ipa": "ɛ",
+          "spellings": [
+            "e"
+          ],
+          "pure_sound_id": "e",
+          "pure_sound_clip": "audio/phonics/e.m4a",
+          "hint": "Listen for the short e sound, as in elephant.",
+          "words": [
+            {
+              "word": "elephant",
+              "sense": "elephant.animal",
+              "target_position": "initial",
+              "uk_phonemes_mfa": [
+                "ɛ",
+                "l",
+                "ə",
+                "f",
+                "ə",
+                "n",
+                "t"
+              ],
+              "cmudict_arpabet_cross_check": "EH1 L AH0 F AH0 N T",
+              "picture": "assets/words/elephant.animal.webp",
+              "alice_word_clip": "audio/words/elephant.m4a",
+              "grapheme_spans": [
+                [
+                  0,
+                  1
+                ]
+              ],
+              "grapheme": "e"
+            },
+            {
+              "word": "bed",
+              "sense": "bed.furniture",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "b",
+                "ɛ",
+                "d"
+              ],
+              "cmudict_arpabet_cross_check": "B EH1 D",
+              "picture": "assets/words/bed.furniture.webp",
+              "alice_word_clip": "audio/words/bed.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "e"
+            },
+            {
+              "word": "hen",
+              "sense": "hen.female-chicken",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "h",
+                "ɛ",
+                "n"
+              ],
+              "cmudict_arpabet_cross_check": "HH EH1 N",
+              "picture": "assets/words/hen.female-chicken.webp",
+              "alice_word_clip": "audio/words/hen.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "e"
+            },
+            {
+              "word": "web",
+              "sense": "web.spider-net",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "w",
+                "ɛ",
+                "b"
+              ],
+              "cmudict_arpabet_cross_check": "W EH1 B",
+              "picture": "assets/words/web.spider-net.webp",
+              "alice_word_clip": "audio/words/web.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "e"
+            },
+            {
+              "word": "net",
+              "sense": "net.mesh-object",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "n",
+                "ɛ",
+                "t"
+              ],
+              "cmudict_arpabet_cross_check": "N EH1 T",
+              "picture": "assets/words/net.mesh-object.webp",
+              "alice_word_clip": "audio/words/net.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "e"
+            },
+            {
+              "word": "tent",
+              "sense": "tent.cloth-shelter",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "tʰ",
+                "ɛ",
+                "n",
+                "t"
+              ],
+              "cmudict_arpabet_cross_check": "T EH1 N T",
+              "picture": "assets/words/tent.cloth-shelter.webp",
+              "alice_word_clip": "audio/words/tent.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "e"
+            }
+          ],
+          "builder_senses": [
+            "elephant.animal",
+            "bed.furniture",
+            "hen.female-chicken",
+            "web.spider-net"
+          ],
+          "i_spy_target_sense": "web.spider-net",
+          "reviewed": "2026-11-05"
+        },
+        {
+          "id": "e-long",
+          "length": "long",
+          "label": "long e",
+          "phoneme_ipa": "iː",
+          "spellings": [
+            "ee",
+            "ea"
+          ],
+          "pure_sound_id": "e-long",
+          "pure_sound_clip": "audio/phonics/e-long.m4a",
+          "hint": "Listen for the long e sound, as in bee.",
+          "words": [
+            {
+              "word": "bee",
+              "sense": "bee.insect",
+              "target_position": "final",
+              "uk_phonemes_mfa": [
+                "bʲ",
+                "iː"
+              ],
+              "cmudict_arpabet_cross_check": "B IY1",
+              "picture": "assets/words/bee.insect.webp",
+              "alice_word_clip": "audio/words/bee.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  3
+                ]
+              ],
+              "grapheme": "ee"
+            },
+            {
+              "word": "tree",
+              "sense": "tree.large-plant",
+              "target_position": "final",
+              "uk_phonemes_mfa": [
+                "tʃ",
+                "ɹ",
+                "iː"
+              ],
+              "cmudict_arpabet_cross_check": "T R IY1",
+              "picture": "assets/words/tree.large-plant.webp",
+              "alice_word_clip": "audio/words/tree.m4a",
+              "grapheme_spans": [
+                [
+                  2,
+                  4
+                ]
+              ],
+              "grapheme": "ee"
+            },
+            {
+              "word": "cheese",
+              "sense": "cheese.food",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "tʃ",
+                "iː",
+                "z"
+              ],
+              "cmudict_arpabet_cross_check": "CH IY1 Z",
+              "picture": "assets/words/cheese.food.webp",
+              "alice_word_clip": "audio/words/cheese.m4a",
+              "grapheme_spans": [
+                [
+                  2,
+                  4
+                ]
+              ],
+              "grapheme": "ee"
+            },
+            {
+              "word": "sheep",
+              "sense": "sheep.animal",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "ʃ",
+                "iː",
+                "p"
+              ],
+              "cmudict_arpabet_cross_check": "SH IY1 P",
+              "picture": "assets/words/sheep.animal.webp",
+              "alice_word_clip": "audio/words/sheep.m4a",
+              "grapheme_spans": [
+                [
+                  2,
+                  4
+                ]
+              ],
+              "grapheme": "ee"
+            },
+            {
+              "word": "leaf",
+              "sense": "leaf.plant-part",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "ʎ",
+                "iː",
+                "f"
+              ],
+              "cmudict_arpabet_cross_check": "L IY1 F",
+              "picture": "assets/words/leaf.plant-part.webp",
+              "alice_word_clip": "audio/words/leaf.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  3
+                ]
+              ],
+              "grapheme": "ea"
+            },
+            {
+              "word": "peach",
+              "sense": "peach.fruit",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "pʰ",
+                "iː",
+                "tʃ"
+              ],
+              "cmudict_arpabet_cross_check": "P IY1 CH",
+              "picture": "assets/words/peach.fruit.webp",
+              "alice_word_clip": "audio/words/peach.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  3
+                ]
+              ],
+              "grapheme": "ea"
+            }
+          ],
+          "builder_senses": [
+            "bee.insect",
+            "tree.large-plant",
+            "cheese.food",
+            "sheep.animal"
+          ],
+          "i_spy_target_sense": "sheep.animal",
+          "reviewed": "2026-11-05",
+          "coverage_note": "The live dictionary has no concrete pictured e_e word with an Alice clip; ee and ea are shown rather than falsely labelling another spelling."
+        }
+      ],
+      "sorting_contrast": [
+        "e-short",
+        "e-long"
+      ],
+      "reviewed": "2026-11-05"
+    },
+    {
+      "id": "i",
+      "letter": "i",
+      "place": "insect hotel",
+      "sides": [
+        {
+          "id": "i-short",
+          "length": "short",
+          "label": "short i",
+          "phoneme_ipa": "ɪ",
+          "spellings": [
+            "i"
+          ],
+          "pure_sound_id": "i",
+          "pure_sound_clip": "audio/phonics/i.m4a",
+          "hint": "Listen for the short i sound, as in ring.",
+          "words": [
+            {
+              "word": "ring",
+              "sense": "ring.jewellery",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "ɹ",
+                "ɪ",
+                "n"
+              ],
+              "cmudict_arpabet_cross_check": "R IH1 NG",
+              "picture": "assets/words/ring.jewellery.webp",
+              "alice_word_clip": "audio/words/ring.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "i"
+            },
+            {
+              "word": "pig",
+              "sense": "pig.animal",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "pʰ",
+                "ɪ",
+                "ɡ"
+              ],
+              "cmudict_arpabet_cross_check": "P IH1 G",
+              "picture": "assets/words/pig.animal.webp",
+              "alice_word_clip": "audio/words/pig.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "i"
+            },
+            {
+              "word": "fish",
+              "sense": "fish.animal",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "fʲ",
+                "ɪ",
+                "ʃ"
+              ],
+              "cmudict_arpabet_cross_check": "F IH1 SH",
+              "picture": "assets/words/fish.animal.webp",
+              "alice_word_clip": "audio/words/fish.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "i"
+            },
+            {
+              "word": "ship",
+              "sense": "ship.large-water-vehicle",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "ʃ",
+                "ɪ",
+                "p"
+              ],
+              "cmudict_arpabet_cross_check": "SH IH1 P",
+              "picture": "assets/words/ship.large-water-vehicle.webp",
+              "alice_word_clip": "audio/words/ship.m4a",
+              "grapheme_spans": [
+                [
+                  2,
+                  3
+                ]
+              ],
+              "grapheme": "i"
+            },
+            {
+              "word": "lid",
+              "sense": "lid.container-cover",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "ʎ",
+                "ɪ",
+                "d"
+              ],
+              "cmudict_arpabet_cross_check": "L IH1 D",
+              "picture": "assets/words/lid.container-cover.webp",
+              "alice_word_clip": "audio/words/lid.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "i"
+            },
+            {
+              "word": "bin",
+              "sense": "bin.waste-container",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "bʲ",
+                "ɪ",
+                "n"
+              ],
+              "cmudict_arpabet_cross_check": "B IH1 N",
+              "picture": "assets/words/bin.waste-container.webp",
+              "alice_word_clip": "audio/words/bin.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "i"
+            }
+          ],
+          "builder_senses": [
+            "ring.jewellery",
+            "pig.animal",
+            "fish.animal",
+            "ship.large-water-vehicle"
+          ],
+          "i_spy_target_sense": "ship.large-water-vehicle",
+          "reviewed": "2026-11-05"
+        },
+        {
+          "id": "i-long",
+          "length": "long",
+          "label": "long i",
+          "phoneme_ipa": "aɪ",
+          "spellings": [
+            "i_e",
+            "igh",
+            "eye",
+            "y"
+          ],
+          "pure_sound_id": "i-long",
+          "pure_sound_clip": "audio/phonics/i-long.m4a",
+          "hint": "Listen for the long i sound, as in bike.",
+          "words": [
+            {
+              "word": "bike",
+              "sense": "bike.two-wheeled-vehicle",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "b",
+                "aj",
+                "k"
+              ],
+              "cmudict_arpabet_cross_check": "B AY1 K",
+              "picture": "assets/words/bike.two-wheeled-vehicle.webp",
+              "alice_word_clip": "audio/words/bike.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ],
+                [
+                  3,
+                  4
+                ]
+              ],
+              "grapheme": "i_e"
+            },
+            {
+              "word": "kite",
+              "sense": "kite.flying-toy",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "kʰ",
+                "aj",
+                "t"
+              ],
+              "cmudict_arpabet_cross_check": "K AY1 T",
+              "picture": "assets/words/kite.flying-toy.webp",
+              "alice_word_clip": "audio/words/kite.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ],
+                [
+                  3,
+                  4
+                ]
+              ],
+              "grapheme": "i_e"
+            },
+            {
+              "word": "knight",
+              "sense": "knight.storybook-character",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "n",
+                "aj",
+                "t"
+              ],
+              "cmudict_arpabet_cross_check": "N AY1 T",
+              "picture": "assets/words/knight.storybook-character.webp",
+              "alice_word_clip": "audio/words/knight.m4a",
+              "grapheme_spans": [
+                [
+                  2,
+                  5
+                ]
+              ],
+              "grapheme": "igh"
+            },
+            {
+              "word": "lighthouse",
+              "sense": "lighthouse.sea-signal-building",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "l",
+                "aj",
+                "t",
+                "h",
+                "aw",
+                "s"
+              ],
+              "cmudict_arpabet_cross_check": "L AY1 T HH AW2 S",
+              "picture": "assets/words/lighthouse.sea-signal-building.webp",
+              "alice_word_clip": "audio/words/lighthouse.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  4
+                ]
+              ],
+              "grapheme": "igh"
+            },
+            {
+              "word": "eye",
+              "sense": "eye.body-part",
+              "target_position": "whole-word",
+              "uk_phonemes_mfa": [
+                "aj"
+              ],
+              "cmudict_arpabet_cross_check": "AY1",
+              "picture": "assets/words/eye.body-part.webp",
+              "alice_word_clip": "audio/words/eye.m4a",
+              "grapheme_spans": [
+                [
+                  0,
+                  3
+                ]
+              ],
+              "grapheme": "eye"
+            },
+            {
+              "word": "fly",
+              "sense": "fly.insect",
+              "target_position": "final",
+              "uk_phonemes_mfa": [
+                "f",
+                "l",
+                "aj"
+              ],
+              "cmudict_arpabet_cross_check": "F L AY1",
+              "picture": "assets/words/fly.insect.webp",
+              "alice_word_clip": "audio/words/fly.m4a",
+              "grapheme_spans": [
+                [
+                  2,
+                  3
+                ]
+              ],
+              "grapheme": "y"
+            }
+          ],
+          "builder_senses": [
+            "bike.two-wheeled-vehicle",
+            "kite.flying-toy",
+            "knight.storybook-character",
+            "lighthouse.sea-signal-building"
+          ],
+          "i_spy_target_sense": "lighthouse.sea-signal-building",
+          "reviewed": "2026-11-05"
+        }
+      ],
+      "sorting_contrast": [
+        "i-short",
+        "i-long"
+      ],
+      "reviewed": "2026-11-05"
+    },
+    {
+      "id": "o",
+      "letter": "o",
+      "place": "octopus fountain",
+      "sides": [
+        {
+          "id": "o-short",
+          "length": "short",
+          "label": "short o",
+          "phoneme_ipa": "ɒ",
+          "spellings": [
+            "o"
+          ],
+          "pure_sound_id": "o",
+          "pure_sound_clip": "audio/phonics/o.m4a",
+          "hint": "Listen for the short o sound, as in octopus.",
+          "words": [
+            {
+              "word": "octopus",
+              "sense": "octopus.animal",
+              "target_position": "initial",
+              "uk_phonemes_mfa": [
+                "ɒ",
+                "k",
+                "t",
+                "ə",
+                "p",
+                "ə",
+                "s"
+              ],
+              "cmudict_arpabet_cross_check": "AA1 K T AH0 P UH2 S",
+              "picture": "assets/words/octopus.animal.webp",
+              "alice_word_clip": "audio/words/octopus.m4a",
+              "grapheme_spans": [
+                [
+                  0,
+                  1
+                ]
+              ],
+              "grapheme": "o"
+            },
+            {
+              "word": "dog",
+              "sense": "dog.animal",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "d",
+                "ɒ",
+                "ɡ"
+              ],
+              "cmudict_arpabet_cross_check": "D AO1 G",
+              "picture": "assets/words/dog.animal.webp",
+              "alice_word_clip": "audio/words/dog.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "o"
+            },
+            {
+              "word": "box",
+              "sense": "box.container",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "b",
+                "ɒ",
+                "k",
+                "s"
+              ],
+              "cmudict_arpabet_cross_check": "B AA1 K S",
+              "picture": "assets/words/box.container.webp",
+              "alice_word_clip": "audio/words/box.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "o"
+            },
+            {
+              "word": "fox",
+              "sense": "fox.animal",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "f",
+                "ɒ",
+                "k",
+                "s"
+              ],
+              "cmudict_arpabet_cross_check": "F AA1 K S",
+              "picture": "assets/words/fox.animal.webp",
+              "alice_word_clip": "audio/words/fox.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "o"
+            },
+            {
+              "word": "log",
+              "sense": "log.cut-tree",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "l",
+                "ɒ",
+                "ɡ"
+              ],
+              "cmudict_arpabet_cross_check": "L AO1 G",
+              "picture": "assets/words/log.cut-tree.webp",
+              "alice_word_clip": "audio/words/log.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "o"
+            },
+            {
+              "word": "mop",
+              "sense": "mop.floor-cleaning-tool",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "m",
+                "ɒ",
+                "p"
+              ],
+              "cmudict_arpabet_cross_check": "M AA1 P",
+              "picture": "assets/words/mop.floor-cleaning-tool.webp",
+              "alice_word_clip": "audio/words/mop.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "o"
+            }
+          ],
+          "builder_senses": [
+            "octopus.animal",
+            "dog.animal",
+            "box.container",
+            "fox.animal"
+          ],
+          "i_spy_target_sense": "fox.animal",
+          "reviewed": "2026-11-05"
+        },
+        {
+          "id": "o-long",
+          "length": "long",
+          "label": "long o",
+          "phoneme_ipa": "əʊ",
+          "spellings": [
+            "o_e",
+            "oa",
+            "ow"
+          ],
+          "pure_sound_id": "o-long",
+          "pure_sound_clip": "audio/phonics/o-long.m4a",
+          "hint": "Listen for the long o sound, as in boat.",
+          "words": [
+            {
+              "word": "bone",
+              "sense": "bone.body-part",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "b",
+                "əw",
+                "n"
+              ],
+              "cmudict_arpabet_cross_check": "B OW1 N",
+              "picture": "assets/words/bone.body-part.webp",
+              "alice_word_clip": "audio/words/bone.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ],
+                [
+                  3,
+                  4
+                ]
+              ],
+              "grapheme": "o_e"
+            },
+            {
+              "word": "stone",
+              "sense": "stone.small-rock",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "s",
+                "t",
+                "əw",
+                "n"
+              ],
+              "cmudict_arpabet_cross_check": "S T OW1 N",
+              "picture": "assets/words/stone.small-rock.webp",
+              "alice_word_clip": "audio/words/stone.m4a",
+              "grapheme_spans": [
+                [
+                  2,
+                  3
+                ],
+                [
+                  4,
+                  5
+                ]
+              ],
+              "grapheme": "o_e"
+            },
+            {
+              "word": "boat",
+              "sense": "boat.water-vehicle",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "b",
+                "əw",
+                "t"
+              ],
+              "cmudict_arpabet_cross_check": "B OW1 T",
+              "picture": "assets/words/boat.water-vehicle.webp",
+              "alice_word_clip": "audio/words/boat.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  3
+                ]
+              ],
+              "grapheme": "oa"
+            },
+            {
+              "word": "goat",
+              "sense": "goat.animal",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "ɡ",
+                "əw",
+                "t"
+              ],
+              "cmudict_arpabet_cross_check": "G OW1 T",
+              "picture": "assets/words/goat.animal.webp",
+              "alice_word_clip": "audio/words/goat.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  3
+                ]
+              ],
+              "grapheme": "oa"
+            },
+            {
+              "word": "bowl",
+              "sense": "bowl.dish",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "b",
+                "əw",
+                "ɫ"
+              ],
+              "cmudict_arpabet_cross_check": "B OW1 L",
+              "picture": "assets/words/bowl.dish.webp",
+              "alice_word_clip": "audio/words/bowl.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  3
+                ]
+              ],
+              "grapheme": "ow"
+            },
+            {
+              "word": "crow",
+              "sense": "crow.animal",
+              "target_position": "final",
+              "uk_phonemes_mfa": [
+                "k",
+                "ɹ",
+                "əw"
+              ],
+              "cmudict_arpabet_cross_check": "K R OW1",
+              "picture": "assets/words/crow.animal.webp",
+              "alice_word_clip": "audio/words/crow.m4a",
+              "grapheme_spans": [
+                [
+                  2,
+                  4
+                ]
+              ],
+              "grapheme": "ow"
+            }
+          ],
+          "builder_senses": [
+            "bone.body-part",
+            "stone.small-rock",
+            "boat.water-vehicle",
+            "goat.animal"
+          ],
+          "i_spy_target_sense": "goat.animal",
+          "reviewed": "2026-11-05"
+        }
+      ],
+      "sorting_contrast": [
+        "o-short",
+        "o-long"
+      ],
+      "reviewed": "2026-11-05"
+    },
+    {
+      "id": "u",
+      "letter": "u",
+      "place": "umbrella arbour",
+      "sides": [
+        {
+          "id": "u-short",
+          "length": "short",
+          "label": "short u",
+          "phoneme_ipa": "ʌ",
+          "spellings": [
+            "u"
+          ],
+          "pure_sound_id": "u",
+          "pure_sound_clip": "audio/phonics/u.m4a",
+          "hint": "Listen for the short u sound, as in umbrella.",
+          "words": [
+            {
+              "word": "umbrella",
+              "sense": "umbrella.rain-shelter",
+              "target_position": "initial",
+              "uk_phonemes_mfa": [
+                "ɐ",
+                "m",
+                "b",
+                "ɹ",
+                "ɛ",
+                "l",
+                "ə"
+              ],
+              "cmudict_arpabet_cross_check": "AH0 M B R EH1 L AH0",
+              "picture": "assets/words/umbrella.rain-shelter.webp",
+              "alice_word_clip": "audio/words/umbrella.m4a",
+              "grapheme_spans": [
+                [
+                  0,
+                  1
+                ]
+              ],
+              "grapheme": "u"
+            },
+            {
+              "word": "bus",
+              "sense": "bus.road-vehicle",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "b",
+                "ɐ",
+                "s"
+              ],
+              "cmudict_arpabet_cross_check": "B AH1 S",
+              "picture": "assets/words/bus.road-vehicle.webp",
+              "alice_word_clip": "audio/words/bus.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "u"
+            },
+            {
+              "word": "sun",
+              "sense": "sun.our-star",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "s",
+                "ɐ",
+                "n"
+              ],
+              "cmudict_arpabet_cross_check": "S AH1 N",
+              "picture": "assets/words/sun.our-star.webp",
+              "alice_word_clip": "audio/words/sun.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "u"
+            },
+            {
+              "word": "cup",
+              "sense": "cup.drinking-container",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "kʰ",
+                "ɐ",
+                "p"
+              ],
+              "cmudict_arpabet_cross_check": "K AH1 P",
+              "picture": "assets/words/cup.drinking-container.webp",
+              "alice_word_clip": "audio/words/cup.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "u"
+            },
+            {
+              "word": "drum",
+              "sense": "drum.instrument",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "d",
+                "ɹ",
+                "ɐ",
+                "m"
+              ],
+              "cmudict_arpabet_cross_check": "D R AH1 M",
+              "picture": "assets/words/drum.instrument.webp",
+              "alice_word_clip": "audio/words/drum.m4a",
+              "grapheme_spans": [
+                [
+                  2,
+                  3
+                ]
+              ],
+              "grapheme": "u"
+            },
+            {
+              "word": "plum",
+              "sense": "plum.fruit",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "p",
+                "l",
+                "ɐ",
+                "m"
+              ],
+              "cmudict_arpabet_cross_check": "P L AH1 M",
+              "picture": "assets/words/plum.fruit.webp",
+              "alice_word_clip": "audio/words/plum.m4a",
+              "grapheme_spans": [
+                [
+                  2,
+                  3
+                ]
+              ],
+              "grapheme": "u"
+            }
+          ],
+          "builder_senses": [
+            "umbrella.rain-shelter",
+            "bus.road-vehicle",
+            "sun.our-star",
+            "cup.drinking-container"
+          ],
+          "i_spy_target_sense": "cup.drinking-container",
+          "reviewed": "2026-11-05"
+        },
+        {
+          "id": "u-long",
+          "length": "long",
+          "label": "long u",
+          "phoneme_ipa": "juː",
+          "spellings": [
+            "u_e",
+            "u"
+          ],
+          "pure_sound_id": "u-long",
+          "pure_sound_clip": "audio/phonics/u-long.m4a",
+          "hint": "Listen for the long u sound, as in unicorn.",
+          "words": [
+            {
+              "word": "cube",
+              "sense": "cube.solid-shape",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "cʰ",
+                "ʉː",
+                "b"
+              ],
+              "cmudict_arpabet_cross_check": "K Y UW1 B",
+              "picture": "assets/words/cube.solid-shape.webp",
+              "alice_word_clip": "audio/words/cube.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ],
+                [
+                  3,
+                  4
+                ]
+              ],
+              "grapheme": "u_e"
+            },
+            {
+              "word": "flute",
+              "sense": "flute.instrument",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "f",
+                "l",
+                "ʉː",
+                "t"
+              ],
+              "cmudict_arpabet_cross_check": "F L UW1 T",
+              "picture": "assets/words/flute.instrument.webp",
+              "alice_word_clip": "audio/words/flute.m4a",
+              "grapheme_spans": [
+                [
+                  2,
+                  3
+                ],
+                [
+                  4,
+                  5
+                ]
+              ],
+              "grapheme": "u_e"
+            },
+            {
+              "word": "unicorn",
+              "sense": "unicorn.magical-creature",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "j",
+                "ʉː",
+                "ɲ",
+                "ɪ",
+                "kʰ",
+                "ɒː",
+                "n"
+              ],
+              "cmudict_arpabet_cross_check": "Y UW1 N IH0 K AO2 R N",
+              "picture": "assets/words/unicorn.magical-creature.webp",
+              "alice_word_clip": "audio/words/unicorn.m4a",
+              "grapheme_spans": [
+                [
+                  0,
+                  1
+                ]
+              ],
+              "grapheme": "u"
+            },
+            {
+              "word": "uniform",
+              "sense": "uniform.special-clothes",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "j",
+                "ʉː",
+                "ɲ",
+                "ɪ",
+                "f",
+                "ɒː",
+                "m"
+              ],
+              "cmudict_arpabet_cross_check": "Y UW1 N AH0 F AO2 R M",
+              "picture": "assets/words/uniform.special-clothes.webp",
+              "alice_word_clip": "audio/words/uniform.m4a",
+              "grapheme_spans": [
+                [
+                  0,
+                  1
+                ]
+              ],
+              "grapheme": "u"
+            },
+            {
+              "word": "tulip",
+              "sense": "tulip.flower",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "tʲ",
+                "ʉː",
+                "ʎ",
+                "ɪ",
+                "p"
+              ],
+              "cmudict_arpabet_cross_check": "T UW1 L AH0 P",
+              "picture": "assets/words/tulip.flower.webp",
+              "alice_word_clip": "audio/words/tulip.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "u"
+            },
+            {
+              "word": "cucumber",
+              "sense": "cucumber.food",
+              "target_position": "medial",
+              "uk_phonemes_mfa": [
+                "cʰ",
+                "ʉː",
+                "kʰ",
+                "ɐ",
+                "m",
+                "b",
+                "ə"
+              ],
+              "cmudict_arpabet_cross_check": "K Y UW1 K AH0 M B ER0",
+              "picture": "assets/words/cucumber.food.webp",
+              "alice_word_clip": "audio/words/cucumber.m4a",
+              "grapheme_spans": [
+                [
+                  1,
+                  2
+                ]
+              ],
+              "grapheme": "u"
+            }
+          ],
+          "builder_senses": [
+            "cube.solid-shape",
+            "flute.instrument",
+            "unicorn.magical-creature",
+            "uniform.special-clothes"
+          ],
+          "i_spy_target_sense": "uniform.special-clothes",
+          "reviewed": "2026-11-05",
+          "pronunciation_note": "British /juː/ is explicit word-initially; UK MFA may encode the yod after a consonant as palatalisation before its ʉː vowel."
+        }
+      ],
+      "sorting_contrast": [
+        "u-short",
+        "u-long"
+      ],
+      "reviewed": "2026-11-05",
+      "separate_sound_note": "/uː/ written oo, as in moon, remains the separate oo-long sound place; it is not labelled long u here."
     }
   ],
   "future_candidates_not_live": [

@@ -1,20 +1,22 @@
 (function () {
   'use strict';
 
-  var ORDER = ['s', 'a', 't', 'sh', 'ee'];
+  var BASE_ORDER = ['s', 'a', 't', 'sh', 'ee'];
+  var MAP_ORDER = ['s', 'a', 't', 'sh', 'e'];
   var STORE_KEY = 'word-book:sound-garden:v1';
   var TITLES = { pictures: 'Picture wall', trace: 'Touch letter', sort: 'Sound sorting', build: 'Moveable alphabet', spy: 'I spy' };
-  var state = { groups: [], byId: {}, current: null, material: 'pictures', audio: null, audioDone: null, sequenceToken: 0, selectedSort: null, buildTiles: [], buildLine: [] };
+  var state = { groups: [], baseById: {}, placeById: {}, current: null, vowelSide: 'short', material: 'pictures', audio: null, audioDone: null, sequenceToken: 0, selectedSort: null, buildTiles: [], buildLine: [] };
   var memory = readMemory();
   var map = document.getElementById('gardenMap');
   var place = document.getElementById('placeView');
   var body = document.getElementById('materialBody');
   var hintButton = document.getElementById('hintButton');
+  var vowelSwitch = document.getElementById('vowelSwitch');
   var notice = document.getElementById('soundNotice');
   var noticeTimer = 0;
 
   function emptyMemory() {
-    return { placesOpened: [], materialsOpened: {}, lastPlace: null, builtWords: [], hintRequests: {} };
+    return { placesOpened: [], materialsOpened: {}, lastPlace: null, vowelSides: {}, builtWords: [], hintRequests: {} };
   }
 
   function readMemory() {
@@ -24,6 +26,7 @@
       if (!value || typeof value !== 'object') return fallback;
       value.placesOpened = Array.isArray(value.placesOpened) ? value.placesOpened : [];
       value.materialsOpened = value.materialsOpened || {};
+      value.vowelSides = value.vowelSides || {};
       value.builtWords = Array.isArray(value.builtWords) ? value.builtWords : [];
       value.hintRequests = value.hintRequests || {};
       return value;
@@ -48,6 +51,19 @@
       seen[key] = true;
       return true;
     });
+  }
+
+  function isVowelPlace(place) {
+    return !!(place && Array.isArray(place.sides));
+  }
+
+  function activeGroup() {
+    if (!isVowelPlace(state.current)) return state.current;
+    return state.current.sides.filter(function (side) { return side.length === state.vowelSide; })[0] || state.current.sides[0];
+  }
+
+  function soundMeta(group) {
+    return group && (group.pilot || group.sound_garden_expansion || group);
   }
 
   function haltAudio() {
@@ -98,8 +114,9 @@
   }
 
   function playPure(group, quiet) {
-    if (!group || !group.pilot) return Promise.resolve(false);
-    return playClip(group.pilot.pure_sound_clip).then(function (ok) {
+    var meta = soundMeta(group);
+    if (!meta || !meta.pure_sound_clip) return Promise.resolve(false);
+    return playClip(meta.pure_sound_clip).then(function (ok) {
       if (!ok && !quiet) showNotice('Pure sound coming soon');
       return ok;
     });
@@ -112,22 +129,27 @@
   function highlightedWord(word) {
     var starts = {}, ends = {};
     (word.grapheme_spans || []).forEach(function (span) { starts[span[0]] = true; ends[span[1]] = true; });
+    var joined = word.grapheme && word.grapheme.indexOf('_') !== -1 && word.grapheme_spans.length > 1;
+    var joinedStart = joined ? word.grapheme_spans[0][0] : -1;
+    var joinedEnd = joined ? word.grapheme_spans[word.grapheme_spans.length - 1][1] : -1;
     var out = '';
     for (var i = 0; i < word.word.length; i++) {
+      if (i === joinedStart) out += '<span class="joined-grapheme">';
       if (starts[i]) out += '<mark>';
       out += escapeHtml(word.word.charAt(i));
       if (ends[i + 1]) out += '</mark>';
+      if (i + 1 === joinedEnd) out += '</span>';
     }
     return out;
   }
 
   function updateMap() {
     var suggested = null;
-    ORDER.some(function (id) {
+    MAP_ORDER.some(function (id) {
       if (memory.placesOpened.indexOf(id) === -1) { suggested = id; return true; }
       return false;
     });
-    if (!suggested) suggested = ORDER[(ORDER.indexOf(memory.lastPlace) + 1) % ORDER.length];
+    if (!suggested) suggested = MAP_ORDER[(MAP_ORDER.indexOf(memory.lastPlace) + 1) % MAP_ORDER.length];
     Array.prototype.forEach.call(document.querySelectorAll('.place-marker'), function (marker) {
       var id = marker.getAttribute('data-place');
       marker.classList.toggle('visited', memory.placesOpened.indexOf(id) !== -1);
@@ -152,19 +174,40 @@
   }
 
   function openPlace(id) {
-    var group = state.byId[id];
-    if (!group) return;
+    var destination = state.placeById[id];
+    if (!destination) return;
     stopAudio();
-    state.current = group;
+    state.current = destination;
+    state.vowelSide = isVowelPlace(destination) && memory.vowelSides[id] === 'long' ? 'long' : 'short';
     state.material = 'pictures';
     rememberOpen(id, 'pictures');
     map.hidden = true;
     place.hidden = false;
-    document.getElementById('placeName').textContent = group.pilot.place;
-    document.getElementById('placeTitle').textContent = group.label + ' sound place';
-    document.getElementById('soundGrapheme').textContent = group.label;
-    document.getElementById('soundButton').setAttribute('aria-label', 'Hear the ' + group.label + ' sound');
+    document.getElementById('placeName').textContent = isVowelPlace(destination) ? destination.place : destination.pilot.place;
+    document.getElementById('placeTitle').textContent = (isVowelPlace(destination) ? destination.letter + ' vowel' : destination.label + ' sound') + ' place';
+    vowelSwitch.hidden = !isVowelPlace(destination);
+    updateVowelSwitch();
     chooseMaterial('pictures');
+  }
+
+  function updateVowelSwitch() {
+    var group = activeGroup();
+    var grapheme = isVowelPlace(state.current) ? state.current.letter : group.label;
+    document.getElementById('soundGrapheme').textContent = grapheme;
+    document.getElementById('soundButton').setAttribute('aria-label', 'Hear the ' + (isVowelPlace(state.current) ? group.label : group.label + ' sound'));
+    Array.prototype.forEach.call(vowelSwitch.querySelectorAll('button'), function (button) {
+      button.setAttribute('aria-pressed', button.getAttribute('data-vowel-side') === state.vowelSide ? 'true' : 'false');
+    });
+  }
+
+  function chooseVowelSide(length) {
+    if (!isVowelPlace(state.current) || (length !== 'short' && length !== 'long')) return;
+    stopAudio();
+    state.vowelSide = length;
+    memory.vowelSides[state.current.id] = length;
+    saveMemory();
+    updateVowelSwitch();
+    chooseMaterial(state.material);
   }
 
   function chooseMaterial(name) {
@@ -186,7 +229,8 @@
   }
 
   function renderPictures() {
-    var cards = state.current.words.map(function (word, index) {
+    var group = activeGroup();
+    var cards = group.words.map(function (word, index) {
       return '<article class="picture-card" data-word-index="' + index + '">' +
         '<button type="button" class="picture-image" aria-label="Hear ' + escapeHtml(word.word) + '">' +
         '<img src="' + escapeHtml(word.picture) + '" alt="' + escapeHtml(word.word) + '" draggable="false"></button>' +
@@ -194,24 +238,25 @@
     }).join('');
     body.innerHTML = '<div class="picture-toolbar"><button type="button" class="soft-button" id="hearTogether"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>Hear them together</button></div><div class="picture-wall">' + cards + '</div>';
     Array.prototype.forEach.call(body.querySelectorAll('.picture-card'), function (card) {
-      var word = state.current.words[Number(card.getAttribute('data-word-index'))];
+      var word = group.words[Number(card.getAttribute('data-word-index'))];
       card.querySelector('.picture-image').addEventListener('click', function () {
         stopAudio();
         card.classList.add('revealed');
         playWord(word, card);
       });
-      card.querySelector('.word-label').addEventListener('click', function () { stopAudio(); playPure(state.current); });
+      card.querySelector('.word-label').addEventListener('click', function () { stopAudio(); playPure(group); });
     });
     document.getElementById('hearTogether').addEventListener('click', hearTogether);
   }
 
   async function hearTogether() {
-    var group = state.current;
+    var group = activeGroup();
+    var placeAtStart = state.current;
     stopAudio();
     var token = state.sequenceToken;
     await playPure(group, true);
     for (var i = 0; i < group.words.length; i++) {
-      if (group !== state.current || token !== state.sequenceToken) return;
+      if (placeAtStart !== state.current || group !== activeGroup() || token !== state.sequenceToken) return;
       var card = body.querySelector('.picture-card[data-word-index="' + i + '"]');
       if (!card) return;
       card.classList.add('revealed');
@@ -221,8 +266,11 @@
   }
 
   function renderTrace() {
-    body.innerHTML = '<div class="trace-wrap"><div class="trace-pad" id="tracePad" aria-label="Trace the ' + escapeHtml(state.current.label) + ' grapheme with a finger"><div class="trace-letter">' + escapeHtml(state.current.label) + '</div><canvas id="traceCanvas"></canvas></div>' +
-      '<div class="trace-copy"><svg viewBox="0 0 80 80" aria-hidden="true"><path d="M22 57c-5-8-4-16 1-20 4-3 8 0 9 5V17c0-5 8-5 8 0v19-12c0-5 8-5 8 0v13-9c0-5 8-5 8 0v12-5c0-5 8-5 8 0v14c0 15-9 23-22 23-9 0-15-5-20-15Z"/></svg><p>Let your finger follow the whole shape. There is no score.</p><button type="button" class="soft-button" id="clearTrace">Clear glow</button></div></div>';
+    var group = activeGroup();
+    var grapheme = isVowelPlace(state.current) ? state.current.letter : group.label;
+    var patterns = isVowelPlace(state.current) ? '<p class="spelling-patterns">' + group.spellings.map(function (spelling) { return escapeHtml(spelling.replace('_', '…')); }).join(' &nbsp; ') + '</p>' : '';
+    body.innerHTML = '<div class="trace-wrap"><div class="trace-pad" id="tracePad" aria-label="Trace the ' + escapeHtml(grapheme) + ' grapheme with a finger"><div class="trace-letter">' + escapeHtml(grapheme) + '</div><canvas id="traceCanvas"></canvas></div>' +
+      '<div class="trace-copy"><svg viewBox="0 0 80 80" aria-hidden="true"><path d="M22 57c-5-8-4-16 1-20 4-3 8 0 9 5V17c0-5 8-5 8 0v19-12c0-5 8-5 8 0v13-9c0-5 8-5 8 0v12-5c0-5 8-5 8 0v14c0 15-9 23-22 23-9 0-15-5-20-15Z"/></svg>' + patterns + '<p>Let your finger follow the whole shape. There is no score.</p><button type="button" class="soft-button" id="clearTrace">Clear glow</button></div></div>';
     var pad = document.getElementById('tracePad');
     var canvas = document.getElementById('traceCanvas');
     var context = canvas.getContext('2d');
@@ -239,7 +287,7 @@
     function start(event) {
       if (event.pointerType === 'touch' && !event.isPrimary) return;
       drawing = true; last = point(event); try { pad.setPointerCapture(event.pointerId); } catch (error) {}
-      playPure(state.current);
+      playPure(group);
     }
     function move(event) {
       if (!drawing) return;
@@ -252,8 +300,9 @@
   }
 
   function contrastGroups() {
-    var index = ORDER.indexOf(state.current.id);
-    return [state.current, state.byId[ORDER[(index + 1) % ORDER.length]], state.byId[ORDER[(index + 2) % ORDER.length]]];
+    if (isVowelPlace(state.current)) return state.current.sides;
+    var index = BASE_ORDER.indexOf(state.current.id);
+    return [state.current, state.baseById[BASE_ORDER[(index + 1) % BASE_ORDER.length]], state.baseById[BASE_ORDER[(index + 2) % BASE_ORDER.length]]];
   }
 
   function renderSort() {
@@ -261,7 +310,8 @@
     var groups = contrastGroups();
     var objects = [];
     groups.forEach(function (group, groupIndex) {
-      [group.words[groupIndex], group.words[groupIndex + 3]].forEach(function (word) { objects.push({ group: group, word: word }); });
+      var picks = isVowelPlace(state.current) ? group.words.slice(0, 3) : [group.words[groupIndex], group.words[groupIndex + 3]];
+      picks.forEach(function (word) { objects.push({ group: group, word: word }); });
     });
     var cards = objects.map(function (item, index) {
       return '<button type="button" class="sort-card" data-sort-index="' + index + '" aria-label="Choose ' + escapeHtml(item.word.word) + '"><img src="' + escapeHtml(item.word.picture) + '" alt="' + escapeHtml(item.word.word) + '" draggable="false"></button>';
@@ -269,7 +319,7 @@
     var baskets = groups.map(function (group) {
       return '<button type="button" class="basket" data-basket="' + escapeHtml(group.id) + '" aria-label="' + escapeHtml(group.label) + ' sound basket"><span class="basket-label">' + escapeHtml(group.label) + '</span></button>';
     }).join('');
-    body.innerHTML = '<div class="sort-wrap"><div class="sort-tray">' + cards + '</div><div class="baskets">' + baskets + '</div></div>';
+    body.innerHTML = '<div class="sort-wrap"><div class="sort-tray">' + cards + '</div><div class="baskets' + (isVowelPlace(state.current) ? ' vowel-contrast' : '') + '">' + baskets + '</div></div>';
     Array.prototype.forEach.call(body.querySelectorAll('.sort-card'), function (card) {
       card.addEventListener('click', function () {
         Array.prototype.forEach.call(body.querySelectorAll('.sort-card'), function (other) { other.classList.remove('selected'); });
@@ -279,7 +329,8 @@
     });
     Array.prototype.forEach.call(body.querySelectorAll('.basket'), function (basket) {
       basket.addEventListener('click', function () {
-        var basketGroup = state.byId[basket.getAttribute('data-basket')];
+        var basketId = basket.getAttribute('data-basket');
+        var basketGroup = groups.filter(function (group) { return group.id === basketId; })[0];
         if (!state.selectedSort) { playPure(basketGroup); return; }
         var selected = state.selectedSort;
         if (selected.item.group.id === basketGroup.id) {
@@ -295,22 +346,25 @@
     });
   }
 
-  function wordUnits(word) {
+  function wordUnits(word, group) {
     var spans = (word.grapheme_spans || []).slice().sort(function (a, b) { return a[0] - b[0]; });
+    var split = word.grapheme && word.grapheme.indexOf('_') !== -1;
     var units = [], index = 0;
-    spans.forEach(function (span) {
-      while (index < span[0]) { units.push(word.word.charAt(index)); index++; }
-      units.push(word.word.slice(span[0], span[1])); index = span[1];
+    spans.forEach(function (span, spanIndex) {
+      while (index < span[0]) { units.push({ text: word.word.charAt(index), value: word.word.charAt(index) }); index++; }
+      units.push({ text: word.word.slice(span[0], span[1]), value: word.word.slice(span[0], span[1]), soundGroup: !split || spanIndex === 0 ? group : null, silent: split && spanIndex > 0 }); index = span[1];
     });
-    while (index < word.word.length) { units.push(word.word.charAt(index)); index++; }
+    while (index < word.word.length) { units.push({ text: word.word.charAt(index), value: word.word.charAt(index) }); index++; }
     return units;
   }
 
   function renderBuilder() {
-    var target = state.current.words[0];
-    var units = wordUnits(target);
-    var extras = ['s', 'a', 't', 'sh', 'ee', 'm', 'p', 'n'].filter(function (tile) { return units.indexOf(tile) === -1; }).slice(0, 4);
-    state.buildTiles = units.concat(extras).map(function (text, index) { return { id: index, text: text, placed: false }; });
+    var group = activeGroup();
+    var target = group.words[0];
+    var units = wordUnits(target, group);
+    var unitTexts = units.map(function (unit) { return unit.text; });
+    var extras = ['s', 'a', 'e', 'i', 'o', 'u', 't', 'sh', 'ee', 'm', 'p', 'n'].filter(function (tile) { return unitTexts.indexOf(tile) === -1; }).slice(0, 4).map(function (text) { return { text: text, value: text }; });
+    state.buildTiles = units.concat(extras).map(function (unit, index) { return { id: index, text: unit.text, value: unit.value, soundGroup: unit.soundGroup, silent: unit.silent, placed: false }; });
     state.buildLine = [];
     body.innerHTML = '<div class="builder-wrap"><div class="builder-picture" id="builderPicture"><img src="' + escapeHtml(target.picture) + '" alt="' + escapeHtml(target.word) + '"><p>' + escapeHtml(target.word) + '</p></div>' +
       '<div class="builder-work"><p class="builder-prompt">Tap tiles to build ' + escapeHtml(target.word) + ', or make your own.</p><div class="build-line" id="buildLine" aria-label="Your letters"></div><div class="tile-tray" id="tileTray" aria-label="Letter tiles"></div>' +
@@ -335,7 +389,7 @@
     line.innerHTML = ''; tray.innerHTML = '';
     state.buildLine.forEach(function (tile) { line.appendChild(makeTile(tile, true, defaultWord)); });
     state.buildTiles.filter(function (tile) { return !tile.placed; }).forEach(function (tile) { tray.appendChild(makeTile(tile, false, defaultWord)); });
-    var text = state.buildLine.map(function (tile) { return tile.text; }).join('');
+    var text = state.buildLine.map(function (tile) { return tile.value; }).join('');
     var known = knownWord(text);
     var picture = document.getElementById('builderPicture');
     var image = picture.querySelector('img'); var label = picture.querySelector('p');
@@ -362,41 +416,52 @@
 
   async function soundThenBlend() {
     var buttons = Array.prototype.slice.call(document.querySelectorAll('#buildLine .letter-tile'));
-    var supported = { s: 's', a: 'a', t: 't', sh: 'sh', ee: 'ee' };
+    var supported = { s: 's', a: 'a', e: 'e', i: 'i', o: 'o', u: 'u', t: 't', sh: 'sh', ee: 'ee' };
     var missing = false;
     for (var i = 0; i < state.buildLine.length; i++) {
       if (buttons[i]) { buttons[i].classList.add('pulse'); window.setTimeout((function (button) { return function () { button.classList.remove('pulse'); }; })(buttons[i]), 380); }
-      var id = supported[state.buildLine[i].text];
-      if (id) {
-        var ok = await playPure(state.byId[id], true); if (!ok) missing = true;
+      var tile = state.buildLine[i];
+      var id = supported[tile.text];
+      if (tile.silent) {
+        await new Promise(function (resolve) { window.setTimeout(resolve, 180); });
+      } else if (tile.soundGroup) {
+        var targetOk = await playPure(tile.soundGroup, true); if (!targetOk) missing = true;
+      } else if (id) {
+        var ok = await playPure(state.baseById[id], true); if (!ok) missing = true;
       } else {
         await new Promise(function (resolve) { window.setTimeout(resolve, 360); });
       }
     }
-    var text = state.buildLine.map(function (tile) { return tile.text; }).join('');
+    var text = state.buildLine.map(function (tile) { return tile.value; }).join('');
     var known = knownWord(text);
     if (known) await playWord(known);
     if (missing) showNotice('Pure sound coming soon');
   }
 
   function renderSpy() {
-    var target = state.current.words[3];
-    var options = [{ group: state.current, word: target }];
-    var start = ORDER.indexOf(state.current.id);
-    for (var i = 1; i < 4; i++) {
-      var group = state.byId[ORDER[(start + i) % ORDER.length]];
-      options.push({ group: group, word: group.words[(start + i) % group.words.length] });
+    var group = activeGroup();
+    var target = group.words[3];
+    var options = [{ group: group, word: target }];
+    if (isVowelPlace(state.current)) {
+      var other = state.current.sides.filter(function (side) { return side.id !== group.id; })[0];
+      other.words.slice(0, 3).forEach(function (word) { options.push({ group: other, word: word }); });
+    } else {
+      var start = BASE_ORDER.indexOf(state.current.id);
+      for (var i = 1; i < 4; i++) {
+        var otherGroup = state.baseById[BASE_ORDER[(start + i) % BASE_ORDER.length]];
+        options.push({ group: otherGroup, word: otherGroup.words[(start + i) % otherGroup.words.length] });
+      }
     }
     var cards = options.map(function (option, index) {
       return '<button type="button" class="spy-card" data-spy-index="' + index + '" aria-label="' + escapeHtml(option.word.word) + '"><img src="' + escapeHtml(option.word.picture) + '" alt="' + escapeHtml(option.word.word) + '" draggable="false"></button>';
     }).join('');
-    body.innerHTML = '<div class="spy-wrap"><p class="spy-prompt"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M4 20s6-9 16-9 16 9 16 9-6 9-16 9S4 20 4 20Z"/><circle cx="20" cy="20" r="5"/></svg>I spy something with <strong>' + escapeHtml(state.current.label) + '</strong></p><div class="spy-grid">' + cards + '</div></div>';
+    body.innerHTML = '<div class="spy-wrap"><p class="spy-prompt"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M4 20s6-9 16-9 16 9 16 9-6 9-16 9S4 20 4 20Z"/><circle cx="20" cy="20" r="5"/></svg>I spy something with <strong>' + escapeHtml(group.label) + '</strong></p><div class="spy-grid">' + cards + '</div></div>';
     Array.prototype.forEach.call(body.querySelectorAll('.spy-card'), function (card) {
       card.addEventListener('click', function () {
         var option = options[Number(card.getAttribute('data-spy-index'))];
-        if (option.group.id === state.current.id) {
+        if (option.group.id === group.id) {
           card.classList.add('found');
-          playPure(state.current, true).then(function () { playWord(option.word); });
+          playPure(group, true).then(function () { playWord(option.word); });
         } else {
           playWord(option.word);
         }
@@ -406,14 +471,15 @@
   }
 
   function askHint() {
-    var key = state.current.id + ':' + state.material;
+    var group = activeGroup();
+    var key = state.current.id + ':' + (isVowelPlace(state.current) ? state.vowelSide + ':' : '') + state.material;
     memory.hintRequests[key] = Number(memory.hintRequests[key] || 0) + 1;
     saveMemory();
     if (state.material === 'sort') {
-      var basket = body.querySelector('.basket[data-basket="' + state.current.id + '"]');
+      var basket = body.querySelector('.basket[data-basket="' + group.id + '"]');
       if (basket) { basket.classList.remove('breathe'); window.requestAnimationFrame(function () { basket.classList.add('breathe'); }); }
-      showNotice(state.current.pilot.hint);
-      playPure(state.current, true);
+      showNotice(soundMeta(group).hint);
+      playPure(group, true);
     }
     if (state.material === 'spy') {
       var cards = Array.prototype.slice.call(body.querySelectorAll('.spy-card'));
@@ -423,8 +489,8 @@
         return image && image.getAttribute('src').indexOf(targetSense) === -1 && !card.classList.contains('soft-hide');
       }).pop();
       if (distractor) distractor.classList.add('soft-hide');
-      showNotice(state.current.pilot.hint);
-      playPure(state.current, true);
+      showNotice(soundMeta(group).hint);
+      playPure(group, true);
     }
   }
 
@@ -437,7 +503,16 @@
         if (!word.sense || !word.picture || !word.alice_word_clip || !word.grapheme_spans) throw new Error('Incomplete word ' + word.word);
       });
     });
-    return groups.sort(function (a, b) { return ORDER.indexOf(a.id) - ORDER.indexOf(b.id); });
+    groups.sort(function (a, b) { return BASE_ORDER.indexOf(a.id) - BASE_ORDER.indexOf(b.id); });
+    var vowels = payload && payload.vowel_places || [];
+    if (vowels.length !== 5) throw new Error('Expected five vowel places');
+    vowels.forEach(function (vowel) {
+      if (!vowel.id || !vowel.letter || !vowel.place || !Array.isArray(vowel.sides) || vowel.sides.length !== 2) throw new Error('Incomplete vowel place');
+      vowel.sides.forEach(function (side) {
+        if (!side.pure_sound_clip || !side.hint || !Array.isArray(side.words) || side.words.length !== 6) throw new Error('Incomplete vowel side ' + side.id);
+      });
+    });
+    return { pilot: groups, vowels: vowels, all: payload.groups || [] };
   }
 
   Array.prototype.forEach.call(document.querySelectorAll('.place-marker'), function (marker) {
@@ -446,8 +521,11 @@
   Array.prototype.forEach.call(document.querySelectorAll('.material-shelf button'), function (button) {
     button.addEventListener('click', function () { chooseMaterial(button.getAttribute('data-material')); });
   });
+  Array.prototype.forEach.call(vowelSwitch.querySelectorAll('button'), function (button) {
+    button.addEventListener('click', function () { chooseVowelSide(button.getAttribute('data-vowel-side')); });
+  });
   document.getElementById('mapButton').addEventListener('click', showMap);
-  document.getElementById('soundButton').addEventListener('click', function () { stopAudio(); playPure(state.current); });
+  document.getElementById('soundButton').addEventListener('click', function () { stopAudio(); playPure(activeGroup()); });
   hintButton.addEventListener('click', askHint);
   window.addEventListener('pagehide', stopAudio);
   document.addEventListener('visibilitychange', function () { if (document.hidden) stopAudio(); });
@@ -456,8 +534,11 @@
     if (!response.ok) throw new Error('Sound group request failed');
     return response.json();
   }).then(function (payload) {
-    state.groups = validatePayload(payload);
-    state.groups.forEach(function (group) { state.byId[group.id] = group; });
+    var validated = validatePayload(payload);
+    validated.all.forEach(function (group) { state.baseById[group.id] = group; });
+    validated.pilot.forEach(function (group) { state.placeById[group.id] = group; });
+    validated.vowels.forEach(function (vowel) { state.placeById[vowel.id] = vowel; });
+    state.groups = validated.all.concat(validated.vowels.reduce(function (all, vowel) { return all.concat(vowel.sides); }, []));
     updateMap();
   }).catch(function () {
     var frame = document.getElementById('mapFrame');
