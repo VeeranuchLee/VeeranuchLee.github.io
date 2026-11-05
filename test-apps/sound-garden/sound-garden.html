@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Sound Garden — Our Word Book</title>
+  <link rel="stylesheet" href="./fonts.css">
+  <link rel="stylesheet" href="./cg-back.css">
+  <link rel="stylesheet" href="./sound-garden.css">
+</head>
+<body>
+  <a class="cg-back" href="index.html" aria-label="Back to Our Word Book">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+
+  <main id="gardenMap" class="garden-map" aria-labelledby="gardenTitle">
+    <header class="garden-heading">
+      <h1 id="gardenTitle">Sound Garden</h1>
+      <p>Choose any sound place</p>
+    </header>
+    <div class="map-frame" id="mapFrame">
+      <img src="assets/phonics/sound-garden-map.webp" width="2048" height="1536" alt="A garden with a sandy patch, apple tree, tent, ship by a pond and beehive" draggable="false">
+      <button class="place-marker place-s" type="button" data-place="s" aria-label="Explore the s sound at the sandy spot">
+        <span class="grapheme">s</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg>
+      </button>
+      <button class="place-marker place-a" type="button" data-place="a" aria-label="Explore the a sound at the apple tree">
+        <span class="grapheme">a</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg>
+      </button>
+      <button class="place-marker place-t" type="button" data-place="t" aria-label="Explore the t sound at the tent">
+        <span class="grapheme">t</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg>
+      </button>
+      <button class="place-marker place-sh" type="button" data-place="sh" aria-label="Explore the sh sound at the ship">
+        <span class="grapheme">sh</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg>
+      </button>
+      <button class="place-marker place-ee" type="button" data-place="ee" aria-label="Explore the ee sound at the beehive">
+        <span class="grapheme">ee</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg>
+      </button>
+    </div>
+    <p class="garden-note">Every place is open. Wander, listen and come back whenever you like.</p>
+  </main>
+
+  <main id="placeView" class="place-view" hidden aria-labelledby="placeTitle">
+    <header class="place-heading">
+      <button type="button" class="map-button" id="mapButton" aria-label="Back to the Sound Garden map">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 8.5 12.5 5l7 3.5L27 5v18.5L19.5 27l-7-3.5L5 27Z"/><path d="M12.5 5v18.5M19.5 8.5V27"/></svg>
+      </button>
+      <div><p id="placeName"></p><h1 id="placeTitle"></h1></div>
+      <button type="button" class="sound-button" id="soundButton" aria-label="Hear this sound">
+        <span id="soundGrapheme"></span>
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M13 9 8 13H4v6h4l5 4Z"/><path d="M18 12a6 6 0 0 1 0 8M22 9a10 10 0 0 1 0 14"/></svg>
+      </button>
+    </header>
+
+    <div class="place-layout">
+      <nav class="material-shelf" aria-label="Choose a sound material">
+        <button type="button" data-material="pictures" aria-pressed="true">
+          <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="7" width="30" height="25" rx="3"/><circle cx="15" cy="16" r="3"/><path d="m8 29 8-8 5 5 4-4 7 7"/></svg><span>Pictures</span>
+        </button>
+        <button type="button" data-material="trace" aria-pressed="false">
+          <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M11 31 19 9h4l7 22M14 24h13"/><path d="m30 8 3-3 3 3-3 3Z"/></svg><span>Touch letter</span>
+        </button>
+        <button type="button" data-material="sort" aria-pressed="false">
+          <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M5 15h12l2 18H7Zm18 0h12l-2 18H21Z"/><circle cx="12" cy="9" r="4"/><path d="M26 8h8"/></svg><span>Sorting</span>
+        </button>
+        <button type="button" data-material="build" aria-pressed="false">
+          <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="4" y="8" width="14" height="14" rx="3"/><rect x="22" y="8" width="14" height="14" rx="3"/><rect x="13" y="25" width="14" height="11" rx="3"/><path d="M9 18V12h4v6M27 12h4M29 12v6"/></svg><span>Build</span>
+        </button>
+        <button type="button" data-material="spy" aria-pressed="false">
+          <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M4 20s6-9 16-9 16 9 16 9-6 9-16 9S4 20 4 20Z"/><circle cx="20" cy="20" r="5"/></svg><span>I spy</span>
+        </button>
+      </nav>
+
+      <section class="material-stage" id="materialStage">
+        <div class="stage-title"><h2 id="materialTitle">Picture wall</h2><button type="button" class="hint-button" id="hintButton" hidden>Hint</button></div>
+        <div id="materialBody" class="material-body"></div>
+      </section>
+    </div>
+    <p class="voice-note">Every voice here is AI-generated. None is a recording of a real person.</p>
+  </main>
+
+  <div class="sound-notice" id="soundNotice" role="status" aria-live="polite" hidden>
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M13 9 8 13H4v6h4l5 4Z"/><path d="M18 12a6 6 0 0 1 0 8M22 9a10 10 0 0 1 0 14"/><circle cx="7" cy="27" r="1.4"/><circle cx="12" cy="27" r="1.4"/><circle cx="17" cy="27" r="1.4"/></svg>
+    <span>Pure sound coming soon</span>
+  </div>
+
+  <template id="errorTemplate"><div class="load-error"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 5 5 33h30Z"/><path d="M20 15v9M20 29v1"/></svg><p>The garden needs a moment. Please try again.</p></div></template>
+
+  <script src="./safe-storage.js"></script>
+  <script src="./sound-garden.js"></script>
+  <script src="./cg-update.js"></script>
+  <script src="./tap-zoom-guard.js"></script>
+</body>
+</html>

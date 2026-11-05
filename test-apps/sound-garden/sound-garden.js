@@ -1,0 +1,467 @@
+(function () {
+  'use strict';
+
+  var ORDER = ['s', 'a', 't', 'sh', 'ee'];
+  var STORE_KEY = 'word-book:sound-garden:v1';
+  var TITLES = { pictures: 'Picture wall', trace: 'Touch letter', sort: 'Sound sorting', build: 'Moveable alphabet', spy: 'I spy' };
+  var state = { groups: [], byId: {}, current: null, material: 'pictures', audio: null, audioDone: null, sequenceToken: 0, selectedSort: null, buildTiles: [], buildLine: [] };
+  var memory = readMemory();
+  var map = document.getElementById('gardenMap');
+  var place = document.getElementById('placeView');
+  var body = document.getElementById('materialBody');
+  var hintButton = document.getElementById('hintButton');
+  var notice = document.getElementById('soundNotice');
+  var noticeTimer = 0;
+
+  function emptyMemory() {
+    return { placesOpened: [], materialsOpened: {}, lastPlace: null, builtWords: [], hintRequests: {} };
+  }
+
+  function readMemory() {
+    var fallback = emptyMemory();
+    try {
+      var value = JSON.parse(SafeStorage.local.getItem(STORE_KEY) || 'null');
+      if (!value || typeof value !== 'object') return fallback;
+      value.placesOpened = Array.isArray(value.placesOpened) ? value.placesOpened : [];
+      value.materialsOpened = value.materialsOpened || {};
+      value.builtWords = Array.isArray(value.builtWords) ? value.builtWords : [];
+      value.hintRequests = value.hintRequests || {};
+      return value;
+    } catch (error) { return fallback; }
+  }
+
+  function saveMemory() {
+    SafeStorage.local.setItem(STORE_KEY, JSON.stringify(memory));
+  }
+
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function unique(list) {
+    var seen = {};
+    return list.filter(function (item) {
+      var key = String(item);
+      if (seen[key]) return false;
+      seen[key] = true;
+      return true;
+    });
+  }
+
+  function haltAudio() {
+    if (!state.audio) return;
+    try { state.audio.pause(); state.audio.currentTime = 0; } catch (error) {}
+    if (state.audioDone) state.audioDone(false);
+    state.audio = null;
+    state.audioDone = null;
+    Array.prototype.forEach.call(document.querySelectorAll('.speaking'), function (node) { node.classList.remove('speaking'); });
+  }
+
+  function stopAudio() {
+    state.sequenceToken++;
+    haltAudio();
+  }
+
+  function playClip(src, activeNode) {
+    haltAudio();
+    return new Promise(function (resolve) {
+      var audio;
+      try { audio = new Audio(src); } catch (error) { resolve(false); return; }
+      state.audio = audio;
+      state.audioDone = done;
+      audio.preload = 'auto';
+      if (activeNode) activeNode.classList.add('speaking');
+      var finished = false;
+      function done(ok) {
+        if (finished) return;
+        finished = true;
+        if (activeNode) activeNode.classList.remove('speaking');
+        if (state.audio === audio) { state.audio = null; state.audioDone = null; }
+        resolve(ok);
+      }
+      audio.addEventListener('ended', function () { done(true); }, { once: true });
+      audio.addEventListener('error', function () { done(false); }, { once: true });
+      try {
+        var result = audio.play();
+        if (result && result.catch) result.catch(function () { done(false); });
+      } catch (error) { done(false); }
+    });
+  }
+
+  function showNotice(text) {
+    window.clearTimeout(noticeTimer);
+    notice.querySelector('span').textContent = text;
+    notice.hidden = false;
+    noticeTimer = window.setTimeout(function () { notice.hidden = true; }, 2400);
+  }
+
+  function playPure(group, quiet) {
+    if (!group || !group.pilot) return Promise.resolve(false);
+    return playClip(group.pilot.pure_sound_clip).then(function (ok) {
+      if (!ok && !quiet) showNotice('Pure sound coming soon');
+      return ok;
+    });
+  }
+
+  function playWord(word, activeNode) {
+    return playClip(word.alice_word_clip, activeNode);
+  }
+
+  function highlightedWord(word) {
+    var starts = {}, ends = {};
+    (word.grapheme_spans || []).forEach(function (span) { starts[span[0]] = true; ends[span[1]] = true; });
+    var out = '';
+    for (var i = 0; i < word.word.length; i++) {
+      if (starts[i]) out += '<mark>';
+      out += escapeHtml(word.word.charAt(i));
+      if (ends[i + 1]) out += '</mark>';
+    }
+    return out;
+  }
+
+  function updateMap() {
+    var suggested = null;
+    ORDER.some(function (id) {
+      if (memory.placesOpened.indexOf(id) === -1) { suggested = id; return true; }
+      return false;
+    });
+    if (!suggested) suggested = ORDER[(ORDER.indexOf(memory.lastPlace) + 1) % ORDER.length];
+    Array.prototype.forEach.call(document.querySelectorAll('.place-marker'), function (marker) {
+      var id = marker.getAttribute('data-place');
+      marker.classList.toggle('visited', memory.placesOpened.indexOf(id) !== -1);
+      marker.classList.toggle('suggested', id === suggested);
+    });
+  }
+
+  function showMap() {
+    stopAudio();
+    place.hidden = true;
+    map.hidden = false;
+    updateMap();
+    document.getElementById('gardenTitle').focus({ preventScroll: true });
+  }
+
+  function rememberOpen(groupId, material) {
+    if (memory.placesOpened.indexOf(groupId) === -1) memory.placesOpened.push(groupId);
+    memory.lastPlace = groupId;
+    if (!memory.materialsOpened[groupId]) memory.materialsOpened[groupId] = [];
+    if (memory.materialsOpened[groupId].indexOf(material) === -1) memory.materialsOpened[groupId].push(material);
+    saveMemory();
+  }
+
+  function openPlace(id) {
+    var group = state.byId[id];
+    if (!group) return;
+    stopAudio();
+    state.current = group;
+    state.material = 'pictures';
+    rememberOpen(id, 'pictures');
+    map.hidden = true;
+    place.hidden = false;
+    document.getElementById('placeName').textContent = group.pilot.place;
+    document.getElementById('placeTitle').textContent = group.label + ' sound place';
+    document.getElementById('soundGrapheme').textContent = group.label;
+    document.getElementById('soundButton').setAttribute('aria-label', 'Hear the ' + group.label + ' sound');
+    chooseMaterial('pictures');
+  }
+
+  function chooseMaterial(name) {
+    if (!state.current || !TITLES[name]) return;
+    stopAudio();
+    state.material = name;
+    rememberOpen(state.current.id, name);
+    Array.prototype.forEach.call(document.querySelectorAll('.material-shelf button'), function (button) {
+      button.setAttribute('aria-pressed', button.getAttribute('data-material') === name ? 'true' : 'false');
+    });
+    document.getElementById('materialTitle').textContent = TITLES[name];
+    hintButton.hidden = name !== 'sort' && name !== 'spy';
+    hintButton.textContent = 'Hint';
+    if (name === 'pictures') renderPictures();
+    if (name === 'trace') renderTrace();
+    if (name === 'sort') renderSort();
+    if (name === 'build') renderBuilder();
+    if (name === 'spy') renderSpy();
+  }
+
+  function renderPictures() {
+    var cards = state.current.words.map(function (word, index) {
+      return '<article class="picture-card" data-word-index="' + index + '">' +
+        '<button type="button" class="picture-image" aria-label="Hear ' + escapeHtml(word.word) + '">' +
+        '<img src="' + escapeHtml(word.picture) + '" alt="' + escapeHtml(word.word) + '" draggable="false"></button>' +
+        '<button type="button" class="word-label" aria-label="Hear the sound in ' + escapeHtml(word.word) + '">' + highlightedWord(word) + '</button></article>';
+    }).join('');
+    body.innerHTML = '<div class="picture-toolbar"><button type="button" class="soft-button" id="hearTogether"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>Hear them together</button></div><div class="picture-wall">' + cards + '</div>';
+    Array.prototype.forEach.call(body.querySelectorAll('.picture-card'), function (card) {
+      var word = state.current.words[Number(card.getAttribute('data-word-index'))];
+      card.querySelector('.picture-image').addEventListener('click', function () {
+        stopAudio();
+        card.classList.add('revealed');
+        playWord(word, card);
+      });
+      card.querySelector('.word-label').addEventListener('click', function () { stopAudio(); playPure(state.current); });
+    });
+    document.getElementById('hearTogether').addEventListener('click', hearTogether);
+  }
+
+  async function hearTogether() {
+    var group = state.current;
+    stopAudio();
+    var token = state.sequenceToken;
+    await playPure(group, true);
+    for (var i = 0; i < group.words.length; i++) {
+      if (group !== state.current || token !== state.sequenceToken) return;
+      var card = body.querySelector('.picture-card[data-word-index="' + i + '"]');
+      if (!card) return;
+      card.classList.add('revealed');
+      await playWord(group.words[i], card);
+      await new Promise(function (resolve) { window.setTimeout(resolve, 180); });
+    }
+  }
+
+  function renderTrace() {
+    body.innerHTML = '<div class="trace-wrap"><div class="trace-pad" id="tracePad" aria-label="Trace the ' + escapeHtml(state.current.label) + ' grapheme with a finger"><div class="trace-letter">' + escapeHtml(state.current.label) + '</div><canvas id="traceCanvas"></canvas></div>' +
+      '<div class="trace-copy"><svg viewBox="0 0 80 80" aria-hidden="true"><path d="M22 57c-5-8-4-16 1-20 4-3 8 0 9 5V17c0-5 8-5 8 0v19-12c0-5 8-5 8 0v13-9c0-5 8-5 8 0v12-5c0-5 8-5 8 0v14c0 15-9 23-22 23-9 0-15-5-20-15Z"/></svg><p>Let your finger follow the whole shape. There is no score.</p><button type="button" class="soft-button" id="clearTrace">Clear glow</button></div></div>';
+    var pad = document.getElementById('tracePad');
+    var canvas = document.getElementById('traceCanvas');
+    var context = canvas.getContext('2d');
+    var drawing = false, last = null;
+    function size() {
+      var rect = pad.getBoundingClientRect();
+      var scale = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.max(1, Math.round(rect.width * scale));
+      canvas.height = Math.max(1, Math.round(rect.height * scale));
+      context.setTransform(scale, 0, 0, scale, 0, 0);
+      context.lineCap = 'round'; context.lineJoin = 'round'; context.strokeStyle = 'rgba(255,181,39,.88)'; context.lineWidth = 22;
+    }
+    function point(event) { var rect = canvas.getBoundingClientRect(); return { x: event.clientX - rect.left, y: event.clientY - rect.top }; }
+    function start(event) {
+      if (event.pointerType === 'touch' && !event.isPrimary) return;
+      drawing = true; last = point(event); try { pad.setPointerCapture(event.pointerId); } catch (error) {}
+      playPure(state.current);
+    }
+    function move(event) {
+      if (!drawing) return;
+      var now = point(event); context.beginPath(); context.moveTo(last.x, last.y); context.lineTo(now.x, now.y); context.stroke(); last = now;
+    }
+    function end() { drawing = false; last = null; }
+    size();
+    pad.addEventListener('pointerdown', start); pad.addEventListener('pointermove', move); pad.addEventListener('pointerup', end); pad.addEventListener('pointercancel', end);
+    document.getElementById('clearTrace').addEventListener('click', function () { context.clearRect(0, 0, canvas.width, canvas.height); });
+  }
+
+  function contrastGroups() {
+    var index = ORDER.indexOf(state.current.id);
+    return [state.current, state.byId[ORDER[(index + 1) % ORDER.length]], state.byId[ORDER[(index + 2) % ORDER.length]]];
+  }
+
+  function renderSort() {
+    state.selectedSort = null;
+    var groups = contrastGroups();
+    var objects = [];
+    groups.forEach(function (group, groupIndex) {
+      [group.words[groupIndex], group.words[groupIndex + 3]].forEach(function (word) { objects.push({ group: group, word: word }); });
+    });
+    var cards = objects.map(function (item, index) {
+      return '<button type="button" class="sort-card" data-sort-index="' + index + '" aria-label="Choose ' + escapeHtml(item.word.word) + '"><img src="' + escapeHtml(item.word.picture) + '" alt="' + escapeHtml(item.word.word) + '" draggable="false"></button>';
+    }).join('');
+    var baskets = groups.map(function (group) {
+      return '<button type="button" class="basket" data-basket="' + escapeHtml(group.id) + '" aria-label="' + escapeHtml(group.label) + ' sound basket"><span class="basket-label">' + escapeHtml(group.label) + '</span></button>';
+    }).join('');
+    body.innerHTML = '<div class="sort-wrap"><div class="sort-tray">' + cards + '</div><div class="baskets">' + baskets + '</div></div>';
+    Array.prototype.forEach.call(body.querySelectorAll('.sort-card'), function (card) {
+      card.addEventListener('click', function () {
+        Array.prototype.forEach.call(body.querySelectorAll('.sort-card'), function (other) { other.classList.remove('selected'); });
+        card.classList.add('selected'); state.selectedSort = { card: card, item: objects[Number(card.getAttribute('data-sort-index'))] };
+        playWord(state.selectedSort.item.word);
+      });
+    });
+    Array.prototype.forEach.call(body.querySelectorAll('.basket'), function (basket) {
+      basket.addEventListener('click', function () {
+        var basketGroup = state.byId[basket.getAttribute('data-basket')];
+        if (!state.selectedSort) { playPure(basketGroup); return; }
+        var selected = state.selectedSort;
+        if (selected.item.group.id === basketGroup.id) {
+          selected.card.classList.add('settled'); selected.card.classList.remove('selected');
+          var image = document.createElement('img'); image.src = selected.item.word.picture; image.alt = '';
+          basket.appendChild(image);
+          var label = document.createElement('span'); label.className = 'settled-word'; label.innerHTML = highlightedWord(selected.item.word); basket.appendChild(label);
+          state.selectedSort = null; playWord(selected.item.word);
+        } else {
+          playWord(selected.item.word);
+        }
+      });
+    });
+  }
+
+  function wordUnits(word) {
+    var spans = (word.grapheme_spans || []).slice().sort(function (a, b) { return a[0] - b[0]; });
+    var units = [], index = 0;
+    spans.forEach(function (span) {
+      while (index < span[0]) { units.push(word.word.charAt(index)); index++; }
+      units.push(word.word.slice(span[0], span[1])); index = span[1];
+    });
+    while (index < word.word.length) { units.push(word.word.charAt(index)); index++; }
+    return units;
+  }
+
+  function renderBuilder() {
+    var target = state.current.words[0];
+    var units = wordUnits(target);
+    var extras = ['s', 'a', 't', 'sh', 'ee', 'm', 'p', 'n'].filter(function (tile) { return units.indexOf(tile) === -1; }).slice(0, 4);
+    state.buildTiles = units.concat(extras).map(function (text, index) { return { id: index, text: text, placed: false }; });
+    state.buildLine = [];
+    body.innerHTML = '<div class="builder-wrap"><div class="builder-picture" id="builderPicture"><img src="' + escapeHtml(target.picture) + '" alt="' + escapeHtml(target.word) + '"><p>' + escapeHtml(target.word) + '</p></div>' +
+      '<div class="builder-work"><p class="builder-prompt">Tap tiles to build ' + escapeHtml(target.word) + ', or make your own.</p><div class="build-line" id="buildLine" aria-label="Your letters"></div><div class="tile-tray" id="tileTray" aria-label="Letter tiles"></div>' +
+      '<div class="builder-actions"><button type="button" class="soft-button" id="soundBlend"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2"/></svg>Sound then blend</button><button type="button" class="soft-button" id="clearBuild">Clear</button></div></div></div>';
+    paintBuilder(target);
+    document.getElementById('soundBlend').addEventListener('click', soundThenBlend);
+    document.getElementById('clearBuild').addEventListener('click', function () { state.buildLine = []; state.buildTiles.forEach(function (tile) { tile.placed = false; }); paintBuilder(target); });
+  }
+
+  function knownWord(text) {
+    var found = null;
+    state.groups.some(function (group) {
+      return group.words.some(function (word) { if (word.word.toLowerCase() === text.toLowerCase()) { found = word; return true; } return false; });
+    });
+    return found;
+  }
+
+  function paintBuilder(defaultWord) {
+    var line = document.getElementById('buildLine');
+    var tray = document.getElementById('tileTray');
+    if (!line || !tray) return;
+    line.innerHTML = ''; tray.innerHTML = '';
+    state.buildLine.forEach(function (tile) { line.appendChild(makeTile(tile, true, defaultWord)); });
+    state.buildTiles.filter(function (tile) { return !tile.placed; }).forEach(function (tile) { tray.appendChild(makeTile(tile, false, defaultWord)); });
+    var text = state.buildLine.map(function (tile) { return tile.text; }).join('');
+    var known = knownWord(text);
+    var picture = document.getElementById('builderPicture');
+    var image = picture.querySelector('img'); var label = picture.querySelector('p');
+    picture.classList.remove('awake');
+    if (known) {
+      image.src = known.picture; image.alt = known.word; label.textContent = known.word;
+      window.requestAnimationFrame(function () { picture.classList.add('awake'); });
+      if (memory.builtWords.indexOf(known.word) === -1) { memory.builtWords.push(known.word); memory.builtWords = memory.builtWords.slice(-24); saveMemory(); }
+      playWord(known);
+    } else { image.src = defaultWord.picture; image.alt = defaultWord.word; label.textContent = text || defaultWord.word; }
+  }
+
+  function makeTile(tile, inLine, defaultWord) {
+    var button = document.createElement('button');
+    button.type = 'button'; button.className = 'letter-tile' + (inLine ? ' in-line' : ''); button.textContent = tile.text;
+    button.setAttribute('aria-label', (inLine ? 'Return ' : 'Add ') + tile.text);
+    button.addEventListener('click', function () {
+      if (inLine) { tile.placed = false; state.buildLine = state.buildLine.filter(function (item) { return item.id !== tile.id; }); }
+      else { tile.placed = true; state.buildLine.push(tile); }
+      paintBuilder(defaultWord);
+    });
+    return button;
+  }
+
+  async function soundThenBlend() {
+    var buttons = Array.prototype.slice.call(document.querySelectorAll('#buildLine .letter-tile'));
+    var supported = { s: 's', a: 'a', t: 't', sh: 'sh', ee: 'ee' };
+    var missing = false;
+    for (var i = 0; i < state.buildLine.length; i++) {
+      if (buttons[i]) { buttons[i].classList.add('pulse'); window.setTimeout((function (button) { return function () { button.classList.remove('pulse'); }; })(buttons[i]), 380); }
+      var id = supported[state.buildLine[i].text];
+      if (id) {
+        var ok = await playPure(state.byId[id], true); if (!ok) missing = true;
+      } else {
+        await new Promise(function (resolve) { window.setTimeout(resolve, 360); });
+      }
+    }
+    var text = state.buildLine.map(function (tile) { return tile.text; }).join('');
+    var known = knownWord(text);
+    if (known) await playWord(known);
+    if (missing) showNotice('Pure sound coming soon');
+  }
+
+  function renderSpy() {
+    var target = state.current.words[3];
+    var options = [{ group: state.current, word: target }];
+    var start = ORDER.indexOf(state.current.id);
+    for (var i = 1; i < 4; i++) {
+      var group = state.byId[ORDER[(start + i) % ORDER.length]];
+      options.push({ group: group, word: group.words[(start + i) % group.words.length] });
+    }
+    var cards = options.map(function (option, index) {
+      return '<button type="button" class="spy-card" data-spy-index="' + index + '" aria-label="' + escapeHtml(option.word.word) + '"><img src="' + escapeHtml(option.word.picture) + '" alt="' + escapeHtml(option.word.word) + '" draggable="false"></button>';
+    }).join('');
+    body.innerHTML = '<div class="spy-wrap"><p class="spy-prompt"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M4 20s6-9 16-9 16 9 16 9-6 9-16 9S4 20 4 20Z"/><circle cx="20" cy="20" r="5"/></svg>I spy something with <strong>' + escapeHtml(state.current.label) + '</strong></p><div class="spy-grid">' + cards + '</div></div>';
+    Array.prototype.forEach.call(body.querySelectorAll('.spy-card'), function (card) {
+      card.addEventListener('click', function () {
+        var option = options[Number(card.getAttribute('data-spy-index'))];
+        if (option.group.id === state.current.id) {
+          card.classList.add('found');
+          playPure(state.current, true).then(function () { playWord(option.word); });
+        } else {
+          playWord(option.word);
+        }
+      });
+    });
+    body.setAttribute('data-spy-target', target.sense);
+  }
+
+  function askHint() {
+    var key = state.current.id + ':' + state.material;
+    memory.hintRequests[key] = Number(memory.hintRequests[key] || 0) + 1;
+    saveMemory();
+    if (state.material === 'sort') {
+      var basket = body.querySelector('.basket[data-basket="' + state.current.id + '"]');
+      if (basket) { basket.classList.remove('breathe'); window.requestAnimationFrame(function () { basket.classList.add('breathe'); }); }
+      showNotice(state.current.pilot.hint);
+      playPure(state.current, true);
+    }
+    if (state.material === 'spy') {
+      var cards = Array.prototype.slice.call(body.querySelectorAll('.spy-card'));
+      var targetSense = body.getAttribute('data-spy-target');
+      var distractor = cards.filter(function (card) {
+        var image = card.querySelector('img');
+        return image && image.getAttribute('src').indexOf(targetSense) === -1 && !card.classList.contains('soft-hide');
+      }).pop();
+      if (distractor) distractor.classList.add('soft-hide');
+      showNotice(state.current.pilot.hint);
+      playPure(state.current, true);
+    }
+  }
+
+  function validatePayload(payload) {
+    var groups = (payload && payload.groups || []).filter(function (group) { return !!group.pilot; });
+    if (groups.length !== 5) throw new Error('Expected five pilot groups');
+    groups.forEach(function (group) {
+      if (group.words.length !== 6) throw new Error('Expected six words for ' + group.id);
+      group.words.forEach(function (word) {
+        if (!word.sense || !word.picture || !word.alice_word_clip || !word.grapheme_spans) throw new Error('Incomplete word ' + word.word);
+      });
+    });
+    return groups.sort(function (a, b) { return ORDER.indexOf(a.id) - ORDER.indexOf(b.id); });
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.place-marker'), function (marker) {
+    marker.addEventListener('click', function () { openPlace(marker.getAttribute('data-place')); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.material-shelf button'), function (button) {
+    button.addEventListener('click', function () { chooseMaterial(button.getAttribute('data-material')); });
+  });
+  document.getElementById('mapButton').addEventListener('click', showMap);
+  document.getElementById('soundButton').addEventListener('click', function () { stopAudio(); playPure(state.current); });
+  hintButton.addEventListener('click', askHint);
+  window.addEventListener('pagehide', stopAudio);
+  document.addEventListener('visibilitychange', function () { if (document.hidden) stopAudio(); });
+
+  fetch('phonics/sound-groups.json').then(function (response) {
+    if (!response.ok) throw new Error('Sound group request failed');
+    return response.json();
+  }).then(function (payload) {
+    state.groups = validatePayload(payload);
+    state.groups.forEach(function (group) { state.byId[group.id] = group; });
+    updateMap();
+  }).catch(function () {
+    var frame = document.getElementById('mapFrame');
+    frame.innerHTML = '';
+    frame.appendChild(document.getElementById('errorTemplate').content.cloneNode(true));
+  });
+})();
