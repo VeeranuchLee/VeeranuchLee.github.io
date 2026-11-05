@@ -54,6 +54,21 @@ textarea{width:100%;min-height:40px;padding:6px;font-size:.8rem;border:1px solid
 .letters button[aria-pressed="true"] small{color:#d8d2e6}
 .letters button:disabled{opacity:.35;cursor:default}
 .bar button.newbtn{background:#2e8b57;border-color:#2e8b57;color:#fff}
+.formsbox{border:1px dashed #c9b8ec;border-radius:10px;background:#faf7ff}
+.formsbox>summary{list-style:none;cursor:pointer;padding:8px 10px;min-height:40px;font-size:.8rem;font-weight:800;color:#5a3fa0;display:flex;align-items:center;gap:6px}
+.formsbox>summary::-webkit-details-marker{display:none}
+.formsbox>summary .chev{margin-left:auto;transition:transform .15s}
+.formsbox[open]>summary .chev{transform:rotate(90deg)}
+.formsbox .formstate{font-weight:600;color:var(--soft)}
+.mini{display:flex;flex-direction:column;gap:5px;padding:8px;border-top:1px solid #e7dcf7}
+.mini img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;background:#eee}
+.mini.flagged{background:var(--flagbg)} .mini.approved{background:#eefaf2}
+.livehead{padding:10px;background:#f3eefc;font-size:.82rem;color:#5a3fa0}
+.livehead b{font-size:1rem;color:var(--ink)}
+.takes{display:flex;flex-wrap:wrap;gap:4px;align-items:center;font-size:.72rem}
+.takes button{min-width:44px;min-height:40px;border:1px solid var(--line);border-radius:10px;background:#fff;font:inherit;font-weight:700;cursor:pointer}
+.takes button.picked{background:#7a4fd0;color:#fff;border-color:#7a4fd0}
+.takes .lbl{color:var(--soft);font-weight:700}
 </style>
 </head>
 <body>
@@ -78,7 +93,7 @@ textarea{width:100%;min-height:40px;padding:6px;font-size:.8rem;border:1px solid
 </header>
 <main id="grid"></main>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="data.js?v=20261105a"></script>
+<script src="data.js?v=20261105b"></script>
 <script>
 (function () {
   "use strict";
@@ -87,112 +102,159 @@ textarea{width:100%;min-height:40px;padding:6px;font-size:.8rem;border:1px solid
   var state = {};
   try { state = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { state = {}; }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
-  // What was already copied out: a snapshot per card, so "Copy new decisions" sends only what changed since.
   var SENT = KEY + "-sent";
   var sent = {};
   try { sent = JSON.parse(localStorage.getItem(SENT) || "{}") || {}; } catch (e) { sent = {}; }
-  function snap(rank) { var s = state[rank] || {}; return [!!s.ok, !!s.pic, !!s.voice, !!s.wvoice, (s.comment || "").trim()].join("|"); }
-  function blank() { return "false|false|false|false|"; }
-  function isNew(rank) { return snap(rank) !== (sent[rank] || blank()); }
+  // A "unit" is one word the owner decides on: a card's own word, or a form folded inside a card.
+  function unitsOf(it) { return (it.live ? [] : [it]).concat(it.formItems || []); }
+  var units = []; items.forEach(function (it) { units = units.concat(unitsOf(it)); });
+  var unitByRank = {}; units.forEach(function (u) { unitByRank[u.rank] = u; });
+  function snap(rank) { var s = state[rank] || {}; return [!!s.ok, !!s.pic, !!s.voice, !!s.wvoice, (s.comment || "").trim(), s.wpick || ""].join("|"); }
+  function blank() { return "false|false|false|false||"; }
+  function isNew(rank) { var a = snap(rank), b = sent[rank] || blank(); return a !== b && a !== b.replace(/\|$/, "") + "|"; }
   function firstLetter(w) { var c = (w || "").trim().charAt(0).toUpperCase(); return /[A-Z]/.test(c) ? c : "#"; }
   function entry(rank) { return state[rank] || (state[rank] = { ok: false, pic: false, voice: false, wvoice: false, comment: "" }); }
   function isApproved(rank) { var s = state[rank]; return !!(s && s.ok); }
   function isFlagged(rank) { var s = state[rank]; return !!(s && (s.pic || s.voice || s.wvoice || (!s.ok && (s.comment || "").trim()))); }
+  function isDone(rank) { return isApproved(rank) || isFlagged(rank); }
 
   var SPEAKER = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+  var CHEV = '<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
   var grid = document.getElementById("grid");
-  var audio = new Audio();
-  var playingBtn = null;
+  var audio = new Audio(); var playingBtn = null;
   audio.addEventListener("ended", function () { if (playingBtn) playingBtn.classList.remove("playing"); playingBtn = null; });
-
-  function card(it) {
-    var el = document.createElement("article");
-    el.className = "card"; el.id = "w" + it.rank; el.dataset.rank = it.rank;
-    el.innerHTML =
-      '<img loading="lazy" alt="">' +
-      '<div class="body">' +
-        '<div class="head"><span class="rank"></span><span class="word"></span>' +
-        (it.wordAudio ? '<button type="button" class="play wordplay" title="Hear the word">' + SPEAKER + '<span>Word</span></button>' : '<span class="noword">No word recording yet</span>') +
-        '</div>' +
-        (it.forms && it.forms.length ? '<p class="forms"></p>' : '') +
-        '<div class="head"><p class="sentence"></p><button type="button" class="play sentplay" title="Hear the sentence">' + SPEAKER + '</button></div>' +
-        (it.wordNote ? '<p class="note wnote"></p>' : '') +
-        (it.note ? '<p class="note snote"></p>' : '') +
-        '<div class="ticks"><label class="ok"><input type="checkbox" data-k="ok"> Approve</label><label><input type="checkbox" data-k="pic"> Fix picture</label>' +
-        '<label><input type="checkbox" data-k="wvoice"> Fix word voice</label>' +
-        '<label><input type="checkbox" data-k="voice"> Fix sentence voice</label></div>' +
-        '<textarea placeholder="Comment (optional)"></textarea>' +
-      '</div>';
-    el.querySelector("img").src = it.pic;
-    el.querySelector("img").alt = it.word;
-    el.querySelector(".rank").textContent = it.rank;
-    el.querySelector(".word").textContent = it.word;
-    el.querySelector(".sentence").textContent = it.sentence;
-    if (it.note) el.querySelector(".snote").textContent = it.note;
-    if (it.wordNote) el.querySelector(".wnote").textContent = it.wordNote;
-    if (it.forms && it.forms.length) el.querySelector(".forms").textContent = "Also: " + it.forms.join(", ");
-    function wire(btn, src, label) {
-      if (!btn) return;
-      btn.setAttribute("aria-label", label);
-      btn.addEventListener("click", function () {
-        if (playingBtn) playingBtn.classList.remove("playing");
-        audio.pause(); audio.src = src; audio.currentTime = 0;
-        var p = audio.play(); if (p && p.catch) p.catch(function () {});
-        btn.classList.add("playing"); playingBtn = btn;
+  function wire(btn, src, label) {
+    if (!btn || !src) return;
+    btn.setAttribute("aria-label", label);
+    btn.addEventListener("click", function () {
+      if (playingBtn) playingBtn.classList.remove("playing");
+      audio.pause(); audio.src = src; audio.currentTime = 0;
+      var p = audio.play(); if (p && p.catch) p.catch(function () {});
+      btn.classList.add("playing"); playingBtn = btn;
+    });
+  }
+  // The review controls for one unit (used for a card's own word and for each folded form).
+  function reviewBlock(u, host) {
+    var b = document.createElement("div"); b.className = "body";
+    b.innerHTML =
+      '<div class="head"><span class="rank"></span><span class="word"></span>' +
+      (u.wordAudio ? '<button type="button" class="play wordplay" title="Hear the word">' + SPEAKER + '<span>Word</span></button>' : '<span class="noword">No word recording yet</span>') + '</div>' +
+      (u.wordOptions ? '<div class="takes"><span class="lbl">Pick a take:</span></div>' : '') +
+      '<div class="head"><p class="sentence"></p><button type="button" class="play sentplay" title="Hear the sentence">' + SPEAKER + '</button></div>' +
+      (u.wordNote ? '<p class="note wnote"></p>' : '') + (u.note ? '<p class="note snote"></p>' : '') +
+      '<div class="ticks"><label class="ok"><input type="checkbox" data-k="ok"> Approve</label><label><input type="checkbox" data-k="pic"> Fix picture</label>' +
+      '<label><input type="checkbox" data-k="wvoice"> Fix word voice</label><label><input type="checkbox" data-k="voice"> Fix sentence voice</label></div>' +
+      '<textarea placeholder="Comment (optional)"></textarea>';
+    b.querySelector(".rank").textContent = u.rank; b.querySelector(".word").textContent = u.word;
+    b.querySelector(".sentence").textContent = u.sentence;
+    if (u.note) b.querySelector(".snote").textContent = u.note;
+    if (u.wordNote) b.querySelector(".wnote").textContent = u.wordNote;
+    wire(b.querySelector(".sentplay"), u.audio, "Play sentence: " + u.sentence);
+    wire(b.querySelector(".wordplay"), u.wordAudio, "Play word: " + u.word);
+    var s = state[u.rank] || {};
+    if (u.wordOptions) {
+      var row = b.querySelector(".takes");
+      u.wordOptions.forEach(function (o) {
+        var t = document.createElement("button"); t.type = "button"; t.textContent = String(o.take);
+        t.setAttribute("aria-label", "Take " + o.take + " of " + u.word);
+        if (s.wpick === o.take) t.classList.add("picked");
+        t.addEventListener("click", function () {
+          if (playingBtn) playingBtn.classList.remove("playing");
+          audio.pause(); audio.src = o.src; audio.currentTime = 0; var p = audio.play(); if (p && p.catch) p.catch(function () {});
+          var e = entry(u.rank); e.wpick = o.take; e.ok = true; e.wvoice = false; save();
+          row.querySelectorAll("button").forEach(function (x) { x.classList.toggle("picked", x === t); });
+          b.querySelectorAll("input[type=checkbox]").forEach(function (x) { x.checked = !!e[x.dataset.k]; });
+          refresh(host); count();
+        });
+        row.appendChild(t);
       });
     }
-    wire(el.querySelector(".sentplay"), it.audio, "Play sentence: " + it.sentence);
-    wire(el.querySelector(".wordplay"), it.wordAudio, "Play word: " + it.word);
-    var s = state[it.rank] || {};
-    el.querySelectorAll("input[type=checkbox]").forEach(function (cb) {
+    b.querySelectorAll("input[type=checkbox]").forEach(function (cb) {
       cb.checked = !!s[cb.dataset.k];
       cb.addEventListener("change", function () {
-        var e = entry(it.rank); e[cb.dataset.k] = cb.checked;
-        // Approve and Fix are opposites: ticking one clears the other on this card.
+        var e = entry(u.rank); e[cb.dataset.k] = cb.checked;
         if (cb.checked && cb.dataset.k === "ok") { e.pic = false; e.voice = false; e.wvoice = false; }
         if (cb.checked && cb.dataset.k !== "ok") e.ok = false;
-        el.querySelectorAll("input[type=checkbox]").forEach(function (x) { x.checked = !!e[x.dataset.k]; });
-        save(); refresh(el);
+        b.querySelectorAll("input[type=checkbox]").forEach(function (x) { x.checked = !!e[x.dataset.k]; });
+        save(); refresh(host); count();
       });
     });
-    var ta = el.querySelector("textarea");
-    ta.value = s.comment || "";
-    ta.addEventListener("input", function () { entry(it.rank).comment = ta.value; save(); refresh(el); });
-    refresh(el, true);
+    var ta = b.querySelector("textarea"); ta.value = s.comment || "";
+    ta.addEventListener("input", function () { entry(u.rank).comment = ta.value; save(); refresh(host); count(); });
+    return b;
+  }
+  function card(it) {
+    var el = document.createElement("article");
+    el.className = "card"; el.id = "w" + it.rank; el.dataset.rank = it.rank; el._it = it;
+    if (it.live) {
+      var h = document.createElement("div"); h.className = "livehead";
+      h.innerHTML = '<b></b><br>already in the Word Book. These new words are its other forms:';
+      h.querySelector("b").textContent = it.word; el.appendChild(h);
+    } else {
+      var img = document.createElement("img"); img.loading = "lazy"; img.alt = it.word; img.src = it.pic; el.appendChild(img);
+      el._self = reviewBlock(it, el); el.appendChild(el._self);
+    }
+    if (it.formItems && it.formItems.length) {
+      var d = document.createElement("details"); d.className = "formsbox";
+      if (it.live) d.open = true;
+      d.innerHTML = '<summary>Also: <span class="formnames"></span> <span class="formstate"></span>' + CHEV + '</summary>';
+      d.querySelector(".formnames").textContent = it.forms.join(", ");
+      // Built only when first opened, so 80 hidden groups cost nothing until needed.
+      var built = false;
+      function build() {
+        if (built) return; built = true;
+        it.formItems.forEach(function (f) {
+          var m = document.createElement("div"); m.className = "mini"; m.id = "w" + f.rank; m.dataset.rank = f.rank;
+          var im = document.createElement("img"); im.loading = "lazy"; im.alt = f.word; im.src = f.pic; m.appendChild(im);
+          m.appendChild(reviewBlock(f, el)); d.appendChild(m);
+        });
+        refresh(el);
+      }
+      d.addEventListener("toggle", function () { if (d.open) build(); });
+      if (d.open) build();
+      el._forms = d; el._build = build;
+      (el._self || el).appendChild(d);
+    }
+    refresh(el);
     return el;
   }
-  function refresh(el, quiet) {
-    el.classList.toggle("flagged", isFlagged(+el.dataset.rank));
-    el.classList.toggle("approved", isApproved(+el.dataset.rank) && !isFlagged(+el.dataset.rank));
-    if (!quiet) count();
+  function refresh(el) {
+    var it = el._it;
+    if (!it.live) { el.classList.toggle("flagged", isFlagged(it.rank)); el.classList.toggle("approved", isApproved(it.rank) && !isFlagged(it.rank)); }
+    el.querySelectorAll(".mini").forEach(function (m) { var r = +m.dataset.rank; m.classList.toggle("flagged", isFlagged(r)); m.classList.toggle("approved", isApproved(r) && !isFlagged(r)); });
+    if (el._forms) {
+      var fi = it.formItems, left = fi.filter(function (f) { return !isDone(f.rank); }).length;
+      el._forms.querySelector(".formstate").textContent = left ? "(" + left + " to check)" : "(all checked)";
+    }
   }
   var filter = "all", letter = "";
   try { letter = sessionStorage.getItem(KEY + "-letter") || ""; } catch (e) {}
+  function unitMatches(u) {
+    return filter === "all" || (filter === "flagged" && isFlagged(u.rank)) || (filter === "note" && (u.note || u.wordNote || u.wordOptions))
+      || (filter === "ok" && isApproved(u.rank) && !isFlagged(u.rank)) || (filter === "todo" && !isDone(u.rank));
+  }
   function render() {
     grid.innerHTML = "";
     var shown = items.filter(function (it) {
       if (letter && firstLetter(it.word) !== letter) return false;
-      return filter === "all" || (filter === "flagged" && isFlagged(it.rank)) || (filter === "note" && (it.note || it.wordNote))
-        || (filter === "ok" && isApproved(it.rank) && !isFlagged(it.rank)) || (filter === "todo" && !isApproved(it.rank) && !isFlagged(it.rank));
+      return unitsOf(it).some(unitMatches);
     });
-    if (!shown.length) { grid.innerHTML = '<p class="empty">Nothing here yet.</p>'; }
-    shown.forEach(function (it) { grid.appendChild(card(it)); });
+    if (!shown.length) grid.innerHTML = '<p class="empty">Nothing here yet.</p>';
+    shown.forEach(function (it) {
+      var el = card(it); grid.appendChild(el);
+      if (filter !== "all" && it.formItems && it.formItems.some(unitMatches)) { el._forms.open = true; el._build(); }
+    });
     count();
   }
-  function count() {
-    var n = items.filter(function (it) { return isFlagged(it.rank); }).length;
-    var ok = items.filter(function (it) { return isApproved(it.rank) && !isFlagged(it.rank); }).length;
-    var fresh = items.filter(function (it) { return isNew(it.rank); }).length;
-    document.getElementById("count").textContent = items.length + " words · " + ok + " approved · " + n + " to fix · " + (items.length - ok - n) + " left · " + fresh + " new since last copy";
-    letterCounts();
-  }
-  // A–Z tabs: each shows how many of that letter's words are still not done.
   var letterBox = document.getElementById("letters");
-  function letterCounts() {
+  function count() {
+    var n = units.filter(function (u) { return isFlagged(u.rank); }).length;
+    var ok = units.filter(function (u) { return isApproved(u.rank) && !isFlagged(u.rank); }).length;
+    var fresh = units.filter(function (u) { return isNew(u.rank); }).length;
+    document.getElementById("count").textContent = units.length + " words on " + items.length + " cards · " + ok + " approved · " + n + " to fix · " + (units.length - ok - n) + " left · " + fresh + " new since last copy";
     letterBox.querySelectorAll("button[data-l]").forEach(function (b) {
-      var l = b.dataset.l, mine = items.filter(function (it) { return !l || firstLetter(it.word) === l; });
-      var left = mine.filter(function (it) { return !isApproved(it.rank) && !isFlagged(it.rank); }).length;
-      b.querySelector("small").textContent = mine.length ? left + " left" : "";
+      var l = b.dataset.l, mine = units.filter(function (u) { return !l || firstLetter(u.word) === l; });
+      b.querySelector("small").textContent = mine.length ? mine.filter(function (u) { return !isDone(u.rank); }).length + " left" : "";
       b.disabled = !mine.length;
     });
   }
@@ -214,72 +276,58 @@ textarea{width:100%;min-height:40px;padding:6px;font-size:.8rem;border:1px solid
       render();
     });
   });
+  function toast(msg) { var t = document.getElementById("toast"); t.textContent = msg; t.classList.add("show"); setTimeout(function () { t.classList.remove("show"); }, 2600); }
   document.getElementById("jump").addEventListener("keydown", function (e) { if (e.key === "Enter") document.getElementById("go").click(); });
   document.getElementById("go").addEventListener("click", function () {
-    var n = document.getElementById("jump").value, el = document.getElementById("w" + n);
-    if (!el && letter) { letterBox.querySelector('button[data-l=""]').click(); el = document.getElementById("w" + n); }
-    if (!el && filter !== "all") { document.querySelector('[data-filter="all"]').click(); el = document.getElementById("w" + n); }
-    if (el) {
-      // The sticky header would cover a card scrolled to the very top, so stop just below it.
-      var top = el.getBoundingClientRect().top + window.scrollY - document.querySelector("header").offsetHeight - 8;
-      window.scrollTo({ top: top, behavior: "smooth" });
-    } else toast("No word number " + n);
+    var n = +document.getElementById("jump").value;
+    if (!unitByRank[n]) { toast("No word number " + n); return; }
+    if (letter || filter !== "all") { letter = ""; filter = "all";
+      letterBox.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x.dataset.l === "")); });
+      document.querySelectorAll(".filters button").forEach(function (x) { x.setAttribute("aria-pressed", String(x.dataset.filter === "all")); });
+      render(); }
+    var el = document.getElementById("w" + n);
+    if (!el) { var host = items.filter(function (it) { return (it.formItems || []).some(function (f) { return f.rank === n; }); })[0];
+      var c = host && document.getElementById("w" + host.rank);
+      if (c) { c._forms.open = true; c._build(); el = document.getElementById("w" + n); } }
+    if (el) { var top = el.getBoundingClientRect().top + window.scrollY - document.querySelector("header").offsetHeight - 8; window.scrollTo({ top: top, behavior: "smooth" }); }
   });
-
+  function what(s) {
+    return [s.pic ? "fix picture" : "", s.wvoice ? "fix word voice" : "", s.voice ? "fix sentence voice" : ""].filter(Boolean).join(" + ");
+  }
   function feedback() {
-    var out = items.filter(function (it) { return isFlagged(it.rank); }).map(function (it) {
-      var s = state[it.rank];
-      return { rank: it.rank, word: it.word, sentence: it.sentence, fix_picture: !!s.pic, fix_word_voice: !!s.wvoice, fix_sentence_voice: !!s.voice, comment: (s.comment || "").trim() };
+    var out = [], approved = [];
+    units.forEach(function (u) {
+      var s = state[u.rank] || {}, c = (s.comment || "").trim();
+      if (isFlagged(u.rank)) out.push({ rank: u.rank, word: u.word, sentence: u.sentence, fix_picture: !!s.pic, fix_word_voice: !!s.wvoice, fix_sentence_voice: !!s.voice, comment: c, word_take: s.wpick || null });
+      else if (isApproved(u.rank)) approved.push({ rank: u.rank, word: u.word, comment: c, word_take: s.wpick || null });
     });
-    var approved = items.filter(function (it) { return isApproved(it.rank) && !isFlagged(it.rank); }).map(function (it) {
-      var s = state[it.rank]; return { rank: it.rank, word: it.word, comment: (s.comment || "").trim() };
-    });
-    return { page: "word-book-future-review", at: new Date().toISOString(), total: items.length, marked: out.length, approved_count: approved.length, left: items.length - out.length - approved.length, items: out, approved: approved };
+    return { page: "word-book-future-review", at: new Date().toISOString(), total: units.length, marked: out.length, approved_count: approved.length, left: units.length - out.length - approved.length, items: out, approved: approved };
   }
   function asText(fb) {
     var lines = ["Word Book new words review: " + fb.approved_count + " approved, " + fb.marked + " to fix, " + fb.left + " not reviewed, of " + fb.total + "."];
-    fb.items.forEach(function (x) {
-      var what = [x.fix_picture ? "fix picture" : "", x.fix_word_voice ? "fix word voice" : "", x.fix_sentence_voice ? "fix sentence voice" : ""].filter(Boolean).join(" + ");
-      lines.push(x.rank + " " + x.word + (what ? " — " + what : "") + (x.comment ? " — " + x.comment : ""));
-    });
-    lines.push("", JSON.stringify(fb));
-    return lines.join("\n");
+    fb.items.forEach(function (x) { var w = [x.fix_picture ? "fix picture" : "", x.fix_word_voice ? "fix word voice" : "", x.fix_sentence_voice ? "fix sentence voice" : ""].filter(Boolean).join(" + ");
+      lines.push(x.rank + " " + x.word + (w ? " — " + w : "") + (x.comment ? " — " + x.comment : "")); });
+    lines.push("", JSON.stringify(fb)); return lines.join("\n");
   }
-  function toast(msg) { var t = document.getElementById("toast"); t.textContent = msg; t.classList.add("show"); setTimeout(function () { t.classList.remove("show"); }, 2600); }
   document.getElementById("send").addEventListener("click", function () {
     var text = asText(feedback());
     if (navigator.share) { navigator.share({ title: "Word Book review", text: text }).catch(function () {}); return; }
     if (navigator.clipboard) navigator.clipboard.writeText(text).then(function () { toast("Copied. Paste it into the chat."); }, function () { toast("Could not copy; use Download file."); });
-    else toast("Use Download file.");
   });
-  // Only the cards whose decision changed since the last "Copy new decisions"; marked as copied once the copy succeeds.
   document.getElementById("copynew").addEventListener("click", function () {
-    var fresh = items.filter(function (it) { return isNew(it.rank); });
+    var fresh = units.filter(function (u) { return isNew(u.rank); }).sort(function (a, b) { return a.rank - b.rank; });
     if (!fresh.length) { toast("Nothing new since your last copy."); return; }
-    fresh.sort(function (a, b) { return a.rank - b.rank; });
-    var nOk = 0, nFix = 0, nCleared = 0, lines = [];
-    fresh.forEach(function (it) {
-      var s = state[it.rank] || {}, c = (s.comment || "").trim(), what;
-      if (s.pic || s.voice || s.wvoice) { nFix++; what = [s.pic ? "fix picture" : "", s.wvoice ? "fix word voice" : "", s.voice ? "fix sentence voice" : ""].filter(Boolean).join(" + "); }
-      else if (s.ok) { nOk++; what = "approved"; }
-      else if (c) { nFix++; what = "comment"; }
-      else { nCleared++; what = "cleared (no decision now)"; }
-      lines.push(it.rank + " " + it.word + " — " + what + (c && what !== "comment" ? " — " + c : "") + (what === "comment" ? ": " + c : ""));
+    var nOk = 0, nFix = 0, nCl = 0, lines = [];
+    fresh.forEach(function (u) {
+      var s = state[u.rank] || {}, c = (s.comment || "").trim(), w = what(s), label;
+      if (w) { nFix++; label = w; } else if (s.ok) { nOk++; label = "approved"; } else if (c) { nFix++; label = "comment"; } else { nCl++; label = "cleared (no decision now)"; }
+      if (s.wpick) label += " (word take " + s.wpick + ")";
+      lines.push(u.rank + " " + u.word + " — " + label + (c ? " — " + c : ""));
     });
-    var head = "Word Book new words review, NEW decisions only (" + fresh.length + "): " + nOk + " approved, " + nFix + " to fix" + (nCleared ? ", " + nCleared + " cleared" : "") + ".";
-    var text = [head].concat(lines).join("\n");
-    function done() {
-      fresh.forEach(function (it) { sent[it.rank] = snap(it.rank); });
-      try { localStorage.setItem(SENT, JSON.stringify(sent)); } catch (e) {}
-      count(); toast("Copied " + fresh.length + " new decisions. Paste them into the chat.");
-    }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(done, function () {
-        if (navigator.share) navigator.share({ title: "Word Book review (new)", text: text }).then(done, function () {});
-        else toast("Could not copy.");
-      });
-    } else if (navigator.share) navigator.share({ title: "Word Book review (new)", text: text }).then(done, function () {});
-    else toast("Could not copy.");
+    var text = ["Word Book new words review, NEW decisions only (" + fresh.length + "): " + nOk + " approved, " + nFix + " to fix" + (nCl ? ", " + nCl + " cleared" : "") + "."].concat(lines).join("\n");
+    function done() { fresh.forEach(function (u) { sent[u.rank] = snap(u.rank); }); try { localStorage.setItem(SENT, JSON.stringify(sent)); } catch (e) {} count(); toast("Copied " + fresh.length + " new decisions. Paste them into the chat."); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function () { if (navigator.share) navigator.share({ text: text }).then(done, function () {}); else toast("Could not copy."); });
+    else if (navigator.share) navigator.share({ text: text }).then(done, function () {});
   });
   document.getElementById("download").addEventListener("click", function () {
     var blob = new Blob([JSON.stringify(feedback(), null, 1)], { type: "application/json" });

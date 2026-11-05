@@ -50,11 +50,21 @@ window.REVIEW_ITEMS = [
 },
 {
 "rank": 107,
+"word": "hide",
+"live": true,
+"forms": [
+"hid"
+],
+"formItems": [
+{
+"rank": 107,
 "word": "hid",
 "sentence": "The rabbit hid behind the flowerpot.",
 "pic": "pics/107-hid.webp",
 "audio": "audio/107-hid.m4a",
 "wordAudio": "audio/words/hid.m4a"
+}
+]
 },
 {
 "rank": 108,
@@ -90,11 +100,21 @@ window.REVIEW_ITEMS = [
 },
 {
 "rank": 112,
+"word": "grow",
+"live": true,
+"forms": [
+"grew"
+],
+"formItems": [
+{
+"rank": 112,
 "word": "grew",
 "sentence": "Our sunflower grew taller than the fence.",
 "pic": "pics/112-grew.webp",
 "audio": "audio/112-grew.m4a",
 "wordAudio": "audio/words/grew.m4a"
+}
+]
 },
 {
 "rank": 113,
@@ -121,8 +141,26 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/cabinet.m4a",
 "forms": [
 "cabinets"
+],
+"formItems": [
+{
+"rank": 1169,
+"word": "cabinets",
+"sentence": "The kitchen cabinets are painted blue.",
+"pic": "pics/1169-cabinets.webp",
+"audio": "audio/1169-cabinets.m4a",
+"wordAudio": "audio/words/cabinets.m4a"
+}
 ]
 },
+{
+"rank": 116,
+"word": "throw",
+"live": true,
+"forms": [
+"thrown"
+],
+"formItems": [
 {
 "rank": 116,
 "word": "thrown",
@@ -131,7 +169,17 @@ window.REVIEW_ITEMS = [
 "audio": "audio/116-thrown.m4a",
 "wordAudio": "audio/words/thrown.m4a",
 "wordNote": "Word check heard: “Throne.”"
+}
+]
 },
+{
+"rank": 117,
+"word": "carry",
+"live": true,
+"forms": [
+"carried"
+],
+"formItems": [
 {
 "rank": 117,
 "word": "carried",
@@ -139,6 +187,8 @@ window.REVIEW_ITEMS = [
 "pic": "pics/117-carried.webp",
 "audio": "audio/117-carried.m4a",
 "wordAudio": "audio/words/carried.m4a"
+}
+]
 },
 {
 "rank": 118,
@@ -149,6 +199,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/device.m4a",
 "forms": [
 "devices"
+],
+"formItems": [
+{
+"rank": 1223,
+"word": "devices",
+"sentence": "Our devices charge in the kitchen overnight.",
+"pic": "pics/1223-devices.webp",
+"audio": "audio/1223-devices.m4a",
+"wordAudio": "audio/words/devices.m4a"
+}
 ]
 },
 {
@@ -161,12 +221,22 @@ window.REVIEW_ITEMS = [
 },
 {
 "rank": 120,
+"word": "meet",
+"live": true,
+"forms": [
+"met"
+],
+"formItems": [
+{
+"rank": 120,
 "word": "met",
 "sentence": "I met my new teacher at school.",
 "pic": "pics/120-met.webp",
 "audio": "audio/120-met.m4a",
 "wordAudio": "audio/words/met.m4a",
 "wordNote": "Word check heard: “net.”"
+}
+]
 },
 {
 "rank": 121,
@@ -218,12 +288,30 @@ window.REVIEW_ITEMS = [
 },
 {
 "rank": 127,
+"word": "sink",
+"live": true,
+"forms": [
+"sank"
+],
+"formItems": [
+{
+"rank": 127,
 "word": "sank",
 "sentence": "The heavy stone sank to the pond's bottom.",
 "pic": "pics/127-sank.webp",
 "audio": "audio/127-sank.m4a",
 "wordAudio": "audio/words/sank.m4a"
+}
+]
 },
+{
+"rank": 128,
+"word": "hot",
+"live": true,
+"forms": [
+"hotter"
+],
+"formItems": [
 {
 "rank": 128,
 "word": "hotter",
@@ -231,6 +319,8 @@ window.REVIEW_ITEMS = [
 "pic": "pics/128-hotter.webp",
 "audio": "audio/128-hotter.m4a",
 "wordAudio": "audio/words/hotter.m4a"
+}
+]
 },
 {
 "rank": 129,
@@ -258,6 +348,15 @@ window.REVIEW_ITEMS = [
 },
 {
 "rank": 132,
+"word": "draw",
+"live": true,
+"forms": [
+"drew",
+"drawn"
+],
+"formItems": [
+{
+"rank": 132,
 "word": "drew",
 "sentence": "I drew a round moon with crayons.",
 "pic": "pics/132-drew.webp",
@@ -265,12 +364,32 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/drew.m4a"
 },
 {
+"rank": 1375,
+"word": "drawn",
+"sentence": "The cart is drawn by a strong pony.",
+"pic": "pics/1375-drawn.webp",
+"audio": "audio/1375-drawn.m4a",
+"wordAudio": "audio/words/drawn.m4a"
+}
+]
+},
+{
+"rank": 133,
+"word": "wet",
+"live": true,
+"forms": [
+"wetter"
+],
+"formItems": [
+{
 "rank": 133,
 "word": "wetter",
 "sentence": "The grass becomes wetter during the rain.",
 "pic": "pics/133-wetter.webp",
 "audio": "audio/133-wetter.m4a",
 "wordAudio": "audio/words/wetter.m4a"
+}
+]
 },
 {
 "rank": 134,
@@ -338,6 +457,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/charge.m4a",
 "forms": [
 "charged"
+],
+"formItems": [
+{
+"rank": 1267,
+"word": "charged",
+"sentence": "The camera battery is fully charged.",
+"pic": "pics/1267-charged.webp",
+"audio": "audio/1267-charged.m4a",
+"wordAudio": "audio/words/charged.m4a"
+}
 ]
 },
 {
@@ -399,8 +528,40 @@ window.REVIEW_ITEMS = [
 "audio": "audio/148-badge.m4a",
 "wordAudio": "audio/words/badge.m4a",
 "wordNote": "Word check heard: “Batch.”",
+"wordOptions": [
+{
+"take": 1,
+"src": "audio/options/badge-take1.m4a"
+},
+{
+"take": 2,
+"src": "audio/options/badge-take2.m4a"
+},
+{
+"take": 3,
+"src": "audio/options/badge-take3.m4a"
+},
+{
+"take": 4,
+"src": "audio/options/badge-take4.m4a"
+},
+{
+"take": 5,
+"src": "audio/options/badge-take5.m4a"
+}
+],
 "forms": [
 "badges"
+],
+"formItems": [
+{
+"rank": 1170,
+"word": "badges",
+"sentence": "The scouts collect badges for new skills.",
+"pic": "pics/1170-badges.webp",
+"audio": "audio/1170-badges.m4a",
+"wordAudio": "audio/words/badges.m4a"
+}
 ]
 },
 {
@@ -686,6 +847,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/dart.m4a",
 "forms": [
 "darts"
+],
+"formItems": [
+{
+"rank": 1284,
+"word": "darts",
+"sentence": "The little fish make quick darts around the rocks.",
+"pic": "pics/1284-darts.webp",
+"audio": "audio/1284-darts.m4a",
+"wordAudio": "audio/words/darts.m4a"
+}
 ]
 },
 {
@@ -1806,6 +1977,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/attach.m4a",
 "forms": [
 "attached"
+],
+"formItems": [
+{
+"rank": 717,
+"word": "attached",
+"sentence": "The basket is attached to my bicycle.",
+"pic": "pics/717-attached.webp",
+"audio": "audio/717-attached.m4a",
+"wordAudio": "audio/words/attached.m4a"
+}
 ]
 },
 {
@@ -1938,6 +2119,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/crack.m4a",
 "forms": [
 "cracks"
+],
+"formItems": [
+{
+"rank": 810,
+"word": "cracks",
+"sentence": "Thin cracks spread across the dry mud.",
+"pic": "pics/810-cracks.webp",
+"audio": "audio/810-cracks.m4a",
+"wordAudio": "audio/words/cracks.m4a"
+}
 ]
 },
 {
@@ -2045,6 +2236,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/joke.m4a",
 "forms": [
 "jokes"
+],
+"formItems": [
+{
+"rank": 1360,
+"word": "jokes",
+"sentence": "Grandad's jokes make the whole table laugh.",
+"pic": "pics/1360-jokes.webp",
+"audio": "audio/1360-jokes.m4a",
+"wordAudio": "audio/words/jokes.m4a"
+}
 ]
 },
 {
@@ -2056,6 +2257,17 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/knock.m4a",
 "forms": [
 "knocks"
+],
+"formItems": [
+{
+"rank": 1272,
+"word": "knocks",
+"sentence": "The postman knocks on our front door.",
+"pic": "pics/1272-knocks.webp",
+"audio": "audio/1272-knocks.m4a",
+"wordAudio": "audio/words/knocks.m4a",
+"wordNote": "Word check heard: “Knox.”"
+}
 ]
 },
 {
@@ -2139,6 +2351,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/relax.m4a",
 "forms": [
 "relaxes"
+],
+"formItems": [
+{
+"rank": 1309,
+"word": "relaxes",
+"sentence": "Our dog relaxes in the cool shade.",
+"pic": "pics/1309-relaxes.webp",
+"audio": "audio/1309-relaxes.m4a",
+"wordAudio": "audio/words/relaxes.m4a"
+}
 ]
 },
 {
@@ -2174,6 +2396,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/serve.m4a",
 "forms": [
 "serves"
+],
+"formItems": [
+{
+"rank": 1228,
+"word": "serves",
+"sentence": "The ice cream van serves chocolate cones.",
+"pic": "pics/1228-serves.webp",
+"audio": "audio/1228-serves.m4a",
+"wordAudio": "audio/words/serves.m4a"
+}
 ]
 },
 {
@@ -2225,6 +2457,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/soak.m4a",
 "forms": [
 "soaks"
+],
+"formItems": [
+{
+"rank": 895,
+"word": "soaks",
+"sentence": "The sponge soaks up the spilled water.",
+"pic": "pics/895-soaks.webp",
+"audio": "audio/895-soaks.m4a",
+"wordAudio": "audio/words/soaks.m4a"
+}
 ]
 },
 {
@@ -2374,6 +2616,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/broad.m4a",
 "forms": [
 "broader"
+],
+"formItems": [
+{
+"rank": 1316,
+"word": "broader",
+"sentence": "The river gets broader near the sea.",
+"pic": "pics/1316-broader.webp",
+"audio": "audio/1316-broader.m4a",
+"wordAudio": "audio/words/broader.m4a"
+}
 ]
 },
 {
@@ -3323,6 +3575,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/reflect.m4a",
 "forms": [
 "reflects"
+],
+"formItems": [
+{
+"rank": 1300,
+"word": "reflects",
+"sentence": "The calm lake reflects the snowy mountain.",
+"pic": "pics/1300-reflects.webp",
+"audio": "audio/1300-reflects.m4a",
+"wordAudio": "audio/words/reflects.m4a"
+}
 ]
 },
 {
@@ -3755,6 +4017,16 @@ window.REVIEW_ITEMS = [
 "wordNote": "Word check heard: “Cord”",
 "forms": [
 "chords"
+],
+"formItems": [
+{
+"rank": 846,
+"word": "chords",
+"sentence": "She plays bright chords on the piano.",
+"pic": "pics/846-chords.webp",
+"audio": "audio/846-chords.m4a",
+"wordAudio": "audio/words/chords.m4a"
+}
 ]
 },
 {
@@ -3782,6 +4054,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/memory.m4a",
 "forms": [
 "memories"
+],
+"formItems": [
+{
+"rank": 1003,
+"word": "memories",
+"sentence": "The photo album holds our holiday memories.",
+"pic": "pics/1003-memories.webp",
+"audio": "audio/1003-memories.m4a",
+"wordAudio": "audio/words/memories.m4a"
+}
 ]
 },
 {
@@ -3843,6 +4125,24 @@ window.REVIEW_ITEMS = [
 "forms": [
 "stages",
 "staging"
+],
+"formItems": [
+{
+"rank": 723,
+"word": "stages",
+"sentence": "A butterfly grows through several stages.",
+"pic": "pics/723-stages.webp",
+"audio": "audio/723-stages.m4a",
+"wordAudio": "audio/words/stages.m4a"
+},
+{
+"rank": 1128,
+"word": "staging",
+"sentence": "The staging for the play shows a forest.",
+"pic": "pics/1128-staging.webp",
+"audio": "audio/1128-staging.m4a",
+"wordAudio": "audio/words/staging.m4a"
+}
 ]
 },
 {
@@ -3862,6 +4162,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/lullaby.m4a",
 "forms": [
 "lullabies"
+],
+"formItems": [
+{
+"rank": 1135,
+"word": "lullabies",
+"sentence": "Mum sings lullabies to the baby.",
+"pic": "pics/1135-lullabies.webp",
+"audio": "audio/1135-lullabies.m4a",
+"wordAudio": "audio/words/lullabies.m4a"
+}
 ]
 },
 {
@@ -3898,6 +4208,17 @@ window.REVIEW_ITEMS = [
 "wordNote": "Word check heard: “whole”",
 "forms": [
 "halls"
+],
+"formItems": [
+{
+"rank": 1354,
+"word": "halls",
+"sentence": "The school halls are quiet in the holidays.",
+"pic": "pics/1354-halls.webp",
+"audio": "audio/1354-halls.m4a",
+"wordAudio": "audio/words/halls.m4a",
+"wordNote": "Word check heard: “Holes”"
+}
 ]
 },
 {
@@ -3986,7 +4307,29 @@ window.REVIEW_ITEMS = [
 "sentence": "The oven gives a beep when the cake is ready.",
 "pic": "pics/587-beep.webp",
 "audio": "audio/587-beep.m4a",
-"wordAudio": "audio/words/beep.m4a"
+"wordAudio": "audio/words/beep.m4a",
+"wordOptions": [
+{
+"take": 1,
+"src": "audio/options/beep-take1.m4a"
+},
+{
+"take": 2,
+"src": "audio/options/beep-take2.m4a"
+},
+{
+"take": 3,
+"src": "audio/options/beep-take3.m4a"
+},
+{
+"take": 4,
+"src": "audio/options/beep-take4.m4a"
+},
+{
+"take": 5,
+"src": "audio/options/beep-take5.m4a"
+}
+]
 },
 {
 "rank": 588,
@@ -4063,6 +4406,17 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/guide.m4a",
 "forms": [
 "guided"
+],
+"formItems": [
+{
+"rank": 703,
+"word": "guided",
+"sentence": "The teacher guided us through the busy museum.",
+"pic": "pics/703-guided.webp",
+"audio": "audio/703-guided.m4a",
+"wordAudio": "audio/words/guided.m4a",
+"wordNote": "Word check heard: “Guide it.”"
+}
 ]
 },
 {
@@ -4139,6 +4493,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/voice.m4a",
 "forms": [
 "voices"
+],
+"formItems": [
+{
+"rank": 852,
+"word": "voices",
+"sentence": "Our voices join together in the song.",
+"pic": "pics/852-voices.webp",
+"audio": "audio/852-voices.m4a",
+"wordAudio": "audio/words/voices.m4a"
+}
 ]
 },
 {
@@ -4150,6 +4514,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/connection.m4a",
 "forms": [
 "connections"
+],
+"formItems": [
+{
+"rank": 928,
+"word": "connections",
+"sentence": "The track connections hold the railway pieces together.",
+"pic": "pics/928-connections.webp",
+"audio": "audio/928-connections.m4a",
+"wordAudio": "audio/words/connections.m4a"
+}
 ]
 },
 {
@@ -4240,7 +4614,21 @@ window.REVIEW_ITEMS = [
 "pic": "pics/617-bald.webp",
 "audio": "audio/617-bald.m4a",
 "wordAudio": "audio/words/bald.m4a",
-"wordNote": "Word check heard: “Bold.”"
+"wordNote": "Word check heard: “Bold.”",
+"wordOptions": [
+{
+"take": 1,
+"src": "audio/options/bald-take1.m4a"
+},
+{
+"take": 2,
+"src": "audio/options/bald-take2.m4a"
+},
+{
+"take": 3,
+"src": "audio/options/bald-take3.m4a"
+}
+]
 },
 {
 "rank": 618,
@@ -4283,6 +4671,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/backward.m4a",
 "forms": [
 "backwards"
+],
+"formItems": [
+{
+"rank": 904,
+"word": "backwards",
+"sentence": "The toy train rolls backwards down the track.",
+"pic": "pics/904-backwards.webp",
+"audio": "audio/904-backwards.m4a",
+"wordAudio": "audio/words/backwards.m4a"
+}
 ]
 },
 {
@@ -4391,6 +4789,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/image.m4a",
 "forms": [
 "images"
+],
+"formItems": [
+{
+"rank": 861,
+"word": "images",
+"sentence": "The camera captures images of garden birds.",
+"pic": "pics/861-images.webp",
+"audio": "audio/861-images.m4a",
+"wordAudio": "audio/words/images.m4a"
+}
 ]
 },
 {
@@ -4402,6 +4810,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/panel.m4a",
 "forms": [
 "panels"
+],
+"formItems": [
+{
+"rank": 961,
+"word": "panels",
+"sentence": "Solar panels collect sunlight on our roof.",
+"pic": "pics/961-panels.webp",
+"audio": "audio/961-panels.m4a",
+"wordAudio": "audio/words/panels.m4a"
+}
 ]
 },
 {
@@ -4421,6 +4839,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/orchestra.m4a",
 "forms": [
 "orchestras"
+],
+"formItems": [
+{
+"rank": 1238,
+"word": "orchestras",
+"sentence": "Orchestras have violins, trumpets and big drums.",
+"pic": "pics/1238-orchestras.webp",
+"audio": "audio/1238-orchestras.m4a",
+"wordAudio": "audio/words/orchestras.m4a"
+}
 ]
 },
 {
@@ -4512,6 +4940,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/jingle.m4a",
 "forms": [
 "jingles"
+],
+"formItems": [
+{
+"rank": 1211,
+"word": "jingles",
+"sentence": "We sing cheerful jingles in music class.",
+"pic": "pics/1211-jingles.webp",
+"audio": "audio/1211-jingles.m4a",
+"wordAudio": "audio/words/jingles.m4a"
+}
 ]
 },
 {
@@ -4627,6 +5065,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/motif.m4a",
 "forms": [
 "motifs"
+],
+"formItems": [
+{
+"rank": 947,
+"word": "motifs",
+"sentence": "Star motifs decorate the blue quilt.",
+"pic": "pics/947-motifs.webp",
+"audio": "audio/947-motifs.m4a",
+"wordAudio": "audio/words/motifs.m4a"
+}
 ]
 },
 {
@@ -4660,8 +5108,38 @@ window.REVIEW_ITEMS = [
 "sentence": "We cover matching pictures during bingo.",
 "pic": "pics/668-bingo.webp",
 "audio": "audio/668-bingo.m4a",
-"wordAudio": "audio/words/bingo.m4a"
+"wordAudio": "audio/words/bingo.m4a",
+"wordOptions": [
+{
+"take": 1,
+"src": "audio/options/bingo-take1.m4a"
 },
+{
+"take": 2,
+"src": "audio/options/bingo-take2.m4a"
+},
+{
+"take": 3,
+"src": "audio/options/bingo-take3.m4a"
+},
+{
+"take": 4,
+"src": "audio/options/bingo-take4.m4a"
+},
+{
+"take": 5,
+"src": "audio/options/bingo-take5.m4a"
+}
+]
+},
+{
+"rank": 669,
+"word": "mouse",
+"live": true,
+"forms": [
+"mice"
+],
+"formItems": [
 {
 "rank": 669,
 "word": "mice",
@@ -4669,6 +5147,8 @@ window.REVIEW_ITEMS = [
 "pic": "pics/669-mice.webp",
 "audio": "audio/669-mice.m4a",
 "wordAudio": "audio/words/mice.m4a"
+}
+]
 },
 {
 "rank": 670,
@@ -4712,6 +5192,24 @@ window.REVIEW_ITEMS = [
 "forms": [
 "avoiding",
 "avoids"
+],
+"formItems": [
+{
+"rank": 964,
+"word": "avoiding",
+"sentence": "The cyclist is avoiding the puddle on the path.",
+"pic": "pics/964-avoiding.webp",
+"audio": "audio/964-avoiding.m4a",
+"wordAudio": "audio/words/avoiding.m4a"
+},
+{
+"rank": 1328,
+"word": "avoids",
+"sentence": "The sheep avoids the muddy puddle.",
+"pic": "pics/1328-avoids.webp",
+"audio": "audio/1328-avoids.m4a",
+"wordAudio": "audio/words/avoids.m4a"
+}
 ]
 },
 {
@@ -4878,6 +5376,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/copy.m4a",
 "forms": [
 "copying"
+],
+"formItems": [
+{
+"rank": 1331,
+"word": "copying",
+"sentence": "My parrot keeps copying my whistle.",
+"pic": "pics/1331-copying.webp",
+"audio": "audio/1331-copying.m4a",
+"wordAudio": "audio/words/copying.m4a"
+}
 ]
 },
 {
@@ -5058,6 +5566,15 @@ window.REVIEW_ITEMS = [
 },
 {
 "rank": 721,
+"word": "early",
+"live": true,
+"forms": [
+"earlier",
+"earliest"
+],
+"formItems": [
+{
+"rank": 721,
 "word": "earlier",
 "sentence": "We arrived earlier than the school bus.",
 "pic": "pics/721-earlier.webp",
@@ -5065,12 +5582,32 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/earlier.m4a"
 },
 {
+"rank": 1397,
+"word": "earliest",
+"sentence": "The earliest spring flowers are snowdrops.",
+"pic": "pics/1397-earliest.webp",
+"audio": "audio/1397-earliest.m4a",
+"wordAudio": "audio/words/earliest.m4a"
+}
+]
+},
+{
+"rank": 722,
+"word": "begin",
+"live": true,
+"forms": [
+"began"
+],
+"formItems": [
+{
 "rank": 722,
 "word": "began",
 "sentence": "The race began when the flag dropped.",
 "pic": "pics/722-began.webp",
 "audio": "audio/722-began.m4a",
 "wordAudio": "audio/words/began.m4a"
+}
+]
 },
 {
 "rank": 725,
@@ -5162,11 +5699,21 @@ window.REVIEW_ITEMS = [
 },
 {
 "rank": 738,
+"word": "keep",
+"live": true,
+"forms": [
+"kept"
+],
+"formItems": [
+{
+"rank": 738,
 "word": "kept",
 "sentence": "I kept the smooth shell in my pocket.",
 "pic": "pics/738-kept.webp",
 "audio": "audio/738-kept.m4a",
 "wordAudio": "audio/words/kept.m4a"
+}
+]
 },
 {
 "rank": 739,
@@ -5177,6 +5724,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/reduce.m4a",
 "forms": [
 "reducing"
+],
+"formItems": [
+{
+"rank": 1218,
+"word": "reducing",
+"sentence": "We are reducing waste by recycling our bottles.",
+"pic": "pics/1218-reducing.webp",
+"audio": "audio/1218-reducing.m4a",
+"wordAudio": "audio/words/reducing.m4a"
+}
 ]
 },
 {
@@ -5294,6 +5851,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/action.m4a",
 "forms": [
 "actions"
+],
+"formItems": [
+{
+"rank": 1115,
+"word": "actions",
+"sentence": "Kind actions make friends smile.",
+"pic": "pics/1115-actions.webp",
+"audio": "audio/1115-actions.m4a",
+"wordAudio": "audio/words/actions.m4a"
+}
 ]
 },
 {
@@ -5337,6 +5904,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/neutral.m4a",
 "forms": [
 "neutrals"
+],
+"formItems": [
+{
+"rank": 1155,
+"word": "neutrals",
+"sentence": "Grey, cream and beige are called neutrals.",
+"pic": "pics/1155-neutrals.webp",
+"audio": "audio/1155-neutrals.m4a",
+"wordAudio": "audio/words/neutrals.m4a"
+}
 ]
 },
 {
@@ -5356,6 +5933,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/gather.m4a",
 "forms": [
 "gathered"
+],
+"formItems": [
+{
+"rank": 1207,
+"word": "gathered",
+"sentence": "The family is gathered around the birthday cake.",
+"pic": "pics/1207-gathered.webp",
+"audio": "audio/1207-gathered.m4a",
+"wordAudio": "audio/words/gathered.m4a"
+}
 ]
 },
 {
@@ -5415,6 +6002,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/chamber.m4a",
 "forms": [
 "chambers"
+],
+"formItems": [
+{
+"rank": 1269,
+"word": "chambers",
+"sentence": "The cave has two secret chambers.",
+"pic": "pics/1269-chambers.webp",
+"audio": "audio/1269-chambers.m4a",
+"wordAudio": "audio/words/chambers.m4a"
+}
 ]
 },
 {
@@ -5475,6 +6072,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/impact.m4a",
 "forms": [
 "impacts"
+],
+"formItems": [
+{
+"rank": 730,
+"word": "impacts",
+"sentence": "Heavy rain impacts the soft garden soil.",
+"pic": "pics/730-impacts.webp",
+"audio": "audio/730-impacts.m4a",
+"wordAudio": "audio/words/impacts.m4a"
+}
 ]
 },
 {
@@ -5499,7 +6106,29 @@ window.REVIEW_ITEMS = [
 "sentence": "The water drop makes a soft bloop.",
 "pic": "pics/781-bloop.webp",
 "audio": "audio/781-bloop.m4a",
-"wordAudio": "audio/words/bloop.m4a"
+"wordAudio": "audio/words/bloop.m4a",
+"wordOptions": [
+{
+"take": 1,
+"src": "audio/options/bloop-take1.m4a"
+},
+{
+"take": 2,
+"src": "audio/options/bloop-take2.m4a"
+},
+{
+"take": 3,
+"src": "audio/options/bloop-take3.m4a"
+},
+{
+"take": 4,
+"src": "audio/options/bloop-take4.m4a"
+},
+{
+"take": 5,
+"src": "audio/options/bloop-take5.m4a"
+}
+]
 },
 {
 "rank": 782,
@@ -5615,6 +6244,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/spray.m4a",
 "forms": [
 "sprays"
+],
+"formItems": [
+{
+"rank": 732,
+"word": "sprays",
+"sentence": "The whale sprays water above the sea.",
+"pic": "pics/732-sprays.webp",
+"audio": "audio/732-sprays.m4a",
+"wordAudio": "audio/words/sprays.m4a"
+}
 ]
 },
 {
@@ -5626,6 +6265,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/tilt.m4a",
 "forms": [
 "tilted"
+],
+"formItems": [
+{
+"rank": 682,
+"word": "tilted",
+"sentence": "The flowerpot is tilted towards the sunlight.",
+"pic": "pics/682-tilted.webp",
+"audio": "audio/682-tilted.m4a",
+"wordAudio": "audio/words/tilted.m4a"
+}
 ]
 },
 {
@@ -5749,6 +6398,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/design.m4a",
 "forms": [
 "designed"
+],
+"formItems": [
+{
+"rank": 1274,
+"word": "designed",
+"sentence": "The bath toy is designed to float.",
+"pic": "pics/1274-designed.webp",
+"audio": "audio/1274-designed.m4a",
+"wordAudio": "audio/words/designed.m4a"
+}
 ]
 },
 {
@@ -5794,11 +6453,21 @@ window.REVIEW_ITEMS = [
 },
 {
 "rank": 820,
+"word": "teach",
+"live": true,
+"forms": [
+"taught"
+],
+"formItems": [
+{
+"rank": 820,
 "word": "taught",
 "sentence": "Grandma taught me how to knit.",
 "pic": "pics/820-taught.webp",
 "audio": "audio/820-taught.m4a",
 "wordAudio": "audio/words/taught.m4a"
+}
+]
 },
 {
 "rank": 821,
@@ -5809,6 +6478,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/replace.m4a",
 "forms": [
 "replaced"
+],
+"formItems": [
+{
+"rank": 1086,
+"word": "replaced",
+"sentence": "The gardener replaced the faded flowers with fresh ones.",
+"pic": "pics/1086-replaced.webp",
+"audio": "audio/1086-replaced.m4a",
+"wordAudio": "audio/words/replaced.m4a"
+}
 ]
 },
 {
@@ -5941,6 +6620,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/reflection.m4a",
 "forms": [
 "reflections"
+],
+"formItems": [
+{
+"rank": 1374,
+"word": "reflections",
+"sentence": "We see our reflections in the spoons.",
+"pic": "pics/1374-reflections.webp",
+"audio": "audio/1374-reflections.m4a",
+"wordAudio": "audio/words/reflections.m4a"
+}
 ]
 },
 {
@@ -6113,11 +6802,21 @@ window.REVIEW_ITEMS = [
 },
 {
 "rank": 866,
+"word": "wake",
+"live": true,
+"forms": [
+"woke"
+],
+"formItems": [
+{
+"rank": 866,
 "word": "woke",
 "sentence": "I woke when sunlight reached my pillow.",
 "pic": "pics/866-woke.webp",
 "audio": "audio/866-woke.m4a",
 "wordAudio": "audio/words/woke.m4a"
+}
+]
 },
 {
 "rank": 867,
@@ -6144,6 +6843,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/sunspot.m4a",
 "forms": [
 "sunspots"
+],
+"formItems": [
+{
+"rank": 775,
+"word": "sunspots",
+"sentence": "Dark sunspots appear on the Sun's surface.",
+"pic": "pics/775-sunspots.webp",
+"audio": "audio/775-sunspots.m4a",
+"wordAudio": "audio/words/sunspots.m4a"
+}
 ]
 },
 {
@@ -6312,11 +7021,21 @@ window.REVIEW_ITEMS = [
 },
 {
 "rank": 893,
+"word": "windy",
+"live": true,
+"forms": [
+"windiest"
+],
+"formItems": [
+{
+"rank": 893,
 "word": "windiest",
 "sentence": "The hilltop is the windiest place today.",
 "pic": "pics/893-windiest.webp",
 "audio": "audio/893-windiest.m4a",
 "wordAudio": "audio/words/windiest.m4a"
+}
+]
 },
 {
 "rank": 894,
@@ -6343,6 +7062,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/patch.m4a",
 "forms": [
 "patches"
+],
+"formItems": [
+{
+"rank": 881,
+"word": "patches",
+"sentence": "White patches cover the brown cow.",
+"pic": "pics/881-patches.webp",
+"audio": "audio/881-patches.m4a",
+"wordAudio": "audio/words/patches.m4a"
+}
 ]
 },
 {
@@ -6364,11 +7093,21 @@ window.REVIEW_ITEMS = [
 },
 {
 "rank": 900,
+"word": "tiny",
+"live": true,
+"forms": [
+"tiniest"
+],
+"formItems": [
+{
+"rank": 900,
 "word": "tiniest",
 "sentence": "The tiniest shell rests beside larger shells.",
 "pic": "pics/900-tiniest.webp",
 "audio": "audio/900-tiniest.m4a",
 "wordAudio": "audio/words/tiniest.m4a"
+}
+]
 },
 {
 "rank": 902,
@@ -6387,6 +7126,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/sweep.m4a",
 "forms": [
 "sweeping"
+],
+"formItems": [
+{
+"rank": 1325,
+"word": "sweeping",
+"sentence": "The sweeping driveway leads to the big house.",
+"pic": "pics/1325-sweeping.webp",
+"audio": "audio/1325-sweeping.m4a",
+"wordAudio": "audio/words/sweeping.m4a"
+}
 ]
 },
 {
@@ -6494,6 +7243,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/interaction.m4a",
 "forms": [
 "interactions"
+],
+"formItems": [
+{
+"rank": 1225,
+"word": "interactions",
+"sentence": "We watch the interactions of the ants.",
+"pic": "pics/1225-interactions.webp",
+"audio": "audio/1225-interactions.m4a",
+"wordAudio": "audio/words/interactions.m4a"
+}
 ]
 },
 {
@@ -6617,6 +7376,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/experience.m4a",
 "forms": [
 "experiences"
+],
+"formItems": [
+{
+"rank": 1183,
+"word": "experiences",
+"sentence": "We talk about our holiday experiences at dinner.",
+"pic": "pics/1183-experiences.webp",
+"audio": "audio/1183-experiences.m4a",
+"wordAudio": "audio/words/experiences.m4a"
+}
 ]
 },
 {
@@ -6645,6 +7414,24 @@ window.REVIEW_ITEMS = [
 "forms": [
 "rotates",
 "rotating"
+],
+"formItems": [
+{
+"rank": 623,
+"word": "rotates",
+"sentence": "The windmill rotates when the wind blows.",
+"pic": "pics/623-rotates.webp",
+"audio": "audio/623-rotates.m4a",
+"wordAudio": "audio/words/rotates.m4a"
+},
+{
+"rank": 864,
+"word": "rotating",
+"sentence": "The rotating carousel carries us around.",
+"pic": "pics/864-rotating.webp",
+"audio": "audio/864-rotating.m4a",
+"wordAudio": "audio/words/rotating.m4a"
+}
 ]
 },
 {
@@ -6680,6 +7467,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/collection.m4a",
 "forms": [
 "collections"
+],
+"formItems": [
+{
+"rank": 1208,
+"word": "collections",
+"sentence": "The museum has collections of dinosaur bones.",
+"pic": "pics/1208-collections.webp",
+"audio": "audio/1208-collections.m4a",
+"wordAudio": "audio/words/collections.m4a"
+}
 ]
 },
 {
@@ -6692,8 +7489,26 @@ window.REVIEW_ITEMS = [
 "wordNote": "Word check heard: “Very.”",
 "forms": [
 "varies"
+],
+"formItems": [
+{
+"rank": 1177,
+"word": "varies",
+"sentence": "The weather varies from day to day.",
+"pic": "pics/1177-varies.webp",
+"audio": "audio/1177-varies.m4a",
+"wordAudio": "audio/words/varies.m4a"
+}
 ]
 },
+{
+"rank": 948,
+"word": "sing",
+"live": true,
+"forms": [
+"sung"
+],
+"formItems": [
 {
 "rank": 948,
 "word": "sung",
@@ -6701,6 +7516,8 @@ window.REVIEW_ITEMS = [
 "pic": "pics/948-sung.webp",
 "audio": "audio/948-sung.m4a",
 "wordAudio": "audio/words/sung.m4a"
+}
+]
 },
 {
 "rank": 949,
@@ -6807,6 +7624,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/exchange.m4a",
 "forms": [
 "exchanged"
+],
+"formItems": [
+{
+"rank": 1353,
+"word": "exchanged",
+"sentence": "I exchanged my apple for an orange.",
+"pic": "pics/1353-exchanged.webp",
+"audio": "audio/1353-exchanged.m4a",
+"wordAudio": "audio/words/exchanged.m4a"
+}
 ]
 },
 {
@@ -6867,11 +7694,21 @@ window.REVIEW_ITEMS = [
 },
 {
 "rank": 973,
+"word": "write",
+"live": true,
+"forms": [
+"wrote"
+],
+"formItems": [
+{
+"rank": 973,
 "word": "wrote",
 "sentence": "Grandma wrote me a birthday letter.",
 "pic": "pics/973-wrote.webp",
 "audio": "audio/973-wrote.m4a",
 "wordAudio": "audio/words/wrote.m4a"
+}
+]
 },
 {
 "rank": 974,
@@ -7027,6 +7864,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/terrace.m4a",
 "forms": [
 "terraces"
+],
+"formItems": [
+{
+"rank": 1227,
+"word": "terraces",
+"sentence": "The green terraces step down the hillside.",
+"pic": "pics/1227-terraces.webp",
+"audio": "audio/1227-terraces.m4a",
+"wordAudio": "audio/words/terraces.m4a"
+}
 ]
 },
 {
@@ -7047,11 +7894,21 @@ window.REVIEW_ITEMS = [
 },
 {
 "rank": 995,
+"word": "come",
+"live": true,
+"forms": [
+"came"
+],
+"formItems": [
+{
+"rank": 995,
 "word": "came",
 "sentence": "Our cat came home before dark.",
 "pic": "pics/995-came.webp",
 "audio": "audio/995-came.m4a",
 "wordAudio": "audio/words/came.m4a"
+}
+]
 },
 {
 "rank": 996,
@@ -7070,6 +7927,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/figure.m4a",
 "forms": [
 "figures"
+],
+"formItems": [
+{
+"rank": 724,
+"word": "figures",
+"sentence": "The toy figures stand inside the castle.",
+"pic": "pics/724-figures.webp",
+"audio": "audio/724-figures.m4a",
+"wordAudio": "audio/words/figures.m4a"
+}
 ]
 },
 {
@@ -7169,6 +8036,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/audience.m4a",
 "forms": [
 "audiences"
+],
+"formItems": [
+{
+"rank": 1247,
+"word": "audiences",
+"sentence": "Football matches attract big audiences.",
+"pic": "pics/1247-audiences.webp",
+"audio": "audio/1247-audiences.m4a",
+"wordAudio": "audio/words/audiences.m4a"
+}
 ]
 },
 {
@@ -7188,6 +8065,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/effect.m4a",
 "forms": [
 "effects"
+],
+"formItems": [
+{
+"rank": 767,
+"word": "effects",
+"sentence": "Wind effects make the stage curtains flutter.",
+"pic": "pics/767-effects.webp",
+"audio": "audio/767-effects.m4a",
+"wordAudio": "audio/words/effects.m4a"
+}
 ]
 },
 {
@@ -7425,6 +8312,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/jet.m4a",
 "forms": [
 "jets"
+],
+"formItems": [
+{
+"rank": 901,
+"word": "jets",
+"sentence": "Water jets spray from the fountain.",
+"pic": "pics/901-jets.webp",
+"audio": "audio/901-jets.m4a",
+"wordAudio": "audio/words/jets.m4a"
+}
 ]
 },
 {
@@ -7533,6 +8430,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/gap.m4a",
 "forms": [
 "gaps"
+],
+"formItems": [
+{
+"rank": 887,
+"word": "gaps",
+"sentence": "The fence has gaps between its wooden posts.",
+"pic": "pics/887-gaps.webp",
+"audio": "audio/887-gaps.m4a",
+"wordAudio": "audio/words/gaps.m4a"
+}
 ]
 },
 {
@@ -7585,11 +8492,21 @@ window.REVIEW_ITEMS = [
 },
 {
 "rank": 1069,
+"word": "break",
+"live": true,
+"forms": [
+"broke"
+],
+"formItems": [
+{
+"rank": 1069,
 "word": "broke",
 "sentence": "My kite string broke, and the kite flew away.",
 "pic": "pics/1069-broke.webp",
 "audio": "audio/1069-broke.m4a",
 "wordAudio": "audio/words/broke.m4a"
+}
+]
 },
 {
 "rank": 1070,
@@ -7625,11 +8542,21 @@ window.REVIEW_ITEMS = [
 },
 {
 "rank": 1074,
+"word": "stick",
+"live": true,
+"forms": [
+"stuck"
+],
+"formItems": [
+{
+"rank": 1074,
 "word": "stuck",
 "sentence": "The zip is stuck on my coat.",
 "pic": "pics/1074-stuck.webp",
 "audio": "audio/1074-stuck.m4a",
 "wordAudio": "audio/words/stuck.m4a"
+}
+]
 },
 {
 "rank": 1075,
@@ -7713,6 +8640,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/bar.m4a",
 "forms": [
 "bars"
+],
+"formItems": [
+{
+"rank": 1085,
+"word": "bars",
+"sentence": "The first bars of the song are slow.",
+"pic": "pics/1085-bars.webp",
+"audio": "audio/1085-bars.m4a",
+"wordAudio": "audio/words/bars.m4a"
+}
 ]
 },
 {
@@ -7797,6 +8734,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/boundary.m4a",
 "forms": [
 "boundaries"
+],
+"formItems": [
+{
+"rank": 1403,
+"word": "boundaries",
+"sentence": "The fence shows the field boundaries.",
+"pic": "pics/1403-boundaries.webp",
+"audio": "audio/1403-boundaries.m4a",
+"wordAudio": "audio/words/boundaries.m4a"
+}
 ]
 },
 {
@@ -7816,6 +8763,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/invitation.m4a",
 "forms": [
 "invitations"
+],
+"formItems": [
+{
+"rank": 1289,
+"word": "invitations",
+"sentence": "We write invitations for my birthday party.",
+"pic": "pics/1289-invitations.webp",
+"audio": "audio/1289-invitations.m4a",
+"wordAudio": "audio/words/invitations.m4a"
+}
 ]
 },
 {
@@ -7843,6 +8800,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/border.m4a",
 "forms": [
 "borders"
+],
+"formItems": [
+{
+"rank": 1158,
+"word": "borders",
+"sentence": "We plant dahlias in the sunny borders.",
+"pic": "pics/1158-borders.webp",
+"audio": "audio/1158-borders.m4a",
+"wordAudio": "audio/words/borders.m4a"
+}
 ]
 },
 {
@@ -7862,6 +8829,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/pause.m4a",
 "forms": [
 "pauses"
+],
+"formItems": [
+{
+"rank": 1376,
+"word": "pauses",
+"sentence": "The squirrel pauses on the fence.",
+"pic": "pics/1376-pauses.webp",
+"audio": "audio/1376-pauses.m4a",
+"wordAudio": "audio/words/pauses.m4a"
+}
 ]
 },
 {
@@ -7874,6 +8851,16 @@ window.REVIEW_ITEMS = [
 "wordNote": "Word check heard: “PRANK”",
 "forms": [
 "plaques"
+],
+"formItems": [
+{
+"rank": 1105,
+"word": "plaques",
+"sentence": "The museum plaques describe the dinosaur bones.",
+"pic": "pics/1105-plaques.webp",
+"audio": "audio/1105-plaques.m4a",
+"wordAudio": "audio/words/plaques.m4a"
+}
 ]
 },
 {
@@ -7909,6 +8896,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/descend.m4a",
 "forms": [
 "descending"
+],
+"formItems": [
+{
+"rank": 1111,
+"word": "descending",
+"sentence": "The descending path winds down the hill.",
+"pic": "pics/1111-descending.webp",
+"audio": "audio/1111-descending.m4a",
+"wordAudio": "audio/words/descending.m4a"
+}
 ]
 },
 {
@@ -7928,6 +8925,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/switch.m4a",
 "forms": [
 "switches"
+],
+"formItems": [
+{
+"rank": 1209,
+"word": "switches",
+"sentence": "Dad switches on the kitchen light.",
+"pic": "pics/1209-switches.webp",
+"audio": "audio/1209-switches.m4a",
+"wordAudio": "audio/words/switches.m4a"
+}
 ]
 },
 {
@@ -7988,6 +8995,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/tool.m4a",
 "forms": [
 "tools"
+],
+"formItems": [
+{
+"rank": 945,
+"word": "tools",
+"sentence": "The gardener keeps her tools in a shed.",
+"pic": "pics/945-tools.webp",
+"audio": "audio/945-tools.m4a",
+"wordAudio": "audio/words/tools.m4a"
+}
 ]
 },
 {
@@ -8008,11 +9025,21 @@ window.REVIEW_ITEMS = [
 },
 {
 "rank": 1124,
+"word": "happy",
+"live": true,
+"forms": [
+"happiest"
+],
+"formItems": [
+{
+"rank": 1124,
 "word": "happiest",
 "sentence": "The puppy is happiest chasing its ball.",
 "pic": "pics/1124-happiest.webp",
 "audio": "audio/1124-happiest.m4a",
 "wordAudio": "audio/words/happiest.m4a"
+}
+]
 },
 {
 "rank": 1125,
@@ -8127,6 +9154,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/lens.m4a",
 "forms": [
 "lenses"
+],
+"formItems": [
+{
+"rank": 1395,
+"word": "lenses",
+"sentence": "The long camera lenses photograph the heron.",
+"pic": "pics/1395-lenses.webp",
+"audio": "audio/1395-lenses.m4a",
+"wordAudio": "audio/words/lenses.m4a"
+}
 ]
 },
 {
@@ -8251,6 +9288,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/possibility.m4a",
 "forms": [
 "possibilities"
+],
+"formItems": [
+{
+"rank": 1268,
+"word": "possibilities",
+"sentence": "The menu shows three possibilities for lunch.",
+"pic": "pics/1268-possibilities.webp",
+"audio": "audio/1268-possibilities.m4a",
+"wordAudio": "audio/words/possibilities.m4a"
+}
 ]
 },
 {
@@ -8262,6 +9309,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/drone.m4a",
 "forms": [
 "drones"
+],
+"formItems": [
+{
+"rank": 876,
+"word": "drones",
+"sentence": "The drones photograph the empty field from above.",
+"pic": "pics/876-drones.webp",
+"audio": "audio/876-drones.m4a",
+"wordAudio": "audio/words/drones.m4a"
+}
 ]
 },
 {
@@ -8401,6 +9458,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/acquire.m4a",
 "forms": [
 "acquired"
+],
+"formItems": [
+{
+"rank": 1275,
+"word": "acquired",
+"sentence": "Our library has acquired new books about the moon.",
+"pic": "pics/1275-acquired.webp",
+"audio": "audio/1275-acquired.m4a",
+"wordAudio": "audio/words/acquired.m4a"
+}
 ]
 },
 {
@@ -8484,6 +9551,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/event.m4a",
 "forms": [
 "events"
+],
+"formItems": [
+{
+"rank": 1099,
+"word": "events",
+"sentence": "The fridge calendar shows our family events.",
+"pic": "pics/1099-events.webp",
+"audio": "audio/1099-events.m4a",
+"wordAudio": "audio/words/events.m4a"
+}
 ]
 },
 {
@@ -8626,12 +9703,22 @@ window.REVIEW_ITEMS = [
 },
 {
 "rank": 1217,
+"word": "busy",
+"live": true,
+"forms": [
+"busier"
+],
+"formItems": [
+{
+"rank": 1217,
 "word": "busier",
 "sentence": "Our street is busier on market day.",
 "pic": "pics/1217-busier.webp",
 "audio": "audio/1217-busier.m4a",
 "wordAudio": "audio/words/busier.m4a",
 "wordNote": "Word check heard: “Visia.”"
+}
+]
 },
 {
 "rank": 1219,
@@ -8651,6 +9738,17 @@ window.REVIEW_ITEMS = [
 "wordNote": "Word check heard: “Roll”",
 "forms": [
 "roles"
+],
+"formItems": [
+{
+"rank": 766,
+"word": "roles",
+"sentence": "We swap roles in the pretend shop.",
+"pic": "pics/766-roles.webp",
+"audio": "audio/766-roles.m4a",
+"wordAudio": "audio/words/roles.m4a",
+"wordNote": "Word check heard: “Rolls.”"
+}
 ]
 },
 {
@@ -8754,6 +9852,24 @@ window.REVIEW_ITEMS = [
 "forms": [
 "focusing",
 "focuses"
+],
+"formItems": [
+{
+"rank": 1160,
+"word": "focusing",
+"sentence": "The kittens are focusing on the dangling string.",
+"pic": "pics/1160-focusing.webp",
+"audio": "audio/1160-focusing.m4a",
+"wordAudio": "audio/words/focusing.m4a"
+},
+{
+"rank": 1163,
+"word": "focuses",
+"sentence": "The camera focuses on the sleeping cat.",
+"pic": "pics/1163-focuses.webp",
+"audio": "audio/1163-focuses.m4a",
+"wordAudio": "audio/words/focuses.m4a"
+}
 ]
 },
 {
@@ -9062,6 +10178,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/mute.m4a",
 "forms": [
 "muted"
+],
+"formItems": [
+{
+"rank": 1132,
+"word": "muted",
+"sentence": "The bedroom walls are painted in muted greens.",
+"pic": "pics/1132-muted.webp",
+"audio": "audio/1132-muted.m4a",
+"wordAudio": "audio/words/muted.m4a"
+}
 ]
 },
 {
@@ -9333,6 +10459,25 @@ window.REVIEW_ITEMS = [
 "forms": [
 "advances",
 "advanced"
+],
+"formItems": [
+{
+"rank": 757,
+"word": "advances",
+"sentence": "The tortoise advances slowly towards the lettuce.",
+"pic": "pics/757-advances.webp",
+"audio": "audio/757-advances.m4a",
+"note": "Voice check heard: “The tortoise advances slowly towards the netis.”",
+"wordAudio": "audio/words/advances.m4a"
+},
+{
+"rank": 1221,
+"word": "advanced",
+"sentence": "The advanced swimmers practise in the deep end.",
+"pic": "pics/1221-advanced.webp",
+"audio": "audio/1221-advanced.m4a",
+"wordAudio": "audio/words/advanced.m4a"
+}
 ]
 },
 {
@@ -9448,6 +10593,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/ripple.m4a",
 "forms": [
 "ripples"
+],
+"formItems": [
+{
+"rank": 998,
+"word": "ripples",
+"sentence": "Raindrops make ripples across the pond.",
+"pic": "pics/998-ripples.webp",
+"audio": "audio/998-ripples.m4a",
+"wordAudio": "audio/words/ripples.m4a"
+}
 ]
 },
 {
@@ -9467,6 +10622,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/bubble.m4a",
 "forms": [
 "bubbling"
+],
+"formItems": [
+{
+"rank": 1026,
+"word": "bubbling",
+"sentence": "The porridge is bubbling on the hob.",
+"pic": "pics/1026-bubbling.webp",
+"audio": "audio/1026-bubbling.m4a",
+"wordAudio": "audio/words/bubbling.m4a"
+}
 ]
 },
 {
@@ -9495,11 +10660,21 @@ window.REVIEW_ITEMS = [
 },
 {
 "rank": 1344,
+"word": "heavy",
+"live": true,
+"forms": [
+"heavier"
+],
+"formItems": [
+{
+"rank": 1344,
 "word": "heavier",
 "sentence": "The pumpkin is heavier than the apple.",
 "pic": "pics/1344-heavier.webp",
 "audio": "audio/1344-heavier.m4a",
 "wordAudio": "audio/words/heavier.m4a"
+}
+]
 },
 {
 "rank": 1346,
@@ -9704,14 +10879,6 @@ window.REVIEW_ITEMS = [
 "wordNote": "Word check heard: “Response.”"
 },
 {
-"rank": 1375,
-"word": "drawn",
-"sentence": "The cart is drawn by a strong pony.",
-"pic": "pics/1375-drawn.webp",
-"audio": "audio/1375-drawn.m4a",
-"wordAudio": "audio/words/drawn.m4a"
-},
-{
 "rank": 1377,
 "word": "essential",
 "sentence": "Water is essential for growing plants.",
@@ -9841,6 +11008,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/assume.m4a",
 "forms": [
 "assumed"
+],
+"formItems": [
+{
+"rank": 1001,
+"word": "assumed",
+"sentence": "I assumed the big parcel was for me.",
+"pic": "pics/1001-assumed.webp",
+"audio": "audio/1001-assumed.m4a",
+"wordAudio": "audio/words/assumed.m4a"
+}
 ]
 },
 {
@@ -9866,14 +11043,6 @@ window.REVIEW_ITEMS = [
 "pic": "pics/1396-pursuing.webp",
 "audio": "audio/1396-pursuing.m4a",
 "wordAudio": "audio/words/pursuing.m4a"
-},
-{
-"rank": 1397,
-"word": "earliest",
-"sentence": "The earliest spring flowers are snowdrops.",
-"pic": "pics/1397-earliest.webp",
-"audio": "audio/1397-earliest.m4a",
-"wordAudio": "audio/words/earliest.m4a"
 },
 {
 "rank": 1398,
@@ -9916,6 +11085,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/item.m4a",
 "forms": [
 "items"
+],
+"formItems": [
+{
+"rank": 1202,
+"word": "items",
+"sentence": "I count the items in my basket.",
+"pic": "pics/1202-items.webp",
+"audio": "audio/1202-items.m4a",
+"wordAudio": "audio/words/items.m4a"
+}
 ]
 },
 {
@@ -9943,6 +11122,16 @@ window.REVIEW_ITEMS = [
 "wordAudio": "audio/words/scroll.m4a",
 "forms": [
 "scrolling"
+],
+"formItems": [
+{
+"rank": 932,
+"word": "scrolling",
+"sentence": "Mum is scrolling through photos on her tablet.",
+"pic": "pics/932-scrolling.webp",
+"audio": "audio/932-scrolling.m4a",
+"wordAudio": "audio/words/scrolling.m4a"
+}
 ]
 }
 ];
