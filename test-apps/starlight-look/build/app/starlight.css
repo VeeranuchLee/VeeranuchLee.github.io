@@ -214,12 +214,8 @@ html,body{touch-action:manipulation}
    drawn icon, in the chips' own colours. A press scales the button down a
    touch -- with the immediate icon swap, that is the tap feedback.
    Moved to the top bar (same day): at 64px the row no longer fitted its old
-   bottom-right anchor (bottom:24.5%) -- it grew about 15px up over the bottom
-   edge of the question panel (bottom:31.5%), and the gap the panel leaves
-   above the fact strip (bottom:1.5% + height:22%) is only ~55px, less than a
-   64px button. No lower spot is free on every page (answer pills pin the
-   painting's top band, the story card owns the left edge), so the row now
-   rides the top bar, immediately left of the page-nav pill, touching nothing.
+   bottom-right anchor above the fact strip. The row now rides the top bar,
+   immediately left of the page-nav pill, touching nothing.
    In the bar the row never needs to wrap: it is a plain flex row, static
    inside .top-bar. */
 .page-controls{display:flex;gap:4px}

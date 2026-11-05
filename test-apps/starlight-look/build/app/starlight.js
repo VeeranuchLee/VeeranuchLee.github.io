@@ -20,11 +20,14 @@
   var page = Number(document.body.dataset.page || 1);
 
   /* ---------- settings, shared with Book 1's keys where they mean the same --- */
+  /* Through SafeStorage (safe-storage.js), which never throws: with Safari's "Block
+     All Cookies" on, a bare localStorage read here threw while this file loaded and
+     the page stayed blank (2026-11-01 audit). */
   var store = {
-    get sound() { return localStorage.getItem("adx-sound") !== "off"; },
-    set sound(v) { localStorage.setItem("adx-sound", v ? "on" : "off"); },
-    get motion() { return localStorage.getItem("adx-motion") !== "reduce"; },
-    set motion(v) { localStorage.setItem("adx-motion", v ? "full" : "reduce"); }
+    get sound() { return SafeStorage.local.getItem("adx-sound") !== "off"; },
+    set sound(v) { SafeStorage.local.setItem("adx-sound", v ? "on" : "off"); },
+    get motion() { return SafeStorage.local.getItem("adx-motion") !== "reduce"; },
+    set motion(v) { SafeStorage.local.setItem("adx-motion", v ? "full" : "reduce"); }
   };
 
   // Read the OS preference at load. Book 1 shipped a page that hardcoded this
@@ -87,7 +90,6 @@
   var narrationTried = false;
   var missing = [];
   var current = null;
-  var chain = null;              // the queued line sequence playing now, if any
 
   function loadNarration() {
     if (narrationTried) return Promise.resolve(narration);
@@ -125,24 +127,16 @@
     if (el) el.classList.add("reading");
   }
 
-  /* onEnd (internal; sayQueue passes it) fires exactly once however the line
-     ends -- played out, failed to load, blocked from autoplay, or sound off --
-     so a queued ask never stalls on a clip that cannot play. onStart
-     (internal) fires only when the clip is genuinely audible, which is how the
-     page-open ask counts itself heard without swallowing the ask for a child
-     whose browser blocked the untouched autoplay. */
-  function say(text, who, sourceEl, onEnd, onStart) {
-    if (!text) { if (onEnd) onEnd(); return; }
+  function say(text, who, sourceEl) {
+    if (!text) return;
     status(text, who);
     setReading(null);
-    if (!onEnd) chain = null;   // a fresh tap-say cancels any queued ask
-    if (!store.sound) { if (onEnd) onEnd(); return; }
+    if (!store.sound) return;
     var play = function (map) {
       var file = map && ((map[String(page)] && map[String(page)][text]) || (map.shared && map.shared[text]));
       if (!file) {
         if (missing.indexOf(text) < 0) missing.push(text);
-        if (onEnd) onEnd();               // silent, and honestly so
-        return;
+        return;                            // silent, and honestly so
       }
       try {
         if (current) { current.pause(); current.currentTime = 0; }
@@ -152,12 +146,11 @@
           if (done) return;
           done = true;
           setReading(null);
-          if (onEnd) onEnd();
         };
         if (sourceEl) setReading(sourceEl);
         current.addEventListener("ended", finish);
         current.addEventListener("error", finish);
-        current.play().then(function () { if (onStart) onStart(); }, finish);
+        current.play().catch(finish);
       } catch (e) { finish(); }
     };
     /* iOS honours play() only while the tap's user activation lasts, so a warm
@@ -165,26 +158,6 @@
        still-cold map waits on the promise. */
     if (narration) play(narration);
     else loadNarration().then(play);
-  }
-
-  /* A question is asked in lines -- Dot's lead-in, then the narrator's prompt,
-     then whatever the child's tap earned -- and one gesture pays for the whole
-     sequence: each line starts when the previous clip ends, a line with no
-     clip yet steps straight through (its text still prints, never an error),
-     and any new tap cancels the rest, exactly as a second tap on a single
-     clip always has. An item may carry onStart, fired if that line truly
-     plays. */
-  function sayQueue(items) {
-    var run = { items: items, i: 0 };
-    chain = run;
-    (function next() {
-      if (chain !== run) return;
-      var it = run.items[run.i++];
-      if (!it) { if (chain === run) chain = null; return; }
-      say(it.text, it.who || "", it.sourceEl || null, function () {
-        if (chain === run) next();
-      }, it.onStart || null);
-    })();
   }
 
   /* ---------- the spoken line, printed ------------------------------------- */
@@ -253,9 +226,7 @@
     /* The nav pill and the picture-button row share one top bar (.top-bar in
        starlight.css owns the old nav anchor, top 1.5% / right 1.5%). The row is
        inserted BEFORE the pill so it sits immediately left of it, centred on
-       the pill's own midline; the controls no longer fit below the question
-       panel, where the 64px buttons grew over its bottom edge (see the
-       .page-controls comment in starlight.css). */
+       the pill's own midline. */
     var bar = document.createElement("div");
     bar.className = "top-bar";
     bar.appendChild(nav);
@@ -349,11 +320,7 @@
       store.sound = !store.sound;
       bSound.setAttribute("aria-pressed", String(store.sound));
       paintSound();
-      /* Sound-off mid-queue kills the chain too, with say()'s sound-off early
-         return's own semantics: a paused clip never fires "ended", so the
-         queue's remaining lines would otherwise never come, even after Sound
-         is re-enabled. */
-      if (!store.sound) { chain = null; if (current) { current.pause(); setReading(null); } }
+      if (!store.sound && current) { current.pause(); setReading(null); }
       if (store.sound) sfx.tap();
     });
 
@@ -492,8 +459,8 @@
       sfx.tap();
       say(t.dataset.say, t.dataset.who || "", t);
     });
-    /* Tappable text is not always a button (the story paragraph, the question,
-       the cover title). Enter and Space must read those too; real buttons and
+    /* Tappable text is not always a button (the story paragraph and the cover
+       title). Enter and Space must read those too; real buttons and
        links already get the browser's own key-to-click translation, so they are
        skipped here to avoid speaking twice. */
     document.addEventListener("keydown", function (e) {
@@ -512,7 +479,6 @@
     page: page,
     sfx: sfx,
     say: say,
-    sayQueue: sayQueue,
     clipReady: clipReady,
     status: status,
     get calm() { return calm; },

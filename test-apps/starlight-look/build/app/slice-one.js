@@ -26,12 +26,15 @@ function addTeachingMotion(data){
   var m=data.teachingMotion,wrap=el("div","teaching-motion motion-"+m.type);wrap.setAttribute("aria-hidden","true");
   wrap.innerHTML=m.markup||'<div class="motion-model"></div><div class="motion-readout"></div>';
   artLayer.appendChild(wrap);
-  function reset(){window.StarlightMotion.cancel();wrap.className="teaching-motion motion-"+m.type;wrap.style.setProperty("--choice","0");var r=wrap.querySelector(".motion-readout");if(r)r.textContent=m.rest||""}
+  function reset(){window.StarlightMotion.cancel();wrap.className="teaching-motion motion-"+m.type;wrap.style.setProperty("--step","0");var r=wrap.querySelector(".motion-readout");if(r)r.textContent=m.rest||""}
   return {play:function(idx){
-    reset();wrap.style.setProperty("--choice",String(idx));
+    reset();wrap.style.setProperty("--step",String(idx));
     var steps=(m.steps||[]).map(function(s){return {wait:s.wait,apply:function(){wrap.classList.add(s.add);var r=wrap.querySelector(".motion-readout");if(r&&s.text)r.textContent=s.text}}});
     window.StarlightMotion.sequence(steps,function(){wrap.classList.add("reduced","done");var r=wrap.querySelector(".motion-readout");if(r)r.textContent=m.reduced||m.done||""});
   },reset:reset,el:wrap};
+}
+function addSafeBoxes(root,boxes,cls){
+  (boxes||[]).forEach(function(box,i){var n=el("div",cls);n.dataset.safeBox=String(i);n.style.left=box[0]+"%";n.style.top=box[1]+"%";n.style.width=box[2]+"%";n.style.height=box[3]+"%";n.setAttribute("aria-hidden","true");root.appendChild(n)});
 }
 function icon(kind){
   var common='stroke="#123e6d" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"';
@@ -59,21 +62,10 @@ function icon(kind){
   return '<svg viewBox="0 0 160 160" aria-hidden="true">'+(art[kind]||art.star)+'</svg>';
 }
 function facts(data,shell){var box=el("section","fact-box");box.style.setProperty("--facts",data.facts.length);box.setAttribute("aria-label",data.facts.length+" facts about "+data.title);data.facts.forEach(function(f,i){var b=el("button","fact-card");b.type="button";b.innerHTML=icon(f.icon)+'<span><span class="fact-label">'+f.label+'</span><strong>'+f.value+'</strong>'+(f.qualifier?'<small>'+f.qualifier+'</small>':'')+'</span>';b.dataset.say=f.say;b.dataset.narrationId="p"+String(page).padStart(2,"0")+"-fact-"+String(i+1).padStart(2,"0");b.setAttribute("aria-pressed","false");b.addEventListener("click",function(){document.querySelectorAll(".fact-card").forEach(function(x){x.setAttribute("aria-pressed","false")});b.setAttribute("aria-pressed","true");timers.push(setTimeout(function(){b.setAttribute("aria-pressed","false")},2200))});box.appendChild(b)});shell.appendChild(box)}
-/* Question flow (owner, 2026-10-21: "approve starlight plan, keep which light
-   is a star"). Dot's lead-in and the narrator's prompt are one spoken ask, and
-   the answers are the things in the painting: the matching feature pills are
-   tap targets, the chosen object holds a green glow when it is right and
-   pulses red for another try, and the child hears the ask once -- before their
-   first verdict if it was never played -- then the page's own right or wrong
-   line. A wrong tap never ends the try. */
-function askItems(data,h){var items=[];if(data.leadIn)items.push({text:data.leadIn,who:"Dot"});items.push({text:data.prompt,who:"narrator",sourceEl:h});return items}
-function askThen(data,ctx,items){if(!ctx.heard){ctx.heard=true;items=askItems(data,ctx.h).concat(items)}if(window.Starlight&&window.Starlight.sayQueue)window.Starlight.sayQueue(items);else items.forEach(function(it){speak(it.text,it.who,it.sourceEl)})}
-function wrongFlash(data,motion){if(!data.wrongFlash||!motion||!motion.el)return;motion.el.classList.add(data.wrongFlash);timers.push(setTimeout(function(){motion.el.classList.remove(data.wrongFlash)},1100))}
-function answer(data,b,idx,buttons,result,motion,ctx){if(b.disabled)return;var ok=data.correct==="any"||idx===data.correct,picks=(ctx.pills||[]).filter(function(p){return Number(p.dataset.a)===idx});if(!ok){if(motion&&data.motionAllChoices)motion.play(idx);b.classList.add("wrong");picks.forEach(function(p){p.classList.add("wrong")});wrongFlash(data,motion);var wrongText=data.wrong||"Look again.";result.textContent=wrongText;askThen(data,ctx,[{text:wrongText,who:"narrator"}]);timers.push(setTimeout(function(){b.classList.remove("wrong");picks.forEach(function(p){p.classList.remove("wrong")})},700));return}if(motion)motion.play(idx);buttons.forEach(function(x){x.disabled=true});b.classList.add("correct");picks.forEach(function(p){p.classList.add("correct")});if(window.Starlight&&window.Starlight.sfx)window.Starlight.sfx.good();ctx.reveals.forEach(function(p){p.querySelector(".feature-label").textContent=p.dataset.reveal;p.setAttribute("aria-label",p.dataset.reveal)});result.textContent=data.result;if(ctx.replay)ctx.replay.hidden=false;var items=[{text:data.result,who:"narrator"}];if(data.extra)items.push({text:data.extra,who:"Dot"});askThen(data,ctx,items)}
 /* A line of visible text that reads itself when tapped. Owner, 2026-10-21:
    "pls check the voice. i want to hear the voice read if tap on the text."
-   The story paragraph, the question and the cover title become their own read
-   controls the way every fact card already was; the exact text is the map key,
+   The story paragraph and the cover title are their own read controls the way
+   every fact card already was; the exact text is the map key,
    so what the child taps is what the child hears. starlight.js owns the clip,
    the cancel-on-new-tap and the .reading highlight while it plays. */
 function sayLine(node,text,id){
@@ -83,8 +75,7 @@ function sayLine(node,text,id){
   node.setAttribute("role","button");
   node.tabIndex=0;
   /* role="button" makes an aria-label replace the content in the a11y tree,
-     so the name must carry the words themselves -- a generic "Listen to the
-     question" would hide the question a VoiceOver child is being asked. */
+     so the name must carry the words themselves. */
   node.setAttribute("aria-label",text+" — tap to hear");
   return node;
 }
@@ -96,30 +87,13 @@ function addPageOneObjects(shell){
 }
 function pageView(){var data=D.pages[page],shell=el("div","slice-shell"),artUi=el("div","art-ui"),plate=el("img","plate");if(!data)throw new Error("Missing page data "+page);artLayer=el("div","art-layer");plate.src="assets-runtime/standard/page-"+String(page).padStart(2,"0")+".webp";plate.alt="";stage.insertBefore(artLayer,stage.firstChild);stage.insertBefore(plate,artLayer);shell.appendChild(artUi);var motion=addMotion(data)||addTeachingMotion(data);var nn=String(page).padStart(2,"0");var story=el("article","story");story.innerHTML='<p class="eyebrow">'+data.eyebrow+'</p><h1>'+data.title+'</h1><h2>'+data.subtitle+'</h2>';var storyLine=sayLine(el("p","",data.story),data.story,"p"+nn+"-narrator-story");story.appendChild(storyLine);var actions=el("div","story-actions");actions.innerHTML='<button class="primary about" type="button" aria-label="'+data.aboutLabel+'" title="'+data.aboutLabel+'"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M12 10h18a6 6 0 0 1 6 6v22H18a6 6 0 0 0-6 6z"/><path d="M36 38H18a6 6 0 0 0-6 6V10h18a6 6 0 0 1 6 6z"/></svg></button><button class="listen" type="button" aria-label="Listen to the story" title="Listen to the story"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M10 19h5l9-8v26l-9-8h-5z"/><path d="M31 17a10 10 0 0 1 0 14M36 12a17 17 0 0 1 0 24"/></svg></button>';story.appendChild(actions);shell.appendChild(story);
   var panel=el("aside","info-panel");panel.innerHTML='<button class="info-close" type="button" aria-label="Close information">×</button><h3>'+data.aboutLabel+'</h3><p>'+data.about+'</p>';shell.appendChild(panel);story.querySelector(".about").addEventListener("click",function(){panel.classList.toggle("open")});panel.querySelector(".info-close").addEventListener("click",function(){panel.classList.remove("open")});
-  var ctx={heard:false,h:null,pills:[],reveals:[]},h=null,buttons=[],result=null,pageObjects=page===1?addPageOneObjects(artUi):null;
-  story.querySelector(".listen").addEventListener("click",function(){ctx.heard=true;var items=[{text:data.story,who:"narrator",sourceEl:storyLine}];if(!data.storyOnly)items=items.concat(askItems(data,h));if(window.Starlight&&window.Starlight.sayQueue)window.Starlight.sayQueue(items);else speak(data.story,"narrator",storyLine)});
-  /* The hear-the-question chip is the Sound control's own drawn speaker
-     (currentColor strokes, svg aria-hidden), not an emoji: an emoji speaker is
-     a different little picture on every platform. 64px, like every picture
-     button; the label still speaks the action. */
-  if(!data.storyOnly){var q=el("section","question"),ask=el("button","ask");h=sayLine(el("h2","",data.prompt),data.prompt,"p"+nn+"-narrator-01");ask.type="button";ask.title="Listen to the question";ask.setAttribute("aria-label","Listen to the question");ask.innerHTML='<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M10 19h5l9-8v26l-9-8h-5z" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';ctx.h=h;var answers=el("div","answers");result=el("p","result","Choose one.");
-  /* Right/wrong verdicts are the page's spoken answer to the child's tap, so
-     they are announced, not just shown. */
-  result.setAttribute("role","status");result.setAttribute("aria-live","polite");
-  /* Replay after a correct answer: the ↻ chip beside the verdict emits
-     Starlight's "replay", whose handler below re-asks the page (pills
-     un-revealed, glows cleared, motion reset) without a reload. */
-  var replay=el("button","replay","↻");replay.type="button";replay.title="Play again";replay.setAttribute("aria-label","Play again");replay.hidden=true;replay.addEventListener("click",function(){if(window.Starlight)window.Starlight.emit("replay")});ctx.replay=replay;
-  var resultCell=el("div","result-cell");resultCell.append(result,replay);q.append(ask,h,answers,resultCell);data.choices.forEach(function(c,i){var b=el("button","answer",c);b.type="button";b.dataset.narrationId="p"+String(page).padStart(2,"0")+"-prompt";b.addEventListener("click",function(){answer(data,b,i,buttons,result,motion,ctx)});buttons.push(b);answers.appendChild(b)});ask.addEventListener("click",function(){ctx.heard=true;if(window.Starlight&&window.Starlight.sayQueue)window.Starlight.sayQueue(askItems(data,h));else speak(data.prompt,"narrator",h)});shell.appendChild(q)}
-  (data.features||[]).forEach(function(f,i){var tag,line,boxes=D.pointerObjectBoxes&&D.pointerObjectBoxes[page];if(f.tipX!=null&&f.tipY!=null){f.objectBox=boxes&&boxes[i];line=document.createElementNS("http://www.w3.org/2000/svg","svg");line.setAttribute("class","feature-pointer");line.dataset.feature=String(i);if(f.objectBox)line.dataset.objectBox=f.objectBox.join(",");line.setAttribute("viewBox","0 0 100 75");line.innerHTML='<line x1="'+f.x+'" y1="'+(f.y*.75)+'" x2="'+f.tipX+'" y2="'+(f.tipY*.75)+'"/><circle cx="'+f.tipX+'" cy="'+(f.tipY*.75)+'" r=".42"/>';artUi.appendChild(line)}if(f.a==null){tag=el("button","feature");tag.classList.add("name-label");tag.type="button";var id="lbl-"+String(page).padStart(2,"0")+"-"+labelSlug(f.label);tag.dataset.narrationId=id;tag.dataset.say=f.label;tag.dataset.clip="narration/clips/"+id+".m4a";tag.dataset.clipReady="false";(function askReady(n){/* slice-one can build before starlight.js exports its API; wait for it */if(window.Starlight&&window.Starlight.clipReady)window.Starlight.clipReady(id,f.label).then(function(ready){tag.dataset.clipReady=String(ready)});else if(n<60)setTimeout(function(){askReady(n+1)},50)})(0);tag.setAttribute("aria-label",f.label+" — tap to hear");tag.addEventListener("click",function(){tag.classList.remove("tap-glow");void tag.offsetWidth;tag.classList.add("tap-glow");timers.push(setTimeout(function(){tag.classList.remove("tap-glow")},650));speak(f.label,"narrator",tag)})}else{tag=el("button","feature answer-target"+(f.tipX==null?" plain-answer":""));tag.type="button";tag.dataset.a=String(f.a);tag.setAttribute("aria-label","Choose "+f.label);tag.addEventListener("click",function(){answer(data,buttons[f.a],f.a,buttons,result,motion,ctx)});ctx.pills.push(tag)}tag.dataset.feature=String(i);tag.appendChild(el("span","feature-label",f.label));tag.style.setProperty("--feature-x",f.x+"%");tag.style.setProperty("--feature-y",f.y+"%");if(f.reveal){tag.dataset.plain=f.label;tag.dataset.reveal=f.reveal;ctx.reveals.push(tag)}artUi.appendChild(tag)});facts(data,shell);var sbar=el("div","slice-status");sbar.setAttribute("role","status");sbar.setAttribute("aria-live","polite");shell.appendChild(sbar);stage.appendChild(shell);
-  /* The ask also speaks once by itself as the question opens: a browser that
-     still blocks untouched audio simply stays silent (the chip, the story's
-     Listen and the first answer tap each carry the ask for that child). The
-     attempt counts as heard only when a clip truly starts (onStart), so a
-     child who did hear it never hears the whole ask a second time on their
-     first answer tap, and a blocked one still gets it carried there. */
-  if(!data.storyOnly&&data.leadIn&&window.Starlight&&window.Starlight.sayQueue)timers.push(setTimeout(function(){if(!ctx.heard)window.Starlight.sayQueue(askItems(data,h).map(function(it){it.onStart=function(){ctx.heard=true};return it}))},700));
-  if(window.Starlight)window.Starlight.onReplay(function(){clearTimers();ctx.heard=false;panel.classList.remove("open");if(motion&&motion.reset)motion.reset();if(pageObjects)pageObjects.reset();buttons.forEach(function(b){b.disabled=false;b.classList.remove("wrong","correct")});ctx.pills.forEach(function(p){p.classList.remove("wrong","correct")});ctx.reveals.forEach(function(p){p.querySelector(".feature-label").textContent=p.dataset.plain;p.setAttribute("aria-label","Choose "+p.dataset.plain)});if(result)result.textContent="Choose one.";if(ctx.replay)ctx.replay.hidden=true})}
+  var pageObjects=page===1?addPageOneObjects(artUi):null;
+  story.querySelector(".listen").addEventListener("click",function(){speak(data.story,"narrator",storyLine)});
+  addSafeBoxes(artUi,D.characterBoxes&&D.characterBoxes[page],"character-safe-box");
+  addSafeBoxes(artUi,D.diagramBoxes&&D.diagramBoxes[page],"diagram-safe-box");
+  (data.features||[]).forEach(function(f,i){var tag,line,boxes=D.pointerObjectBoxes&&D.pointerObjectBoxes[page];if(f.tipX!=null&&f.tipY!=null){f.objectBox=boxes&&boxes[i];line=document.createElementNS("http://www.w3.org/2000/svg","svg");line.setAttribute("class","feature-pointer");line.dataset.feature=String(i);if(f.objectBox)line.dataset.objectBox=f.objectBox.join(",");line.setAttribute("viewBox","0 0 100 75");line.innerHTML='<line x1="'+f.x+'" y1="'+(f.y*.75)+'" x2="'+f.tipX+'" y2="'+(f.tipY*.75)+'"/><circle cx="'+f.tipX+'" cy="'+(f.tipY*.75)+'" r=".42"/>';artUi.appendChild(line)}tag=el(f.spoken?"button":"div","feature");if(f.spoken){tag.classList.add("name-label");tag.type="button";var id="lbl-"+String(page).padStart(2,"0")+"-"+labelSlug(f.label);tag.dataset.narrationId=id;tag.dataset.say=f.label;tag.dataset.clip="narration/clips/"+id+".m4a";tag.dataset.clipReady="false";(function askReady(n){if(window.Starlight&&window.Starlight.clipReady)window.Starlight.clipReady(id,f.label).then(function(ready){tag.dataset.clipReady=String(ready)});else if(n<60)setTimeout(function(){askReady(n+1)},50)})(0);tag.setAttribute("aria-label",f.label+" — tap to hear");tag.addEventListener("click",function(){tag.classList.remove("tap-glow");void tag.offsetWidth;tag.classList.add("tap-glow");timers.push(setTimeout(function(){tag.classList.remove("tap-glow")},650));speak(f.label,"narrator",tag)})}tag.dataset.feature=String(i);tag.appendChild(el("span","feature-label",f.label));tag.style.setProperty("--feature-x",f.x+"%");tag.style.setProperty("--feature-y",f.y+"%");artUi.appendChild(tag)});facts(data,shell);var sbar=el("div","slice-status");sbar.setAttribute("role","status");sbar.setAttribute("aria-live","polite");shell.appendChild(sbar);stage.appendChild(shell);
+  if(motion&&motion.play)timers.push(setTimeout(function(){motion.play(data.explainStep||0)},900));
+  if(window.Starlight)window.Starlight.onReplay(function(){clearTimers();panel.classList.remove("open");if(motion&&motion.reset)motion.reset();if(pageObjects)pageObjects.reset();if(motion&&motion.play)timers.push(setTimeout(function(){motion.play(data.explainStep||0)},250))})}
 function cover(){var plate=el("img","plate");plate.src="assets-runtime/standard/page-00-cover.webp";plate.alt="Ari and Dot following a ribbon of starlight";stage.appendChild(plate);var card=el("section","cover-title");card.innerHTML="";var title=sayLine(el("h1","","Follow the Starlight"),"Follow the Starlight","cover-narrator-01");title.dataset.say=D.cover.line;card.append(title,el("p","","Ari & Dot · Book 2"));stage.appendChild(card);var start=el("a","cover-start");start.href="page-01.html";start.setAttribute("aria-label",D.cover.prompt);stage.appendChild(start)}
 function lifeCycleContract(){window.StarlightLifeCycle={open:function(root,stages,start){var box=root||document.querySelector(".life-cycle");if(!box)return;var i=start||0,current=box.querySelector(".current"),next=box.querySelector(".next");box.classList.add("open");function paint(node,n){node.textContent=stages[n].label;node.style.background=stages[n].colour}paint(current,i);return function(){var j=(i+1)%stages.length;paint(next,j);if(document.body.classList.contains("calm")){paint(current,j);i=j;return}box.classList.add("changing");setTimeout(function(){paint(current,j);box.classList.remove("changing");i=j},700)}}};}
 function boot(){if(!stage)return;lifeCycleContract();if(page)pageView();else cover()}
