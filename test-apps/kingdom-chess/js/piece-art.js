@@ -1,5 +1,5 @@
 (function(){"use strict";
-  var glyph={w:{k:"♔",q:"♕",r:"♖",b:"♗",n:"♘",p:"♙"},b:{k:"♚",q:"♛",r:"♜",b:"♝",n:"♞",p:"♟"}};
+  function glyph(type){return window.ChessIcons.svg("p"+type);}
   var folders={unicorn:"princess-unicorn",mermaid:"princess-mermaid",fairy:"sweet-fairy",space:"intergalactic-space",planets:"planets"};
   var names={k:"king",q:"queen",r:"rook",b:"bishop",n:"knight",p:"pawn"};
   var heights={k:.88,q:.84,b:.78,n:.75,r:.70,p:.58};
@@ -17,6 +17,6 @@
     boundsPromise.then(function(data){var bound=data.kingdoms[folders[img.dataset.kingdom]]&&data.kingdoms[folders[img.dataset.kingdom]][key];if(!bound)return fail(img);var g=geometry(bound,img.dataset.type,square);img.style.width=g.width+"px";img.style.height=g.height+"px";img.style.left=g.left+"px";img.style.bottom=g.bottom+"px";img.hidden=false;img.nextElementSibling.hidden=true;img.parentElement.classList.add("has-art");}).catch(function(){fail(img);});
   }
   function fail(img){img.hidden=true;img.parentElement.classList.remove("has-art");if(img.nextElementSibling)img.nextElementSibling.hidden=false;}
-  function render(piece,kingdom,colourway){var c=piece===piece.toUpperCase()?"w":"b",t=piece.toLowerCase(),file=colourway+"-"+names[t]+".webp";return '<img class="piece-image" data-type="'+t+'" data-kingdom="'+kingdom+'" data-file="'+file+'" src="'+piecePath(kingdom,colourway,t)+'" alt="" hidden><span class="piece-glyph" aria-hidden="true">'+glyph[c][t]+'</span>';}
+  function render(piece,kingdom,colourway){var t=piece.toLowerCase(),file=colourway+"-"+names[t]+".webp";return '<img class="piece-image" data-type="'+t+'" data-kingdom="'+kingdom+'" data-file="'+file+'" src="'+piecePath(kingdom,colourway,t)+'" alt="" hidden><span class="piece-glyph" aria-hidden="true">'+glyph(t)+'</span>';}
   window.CHESS_PIECE_ART={render:render,fit:fit,fail:fail,geometry:geometry,heights:heights,folders:folders,board:function(k){return assetPath(k,"board");},story:function(k){return assetPath(k,"story");},picker:function(k){return assetPath(k,"picker-card");},piecePath:piecePath};
 })();

@@ -21,3 +21,10 @@
 
 @media(orientation:landscape){:root{--sq:min(8.9vw,8.05vh,65px)}}
 @media(orientation:portrait){:root{--sq:min(8.45vw,6.7vh,69px)}}
+
+/* Drawn controls, four menu actions, guided-game feedback, and captured-piece tray. */
+.setup-actions{justify-content:center;flex-wrap:wrap}.setup-actions>button,.tutorial-callout button{display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.lesson-why{padding:10px;border-radius:14px;background:#e5f5df;color:#315d39}
+.tray{display:flex;align-items:center;gap:5px;flex-wrap:wrap}.tray-empty{opacity:.75}.captured-piece{width:30px;height:30px;display:inline-grid;place-items:center;border-radius:50%;color:#5f3d70;background:#f6d5e5}.captured-piece.dusk{color:#fff;background:#4a456e}.captured-piece .ci{width:21px;height:21px}
+.controls button{display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.ci{width:1.25em;height:1.25em;flex:none;vertical-align:-.22em;pointer-events:none}.icon-button .ci{width:30px;height:30px;vertical-align:middle}.setup h1 .ci{width:.85em;height:.85em}.panel h2 .ci{vertical-align:-.2em}.piece-glyph .ci{width:70%;height:70%;vertical-align:middle}.promotion-options button .ci{width:44px;height:44px}.book-nav .ci,.close .ci,.book-top .ci{width:30px;height:30px;vertical-align:middle}.book-art-fallback span .ci{width:72px;height:72px}
