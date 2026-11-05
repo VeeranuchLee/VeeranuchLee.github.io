@@ -22,6 +22,7 @@
     try { ctx = new AC(); } catch (e) { ctx = null; }
     return ctx;
   }
+  if (typeof AudioWake !== "undefined") AudioWake.attach(function () { return ctx; }, function () { ctx = null; });
 
   // One note: type, start frequency, optional end frequency, start offset, length, peak gain.
   function note(type, f0, f1, at, len, peak) {

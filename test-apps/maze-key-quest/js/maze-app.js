@@ -38,6 +38,7 @@
     { id: "lion", name: "Lion" }, { id: "hippo", name: "Hippo" },
     { id: "duck", name: "Duck" }, { id: "elephant", name: "Elephant" },
     { id: "owl", name: "Owl" }, { id: "rocking-horse", name: "Rocking horse" },
+    { id: "unicorn", name: "Unicorn" },
   ];
   var CODE_TOYS = [
     { id:"car",name:"Car" },{ id:"bus",name:"Bus" },{ id:"train",name:"Train" },
@@ -179,8 +180,7 @@
     var m = SND.isMuted();
     return '<button class="speaker" id="speaker" aria-pressed="' + (!m) + '" aria-label="' +
       (m ? "Sound off. Turn sound on" : "Sound on. Turn sound off") + '">' +
-      (m ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 9l5 6M21 9l-5 6" fill="none" stroke-width="2.2" stroke-linecap="round"/></svg>'
-         : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 8.5c1.6 1.8 1.6 5.2 0 7M18.6 6c3 3.3 3 8.7 0 12" fill="none" stroke-width="2.2" stroke-linecap="round"/></svg>') +
+      (m ? "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M11 5L6 9H3v6h3l5 4z\" fill=\"currentColor\"/><path d=\"M16 9l5 6M21 9l-5 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>" : "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M11 5L6 9H3v6h3l5 4z\" fill=\"currentColor\"/><path d=\"M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>") +
       "</button>";
   }
   function wireSpeaker(onChange) {
@@ -188,25 +188,19 @@
     if (!b) return;
     b.onclick = function () { SND.setMuted(!SND.isMuted()); SND.unlock(); if (!SND.isMuted()) SND.pick(); onChange(); };
   }
-  function titleFlag() {
-    return '<svg class="title-flag" viewBox="0 0 100 100" aria-hidden="true">' +
-      '<rect x="28" y="12" width="7" height="76" rx="3.5" fill="#8a6446"/>' +
-      '<ellipse cx="31" cy="88" rx="16" ry="6" fill="#f2c14e"/>' +
-      '<path d="M35 14h44l-9 15 9 15H35z" fill="#e8665a" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>' +
-      '</svg>';
-  }
 
   /* ---------- screen 1: pick a friend ------------------------------------------------ */
 
   function picker() {
+    newScreen();
     S.locked = true;
     detachInput();
     app.className = "screen-pick";
     app.innerHTML =
-      '<header class="topline"><a class="hub" href="' + HUB + '" aria-label="Back to Children Games">&larr; All games</a>' +
+      '<header class="topline"><span class="cg-back-slot" aria-hidden="true"></span><a class="cg-back" href="' + HUB + '" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>' +
       speakerButton() + "</header>" +
       '<section class="pick">' +
-      '<h1 class="title">' + titleFlag() + 'Our Maze</h1>' +
+      '<h1 class="title"><img class="title-flag" data-ph="flag" src="' + SPRITE("flag", "flag") + '" alt="" aria-hidden="true"/>Our Maze</h1>' +
       '<div class="picker-type choice-toggle puzzle-mode-picker" role="group" aria-label="Choose maze type">' + choiceButton("maze-type","directions","Maze",S.mazeType) + choiceButton("maze-type","robot","Robot Code",S.mazeType) + '<button data-puzzle-mode="key">Key Quest</button><button data-puzzle-mode="animal">Animal Escape</button></div>' +
       '<p class="ask">' + (S.mazeType === "robot" ? "Choose a Code Toy" : "Choose a friend") + '</p>' +
       '<div class="cast' + (S.mazeType === "robot" ? " code-cast" : "") + '" role="list">' +
@@ -228,7 +222,7 @@
     });
     Array.prototype.forEach.call(app.querySelectorAll(".picker-type button"), function (b) { b.onclick = function () {
       var puzzle=b.getAttribute("data-puzzle-mode"); if(puzzle){if(SND){SND.unlock();SND.pick();} if(window.MazePuzzleUI)window.MazePuzzleUI.open(puzzle); return;}
-      var type=b.getAttribute("data-maze-type"); if(type===S.mazeType)return; if(SND)SND.pick(); S.mazeType=type; save("maze-type",type); picker();
+      var type=b.getAttribute("data-maze-type"); if(type===S.mazeType){answerChosen(b,app.querySelector(".cast"));return;} if(SND)SND.pick(); S.mazeType=type; save("maze-type",type); picker();
     }; });
     wireSpeaker(picker);
   }
@@ -284,6 +278,7 @@
   }
 
   function renderPlayScreen() {
+    newScreen();
     detachInput();
 
     var done = doneForChoice();
@@ -291,14 +286,14 @@
     app.className = "screen-play";
     app.innerHTML =
       '<header class="topline">' +
-      '<button class="hub" id="back" aria-label="' + (S.mazeType === "robot" ? "Pick a different Code Toy" : "Pick a different friend") + '">&larr; ' + (S.mazeType === "robot" ? "Toys" : "Friends") + '</button>' +
+      '<span class="cg-back-slot" aria-hidden="true"></span><button class="cg-back" id="back" aria-label="' + (S.mazeType === "robot" ? "Back to the toys" : "Back to the friends") + '">' + "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M15 5l-7 7 7 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>" + '</button>' +
       '<nav class="ladder" aria-label="Maze size">' +
       LADDER.map(function (l, i) {
         var isDone = done.indexOf(i) >= 0;
         var rungName = S.mazeType === "robot" ? ROBOT_LEVELS[i] : l.name;
         return '<button class="rung rung-' + l.tier + (i === S.rung ? " now" : "") + (isDone ? " done" : "") + '" data-rung="' + i +
           '" aria-label="' + rungName + ", " + l.n + " by " + l.n + (isDone ? ", finished in " + choiceName() : "") + '"' + (i === S.rung ? ' aria-current="true"' : "") + ">" +
-          '<span class="dots" aria-hidden="true" style="--n:' + l.n + '">' + new Array(l.n * l.n + 1).join("<i></i>") + "</span>" + (isDone ? '<span class="star" aria-hidden="true">★</span>' : "") + "</button>";
+          '<span class="dots" aria-hidden="true" style="--n:' + l.n + '">' + new Array(l.n * l.n + 1).join("<i></i>") + "</span>" + (isDone ? '<span class="star" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.8l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 16.9 6.6 19.7l1-6.1L3.2 9.3l6.1-.9z" fill="currentColor"/></svg></span>' : "") + "</button>";
       }).join("") +
       "</nav>" + speakerButton() + "</header>" +
       '<section class="stage ' + (S.movement === "plan" ? "stage-plan" : "stage-walk") + (S.trail ? " stage-trail stage-" + S.goal : "") + (S.mazeType === "robot" ? " stage-robot" : "") + '">' +
@@ -424,7 +419,26 @@
     return '<div class="trail-prompt" id="trail-prompt" aria-live="polite"></div>';
   }
 
+  /* ALREADY CHOSEN (2026-11-01 audit, silent controls). Tapping the maze type,
+     movement or goal that is already on used to return before any sound or change,
+     and a tap that does nothing reads as broken. Now it answers with the pick sound
+     and a small bounce, and the thing to tap next (the friends, or the arrows)
+     glows once. */
+  function answerChosen(button, next) {
+    if (SND) { SND.unlock(); SND.pick(); }
+    [[button, "chosen-again"], [next, "point-here"]].forEach(function (pair) {
+      var el = pair[0], cls = pair[1];
+      if (!el) return;
+      el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls);
+      setTimeout(function () { el.classList.remove(cls); }, 750);
+    });
+  }
+
   function switchMovement(movement) {
+    if (!S.running && movement === S.movement) {
+      answerChosen(app.querySelector('.movement-toggle button[data-movement="' + movement + '"]'), app.querySelector(".pad"));
+      return;
+    }
     if (S.running || movement === S.movement || MOVEMENTS.indexOf(movement) < 0) return;
     if (SND) { SND.unlock(); SND.pick(); }
     if (movement !== "plan") S.plan = [];
@@ -433,10 +447,15 @@
     S.chunkStart = S.state;
     S.wallAttempts = 0;
     save("movement", movement);
+    if (S.locked) { play(S.rung); return; } // this maze is already won: a fresh one, not a frozen board
     renderPlayScreen();
   }
 
   function switchGoal(goal) {
+    if (!S.running && goal === S.goal) {
+      answerChosen(app.querySelector('.goal-toggle button[data-goal="' + goal + '"]'), app.querySelector(".pad"));
+      return;
+    }
     if (S.running || goal === S.goal || GOALS.indexOf(goal) < 0) return;
     if (SND) { SND.unlock(); SND.pick(); }
     S.goal = goal;
@@ -451,9 +470,9 @@
       '<div class="plan-heading"><span><strong>Plan the moves</strong><small>' + (S.mazeType === "robot" ? "Add robot commands, then press GO!" : "Add arrows below, then press GO to move the " + friendName + "!") + '</small></span>' +
       '<span class="plan-count" id="plan-count" aria-live="polite">0 / ' + chipCap() + '</span></div>' +
       '<div class="sequence"><div class="move-strip" id="move-strip" aria-label="Planned moves"></div></div>' +
-      '<div class="plan-actions"><button id="undo" class="plan-action undo" disabled aria-label="Undo last move">↶<small>Undo</small></button>' +
-      '<button id="clear-plan" class="plan-action clear" disabled aria-label="Clear moves">✕<small>Clear</small></button>' +
-      '<button id="go" class="plan-action go" disabled><span aria-hidden="true">▶</span> GO</button></div>' +
+      '<div class="plan-actions"><button id="undo" class="plan-action undo" disabled aria-label="Undo last move"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 7L4 12l5 5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 12H14a5.5 5.5 0 0 1 0 11h-2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><small>Undo</small></button>' +
+      '<button id="clear-plan" class="plan-action clear" disabled aria-label="Clear moves"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><small>Clear</small></button>' +
+      '<button id="go" class="plan-action go" disabled><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg> GO</button></div>' +
       '</aside>';
   }
 
@@ -464,9 +483,9 @@
   }
 
   function robotPadButtons() {
-    return robotCommandButton("L", "Turn left", "↶", "robot-left") +
-      robotCommandButton("F", "Forward", "↑", "robot-forward") +
-      robotCommandButton("R", "Turn right", "↷", "robot-right");
+    return robotCommandButton("L", "Turn left", "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M9 7L4 12l5 5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M4.5 12H13a6 6 0 0 1 6 6v1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", "robot-left") +
+      robotCommandButton("F", "Forward", "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 19V5M6 11l6-6 6 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", "robot-forward") +
+      robotCommandButton("R", "Turn right", "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M15 7l5 5-5 5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M19.5 12H11a6 6 0 0 0-6 6v1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", "robot-right");
   }
 
   function robotCommandButton(command, label, glyph, cls) {
@@ -811,7 +830,7 @@
   }
 
   function chipCap() { return PLAN_CAP; }
-  function arrowGlyph(dir) { return { up: "↑", right: "→", down: "↓", left: "←", F: "↑", L: "↶", R: "↷" }[dir]; }
+  function arrowGlyph(dir) { return { up: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 19V5M6 11l6-6 6 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", right: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M9 5l7 7-7 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", down: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 19V5M6 11l6-6 6 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", left: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M15 5l-7 7 7 7\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", F: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 19V5M6 11l6-6 6 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", L: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M9 7L4 12l5 5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M4.5 12H13a6 6 0 0 1 6 6v1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", R: "<svg viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M15 7l5 5-5 5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M19.5 12H11a6 6 0 0 0-6 6v1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>" }[dir]; }
   function commandName(dir) { return { F: "forward", L: "turn left", R: "turn right" }[dir] || dir; }
 
   function wirePlan() {
@@ -860,7 +879,7 @@
       // `ask` marks the chip; `question` belongs only to the bubble. Reusing one class for
       // both made the red chip inherit the bubble's 25px position and size.
       var hasQuestion = st.indexOf("ask") >= 0;
-      return '<button class="move-chip' + st + '" data-index="' + i + '" aria-label="Remove ' + dir + ' move">' +
+      return '<button class="move-chip move-' + dir + st + '" data-index="' + i + '" aria-label="Remove ' + dir + ' move">' +
         arrowGlyph(dir) + '<span class="sr-only">' + commandName(dir) + '</span>' + (hasQuestion ? '<span class="question">?</span>' : '') + '</button>';
     }).join("");
     var slotCount = previewSlotCount();
@@ -887,7 +906,20 @@
     app.classList.toggle("plan-running", on);
   }
 
-  function later(fn, ms) { setTimeout(fn, window.__MAZE_FAST__ ? 0 : ms); }
+  // Every delayed step belongs to the screen that armed it. Drawing a new play screen or
+  // the picker starts a new generation and cancels the old one's timers, so a walk or a
+  // celebration can never land on a maze the child has already left: an empty finish card
+  // over the new maze, a star for a maze just opened (2026-11-01 audit, maze-patterns-01).
+  var screenGen = 0, screenTimers = [];
+  function newScreen() {
+    screenGen++;
+    screenTimers.forEach(clearTimeout);
+    screenTimers = [];
+  }
+  function later(fn, ms) {
+    var gen = screenGen;
+    screenTimers.push(setTimeout(function () { if (gen === screenGen) fn(); }, window.__MAZE_FAST__ ? 0 : ms));
+  }
 
   function startPlan() {
     var runner = S.mazeType === "robot" ? MR.runProgram : MP.runPlan;
@@ -1068,7 +1100,7 @@
       "</div></div>";
     guardImages(R.finish);
     // Let the celebration play before the card covers the board.
-    setTimeout(function () {
+    later(function () {
       if (!R || !R.finish) return;
       R.finish.hidden = false;
       document.getElementById("again").onclick = function () { play(S.rung); };
@@ -1076,7 +1108,7 @@
       if (nx) nx.onclick = function () { play(S.rung + 1); };
       var fr = document.getElementById("friends");
       if (fr) fr.onclick = picker;
-    }, window.__MAZE_FAST__ ? 0 : 1100);
+    }, 1100);
   }
 
   /* ---------- arrows ----------------------------------------------------------------- */

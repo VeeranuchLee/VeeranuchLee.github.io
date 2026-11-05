@@ -12,18 +12,22 @@
   function add(a,d) { return [a[0]+DIRS[d][0], a[1]+DIRS[d][1]]; }
   function has(list,c) { return list.some(function (x) { return same(x,c); }); }
   function replace(list,from,to) { return list.map(function(x){ return same(x,from) ? to : x; }); }
-  function blocked(level, state, cell, animal) {
+  function blocked(level, state, cell, animal, opts) {
     var tile = at(level,cell);
     if (tile === "#") return true;
-    if (tile === "D" && !switchOn(level,state)) return true;
+    if ((tile === "D" || tile === "N") && !switchOn(level,state,cell,opts)) return true;
     if (tile === "G" && !state.openGates.some(function(g){return same(g,cell);}) && state.keys < 1) return true;
     if (tile === "T" && animal !== "bear") return true;
     if (tile === "L" && animal !== "fox") return true;
     if (tile === "U" && animal !== "rabbit") return true;
     return false;
   }
-  function switchOn(level,state) {
-    return state.boulders.some(function(c){return at(level,c) === "S";}) || at(level,state.player) === "S";
+  function switchOn(level,state,gateCell,opts) {
+    opts=opts||{};
+    var gate=gateCell?at(level,gateCell):null,required=gate==="N"?"M":gate==="D"?"S":null;
+    if(opts.inertSwitches===true||(required&&Array.isArray(opts.inertSwitches)&&opts.inertSwitches.indexOf(required)>=0))return false;
+    function isOn(c){var tile=at(level,c);return required?tile===required:(tile==="S"||tile==="M");}
+    return state.boulders.some(isOn) || isOn(state.player);
   }
   function find(map,ch) {
     var out=[]; for(var y=0;y<map.length;y++) for(var x=0;x<map[y].length;x++) if(map[y][x]===ch) out.push([x,y]); return out;
@@ -75,7 +79,8 @@
       state.captured=true; state.player=state.checkpoint.slice();
     }
   }
-  function step(level, prior, action) {
+  function step(level, prior, action, opts) {
+    opts=opts||{};
     if(!DIRS[action] && !(level.mode==="animal"&&action==="wait")) return {state:prior,valid:false,events:["invalid"]};
     var state=copy(prior),events=[]; state.captured=false;
     if(state.won) return {state:prior,valid:false,events:["finished"]};
@@ -84,9 +89,9 @@
       if(next[0]<0||next[1]<0||next[1]>=level.map.length||next[0]>=level.map[0].length) return {state:prior,valid:false,events:["blocked"]};
       if(level.mode==="key" && has(state.boulders,next)) {
         var beyond=add(next,action);
-        if(beyond[0]<0||beyond[1]<0||beyond[1]>=level.map.length||beyond[0]>=level.map[0].length||blocked(level,state,beyond)||has(state.boulders,beyond)) return {state:prior,valid:false,events:["blocked"]};
+        if(has(opts.frozenBoulders||[],next)||beyond[0]<0||beyond[1]<0||beyond[1]>=level.map.length||beyond[0]>=level.map[0].length||blocked(level,state,beyond,null,opts)||has(state.boulders,beyond)) return {state:prior,valid:false,events:["blocked"]};
         state.boulders=replace(state.boulders,next,beyond); events.push("push");
-      } else if(blocked(level,state,next,state.animal)||has(state.boulders,next)) return {state:prior,valid:false,events:["blocked"]};
+      } else if(blocked(level,state,next,state.animal,opts)||has(state.boulders,next)) return {state:prior,valid:false,events:["blocked"]};
       if(at(level,next)==="G"&&!state.openGates.some(function(g){return same(g,next);})) {state.keys--;state.openGates.push(next);events.push("gate");}
       state.player=next;
       if(at(level,next)==="k"&&!has(state.collected,next)){state.collected.push(next);state.keys++;events.push("key");}
@@ -102,7 +107,7 @@
   function solveFrom(level,start,opts){
     opts=opts||{};start=copy(start);var q=[{s:start,path:[]}],seen=new Set([canonical(start)]),actions=ACTIONS.concat(level.mode==="animal"?["wait"]:[]),cap=opts.cap||250000;
     for(var h=0;h<q.length&&seen.size<cap;h++){var cur=q[h];if(cur.s.won)return {solved:true,length:cur.path.length,path:cur.path,visited:seen.size};
-      for(var i=0;i<actions.length;i++){var o=step(level,cur.s,actions[i]);if(!o.valid)continue;var k=canonical(o.state);if(!seen.has(k)){seen.add(k);q.push({s:o.state,path:cur.path.concat(actions[i])});}}
+      for(var i=0;i<actions.length;i++){var o=step(level,cur.s,actions[i],opts);if(!o.valid)continue;var k=canonical(o.state);if(!seen.has(k)){seen.add(k);q.push({s:o.state,path:cur.path.concat(actions[i])});}}
     } return {solved:false,length:-1,path:[],visited:seen.size};
   }
   function solve(level,opts){opts=opts||{};return solveFrom(level,initial(level,opts),opts);}
