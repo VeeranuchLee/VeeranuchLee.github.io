@@ -30,8 +30,10 @@
   </section>
 
   <section class="screen result-screen" id="result">
-    <img id="result-bg" class="plate" src="assets/try-on-character.webp" alt="Your jewellery being worn">
-    <svg id="result-jewel" class="overlay-jewel" viewBox="0 0 100 75"></svg>
+    <div class="result-stage" aria-label="Your finished jewellery scene">
+      <img id="result-bg" class="plate" src="assets/try-on-character.webp" alt="Your jewellery being worn">
+      <svg id="result-jewel" class="overlay-jewel" viewBox="0 0 100 75"></svg>
+    </div>
     <div id="gift-box" hidden><div class="box-lid" data-icon="bow"></div><div class="box-piece"><svg viewBox="0 0 100 75"></svg></div></div>
     <div id="outfits" class="outfit-picker" role="radiogroup" aria-label="Choose her outfit" hidden><button role="radio" data-outfit="original" aria-label="Lilac dress" aria-checked="true"><img src="assets/outfits/original-thumb.webp" alt=""></button><button role="radio" data-outfit="everyday" aria-label="Denim pinafore" aria-checked="false"><img src="assets/outfits/everyday-thumb.webp" alt=""></button><button role="radio" data-outfit="party" aria-label="Pink party dress" aria-checked="false"><img src="assets/outfits/party-thumb.webp" alt=""></button><button role="radio" data-outfit="sunny" aria-label="Yellow sundress" aria-checked="false"><img src="assets/outfits/sunny-thumb.webp" alt=""></button></div>
     <button id="edit-again" class="edit-again"><span data-icon="pencil"></span><b>Change it</b></button>
