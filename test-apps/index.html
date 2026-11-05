@@ -33,6 +33,8 @@
     .badge.missing-badge{background:#f3d9d9;color:#7b4a4a}
     .waiting{margin-left:auto;font-size:.82rem;font-weight:800;color:#506269;background:#eef2f4;padding:4px 10px;border-radius:999px;white-space:nowrap}
     .waiting.amber{background:#ffe2a8;color:#7a4b00}
+    .card .thumb{display:block;margin:-4px -4px 2px;border-radius:14px;overflow:hidden;aspect-ratio:4/3;background:#eef1f5}
+    .card .thumb img{display:block;width:100%;height:100%;object-fit:cover}
     .card h3{font-size:1.2rem;line-height:1.25;margin:0;color:#243d52}
     .card h3 a{color:inherit;text-decoration:none}
     .ask,.answer{margin:0;font-size:1.02rem;line-height:1.45;font-weight:650;color:#2c3e46}
@@ -179,6 +181,14 @@
           }
         }
         c.appendChild(top);
+        // A picture of the app (owner 2026-11-05: "can you add pic to them too?")
+        if(s.thumb){
+          const box=el(missing?'div':'a','thumb');
+          if(!missing){box.href=hrefFor(s);box.setAttribute('aria-hidden','true');box.tabIndex=-1;}
+          const img=el('img');img.src=s.thumb;img.alt='';img.loading='lazy';img.decoding='async';
+          img.addEventListener('error',()=>box.remove());
+          box.appendChild(img);c.appendChild(box);
+        }
         const h=el('h3');
         if(missing){h.textContent=s.title;}
         else{const a=el('a',null,s.title);a.href=hrefFor(s);h.appendChild(a);}
