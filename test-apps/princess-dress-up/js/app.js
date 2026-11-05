@@ -241,6 +241,7 @@ const styleDefs = [
   ['all', 'All', 'styleAll'],
   ['princess', 'Princess', 'stylePrincess'],
   ['idol', 'Idol', 'styleIdol'],
+  ['everyday', 'Everyday', 'styleEveryday'],
   ['magical', 'Magical', 'styleMagical'],
 ];
 
@@ -249,7 +250,9 @@ function buildStyleFilters() {
   wrap.hidden = tab !== 'dresses';
   wrap.innerHTML = '';
   if (wrap.hidden) return;
-  for (const [id, label, icon] of styleDefs) {
+  const hasStyle = (id) => id === 'all' || data.items.some((it) => it.tab === 'dresses'
+    && (id === 'idol' ? it.style === 'idol' || it.style === 'kpop' : it.style === id));
+  for (const [id, label, icon] of styleDefs.filter(([id]) => hasStyle(id))) {
     const b = document.createElement('button');
     b.type = 'button'; b.className = 'style-chip'; b.dataset.style = id;
     b.setAttribute('aria-label', `${label} dresses`);
