@@ -100,7 +100,11 @@ button:active { transform: scale(0.95); }
 @keyframes bounce { 40% { transform: translateY(-3%); } }
 
 /* ---------- doll ribbon ---------- */
-#ribbon { display: flex; justify-content: center; flex: none; }
+#ribbon {
+  display: flex; justify-content: flex-start; flex: none; overflow-x: auto; overflow-y: hidden;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 4px 0;
+}
+#ribbon::-webkit-scrollbar { display: none; }
 .portrait {
   width: var(--cell); height: var(--cell); flex: none;
   border: 0; background: none; padding: 4px; cursor: pointer; position: relative;
@@ -126,6 +130,24 @@ button:active { transform: scale(0.95); }
 .tab .lbl { font-size: 13px; font-weight: 700; color: var(--ink-soft); letter-spacing: 0.01em; }
 .tab[aria-selected="true"] { background: #fff; box-shadow: 0 3px 10px rgba(120, 60, 120, 0.2); }
 .tab[aria-selected="true"] .lbl { color: var(--ink); }
+
+/* ---------- dress styles: drawn icon plus one word, each a full 72px target ---------- */
+#style-filters {
+  display: flex; flex: none; gap: 6px; overflow-x: auto; overflow-y: hidden;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  padding: 4px 6px; background: var(--panel); border-radius: 22px;
+  box-shadow: inset 0 0 0 2px var(--panel-edge);
+}
+#style-filters::-webkit-scrollbar { display: none; }
+.style-chip {
+  min-width: 88px; height: 72px; flex: 1 0 88px; border: 0; border-radius: 18px;
+  background: rgba(255, 255, 255, 0.55); padding: 2px 4px; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+}
+.style-chip svg { width: 38px; height: 38px; }
+.style-chip span { font-size: 12px; font-weight: 800; color: var(--ink-soft); }
+.style-chip[aria-pressed="true"] { background: #fff; box-shadow: 0 0 0 3px var(--pink); }
+.style-chip[aria-pressed="true"] span { color: var(--ink); }
 
 /* ---------- item grid ---------- */
 #grid {

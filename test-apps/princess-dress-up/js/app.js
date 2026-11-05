@@ -1,6 +1,6 @@
 // Princess Dress Up Room — the dressing room, Show time, the album and the fashion show.
 // PLAN.md 3 is the design; this file wires it to the page.
-import { preload, drawLook, drawStage, fitDoll, drawThumb, drawPattern } from './art.js';
+import { preload, ensureLook, onImageReady, drawLook, drawStage, fitDoll, drawThumb, drawPattern } from './art.js';
 import { defaultLook, sanitize, applyItem, isWorn, setShade, setPattern, currentShade, surprise, sameLook } from './look.js';
 import { play, setEnabled, isEnabled, context as audioContext, rebuild as rebuildAudio } from './sound.js';
 import { icons } from './icons.js';
@@ -24,6 +24,7 @@ const DPR = () => Math.min(2, window.devicePixelRatio || 1);
 let data = null;
 let state = null;          // { doll, looks, album, sound }
 let tab = 'dresses';
+let dressStyle = 'all';
 let undoStack = [];
 let lastTheme = null;
 let tapLockUntil = 0;
@@ -139,7 +140,16 @@ $('stage-box').addEventListener('click', (e) => {
 });
 
 // ---------- doll ribbon ----------
-function drawPortrait(canvas, doll) {
+function portraitLook(doll) {
+  const slip = data.items.find((it) => it.id === 'dress-slip');
+  return {
+    ...state.looks[doll.id],
+    dress: { id: slip.id, shade: slip.defaultShade || 0, pattern: 'none' },
+    crown: null, earrings: null, necklace: null, wings: null,
+  };
+}
+
+function drawPortrait(canvas, doll, loaded = false) {
   const size = 64 * DPR();
   canvas.width = size; canvas.height = size;
   const ctx = canvas.getContext('2d');
@@ -147,8 +157,10 @@ function drawPortrait(canvas, doll) {
   g.addColorStop(0, '#FFFFFF'); g.addColorStop(1, doll.signature);
   ctx.fillStyle = g; ctx.beginPath(); ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2); ctx.fill();
   ctx.save(); ctx.beginPath(); ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2); ctx.clip();
-  drawThumb(ctx, data, state.looks[doll.id], doll.portrait || { x: 340, y: 150, w: 520, h: 520 }, size, size);
+  const L = portraitLook(doll);
+  drawThumb(ctx, data, L, doll.portrait || { x: 340, y: 150, w: 520, h: 520 }, size, size);
   ctx.restore();
+  if (!loaded) ensureLook(data, L).then(() => { if (canvas.isConnected) drawPortrait(canvas, doll, true); });
 }
 
 function buildRibbon() {
@@ -211,14 +223,66 @@ function refreshTabs() {
 // ---------- item grid ----------
 const tabDef = () => data.tabs.find((t) => t.id === tab);
 let thumbJob = 0;
+let tileObserver = null;
+
+const styleDefs = [
+  ['all', 'All', 'styleAll'],
+  ['princess', 'Princess', 'stylePrincess'],
+  ['idol', 'Idol', 'styleIdol'],
+  ['magical', 'Magical', 'styleMagical'],
+];
+
+function buildStyleFilters() {
+  const wrap = $('style-filters');
+  wrap.hidden = tab !== 'dresses';
+  wrap.innerHTML = '';
+  if (wrap.hidden) return;
+  for (const [id, label, icon] of styleDefs) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'style-chip'; b.dataset.style = id;
+    b.setAttribute('aria-label', `${label} dresses`);
+    b.setAttribute('aria-pressed', String(dressStyle === id));
+    b.innerHTML = `${icons[icon]}<span>${label}</span>`;
+    b.addEventListener('click', () => {
+      ack(b);
+      play('tap');
+      if (dressStyle === id) return;
+      dressStyle = id;
+      buildGrid();
+      $('grid').scrollTop = 0; $('grid').scrollLeft = 0;
+    });
+    wrap.appendChild(b);
+  }
+}
+
+function styleMatches(it) {
+  if (dressStyle === 'all') return true;
+  if (dressStyle === 'idol') return it.style === 'idol' || it.style === 'kpop';
+  return it.style === dressStyle;
+}
+
+function drawTile(b) {
+  if (!b.isConnected) return;
+  const it = data.items.find((x) => x.id === b.dataset.item);
+  const c = b.firstChild;
+  const r = b.getBoundingClientRect();
+  if (!r.width || !r.height) return;
+  c.width = Math.round(r.width * DPR()); c.height = Math.round(r.height * DPR());
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0, 0, c.width, c.height);
+  drawThumb(ctx, data, tileLook(it), it.thumb, c.width, c.height, { stage: it.slot === 'stage' });
+}
+
 function buildGrid() {
   const grid = $('grid');
   const def = tabDef();
+  buildStyleFilters();
+  if (tileObserver) tileObserver.disconnect();
   grid.innerHTML = '';
   grid.dataset.tab = tab;
   grid.setAttribute('aria-label', def.label);
   grid.classList.toggle('aspect-wide', def.tileAspect < 1);
-  const items = data.items.filter((i) => i.tab === tab);
+  const items = data.items.filter((i) => i.tab === tab && (tab !== 'dresses' || styleMatches(i)));
   for (const it of items) {
     const b = document.createElement('button');
     b.type = 'button'; b.className = 'tile'; b.dataset.item = it.id;
@@ -227,6 +291,12 @@ function buildGrid() {
     b.innerHTML = `<canvas></canvas><span class="badge">${icons.heart}</span>`;
     b.addEventListener('click', () => wearItem(it, b));
     grid.appendChild(b);
+  }
+  if ('IntersectionObserver' in window) {
+    tileObserver = new IntersectionObserver((entries) => {
+      for (const entry of entries) if (entry.isIntersecting) drawTile(entry.target);
+    }, { root: grid, rootMargin: '140px' });
+    for (const b of grid.children) tileObserver.observe(b);
   }
   refreshTiles(true);
 }
@@ -245,24 +315,22 @@ function refreshTiles(redraw) {
     b.setAttribute('aria-pressed', String(worn));
   }
   if (!redraw) return;
-  // tiles are drawn after the doll, a few per frame, so a tap's answer is never late
+  // Only visible and near-visible tiles decode their art. They are drawn after the doll,
+  // a few per frame, so the first screen never waits for the full wardrobe.
+  const gr = $('grid').getBoundingClientRect();
+  const visible = tiles.filter((b) => {
+    const r = b.getBoundingClientRect();
+    return r.bottom >= gr.top - 140 && r.top <= gr.bottom + 140 && r.right >= gr.left - 140 && r.left <= gr.right + 140;
+  });
   const job = ++thumbJob;
   let i = 0;
   const step = () => {
     if (job !== thumbJob) return;
-    const end = Math.min(tiles.length, i + 3);
+    const end = Math.min(visible.length, i + 3);
     for (; i < end; i++) {
-      const b = tiles[i];
-      const it = data.items.find((x) => x.id === b.dataset.item);
-      const c = b.firstChild;
-      const r = b.getBoundingClientRect();
-      if (!r.width) continue;
-      c.width = Math.round(r.width * DPR()); c.height = Math.round(r.height * DPR());
-      const ctx = c.getContext('2d');
-      ctx.clearRect(0, 0, c.width, c.height);
-      drawThumb(ctx, data, tileLook(it), it.thumb, c.width, c.height, { stage: it.slot === 'stage' });
+      drawTile(visible[i]);
     }
-    if (i < tiles.length) requestAnimationFrame(step);
+    if (i < visible.length) requestAnimationFrame(step);
   };
   requestAnimationFrame(step);
 }
@@ -651,7 +719,7 @@ async function start() {
   state = { doll: data.dolls.some((d) => d.id === saved.doll) ? saved.doll : data.dolls[0].id, looks: {}, album: [], sound: saved.sound };
   for (const d of data.dolls) state.looks[d.id] = saved.looks[d.id] ? sanitize(data, saved.looks[d.id], d.id) : defaultLook(data, d.id);
   state.album = saved.album.filter((e) => e && e.look && typeof e.t === 'number').map((e) => ({ id: e.id, t: e.t, look: sanitize(data, e.look, e.look.doll) }));
-  await preload(data);
+  await preload(data, state.looks[state.doll]);
   setupSound();
   setupActions();
   buildRibbon();
@@ -670,6 +738,17 @@ async function start() {
   window.addEventListener('resize', onResize);
   document.body.dataset.ready = '1';
 }
+
+let artRefresh = 0;
+onImageReady(() => {
+  if (!state || artRefresh) return;
+  artRefresh = requestAnimationFrame(() => {
+    artRefresh = 0;
+    if (screen === 'room') { renderDoll(); refreshTiles(true); }
+    else if (screen === 'album') openAlbum();
+    else if (screen === 'card' && cardEntry) openCard(cardEntry);
+  });
+});
 
 // exposed for the browser checks only
 window.__dressUp = { get state() { return state; }, get data() { return data; }, get screen() { return screen; }, get fit() { return lastFit; }, get showTaken() { return showTaken; }, get undoDepth() { return undoStack.length; }, get lastShowMs() { return lastShowMs; }, sameLook };

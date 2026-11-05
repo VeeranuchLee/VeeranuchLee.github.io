@@ -3,11 +3,81 @@
 // Every picture is a layer {z, src, x, y, w, h} in the 1200 x 1800 rig frame. Layers are
 // drawn back to front in data.zOrder. A layer with `tint` is repainted by a gradient map;
 // with `mask`, only the masked (fabric) pixels are repainted and patterned, so trims and
-// gems keep their colours. Repainted bitmaps live in a least-recently-used cache capped
-// at about 32 entries, so recent colour taps are instant and memory stays bounded.
+// gems keep their colours. Source images are decoded only when a layer is first shown,
+// and every decoded/canvas bitmap cache is bounded for the 9.7-inch iPad.
 import { buildLut, patternInk, hexToRgb } from './colour.js';
 
-const images = new Map(); // src -> HTMLImageElement (decoded)
+const IMAGE_CAP = 8;
+const images = new Map();       // LRU: src -> decoded HTMLImageElement
+const pendingImages = new Map();
+const readyListeners = new Set();
+
+export const stats = {
+  tintMisses: 0,
+  imageCap: IMAGE_CAP,
+  imageCount: 0,
+  decodedBytes: 0,
+  rawCap: 8,
+  tintCap: 6,
+  thumbTintCap: 16,
+  patchCap: 3,
+};
+
+export function onImageReady(fn) {
+  readyListeners.add(fn);
+  return () => readyListeners.delete(fn);
+}
+
+function getImage(src) {
+  const img = images.get(src);
+  if (img) { images.delete(src); images.set(src, img); }
+  return img;
+}
+
+function rememberImage(src, img) {
+  if (images.has(src)) images.delete(src);
+  images.set(src, img);
+  stats.decodedBytes += img.naturalWidth * img.naturalHeight * 4;
+  while (images.size > IMAGE_CAP) {
+    let victim = images.keys().next().value;
+    if (basePlate && victim === basePlate.src) {
+      const pinned = images.get(victim);
+      images.delete(victim); images.set(victim, pinned);
+      victim = images.keys().next().value;
+    }
+    const old = images.get(victim);
+    images.delete(victim);
+    stats.decodedBytes -= old.naturalWidth * old.naturalHeight * 4;
+    old.src = '';
+  }
+  stats.imageCount = images.size;
+}
+
+function loadSource(src) {
+  if (getImage(src)) return Promise.resolve(images.get(src));
+  if (pendingImages.has(src)) return pendingImages.get(src);
+  const promise = new Promise((resolve, reject) => {
+    const img = new Image();
+    img.decoding = 'async';
+    img.onload = () => {
+      pendingImages.delete(src);
+      rememberImage(src, img);
+      for (const fn of readyListeners) fn(src);
+      resolve(img);
+    };
+    img.onerror = () => {
+      pendingImages.delete(src);
+      reject(new Error(`could not load ${src}`));
+    };
+    img.src = src;
+  });
+  pendingImages.set(src, promise);
+  return promise;
+}
+
+function requestSource(src) {
+  loadSource(src).catch((err) => console.error(err));
+}
 
 export function allSources(data) {
   const set = new Set();
@@ -24,16 +94,28 @@ export function allSources(data) {
 
 let basePlate = null; // the registered plate every derived layer is compared against
 
-export async function preload(data) {
+export async function preload(data, firstLook = null) {
   basePlate = data.rig.basePlate || null;
-  const srcs = allSources(data);
-  await Promise.all(srcs.map((src) => new Promise((resolve, reject) => {
-    const img = new Image();
-    img.decoding = 'async';
-    img.onload = () => { images.set(src, img); resolve(); };
-    img.onerror = () => reject(new Error(`could not load ${src}`));
-    img.src = src;
-  })));
+  const srcs = new Set();
+  const add = (L) => {
+    srcs.add(L.src);
+    if (L.mask && (typeof L.mask === 'string' || L.mask.src)) srcs.add(typeof L.mask === 'string' ? L.mask : L.mask.src);
+  };
+  data.rig.base.forEach(add);
+  if (basePlate) srcs.add(basePlate.src);
+  if (firstLook) layersFor(data, firstLook).forEach(({ L }) => add(L));
+  await Promise.all([...srcs].map(loadSource));
+}
+
+export function ensureLook(data, look, { stage = false } = {}) {
+  const srcs = new Set();
+  const add = (L) => {
+    srcs.add(L.src);
+    if (L.mask && (typeof L.mask === 'string' || L.mask.src)) srcs.add(typeof L.mask === 'string' ? L.mask : L.mask.src);
+  };
+  if (basePlate) srcs.add(basePlate.src);
+  layersFor(data, look, { stage }).forEach(({ L }) => add(L));
+  return Promise.all([...srcs].map(loadSource));
 }
 
 class Lru {
@@ -54,12 +136,10 @@ class Lru {
   }
 }
 
-const rawCache = new Lru(160);   // plain layers at a scale (small: placeholder vectors)
-const tintCache = new Lru(32);   // gradient-mapped layers: the PLAN's ~32-bitmap cap
-const thumbTint = new Lru(48);   // tile-sized repaints, kept apart so tiles never evict the doll
+const rawCache = new Lru(stats.rawCap);
+const tintCache = new Lru(stats.tintCap);
+const thumbTint = new Lru(stats.thumbTintCap); // tiles never evict the dressed doll
 const lutCache = new Map();
-
-export const stats = { tintMisses: 0 };
 
 function makeCanvas(w, h) {
   const c = document.createElement('canvas');
@@ -74,9 +154,10 @@ function raw(src, box, s) {
   const key = `${src}@${q(s)}`;
   let c = rawCache.get(key);
   if (c) return c;
-  const img = images.get(src);
+  const img = getImage(src);
+  if (!img) { requestSource(src); return makeCanvas(box.w * s, box.h * s); }
   c = makeCanvas(box.w * s, box.h * s);
-  if (img) c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+  c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
   rawCache.set(key, c);
   return c;
 }
@@ -96,12 +177,13 @@ function lut(hex) {
 // of 72, and one-pixel resampling edges are removed by the neighbour rule.
 const T_CHANGED = 72;
 const T_PATCH = 36;
-const patchCache = new Lru(12);
+const patchCache = new Lru(stats.patchCap);
 
 function regionCanvas(src, box, region, s) {
   const c = makeCanvas(region.w * s, region.h * s);
-  const img = images.get(src);
-  if (img) c.getContext('2d').drawImage(img, (box.x - region.x) * s, (box.y - region.y) * s, box.w * s, box.h * s);
+  const img = getImage(src);
+  if (!img) { requestSource(src); return c; }
+  c.getContext('2d').drawImage(img, (box.x - region.x) * s, (box.y - region.y) * s, box.w * s, box.h * s);
   return c;
 }
 const pixels = (c) => c.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, c.width, c.height);
@@ -158,6 +240,11 @@ function changedLayer(L, s) {
   const key = `chg:${L.src}@${q(s)}|${L.region ? JSON.stringify(L.region) : ''}`;
   let c = rawCache.get(key);
   if (c) return c;
+  if (!getImage(L.src) || (basePlate && !getImage(basePlate.src))) {
+    requestSource(L.src);
+    if (basePlate) requestSource(basePlate.src);
+    return makeCanvas(L.w * s, L.h * s);
+  }
   c = regionCanvas(L.src, L, L, s);
   if (basePlate) {
     const b = pixels(regionCanvas(basePlate.src, basePlate, L, s)).data;
@@ -186,6 +273,12 @@ function patchLayer(L, outfit, s) {
   const key = `patch:${L.src}|${outfit ? outfit.src : '-'}@${q(s)}|${L.region ? JSON.stringify(L.region) : ''}`;
   let r = patchCache.get(key);
   if (r) return r;
+  const needed = [L.src, basePlate && basePlate.src, outfit && outfit.src].filter(Boolean);
+  if (needed.some((src) => !getImage(src))) {
+    needed.forEach(requestSource);
+    const blank = makeCanvas(L.w * s, L.h * s);
+    return { erase: blank, paint: makeCanvas(L.w * s, L.h * s), width: blank.width, height: blank.height };
+  }
   const M = pixels(regionCanvas(L.src, L, L, s));
   const B = basePlate ? pixels(regionCanvas(basePlate.src, basePlate, L, s)).data : new Uint8ClampedArray(M.data.length);
   const O = outfit ? pixels(regionCanvas(outfit.src, outfit, L, s)).data : B;
@@ -310,6 +403,11 @@ function tinted(L, s, hex, pattern, cache) {
   const key = `${L.src}@${q(s)}|${hex}|${pattern || 'none'}`;
   let c = cache.get(key);
   if (c) return c;
+  const needed = [L.src, maskSrc].filter(Boolean);
+  if (needed.some((src) => !getImage(src))) {
+    needed.forEach(requestSource);
+    return makeCanvas(L.w * s, L.h * s);
+  }
   stats.tintMisses++;
   const src = raw(L.src, L, s);
   c = makeCanvas(src.width, src.height);
@@ -323,7 +421,7 @@ function tinted(L, s, hex, pattern, cache) {
     const mb = typeof L.mask === 'string' ? L : L.mask;
     const m = makeCanvas(c.width, c.height);
     const mctx = m.getContext('2d', { willReadFrequently: true });
-    const mimg = images.get(maskSrc);
+    const mimg = getImage(maskSrc);
     if (mimg) mctx.drawImage(mimg, (mb.x - L.x) * s, (mb.y - L.y) * s, mb.w * s, mb.h * s);
     mask = mctx.getImageData(0, 0, c.width, c.height).data;
   }
