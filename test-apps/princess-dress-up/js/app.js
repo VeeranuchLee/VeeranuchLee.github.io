@@ -11,9 +11,12 @@ import { hexToRgb, mix, rgbToHex } from './colour.js';
 const $ = (id) => document.getElementById(id);
 const params = new URLSearchParams(location.search);
 const LAYOUT = params.get('layout') === 'b' ? 'b' : 'a';
-// Which art: the Codex pilot on plate A (default), plate B (?plate=b), or the grey-box
-// placeholder set (?art=placeholder). Each keeps its own saved looks and album.
-const DATASET = params.get('plate') === 'b' ? 'plate-b' : params.get('art') === 'placeholder' ? 'placeholder' : 'items';
+// Which art: the reviewed Plate A wardrobe (default), the runway pilot (?plate=runway),
+// plate B (?plate=b), or the grey-box placeholder set (?art=placeholder). Each keeps its
+// own saved looks and album; runway stays opt-in until the owner approves the new rig.
+const DATASET = params.get('plate') === 'runway' ? 'runway'
+  : params.get('plate') === 'b' ? 'plate-b'
+    : params.get('art') === 'placeholder' ? 'placeholder' : 'items';
 document.body.classList.remove('layout-a', 'layout-b');
 document.body.classList.add(`layout-${LAYOUT}`);
 

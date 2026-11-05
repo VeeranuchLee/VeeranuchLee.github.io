@@ -285,6 +285,41 @@ function changedLayer(L, s) {
   return c;
 }
 
+// Long hair is split out of a registered doll look so capes and wings stay independent.
+// Only pixels below the chin, inside the declared hair region and outside the bun-base
+// silhouette survive. This back layer draws above wingsBack but below the outfit plate;
+// the same source's patch layer supplies the head, bangs and front locks later.
+function backHairLayer(L, s) {
+  const key = `backhair:${L.src}@${q(s)}|${JSON.stringify(L.region || {})}|${L.chinY ?? 430}`;
+  let c = rawCache.get(key);
+  if (c) return c;
+  if (!getImage(L.src) || (basePlate && !getImage(basePlate.src))) {
+    requestSource(L.src);
+    if (basePlate) requestSource(basePlate.src);
+    return makeCanvas(L.w * s, L.h * s);
+  }
+  c = regionCanvas(L.src, L, L, s);
+  if (basePlate) {
+    const b = pixels(regionCanvas(basePlate.src, basePlate, L, s)).data;
+    const img = pixels(c), d = img.data;
+    const keep = new Uint8Array(c.width * c.height);
+    const R = L.region || L;
+    const rx0 = (R.x - L.x) * s, ry0 = (R.y - L.y) * s;
+    const rx1 = rx0 + R.w * s, ry1 = ry0 + R.h * s;
+    const chin = ((L.chinY ?? 430) - L.y) * s;
+    for (let i = 0, p = 0; i < d.length; i += 4, p++) {
+      const x = p % c.width, y = (p / c.width) | 0;
+      keep[p] = y >= chin && x >= rx0 && x < rx1 && y >= ry0 && y < ry1
+        && d[i + 3] > 32 && b[i + 3] < 32 && dist(d, b, i) > T_PATCH ? 1 : 0;
+    }
+    const k = despeckle(keep, c.width, c.height, 2);
+    for (let i = 0, p = 0; i < d.length; i += 4, p++) if (!k[p]) d[i + 3] = 0;
+    c.getContext('2d').putImageData(img, 0, 0);
+  }
+  rawCache.set(key, c);
+  return c;
+}
+
 // A doll's own head and hair (layer L, a whole figure in the slip) over an outfit that
 // was drawn on the base doll: wherever the outfit left the base's pixels untouched and
 // the doll differs from the base, the doll's pixel wins (or the base's hair is erased).
@@ -315,11 +350,20 @@ function patchLayer(L, outfit, s) {
   const free = new Uint8Array(w * h);               // the outfit left the base untouched here
   const R = L.region || L;
   const rx0 = (R.x - L.x) * s, ry0 = (R.y - L.y) * s, rx1 = rx0 + R.w * s, ry1 = ry0 + R.h * s;
+  const inFrontHair = (x, y) => (L.frontHair || []).some((r) => {
+    const x0 = (r.x - L.x) * s, y0 = (r.y - L.y) * s;
+    return x >= x0 && x < x0 + r.w * s && y >= y0 && y < y0 + r.h * s;
+  });
+  const hairLike = (i) => {
+    const lum = (0.2126 * m[i] + 0.7152 * m[i + 1] + 0.0722 * m[i + 2]) / 255;
+    return lum < 0.58 || (m[i + 2] > m[i + 1] + 8 && m[i] > 100);
+  };
   for (let i = 0, p = 0; i < m.length; i += 4, p++) {
     const x = p % w, y = (p / w) | 0;
     if (x < rx0 || x >= rx1 || y < ry0 || y >= ry1) continue;
-    if (dist(O, B, i) > T_CHANGED && near(O, B, p, w, h) > T_CHANGED) continue; // the outfit covers this pixel
-    if (!own(i, p)) continue;
+    const forcedFrontHair = inFrontHair(x, y) && hairLike(i) && dist(m, B, i) > T_PATCH;
+    if (!forcedFrontHair && dist(O, B, i) > T_CHANGED && near(O, B, p, w, h) > T_CHANGED) continue; // the outfit covers this pixel
+    if (!forcedFrontHair && !own(i, p)) continue;
     free[p] = 1;
     if (dist(m, B, i) > T_PATCH && near(m, B, p, w, h) > T_PATCH) take[p] = 1; // her hair and face
   }
@@ -501,7 +545,8 @@ export function drawLook(ctx, data, look, ox, oy, s, { stage = false, thumb = fa
   const cache = thumb ? thumbTint : tintCache;
   const list = layersFor(data, look, { stage });
   const bmpOf = (L, colour, pattern) => (colour && L.tint ? tinted(L, s, colour, pattern, cache)
-    : L.derive === 'changed' ? changedLayer(L, s) : raw(L.src, L, s));
+    : L.derive === 'changed' ? changedLayer(L, s)
+      : L.derive === 'backHair' ? backHairLayer(L, s) : raw(L.src, L, s));
   if (!list.some((e) => e.L.derive === 'patch')) {
     for (const { L, colour, pattern } of list) ctx.drawImage(bmpOf(L, colour, pattern), Math.round(ox + L.x * s), Math.round(oy + L.y * s));
     return;
