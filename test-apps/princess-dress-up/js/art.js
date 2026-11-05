@@ -7,10 +7,14 @@
 // and every decoded/canvas bitmap cache is bounded for the 9.7-inch iPad.
 import { buildLut, patternInk, hexToRgb } from './colour.js';
 
-const IMAGE_CAP = 8;
+const IMAGE_CAP = 14; // ~4.7 MB each decoded: the dressed doll (pinned) plus one tile's sources
 const images = new Map();       // LRU: src -> decoded HTMLImageElement
 const pendingImages = new Map();
 const readyListeners = new Set();
+// Sources of the look on the big doll: never evicted while she wears them. Evicting them
+// to paint a tile made the doll reload, which repainted the tiles, which evicted again:
+// the room flashed without end (owner 2026-11-05).
+let pinned = new Set();
 
 export const stats = {
   tintMisses: 0,
@@ -39,12 +43,9 @@ function rememberImage(src, img) {
   images.set(src, img);
   stats.decodedBytes += img.naturalWidth * img.naturalHeight * 4;
   while (images.size > IMAGE_CAP) {
-    let victim = images.keys().next().value;
-    if (basePlate && victim === basePlate.src) {
-      const pinned = images.get(victim);
-      images.delete(victim); images.set(victim, pinned);
-      victim = images.keys().next().value;
-    }
+    let victim = null;
+    for (const k of images.keys()) if (k !== src && !pinned.has(k) && !(basePlate && k === basePlate.src)) { victim = k; break; }
+    if (victim === null) break; // everything left is in use; go over the cap rather than flash
     const old = images.get(victim);
     images.delete(victim);
     stats.decodedBytes -= old.naturalWidth * old.naturalHeight * 4;
@@ -105,6 +106,25 @@ export async function preload(data, firstLook = null) {
   if (basePlate) srcs.add(basePlate.src);
   if (firstLook) layersFor(data, firstLook).forEach(({ L }) => add(L));
   await Promise.all([...srcs].map(loadSource));
+}
+
+function sourcesOf(data, look, stage) {
+  const srcs = new Set();
+  if (basePlate) srcs.add(basePlate.src);
+  layersFor(data, look, { stage }).forEach(({ L }) => {
+    srcs.add(L.src);
+    if (L.mask && (typeof L.mask === 'string' || L.mask.src)) srcs.add(typeof L.mask === 'string' ? L.mask : L.mask.src);
+  });
+  return srcs;
+}
+
+// Keep the big doll's pictures decoded while she wears them.
+export function pinLook(data, look) { pinned = sourcesOf(data, look, true); }
+
+// Every picture this look needs is decoded now, so drawing it paints no empty layer.
+export function lookReady(data, look, { stage = false } = {}) {
+  for (const src of sourcesOf(data, look, stage)) if (!images.has(src)) return false;
+  return true;
 }
 
 export function ensureLook(data, look, { stage = false } = {}) {

@@ -1,6 +1,6 @@
 // Princess Dress Up Room — the dressing room, Show time, the album and the fashion show.
 // PLAN.md 3 is the design; this file wires it to the page.
-import { preload, ensureLook, onImageReady, drawLook, drawStage, fitDoll, drawThumb, drawPattern } from './art.js';
+import { preload, ensureLook, onImageReady, pinLook, lookReady, drawLook, drawStage, fitDoll, drawThumb, drawPattern } from './art.js';
 import { defaultLook, sanitize, applyItem, isWorn, setShade, setPattern, currentShade, surprise, sameLook } from './look.js';
 import { play, setEnabled, isEnabled, context as audioContext, rebuild as rebuildAudio } from './sound.js';
 import { icons } from './icons.js';
@@ -72,13 +72,23 @@ function sizeCanvas(c) {
   return { w, h };
 }
 
-function renderDoll() {
+let dollWait = null;
+function renderDoll(waited = false) {
+  // Never draw her with a picture still loading: that painted her without hair or dress
+  // for a moment on every tap (owner 2026-11-05, "the hair keep flashing"). Keep the
+  // previous picture up until the new look is decoded.
+  const want = look();
+  pinLook(data, want);
+  if (!waited && !lookReady(data, want, { stage: true })) {
+    const w = dollWait = ensureLook(data, want, { stage: true }).catch(() => {}).then(() => { if (dollWait === w) { dollWait = null; renderDoll(true); } });
+    return;
+  }
   const sc = $('stage-canvas'), dc = $('doll-canvas'), fc = $('fx-canvas');
   const { w, h } = sizeCanvas(sc);
   sizeCanvas(dc); sizeCanvas(fc);
   const fit = fitDoll(data, w, h, Math.min(w, h) * 0.03);
   lastFit = fit;
-  const L = look();
+  const L = want;
   const sctx = sc.getContext('2d');
   sctx.clearRect(0, 0, w, h);
   drawStage(sctx, data, L.stage, w, h, fit.oy + data.rig.feetY * fit.s, fit.s);
@@ -222,7 +232,6 @@ function refreshTabs() {
 
 // ---------- item grid ----------
 const tabDef = () => data.tabs.find((t) => t.id === tab);
-let thumbJob = 0;
 let tileObserver = null;
 
 const styleDefs = [
@@ -261,16 +270,48 @@ function styleMatches(it) {
   return it.style === dressStyle;
 }
 
+// A tile is painted once per look and size; its canvas keeps the picture, so its sources
+// may be evicted afterwards. Tiles load one at a time so they never evict each other.
+const tileQueue = [];
+let tileBusy = false;
+
+function tileSig(b, it) {
+  return `${JSON.stringify(tileLook(it))}|${Math.round(b.getBoundingClientRect().width)}`;
+}
+
 function drawTile(b) {
   if (!b.isConnected) return;
   const it = data.items.find((x) => x.id === b.dataset.item);
-  const c = b.firstChild;
   const r = b.getBoundingClientRect();
   if (!r.width || !r.height) return;
-  c.width = Math.round(r.width * DPR()); c.height = Math.round(r.height * DPR());
-  const ctx = c.getContext('2d');
-  ctx.clearRect(0, 0, c.width, c.height);
-  drawThumb(ctx, data, tileLook(it), it.thumb, c.width, c.height, { stage: it.slot === 'stage' });
+  if (b.dataset.sig === tileSig(b, it)) return;
+  if (!tileQueue.includes(b)) tileQueue.push(b);
+  pumpTiles();
+}
+
+async function pumpTiles() {
+  if (tileBusy) return;
+  tileBusy = true;
+  try {
+    while (tileQueue.length) {
+      const b = tileQueue.shift();
+      if (!b.isConnected) continue;
+      const it = data.items.find((x) => x.id === b.dataset.item);
+      const stage = it.slot === 'stage';
+      const tl = tileLook(it);
+      if (!lookReady(data, tl, { stage })) await ensureLook(data, tl, { stage }).catch(() => {});
+      if (!b.isConnected || !lookReady(data, tileLook(it), { stage })) continue;
+      const r = b.getBoundingClientRect();
+      if (!r.width || !r.height) continue;
+      const c = b.firstChild;
+      c.width = Math.round(r.width * DPR()); c.height = Math.round(r.height * DPR());
+      const ctx = c.getContext('2d');
+      ctx.clearRect(0, 0, c.width, c.height);
+      drawThumb(ctx, data, tileLook(it), it.thumb, c.width, c.height, { stage });
+      b.dataset.sig = tileSig(b, it);
+      await new Promise((res) => setTimeout(res, 16)); // one per frame or so, doll first
+    }
+  } finally { tileBusy = false; }
 }
 
 function buildGrid() {
@@ -322,17 +363,8 @@ function refreshTiles(redraw) {
     const r = b.getBoundingClientRect();
     return r.bottom >= gr.top - 140 && r.top <= gr.bottom + 140 && r.right >= gr.left - 140 && r.left <= gr.right + 140;
   });
-  const job = ++thumbJob;
-  let i = 0;
-  const step = () => {
-    if (job !== thumbJob) return;
-    const end = Math.min(visible.length, i + 3);
-    for (; i < end; i++) {
-      drawTile(visible[i]);
-    }
-    if (i < visible.length) requestAnimationFrame(step);
-  };
-  requestAnimationFrame(step);
+  // drawTile only queues; the queue paints them one at a time
+  for (const b of visible) drawTile(b);
 }
 
 function wearItem(it, el) {
@@ -744,7 +776,8 @@ onImageReady(() => {
   if (!state || artRefresh) return;
   artRefresh = requestAnimationFrame(() => {
     artRefresh = 0;
-    if (screen === 'room') { renderDoll(); refreshTiles(true); }
+    // tiles queue and load their own pictures; repainting them here is what looped
+    if (screen === 'room') renderDoll();
     else if (screen === 'album') openAlbum();
     else if (screen === 'card' && cardEntry) openCard(cardEntry);
   });
