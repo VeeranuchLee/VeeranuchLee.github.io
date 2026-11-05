@@ -1,0 +1,184 @@
+{
+  "imageSize": { "width": 2048, "height": 1536 },
+  "topics": [
+    {
+      "id": "plant-cell",
+      "title": "Plant Cell",
+      "image": "art/plant-cell.webp",
+      "parts": [
+        {
+          "id": "cell-wall",
+          "name": "Cell wall",
+          "fact": "The cell wall is a strong outer layer. It supports and protects the plant cell.",
+          "priority": 20,
+          "polygon": [[250,450],[230,350],[300,240],[470,170],[820,150],[820,260],[500,270],[380,330],[345,450]],
+          "highlight": [[255,440],[250,350],[315,265],[480,195],[810,180],[810,245],[490,250],[360,320],[325,440]],
+          "anchor": [430,230],
+          "label": [285,95],
+          "audio": { "name": "audio/plant-cell-cell-wall-name.m4a", "fact": "audio/plant-cell-cell-wall-fact.m4a" }
+        },
+        {
+          "id": "cell-membrane",
+          "name": "Cell membrane",
+          "fact": "The cell membrane is a thin boundary just inside the wall. It controls what enters and leaves the cell.",
+          "priority": 30,
+          "polygon": [[420,275],[930,255],[930,335],[475,345],[395,395],[360,500],[315,490],[345,365]],
+          "highlight": [[430,285],[915,275],[915,312],[470,325],[380,385],[345,480],[330,475],[360,375]],
+          "anchor": [610,305],
+          "label": [690,95],
+          "audio": { "name": "audio/plant-cell-cell-membrane-name.m4a", "fact": "audio/plant-cell-cell-membrane-fact.m4a" }
+        },
+        {
+          "id": "nucleus",
+          "name": "Nucleus",
+          "fact": "The nucleus holds the cell’s DNA. DNA carries instructions that help the cell work and grow.",
+          "priority": 90,
+          "polygon": [[300,330],[520,300],[650,430],[650,590],[550,690],[350,690],[230,560],[235,430]],
+          "highlight": [[320,345],[510,320],[625,435],[625,580],[535,665],[360,665],[255,550],[255,440]],
+          "anchor": [430,490],
+          "label": [155,545],
+          "audio": { "name": "audio/plant-cell-nucleus-name.m4a", "fact": "audio/plant-cell-nucleus-fact.m4a" }
+        },
+        {
+          "id": "chloroplast",
+          "name": "Chloroplast",
+          "fact": "Chloroplasts use light energy to make sugar for the plant. Their green chlorophyll catches the light.",
+          "priority": 80,
+          "polygon": [[560,245],[860,235],[970,330],[940,455],[820,510],[600,480],[500,390],[500,305]],
+          "highlight": [[590,265],[850,255],[940,330],[915,430],[810,480],[620,460],[530,385],[525,315]],
+          "anchor": [740,350],
+          "label": [810,120],
+          "audio": { "name": "audio/plant-cell-chloroplast-name.m4a", "fact": "audio/plant-cell-chloroplast-fact.m4a" }
+        },
+        {
+          "id": "central-vacuole",
+          "name": "Central vacuole",
+          "fact": "The large central vacuole stores water and dissolved materials. When it is full, it helps keep the cell firm.",
+          "priority": 50,
+          "polygon": [[570,510],[900,420],[1370,450],[1580,670],[1500,1060],[1160,1200],[700,1150],[460,900]],
+          "highlight": [[600,530],[910,445],[1350,475],[1545,680],[1470,1030],[1145,1170],[720,1125],[490,895]],
+          "anchor": [1080,780],
+          "label": [1260,820],
+          "audio": { "name": "audio/plant-cell-central-vacuole-name.m4a", "fact": "audio/plant-cell-central-vacuole-fact.m4a" }
+        },
+        {
+          "id": "mitochondrion",
+          "name": "Mitochondrion",
+          "fact": "Mitochondria release usable energy from food molecules. A cell uses that energy to do its work.",
+          "priority": 85,
+          "polygon": [[1000,245],[1190,230],[1270,315],[1240,405],[1120,455],[970,405],[940,315]],
+          "highlight": [[1020,265],[1180,250],[1245,315],[1220,385],[1115,430],[990,390],[965,315]],
+          "anchor": [1110,330],
+          "label": [1220,120],
+          "audio": { "name": "audio/plant-cell-mitochondrion-name.m4a", "fact": "audio/plant-cell-mitochondrion-fact.m4a" }
+        },
+        {
+          "id": "cytoplasm",
+          "name": "Cytoplasm",
+          "fact": "Cytoplasm is the jelly-like material inside the membrane. Many cell reactions happen there.",
+          "priority": 10,
+          "polygon": [[700,1150],[820,1110],[1240,1125],[1370,1230],[1260,1330],[800,1330],[650,1240]],
+          "highlight": [[720,1170],[830,1140],[1220,1145],[1330,1230],[1240,1300],[815,1300],[685,1235]],
+          "anchor": [1010,1240],
+          "label": [1010,1435],
+          "audio": { "name": "audio/plant-cell-cytoplasm-name.m4a", "fact": "audio/plant-cell-cytoplasm-fact.m4a" }
+        }
+      ]
+    },
+    {
+      "id": "flower",
+      "title": "Parts of a Flower",
+      "image": "art/flower.webp",
+      "parts": [
+        {
+          "id": "petal",
+          "name": "Petal",
+          "fact": "Petals can help attract pollinators with colour, scent or shape.",
+          "priority": 20,
+          "polygon": [[20,520],[280,300],[610,315],[820,650],[730,1030],[430,1120],[170,900]],
+          "highlight": [[35,520],[290,325],[590,340],[785,650],[705,1000],[440,1090],[190,885]],
+          "anchor": [390,630],
+          "label": [150,390],
+          "audio": { "name": "audio/flower-petal-name.m4a", "fact": "audio/flower-petal-fact.m4a" }
+        },
+        {
+          "id": "sepal",
+          "name": "Sepal",
+          "fact": "Sepals protect the flower while it is a bud. They often look like small green leaves.",
+          "priority": 30,
+          "polygon": [[35,940],[360,850],[720,1110],[670,1425],[350,1425],[90,1210]],
+          "highlight": [[60,970],[355,885],[690,1125],[645,1390],[365,1395],[115,1200]],
+          "anchor": [390,1170],
+          "label": [170,1325],
+          "audio": { "name": "audio/flower-sepal-name.m4a", "fact": "audio/flower-sepal-fact.m4a" }
+        },
+        {
+          "id": "anther",
+          "name": "Anther",
+          "fact": "The anther makes pollen. It sits at the top of a filament.",
+          "priority": 80,
+          "polygon": [[520,285],[710,245],[805,355],[770,510],[610,545],[500,430]],
+          "highlight": [[545,300],[700,270],[780,360],[748,480],[615,515],[525,425]],
+          "anchor": [650,390],
+          "label": [555,150],
+          "audio": { "name": "audio/flower-anther-name.m4a", "fact": "audio/flower-anther-fact.m4a" }
+        },
+        {
+          "id": "filament",
+          "name": "Filament",
+          "fact": "The filament is a thin stalk. It holds the anther where pollen can be carried away.",
+          "priority": 70,
+          "polygon": [[590,470],[710,455],[790,1010],[665,1100],[555,1010]],
+          "highlight": [[630,475],[682,470],[745,995],[680,1040],[615,995]],
+          "anchor": [675,770],
+          "label": [450,820],
+          "audio": { "name": "audio/flower-filament-name.m4a", "fact": "audio/flower-filament-fact.m4a" }
+        },
+        {
+          "id": "stigma",
+          "name": "Stigma",
+          "fact": "The stigma receives pollen. Its surface is often sticky so pollen can stay there.",
+          "priority": 100,
+          "polygon": [[835,75],[1190,75],[1230,220],[1130,345],[900,330],[805,210]],
+          "highlight": [[865,100],[1160,100],[1195,215],[1110,315],[920,305],[840,210]],
+          "anchor": [1020,205],
+          "label": [1020,55],
+          "audio": { "name": "audio/flower-stigma-name.m4a", "fact": "audio/flower-stigma-fact.m4a" }
+        },
+        {
+          "id": "style",
+          "name": "Style",
+          "fact": "The style connects the stigma to the ovary. A pollen tube can grow down through it.",
+          "priority": 90,
+          "polygon": [[935,280],[1105,280],[1120,875],[970,920],[920,790]],
+          "highlight": [[975,285],[1065,285],[1080,850],[995,875],[965,780]],
+          "anchor": [1020,565],
+          "label": [1280,520],
+          "audio": { "name": "audio/flower-style-name.m4a", "fact": "audio/flower-style-fact.m4a" }
+        },
+        {
+          "id": "ovary",
+          "name": "Ovary",
+          "fact": "The ovary holds ovules. After fertilisation, the ovary can grow into a fruit.",
+          "priority": 40,
+          "polygon": [[760,700],[1280,700],[1360,1130],[1220,1380],[820,1380],[690,1130]],
+          "highlight": [[790,730],[1250,730],[1325,1120],[1200,1345],[840,1345],[725,1120]],
+          "anchor": [1020,1130],
+          "label": [1430,1180],
+          "audio": { "name": "audio/flower-ovary-name.m4a", "fact": "audio/flower-ovary-fact.m4a" }
+        },
+        {
+          "id": "ovule",
+          "name": "Ovule",
+          "fact": "An ovule contains an egg cell. After fertilisation, an ovule can develop into a seed.",
+          "priority": 110,
+          "polygon": [[785,785],[960,765],[1020,865],[970,985],[790,990],[735,875]],
+          "highlight": [[820,805],[940,790],[985,865],[945,955],[810,960],[765,875]],
+          "anchor": [875,875],
+          "label": [620,1190],
+          "audio": { "name": "audio/flower-ovule-name.m4a", "fact": "audio/flower-ovule-fact.m4a" }
+        }
+      ]
+    }
+  ]
+}

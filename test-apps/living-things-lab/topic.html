@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#fff8e9">
+  <title>Living Things Lab</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./css/app.css">
+  <link rel="stylesheet" href="./cg-back.css">
+  <script src="./cg-update.js" defer></script>
+</head>
+<body class="topic-page">
+  <a class="cg-back" href="./" aria-label="Back to the Living Things Lab room"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  <main class="topic-app">
+    <header class="topic-topbar">
+      <span class="cg-back-slot" aria-hidden="true"></span>
+      <h1 id="topicTitle">Living Things Lab</h1>
+      <button id="showNames" class="names-toggle" type="button" role="switch" aria-checked="false">
+        <span class="switch-track" aria-hidden="true"><span></span></span>
+        <span>Show all names</span>
+      </button>
+    </header>
+    <section class="topic-stage-wrap" aria-label="Tap a part of the picture">
+      <div class="topic-stage" id="topicStage">
+        <img id="topicImage" width="2048" height="1536" alt="">
+        <svg id="topicVisuals" class="topic-visuals" viewBox="0 0 2048 1536" aria-hidden="true">
+          <g id="leaderLines"></g>
+          <g id="selectionShape"></g>
+          <g id="debugShapes"></g>
+        </svg>
+        <div id="partHotspots" class="part-hotspots"></div>
+        <div id="allLabels" class="all-labels"></div>
+      </div>
+    </section>
+    <section id="factPanel" class="fact-panel" aria-live="polite">
+      <div class="name-area">
+        <p class="name-kicker">You found</p>
+        <h2 id="partName">Tap a part</h2>
+      </div>
+      <button id="replay" class="replay-button" type="button" disabled aria-label="Replay the selected name and fact">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a9 9 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      </button>
+      <p id="partFact" class="part-fact">Look closely, then tap any visible part to learn its name and one fact.</p>
+      <p id="voiceNote" class="voice-note">Every voice here is AI-generated. None is a recording of a real person.</p>
+    </section>
+  </main>
+  <script src="./safe-storage.js"></script>
+  <script src="./tap-zoom-guard.js"></script>
+  <script src="./js/audio.js"></script>
+  <script src="./js/topic.js"></script>
+  <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('./service-worker.js').catch(function () {});</script>
+</body>
+</html>
