@@ -1,23 +1,23 @@
 "use strict";
 
 const PAGES = [
-  { id: "solar-system", file: "solar-system.png", voice: "the happy planets", card: "#fff3a8", background: "space-soft.jpg" },
-  { id: "space-kid", file: "space-kid.png", voice: "the little astronaut", card: "#c4efff", background: "saturn.jpg" },
-  { id: "moon-flag", file: "moon-flag.png", voice: "the moon explorer", card: "#d5ccff", background: "moon.jpg" },
-  { id: "mars-rover", file: "mars-rover.png", voice: "the friendly space robot", card: "#ffd0ae", background: "moon.jpg" },
-  { id: "star-astronaut", file: "star-astronaut.png", voice: "the star astronaut", card: "#cfe9ff", background: "saturn.jpg" },
-  { id: "space-ufo", file: "space-ufo.png", voice: "the friendly spaceship", card: "#d9f7d2", background: "space-soft.jpg" },
-  { id: "space-cat", file: "space-cat.png", voice: "the space cat", card: "#ffe0d0", background: "moon.jpg" },
-  { id: "pink-princess", file: "pink-princess.png", voice: "the heart princess", card: "#ffd5eb", background: "rainbow-castle.jpg" },
-  { id: "magic-princess", file: "magic-princess.png", voice: "the magic princess", card: "#eee0ff", background: "rainbow-castle.jpg" },
-  { id: "mermaid-princess", file: "mermaid-princess.png", voice: "the ocean princess", card: "#c7f4ef", background: "rainbow-castle.jpg" },
-  { id: "mermaid-dolphin", file: "mermaid-dolphin.png", voice: "the mermaid and the dolphin", card: "#c9f0f7", background: "rainbow-castle.jpg" },
-  { id: "mermaid-flower", file: "mermaid-flower.png", voice: "the mermaid with a flower", card: "#ffe2f0", background: "rainbow-castle.jpg" },
-  { id: "bird-princess", file: "bird-princess.png", voice: "the bird princess", card: "#ffe6ca", background: "forest-friends.jpg" },
-  { id: "hibiscus", file: "hibiscus.png", voice: "the hibiscus flowers", card: "#ffd1d0", background: "spring-meadow.jpg" },
-  { id: "ginger-lily", file: "ginger-lily.png", voice: "the white flowers", card: "#ecf7c8", background: "spring-meadow.jpg" },
-  { id: "blue-pea", file: "blue-pea.png", voice: "the blue pea flowers", card: "#d4ddff", background: "spring-meadow.jpg" },
-  { id: "ylang-ylang", file: "ylang-ylang.png", voice: "the yellow flowers", card: "#fff4b9", background: "spring-meadow.jpg" }
+  { id: "solar-system", file: "solar-system.webp", voice: "the happy planets", card: "#fff3a8", background: "space-soft.jpg" },
+  { id: "space-kid", file: "space-kid.webp", voice: "the little astronaut", card: "#c4efff", background: "saturn.jpg" },
+  { id: "moon-flag", file: "moon-flag.webp", voice: "the moon explorer", card: "#d5ccff", background: "moon.jpg" },
+  { id: "mars-rover", file: "mars-rover.webp", voice: "the friendly space robot", card: "#ffd0ae", background: "moon.jpg" },
+  { id: "star-astronaut", file: "star-astronaut.webp", voice: "the star astronaut", card: "#cfe9ff", background: "saturn.jpg" },
+  { id: "space-ufo", file: "space-ufo.webp", voice: "the friendly spaceship", card: "#d9f7d2", background: "space-soft.jpg" },
+  { id: "space-cat", file: "space-cat.webp", voice: "the space cat", card: "#ffe0d0", background: "moon.jpg" },
+  { id: "pink-princess", file: "pink-princess.webp", voice: "the heart princess", card: "#ffd5eb", background: "rainbow-castle.jpg" },
+  { id: "magic-princess", file: "magic-princess.webp", voice: "the magic princess", card: "#eee0ff", background: "rainbow-castle.jpg" },
+  { id: "mermaid-princess", file: "mermaid-princess.webp", voice: "the ocean princess", card: "#c7f4ef", background: "rainbow-castle.jpg" },
+  { id: "mermaid-dolphin", file: "mermaid-dolphin.webp", voice: "the mermaid and the dolphin", card: "#c9f0f7", background: "rainbow-castle.jpg" },
+  { id: "mermaid-flower", file: "mermaid-flower.webp", voice: "the mermaid with a flower", card: "#ffe2f0", background: "rainbow-castle.jpg" },
+  { id: "bird-princess", file: "bird-princess.webp", voice: "the bird princess", card: "#ffe6ca", background: "forest-friends.jpg" },
+  { id: "hibiscus", file: "hibiscus.webp", voice: "the hibiscus flowers", card: "#ffd1d0", background: "spring-meadow.jpg" },
+  { id: "ginger-lily", file: "ginger-lily.webp", voice: "the white flowers", card: "#ecf7c8", background: "spring-meadow.jpg" },
+  { id: "blue-pea", file: "blue-pea.webp", voice: "the blue pea flowers", card: "#d4ddff", background: "spring-meadow.jpg" },
+  { id: "ylang-ylang", file: "ylang-ylang.webp", voice: "the yellow flowers", card: "#fff4b9", background: "spring-meadow.jpg" }
 ];
 
 // The Coloring palette: 48 colours, 12 hue families across × 4 shades down

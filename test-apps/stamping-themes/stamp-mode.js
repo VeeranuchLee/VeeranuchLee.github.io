@@ -1,35 +1,8 @@
 "use strict";
 
-// Hit testing follows the same transform as drawStamp: mirror in the stamp's
-// local frame, then rotate around its centre. Inverting that transform lets a
-// visible rectangle keep its corners and full aspect ratio as tap targets.
-function pointInStampBounds(point, item, box) {
-  if (!box) return false;
-  const radians = -(item.rot || 0) * Math.PI / 180;
-  const dx = point.x - item.x;
-  const dy = point.y - item.y;
-  let localX = dx * Math.cos(radians) - dy * Math.sin(radians);
-  const localY = dx * Math.sin(radians) + dy * Math.cos(radians);
-  if (item.flip) localX = -localX;
-  const epsilon = 1e-9;
-  return Math.abs(localX) <= box.width / 2 + epsilon
-    && Math.abs(localY) <= box.height / 2 + epsilon;
-}
-
-function stampIndexAtPoint(point, items, boxForItem) {
-  for (let index = items.length - 1; index >= 0; index -= 1) {
-    if (pointInStampBounds(point, items[index], boxForItem(items[index]))) return index;
-  }
-  return -1;
-}
-
-if (typeof module !== "undefined" && module.exports) {
-  module.exports = { pointInStampBounds, stampIndexAtPoint };
-}
-
 // Stamping is free play: no scores or wrong answers. Every visible change is
 // an undoable action, including moving a stamp and clearing the page.
-if (typeof document !== "undefined") (() => {
+(() => {
   const galleryScreen = document.querySelector("#stampGalleryScreen");
   const screen = document.querySelector("#stampScreen");
   const gallery = document.querySelector("#stampGallery");
@@ -363,7 +336,13 @@ if (typeof document !== "undefined") (() => {
   }
 
   function stampAtPoint(point) {
-    return stampIndexAtPoint(point, items, stampBox);
+    for (let index = items.length - 1; index >= 0; index -= 1) {
+      const item = items[index];
+      if (Math.hypot(point.x - item.x, point.y - item.y) <= item.size / 2) {
+        return index;
+      }
+    }
+    return -1;
   }
 
   function placeStamp(point) {
@@ -453,9 +432,31 @@ if (typeof document !== "undefined") (() => {
     }
   }
 
+  /* An empty page has nothing to clear. This used to return in silence, so the very
+     first Clear on a new scene did nothing at all (2026-11-01 audit; a tap that does
+     nothing reads as broken). Now it answers the way Blank Page does -- its recorded
+     "The page is already clean." -- with a soft pop, a small no-shake of the button,
+     and one glow on the stamp tray, where a page starts. */
+  let pointTimer = null;
+  function answerEmptyClear() {
+    if (typeof window.speak === "function") window.speak("blank.already-clean");
+    window.tinyPop(420, 0.04);
+    [[clearButton, "nothing-yet"], [tray, "point-here"]].forEach(([node, cls]) => {
+      node.classList.remove(cls);
+      void node.offsetWidth;
+      node.classList.add(cls);
+    });
+    window.clearTimeout(pointTimer);
+    pointTimer = window.setTimeout(() => {
+      clearButton.classList.remove("nothing-yet");
+      tray.classList.remove("point-here");
+    }, 900);
+  }
+
   function clearPage() {
     if (!items.length) {
       disarmClear();
+      answerEmptyClear();
       return;
     }
     if (!clearArmed) {

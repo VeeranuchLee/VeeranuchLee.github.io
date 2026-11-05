@@ -271,6 +271,166 @@ const cgMagicBrushKit = (() => {
   return { brushes, stampsAlong, defaultId: "rainbow" };
 })();
 
+// ---- Brush styles and sizes (owner, 2026-11-02: "For the 'blank page' I don't
+// see how to change brush size anywhere" and "i want ability to select many size
+// of brush. Maybe add many styles of brush with this change too. Like airbrush,
+// paintbrush, pencil"). Plain 2D canvas calls with no DOM, like the Magic kit:
+// the page feeds a per-stroke `env` ({ color, size, random, carry }) in, and
+// tools/test-paint-brushes.mjs loads this same section in plain node. Marker at
+// 26 px is exactly the brush the page always had, so it stays the default.
+const cgPaintBrushKit = (() => {
+  const along = cgMagicBrushKit.stampsAlong;
+  const sizes = [
+    { px: 8, label: "Tiny" }, { px: 16, label: "Small" }, { px: 26, label: "Medium" },
+    { px: 40, label: "Big" }, { px: 60, label: "Huge" },
+  ];
+
+  function roundLine(ctx, from, to, width) {
+    ctx.lineWidth = width; ctx.lineCap = "round"; ctx.lineJoin = "round";
+    ctx.beginPath(); ctx.moveTo(from.x, from.y); ctx.lineTo(to.x, to.y); ctx.stroke();
+  }
+
+  // Grain: small marks scattered inside the brush's width, laid by distance so
+  // the texture is even at any finger speed. A tap lays one patch where it
+  // lands. Texture comes from these marks, never from a see-through base line:
+  // overlapping see-through segments darken at every joint and read as beads.
+  function scatter(ctx, from, to, env, o) {
+    const size = o.size || env.size;
+    let points;
+    if (from.x === to.x && from.y === to.y) points = [to];
+    else {
+      const walk = along(from, to, Math.max(1.5, size * o.step), env.carry || 0);
+      env.carry = walk.carry; points = walk.points;
+    }
+    ctx.fillStyle = o.fill || env.color;
+    points.forEach((p) => {
+      for (let i = 0; i < o.marks; i += 1) {
+        const angle = env.random() * Math.PI * 2;
+        const reach = size / 2 * Math.sqrt(env.random()) * o.reach;
+        ctx.globalAlpha = o.alpha * (.6 + env.random() * .4);
+        ctx.beginPath();
+        ctx.arc(p.x + Math.cos(angle) * reach, p.y + Math.sin(angle) * reach, o.dot * (.6 + env.random() * .8), 0, Math.PI * 2);
+        ctx.fill();
+      }
+    });
+  }
+
+  function marker(ctx, from, to, env) {
+    ctx.save(); ctx.strokeStyle = env.color; roundLine(ctx, from, to, env.size); ctx.restore();
+  }
+
+  // Pencil: a narrower solid line with paper-white grain flecked through it.
+  function pencil(ctx, from, to, env) {
+    ctx.save();
+    const width = Math.max(2, env.size * .45);
+    ctx.strokeStyle = env.color; roundLine(ctx, from, to, width);
+    scatter(ctx, from, to, env, { size: width, step: .35, marks: 4, reach: 1, alpha: .55, dot: Math.max(.5, width * .07), fill: "#fff" });
+    ctx.restore();
+  }
+
+  // Crayon: a full-width solid stroke with heavier waxy gaps of paper showing.
+  function crayon(ctx, from, to, env) {
+    ctx.save();
+    ctx.strokeStyle = env.color; roundLine(ctx, from, to, env.size * .85);
+    scatter(ctx, from, to, env, { size: env.size * .85, step: .14, marks: 6, reach: 1, alpha: .7, dot: Math.max(.7, env.size * .035), fill: "#fff" });
+    ctx.restore();
+  }
+
+  // Paintbrush: a solid stroke of paint with a few faint bristle streaks along
+  // it, which bend smoothly with the stroke. Each new piece of the solid body
+  // would cover the ends of the last piece's streaks and chop them into dashes,
+  // so when the page gives the stroke its own layer (env.layer, env.target) the
+  // body goes UNDER the streaks there ("destination-over") and only the changed
+  // patch is copied onto the paper. Without a layer it draws straight on.
+  function paintbrush(ctx, from, to, env) {
+    const layer = env.layer || ctx;
+    layer.save();
+    const dx = to.x - from.x, dy = to.y - from.y, length = Math.hypot(dx, dy);
+    if (length > 0) {
+      const tx = -dy / length, ty = dx / length;
+      if (env.nx === undefined) { env.nx = tx; env.ny = ty; }
+      else {
+        env.nx += (tx - env.nx) * .35; env.ny += (ty - env.ny) * .35;
+        const n = Math.hypot(env.nx, env.ny) || 1; env.nx /= n; env.ny /= n;
+      }
+    }
+    if (env.size >= 12 && length > 0 && env.nx !== undefined) {
+      if (!env.streaks) {
+        const count = Math.max(2, Math.min(6, Math.round(env.size / 7)));
+        env.streaks = Array.from({ length: count }, (_, i) => (i + .5) / count - .5 + (env.random() - .5) * .5 / count).map((share) => share * .82);
+      }
+      const walk = along(from, to, Math.max(1, env.size * .05), env.carry || 0);
+      env.carry = walk.carry;
+      if (env.layer) {
+        layer.fillStyle = "rgba(255,255,255,.09)";
+        walk.points.forEach((p) => env.streaks.forEach((share) => {
+          layer.beginPath();
+          layer.arc(p.x + env.nx * share * env.size, p.y + env.ny * share * env.size, Math.max(.7, env.size * .028), 0, Math.PI * 2);
+          layer.fill();
+        }));
+      }
+    }
+    layer.globalCompositeOperation = env.layer ? "destination-over" : "source-over";
+    layer.strokeStyle = env.color;
+    roundLine(layer, from, to, env.size);
+    layer.restore();
+    if (env.layer && env.target) {
+      const pad = env.size;
+      const x = Math.max(0, Math.floor(Math.min(from.x, to.x) - pad));
+      const y = Math.max(0, Math.floor(Math.min(from.y, to.y) - pad));
+      const w = Math.min(env.layer.canvas.width - x, Math.ceil(Math.abs(dx) + pad * 2));
+      const h = Math.min(env.layer.canvas.height - y, Math.ceil(Math.abs(dy) + pad * 2));
+      if (w > 0 && h > 0) env.target.drawImage(env.layer.canvas, x, y, w, h, x, y, w, h);
+    }
+  }
+
+  // Airbrush, the way Photoshop's works (owner, 2026-11-02: "Can we have
+  // airbrush that work similarly to photoshop one?"): a soft round tip whose
+  // edge feathers to nothing, laid as closely spaced dabs of low flow, so the
+  // colour builds up where strokes cross. The page also keeps spraying while
+  // the finger rests in one place (see the hold timer in begin/move/end).
+  // The feather is a stack of fading discs, not a gradient object, so the
+  // same calls draw in node tests and on the iPad.
+  function airDab(ctx, p, env) {
+    const radius = env.size * .7;
+    // On the page each dab is a ready-made smooth tip (a radial gradient the
+    // page draws once per stroke), so a spot held still darkens into a soft
+    // blob with no ring at its edge. Without one, a stack of fading discs.
+    if (env.tip) {
+      ctx.globalAlpha = .2;
+      ctx.drawImage(env.tip, p.x - radius, p.y - radius, radius * 2, radius * 2);
+      return;
+    }
+    const rings = 7;
+    ctx.fillStyle = env.color;
+    for (let k = 0; k < rings; k += 1) {
+      ctx.globalAlpha = .022;
+      ctx.beginPath(); ctx.arc(p.x, p.y, radius * (1 - k / rings), 0, Math.PI * 2); ctx.fill();
+    }
+  }
+
+  function airbrush(ctx, from, to, env) {
+    ctx.save();
+    if (from.x === to.x && from.y === to.y) airDab(ctx, to, env);
+    else {
+      const walk = along(from, to, Math.max(1, env.size * .2), env.carry || 0);
+      env.carry = walk.carry;
+      walk.points.forEach((p) => airDab(ctx, p, env));
+    }
+    ctx.restore();
+  }
+
+  const styles = [
+    { id: "marker", label: "Marker", draw: marker },
+    { id: "pencil", label: "Pencil", draw: pencil },
+    { id: "crayon", label: "Crayon", draw: crayon },
+    { id: "paint", label: "Paintbrush", draw: paintbrush },
+    { id: "airbrush", label: "Airbrush", draw: airbrush },
+  ];
+  return { styles, sizes, defaultStyle: "marker", defaultSize: 26 };
+})();
+if (typeof window !== "undefined" && window) window.cgPaintBrushKit = cgPaintBrushKit;
+
 // tools/test-magic-brushes.mjs reads the kit back through window after loading
 // this file in plain node; the page IIFE below uses the binding directly.
 if (typeof window !== "undefined" && window) window.cgMagicBrushKit = cgMagicBrushKit;
@@ -294,6 +454,7 @@ if (typeof window !== "undefined" && window) window.cgMagicBrushKit = cgMagicBru
   const paletteRoot = document.querySelector("#blankPalette");
   const shapeTray = document.querySelector("#blankShapeTray");
   const magicTray = document.querySelector("#blankMagicTray");
+  const brushTray = document.querySelector("#blankBrushTray");
   const stampPanel = document.querySelector("#blankStampPanel");
   const stampTray = document.querySelector("#blankStampTray");
   const categoryTray = document.querySelector("#blankStampCategories");
@@ -327,7 +488,7 @@ if (typeof window !== "undefined" && window) window.cgMagicBrushKit = cgMagicBru
   const holdTurn = window.cgHoldTurn;
   const tileArt = window.cgTileArt;
   const stickerActions = document.querySelector("#blankStickerActions");
-  const categoryLabels = { space: "Space", princess: "Princess", mermaid: "Mermaid", castle: "Magic Castle", animals: "Animals & Pets", ocean: "Ocean", food: "Sweets", fruit: "Fruit", veg: "Vegetables", meals: "Meals", dishes: "Dishes", vehicles: "Vehicles", home: "Home & Tea Party", baby: "Baby", dinosaurs: "Dinosaurs", effects: "Magic Effects", abc: "ABC", numbers: "123" };
+  const categoryLabels = { space: "Space", princess: "Princess", mermaid: "Mermaid", castle: "Magic Castle", animals: "Animals & Pets", bugs: "Bugs", ocean: "Ocean", food: "Sweets", fruit: "Fruit", veg: "Vegetables", meals: "Meals & Snacks", dishes: "Dishes", vehicles: "Vehicles", home: "Home & Tea Party", beds: "Beds", cleaning: "Cleaning", baby: "Baby", dinosaurs: "Dinosaurs", effects: "Magic Effects", abc: "ABC", numbers: "123" };
   const stampImages = new Map();
   let tool = "brush";
   let color = "#f04455";
@@ -341,6 +502,11 @@ if (typeof window !== "undefined" && window) window.cgMagicBrushKit = cgMagicBru
   // last trail stamp, reset at every touch so strokes never share leftovers.
   let magicCarry = 0;
   let selectedMagic = cgMagicBrushKit.defaultId;
+  // The chosen brush style and size, and the state one stroke carries (its
+  // grain spacing and its bristles) from the first touch to the lift.
+  let brushStyle = cgPaintBrushKit.defaultStyle;
+  let brushSize = cgPaintBrushKit.defaultSize;
+  let brushEnv = null;
   let beforeGesture = null;
   let undoStack = [];
   let redoStack = [];
@@ -531,7 +697,41 @@ if (typeof window !== "undefined" && window) window.cgMagicBrushKit = cgMagicBru
     });
   }
 
+  // The airbrush's soft round tip: full colour at the centre fading smoothly to
+  // nothing at the edge, drawn once per stroke at the stroke's own size.
+  function airbrushTip(tipColor, radius) {
+    const side = Math.max(2, Math.ceil(radius * 2));
+    const tip = document.createElement("canvas");
+    tip.width = side; tip.height = side;
+    const g = tip.getContext("2d");
+    const gradient = g.createRadialGradient(side / 2, side / 2, 0, side / 2, side / 2, side / 2);
+    const rgb = /^#([0-9a-f]{6})$/i.test(tipColor) ? [1, 3, 5].map((i) => parseInt(tipColor.slice(i, i + 2), 16)).join(",") : "0,0,0";
+    // A bell-shaped falloff (a Gaussian, cut to zero at the rim): smooth enough
+    // that a spot built up from many dabs shows no bands.
+    for (let i = 0; i <= 12; i += 1) {
+      const at = i / 12;
+      const alpha = i === 12 ? 0 : Math.exp(-((at * 1.8) ** 2));
+      gradient.addColorStop(at, `rgba(${rgb},${alpha.toFixed(3)})`);
+    }
+    g.fillStyle = gradient; g.fillRect(0, 0, side, side);
+    return tip;
+  }
+
   function line(from, to, erase = false) {
+    if (!erase) {
+      const style = cgPaintBrushKit.styles.find((item) => item.id === brushStyle) || cgPaintBrushKit.styles[0];
+      if (!brushEnv) {
+        brushEnv = { color, size: brushSize, random: Math.random, carry: 0 };
+        if (style.id === "airbrush") brushEnv.tip = airbrushTip(color, brushSize * .7);
+        if (style.id === "paint") {
+          const layerCanvas = document.createElement("canvas");
+          layerCanvas.width = canvas.width; layerCanvas.height = canvas.height;
+          brushEnv.layer = layerCanvas.getContext("2d"); brushEnv.target = context;
+        }
+      }
+      style.draw(context, from, to, brushEnv);
+      return;
+    }
     context.save();
     context.globalCompositeOperation = "source-over";
     context.strokeStyle = erase ? "#fff" : color;
@@ -949,10 +1149,15 @@ if (typeof window !== "undefined" && window) window.cgMagicBrushKit = cgMagicBru
     // is chosen, so the whole canvas is free for placement (owner brief). Tapping
     // Stickers again brings the picker back for another choice.
     const sameStampTool = next === "stamp" && tool === "stamp";
+    const sameBrushTool = next === "brush" && tool === "brush";
     tool = next;
     toolButtons.forEach((button) => button.classList.toggle("is-selected", button.dataset.blankTool === next));
     shapeTray.hidden = next !== "shape";
     if (magicTray) magicTray.hidden = next !== "magic";
+    // The brush picker opens with the Brush tool and folds away at the first
+    // stroke, so the whole paper is free to draw on; tapping Brush again
+    // brings it back (the way the Sticker picker works).
+    if (brushTray) brushTray.hidden = next === "brush" ? (sameBrushTool ? !brushTray.hidden : false) : true;
     stampPanel.hidden = next === "stamp" ? (sameStampTool ? !stampPanel.hidden : false) : true;
     if (next !== "eraser" && palette) palette.markSelected(color);
     if (next === "eraser" && palette) palette.clearSelection();
@@ -977,6 +1182,13 @@ if (typeof window !== "undefined" && window) window.cgMagicBrushKit = cgMagicBru
       return;
     }
     drawing = true; pointerId = event.pointerId; previousPoint = point; beforeGesture = captureState();
+    brushEnv = null;
+    stopAirHold();
+    if (tool === "brush" && brushStyle === "airbrush") {
+      // Held still, the airbrush keeps spraying and the spot grows darker.
+      airHold = setInterval(() => { if (drawing && previousPoint) line(previousPoint, previousPoint); }, 70);
+    }
+    if (tool === "brush" && brushTray && !brushTray.hidden) brushTray.hidden = true;
     canvas.setPointerCapture(event.pointerId);
     if (tool === "magic") { magicCarry = 0; magicLine(point, point, true); } else line(point, point, tool === "eraser");
   }
@@ -989,8 +1201,12 @@ if (typeof window !== "undefined" && window) window.cgMagicBrushKit = cgMagicBru
     previousPoint = point;
   }
 
+  let airHold = null;
+  function stopAirHold() { if (airHold) { clearInterval(airHold); airHold = null; } }
+
   function end(event) {
     if (!drawing || event.pointerId !== pointerId) return;
+    stopAirHold();
     event.preventDefault(); drawing = false; pointerId = null; previousPoint = null;
     commit(beforeGesture); beforeGesture = null;
   }
@@ -1133,8 +1349,83 @@ if (typeof window !== "undefined" && window) window.cgMagicBrushKit = cgMagicBru
   }
   buildMagicTray();
 
+  // ---- Brush picker (owner, 2026-11-02) ------------------------------------
+  // Five styles, each shown as a real sample stroke in the chosen colour, then
+  // five sizes shown as dots. Picking one answers with a pop and a word.
+  function drawBrushPreview(canvas, style) {
+    const preview = canvas.getContext("2d");
+    preview.clearRect(0, 0, canvas.width, canvas.height);
+    let seed = 0;
+    for (const letter of style.id) seed = (seed * 31 + letter.charCodeAt(0)) | 0;
+    const env = { color, size: 18, carry: 0, random: () => { seed = (seed * 1664525 + 1013904223) | 0; return ((seed >>> 8) % 10000) / 10000; } };
+    if (style.id === "paint") {
+      const layerCanvas = document.createElement("canvas");
+      layerCanvas.width = canvas.width; layerCanvas.height = canvas.height;
+      env.layer = layerCanvas.getContext("2d"); env.layer.scale(canvas.width / 232, canvas.height / 116);
+    }
+    if (style.id === "airbrush") env.tip = airbrushTip(color, env.size * .7);
+    preview.save();
+    preview.scale(canvas.width / 232, canvas.height / 116);
+    let last = { x: 30, y: 80 };
+    style.draw(preview, last, last, env);
+    for (let step = 1; step <= 20; step += 1) {
+      const share = step / 20;
+      const point = { x: 30 + share * 172, y: 80 - Math.sin(share * Math.PI) * 42 - share * 12 };
+      style.draw(preview, last, point, env);
+      last = point;
+    }
+    preview.restore();
+    if (env.layer) preview.drawImage(env.layer.canvas, 0, 0);
+  }
+
+  function markBrushChoices() {
+    selectAll(brushTray, "[data-brush-style]").forEach((button) => button.classList.toggle("is-selected", button.dataset.brushStyle === brushStyle));
+    selectAll(brushTray, "[data-brush-size]").forEach((button) => button.classList.toggle("is-selected", Number(button.dataset.brushSize) === brushSize));
+  }
+
+  function paintBrushChoices() {
+    selectAll(brushTray, "[data-brush-style]").forEach((button) => {
+      const style = cgPaintBrushKit.styles.find((item) => item.id === button.dataset.brushStyle);
+      const sample = button.querySelector("canvas");
+      if (style && sample) drawBrushPreview(sample, style);
+    });
+    selectAll(brushTray, ".brush-size-dot").forEach((dot) => { dot.style.background = color; });
+  }
+
+  function buildBrushTray() {
+    if (!brushTray) return;
+    brushTray.replaceChildren();
+    cgPaintBrushKit.styles.forEach((style) => {
+      const button = document.createElement("button");
+      button.type = "button"; button.dataset.brushStyle = style.id;
+      button.setAttribute("aria-label", `${style.label} brush`);
+      const sample = document.createElement("canvas");
+      sample.width = 128; sample.height = 64; sample.setAttribute("aria-hidden", "true");
+      button.appendChild(sample);
+      button.addEventListener("click", () => { brushStyle = style.id; markBrushChoices(); showMessage(style.label); pop(480, .04); });
+      brushTray.appendChild(button);
+    });
+    const gap = document.createElement("span");
+    gap.className = "blank-tray-gap"; gap.setAttribute("aria-hidden", "true");
+    brushTray.appendChild(gap);
+    cgPaintBrushKit.sizes.forEach((size) => {
+      const button = document.createElement("button");
+      button.type = "button"; button.dataset.brushSize = String(size.px);
+      button.setAttribute("aria-label", `${size.label} brush size`);
+      const dot = document.createElement("i");
+      dot.className = "brush-size-dot"; dot.setAttribute("aria-hidden", "true");
+      const shown = Math.round(6 + (size.px - 8) * (40 / 52));
+      dot.style.width = `${shown}px`; dot.style.height = `${shown}px`;
+      button.appendChild(dot);
+      button.addEventListener("click", () => { brushSize = size.px; markBrushChoices(); showMessage(`${size.label} brush`); pop(360 + size.px * 4, .04); });
+      brushTray.appendChild(button);
+    });
+    markBrushChoices(); paintBrushChoices();
+  }
+  buildBrushTray();
+
   buildStampTray();
-  if (window.wholeItemTray) { window.wholeItemTray(categoryTray); window.wholeItemTray(stampTray); if (magicTray) window.wholeItemTray(magicTray); }
+  if (window.wholeItemTray) { window.wholeItemTray(categoryTray); window.wholeItemTray(stampTray); if (magicTray) window.wholeItemTray(magicTray); if (brushTray) window.wholeItemTray(brushTray); }
   Object.entries(THEMED_STAMPS).forEach(([theme, names]) => names.forEach((name) => imageForStamp(theme, name)));
 
   toolButtons.forEach((button) => button.addEventListener("click", () => setTool(button.dataset.blankTool)));
@@ -1146,10 +1437,12 @@ if (typeof window !== "undefined" && window) window.cgMagicBrushKit = cgMagicBru
 
   const palette = window.buildColorPalette ? window.buildColorPalette(paletteRoot, (button) => {
     color = button.dataset.color; if (tool === "eraser") setTool("brush"); else palette.markSelected(color);
+    paintBrushChoices();
     pop(window.swatchTone ? window.swatchTone(color) : 420, .04);
   }) : null;
   const initialSwatch = document.querySelector("#blankPalette .color-button.is-selected");
   if (initialSwatch) color = initialSwatch.dataset.color;
+  paintBrushChoices();
 
   undoButton.addEventListener("click", undo); redoButton.addEventListener("click", redo); clearButton.addEventListener("click", clearPage);
   const rotateStickerButton = document.querySelector("#blankStickerRotate");

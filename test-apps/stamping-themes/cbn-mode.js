@@ -43,7 +43,7 @@
   }
 
   function saveProgress() {
-    localStorage.setItem(storageKey(), JSON.stringify([...filledRegions]));
+    SafeStorage.local.setItem(storageKey(), JSON.stringify([...filledRegions]));
   }
 
   function disarmClear() {
