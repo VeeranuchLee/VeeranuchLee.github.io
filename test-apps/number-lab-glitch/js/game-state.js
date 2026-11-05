@@ -1,0 +1,3 @@
+import {BalanceConfig as C} from './balance-config.js';
+export class RNG{constructor(seed=Date.now()){this.s=seed>>>0||1}next(){this.s=(1664525*this.s+1013904223)>>>0;return this.s/4294967296}}
+export class GameState{constructor({seed=1,mode='solo'}={}){this.board=Array(C.rows*C.cols).fill(null);this.rng=new RNG(seed);this.nextQueue=[];this.activePurchasedTile=null;this.hold=null;this.score=0;this.credits=0;this.inventory={bomb:0,wildcard:0,hand:0};this.shopStock={...C.stock};this.mode=mode;this.timer=0;this.stats={highestA:'1',jackpots:0,biggestJackpot:0,longestCascade:0,largestMerge:0,milestones:{}};this.gameOver=false}}
