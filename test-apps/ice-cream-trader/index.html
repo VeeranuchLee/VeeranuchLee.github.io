@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f4d49a">
+  <title>Ice Cream Trader</title>
+  <link rel="stylesheet" href="cg-back.css">
+  <link rel="stylesheet" href="styles.css">
+  <script src="tap-zoom-guard.js"></script>
+  <script src="safe-storage.js"></script>
+  <script src="cg-update.js" defer></script>
+</head>
+<body>
+  <main id="app">
+    <header class="topbar">
+      <a class="cg-back" href="https://veeranuchlee.github.io/test-apps/" aria-label="Back to Test Apps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <div class="title-mark"><img src="assets/items/scoop-cup.webp" alt=""><h1>Ice Cream Trader</h1></div>
+      <nav class="top-actions" aria-label="Game tools">
+        <button id="recipeButton" class="round-button" aria-label="Open recipe book"></button>
+        <button id="pantryButton" class="round-button" aria-label="Open satchel"></button>
+        <button id="soundButton" class="round-button" aria-label="Mute sounds"></button>
+      </nav>
+    </header>
+    <section id="hud" aria-live="polite"></section>
+    <section id="screen" class="screen" aria-live="polite"></section>
+    <div id="notice" role="status" aria-live="polite"></div>
+  </main>
+  <dialog id="bookDialog"><button class="dialog-close" data-close="bookDialog" aria-label="Close recipe book"></button><div id="bookContent"></div></dialog>
+  <dialog id="pantryDialog"><button class="dialog-close" data-close="pantryDialog" aria-label="Close satchel"></button><div id="pantryContent"></div></dialog>
+  <dialog id="factDialog"><button class="dialog-close" data-close="factDialog" aria-label="Close place fact"></button><div id="factContent"></div></dialog>
+  <script src="js/game-rules.js"></script>
+  <script src="app.js"></script>
+  </body>
+</html>
