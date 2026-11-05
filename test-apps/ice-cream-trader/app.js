@@ -53,6 +53,27 @@
   const coinStack = (count, cls = "coin-mini") => Array.from({ length: count }, () => `<span class="${cls}" aria-hidden="true"></span>`).join("");
   const ingredientCard = (id, count, options = "") => { const item = ingredient(id); return `<div class="ingredient-card" ${options}><img src="${item.art}" alt="${item.name}"><strong>${item.name}</strong><span class="count-mark">${count}</span></div>`; };
 
+  function hudProgress() {
+    const shopping = ["order", "map", "place"].includes(state.phase);
+    const needed = shopping ? R.missing(state) : {};
+    if (Object.keys(needed).length) return Object.entries(needed).slice(0, 4).map(([id, count]) => `<span><img src="${ingredient(id).art}" alt=""><b>${count}</b></span>`).join("");
+    const labels = {
+      order: "Ready to shop",
+      map: "Ready to churn",
+      place: "Ready to churn",
+      cups: "Add the cups",
+      churn: "Turning the mixture",
+      "mix-in": "Add the mix-in",
+      fold: "Fold it through",
+      scoop: "Ready to scoop",
+      serve: "Ready to serve",
+      payment: "Count the payment",
+      reward: "Rewards earned",
+      picnic: "Picnic complete"
+    };
+    return labels[state.phase] ? `<span class="ready-mark">${labels[state.phase]}</span>` : "";
+  }
+
   function setIcons() {
     $("#recipeButton").innerHTML = ICONS.recipe;
     $("#pantryButton").innerHTML = ICONS.satchel;
@@ -60,8 +81,7 @@
     $$(".dialog-close").forEach((button) => { button.innerHTML = ICONS.close; });
   }
   function renderHud() {
-    const needed = R.missing(state);
-    $("#hud").innerHTML = `<div class="hud-wallet"><img src="assets/items/coin.webp" alt=""><span>${state.wallet}</span></div><div class="hud-order"><img src="${customer().waiting}" alt="${customer().name}"><span>${recipe().name}</span></div><div class="hud-needed">${Object.entries(needed).slice(0, 4).map(([id, count]) => `<span><img src="${ingredient(id).art}" alt=""><b>${count}</b></span>`).join("") || '<span class="ready-mark">Ready to churn</span>'}</div>`;
+    $("#hud").innerHTML = `<div class="hud-wallet"><img src="assets/items/coin.webp" alt=""><span>${state.wallet}</span></div><div class="hud-order"><img src="${customer().waiting}" alt="${customer().name}"><span>${recipe().name}</span></div><div class="hud-needed">${hudProgress()}</div>`;
   }
   function screen(html, name) { $("#screen").className = `screen ${name}`; $("#screen").innerHTML = html; renderHud(); }
 
@@ -76,8 +96,16 @@
   function renderMap() {
     state.phase = "map"; persist();
     const need = R.missing(state);
-    screen(`<div class="painted map-scene"><img class="scene-plate" src="assets/scenes/world-map.webp" alt="Painted world map with three ingredient places"><div class="map-title"><h2>Where should we go?</h2><p>Choose a place that has something in the recipe.</p></div><div class="map-places">${R.PLACES.map((place) => { const ids = R.INGREDIENTS.filter((x) => x.place === place.id && need[x.id]).map((x) => x.id); return `<button class="place-target ${ids.length ? "needed" : ""}" data-place="${place.id}" ${ids.length ? "" : "disabled"}><img src="${place.scene}" alt="${place.name}"><span>${place.name}</span><i>${ids.map((id) => `<img src="${ingredient(id).art}" alt="">`).join("")}</i></button>`; }).join("")}</div>${R.readyToChurn(state) ? `<button id="toStudio" class="picture-action studio-action">${ICONS.churn}<span>Return to the churn bowl</span></button>` : ""}</div>`, "map-screen");
-    $$("[data-place]").forEach((button) => button.onclick = () => { currentPlace = button.dataset.place; tone(); renderPlace(currentPlace); });
+    const positions = { market: [29.5, 16.4], dairy: [55.4, 15], vanilla: [67.6, 76.8] };
+    screen(`<div class="painted map-scene"><div class="map-canvas"><img class="scene-plate" src="assets/scenes/world-map.webp" alt="Painted world map with two nearby European ingredient places and a vanilla garden in Madagascar">${R.PLACES.map((place) => { const ids = R.INGREDIENTS.filter((x) => x.place === place.id && need[x.id]).map((x) => x.id); const [x, y] = positions[place.id]; return `<button class="place-target place-${place.id} ${ids.length ? "needed" : "not-needed"}" style="--x:${x}%;--y:${y}%" data-place="${place.id}" aria-label="${place.name}${ids.length ? ", ingredients needed" : ", nothing needed here today"}"><span>${place.name}</span></button>`; }).join("")}</div><div class="map-title"><h2>Where should we go?</h2><p>Tap a painted place.</p></div>${R.readyToChurn(state) ? `<button id="toStudio" class="picture-action studio-action">${ICONS.churn}<span>Return to the churn bowl</span></button>` : ""}</div>`, "map-screen");
+    $$("[data-place]").forEach((button) => button.onclick = () => {
+      const placeId = button.dataset.place;
+      const hasNeededIngredient = R.INGREDIENTS.some((item) => item.place === placeId && need[item.id]);
+      tone();
+      if (!hasNeededIngredient) return notify("Nothing needed here today.");
+      currentPlace = placeId;
+      renderPlace(currentPlace);
+    });
     if ($("#toStudio")) $("#toStudio").onclick = () => { R.createChurn(state); persist(); renderChurn(); };
   }
 
@@ -100,7 +128,8 @@
   function renderChurn() {
     const churn = state.churn || R.createChurn(state); if (!churn) return renderMap();
     const r = recipe();
-    screen(`<div class="painted churn-scene"><div class="churn-heading"><h2>Churn &amp; Change</h2><p>${churn.phase === "cups" ? "Tap each measuring cup and watch its portion land." : churn.phase === "churn" ? "Make gentle circles anywhere on the wide lane." : churn.phase === "mix-in" ? "Tap the late mix-in." : churn.phase === "fold" ? "Make two final gentle circles to fold it through." : "Tap to scoop."}</p></div><div id="bowl" class="bowl colour-${r.colour} state-${churn.mixtureState}" aria-label="Churn bowl"><img class="machine" src="assets/items/churn-machine.webp" alt="Painted churn bowl and paddle"><div class="mixture ${churn.phase === "cups" ? "filling" : ""}"><img src="assets/items/mixture-${r.colour}-${churn.mixtureState}.webp" alt="Mixture changing as it freezes"><div class="base-blobs">${churn.cups.filter((cup) => cup.added).map((cup) => `<span class="base-blob"><img src="${ingredient(cup.id).art}" alt=""></span>`).join("")}</div></div><div id="churnLane" class="churn-lane ${state.mode === "challenge" && churn.progress > .22 ? "guide-faded" : ""}" aria-label="Wide circular churn lane"><span class="ghost-arrow"></span><div class="paddle"></div></div><div class="frost-overlay"></div></div><div class="churn-controls">${churn.phase === "cups" ? churn.cups.map((cup, index) => `<button class="cup-button ${cup.added ? "added" : ""}" data-cup="${index}" ${cup.added ? "disabled" : ""}><img src="${ingredient(cup.id).art}" alt="${ingredient(cup.id).name}"><span>${ingredient(cup.id).name}</span></button>`).join("") : ""}${["churn", "fold"].includes(churn.phase) ? `<button id="autoChurn" class="picture-action">${ICONS.churn}<span>${churn.phase === "fold" ? "Tap paddle to fold" : "Tap paddle to turn"}</span></button>` : ""}${churn.phase === "mix-in" ? churn.late.map((item, index) => `<button class="mix-button" data-mix="${index}"><img src="${ingredient(item.id).art}" alt="${ingredient(item.id).name}"><span>Add near the end</span></button>`).join("") : ""}${churn.phase === "scoop" ? `<button id="scoopButton" class="picture-action">${ICONS.scoop}<span>Scoop the ice cream</span></button>` : ""}</div></div>`, "churn-screen");
+    const autoTurning = autoTimer && ["churn", "fold"].includes(churn.phase) ? "auto-turning" : "";
+    screen(`<div class="painted churn-scene"><div class="churn-heading"><h2>Churn &amp; Change</h2><p>${churn.phase === "cups" ? "Tap each measuring cup and watch its portion land." : churn.phase === "churn" ? "Make gentle circles anywhere on the wide lane." : churn.phase === "mix-in" ? "Tap the late mix-in." : churn.phase === "fold" ? "Make two final gentle circles to fold it through." : "Tap to scoop."}</p></div><div id="bowl" class="bowl colour-${r.colour} state-${churn.mixtureState} ${autoTurning}" aria-label="Churn bowl"><img class="machine" src="assets/items/churn-machine.webp" alt="Painted churn bowl and paddle"><div class="mixture ${churn.phase === "cups" ? "filling" : ""}"><img src="assets/items/mixture-${r.colour}-${churn.mixtureState}.webp" alt="Mixture changing as it freezes"><div class="base-blobs">${churn.cups.filter((cup) => cup.added).map((cup) => `<span class="base-blob"><img src="${ingredient(cup.id).art}" alt=""></span>`).join("")}</div></div><div id="churnLane" class="churn-lane ${state.mode === "challenge" && churn.progress > .22 ? "guide-faded" : ""}" aria-label="Wide circular churn lane"><span class="ghost-arrow"></span><div class="paddle"></div></div><div class="frost-overlay"></div></div><div class="churn-controls">${churn.phase === "cups" ? churn.cups.map((cup, index) => `<button class="cup-button ${cup.added ? "added" : ""}" data-cup="${index}" ${cup.added ? "disabled" : ""}><img src="${ingredient(cup.id).art}" alt="${ingredient(cup.id).name}"><span>${ingredient(cup.id).name}</span></button>`).join("") : ""}${["churn", "fold"].includes(churn.phase) ? `<button id="autoChurn" class="picture-action">${ICONS.churn}<span>${churn.phase === "fold" ? "Tap paddle to fold" : "Tap paddle to turn"}</span></button>` : ""}${churn.phase === "mix-in" ? churn.late.map((item, index) => `<button class="mix-button" data-mix="${index}"><img src="${ingredient(item.id).art}" alt="${ingredient(item.id).name}"><span>Add near the end</span></button>`).join("") : ""}${churn.phase === "scoop" ? `<button id="scoopButton" class="picture-action">${ICONS.scoop}<span>Scoop the ice cream</span></button>` : ""}</div></div>`, "churn-screen");
     $$("[data-cup]").forEach((button) => button.onclick = () => { R.tapCup(state, Number(button.dataset.cup)); tone("pour"); persist(); renderChurn(); });
     $$("[data-mix]").forEach((button) => button.onclick = () => { R.tapMixIn(state, Number(button.dataset.mix)); tone("pour"); persist(); renderChurn(); });
     if ($("#autoChurn")) $("#autoChurn").onclick = startAutoChurn;
@@ -111,7 +140,22 @@
   function startAutoChurn() {
     if (autoTimer) return; tone("churn");
     const startingPhase = state.churn.phase;
-    autoTimer = setInterval(() => { if (!R.advanceChurn(state, 0.125) || state.churn.phase !== startingPhase) { clearInterval(autoTimer); autoTimer = null; tone("frost"); } persist(); renderChurn(); }, 180);
+    const step = () => {
+      if (!state.churn || state.churn.phase !== startingPhase) {
+        clearTimeout(autoTimer);
+        autoTimer = null;
+        return;
+      }
+      const advanced = R.advanceAutoChurn(state);
+      persist();
+      renderChurn();
+      if (advanced && state.churn.phase === startingPhase) autoTimer = setTimeout(step, R.AUTO_CHURN_STEP_MS);
+      else {
+        autoTimer = null;
+        tone("frost");
+      }
+    };
+    autoTimer = setTimeout(step, R.AUTO_CHURN_STEP_MS);
   }
   function bindChurnLane() {
     const lane = $("#churnLane"); if (!lane || !state.churn || !["churn", "fold"].includes(state.churn.phase)) return;

@@ -5,6 +5,8 @@
 })(typeof globalThis !== "undefined" ? globalThis : this, function () {
   "use strict";
 
+  const AUTO_CHURN_STEP_MS = 750;
+
   const PLACES = [
     { id: "dairy", name: "Dairy farm", scene: "assets/scenes/dairy-farm.webp", postcard: "assets/rewards/postcard-dairy.webp", fact: "Cream can be separated from milk. Our milk and cream are already prepared for cooking." },
     { id: "market", name: "Farm market", scene: "assets/scenes/farm-market.webp", postcard: "assets/rewards/postcard-market.webp", fact: "Strawberries grow on low plants. Sugar can come from the sweet stem of tall sugar cane." },
@@ -122,6 +124,10 @@
     return true;
   }
 
+  function advanceAutoChurn(state) {
+    return advanceChurn(state, 0.25);
+  }
+
   function tapMixIn(state, index) {
     const churn = state.churn;
     if (!churn || churn.phase !== "mix-in" || !churn.late[index] || churn.late[index].added) return false;
@@ -177,5 +183,5 @@
     return true;
   }
 
-  return { PLACES, INGREDIENTS, RECIPES, CUSTOMERS, byId, recipeFor, customerFor, portions, recipeCost, missing, missingCost, createGame, ensureFunds, beginPurchase, tapPurchaseCoin, readyToChurn, createChurn, tapCup, advanceChurn, tapMixIn, tapScoop, serve, tapCustomerCoin, finishOrder, nextOrder };
+  return { AUTO_CHURN_STEP_MS, PLACES, INGREDIENTS, RECIPES, CUSTOMERS, byId, recipeFor, customerFor, portions, recipeCost, missing, missingCost, createGame, ensureFunds, beginPurchase, tapPurchaseCoin, readyToChurn, createChurn, tapCup, advanceChurn, advanceAutoChurn, tapMixIn, tapScoop, serve, tapCustomerCoin, finishOrder, nextOrder };
 });
