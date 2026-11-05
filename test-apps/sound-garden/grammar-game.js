@@ -140,5 +140,5 @@
   $('play').addEventListener('click',begin);$('again').addEventListener('click',begin);
   Promise.all([fetch('./data/grammar-questions.json').then(function(r){return r.json();}),fetch('./audio/grammar/rendered.json').then(function(r){return r.json();})]).then(function(all){data=all[0];rendered=all[1];$('play').disabled=false;}).catch(function(){$('play').textContent='Please try again';$('play').disabled=true;});
   $('play').disabled=true;
-  if('serviceWorker'in navigator)window.addEventListener('load',function(){navigator.serviceWorker.register('./service-worker.js').catch(function(){});});
+  if('serviceWorker'in navigator)window.addEventListener('load',function(){Promise.resolve() /* Test Hub staging: no service worker */.catch(function(){});});
 }());
