@@ -31,5 +31,6 @@
   <dialog id="factDialog"><button class="dialog-close" data-close="factDialog" aria-label="Close place fact"></button><div id="factContent"></div></dialog>
   <script src="js/game-rules.js"></script>
   <script src="app.js"></script>
-  </body>
+  <script>if ("serviceWorker" in navigator) Promise.resolve() /* Test Hub staging: no service worker */;</script>
+</body>
 </html>
