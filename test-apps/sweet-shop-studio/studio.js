@@ -1,14 +1,38 @@
-(function(root,factory){const api=factory();if(typeof module==="object"&&module.exports)module.exports=api;else{root.SweetShopStudio=api;api.mount();}})(typeof globalThis!=="undefined"?globalThis:this,function(){
+(function(root,factory){const api=factory();if(typeof module==="object"&&module.exports)module.exports=api;else{root.SweetShopStudio=api;api.mount().catch((error)=>{console.error(error);const app=document.querySelector("#app");if(app)app.textContent="The sweet designs could not be loaded. Please try again.";});}})(typeof globalThis!=="undefined"?globalThis:this,function(){
   "use strict";
   const WIDTH=900,HEIGHT=600,VERSION=1,SAVE_KEY="sweet-shop-studio-v1";
   const PALETTE=["#f05d8b","#ff9e72","#ffd66e","#8fd3a7","#76bde9","#b991df","#84543e","#fff0d6"];
-  const DESIGNS=[
-    {id:"cupcake",title:"Celebration Cupcake",parts:50},
-    {id:"layered-birthday-cake",title:"Layered Birthday Cake",parts:60},
-    {id:"macaron-tower",title:"Macaron Tower",parts:40},
-    {id:"donut-box",title:"Donut Box",parts:60},
-    {id:"ice-cream-sundae",title:"Ice-cream Sundae",parts:60},
-  ].map((item)=>({...item,line:`art/raster/${item.id}-line.png`,regions:`art/raster/${item.id}-regions.png`,real:`art/made-real/${item.id}.webp`}));
+  const CATEGORIES=[
+    {id:"cakes",label:"Cakes",word:"Cakes",icon:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 31h32l-3 9H11zM11 30h26v-9H11zM14 20h20v-8H14z"/><path d="M18 12V7m6 5V6m6 6V7"/></svg>'},
+    {id:"cupcakes-cookies",label:"Cupcakes & cookies",word:"Cupcakes",icon:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14 25h20l-3 16H17zM15 24c0-8 4-13 9-13s9 5 9 13M24 11V6"/><circle cx="24" cy="6" r="2"/></svg>'},
+    {id:"donuts-pastries",label:"Donuts & pastries",word:"Pastries",icon:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 28c0-10 7-18 16-18s16 8 16 18-7 13-16 13S8 38 8 28Z"/><path d="M15 19c3 3 5-2 8 1s5-2 9 1"/><circle cx="24" cy="28" r="6"/></svg>'},
+    {id:"ice-cream",label:"Ice cream",word:"Scoops",icon:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="m17 25 7 18 7-18M14 24h20"/><circle cx="19" cy="18" r="8"/><circle cx="29" cy="18" r="8"/></svg>'},
+    {id:"candy-party",label:"Candy & party",word:"Candy",icon:'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="m6 16 9 4v8l-9 4 4-8zM42 16l-9 4v8l9 4-4-8z"/><rect x="15" y="14" width="18" height="20" rx="8"/></svg>'},
+  ];
+  let DESIGNS=[],activeCategory=CATEGORIES[0].id;
+  function compileCatalogue(index,fragments){
+    if(!index||index.version!==1||!Number.isInteger(index.designCount)||index.designCount<1||!Array.isArray(index.fragments)||!index.fragments.length)throw new Error("Invalid sweet design index");
+    if(fragments.length!==index.fragments.length)throw new Error("Sweet design fragment count mismatch");
+    const allowed=new Set(CATEGORIES.map((item)=>item.id)),seen=new Set(),merged=[];
+    fragments.forEach((fragment,at)=>{
+      if(!fragment||fragment.version!==1||!Array.isArray(fragment.designs))throw new Error(`Invalid sweet design fragment ${index.fragments[at]}`);
+      fragment.designs.forEach((item)=>{
+        if(!item||!/^[-a-z0-9]+$/.test(item.id)||seen.has(item.id))throw new Error(`Invalid or duplicate sweet design id: ${item?.id}`);
+        if(typeof item.title!=="string"||!item.title.trim()||!allowed.has(item.category)||!Number.isInteger(item.parts)||item.parts<30||item.parts>60)throw new Error(`Invalid sweet design metadata: ${item.id}`);
+        for(const key of ["line","regions","real"])if(typeof item[key]!=="string"||!item[key].startsWith("art/"))throw new Error(`Invalid ${key} path: ${item.id}`);
+        seen.add(item.id);merged.push(Object.freeze({...item}));
+      });
+    });
+    if(merged.length!==index.designCount)throw new Error(`Sweet design count mismatch: expected ${index.designCount}, found ${merged.length}`);
+    return merged;
+  }
+  function setDesigns(items){DESIGNS=Object.freeze([...items]);return DESIGNS;}
+  async function loadCatalogue(fetcher=globalThis.fetch.bind(globalThis)){
+    const indexResponse=await fetcher("data/index.json");if(!indexResponse.ok)throw new Error("Sweet design index did not load");
+    const index=await indexResponse.json(),fragments=[];
+    for(const filename of index.fragments){const response=await fetcher(`data/${filename}`);if(!response.ok)throw new Error(`Sweet design fragment did not load: ${filename}`);fragments.push(await response.json());}
+    return setDesigns(compileCatalogue(index,fragments));
+  }
   const $=(selector)=>document.querySelector(selector),$$=(selector)=>[...document.querySelectorAll(selector)];
   const blankDoc=(designId)=>({version:VERSION,id:`sweet-${Date.now()}-${Math.random().toString(16).slice(2)}`,designId,fills:{},madeReal:false,updatedAt:new Date().toISOString()});
   const validDoc=(doc)=>!!(doc&&doc.version===VERSION&&DESIGNS.some((item)=>item.id===doc.designId)&&doc.fills&&typeof doc.fills==="object");
@@ -20,7 +44,7 @@
   function nearestRegion(labels,x,y,radius,width=WIDTH,height=HEIGHT){x=Math.max(0,Math.min(width-1,Math.round(x)));y=Math.max(0,Math.min(height-1,Math.round(y)));const exact=labels[y*width+x];if(exact)return exact;let best=0,bestDistance=Infinity,limit=Math.ceil(radius);for(let dy=-limit;dy<=limit;dy++)for(let dx=-limit;dx<=limit;dx++){const distance=dx*dx+dy*dy;if(distance>radius*radius||distance>=bestDistance)continue;const px=x+dx,py=y+dy;if(px<0||py<0||px>=width||py>=height)continue;const id=labels[py*width+px];if(id){best=id;bestDistance=distance;}}return best;}
   const parseHex=(hex)=>String(hex).match(/[a-f\d]{2}/gi).slice(0,3).map((part)=>parseInt(part,16));
   function paintFills(output,pixels,fills,alpha=255){for(const [key,colour] of Object.entries(fills)){const rgb=parseHex(colour);for(const index of pixels.get(+key)||[]){const o=index*4;output[o]=rgb[0];output[o+1]=rgb[1];output[o+2]=rgb[2];output[o+3]=alpha;}}return output;}
-  function mount(){
+  function mountReady(){
     const canvases=["flatCanvas","realCanvas","lineCanvas"].map((id)=>$("#"+id)),[flatCanvas,realCanvas,lineCanvas]=canvases;
     const flat=flatCanvas.getContext("2d",{willReadFrequently:true}),real=realCanvas.getContext("2d"),line=lineCanvas.getContext("2d");
     let doc=null,design=null,labels=null,pixels=new Map(),realImage=null,colour=PALETTE[0],eraser=false,history=[],future=[],audio=null,reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -33,8 +57,10 @@
     function renderReal(){real.clearRect(0,0,WIDTH,HEIGHT);if(!realImage)return;real.drawImage(realImage,0,0,WIDTH,HEIGHT);if(Object.keys(doc.fills).length){const tint=document.createElement("canvas");tint.width=WIDTH;tint.height=HEIGHT;const tc=tint.getContext("2d"),image=tc.createImageData(WIDTH,HEIGHT);paintFills(image.data,pixels,doc.fills,205);tc.putImageData(image,0,0);real.save();real.globalCompositeOperation="multiply";real.globalAlpha=.72;real.drawImage(tint,0,0);real.restore();real.save();real.globalCompositeOperation="screen";real.globalAlpha=.15;real.drawImage(tint,0,0);real.restore();}}
     function setMadeReal(value,announce=true){doc.madeReal=!!value;realCanvas.hidden=!doc.madeReal;lineCanvas.style.opacity=doc.madeReal?"0":"1";flatCanvas.style.opacity=doc.madeReal?"0":"1";$("#paper").classList.toggle("real",doc.madeReal);$("#makeReal").hidden=doc.madeReal;$("#keepColouring").hidden=!doc.madeReal;$("#makeReal").setAttribute("aria-pressed",String(doc.madeReal));if(doc.madeReal){renderReal();if(announce){sound("reveal");const stack=$("#canvasStack");stack.classList.remove("revealing");if(!reduced){void stack.offsetWidth;stack.classList.add("revealing");}$("#message").textContent="Ta-da! Your design is ready for the sweet-shop window.";}}else if(announce)$("#message").textContent="Keep colouring — every part is still editable.";}
     async function open(nextDoc){doc=JSON.parse(JSON.stringify(nextDoc));design=DESIGNS.find((item)=>item.id===doc.designId);history=[];future=[];updateHistory();$("#designTitle").textContent=design.title;$("#partCount").textContent=`${design.parts} parts to colour`;show("editor");$("#message").textContent="Loading the design…";const [lineImage,regionImage,polished]=await Promise.all([loadImage(design.line),loadImage(design.regions),loadImage(design.real)]);line.clearRect(0,0,WIDTH,HEIGHT);line.drawImage(lineImage,0,0,WIDTH,HEIGHT);const scratch=document.createElement("canvas");scratch.width=WIDTH;scratch.height=HEIGHT;const sc=scratch.getContext("2d",{willReadFrequently:true});sc.drawImage(regionImage,0,0);labels=decodeRegionMap(sc.getImageData(0,0,WIDTH,HEIGHT).data);pixels=buildPixels(labels);realImage=polished;renderFlat();renderReal();setMadeReal(doc.madeReal,false);$("#message").textContent=doc.madeReal?"Your polished design is ready.":"Tap a closed part to colour it.";}
-    function card(item,savedDoc){const button=document.createElement("button");button.type="button";button.className="design-card";const image=document.createElement("img");image.src=item.line;image.alt=`${item.title} blank line art`;const title=document.createElement("b");title.textContent=item.title;const detail=document.createElement("small");detail.textContent=savedDoc?`Saved ${new Date(savedDoc.updatedAt).toLocaleDateString()}`:`${item.parts} parts to colour`;button.append(image,title,detail);button.onclick=()=>open(savedDoc||blankDoc(item.id));return button;}
-    function gallery(){const grid=$("#designGrid");grid.replaceChildren();DESIGNS.forEach((item)=>grid.append(card(item)));}
+    function card(item,savedDoc){const button=document.createElement("button");button.type="button";button.className="design-card";const image=document.createElement("img");image.src=item.line;image.alt=`${item.title} blank line art`;image.loading="lazy";image.decoding="async";const title=document.createElement("b");title.textContent=item.title;const detail=document.createElement("small");detail.textContent=savedDoc?`Saved ${new Date(savedDoc.updatedAt).toLocaleDateString()}`:`${item.parts} parts to colour`;button.append(image,title,detail);button.onclick=()=>open(savedDoc||blankDoc(item.id));return button;}
+    function updateCategoryTabs(){$$(".category-tab").forEach((button)=>{const selected=button.dataset.category===activeCategory;button.classList.toggle("selected",selected);button.setAttribute("aria-pressed",String(selected));});}
+    function gallery(){const grid=$("#designGrid");grid.replaceChildren();DESIGNS.filter((item)=>item.category===activeCategory).forEach((item)=>grid.append(card(item)));updateCategoryTabs();}
+    CATEGORIES.forEach((category)=>{const button=document.createElement("button");button.type="button";button.className="category-tab";button.dataset.category=category.id;button.setAttribute("aria-label",category.label);button.title=category.label;button.innerHTML=category.icon;const word=document.createElement("span");word.textContent=category.word;button.append(word);button.onclick=()=>{activeCategory=category.id;gallery();sound();};$("#categoryTabs").append(button);});
     function saved(){const docs=loadDocs(SafeStorage.local),grid=$("#savedGrid");grid.replaceChildren();$("#savedEmpty").hidden=!!docs.length;docs.forEach((item)=>grid.append(card(DESIGNS.find((designItem)=>designItem.id===item.designId),item)));$("#saveCount").textContent=docs.length;}
     PALETTE.forEach((paint,index)=>{const button=document.createElement("button");button.type="button";button.className="swatch"+(index===0?" selected":"");button.style.setProperty("--colour",paint);button.setAttribute("aria-label",`Colour ${index+1}`);button.onclick=()=>{colour=paint;eraser=false;$$('.swatch').forEach((candidate)=>candidate.classList.toggle('selected',candidate===button));$("#eraser").classList.remove("active");sound();};$("#palette").append(button);});
     lineCanvas.addEventListener("pointerdown",(event)=>{event.preventDefault();if(!labels||doc.madeReal)return;const rect=lineCanvas.getBoundingClientRect(),x=(event.clientX-rect.left)*WIDTH/rect.width,y=(event.clientY-rect.top)*HEIGHT/rect.height,id=nearestRegion(labels,x,y,24*WIDTH/rect.width);if(!id){$("#message").textContent="That is the background — tap inside a drawn part.";return;}snapshot();if(eraser)delete doc.fills[id];else doc.fills[id]=colour;renderFlat();sound();$("#message").textContent=eraser?"That part is blank again.":"Lovely — choose another colour or fill another part.";});
@@ -47,5 +73,6 @@
     $("#backStep").onclick=()=>{gallery();show("gallery");};$("#myBakes").onclick=()=>{saved();show("saved");};
     gallery();saved();show("gallery");
   }
-  return{WIDTH,HEIGHT,VERSION,SAVE_KEY,PALETTE,DESIGNS,blankDoc,validDoc,loadDocs,saveDoc,decodeRegionMap,buildPixels,nearestRegion,paintFills,mount};
+  async function mount(){if(!DESIGNS.length)await loadCatalogue();mountReady();}
+  return{WIDTH,HEIGHT,VERSION,SAVE_KEY,PALETTE,CATEGORIES,get DESIGNS(){return DESIGNS;},compileCatalogue,setDesigns,loadCatalogue,blankDoc,validDoc,loadDocs,saveDoc,decodeRegionMap,buildPixels,nearestRegion,paintFills,mount};
 });
