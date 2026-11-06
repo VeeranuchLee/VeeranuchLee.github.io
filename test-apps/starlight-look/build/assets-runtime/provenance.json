@@ -188,6 +188,26 @@
     ],
     "encoding": "Four RGB 760x470 WebP crops, quality 78/method 6, 31KB each; 520ms painted-frame loop using app/motion.js hidden-page, Calm and reduced-motion gating.",
     "otherAmbientArt": "Page 11 uses two feather-masked copies cut from its exact current plate and drifted at 15s/19s, Book 1 cloudDrift style. Page 12 uses a CSS protostar core breathe so it cannot be confused with the one-way ignition teaching event. Other pages use CSS glows, paths, starfields and beams over the exact plate regions.",
-    "review": "PASS side-by-side frame evidence: exact crop registration and preserved geometry; generated whole panels rejected. Evidence: art-pending/motion-frames-sheet.jpg."
+    "review": "Superseded by ambientMotionR2_20261106 after controller placement review. The ignored local evidence remains at art-pending/motion-frames-sheet.jpg."
+  },
+  "ambientMotionR2_20261106": {
+    "tool": "Codex built-in reference-based image editing plus deterministic pixel measurement, feathered local compositing, and CSS masked plate-copy animation",
+    "date": "2026-11-06",
+    "useCase": "precise-object-edit",
+    "sources": [
+      "assets-runtime/standard/page-01.webp through page-20.webp (exact current 1448x1086 plates)",
+      "Codex edit target page-11.webp for four registered nebula phases",
+      "Codex edit target page-12.webp for four registered protostar phases"
+    ],
+    "promptSummary": "For Page 11, create a registered 2x2 phase sheet that changes only violet, blue, pink and charcoal nebula filaments inside the main painting, keeping the dense clump, orange newborn-star glow, borders, inset and camera fixed. For Page 12, change only violet-blue gas and orange protostar filaments, keeping the bright core at identical position and diameter and preserving every white gravity arrow, border, character, spacecraft and camera.",
+    "measurement": "tools/build-ambient-motion.py searches near named objects, then derives centres, radii and region extents from the exact plate pixels (weighted colour/brightness spots, colour-mask extents, or exact framed crops). It writes plate-percent data plus source-pixel evidence and plate SHA-256 prefixes to app/ambient-geometry.js.",
+    "method": "Every code-native effect is a full-colour copy of its own plate clipped to the measured mask. Brightness, saturation, a slow hue shimmer or sub-percent drift changes the painting itself. Size-bearing Page 4, 5 and 16 discs and Page 6's equal-looking pair never scale; Page 6 shares one phase. Page 13 is an annulus only. Page 14 uses fixed-size surface shimmer and never loops a swell. Twinkle is confined to Earth-view Pages 1 and 9.",
+    "runtimeFrames": [
+      "assets-runtime/standard/page-11-ambient-frame-01.webp through page-11-ambient-frame-04.webp",
+      "assets-runtime/standard/page-12-ambient-frame-01.webp through page-12-ambient-frame-04.webp"
+    ],
+    "frameCompositing": "Each runtime frame starts from the untouched exact plate crop. Only a feathered gas-colour mask receives 18-42% of a generated phase; borders, stars outside the gas, Page 11's fixed core, Page 12's fixed core and white arrows remain exact base pixels. Frame 1 is the untouched crop and Frame 4 returns toward it for a clean loop.",
+    "encoding": "Page 11: four RGB 983x652 WebP crops, quality 82/method 6, 620ms. Page 12: four RGB 984x637 WebP crops, quality 82/method 6, 580ms. Both use app/motion.js hidden-page, Calm and reduced-motion gating.",
+    "review": "PASS visual inspection of art-pending/motion-overlay-sheet.jpg (ignored, not committed): all twenty pages show measured outlines and peak-state plate-copy previews on the intended painted targets. PASS separate full-size Page 11/12 frame sheet: registered borders/camera and stable teaching marks."
   }
 }

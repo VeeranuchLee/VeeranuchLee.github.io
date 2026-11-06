@@ -39,12 +39,6 @@ function sequence(steps,reduced){
   }
   next();return api;
 }
-function glints(root,points){
-  var nodes=points.map(function(p,i){var n=document.createElement("i");n.className="window-glint";n.style.left=p.x+"%";n.style.top=p.y+"%";n.style.setProperty("--twinkle-period",p.period+"s");n.style.setProperty("--twinkle-delay",(-i*.37)+"s");root.appendChild(n);return n});
-  function sync(){root.classList.toggle("motion-paused",document.hidden||calm())}
-  document.addEventListener("visibilitychange",sync);if(window.Starlight)window.Starlight.onCalm(sync);sync();
-  return {destroy:function(){document.removeEventListener("visibilitychange",sync);nodes.forEach(function(n){n.remove()})}};
-}
 function ambient(root){
   function sync(){root.classList.toggle("motion-paused",document.hidden||calm())}
   document.addEventListener("visibilitychange",sync);if(window.Starlight)window.Starlight.onCalm(sync);sync();
@@ -54,5 +48,5 @@ function ambient(root){
    Calm was switched off. The simultaneous scale/opacity jump read as the
    whole window snapping. Keep each painted star at rest, then let sparse,
    independently timed glints breathe in and out. */
-window.StarlightMotion={frameCycle:frameCycle,paintedCycle:paintedCycle,sequence:sequence,glints:glints,ambient:ambient,cancel:function(){if(activeSequence)activeSequence.cancel()},paintedIdleLoopsEnabled:ALLOW_PAINTED_IDLE_LOOPS};
+window.StarlightMotion={frameCycle:frameCycle,paintedCycle:paintedCycle,sequence:sequence,ambient:ambient,cancel:function(){if(activeSequence)activeSequence.cancel()},paintedIdleLoopsEnabled:ALLOW_PAINTED_IDLE_LOOPS};
 })();

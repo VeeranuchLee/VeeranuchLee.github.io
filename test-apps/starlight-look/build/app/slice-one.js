@@ -8,7 +8,6 @@ function speak(text,who,sourceEl){if(window.Starlight){window.Starlight.say(text
 function labelSlug(text){return text.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")}
 function addMotion(data){
   if(!data.motion||!window.StarlightMotion)return null;
-  if(data.motion.type==="window-glints"){var sky=el("div","window-glints");artLayer.appendChild(sky);window.StarlightMotion.glints(sky,data.motion.points);return null}
   if(data.motion.type!=="living-star-balance")return null;
   var m=data.motion,wrap=el("div","star-motion"),under=el("img","star-underplate"),img=el("img","star-frame"),arrows=el("div","balance-arrows");
   [wrap].forEach(function(n){n.style.left=m.crop.x+"%";n.style.top=m.crop.y+"%";n.style.width=m.crop.w+"%";n.style.height=m.crop.h+"%"});
@@ -22,32 +21,21 @@ function addMotion(data){
   },reset:function(){window.StarlightMotion.cancel();wrap.classList.remove("gravity","pressure","balanced","reduced");cycle.pause(false)}};
 }
 function addAmbientMotion(n){
-  if(!window.StarlightMotion)return null;
+  var geometry=window.STARLIGHT_AMBIENT_GEOMETRY&&window.STARLIGHT_AMBIENT_GEOMETRY.pages[String(n)];
+  if(!window.StarlightMotion||!geometry)return null;
   var root=el("div","ambient-motion ambient-page-"+String(n).padStart(2,"0"));root.setAttribute("aria-hidden","true");
-  var markup={
-    1:'<i class="ambient-cloud"></i>',
-    2:'<img class="ambient-painted-sun" alt=""><i class="ambient-flame"></i>',
-    3:'<i class="ambient-corona"></i>',
-    4:'<i class="ambient-star s1"></i><i class="ambient-star s2"></i><i class="ambient-star s3"></i><i class="ambient-star s4"></i>',
-    5:'<i class="ambient-star s1"></i><i class="ambient-star s2"></i><i class="ambient-star s3"></i><i class="ambient-star s4"></i>',
-    6:'<i class="ambient-equal e1"></i><i class="ambient-equal e2"></i>',
-    7:'<i class="ambient-stars far"></i><i class="ambient-stars near"></i>',
-    8:'<i class="ambient-path-shimmer"></i>',
-    9:'<i class="ambient-dipper d1"></i><i class="ambient-dipper d2"></i><i class="ambient-dipper d3"></i><i class="ambient-dipper d4"></i><i class="ambient-dipper d5"></i><i class="ambient-dipper d6"></i><i class="ambient-dipper d7"></i>',
-    10:'<i class="ambient-stars far"></i><i class="ambient-stars near"></i>',
-    11:'<i class="ambient-nebula n1"></i><i class="ambient-nebula n2"></i>',
-    12:'<i class="ambient-protostar"></i>',
-    13:'<i class="ambient-rim"></i>',
-    14:'<i class="ambient-giant-glow"></i>',
-    15:'<i class="ambient-shell"></i>',
-    16:'<i class="ambient-star s1"></i><i class="ambient-star s2"></i><i class="ambient-star s3"></i>',
-    17:'<i class="ambient-remnant"></i><i class="ambient-flame"></i>',
-    18:'<i class="ambient-beam b1"></i><i class="ambient-beam b2"></i>',
-    19:'<i class="ambient-arm"></i><i class="ambient-galaxy-glint g1"></i><i class="ambient-galaxy-glint g2"></i><i class="ambient-galaxy-glint g3"></i>',
-    20:'<i class="ambient-surface"></i>'
-  };
-  root.innerHTML=markup[n]||"";artLayer.appendChild(root);window.StarlightMotion.ambient(root);
-  if(n===2){var img=root.querySelector(".ambient-painted-sun"),frames=[1,2,3,4].map(function(i){return "assets-runtime/standard/page-02-sun-frame-0"+i+".webp"});window.StarlightMotion.paintedCycle(img,frames,520)}
+  geometry.forEach(function(g,i){
+    if(g.recipe==="existing-frames")return;
+    if(g.recipe==="frames"){
+      var img=el("img","ambient-frame");img.alt="";img.style.left=g.crop[0]+"%";img.style.top=g.crop[1]+"%";img.style.width=g.crop[2]+"%";img.style.height=g.crop[3]+"%";root.appendChild(img);window.StarlightMotion.paintedCycle(img,g.frames,g.ms);return;
+    }
+    var copy=el("i","ambient-copy recipe-"+g.recipe);copy.style.setProperty("--plate",'url("assets-runtime/standard/page-'+String(n).padStart(2,"0")+'.webp")');copy.style.setProperty("--cx",g.cx+"%");copy.style.setProperty("--cy",g.cy+"%");copy.style.setProperty("--rx",g.rx+"%");copy.style.setProperty("--ry",g.ry+"%");copy.style.setProperty("--crx",(g.rx*1.02)+"%");copy.style.setProperty("--cry",(g.ry*1.02)+"%");
+    /* Page 6 intentionally has no delay: both equal-looking lights move in
+       the identical phase. Other repeated targets are staggered gently. */
+    if(n!==6)copy.style.setProperty("--delay",(-((g.phase==null?i:g.phase)*.47))+"s");root.appendChild(copy);
+    if(g.recipe==="size-disc"){var corona=copy.cloneNode(false);corona.className="ambient-copy recipe-corona";root.appendChild(corona)}
+  });
+  artLayer.appendChild(root);window.StarlightMotion.ambient(root);
   return root;
 }
 function addTeachingMotion(data){
