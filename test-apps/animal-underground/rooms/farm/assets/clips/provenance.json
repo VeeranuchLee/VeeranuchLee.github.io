@@ -1,0 +1,314 @@
+{
+  "room": "farm",
+  "frame0_plate": "assets/page.webp",
+  "clips": {
+    "beef-cattle": {
+      "file": "beef-cattle.mp4",
+      "tool": "Grok Imagine",
+      "generated": "2026-11-04",
+      "conversation_id": "f505b306",
+      "source_clip": "beef-cattle.mp4",
+      "source_sha256": "f82366d35260301f819520f8e4f706666c84ce8f66a30be30f8f668602395065",
+      "prompt": "The cattle graze calmly: they lower and raise their heads, flick their ears and swish their tails, each a little out of step. Keep the painted storybook style exactly. The camera does not move. Fixed viewpoint. The animal returns to its original pose and position by the end. The animal stays where it is: it does not walk toward or away from the camera, and its head, tail and legs stay inside the frame. Nothing else in the picture moves.",
+      "prompt_source": "prompts.json",
+      "prompt_note": "Exact field from prompts.json plus its shared _tail.",
+      "crop_plate_pixels": [
+        5,
+        196,
+        529,
+        353
+      ],
+      "transcode": {
+        "reference": "rooms/rainforest/tools/transcode.swift",
+        "settings": "H.264 High, 556x162, 195 kbps average, keyframe interval 48, frame reordering, video only, fast-start",
+        "implementation": "software H.264 fallback matching Rainforest settings because AVFoundation decoding is unavailable in this sandbox"
+      },
+      "shipped_sha256": "ae81fe2f63576856467a6685bfe6fd7290e9872268c0b74ff69a4094398ba1ed",
+      "shipped_bytes": 143140,
+      "frame0_composite": {
+        "max_edge_difference_0_255": 128,
+        "mean_edge_difference_0_255": 16.41
+      }
+    },
+    "buffalo": {
+      "file": "buffalo.mp4",
+      "tool": "Grok Imagine",
+      "generated": "2026-11-04",
+      "conversation_id": "412f69b4",
+      "source_clip": "buffalo-r3.mp4",
+      "source_sha256": "bfaabef222b879a82910ae6c2d700910dc7720576d946718fd9801ec98921c28",
+      "prompt": "The buffalo slowly chews, flicks its ears and swings its head to shoo a fly, then settles. Keep the painted storybook style exactly. The camera does not move. Fixed viewpoint. The animal returns to its original pose and position by the end. The animal stays where it is: it does not walk toward or away from the camera, and its head, tail and legs stay inside the frame. Nothing else in the picture moves.",
+      "prompt_source": "prompts.json",
+      "prompt_note": "Exact field from prompts.json plus its shared _tail. The accepted -r2/-r3 file is a short-prompt retry per README.md; prompts.json does not preserve the retry's exact abbreviated wording.",
+      "crop_plate_pixels": [
+        880,
+        734,
+        1448,
+        986
+      ],
+      "transcode": {
+        "reference": "rooms/rainforest/tools/transcode.swift",
+        "settings": "H.264 High, 602x260, 338 kbps average, keyframe interval 48, frame reordering, video only, fast-start",
+        "implementation": "software H.264 fallback matching Rainforest settings because AVFoundation decoding is unavailable in this sandbox"
+      },
+      "shipped_sha256": "60d76d64ef0229e8003b75aed9788db0c27414aac09e029ac047ad375b429b7f",
+      "shipped_bytes": 257160,
+      "frame0_composite": {
+        "max_edge_difference_0_255": 190,
+        "mean_edge_difference_0_255": 21.62
+      }
+    },
+    "bull": {
+      "file": "bull.mp4",
+      "tool": "Grok Imagine",
+      "generated": "2026-11-04",
+      "conversation_id": "8a3c6a02",
+      "source_clip": "bull-r2.mp4",
+      "source_sha256": "5738cd0ecb6764410468547d2bf2f8d63bd7376d43ba878d29ac0a2af17d017b",
+      "prompt": "The bull snorts softly, tosses his head once and paws the ground gently with one front hoof, then stands calm again. Keep the painted storybook style exactly. The camera does not move. Fixed viewpoint. The animal returns to its original pose and position by the end. The animal stays where it is: it does not walk toward or away from the camera, and its head, tail and legs stay inside the frame. Nothing else in the picture moves.",
+      "prompt_source": "prompts.json",
+      "prompt_note": "Exact field from prompts.json plus its shared _tail. The accepted -r2/-r3 file is a short-prompt retry per README.md; prompts.json does not preserve the retry's exact abbreviated wording.",
+      "crop_plate_pixels": [
+        498,
+        136,
+        777,
+        368
+      ],
+      "transcode": {
+        "reference": "rooms/rainforest/tools/transcode.swift",
+        "settings": "H.264 High, 296x244, 156 kbps average, keyframe interval 48, frame reordering, video only, fast-start",
+        "implementation": "software H.264 fallback matching Rainforest settings because AVFoundation decoding is unavailable in this sandbox"
+      },
+      "shipped_sha256": "cec0535ec0c2198de21845fada63f6fad7b3f871e64d846928c6cca0630e0984",
+      "shipped_bytes": 102331,
+      "frame0_composite": {
+        "max_edge_difference_0_255": 118,
+        "mean_edge_difference_0_255": 18.56
+      }
+    },
+    "calf": {
+      "file": "calf.mp4",
+      "tool": "Grok Imagine",
+      "generated": "2026-11-04",
+      "conversation_id": "3c85686c",
+      "source_clip": "calf-r2.mp4",
+      "source_sha256": "49c2930cf28b6e714e440219da304ad13e3f73dd3dab7031c6bd5f55e6584241",
+      "prompt": "The calf gives a playful little hop on the spot, wiggles its ears and wags its tail, then settles. Keep the painted storybook style exactly. The camera does not move. Fixed viewpoint. The animal returns to its original pose and position by the end. The animal stays where it is: it does not walk toward or away from the camera, and its head, tail and legs stay inside the frame. Nothing else in the picture moves.",
+      "prompt_source": "prompts.json",
+      "prompt_note": "Exact field from prompts.json plus its shared _tail. The accepted -r2/-r3 file is a short-prompt retry per README.md; prompts.json does not preserve the retry's exact abbreviated wording.",
+      "crop_plate_pixels": [
+        409,
+        478,
+        623,
+        691
+      ],
+      "transcode": {
+        "reference": "rooms/rainforest/tools/transcode.swift",
+        "settings": "H.264 High, 226x222, 108 kbps average, keyframe interval 48, frame reordering, video only, fast-start",
+        "implementation": "software H.264 fallback matching Rainforest settings because AVFoundation decoding is unavailable in this sandbox"
+      },
+      "shipped_sha256": "b061f4500fd16ac28602a2f1aeb79e397cebebb34f1f3f91515b711864398de2",
+      "shipped_bytes": 74497,
+      "frame0_composite": {
+        "max_edge_difference_0_255": 170,
+        "mean_edge_difference_0_255": 17.2
+      }
+    },
+    "cow": {
+      "file": "cow.mp4",
+      "tool": "Grok Imagine",
+      "generated": "2026-11-04",
+      "conversation_id": "0f63b4c6",
+      "source_clip": "cow.mp4",
+      "source_sha256": "dab37b895ba1b5fafa2027e821e9b71ec91f117b828e383cf8f51e48ca995700",
+      "prompt": "The cow gently swishes her tail, flicks one ear and slowly lowers her head to nibble the grass, then lifts it again with a soft moo. Keep the painted storybook style exactly. The camera does not move. Fixed viewpoint. The animal returns to its original pose and position by the end. The animal stays where it is: it does not walk toward or away from the camera, and its head, tail and legs stay inside the frame. Nothing else in the picture moves.",
+      "prompt_source": "prompts.json",
+      "prompt_note": "Exact field from prompts.json plus its shared _tail.",
+      "crop_plate_pixels": [
+        5,
+        337,
+        492,
+        692
+      ],
+      "transcode": {
+        "reference": "rooms/rainforest/tools/transcode.swift",
+        "settings": "H.264 High, 516x376, 419 kbps average, keyframe interval 48, frame reordering, video only, fast-start",
+        "implementation": "software H.264 fallback matching Rainforest settings because AVFoundation decoding is unavailable in this sandbox"
+      },
+      "shipped_sha256": "7b78325f04d23f6bee18b2b2eaba9e9b65425399a9c3a1ffe3ad584bfcd8a762",
+      "shipped_bytes": 295821,
+      "frame0_composite": {
+        "max_edge_difference_0_255": 143,
+        "mean_edge_difference_0_255": 13.57
+      }
+    },
+    "goat": {
+      "file": "goat.mp4",
+      "tool": "Grok Imagine",
+      "generated": "2026-11-04",
+      "conversation_id": "6eb3c9ff",
+      "source_clip": "goat.mp4",
+      "source_sha256": "b54d34ad6a92ae20a869bd2c71d8e26c1edbe7e71e227dbbd5469863b79b93f0",
+      "prompt": "The goat chews, tilts its head curiously, twitches its ears and gives a little bleat. Keep the painted storybook style exactly. The camera does not move. Fixed viewpoint. The animal returns to its original pose and position by the end. The animal stays where it is: it does not walk toward or away from the camera, and its head, tail and legs stay inside the frame. Nothing else in the picture moves.",
+      "prompt_source": "prompts.json",
+      "prompt_note": "Exact field from prompts.json plus its shared _tail.",
+      "crop_plate_pixels": [
+        1043,
+        351,
+        1313,
+        706
+      ],
+      "transcode": {
+        "reference": "rooms/rainforest/tools/transcode.swift",
+        "settings": "H.264 High, 286x374, 231 kbps average, keyframe interval 48, frame reordering, video only, fast-start",
+        "implementation": "software H.264 fallback matching Rainforest settings because AVFoundation decoding is unavailable in this sandbox"
+      },
+      "shipped_sha256": "25967a8da900e66bcae16c10c3b0abcf545fd3a88963b14317dea5953127c8c8",
+      "shipped_bytes": 164710,
+      "frame0_composite": {
+        "max_edge_difference_0_255": 190,
+        "mean_edge_difference_0_255": 19.28
+      }
+    },
+    "kid": {
+      "file": "kid.mp4",
+      "tool": "Grok Imagine",
+      "generated": "2026-11-04",
+      "conversation_id": "a3adb4f2",
+      "source_clip": "kid.mp4",
+      "source_sha256": "f4037d10a04e238bf1b1208d55562789f32c6db3b7a48a85a3bc07dd07489b97",
+      "prompt": "The baby goat does a small playful hop on the spot, shakes its head and wags its tail. Keep the painted storybook style exactly. The camera does not move. Fixed viewpoint. The animal returns to its original pose and position by the end. The animal stays where it is: it does not walk toward or away from the camera, and its head, tail and legs stay inside the frame. Nothing else in the picture moves.",
+      "prompt_source": "prompts.json",
+      "prompt_note": "Exact field from prompts.json plus its shared _tail.",
+      "crop_plate_pixels": [
+        1287,
+        488,
+        1448,
+        675
+      ],
+      "transcode": {
+        "reference": "rooms/rainforest/tools/transcode.swift",
+        "settings": "H.264 High, 170x198, 73 kbps average, keyframe interval 48, frame reordering, video only, fast-start",
+        "implementation": "software H.264 fallback matching Rainforest settings because AVFoundation decoding is unavailable in this sandbox"
+      },
+      "shipped_sha256": "6e0f5158b17eecbd7ddb1e878ed64a15f058e5e8f66454c5bfff2dcf18313cf1",
+      "shipped_bytes": 51557,
+      "frame0_composite": {
+        "max_edge_difference_0_255": 126,
+        "mean_edge_difference_0_255": 18.06
+      }
+    },
+    "lamb": {
+      "file": "lamb.mp4",
+      "tool": "Grok Imagine",
+      "generated": "2026-11-04",
+      "conversation_id": "342a2ba2",
+      "source_clip": "lamb-r3.mp4",
+      "source_sha256": "7b0bf99df17e8a54861abb3ec83a8744ecef4bb3e9f77b3a61f3cd9ca400b278",
+      "prompt": "The lamb gives a happy little bounce on the spot, wiggles its tail and bleats. Keep the painted storybook style exactly. The camera does not move. Fixed viewpoint. The animal returns to its original pose and position by the end. The animal stays where it is: it does not walk toward or away from the camera, and its head, tail and legs stay inside the frame. Nothing else in the picture moves.",
+      "prompt_source": "prompts.json",
+      "prompt_note": "Exact field from prompts.json plus its shared _tail. The accepted -r2/-r3 file is a short-prompt retry per README.md; prompts.json does not preserve the retry's exact abbreviated wording.",
+      "crop_plate_pixels": [
+        660,
+        592,
+        829,
+        714
+      ],
+      "transcode": {
+        "reference": "rooms/rainforest/tools/transcode.swift",
+        "settings": "H.264 High, 178x126, 48 kbps average, keyframe interval 48, frame reordering, video only, fast-start",
+        "implementation": "software H.264 fallback matching Rainforest settings because AVFoundation decoding is unavailable in this sandbox"
+      },
+      "shipped_sha256": "f89340cb5b6b151c62bcc6092e9a5fa215eff9c701fcffbdf29c555b8b759f6e",
+      "shipped_bytes": 36017,
+      "frame0_composite": {
+        "max_edge_difference_0_255": 117,
+        "mean_edge_difference_0_255": 21.86
+      }
+    },
+    "ox": {
+      "file": "ox.mp4",
+      "tool": "Grok Imagine",
+      "generated": "2026-11-04",
+      "conversation_id": "a93f0f95",
+      "source_clip": "ox.mp4",
+      "source_sha256": "d30794ffcd27c598e1df00c0244f09633015d34f115bf226c39b5c599a05d6ea",
+      "prompt": "The ox slowly turns his head, blinks, chews and flicks his tail, calm and patient. Keep the painted storybook style exactly. The camera does not move. Fixed viewpoint. The animal returns to its original pose and position by the end. The animal stays where it is: it does not walk toward or away from the camera, and its head, tail and legs stay inside the frame. Nothing else in the picture moves.",
+      "prompt_source": "prompts.json",
+      "prompt_note": "Exact field from prompts.json plus its shared _tail.",
+      "crop_plate_pixels": [
+        873,
+        221,
+        1262,
+        434
+      ],
+      "transcode": {
+        "reference": "rooms/rainforest/tools/transcode.swift",
+        "settings": "H.264 High, 412x224, 199 kbps average, keyframe interval 48, frame reordering, video only, fast-start",
+        "implementation": "software H.264 fallback matching Rainforest settings because AVFoundation decoding is unavailable in this sandbox"
+      },
+      "shipped_sha256": "d41c5fbf662c28d2710add086d0ace09412d6233b4b978bd46b71ebfd854de9f",
+      "shipped_bytes": 127879,
+      "frame0_composite": {
+        "max_edge_difference_0_255": 117,
+        "mean_edge_difference_0_255": 11.66
+      }
+    },
+    "pig": {
+      "file": "pig.mp4",
+      "tool": "Grok Imagine",
+      "generated": "2026-11-04",
+      "conversation_id": "60f4427d",
+      "source_clip": "pig.mp4",
+      "source_sha256": "d2acb659c44bfe1c625605bbba6e4939637c7c1c29b8b97d9220cdf58564ad66",
+      "prompt": "The pig wiggles its snout, sniffs the ground, flaps its ears and gives its curly tail a happy wiggle. Keep the painted storybook style exactly. The camera does not move. Fixed viewpoint. The animal returns to its original pose and position by the end. The animal stays where it is: it does not walk toward or away from the camera, and its head, tail and legs stay inside the frame. Nothing else in the picture moves.",
+      "prompt_source": "prompts.json",
+      "prompt_note": "Exact field from prompts.json plus its shared _tail.",
+      "crop_plate_pixels": [
+        121,
+        695,
+        576,
+        990
+      ],
+      "transcode": {
+        "reference": "rooms/rainforest/tools/transcode.swift",
+        "settings": "H.264 High, 482x312, 325 kbps average, keyframe interval 48, frame reordering, video only, fast-start",
+        "implementation": "software H.264 fallback matching Rainforest settings because AVFoundation decoding is unavailable in this sandbox"
+      },
+      "shipped_sha256": "182a83656917d9248ff082b7ddad623a506ff17d20c62e766c356b33d26c3d06",
+      "shipped_bytes": 218601,
+      "frame0_composite": {
+        "max_edge_difference_0_255": 162,
+        "mean_edge_difference_0_255": 18.94
+      }
+    },
+    "sheep": {
+      "file": "sheep.mp4",
+      "tool": "Grok Imagine",
+      "generated": "2026-11-04",
+      "conversation_id": "9eddcf50",
+      "source_clip": "sheep-r2.mp4",
+      "source_sha256": "21547e4c0d62e5d1245dc411d4bc229ddd3f1deaec38228a3714fb662a4f43fb",
+      "prompt": "The sheep bleat softly, nod their heads and twitch their ears while chewing grass. Keep the painted storybook style exactly. The camera does not move. Fixed viewpoint. The animal returns to its original pose and position by the end. The animal stays where it is: it does not walk toward or away from the camera, and its head, tail and legs stay inside the frame. Nothing else in the picture moves.",
+      "prompt_source": "prompts.json",
+      "prompt_note": "Exact field from prompts.json plus its shared _tail. The accepted -r2/-r3 file is a short-prompt retry per README.md; prompts.json does not preserve the retry's exact abbreviated wording.",
+      "crop_plate_pixels": [
+        602,
+        479,
+        914,
+        607
+      ],
+      "transcode": {
+        "reference": "rooms/rainforest/tools/transcode.swift",
+        "settings": "H.264 High, 330x134, 96 kbps average, keyframe interval 48, frame reordering, video only, fast-start",
+        "implementation": "software H.264 fallback matching Rainforest settings because AVFoundation decoding is unavailable in this sandbox"
+      },
+      "shipped_sha256": "cfaa4d98dc3b441dfb007514e8061987fb8838b359f7958ec6a2323a37f586ae",
+      "shipped_bytes": 68196,
+      "frame0_composite": {
+        "max_edge_difference_0_255": 120,
+        "mean_edge_difference_0_255": 18.28
+      }
+    }
+  }
+}

@@ -1,0 +1,249 @@
+{
+  "room": "farm",
+  "format": "AAC-LC in .m4a, mono 48 kHz, 96 kbps, peak -3 dBFS",
+  "clips": {
+    "beef-cattle": {
+      "tool": "Grok Imagine",
+      "generated": "2026-11-04",
+      "source_clip": "beef-cattle.mp4",
+      "source_sha256": "f82366d35260301f819520f8e4f706666c84ce8f66a30be30f8f668602395065",
+      "prompt": "The cattle graze calmly: they lower and raise their heads, flick their ears and swish their tails, each a little out of step. Keep the painted storybook style exactly. The camera does not move. Fixed viewpoint. The animal returns to its original pose and position by the end. The animal stays where it is: it does not walk toward or away from the camera, and its head, tail and legs stay inside the frame. Nothing else in the picture moves.",
+      "prompt_source": "prompts.json",
+      "prompt_note": "Exact field from prompts.json plus its shared _tail.",
+      "source_check": {
+        "seconds": 6.059,
+        "peak_dbfs": -22.2,
+        "rms_dbfs": -44.9,
+        "spectral_flatness": 0.111,
+        "energy_below_500hz_percent": 27.3
+      },
+      "status": "shipped",
+      "file": "beef-cattle.m4a",
+      "processing": "48 kHz mono PCM; trim to first/last 10 ms window above -40 dB relative to peak with 30 ms lead and 200 ms tail; 10 ms fades; peak normalised to -3 dBFS; AAC 96 kbps",
+      "implementation_note": "Source decode and AAC encode used the temporary software fallback because this sandbox's afconvert/AudioToolbox cannot decode or encode these tracks.",
+      "cut_seconds": [
+        0.0,
+        6.059
+      ],
+      "gain_db": 19.23,
+      "shipped_sha256": "df21708bfa1c7218b04a81a26c727f8452b55c6557ab0a6d59b1d39b1a5ee54d",
+      "shipped_bytes": 75245
+    },
+    "buffalo": {
+      "tool": "Grok Imagine",
+      "generated": "2026-11-04",
+      "source_clip": "buffalo-r3.mp4",
+      "source_sha256": "bfaabef222b879a82910ae6c2d700910dc7720576d946718fd9801ec98921c28",
+      "prompt": "The buffalo slowly chews, flicks its ears and swings its head to shoo a fly, then settles. Keep the painted storybook style exactly. The camera does not move. Fixed viewpoint. The animal returns to its original pose and position by the end. The animal stays where it is: it does not walk toward or away from the camera, and its head, tail and legs stay inside the frame. Nothing else in the picture moves.",
+      "prompt_source": "prompts.json",
+      "prompt_note": "Exact field from prompts.json plus its shared _tail. The accepted -r2/-r3 file is a short-prompt retry per README.md; prompts.json does not preserve the retry's exact abbreviated wording.",
+      "source_check": {
+        "seconds": 6.059,
+        "peak_dbfs": -54.1,
+        "rms_dbfs": -78.1,
+        "spectral_flatness": 0.44,
+        "energy_below_500hz_percent": 2.5
+      },
+      "status": "omitted",
+      "reason": "empty AAC track carrying codec noise"
+    },
+    "bull": {
+      "tool": "Grok Imagine",
+      "generated": "2026-11-04",
+      "source_clip": "bull-r2.mp4",
+      "source_sha256": "5738cd0ecb6764410468547d2bf2f8d63bd7376d43ba878d29ac0a2af17d017b",
+      "prompt": "The bull snorts softly, tosses his head once and paws the ground gently with one front hoof, then stands calm again. Keep the painted storybook style exactly. The camera does not move. Fixed viewpoint. The animal returns to its original pose and position by the end. The animal stays where it is: it does not walk toward or away from the camera, and its head, tail and legs stay inside the frame. Nothing else in the picture moves.",
+      "prompt_source": "prompts.json",
+      "prompt_note": "Exact field from prompts.json plus its shared _tail. The accepted -r2/-r3 file is a short-prompt retry per README.md; prompts.json does not preserve the retry's exact abbreviated wording.",
+      "source_check": {
+        "seconds": 6.059,
+        "peak_dbfs": -32.3,
+        "rms_dbfs": -53.5,
+        "spectral_flatness": 0.195,
+        "energy_below_500hz_percent": 35.2
+      },
+      "status": "omitted",
+      "reason": "very quiet and spectrally noise-like; no reliable animal call"
+    },
+    "calf": {
+      "tool": "Grok Imagine",
+      "generated": "2026-11-04",
+      "source_clip": "calf-r2.mp4",
+      "source_sha256": "49c2930cf28b6e714e440219da304ad13e3f73dd3dab7031c6bd5f55e6584241",
+      "prompt": "The calf gives a playful little hop on the spot, wiggles its ears and wags its tail, then settles. Keep the painted storybook style exactly. The camera does not move. Fixed viewpoint. The animal returns to its original pose and position by the end. The animal stays where it is: it does not walk toward or away from the camera, and its head, tail and legs stay inside the frame. Nothing else in the picture moves.",
+      "prompt_source": "prompts.json",
+      "prompt_note": "Exact field from prompts.json plus its shared _tail. The accepted -r2/-r3 file is a short-prompt retry per README.md; prompts.json does not preserve the retry's exact abbreviated wording.",
+      "source_check": {
+        "seconds": 6.059,
+        "peak_dbfs": -47.2,
+        "rms_dbfs": -60.4,
+        "spectral_flatness": 0.24,
+        "energy_below_500hz_percent": 41.6
+      },
+      "status": "omitted",
+      "reason": "empty AAC track carrying codec noise"
+    },
+    "cow": {
+      "tool": "Grok Imagine",
+      "generated": "2026-11-04",
+      "source_clip": "cow.mp4",
+      "source_sha256": "dab37b895ba1b5fafa2027e821e9b71ec91f117b828e383cf8f51e48ca995700",
+      "prompt": "The cow gently swishes her tail, flicks one ear and slowly lowers her head to nibble the grass, then lifts it again with a soft moo. Keep the painted storybook style exactly. The camera does not move. Fixed viewpoint. The animal returns to its original pose and position by the end. The animal stays where it is: it does not walk toward or away from the camera, and its head, tail and legs stay inside the frame. Nothing else in the picture moves.",
+      "prompt_source": "prompts.json",
+      "prompt_note": "Exact field from prompts.json plus its shared _tail.",
+      "source_check": {
+        "seconds": 6.059,
+        "peak_dbfs": -11.0,
+        "rms_dbfs": -32.3,
+        "spectral_flatness": 0.114,
+        "energy_below_500hz_percent": 34.5
+      },
+      "status": "shipped",
+      "file": "cow.m4a",
+      "processing": "48 kHz mono PCM; trim to first/last 10 ms window above -40 dB relative to peak with 30 ms lead and 200 ms tail; 10 ms fades; peak normalised to -3 dBFS; AAC 96 kbps",
+      "implementation_note": "Source decode and AAC encode used the temporary software fallback because this sandbox's afconvert/AudioToolbox cannot decode or encode these tracks.",
+      "cut_seconds": [
+        0.0,
+        6.059
+      ],
+      "gain_db": 7.95,
+      "shipped_sha256": "3a67f3e71505380dd6ec956b7d7d08bfcc6a79048fee10852a8f2f1d39a857e2",
+      "shipped_bytes": 75007
+    },
+    "goat": {
+      "tool": "Grok Imagine",
+      "generated": "2026-11-04",
+      "source_clip": "goat.mp4",
+      "source_sha256": "b54d34ad6a92ae20a869bd2c71d8e26c1edbe7e71e227dbbd5469863b79b93f0",
+      "prompt": "The goat chews, tilts its head curiously, twitches its ears and gives a little bleat. Keep the painted storybook style exactly. The camera does not move. Fixed viewpoint. The animal returns to its original pose and position by the end. The animal stays where it is: it does not walk toward or away from the camera, and its head, tail and legs stay inside the frame. Nothing else in the picture moves.",
+      "prompt_source": "prompts.json",
+      "prompt_note": "Exact field from prompts.json plus its shared _tail.",
+      "source_check": {
+        "seconds": 6.059,
+        "peak_dbfs": -30.4,
+        "rms_dbfs": -55.0,
+        "spectral_flatness": 0.11,
+        "energy_below_500hz_percent": 12.1
+      },
+      "status": "shipped",
+      "file": "goat.m4a",
+      "processing": "48 kHz mono PCM; trim to first/last 10 ms window above -40 dB relative to peak with 30 ms lead and 200 ms tail; 10 ms fades; peak normalised to -3 dBFS; AAC 96 kbps",
+      "implementation_note": "Source decode and AAC encode used the temporary software fallback because this sandbox's afconvert/AudioToolbox cannot decode or encode these tracks.",
+      "cut_seconds": [
+        0.0,
+        6.059
+      ],
+      "gain_db": 27.37,
+      "shipped_sha256": "f896d99b9a52f65ee0710d89861741104ade0434cdd04bfd8a6a3bdeb90a32c0",
+      "shipped_bytes": 75067
+    },
+    "kid": {
+      "tool": "Grok Imagine",
+      "generated": "2026-11-04",
+      "source_clip": "kid.mp4",
+      "source_sha256": "f4037d10a04e238bf1b1208d55562789f32c6db3b7a48a85a3bc07dd07489b97",
+      "prompt": "The baby goat does a small playful hop on the spot, shakes its head and wags its tail. Keep the painted storybook style exactly. The camera does not move. Fixed viewpoint. The animal returns to its original pose and position by the end. The animal stays where it is: it does not walk toward or away from the camera, and its head, tail and legs stay inside the frame. Nothing else in the picture moves.",
+      "prompt_source": "prompts.json",
+      "prompt_note": "Exact field from prompts.json plus its shared _tail.",
+      "source_check": {
+        "seconds": 6.059,
+        "peak_dbfs": -3.3,
+        "rms_dbfs": -25.7,
+        "spectral_flatness": 0.052,
+        "energy_below_500hz_percent": 2.2
+      },
+      "status": "shipped",
+      "file": "kid.m4a",
+      "processing": "48 kHz mono PCM; trim to first/last 10 ms window above -40 dB relative to peak with 30 ms lead and 200 ms tail; 10 ms fades; peak normalised to -3 dBFS; AAC 96 kbps",
+      "implementation_note": "Source decode and AAC encode used the temporary software fallback because this sandbox's afconvert/AudioToolbox cannot decode or encode these tracks.",
+      "cut_seconds": [
+        2.51,
+        5.74
+      ],
+      "gain_db": 0.3,
+      "shipped_sha256": "f6f4a43525da7b6ecbf33fccb1bc826386d66c89847ea570de67d1357d4ca4fa",
+      "shipped_bytes": 40788
+    },
+    "lamb": {
+      "tool": "Grok Imagine",
+      "generated": "2026-11-04",
+      "source_clip": "lamb-r3.mp4",
+      "source_sha256": "7b0bf99df17e8a54861abb3ec83a8744ecef4bb3e9f77b3a61f3cd9ca400b278",
+      "prompt": "The lamb gives a happy little bounce on the spot, wiggles its tail and bleats. Keep the painted storybook style exactly. The camera does not move. Fixed viewpoint. The animal returns to its original pose and position by the end. The animal stays where it is: it does not walk toward or away from the camera, and its head, tail and legs stay inside the frame. Nothing else in the picture moves.",
+      "prompt_source": "prompts.json",
+      "prompt_note": "Exact field from prompts.json plus its shared _tail. The accepted -r2/-r3 file is a short-prompt retry per README.md; prompts.json does not preserve the retry's exact abbreviated wording.",
+      "source_check": {
+        "seconds": 6.059,
+        "peak_dbfs": -46.1,
+        "rms_dbfs": -63.5,
+        "spectral_flatness": 0.216,
+        "energy_below_500hz_percent": 65.8
+      },
+      "status": "omitted",
+      "reason": "empty AAC track carrying codec noise"
+    },
+    "ox": {
+      "tool": "Grok Imagine",
+      "generated": "2026-11-04",
+      "source_clip": "ox.mp4",
+      "source_sha256": "d30794ffcd27c598e1df00c0244f09633015d34f115bf226c39b5c599a05d6ea",
+      "prompt": "The ox slowly turns his head, blinks, chews and flicks his tail, calm and patient. Keep the painted storybook style exactly. The camera does not move. Fixed viewpoint. The animal returns to its original pose and position by the end. The animal stays where it is: it does not walk toward or away from the camera, and its head, tail and legs stay inside the frame. Nothing else in the picture moves.",
+      "prompt_source": "prompts.json",
+      "prompt_note": "Exact field from prompts.json plus its shared _tail.",
+      "source_check": {
+        "seconds": 6.059,
+        "peak_dbfs": -28.0,
+        "rms_dbfs": -45.7,
+        "spectral_flatness": 0.072,
+        "energy_below_500hz_percent": 51.0
+      },
+      "status": "shipped",
+      "file": "ox.m4a",
+      "processing": "48 kHz mono PCM; trim to first/last 10 ms window above -40 dB relative to peak with 30 ms lead and 200 ms tail; 10 ms fades; peak normalised to -3 dBFS; AAC 96 kbps",
+      "implementation_note": "Source decode and AAC encode used the temporary software fallback because this sandbox's afconvert/AudioToolbox cannot decode or encode these tracks.",
+      "cut_seconds": [
+        0.0,
+        6.059
+      ],
+      "gain_db": 25.0,
+      "shipped_sha256": "ad47bf5c9e7ff4a9dc61793647b4cfaa9e1740e14649608da20b05bb115f947a",
+      "shipped_bytes": 75197
+    },
+    "pig": {
+      "tool": "Grok Imagine",
+      "generated": "2026-11-04",
+      "source_clip": "pig.mp4",
+      "source_sha256": "d2acb659c44bfe1c625605bbba6e4939637c7c1c29b8b97d9220cdf58564ad66",
+      "prompt": "The pig wiggles its snout, sniffs the ground, flaps its ears and gives its curly tail a happy wiggle. Keep the painted storybook style exactly. The camera does not move. Fixed viewpoint. The animal returns to its original pose and position by the end. The animal stays where it is: it does not walk toward or away from the camera, and its head, tail and legs stay inside the frame. Nothing else in the picture moves.",
+      "prompt_source": "prompts.json",
+      "prompt_note": "Exact field from prompts.json plus its shared _tail.",
+      "source_check": {
+        "seconds": 6.059,
+        "peak_dbfs": -41.4,
+        "rms_dbfs": -60.8,
+        "spectral_flatness": 0.237,
+        "energy_below_500hz_percent": 26.7
+      },
+      "status": "omitted",
+      "reason": "empty AAC track carrying codec noise"
+    },
+    "sheep": {
+      "tool": "Grok Imagine",
+      "generated": "2026-11-04",
+      "source_clip": "sheep-r2.mp4",
+      "source_sha256": "21547e4c0d62e5d1245dc411d4bc229ddd3f1deaec38228a3714fb662a4f43fb",
+      "prompt": "The sheep bleat softly, nod their heads and twitch their ears while chewing grass. Keep the painted storybook style exactly. The camera does not move. Fixed viewpoint. The animal returns to its original pose and position by the end. The animal stays where it is: it does not walk toward or away from the camera, and its head, tail and legs stay inside the frame. Nothing else in the picture moves.",
+      "prompt_source": "prompts.json",
+      "prompt_note": "Exact field from prompts.json plus its shared _tail. The accepted -r2/-r3 file is a short-prompt retry per README.md; prompts.json does not preserve the retry's exact abbreviated wording.",
+      "source_check": {
+        "seconds": 6.059,
+        "peak_dbfs": -54.6,
+        "rms_dbfs": -79.8,
+        "spectral_flatness": 0.456,
+        "energy_below_500hz_percent": 8.0
+      },
+      "status": "omitted",
+      "reason": "empty AAC track carrying codec noise"
+    }
+  }
+}
