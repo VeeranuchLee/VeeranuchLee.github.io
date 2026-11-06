@@ -1,0 +1,511 @@
+<meta charset="utf-8">
+<title>Home & pets — Our Animal Book</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#241706;overflow:hidden;
+  font-family:ui-rounded,"Avenir Next",system-ui,sans-serif;
+  -webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+body{display:grid;place-items:center}
+
+/* Touch hygiene (2026-09-26, zoom fix C). touch-action:manipulation on BOTH html and
+   body, not body alone: a tap resolves against every ancestor, so the html surface must
+   not stay `auto`. It is NOT the whole answer -- iPadOS Safari still double-tap zooms
+   with it in place (owner 2026-09-25: "kids sometimes double tap, and on ipad it's zoom
+   in, then they cant zoom out"), which is what ./tap-zoom-guard.js below is for. It is
+   NOT a gesturestart handler and must never become one: a document-level pinch blocker
+   is the banned pattern in INTERACTION-DIRECTION.md. There is no drag surface in a room,
+   so nothing overrides these. */
+html,body{touch-action:manipulation}
+
+/* One unit tied to the stage, so every label scales with the picture instead of with
+   the window. The stage width is a known expression, so this needs no container query. */
+:root{--sw:min(100vw,133.333vh);--fs:calc(var(--sw)*0.0175);--guide-w:16.229%;
+  --gfade:60ms}
+
+.stage{position:relative;width:var(--sw);aspect-ratio:4/3;overflow:hidden;
+  background:#241706 url("assets/page.webp") center/100% 100% no-repeat}
+
+/* the video layer: one per animal, sitting on the exact rectangle it was cropped from.
+   The 9px feather matters: where an animal's motion reaches the edge of its own clip the
+   video and the still art disagree, and a hard boundary would draw a rectangle on the
+   page. Fading the last few pixels dissolves it. */
+.patch{position:absolute;z-index:2;object-fit:fill;opacity:0;pointer-events:none;
+  transition:opacity .18s linear;
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 9px,#000 calc(100% - 9px),transparent),
+                     linear-gradient(to bottom,transparent,#000 9px,#000 calc(100% - 9px),transparent);
+  -webkit-mask-composite:source-in;
+  mask-image:linear-gradient(to right,transparent,#000 9px,#000 calc(100% - 9px),transparent),
+             linear-gradient(to bottom,transparent,#000 9px,#000 calc(100% - 9px),transparent);
+  mask-composite:intersect}
+.patch.on{opacity:1}
+.patch.fading{transition:opacity .45s ease-out}
+
+/* The two guides. Three frames of the same pair; pressing them swaps the frame.
+
+   Decision 21 fixes a guide at 8% of the stage and says to ship it as one variable; the
+   owner's frames hold both children in one picture, so --guide-w is the pair and
+   tools/build-guides.py scales it so each CHILD lands at 8% - measured, not assumed.
+
+   They are three independent renders, not one drawing with a part changed, so what swaps
+   is a pose and an expression rather than a blink; decision 21 allows exactly that for a
+   guide, and warns against it for animals. At this size the faces are ~20px, so it is the
+   arms and the laugh that read.
+
+   Where they stand is room.json's `guides.at`, and tools/room-guides.py asserts they are
+   clear of every animal. The corner is the same in every room on purpose: children who stand
+   in the same place on every page are two guides, and children who move are a surprise.
+
+   Decision 21 says a guide is tappable, and until now these were scenery. The press target
+   is the pair's own rectangle, trimmed clear of any tap square it clips, and it is the one
+   on the page that answers with a picture instead of a voice. */
+.guides{position:absolute;left:83.080%;top:84.530%;width:16.229%;z-index:3;
+  height:auto;pointer-events:none;opacity:0;transition:opacity var(--gfade) linear;
+  transform-origin:50% 100%;filter:drop-shadow(0 6px 10px #0006)}
+.guides.on{opacity:1}
+.gtap{position:absolute;z-index:6;margin:0;padding:0;border:0;background:transparent;
+  cursor:pointer;border-radius:14px;-webkit-appearance:none}
+.gtap:focus-visible{outline:3px solid #ffe9a3;outline-offset:2px}
+/* The bounce that marks the press. It is applied to all three frames at once, not to the
+   one becoming visible, or a frame swap mid-animation would cut it short. It exists because
+   the owner could not see a press register at all: at 8% of the stage, in the corner of a
+   busy page, the change of expression needs something that says "look here" at the moment
+   the finger lands. */
+@keyframes guidehop{0%{transform:scale(1) translateY(0)}
+  35%{transform:scale(1.075) translateY(-3.2%)}
+  70%{transform:scale(0.995) translateY(0.4%)}
+  100%{transform:scale(1) translateY(0)}}
+.guides.hop{animation:guidehop .46s cubic-bezier(.3,1.5,.5,1)}
+
+/* the finger target: a marker placed ON the animal, nothing to do with the video rect.
+   Almost every one is the same 140x140 page px square, because it is a marker and not a
+   description - a target sized to each animal's bounding box lets a big animal swallow a
+   small one. A ribbon-shaped animal may override it in room.json: the rainforest's eel is a
+   645x102 ribbon, so a square would cover a tenth of it and a child aiming at the tail would
+   press open water. Generated by tools/room-rects.py, which fails if any two targets overlap
+   or any falls under 44 CSS px. */
+.tap{position:absolute;z-index:5;margin:0;padding:0;border:0;background:transparent;
+  border-radius:18px;cursor:pointer;-webkit-appearance:none}
+.tap:focus-visible{outline:3px solid #ffe9a3;outline-offset:2px}
+
+/* a tap that has no clip yet still answers, so nothing feels broken */
+@keyframes nudge{0%{transform:scale(1)}45%{transform:scale(1.06)}100%{transform:scale(1)}}
+.tap.nudge{animation:nudge .42s ease-in-out}
+
+/* The name box. The button is 44 CSS px tall for the finger; the pill inside it is 25,
+   because the rule here is to shrink the mark and never the tap target. Placed by
+   tools/room-names.py, which proves each one clears every tap target, every other box,
+   the guides and the sound button. */
+.name{position:absolute;z-index:6;display:grid;place-items:center;margin:0;padding:0;
+  border:0;background:transparent;cursor:pointer;-webkit-appearance:none;font:inherit}
+.name>span{display:block;padding:.28em .7em;border:2px solid #2d4a1c;border-radius:999px;
+  background:linear-gradient(#fffdf3,#ffeec9);color:#22370f;text-align:center;
+  font-size:calc(var(--fs)*var(--s,1));font-weight:800;line-height:1;white-space:nowrap;
+  box-shadow:0 3px 10px #0008;transition:transform .14s,background .14s}
+.name>span>i{display:block;font-style:normal;line-height:1.15}
+.name:hover>span{background:linear-gradient(#fffdf3,#ffe08e);transform:translateY(-1px)}
+.name:focus-visible>span{outline:3px solid #ffe9a3;outline-offset:2px}
+.name.on>span{background:linear-gradient(#fff6d8,#ffd166);
+  box-shadow:0 0 0 3px #ffc52b,0 3px 10px #0008}
+
+/* Sound. AUDIO-DIRECTION.md: every page keeps a Sound toggle. */
+
+/* The room returns to the book's chooser. It sits BESIDE the Sound toggle rather
+   than in the corner, because Sound already owns the corner and moving a control a
+   child has already learned costs more than it buys. The offset is measured in BOTH
+   rooms, not one: 7.1% looked clear in the rainforest
+   but sits under Home & pets's "pet" name box. 15% is the first offset that clears
+   every .tap, .gtap and .name box in both rooms with 1% to spare, so the gap after
+   Sound is the measurement, not a spacing choice. Everything here is
+   percentage-positioned, so a clearance that holds at one size holds at all of them.
+   Taking an animal's tap would be worse than having no way home.
+   Absolute URL on purpose: publishing restructures this file as
+   /animal-book/home-and-pets/index.html, while the chooser is /animal-book/. Using its
+   published absolute URL makes the destination unambiguous in local previews too. */
+.hubx{position:absolute;z-index:7;left:15.000%;top:0.737%;width:5.732%;height:7.643%;
+  display:grid;place-items:center;margin:0;padding:0;cursor:pointer;text-decoration:none;
+  border:2px solid #2d4a1c;border-radius:50%;background:#fffdf3d9;color:#2d4a1c;
+  font-size:calc(var(--fs)*1.15);line-height:1}
+.sound{position:absolute;z-index:7;left:0.552%;top:0.737%;width:5.732%;height:7.643%;
+  display:grid;place-items:center;margin:0;padding:0;cursor:pointer;
+  border:2px solid #2d4a1c;border-radius:50%;background:#fffdf3d9;
+  font-size:calc(var(--fs)*1.15);-webkit-appearance:none}
+.sound.off{background:#dfd8c8d9;color:#7a7a6a}
+
+/* The language layer, opened by a name box. Text, deliberately: this is the one part of
+   the book that is about words rather than pictures - see "Interaction model" in
+   animal-book/README.md. */
+.sheet{position:absolute;inset:0;z-index:9;display:none;place-items:center;
+  background:#06110499;backdrop-filter:blur(3px);padding:3%}
+.sheet.open{display:grid}
+.card{position:relative;width:min(74%,calc(var(--sw)*0.74));max-height:94%;overflow:auto;
+  background:linear-gradient(#fffdf3,#fff4de);border:3px solid #2d4a1c;
+  border-radius:calc(var(--fs)*1.3);box-shadow:0 18px 50px #000a;
+  padding:calc(var(--fs)*1.5) calc(var(--fs)*1.7);color:#22370f;font-size:var(--fs)}
+.card h2{margin:0;padding-right:2.4em;font-size:calc(var(--fs)*2.1);line-height:1.05}
+/* The Thai name, printed and never spoken. DECISIONS.md 3: Thai is a printed label for
+   children who can already read it, so it needs no pronunciation and no audio; the voice
+   script in animals.json leaves it out. */
+.card .thai{margin:.2em 0 0;color:#4a6b2a;font-weight:700;
+  font-size:calc(var(--fs)*1.5);line-height:1.3;
+  font-family:"Noto Sans Thai","Thonburi",ui-rounded,system-ui,sans-serif}
+.card .x{position:absolute;top:calc(var(--fs)*0.9);right:calc(var(--fs)*0.9);
+  width:calc(var(--fs)*2.6);height:calc(var(--fs)*2.6);display:grid;place-items:center;
+  margin:0;padding:0;cursor:pointer;border:2px solid #2d4a1c;border-radius:50%;
+  background:linear-gradient(#fffdf3,#ffeec9);color:#22370f;
+  font:inherit;font-size:calc(var(--fs)*1.25);font-weight:800;line-height:1;
+  -webkit-appearance:none}
+.card .x:hover{background:linear-gradient(#fffdf3,#ffd9d0)}
+.card section{margin-top:calc(var(--fs)*1.15)}
+.card h3{margin:0 0 .35em;font-size:calc(var(--fs)*1.02);letter-spacing:.06em;
+  text-transform:uppercase;color:#6a7d45}
+.card p{margin:0;font-size:calc(var(--fs)*1.22);line-height:1.42}
+.chips{display:flex;flex-wrap:wrap;gap:.45em}
+.chip{padding:.3em .7em;border-radius:999px;background:#e8efd6;border:1.5px solid #c3d3a4;
+  font-size:calc(var(--fs)*1.08)}
+.chip b{font-weight:800}
+/* A gloss on an alternative name - "informal British mixed cat". It is printed and never
+   spoken: a caveat is the wrong thing to read to a child in a three-sentence popup, so
+   room-animals.py keeps glossed names out of the voice script and shows them only here.
+
+   Bracketed, because without the brackets the chip read "night ape misleading" - which looks
+   like part of the name rather than a warning about it. */
+.chip em{font-size:.88em;font-style:normal;color:#6a7d45}
+/* Where each of the three rectangles sits, one rule per animal. All measured, all
+   generated - see the tools named at the top of room-page.py. */
+
+
+.t-cat{left:14.503%;top:25.783%;width:9.669%;height:12.891%}
+.t-canary{left:39.227%;top:20.442%;width:9.669%;height:12.891%}
+.t-aquarium-fish{left:70.787%;top:15.654%;width:9.669%;height:12.891%}
+.t-hamster{left:68.232%;top:30.387%;width:9.669%;height:12.891%}
+.t-mealworm{left:80.110%;top:33.610%;width:9.669%;height:12.891%}
+.t-dog{left:16.575%;top:46.041%;width:9.669%;height:12.891%}
+.t-puppy{left:40.055%;top:60.773%;width:9.669%;height:12.891%}
+.t-guinea-pig{left:59.392%;top:72.284%;width:9.669%;height:12.891%}
+.t-kitten{left:83.771%;top:50.184%;width:9.669%;height:12.891%}
+
+.n-pet{left:7.597%;top:0.737%;width:6.077%;height:7.643%}
+.n-cat{left:4.144%;top:16.390%;width:5.732%;height:7.643%}
+.n-canary{left:39.227%;top:34.346%;width:9.185%;height:7.643%}
+.n-aquarium-fish{left:67.472%;top:6.998%;width:15.746%;height:7.643%}
+.n-hamster{left:67.956%;top:46.317%;width:10.566%;height:7.643%}
+.n-mealworm{left:85.428%;top:41.621%;width:13.881%;height:7.643%}
+.n-dog{left:1.727%;top:90.147%;width:6.630%;height:7.643%}
+.n-puppy{left:36.602%;top:87.569%;width:9.047%;height:7.643%}
+.n-guinea-pig{left:59.392%;top:87.569%;width:12.914%;height:7.643%}
+.n-kitten{left:83.771%;top:67.127%;width:8.564%;height:7.643%}
+
+/* press 'd' to see the tap squares - for review, invisible to a child */
+body.debug .tap{background:#00ff5580;outline:2px solid #00ff55}
+body.debug .patch{outline:2px dashed #ff35d8}
+body.debug .name{outline:2px solid #35c8ff}
+</style>
+
+<div class="stage" id="stage">
+
+  <img class="guides gf0" src="assets/guides/pair-0.webp" alt="" data-first="1">
+  <img class="guides gf1" src="assets/guides/pair-1.webp" alt="">
+  <img class="guides gf2" src="assets/guides/pair-2.webp" alt="">
+  <button class="gtap" style="left:83.080%;top:84.530%;width:16.229%;height:15.470%" aria-label="The two children - press them"></button>
+  <button class="tap t-cat" data-a="cat" aria-label="Hear the name cat"></button>
+  <button class="tap t-canary" data-a="canary" aria-label="Hear the name canary"></button>
+  <button class="tap t-aquarium-fish" data-a="aquarium-fish" aria-label="Hear the name aquarium fish"></button>
+  <button class="tap t-hamster" data-a="hamster" aria-label="Hear the name hamster"></button>
+  <button class="tap t-mealworm" data-a="mealworm" aria-label="Hear the name mealworm"></button>
+  <button class="tap t-dog" data-a="dog" aria-label="Hear the name dog"></button>
+  <button class="tap t-puppy" data-a="puppy" aria-label="Hear the name puppy"></button>
+  <button class="tap t-guinea-pig" data-a="guinea-pig" aria-label="Hear the name guinea pig"></button>
+  <button class="tap t-kitten" data-a="kitten" aria-label="Hear the name kitten"></button>
+  <button class="name scene n-pet" data-a="pet" aria-label="Find out more about the word pet"><span><i>pet</i></span></button>
+  <button class="name n-cat" data-a="cat" aria-label="Find out more about the cat"><span><i>cat</i></span></button>
+  <button class="name n-canary" data-a="canary" aria-label="Find out more about the canary"><span><i>canary</i></span></button>
+  <button class="name n-aquarium-fish" data-a="aquarium-fish" aria-label="Find out more about the aquarium fish"><span><i>aquarium fish</i></span></button>
+  <button class="name n-hamster" data-a="hamster" aria-label="Find out more about the hamster"><span><i>hamster</i></span></button>
+  <button class="name n-mealworm" data-a="mealworm" aria-label="Find out more about the mealworm"><span><i>mealworms</i></span></button>
+  <button class="name n-dog" data-a="dog" aria-label="Find out more about the dog"><span><i>dog</i></span></button>
+  <button class="name n-puppy" data-a="puppy" aria-label="Find out more about the puppy"><span><i>puppy</i></span></button>
+  <button class="name n-guinea-pig" data-a="guinea-pig" aria-label="Find out more about the guinea pig"><span><i>guinea pig</i></span></button>
+  <button class="name n-kitten" data-a="kitten" aria-label="Find out more about the kitten"><span><i>kitten</i></span></button>
+  <button class="sound" id="sound" aria-label="Turn the sound off">🔊</button>
+  <a class="hubx" href="../" aria-label="Back to Our Animal Book" title="Back to Our Animal Book">←</a>
+  <div class="sheet" id="sheet"><div class="card" id="card" role="dialog" aria-modal="true"></div></div>
+</div>
+
+<!-- Zoom fix C (2026-09-25, owner: "pick the method that most likely to work well").
+     A child taps animal names quickly and in quick succession, which is exactly the
+     gesture that zoomed the room in on an iPad. The guard stops the ZOOM of a second
+     quick tap and re-delivers that tap; a multi-finger pinch is never touched, so a
+     child who is zoomed in over a full-screen room can always pinch back out.
+
+     `./tap-zoom-guard.js` is a copy of the app's own guard sitting BESIDE this page, not
+     one reached with `../..`. A room is published at <room>/index.html, one level shallower
+     than rooms/<room>/page-01.html, so any path that climbs out of the page's own
+     directory resolves in the source tree and breaks on the live site. A sibling copy has
+     the same relative path in both, which is the same reason the room's own assets/ is
+     written that way. Keep the three copies byte-identical (sha256 4366d8b4...). -->
+<script src="./tap-zoom-guard.js"></script>
+
+<script>
+const ANIMALS = {"pet": {"slug": "pet", "page_name": "pet", "name": "pet", "thai": "สัตว์เลี้ยง", "scene_word": true, "thai_confidence": "established", "group": "mammals", "say": "", "spot": "An animal kept at home mainly for company, named and allowed in the house; dogs, cats and small cage animals are the usual pictures.", "tell": "A pet is kept for company. Livestock is kept for milk, meat, eggs or wool. A farm cat or sheepdog may do a job and still be loved as a pet, so the line is about why the animal is kept, not a single look.", "similar": ["livestock", "farm animal", "working animal", "stray"], "also": "", "also_names": [], "region": "", "family": [], "script": ["pet.", "An animal kept at home mainly for company, named and allowed in the house; dogs, cats and small cage animals are the usual pictures.", "A pet is kept for company.", "Livestock is kept for milk, meat, eggs or wool.", "A farm cat or sheepdog may do a job and still be loved as a pet, so the line is about why the animal is kept, not a single look."], "headword": "pet"}, "cat": {"slug": "cat", "page_name": "cat", "name": "cat", "thai": "แมว", "scene_word": false, "thai_confidence": "established", "group": "mammals", "say": "", "spot": "A small soft-furred hunter with a short muzzle, upright ears, whiskers and a long balancing tail, kept in houses and on farms.", "tell": "The house cat is the small domestic animal. A wildcat is a stockier wild cousin. Big cats such as lions and tigers are different animals that share the family word cat.", "similar": ["wildcat", "kitten", "lynx", "big cat"], "also": "house cat;domestic cat;moggy (informal British mixed cat)", "also_names": [{"name": "house cat", "gloss": ""}, {"name": "domestic cat", "gloss": ""}, {"name": "moggy", "gloss": "informal British mixed cat"}], "region": "Cat is worldwide. Moggy is informal British for an ordinary mixed house cat, the feline counterpart of mongrel.", "family": [{"label": "a male is", "value": "tom"}, {"label": "a female is", "value": "queen"}, {"label": "a baby is", "value": "kitten"}], "script": ["cat.", "A small soft-furred hunter with a short muzzle, upright ears, whiskers and a long balancing tail, kept in houses and on farms.", "A male is tom.", "A female is queen.", "A baby is kitten.", "It is also called house cat or domestic cat.", "The house cat is the small domestic animal.", "A wildcat is a stockier wild cousin.", "Big cats such as lions and tigers are different animals that share the family word cat."], "headword": "cat"}, "canary": {"slug": "canary", "page_name": "canary", "name": "canary", "thai": "นกคีรีบูน", "scene_word": false, "thai_confidence": "established", "group": "birds", "say": "", "spot": "A small seed-eating cage bird with a short conical bill; pet birds are bright yellow, though other colours occur, and males are kept for song.", "tell": "A canary is a domesticated finch with a straight seed bill, not a hooked parrot bill. A budgerigar is a tiny parrot. A yellowhammer is a wild British bunting, not a cage canary.", "similar": ["finch", "budgerigar", "yellowhammer", "canary (colour)"], "also": "canary bird;domestic canary", "also_names": [{"name": "canary bird", "gloss": ""}, {"name": "domestic canary", "gloss": ""}], "region": "Canary is ordinary British English for the cage bird. The wild island ancestor is not given a second row.", "family": [{"label": "plural", "value": "canaries"}, {"label": "a baby is", "value": "chick"}], "script": ["canary.", "A small seed-eating cage bird with a short conical bill; pet birds are bright yellow, though other colours occur, and males are kept for song.", "The plural is canaries.", "A baby is chick.", "It is also called canary bird or domestic canary.", "A canary is a domesticated finch with a straight seed bill, not a hooked parrot bill.", "A budgerigar is a tiny parrot.", "A yellowhammer is a wild British bunting, not a cage canary."], "headword": "canary"}, "aquarium-fish": {"slug": "aquarium-fish", "page_name": "aquarium fish", "name": "aquarium fish", "thai": "ปลาสวยงาม", "scene_word": false, "thai_confidence": "established", "group": "fish", "say": "", "spot": "There is no single body: aquarium fish are simply fishes kept in a home or shop tank, from a goldfish to a neon tetra or an oscar.", "tell": "Aquarium fish is a keeping-place word, not a family. Tropical fish in a British shop means the heated colourful freshwater set. Coldwater fish are the unheated goldfish-and-shubunkin set. Reef fish are sea fishes of coral, not this shop aisle.", "similar": ["tropical fish", "coldwater fish", "freshwater fish", "reef fish", "pet"], "also": "tank fish;ornamental fish", "also_names": [{"name": "tank fish", "gloss": ""}, {"name": "ornamental fish", "gloss": ""}], "region": "Aquarium fish is ordinary British pet-shop English. Ornamental fish is the trade and regulation phrase and should stay an alternative.", "family": [{"label": "plural", "value": "aquarium fish"}, {"label": "a baby is", "value": "fry"}], "script": ["aquarium fish.", "There is no single body: aquarium fish are simply fishes kept in a home or shop tank, from a goldfish to a neon tetra or an oscar.", "The plural is aquarium fish.", "A baby is fry.", "It is also called tank fish or ornamental fish.", "Aquarium fish is a keeping-place word, not a family.", "Tropical fish in a British shop means the heated colourful freshwater set.", "Coldwater fish are the unheated goldfish-and-shubunkin set.", "Reef fish are sea fishes of coral, not this shop aisle."], "headword": "aquarium fish"}, "hamster": {"slug": "hamster", "page_name": "hamster", "name": "hamster", "thai": "แฮมสเตอร์", "scene_word": false, "thai_confidence": "established", "group": "mammals", "say": "", "spot": "A small stocky rodent with a tiny tail, large cheek pouches and a short face; pet animals are golden-brown, cream or patterned.", "tell": "A hamster is stocky, nocturnal and almost tailless, with cheek pouches that bulge. A gerbil is slimmer, out by day, and has a long furry tail. A guinea pig is much larger and fully tailless.", "similar": ["gerbil", "guinea pig", "mouse", "dwarf hamster"], "also": "golden hamster;Syrian hamster", "also_names": [{"name": "golden hamster", "gloss": ""}, {"name": "Syrian hamster", "gloss": ""}], "region": "Hamster is the everyday word. Golden hamster and Syrian hamster name the usual large pet species behind the picture; dwarf hamsters are smaller relatives, not extra headwords.", "family": [], "script": ["hamster.", "A small stocky rodent with a tiny tail, large cheek pouches and a short face; pet animals are golden-brown, cream or patterned.", "It is also called golden hamster or Syrian hamster.", "A hamster is stocky, nocturnal and almost tailless, with cheek pouches that bulge.", "A gerbil is slimmer, out by day, and has a long furry tail.", "A guinea pig is much larger and fully tailless."], "headword": "hamster"}, "mealworm": {"slug": "mealworm", "page_name": "mealworm", "name": "mealworms", "thai": "หนอนนก", "scene_word": false, "thai_confidence": "established", "group": "insects", "say": "", "spot": "A hard, smooth, yellow-brown worm-shaped larva sold in tubs for birds, reptiles and fishing; the adult is a darkling beetle.", "tell": "A mealworm is a beetle grub, not a worm. Maggots are softer, paler fly larvae. Wireworms are slimmer click-beetle larvae in soil. Silkworms are moth caterpillars.", "similar": ["worm", "maggot", "woodworm", "wireworm", "silkworm"], "also": "meal worm;yellow mealworm", "also_names": [{"name": "meal worm", "gloss": ""}, {"name": "yellow mealworm", "gloss": ""}], "region": "", "family": [], "script": ["mealworms.", "A hard, smooth, yellow-brown worm-shaped larva sold in tubs for birds, reptiles and fishing; the adult is a darkling beetle.", "It is also called meal worm or yellow mealworm.", "A mealworm is a beetle grub, not a worm.", "Maggots are softer, paler fly larvae.", "Wireworms are slimmer click-beetle larvae in soil.", "Silkworms are moth caterpillars."], "headword": "mealworm"}, "dog": {"slug": "dog", "page_name": "dog", "name": "dog", "thai": "สุนัข", "scene_word": false, "thai_confidence": "established", "group": "mammals", "say": "", "spot": "A four-legged furry animal with a muzzle, forward-facing eyes and a tail, kept as a pet or working partner; size and coat vary more than in almost any other animal word.", "tell": "A dog is the domestic animal. A wolf is larger, with a broader head and no curled pet-dog tail. Foxes are smaller and more pointed, with a long bushy tail. Some dogs are bred to look rather wolf-like.", "similar": ["wolf", "fox", "coyote", "dingo", "jackal"], "also": "hound (in some older or hunting talk)", "also_names": [{"name": "hound", "gloss": "in some older or hunting talk"}], "region": "Dog is worldwide English. Hound in everyday British speech means a hunting dog rather than any dog.", "family": [{"label": "a male is", "value": "dog"}, {"label": "a female is", "value": "bitch"}, {"label": "a baby is", "value": "puppy"}, {"label": "a group is", "value": "pack"}], "script": ["dog.", "A four-legged furry animal with a muzzle, forward-facing eyes and a tail, kept as a pet or working partner; size and coat vary more than in almost any other animal word.", "A male is dog.", "A female is bitch.", "A baby is puppy.", "A group is pack.", "A dog is the domestic animal.", "A wolf is larger, with a broader head and no curled pet-dog tail.", "Foxes are smaller and more pointed, with a long bushy tail.", "Some dogs are bred to look rather wolf-like."], "headword": "dog"}, "puppy": {"slug": "puppy", "page_name": "puppy", "name": "puppy", "thai": "ลูกสุนัข", "scene_word": false, "thai_confidence": "established", "group": "mammals", "say": "", "spot": "A young dog with a bigger head and paws than its body seems to need, softer fur and clumsy play; any breed can be a puppy.", "tell": "A puppy is a young dog. Pup is the wider baby word that also covers young seals and wolves. A kitten is a young cat. A cub is the baby word for lions, tigers, bears and foxes, not for pet dogs.", "similar": ["pup", "kitten", "dog", "wolf cub"], "also": "pup (when the animal is clearly a dog)", "also_names": [{"name": "pup", "gloss": "when the animal is clearly a dog"}], "region": "", "family": [{"label": "a group is", "value": "litter"}], "script": ["puppy.", "A young dog with a bigger head and paws than its body seems to need, softer fur and clumsy play; any breed can be a puppy.", "A group is litter.", "A puppy is a young dog.", "Pup is the wider baby word that also covers young seals and wolves.", "A kitten is a young cat.", "A cub is the baby word for lions, tigers, bears and foxes, not for pet dogs."], "headword": "puppy"}, "guinea-pig": {"slug": "guinea-pig", "page_name": "guinea pig", "name": "guinea pig", "thai": "หนูตะเภา", "scene_word": false, "thai_confidence": "established", "group": "mammals", "say": "", "spot": "A plump, short-legged, tailless rodent with a broad head and a squeak, kept in indoor cages; coats are short, long or rosetted, in many colours.", "tell": "A guinea pig is larger than a hamster and has no tail. A hamster has cheek pouches and a tiny tail. A rabbit has long ears and hops. Despite the name it is a rodent, not a pig.", "similar": ["hamster", "pig", "rabbit", "cavy"], "also": "cavy", "also_names": [{"name": "cavy", "gloss": ""}], "region": "Guinea pig is the worldwide everyday headword. Cavy appears in more formal or specialist English.", "family": [{"label": "a male is", "value": "boar"}, {"label": "a female is", "value": "sow"}], "script": ["guinea pig.", "A plump, short-legged, tailless rodent with a broad head and a squeak, kept in indoor cages; coats are short, long or rosetted, in many colours.", "A male is boar.", "A female is sow.", "It is also called cavy.", "A guinea pig is larger than a hamster and has no tail.", "A hamster has cheek pouches and a tiny tail.", "A rabbit has long ears and hops.", "Despite the name it is a rodent, not a pig."], "headword": "guinea pig"}, "kitten": {"slug": "kitten", "page_name": "kitten", "name": "kitten", "thai": "ลูกแมว", "scene_word": false, "thai_confidence": "established", "group": "mammals", "say": "", "spot": "A tiny cat with a round face, blue or changing eyes and playful softness; young rabbits are also called kittens.", "tell": "A kitten is a young cat. Puppy is a young dog. Kit is a shorter form used for young ferrets, foxes and rabbits.", "similar": ["puppy", "cub", "kit", "cat"], "also": "", "also_names": [], "region": "", "family": [{"label": "a group is", "value": "litter"}], "script": ["kitten.", "A tiny cat with a round face, blue or changing eyes and playful softness; young rabbits are also called kittens.", "A group is litter.", "A kitten is a young cat.", "Puppy is a young dog.", "Kit is a shorter form used for young ferrets, foxes and rabbits."], "headword": "kitten"}};
+
+const stage = document.getElementById('stage');
+const clips = new Map();
+for (const v of stage.querySelectorAll('.patch')) clips.set(v.dataset.a, v);
+const pending = new Map();          // videos waiting out a fade, so a re-tap can cancel it
+let playing = null;
+
+/* ---- voice --------------------------------------------------------------------
+   An ADULT voice, by the owner's decision of 2026-08-19 for this book specifically.
+   AUDIO-DIRECTION.md still requires a child voice for Ari in the solar storybook - that
+   is unchanged - but Our Animal Book has no child character, it has a narrator naming
+   animals, and an adult reading them is what the owner wants. That makes browser
+   speechSynthesis a real option here rather than scaffolding: it ships no audio files, so
+   the provenance and redistribution questions that gate recorded audio do not arise.
+
+   Two playback rules from that file are obeyed because they are about clarity, not source:
+   one sentence per utterance, and never chain playback on an onend callback - queue every
+   piece at once and let the queue order them.
+
+   The Thai name is never spoken. DECISIONS.md 3 settles that Thai is printed only, and the
+   script in animals.json is built without it. */
+let sound = true;
+const synth = window.speechSynthesis;
+let voice = null;
+
+function pickVoice() {
+  if (!synth) return;
+  const all = synth.getVoices();
+  if (!all.length) return;                          // Safari fills this in late
+  const gb = all.filter(v => /^en[-_]GB/i.test(v.lang));   // British English, decision 2
+  const pref = ['Daniel', 'Serena', 'Kate', 'Arthur', 'Google UK'];
+  voice = pref.map(n => gb.find(v => v.name.includes(n))).find(Boolean)
+       || gb[0] || all.find(v => /^en/i.test(v.lang)) || all[0];
+}
+pickVoice();
+if (synth) synth.addEventListener('voiceschanged', pickVoice);
+
+function speak(lines) {
+  if (!sound || !synth) return;
+  synth.cancel();                                   // a new tap replaces the old one
+  for (const line of lines) {
+    const u = new SpeechSynthesisUtterance(line);
+    u.lang = 'en-GB';
+    if (voice) u.voice = voice;
+    u.rate = 0.95;
+    synth.speak(u);                                 // queued immediately, never on onend
+  }
+  duck();
+}
+
+/* ---- the background bed -------------------------------------------------------
+   The room's ambience loop, if it has one - the rainforest's was spliced seamless by
+   tools/build-ambience.py from the soundtrack of a Grok clip of that very page. A room
+   without one still has this control, because it governs the voice too. Three things
+   about the bed:
+
+   - It starts on the first press, not on load. Every browser blocks audio that begins
+     without a gesture, and a page that starts making noise by itself is the wrong
+     manners for a children's book anyway.
+   - The Sound toggle owns it, along with the voice. One control, as AUDIO-DIRECTION.md
+     requires of every page.
+   - It ducks while anything is being read. A bed and a narrator at the same level are
+     mud; the words have to win. Ducking is not "chaining playback on an onend callback",
+     which is the rule that bans the other thing - the queue is untouched, this only
+     watches it. */
+const bed = document.getElementById('bed');
+const BED_LEVEL = 0.30, BED_DUCKED = 0.10;
+let bedStarted = false, duckTimer = null;
+
+function startBed() {
+  if (!bed || bedStarted || !sound) return;
+  bedStarted = true;
+  bed.volume = BED_LEVEL;
+  bed.play().catch(() => { bedStarted = false; });   // still blocked? try again next press
+}
+
+const DUCK_CEILING_MS = 30000;
+
+function unduck() {
+  clearInterval(duckTimer); duckTimer = null;
+  if (bed) bed.volume = BED_LEVEL;
+}
+
+function duck() {
+  if (!bed || !bedStarted) return;
+  bed.volume = BED_DUCKED;
+  clearInterval(duckTimer);
+  const until = Date.now() + DUCK_CEILING_MS;
+  duckTimer = setInterval(() => {
+    // The ceiling is not belt-and-braces, it is the actual failure mode: a speech queue
+    // that is cancelled, stalled, or suspended - which is what a backgrounded tab does -
+    // can leave speaking/pending true for good, and the bed would stay quiet forever with
+    // nothing on screen to explain why.
+    if (Date.now() < until && synth && (synth.speaking || synth.pending)) return;
+    unduck();
+  }, 200);
+}
+
+document.getElementById('sound').addEventListener('click', e => {
+  sound = !sound;
+  if (!sound && synth) synth.cancel();
+  if (bed) { if (sound) startBed(); else { bed.pause(); bedStarted = false; } }
+  e.currentTarget.classList.toggle('off', !sound);
+  e.currentTarget.textContent = sound ? '🔊' : '🔇';
+  e.currentTarget.setAttribute('aria-label', sound ? 'Turn the sound off' : 'Turn the sound on');
+});
+
+/* ---- the animal comes alive, and says its name ------------------------------- */
+function settle(v) {                // actually stop it, once its fade has finished
+  clearTimeout(pending.get(v)); pending.delete(v);
+  v.pause();
+  try { v.currentTime = 0; } catch (e) {}
+  v.classList.remove('fading');
+}
+
+function stop(v, quick) {
+  if (!v) return;
+  clearTimeout(pending.get(v));
+  v.classList.toggle('fading', !quick);
+  v.classList.remove('on');
+  pending.set(v, setTimeout(() => settle(v), quick ? 200 : 470));
+}
+
+function play(name, btn) {
+  const v = clips.get(name);
+  if (!v) { btn.classList.remove('nudge'); void btn.offsetWidth;
+             btn.classList.add('nudge'); return; }
+  if (playing && playing !== v) stop(playing, true);
+  clearTimeout(pending.get(v)); pending.delete(v);   // a re-tap outruns its own fade
+  v.classList.remove('fading');
+  playing = v;
+  try { v.currentTime = 0; } catch (e) {}
+  v.classList.add('on');
+  v.play().catch(() => {});
+}
+
+/* ---- the name box opens the language layer ----------------------------------- */
+const sheet = document.getElementById('sheet');
+const card  = document.getElementById('card');
+let openFor = null;
+
+const esc = s => String(s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+
+function build(a) {
+  let h = `<button class="x" id="close" aria-label="Close">✕</button>` +
+          `<h2>${esc(a.name)}</h2>`;
+  if (a.thai) h += `<p class="thai" lang="th">${esc(a.thai)}</p>`;
+  if (a.spot) h += `<section><h3>How to spot it</h3><p>${esc(a.spot)}</p></section>`;
+  if (a.family.length) h += `<section><h3>Its words</h3><div class="chips">` +
+    a.family.map(f => `<span class="chip">${esc(f.label)} <b>${esc(f.value)}</b></span>`).join('') +
+    `</div></section>`;
+  const alt = a.also_names || [];
+  if (alt.length) h += `<section><h3>Also called</h3><div class="chips">` +
+    alt.map(x => `<span class="chip">${esc(x.name)}` +
+                 (x.gloss ? ` <em>(${esc(x.gloss)})</em>` : '') + `</span>`).join('') +
+    `</div></section>`;
+  if (a.tell) h += `<section><h3>Telling them apart</h3><p>${esc(a.tell)}</p></section>`;
+  else if (a.similar.length) h += `<section><h3>Easy to mix up with</h3><div class="chips">` +
+    a.similar.map(s => `<span class="chip">${esc(s)}</span>`).join('') + `</div></section>`;
+  return h;
+}
+
+function openSheet(slug) {
+  const a = ANIMALS[slug];
+  if (!a) return;
+  openFor = slug;
+  card.innerHTML = build(a);
+  sheet.classList.add('open');
+  for (const b of stage.querySelectorAll('.name')) b.classList.toggle('on', b.dataset.a === slug);
+  // The child pressed the name box to be told about the animal, so reading it is the
+  // answer to a deliberate tap, not autoplay into a panel they did not ask for.
+  speak(a.script);
+  card.querySelector('#close').addEventListener('click', closeSheet);
+}
+
+function closeSheet() {
+  sheet.classList.remove('open');
+  openFor = null;
+  if (synth) synth.cancel();
+  unduck();                          // cancelling the queue must not leave the bed ducked
+  for (const b of stage.querySelectorAll('.name')) b.classList.remove('on');
+}
+
+sheet.addEventListener('click', e => { if (e.target === sheet) closeSheet(); });
+
+stage.addEventListener('click', e => {
+  startBed();                        // the first gesture is what lets audio play at all
+  const box = e.target.closest('.name');
+  if (box) { openSheet(box.dataset.a); return; }
+  const btn = e.target.closest('.tap');
+  if (btn) {
+    const a = ANIMALS[btn.dataset.a];
+    play(btn.dataset.a, btn);
+    if (a) speak([a.name + '.']);      // the picture says the name, and only the name
+  }
+});
+
+for (const v of clips.values()) {
+  v.addEventListener('ended', () => { if (playing === v) { stop(v, false); playing = null; } });
+}
+
+addEventListener('keydown', e => {
+  if (e.key === 'd') document.body.classList.toggle('debug');
+  if (e.key === 'Escape' && openFor) closeSheet();
+});
+
+/* The guides play a short animation when a child presses them - the owner's call, after
+   a timed cycle and then a one-frame-per-press swap.
+
+   The timing is the point. The in-between frame is held for HALF as long as the others
+   (210ms against 420ms), which is what makes the sequence read as a blink and a laugh
+   rather than as three pictures shown in turn: real eyes pass through half-closed quickly
+   and dwell at the ends. It runs out and back - rest, mid, peak, mid, rest - so the
+   children always finish where they started, the same "play once and return to rest" the
+   animal patches follow.
+
+   All of it comes from assets/guides/frames.json, so the timing is data: a genuinely
+   half-lidded frame could be added as another `mid` with no change here.
+
+   A re-press restarts cleanly rather than stacking timers. */
+const GUIDE_SEQ  = [{"frame": 1, "ms": 320}, {"frame": 2, "ms": 640}, {"frame": 1, "ms": 320}];
+const GUIDE_IDLE = 0;
+const guideFrames = [...document.querySelectorAll('.guides')];
+let guideTimer = null;
+
+if (guideFrames.length) {
+  const show = i => guideFrames.forEach((g, n) => g.classList.toggle('on', n === i));
+  show(GUIDE_IDLE);
+  const play = () => {
+    clearTimeout(guideTimer);
+    // restart the bounce on every press, on all three frames at once
+    guideFrames.forEach(g => g.classList.remove('hop'));
+    void guideFrames[0].offsetWidth;
+    guideFrames.forEach(g => g.classList.add('hop'));
+    let step = 0;
+    const next = () => {
+      if (step >= GUIDE_SEQ.length) { show(GUIDE_IDLE); guideTimer = null; return; }
+      const s = GUIDE_SEQ[step++];
+      show(s.frame);
+      guideTimer = setTimeout(next, s.ms);
+    };
+    next();
+  };
+  document.querySelector('.gtap').addEventListener('click', play);
+}
+
+// warm the clips one at a time once the page has settled, so a child's first
+// tap on any animal plays at once instead of waiting on a download
+addEventListener('load', () => {
+  const queue = [...clips.values()];
+  const warm = () => {
+    const v = queue.shift();
+    if (!v) return;
+    v.preload = 'auto';
+    v.addEventListener('loadeddata', () => setTimeout(warm, 120), {once: true});
+    v.addEventListener('error', () => setTimeout(warm, 120), {once: true});
+    v.load();
+  };
+  setTimeout(warm, 800);
+});
+</script>

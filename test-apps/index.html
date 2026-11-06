@@ -247,8 +247,7 @@
       const list=document.getElementById('archive-list');
       for(const s of archived){
         const li=el('li');
-        if(s.removed){li.appendChild(el('span',null,s.title));}
-        else{const a=el('a',null,s.title);a.href=hrefFor(s);li.appendChild(a);}
+        const a=el('a',null,s.title);a.href=hrefFor(s);li.appendChild(a);
         if(s.answer) li.appendChild(el('span',null,s.answer));
         list.appendChild(li);
       }

@@ -78,7 +78,7 @@
  *                  test-apps/index.html.
  *   v30 2026-09-21  Ari & Dot and Planets & Moons become ONE card, Space, opening the
  *                  space hub at ../space/ instead of either app. Its art,
- *                  `assets/space.png`, joins the shell; the two sprites it replaces
+ *                  `assets/space.webp`, joins the shell; the two sprites it replaces
  *                  leave it. They stay in `assets/` because the dashboard still reads
  *                  them, but the hub page no longer fetches them. Without this bump
  *                  an installed hub would open offline with a broken Space tile.
@@ -152,7 +152,7 @@
  *                  painted puzzle table (inert since the room was drawn) now opens the
  *                  Grammar Game (../word-book/grammar-game.html); new tile assets/grammar-game.webp.
  */
-const CACHE_NAME = "children-apps-v47";
+const CACHE_NAME = "children-apps-v48";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
@@ -168,8 +168,8 @@ const SHELL = [
   "./assets/our-word-book.webp",
   "./assets/classical-music.webp",
   "./assets/petal-kingdom.webp",
-  "./assets/little-color-garden.png",
-  "./assets/space.png",
+  "./assets/little-color-garden.webp",
+  "./assets/space.webp",
   "./assets/animal-book.webp",
   "./assets/shadow-matching.webp",
   "./assets/our-maze.webp",
@@ -177,6 +177,7 @@ const SHELL = [
   "./assets/periodic-table.webp",
   "./assets/nail-salon.webp",
   "./assets/color-lab.webp",
+  "./assets/jewel-studio.svg",
   "./assets/memory-echo.webp",
   "./assets/number-lab.webp",
   "./assets/october-homework.webp",

@@ -70,13 +70,13 @@ window.PLAYROOM = {
       tile: "./assets/our-word-book.webp" },
     { id: "space", name: "Space", tagline: "Planets, moons and stars",
       app: "space", landmarks: ["space"], badgeAt: [64.5, 7.5],
-      tile: "./assets/space.png" },
+      tile: "./assets/space.webp" },
     { id: "science-world", name: "Science & World", tagline: "Elements, flags and the world",
       href: "./science-world.html", landmarks: ["science", "world"], badgeAt: [52.5, 27.0],
       tile: "./assets/periodic-table.webp" },
     { id: "art", name: "Art", tagline: "Colour, paint and style",
       href: "./art.html", landmarks: ["art"], badgeAt: [20.0, 72.0],
-      tile: "./assets/little-color-garden.png" },
+      tile: "./assets/little-color-garden.webp" },
     { id: "music", name: "Music", tagline: "Play, listen & explore",
       href: "./music.html", landmarks: ["music"], badgeAt: [92.5, 39.1],
       tile: "./assets/music.webp" },
@@ -142,11 +142,13 @@ window.PLAYROOM = {
         { app: "little-color-garden", badgeAt: [22.0, 34.0],
           points: [[0.0,8.0],[31.5,8.0],[41.0,21.0],[45.5,42.5],[41.0,49.0],[31.0,50.0],[15.0,49.0],[0.0,46.0]] },
         { app: "color-lab", badgeAt: [78.0, 35.0],
-          points: [[60.0,17.0],[89.0,17.0],[100.0,27.0],[100.0,50.5],[94.0,52.5],[72.0,51.5],[58.0,45.0]] },
+          points: [[60.0,22.0],[89.0,22.0],[100.0,27.0],[100.0,50.5],[94.0,52.5],[72.0,51.5],[58.0,45.0]] },
         { app: "nail-salon", badgeAt: [55.0, 70.0],
-          points: [[21.0,58.0],[39.0,53.0],[68.0,53.0],[82.0,58.0],[91.0,77.0],[88.0,94.0],[72.0,100.0],[31.0,100.0],[13.0,91.0],[14.0,72.0]] }
+          points: [[21.0,58.0],[39.0,53.0],[68.0,53.0],[82.0,58.0],[91.0,77.0],[88.0,94.0],[72.0,100.0],[31.0,100.0],[13.0,91.0],[14.0,72.0]] },
+        { app: "jewel-studio", badgeAt: [87.0, 11.5],
+          points: [[72.0,0.0],[100.0,0.0],[100.0,21.5],[93.0,22.0],[72.0,21.5]] }
       ],
-      unmatched: ["potted plants", "closed supply cabinet"]
+      unmatched: ["potted plants"]
     },
     books: {
       /* Reuse the Word Book's owner-approved night room as a category plate rather than
@@ -267,11 +269,13 @@ window.PLAYROOM = {
     { id: "petal-kingdom", landmark: "arcade", name: "Petal Kingdom", desc: "Pop the flowers and save the garden",
       href: "../flower-shooter/", tile: "./assets/petal-kingdom.webp", cutout: true, tone: ["#f0699b", "#c04574", "#ffecf3"] },
     { id: "little-color-garden", landmark: "art", name: "Little Color Garden", desc: "Colour in the pictures",
-      href: "../little-color-garden/", tile: "./assets/little-color-garden.png", tone: ["#34a853", "#217a3a", "#e6f7ea"] },
+      href: "../little-color-garden/", tile: "./assets/little-color-garden.webp", tone: ["#34a853", "#217a3a", "#e6f7ea"] },
     { id: "color-lab", landmark: "art", name: "Color Lab", desc: "Mix paint and discover colour names",
       href: "../color-lab/", tile: "./assets/color-lab.webp", cutout: true, tone: ["#9b59c9", "#6f3a96", "#f3e9fb"] },
+    { id: "jewel-studio", landmark: "art", name: "Jewel Studio", desc: "Colour and create your own jewels",
+      href: "../jewel-studio/", tile: "./assets/jewel-studio.svg", tone: ["#a65d79", "#763e58", "#f9e7ef"] },
     { id: "space", landmark: "space", name: "Space", desc: "A story about the planets, and a game about where they go",
-      href: "../space/", tile: "./assets/space.png", tone: ["#26306e", "#151c46", "#e6eaff"] },
+      href: "../space/", tile: "./assets/space.webp", tone: ["#26306e", "#151c46", "#e6eaff"] },
     { id: "animal-book", landmark: "nature", name: "Our Animal Book", desc: "Tap an animal to hear its name",
       href: "../animal-book/", tile: "./assets/animal-book.webp", tone: ["#d97a16", "#a55606", "#fff1de"] },
     /* Live at /reading/ (Reading Tree) but not on the card hub; it joins the book corner. */
