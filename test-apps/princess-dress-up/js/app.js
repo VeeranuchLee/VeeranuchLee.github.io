@@ -7,16 +7,19 @@ import { icons } from './icons.js';
 import { runShowTime, runFashionShow, drawCard } from './show.js';
 import * as store from './store.js';
 import { hexToRgb, mix, rgbToHex } from './colour.js';
+import { POSE_DATASETS, poseForDataset, choosePoseDoll, rememberPoseLook, entryPose, tagAlbum, mergeLegacyAlbums } from './poses.js';
 
 const $ = (id) => document.getElementById(id);
 const params = new URLSearchParams(location.search);
 const LAYOUT = params.get('layout') === 'b' ? 'b' : 'a';
-// Which art: the reviewed Plate A wardrobe (default), the runway pilot (?plate=runway),
-// plate B (?plate=b), or the grey-box placeholder set (?art=placeholder). Each keeps its
-// own saved looks and album; runway stays opt-in until the owner approves the new rig.
+// Which art: the reviewed Standing wardrobe (default), Runway (?plate=runway), plate B
+// (?plate=b), or the grey-box placeholder set (?art=placeholder). Standing and Runway
+// are switchable and share a pose-aware album; prototypes remain URL-only.
 const DATASET = params.get('plate') === 'runway' ? 'runway'
   : params.get('plate') === 'b' ? 'plate-b'
     : params.get('art') === 'placeholder' ? 'placeholder' : 'items';
+const POSE_ROOM = DATASET === 'items' || DATASET === 'runway';
+let pose = poseForDataset(DATASET) || DATASET;
 document.body.classList.remove('layout-a', 'layout-b');
 document.body.classList.add(`layout-${LAYOUT}`);
 
@@ -25,7 +28,8 @@ const HOLD_MS = 2000;      // the grown-up hold for Save to Photos
 const DPR = () => Math.min(2, window.devicePixelRatio || 1);
 
 let data = null;
-let state = null;          // { doll, looks, album, sound }
+let datasets = {};         // pose -> data; prototypes have a single entry
+let state = null;          // { poses: { pose: { doll, looks } }, album, sound }
 let tab = 'dresses';
 let dressStyle = 'all';
 let undoStack = [];
@@ -37,6 +41,8 @@ let stopFashion = null;
 let cardEntry = null;
 let showTaken = false;
 let lastShowMs = 0;
+let poseSwitchToken = 0;
+let poseLoading = false;
 
 // ---------- tap gating: the holdover rule ----------
 function lockTaps() { tapLockUntil = performance.now() + HOLDOVER_MS; }
@@ -58,12 +64,16 @@ function wiggle(el) {
 }
 
 // ---------- state ----------
-const look = () => state.looks[state.doll];
-function persist() { store.save(state); }
-function pushUndo() { undoStack.push({ doll: state.doll, look: JSON.parse(JSON.stringify(look())) }); }
+const poseState = () => state.poses[pose];
+const look = () => poseState().looks[poseState().doll];
+function persist() {
+  if (POSE_ROOM) store.savePoseRoom({ pose, poses: state.poses, album: state.album, sound: state.sound });
+  else store.saveDataset(DATASET, { doll: poseState().doll, looks: poseState().looks, album: state.album, sound: state.sound });
+}
+function pushUndo() { undoStack.push({ doll: poseState().doll, look: JSON.parse(JSON.stringify(look())) }); }
 function commit(nextLook) {
   pushUndo();
-  state.looks[state.doll] = nextLook;
+  rememberPoseLook(state.poses, pose, poseState().doll, nextLook);
   persist();
 }
 
@@ -156,7 +166,7 @@ $('stage-box').addEventListener('click', (e) => {
 function portraitLook(doll) {
   const slip = data.items.find((it) => it.id === 'dress-slip');
   return {
-    ...state.looks[doll.id],
+    ...poseState().looks[doll.id],
     dress: { id: slip.id, shade: slip.defaultShade || 0, pattern: 'none' },
     crown: null, earrings: null, necklace: null, wings: null,
   };
@@ -183,16 +193,16 @@ function buildRibbon() {
     const b = document.createElement('button');
     b.type = 'button'; b.className = 'portrait'; b.dataset.doll = d.id;
     b.setAttribute('aria-label', d.name);
-    b.setAttribute('aria-pressed', String(d.id === state.doll));
+    b.setAttribute('aria-pressed', String(d.id === poseState().doll));
     const c = document.createElement('canvas');
     b.appendChild(c);
     rib.appendChild(b);
     drawPortrait(c, d);
     b.addEventListener('click', () => {
       ack(b);
-      if (d.id === state.doll) { play('same'); twirl(); return; }
-      undoStack.push({ doll: state.doll, look: JSON.parse(JSON.stringify(look())), dollSwitch: true });
-      state.doll = d.id; persist();
+      if (d.id === poseState().doll) { play('same'); twirl(); return; }
+      undoStack.push({ doll: poseState().doll, look: JSON.parse(JSON.stringify(look())), dollSwitch: true });
+      poseState().doll = d.id; persist();
       play('doll');
       refreshAll();
       burst(600, 700, 26);
@@ -201,9 +211,69 @@ function buildRibbon() {
 }
 function refreshRibbon(onlyCurrent = true) {
   for (const b of $('ribbon').children) {
-    b.setAttribute('aria-pressed', String(b.dataset.doll === state.doll));
-    if (!onlyCurrent || b.dataset.doll === state.doll) drawPortrait(b.firstChild, data.dolls.find((d) => d.id === b.dataset.doll));
+    b.setAttribute('aria-pressed', String(b.dataset.doll === poseState().doll));
+    if (!onlyCurrent || b.dataset.doll === poseState().doll) drawPortrait(b.firstChild, data.dolls.find((d) => d.id === b.dataset.doll));
   }
+}
+
+// ---------- pose switch ----------
+function refreshPoseButtons() {
+  const wrap = $('pose-switch');
+  wrap.hidden = !POSE_ROOM;
+  for (const b of wrap.children) b.setAttribute('aria-pressed', String(b.dataset.pose === pose));
+}
+
+function setupPoseButtons() {
+  const buttons = [...$('pose-switch').children];
+  for (const b of buttons) {
+    b.innerHTML = b.dataset.pose === 'runway' ? icons.poseRunway : icons.poseStanding;
+    b.addEventListener('click', async () => {
+      ack(b);
+      if (b.dataset.pose === pose) { play('same'); return; }
+      play('tap');
+      await switchPose(b.dataset.pose);
+    });
+  }
+  refreshPoseButtons();
+}
+
+async function switchPose(target, { dollId = null, rebuild = true } = {}) {
+  if (!POSE_ROOM || !datasets[target]) return false;
+  const token = ++poseSwitchToken;
+  poseLoading = true;
+  const targetData = datasets[target];
+  const currentDoll = poseState().doll;
+  const nextDoll = dollId && targetData.dolls.some((d) => d.id === dollId)
+    ? dollId : choosePoseDoll(targetData, currentDoll);
+  const targetState = state.poses[target];
+  targetState.doll = nextDoll;
+  const targetLook = targetState.looks[nextDoll];
+
+  // Keep the old canvases painted while the target base/look decodes. The target sources
+  // are pinned before data changes, which is the same no-flash rule used for outfit taps.
+  pinLook(targetData, targetLook);
+  await ensureLook(targetData, targetLook, { stage: true }).catch(() => {});
+  if (token !== poseSwitchToken) return false;
+
+  pose = target;
+  data = targetData;
+  poseLoading = false;
+  dollWait = null;
+  undoStack = [];
+  lastTheme = null;
+  tileQueue.length = 0;
+  if (!data.tabs.some((t) => t.id === tab && data.items.some((i) => i.tab === t.id))) tab = data.tabs[0].id;
+  if (!data.items.some((it) => it.tab === 'dresses' && styleMatches(it))) dressStyle = 'all';
+  persist();
+  refreshPoseButtons();
+  if (rebuild) {
+    buildRibbon();
+    buildTabs();
+    buildGrid();
+    buildColours();
+    renderDoll(true);
+  }
+  return true;
 }
 
 // ---------- tabs ----------
@@ -520,8 +590,7 @@ function setupActions() {
     ack(b);
     const snap = undoStack.pop();
     if (!snap) { play('same'); wiggle(b); return; }
-    state.doll = snap.doll;
-    state.looks[snap.doll] = snap.look;
+    rememberPoseLook(state.poses, pose, snap.doll, snap.look);
     persist();
     play('undo');
     refreshAll();
@@ -546,13 +615,13 @@ function setupActions() {
   });
 
   $('fashion-play').addEventListener('click', (e) => { ack(e.currentTarget); startFashion(); });
-  $('card-wear').addEventListener('click', (e) => {
+  $('card-wear').addEventListener('click', async (e) => {
     ack(e.currentTarget);
     if (!cardEntry) return;
+    await switchPose(entryPose(cardEntry, pose), { dollId: cardEntry.look.doll });
     const L = sanitize(data, cardEntry.look, cardEntry.look.doll);
-    undoStack.push({ doll: state.doll, look: JSON.parse(JSON.stringify(look())) });
-    state.doll = L.doll;
-    state.looks[L.doll] = L;
+    undoStack.push({ doll: poseState().doll, look: JSON.parse(JSON.stringify(look())) });
+    rememberPoseLook(state.poses, pose, L.doll, L);
     persist();
     play('wear');
     goRoom();
@@ -601,7 +670,7 @@ function startShow(showLook, { fromAlbum }) {
     noCard: fromAlbum,
     flyTo: () => ({ x: window.innerWidth - 70, y: 70 }),
     onCard: (entry) => {
-      state.album.unshift(entry);
+      state.album.unshift({ ...entry, pose });
       persist();
     },
   }).then(() => {
@@ -645,30 +714,41 @@ function openAlbum() {
   });
 }
 
-function drawAlbumCard(b) {
+async function drawAlbumCard(b) {
   const entry = state.album[Number(b.dataset.index)];
+  const cardData = datasets[entryPose(entry, pose)] || data;
+  const cardLook = sanitize(cardData, entry.look, entry.look && entry.look.doll);
+  await ensureLook(cardData, cardLook, { stage: true }).catch(() => {});
+  if (!b.isConnected) return;
   const r = b.getBoundingClientRect();
   const c = b.firstChild;
   c.width = Math.max(1, Math.round(r.width * DPR())); c.height = Math.max(1, Math.round(r.height * DPR()));
-  drawCard(c.getContext('2d'), data, { ...entry, look: sanitize(data, entry.look, entry.look && entry.look.doll) }, c.width, c.height);
+  drawCard(c.getContext('2d'), cardData, { ...entry, look: cardLook }, c.width, c.height);
 }
 
-function openCard(entry) {
+async function openCard(entry) {
   if (!entry) { openAlbum(); return; }
   cardEntry = entry;
   setScreen('card');
+  const cardPose = entryPose(entry, pose);
+  await switchPose(cardPose, { dollId: entry.look.doll });
+  if (cardEntry !== entry) return;
+  const cardLook = sanitize(data, entry.look, entry.look.doll);
+  await ensureLook(data, cardLook, { stage: true }).catch(() => {});
   requestAnimationFrame(() => {
     const c = $('big-card');
     const r = c.getBoundingClientRect();
     c.width = Math.round(r.width * DPR()); c.height = Math.round(r.height * DPR());
-    drawCard(c.getContext('2d'), data, { ...entry, look: sanitize(data, entry.look, entry.look.doll) }, c.width, c.height);
+    drawCard(c.getContext('2d'), data, { ...entry, look: cardLook }, c.width, c.height);
   });
 }
 
 // ---------- the fashion show ----------
 function startFashion() {
-  const entries = state.album.length ? state.album.map((e) => ({ ...e, look: sanitize(data, e.look, e.look.doll) }))
-    : [{ id: 'now', t: Date.now(), look: look() }];
+  const entries = state.album.length ? state.album.map((e) => {
+    const entryData = datasets[entryPose(e, pose)] || data;
+    return { ...e, data: entryData, look: sanitize(entryData, e.look, e.look.doll) };
+  }) : [{ id: 'now', t: Date.now(), data, look: look() }];
   setScreen('fashion');
   play('fanfare');
   stopFashion = runFashionShow($('fashion-canvas'), data, entries);
@@ -750,16 +830,57 @@ function setupSound() {
 
 // ---------- start ----------
 async function start() {
-  store.useDataset(DATASET);
-  const res = await fetch(`data/${DATASET}.json`);
-  data = await res.json();
-  const saved = store.load();
-  state = { doll: data.dolls.some((d) => d.id === saved.doll) ? saved.doll : data.dolls[0].id, looks: {}, album: [], sound: saved.sound };
-  for (const d of data.dolls) state.looks[d.id] = saved.looks[d.id] ? sanitize(data, saved.looks[d.id], d.id) : defaultLook(data, d.id);
-  state.album = saved.album.filter((e) => e && e.look && typeof e.t === 'number').map((e) => ({ id: e.id, t: e.t, look: sanitize(data, e.look, e.look.doll) }));
-  await preload(data, state.looks[state.doll]);
+  if (POSE_ROOM) {
+    const loaded = await Promise.all(Object.entries(POSE_DATASETS).map(async ([p, name]) => {
+      const res = await fetch(`data/${name}.json`);
+      return [p, await res.json()];
+    }));
+    datasets = Object.fromEntries(loaded);
+    let saved = store.loadPoseRoom();
+    if (!saved) {
+      const standing = store.loadDataset('items');
+      const runway = store.loadDataset('runway');
+      saved = {
+        poses: {
+          standing: { doll: standing.doll, looks: standing.looks },
+          runway: { doll: runway.doll, looks: runway.looks },
+        },
+        album: mergeLegacyAlbums(standing.album, runway.album),
+        sound: pose === 'runway' ? runway.sound : standing.sound,
+      };
+    }
+    state = { poses: {}, album: [], sound: saved.sound !== false };
+    for (const p of Object.keys(POSE_DATASETS)) {
+      const dset = datasets[p];
+      const raw = saved.poses && saved.poses[p] || {};
+      const doll = dset.dolls.some((d) => d.id === raw.doll) ? raw.doll : dset.dolls[0].id;
+      const looks = {};
+      for (const d of dset.dolls) looks[d.id] = raw.looks && raw.looks[d.id]
+        ? sanitize(dset, raw.looks[d.id], d.id) : defaultLook(dset, d.id);
+      state.poses[p] = { doll, looks };
+    }
+    state.album = tagAlbum(saved.album || [], 'standing').map((entry) => {
+      const p = entryPose(entry, 'standing');
+      const entryData = datasets[p];
+      return { ...entry, pose: p, look: sanitize(entryData, entry.look, entry.look.doll) };
+    });
+  } else {
+    const res = await fetch(`data/${DATASET}.json`);
+    datasets[pose] = await res.json();
+    const saved = store.loadDataset(DATASET);
+    const dset = datasets[pose];
+    const doll = dset.dolls.some((d) => d.id === saved.doll) ? saved.doll : dset.dolls[0].id;
+    const looks = {};
+    for (const d of dset.dolls) looks[d.id] = saved.looks[d.id]
+      ? sanitize(dset, saved.looks[d.id], d.id) : defaultLook(dset, d.id);
+    state = { poses: { [pose]: { doll, looks } }, album: tagAlbum(saved.album, pose), sound: saved.sound };
+  }
+  data = datasets[pose];
+  persist();
+  await preload(data, look());
   setupSound();
   setupActions();
+  setupPoseButtons();
   buildRibbon();
   buildTabs();
   setScreen('room');
@@ -779,7 +900,7 @@ async function start() {
 
 let artRefresh = 0;
 onImageReady(() => {
-  if (!state || artRefresh) return;
+  if (!state || poseLoading || artRefresh) return;
   artRefresh = requestAnimationFrame(() => {
     artRefresh = 0;
     // tiles queue and load their own pictures; repainting them here is what looped
@@ -790,7 +911,7 @@ onImageReady(() => {
 });
 
 // exposed for the browser checks only
-window.__dressUp = { get state() { return state; }, get data() { return data; }, get screen() { return screen; }, get fit() { return lastFit; }, get showTaken() { return showTaken; }, get undoDepth() { return undoStack.length; }, get lastShowMs() { return lastShowMs; }, sameLook };
+window.__dressUp = { get state() { return state; }, get data() { return data; }, get datasets() { return datasets; }, get pose() { return pose; }, get screen() { return screen; }, get fit() { return lastFit; }, get showTaken() { return showTaken; }, get undoDepth() { return undoStack.length; }, get lastShowMs() { return lastShowMs; }, sameLook, switchPose };
 
 start().catch((err) => {
   document.body.dataset.error = String(err && err.message || err);

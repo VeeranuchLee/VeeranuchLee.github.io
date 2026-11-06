@@ -290,7 +290,12 @@ export function runFashionShow(canvas, data, entries) {
   const PER = 4000;
   let scene = null, prev = null, start = performance.now(), last = start, stopped = false, raf = 0, idx = -1;
   const buf = off(w, h);
-  const make = (k) => { const s = new Scene(data, entries[k % entries.length].look, w, h); s.spawn(rm ? 10 : 30, rm); return s; };
+  const make = (k) => {
+    const entry = entries[k % entries.length];
+    const s = new Scene(entry.data || data, entry.look, w, h);
+    s.spawn(rm ? 10 : 30, rm);
+    return s;
+  };
   const frame = (now) => {
     if (stopped) return;
     const t = now - start, dt = Math.min(48, now - last);

@@ -94,9 +94,10 @@ export function allSources(data) {
 }
 
 let basePlate = null; // the registered plate every derived layer is compared against
+function selectData(data) { basePlate = data.rig.basePlate || null; }
 
 export async function preload(data, firstLook = null) {
-  basePlate = data.rig.basePlate || null;
+  selectData(data);
   const srcs = new Set();
   const add = (L) => {
     srcs.add(L.src);
@@ -109,6 +110,7 @@ export async function preload(data, firstLook = null) {
 }
 
 function sourcesOf(data, look, stage) {
+  selectData(data);
   const srcs = new Set();
   if (basePlate) srcs.add(basePlate.src);
   layersFor(data, look, { stage }).forEach(({ L }) => {
@@ -128,6 +130,7 @@ export function lookReady(data, look, { stage = false } = {}) {
 }
 
 export function ensureLook(data, look, { stage = false } = {}) {
+  selectData(data);
   const srcs = new Set();
   const add = (L) => {
     srcs.add(L.src);
@@ -257,7 +260,7 @@ function despeckle(keep, w, h, min = 3) {
 }
 
 function changedLayer(L, s) {
-  const key = `chg:${L.src}@${q(s)}|${L.region ? JSON.stringify(L.region) : ''}`;
+  const key = `chg:${basePlate ? basePlate.src : '-'}|${L.src}@${q(s)}|${L.region ? JSON.stringify(L.region) : ''}`;
   let c = rawCache.get(key);
   if (c) return c;
   if (!getImage(L.src) || (basePlate && !getImage(basePlate.src))) {
@@ -290,7 +293,7 @@ function changedLayer(L, s) {
 // silhouette survive. This back layer draws above wingsBack but below the outfit plate;
 // the same source's patch layer supplies the head, bangs and front locks later.
 function backHairLayer(L, s) {
-  const key = `backhair:${L.src}@${q(s)}|${JSON.stringify(L.region || {})}|${L.chinY ?? 430}`;
+  const key = `backhair:${basePlate ? basePlate.src : '-'}|${L.src}@${q(s)}|${JSON.stringify(L.region || {})}|${L.chinY ?? 430}`;
   let c = rawCache.get(key);
   if (c) return c;
   if (!getImage(L.src) || (basePlate && !getImage(basePlate.src))) {
@@ -325,7 +328,7 @@ function backHairLayer(L, s) {
 // the doll differs from the base, the doll's pixel wins (or the base's hair is erased).
 // Where the outfit changed a pixel, the garment stays on top. Returns {erase, paint}.
 function patchLayer(L, outfit, s) {
-  const key = `patch:${L.src}|${outfit ? outfit.src : '-'}@${q(s)}|${L.region ? JSON.stringify(L.region) : ''}`;
+  const key = `patch:${basePlate ? basePlate.src : '-'}|${L.src}|${outfit ? outfit.src : '-'}@${q(s)}|${L.region ? JSON.stringify(L.region) : ''}`;
   let r = patchCache.get(key);
   if (r) return r;
   const needed = [L.src, basePlate && basePlate.src, outfit && outfit.src].filter(Boolean);
@@ -542,6 +545,7 @@ export function layersFor(data, look, { stage = true } = {}) {
 // Draws the look into ctx with the rig frame mapped by (ox, oy, s): rig (x, y) lands on
 // canvas (ox + x*s, oy + y*s). With thumb: true repaints come from the tile cache.
 export function drawLook(ctx, data, look, ox, oy, s, { stage = false, thumb = false } = {}) {
+  selectData(data);
   const cache = thumb ? thumbTint : tintCache;
   const list = layersFor(data, look, { stage });
   const bmpOf = (L, colour, pattern) => (colour && L.tint ? tinted(L, s, colour, pattern, cache)

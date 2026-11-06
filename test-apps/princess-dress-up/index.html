@@ -31,7 +31,13 @@
     <canvas id="fx-canvas"></canvas>
   </section>
   <section id="wardrobe" aria-label="Wardrobe">
-    <div id="ribbon" role="group" aria-label="Dolls"></div>
+    <div id="wardrobe-top">
+      <div id="ribbon" role="group" aria-label="Dolls"></div>
+      <div id="pose-switch" role="group" aria-label="Pose">
+        <button type="button" class="pose-btn" data-pose="standing" aria-label="Standing pose"></button>
+        <button type="button" class="pose-btn" data-pose="runway" aria-label="Runway pose"></button>
+      </div>
+    </div>
     <nav id="tabs" aria-label="Wardrobe"></nav>
     <div id="style-filters" role="group" aria-label="Dress styles" hidden></div>
     <div id="grid" role="group"></div>
@@ -76,5 +82,10 @@
 </section>
 
 <script type="module" src="js/app.js"></script>
+<script>
+  if ('serviceWorker' in navigator && !/[?&]dev\b/.test(location.search)) {
+    Promise.resolve() /* Test Hub staging: no service worker */.catch(function () {});
+  }
+</script>
 </body>
 </html>
