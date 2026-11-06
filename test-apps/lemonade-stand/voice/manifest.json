@@ -1,0 +1,721 @@
+{
+  "voice_name": "Magic Math Narrator",
+  "voice_id": "syTCOMrIG987VoS0EmlL",
+  "note": "Finite offline clip set for Lemonade Stand. Reused files are byte-identical copies; render entries may be absent and the player skips any incomplete sentence silently.",
+  "numbers_spoken": {
+    "prices": [
+      20,
+      25,
+      30,
+      35,
+      40,
+      50,
+      55,
+      60,
+      70,
+      80,
+      105,
+      110,
+      120,
+      125,
+      140,
+      150,
+      165
+    ],
+    "amounts_given": [
+      20,
+      30,
+      40,
+      50,
+      100,
+      120,
+      200,
+      500,
+      1000
+    ],
+    "count_up_stops": [
+      30,
+      40,
+      50,
+      60,
+      70,
+      80,
+      90,
+      100,
+      115,
+      120,
+      155,
+      170,
+      175,
+      185,
+      190,
+      195,
+      200,
+      300,
+      400,
+      500,
+      600,
+      700,
+      800,
+      900,
+      1000
+    ],
+    "change_amounts": [
+      0,
+      5,
+      10,
+      15,
+      20,
+      25,
+      30,
+      40,
+      45,
+      50,
+      60,
+      75,
+      335,
+      350,
+      360,
+      375,
+      380,
+      395,
+      835,
+      850,
+      860,
+      880
+    ]
+  },
+  "clips": [
+    {
+      "id": "number-0",
+      "text": "Zero.",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/numbers/0.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "Zero.",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "number-5",
+      "text": "5!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-5.m4a",
+      "path": "assets/voice/numbers/5.m4a"
+    },
+    {
+      "id": "number-10",
+      "text": "10!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-10.m4a",
+      "path": "assets/voice/numbers/10.m4a"
+    },
+    {
+      "id": "number-15",
+      "text": "15!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-15.m4a",
+      "path": "assets/voice/numbers/15.m4a"
+    },
+    {
+      "id": "number-20",
+      "text": "20!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-20.m4a",
+      "path": "assets/voice/numbers/20.m4a"
+    },
+    {
+      "id": "number-25",
+      "text": "25!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-25.m4a",
+      "path": "assets/voice/numbers/25.m4a"
+    },
+    {
+      "id": "number-30",
+      "text": "30!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-30.m4a",
+      "path": "assets/voice/numbers/30.m4a"
+    },
+    {
+      "id": "number-35",
+      "text": "35!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-35.m4a",
+      "path": "assets/voice/numbers/35.m4a"
+    },
+    {
+      "id": "number-40",
+      "text": "40!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-40.m4a",
+      "path": "assets/voice/numbers/40.m4a"
+    },
+    {
+      "id": "number-45",
+      "text": "45!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-45.m4a",
+      "path": "assets/voice/numbers/45.m4a"
+    },
+    {
+      "id": "number-50",
+      "text": "50!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-50.m4a",
+      "path": "assets/voice/numbers/50.m4a"
+    },
+    {
+      "id": "number-55",
+      "text": "55!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-55.m4a",
+      "path": "assets/voice/numbers/55.m4a"
+    },
+    {
+      "id": "number-60",
+      "text": "60!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-60.m4a",
+      "path": "assets/voice/numbers/60.m4a"
+    },
+    {
+      "id": "number-70",
+      "text": "70!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-70.m4a",
+      "path": "assets/voice/numbers/70.m4a"
+    },
+    {
+      "id": "number-75",
+      "text": "75!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-75.m4a",
+      "path": "assets/voice/numbers/75.m4a"
+    },
+    {
+      "id": "number-80",
+      "text": "80!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-80.m4a",
+      "path": "assets/voice/numbers/80.m4a"
+    },
+    {
+      "id": "number-90",
+      "text": "90!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-90.m4a",
+      "path": "assets/voice/numbers/90.m4a"
+    },
+    {
+      "id": "number-100",
+      "text": "100!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-100.m4a",
+      "path": "assets/voice/numbers/100.m4a"
+    },
+    {
+      "id": "number-105",
+      "text": "105!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-105.m4a",
+      "path": "assets/voice/numbers/105.m4a"
+    },
+    {
+      "id": "number-110",
+      "text": "110!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-110.m4a",
+      "path": "assets/voice/numbers/110.m4a"
+    },
+    {
+      "id": "number-115",
+      "text": "115!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-115.m4a",
+      "path": "assets/voice/numbers/115.m4a"
+    },
+    {
+      "id": "number-120",
+      "text": "120!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-120.m4a",
+      "path": "assets/voice/numbers/120.m4a"
+    },
+    {
+      "id": "number-125",
+      "text": "125!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-125.m4a",
+      "path": "assets/voice/numbers/125.m4a"
+    },
+    {
+      "id": "number-140",
+      "text": "140!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-140.m4a",
+      "path": "assets/voice/numbers/140.m4a"
+    },
+    {
+      "id": "number-150",
+      "text": "150!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-150.m4a",
+      "path": "assets/voice/numbers/150.m4a"
+    },
+    {
+      "id": "number-155",
+      "text": "155.",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/numbers/155.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "155.",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "number-165",
+      "text": "165!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-165.m4a",
+      "path": "assets/voice/numbers/165.m4a"
+    },
+    {
+      "id": "number-170",
+      "text": "170!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-170.m4a",
+      "path": "assets/voice/numbers/170.m4a"
+    },
+    {
+      "id": "number-175",
+      "text": "175!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-175.m4a",
+      "path": "assets/voice/numbers/175.m4a"
+    },
+    {
+      "id": "number-185",
+      "text": "185.",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/numbers/185.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "185.",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "number-190",
+      "text": "190!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-190.m4a",
+      "path": "assets/voice/numbers/190.m4a"
+    },
+    {
+      "id": "number-195",
+      "text": "195!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-195.m4a",
+      "path": "assets/voice/numbers/195.m4a"
+    },
+    {
+      "id": "number-200",
+      "text": "200!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-200.m4a",
+      "path": "assets/voice/numbers/200.m4a"
+    },
+    {
+      "id": "number-300",
+      "text": "300!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-300.m4a",
+      "path": "assets/voice/numbers/300.m4a"
+    },
+    {
+      "id": "number-335",
+      "text": "335.",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/numbers/335.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "335.",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "number-350",
+      "text": "350!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-350.m4a",
+      "path": "assets/voice/numbers/350.m4a"
+    },
+    {
+      "id": "number-360",
+      "text": "360!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-360.m4a",
+      "path": "assets/voice/numbers/360.m4a"
+    },
+    {
+      "id": "number-375",
+      "text": "375!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-375.m4a",
+      "path": "assets/voice/numbers/375.m4a"
+    },
+    {
+      "id": "number-380",
+      "text": "380!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-380.m4a",
+      "path": "assets/voice/numbers/380.m4a"
+    },
+    {
+      "id": "number-395",
+      "text": "395.",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/numbers/395.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "395.",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "number-400",
+      "text": "400!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-400.m4a",
+      "path": "assets/voice/numbers/400.m4a"
+    },
+    {
+      "id": "number-500",
+      "text": "500!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-500.m4a",
+      "path": "assets/voice/numbers/500.m4a"
+    },
+    {
+      "id": "number-600",
+      "text": "600!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-600.m4a",
+      "path": "assets/voice/numbers/600.m4a"
+    },
+    {
+      "id": "number-700",
+      "text": "700!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-700.m4a",
+      "path": "assets/voice/numbers/700.m4a"
+    },
+    {
+      "id": "number-800",
+      "text": "800.",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/numbers/800.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "800.",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "number-835",
+      "text": "835.",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/numbers/835.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "835.",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "number-850",
+      "text": "850.",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/numbers/850.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "850.",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "number-860",
+      "text": "860.",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/numbers/860.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "860.",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "number-880",
+      "text": "880.",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/numbers/880.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "880.",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "number-900",
+      "text": "900!",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "reuse:math-app/assets-runtime/narration/times-tables/tt-n-900.m4a",
+      "path": "assets/voice/numbers/900.m4a"
+    },
+    {
+      "id": "number-1000",
+      "text": "1,000.",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/numbers/1000.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "1,000.",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "phrase-baht",
+      "text": "baht.",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/phrases/baht.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "baht.",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "phrase-lemonade-costs",
+      "text": "The lemonade costs",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/phrases/lemonade-costs.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "The lemonade costs",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "phrase-customer-gave",
+      "text": "The customer gave",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/phrases/customer-gave.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "The customer gave",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "phrase-start-at",
+      "text": "Start at",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/phrases/start-at.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "Start at",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "phrase-add",
+      "text": "Add",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/phrases/add.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "Add",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "phrase-to-make",
+      "text": "to make",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/phrases/to-make.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "to make",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "phrase-keep-counting",
+      "text": "Keep counting up.",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/phrases/keep-counting-up.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "Keep counting up.",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "phrase-change-is",
+      "text": "The change is",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/phrases/change-is.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "The change is",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "phrase-first-reach",
+      "text": "First reach",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/phrases/first-reach.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "First reach",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "line-now-give-change",
+      "text": "Now give the change.",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/lines/now-give-change.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "Now give the change.",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "line-count-up-money",
+      "text": "Count up to the money.",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/lines/count-up-to-money.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "Count up to the money.",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "line-choose-coin",
+      "text": "Choose a coin that fits.",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/lines/choose-a-coin-that-fits.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "Choose a coin that fits.",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "line-too-far",
+      "text": "That would go too far.",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/lines/that-would-go-too-far.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "That would go too far.",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "line-tap-next",
+      "text": "Tap this one next.",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/lines/tap-this-one-next.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "Tap this one next.",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "line-worked-out",
+      "text": "You worked out the change.",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/lines/you-worked-out-change.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "You worked out the change.",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    },
+    {
+      "id": "line-no-change",
+      "text": "No change.",
+      "voice_id": "syTCOMrIG987VoS0EmlL",
+      "source": "render",
+      "path": "assets/voice/lines/no-change.m4a",
+      "tool": "ElevenLabs text-to-speech (math-app/tools/render-narration.py)",
+      "model": "eleven_v4",
+      "voice": "Magic Math Narrator (Voice Design)",
+      "date": "2026-11-06",
+      "prompt": "No change.",
+      "master": "OneDrive sidecar lemonade-stand/voice/masters-2026-11-06/"
+    }
+  ]
+}
