@@ -10,18 +10,11 @@ import { hexToRgb, mix, rgbToHex } from './colour.js';
 import { POSE_DATASETS, poseForDataset, choosePoseDoll, rememberPoseLook, entryPose, tagAlbum, mergeLegacyAlbums } from './poses.js';
 
 const $ = (id) => document.getElementById(id);
-const params = new URLSearchParams(location.search);
-const LAYOUT = params.get('layout') === 'b' ? 'b' : 'a';
-// Which art: the reviewed Standing wardrobe (default), Runway (?plate=runway), plate B
-// (?plate=b), or the grey-box placeholder set (?art=placeholder). Standing and Runway
-// are switchable and share a pose-aware album; prototypes remain URL-only.
-const DATASET = params.get('plate') === 'runway' ? 'runway'
-  : params.get('plate') === 'b' ? 'plate-b'
-    : params.get('art') === 'placeholder' ? 'placeholder' : 'items';
-const POSE_ROOM = DATASET === 'items' || DATASET === 'runway';
-let pose = poseForDataset(DATASET) || DATASET;
-document.body.classList.remove('layout-a', 'layout-b');
-document.body.classList.add(`layout-${LAYOUT}`);
+// Production always opens the reviewed Standing room. Runway is reached through the
+// in-app pose buttons; prototype plates and layout review switches are not public routes.
+const DATASET = 'items';
+const POSE_ROOM = true;
+let pose = poseForDataset(DATASET);
 
 const HOLDOVER_MS = 300;   // taps ignored after any screen change (PLAN.md 3.3)
 const HOLD_MS = 2000;      // the grown-up hold for Save to Photos
@@ -575,6 +568,7 @@ function refreshColours(repaintPatterns) {
 // ---------- the always-visible buttons ----------
 function setupActions() {
   $('act-undo').querySelector('.ico').innerHTML = icons.undo;
+  $('act-start-over').querySelector('.ico').innerHTML = icons.startOver;
   $('act-surprise').querySelector('.ico').innerHTML = icons.wand;
   $('act-show').querySelector('.ico').innerHTML = icons.star;
   $('act-album').querySelector('.ico').innerHTML = icons.album;
@@ -595,6 +589,16 @@ function setupActions() {
     play('undo');
     refreshAll();
     burst(600, 900, 12, 0.7);
+  });
+  $('act-start-over').addEventListener('click', (e) => {
+    const b = e.currentTarget;
+    ack(b);
+    const fresh = defaultLook(data, poseState().doll);
+    if (sameLook(look(), fresh)) { play('same'); wiggle(b); return; }
+    commit(fresh);
+    play('tap');
+    refreshAll();
+    burst(600, 900, 18, 0.9);
   });
   $('act-surprise').addEventListener('click', (e) => {
     ack(e.currentTarget);

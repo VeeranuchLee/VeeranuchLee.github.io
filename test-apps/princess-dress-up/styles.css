@@ -207,7 +207,7 @@ button:active { transform: scale(0.95); }
 .pattern[aria-pressed="true"] canvas { box-shadow: 0 0 0 3px #fff, 0 0 0 7px var(--pink); }
 #colours.no-shades #shades, #colours.no-patterns #patterns { display: none; }
 
-/* ---------- the three (plus album) always-visible buttons ---------- */
+/* ---------- the five always-visible actions ---------- */
 #actions { display: flex; justify-content: center; gap: 10px; }
 .act {
   width: 80px; height: 84px; flex: none;
@@ -229,7 +229,10 @@ button:active { transform: scale(0.95); }
 @media (orientation: portrait) {
   :root { --ward-w: 432px; }
   body.layout-a #actions { padding-right: 76px; }
-  body.layout-a .act { width: 80px; }
+  body.layout-a #actions { gap: 6px; }
+  body.layout-a .act { width: 64px; height: 76px; }
+  body.layout-a .act .ico svg { width: 38px; height: 38px; }
+  body.layout-a .act .lbl { font-size: 12px; }
 }
 @media (orientation: landscape) {
   :root { --ward-w: 560px; }
@@ -237,32 +240,6 @@ button:active { transform: scale(0.95); }
   .tab { width: 88px; }
   #actions { padding-right: 40px; }
   .act { width: 96px; }
-}
-
-/* ---------- layout B, portrait: doll on top, wardrobe below ---------- */
-@media (orientation: portrait) {
-  body.layout-b #room {
-    grid-template-columns: minmax(0, 1fr) 96px;
-    grid-template-rows: minmax(0, 1fr) auto;
-    grid-template-areas:
-      "stage acts"
-      "ward  ward";
-  }
-  body.layout-b #actions { flex-direction: column; justify-content: center; padding: 0; gap: 10px; }
-  body.layout-b .act { width: 88px; height: 82px; }
-  body.layout-b #wardrobe-top { justify-content: center; }
-  body.layout-b .tab { width: 104px; }
-  body.layout-b #grid {
-    flex: none; height: 158px;
-    grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 112px;
-    overflow-x: auto; overflow-y: hidden;
-  }
-  body.layout-b #grid.aspect-wide { grid-auto-columns: 108px; }
-  /* the colour rows keep their space when a tab has none, so the grid never slides
-     down into the wrist-rest corners */
-  body.layout-b #colours.no-shades #shades, body.layout-b #colours.no-patterns #patterns { display: flex; visibility: hidden; }
-  body.layout-b #shades { min-height: 88px; }
-  body.layout-b #patterns { min-height: 72px; }
 }
 
 /* ---------- show time and fashion show: full screen, every control hidden ---------- */

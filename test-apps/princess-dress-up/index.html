@@ -48,6 +48,7 @@
   </section>
   <div id="actions">
     <button type="button" class="act" id="act-undo" aria-label="Undo"><span class="ico"></span><span class="lbl">Undo</span></button>
+    <button type="button" class="act" id="act-start-over" aria-label="Start over"><span class="ico"></span><span class="lbl">Start over</span></button>
     <button type="button" class="act" id="act-surprise" aria-label="Surprise me"><span class="ico"></span><span class="lbl">Magic</span></button>
     <button type="button" class="act act-show" id="act-show" aria-label="Show time"><span class="ico"></span><span class="lbl">Show</span></button>
     <button type="button" class="act" id="act-album" aria-label="Album"><span class="ico"></span><span class="lbl">Album</span></button>
@@ -83,7 +84,7 @@
 
 <script type="module" src="js/app.js"></script>
 <script>
-  if ('serviceWorker' in navigator && !/[?&]dev\b/.test(location.search)) {
+  if ('serviceWorker' in navigator) {
     Promise.resolve() /* Test Hub staging: no service worker */.catch(function () {});
   }
 </script>
