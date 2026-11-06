@@ -55,5 +55,44 @@
     "review": "PASS: the unexplained cyan disc is plain starry sky; Venus, Jupiter, Mars, the labelled star, room, characters and every pixel outside the repair mask remain unchanged.",
     "bookArt": "starlight-storybook/assets-runtime/standard/page-01-book-open.webp is a byte-for-byte reuse of Book 1 solar-storybook/assets-runtime/standard/page-01/book-open.webp; no generation or repaint.",
     "lampArt": "No generated off-state was needed. Book 1's lamp uses aligned lighting overlays rather than a swapped crop, and Book 2 follows that model."
+  },
+  "smallerAriDot20261106": {
+    "tool": "Codex image edit (built-in reference-based editing)",
+    "date": "2026-11-06",
+    "useCase": "precise-object-edit",
+    "sourceReview": "The OneDrive sidecar was checked first under starlight-storybook/. Its only candidates were 1448x1086 mockup WebPs. Pages 2, 3 and 20 decoded identically to runtime; Pages 1, 7, 9, 12 and 17 lacked later accepted runtime repairs or identity corrections. The current tracked runtime plate was therefore the best source for every page.",
+    "sources": {
+      "page01": "starlight-storybook/assets-runtime/standard/page-01.webp",
+      "page02": "starlight-storybook/assets-runtime/standard/page-02.webp",
+      "page03": "starlight-storybook/assets-runtime/standard/page-03.webp",
+      "page07": "starlight-storybook/assets-runtime/standard/page-07.webp",
+      "page09": "starlight-storybook/assets-runtime/standard/page-09.webp",
+      "page12": "starlight-storybook/assets-runtime/standard/page-12.webp",
+      "page17": "starlight-storybook/assets-runtime/standard/page-17.webp",
+      "page20": "starlight-storybook/assets-runtime/standard/page-20.webp"
+    },
+    "promptSummary": "Change only the existing Ari and Dot depictions, repainting them at exactly 65% of their current height while preserving pose, outfit, expression, identity, relative scale, art style, lighting, gaze and contact or tether point. Seamlessly restore the vacated background. Keep every lesson diagram, planet, frame, blank panel, anchor object and other painted element stable. Reject ghosts, halos, old fragments, duplicated limbs, malformed hands, wrong chirality, malformed Dot features, text and global redraw.",
+    "pageConstraints": {
+      "page01": "Ari remains seated and Dot standing on the same bed surface; restore bedspread, trees and window background.",
+      "page02": "Both remain seated low inside the unchanged spaceship cockpit; Dot keeps pointing right.",
+      "page03": "Both remain anchored to the same observation console; Dot keeps pointing at the unchanged star cutaway.",
+      "page07": "Shrink both rear-view Ari depictions inside the split panel; preserve both thumbs-up poses. Dot is not present and was not added.",
+      "page09": "Shrink Ari only; preserve the girl, cloud and both thought bubbles. Dot is not present and was not added.",
+      "page12": "Keep Ari visibly tethered to the unchanged spacecraft and Dot beside him; restore the star field.",
+      "page17": "Keep both seated low behind the unchanged cockpit rim; preserve Ari's shielding and rim hands.",
+      "page20": "Keep both grounded on the same rug and Ari looking through the telescope; adjust only the telescope tube height/angle needed for the smaller child to use it naturally."
+    },
+    "review": {
+      "page01": "PASS attempt 1 — clean seated pair at approximately 63% height; hands and Dot details are crisp; no old silhouette remains.",
+      "page02": "PASS attempt 1 — clean smaller cockpit pair; pointing hand, rim contact and antenna are intact.",
+      "page03": "PASS attempt 1 — clean smaller console pair; Ari's two hands and Dot's pointing hand are anatomically coherent.",
+      "page07": "PASS attempt 1 — both Ari figures are consistently smaller and grounded at the panel bottom; both thumbs-up hands retain correct handedness.",
+      "page09": "REJECTED by controller 2026-11-06 and reverted: Ari no longer matched the girl in the same thought panel, and the small panel gained no space. Page 9 keeps its previous plate.",
+      "page12": "PASS attempt 1 — tether is continuous; both floating poses, gloves, helmet edges and Dot details are clean.",
+      "page17": "PASS attempt 1 — both characters sit naturally behind the rim; Ari's shielding and rim hands and Dot's hands are clean.",
+      "page20": "PASS attempt 1 — both characters are grounded; Ari's eye and hands meet the minimally lowered telescope; hands, feet and Dot details are clean."
+    },
+    "qa": "starlight-storybook/art-pending/smaller-ari-dot-sheet.jpg (git-ignored before/after sheet); raw accepted attempts and full-size character crops are under starlight-storybook/art-pending/smaller-ari-dot/.",
+    "encoding": "All outputs remain RGB 1448x1086 WebP. Page 1 preserves its existing lossless VP8L setting; Pages 2, 3, 7, 9, 12, 17 and 20 use the established lossy quality 88, method 6 recipe."
   }
 }

@@ -20,11 +20,11 @@ var pointerTipCorrections={6:{0:[61.5,26.5]},7:{1:[94.8,27.2]},9:{0:[73.3,32.7]}
 var pointerLabelCorrections={1:{1:[91,36],3:[72,43]},2:{1:[91,40],2:[81,50]},3:{1:[78,23]},4:{3:[76,23]},13:{0:[45,55]},15:{0:[56,23]},18:{0:[17,55]}};
 var pointerlessFeatures={13:[0],18:[0]};
 function applyPointerCorrections(pageData){var fixes=pointerTipCorrections[pageData.number]||{},labels=pointerLabelCorrections[pageData.number]||{},plain=pointerlessFeatures[pageData.number]||[];Object.keys(fixes).forEach(function(i){pageData.features[i].tipX=fixes[i][0];pageData.features[i].tipY=fixes[i][1]});Object.keys(labels).forEach(function(i){pageData.features[i].x=labels[i][0];pageData.features[i].y=labels[i][1]});plain.forEach(function(i){delete pageData.features[i].tipX;delete pageData.features[i].tipY});return pageData}
-/* Ari and Dot are painted into these eight flat plates. These deliberately
-   generous plate-percent boxes are QA geometry, not visible overlays. They
-   keep live knowledge cards clear now and identify the plates that need a
-   later repaint to make the characters themselves smaller. */
-var characterBoxes={1:[[31,35,36,41]],2:[[8,14,37,38]],3:[[0,36,44,33]],7:[[7,40,25,27]],9:[[7,42,26,24]],12:[[0,35,40,36]],17:[[0,45,43,34]],20:[[0,40,42,39]]};
+/* Ari and Dot are painted into these eight flat plates. These plate-percent
+   safe boxes follow the smaller 2026-11-06 repaints and reserve only the
+   visible character group (plus Page 20's telescope interaction), so live
+   knowledge cards can use the space reclaimed around the old silhouettes. */
+var characterBoxes={1:[[37,40,20,28]],2:[[18,27,22,18]],3:[[10,40,31,25]],7:[[1,47,28,15]],9:[[7,42,26,24]],12:[[9,50,18,17]],17:[[9,45,18,13]],20:[[6,46,21,28]]};
 var diagramBoxes={1:[[40,3,58,65]],2:[[35,32,63,38]],3:[[45,3,53,62]],4:[[33,4,65,66]],5:[[33,4,65,66]],6:[[33,4,65,66]],7:[[33,4,65,66]],8:[[33,4,65,66]],9:[[33,4,65,66]],10:[[33,4,65,66]],11:[[33,4,65,66]],12:[[40,4,58,66]],13:[[33,4,65,66]],14:[[33,4,65,66]],15:[[33,4,65,66]],16:[[33,4,65,66]],17:[[43,4,55,66]],18:[[33,4,65,66]],19:[[33,4,65,66]],20:[[42,4,56,66]]};
 window.STARLIGHT_SLICE_ONE={
 pointerObjectBoxes:pointerObjectBoxes,
