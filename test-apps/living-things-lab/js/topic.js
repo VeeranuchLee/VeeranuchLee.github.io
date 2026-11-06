@@ -19,17 +19,37 @@
   var showAll = window.SafeStorage.local.getItem("living-things-lab-show-names") === "true";
   if (debug) document.body.classList.add("debug");
 
-  function polygon(points, className) {
-    var node = document.createElementNS(NS, "polygon");
-    node.setAttribute("points", points.map(function (point) { return point.join(","); }).join(" "));
+  // Nonzero fill with regions wound one way and holes the other: overlapping regions of
+  // one part add up instead of cancelling (evenodd turned every overlap into a dead hole).
+  function area(points) {
+    var sum = 0;
+    for (var i = 0; i < points.length; i++) {
+      var a = points[i], b = points[(i + 1) % points.length];
+      sum += a[0] * b[1] - b[0] * a[1];
+    }
+    return sum;
+  }
+  function wound(points, positive) {
+    return (area(points) > 0) === positive ? points : points.slice().reverse();
+  }
+  function pathData(regions, holes) {
+    return (regions || []).map(function (points) { return wound(points, true); })
+      .concat((holes || []).map(function (points) { return wound(points, false); }))
+      .map(function (points) {
+        return "M" + points.map(function (point) { return point.join(","); }).join("L") + "Z";
+      }).join(" ");
+  }
+  function shape(regions, holes, className) {
+    var node = document.createElementNS(NS, "path");
+    node.setAttribute("d", pathData(regions, holes));
+    node.setAttribute("fill-rule", "nonzero");
     node.setAttribute("class", className);
     return node;
   }
-  function pointPercent(point, size) { return (point[0] / size.width * 100) + "% " + (point[1] / size.height * 100) + "%"; }
   function speak(part) { window.LabAudio.narrate(["./" + part.audio.name, "./" + part.audio.fact]); }
   function choose(part) {
     selected = part;
-    selection.replaceChildren(polygon(part.highlight || part.polygon, "selection-polygon"));
+    selection.replaceChildren(shape(part.highlightRegions || part.regions, part.highlightHoles || part.holes, "selection-polygon"));
     partName.textContent = part.name;
     partFact.textContent = part.fact;
     replay.disabled = false;
@@ -59,16 +79,18 @@
     document.title = topic.title + " — Living Things Lab";
     title.textContent = topic.title;
     image.src = "./" + topic.image;
-    image.alt = topic.id === "plant-cell" ? "A large painted plant cell with distinct organelles" : "A large cut-open flower showing its main structures";
+    image.alt = topic.alt || (topic.id === "plant-cell" ? "A large painted plant cell with distinct organelles" : "A large cut-open flower showing its main structures");
 
     topic.parts.slice().sort(function (a, b) { return a.priority - b.priority; }).forEach(function (part) {
-      var button = document.createElement("button");
-      button.type = "button";
-      button.className = "part-hotspot";
+      var button = shape(part.regions, part.holes, "part-hotspot");
+      button.setAttribute("role", "button");
+      button.setAttribute("tabindex", "0");
       button.setAttribute("aria-label", part.name);
-      button.style.zIndex = String(part.priority);
-      button.style.clipPath = "polygon(" + part.polygon.map(function (p) { return pointPercent(p, data.imageSize); }).join(",") + ")";
       button.addEventListener("click", function () { choose(part); });
+      button.addEventListener("keydown", function (event) {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault(); choose(part);
+      });
       hotspots.appendChild(button);
 
       var label = document.createElement("button");
@@ -85,7 +107,7 @@
       line.setAttribute("x1", part.anchor[0]); line.setAttribute("y1", part.anchor[1]);
       line.setAttribute("x2", part.label[0]); line.setAttribute("y2", part.label[1]);
       lines.appendChild(line);
-      debugShapes.appendChild(polygon(part.polygon, "debug-shape"));
+      debugShapes.appendChild(shape(part.regions, part.holes, "debug-shape"));
     });
     applyShowAll();
   }).catch(function () {

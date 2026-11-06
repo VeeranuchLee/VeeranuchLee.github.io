@@ -27,5 +27,6 @@
   <script src="./tap-zoom-guard.js"></script>
   <script src="./js/audio.js"></script>
   <script src="./js/room.js"></script>
-  </body>
+  <script>if ('serviceWorker' in navigator) Promise.resolve() /* Test Hub staging: no service worker */.catch(function () {});</script>
+</body>
 </html>

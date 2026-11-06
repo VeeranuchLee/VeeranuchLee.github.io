@@ -21,8 +21,8 @@
     document.getElementById("roomImage").src = data.image;
     data.landmarks.forEach(function (item, index) {
       debugSvg.appendChild(svgPolygon(item.polygon, item.active ? "active" : "inactive"));
-      // Pilot: only active rooms are named. A named object that does nothing on tap
-      // reads as a broken button to a child (controller review 2026-11-05).
+      // Only active routes are named. A named object that does nothing on tap reads
+      // as a broken button to a child (controller review 2026-11-05).
       if (!item.active) return;
       var label = document.createElement("span");
       label.className = "room-label" + (item.active ? "" : " inactive");
