@@ -28,5 +28,12 @@
 <script src="./js/maze-sound.js"></script>
 <script src="./js/maze-app.js"></script>
 <script src="./js/maze-puzzle-ui.js"></script>
+<script>
+  /* Registered only when served over http(s): a file:// preview has no service worker
+     scope and throws. */
+  if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+    addEventListener('load', function () { Promise.resolve() /* Test Hub staging: no service worker */; });
+  }
+</script>
 </body>
 </html>

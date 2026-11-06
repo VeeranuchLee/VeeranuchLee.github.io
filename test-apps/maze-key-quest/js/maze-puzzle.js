@@ -51,10 +51,13 @@
     return true;
   }
   var PROFILES={
-    bear:{notice:{wolf:2,lynx:2,owl:1,badger:0},hide:"C"},
-    fox:{notice:{wolf:4,lynx:3,owl:2,badger:3},hide:"F"},
-    rabbit:{notice:{wolf:6,lynx:6,owl:7,badger:4},hide:"H"}
+    bear:{notice:{wolf:2,lynx:2,owl:1,badger:0},hide:["C"]},
+    fox:{notice:{wolf:4,lynx:3,owl:2,badger:3},hide:["F"]},
+    rabbit:{notice:{wolf:6,lynx:6,owl:7,badger:4},hide:["H","U"]}
   };
+  function hidden(level,state) {
+    return PROFILES[state.animal].hide.indexOf(at(level,state.player))>=0;
+  }
   function passable(level,state,c,animal,predators) {
     if(c[1]<0||c[1]>=level.map.length||c[0]<0||c[0]>=level.map[0].length) return false;
     return !blocked(level,state,c,animal) && !has(state.boulders,c) && !(predators||[]).some(function(p){return p.x===c[0]&&p.y===c[1];});
@@ -67,15 +70,15 @@
   function predatorTurn(level,state) {
     var moved=[];
     state.predators.forEach(function(p){
-      var from=[p.x,p.y],to=from,profile=PROFILES[state.animal],hidden=at(level,state.player)===profile.hide;
+      var from=[p.x,p.y],to=from,profile=PROFILES[state.animal],isHidden=hidden(level,state);
       if(p.mode==="patrol") { var route=p.route||[from]; p.phase=((p.phase||0)+1)%route.length; to=route[p.phase]; }
-      else if(p.mode==="chase") { var range=profile.notice[p.kind]||0,dist=Math.abs(p.x-state.player[0])+Math.abs(p.y-state.player[1]); if(!hidden&&dist<=range&&lineVisible(level,from,state.player))to=toward(level,state,from,state.player,moved); }
+      else if(p.mode==="chase") { var range=profile.notice[p.kind]||0,dist=Math.abs(p.x-state.player[0])+Math.abs(p.y-state.player[1]); if(!isHidden&&dist<=range&&lineVisible(level,from,state.player))to=toward(level,state,from,state.player,moved); }
       else if(p.mode==="ambush") { var target=(p.ambush&&p.ambush[state.turn%p.ambush.length])||from; to=toward(level,state,from,target,moved); }
       if(passable(level,state,to,state.animal,moved)||same(to,state.player)){p.x=to[0];p.y=to[1];}
       moved.push(p);
     });
     state.turn++;
-    if(state.predators.some(function(p){return same([p.x,p.y],state.player);})){
+    if(!hidden(level,state)&&state.predators.some(function(p){return same([p.x,p.y],state.player);})){
       state.captured=true; state.player=state.checkpoint.slice();
     }
   }
@@ -96,6 +99,9 @@
       state.player=next;
       if(at(level,next)==="k"&&!has(state.collected,next)){state.collected.push(next);state.keys++;events.push("key");}
       if(at(level,next)==="Q"){state.checkpoint=next.slice();events.push("checkpoint");}
+      if(level.mode==="animal"&&!hidden(level,state)&&state.predators.some(function(p){return same([p.x,p.y],state.player);})){
+        state.captured=true;state.player=state.checkpoint.slice();events.push("capture");
+      }
     } else events.push("wait");
     if(level.mode==="animal") predatorTurn(level,state);
     state.won=at(level,state.player)==="E"; if(state.won)events.push("win");
@@ -107,9 +113,10 @@
   function solveFrom(level,start,opts){
     opts=opts||{};start=copy(start);var q=[{s:start,path:[]}],seen=new Set([canonical(start)]),actions=ACTIONS.concat(level.mode==="animal"?["wait"]:[]),cap=opts.cap||250000;
     for(var h=0;h<q.length&&seen.size<cap;h++){var cur=q[h];if(cur.s.won)return {solved:true,length:cur.path.length,path:cur.path,visited:seen.size};
-      for(var i=0;i<actions.length;i++){var o=step(level,cur.s,actions[i],opts);if(!o.valid)continue;var k=canonical(o.state);if(!seen.has(k)){seen.add(k);q.push({s:o.state,path:cur.path.concat(actions[i])});}}
+      for(var i=0;i<actions.length;i++){var o=step(level,cur.s,actions[i],opts);if(!o.valid||o.state.captured)continue;var k=canonical(o.state);if(!seen.has(k)){seen.add(k);q.push({s:o.state,path:cur.path.concat(actions[i])});}}
     } return {solved:false,length:-1,path:[],visited:seen.size};
   }
   function solve(level,opts){opts=opts||{};return solveFrom(level,initial(level,opts),opts);}
-  return {ACTIONS:ACTIONS,DIRS:DIRS,PROFILES:PROFILES,initial:initial,step:step,history:history,act:act,undo:undo,solve:solve,solveFrom:solveFrom,canonical:canonical,switchOn:switchOn};
+  function nextHint(level,state,opts){var solved=solveFrom(level,state,opts);return solved.solved&&solved.path.length?solved.path[0]:null;}
+  return {ACTIONS:ACTIONS,DIRS:DIRS,PROFILES:PROFILES,initial:initial,step:step,history:history,act:act,undo:undo,solve:solve,solveFrom:solveFrom,nextHint:nextHint,canonical:canonical,switchOn:switchOn,hidden:hidden};
 });
