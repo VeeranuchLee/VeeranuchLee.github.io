@@ -16,25 +16,31 @@
   <main id="gardenMap" class="garden-map" aria-labelledby="gardenTitle">
     <header class="garden-heading">
       <h1 id="gardenTitle">Sound Garden</h1>
-      <p>Choose any sound place</p>
+      <p id="gardenSubtitle">First garden · choose any sound place</p>
     </header>
     <div class="map-frame" id="mapFrame">
-      <img src="assets/phonics/sound-garden-map.webp" width="2048" height="1536" alt="A garden with a sandy patch, apple tree, tent, ship by a pond and beehive" draggable="false">
-      <button class="place-marker place-s" type="button" data-place="s" aria-label="Explore the s sound at the sandy spot">
-        <span class="grapheme">s</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg>
-      </button>
-      <button class="place-marker place-a" type="button" data-place="a" aria-label="Explore the a sound at the apple tree">
-        <span class="grapheme">a</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg>
-      </button>
-      <button class="place-marker place-t" type="button" data-place="t" aria-label="Explore the t sound at the tent">
-        <span class="grapheme">t</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg>
-      </button>
-      <button class="place-marker place-sh" type="button" data-place="sh" aria-label="Explore the sh sound at the ship">
-        <span class="grapheme">sh</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg>
-      </button>
-      <button class="place-marker place-e" type="button" data-place="e" aria-label="Explore short and long e at the beehive">
-        <span class="grapheme">e</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg>
-      </button>
+      <section class="garden-panel" data-garden="garden-1" aria-label="First Sound Garden">
+        <img src="assets/phonics/sound-garden-map.webp" width="2048" height="1536" alt="A garden with a sandy patch, apple tree, tent, ship by a pond and beehive" draggable="false">
+        <button class="place-marker place-s" type="button" data-place="s" aria-label="Explore the s sound at the sandy spot"><span class="grapheme">s</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg></button>
+        <button class="place-marker place-a" type="button" data-place="a" aria-label="Explore short and long a at the apple tree"><span class="grapheme">a</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg></button>
+        <button class="place-marker place-t" type="button" data-place="t" aria-label="Explore the t sound at the tent"><span class="grapheme">t</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg></button>
+        <button class="place-marker place-sh" type="button" data-place="sh" aria-label="Explore the sh sound at the ship"><span class="grapheme">sh</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg></button>
+        <button class="place-marker place-e" type="button" data-place="e" aria-label="Explore short and long e at the beehive"><span class="grapheme">e</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg></button>
+        <button class="garden-path" type="button" data-go-garden="garden-2" aria-label="Follow the path to the second garden"><svg viewBox="0 0 64 36" aria-hidden="true"><path d="M5 30c7-16 17-5 25-18 7-11 17-7 29-7"/><path d="m49 1 10 4-8 8"/></svg><span>Second garden</span></button>
+      </section>
+      <section class="garden-panel" data-garden="garden-2" aria-label="Second Sound Garden" hidden>
+        <img src="assets/phonics/sound-garden-map-2.webp" width="2048" height="1536" alt="A second garden with pumpkins, an insect hotel, nest, mushrooms, duck pond, gate, octopus fountain, cat topiary, elephant fountain and umbrella arbour" draggable="false">
+        <button class="place-marker place-p" type="button" data-place="p" aria-label="Explore the p sound at the pumpkin patch"><span class="grapheme">p</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg></button>
+        <button class="place-marker place-i" type="button" data-place="i" aria-label="Explore short and long i at the insect hotel"><span class="grapheme">i</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg></button>
+        <button class="place-marker place-n" type="button" data-place="n" aria-label="Explore the n sound at the nest tree"><span class="grapheme">n</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg></button>
+        <button class="place-marker place-m" type="button" data-place="m" aria-label="Explore the m sound at the mushroom ring"><span class="grapheme">m</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg></button>
+        <button class="place-marker place-d" type="button" data-place="d" aria-label="Explore the d sound at the duck pond"><span class="grapheme">d</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg></button>
+        <button class="place-marker place-g" type="button" data-place="g" aria-label="Explore the g sound at the garden gate"><span class="grapheme">g</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg></button>
+        <button class="place-marker place-o" type="button" data-place="o" aria-label="Explore short and long o at the octopus fountain"><span class="grapheme">o</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg></button>
+        <button class="place-marker place-c-k" type="button" data-place="c-k" aria-label="Explore the c and k sound at the cat topiary"><span class="grapheme">c/k</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg></button>
+        <button class="place-marker place-u" type="button" data-place="u" aria-label="Explore short and long u at the umbrella arbour"><span class="grapheme">u</span><svg class="visited-leaf" viewBox="0 0 32 32" aria-hidden="true"><path d="M27 5C16 5 7 10 6 22c7 2 17-1 21-17Z"/><path d="M7 24c5-7 10-10 17-14"/></svg></button>
+        <button class="garden-path" type="button" data-go-garden="garden-1" aria-label="Follow the path to the first garden"><svg viewBox="0 0 64 36" aria-hidden="true"><path d="M59 30c-7-16-17-5-25-18C27 1 17 5 5 5"/><path d="m15 1-10 4 8 8"/></svg><span>First garden</span></button>
+      </section>
     </div>
     <p class="garden-note">Every place is open. Wander, listen and come back whenever you like.</p>
   </main>

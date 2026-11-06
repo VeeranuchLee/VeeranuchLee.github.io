@@ -1,7 +1,7 @@
 {
   "$schema": "our-word-book.phonics-sound-groups.v3",
   "$generated": "python3 word-book/phonics/tools/build_sound_groups.py",
-  "status": "runtime authority for five pilot groups and five paired vowel places; next ten groups remain reviewed expansion records but are not wired as Garden 2 markers",
+  "status": "runtime authority for two always-open Sound Gardens, fourteen map places and five paired vowel places",
   "scheme": {
     "name": "Letters and Sounds teaching order, adapted to 44 phonemes",
     "notes": [
@@ -9,9 +9,41 @@
       "The /zh/ phoneme is explicit; voiced/unvoiced th and long/short oo are separate.",
       "UK MFA is canonical. CMUdict is stored only as a non-canonical cross-check.",
       "The five vowel letters each have reviewed short and long side groups; the 44-phoneme groups remain the underlying sound inventory.",
-      "Long u means British /juː/ here. The /uː/ oo sound in moon remains the separate oo-long group."
+      "Long u means British /juː/ here. The /uː/ oo sound in moon remains the separate oo-long group.",
+      "Garden 2 wires p i n m d g o c/k u; its elephant fountain remains quiet decoration because e is the paired beehive place in Garden 1."
     ]
   },
+  "gardens": [
+    {
+      "id": "garden-1",
+      "art": "assets/phonics/sound-garden-map.webp",
+      "places": [
+        "s",
+        "a",
+        "t",
+        "sh",
+        "e"
+      ],
+      "open_from_first_visit": true
+    },
+    {
+      "id": "garden-2",
+      "art": "assets/phonics/sound-garden-map-2.webp",
+      "places": [
+        "p",
+        "i",
+        "n",
+        "m",
+        "d",
+        "g",
+        "o",
+        "c-k",
+        "u"
+      ],
+      "quiet_landmark": "elephant fountain",
+      "open_from_first_visit": true
+    }
+  ],
   "sources": {
     "live_rows": "word-book/data/dictionary.json",
     "uk_pronunciation": "shared-data/dictionary/word-book-package/sources/english_uk_mfa/english_uk_mfa.dict",
@@ -589,7 +621,7 @@
         }
       ],
       "sound_garden_expansion": {
-        "status": "prepared-not-wired",
+        "status": "wired-garden-2",
         "place": "pumpkin patch",
         "pure_sound_id": "p",
         "pure_sound_clip": "audio/phonics/p.m4a",
@@ -783,7 +815,7 @@
         }
       ],
       "sound_garden_expansion": {
-        "status": "prepared-not-wired",
+        "status": "wired-garden-2",
         "place": "insect hotel",
         "pure_sound_id": "i",
         "pure_sound_clip": "audio/phonics/i.m4a",
@@ -980,7 +1012,7 @@
         }
       ],
       "sound_garden_expansion": {
-        "status": "prepared-not-wired",
+        "status": "wired-garden-2",
         "place": "nest tree",
         "pure_sound_id": "n",
         "pure_sound_clip": "audio/phonics/n.m4a",
@@ -1178,7 +1210,7 @@
         }
       ],
       "sound_garden_expansion": {
-        "status": "prepared-not-wired",
+        "status": "wired-garden-2",
         "place": "mushroom ring",
         "pure_sound_id": "m",
         "pure_sound_clip": "audio/phonics/m.m4a",
@@ -1373,7 +1405,7 @@
         }
       ],
       "sound_garden_expansion": {
-        "status": "prepared-not-wired",
+        "status": "wired-garden-2",
         "place": "duck pond",
         "pure_sound_id": "d",
         "pure_sound_clip": "audio/phonics/d.m4a",
@@ -1569,7 +1601,7 @@
         }
       ],
       "sound_garden_expansion": {
-        "status": "prepared-not-wired",
+        "status": "wired-garden-2",
         "place": "garden gate",
         "pure_sound_id": "g",
         "pure_sound_clip": "audio/phonics/g.m4a",
@@ -1769,7 +1801,7 @@
         }
       ],
       "sound_garden_expansion": {
-        "status": "prepared-not-wired",
+        "status": "wired-garden-2",
         "place": "octopus fountain",
         "pure_sound_id": "o",
         "pure_sound_clip": "audio/phonics/o.m4a",
@@ -1966,7 +1998,7 @@
         }
       ],
       "sound_garden_expansion": {
-        "status": "prepared-not-wired",
+        "status": "wired-garden-2",
         "place": "cat topiary",
         "pure_sound_id": "c-k",
         "pure_sound_clip": "audio/phonics/c-k.m4a",
@@ -2166,7 +2198,7 @@
         }
       ],
       "sound_garden_expansion": {
-        "status": "prepared-not-wired",
+        "status": "garden-1-vowel-reference",
         "place": "elephant fountain",
         "pure_sound_id": "e",
         "pure_sound_clip": "audio/phonics/e.m4a",
@@ -2367,7 +2399,7 @@
         }
       ],
       "sound_garden_expansion": {
-        "status": "prepared-not-wired",
+        "status": "wired-garden-2",
         "place": "umbrella arbour",
         "pure_sound_id": "u",
         "pure_sound_clip": "audio/phonics/u.m4a",

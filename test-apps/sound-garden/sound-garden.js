@@ -2,10 +2,14 @@
   'use strict';
 
   var BASE_ORDER = ['s', 'a', 't', 'sh', 'ee'];
-  var MAP_ORDER = ['s', 'a', 't', 'sh', 'e'];
+  var GARDENS = {
+    'garden-1': ['s', 'a', 't', 'sh', 'e'],
+    'garden-2': ['p', 'i', 'n', 'm', 'd', 'g', 'o', 'c-k', 'u']
+  };
+  var MAP_ORDER = GARDENS['garden-1'].concat(GARDENS['garden-2']);
   var STORE_KEY = 'word-book:sound-garden:v1';
   var TITLES = { pictures: 'Picture wall', trace: 'Touch letter', sort: 'Sound sorting', build: 'Moveable alphabet', spy: 'I spy' };
-  var state = { groups: [], baseById: {}, placeById: {}, current: null, vowelSide: 'short', material: 'pictures', audio: null, audioDone: null, sequenceToken: 0, selectedSort: null, buildTiles: [], buildLine: [] };
+  var state = { groups: [], baseById: {}, placeById: {}, current: null, currentGarden: 'garden-1', vowelSide: 'short', material: 'pictures', audio: null, audioDone: null, sequenceToken: 0, selectedSort: null, buildTiles: [], buildLine: [] };
   var memory = readMemory();
   var map = document.getElementById('gardenMap');
   var place = document.getElementById('placeView');
@@ -16,7 +20,7 @@
   var noticeTimer = 0;
 
   function emptyMemory() {
-    return { placesOpened: [], materialsOpened: {}, lastPlace: null, vowelSides: {}, builtWords: [], hintRequests: {} };
+    return { placesOpened: [], materialsOpened: {}, lastPlace: null, garden: 'garden-1', vowelSides: {}, builtWords: [], hintRequests: {} };
   }
 
   function readMemory() {
@@ -26,6 +30,7 @@
       if (!value || typeof value !== 'object') return fallback;
       value.placesOpened = Array.isArray(value.placesOpened) ? value.placesOpened : [];
       value.materialsOpened = value.materialsOpened || {};
+      value.garden = value.garden === 'garden-2' ? 'garden-2' : 'garden-1';
       value.vowelSides = value.vowelSides || {};
       value.builtWords = Array.isArray(value.builtWords) ? value.builtWords : [];
       value.hintRequests = value.hintRequests || {};
@@ -155,13 +160,33 @@
       marker.classList.toggle('visited', memory.placesOpened.indexOf(id) !== -1);
       marker.classList.toggle('suggested', id === suggested);
     });
+    Array.prototype.forEach.call(document.querySelectorAll('.garden-path'), function (pathButton) {
+      var destinationGarden = pathButton.getAttribute('data-go-garden');
+      pathButton.classList.toggle('suggested', GARDENS[destinationGarden].indexOf(suggested) !== -1);
+    });
+  }
+
+  function showGarden(id, focusPath) {
+    if (!GARDENS[id]) return;
+    state.currentGarden = id;
+    memory.garden = id;
+    saveMemory();
+    Array.prototype.forEach.call(document.querySelectorAll('.garden-panel'), function (panel) {
+      panel.hidden = panel.getAttribute('data-garden') !== id;
+    });
+    document.getElementById('gardenSubtitle').textContent = (id === 'garden-1' ? 'First garden' : 'Second garden') + ' · choose any sound place';
+    updateMap();
+    if (focusPath) {
+      var pathButton = document.querySelector('.garden-panel[data-garden="' + id + '"] .garden-path');
+      if (pathButton) pathButton.focus({ preventScroll: true });
+    }
   }
 
   function showMap() {
     stopAudio();
     place.hidden = true;
     map.hidden = false;
-    updateMap();
+    showGarden(state.currentGarden, false);
     document.getElementById('gardenTitle').focus({ preventScroll: true });
   }
 
@@ -183,7 +208,7 @@
     rememberOpen(id, 'pictures');
     map.hidden = true;
     place.hidden = false;
-    document.getElementById('placeName').textContent = isVowelPlace(destination) ? destination.place : destination.pilot.place;
+    document.getElementById('placeName').textContent = isVowelPlace(destination) ? destination.place : soundMeta(destination).place;
     document.getElementById('placeTitle').textContent = (isVowelPlace(destination) ? destination.letter + ' vowel' : destination.label + ' sound') + ' place';
     vowelSwitch.hidden = !isVowelPlace(destination);
     updateVowelSwitch();
@@ -301,6 +326,8 @@
 
   function contrastGroups() {
     if (isVowelPlace(state.current)) return state.current.sides;
+    var prepared = soundMeta(state.current).sorting_contrasts;
+    if (prepared) return prepared.map(function (contrast) { return state.baseById[contrast.sound_id]; });
     var index = BASE_ORDER.indexOf(state.current.id);
     return [state.current, state.baseById[BASE_ORDER[(index + 1) % BASE_ORDER.length]], state.baseById[BASE_ORDER[(index + 2) % BASE_ORDER.length]]];
   }
@@ -310,7 +337,8 @@
     var groups = contrastGroups();
     var objects = [];
     groups.forEach(function (group, groupIndex) {
-      var picks = isVowelPlace(state.current) ? group.words.slice(0, 3) : [group.words[groupIndex], group.words[groupIndex + 3]];
+      var prepared = !isVowelPlace(state.current) && soundMeta(state.current).sorting_contrasts;
+      var picks = isVowelPlace(state.current) ? group.words.slice(0, 3) : prepared ? soundMeta(state.current).sorting_contrasts[groupIndex].senses.map(function (sense) { return wordBySense(group, sense); }) : [group.words[groupIndex], group.words[groupIndex + 3]];
       picks.forEach(function (word) { objects.push({ group: group, word: word }); });
     });
     var cards = objects.map(function (item, index) {
@@ -360,7 +388,8 @@
 
   function renderBuilder() {
     var group = activeGroup();
-    var target = group.words[0];
+    var meta = soundMeta(group);
+    var target = meta.builder_senses ? wordBySense(group, meta.builder_senses[0]) : group.words[0];
     var units = wordUnits(target, group);
     var unitTexts = units.map(function (unit) { return unit.text; });
     var extras = ['s', 'a', 'e', 'i', 'o', 'u', 't', 'sh', 'ee', 'm', 'p', 'n'].filter(function (tile) { return unitTexts.indexOf(tile) === -1; }).slice(0, 4).map(function (text) { return { text: text, value: text }; });
@@ -379,6 +408,12 @@
     state.groups.some(function (group) {
       return group.words.some(function (word) { if (word.word.toLowerCase() === text.toLowerCase()) { found = word; return true; } return false; });
     });
+    return found;
+  }
+
+  function wordBySense(group, sense) {
+    var found = group.words.filter(function (word) { return word.sense === sense; })[0];
+    if (!found) throw new Error('Missing reviewed word ' + sense + ' in ' + group.id);
     return found;
   }
 
@@ -440,11 +475,22 @@
 
   function renderSpy() {
     var group = activeGroup();
-    var target = group.words[3];
+    var meta = soundMeta(group);
+    var preparedScene = !isVowelPlace(state.current) && meta.i_spy_scene;
+    var target = preparedScene ? wordBySense(group, preparedScene.target_sense) : group.words[3];
     var options = [{ group: group, word: target }];
     if (isVowelPlace(state.current)) {
       var other = state.current.sides.filter(function (side) { return side.id !== group.id; })[0];
       other.words.slice(0, 3).forEach(function (word) { options.push({ group: other, word: word }); });
+    } else if (preparedScene) {
+      preparedScene.senses.filter(function (sense) { return sense !== preparedScene.target_sense; }).forEach(function (sense) {
+        state.groups.some(function (candidate) {
+          var word = candidate.words.filter(function (item) { return item.sense === sense; })[0];
+          if (!word) return false;
+          options.push({ group: candidate, word: word });
+          return true;
+        });
+      });
     } else {
       var start = BASE_ORDER.indexOf(state.current.id);
       for (var i = 1; i < 4; i++) {
@@ -504,6 +550,14 @@
       });
     });
     groups.sort(function (a, b) { return BASE_ORDER.indexOf(a.id) - BASE_ORDER.indexOf(b.id); });
+    var expansionIds = GARDENS['garden-2'];
+    var expansion = (payload && payload.groups || []).filter(function (group) { return expansionIds.indexOf(group.id) !== -1; });
+    expansion.sort(function (a, b) { return expansionIds.indexOf(a.id) - expansionIds.indexOf(b.id); });
+    if (expansion.length !== expansionIds.length) throw new Error('Expected nine Garden 2 groups');
+    expansion.forEach(function (group) {
+      var meta = group.sound_garden_expansion;
+      if (!meta || meta.status !== 'wired-garden-2' || group.words.length !== 6 || !meta.sorting_contrasts || !meta.builder_senses || !meta.i_spy_scene) throw new Error('Incomplete Garden 2 group ' + group.id);
+    });
     var vowels = payload && payload.vowel_places || [];
     if (vowels.length !== 5) throw new Error('Expected five vowel places');
     vowels.forEach(function (vowel) {
@@ -512,7 +566,10 @@
         if (!side.pure_sound_clip || !side.hint || !Array.isArray(side.words) || side.words.length !== 6) throw new Error('Incomplete vowel side ' + side.id);
       });
     });
-    return { pilot: groups, vowels: vowels, all: payload.groups || [] };
+    var gardens = payload && payload.gardens || [];
+    if (gardens.length !== 2 || gardens[0].id !== 'garden-1' || gardens[1].id !== 'garden-2') throw new Error('Expected two garden records');
+    if (JSON.stringify(gardens[0].places) !== JSON.stringify(GARDENS['garden-1']) || JSON.stringify(gardens[1].places) !== JSON.stringify(GARDENS['garden-2'])) throw new Error('Garden membership differs from the map');
+    return { pilot: groups, expansion: expansion, vowels: vowels, all: payload.groups || [] };
   }
 
   Array.prototype.forEach.call(document.querySelectorAll('.place-marker'), function (marker) {
@@ -523,6 +580,9 @@
   });
   Array.prototype.forEach.call(vowelSwitch.querySelectorAll('button'), function (button) {
     button.addEventListener('click', function () { chooseVowelSide(button.getAttribute('data-vowel-side')); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.garden-path'), function (button) {
+    button.addEventListener('click', function () { showGarden(button.getAttribute('data-go-garden'), true); });
   });
   document.getElementById('mapButton').addEventListener('click', showMap);
   document.getElementById('soundButton').addEventListener('click', function () { stopAudio(); playPure(activeGroup()); });
@@ -537,9 +597,10 @@
     var validated = validatePayload(payload);
     validated.all.forEach(function (group) { state.baseById[group.id] = group; });
     validated.pilot.forEach(function (group) { state.placeById[group.id] = group; });
+    validated.expansion.forEach(function (group) { state.placeById[group.id] = group; });
     validated.vowels.forEach(function (vowel) { state.placeById[vowel.id] = vowel; });
     state.groups = validated.all.concat(validated.vowels.reduce(function (all, vowel) { return all.concat(vowel.sides); }, []));
-    updateMap();
+    showGarden(memory.garden, false);
   }).catch(function () {
     var frame = document.getElementById('mapFrame');
     frame.innerHTML = '';
