@@ -14,10 +14,10 @@ var pointerObjectBoxes={
 1:[[54.7,15.7,2,2.5],[84.4,27.1,4.3,4.5],[79.8,15.6,6.5,6.4],[75.2,32.1,2,2.1]],2:[[33,45,19,20],[89.3,59.7,1.5,2.5],[82.4,59.6,1.4,2.4]],3:[[48,18,18,20],[65,18,18,20],[62,31,19,18]],4:[[36.5,51.5,3.3,4.5],[46.4,46.7,5.8,7.5],[57,40.5,10.7,15.7],[75,17,21.5,28]],5:[[34,35,9.5,13.5],[55,21,14,18],[82,33,11.5,15]],6:[[39.5,39.3,11,15],[39.7,41,12,16]],7:[[92.7,18.5,4.5,7]],9:[[45.5,16,49,37]],10:[[36.5,15,61.5,41],[36.5,15,61.5,41]],11:[[37,20,23,17],[61,31,18,17]],12:[[42,19,17,17],[59,31,17,17]],13:[[37.3,29.7,6.3,4.5],[56.5,27.5,7.8,7.8],[88.5,27,6.8,7.8]],14:[[45.3,34.7,1.8,3],[49.2,35.6,2.1,3.3],[68.6,35.9,2.2,3.8]],15:[[48,14,20,23],[64,34,9,9]],16:[[35.2,50.3,6.5,8],[34.3,37.5,8,10],[34.5,17,10,13]],17:[[55,18,22,28]],18:[[4.2,35.2,3,3.5],[35,33,12,15],[58,32,9,14],[77,30,13,15]],19:[[81,32,11,13],[72,24,17,18]]};
 pointerObjectBoxes[6]=[[59,23.5,5,6],[59,44,7,8]];pointerObjectBoxes[7]=[null,[92.7,24,4.5,7]];pointerObjectBoxes[9]=[[71,30,5,5]];pointerObjectBoxes[10]=[[75,28,7,7],[87,33,7,7]];pointerObjectBoxes[11]=[[47,19,10,10],[61,31,18,17]];pointerObjectBoxes[14][2]=[66.5,35.9,3,4];pointerObjectBoxes[17]=[[55,18,22,28]];
 var pointerTipCorrections={6:{0:[61.5,26.5]},7:{1:[94.8,27.2]},9:{0:[73.3,32.7]},10:{0:[78.4,31.4],1:[90.5,36.7]},11:{0:[51,24]},13:{0:[38.2,32.7]},14:{2:[67.9,38]},16:{0:[41.2,53],2:[41.5,23.5]},17:{0:[65.5,31.5]},18:{0:[5.5,38.2]}};
-/* Only these three top-right labels move for the new 64px control row. Their
-   painted-object tips remain fixed; unlike a blanket top-band clamp, these
-   offsets preserve every other measured label/pointer relationship. */
-var pointerLabelCorrections={1:{1:[91,36],3:[72,43]},2:{1:[91,40],2:[81,50]},3:{1:[78,23]},4:{3:[76,23]},13:{0:[45,55]},15:{0:[56,23]},18:{0:[17,55]}};
+/* Explicit label-only corrections preserve the painted-object tips. Unlike a
+   blanket clamp, these offsets move only the labels named by browser QA and
+   preserve every other measured label/pointer relationship. */
+var pointerLabelCorrections={1:{1:[91,36],3:[72,43]},2:{1:[91,40],2:[81,50]},3:{1:[78,23]},4:{3:[76,23]},13:{0:[45,55]},15:{0:[56,23]},18:{0:[17,55],2:[58,25],3:[87,48]},19:{0:[91,48]}};
 var pointerlessFeatures={13:[0],18:[0]};
 function applyPointerCorrections(pageData){var fixes=pointerTipCorrections[pageData.number]||{},labels=pointerLabelCorrections[pageData.number]||{},plain=pointerlessFeatures[pageData.number]||[];Object.keys(fixes).forEach(function(i){pageData.features[i].tipX=fixes[i][0];pageData.features[i].tipY=fixes[i][1]});Object.keys(labels).forEach(function(i){pageData.features[i].x=labels[i][0];pageData.features[i].y=labels[i][1]});plain.forEach(function(i){delete pageData.features[i].tipX;delete pageData.features[i].tipY});return pageData}
 /* Ari and Dot are painted into these eight flat plates. These plate-percent
@@ -25,11 +25,28 @@ function applyPointerCorrections(pageData){var fixes=pointerTipCorrections[pageD
    visible character group (plus Page 20's telescope interaction), so live
    knowledge cards can use the space reclaimed around the old silhouettes. */
 var characterBoxes={1:[[37,40,20,28]],2:[[18,27,22,18]],3:[[10,40,31,25]],7:[[1,47,28,15]],9:[[7,42,26,24]],12:[[9,50,18,17]],17:[[9,45,18,13]],20:[[6,46,21,28]]};
-var diagramBoxes={1:[[40,3,58,65]],2:[[35,32,63,38]],3:[[45,3,53,62]],4:[[33,4,65,66]],5:[[33,4,65,66]],6:[[33,4,65,66]],7:[[33,4,65,66]],8:[[33,4,65,66]],9:[[33,4,65,66]],10:[[33,4,65,66]],11:[[33,4,65,66]],12:[[40,4,58,66]],13:[[33,4,65,66]],14:[[33,4,65,66]],15:[[33,4,65,66]],16:[[33,4,65,66]],17:[[43,4,55,66]],18:[[33,4,65,66]],19:[[33,4,65,66]],20:[[42,4,56,66]]};
+var diagramBoxes={1:[[40,3,58,65]],2:[[35,32,63,38]],3:[[45,3,53,62]],4:[[33,4,65,66]],5:[[33,4,65,66]],6:[[33,4,65,66]],7:[[33,4,65,66]],8:[[33,4,65,66]],9:[[35.5,4,62.5,66]],10:[[33,4,65,66]],11:[[33,4,65,66]],12:[[40,4,58,66]],13:[[33,4,65,66]],14:[[33,4,65,66]],15:[[33,4,65,66]],16:[[33,4,65,66]],17:[[43,4,55,66]],18:[[33,4,65,66]],19:[[33,4,65,66]],20:[[42,4,56,66]]};
+/* The painted story frame on every plate, as plate percent [left, top, width,
+   height] of the frame's inner rectangle: inside the glowing border line, so a
+   card placed here never sits on the glow. Measured 2026-11-06 from the
+   1448x1086 plates (pages 1, 2, 3, 7, 12, 17 and 20 are the smaller-Ari
+   repaints) by walking out from the frame's centre to where the glow meets the
+   dark painting, then stepping 12 plate pixels in. In landscape the story card
+   is this rectangle less storyFit.insetPct on each side; portrait keeps its
+   reading band below the painting. */
+var storyFrames={1:[4.1,7.7,34.5,24.7],2:[3.2,4.2,57.1,21],3:[2.9,4.1,41.2,35.5],4:[3.4,8.4,25.1,35.2],5:[2.8,9.1,25.8,34.9],6:[2.8,8.3,26.1,40.6],7:[2.7,9.2,24.5,34.4],8:[2.6,9.1,25.3,35],9:[3.2,6.4,31.1,28.5],10:[2.6,8.4,25.6,36.2],11:[2.7,8.7,25.3,35.8],12:[2.6,6.5,25.4,34],13:[2.5,6.5,25.6,35.5],14:[2.6,6.5,25.6,35.5],15:[2.6,6.5,25.5,34],16:[2.6,6.4,25.6,34],17:[2.6,6.4,25.6,32.5],18:[2.6,6.4,25.6,34],19:[2.6,6.4,25.6,33.5],20:[2.6,6.4,25.6,34]};
+/* The story card's type is shrunk in steps (title, subtitle and story text
+   together, all in proportion to the story text) until the card has nothing to
+   scroll. It never goes below bodyFloorPx: a card that still overflows at the
+   floor grows past its frame and is reported by qc/check-story-fit.mjs rather
+   than clipped, scrolled or made unreadably small. */
+var storyFit={insetPct:.4,bodyMaxPx:17,bodyFloorPx:15,stepPx:.5};
 window.STARLIGHT_SLICE_ONE={
 pointerObjectBoxes:pointerObjectBoxes,
 characterBoxes:characterBoxes,
 diagramBoxes:diagramBoxes,
+storyFrames:storyFrames,
+storyFit:storyFit,
 cover:{title:"Follow the Starlight",prompt:"Tap the starlight beam to begin.",line:"Follow the Starlight."},
 pages:{
 1:{eyebrow:"A new mystery",title:"The lights outside",subtitle:"A quiet night under the stars",story:"Ari knows three lights from their first journey. Dot finds one light that makes its own glow.",about:"Planets look bright because they reflect sunlight. A star is different: it makes light and heat inside itself.",aboutLabel:"About the lights",facts:F[1],kind:"lights",features:[{label:"Venus",x:53.8,y:17.2,spoken:true},{label:"Jupiter",x:82.9,y:17.8,spoken:true},{label:"Mars",x:86.4,y:29.2,spoken:true},{label:"A star",x:76.2,y:33.3,spoken:true}],motion:{type:"window-glints",points:[{x:53.4,y:13.2,period:4.8},{x:55.7,y:16.9,period:6.2},{x:61.9,y:19.8,period:5.4},{x:66.3,y:14,period:7.1},{x:75.6,y:19.2,period:5.9},{x:89.5,y:24.3,period:6.7},{x:55.9,y:29.6,period:5.2},{x:61.9,y:34.4,period:7.4},{x:67.2,y:33.7,period:4.9},{x:75.9,y:30.2,period:6.4},{x:89.5,y:32.5,period:5.7}]}},

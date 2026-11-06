@@ -94,5 +94,100 @@
     },
     "qa": "starlight-storybook/art-pending/smaller-ari-dot-sheet.jpg (git-ignored before/after sheet); raw accepted attempts and full-size character crops are under starlight-storybook/art-pending/smaller-ari-dot/.",
     "encoding": "All outputs remain RGB 1448x1086 WebP. Page 1 preserves its existing lossless VP8L setting; Pages 2, 3, 7, 9, 12, 17 and 20 use the established lossy quality 88, method 6 recipe."
+  },
+  "tallerStoryFrames20261106": {
+    "tool": "Codex image edit (built-in reference-based editing)",
+    "date": "2026-11-06",
+    "useCase": "precise-object-edit",
+    "sourceReview": "The OneDrive sidecar was checked first under starlight-storybook/. It contains only same-size 1448x1086 mockup WebPs, several predating accepted runtime character and pointer repairs. Current branch runtime plates at commit 98fcaba2a were therefore used as the authoritative edit targets.",
+    "pages": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+    "craftPages": [2, 3, 17],
+    "promptSummary": "First repaint only the spacecraft/cockpit around the already-small Ari and Dot on Pages 2, 3 and 17 to approximately 65% of its former footprint, keeping both characters fixed and restoring matching starfield. Then extend only the upper-left painted story frame downward as a seamless member of the existing translucent, glowing, rounded family, preserving characters, craft, diagrams, planets, labels, anchors and canvas composition.",
+    "attempts": {
+      "page02Craft": "PASS attempt 2; attempt 1 rejected because it also reduced Ari and Dot.",
+      "page03Craft": "PASS attempt 1.",
+      "page17Craft": "PASS attempt 1.",
+      "page12Frame": "PASS attempt 3; attempts 1 and 2 rejected because the tether scene drifted.",
+      "otherFrames": "PASS attempt 1 on Pages 2–11 and 13–20."
+    },
+    "review": "Full-plate before/after sheet and full-size frame/craft crops reviewed for clean borders, corners, glow, hands/paws, craft contact, old silhouettes, seams and nearby diagram damage.",
+    "qa": "starlight-storybook/art-pending/taller-frames-sheet.jpg and starlight-storybook/art-pending/taller-frames/{full-size-frame-crops.jpg,full-size-craft-crops.jpg} (git-ignored review artifacts).",
+    "encoding": "Chosen editor PNGs were normalized to RGB 1448x1086 and encoded to the established lossy WebP quality 88, method 6 recipe at the existing runtime paths."
+  },
+  "tallerStoryFramesR2_20261106": {
+    "tool": "Codex image edit (built-in reference-based editing)",
+    "date": "2026-11-06",
+    "useCase": "precise-object-edit",
+    "sourceReview": "Controller browser QA of commit d80a66b6d supplied the rendered card and frame measurements. The current tracked runtime plates at d80a66b6d were the authoritative edit targets so the accepted Page 2 craft and Page 7 character scale remained the starting point.",
+    "pages": [
+      2,
+      4,
+      6,
+      7,
+      10,
+      11
+    ],
+    "promptSummary": "Repaint only the upper-left story frame: make Page 2 wider and shorter so it ends above Ari and Dot, and extend the five measured landscape failures downward with matching glow, rounded corners and translucent fill. Where a taller frame needed the same space, move the complete lower-left teaching inset downward intact; keep the accepted characters, craft and main science diagrams stable.",
+    "attempts": {
+      "page02": "PASS attempt 1; the frame is wider and ends above the accepted compact craft and characters.",
+      "page04": "PASS attempt 1; the taller frame and downward-shifted size inset retain a clean gap.",
+      "page06": "PASS attempt 1; the taller frame and downward-shifted flashlight inset retain a clean gap.",
+      "page07": "PASS attempt 1; the constrained extension uses the remaining gap without moving either accepted smaller Ari figure or the lower inset.",
+      "page10": "PASS attempt 2; attempt 1 was clean but measured too close to the 16px target, so attempt 2 added height and moved the complete parallax inset down.",
+      "page11": "PASS attempt 2; attempt 1 was clean but measured too close to the 16px target, so attempt 2 added height and moved the complete cotton-cloud inset down."
+    },
+    "geometry": {
+      "page02": [3.2, 4.2, 57.1, 19.1],
+      "page04": [3.4, 8.4, 25.1, 35.2],
+      "page06": [2.8, 8.3, 26.1, 40.6],
+      "page07": [2.7, 9.2, 24.5, 32.4],
+      "page10": [2.6, 8.4, 25.6, 36.2],
+      "page11": [2.7, 8.7, 25.3, 35.8]
+    },
+    "review": "PASS full-plate before/after sheet: no frame overlap, old-edge ghost or added object; Page 2 clears the character group; Page 7 retains the accepted characters; secondary insets remain complete and main science diagrams remain in place.",
+    "qa": "starlight-storybook/art-pending/taller-frames-r2-sheet.jpg; raw attempts and selected before/after plates are under the ignored starlight-storybook/art-pending/taller-frames-r2/ directory.",
+    "encoding": "Selected editor PNGs were normalized to RGB 1448x1086 and encoded to the established lossy WebP quality 88, method 6 recipe at the existing runtime paths."
+  },
+  "tallerStoryFramesR3_20261106": {
+    "tool": "Codex image edit (built-in reference-based editing)",
+    "date": "2026-11-06",
+    "useCase": "precise-object-edit",
+    "sourceReview": "Controller host QA of commit 1ec359a9c passed layout-clear, story-card, portrait-layout and pointers. The tracked r2 Pages 2, 7 and 10 were the edit targets; the retained pre-r2 Page 10 plate supplied the exact small-Earth reference.",
+    "pages": [
+      2,
+      7,
+      10
+    ],
+    "promptSummary": "Extend Page 2's ordinary rounded story frame downward and move the complete accepted craft/Ari/Dot group slightly down-left at unchanged scale to preserve clearance; extend only Page 7's story-frame bottom without moving either inset; shift/shrink only Page 10's complete lower inset enough to restore the same small painted Earth visible before r2 while preserving every inset item.",
+    "attempts": {
+      "page02": "PASS attempt 3. Attempts 1 and 2 progressively established the needed frame height; attempt 3 moved the intact craft/Ari/Dot group down-left at accepted scale to restore a clear gap below the frame.",
+      "page07": "PASS attempt 3. The first two clean passes gained less than the requested screen margin; attempt 3 brings the measured bottom-border gain to 21-22 plate pixels (about 15 screen pixels) without moving either inset.",
+      "page10": "PASS attempt 1. The lower inset remains complete with seven beads, strings, tabletop, two eyes and both guide paths; the blue-green Earth limb is visible again."
+    },
+    "geometry": {
+      "page02": [3.2, 4.2, 57.1, 21],
+      "page07": [2.7, 9.2, 24.5, 34.4],
+      "page10": [2.6, 8.4, 25.6, 36.2]
+    },
+    "review": "PASS full-plate before/after sheet: Page 2 frame is a normal rounded rectangle and clears the unchanged-scale craft group; Page 7 frame keeps a clean gap above the fixed picture inset; Page 10 restores Earth without losing inset content or altering its story frame/main diagram.",
+    "qa": "starlight-storybook/art-pending/taller-frames-r3-sheet.jpg; raw attempts and selected before/after plates are under the ignored starlight-storybook/art-pending/taller-frames-r3/ directory.",
+    "encoding": "Selected editor PNGs were normalized to RGB 1448x1086 and encoded to the established lossy WebP quality 88, method 6 recipe at the existing runtime paths."
+  },
+  "ambientMotion20261106": {
+    "tool": "Codex built-in image generation/editing plus local feathered compositing and CSS animation",
+    "date": "2026-11-06",
+    "useCase": "precise-object-edit",
+    "source": "starlight-storybook/assets-runtime/standard/page-02.webp exact crop (500,260)–(1260,730) from the current 1448x1086 plate",
+    "promptSummary": "Create four registered phases of the exact Page 2 crop, changing only tiny details in the large near Sun's surface granulation, corona filaments and flame tongues; preserve centre, diameter, silhouette, corona extent, brightness, palette, trail cone, smaller Suns, blue frame edges, starfield, crop and camera; return toward frame 1 for a clean loop.",
+    "method": "The generated contact sheet was not used wholesale because its panels changed geometry. Frame 1 is the untouched exact plate crop. Frames 2–4 use only 13–28% of the generated texture, confined by a 24px-feathered mask inside the large Sun; all frame edges, the Sun silhouette, distance trail, smaller Suns and starfield remain registered to the current plate.",
+    "runtimeFrames": [
+      "assets-runtime/standard/page-02-sun-frame-01.webp",
+      "assets-runtime/standard/page-02-sun-frame-02.webp",
+      "assets-runtime/standard/page-02-sun-frame-03.webp",
+      "assets-runtime/standard/page-02-sun-frame-04.webp"
+    ],
+    "encoding": "Four RGB 760x470 WebP crops, quality 78/method 6, 31KB each; 520ms painted-frame loop using app/motion.js hidden-page, Calm and reduced-motion gating.",
+    "otherAmbientArt": "Page 11 uses two feather-masked copies cut from its exact current plate and drifted at 15s/19s, Book 1 cloudDrift style. Page 12 uses a CSS protostar core breathe so it cannot be confused with the one-way ignition teaching event. Other pages use CSS glows, paths, starfields and beams over the exact plate regions.",
+    "review": "PASS side-by-side frame evidence: exact crop registration and preserved geometry; generated whole panels rejected. Evidence: art-pending/motion-frames-sheet.jpg."
   }
 }
