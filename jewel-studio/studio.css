@@ -1,0 +1,538 @@
+:root {
+  font-family: Nunito, "Avenir Next", system-ui, sans-serif;
+  color: #48364e;
+  background: #f7eff4;
+  --rose: #b85f78;
+  --ink: #352d39;
+  --cg-back-ink: #8f506b;
+  --cg-back-fill: #fff8fb;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  touch-action: manipulation;
+}
+button,
+input {
+  font: inherit;
+}
+button {
+  min-width: 64px;
+  min-height: 64px;
+  border: 0;
+  border-radius: 16px;
+  background: white;
+  color: inherit;
+  box-shadow: 0 3px 10px #6c40551c;
+  font-weight: 800;
+}
+.top {
+  height: 76px;
+  padding: 10px max(14px, env(safe-area-inset-right)) 8px
+    max(14px, env(safe-area-inset-left));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(110deg, #8f506b, #c9828d);
+  color: white;
+}
+.top h1 {
+  font:
+    800 clamp(20px, 3vw, 30px) / 1 Georgia,
+    serif;
+  margin: 2px;
+}
+.top small {
+  letter-spacing: 0.18em;
+}
+.top button,
+.top .hub-btn {
+  background: #fff3;
+  border: 1px solid #fff8;
+  color: white;
+  padding: 8px 14px;
+}
+.screen {
+  display: none;
+}
+.screen.active {
+  display: block;
+}
+.intro {
+  max-width: 1050px;
+  margin: 24px auto 14px;
+  padding: 18px 24px;
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 12px 30px #7c50601b;
+}
+.intro-icon {
+  flex: 0 0 48px;
+  color: #d99b35;
+}
+.intro-icon svg { display: block; width: 48px; height: 48px; }
+.intro h2,
+.intro p {
+  margin: 2px;
+}
+.intro h2,
+.editor-heading h2 {
+  font-family: Georgia, serif;
+}
+#categories {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 14px;
+}
+#categories button {
+  padding: 8px 18px;
+  min-height: 64px;
+}
+#categories .selected {
+  background: #6f425d;
+  color: white;
+}
+.design-grid {
+  max-width: 1100px;
+  margin: auto;
+  padding: 12px 20px 34px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+  gap: 18px;
+}
+.design-card {
+  padding: 10px;
+  background: #fff;
+}
+.design-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 9/6;
+  object-fit: contain;
+  background: #fffcfa;
+  border-radius: 14px;
+}
+.design-card b,
+.design-card small {
+  display: block;
+  text-align: left;
+  margin: 5px 6px;
+}
+.design-card small {
+  color: #876f7d;
+}
+.editor-heading {
+  height: 68px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+}
+.editor-heading h2,
+.editor-heading small {
+  margin: 0;
+}
+.editor-heading button { min-height: 64px; }
+#choose { display: inline-flex; align-items: center; gap: 4px; }
+#choose svg { width: 22px; height: 22px; }
+.editor-heading small {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #a05d78;
+}
+.workspace {
+  height: calc(100dvh - 316px);
+  min-height: 440px;
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr) 238px;
+  gap: 10px;
+  padding: 10px;
+}
+.tools,
+.finish {
+  background: #fff;
+  border-radius: 20px;
+  padding: 9px;
+  overflow: auto;
+}
+.tools {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.tools button {
+  font-size: 12px;
+}
+.tools button svg { display: block; width: 22px; height: 22px; margin: 0 auto 2px; }
+.tools button span { display: block; }
+.tools .selected,
+.finish .selected {
+  background: #78506d;
+  color: white;
+}
+.finish h3 {
+  margin: 14px 0 4px;
+}
+.finish p {
+  font-size: 12px;
+  margin: 3px 0 8px;
+}
+.finish #effects {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(64px, 1fr));
+  gap: 6px;
+}
+.finish #effects button { display: flex; align-items: center; justify-content: center; gap: 7px; }
+.finish #effects svg { width: 22px; height: 22px; flex: 0 0 auto; }
+.finish button {
+  width: 100%;
+  min-height: 64px;
+  font-size: 13px;
+}
+.finish .make-real {
+  min-height: 74px;
+  color: white;
+  background: linear-gradient(135deg, #9b4f89, #65408d);
+  box-shadow: 0 8px 18px #70426f48, inset 0 1px #fff7;
+  font-size: 17px;
+}
+.finish .make-real svg { width: 22px; height: 22px; vertical-align: -5px; }
+.finish .make-real small { display: block; margin-top: 4px; font-size: 10px; font-weight: 600; }
+.finish .make-real[aria-pressed="true"] { background: linear-gradient(135deg, #356f67, #335e87); }
+.finish label {
+  display: block;
+  margin: 12px 2px;
+  font-size: 12px;
+}
+.finish input {
+  width: 100%;
+  min-height: 64px;
+}
+.canvas-column {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: auto;
+}
+.paper {
+  width: min(100%, 900px);
+  height: calc(100% - 72px);
+  min-height: 360px;
+  background: #fff;
+  overflow: auto;
+  container: jewel-paper / size;
+  border-radius: 22px;
+  box-shadow:
+    inset 0 0 0 2px #dfcbd5,
+    0 9px 30px #63485b1c;
+  touch-action: pinch-zoom;
+}
+#canvasStack {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  margin: auto;
+  transform-origin: top center;
+}
+/* Fit the default 3:2 artwork against whichever paper dimension is tighter.
+   The child can still use Zoom to deliberately create internal paper scrolling. */
+@container jewel-paper (min-aspect-ratio: 3 / 2) {
+  #canvasStack {
+    width: auto;
+    height: 100%;
+  }
+}
+#canvasStack canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: pinch-zoom;
+}
+#lineCanvas { z-index: 4; }
+#effectCanvas { z-index: 3; pointer-events: none; }
+#finishCanvas { z-index: 2; pointer-events: none; }
+#drawCanvas { z-index: 1; pointer-events: none; }
+#colorCanvas { z-index: 0; pointer-events: none; }
+.zoom {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.zoom button {
+  min-width: 64px;
+  min-height: 64px;
+}
+.zoom input {
+  width: 180px;
+  min-height: 64px;
+}
+.color-dock {
+  height: 172px;
+  min-height: 172px;
+  background: #fff;
+  padding: 8px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.dock-row {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+}
+.metal-picker {
+  margin: 0;
+  padding: 3px 10px 5px;
+  border: 1px solid #ddcbd4;
+  border-radius: 14px;
+}
+.metal-picker legend {
+  padding: 0 5px;
+  color: #765669;
+  font-size: 11px;
+  font-weight: 800;
+}
+#metals {
+  display: flex;
+  gap: 5px;
+}
+.metal-choice {
+  width: 64px;
+  min-width: 64px;
+  min-height: 64px;
+  padding: 2px 1px;
+  border-radius: 12px;
+  background: transparent;
+  box-shadow: none;
+  font-size: 9px;
+  line-height: 1.05;
+}
+.metal-choice::before {
+  content: "";
+  display: block;
+  width: 34px;
+  height: 34px;
+  margin: 0 auto 3px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--metal-gradient);
+  box-shadow: 0 0 0 1px #806c78, inset 5px 4px 8px #fff9, inset -5px -4px 8px #24140b55;
+}
+.metal-choice.selected {
+  outline: 3px solid #604057;
+  outline-offset: 0;
+  background: #f3e7ed;
+}
+.metal-choice.tap-feedback {
+  animation: metal-tap 180ms ease-out;
+}
+@keyframes metal-tap {
+  50% { transform: scale(.91); }
+}
+.color-dock #palette {
+  display: flex;
+  gap: 7px;
+  flex: 0 0 auto;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+.swatch {
+  width: 64px;
+  height: 64px;
+  min-width: 64px;
+  min-height: 64px;
+  padding: 4px;
+  border-radius: 16px;
+  background: transparent;
+  box-shadow: none;
+}
+.swatch::before {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--c);
+  box-shadow:
+    inset 0 0 0 3px #fff,
+    0 0 0 1px #bba;
+}
+.swatch.selected {
+  outline: 4px solid #65445b;
+}
+.custom {
+  width: 64px;
+  height: 64px;
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: bold;
+}
+.custom input {
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin-top: -14px;
+}
+.sizes {
+  display: flex;
+  gap: 3px;
+}
+.sizes button {
+  padding: 0;
+  font-size: var(--s, 15px);
+  min-width: 64px;
+  min-height: 64px;
+}
+.sizes button.selected {
+  background: #78506d;
+  color: #fff;
+}
+#message {
+  position: fixed;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 3px 12px;
+  background: #52394de6;
+  color: white;
+  border-radius: 12px;
+  font-size: 12px;
+  pointer-events: none;
+}
+#editor.screen.active {
+  height: calc(100dvh - 76px);
+  min-height: 0;
+  overflow: hidden;
+}
+/* Portrait keeps the same two dock rows; only the workspace moves its tools above
+   the paper so every 64px control remains simultaneously reachable. */
+@media (max-width: 920px) and (orientation: portrait) {
+  .workspace {
+    height: calc(100dvh - 316px);
+    grid-template-columns: 1fr 170px;
+    grid-template-rows: auto 1fr;
+  }
+  .tools {
+    grid-column: 1/3;
+    flex-direction: row;
+    overflow-x: auto;
+  }
+  .tools button {
+    flex: 0 0 66px;
+  }
+  .canvas-column {
+    grid-column: 1;
+  }
+  .finish {
+    grid-column: 2;
+  }
+  .top h1 {
+    font-size: 18px;
+  }
+}
+
+/* The landscape column has less height than width. Remove explanatory copy and
+   use a compact grid while retaining the complete named 64px control set. */
+@media (orientation: landscape) and (max-height: 820px) {
+  .finish {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    overflow: hidden;
+  }
+  .finish h3,
+  .finish p { display: none; }
+  .finish label { margin: 0; line-height: 14px; }
+  .finish input { display: block; }
+}
+/* Round 5 (2026-10-19): the picker says plainly how many designs exist so far. */
+#categories button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+#categories .count {
+  min-width: 24px;
+  padding: 1px 7px;
+  border-radius: 12px;
+  background: #f1e3ea;
+  color: #6f425d;
+  font-size: 13px;
+}
+#categories .selected .count {
+  background: #fff;
+}
+.coming-soon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  min-height: 150px;
+  padding: 18px;
+  border: 3px dashed #d9bfcc;
+  border-radius: 16px;
+  color: #876f7d;
+  text-align: center;
+}
+.coming-soon b {
+  color: #6f425d;
+  font-size: 17px;
+}
+.paper.real {
+  background: #1d0c19;
+}
+#canvasStack.revealing {
+  animation: jewel-reveal 900ms cubic-bezier(.2, .9, .3, 1.2);
+}
+@keyframes jewel-reveal {
+  0% { filter: brightness(2.4) saturate(.6); opacity: .82; }
+  45% { filter: brightness(1.5); opacity: 1; }
+  100% { filter: none; opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #canvasStack.revealing { animation: none; }
+}
+
+/* Drawn in-app back chevron (owner rule: no emoji / text glyphs as icons). */
+#back svg{width:22px;height:22px;display:block}
+#back{min-width:64px;min-height:64px;display:inline-grid;place-items:center}
+
+/* My Designs owns its scrolling list; the page itself stays fixed to the viewport. */
+#saved.screen.active {
+  height: calc(100dvh - 76px);
+  min-height: 0;
+  padding: 14px 0 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+#saved > h2,
+#saved > p { flex: 0 0 auto; margin: 0 20px 8px; }
+#savedGrid {
+  width: 100%;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
