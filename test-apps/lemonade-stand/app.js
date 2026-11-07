@@ -7,7 +7,7 @@
   let saved={unlocked:1,mode:'cosy',muted:false,levels:{},help:{},decorations:[],chosenDecoration:'',album:[]};
   try{saved={...saved,...JSON.parse(localStorage.getItem(KEY)||'{}')};}catch{}
   saved.help=saved.help||{};
-  let level=1,day=[],customerIndex=0,phase='order',station=0,built=[],moneyTotal=0,changePieces=[],misses=0,score=0,firstTry=true,startTime=0,audio=null,guide='full',structure='',transactionTaught=false,transactionRevealed=false,pauseHelp=false,pauseTimer=0,independentChanges=0;
+  let level=1,day=[],customerIndex=0,phase='order',station=0,built=[],moneyTotal=0,changePieces=[],misses=0,score=0,firstTry=true,startTime=0,audio=null,guide='full',structure='',transactionTaught=false,transactionRevealed=false,pauseHelp=false,pauseTimer=0,independentChanges=0,replayRun=0;
   const persist=()=>{try{localStorage.setItem(KEY,JSON.stringify(saved));}catch{}};
   function audioContext(){if(!audio||audio.state==='closed')audio=new AudioContext();return audio;}
   function tone(kind='tap'){if(saved.muted)return;try{const ctx=audioContext(),t=ctx.currentTime,o=ctx.createOscillator(),g=ctx.createGain();o.connect(g).connect(ctx.destination);const f={tap:390,good:720,bad:170,return:250,pour:330,coin:560,day:820}[kind]||440;o.frequency.setValueAtTime(f,t);if(kind==='good'||kind==='day')o.frequency.exponentialRampToValueAtTime(f*1.5,t+.18);o.type=kind==='bad'?'triangle':'sine';g.gain.setValueAtTime(kind==='return'?.035:.055,t);g.gain.exponentialRampToValueAtTime(.001,t+.22);o.start(t);o.stop(t+.23);}catch{}}
@@ -33,7 +33,8 @@
     plan.push({cue:'change',clips:['phrase-change-is',numberClip(o.paid-o.total),'phrase-baht']});
     return plan;
   }
-  function speakOpening(){playVoice(openingVoicePlan(current()));}
+  function setReplayPlaying(playing){const button=$('.guide-replay');if(!button)return;button.classList.toggle('playing',playing);button.setAttribute('aria-pressed',String(playing));button.setAttribute('aria-label',playing?'Change guide is playing':'Replay the change guide');}
+  async function speakOpening(){const run=++replayRun;setReplayPlaying(true);const duration=await playVoice(openingVoicePlan(current()));if(run!==replayRun)return;if(!duration)return setReplayPlaying(false);setTimeout(()=>{if(run===replayRun)setReplayPlaying(false);},duration*1000+80);}
   function speakHop(piece,total){playVoice([{cue:'add',clips:['phrase-add',numberClip(piece),'phrase-to-make',numberClip(total)]}]);}
   function speakHint(){const o=current();if(misses>=3)return playVoice([{cue:'add',clips:['line-tap-next']}]);if(misses>=2)return playVoice([{cue:'add',clips:['phrase-first-reach',numberClip(M.nextLandmark(moneyTotal,o.paid))]},{cue:'add',clips:['line-choose-coin']}]);return playVoice([{cue:'count',clips:['line-too-far']}]);}
   const drinkFile={plain:'cup-plain',iced:'cup-iced',noIce:'cup-plain',pink:'cup-pink',pinkIced:'cup-pink',slushy:'cup-slushy'};
