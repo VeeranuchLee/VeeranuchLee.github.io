@@ -1,0 +1,301 @@
+/* Princess Dress Up Room — designed to a 9.7" iPad, 768 x 1024 and 1024 x 768.
+   Rules that shape every number here (PLAN.md 3.3, QA-PLAN 3.3):
+   - the doll is the largest thing on screen and no control ever overlaps her;
+   - nothing within 48 px of the bottom edge, and no control in the bottom corners
+     (88 x 88), where a wrist rests;
+   - wardrobe items >= 104 px, swatches and buttons >= 72 px, back button 56 px;
+   - the top-left 88 x 88 is the shared back button's. */
+
+:root {
+  --ink: #5A2E62;
+  --ink-soft: #8A5E92;
+  --pink: #F48FC1;
+  --pink-deep: #E8679E;
+  --lilac: #DCC6F5;
+  --gold: #FFE08A;
+  --panel: rgba(255, 255, 255, 0.72);
+  --panel-edge: rgba(255, 255, 255, 0.95);
+  --cell: 72px;
+  --pad: 16px;
+  --safe-bottom: 48px;
+  --ward-w: 432px;
+  --font: ui-rounded, "SF Pro Rounded", "Arial Rounded MT Bold", "Trebuchet MS", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0; height: 100%; overflow: hidden;
+  touch-action: manipulation;              /* touch method C, layer 1: html AND body */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none; user-select: none;
+  -webkit-touch-callout: none;
+}
+body {
+  position: fixed; inset: 0;
+  font-family: var(--font);
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.9) 0 2px, transparent 3px) 0 0 / 90px 90px,
+    radial-gradient(circle at 60% 70%, rgba(255, 255, 255, 0.7) 0 1.5px, transparent 2.5px) 0 0 / 70px 70px,
+    linear-gradient(160deg, #FDE6F1 0%, #F3E6FD 55%, #E3F1FC 100%);
+}
+button { font: inherit; color: inherit; -webkit-touch-callout: none; touch-action: manipulation; }
+canvas { display: block; }
+svg { display: block; }
+[hidden] { display: none !important; }
+
+.screen { position: absolute; inset: 0; }
+
+/* ---------- round buttons (sound, play) ---------- */
+.round-btn {
+  width: var(--cell); height: var(--cell);
+  border: 3px solid var(--panel-edge); border-radius: 50%;
+  background: #FFF7FB; box-shadow: 0 4px 12px rgba(120, 60, 120, 0.2);
+  display: grid; place-items: center; padding: 0; cursor: pointer;
+}
+.round-btn svg { width: 40px; height: 40px; }
+.sound-btn {
+  position: fixed; z-index: 900;
+  top: calc(8px + env(safe-area-inset-top, 0px));
+  left: calc(88px + env(safe-area-inset-left, 0px));
+}
+
+/* ---------- tap acknowledgement: highlight within a frame of the tap ---------- */
+button:active { transform: scale(0.95); }
+.ack { animation: ack 320ms ease-out; }
+@keyframes ack {
+  0% { box-shadow: 0 0 0 0 rgba(244, 143, 193, 0.85); }
+  100% { box-shadow: 0 0 0 16px rgba(244, 143, 193, 0); }
+}
+.wiggle { animation: wiggle 360ms ease-in-out; }
+@keyframes wiggle { 25% { transform: rotate(-6deg); } 75% { transform: rotate(6deg); } }
+
+/* ---------- dressing room grid ---------- */
+#room {
+  display: grid;
+  padding: var(--pad) var(--pad) var(--safe-bottom) var(--pad);
+  gap: 12px;
+  grid-template-columns: minmax(0, 1fr) var(--ward-w);
+  grid-template-rows: 72px minmax(0, 1fr) auto;
+  grid-template-areas:
+    "top   ward"
+    "stage ward"
+    "stage acts";
+}
+#stage-box { grid-area: stage; position: relative; min-height: 0; }
+#wardrobe { grid-area: ward; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+#actions { grid-area: acts; }
+
+#stage-box canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+#stage-canvas { border-radius: 28px; box-shadow: 0 6px 22px rgba(120, 60, 120, 0.22), inset 0 0 0 3px #fff; }
+#doll-canvas { pointer-events: none; will-change: transform; }
+#fx-canvas { pointer-events: none; }
+#stage-box { cursor: pointer; }
+.twirl { animation: twirl 760ms cubic-bezier(.45, .05, .35, 1); }
+@keyframes twirl {
+  0% { transform: perspective(1400px) rotateY(0); }
+  100% { transform: perspective(1400px) rotateY(360deg); }
+}
+.bounce { animation: bounce 420ms ease-out; }
+@keyframes bounce { 40% { transform: translateY(-3%); } }
+
+/* ---------- doll ribbon ---------- */
+#wardrobe-top { display: flex; align-items: center; gap: 8px; flex: none; min-width: 0; }
+#ribbon {
+  display: flex; justify-content: flex-start; flex: 1 1 auto; min-width: 0; overflow-x: auto; overflow-y: hidden;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 4px 0;
+}
+#ribbon::-webkit-scrollbar { display: none; }
+.portrait {
+  width: var(--cell); height: var(--cell); flex: none;
+  border: 0; background: none; padding: 4px; cursor: pointer; position: relative;
+}
+.portrait canvas {
+  width: 100%; height: 100%; border-radius: 50%;
+  box-shadow: 0 3px 8px rgba(120, 60, 120, 0.22), 0 0 0 3px #fff;
+}
+.portrait[aria-pressed="true"] canvas { box-shadow: 0 3px 10px rgba(120, 60, 120, 0.3), 0 0 0 3px #fff, 0 0 0 7px var(--pink); }
+#pose-switch {
+  display: flex; gap: 6px; flex: none; padding: 4px;
+  border-radius: 22px; background: var(--panel); box-shadow: inset 0 0 0 2px var(--panel-edge);
+}
+.pose-btn {
+  width: var(--cell); height: var(--cell); flex: none; border: 0; border-radius: 18px;
+  padding: 5px; background: rgba(255, 255, 255, 0.6); cursor: pointer;
+}
+.pose-btn svg { width: 100%; height: 100%; }
+.pose-btn[aria-pressed="true"] { background: #fff; box-shadow: 0 0 0 3px var(--pink), 0 3px 9px rgba(120, 60, 120, 0.22); }
+
+/* ---------- tabs ---------- */
+#tabs {
+  display: flex; justify-content: center; flex: none;
+  background: var(--panel); border-radius: 26px; padding: 4px 0;
+  box-shadow: inset 0 0 0 2px var(--panel-edge);
+}
+.tab {
+  width: var(--cell); min-height: 80px; flex: none;
+  border: 0; background: none; border-radius: 20px; padding: 4px 0 2px;
+  display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer;
+}
+.tab svg { width: 44px; height: 44px; }
+.tab .lbl { font-size: 13px; font-weight: 700; color: var(--ink-soft); letter-spacing: 0.01em; }
+.tab[aria-selected="true"] { background: #fff; box-shadow: 0 3px 10px rgba(120, 60, 120, 0.2); }
+.tab[aria-selected="true"] .lbl { color: var(--ink); }
+
+/* ---------- dress styles: drawn icon plus one word, each a full 72px target ---------- */
+#style-filters {
+  display: flex; flex: none; gap: 6px; overflow-x: auto; overflow-y: hidden;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  padding: 4px 6px; background: var(--panel); border-radius: 22px;
+  box-shadow: inset 0 0 0 2px var(--panel-edge);
+}
+#style-filters::-webkit-scrollbar { display: none; }
+.style-chip {
+  min-width: 88px; height: 72px; flex: 1 0 88px; border: 0; border-radius: 18px;
+  background: rgba(255, 255, 255, 0.55); padding: 2px 4px; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+}
+.style-chip svg { width: 38px; height: 38px; }
+.style-chip span { font-size: 12px; font-weight: 800; color: var(--ink-soft); }
+.style-chip[aria-pressed="true"] { background: #fff; box-shadow: 0 0 0 3px var(--pink); }
+.style-chip[aria-pressed="true"] span { color: var(--ink); }
+
+/* ---------- item grid ---------- */
+#grid {
+  flex: 1 1 auto; min-height: 0;
+  overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch;
+  display: grid; gap: 10px; align-content: start;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+  padding: 6px 4px 6px;
+  background: var(--panel); border-radius: 26px;
+  box-shadow: inset 0 0 0 2px var(--panel-edge);
+  padding: 10px;
+}
+.tile {
+  position: relative; min-width: 104px; min-height: 104px; display: block; width: 100%;
+  border: 0; border-radius: 22px; padding: 0; cursor: pointer;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FBEFF6 100%);
+  box-shadow: 0 3px 8px rgba(120, 60, 120, 0.16);
+  overflow: hidden;
+}
+.tile::before { content: ""; display: block; padding-top: var(--tile-ratio, 100%); }
+.tile canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.tile.worn { box-shadow: 0 0 0 4px var(--pink), 0 0 18px 4px rgba(244, 143, 193, 0.55); }
+.tile .badge { position: absolute; top: 6px; right: 6px; width: 28px; height: 28px; display: none; }
+.tile.worn .badge { display: block; }
+
+/* ---------- colour wall and patterns (inside the wardrobe, never over the doll) ---------- */
+#colours { flex: none; display: flex; flex-direction: column; gap: 8px; }
+#shades {
+  display: flex; gap: 8px; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch;
+  padding: 8px 10px; background: var(--panel); border-radius: 26px;
+  box-shadow: inset 0 0 0 2px var(--panel-edge);
+  scrollbar-width: none;
+}
+#shades::-webkit-scrollbar { display: none; }
+.swatch {
+  width: var(--cell); height: var(--cell); flex: none; border-radius: 50%;
+  border: 3px solid #fff; padding: 0; cursor: pointer;
+  box-shadow: 0 3px 7px rgba(120, 60, 120, 0.22);
+}
+.swatch[aria-pressed="true"] { box-shadow: 0 0 0 4px var(--pink), 0 0 14px 3px rgba(244, 143, 193, 0.6); }
+#patterns { display: flex; justify-content: center; }
+.pattern {
+  width: var(--cell); height: var(--cell); flex: none; border: 0; background: none; padding: 4px; cursor: pointer;
+}
+.pattern canvas { width: 100%; height: 100%; border-radius: 18px; box-shadow: 0 3px 7px rgba(120, 60, 120, 0.2), 0 0 0 3px #fff; }
+.pattern[aria-pressed="true"] canvas { box-shadow: 0 0 0 3px #fff, 0 0 0 7px var(--pink); }
+#colours.no-shades #shades, #colours.no-patterns #patterns { display: none; }
+
+/* ---------- the five always-visible actions ---------- */
+#actions { display: flex; justify-content: center; gap: 10px; }
+.act {
+  width: 80px; height: 84px; flex: none;
+  border: 3px solid #fff; border-radius: 24px; padding: 4px 0 2px; cursor: pointer;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FCEAF4 100%);
+  box-shadow: 0 4px 12px rgba(120, 60, 120, 0.22);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  position: relative;
+}
+.act .ico svg { width: 46px; height: 46px; }
+.act .lbl { font-size: 14px; font-weight: 800; }
+.act-show { background: linear-gradient(180deg, #FFF6D6 0%, #FFD9EC 100%); }
+.act-show .ico { animation: glint 2.4s ease-in-out infinite; }
+@keyframes glint { 50% { transform: scale(1.08) rotate(6deg); } }
+
+/* ---------- layout A: doll left, wardrobe right, both orientations ---------- */
+/* Portrait: the wardrobe is six 72 px cells wide; the action row keeps clear of the
+   bottom-right corner. */
+@media (orientation: portrait) {
+  :root { --ward-w: 432px; }
+  body.layout-a #actions { padding-right: 76px; }
+  body.layout-a #actions { gap: 6px; }
+  body.layout-a .act { width: 64px; height: 76px; }
+  body.layout-a .act .ico svg { width: 38px; height: 38px; }
+  body.layout-a .act .lbl { font-size: 12px; }
+}
+@media (orientation: landscape) {
+  :root { --ward-w: 560px; }
+  #room { grid-template-rows: 72px minmax(0, 1fr) auto; }
+  .tab { width: 88px; }
+  #actions { padding-right: 40px; }
+  .act { width: 96px; }
+}
+
+/* ---------- show time and fashion show: full screen, every control hidden ---------- */
+#show, #fashion { background: #1D1243; z-index: 950; }
+#show canvas, #fashion canvas { width: 100%; height: 100%; }
+body.fullscreen .cg-back, body.fullscreen .sound-btn { display: none; }
+body.fullscreen.after .sound-btn { display: grid; z-index: 1000; }
+
+/* ---------- album ---------- */
+#album, #card-view { z-index: 800; display: flex; flex-direction: column; padding: var(--pad) var(--pad) var(--safe-bottom); }
+.screen-top { display: flex; align-items: center; gap: 12px; height: 72px; flex: none; }
+.top-spacer { width: 160px; flex: none; }
+.album-title { flex: 1; display: flex; justify-content: center; }
+.album-title svg { width: 56px; height: 56px; }
+#album-grid {
+  flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch;
+  display: grid; gap: 16px; align-content: start;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  padding: 12px 4px 24px;
+}
+.card-btn {
+  border: 0; padding: 0; background: none; cursor: pointer; aspect-ratio: 2 / 3; border-radius: 18px;
+  box-shadow: 0 5px 14px rgba(120, 60, 120, 0.25); min-width: 104px;
+}
+.card-btn canvas { width: 100%; height: 100%; border-radius: 18px; }
+.card-btn.new { animation: arrive 700ms ease-out; }
+@keyframes arrive { 0% { transform: scale(0.6); opacity: 0; } 100% { transform: none; opacity: 1; } }
+#album-empty { flex: 1; display: grid; place-items: center; }
+#album-empty svg { width: 180px; height: 180px; opacity: 0.85; }
+
+#card-view { align-items: center; padding-top: 88px; gap: 18px; }
+.card-wrap { flex: 1; min-height: 0; width: 100%; position: relative; }
+#big-card {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  height: 100%; width: auto; max-width: 100%; aspect-ratio: 2 / 3;
+  border-radius: 22px; box-shadow: 0 10px 28px rgba(120, 60, 120, 0.3);
+}
+.card-actions { display: flex; gap: 16px; flex: none; padding: 0 88px; }
+.card-actions .act { width: 100px; height: 96px; }
+
+/* the grown-up hold: a visible fill counts the two seconds */
+.hold { -webkit-touch-callout: none; }
+.hold .ring {
+  position: absolute; inset: -6px; border-radius: 28px; pointer-events: none;
+  background: conic-gradient(var(--pink) calc(var(--p, 0) * 1turn), transparent 0);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 7px), #000 calc(100% - 6px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 7px), #000 calc(100% - 6px));
+  opacity: 0; transition: opacity 120ms;
+}
+.hold.holding .ring, .hold.ready .ring { opacity: 1; }
+.hold.ready { box-shadow: 0 0 0 4px var(--gold), 0 0 22px 6px rgba(255, 224, 138, 0.8); }
+
+@media (prefers-reduced-motion: reduce) {
+  .act-show .ico, .card-btn.new { animation: none; }
+  .twirl { animation: bounce 420ms ease-out; }
+  /* taps still answer, but only with light — no movement */
+  .ack, .wiggle, .bounce { animation: ackStill 320ms ease-out; }
+  @keyframes ackStill { 50% { filter: brightness(1.15); } }
+}

@@ -1,0 +1,3485 @@
+{
+ "schema": 1,
+ "comment": "Princess Dress Up Room, Codex art pilot, plate A (idol teen). Every picture is a whole registered figure in the 1200 x 1800 frame (art/offsets.json: x, y, sourceWidth, sourceHeight). derive 'changed' keeps only the pixels that differ from rig.basePlate inside the layer's region (an accessory; renders also redraw hands and edges, so the region is required); derive 'patch' puts a doll's own head and hair over an outfit wherever the outfit left the base plate's pixels untouched. mask {auto: neutral} repaints the white/grey fabric below minY. Placeholder grey-box data: placeholder.json (?art=placeholder); plate B: plate-b.json (?plate=b).",
+ "rig": {
+  "w": 1200,
+  "h": 1800,
+  "dollBox": {
+   "x": 60,
+   "y": 40,
+   "w": 1080,
+   "h": 1700
+  },
+  "twirlBox": {
+   "x": 250,
+   "y": 50,
+   "w": 700,
+   "h": 1690
+  },
+  "feetY": 1725,
+  "basePlate": {
+   "x": 244,
+   "y": 59,
+   "w": 706,
+   "h": 1671,
+   "src": "art/runtime/plate-a-base.webp"
+  },
+  "base": []
+ },
+ "zOrder": [
+  "stage",
+  "wingsBack",
+  "backHair",
+  "plate",
+  "head",
+  "frontHair",
+  "crown",
+  "earrings",
+  "necklace"
+ ],
+ "slots": [
+  "dress",
+  "hair",
+  "crown",
+  "earrings",
+  "necklace",
+  "wings",
+  "stage"
+ ],
+ "removable": [
+  "crown",
+  "earrings",
+  "necklace",
+  "wings"
+ ],
+ "patterns": [
+  "none",
+  "stars",
+  "hearts",
+  "dots",
+  "flowers",
+  "glitter"
+ ],
+ "palettes": {
+  "dress": [
+   "#FFD6E7",
+   "#F9A8CB",
+   "#F48FC1",
+   "#E8679E",
+   "#F3E5FF",
+   "#D9B8F5",
+   "#B98AEB",
+   "#9466D6",
+   "#DDF0FF",
+   "#AED9F7",
+   "#7EC8E8",
+   "#5B9BE0",
+   "#D9F7EA",
+   "#A8EBCF",
+   "#7DD8B5",
+   "#4FBF98",
+   "#FFF4C9",
+   "#FFE08A",
+   "#F7C948",
+   "#EBA845",
+   "#FFFFFF",
+   "#FBF3E6",
+   "#E4E6F0",
+   "#FFD9C7"
+  ],
+  "hair": [
+   "#F6A3C6",
+   "#EE7FB4",
+   "#FF9C9C",
+   "#D8B4F2",
+   "#B58BE6",
+   "#9EC9F5",
+   "#6FA7E6",
+   "#B8F0FF",
+   "#A8E6D0",
+   "#6FCFB2",
+   "#FFE7A3",
+   "#F5C96A",
+   "#E89A5A",
+   "#A8653F",
+   "#7A4A32",
+   "#4A3128",
+   "#2E2A33",
+   "#3B3F66",
+   "#E7E7EF",
+   "#F8F6FF"
+  ]
+ },
+ "tabs": [
+  {
+   "id": "dresses",
+   "label": "Dresses",
+   "icon": "dress",
+   "slots": [
+    "dress"
+   ],
+   "colour": "dress",
+   "patterns": true,
+   "tileAspect": 0.8
+  },
+  {
+   "id": "crowns",
+   "label": "Crowns",
+   "icon": "crown",
+   "slots": [
+    "crown"
+   ],
+   "colour": null,
+   "patterns": false,
+   "tileAspect": 1
+  },
+  {
+   "id": "jewels",
+   "label": "Jewels",
+   "icon": "jewel",
+   "slots": [
+    "earrings",
+    "necklace"
+   ],
+   "colour": null,
+   "patterns": false,
+   "tileAspect": 1
+  },
+  {
+   "id": "wings",
+   "label": "Wings",
+   "icon": "wings",
+   "slots": [
+    "wings"
+   ],
+   "colour": null,
+   "patterns": false,
+   "tileAspect": 1
+  },
+  {
+   "id": "stages",
+   "label": "Stages",
+   "icon": "stage",
+   "slots": [
+    "stage"
+   ],
+   "colour": null,
+   "patterns": false,
+   "tileAspect": 1
+  }
+ ],
+ "dolls": [
+  {
+ "id": "hana",
+  "name": "Hana",
+   "eye": "#8E6BD1",
+   "hairShade": 0,
+   "signature": "#F7B8CF",
+   "portrait": {
+    "x": 400,
+    "y": 30,
+    "w": 400,
+    "h": 400
+   },
+   "layers": [
+    {
+     "z": "head",
+     "src": "art/runtime/hana-head-hair.webp",
+     "x": 247,
+     "y": 62,
+     "w": 700,
+     "h": 1665,
+     "derive": "patch",
+     "region": {
+      "x": 120,
+      "y": 0,
+      "w": 960,
+      "h": 1250
+     },
+     "chinY": 400
+    }
+   ],
+   "look": {
+    "dress": {
+     "id": "gown-princess-ball",
+     "shade": 2,
+     "pattern": "none"
+    },
+    "crown": "crown-pearl-tiara",
+    "earrings": "ear-pearl",
+    "necklace": null,
+    "wings": null,
+    "stage": "stage-ballroom"
+   }
+  },
+  {
+   "id": "yuna",
+   "name": "Yuna",
+   "eye": "#E8679E",
+   "hairShade": 3,
+   "signature": "#D9B8F5",
+   "portrait": {
+    "x": 400,
+    "y": 30,
+    "w": 400,
+    "h": 400
+   },
+   "layers": [
+    {
+     "z": "head",
+     "src": "art/runtime/yuna-head-hair.webp",
+     "x": 245,
+     "y": 61,
+     "w": 705,
+     "h": 1669,
+     "derive": "patch",
+     "region": {
+      "x": 120,
+      "y": 0,
+      "w": 960,
+      "h": 1250
+     },
+     "chinY": 400
+    }
+   ],
+   "look": {
+    "dress": {
+     "id": "magical-star-guardian",
+     "shade": 5,
+     "pattern": "stars"
+    },
+    "crown": "tiara-heart",
+    "earrings": "earrings-star",
+    "necklace": "necklace-star",
+    "wings": "wings-star",
+    "stage": "stage-concert"
+   }
+  },
+  {
+ "id": "mina",
+  "name": "Mina",
+   "eye": "#C98B3A",
+   "hairShade": 13,
+   "signature": "#B9DDF5",
+   "portrait": {
+    "x": 400,
+    "y": 30,
+    "w": 400,
+    "h": 400
+   },
+   "layers": [
+    {
+     "z": "head",
+     "src": "art/runtime/mina-head-hair.webp",
+     "x": 247,
+     "y": 64,
+     "w": 700,
+     "h": 1663,
+     "derive": "patch",
+     "region": {
+      "x": 120,
+      "y": 0,
+      "w": 960,
+      "h": 1250
+     },
+     "chinY": 400
+    }
+   ],
+   "look": {
+    "dress": {
+     "id": "gown-flower-fairy",
+     "shade": 9,
+     "pattern": "none"
+    },
+    "crown": "crown-flowers",
+    "earrings": null,
+    "necklace": "neck-heart",
+    "wings": null,
+    "stage": "stage-garden"
+   }
+  },
+  {
+   "id": "rina",
+   "name": "Rina",
+   "eye": "#7A4A32",
+   "hairShade": 16,
+   "signature": "#E8679E",
+   "portrait": {
+    "x": 400,
+    "y": 30,
+    "w": 400,
+    "h": 400
+   },
+   "layers": [
+    {
+     "z": "head",
+     "src": "art/runtime/rina-head-hair.webp",
+     "x": 244,
+     "y": 18,
+     "w": 706,
+     "h": 1712,
+     "derive": "patch",
+     "region": {
+      "x": 120,
+      "y": 0,
+      "w": 960,
+      "h": 1250
+     },
+     "chinY": 400
+    }
+   ],
+   "look": {
+    "dress": {
+     "id": "kpop-concert-dress",
+     "shade": 2,
+     "pattern": "glitter"
+    },
+    "crown": "hair-clip-stars",
+    "earrings": "earrings-star",
+    "necklace": "necklace-crystal-pendant",
+    "wings": null,
+    "stage": "stage-concert"
+   }
+  },
+  {
+   "id": "sora",
+   "name": "Sora",
+   "eye": "#4FBF98",
+   "hairShade": 8,
+   "signature": "#A8EBCF",
+   "portrait": {
+    "x": 400,
+    "y": 30,
+    "w": 400,
+    "h": 400
+   },
+   "layers": [
+    {
+     "z": "head",
+     "src": "art/runtime/sora-head-hair.webp",
+     "x": 244,
+     "y": 63,
+     "w": 706,
+     "h": 1667,
+     "derive": "patch",
+     "region": {
+      "x": 120,
+      "y": 0,
+      "w": 960,
+      "h": 1250
+     },
+     "chinY": 400
+    }
+   ],
+   "look": {
+    "dress": {
+     "id": "gown-mermaid-princess",
+     "shade": 10,
+     "pattern": "none"
+    },
+    "crown": "tiara-moon",
+    "earrings": "earrings-crystal-drop",
+    "necklace": "necklace-pearl-strand",
+    "wings": null,
+    "stage": "stage-garden"
+   }
+  },
+  {
+   "id": "lily",
+   "name": "Lily",
+   "eye": "#9466D6",
+   "hairShade": 18,
+   "signature": "#FBF3E6",
+   "portrait": {
+    "x": 400,
+    "y": 30,
+    "w": 400,
+    "h": 400
+   },
+   "layers": [
+    {
+     "z": "head",
+     "src": "art/runtime/lily-head-hair.webp",
+     "x": 245,
+     "y": 56,
+     "w": 705,
+     "h": 1674,
+     "derive": "patch",
+     "region": {
+      "x": 120,
+      "y": 0,
+      "w": 960,
+      "h": 1250
+     },
+     "chinY": 400
+    }
+   ],
+   "look": {
+    "dress": {
+     "id": "gown-snow-angel",
+     "shade": 20,
+     "pattern": "glitter"
+    },
+    "crown": "tiara-snowflake",
+    "earrings": "earrings-crystal-drop",
+    "necklace": "necklace-crystal-pendant",
+    "wings": "cape-snow-fur-trim",
+    "stage": "stage-ballroom"
+   }
+  },
+  {
+ "id": "hana-twotone",
+  "name": "Hana Two-tone",
+   "eye": "#8E6BD1",
+   "hairShade": 0,
+   "signature": "#F7B8CF",
+   "portrait": {
+    "x": 400,
+    "y": 30,
+    "w": 400,
+    "h": 400
+   },
+   "layers": [
+    {
+     "z": "head",
+     "src": "art/runtime/hana-head-hair-twotone.webp",
+     "x": 245,
+     "y": 61,
+     "w": 704,
+     "h": 1668,
+     "derive": "patch",
+     "region": {
+      "x": 120,
+      "y": 0,
+      "w": 960,
+      "h": 1250
+     },
+     "chinY": 400
+    }
+   ],
+   "look": {
+    "dress": {
+     "id": "gown-rainbow-ribbon",
+     "shade": 20,
+     "pattern": "none"
+    },
+    "crown": "bow-twin-ribbons",
+    "earrings": "earrings-heart",
+    "necklace": "necklace-star",
+    "wings": "wings-butterfly-pastel",
+    "stage": "stage-garden"
+   }
+  },
+  {
+ "id": "mina-black",
+  "name": "Mina Black",
+   "eye": "#C98B3A",
+   "hairShade": 16,
+   "signature": "#B9DDF5",
+   "portrait": {
+    "x": 400,
+    "y": 30,
+    "w": 400,
+    "h": 400
+   },
+   "layers": [
+    {
+     "z": "head",
+     "src": "art/runtime/mina-head-hair-black.webp",
+     "x": 244,
+     "y": 62,
+     "w": 705,
+     "h": 1668,
+     "derive": "patch",
+     "region": {
+      "x": 120,
+      "y": 0,
+      "w": 960,
+      "h": 1250
+     },
+     "chinY": 400
+    }
+   ],
+   "look": {
+    "dress": {
+     "id": "gown-starlight-train",
+     "shade": 7,
+     "pattern": "stars"
+    },
+    "crown": "crown-silver-star",
+    "earrings": "earrings-moon",
+    "necklace": "necklace-crystal-pendant",
+    "wings": "cape-starry-night",
+    "stage": "stage-concert"
+   }
+  }
+ ],
+ "items": [
+  {
+   "id": "dress-slip",
+   "slot": "dress",
+   "tab": "dresses",
+   "name": "White slip",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/plate-a-base.webp",
+     "x": 244,
+     "y": 59,
+     "w": 706,
+     "h": 1671
+    }
+   ],
+   "style": "princess"
+  },
+  {
+   "id": "gown-princess-ball",
+   "slot": "dress",
+   "tab": "dresses",
+   "name": "Princess ball gown",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-princess-ball.webp",
+     "x": 64,
+     "y": 62,
+     "w": 1060,
+     "h": 1666,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 2,
+   "style": "princess"
+  },
+  {
+   "id": "gown-snow-princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "name": "Snow princess gown",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-snow-princess.webp",
+     "x": 127,
+     "y": 61,
+     "w": 935,
+     "h": 1667,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 8,
+   "style": "princess"
+  },
+  {
+   "id": "gown-white-pearls",
+   "slot": "dress",
+   "tab": "dresses",
+   "name": "Pearl gown",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-white-pearls.webp",
+     "x": 150,
+     "y": 62,
+     "w": 889,
+     "h": 1666,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 20,
+   "style": "princess"
+  },
+  {
+   "id": "gown-flower-fairy",
+   "slot": "dress",
+   "tab": "dresses",
+   "name": "Flower fairy gown",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-flower-fairy.webp",
+     "x": 247,
+     "y": 62,
+     "w": 700,
+     "h": 1665,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 13,
+   "style": "princess"
+  },
+  {
+   "id": "gown-pink-party",
+   "slot": "dress",
+   "tab": "dresses",
+   "name": "Pink party gown",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/plate-a-sample-gown.webp",
+     "x": 98,
+     "y": 61,
+     "w": 999,
+     "h": 1668
+    }
+   ],
+   "style": "princess"
+  },
+  {
+   "id": "gown-rose-ball",
+   "name": "Rose ball gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-rose-ball.webp",
+     "x": 12,
+     "y": 63,
+     "w": 1175,
+     "h": 1666,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 1
+  },
+  {
+   "id": "gown-mermaid-princess",
+   "name": "Mermaid princess gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-mermaid-princess.webp",
+     "x": 174,
+     "y": 63,
+     "w": 850,
+     "h": 1667,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 10
+  },
+  {
+   "id": "gown-cinder-sparkle",
+   "name": "Cinder sparkle gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-cinder-sparkle.webp",
+     "x": 28,
+     "y": 61,
+     "w": 1139,
+     "h": 1667,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 8
+  },
+  {
+   "id": "gown-moonlight",
+   "name": "Moonlight gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-moonlight.webp",
+     "x": 72,
+     "y": 61,
+     "w": 1053,
+     "h": 1668,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 7
+  },
+  {
+   "id": "gown-garden-tea",
+   "name": "Garden tea gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-garden-tea.webp",
+     "x": 234,
+     "y": 61,
+     "w": 725,
+     "h": 1667,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 13
+  },
+  {
+   "id": "gown-butterfly",
+   "name": "Butterfly princess gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-butterfly.webp",
+     "x": 108,
+     "y": 61,
+     "w": 982,
+     "h": 1667,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 5
+  },
+  {
+   "id": "gown-heart-candy",
+   "name": "Heart candy gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-heart-candy.webp",
+     "x": 70,
+     "y": 62,
+     "w": 1059,
+     "h": 1671,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 0
+  },
+  {
+   "id": "gown-royal-cape-gown",
+   "name": "Royal cape gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-royal-cape-gown.webp",
+     "x": 218,
+     "y": 61,
+     "w": 762,
+     "h": 1667,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 7
+  },
+  {
+   "id": "gown-crystal-ice",
+   "name": "Crystal ice gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-crystal-ice.webp",
+     "x": 170,
+     "y": 63,
+     "w": 856,
+     "h": 1664,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 8
+  },
+  {
+   "id": "gown-rainbow-ribbon",
+   "name": "Rainbow ribbon gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-rainbow-ribbon.webp",
+     "x": 122,
+     "y": 62,
+     "w": 949,
+     "h": 1665,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 20
+  },
+  {
+   "id": "gown-cherry-blossom",
+   "name": "Cherry blossom gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-cherry-blossom.webp",
+     "x": 98,
+     "y": 61,
+     "w": 1002,
+     "h": 1668,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 23
+  },
+  {
+   "id": "gown-pearl-waltz",
+   "name": "Pearl waltz gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-pearl-waltz.webp",
+     "x": 63,
+     "y": 63,
+     "w": 1066,
+     "h": 1669,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 21
+  },
+  {
+   "id": "gown-fairy-tale-tiers",
+   "name": "Fairy-tale tiers gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-fairy-tale-tiers.webp",
+     "x": 118,
+     "y": 60,
+     "w": 957,
+     "h": 1669,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 4
+  },
+  {
+   "id": "gown-swan-lake",
+   "name": "Swan lake gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-swan-lake.webp",
+     "x": 190,
+     "y": 60,
+     "w": 806,
+     "h": 1669,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 20
+  },
+  {
+   "id": "gown-starlight-train",
+   "name": "Starlight train gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-starlight-train.webp",
+     "x": 9,
+     "y": 60,
+     "w": 1182,
+     "h": 1669,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 7
+  },
+  {
+   "id": "gown-bow-bouquet",
+   "name": "Bow bouquet gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-bow-bouquet.webp",
+     "x": 97,
+     "y": 60,
+     "w": 996,
+     "h": 1669,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 0
+  },
+  {
+   "id": "gown-lace-rose-sleeves",
+   "name": "Lace rose gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-lace-rose-sleeves.webp",
+     "x": 184,
+     "y": 60,
+     "w": 817,
+     "h": 1668,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 1
+  },
+  {
+   "id": "gown-princess-peplum",
+   "name": "Princess peplum gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-princess-peplum.webp",
+     "x": 245,
+     "y": 60,
+     "w": 703,
+     "h": 1669,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 5
+  },
+  {
+   "id": "gown-bubble-hem",
+   "name": "Bubble hem gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-bubble-hem.webp",
+     "x": 199,
+     "y": 60,
+     "w": 799,
+     "h": 1669,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 8
+  },
+  {
+   "id": "gown-sunflower-summer",
+   "name": "Sunflower summer gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-sunflower-summer.webp",
+     "x": 190,
+     "y": 61,
+     "w": 801,
+     "h": 1667,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 16
+  },
+  {
+   "id": "gown-ocean-wave",
+   "name": "Ocean wave gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-ocean-wave.webp",
+     "x": 170,
+     "y": 60,
+     "w": 846,
+     "h": 1669,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 10
+  },
+  {
+   "id": "gown-snow-angel",
+   "name": "Snow angel gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-snow-angel.webp",
+     "x": 114,
+     "y": 60,
+     "w": 960,
+     "h": 1669,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 20
+  },
+  {
+   "id": "gown-jewel-queen",
+   "name": "Jewel queen gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-jewel-queen.webp",
+     "x": 60,
+     "y": 60,
+     "w": 1069,
+     "h": 1669,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 4
+  },
+  {
+   "id": "gown-ribbon-ballerina",
+   "name": "Ribbon ballerina gown",
+   "style": "princess",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/gown-ribbon-ballerina.webp",
+     "x": 144,
+     "y": 60,
+     "w": 904,
+     "h": 1669,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 0
+  },
+  {
+   "id": "dress-starlight-idol",
+   "slot": "dress",
+   "tab": "dresses",
+   "name": "Starlight idol dress",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/dress-starlight-idol.webp",
+     "x": 247,
+     "y": 62,
+     "w": 700,
+     "h": 1667,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 9,
+   "style": "idol"
+  },
+  {
+   "id": "idol-frill-heart",
+   "name": "Frill heart idol dress",
+   "style": "idol",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/idol-frill-heart.webp",
+     "x": 233,
+     "y": 56,
+     "w": 733,
+     "h": 1676,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 1
+  },
+  {
+   "id": "idol-sailor-sweet",
+   "name": "Sailor sweet idol dress",
+   "style": "idol",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/idol-sailor-sweet.webp",
+     "x": 246,
+     "y": 56,
+     "w": 709,
+     "h": 1677,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 9
+  },
+  {
+   "id": "idol-ribbon-tiers",
+   "name": "Ribbon tiers idol dress",
+   "style": "idol",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/idol-ribbon-tiers.webp",
+     "x": 243,
+     "y": 56,
+     "w": 713,
+     "h": 1677,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 5
+  },
+  {
+   "id": "idol-star-twinkle",
+   "name": "Star twinkle idol dress",
+   "style": "idol",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/idol-star-twinkle.webp",
+     "x": 246,
+     "y": 56,
+     "w": 707,
+     "h": 1677,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 7
+  },
+  {
+   "id": "idol-sweet-lolita",
+   "name": "Sweet Lolita idol dress",
+   "style": "idol",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/idol-sweet-lolita.webp",
+     "x": 238,
+     "y": 61,
+     "w": 722,
+     "h": 1668,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 0
+  },
+  {
+   "id": "look-kpop-stage",
+   "slot": "dress",
+   "tab": "dresses",
+   "name": "K-pop stage look",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/look-kpop-stage.webp",
+     "x": 247,
+     "y": 62,
+     "w": 700,
+     "h": 1666,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 22,
+   "style": "kpop"
+  },
+  {
+   "id": "kpop-sequin-jacket-skirt",
+   "name": "Sequin jacket stage look",
+   "style": "kpop",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/kpop-sequin-jacket-skirt.webp",
+     "x": 247,
+     "y": 56,
+     "w": 706,
+     "h": 1677,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 22
+  },
+  {
+   "id": "kpop-matching-set",
+   "name": "K-pop matching set",
+   "style": "kpop",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/kpop-matching-set.webp",
+     "x": 247,
+     "y": 56,
+     "w": 707,
+     "h": 1678,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 9
+  },
+  {
+   "id": "kpop-concert-dress",
+   "name": "K-pop concert dress",
+   "style": "kpop",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/kpop-concert-dress.webp",
+     "x": 245,
+     "y": 56,
+     "w": 710,
+     "h": 1677,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 2
+  },
+  {
+   "id": "kpop-pastel-suit",
+   "name": "K-pop pastel suit",
+   "style": "kpop",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/kpop-pastel-suit.webp",
+     "x": 247,
+     "y": 56,
+     "w": 707,
+     "h": 1677,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 8
+  },
+  {
+   "id": "magical-heart-wand-dress",
+   "name": "Magical heart dress",
+   "style": "magical",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/magical-heart-wand-dress.webp",
+     "x": 246,
+     "y": 60,
+     "w": 702,
+     "h": 1669,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 1
+  },
+  {
+   "id": "magical-star-guardian",
+   "name": "Star guardian dress",
+   "style": "magical",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/magical-star-guardian.webp",
+     "x": 245,
+     "y": 56,
+     "w": 710,
+     "h": 1678,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 7
+  },
+  {
+   "id": "magical-moon-princess",
+   "name": "Magical moon princess",
+   "style": "magical",
+   "slot": "dress",
+   "tab": "dresses",
+   "anchor": {
+    "x": 600,
+    "y": 1000
+   },
+   "thumb": {
+    "x": 60,
+    "y": 330,
+    "w": 1080,
+    "h": 1350
+   },
+   "layers": [
+    {
+     "z": "plate",
+     "src": "art/runtime/magical-moon-princess.webp",
+     "x": 246,
+     "y": 56,
+     "w": 708,
+     "h": 1678,
+     "tint": "dress",
+     "mask": {
+      "auto": "neutral",
+      "minY": 400
+     }
+    }
+   ],
+   "defaultShade": 5
+  },
+  {
+   "id": "crown-pearl-tiara",
+   "slot": "crown",
+   "tab": "crowns",
+   "name": "Pearl tiara",
+   "anchor": {
+    "x": 600,
+    "y": 90
+   },
+   "thumb": {
+    "x": 390,
+    "y": 20,
+    "w": 420,
+    "h": 420
+   },
+   "layers": [
+    {
+     "z": "crown",
+     "src": "art/runtime/accessory-pearl-tiara.webp",
+     "x": 247,
+     "y": 51,
+     "w": 700,
+     "h": 1676,
+     "derive": "changed",
+     "region": {
+      "x": 400,
+      "y": 20,
+      "w": 400,
+      "h": 190
+     }
+    }
+   ]
+  },
+  {
+   "id": "crown-flowers",
+   "slot": "crown",
+   "tab": "crowns",
+   "name": "Flower crown",
+   "anchor": {
+    "x": 600,
+    "y": 100
+   },
+   "thumb": {
+    "x": 390,
+    "y": 20,
+    "w": 420,
+    "h": 420
+   },
+   "layers": [
+    {
+     "z": "crown",
+     "src": "art/runtime/accessory-flower-crown.webp",
+     "x": 247,
+     "y": 62,
+     "w": 700,
+     "h": 1665,
+     "derive": "changed",
+     "region": {
+      "x": 400,
+      "y": 50,
+      "w": 400,
+      "h": 190
+     }
+    }
+   ]
+  },
+  {
+   "id": "ear-pearl",
+   "slot": "earrings",
+   "tab": "jewels",
+   "name": "Pearl earrings",
+   "anchor": {
+    "x": 600,
+    "y": 300
+   },
+   "thumb": {
+    "x": 400,
+    "y": 110,
+    "w": 400,
+    "h": 400
+   },
+   "layers": [
+    {
+     "z": "earrings",
+     "src": "art/runtime/accessory-pearl-earrings.webp",
+     "x": 247,
+     "y": 62,
+     "w": 700,
+     "h": 1665,
+     "derive": "changed",
+     "region": {
+      "x": 455,
+      "y": 290,
+      "w": 290,
+      "h": 120
+     }
+    }
+   ]
+  },
+  {
+   "id": "neck-heart",
+   "slot": "necklace",
+   "tab": "jewels",
+   "name": "Heart locket",
+   "anchor": {
+    "x": 600,
+    "y": 430
+   },
+   "thumb": {
+    "x": 420,
+    "y": 260,
+    "w": 360,
+    "h": 360
+   },
+   "layers": [
+    {
+     "z": "necklace",
+     "src": "art/runtime/accessory-heart-locket.webp",
+     "x": 247,
+     "y": 62,
+     "w": 700,
+     "h": 1665,
+     "derive": "changed",
+     "region": {
+      "x": 515,
+      "y": 345,
+      "w": 170,
+      "h": 160
+     }
+    }
+   ]
+  },
+  {
+   "id": "stage-ballroom",
+   "slot": "stage",
+   "tab": "stages",
+   "name": "Castle ballroom",
+   "bg": "#F6D5E6",
+   "anchor": {
+    "x": 600,
+    "y": 1500
+   },
+   "thumb": {
+    "x": 0,
+    "y": 450,
+    "w": 1200,
+    "h": 1200
+   },
+   "layers": [
+    {
+     "z": "stage",
+     "src": "art/placeholder/stage-ballroom.svg",
+     "x": 0,
+     "y": 0,
+     "w": 1200,
+     "h": 1800
+    }
+   ]
+  },
+  {
+   "id": "stage-concert",
+   "slot": "stage",
+   "tab": "stages",
+   "name": "Concert stage",
+   "bg": "#2A1A55",
+   "anchor": {
+    "x": 600,
+    "y": 1500
+   },
+   "thumb": {
+    "x": 0,
+    "y": 450,
+    "w": 1200,
+    "h": 1200
+   },
+   "layers": [
+    {
+     "z": "stage",
+     "src": "art/placeholder/stage-concert.svg",
+     "x": 0,
+     "y": 0,
+     "w": 1200,
+     "h": 1800
+    }
+   ]
+  },
+  {
+   "id": "stage-garden",
+   "slot": "stage",
+   "tab": "stages",
+   "name": "Flower garden",
+   "bg": "#CDEBF7",
+   "anchor": {
+    "x": 600,
+    "y": 1500
+   },
+   "thumb": {
+    "x": 0,
+    "y": 450,
+    "w": 1200,
+    "h": 1200
+   },
+   "layers": [
+    {
+     "z": "stage",
+     "src": "art/placeholder/stage-garden.svg",
+     "x": 0,
+     "y": 0,
+     "w": 1200,
+     "h": 1800
+    }
+   ]
+  },
+  {
+   "id": "crown-gold-jewel",
+   "name": "Gold jewel crown",
+   "slot": "crown",
+   "tab": "crowns",
+   "anchor": {
+    "x": 600,
+    "y": 130
+   },
+   "thumb": {
+    "x": 340,
+    "y": 0,
+    "w": 520,
+    "h": 450
+   },
+   "layers": [
+    {
+     "z": "crown",
+     "src": "art/runtime/crown-gold-jewel.webp",
+     "x": 240,
+     "y": 8,
+     "w": 714,
+     "h": 1725,
+     "derive": "changed",
+     "region": {
+      "x": 360,
+      "y": 0,
+      "w": 480,
+      "h": 260
+     }
+    }
+   ]
+  },
+  {
+   "id": "crown-silver-star",
+   "name": "Silver star crown",
+   "slot": "crown",
+   "tab": "crowns",
+   "anchor": {
+    "x": 600,
+    "y": 130
+   },
+   "thumb": {
+    "x": 340,
+    "y": 0,
+    "w": 520,
+    "h": 450
+   },
+   "layers": [
+    {
+     "z": "crown",
+     "src": "art/runtime/crown-silver-star.webp",
+     "x": 240,
+     "y": 13,
+     "w": 714,
+     "h": 1720,
+     "derive": "changed",
+     "region": {
+      "x": 360,
+      "y": 0,
+      "w": 480,
+      "h": 260
+     }
+    }
+   ]
+  },
+  {
+   "id": "tiara-heart",
+   "name": "Heart tiara",
+   "slot": "crown",
+   "tab": "crowns",
+   "anchor": {
+    "x": 600,
+    "y": 130
+   },
+   "thumb": {
+    "x": 340,
+    "y": 0,
+    "w": 520,
+    "h": 450
+   },
+   "layers": [
+    {
+     "z": "crown",
+     "src": "art/runtime/tiara-heart.webp",
+     "x": 240,
+     "y": 46,
+     "w": 713,
+     "h": 1687,
+     "derive": "changed",
+     "region": {
+      "x": 380,
+      "y": 20,
+      "w": 440,
+      "h": 240
+     }
+    }
+   ]
+  },
+  {
+   "id": "tiara-snowflake",
+   "name": "Snowflake tiara",
+   "slot": "crown",
+   "tab": "crowns",
+   "anchor": {
+    "x": 600,
+    "y": 130
+   },
+   "thumb": {
+    "x": 340,
+    "y": 0,
+    "w": 520,
+    "h": 450
+   },
+   "layers": [
+    {
+     "z": "crown",
+     "src": "art/runtime/tiara-snowflake.webp",
+     "x": 240,
+     "y": 56,
+     "w": 713,
+     "h": 1677,
+     "derive": "changed",
+     "region": {
+      "x": 380,
+      "y": 20,
+      "w": 440,
+      "h": 240
+     }
+    }
+   ]
+  },
+  {
+   "id": "tiara-moon",
+   "name": "Moon tiara",
+   "slot": "crown",
+   "tab": "crowns",
+   "anchor": {
+    "x": 600,
+    "y": 130
+   },
+   "thumb": {
+    "x": 340,
+    "y": 0,
+    "w": 520,
+    "h": 450
+   },
+   "layers": [
+    {
+     "z": "crown",
+     "src": "art/runtime/tiara-moon.webp",
+     "x": 240,
+     "y": 55,
+     "w": 714,
+     "h": 1678,
+     "derive": "changed",
+     "region": {
+      "x": 380,
+      "y": 20,
+      "w": 440,
+      "h": 240
+     }
+    }
+   ]
+  },
+  {
+   "id": "flower-crown-roses",
+   "name": "Rose flower crown",
+   "slot": "crown",
+   "tab": "crowns",
+   "anchor": {
+    "x": 600,
+    "y": 130
+   },
+   "thumb": {
+    "x": 340,
+    "y": 0,
+    "w": 520,
+    "h": 450
+   },
+   "layers": [
+    {
+     "z": "crown",
+     "src": "art/runtime/flower-crown-roses.webp",
+     "x": 240,
+     "y": 55,
+     "w": 714,
+     "h": 1678,
+     "derive": "changed",
+     "region": {
+      "x": 350,
+      "y": 40,
+      "w": 500,
+      "h": 230
+     }
+    }
+   ]
+  },
+  {
+   "id": "flower-crown-daisies",
+   "name": "Daisy flower crown",
+   "slot": "crown",
+   "tab": "crowns",
+   "anchor": {
+    "x": 600,
+    "y": 130
+   },
+   "thumb": {
+    "x": 340,
+    "y": 0,
+    "w": 520,
+    "h": 450
+   },
+   "layers": [
+    {
+     "z": "crown",
+     "src": "art/runtime/flower-crown-daisies.webp",
+     "x": 240,
+     "y": 55,
+     "w": 714,
+     "h": 1678,
+     "derive": "changed",
+     "region": {
+      "x": 350,
+      "y": 40,
+      "w": 500,
+      "h": 230
+     }
+    }
+   ]
+  },
+  {
+   "id": "bow-big-pink",
+   "name": "Big pink bow",
+   "slot": "crown",
+   "tab": "crowns",
+   "anchor": {
+    "x": 600,
+    "y": 130
+   },
+   "thumb": {
+    "x": 340,
+    "y": 0,
+    "w": 520,
+    "h": 450
+   },
+   "layers": [
+    {
+     "z": "crown",
+     "src": "art/runtime/bow-big-pink.webp",
+     "x": 240,
+     "y": 10,
+     "w": 713,
+     "h": 1723,
+     "derive": "changed",
+     "region": {
+      "x": 300,
+      "y": 0,
+      "w": 600,
+      "h": 330
+     }
+    }
+   ]
+  },
+  {
+   "id": "bow-twin-ribbons",
+   "name": "Twin ribbon bows",
+   "slot": "crown",
+   "tab": "crowns",
+   "anchor": {
+    "x": 600,
+    "y": 130
+   },
+   "thumb": {
+    "x": 340,
+    "y": 0,
+    "w": 520,
+    "h": 450
+   },
+   "layers": [
+    {
+     "z": "crown",
+     "src": "art/runtime/bow-twin-ribbons.webp",
+     "x": 240,
+     "y": 55,
+     "w": 713,
+     "h": 1678,
+     "derive": "changed",
+     "region": {
+      "x": 330,
+      "y": 40,
+      "w": 540,
+      "h": 280
+     }
+    }
+   ]
+  },
+  {
+   "id": "hair-clip-stars",
+   "name": "Star hair clips",
+   "slot": "crown",
+   "tab": "crowns",
+   "anchor": {
+    "x": 600,
+    "y": 130
+   },
+   "thumb": {
+    "x": 340,
+    "y": 0,
+    "w": 520,
+    "h": 450
+   },
+   "layers": [
+    {
+     "z": "crown",
+     "src": "art/runtime/hair-clip-stars.webp",
+     "x": 240,
+     "y": 55,
+     "w": 714,
+     "h": 1678,
+     "derive": "changed",
+     "region": {
+      "x": 420,
+      "y": 80,
+      "w": 420,
+      "h": 220
+     }
+    }
+   ]
+  },
+  {
+   "id": "headband-pearls",
+   "name": "Pearl headband",
+   "slot": "crown",
+   "tab": "crowns",
+   "anchor": {
+    "x": 600,
+    "y": 130
+   },
+   "thumb": {
+    "x": 340,
+    "y": 0,
+    "w": 520,
+    "h": 450
+   },
+   "layers": [
+    {
+     "z": "crown",
+     "src": "art/runtime/headband-pearls.webp",
+     "x": 240,
+     "y": 55,
+     "w": 714,
+     "h": 1678,
+     "derive": "changed",
+     "region": {
+      "x": 360,
+      "y": 30,
+      "w": 480,
+      "h": 250
+     }
+    }
+   ]
+  },
+  {
+   "id": "crown-mini-idol",
+   "name": "Mini idol crown",
+   "slot": "crown",
+   "tab": "crowns",
+   "anchor": {
+    "x": 600,
+    "y": 130
+   },
+   "thumb": {
+    "x": 340,
+    "y": 0,
+    "w": 520,
+    "h": 450
+   },
+   "layers": [
+    {
+     "z": "crown",
+     "src": "art/runtime/crown-mini-idol.webp",
+     "x": 241,
+     "y": 34,
+     "w": 713,
+     "h": 1699,
+     "derive": "changed",
+     "region": {
+      "x": 520,
+      "y": 0,
+      "w": 340,
+      "h": 270
+     }
+    }
+   ]
+  },
+  {
+   "id": "earrings-heart",
+   "name": "Heart earrings",
+   "slot": "earrings",
+   "tab": "jewels",
+   "anchor": {
+    "x": 600,
+    "y": 330
+   },
+   "thumb": {
+    "x": 360,
+    "y": 160,
+    "w": 480,
+    "h": 430
+   },
+   "layers": [
+    {
+     "z": "earrings",
+     "src": "art/runtime/earrings-heart.webp",
+     "x": 240,
+     "y": 56,
+     "w": 714,
+     "h": 1677,
+     "derive": "changed",
+     "region": {
+      "x": 390,
+      "y": 210,
+      "w": 420,
+      "h": 260
+     }
+    }
+   ]
+  },
+  {
+   "id": "earrings-star",
+   "name": "Star earrings",
+   "slot": "earrings",
+   "tab": "jewels",
+   "anchor": {
+    "x": 600,
+    "y": 330
+   },
+   "thumb": {
+    "x": 360,
+    "y": 160,
+    "w": 480,
+    "h": 430
+   },
+   "layers": [
+    {
+     "z": "earrings",
+     "src": "art/runtime/earrings-star.webp",
+     "x": 240,
+     "y": 55,
+     "w": 714,
+     "h": 1678,
+     "derive": "changed",
+     "region": {
+      "x": 390,
+      "y": 210,
+      "w": 420,
+      "h": 260
+     }
+    }
+   ]
+  },
+  {
+   "id": "earrings-crystal-drop",
+   "name": "Crystal drop earrings",
+   "slot": "earrings",
+   "tab": "jewels",
+   "anchor": {
+    "x": 600,
+    "y": 330
+   },
+   "thumb": {
+    "x": 360,
+    "y": 160,
+    "w": 480,
+    "h": 430
+   },
+   "layers": [
+    {
+     "z": "earrings",
+     "src": "art/runtime/earrings-crystal-drop.webp",
+     "x": 240,
+     "y": 55,
+     "w": 714,
+     "h": 1678,
+     "derive": "changed",
+     "region": {
+      "x": 390,
+      "y": 210,
+      "w": 420,
+      "h": 280
+     }
+    }
+   ]
+  },
+  {
+   "id": "earrings-flower",
+   "name": "Flower earrings",
+   "slot": "earrings",
+   "tab": "jewels",
+   "anchor": {
+    "x": 600,
+    "y": 330
+   },
+   "thumb": {
+    "x": 360,
+    "y": 160,
+    "w": 480,
+    "h": 430
+   },
+   "layers": [
+    {
+     "z": "earrings",
+     "src": "art/runtime/earrings-flower.webp",
+     "x": 240,
+     "y": 55,
+     "w": 714,
+     "h": 1678,
+     "derive": "changed",
+     "region": {
+      "x": 390,
+      "y": 210,
+      "w": 420,
+      "h": 260
+     }
+    }
+   ]
+  },
+  {
+   "id": "earrings-moon",
+   "name": "Moon earrings",
+   "slot": "earrings",
+   "tab": "jewels",
+   "anchor": {
+    "x": 600,
+    "y": 330
+   },
+   "thumb": {
+    "x": 360,
+    "y": 160,
+    "w": 480,
+    "h": 430
+   },
+   "layers": [
+    {
+     "z": "earrings",
+     "src": "art/runtime/earrings-moon.webp",
+     "x": 241,
+     "y": 55,
+     "w": 713,
+     "h": 1679,
+     "derive": "changed",
+     "region": {
+      "x": 390,
+      "y": 210,
+      "w": 420,
+      "h": 280
+     }
+    }
+   ]
+  },
+  {
+   "id": "necklace-pearl-strand",
+   "name": "Pearl strand",
+   "slot": "necklace",
+   "tab": "jewels",
+   "anchor": {
+    "x": 600,
+    "y": 450
+   },
+   "thumb": {
+    "x": 390,
+    "y": 250,
+    "w": 420,
+    "h": 430
+   },
+   "layers": [
+    {
+     "z": "necklace",
+     "src": "art/runtime/necklace-pearl-strand.webp",
+     "x": 240,
+     "y": 55,
+     "w": 713,
+     "h": 1678,
+     "derive": "changed",
+     "region": {
+      "x": 430,
+      "y": 300,
+      "w": 340,
+      "h": 260
+     }
+    }
+   ]
+  },
+  {
+   "id": "necklace-star",
+   "name": "Star necklace",
+   "slot": "necklace",
+   "tab": "jewels",
+   "anchor": {
+    "x": 600,
+    "y": 450
+   },
+   "thumb": {
+    "x": 390,
+    "y": 250,
+    "w": 420,
+    "h": 430
+   },
+   "layers": [
+    {
+     "z": "necklace",
+     "src": "art/runtime/necklace-star.webp",
+     "x": 240,
+     "y": 55,
+     "w": 713,
+     "h": 1678,
+     "derive": "changed",
+     "region": {
+      "x": 430,
+      "y": 300,
+      "w": 340,
+      "h": 280
+     }
+    }
+   ]
+  },
+  {
+   "id": "necklace-crystal-pendant",
+   "name": "Crystal pendant",
+   "slot": "necklace",
+   "tab": "jewels",
+   "anchor": {
+    "x": 600,
+    "y": 450
+   },
+   "thumb": {
+    "x": 390,
+    "y": 250,
+    "w": 420,
+    "h": 430
+   },
+   "layers": [
+    {
+     "z": "necklace",
+     "src": "art/runtime/necklace-crystal-pendant.webp",
+     "x": 240,
+     "y": 55,
+     "w": 713,
+     "h": 1678,
+     "derive": "changed",
+     "region": {
+      "x": 430,
+      "y": 300,
+      "w": 340,
+      "h": 300
+     }
+    }
+   ]
+  },
+  {
+   "id": "necklace-ribbon-choker",
+   "name": "Ribbon choker",
+   "slot": "necklace",
+   "tab": "jewels",
+   "anchor": {
+    "x": 600,
+    "y": 450
+   },
+   "thumb": {
+    "x": 390,
+    "y": 250,
+    "w": 420,
+    "h": 430
+   },
+   "layers": [
+    {
+     "z": "necklace",
+     "src": "art/runtime/necklace-ribbon-choker.webp",
+     "x": 240,
+     "y": 55,
+     "w": 714,
+     "h": 1678,
+     "derive": "changed",
+     "region": {
+      "x": 430,
+      "y": 280,
+      "w": 340,
+      "h": 260
+     }
+    }
+   ]
+  },
+  {
+   "id": "necklace-flower",
+   "name": "Flower necklace",
+   "slot": "necklace",
+   "tab": "jewels",
+   "anchor": {
+    "x": 600,
+    "y": 450
+   },
+   "thumb": {
+    "x": 390,
+    "y": 250,
+    "w": 420,
+    "h": 430
+   },
+   "layers": [
+    {
+     "z": "necklace",
+     "src": "art/runtime/necklace-flower.webp",
+     "x": 241,
+     "y": 56,
+     "w": 713,
+     "h": 1677,
+     "derive": "changed",
+     "region": {
+      "x": 430,
+      "y": 300,
+      "w": 340,
+      "h": 280
+     }
+    }
+   ]
+  },
+  {
+   "id": "wings-fairy-sparkle",
+   "name": "Fairy sparkle wings",
+   "slot": "wings",
+   "tab": "wings",
+   "anchor": {
+    "x": 600,
+    "y": 800
+   },
+   "thumb": {
+    "x": 0,
+    "y": 150,
+    "w": 1200,
+    "h": 1500
+   },
+   "layers": [
+    {
+     "z": "wingsBack",
+     "src": "art/runtime/wings-fairy-sparkle.webp",
+     "x": 65,
+     "y": 56,
+     "w": 1069,
+     "h": 1677,
+     "derive": "changed",
+     "region": {
+      "x": 65,
+      "y": 180,
+      "w": 1069,
+      "h": 900
+     }
+    }
+   ]
+  },
+  {
+   "id": "wings-butterfly-pastel",
+   "name": "Pastel butterfly wings",
+   "slot": "wings",
+   "tab": "wings",
+   "anchor": {
+    "x": 600,
+    "y": 800
+   },
+   "thumb": {
+    "x": 0,
+    "y": 150,
+    "w": 1200,
+    "h": 1500
+   },
+   "layers": [
+    {
+     "z": "wingsBack",
+     "src": "art/runtime/wings-butterfly-pastel.webp",
+     "x": 36,
+     "y": 56,
+     "w": 1127,
+     "h": 1677,
+     "derive": "changed",
+     "region": {
+      "x": 36,
+      "y": 150,
+      "w": 1127,
+      "h": 1000
+     }
+    }
+   ]
+  },
+  {
+   "id": "wings-angel-small",
+   "name": "Small fantasy wings",
+   "slot": "wings",
+   "tab": "wings",
+   "anchor": {
+    "x": 600,
+    "y": 800
+   },
+   "thumb": {
+    "x": 0,
+    "y": 150,
+    "w": 1200,
+    "h": 1500
+   },
+   "layers": [
+    {
+     "z": "wingsBack",
+     "src": "art/runtime/wings-angel-small.webp",
+     "x": 240,
+     "y": 55,
+     "w": 714,
+     "h": 1678,
+     "derive": "changed",
+     "region": {
+      "x": 240,
+      "y": 260,
+      "w": 714,
+      "h": 620
+     }
+    }
+   ]
+  },
+  {
+   "id": "wings-star",
+   "name": "Star wings",
+   "slot": "wings",
+   "tab": "wings",
+   "anchor": {
+    "x": 600,
+    "y": 800
+   },
+   "thumb": {
+    "x": 0,
+    "y": 150,
+    "w": 1200,
+    "h": 1500
+   },
+   "layers": [
+    {
+     "z": "wingsBack",
+     "src": "art/runtime/wings-star.webp",
+     "x": 63,
+     "y": 56,
+     "w": 1075,
+     "h": 1677,
+     "derive": "changed",
+     "region": {
+      "x": 63,
+      "y": 180,
+      "w": 1075,
+      "h": 900
+     }
+    }
+   ]
+  },
+  {
+   "id": "cape-royal-velvet",
+   "name": "Royal velvet cape",
+   "slot": "wings",
+   "tab": "wings",
+   "anchor": {
+    "x": 600,
+    "y": 800
+   },
+   "thumb": {
+    "x": 0,
+    "y": 150,
+    "w": 1200,
+    "h": 1500
+   },
+   "layers": [
+    {
+     "z": "wingsBack",
+     "src": "art/runtime/cape-royal-velvet.webp",
+     "x": 155,
+     "y": 55,
+     "w": 882,
+     "h": 1678,
+     "derive": "changed",
+     "region": {
+      "x": 155,
+      "y": 340,
+      "w": 882,
+      "h": 1393
+     }
+    }
+   ]
+  },
+  {
+   "id": "cape-starry-night",
+   "name": "Starry night cape",
+   "slot": "wings",
+   "tab": "wings",
+   "anchor": {
+    "x": 600,
+    "y": 800
+   },
+   "thumb": {
+    "x": 0,
+    "y": 150,
+    "w": 1200,
+    "h": 1500
+   },
+   "layers": [
+    {
+     "z": "wingsBack",
+     "src": "art/runtime/cape-starry-night.webp",
+     "x": 140,
+     "y": 55,
+     "w": 912,
+     "h": 1678,
+     "derive": "changed",
+     "region": {
+      "x": 140,
+      "y": 340,
+      "w": 912,
+      "h": 1393
+     }
+    }
+   ]
+  },
+  {
+   "id": "cape-rose-petal",
+   "name": "Rose petal cape",
+   "slot": "wings",
+   "tab": "wings",
+   "anchor": {
+    "x": 600,
+    "y": 800
+   },
+   "thumb": {
+    "x": 0,
+    "y": 150,
+    "w": 1200,
+    "h": 1500
+   },
+   "layers": [
+    {
+     "z": "wingsBack",
+     "src": "art/runtime/cape-rose-petal.webp",
+     "x": 134,
+     "y": 55,
+     "w": 925,
+     "h": 1678,
+     "derive": "changed",
+     "region": {
+      "x": 134,
+      "y": 340,
+      "w": 925,
+      "h": 1393
+     }
+    }
+   ]
+  },
+  {
+   "id": "cape-snow-fur-trim",
+   "name": "Snow fur cape",
+   "slot": "wings",
+   "tab": "wings",
+   "anchor": {
+    "x": 600,
+    "y": 800
+   },
+   "thumb": {
+    "x": 0,
+    "y": 150,
+    "w": 1200,
+    "h": 1500
+   },
+   "layers": [
+    {
+     "z": "wingsBack",
+     "src": "art/runtime/cape-snow-fur-trim.webp",
+     "x": 106,
+     "y": 55,
+     "w": 978,
+     "h": 1678,
+     "derive": "changed",
+     "region": {
+      "x": 106,
+      "y": 340,
+      "w": 978,
+      "h": 1393
+     }
+    }
+   ]
+  }
+ ],
+ "themes": [
+  {
+   "id": "princess-ball",
+   "name": "Princess Ball",
+   "dress": "gown-princess-ball",
+   "crown": "crown-gold-jewel",
+   "earrings": "earrings-crystal-drop",
+   "necklace": "necklace-pearl-strand",
+   "wings": "cape-royal-velvet",
+   "stage": "stage-ballroom",
+   "colourings": [
+    {
+     "shade": 2,
+     "pattern": "none",
+     "wingShade": 7
+    },
+    {
+     "shade": 5,
+     "pattern": "glitter",
+     "wingShade": 5
+    },
+    {
+     "shade": 10,
+     "pattern": "none",
+     "wingShade": 10
+    }
+   ]
+  },
+  {
+   "id": "snow-princess",
+   "name": "Snow Princess",
+   "dress": "gown-crystal-ice",
+   "crown": "tiara-snowflake",
+   "earrings": "earrings-crystal-drop",
+   "necklace": "necklace-crystal-pendant",
+   "wings": "cape-snow-fur-trim",
+   "stage": "stage-ballroom",
+   "colourings": [
+    {
+     "shade": 8,
+     "pattern": "stars",
+     "wingShade": 8
+    },
+    {
+     "shade": 20,
+     "pattern": "glitter",
+     "wingShade": 20
+    },
+    {
+     "shade": 9,
+     "pattern": "none",
+     "wingShade": 9
+    }
+   ]
+  },
+  {
+   "id": "mermaid-princess",
+   "name": "Mermaid Princess",
+   "dress": "gown-mermaid-princess",
+   "crown": "tiara-moon",
+   "earrings": "earrings-moon",
+   "necklace": "necklace-pearl-strand",
+   "wings": null,
+   "stage": "stage-garden",
+   "colourings": [
+    {
+     "shade": 10,
+     "pattern": "none"
+    },
+    {
+     "shade": 12,
+     "pattern": "glitter"
+    },
+    {
+     "shade": 5,
+     "pattern": "dots"
+    }
+   ]
+  },
+  {
+   "id": "flower-fairy",
+   "name": "Flower Fairy",
+   "dress": "gown-flower-fairy",
+   "crown": "flower-crown-roses",
+   "earrings": "earrings-flower",
+   "necklace": "necklace-flower",
+   "wings": "wings-fairy-sparkle",
+   "stage": "stage-garden",
+   "colourings": [
+    {
+     "shade": 13,
+     "pattern": "flowers",
+     "wingShade": 5
+    },
+    {
+     "shade": 0,
+     "pattern": "none",
+     "wingShade": 0
+    },
+    {
+     "shade": 16,
+     "pattern": "flowers",
+     "wingShade": 13
+    }
+   ]
+  },
+  {
+   "id": "starlight-idol",
+   "name": "Starlight Idol",
+   "dress": "idol-star-twinkle",
+   "crown": "crown-mini-idol",
+   "earrings": "earrings-star",
+   "necklace": "necklace-star",
+   "wings": "wings-star",
+   "stage": "stage-concert",
+   "colourings": [
+    {
+     "shade": 7,
+     "pattern": "stars",
+     "wingShade": 7
+    },
+    {
+     "shade": 9,
+     "pattern": "glitter",
+     "wingShade": 9
+    },
+    {
+     "shade": 1,
+     "pattern": "stars",
+     "wingShade": 1
+    }
+   ]
+  },
+  {
+   "id": "candy-idol",
+   "name": "Candy Idol",
+   "dress": "idol-frill-heart",
+   "crown": "bow-big-pink",
+   "earrings": "earrings-heart",
+   "necklace": "necklace-ribbon-choker",
+   "wings": "wings-angel-small",
+   "stage": "stage-concert",
+   "colourings": [
+    {
+     "shade": 0,
+     "pattern": "hearts",
+     "wingShade": 0
+    },
+    {
+     "shade": 5,
+     "pattern": "dots",
+     "wingShade": 5
+    },
+    {
+     "shade": 8,
+     "pattern": "glitter",
+     "wingShade": 8
+    }
+   ]
+  },
+  {
+   "id": "kpop-stage",
+   "name": "K-pop Stage",
+   "dress": "kpop-sequin-jacket-skirt",
+   "crown": "hair-clip-stars",
+   "earrings": "earrings-star",
+   "necklace": "necklace-crystal-pendant",
+   "wings": "cape-starry-night",
+   "stage": "stage-concert",
+   "colourings": [
+    {
+     "shade": 22,
+     "pattern": "glitter",
+     "wingShade": 7
+    },
+    {
+     "shade": 1,
+     "pattern": "stars",
+     "wingShade": 1
+    },
+    {
+     "shade": 10,
+     "pattern": "none",
+     "wingShade": 10
+    }
+   ]
+  },
+  {
+   "id": "magical-girl",
+   "name": "Magical Girl",
+   "dress": "magical-heart-wand-dress",
+   "crown": "tiara-heart",
+   "earrings": "earrings-heart",
+   "necklace": "necklace-ribbon-choker",
+   "wings": "wings-fairy-sparkle",
+   "stage": "stage-concert",
+   "colourings": [
+    {
+     "shade": 1,
+     "pattern": "hearts",
+     "wingShade": 1
+    },
+    {
+     "shade": 5,
+     "pattern": "glitter",
+     "wingShade": 5
+    },
+    {
+     "shade": 8,
+     "pattern": "stars",
+     "wingShade": 8
+    }
+   ]
+  },
+  {
+   "id": "royal-tea-party",
+   "name": "Royal Tea Party",
+   "dress": "gown-garden-tea",
+   "crown": "headband-pearls",
+   "earrings": "earrings-flower",
+   "necklace": "necklace-pearl-strand",
+   "wings": "cape-rose-petal",
+   "stage": "stage-garden",
+   "colourings": [
+    {
+     "shade": 13,
+     "pattern": "flowers",
+     "wingShade": 13
+    },
+    {
+     "shade": 23,
+     "pattern": "none",
+     "wingShade": 23
+    },
+    {
+     "shade": 16,
+     "pattern": "dots",
+     "wingShade": 16
+    }
+   ]
+  },
+  {
+   "id": "cherry-blossom",
+   "name": "Cherry Blossom",
+   "dress": "gown-cherry-blossom",
+   "crown": "flower-crown-roses",
+   "earrings": "earrings-flower",
+   "necklace": "necklace-flower",
+   "wings": "cape-rose-petal",
+   "stage": "stage-garden",
+   "colourings": [
+    {
+     "shade": 23,
+     "pattern": "flowers",
+     "wingShade": 0
+    },
+    {
+     "shade": 1,
+     "pattern": "none",
+     "wingShade": 1
+    },
+    {
+     "shade": 4,
+     "pattern": "flowers",
+     "wingShade": 5
+    }
+   ]
+  },
+  {
+   "id": "rainbow-dream",
+   "name": "Rainbow Dream",
+   "dress": "gown-rainbow-ribbon",
+   "crown": "bow-twin-ribbons",
+   "earrings": "earrings-crystal-drop",
+   "necklace": "necklace-star",
+   "wings": "wings-butterfly-pastel",
+   "stage": "stage-garden",
+   "colourings": [
+    {
+     "shade": 20,
+     "pattern": "none",
+     "wingShade": 5
+    },
+    {
+     "shade": 8,
+     "pattern": "glitter",
+     "wingShade": 8
+    },
+    {
+     "shade": 0,
+     "pattern": "stars",
+     "wingShade": 0
+    }
+   ]
+  },
+  {
+   "id": "moon-princess",
+   "name": "Moon Princess",
+   "dress": "magical-moon-princess",
+   "crown": "tiara-moon",
+   "earrings": "earrings-moon",
+   "necklace": "necklace-crystal-pendant",
+   "wings": "cape-starry-night",
+   "stage": "stage-ballroom",
+   "colourings": [
+    {
+     "shade": 5,
+     "pattern": "stars",
+     "wingShade": 7
+    },
+    {
+     "shade": 7,
+     "pattern": "glitter",
+     "wingShade": 7
+    },
+    {
+     "shade": 8,
+     "pattern": "none",
+     "wingShade": 8
+    }
+   ]
+  }
+ ]
+}

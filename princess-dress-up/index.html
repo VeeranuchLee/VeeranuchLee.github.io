@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F9D7E8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Dress Up Room">
+<title>Princess Dress Up Room</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="cg-back.css">
+<script src="tap-zoom-guard.js"></script>
+<script src="safe-storage.js"></script>
+<script src="audio-wake.js"></script>
+<script src="cg-update.js" defer></script>
+</head>
+<body class="layout-a">
+<!-- The way out (INTERACTION-DIRECTION.md "The way out"): the first screen leads to the hub;
+     inside the app the same button goes back one step. -->
+<a class="cg-back" id="back-hub" href="https://veeranuchlee.github.io/children-apps/art.html" aria-label="Back to Art"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+<button class="cg-back" id="back-step" type="button" aria-label="Back" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<button id="sound" class="round-btn sound-btn" type="button" aria-label="Sound" aria-pressed="true"></button>
+
+<main id="room" class="screen" aria-label="Dressing room">
+  <section id="stage-box" aria-label="Your doll">
+    <canvas id="stage-canvas"></canvas>
+    <canvas id="doll-canvas"></canvas>
+    <canvas id="fx-canvas"></canvas>
+  </section>
+  <section id="wardrobe" aria-label="Wardrobe">
+    <div id="wardrobe-top">
+      <div id="ribbon" role="group" aria-label="Dolls"></div>
+      <div id="pose-switch" role="group" aria-label="Pose">
+        <button type="button" class="pose-btn" data-pose="standing" aria-label="Standing pose"></button>
+        <button type="button" class="pose-btn" data-pose="runway" aria-label="Runway pose"></button>
+      </div>
+    </div>
+    <nav id="tabs" aria-label="Wardrobe"></nav>
+    <div id="style-filters" role="group" aria-label="Dress styles" hidden></div>
+    <div id="grid" role="group"></div>
+    <div id="colours">
+      <div id="shades" role="group" aria-label="Colours"></div>
+      <div id="patterns" role="group" aria-label="Patterns"></div>
+    </div>
+  </section>
+  <div id="actions">
+    <button type="button" class="act" id="act-undo" aria-label="Undo"><span class="ico"></span><span class="lbl">Undo</span></button>
+    <button type="button" class="act" id="act-start-over" aria-label="Start over"><span class="ico"></span><span class="lbl">Start over</span></button>
+    <button type="button" class="act" id="act-surprise" aria-label="Surprise me"><span class="ico"></span><span class="lbl">Magic</span></button>
+    <button type="button" class="act act-show" id="act-show" aria-label="Show time"><span class="ico"></span><span class="lbl">Show</span></button>
+    <button type="button" class="act" id="act-album" aria-label="Album"><span class="ico"></span><span class="lbl">Album</span></button>
+  </div>
+</main>
+
+<section id="show" class="screen" aria-label="Show time" hidden>
+  <canvas id="show-canvas"></canvas>
+</section>
+
+<section id="album" class="screen" aria-label="Album" hidden>
+  <div class="screen-top">
+    <span class="top-spacer"></span>
+    <span class="album-title"></span>
+    <button type="button" class="round-btn" id="fashion-play" aria-label="Fashion show"></button>
+  </div>
+  <div id="album-grid"></div>
+  <div id="album-empty" hidden></div>
+</section>
+
+<section id="card-view" class="screen" aria-label="Photo card" hidden>
+  <div class="card-wrap"><canvas id="big-card"></canvas></div>
+  <div class="card-actions">
+    <button type="button" class="act" id="card-wear" aria-label="Wear it again"><span class="ico"></span><span class="lbl">Wear</span></button>
+    <button type="button" class="act act-show" id="card-show" aria-label="Show it"><span class="ico"></span><span class="lbl">Show</span></button>
+    <button type="button" class="act hold" id="card-save" aria-label="Save to Photos: grown-ups press and hold"><span class="ring"></span><span class="ico"></span><span class="lbl">Hold</span></button>
+  </div>
+</section>
+
+<section id="fashion" class="screen" aria-label="Fashion show" hidden>
+  <canvas id="fashion-canvas"></canvas>
+</section>
+
+<script type="module" src="js/app.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./service-worker.js').catch(function () {});
+  }
+</script>
+</body>
+</html>
