@@ -71,8 +71,9 @@
   var labelItems = [];
   var badgeCount = 0;
   var activeObjects = room.objects.filter(function (d) { return d.active !== false; });
+  var roomObjects = activeObjects.filter(function (d) { return !d.cardsOnly; });
   /* Objects with `active: false` are future landmarks: geometry in the data, nothing in the page. */
-  activeObjects.forEach(function (d) {
+  roomObjects.forEach(function (d) {
     var a = document.createElement('a');
     a.className = 'room-hotspot';
     a.href = L.app(d.href);

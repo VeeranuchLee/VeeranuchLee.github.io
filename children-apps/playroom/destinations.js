@@ -59,7 +59,7 @@ window.PLAYROOM = {
      Words + Nature are the Books room; Science + Our World are Science & World. `tile` reuses card
      art already shipped by the hub. `badgeAt` is the badge centre in Discovery Room percentages. */
   mainAreas: [
-    { id: "maths", name: "Math", tagline: "Choose a Magic Math world",
+    { id: "maths", name: "Math", tagline: "Choose a maths game",
       href: "./maths.html", landmarks: ["math"], badgeAt: [30.2, 10.6],
       tile: "./assets/magic-math.webp" },
     { id: "homework", name: "Homework", tagline: "Holiday homework",
@@ -120,7 +120,7 @@ window.PLAYROOM = {
     art:             { name: "Art",             tagline: "Colour, paint and style" },
     books:           { name: "Words & Books",   tagline: "Read, spell, write and discover words" },
     homework:        { name: "การบ้านปิดเทอม",   tagline: "Holiday homework" },
-    maths:           { name: "Magic Math",      tagline: "Choose your world and play" },
+    maths:           { name: "Math",            tagline: "Choose a maths game and play" },
     music:           { name: "Music",           tagline: "Play, listen & explore" },
     puzzles:         { name: "Puzzles",         tagline: "Mazes and matching" },
     "science-world": { name: "Science & World", tagline: "Elements, flags and the world" }
@@ -132,8 +132,10 @@ window.PLAYROOM = {
      rather than turning a mostly-empty bounding box into a tap target. */
   categoryRooms: {
     art: {
-      /* Built-in image generation, 2026-10-09. Accepted first render: no text or
-         characters, three cleanly separated stations on rugs, rounded safe shapes.
+      /* Built-in image generation, 2026-10-09; precise built-in image edit, 2026-11-06.
+         Accepted first room render: no text or characters, three cleanly separated stations
+         on rugs, rounded safe shapes. The later edit changes only the flower-picture interior
+         to a princess gown on a dress form; see art-room/PROVENANCE.md.
          Master: ~/.codex/generated_images/01a12118-0f6e-7db3-b162-d745a3e28ca5/
          exec-98ca4643-4c50-4f19-b409-aad5c544049e.png. */
       image: "./art-room/scene.webp",
@@ -145,8 +147,10 @@ window.PLAYROOM = {
           points: [[60.0,22.0],[89.0,22.0],[100.0,27.0],[100.0,50.5],[94.0,52.5],[72.0,51.5],[58.0,45.0]] },
         { app: "nail-salon", badgeAt: [55.0, 70.0],
           points: [[21.0,58.0],[39.0,53.0],[68.0,53.0],[82.0,58.0],[91.0,77.0],[88.0,94.0],[72.0,100.0],[31.0,100.0],[13.0,91.0],[14.0,72.0]] },
-        { app: "jewel-studio", badgeAt: [87.0, 11.5],
-          points: [[72.0,0.0],[100.0,0.0],[100.0,21.5],[93.0,22.0],[72.0,21.5]] }
+        { app: "princess-dress-up", badgeAt: [75.0, 10.5],
+          points: [[71.5,4.0],[79.0,4.0],[79.0,16.5],[71.5,16.5]] },
+        { app: "jewel-studio", badgeAt: [88.0, 11.5],
+          points: [[80.5,0.0],[100.0,0.0],[100.0,21.5],[93.0,22.0],[80.5,21.5]] }
       ],
       unmatched: ["potted plants"]
     },
@@ -184,7 +188,12 @@ window.PLAYROOM = {
         { id: "unicorn-math", name: "Unicorn Math", desc: "Maths games in a magical world",
           href: "../magic-math/unicorn-math.html", tile: "./assets/unicorn-math.webp",
           tone: ["#e5559a", "#a93870", "#ffe9f4"], badgeAt: [73.0, 45.0],
-          points: [[50.2,48.0],[58.0,38.0],[67.0,30.5],[79.0,30.0],[88.0,43.0],[94.0,62.0],[94.2,80.0],[82.0,82.0],[69.0,77.0],[58.0,83.0],[50.2,85.5]] }
+          points: [[50.2,48.0],[58.0,38.0],[67.0,30.5],[79.0,30.0],[88.0,43.0],[94.0,62.0],[94.2,80.0],[82.0,82.0],[69.0,77.0],[58.0,83.0],[50.2,85.5]] },
+        /* The two-world painting has no lemonade object to turn into an honest hotspot.
+           Keep the app in this room's Cards view using its own approved cup cutout. */
+        { id: "lemonade-stand", cardsOnly: true, name: "Lemonade Stand", desc: "Make drinks and count up to give change",
+          href: "../lemonade-stand/", tile: "./assets/lemonade-stand.webp", cutout: true,
+          tone: ["#e0a72d", "#9c6b1e", "#fff3c7"] }
       ]
     },
     homework: {
@@ -262,6 +271,8 @@ window.PLAYROOM = {
   apps: [
     { id: "magic-math", landmark: "math", name: "Magic Math", desc: "Pick your world and play",
       href: "../magic-math/", tile: "./assets/magic-math.webp", tone: ["#a855c7", "#7b3a90", "#f8e8fb"] },
+    { id: "lemonade-stand", landmark: "math", name: "Lemonade Stand", desc: "Make drinks and count up to give change",
+      href: "../lemonade-stand/", tile: "./assets/lemonade-stand.webp", cutout: true, tone: ["#e0a72d", "#9c6b1e", "#fff3c7"] },
     { id: "word-book", landmark: "words", name: "Our Word Book", desc: "Read, spell, write and discover words",
       href: "../word-book/", tile: "./assets/our-word-book.webp", tone: ["#c2557d", "#93325a", "#ffe9f1"] },
     { id: "music", landmark: "music", name: "Music", desc: "Play, listen & explore",
@@ -274,6 +285,8 @@ window.PLAYROOM = {
       href: "../color-lab/", tile: "./assets/color-lab.webp", cutout: true, tone: ["#9b59c9", "#6f3a96", "#f3e9fb"] },
     { id: "jewel-studio", landmark: "art", name: "Jewel Studio", desc: "Colour and create your own jewels",
       href: "../jewel-studio/", tile: "./assets/jewel-studio.svg", tone: ["#a65d79", "#763e58", "#f9e7ef"] },
+    { id: "princess-dress-up", landmark: "art", name: "Princess Dress Up", desc: "Choose a doll and make a beautiful look",
+      href: "../princess-dress-up/", tile: "./assets/princess-dress-up.webp", tone: ["#e8679e", "#a94372", "#fde6f1"] },
     { id: "space", landmark: "space", name: "Space", desc: "A story about the planets, and a game about where they go",
       href: "../space/", tile: "./assets/space.webp", tone: ["#26306e", "#151c46", "#e6eaff"] },
     { id: "animal-book", landmark: "nature", name: "Our Animal Book", desc: "Tap an animal to hear its name",

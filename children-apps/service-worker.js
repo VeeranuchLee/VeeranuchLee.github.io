@@ -151,8 +151,11 @@
  *   v46 2026-10-20  Owner: "Grammar game missing from the hub". The Words & Books room's
  *                  painted puzzle table (inert since the room was drawn) now opens the
  *                  Grammar Game (../word-book/grammar-game.html); new tile assets/grammar-game.webp.
+ *   v49 2026-11-06  Princess Dress Up joins Cards and the Art room, while Lemonade Stand
+ *                  joins the Math room's Cards view and the main Cards view. Both approved
+ *                  painted app assets join the offline shell in this single cache bump.
  */
-const CACHE_NAME = "children-apps-v48";
+const CACHE_NAME = "children-apps-v49";
 
 /* Everything needed to render the hub with no network at all. Keep in step with
    index.html — a missing entry fails install and ships a broken offline page. */
@@ -178,6 +181,8 @@ const SHELL = [
   "./assets/nail-salon.webp",
   "./assets/color-lab.webp",
   "./assets/jewel-studio.svg",
+  "./assets/lemonade-stand.webp",
+  "./assets/princess-dress-up.webp",
   "./assets/memory-echo.webp",
   "./assets/number-lab.webp",
   "./assets/october-homework.webp",

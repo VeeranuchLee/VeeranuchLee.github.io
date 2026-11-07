@@ -11,16 +11,14 @@ const steps=[
  {name:'Make to 999',sub:'Three-digit numbers',kind:'make',rods:3,targets:[246,708,999],rule:'Set hundreds, tens, then ones.'},
  {name:'Set and read',sub:'Mixed practice',kind:'mixed',rods:3,targets:[381,507,694,829],rule:'Read each rod from left to right.'}
 ];
-// Review switch (owner 2026-11-05 "how to unlock?"): ?unlock=all opens every lesson for this visit only; saved progress is untouched.
-const UNLOCK_ALL=(()=>{try{return new URLSearchParams(location.search).get('unlock')==='all'}catch{return false}})();
 let saved=load(),current=0,q=0,misses=0,rods=[],muted=false,readMode=false,revealing=false;
 const $=s=>document.querySelector(s),screens=[...document.querySelectorAll('.screen')];
 function load(){try{return Object.assign({unlocked:1,completed:[]},JSON.parse(localStorage.getItem(KEY)||'{}'))}catch{return{unlocked:1,completed:[]}}}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(saved))}catch{}}
+function save(){localStorage.setItem(KEY,JSON.stringify(saved))}
 function show(id){screens.forEach(x=>x.classList.toggle('active',x.id===id));$('#back').hidden=id!=='home'}
 function iconLock(){return '<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="12" y="21" width="24" height="20" rx="5"/><path d="M17 21v-6a7 7 0 0 1 14 0v6"/></svg>'}
 function soundIcon(off=false){return off?'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 20h8l9-8v24l-9-8H8zM32 18l10 12M42 18 32 30"/></svg>':'<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 20h8l9-8v24l-9-8H8zM31 19c3 3 3 7 0 10M36 14c6 6 6 14 0 20"/></svg>'}
-function drawHome(){const grid=$('#lesson-grid');grid.innerHTML='';steps.forEach((s,i)=>{const b=document.createElement('button');const locked=!UNLOCK_ALL&&i>=saved.unlocked;b.className='lesson'+(locked?' locked':'');b.disabled=locked;b.dataset.step=i;b.innerHTML=(b.disabled?iconLock():`<b aria-label="Step ${i+1}">${i+1}</b>`)+`<span>${s.name}</span><small>${s.sub}</small>`;b.addEventListener('click',()=>start(i));grid.append(b)})}
+function drawHome(){const grid=$('#lesson-grid');grid.innerHTML='';steps.forEach((s,i)=>{const b=document.createElement('button');b.className='lesson'+(i>=saved.unlocked?' locked':'');b.disabled=i>=saved.unlocked;b.dataset.step=i;b.innerHTML=(b.disabled?iconLock():`<b aria-label="Step ${i+1}">${i+1}</b>`)+`<span>${s.name}</span><small>${s.sub}</small>`;b.addEventListener('click',()=>start(i));grid.append(b)})}
 function start(i){current=i;q=0;misses=0;show('play');nextQuestion()}
 function makeState(count,n=0){rods=L.numberToRods(n,count)}
 function nextQuestion(){const step=steps[current],target=step.targets[q%step.targets.length];readMode=step.kind==='read'||(step.kind==='mixed'&&q%2===1);misses=0;revealing=false;$('#step-name').textContent=`Step ${current+1}: ${step.name}`;$('#prompt').textContent=readMode?'What number is this?':`Make ${target}`;makeState(step.rods,readMode?target:0);$('#check').hidden=readMode;$('#read-choices').hidden=!readMode;$('#read-choices').innerHTML='';if(readMode){const choices=step.choices?.[q]||mixedChoices(target);choices.forEach(n=>{const b=document.createElement('button');b.textContent=n;b.dataset.answer=n;b.addEventListener('click',()=>answerRead(n));$('#read-choices').append(b)})}renderBoard($('#board'),false);feedback(readMode?'Tap the number you see.':'Tap beads, then Check.')}
