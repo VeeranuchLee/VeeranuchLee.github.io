@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#8FDCC2">
+  <meta name="description" content="Drop two-colour chips on the crew's worktable and match three to tidy the glitches away.">
+  <title>Crew Drop</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="icon" href="./assets/icons/icon-192.png">
+  <link rel="stylesheet" href="./cg-back.css" />
+    <script src="./cg-update.js" defer></script>
+</head>
+<body>
+  <!-- The way out (INTERACTION-DIRECTION.md): first screen only, shared round back button. -->
+  <a id="leave-app" class="cg-back" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+
+  <main class="app-shell">
+    <!-- MENU (first screen) -->
+    <section id="menu" class="screen menu-screen" aria-labelledby="title">
+      <header class="hero">
+        <div class="hero-copy">
+          <h1 id="title"><span>Crew</span> Drop</h1>
+          <p>Match three to tidy the table</p>
+        </div>
+        <div class="hero-crew" id="hero-crew"></div>
+      </header>
+      <div class="menu-actions">
+        <button id="play" class="primary-action" type="button"></button>
+      </div>
+      <nav class="level-path" id="level-path" aria-label="Levels"></nav>
+      <div class="sticker-strip" id="sticker-strip" aria-label="Stickers"></div>
+    </section>
+
+    <!-- GAME -->
+    <section id="game" class="screen game-screen" hidden aria-labelledby="game-title">
+      <header class="game-header">
+        <span class="cg-back-slot" aria-hidden="true"></span><button id="home" class="cg-back" type="button" aria-label="Back to the menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <h2 id="game-title" class="wordmark"><span>Crew</span> Drop</h2>
+        <div id="level-pill" class="level-pill"></div>
+      </header>
+      <div id="token-row" class="token-row" aria-label="Chips left for this level"></div>
+      <div class="table-row">
+        <div class="board-zone" id="board-zone">
+          <div class="ram-corner" id="ram-corner">
+            <button id="ram-pal" class="ram-pal" type="button" aria-label="RAM, the memory stick"></button>
+            <button id="ram-label" class="word-pill" type="button" hidden></button>
+          </div>
+          <div class="board-wrap" id="board-wrap">
+            <div class="lane" id="lane"></div>
+            <div class="board" id="board" aria-hidden="true"></div>
+            <div class="columns" id="columns"></div>
+            <div class="hint" id="hint" hidden>Tap a column</div>
+            <div class="stuck-banner" id="stuck-banner" hidden>
+              <p>The table is full</p>
+              <button id="gpu-help" class="gpu-help" type="button" aria-label="Ask the painter for help"></button>
+            </div>
+          </div>
+        </div>
+        <aside class="side-col">
+          <div class="cupboard">
+            <button id="storage-btn" class="storage-btn" type="button" aria-label="Storage, the chest of drawers"></button>
+            <div class="drawers" id="drawers" aria-hidden="true"></div>
+            <button id="storage-label" class="word-pill side-pill" type="button" hidden></button>
+          </div>
+          <div class="cpu-spot">
+            <button id="cpu-btn" class="cpu-btn" type="button" aria-label="CPU, the thinking chip"></button>
+            <svg class="cores" id="cores" viewBox="0 0 60 26" aria-hidden="true">
+              <circle class="core" cx="8" cy="13" r="6"/>
+              <circle class="core" cx="22" cy="13" r="6"/>
+              <circle class="core" cx="36" cy="13" r="6"/>
+              <circle class="core" cx="50" cy="13" r="6"/>
+            </svg>
+            <button id="gpu-label" class="word-pill side-pill" type="button" hidden></button>
+          </div>
+        </aside>
+      </div>
+      <p id="live" class="sr-only" aria-live="polite"></p>
+    </section>
+
+    <!-- Calm retry overlay (tokens out, or stuck with the painter already used) -->
+    <section id="retry" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="retry-title">
+      <div class="panel">
+        <button class="cg-back overlay-home" type="button" aria-label="Back to the menu" data-action="menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <h2 id="retry-title">Let&#8217;s try that again</h2>
+        <p id="retry-reason" class="reason"></p>
+        <button id="retry-replay" class="big-button replay" type="button"></button>
+      </div>
+    </section>
+
+    <!-- Celebration overlay -->
+    <section id="party" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="party-title">
+      <div class="panel">
+        <button class="cg-back overlay-home" type="button" aria-label="Back to the menu" data-action="menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="party-crew" id="party-crew"></div>
+        <h2 id="party-title">All clean!</h2>
+        <p id="party-sub" class="reason"></p>
+        <div id="party-sticker" class="sticker-badge"></div>
+        <button id="party-next" class="big-button next" type="button"></button>
+      </div>
+    </section>
+  </main>
+  <script src="./tap-zoom-guard.js"></script>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
