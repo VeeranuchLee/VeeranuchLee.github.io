@@ -1,0 +1,368 @@
+{
+  "rig": {
+    "w": 1200,
+    "h": 1800,
+    "dollBox": { "x": 70, "y": 10, "w": 1060, "h": 1770 },
+    "twirlBox": { "x": 190, "y": 10, "w": 820, "h": 1770 },
+    "feetY": 1773,
+    "basePlate": {
+      "x": 252, "y": 13, "w": 636, "h": 1760,
+      "src": "art/runway/runway-base.webp"
+    },
+    "base": []
+  },
+  "zOrder": ["stage", "wingsBack", "backHair", "plate", "head", "frontHair", "crown", "earrings", "necklace"],
+  "slots": ["dress", "hair", "crown", "earrings", "necklace", "wings", "stage"],
+  "palettes": {
+    "dress": [
+      "#FFD6E7", "#F9A8CB", "#F48FC1", "#E8679E", "#F3E5FF", "#D9B8F5",
+      "#B98AEB", "#9466D6", "#DDF0FF", "#AED9F7", "#7EC8E8", "#5B9BE0",
+      "#D9F7EA", "#A8EBCF", "#7DD8B5", "#4FBF98", "#FFF4C9", "#FFE08A",
+      "#F7C948", "#EBA845", "#FFFFFF", "#FBF3E6", "#E4E6F0", "#FFD9C7"
+    ],
+    "hair": [
+      "#F6A3C6", "#EE7FB4", "#FF9C9C", "#D8B4F2", "#B58BE6", "#9EC9F5",
+      "#6FA7E6", "#B8F0FF", "#A8E6D0", "#6FCFB2", "#FFE7A3", "#F5C96A",
+      "#E89A5A", "#A8653F", "#7A4A32", "#4A3128", "#2E2A33", "#3B3F66",
+      "#E7E7EF", "#F8F6FF"
+    ]
+  },
+  "patterns": ["none", "stars", "hearts", "dots", "flowers", "glitter"],
+  "tabs": [
+    { "id": "dresses", "label": "Dresses", "icon": "dress", "slots": ["dress"], "colour": "dress", "patterns": true, "tileAspect": 0.8 },
+    { "id": "crowns", "label": "Crowns", "icon": "crown", "slots": ["crown"], "colour": null, "patterns": false, "tileAspect": 1 },
+    { "id": "jewels", "label": "Jewels", "icon": "jewel", "slots": ["earrings", "necklace"], "colour": null, "patterns": false, "tileAspect": 1 },
+    { "id": "wings", "label": "Wings", "icon": "wings", "slots": ["wings"], "colour": null, "patterns": false, "tileAspect": 1 },
+    { "id": "stages", "label": "Stages", "icon": "stage", "slots": ["stage"], "colour": null, "patterns": false, "tileAspect": 1 }
+  ],
+  "dolls": [
+    {
+      "id": "hana", "name": "Hana", "eye": "#8E6BD1", "hairShade": 0, "signature": "#F7B8CF",
+      "portrait": { "x": 360, "y": 20, "w": 480, "h": 480 },
+      "layers": [
+        {
+          "z": "backHair", "src": "art/runway/doll-hana.webp",
+          "x": 252, "y": 13, "w": 651, "h": 1760,
+          "derive": "backHair", "region": { "x": 180, "y": 350, "w": 840, "h": 620 }, "chinY": 430
+        },
+        {
+          "z": "head", "src": "art/runway/doll-hana.webp",
+          "x": 252, "y": 13, "w": 651, "h": 1760,
+          "derive": "patch", "region": { "x": 150, "y": 0, "w": 900, "h": 980 }, "chinY": 430,
+          "frontHair": [
+            { "x": 315, "y": 300, "w": 235, "h": 440 },
+            { "x": 540, "y": 300, "w": 265, "h": 440 }
+          ]
+        }
+      ],
+      "look": {
+        "dress": { "id": "gown-swan-lake", "shade": 20, "pattern": "none" },
+        "crown": "crown-silver-star", "earrings": null, "necklace": "necklace-crystal-pendant",
+        "wings": "cape-snow-fur-trim", "stage": "stage-ballroom"
+      }
+    },
+    {
+      "id": "yuna", "name": "Yuna", "eye": "#E8679E", "hairShade": 3, "signature": "#D9B8F5",
+      "portrait": { "x": 360, "y": 20, "w": 480, "h": 480 },
+      "layers": [
+        {
+          "z": "backHair", "src": "art/runway/doll-yuna.webp",
+          "x": 252, "y": 13, "w": 636, "h": 1760,
+          "derive": "backHair", "region": { "x": 170, "y": 350, "w": 860, "h": 620 }, "chinY": 430
+        },
+        {
+          "z": "head", "src": "art/runway/doll-yuna.webp",
+          "x": 252, "y": 13, "w": 636, "h": 1760,
+          "derive": "patch", "region": { "x": 150, "y": 0, "w": 900, "h": 900 }, "chinY": 430,
+          "frontHair": [{ "x": 250, "y": 0, "w": 700, "h": 430 }]
+        }
+      ],
+      "look": {
+        "dress": { "id": "gown-rose-ball", "shade": 5, "pattern": "none" },
+        "crown": "crown-silver-star", "earrings": null, "necklace": "necklace-crystal-pendant",
+        "wings": "wings-fairy-sparkle", "stage": "stage-ballroom"
+      }
+    },
+    {
+      "id": "mina-black", "name": "Mina", "eye": "#C98B3A", "hairShade": 16, "signature": "#B9DDF5",
+      "portrait": { "x": 360, "y": 20, "w": 480, "h": 480 },
+      "layers": [
+        {
+          "z": "backHair", "src": "art/runway/doll-mina-black.webp",
+          "x": 252, "y": 13, "w": 636, "h": 1760,
+          "derive": "backHair", "region": { "x": 190, "y": 350, "w": 820, "h": 620 }, "chinY": 430
+        },
+        {
+          "z": "head", "src": "art/runway/doll-mina-black.webp",
+          "x": 252, "y": 13, "w": 636, "h": 1760,
+          "derive": "patch", "region": { "x": 150, "y": 0, "w": 900, "h": 900 }, "chinY": 430,
+          "frontHair": [{ "x": 250, "y": 0, "w": 700, "h": 430 }]
+        }
+      ],
+      "look": {
+        "dress": { "id": "gown-crystal-ice", "shade": 8, "pattern": "none" },
+        "crown": "crown-silver-star", "earrings": null, "necklace": "necklace-crystal-pendant",
+        "wings": "cape-snow-fur-trim", "stage": "stage-ballroom"
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "dress-slip", "name": "White slip", "style": "princess", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 70, "y": 330, "w": 1060, "h": 1350 },
+      "layers": [{ "z": "plate", "src": "art/runway/runway-base.webp", "x": 252, "y": 13, "w": 636, "h": 1760 }]
+    },
+    {
+      "id": "gown-swan-lake", "name": "Swan lake gown", "style": "princess", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 70, "y": 330, "w": 1060, "h": 1350 }, "defaultShade": 20,
+      "layers": [{ "z": "plate", "src": "art/runway/gown-swan-lake.webp", "x": 170, "y": 14, "w": 824, "h": 1758, "tint": "dress", "mask": { "auto": "neutral", "minY": 400 } }]
+    },
+    {
+      "id": "gown-rose-ball", "name": "Rose ball gown", "style": "princess", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 40, "y": 330, "w": 1120, "h": 1350 }, "defaultShade": 1,
+      "layers": [{ "z": "plate", "src": "art/runway/gown-rose-ball.webp", "x": 38, "y": 13, "w": 1119, "h": 1758, "tint": "dress", "mask": { "auto": "neutral", "minY": 400 } }]
+    },
+    {
+      "id": "gown-crystal-ice", "name": "Crystal ice gown", "style": "princess", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 70, "y": 330, "w": 1060, "h": 1350 }, "defaultShade": 8,
+      "layers": [{ "z": "plate", "src": "art/runway/gown-crystal-ice.webp", "x": 123, "y": 13, "w": 930, "h": 1761, "tint": "dress", "mask": { "auto": "neutral", "minY": 400 } }]
+    },
+    {
+      "id": "rw-ballet-tutu", "name": "Ballet tutu dress", "style": "idol", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 40, "y": 330, "w": 1120, "h": 1350 }, "defaultShade": 20,
+      "layers": [{ "z": "plate", "src": "art/runway/rw-ballet-tutu.webp", "x": 84, "y": 3, "w": 1005, "h": 1778, "tint": "dress", "mask": { "auto": "neutral", "minY": 400 } }]
+    },
+    {
+      "id": "rw-sapphire-ball", "name": "Sapphire ball gown", "style": "princess", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 40, "y": 330, "w": 1120, "h": 1350 }, "defaultShade": 20,
+      "layers": [{ "z": "plate", "src": "art/runway/rw-sapphire-ball.webp", "x": 98, "y": 4, "w": 1013, "h": 1779, "tint": "dress", "mask": { "auto": "neutral", "minY": 400 } }]
+    },
+    {
+      "id": "rw-lavender-fairy", "name": "Lavender fairy-princess dress", "style": "magical", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 70, "y": 330, "w": 1060, "h": 1350 }, "defaultShade": 4,
+      "layers": [{ "z": "plate", "src": "art/runway/rw-lavender-fairy.webp", "x": 133, "y": 5, "w": 930, "h": 1774, "tint": "dress", "mask": { "auto": "neutral", "minY": 400 } }]
+    },
+    {
+      "id": "rw-butterfly-garden", "name": "Butterfly garden dress", "style": "princess", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 70, "y": 330, "w": 1060, "h": 1350 }, "defaultShade": 20,
+      "layers": [{ "z": "plate", "src": "art/runway/rw-butterfly-garden.webp", "x": 220, "y": 2, "w": 749, "h": 1779, "tint": "dress", "mask": { "auto": "neutral", "minY": 400 } }]
+    },
+    {
+      "id": "rw-ruby-royal", "name": "Ruby royal gown", "style": "princess", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 40, "y": 330, "w": 1120, "h": 1350 }, "defaultShade": 20,
+      "layers": [{ "z": "plate", "src": "art/runway/rw-ruby-royal.webp", "x": 124, "y": 5, "w": 994, "h": 1777, "tint": "dress", "mask": { "auto": "neutral", "minY": 400 } }]
+    },
+    {
+      "id": "rw-starry-night", "name": "Starry night gown", "style": "magical", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 40, "y": 330, "w": 1120, "h": 1350 }, "defaultShade": 20,
+      "layers": [{ "z": "plate", "src": "art/runway/rw-starry-night.webp", "x": 79, "y": 2, "w": 1016, "h": 1780, "tint": "dress", "mask": { "auto": "neutral", "minY": 400 } }]
+    },
+    {
+      "id": "rw-rose-gold-bow", "name": "Rose-gold bow party dress", "style": "idol", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 70, "y": 330, "w": 1060, "h": 1350 }, "defaultShade": 20,
+      "layers": [{ "z": "plate", "src": "art/runway/rw-rose-gold-bow.webp", "x": 238, "y": 3, "w": 671, "h": 1778, "tint": "dress", "mask": { "auto": "neutral", "minY": 400 } }]
+    },
+    {
+      "id": "rw-autumn-leaves", "name": "Autumn leaves gown", "style": "princess", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 70, "y": 330, "w": 1060, "h": 1350 }, "defaultShade": 20,
+      "layers": [{ "z": "plate", "src": "art/runway/rw-autumn-leaves.webp", "x": 186, "y": 5, "w": 806, "h": 1776, "tint": "dress", "mask": { "auto": "neutral", "minY": 400 } }]
+    },
+    {
+      "id": "rw-rainbow-layered", "name": "Rainbow layered dress", "style": "magical", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 70, "y": 330, "w": 1060, "h": 1350 }, "defaultShade": 20,
+      "layers": [{ "z": "plate", "src": "art/runway/rw-rainbow-layered.webp", "x": 247, "y": 5, "w": 649, "h": 1775, "tint": "dress", "mask": { "auto": "neutral", "minY": 400 } }]
+    },
+    {
+      "id": "rw-snowflake-winter", "name": "Snowflake winter gown", "style": "princess", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 70, "y": 330, "w": 1060, "h": 1350 }, "defaultShade": 20,
+      "layers": [{ "z": "plate", "src": "art/runway/rw-snowflake-winter.webp", "x": 133, "y": 5, "w": 913, "h": 1776, "tint": "dress", "mask": { "auto": "neutral", "minY": 400 } }]
+    },
+    {
+      "id": "rw-denim-dungarees", "name": "Denim dungarees", "style": "everyday", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 120, "y": 300, "w": 960, "h": 1450 }, "defaultShade": 9,
+      "layers": [{ "z": "plate", "src": "art/runway/rw-denim-dungarees.webp", "x": 246, "y": 7, "w": 649, "h": 1772, "tint": "dress", "mask": { "auto": "neutral", "minY": 400 } }]
+    },
+    {
+      "id": "rw-yellow-raincoat", "name": "Yellow raincoat", "style": "everyday", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 120, "y": 300, "w": 960, "h": 1450 }, "defaultShade": 16,
+      "layers": [{ "z": "plate", "src": "art/runway/rw-yellow-raincoat.webp", "x": 246, "y": 7, "w": 657, "h": 1769, "tint": "dress", "mask": { "auto": "neutral", "minY": 400 } }]
+    },
+    {
+      "id": "rw-cosy-winter", "name": "Cosy winter outfit", "style": "everyday", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 120, "y": 250, "w": 960, "h": 1500 }, "defaultShade": 8,
+      "layers": [{ "z": "plate", "src": "art/runway/rw-cosy-winter.webp", "x": 245, "y": 7, "w": 640, "h": 1775, "tint": "dress", "mask": { "auto": "neutral", "minY": 400 } }]
+    },
+    {
+      "id": "rw-summer-sundress", "name": "Summer sundress", "style": "everyday", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 100, "y": 300, "w": 1000, "h": 1450 }, "defaultShade": 16,
+      "layers": [{ "z": "plate", "src": "art/runway/rw-summer-sundress.webp", "x": 246, "y": 7, "w": 669, "h": 1772, "tint": "dress", "mask": { "auto": "neutral", "minY": 400 } }]
+    },
+    {
+      "id": "rw-bunny-pyjamas", "name": "Bunny pyjamas", "style": "everyday", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 120, "y": 300, "w": 960, "h": 1450 }, "defaultShade": 0,
+      "layers": [{ "z": "plate", "src": "art/runway/rw-bunny-pyjamas.webp", "x": 246, "y": 7, "w": 643, "h": 1772, "tint": "dress", "mask": { "auto": "neutral", "minY": 400 } }]
+    },
+    {
+      "id": "rw-tennis-outfit", "name": "Tennis outfit", "style": "everyday", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 120, "y": 300, "w": 960, "h": 1450 }, "defaultShade": 9,
+      "layers": [{ "z": "plate", "src": "art/runway/rw-tennis-outfit.webp", "x": 246, "y": 7, "w": 648, "h": 1769, "tint": "dress", "mask": { "auto": "neutral", "minY": 400 } }]
+    },
+    {
+      "id": "rw-pinafore-dress", "name": "Pinafore dress", "style": "everyday", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 120, "y": 300, "w": 960, "h": 1450 }, "defaultShade": 5,
+      "layers": [{ "z": "plate", "src": "art/runway/rw-pinafore-dress.webp", "x": 246, "y": 7, "w": 643, "h": 1772, "tint": "dress", "mask": { "auto": "neutral", "minY": 400 } }]
+    },
+    {
+      "id": "rw-sweater-dress", "name": "Sweater dress", "style": "everyday", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 120, "y": 300, "w": 960, "h": 1450 }, "defaultShade": 22,
+      "layers": [{ "z": "plate", "src": "art/runway/rw-sweater-dress.webp", "x": 246, "y": 7, "w": 648, "h": 1770, "tint": "dress", "mask": { "auto": "neutral", "minY": 400 } }]
+    },
+    {
+      "id": "rw-mermaid-tail", "name": "Mermaid tail costume", "style": "magical", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 100, "y": 300, "w": 1000, "h": 1450 }, "defaultShade": 9,
+      "layers": [{ "z": "plate", "src": "art/runway/rw-mermaid-tail.webp", "x": 246, "y": 7, "w": 648, "h": 1766, "tint": "dress", "mask": { "auto": "neutral", "minY": 400 } }]
+    },
+    {
+      "id": "rw-astronaut-suit", "name": "Astronaut costume", "style": "everyday", "slot": "dress", "tab": "dresses",
+      "anchor": { "x": 600, "y": 1000 }, "thumb": { "x": 120, "y": 300, "w": 960, "h": 1450 }, "defaultShade": 20,
+      "layers": [{ "z": "plate", "src": "art/runway/rw-astronaut-suit.webp", "x": 246, "y": 7, "w": 652, "h": 1773, "tint": "dress", "mask": { "auto": "neutral", "minY": 400 } }]
+    },
+    {
+      "id": "crown-silver-star", "name": "Silver star tiara", "slot": "crown", "tab": "crowns",
+      "anchor": { "x": 600, "y": 110 }, "thumb": { "x": 330, "y": 0, "w": 540, "h": 400 },
+      "layers": [{ "z": "crown", "src": "art/runway/tiara-silver-star.webp", "x": 252, "y": 13, "w": 637, "h": 1760, "derive": "changed", "region": { "x": 350, "y": 0, "w": 500, "h": 250 } }]
+    },
+    {
+      "id": "necklace-crystal-pendant", "name": "Crystal pendant", "slot": "necklace", "tab": "jewels",
+      "anchor": { "x": 600, "y": 440 }, "thumb": { "x": 390, "y": 260, "w": 420, "h": 400 },
+      "layers": [{ "z": "necklace", "src": "art/runway/necklace-crystal-pendant.webp", "x": 252, "y": 13, "w": 636, "h": 1760, "derive": "changed", "region": { "x": 430, "y": 310, "w": 340, "h": 280 } }]
+    },
+    {
+      "id": "cape-snow-fur-trim", "name": "Snow fur cape", "slot": "wings", "tab": "wings",
+      "anchor": { "x": 600, "y": 800 }, "thumb": { "x": 0, "y": 150, "w": 1200, "h": 1500 },
+      "layers": [{ "z": "wingsBack", "src": "art/runway/cape-snow-fur.webp", "x": 81, "y": 13, "w": 1033, "h": 1761, "derive": "changed", "region": { "x": 70, "y": 300, "w": 1060, "h": 1150 } }]
+    },
+    {
+      "id": "wings-fairy-sparkle", "name": "Fairy sparkle wings", "slot": "wings", "tab": "wings",
+      "anchor": { "x": 600, "y": 700 }, "thumb": { "x": 0, "y": 100, "w": 1200, "h": 1200 },
+      "layers": [{ "z": "wingsBack", "src": "art/runway/wings-fairy-sparkle.webp", "x": 80, "y": 14, "w": 1044, "h": 1760, "derive": "changed", "region": { "x": 40, "y": 80, "w": 1120, "h": 850 } }]
+    },
+    {"id": "crown-princess-gold", "name": "Princess gold crown", "slot": "crown", "tab": "crowns", "anchor": {"x": 600, "y": 110}, "thumb": {"x": 300, "y": 0, "w": 600, "h": 430}, "layers": [{"z": "crown", "src": "art/runway/crown-princess-gold.webp", "x": 246, "y": 7, "w": 647, "h": 1772, "derive": "changed", "region": {"x": 300, "y": 0, "w": 600, "h": 330}}]},
+    {"id": "tiara-ice-crystal", "name": "Ice crystal tiara", "slot": "crown", "tab": "crowns", "anchor": {"x": 600, "y": 110}, "thumb": {"x": 300, "y": 0, "w": 600, "h": 430}, "layers": [{"z": "crown", "src": "art/runway/tiara-ice-crystal.webp", "x": 246, "y": 7, "w": 648, "h": 1772, "derive": "changed", "region": {"x": 300, "y": 0, "w": 600, "h": 330}}]},
+    {"id": "tiara-star-bright", "name": "Bright star tiara", "slot": "crown", "tab": "crowns", "anchor": {"x": 600, "y": 110}, "thumb": {"x": 300, "y": 0, "w": 600, "h": 430}, "layers": [{"z": "crown", "src": "art/runway/tiara-star-bright.webp", "x": 246, "y": 8, "w": 648, "h": 1771, "derive": "changed", "region": {"x": 300, "y": 0, "w": 600, "h": 330}}]},
+    {"id": "crown-flower-blossom", "name": "Blossom princess crown", "slot": "crown", "tab": "crowns", "anchor": {"x": 600, "y": 110}, "thumb": {"x": 300, "y": 0, "w": 600, "h": 430}, "layers": [{"z": "crown", "src": "art/runway/crown-flower-blossom.webp", "x": 246, "y": 7, "w": 648, "h": 1772, "derive": "changed", "region": {"x": 300, "y": 0, "w": 600, "h": 330}}]},
+    {"id": "tiara-heart-pink", "name": "Pink heart tiara", "slot": "crown", "tab": "crowns", "anchor": {"x": 600, "y": 110}, "thumb": {"x": 300, "y": 0, "w": 600, "h": 430}, "layers": [{"z": "crown", "src": "art/runway/tiara-heart-pink.webp", "x": 246, "y": 7, "w": 647, "h": 1772, "derive": "changed", "region": {"x": 300, "y": 0, "w": 600, "h": 330}}]},
+    {"id": "tiara-moon-dream", "name": "Dream moon tiara", "slot": "crown", "tab": "crowns", "anchor": {"x": 600, "y": 110}, "thumb": {"x": 300, "y": 0, "w": 600, "h": 430}, "layers": [{"z": "crown", "src": "art/runway/tiara-moon-dream.webp", "x": 245, "y": 6, "w": 650, "h": 1774, "derive": "changed", "region": {"x": 300, "y": 0, "w": 600, "h": 330}}]},
+    {"id": "bow-big-pink", "name": "Big pink bow", "slot": "crown", "tab": "crowns", "anchor": {"x": 600, "y": 110}, "thumb": {"x": 300, "y": 0, "w": 600, "h": 430}, "layers": [{"z": "crown", "src": "art/runway/bow-big-pink.webp", "x": 246, "y": 0, "w": 648, "h": 1779, "derive": "changed", "region": {"x": 300, "y": 0, "w": 600, "h": 330}}]},
+    {"id": "flower-crown-garden", "name": "Garden flower crown", "slot": "crown", "tab": "crowns", "anchor": {"x": 600, "y": 110}, "thumb": {"x": 300, "y": 0, "w": 600, "h": 430}, "layers": [{"z": "crown", "src": "art/runway/flower-crown-garden.webp", "x": 246, "y": 8, "w": 648, "h": 1771, "derive": "changed", "region": {"x": 300, "y": 0, "w": 600, "h": 330}}]},
+    {"id": "headband-sparkle", "name": "Sparkly headband", "slot": "crown", "tab": "crowns", "anchor": {"x": 600, "y": 110}, "thumb": {"x": 300, "y": 0, "w": 600, "h": 430}, "layers": [{"z": "crown", "src": "art/runway/headband-sparkle.webp", "x": 246, "y": 7, "w": 648, "h": 1773, "derive": "changed", "region": {"x": 300, "y": 0, "w": 600, "h": 330}}]},
+    {"id": "sun-hat-ribbon", "name": "Ribbon sun hat", "slot": "crown", "tab": "crowns", "anchor": {"x": 600, "y": 110}, "thumb": {"x": 300, "y": 0, "w": 600, "h": 430}, "layers": [{"z": "crown", "src": "art/runway/sun-hat-ribbon.webp", "x": 246, "y": 7, "w": 647, "h": 1772, "derive": "changed", "region": {"x": 300, "y": 0, "w": 600, "h": 330}}]},
+    {"id": "party-hat-stars", "name": "Star party hat", "slot": "crown", "tab": "crowns", "anchor": {"x": 600, "y": 110}, "thumb": {"x": 300, "y": 0, "w": 600, "h": 430}, "layers": [{"z": "crown", "src": "art/runway/party-hat-stars.webp", "x": 245, "y": 0, "w": 650, "h": 1780, "derive": "changed", "region": {"x": 300, "y": 0, "w": 600, "h": 330}}]},
+    {"id": "crown-royal-pearl", "name": "Royal pearl crown", "slot": "crown", "tab": "crowns", "anchor": {"x": 600, "y": 110}, "thumb": {"x": 300, "y": 0, "w": 600, "h": 430}, "layers": [{"z": "crown", "src": "art/runway/crown-royal-pearl.webp", "x": 246, "y": 7, "w": 647, "h": 1773, "derive": "changed", "region": {"x": 300, "y": 0, "w": 600, "h": 330}}]},
+    {"id": "tiara-sunshine", "name": "Sunshine tiara", "slot": "crown", "tab": "crowns", "anchor": {"x": 600, "y": 110}, "thumb": {"x": 300, "y": 0, "w": 600, "h": 430}, "layers": [{"z": "crown", "src": "art/runway/tiara-sunshine.webp", "x": 246, "y": 7, "w": 647, "h": 1772, "derive": "changed", "region": {"x": 300, "y": 0, "w": 600, "h": 330}}]},
+    {"id": "earrings-pearl-drop", "name": "Pearl drop earrings", "slot": "earrings", "tab": "jewels", "anchor": {"x": 600, "y": 360}, "thumb": {"x": 350, "y": 180, "w": 500, "h": 420}, "layers": [{"z": "earrings", "src": "art/runway/earrings-pearl-drop.webp", "x": 245, "y": 6, "w": 650, "h": 1774, "derive": "changed", "region": {"x": 380, "y": 230, "w": 440, "h": 300}}]},
+    {"id": "earrings-heart-pink", "name": "Pink heart earrings", "slot": "earrings", "tab": "jewels", "anchor": {"x": 600, "y": 360}, "thumb": {"x": 350, "y": 180, "w": 500, "h": 420}, "layers": [{"z": "earrings", "src": "art/runway/earrings-heart-pink.webp", "x": 245, "y": 6, "w": 650, "h": 1774, "derive": "changed", "region": {"x": 380, "y": 230, "w": 440, "h": 300}}]},
+    {"id": "earrings-star-silver", "name": "Silver star earrings", "slot": "earrings", "tab": "jewels", "anchor": {"x": 600, "y": 360}, "thumb": {"x": 350, "y": 180, "w": 500, "h": 420}, "layers": [{"z": "earrings", "src": "art/runway/earrings-star-silver.webp", "x": 246, "y": 8, "w": 648, "h": 1771, "derive": "changed", "region": {"x": 380, "y": 230, "w": 440, "h": 300}}]},
+    {"id": "earrings-crystal-blue", "name": "Blue crystal earrings", "slot": "earrings", "tab": "jewels", "anchor": {"x": 600, "y": 360}, "thumb": {"x": 350, "y": 180, "w": 500, "h": 420}, "layers": [{"z": "earrings", "src": "art/runway/earrings-crystal-blue.webp", "x": 245, "y": 6, "w": 650, "h": 1774, "derive": "changed", "region": {"x": 380, "y": 230, "w": 440, "h": 300}}]},
+    {"id": "earrings-flower-daisy", "name": "Daisy earrings", "slot": "earrings", "tab": "jewels", "anchor": {"x": 600, "y": 360}, "thumb": {"x": 350, "y": 180, "w": 500, "h": 420}, "layers": [{"z": "earrings", "src": "art/runway/earrings-flower-daisy.webp", "x": 245, "y": 6, "w": 649, "h": 1774, "derive": "changed", "region": {"x": 380, "y": 230, "w": 440, "h": 300}}]},
+    {"id": "earrings-moon-lilac", "name": "Lilac moon earrings", "slot": "earrings", "tab": "jewels", "anchor": {"x": 600, "y": 360}, "thumb": {"x": 350, "y": 180, "w": 500, "h": 420}, "layers": [{"z": "earrings", "src": "art/runway/earrings-moon-lilac.webp", "x": 245, "y": 6, "w": 650, "h": 1774, "derive": "changed", "region": {"x": 380, "y": 230, "w": 440, "h": 300}}]},
+    {"id": "necklace-pearl-strand", "name": "Pearl strand", "slot": "necklace", "tab": "jewels", "anchor": {"x": 600, "y": 440}, "thumb": {"x": 370, "y": 240, "w": 460, "h": 420}, "layers": [{"z": "necklace", "src": "art/runway/necklace-pearl-strand.webp", "x": 245, "y": 6, "w": 650, "h": 1774, "derive": "changed", "region": {"x": 400, "y": 300, "w": 400, "h": 320}}]},
+    {"id": "necklace-heart-locket", "name": "Heart locket", "slot": "necklace", "tab": "jewels", "anchor": {"x": 600, "y": 440}, "thumb": {"x": 370, "y": 240, "w": 460, "h": 420}, "layers": [{"z": "necklace", "src": "art/runway/necklace-heart-locket.webp", "x": 245, "y": 6, "w": 650, "h": 1774, "derive": "changed", "region": {"x": 400, "y": 300, "w": 400, "h": 320}}]},
+    {"id": "necklace-star-charm", "name": "Star charm necklace", "slot": "necklace", "tab": "jewels", "anchor": {"x": 600, "y": 440}, "thumb": {"x": 370, "y": 240, "w": 460, "h": 420}, "layers": [{"z": "necklace", "src": "art/runway/necklace-star-charm.webp", "x": 245, "y": 6, "w": 650, "h": 1774, "derive": "changed", "region": {"x": 400, "y": 300, "w": 400, "h": 320}}]},
+    {"id": "necklace-ribbon-choker", "name": "Ribbon choker", "slot": "necklace", "tab": "jewels", "anchor": {"x": 600, "y": 440}, "thumb": {"x": 370, "y": 240, "w": 460, "h": 420}, "layers": [{"z": "necklace", "src": "art/runway/necklace-ribbon-choker.webp", "x": 245, "y": 6, "w": 650, "h": 1774, "derive": "changed", "region": {"x": 400, "y": 300, "w": 400, "h": 320}}]},
+    {"id": "necklace-flower-garden", "name": "Garden flower necklace", "slot": "necklace", "tab": "jewels", "anchor": {"x": 600, "y": 440}, "thumb": {"x": 370, "y": 240, "w": 460, "h": 420}, "layers": [{"z": "necklace", "src": "art/runway/necklace-flower-garden.webp", "x": 246, "y": 6, "w": 648, "h": 1774, "derive": "changed", "region": {"x": 400, "y": 300, "w": 400, "h": 320}}]},
+    {"id": "wings-butterfly-pastel", "name": "Pastel butterfly wings", "slot": "wings", "tab": "wings", "anchor": {"x": 600, "y": 700}, "thumb": {"x": 0, "y": 100, "w": 1200, "h": 1400}, "layers": [{"z": "wingsBack", "src": "art/runway/wings-butterfly-pastel.webp", "x": 132, "y": 7, "w": 938, "h": 1772, "derive": "changed", "region": {"x": 40, "y": 100, "w": 1120, "h": 1250}}]},
+    {"id": "wings-angel-feather", "name": "Angel feather wings", "slot": "wings", "tab": "wings", "anchor": {"x": 600, "y": 700}, "thumb": {"x": 0, "y": 100, "w": 1200, "h": 1400}, "layers": [{"z": "wingsBack", "src": "art/runway/wings-angel-feather.webp", "x": 70, "y": 6, "w": 1067, "h": 1774, "derive": "changed", "region": {"x": 40, "y": 100, "w": 1120, "h": 1250}}]},
+    {"id": "wings-fairy-petal", "name": "Petal fairy wings", "slot": "wings", "tab": "wings", "anchor": {"x": 600, "y": 700}, "thumb": {"x": 0, "y": 100, "w": 1200, "h": 1400}, "layers": [{"z": "wingsBack", "src": "art/runway/wings-fairy-petal.webp", "x": 133, "y": 7, "w": 932, "h": 1773, "derive": "changed", "region": {"x": 40, "y": 100, "w": 1120, "h": 1250}}]},
+    {"id": "wings-fairy-rainbow", "name": "Rainbow fairy wings", "slot": "wings", "tab": "wings", "anchor": {"x": 600, "y": 700}, "thumb": {"x": 0, "y": 100, "w": 1200, "h": 1400}, "layers": [{"z": "wingsBack", "src": "art/runway/wings-fairy-rainbow.webp", "x": 108, "y": 8, "w": 1002, "h": 1772, "derive": "changed", "region": {"x": 40, "y": 100, "w": 1120, "h": 1250}}]},
+    {"id": "cape-royal-velvet", "name": "Royal velvet cape", "slot": "wings", "tab": "wings", "anchor": {"x": 600, "y": 700}, "thumb": {"x": 0, "y": 100, "w": 1200, "h": 1400}, "layers": [{"z": "wingsBack", "src": "art/runway/cape-royal-velvet.webp", "x": 148, "y": 7, "w": 889, "h": 1773, "derive": "changed", "region": {"x": 40, "y": 100, "w": 1120, "h": 1680}}, {"z": "necklace", "src": "art/runway/cape-royal-velvet.webp", "x": 148, "y": 7, "w": 889, "h": 1773, "derive": "changed", "region": {"x": 330, "y": 330, "w": 540, "h": 190}}]},
+    {"id": "cape-rainbow", "name": "Rainbow cape", "slot": "wings", "tab": "wings", "anchor": {"x": 600, "y": 700}, "thumb": {"x": 0, "y": 100, "w": 1200, "h": 1400}, "layers": [{"z": "wingsBack", "src": "art/runway/cape-rainbow.webp", "x": 98, "y": 7, "w": 1003, "h": 1772, "derive": "changed", "region": {"x": 40, "y": 100, "w": 1120, "h": 1680}}, {"z": "necklace", "src": "art/runway/cape-rainbow.webp", "x": 98, "y": 7, "w": 1003, "h": 1772, "derive": "changed", "region": {"x": 330, "y": 330, "w": 540, "h": 190}}]},
+    {
+      "id": "stage-ballroom", "name": "Castle ballroom", "slot": "stage", "tab": "stages", "bg": "#F6D5E6",
+      "anchor": { "x": 600, "y": 1500 }, "thumb": { "x": 0, "y": 450, "w": 1200, "h": 1200 },
+      "layers": [{ "z": "stage", "src": "art/placeholder/stage-ballroom.svg", "x": 0, "y": 0, "w": 1200, "h": 1800 }]
+    },
+    {
+      "id": "stage-concert", "name": "Concert stage", "slot": "stage", "tab": "stages", "bg": "#DCCEF5",
+      "anchor": { "x": 600, "y": 1500 }, "thumb": { "x": 0, "y": 450, "w": 1200, "h": 1200 },
+      "layers": [{ "z": "stage", "src": "art/placeholder/stage-concert.svg", "x": 0, "y": 0, "w": 1200, "h": 1800 }]
+    },
+    {
+      "id": "stage-garden", "name": "Flower garden", "slot": "stage", "tab": "stages", "bg": "#DDF3E8",
+      "anchor": { "x": 600, "y": 1500 }, "thumb": { "x": 0, "y": 450, "w": 1200, "h": 1200 },
+      "layers": [{ "z": "stage", "src": "art/placeholder/stage-garden.svg", "x": 0, "y": 0, "w": 1200, "h": 1800 }]
+    },
+    {
+      "id": "stage-underwater", "name": "Mermaid lagoon", "slot": "stage", "tab": "stages", "bg": "#BDEBE4",
+      "anchor": { "x": 600, "y": 1500 }, "thumb": { "x": 0, "y": 450, "w": 1200, "h": 1200 },
+      "layers": [{ "z": "stage", "src": "art/placeholder/stage-underwater.svg", "x": 0, "y": 0, "w": 1200, "h": 1800 }]
+    }
+  ],
+  "themes": [
+    {
+      "id": "runway-swan", "name": "Swan Runway", "dress": "gown-swan-lake", "crown": "crown-silver-star",
+      "earrings": null, "necklace": "necklace-crystal-pendant", "wings": "cape-snow-fur-trim", "stage": "stage-ballroom",
+      "colourings": [{ "shade": 20, "pattern": "none", "wingShade": 20 }]
+    },
+    {
+      "id": "runway-rose", "name": "Rose Runway", "dress": "gown-rose-ball", "crown": "crown-silver-star",
+      "earrings": null, "necklace": "necklace-crystal-pendant", "wings": "wings-fairy-sparkle", "stage": "stage-ballroom",
+      "colourings": [{ "shade": 1, "pattern": "none", "wingShade": 5 }]
+    },
+    {
+      "id": "runway-ice", "name": "Crystal Runway", "dress": "gown-crystal-ice", "crown": "crown-silver-star",
+      "earrings": null, "necklace": "necklace-crystal-pendant", "wings": "cape-snow-fur-trim", "stage": "stage-ballroom",
+      "colourings": [{ "shade": 8, "pattern": "glitter", "wingShade": 20 }]
+    },
+    {
+      "id": "runway-fairy-petals", "name": "Fairy Petals", "dress": "rw-lavender-fairy", "crown": "crown-silver-star",
+      "earrings": null, "necklace": "necklace-crystal-pendant", "wings": "wings-fairy-sparkle", "stage": "stage-ballroom",
+      "colourings": [{ "shade": 5, "pattern": "flowers", "wingShade": 5 }]
+    },
+    {
+      "id": "runway-ruby-royal", "name": "Ruby Royal", "dress": "rw-ruby-royal", "crown": "crown-silver-star",
+      "earrings": null, "necklace": "necklace-crystal-pendant", "wings": "cape-snow-fur-trim", "stage": "stage-ballroom",
+      "colourings": [{ "shade": 20, "pattern": "glitter", "wingShade": 20 }]
+    },
+    {
+      "id": "runway-rainbow-party", "name": "Rainbow Party", "dress": "rw-rainbow-layered", "crown": "crown-silver-star",
+      "earrings": null, "necklace": "necklace-crystal-pendant", "wings": "wings-fairy-sparkle", "stage": "stage-ballroom",
+      "colourings": [{ "shade": 20, "pattern": "glitter", "wingShade": 8 }]
+    },
+    {
+      "id": "rw-rainy-day", "name": "Rainy Day Fun", "dress": "rw-yellow-raincoat", "crown": null,
+      "earrings": null, "necklace": null, "wings": null, "stage": "stage-ballroom",
+      "colourings": [{ "shade": 16, "pattern": "dots" }]
+    },
+    {
+      "id": "rw-cosy-bunny", "name": "Cosy Bunny", "dress": "rw-bunny-pyjamas", "crown": null,
+      "earrings": null, "necklace": null, "wings": null, "stage": "stage-ballroom",
+      "colourings": [{ "shade": 0, "pattern": "hearts" }]
+    },
+    {
+      "id": "rw-mermaid-magic", "name": "Mermaid Tail Magic", "dress": "rw-mermaid-tail", "crown": "crown-silver-star",
+      "earrings": null, "necklace": "necklace-crystal-pendant", "wings": "wings-fairy-sparkle", "stage": "stage-ballroom",
+      "colourings": [{ "shade": 9, "pattern": "glitter", "wingShade": 5 }]
+    },
+    {
+      "id": "rw-ice-angel", "name": "Ice Angel", "dress": "gown-crystal-ice", "crown": "tiara-ice-crystal",
+      "earrings": "earrings-crystal-blue", "necklace": "necklace-pearl-strand", "wings": "wings-angel-feather", "stage": "stage-concert",
+      "colourings": [{ "shade": 8, "pattern": "glitter", "wingShade": 20 }]
+    },
+    {
+      "id": "rw-garden-fairy", "name": "Garden Fairy", "dress": "rw-butterfly-garden", "crown": "flower-crown-garden",
+      "earrings": "earrings-flower-daisy", "necklace": "necklace-flower-garden", "wings": "wings-fairy-petal", "stage": "stage-garden",
+      "colourings": [{ "shade": 2, "pattern": "flowers", "wingShade": 5 }]
+    },
+    {
+      "id": "rw-rainbow-celebration", "name": "Rainbow Celebration", "dress": "rw-rainbow-layered", "crown": "party-hat-stars",
+      "earrings": "earrings-heart-pink", "necklace": "necklace-star-charm", "wings": "cape-rainbow", "stage": "stage-concert",
+      "colourings": [{ "shade": 20, "pattern": "stars", "wingShade": 8 }]
+    },
+    {
+      "id": "rw-sunny-garden", "name": "Sunny Garden", "dress": "rw-summer-sundress", "crown": "sun-hat-ribbon",
+      "earrings": "earrings-pearl-drop", "necklace": "necklace-heart-locket", "wings": null, "stage": "stage-garden",
+      "colourings": [{ "shade": 16, "pattern": "flowers" }]
+    }
+  ]
+}
