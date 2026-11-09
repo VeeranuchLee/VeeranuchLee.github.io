@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#b9aedc">
+  <meta name="description" content="Meet the computer crew and wake up the little machines, room by room.">
+  <title>Crew Rooms</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="icon" href="./assets/icons/icon-192.png">
+  <link rel="stylesheet" href="./cg-back.css" />
+  <script src="./cg-update.js" defer></script>
+</head>
+<body>
+  <!-- The way out (INTERACTION-DIRECTION.md, 2026-10-23): one shared back button on the first screen. -->
+  <a id="leave-app" class="cg-back" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+
+  <main class="app-shell">
+    <section id="menu" class="screen menu-screen" aria-labelledby="title">
+      <header class="hero">
+        <div>
+          <h1 id="title">Crew Rooms</h1>
+          <p>Meet the crew. Wake the machines.</p>
+        </div>
+        <span id="menu-art" class="menu-art"></span>
+      </header>
+      <div class="menu-actions">
+        <button id="play" class="primary-action" type="button"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg> Play</button>
+      </div>
+      <nav class="room-path-wrap" aria-label="Rooms">
+        <h2>Rooms</h2>
+        <div id="room-path" class="room-path"></div>
+      </nav>
+      <section class="sticker-book" aria-labelledby="stickers-title">
+        <h2 id="stickers-title">Stickers</h2>
+        <div id="sticker-row" class="sticker-row"></div>
+      </section>
+    </section>
+
+    <section id="card" class="screen card-screen" hidden aria-labelledby="card-name">
+      <header class="screen-header">
+        <span class="cg-back-slot" aria-hidden="true"></span>
+        <button id="card-home" class="cg-back" type="button" aria-label="Back to the menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </header>
+      <div class="card-box">
+        <div id="card-art" class="card-art"></div>
+        <h2 id="card-name"></h2>
+        <p id="card-line"></p>
+        <button id="card-go" class="primary-action" type="button">Go <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+    </section>
+
+    <section id="room" class="screen room-screen" hidden aria-labelledby="room-label">
+      <header class="screen-header">
+        <span class="cg-back-slot" aria-hidden="true"></span>
+        <button id="room-home" class="cg-back" type="button" aria-label="Back to the menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <h2 id="room-label"></h2>
+        <button id="show-card" class="chip" type="button"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 12a8 8 0 1 1-2.3-5.6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 4v5h-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg> Card</button>
+      </header>
+      <div class="machine">
+        <div id="machine-screen" class="machine-screen" aria-hidden="true"></div>
+        <div class="machine-body">
+          <div id="slots" class="slots" role="group" aria-label="Machine slots"></div>
+        </div>
+        <div class="machine-feet" aria-hidden="true"><i></i><i></i></div>
+      </div>
+      <div id="crew-strip" class="crew-strip" role="group" aria-label="The crew"></div>
+    </section>
+
+    <section id="party" class="screen party-screen" hidden aria-labelledby="party-line">
+      <div class="party-box">
+        <div id="party-art" class="party-art" aria-hidden="true"></div>
+        <div id="party-crew" class="party-crew"></div>
+        <div class="party-sticker">
+          <div id="party-sticker" class="sticker big"></div>
+          <p id="party-line"></p>
+        </div>
+        <div class="party-actions">
+          <button id="party-next" class="primary-action" type="button">Next room <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button id="party-menu" class="secondary-action" type="button">Menu</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Overlays live outside the screens so the word card can also open from the menu. -->
+  <div id="choice-wrap" class="choice-wrap" hidden>
+    <div class="choice-panel" role="dialog" aria-label="Pick a helper">
+      <div id="choice-job" class="choice-job" aria-hidden="true"></div>
+      <p id="choice-ask" class="choice-ask"></p>
+      <div id="choices" class="choices"></div>
+      <div id="hint-card" class="hint-card" hidden></div>
+    </div>
+  </div>
+
+  <div id="card-pop" class="pop-wrap" hidden>
+    <div class="card-pop" role="dialog" aria-labelledby="pop-name">
+      <div id="pop-art" class="pop-art"></div>
+      <h2 id="pop-name"></h2>
+      <p id="pop-line"></p>
+      <button id="pop-close" class="primary-action small" type="button"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg> Back</button>
+    </div>
+  </div>
+
+  <p id="live" class="sr-only" aria-live="polite"></p>
+  <script src="./tap-zoom-guard.js"></script>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
