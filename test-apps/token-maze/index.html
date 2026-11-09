@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#8fdcc2">
+  <meta name="description" content="Guide RAM, the cheerful mint memory stick, through the garden maze. Eat gold tokens so the crew can think.">
+  <title>Token Maze</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="icon" href="./assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./assets/icons/icon-192.png">
+  <link rel="stylesheet" href="./cg-back.css">
+  <script src="./cg-update.js" defer></script>
+</head>
+<body>
+  <!-- The way out (INTERACTION-DIRECTION.md, 2026-10-23): the shared back button on the first screen. -->
+  <a id="leave-app" class="cg-back" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+
+  <main class="app-shell">
+    <!-- ===================== MENU (first screen) ===================== -->
+    <section id="menu" class="screen menu-screen" aria-labelledby="title">
+      <header class="menu-header">
+        <h1 id="title">Token Maze</h1>
+        <p class="menu-sub">Eat the gold tokens. Help the crew think.</p>
+      </header>
+
+      <div class="crew-strip" aria-hidden="true">
+        <canvas id="crew-ram" width="132" height="108"></canvas>
+        <canvas id="crew-bug" width="132" height="108"></canvas>
+        <canvas id="crew-gpu" width="132" height="108"></canvas>
+      </div>
+
+      <div class="menu-actions">
+        <button id="play" class="primary-action" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg>
+          <span>Play</span>
+        </button>
+      </div>
+
+      <div class="sticker-panel">
+        <h2 class="sticker-title"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2.8l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 16.9 6.6 19.7l1-6.1L3.2 9.3l6.1-.9z" fill="currentColor"/></svg> Stickers</h2>
+        <div id="sticker-strip" class="sticker-strip" role="group" aria-label="Stickers earned"></div>
+      </div>
+
+      <p id="menu-saved" class="menu-saved"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><ellipse cx="12" cy="13" rx="7.4" ry="5.2" fill="currentColor"/></svg><span id="menu-saved-count">0 tokens saved</span></p>
+      <p id="live-menu" class="sr-only" aria-live="polite"></p>
+    </section>
+
+    <!-- ===================== GAME ===================== -->
+    <section id="game" class="screen game-screen" hidden aria-labelledby="level-pill">
+      <span class="cg-back-slot" aria-hidden="true"></span>
+      <button id="home" class="cg-back" type="button" aria-label="Back to the menu" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+
+      <div class="game-top">
+        <header class="game-header">
+          <div class="pill" id="level-pill">Level 1</div>
+          <div class="pill token-pill">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><ellipse cx="12" cy="13" rx="7.4" ry="5.2" fill="currentColor"/></svg>
+            <span id="token-count">0</span>
+          </div>
+          <button id="sound" class="sound-button" type="button" aria-label="Sound on" aria-pressed="true">
+            <svg id="sound-on-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9.5v5h3.2l4.3 3.8V5.7L7.2 9.5H4z" fill="currentColor"/><path d="M15.2 9a4.2 4.2 0 0 1 0 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M17.6 6.6a7.6 7.6 0 0 1 0 10.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <svg id="sound-off-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" hidden><path d="M4 9.5v5h3.2l4.3 3.8V5.7L7.2 9.5H4z" fill="currentColor"/><path d="M15 9.5l6 5m0-5l-6 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+          </button>
+        </header>
+        <p id="word-banner" class="word-banner" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2c.7 6.2 3.8 9.3 10 10-6.2.7-9.3 3.8-10 10-.7-6.2-3.8-9.3-10-10 6.2-.7 9.3-3.8 10-10z" fill="currentColor"/></svg>
+          <span id="word-banner-text"></span>
+        </p>
+      </div>
+
+      <div class="board-area">
+        <canvas id="board" class="board"></canvas>
+      </div>
+
+      <aside class="rail" aria-label="The crew">
+        <div class="crew-panel">
+          <canvas id="cpu-panel" width="132" height="116"></canvas>
+          <span class="crew-word">CPU</span>
+        </div>
+        <div class="crew-panel">
+          <canvas id="storage-panel" width="132" height="150"></canvas>
+          <span class="crew-word">Storage</span>
+        </div>
+      </aside>
+
+      <div id="pad" class="arrow-pad" role="group" aria-label="Move RAM the memory stick">
+        <button class="arrow" data-dir="up" type="button" aria-label="Up"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 15l7-7 7 7" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="arrow" data-dir="left" type="button" aria-label="Left"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="arrow" data-dir="down" type="button" aria-label="Down"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="arrow" data-dir="right" type="button" aria-label="Right"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+
+      <div id="level-done" class="level-done" hidden>
+        <div class="level-done-card">
+          <h2>Level done!</h2>
+          <canvas id="sticker-art" width="200" height="200"></canvas>
+          <p id="sticker-word" class="sticker-word"></p>
+          <div class="level-done-actions">
+            <button id="next-level" class="primary-action" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg>
+              <span id="next-level-label">Next level</span>
+            </button>
+            <button id="to-menu" class="secondary-action" type="button">Stickers</button>
+          </div>
+        </div>
+      </div>
+
+      <p id="live" class="sr-only" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <script src="./tap-zoom-guard.js"></script>
+  <script src="./js/token-maze-core.js"></script>
+  <script src="./js/token-maze-audio.js"></script>
+  <script src="./js/token-maze-app.js"></script>
+</body>
+</html>
