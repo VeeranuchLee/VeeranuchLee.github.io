@@ -348,16 +348,36 @@
       var heading = document.createElement("h2");
       heading.className = "page-gallery-heading";
       heading.textContent = section.heading;
+      if (section.group === "write") heading.classList.add("cw-write-item");
       fragment.appendChild(heading);
       pages.forEach(function (page) {
-        fragment.appendChild(buildPilotCard(page));
+        var card = buildPilotCard(page);
+        if (section.group === "write") card.classList.add("cw-write-item");
+        fragment.appendChild(card);
       });
     });
     gallery.appendChild(fragment);
   }
 
+  /* Color & Write has its own menu card (owner 2026-11-09: "make it separate
+     card, not hiding in the bottom of the coloring pages"). It reuses the
+     coloring gallery screen in a write-only view: styles.css hides every
+     other card while .is-write-view is on, and hides the word pages from the
+     ordinary Coloring gallery while it is off. The view survives a word page's
+     back arrow (goHome -> showColoringGallery), so the child returns to the
+     word pages, and the Coloring card clears it (app.js). */
+  function openColorWriteGallery() {
+    var screen = document.getElementById("galleryScreen");
+    var gallery = document.getElementById("pageGallery");
+    if (!screen || typeof showColoringGallery !== "function") return;
+    screen.classList.add("is-write-view");
+    if (gallery) gallery.scrollTop = 0;
+    showColoringGallery();
+  }
+
   window.openColorWrite = openColorWrite;
   window.closeColorWrite = closeColorWrite;
+  window.openColorWriteGallery = openColorWriteGallery;
 
   buildPilotGallery();
 })();

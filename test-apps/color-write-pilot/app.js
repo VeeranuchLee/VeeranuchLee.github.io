@@ -1373,7 +1373,15 @@ eraserButton.addEventListener("click", () => {
 document.querySelector("#galleryBackButton").addEventListener("click", showModeMenu);
 document.querySelector("#modeColoring").addEventListener("click", () => {
   stopMenuMusic();
+  // The same gallery screen also serves Color & Write (color-write.js), so
+  // the Coloring card always clears that view first.
+  galleryScreen.classList.remove("is-write-view");
+  pageGallery.scrollTop = 0;
   showColoringGallery();
+});
+document.querySelector("#modeWrite").addEventListener("click", () => {
+  stopMenuMusic();
+  if (typeof window.openColorWriteGallery === "function") window.openColorWriteGallery();
 });
 document.querySelector("#modePixel").addEventListener("click", () => {
   // pixel-mode.js owns the pixel screens and the renderer that drew this
