@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Bookshelf</title>
+<link rel="stylesheet" href="./shelf/shelf.css">
+<script src="./shelf/tap-zoom-guard.js"></script>
+  <link rel="stylesheet" href="./cg-back.css" />
+    <script src="./cg-update.js" defer></script>
+</head>
+<body>
+<div class="wall" aria-hidden="true"></div>
+<header class="top">
+  <a id="back" class="cg-back" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  <h1 class="title" id="shelf-title">Bookshelf</h1>
+  <p class="shelf-count" id="shelf-count" hidden></p>
+</header>
+<main class="shelves" id="shelves" aria-label="Books"></main>
+<p class="load-error" id="load-error" hidden>The bookshelf could not be opened.</p>
+<script src="./shelf/shelf.js"></script>
+<script>
+// Offline worker, published copy only: a Test Hub copy has it stripped (testhub-service-worker.py).
+if ('serviceWorker' in navigator && location.protocol.indexOf('http') === 0) {
+  addEventListener('load', function () { Promise.resolve() /* Test Hub staging: no service worker */; });
+}
+</script>
+</body>
+</html>
