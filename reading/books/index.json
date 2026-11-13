@@ -16,6 +16,10 @@
     {
       "type": "set",
       "id": "computers"
+    },
+    {
+      "type": "book",
+      "id": "what-if-it-rained-money"
     }
   ],
   "sets": [
@@ -30,7 +34,9 @@
         "jupiter-great-red-spot",
         "stars",
         "stars-life-cycle",
-        "comets"
+        "comets",
+        "milky-way",
+        "roman-gods"
       ],
       "sections": [
         {
@@ -58,6 +64,18 @@
           "title": "Comets",
           "books": [
             "comets"
+          ]
+        },
+        {
+          "title": "Deep Space",
+          "books": [
+            "milky-way"
+          ]
+        },
+        {
+          "title": "Names & Stories",
+          "books": [
+            "roman-gods"
           ]
         }
       ]
@@ -152,7 +170,19 @@
     },
     {
       "id": "comets",
-      "title": "All About Comets"
+      "title": "All About Comets",
+      "next": "milky-way"
+    },
+    {
+      "id": "milky-way",
+      "title": "Our Galaxy: The Milky Way",
+      "next": "roman-gods",
+      "draft": true
+    },
+    {
+      "id": "roman-gods",
+      "title": "Meet the Roman Gods",
+      "draft": true
     },
     {
       "id": "mars",
@@ -220,6 +250,10 @@
     {
       "id": "when-water-goes-away",
       "title": "When the Water Goes Away"
+    },
+    {
+      "id": "what-if-it-rained-money",
+      "title": "What If It Rained Money?"
     }
   ]
 }

@@ -1,3 +1,5 @@
+/* The hidden attribute must win over any display rule (2026-11-06: an "invisible" tray covered Ice Cream Trader). */
+[hidden]{display:none!important}
 /* Reading Tree reader. Portrait 9.7" iPad first (768 x 1024), fine at 1024 x 768.
    Spec section 14: illustration ~65-70% of the height, reading area ~30-35%.
    Fonts are self-hosted copies of the repository's Nunito + Fredoka One (SIL OFL 1.1). */
@@ -427,7 +429,7 @@ button { font: inherit; }
 }
 .nav:active { box-shadow: 0 1px 0 #d9ccb0; background: #fdf6e6; }
 .nav svg { width: 40px; height: 40px; fill: none; stroke: var(--accent); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
-.nav[hidden] { display: grid; visibility: hidden; }
+.nav[hidden] { display: grid !important; visibility: hidden; }
 .nav .icon-again { display: none; }
 .nav.again .icon-next { display: none; }
 .nav.again .icon-again { display: block; }
