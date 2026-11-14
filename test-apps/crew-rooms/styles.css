@@ -21,9 +21,10 @@ h1,h2,p{margin:0}
 .screen{width:min(100%,780px);margin:auto;display:grid;gap:16px;align-content:center;min-height:100%}
 .screen-header{display:flex;align-items:center;gap:14px;min-height:64px}
 
-/* Crew art wrapper: the shared webp when it loads, the drawn blob when it does not. */
-.crew-art{display:inline-grid;place-items:center;width:100%;height:100%}
-.crew-art img,.crew-art svg{width:100%;height:100%;object-fit:contain}
+/* Crew art wrapper: the shared webp when it loads, the drawn blob when it does not.
+   One 1fr track gives the art a definite box, so a tall picture stays inside it. */
+.crew-art{display:inline-grid;place-items:center;width:100%;height:100%;grid-template:minmax(0,1fr)/minmax(0,1fr)}
+.crew-art img,.crew-art svg{width:100%;height:100%;object-fit:contain;min-width:0;min-height:0;max-width:100%;max-height:100%}
 
 /* Menu */
 .hero{display:flex;align-items:center;justify-content:center;gap:22px;text-align:center;padding-top:56px}

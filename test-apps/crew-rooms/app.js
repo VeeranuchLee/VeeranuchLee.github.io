@@ -365,4 +365,4 @@ $("#choice-wrap").addEventListener("click", (event) => { if (event.target.id ===
 document.addEventListener("pointerdown", () => { audio.unlock(); }, { passive: true });
 
 renderMenu();
-if ("serviceWorker" in navigator) window.addEventListener("load", () => Promise.resolve() /* Test Hub staging: no service worker */.catch(() => {}));
+if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js").catch(() => {}));
