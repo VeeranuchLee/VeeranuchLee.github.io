@@ -93,18 +93,5 @@ h1{margin:0;font-size:clamp(31px,5.2vw,48px);line-height:1.05;letter-spacing:.01
      see tools/room-page.py. -->
 <script src="./tap-zoom-guard.js"></script>
 
-<script>
-/* Register the worker from the front door only. Its scope is the directory this
-   file sits in -- /animal-book/ once published -- so it covers the rooms below
-   without the generated room pages having to carry a copy of this script.
-
-   Guarded and with the rejection swallowed on purpose: a file:// preview and a
-   browser with service workers switched off must still open the book. */
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    Promise.resolve() /* Test Hub staging: no service worker */.catch(() => undefined);
-  });
-}
-</script>
-  </body>
+</body>
 </html>
