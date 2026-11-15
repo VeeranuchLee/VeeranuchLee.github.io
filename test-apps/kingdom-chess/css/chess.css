@@ -4,23 +4,32 @@
 .game{height:100vh;height:100dvh;display:grid;grid-template-rows:auto 1fr;padding:8px 12px;overflow:hidden}.topbar{display:flex;align-items:center;gap:8px;min-height:68px}.turn-banner{flex:1;min-width:0;border-radius:18px;padding:10px 16px;background:var(--banner,#fff);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.icon-button{width:64px;height:64px;flex:none;border:0;border-radius:18px;background:white;box-shadow:0 3px 0 #ddcaaa;font-size:25px}.game-layout{min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:12px;align-items:center}.board-area{min-width:0;min-height:0;height:100%;display:grid;place-items:center}.board{width:calc(var(--sq)*8 + 16px);height:calc(var(--sq)*8 + 16px);padding:8px;display:grid;grid-template-columns:repeat(8,1fr);touch-action:pinch-zoom;border:0;border-radius:18px;overflow:hidden;background-color:#74533f;background-image:var(--board-art,none);background-size:cover;background-position:center;box-shadow:0 8px 0 #ba9470,0 14px 28px rgba(70,45,30,.2);transform:rotate(var(--board-rotation,0deg))}.square{position:relative;width:var(--sq);height:var(--sq);display:grid;place-items:center;border:0;padding:0;font-size:calc(var(--sq)*.74);line-height:1}.square.light{background:var(--board-light,#f5e6c8)}.square.dark{background:var(--board-dark,#a77a55)}.square.selected{box-shadow:inset 0 0 0 6px var(--gold)}.square.last{box-shadow:inset 0 0 0 999px rgba(255,232,93,.32)}.square.target::after{content:"";position:absolute;width:24%;aspect-ratio:1;border-radius:50%;background:rgba(44,73,54,.55)}.square.capture::after{width:76%;background:transparent;border:7px solid rgba(173,53,53,.58)}.square.hint{animation:hint 1s infinite alternate}.square.check{animation:check 1s infinite alternate}.piece{position:relative;z-index:2;width:100%;height:100%;display:grid;place-items:center;transform:rotate(calc(-1*var(--board-rotation,0deg)));filter:drop-shadow(0 3px 1px rgba(0,0,0,.28))}.piece-image{position:absolute;left:50%;bottom:0;width:auto;max-width:none;transform:translateX(-50%)}.piece-glyph{width:86%;height:86%;display:grid;place-items:center;border-radius:50%;font-family:"Arial Unicode MS","Segoe UI Symbol",serif}.piece.dawn .piece-glyph{background:radial-gradient(circle at 40% 28%,#fff,#f6d5e5);color:#5f3d70}.piece.dusk .piece-glyph{background:radial-gradient(circle at 40% 28%,#837aa8,#302d4c);color:#fff}.coord{position:absolute;font-size:10px;opacity:.65;z-index:3}.coord.file{right:3px;bottom:1px}.coord.rank{left:3px;top:1px}@keyframes hint{to{box-shadow:inset 0 0 0 8px #78d6ff}}@keyframes check{to{box-shadow:inset 0 0 20px 12px #ff6157}}
 .side{min-height:0;max-height:calc(100dvh - 84px);display:flex;flex-direction:column;gap:8px}.tutorial-panel{background:transparent}.tutorial-panel[hidden]{display:none}.tutorial-panel .lesson-card{width:100%;max-height:44vh;padding:16px;border-radius:22px;text-align:left;display:flex;align-items:center;gap:10px}.tutorial-panel .lesson-copy{min-width:0;flex:1}.guide-expression{width:82px;max-height:142px;object-fit:contain;flex:none}.tutorial-panel .lesson-card h2{margin:0;font-size:27px}.tutorial-panel .lesson-card p{margin:8px 0}.tutorial-panel .close{float:right}.lesson-actions{display:flex;gap:8px;flex-wrap:wrap}.lesson-actions button{flex:1;padding:0 10px}.tray,.moves{background:rgba(255,255,255,.8);border-radius:18px;padding:9px}.tray{min-height:54px;font-size:18px}.moves{flex:1;min-height:80px;overflow:auto;overscroll-behavior:contain}.moves ol{margin:0;padding-left:34px;columns:2;font-size:14px}.controls{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.controls button{min-height:64px;border:0;border-radius:16px;background:white}.thinking{opacity:.65}
 .modal{position:fixed;inset:0;z-index:20;background:rgba(50,37,48,.6);display:grid;place-items:center;padding:20px}.modal[hidden]{display:none}.dialog,.lesson-card,.book{width:min(560px,100%);max-height:90vh;overflow:auto;background:var(--card);border-radius:30px;padding:24px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.3)}.promotion-options{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.promotion-options button{min-height:74px;border:0;border-radius:18px;background:#f3e8d8;font-size:40px}.close,.book-top button{float:right;width:64px;height:64px;border:0;border-radius:50%;background:#eee;font-size:30px}.eyebrow{color:#8b6c9b}.lesson-card h2,.book h2{font-size:32px}.lesson-hint{padding:12px;border-radius:16px;background:#fff4bf}.book{height:min(760px,92vh);width:min(680px,100%);display:flex;flex-direction:column;text-align:left;overflow:hidden;background:linear-gradient(90deg,#f5e9cf,#fffdf8 8%,#fffdf8 92%,#eadbbd)}.book-top{display:flex;justify-content:space-between;align-items:center;flex:none}.book article{flex:1;padding:10px 24px;overflow:auto;font-size:18px;line-height:1.38}.book article h2{margin:0 0 12px;text-align:center}.book article p{margin:0 0 12px}.book-nav{display:flex;justify-content:space-between;flex:none}.book-nav button{width:76px;height:64px;border:0;border-radius:18px;background:var(--gold);font-size:38px}.book.cover article{text-align:center;font-size:22px}.book-illustration{width:100%;margin:0 0 16px;border:5px solid #ead7b4;border-radius:24px;overflow:hidden;background:#f8edda;aspect-ratio:4/3}.book-illustration img{width:100%;height:100%;object-fit:contain}.book-art-fallback{width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:12px}.book-art-fallback span{font-size:72px}.book-art-fallback small{font-size:14px}.book-piece{height:210px;display:grid;place-items:end center;margin-bottom:10px;border:4px solid #ead7b4;border-radius:22px;background:linear-gradient(#fbf4e8,#eadfc8)}.book-piece>*{grid-area:1/1}.book-piece img{max-height:95%;max-width:80%;object-fit:contain}.book-piece span{align-self:center;font-size:80px}.result-title{font-size:36px}.result-actions{display:flex;justify-content:center;gap:8px}
-@media(orientation:portrait){:root{--sq:min(11.5vw,7.55vh,86px)}.game-layout{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto}.side{max-height:none;display:grid;grid-template-columns:1fr 1fr;grid-template-areas:"tutorial tutorial" "tray moves" "controls controls"}.tutorial-panel{grid-area:tutorial}.tutorial-panel .lesson-card{max-height:190px}.tray{grid-area:tray}.moves{grid-area:moves;max-height:104px}.controls{grid-area:controls;grid-template-columns:repeat(4,1fr)}.setup-grid{grid-template-columns:1fr}.kingdom-options{grid-template-columns:repeat(5,1fr)}}
-@media(max-width:760px){.screen{padding:8px}.kingdom small{display:none}.kingdom{min-height:72px}.picker-art{height:56px}.topbar{min-height:64px}.controls button{padding:2px;font-size:14px}.side{gap:5px}.book{padding:14px}.book article{padding:8px;font-size:16px}.book-illustration{margin-bottom:12px}.tutorial-callout img{width:48px;height:58px}.setup-actions{gap:6px}.setup-actions .soft,.setup-actions .primary{padding:0 12px}}
+@media(orientation:portrait){:root{--sq:min(11.5vw,7.55vh,86px)}.game-layout{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto}.side{max-height:none;display:grid;grid-template-columns:1fr 1fr;grid-template-areas:"tutorial tutorial" "tray moves" "controls controls"}.tutorial-panel{grid-area:tutorial}.tutorial-panel .lesson-card{max-height:168px}.tray{grid-area:tray;max-height:92px;overflow:hidden}.moves{grid-area:moves;max-height:92px}.controls{grid-area:controls;grid-template-columns:repeat(6,1fr)}.side{position:relative;z-index:1}.setup-grid{grid-template-columns:1fr}.kingdom-options{grid-template-columns:repeat(5,1fr)}}
+@media(max-width:760px){.screen{padding:8px}.kingdom small{display:none}.kingdom{min-height:72px}.picker-art{height:56px}.topbar{min-height:64px}.controls{grid-template-columns:repeat(4,1fr)}.controls button{padding:2px;font-size:14px}.side{gap:5px}.book{padding:14px}.book article{padding:8px;font-size:16px}.book-illustration{margin-bottom:12px}.tutorial-callout img{width:48px;height:58px}.setup-actions{gap:6px}.setup-actions .soft,.setup-actions .primary{padding:0 12px}}
 .piece-image{transform:none}
 @media(prefers-reduced-motion:reduce){*,*::after{animation:none!important;transition:none!important}}
 .square{overflow:hidden}
 
-/* Runtime board art uses an exact 149..1105 grid inside its 1254px master. */
+/* Runtime board art uses an exact 149..1105 grid inside its 1254px master.
+   The masters also carry a plain white outer margin (~20px per side, wider at the corners)
+   that showed as a white rectangle behind the frame, so the art is oversized to crop 32px
+   per side: the visible window is master 32..1222 (1190px) and the geometry below keeps the
+   painted 149..1105 grid exactly on the square buttons. */
 .board{position:relative;background-image:none}
-.board.art-ready{width:calc(var(--sq)*10.4937);height:calc(var(--sq)*10.4937);padding:calc(var(--sq)*1.2469);border-radius:0;background:transparent;box-shadow:none}
+.board.art-ready{width:calc(var(--sq)*9.9582);height:calc(var(--sq)*9.9582);padding:calc(var(--sq)*0.9791);border-radius:0;background:transparent;box-shadow:none}
 .board-art{display:none}
-.board.art-ready>.board-art{display:block;position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.board.art-ready>.board-art{display:block;position:absolute;left:-2.69%;top:-2.69%;width:105.38%;height:105.38%;z-index:0}
 .board .square{z-index:1}
 .board.art-ready .square{background:transparent}
 .piece-glyph[hidden],.piece.has-art .piece-glyph{display:none!important}
 
-@media(orientation:landscape){:root{--sq:min(8.9vw,8.05vh,65px)}}
-@media(orientation:portrait){:root{--sq:min(8.45vw,6.7vh,69px)}}
+/* 8.49vh puts the art-ready board back at 649px on 1024x768 and 583px on 1024x690
+   (9.9582*sq), with vw and the 66px cap never binding at those widths. */
+@media(orientation:landscape){:root{--sq:min(8.9vw,8.49vh,66px)}}
+/* Portrait budget at 768x1024: 16px game padding + 68px topbar + 12px gap + at most 340px of
+   coach card, tray/moves and one 64px control row leaves 588px for the board, so 5.67vh
+   (capped 58px) keeps the 9.9582*sq board >=560px and inside its container. */
+@media(orientation:portrait){:root{--sq:min(8.45vw,5.67vh,58px)}}
 
 /* Drawn controls, four menu actions, guided-game feedback, and captured-piece tray. */
 .setup-actions{justify-content:center;flex-wrap:wrap}.setup-actions>button,.tutorial-callout button{display:inline-flex;align-items:center;justify-content:center;gap:7px}
@@ -28,3 +37,31 @@
 .tray{display:flex;align-items:center;gap:5px;flex-wrap:wrap}.tray-empty{opacity:.75}.captured-piece{width:30px;height:30px;display:inline-grid;place-items:center;border-radius:50%;color:#5f3d70;background:#f6d5e5}.captured-piece.dusk{color:#fff;background:#4a456e}.captured-piece .ci{width:21px;height:21px}
 .controls button{display:inline-flex;align-items:center;justify-content:center;gap:6px}
 .ci{width:1.25em;height:1.25em;flex:none;vertical-align:-.22em;pointer-events:none}.icon-button .ci{width:30px;height:30px;vertical-align:middle}.setup h1 .ci{width:.85em;height:.85em}.panel h2 .ci{vertical-align:-.2em}.piece-glyph .ci{width:70%;height:70%;vertical-align:middle}.promotion-options button .ci{width:44px;height:44px}.book-nav .ci,.close .ci,.book-top .ci{width:30px;height:30px;vertical-align:middle}.book-art-fallback span .ci{width:72px;height:72px}
+
+/* A wrong tap in a coached game always answers: the tapped square flashes coral and shakes. */
+@keyframes missed{0%,100%{box-shadow:inset 0 0 0 6px var(--coral);transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.square.missed{animation:missed .45s ease}
+
+/* Landscape side panel must fit short iPad viewports (1024x690) at every coached step.
+   The coach card is a fixed-height box (min(318px,44vh)) so it never grows or shrinks with
+   the text: 20px card padding + 38px clear of the corner close button leaves 245px of text,
+   which holds the longest guided step (eyebrow 20 + 4 goal lines at 22px = 110 + a 3-4 line
+   why/hint at 16px = 80-100 + margins) with the copy scrolling only as a safety valve.
+   The column itself is pinned to the layout row (100dvh - 84px = viewport - 16px game
+   padding - 68px topbar) and only the move list flexes, so Book and Learn (60px, last
+   controls row) end flush at the panel bottom: 682px on 690, 760px on 768. */
+@media(orientation:landscape){
+  .side{height:calc(100dvh - 84px);gap:6px}
+  .tutorial-panel{flex:none}
+  .tutorial-panel .lesson-card{position:relative;height:min(318px,44vh);max-height:none;padding:10px;gap:6px;align-items:stretch}
+  .guide-expression{width:64px;max-height:130px;align-self:center}
+  .tutorial-panel .close{position:absolute;top:6px;right:6px;float:none;width:40px;height:40px;font-size:22px}
+  .tutorial-panel .close .ci{width:22px;height:22px}
+  .tutorial-panel .lesson-copy{min-height:0;padding:38px 0 0;overflow:auto;overflow-x:hidden}
+  .tutorial-panel .lesson-card h2{font-size:22px}
+  .tutorial-panel .lesson-copy p{font-size:16px;margin:6px 0}
+  .tray{flex:none;min-height:44px}
+  .moves{flex:1;min-height:32px}
+  .controls{flex:none;gap:6px}
+  .controls button{min-height:60px}
+}
