@@ -570,7 +570,7 @@ function boot() {
   wire();
   if ("ResizeObserver" in window) new ResizeObserver(updateGeometry).observe(boardZone);
   else window.addEventListener("resize", updateGeometry, { passive: true });
-  if ("serviceWorker" in navigator) window.addEventListener("load", () => Promise.resolve() /* Test Hub staging: no service worker */.catch(() => {}));
+  if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js").catch(() => {}));
 }
 
 boot();

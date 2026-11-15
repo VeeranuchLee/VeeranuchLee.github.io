@@ -1,12 +1,13 @@
 // The crew loads from assets/crew/<id>.webp (plus <id>-happy.webp in the party
-// overlay). If the art is missing, the code draws the placeholder itself: the
-// personified object in the character's colour, two simple eyes, and the one
-// tell. No text inside art.
+// overlay — only for members flagged happy: true below, since token and bug
+// ship no happy pose). If the art is missing, the code draws the placeholder
+// itself: the personified object in the character's colour, two simple eyes,
+// and the one tell. No text inside art.
 export const CREW = Object.freeze({
-  ram: { colour: "#8FDCC2", accent: "#F2C14E", tell: "gold contacts" },
-  storage: { colour: "#C7B5EE", accent: "#E9E1F8", tell: "drawers" },
-  cpu: { colour: "#5CC3C0", warm: "#F5927A", tell: "core lights" },
-  gpu: { colour: "#E06AB8", accent: "#F2C14E", tell: "paint dots" },
+  ram: { colour: "#8FDCC2", accent: "#F2C14E", tell: "gold contacts", happy: true },
+  storage: { colour: "#C7B5EE", accent: "#E9E1F8", tell: "drawers", happy: true },
+  cpu: { colour: "#5CC3C0", warm: "#F5927A", tell: "core lights", happy: true },
+  gpu: { colour: "#E06AB8", accent: "#F2C14E", tell: "paint dots", happy: true },
   token: { colour: "#F6CB57", tell: "bean" },
   bug: { colour: "#9C86C9", tell: "wire tangle" }
 });
@@ -58,13 +59,15 @@ export function crewSlot(id, { cls = "", alt = "", happy = false } = {}) {
   } else slot.setAttribute("aria-hidden", "true");
   const img = document.createElement("img");
   const calm = `./assets/crew/${id}.webp`;
-  let src = happy ? `./assets/crew/${id}-happy.webp` : calm;
+  // Ask for the happy pose only when the data says one exists, so a celebration
+  // never fires a request that 404s (token and bug have no -happy art).
+  let src = happy && CREW[id]?.happy ? `./assets/crew/${id}-happy.webp` : calm;
   img.src = src;
   img.alt = "";
   img.draggable = false;
   img.decoding = "async";
   img.addEventListener("error", () => {
-    if (src !== calm) { src = calm; img.src = calm; return; } // no happy pose yet — the calm art will do
+    if (src !== calm) { src = calm; img.src = calm; return; } // safety net — the calm art will do
     slot.innerHTML = crewPlaceholderSVG(id);
   });
   slot.append(img);
