@@ -1,17 +1,564 @@
 {
   "image": "art/main-room.webp",
-  "imageSize": { "width": 2048, "height": 1536 },
+  "imageSize": {
+    "width": 2048,
+    "height": 1536
+  },
   "landmarks": [
-    { "id": "microscope-plant-cell", "label": "Plant Cell", "active": true, "route": "topic.html?t=plant-cell", "polygon": [[640,820],[760,735],[920,770],[1040,930],[940,1080],[760,1050],[620,950]], "labelAt": [760,760], "glint": [820,850] },
-    { "id": "microscope-animal-cell", "label": "Animal Cell", "active": true, "route": "topic.html?t=animal-cell", "polygon": [[620,950],[940,930],[1170,1170],[1130,1400],[780,1450],[620,1300]], "labelAt": [965,1415], "glint": [930,1130] },
-    { "id": "root-window", "label": "Parts of a Plant", "active": true, "route": "topic.html?t=plant-parts", "polygon": [[105,880],[260,800],[430,860],[515,1110],[470,1390],[115,1410],[60,1190]], "labelAt": [250,790], "glint": [300,930] },
-    { "id": "skeleton", "label": "Skeleton", "active": true, "route": "topic.html?t=skeleton", "polygon": [[300,180],[505,180],[575,710],[520,850],[305,845],[265,650]], "labelAt": [390,145], "glint": [410,350] },
-    { "id": "body-poster", "label": "Inside the Body", "active": true, "route": "topic.html?t=inside-the-body", "polygon": [[600,80],[930,80],[940,500],[605,505]], "labelAt": [770,55], "glint": [765,260] },
-    { "id": "fish-tank", "label": "Parts of a Fish", "active": true, "route": "topic.html?t=fish", "polygon": [[690,500],[1150,500],[1165,755],[685,755]], "labelAt": [920,475], "glint": [910,610] },
-    { "id": "butterfly-case-life-cycle", "label": "Butterfly Life Cycle", "active": true, "route": "topic.html?t=butterfly-life-cycle", "polygon": [[1105,115],[1345,115],[1345,430],[1105,430]], "labelAt": [1195,85], "glint": [1200,220] },
-    { "id": "butterfly-case-insect", "label": "Parts of an Insect", "active": true, "route": "topic.html?t=insect", "polygon": [[1345,115],[1580,115],[1590,430],[1345,430]], "labelAt": [1490,85], "glint": [1450,250] },
-    { "id": "flower-vase", "label": "Parts of a Flower", "active": true, "route": "topic.html?t=flower", "polygon": [[1260,785],[1450,750],[1645,840],[1720,1080],[1660,1415],[1350,1435],[1220,1190]], "labelAt": [1525,1450], "glint": [1500,920] },
-    { "id": "window-bird", "label": "Parts of a Bird", "active": true, "route": "topic.html?t=bird", "polygon": [[1770,0],[2048,0],[2048,660],[1810,650],[1740,470]], "labelAt": [1860,680], "glint": [1900,300] },
-    { "id": "terrarium", "label": "Habitats", "active": false, "polygon": [[1260,455],[1600,430],[1690,570],[1660,760],[1265,760],[1190,590]], "labelAt": [1435,415] }
+    {
+      "id": "plant-cell-model",
+      "label": "Plant Cell",
+      "active": true,
+      "route": "topic.html?t=plant-cell",
+      "polygon": [
+        [
+          580,
+          628
+        ],
+        [
+          650,
+          606
+        ],
+        [
+          768,
+          626
+        ],
+        [
+          786,
+          700
+        ],
+        [
+          770,
+          800
+        ],
+        [
+          742,
+          852
+        ],
+        [
+          640,
+          852
+        ],
+        [
+          590,
+          812
+        ],
+        [
+          574,
+          720
+        ]
+      ],
+      "labelAt": [
+        672,
+        878
+      ],
+      "glint": [
+        680,
+        720
+      ]
+    },
+    {
+      "id": "microscope-animal-cell",
+      "label": "Animal Cell",
+      "active": true,
+      "route": "topic.html?t=animal-cell",
+      "polygon": [
+        [
+          930,
+          798
+        ],
+        [
+          1012,
+          816
+        ],
+        [
+          1012,
+          882
+        ],
+        [
+          1062,
+          1000
+        ],
+        [
+          1112,
+          1180
+        ],
+        [
+          1162,
+          1330
+        ],
+        [
+          1152,
+          1402
+        ],
+        [
+          660,
+          1412
+        ],
+        [
+          650,
+          1330
+        ],
+        [
+          700,
+          1180
+        ],
+        [
+          770,
+          1000
+        ],
+        [
+          880,
+          860
+        ]
+      ],
+      "labelAt": [
+        905,
+        1434
+      ],
+      "glint": [
+        900,
+        1100
+      ]
+    },
+    {
+      "id": "root-window",
+      "label": "Parts of a Plant",
+      "active": true,
+      "route": "topic.html?t=plant-parts",
+      "polygon": [
+        [
+          160,
+          902
+        ],
+        [
+          300,
+          820
+        ],
+        [
+          442,
+          880
+        ],
+        [
+          496,
+          1040
+        ],
+        [
+          472,
+          1100
+        ],
+        [
+          466,
+          1332
+        ],
+        [
+          440,
+          1378
+        ],
+        [
+          210,
+          1378
+        ],
+        [
+          190,
+          1332
+        ],
+        [
+          184,
+          1100
+        ]
+      ],
+      "labelAt": [
+        325,
+        1404
+      ],
+      "glint": [
+        320,
+        1000
+      ]
+    },
+    {
+      "id": "skeleton",
+      "label": "Skeleton",
+      "active": true,
+      "route": "topic.html?t=skeleton",
+      "polygon": [
+        [
+          455,
+          200
+        ],
+        [
+          505,
+          225
+        ],
+        [
+          522,
+          330
+        ],
+        [
+          572,
+          470
+        ],
+        [
+          578,
+          600
+        ],
+        [
+          548,
+          645
+        ],
+        [
+          542,
+          780
+        ],
+        [
+          592,
+          830
+        ],
+        [
+          588,
+          900
+        ],
+        [
+          378,
+          900
+        ],
+        [
+          374,
+          832
+        ],
+        [
+          430,
+          790
+        ],
+        [
+          420,
+          645
+        ],
+        [
+          348,
+          600
+        ],
+        [
+          358,
+          460
+        ],
+        [
+          400,
+          340
+        ],
+        [
+          408,
+          228
+        ]
+      ],
+      "labelAt": [
+        480,
+        925
+      ],
+      "glint": [
+        462,
+        260
+      ]
+    },
+    {
+      "id": "body-poster",
+      "label": "Inside the Body",
+      "active": true,
+      "route": "topic.html?t=inside-the-body",
+      "polygon": [
+        [
+          622,
+          198
+        ],
+        [
+          908,
+          198
+        ],
+        [
+          908,
+          502
+        ],
+        [
+          622,
+          502
+        ]
+      ],
+      "labelAt": [
+        765,
+        178
+      ],
+      "glint": [
+        765,
+        330
+      ]
+    },
+    {
+      "id": "fish-tank",
+      "label": "Parts of a Fish",
+      "active": true,
+      "route": "topic.html?t=fish",
+      "polygon": [
+        [
+          776,
+          516
+        ],
+        [
+          1138,
+          510
+        ],
+        [
+          1146,
+          640
+        ],
+        [
+          1136,
+          700
+        ],
+        [
+          1146,
+          748
+        ],
+        [
+          780,
+          750
+        ]
+      ],
+      "labelAt": [
+        940,
+        772
+      ],
+      "glint": [
+        960,
+        620
+      ]
+    },
+    {
+      "id": "butterfly-life-cycle-frame",
+      "label": "Butterfly Life Cycle",
+      "active": true,
+      "route": "topic.html?t=butterfly-life-cycle",
+      "polygon": [
+        [
+          1056,
+          183
+        ],
+        [
+          1568,
+          183
+        ],
+        [
+          1568,
+          428
+        ],
+        [
+          1056,
+          428
+        ]
+      ],
+      "labelAt": [
+        1312,
+        452
+      ],
+      "glint": [
+        1312,
+        300
+      ]
+    },
+    {
+      "id": "beetle-model",
+      "label": "Parts of an Insect",
+      "active": true,
+      "route": "topic.html?t=insect",
+      "polygon": [
+        [
+          1156,
+          640
+        ],
+        [
+          1282,
+          622
+        ],
+        [
+          1332,
+          720
+        ],
+        [
+          1322,
+          802
+        ],
+        [
+          1230,
+          818
+        ],
+        [
+          1160,
+          792
+        ],
+        [
+          1142,
+          700
+        ]
+      ],
+      "labelAt": [
+        1238,
+        842
+      ],
+      "glint": [
+        1240,
+        715
+      ]
+    },
+    {
+      "id": "flower-vase",
+      "label": "Parts of a Flower",
+      "active": true,
+      "route": "topic.html?t=flower",
+      "polygon": [
+        [
+          1360,
+          900
+        ],
+        [
+          1500,
+          820
+        ],
+        [
+          1702,
+          870
+        ],
+        [
+          1722,
+          1000
+        ],
+        [
+          1652,
+          1100
+        ],
+        [
+          1702,
+          1150
+        ],
+        [
+          1642,
+          1222
+        ],
+        [
+          1642,
+          1372
+        ],
+        [
+          1440,
+          1382
+        ],
+        [
+          1430,
+          1150
+        ],
+        [
+          1340,
+          1120
+        ],
+        [
+          1380,
+          1000
+        ]
+      ],
+      "labelAt": [
+        1540,
+        1406
+      ],
+      "glint": [
+        1540,
+        960
+      ]
+    },
+    {
+      "id": "window-bird",
+      "label": "Parts of a Bird",
+      "active": true,
+      "route": "topic.html?t=bird",
+      "polygon": [
+        [
+          1812,
+          472
+        ],
+        [
+          1872,
+          440
+        ],
+        [
+          1962,
+          470
+        ],
+        [
+          2044,
+          600
+        ],
+        [
+          2038,
+          642
+        ],
+        [
+          1962,
+          604
+        ],
+        [
+          1902,
+          642
+        ],
+        [
+          1850,
+          602
+        ],
+        [
+          1828,
+          522
+        ]
+      ],
+      "labelAt": [
+        1925,
+        668
+      ],
+      "glint": [
+        1890,
+        500
+      ]
+    },
+    {
+      "id": "terrarium",
+      "label": "Habitats",
+      "active": false,
+      "polygon": [
+        [
+          1400,
+          470
+        ],
+        [
+          1572,
+          470
+        ],
+        [
+          1652,
+          582
+        ],
+        [
+          1652,
+          742
+        ],
+        [
+          1330,
+          752
+        ],
+        [
+          1320,
+          600
+        ]
+      ],
+      "labelAt": [
+        1490,
+        778
+      ]
+    }
   ]
 }
