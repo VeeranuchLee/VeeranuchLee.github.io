@@ -29,7 +29,7 @@ function addAmbientMotion(n){
     if(g.recipe==="frames"){
       var img=el("img","ambient-frame");img.alt="";img.style.left=g.crop[0]+"%";img.style.top=g.crop[1]+"%";img.style.width=g.crop[2]+"%";img.style.height=g.crop[3]+"%";root.appendChild(img);window.StarlightMotion.paintedCycle(img,g.frames,g.ms);return;
     }
-    var copy=el("i","ambient-copy recipe-"+g.recipe);copy.style.setProperty("--plate",'url("assets-runtime/standard/page-'+String(n).padStart(2,"0")+'.webp")');copy.style.setProperty("--cx",g.cx+"%");copy.style.setProperty("--cy",g.cy+"%");copy.style.setProperty("--rx",g.rx+"%");copy.style.setProperty("--ry",g.ry+"%");copy.style.setProperty("--crx",(g.rx*1.02)+"%");copy.style.setProperty("--cry",(g.ry*1.02)+"%");
+    var copy=el("i","ambient-copy recipe-"+g.recipe);copy.style.setProperty("--plate",'url("'+new URL("assets-runtime/standard/page-"+String(n).padStart(2,"0")+".webp",document.baseURI).href+'")');copy.style.setProperty("--cx",g.cx+"%");copy.style.setProperty("--cy",g.cy+"%");copy.style.setProperty("--rx",g.rx+"%");copy.style.setProperty("--ry",g.ry+"%");copy.style.setProperty("--crx",(g.rx*1.02)+"%");copy.style.setProperty("--cry",(g.ry*1.02)+"%");
     /* Page 6 intentionally has no delay: both equal-looking lights move in
        the identical phase. Other repeated targets are staggered gently. */
     if(n!==6)copy.style.setProperty("--delay",(-((g.phase==null?i:g.phase)*.47))+"s");root.appendChild(copy);
