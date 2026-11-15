@@ -7,7 +7,7 @@ import { icons } from './icons.js';
 import { runShowTime, runFashionShow, drawCard } from './show.js';
 import * as store from './store.js';
 import { hexToRgb, mix, rgbToHex } from './colour.js';
-import { POSE_DATASETS, poseForDataset, choosePoseDoll, rememberPoseLook, entryPose, tagAlbum, mergeLegacyAlbums } from './poses.js';
+import { POSE_DATASETS, poseForDataset, choosePoseDoll, mapPoseLook, rememberPoseLook, entryPose, tagAlbum, mergeLegacyAlbums } from './poses.js';
 
 const $ = (id) => document.getElementById(id);
 // Production always opens the reviewed Standing room. Runway is reached through the
@@ -32,10 +32,15 @@ let screen = 'room';
 let lastFit = null;
 let stopFashion = null;
 let cardEntry = null;
+let cardWaiting = false;   // the open card is still waiting for a picture it asked for
+let cardWait = null;
 let showTaken = false;
 let lastShowMs = 0;
 let poseSwitchToken = 0;
 let poseLoading = false;
+// The look each pose was entered with, per doll, and what could not be carried over from
+// the pose before it. In-memory only: after a reload a switch follows the plain slot rules.
+const poseEntered = {};
 
 // ---------- tap gating: the holdover rule ----------
 function lockTaps() { tapLockUntil = performance.now() + HOLDOVER_MS; }
@@ -232,21 +237,29 @@ function setupPoseButtons() {
 
 async function switchPose(target, { dollId = null, rebuild = true } = {}) {
   if (!POSE_ROOM || !datasets[target]) return false;
+  const nextDoll = dollId && datasets[target].dolls.some((d) => d.id === dollId)
+    ? dollId : choosePoseDoll(datasets[target], poseState().doll);
+  if (target === pose && poseState().doll === nextDoll) return true;
   const token = ++poseSwitchToken;
   poseLoading = true;
   const targetData = datasets[target];
-  const currentDoll = poseState().doll;
-  const nextDoll = dollId && targetData.dolls.some((d) => d.id === dollId)
-    ? dollId : choosePoseDoll(targetData, currentDoll);
-  const targetState = state.poses[target];
-  targetState.doll = nextDoll;
-  const targetLook = targetState.looks[nextDoll];
+  const entryHere = poseEntered[pose] && poseEntered[pose][poseState().doll];
+  const mapped = mapPoseLook(data, targetData, look(), state.poses[target].looks[nextDoll], nextDoll,
+    entryHere && entryHere.entered, entryHere && entryHere.carry);
+  const targetLook = mapped.look;
 
   // Keep the old canvases painted while the target base/look decodes. The target sources
   // are pinned before data changes, which is the same no-flash rule used for outfit taps.
   pinLook(targetData, targetLook);
   await ensureLook(targetData, targetLook, { stage: true }).catch(() => {});
   if (token !== poseSwitchToken) return false;
+
+  // The pose's memory is written only now that the switch is real: a switch superseded
+  // while its pictures decoded must not leave a mapped look in a pose never entered.
+  state.poses[target].doll = nextDoll;
+  state.poses[target].looks[nextDoll] = targetLook;
+  if (!poseEntered[target]) poseEntered[target] = {};
+  poseEntered[target][nextDoll] = { entered: JSON.parse(JSON.stringify(targetLook)), carry: mapped.carry };
 
   pose = target;
   data = targetData;
@@ -634,7 +647,9 @@ function setupActions() {
   });
   $('card-show').addEventListener('click', (e) => {
     ack(e.currentTarget);
-    if (cardEntry) startShow(sanitize(data, cardEntry.look, cardEntry.look.doll), { fromAlbum: true });
+    if (!cardEntry) return;
+    const cd = cardDataset(cardEntry);
+    startShow(sanitize(cd, cardEntry.look, cardEntry.look.doll), { fromAlbum: true, data: cd, pose: entryPose(cardEntry, pose) });
   });
   setupHold($('card-save'));
 }
@@ -666,16 +681,16 @@ function refreshAll() {
 }
 
 // ---------- Show time ----------
-function startShow(showLook, { fromAlbum }) {
+function startShow(showLook, { fromAlbum = false, data: showData = data, pose: showPose = pose } = {}) {
   setScreen('show');
   showTaken = false;
   const shownAt = performance.now();
   const canvas = $('show-canvas');
-  runShowTime(canvas, data, showLook, {
+  runShowTime(canvas, showData, showLook, {
     noCard: fromAlbum,
     flyTo: () => ({ x: window.innerWidth - 70, y: 70 }),
     onCard: (entry) => {
-      state.album.unshift({ ...entry, pose });
+      state.album.unshift({ ...entry, pose: showPose });
       persist();
     },
   }).then(() => {
@@ -731,21 +746,40 @@ async function drawAlbumCard(b) {
   drawCard(c.getContext('2d'), cardData, { ...entry, look: cardLook }, c.width, c.height);
 }
 
-async function openCard(entry) {
+// ---------- the big photo card ----------
+// A card is shown from its own saved look, in its own saved pose, through entryPose and
+// sanitize alone: no switchPose, no pose mapping, no rememberPoseLook, so opening one
+// never writes to either pose's remembered look (owner 2026-11-15: re-mapping while the
+// card opened re-rendered #big-card without end and overwrote a remembered dress). It
+// draws once, and is asked to draw again only when a picture it waits for arrives.
+function cardDataset(entry) {
+  return datasets[entryPose(entry, pose)] || data;
+}
+
+function renderCard() {
+  const entry = cardEntry;
+  if (!entry || !entry.look) return;
+  const cardData = cardDataset(entry);
+  const cardLook = sanitize(cardData, entry.look, entry.look.doll);
+  if (!lookReady(cardData, cardLook, { stage: true })) {
+    cardWaiting = true;
+    const w = cardWait = ensureLook(cardData, cardLook, { stage: true }).catch(() => {}).then(() => {
+      if (cardWait === w) { cardWait = null; if (cardEntry === entry && screen === 'card') renderCard(); }
+    });
+    return;
+  }
+  cardWaiting = false;
+  const c = $('big-card');
+  const r = c.getBoundingClientRect();
+  c.width = Math.round(r.width * DPR()); c.height = Math.round(r.height * DPR());
+  drawCard(c.getContext('2d'), cardData, { ...entry, look: cardLook }, c.width, c.height);
+}
+
+function openCard(entry) {
   if (!entry) { openAlbum(); return; }
   cardEntry = entry;
   setScreen('card');
-  const cardPose = entryPose(entry, pose);
-  await switchPose(cardPose, { dollId: entry.look.doll });
-  if (cardEntry !== entry) return;
-  const cardLook = sanitize(data, entry.look, entry.look.doll);
-  await ensureLook(data, cardLook, { stage: true }).catch(() => {});
-  requestAnimationFrame(() => {
-    const c = $('big-card');
-    const r = c.getBoundingClientRect();
-    c.width = Math.round(r.width * DPR()); c.height = Math.round(r.height * DPR());
-    drawCard(c.getContext('2d'), data, { ...entry, look: cardLook }, c.width, c.height);
-  });
+  renderCard();
 }
 
 // ---------- the fashion show ----------
@@ -780,7 +814,10 @@ function setupHold(btn) {
     play('hold');
     // the picture is made while the grown-up holds, so the share sheet can open on release
     const c = document.createElement('canvas'); c.width = 800; c.height = 1200;
-    if (cardEntry) drawCard(c.getContext('2d'), data, { ...cardEntry, look: sanitize(data, cardEntry.look, cardEntry.look.doll) }, 800, 1200);
+    if (cardEntry) {
+      const cd = cardDataset(cardEntry);
+      drawCard(c.getContext('2d'), cd, { ...cardEntry, look: sanitize(cd, cardEntry.look, cardEntry.look.doll) }, 800, 1200);
+    }
     try { c.toBlob((b) => { blob = b; }, 'image/png'); } catch (err) { blob = null; }
     const tick = () => {
       if (!holding) return;
@@ -895,7 +932,7 @@ async function start() {
     clearTimeout(resizeT);
     resizeT = setTimeout(() => {
       if (screen === 'room') { renderDoll(); refreshTiles(true); refreshRibbon(false); }
-      else if (screen === 'card' && cardEntry) openCard(cardEntry);
+      else if (screen === 'card' && cardEntry) renderCard();
       else if (screen === 'album') openAlbum();
     }, 120);
   };
@@ -911,7 +948,7 @@ onImageReady(() => {
     // tiles queue and load their own pictures; repainting them here is what looped
     if (screen === 'room') renderDoll();
     else if (screen === 'album') openAlbum();
-    else if (screen === 'card' && cardEntry) openCard(cardEntry);
+    else if (screen === 'card' && cardEntry && cardWaiting) renderCard();
   });
 });
 
