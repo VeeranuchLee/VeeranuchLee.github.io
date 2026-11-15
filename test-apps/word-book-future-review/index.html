@@ -39,6 +39,7 @@ main{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding
 .forms{margin:0;font-size:.75rem;color:#5a3fa0;font-weight:700}
 .head .sentence{flex:1}
 .sentence{margin:0;font-size:.82rem;line-height:1.3}
+.ainote.flag{color:#8a1c1c;background:#ffe9e6}.ainote.fine{color:#1c5a2e;background:#e8f7ec}
 .note{margin:0;font-size:.72rem;color:#8a5a00;background:#fff6dd;border-radius:8px;padding:6px 8px}
 .ticks{display:flex;flex-direction:column;gap:4px}
 .ticks label{display:flex;align-items:center;gap:6px;min-height:40px;padding:4px 8px;font-size:.8rem;border:1px solid var(--line);border-radius:10px;background:#fff;cursor:pointer;font-weight:600;user-select:none}
@@ -82,11 +83,14 @@ textarea{width:100%;min-height:40px;padding:6px;font-size:.8rem;border:1px solid
       <button type="button" data-filter="flagged" aria-pressed="false">Needs fixing</button>
       <button type="button" data-filter="ok" aria-pressed="false">Approved</button>
       <button type="button" data-filter="note" aria-pressed="false">Check the voice notes</button>
+      <button type="button" data-filter="ai" aria-pressed="false">Helper says: look at these</button>
+      <button type="button" data-filter="aiok" aria-pressed="false">Helper found nothing wrong</button>
     </div>
     <div class="jump"><input id="jump" type="number" inputmode="numeric" placeholder="No." aria-label="Go to number"><button type="button" id="go">Go</button></div>
     <button type="button" class="newbtn" id="copynew">Copy new decisions</button>
     <button type="button" class="primary" id="send">Send all feedback</button>
     <button type="button" id="download">Download file</button>
+    <button type="button" id="approveai" hidden>Approve all of these</button>
     <span class="count" id="count"></span>
   </div>
   <div class="letters" id="letters" role="group" aria-label="Letter"></div>
@@ -94,6 +98,7 @@ textarea{width:100%;min-height:40px;padding:6px;font-size:.8rem;border:1px solid
 <main id="grid"></main>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="data.js?v=20261105c"></script>
+<script src="ai.js?v=20261115"></script>
 <script>
 (function () {
   "use strict";
@@ -117,6 +122,9 @@ textarea{width:100%;min-height:40px;padding:6px;font-size:.8rem;border:1px solid
   function isApproved(rank) { var s = state[rank]; return !!(s && s.ok); }
   function isFlagged(rank) { var s = state[rank]; return !!(s && (s.pic || s.voice || s.wvoice || (!s.ok && (s.comment || "").trim()))); }
   function isDone(rank) { return isApproved(rank) || isFlagged(rank); }
+  var AI = window.AI_CHECK || {};
+  function aiFlag(rank) { var a = AI[rank]; return !!(a && (a.p === "flag" || a.s)); }
+  function aiFine(rank) { var a = AI[rank]; return !!(a && a.p === "ok" && !a.s); }
 
   var SPEAKER = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
   var CHEV = '<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
@@ -147,6 +155,14 @@ textarea{width:100%;min-height:40px;padding:6px;font-size:.8rem;border:1px solid
       '<textarea placeholder="Comment (optional)"></textarea>';
     b.querySelector(".rank").textContent = u.rank; b.querySelector(".word").textContent = u.word;
     b.querySelector(".sentence").textContent = u.sentence;
+    if (AI[u.rank]) {
+      var a = AI[u.rank], n = document.createElement("p");
+      if (aiFlag(u.rank)) {
+        n.className = "note ainote flag";
+        n.textContent = "Helper check: " + (a.p === "flag" ? "Picture: " + (a.pn || "look again") + " " : "") + (a.s ? "Sentence: " + a.s + (a.sg ? " Suggested: \u201c" + a.sg + "\u201d" : "") : "");
+      } else { n.className = "note ainote fine"; n.textContent = "Helper check: nothing wrong found in the picture or the sentence. Voices not checked here."; }
+      b.insertBefore(n, b.querySelector(".ticks"));
+    }
     if (u.note) b.querySelector(".snote").textContent = u.note;
     if (u.wordNote) b.querySelector(".wnote").textContent = u.wordNote;
     wire(b.querySelector(".sentplay"), u.audio, "Play sentence: " + u.sentence);
@@ -231,6 +247,7 @@ textarea{width:100%;min-height:40px;padding:6px;font-size:.8rem;border:1px solid
   try { letter = sessionStorage.getItem(KEY + "-letter") || ""; } catch (e) {}
   function unitMatches(u) {
     return filter === "all" || (filter === "flagged" && isFlagged(u.rank)) || (filter === "note" && (u.note || u.wordNote || u.wordOptions))
+      || (filter === "ai" && aiFlag(u.rank) && !isDone(u.rank)) || (filter === "aiok" && aiFine(u.rank) && !isDone(u.rank))
       || (filter === "ok" && isApproved(u.rank) && !isFlagged(u.rank)) || (filter === "todo" && !isDone(u.rank));
   }
   function render() {
@@ -245,6 +262,16 @@ textarea{width:100%;min-height:40px;padding:6px;font-size:.8rem;border:1px solid
       if (filter !== "all" && it.formItems && it.formItems.some(unitMatches)) { el._forms.open = true; el._build(); }
     });
     count();
+    var ab = document.getElementById("approveai");
+    if (ab) {
+      var list = []; shown.forEach(function (it) { unitsOf(it).forEach(function (u) { if (aiFine(u.rank) && !isDone(u.rank)) list.push(u.rank); }); });
+      ab.hidden = !(filter === "aiok" && list.length);
+      ab.textContent = "Approve all " + list.length + " of these";
+      ab.onclick = function () {
+        if (!window.confirm("Approve all " + list.length + " cards shown here? You can still untick any of them afterwards.")) return;
+        list.forEach(function (r) { entry(r).ok = true; }); save(); render();
+      };
+    }
   }
   var letterBox = document.getElementById("letters");
   function count() {
