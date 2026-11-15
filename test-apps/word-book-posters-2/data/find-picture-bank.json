@@ -6724,25 +6724,9 @@
     },
     {
       "poster_id": "bakery",
-      "eligible_count": 12,
+      "eligible_count": 11,
       "game": true,
       "eligible": [
-        {
-          "target_id": "bakery.bread-shop",
-          "word": "bakery",
-          "word_clip": "audio/words/bakery.m4a",
-          "tap_region": [
-            64.25,
-            3.57,
-            19.82,
-            28.86
-          ],
-          "ambiguity_check": {
-            "same_word_or_sense": false,
-            "max_overlap_ratio": 0,
-            "passed": true
-          }
-        },
         {
           "target_id": "baker.occupation",
           "word": "baker",
@@ -6750,12 +6734,12 @@
           "tap_region": [
             32.93,
             0,
-            31.32,
+            32.65,
             53.43
           ],
           "ambiguity_check": {
             "same_word_or_sense": false,
-            "max_overlap_ratio": 0.0676,
+            "max_overlap_ratio": 0.0763,
             "passed": true
           }
         },
@@ -6835,7 +6819,7 @@
           ],
           "ambiguity_check": {
             "same_word_or_sense": false,
-            "max_overlap_ratio": 0.0676,
+            "max_overlap_ratio": 0.0763,
             "passed": true
           }
         },
@@ -6920,7 +6904,12 @@
           }
         }
       ],
-      "excluded": []
+      "excluded": [
+        {
+          "target_id": "bakery.bread-shop",
+          "reason": "names the whole picture"
+        }
+      ]
     },
     {
       "poster_id": "tens-to-100",
@@ -7932,7 +7921,7 @@
     },
     {
       "poster_id": "bedroom",
-      "eligible_count": 11,
+      "eligible_count": 7,
       "game": true,
       "eligible": [
         {
@@ -7941,13 +7930,13 @@
           "word_clip": "audio/words/curtain.m4a",
           "tap_region": [
             0,
-            0.57,
-            12.07,
-            45.86
+            0,
+            9.2,
+            47.43
           ],
           "ambiguity_check": {
             "same_word_or_sense": false,
-            "max_overlap_ratio": 0,
+            "max_overlap_ratio": 0.1059,
             "passed": true
           }
         },
@@ -8000,38 +7989,6 @@
           }
         },
         {
-          "target_id": "pillow.bed-cushion",
-          "word": "pillow",
-          "word_clip": "audio/words/pillow.m4a",
-          "tap_region": [
-            29.93,
-            33.57,
-            20.15,
-            12.86
-          ],
-          "ambiguity_check": {
-            "same_word_or_sense": false,
-            "max_overlap_ratio": 0,
-            "passed": true
-          }
-        },
-        {
-          "target_id": "teddy.toy-bear",
-          "word": "teddy",
-          "word_clip": "audio/words/teddy.m4a",
-          "tap_region": [
-            14.93,
-            34.57,
-            14.15,
-            17.86
-          ],
-          "ambiguity_check": {
-            "same_word_or_sense": false,
-            "max_overlap_ratio": 0.0413,
-            "passed": true
-          }
-        },
-        {
           "target_id": "lamp.light-object",
           "word": "lamp",
           "word_clip": "audio/words/lamp.m4a",
@@ -8044,38 +8001,6 @@
           "ambiguity_check": {
             "same_word_or_sense": false,
             "max_overlap_ratio": 0,
-            "passed": true
-          }
-        },
-        {
-          "target_id": "bed.furniture",
-          "word": "bed",
-          "word_clip": "audio/words/bed.m4a",
-          "tap_region": [
-            1.93,
-            53.57,
-            28.15,
-            20.86
-          ],
-          "ambiguity_check": {
-            "same_word_or_sense": false,
-            "max_overlap_ratio": 0.1065,
-            "passed": true
-          }
-        },
-        {
-          "target_id": "blanket.bed-cover",
-          "word": "blanket",
-          "word_clip": "audio/words/blanket.m4a",
-          "tap_region": [
-            26.93,
-            47.57,
-            26.15,
-            25.86
-          ],
-          "ambiguity_check": {
-            "same_word_or_sense": false,
-            "max_overlap_ratio": 0.1065,
             "passed": true
           }
         },
@@ -8107,12 +8032,29 @@
           ],
           "ambiguity_check": {
             "same_word_or_sense": false,
-            "max_overlap_ratio": 0,
+            "max_overlap_ratio": 0.0288,
             "passed": true
           }
         }
       ],
-      "excluded": []
+      "excluded": [
+        {
+          "target_id": "pillow.bed-cushion",
+          "reason": "tap region overlaps bed.furniture by 1.000"
+        },
+        {
+          "target_id": "teddy.toy-bear",
+          "reason": "tap region overlaps bed.furniture by 1.000"
+        },
+        {
+          "target_id": "bed.furniture",
+          "reason": "tap region overlaps blanket.bed-cover by 1.000"
+        },
+        {
+          "target_id": "blanket.bed-cover",
+          "reason": "tap region overlaps bed.furniture by 1.000"
+        }
+      ]
     },
     {
       "poster_id": "breakfast-table",
@@ -8127,11 +8069,11 @@
             1.93,
             21.57,
             34.15,
-            23.43
+            24.86
           ],
           "ambiguity_check": {
             "same_word_or_sense": false,
-            "max_overlap_ratio": 0.063,
+            "max_overlap_ratio": 0.1041,
             "passed": true
           }
         },
@@ -8147,7 +8089,7 @@
           ],
           "ambiguity_check": {
             "same_word_or_sense": false,
-            "max_overlap_ratio": 0.063,
+            "max_overlap_ratio": 0.0604,
             "passed": true
           }
         },
@@ -8188,14 +8130,14 @@
           "word": "toast",
           "word_clip": "audio/words/toast.m4a",
           "tap_region": [
-            0.93,
-            45,
-            36.15,
-            20.43
+            2.93,
+            44.57,
+            33.15,
+            17.86
           ],
           "ambiguity_check": {
             "same_word_or_sense": false,
-            "max_overlap_ratio": 0.0054,
+            "max_overlap_ratio": 0.1041,
             "passed": true
           }
         },
@@ -8204,14 +8146,14 @@
           "word": "butter",
           "word_clip": "audio/words/butter.m4a",
           "tap_region": [
-            36.93,
-            44.57,
-            27.15,
-            20.86
+            43.43,
+            48.07,
+            15.15,
+            14.86
           ],
           "ambiguity_check": {
             "same_word_or_sense": false,
-            "max_overlap_ratio": 0.0291,
+            "max_overlap_ratio": 0,
             "passed": true
           }
         },
@@ -8294,12 +8236,12 @@
           "tap_region": [
             0,
             0,
-            43.07,
-            37.25
+            44.07,
+            38.75
           ],
           "ambiguity_check": {
             "same_word_or_sense": false,
-            "max_overlap_ratio": 0.0022,
+            "max_overlap_ratio": 0.0583,
             "passed": true
           }
         },
@@ -8315,7 +8257,7 @@
           ],
           "ambiguity_check": {
             "same_word_or_sense": false,
-            "max_overlap_ratio": 0.0022,
+            "max_overlap_ratio": 0.0583,
             "passed": true
           }
         },
@@ -8347,7 +8289,7 @@
           ],
           "ambiguity_check": {
             "same_word_or_sense": false,
-            "max_overlap_ratio": 0.0096,
+            "max_overlap_ratio": 0.0061,
             "passed": true
           }
         },
@@ -8357,13 +8299,13 @@
           "word_clip": "audio/words/flower.m4a",
           "tap_region": [
             0,
-            37.25,
+            37.64,
             23.57,
-            22.38
+            21.99
           ],
           "ambiguity_check": {
             "same_word_or_sense": false,
-            "max_overlap_ratio": 0,
+            "max_overlap_ratio": 0.0505,
             "passed": true
           }
         },
@@ -8372,14 +8314,14 @@
           "word": "grass",
           "word_clip": "audio/words/grass.m4a",
           "tap_region": [
-            24.93,
-            41.57,
-            28.15,
-            14.86
+            25.93,
+            43.07,
+            40.15,
+            22.86
           ],
           "ambiguity_check": {
             "same_word_or_sense": false,
-            "max_overlap_ratio": 0.0096,
+            "max_overlap_ratio": 0,
             "passed": true
           }
         },
@@ -8452,41 +8394,9 @@
     },
     {
       "poster_id": "beach",
-      "eligible_count": 9,
+      "eligible_count": 7,
       "game": true,
       "eligible": [
-        {
-          "target_id": "sea.salt-water",
-          "word": "sea",
-          "word_clip": "audio/words/sea.m4a",
-          "tap_region": [
-            0,
-            20.57,
-            20.07,
-            13.86
-          ],
-          "ambiguity_check": {
-            "same_word_or_sense": false,
-            "max_overlap_ratio": 0,
-            "passed": true
-          }
-        },
-        {
-          "target_id": "wave.water-movement",
-          "word": "wave",
-          "word_clip": "audio/words/wave.m4a",
-          "tap_region": [
-            21.93,
-            18.07,
-            47.32,
-            18.86
-          ],
-          "ambiguity_check": {
-            "same_word_or_sense": false,
-            "max_overlap_ratio": 0,
-            "passed": true
-          }
-        },
         {
           "target_id": "bucket.container",
           "word": "bucket",
@@ -8499,7 +8409,7 @@
           ],
           "ambiguity_check": {
             "same_word_or_sense": false,
-            "max_overlap_ratio": 0.0712,
+            "max_overlap_ratio": 0.0622,
             "passed": true
           }
         },
@@ -8524,14 +8434,14 @@
           "word": "sandcastle",
           "word_clip": "audio/words/sandcastle.m4a",
           "tap_region": [
-            69.25,
-            17.07,
-            26.82,
-            40.36
+            63.93,
+            26,
+            32.15,
+            31.43
           ],
           "ambiguity_check": {
             "same_word_or_sense": false,
-            "max_overlap_ratio": 0,
+            "max_overlap_ratio": 0.1909,
             "passed": true
           }
         },
@@ -8540,14 +8450,14 @@
           "word": "sand",
           "word_clip": "audio/words/sand.m4a",
           "tap_region": [
-            1.93,
-            43.57,
-            16.15,
-            20.86
+            0,
+            33.57,
+            18.07,
+            33.86
           ],
           "ambiguity_check": {
             "same_word_or_sense": false,
-            "max_overlap_ratio": 0.0712,
+            "max_overlap_ratio": 0.0622,
             "passed": true
           }
         },
@@ -8563,7 +8473,7 @@
           ],
           "ambiguity_check": {
             "same_word_or_sense": false,
-            "max_overlap_ratio": 0.0195,
+            "max_overlap_ratio": 0.043,
             "passed": true
           }
         },
@@ -8600,7 +8510,16 @@
           }
         }
       ],
-      "excluded": []
+      "excluded": [
+        {
+          "target_id": "sea.salt-water",
+          "reason": "tap region overlaps wave.water-movement by 0.739"
+        },
+        {
+          "target_id": "wave.water-movement",
+          "reason": "tap region overlaps sea.salt-water by 0.739"
+        }
+      ]
     },
     {
       "poster_id": "playground",
@@ -9011,7 +8930,7 @@
           ],
           "ambiguity_check": {
             "same_word_or_sense": false,
-            "max_overlap_ratio": 0.1277,
+            "max_overlap_ratio": 0.1259,
             "passed": true
           }
         },
@@ -9027,7 +8946,7 @@
           ],
           "ambiguity_check": {
             "same_word_or_sense": false,
-            "max_overlap_ratio": 0.021,
+            "max_overlap_ratio": 0.027,
             "passed": true
           }
         },
@@ -9052,14 +8971,14 @@
           "word": "dog",
           "word_clip": "audio/words/dog.m4a",
           "tap_region": [
-            6.63,
+            9.43,
             54.25,
-            36.15,
+            33.65,
             37.78
           ],
           "ambiguity_check": {
             "same_word_or_sense": false,
-            "max_overlap_ratio": 0.1277,
+            "max_overlap_ratio": 0.1259,
             "passed": true
           }
         },
@@ -9220,98 +9139,18 @@
     },
     {
       "poster_id": "at-the-shop",
-      "eligible_count": 7,
-      "game": true,
+      "eligible_count": 2,
+      "game": false,
       "eligible": [
-        {
-          "target_id": "shop.selling-place",
-          "word": "shop",
-          "word_clip": "audio/words/shop.m4a",
-          "tap_region": [
-            0,
-            0.57,
-            15.07,
-            65.86
-          ],
-          "ambiguity_check": {
-            "same_word_or_sense": false,
-            "max_overlap_ratio": 0.101,
-            "passed": true
-          }
-        },
-        {
-          "target_id": "buy.get-by-paying",
-          "word": "buy",
-          "word_clip": "audio/words/buy.m4a",
-          "tap_region": [
-            12.93,
-            19.57,
-            19.32,
-            75.86
-          ],
-          "ambiguity_check": {
-            "same_word_or_sense": false,
-            "max_overlap_ratio": 0.101,
-            "passed": true
-          }
-        },
-        {
-          "target_id": "basket.container",
-          "word": "basket",
-          "word_clip": "audio/words/basket.m4a",
-          "tap_region": [
-            32.25,
-            65.07,
-            18.32,
-            31.86
-          ],
-          "ambiguity_check": {
-            "same_word_or_sense": false,
-            "max_overlap_ratio": 0,
-            "passed": true
-          }
-        },
-        {
-          "target_id": "price.amount-to-pay",
-          "word": "price",
-          "word_clip": "audio/words/price.m4a",
-          "tap_region": [
-            48.43,
-            38.07,
-            8.15,
-            15.86
-          ],
-          "ambiguity_check": {
-            "same_word_or_sense": false,
-            "max_overlap_ratio": 0,
-            "passed": true
-          }
-        },
         {
           "target_id": "coin.metal-money",
           "word": "coin",
           "word_clip": "audio/words/coin.m4a",
           "tap_region": [
-            62.43,
-            50.5,
-            9.15,
+            61.43,
+            51.93,
+            11.15,
             9
-          ],
-          "ambiguity_check": {
-            "same_word_or_sense": false,
-            "max_overlap_ratio": 0,
-            "passed": true
-          }
-        },
-        {
-          "target_id": "sell.give-for-money",
-          "word": "sell",
-          "word_clip": "audio/words/sell.m4a",
-          "tap_region": [
-            57.93,
-            1.57,
-            28.15,
-            47.43
           ],
           "ambiguity_check": {
             "same_word_or_sense": false,
@@ -9325,18 +9164,39 @@
           "word_clip": "audio/words/money.m4a",
           "tap_region": [
             75.93,
-            49,
+            49.43,
             21.15,
-            9.43
+            9
           ],
           "ambiguity_check": {
             "same_word_or_sense": false,
-            "max_overlap_ratio": 0,
+            "max_overlap_ratio": 0.0006,
             "passed": true
           }
         }
       ],
-      "excluded": []
+      "excluded": [
+        {
+          "target_id": "shop.selling-place",
+          "reason": "names the whole picture"
+        },
+        {
+          "target_id": "buy.get-by-paying",
+          "reason": "tap region overlaps basket.container by 0.319"
+        },
+        {
+          "target_id": "basket.container",
+          "reason": "tap region overlaps buy.get-by-paying by 0.319"
+        },
+        {
+          "target_id": "price.amount-to-pay",
+          "reason": "tap region overlaps sell.give-for-money by 0.682"
+        },
+        {
+          "target_id": "sell.give-for-money",
+          "reason": "tap region overlaps price.amount-to-pay by 0.682"
+        }
+      ]
     }
   ]
 }
