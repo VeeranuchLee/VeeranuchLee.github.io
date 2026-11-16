@@ -4871,7 +4871,7 @@ window.REVIEW_ITEMS = [
 "rank": 642,
 "word": "waltz",
 "sentence": "The couple dances a slow waltz.",
-"pic": "pics/642-waltz.webp",
+"pic": "pics/642-waltz.webp?v=1116",
 "audio": "audio/642-waltz.m4a",
 "wordAudio": "audio/words/waltz.m4a"
 },
@@ -6035,7 +6035,7 @@ window.REVIEW_ITEMS = [
 "rank": 773,
 "word": "virtuoso",
 "sentence": "The violin virtuoso performs for the audience.",
-"pic": "pics/773-virtuoso.webp",
+"pic": "pics/773-virtuoso.webp?v=1116",
 "audio": "audio/773-virtuoso.m4a",
 "wordAudio": "audio/words/virtuoso.m4a"
 },
@@ -7307,7 +7307,7 @@ window.REVIEW_ITEMS = [
 "rank": 926,
 "word": "vocabulary",
 "sentence": "Reading every day grows my vocabulary.",
-"pic": "pics/926-vocabulary.webp",
+"pic": "pics/926-vocabulary.webp?v=1116",
 "audio": "audio/926-vocabulary.m4a",
 "wordAudio": "audio/words/vocabulary.m4a"
 },
@@ -8137,7 +8137,7 @@ window.REVIEW_ITEMS = [
 "rank": 1025,
 "word": "venue",
 "sentence": "The band's venue is an old barn.",
-"pic": "pics/1025-venue.webp",
+"pic": "pics/1025-venue.webp?v=1116",
 "audio": "audio/1025-venue.m4a",
 "wordAudio": "audio/words/venue.m4a"
 },
@@ -8595,7 +8595,7 @@ window.REVIEW_ITEMS = [
 "rank": 1079,
 "word": "technical",
 "sentence": "Dad follows the technical manual for the washing machine.",
-"pic": "pics/1079-technical.webp",
+"pic": "pics/1079-technical.webp?v=1116",
 "audio": "audio/1079-technical.m4a",
 "wordAudio": "audio/words/technical.m4a"
 },
@@ -9421,7 +9421,7 @@ window.REVIEW_ITEMS = [
 "rank": 1178,
 "word": "southern",
 "sentence": "The southern side of the house gets the sun.",
-"pic": "pics/1178-southern.webp",
+"pic": "pics/1178-southern.webp?v=1116",
 "audio": "audio/1178-southern.m4a",
 "wordAudio": "audio/words/southern.m4a"
 },
@@ -10004,7 +10004,7 @@ window.REVIEW_ITEMS = [
 "rank": 1256,
 "word": "urgent",
 "sentence": "The vet answers an urgent call about a cat.",
-"pic": "pics/1256-urgent.webp",
+"pic": "pics/1256-urgent.webp?v=1116",
 "audio": "audio/1256-urgent.m4a",
 "wordAudio": "audio/words/urgent.m4a"
 },
@@ -10092,7 +10092,7 @@ window.REVIEW_ITEMS = [
 "rank": 1270,
 "word": "reappear",
 "sentence": "Lost socks sometimes reappear under the bed.",
-"pic": "pics/1270-reappear.webp",
+"pic": "pics/1270-reappear.webp?v=1116",
 "audio": "audio/1270-reappear.m4a",
 "wordAudio": "audio/words/reappear.m4a",
 "wordNote": "Word check heard: \u201cRe-appear.\u201d"
