@@ -1,0 +1,303 @@
+/* My Table — first-sheet pilot. Soft pastel paper, consistent with number-lab /
+   jewel-studio tone. Must fit 768×1024 portrait and 1024×768 / 1024×690 landscape
+   with no page scrolling; controls ≥60px (round +/− ≥72px), table cells ≥64px. */
+
+:root {
+  font-family: Nunito, "Avenir Next", system-ui, sans-serif;
+  --paper: #f8f1e3;
+  --card: #fffdf8;
+  --card-edge: #eadfc9;
+  --ink: #43362b;        /* ~11.5:1 on --card — every number uses this */
+  --ink-soft: #5d4e40;   /* ~7.9:1 on --card */
+  --sel: #b3452c;
+  --gold: #f2b705;
+  --glowbg: #fff4d6;
+  --lit: #fff1c2;
+  --green: #256047;
+  --apple: #e0574e;
+  --cupcake: #e58ab0;
+  --flower: #e6b64c;
+  --fish: #5aa9c9;
+  --cg-back-ink: #7a5b3e;
+  --cg-back-fill: #fffaf2;
+}
+
+* { box-sizing: border-box; }
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  touch-action: manipulation;
+}
+
+body {
+  background:
+    radial-gradient(circle at 12% -8%, #fdf7ea 0%, rgba(253, 247, 234, 0) 46%),
+    radial-gradient(circle at 108% 112%, #f3e7d0 0%, rgba(243, 231, 208, 0) 52%),
+    var(--paper);
+  color: var(--ink);
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+#app {
+  height: 100vh;
+  height: 100svh; /* worst case with browser chrome (1024×690) */
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 14px 12px calc(14px + env(safe-area-inset-left, 0px));
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ---- top bar ---- */
+.bar { display: flex; align-items: center; gap: 14px; min-height: 64px; flex: none; }
+.bar h1 { margin: 0; font: 800 clamp(24px, 4.2vw, 34px) / 1 Georgia, "Times New Roman", serif; }
+.bar-actions { margin-left: auto; display: flex; gap: 10px; }
+.bar-actions button {
+  min-width: 64px;
+  min-height: 60px;
+  padding: 8px 14px;
+  border-radius: 16px;
+  background: var(--card);
+  box-shadow: 0 2px 8px rgba(93, 64, 44, 0.14);
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.bar-actions button svg { width: 26px; height: 26px; display: block; }
+.bar-actions button[aria-pressed="true"] { background: var(--green); color: #fff; }
+#soundBtn[aria-pressed="false"] .snd-on { display: none; }
+#soundBtn[aria-pressed="true"] .snd-off { display: none; }
+
+/* ---- name tag + big round buttons ---- */
+.tagrow { display: flex; align-items: center; gap: 12px; flex: none; min-height: 84px; }
+.nametag {
+  flex: 1;
+  min-width: 0;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--card);
+  border: 2px solid var(--card-edge);
+  border-radius: 20px;
+  padding: 8px 18px;
+  box-shadow: 0 3px 10px rgba(93, 64, 44, 0.1);
+}
+.addr { font-weight: 900; font-size: clamp(34px, 6vh, 54px); line-height: 1; letter-spacing: 0.02em; }
+.addr-pic { flex: none; width: 44px; height: 44px; }
+.addr-pic:empty { display: none; }
+.addr-pic svg { width: 100%; height: 100%; display: block; }
+.addr-note { font-weight: 800; font-size: clamp(16px, 2.6vh, 22px); color: var(--ink-soft); line-height: 1.2; }
+.round {
+  flex: none;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 3px solid var(--card-edge);
+  box-shadow: 0 4px 12px rgba(93, 64, 44, 0.16);
+  font-size: 44px;
+  font-weight: 900;
+  line-height: 1;
+}
+#plusBtn { background: #e7f3ec; border-color: #bfe0cf; }
+#minusBtn { background: #f7e9e4; border-color: #e6c4b8; }
+.round:active { transform: scale(0.93); }
+
+/* ---- work area: table above chart/missions (portrait), beside them (landscape) ---- */
+.work { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 10px; }
+.tablewrap { flex: 1; min-height: 0; display: flex; }
+
+.sheet {
+  width: 100%;
+  display: grid;
+  gap: 5px;
+  grid-template-columns: 60px repeat(4, minmax(64px, 1fr)) clamp(60px, 8vw, 84px);
+  grid-template-rows: auto repeat(4, minmax(64px, 1fr)) auto;
+}
+
+.head,
+.cell,
+.totalcell { border-radius: 14px; position: relative; }
+
+.head {
+  background: #f3e8d3;
+  border: 2px solid var(--card-edge);
+  min-width: 60px;
+  min-height: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+.head b { font-size: clamp(20px, 3vh, 26px); font-weight: 900; }
+.head small { font-size: 12px; font-weight: 800; color: var(--ink-soft); letter-spacing: 0.04em; }
+.rowhead svg { width: 26px; height: 26px; display: block; }
+.corner { background: #f0e4cc; }
+.totalhead { font-weight: 900; font-size: clamp(14px, 2vh, 17px); color: var(--ink-soft); }
+
+.cell {
+  background: var(--card);
+  border: 2px solid var(--card-edge);
+  min-width: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cell:active,
+.head:active { transform: scale(0.96); }
+.num { display: block; position: relative; z-index: 1; font-weight: 900; }
+.cell .num { font-size: clamp(26px, 5vh, 44px); }
+
+/* As many faint dots as the number, packed towards the middle (up to 9). */
+.dots {
+  position: absolute;
+  inset: 6px;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  place-content: center;
+  gap: 4px;
+  z-index: 0;
+}
+.dots i { width: 9px; height: 9px; border-radius: 50%; background: currentColor; opacity: 0.3; }
+.cell[data-r="0"] .dots { color: var(--apple); }
+.cell[data-r="1"] .dots { color: var(--cupcake); }
+.cell[data-r="2"] .dots { color: var(--flower); }
+.cell[data-r="3"] .dots { color: var(--fish); }
+
+.totalcell {
+  background: #f6ecd6;
+  border: 2px solid #e3d3ae;
+  min-width: 60px;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.totalcell .num { font-size: clamp(20px, 3.6vh, 32px); }
+.grand { background: #efe0bd; border-color: #d9c290; }
+
+.sel { border-color: var(--sel); box-shadow: inset 0 0 0 4px var(--sel); }
+.lit { background: var(--lit); border-color: #e3b23c; }
+.answerglow { background: var(--glowbg); border-color: #e89b2f; box-shadow: inset 0 0 0 4px #e89b2f; }
+.flash { animation: flash 0.5s ease-in-out 3; }
+@keyframes flash { 50% { box-shadow: inset 0 0 0 6px var(--gold); background: var(--glowbg); } }
+.bump { animation: bump 0.3s ease; }
+@keyframes bump { 35% { transform: scale(1.22); } }
+
+/* ---- chart + missions sit together beside (landscape) or under (portrait) the table ---- */
+.side { flex: none; display: flex; flex-direction: column; gap: 10px; min-height: 0; }
+
+.chart {
+  --unit: 4px;
+  background: var(--card);
+  border: 2px solid var(--card-edge);
+  border-radius: 18px;
+  padding: 8px 12px 10px;
+}
+.chart h2 { margin: 0 0 6px; font-size: 14px; font-weight: 900; letter-spacing: 0.08em; color: var(--ink-soft); }
+.chart-plot { display: flex; gap: 8px; align-items: stretch; }
+.barcol {
+  flex: 1;
+  min-width: 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-radius: 12px;
+  padding: 2px;
+}
+.barcol:active { transform: scale(0.97); }
+.barstack { position: relative; height: calc(var(--unit) * 36); border-bottom: 3px solid #d9c8a8; }
+.barfill {
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  bottom: 0;
+  height: calc(var(--unit) * var(--n, 0));
+  border-radius: 6px 6px 2px 2px;
+  transition: height 0.25s ease;
+}
+/* Stacked-block stripes: one block per thing, drawn with the row's colour. */
+.barcol[data-r="0"] .barfill { background-color: var(--apple); background-image: repeating-linear-gradient(to top, rgba(255,255,255,0) 0, rgba(255,255,255,0) calc(var(--unit) - 2px), rgba(67,54,43,.2) calc(var(--unit) - 2px) var(--unit)); }
+.barcol[data-r="1"] .barfill { background-color: var(--cupcake); background-image: repeating-linear-gradient(to top, rgba(255,255,255,0) 0, rgba(255,255,255,0) calc(var(--unit) - 2px), rgba(67,54,43,.2) calc(var(--unit) - 2px) var(--unit)); }
+.barcol[data-r="2"] .barfill { background-color: var(--flower); background-image: repeating-linear-gradient(to top, rgba(255,255,255,0) 0, rgba(255,255,255,0) calc(var(--unit) - 2px), rgba(67,54,43,.2) calc(var(--unit) - 2px) var(--unit)); }
+.barcol[data-r="3"] .barfill { background-color: var(--fish); background-image: repeating-linear-gradient(to top, rgba(255,255,255,0) 0, rgba(255,255,255,0) calc(var(--unit) - 2px), rgba(67,54,43,.2) calc(var(--unit) - 2px) var(--unit)); }
+.barlabel { display: flex; align-items: center; justify-content: center; gap: 5px; min-height: 30px; }
+.barlabel svg { width: 24px; height: 24px; display: block; }
+.barlabel b { font-size: 18px; font-weight: 900; }
+
+.missions {
+  background: var(--card);
+  border: 2px solid var(--card-edge);
+  border-radius: 18px;
+  padding: 8px 14px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: none;
+}
+.stars { display: flex; gap: 3px; flex-wrap: wrap; min-height: 22px; }
+.stars svg { width: 22px; height: 22px; display: block; }
+.stars svg path { fill: none; stroke: #cdbc97; stroke-width: 1.6; }
+.stars svg.earned path { fill: var(--gold); stroke: #b98a00; }
+.mrow { display: flex; align-items: center; gap: 12px; }
+#missionText { flex: 1; min-width: 0; margin: 0; font-size: clamp(17px, 2.4vh, 21px); font-weight: 800; line-height: 1.25; }
+#againBtn {
+  flex: none;
+  min-width: 64px;
+  min-height: 60px;
+  padding: 8px 16px;
+  border-radius: 16px;
+  background: #f3e8d3;
+  border: 2px solid var(--card-edge);
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(93, 64, 44, 0.14);
+}
+#againBtn.arm { background: #9c3a24; border-color: #7c2817; color: #fff; }
+body.free .missions { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bump, .flash { animation: none; }
+  .barfill { transition: none; }
+  .round:active, .cell:active, .head:active, .barcol:active { transform: none; }
+}
+
+@media (orientation: landscape) {
+  .work { flex-direction: row; }
+  .tablewrap { flex: 1 1 56%; }
+  .side { flex: 1 1 40%; max-width: 46%; }
+  .chart { --unit: 5px; }
+  .tagrow { min-height: 76px; }
+  .round { width: 72px; height: 72px; font-size: 40px; }
+}
+
+/* Controller pass, 2026-11-16 (browser check): the count dots sat behind the digit and
+   blurred it; they now sit in one row under the number. Row pictures and the mission
+   question are larger, because the question is the thing the child reads first. */
+.dots { inset: auto 4px 5px 4px; grid-template-columns: repeat(9, auto); gap: 2px; }
+.dots i { width: 6px; height: 6px; opacity: 0.75; }
+.cell .num { transform: translateY(-5px); }
+.rowhead svg { width: 34px; height: 34px; }
+#missionText { font-size: clamp(20px, 3vh, 26px); }
+.missions { border-color: #e2b84a; background: #fff8dc; }

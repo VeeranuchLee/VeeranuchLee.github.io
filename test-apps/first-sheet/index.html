@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f8f1e3">
+  <title>My Table</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="cg-back.css">
+  <script src="tap-zoom-guard.js"></script>
+  <script src="safe-storage.js"></script>
+</head>
+<body>
+  <a class="cg-back" href="../" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+
+  <main id="app">
+    <header class="bar">
+      <span class="cg-back-slot" aria-hidden="true"></span>
+      <h1>My Table</h1>
+      <div class="bar-actions">
+        <button id="soundBtn" aria-pressed="true" aria-label="Sound on">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 9v6h4l5 4V5L8 9Z" fill="currentColor"></path>
+            <path class="snd-on" d="M16 8.6a5.4 5.4 0 0 1 0 6.8M18.6 6.4a9 9 0 0 1 0 11.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+            <path class="snd-off" d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"></path>
+          </svg>
+        </button>
+        <button id="freeBtn" aria-pressed="false">Free play</button>
+      </div>
+    </header>
+
+    <section class="tagrow" aria-label="Chosen box">
+      <div id="nameTag" class="nametag" aria-live="polite">
+        <span id="addr" class="addr">A1</span>
+        <span id="addrPic" class="addr-pic" aria-hidden="true"></span>
+        <span id="addrNote" class="addr-note">Apples on Mon</span>
+      </div>
+      <button id="minusBtn" class="round" aria-label="One fewer">&#8722;</button>
+      <button id="plusBtn" class="round" aria-label="One more">+</button>
+    </section>
+
+    <div class="work">
+      <section class="tablewrap" aria-label="My week table">
+        <div id="sheet" class="sheet" role="grid" aria-label="My week table"></div>
+      </section>
+      <section class="side">
+        <div class="chart">
+          <h2>This week</h2>
+          <div id="chart" class="chart-plot"></div>
+        </div>
+        <div id="missionBox" class="missions">
+          <div id="stars" class="stars" aria-hidden="true"></div>
+          <div class="mrow">
+            <p id="missionText" aria-live="polite">Tap cell B2.</p>
+            <button id="againBtn">Start again</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Row pictures: hand-drawn flat inline SVG, one symbol per row thing. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="p-apple" viewBox="0 0 64 64">
+        <path d="M32 22c-2.5-6-11-6.5-13.5 1-2.6 8 2.5 21.5 7 25.5 2.7 3 5 1.6 6.5 1.6s3.8 1.4 6.5-1.6c4.5-4 9.6-17.5 7-25.5C43 15.5 34.5 16 32 22Z" fill="#e0574e"/>
+        <path d="M32 20c.3-5 3.4-8.2 8.6-9-.6 5.2-3.6 8.3-8.6 9Z" fill="#7fb069"/>
+        <path d="M32 20c-.3-5-3.4-8.2-8.6-9 .6 5.2 3.6 8.3 8.6 9Z" fill="#8fc07a"/>
+      </symbol>
+      <symbol id="p-cupcake" viewBox="0 0 64 64">
+        <path d="M17 36h30l-4.4 17a3 3 0 0 1-2.9 2.3H24.3a3 3 0 0 1-2.9-2.3Z" fill="#e9a23b"/>
+        <path d="M25 36l-1.6 19M32 36v19M39 36l1.6 19" stroke="#c9821f" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+        <path d="M15.5 36c-3.6-3.4-1-8.8 3.1-8.4C20 22.4 25.7 19.8 32 19.8s12 2.6 13.4 7.8c4.1-.4 6.7 5 3.1 8.4Z" fill="#f6b7c8"/>
+        <circle cx="32" cy="15" r="4.2" fill="#d9534f"/>
+      </symbol>
+      <symbol id="p-flower" viewBox="0 0 64 64">
+        <g fill="#f2b8c6">
+          <circle cx="32" cy="15.5" r="9"/>
+          <circle cx="45.5" cy="25.5" r="9"/>
+          <circle cx="40.5" cy="41" r="9"/>
+          <circle cx="23.5" cy="41" r="9"/>
+          <circle cx="18.5" cy="25.5" r="9"/>
+        </g>
+        <circle cx="32" cy="29" r="8.5" fill="#f4c542"/>
+        <path d="M32 50v8" stroke="#7fb069" stroke-width="3.4" stroke-linecap="round" fill="none"/>
+        <path d="M32 55c-5-.5-8-3.4-8.5-7 4.8-.4 7.9 2.3 8.5 7Z" fill="#8fc07a"/>
+      </symbol>
+      <symbol id="p-fish" viewBox="0 0 64 64">
+        <path d="M9 32c7.5-11 21-14.6 30.8-8.8 3 1.8 5.3 4.2 6.7 6.8-1.4 2.6-3.7 5-6.7 6.8C30 46.6 16.5 43 9 32Z" fill="#69b7d8"/>
+        <path d="M44 32l11-9.5c-1.2 3.4-1.8 6.5-1.8 9.5s.6 6.1 1.8 9.5Z" fill="#5aa9c9"/>
+        <path d="M28 20.5c2.6-3.6 7-4.8 9.6-3.2-1.8 3-5 4.6-9.6 3.2Z" fill="#8fd0e8"/>
+        <circle cx="19.5" cy="29.5" r="3.1" fill="#28414d"/>
+        <circle cx="20.5" cy="28.6" r="1" fill="#fff"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <script src="app.js"></script>
+</body>
+</html>
