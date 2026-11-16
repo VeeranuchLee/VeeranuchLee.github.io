@@ -1,0 +1,639 @@
+/* styles.css -- My Writing (first-writer-app).
+   A soft pastel sheet of paper for a child's first word processor. The device
+   is a 9.7" iPad (768x1024 / 1024x768); in landscape the on-screen keyboard
+   covers roughly the bottom 40%, so everything the child needs while typing --
+   the type box, the tools, the Teaching card -- lives in the top part. No zoom
+   lock anywhere (no user-scalable=no / maximum-scale): tap-zoom-guard.js plus
+   touch-action: manipulation are the approved pattern (INTERACTION-DIRECTION.md).
+   Inputs are 30px, well over 16px, so iOS never zooms on focus. */
+
+html, body {
+  touch-action: manipulation;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: "Avenir Next", "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: #5a3b2e;
+  background: linear-gradient(180deg, #fdf1de 0%, #f9e4cd 55%, #f3d9c4 100%);
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  box-sizing: border-box;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ---- header ---------------------------------------------------------- */
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 64px;
+}
+
+.top h1 {
+  flex: 1;
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.star-row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-height: 34px;
+  padding: 0 4px;
+  font-weight: 700;
+  color: #c98a12;
+  font-size: 19px;
+}
+
+.star-row svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+/* ---- the type box ----------------------------------------------------- */
+
+.type-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.type-label, .type-hint {
+  margin: 0 0 0 8px;
+  font-size: 15px;
+  color: #97765e;
+}
+
+.type-hint { opacity: 0.85; }
+
+.type-box {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 66px;
+  padding: 12px 18px;
+  font-size: 30px;               /* >= 16px: iOS must not zoom on focus */
+  font-family: inherit;
+  color: #4a3226;
+  background: #fffdf7;
+  border: 3px solid #e8b98a;
+  border-radius: 18px;
+  outline: none;
+}
+
+.type-box::placeholder { color: #c9ac93; }
+
+.type-box:focus {
+  border-color: #ef9f4e;
+  box-shadow: 0 0 0 4px rgba(239, 159, 78, 0.18);
+}
+
+/* ---- tools ------------------------------------------------------------ */
+
+.tools {
+  display: flex;
+  gap: 10px;
+}
+
+.tool {
+  flex: 1;
+  max-width: 300px;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 8px 12px;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  color: #6b4a35;
+  background: #ffe3c2;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tool svg { width: 26px; height: 26px; flex: none; }
+
+.tool:active { transform: scale(0.97); }
+
+.tool.armed {
+  background: #ffd27f;
+  color: #6d4a12;
+}
+
+.tool.dim { opacity: 0.45; }
+
+/* ---- the paper -------------------------------------------------------- */
+
+.paper {
+  flex: 1;
+  min-height: 150px;
+  background: #fffdf6;
+  border: 2px solid #eadbc4;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(120, 90, 60, 0.12);
+  overflow-y: auto;
+  padding: 8px 16px 14px;
+}
+
+.lines {
+  position: relative;
+  font-size: 30px;               /* the child's story: large print, >= 28px */
+  line-height: 46px;
+  color: #4a3a30;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 44px,
+    #ecd9ba 44px,
+    #ecd9ba 46px
+  );
+  min-height: 92px;
+}
+
+.w {
+  border-radius: 6px;
+  padding: 0 2px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* A word near a teach word: a soft warm wavy line and a pencil mark.
+   Not red, and nothing changes by itself -- the card opens only on a tap. */
+.w.watch {
+  cursor: pointer;
+  text-decoration: underline wavy #ef9f4e;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 7px;
+}
+
+.w.watch .mark {
+  display: inline-block;
+  width: 17px;
+  height: 17px;
+  margin-left: 2px;
+  vertical-align: baseline;
+  color: #d97f2c;
+}
+
+.w.flash {
+  animation: fixed-flash 1.1s ease;
+}
+
+@keyframes fixed-flash {
+  0%   { background: #bfe8b2; color: #23631c; }
+  60%  { background: #bfe8b2; color: #23631c; }
+  100% { background: transparent; color: inherit; }
+}
+
+.punct { color: #8a705c; }
+
+/* ---- Words I fixed ----------------------------------------------------- */
+
+.shelf-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 78px;
+  padding: 8px 14px;
+  background: rgba(255, 250, 240, 0.75);
+  border: 2px solid #f0dcc2;
+  border-radius: 16px;
+}
+
+.shelf-wrap h2 {
+  margin: 0;
+  font-size: 16px;
+  white-space: nowrap;
+  color: #8a6a52;
+}
+
+.shelf {
+  flex: 1;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  overflow-x: auto;
+  padding: 2px 0;
+}
+
+.chip {
+  flex: none;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  font-family: inherit;
+  font-size: 22px;
+  font-weight: 700;
+  color: #5a3b2e;
+  background: #fffdf7;
+  border: 2px solid #f2cfae;
+  border-radius: 14px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.chip svg { width: 22px; height: 22px; color: #c98a4b; }
+.chip:active { transform: scale(0.97); }
+
+.shelf-hint {
+  margin: 0;
+  font-size: 15px;
+  font-style: italic;
+  color: #b39b87;
+}
+
+/* ---- the Teaching card -------------------------------------------------- */
+/* Fixed to the upper part of the screen; in landscape its whole box stays
+   above y=560 so the keyboard can never cover it. */
+
+.card {
+  position: fixed;
+  top: 200px;                    /* below the type row, over the tools/paper */
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(94vw, 620px);
+  max-height: min(62vh, 400px);
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 14px 16px 16px;
+  background: #fffdf7;
+  border: 3px solid #f2cfae;
+  border-radius: 20px;
+  box-shadow: 0 14px 44px rgba(90, 60, 40, 0.28);
+  z-index: 600;
+}
+
+.card[hidden] { display: none; }
+
+.card h2 {
+  margin: 2px 66px 8px 0;
+  font-size: 22px;
+  color: #5a3b2e;
+}
+
+.card-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 60px;
+  height: 60px;
+  display: grid;
+  place-items: center;
+  background: #f6e7d6;
+  color: #7a5c49;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card-close svg { width: 26px; height: 26px; display: block; }
+.card-close:active { transform: scale(0.94); }
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.stage .pic {
+  max-width: 210px;
+  max-height: 150px;
+  border-radius: 12px;
+  background: #fdf3e3;
+  object-fit: contain;
+}
+
+.say {
+  width: 76px;
+  height: 76px;
+  min-width: 76px;
+  border-radius: 50%;
+  border: none;
+  display: grid;
+  place-items: center;
+  background: #ffe3c2;
+  color: #a4652a;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.say svg { width: 38px; height: 38px; display: block; }
+.say:active { transform: scale(0.95); }
+
+.say.off, .say[disabled] {
+  background: #efe8dd;
+  color: #c6b8a6;
+  cursor: default;
+}
+
+.choice-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.choice {
+  flex: 1;
+  min-height: 64px;
+  padding: 8px 10px;
+  font-family: inherit;
+  font-size: 19px;
+  font-weight: 700;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.choice:active { transform: scale(0.98); }
+
+.choice.yes { background: #d9efce; color: #2e6322; }
+.choice.no  { background: #fde3d6; color: #93472e; }
+
+.choice[disabled] {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* Step 1 with several candidates: up to three big choices side by side, one
+   per candidate. >= 120px wide and >= 96px tall (the brief's floor); the
+   whole stage stays well inside the card's 400px landscape cap. */
+
+.word-choices {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.word-choice {
+  flex: 1;
+  min-width: 120px;
+  max-width: 190px;
+  height: 128px;                 /* >= 96px tall even with a short picture */
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px;
+  font-family: inherit;
+  background: #fffdf7;
+  border: 3px solid #e8d6bd;
+  border-radius: 16px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.word-choice:active { transform: scale(0.97); }
+
+/* smaller than .stage .pic on purpose: three of these share one card row */
+.word-choice .pic {
+  max-width: 100%;
+  max-height: 88px;
+  border-radius: 8px;
+  background: #fdf3e3;
+  object-fit: contain;
+}
+
+/* a candidate with a clip but no picture: a plain tile with the speaker */
+.word-choice .glyph-tile {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  background: #ffe3c2;
+  color: #a4652a;
+  border-radius: 14px;
+}
+
+.word-choice .glyph-tile svg { width: 34px; height: 34px; display: block; }
+
+/* the little "this one talks" corner mark */
+.word-choice .badge {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  background: #ffe3c2;
+  color: #a4652a;
+  border-radius: 50%;
+}
+
+.word-choice .badge svg { width: 20px; height: 20px; display: block; }
+
+.word-choice.selected {
+  border-color: #ef9f4e;
+  background: #fff3c9;
+  box-shadow: 0 0 0 4px rgba(239, 159, 78, 0.25);
+}
+
+/* a candidate with neither picture nor clip: first letter + length as tiles */
+.mini-tiles {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.mini-tile {
+  width: 30px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: #4a3226;
+  background: #fff;
+  border: 2px solid #e8d6bd;
+  border-radius: 8px;
+}
+
+.mini-tile.blank {
+  background: transparent;
+  border: 2px dashed #d9a93f;
+}
+
+/* letter tiles */
+
+.tiles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+}
+
+.tile {
+  min-width: 46px;
+  height: 54px;
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  position: relative;
+  font-size: 28px;
+  font-weight: 700;
+  color: #4a3226;
+  background: #fff;
+  border: 2px solid #e8d6bd;
+  border-radius: 10px;
+}
+
+.tile.sub    { background: #ffedd6; border-color: #ef9f4e; color: #b05f10; }
+.tile.extra  { background: #ffedd6; border-color: #ef9f4e; color: #b05f10; }
+.tile.extra::after {
+  content: "";
+  position: absolute;
+  left: 7px;
+  right: 7px;
+  top: 50%;
+  height: 3px;
+  border-radius: 2px;
+  background: #ef9f4e;
+  transform: rotate(-14deg);
+}
+.tile.missing {
+  background: transparent;
+  border: 3px dashed #ef9f4e;
+  min-width: 34px;
+}
+.tile.lit { background: #fff3c9; border-color: #d9a93f; }
+
+.pair {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.pair .tile { background: #e2efff; border-color: #7fb3e0; color: #2b5f93; }
+
+.pair svg { width: 19px; height: 19px; color: #7fb3e0; flex: none; }
+
+.hint {
+  margin: 2px 0;
+  font-size: 19px;
+  color: #7a5c49;
+  text-align: center;
+}
+
+.try-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  align-items: stretch;
+}
+
+.try-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 60px;
+  box-sizing: border-box;
+  padding: 8px 14px;
+  font-size: 26px;               /* >= 16px: no iOS focus zoom */
+  font-family: inherit;
+  color: #4a3226;
+  background: #fff;
+  border: 3px solid #e8b98a;
+  border-radius: 14px;
+  outline: none;
+}
+
+.try-row .say { width: 60px; height: 60px; min-width: 60px; }
+.try-row .say svg { width: 30px; height: 30px; }
+
+.check-btn {
+  min-height: 60px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  color: #2e6322;
+  background: #d9efce;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.check-btn svg { width: 24px; height: 24px; }
+.check-btn:active { transform: scale(0.97); }
+
+/* ---- landscape: keep everything important above the keyboard ------------ */
+/* In landscape (1024x768) the keyboard's top sits near y=460 and the brief's
+   line is y=560: the header, type box, tools and card all fit above it. The
+   shelf is a between-writing display, so it may sit lower; the paper scrolls
+   on its own and the newest word is kept at the top of its box. */
+
+@media (orientation: landscape) {
+  .app { gap: 6px; padding-top: 8px; }
+  .top { min-height: 56px; }
+  .top h1 { font-size: 26px; }
+  .type-box { min-height: 60px; padding: 10px 16px; }
+  .type-hint { display: none; }
+  .tool { min-height: 60px; }
+  .paper { min-height: 130px; }
+  /* card top 158 + max-height 396 = 554: the whole card stays above y=560
+     in landscape, so the keyboard can never cover any part of it. */
+  .card { top: 158px; max-height: 396px; }
+}
+
+@media (orientation: landscape) and (max-height: 620px) {
+  .top h1 { font-size: 22px; }
+  .star-row svg { width: 20px; height: 20px; }
+  .type-label { display: none; }
+  .shelf-wrap { min-height: 66px; }
+  .chip { min-height: 60px; font-size: 20px; }
+}
+
+/* ---- utility ------------------------------------------------------------ */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tool:active, .chip:active, .say:active,
+  .choice:active, .check-btn:active, .card-close:active,
+  .word-choice:active { transform: none; }
+}

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#fdf1de" />
+  <title>My Writing</title>
+  <!-- A drawn favicon, so first load asks for nothing it does not have (staging
+       pilot: no service worker, no manifest, by the Test Hub rule). -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23fdf1de'/%3E%3Cpath d='M8 22l1-4 9-9 3 3-9 9-4 1z' fill='none' stroke='%23c9792e' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="cg-back.css" />
+  <script src="tap-zoom-guard.js"></script>
+  <script src="safe-storage.js"></script>
+</head>
+<body>
+  <!-- The one way out: shared shape, back to the hub above this app. -->
+  <a class="cg-back" href="../" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+
+  <main class="app">
+    <header class="top">
+      <span class="cg-back-slot" aria-hidden="true"></span>
+      <h1>My Writing</h1>
+      <div id="starRow" class="star-row" aria-label="Stars for words you fixed"></div>
+    </header>
+
+    <!-- The child types here. autocorrect/autocapitalize/spellcheck/autocomplete
+         are all off so the iPad never fixes anything: the app, not the system,
+         does the teaching, and nothing changes by itself. -->
+    <div class="type-row">
+      <label class="type-label" for="typeBox">Type your word</label>
+      <input id="typeBox" class="type-box" type="text"
+             autocomplete="off" autocorrect="off" autocapitalize="off"
+             spellcheck="false" enterkeyhint="next"
+             placeholder="Type here"
+             aria-describedby="typeHint" />
+      <p id="typeHint" class="type-hint">Each finished word drops onto your paper below.</p>
+    </div>
+
+    <div class="tools" role="toolbar" aria-label="Page tools">
+      <button id="undoBtn" class="tool" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 8-5 4 5 4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 12h8a6 6 0 0 1 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <span>Undo last word</span>
+      </button>
+      <button id="newPageBtn" class="tool" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l4 4v14H7z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M14 3v4h4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M10 12v6M7 15h6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        <span id="newPageLabel">New page</span>
+      </button>
+    </div>
+
+    <section id="paper" class="paper" aria-label="Your story">
+      <div id="lines" class="lines"></div>
+    </section>
+
+    <section class="shelf-wrap" aria-label="Words I fixed">
+      <h2>Words I fixed</h2>
+      <div id="shelf" class="shelf"></div>
+    </section>
+  </main>
+
+  <!-- The Teaching card. Fixed to the upper part of the screen, never under
+       the keyboard. Its contents are built by app.js one stage at a time. -->
+  <div id="card" class="card" role="dialog" aria-label="Spelling help" hidden>
+    <button id="cardClose" class="card-close" type="button" aria-label="Close">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg>
+    </button>
+    <div id="cardBody"></div>
+  </div>
+
+  <p id="status" class="sr-only" aria-live="polite"></p>
+  <audio id="player" preload="auto"></audio>
+
+  <script src="spell.js"></script>
+  <script src="data/bank.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
