@@ -4,20 +4,338 @@
   "title": "How Do Magnets Stick?",
   "style": "soft classic watercolour",
   "pages": [
-    {"id": "cover", "kind": "cover", "art": "art/cover.webp", "text": ""},
-    {"id": "fridge", "art": "art/fridge.webp", "text": "A magnet sticks to the fridge door. It holds my picture up.", "quickWords": [{"en": "magnet", "th": "แม่เหล็ก"}, {"en": "fridge", "th": "ตู้เย็น"}, {"en": "picture", "th": "รูปภาพ"}]},
-    {"id": "the-pull", "art": "art/the-pull.webp", "text": "A magnet pulls some things towards it. We cannot see the pull, but we can feel it.", "quickWords": [{"en": "pull", "th": "ดึง"}, {"en": "things", "th": "สิ่งของ"}, {"en": "feel", "th": "รู้สึก"}]},
-    {"id": "iron-and-steel", "art": "art/iron-and-steel.webp", "text": "Magnets pull things made of iron and steel. A paper clip is made of steel. So is a nail.", "quickWords": [{"en": "iron", "th": "เหล็ก"}, {"en": "steel", "th": "เหล็กกล้า"}, {"en": "nail", "th": "ตะปู"}]},
-    {"id": "not-these", "art": "art/not-these.webp", "text": "A magnet does not pull wood, paper, plastic or glass.", "quickWords": [{"en": "wood", "th": "ไม้"}, {"en": "plastic", "th": "พลาสติก"}, {"en": "glass", "th": "แก้ว"}]},
-    {"id": "not-every-metal", "art": "art/not-every-metal.webp", "text": "A magnet does not pull every metal. Kitchen foil is made of aluminium. A magnet does not stick to it.", "quickWords": [{"en": "metal", "th": "โลหะ"}, {"en": "foil", "th": "ฟอยล์"}, {"en": "aluminium", "th": "อะลูมิเนียม"}]},
-    {"id": "two-poles", "art": "art/two-poles.webp", "text": "Every magnet has two ends called poles. One is the north pole. One is the south pole. In our pictures, north is red and south is blue.", "quickWords": [{"en": "pole", "th": "ขั้ว"}, {"en": "north", "th": "เหนือ"}, {"en": "south", "th": "ใต้"}]},
-    {"id": "pull-together", "art": "art/pull-together.webp", "text": "Put a north pole near a south pole. The two magnets pull together. Snap!", "quickWords": [{"en": "north", "th": "เหนือ"}, {"en": "pole", "th": "ขั้ว"}, {"en": "together", "th": "ด้วยกัน"}]},
-    {"id": "push-apart", "art": "art/push-apart.webp", "text": "Put two north poles together. They push each other away. Two south poles push away too.", "quickWords": [{"en": "push", "th": "ผลัก"}, {"en": "south", "th": "ใต้"}, {"en": "away", "th": "ออกห่าง"}]},
-    {"id": "tiny-magnets", "art": "art/tiny-magnets.webp", "text": "Inside a piece of iron are many tiny magnets. In a magnet they all point the same way. That is what makes its pull strong.", "quickWords": [{"en": "tiny", "th": "เล็กจิ๋ว"}, {"en": "magnet", "th": "แม่เหล็ก"}, {"en": "strong", "th": "แรง"}]},
-    {"id": "strongest-ends", "art": "art/strongest-ends.webp", "text": "A magnet pulls hardest at its two ends. Look where the paper clips hang.", "quickWords": [{"en": "end", "th": "ปลาย"}, {"en": "paper clip", "th": "คลิปหนีบกระดาษ"}, {"en": "hang", "th": "ห้อย"}]},
-    {"id": "through-paper", "art": "art/through-paper.webp", "text": "A magnet can pull through paper. Move the magnet under the page and the paper clip follows.", "quickWords": [{"en": "paper", "th": "กระดาษ"}, {"en": "page", "th": "หน้า"}, {"en": "follows", "th": "เคลื่อนไปตาม"}]},
-    {"id": "borrowed-pull", "art": "art/borrowed-pull.webp", "text": "A paper clip that touches a magnet can lift another paper clip. For a little while, it is a magnet too.", "quickWords": [{"en": "paper clip", "th": "คลิปหนีบกระดาษ"}, {"en": "touches", "th": "สัมผัส"}, {"en": "lift", "th": "ยก"}]},
-    {"id": "earth", "art": "art/earth.webp", "text": "The Earth is a giant magnet. A compass needle is a small magnet. It turns to point north.", "quickWords": [{"en": "Earth", "th": "โลก"}, {"en": "compass", "th": "เข็มทิศ"}, {"en": "needle", "th": "เข็ม"}]},
-    {"id": "closing", "kind": "closing", "art": "art/closing.webp", "text": "Magnets pull iron and steel. Different poles pull together. Same poles push apart. Never put a magnet in your mouth. What will your magnet stick to?", "quickWords": [{"en": "iron", "th": "เหล็ก"}, {"en": "steel", "th": "เหล็กกล้า"}, {"en": "mouth", "th": "ปาก"}]}
+    {
+      "id": "cover",
+      "kind": "cover",
+      "art": "art/cover.webp",
+      "text": "",
+      "narration": {
+        "clip": "audio/pages/magnets/cover.m4a",
+        "timing": "audio/pages/magnets/cover.timing.json"
+      }
+    },
+    {
+      "id": "fridge",
+      "art": "art/fridge.webp",
+      "text": "A magnet sticks to the fridge door. It holds my picture up.",
+      "quickWords": [
+        {
+          "en": "magnet",
+          "th": "แม่เหล็ก"
+        },
+        {
+          "en": "fridge",
+          "th": "ตู้เย็น"
+        },
+        {
+          "en": "picture",
+          "th": "รูปภาพ"
+        }
+      ],
+      "narration": {
+        "clip": "audio/pages/magnets/fridge.m4a",
+        "timing": "audio/pages/magnets/fridge.timing.json"
+      }
+    },
+    {
+      "id": "the-pull",
+      "art": "art/the-pull.webp",
+      "text": "A magnet pulls some things towards it. We cannot see the pull, but we can feel it.",
+      "quickWords": [
+        {
+          "en": "pull",
+          "th": "ดึง"
+        },
+        {
+          "en": "things",
+          "th": "สิ่งของ"
+        },
+        {
+          "en": "feel",
+          "th": "รู้สึก"
+        }
+      ],
+      "narration": {
+        "clip": "audio/pages/magnets/the-pull.m4a",
+        "timing": "audio/pages/magnets/the-pull.timing.json"
+      }
+    },
+    {
+      "id": "iron-and-steel",
+      "art": "art/iron-and-steel.webp",
+      "text": "Magnets pull things made of iron and steel. A paper clip is made of steel. So is a nail.",
+      "quickWords": [
+        {
+          "en": "iron",
+          "th": "เหล็ก"
+        },
+        {
+          "en": "steel",
+          "th": "เหล็กกล้า"
+        },
+        {
+          "en": "nail",
+          "th": "ตะปู"
+        }
+      ],
+      "narration": {
+        "clip": "audio/pages/magnets/iron-and-steel.m4a",
+        "timing": "audio/pages/magnets/iron-and-steel.timing.json"
+      }
+    },
+    {
+      "id": "not-these",
+      "art": "art/not-these.webp",
+      "text": "A magnet does not pull wood, paper, plastic or glass.",
+      "quickWords": [
+        {
+          "en": "wood",
+          "th": "ไม้"
+        },
+        {
+          "en": "plastic",
+          "th": "พลาสติก"
+        },
+        {
+          "en": "glass",
+          "th": "แก้ว"
+        }
+      ],
+      "narration": {
+        "clip": "audio/pages/magnets/not-these.m4a",
+        "timing": "audio/pages/magnets/not-these.timing.json"
+      }
+    },
+    {
+      "id": "not-every-metal",
+      "art": "art/not-every-metal.webp",
+      "text": "A magnet does not pull every metal. Kitchen foil is made of aluminium. A magnet does not stick to it.",
+      "quickWords": [
+        {
+          "en": "metal",
+          "th": "โลหะ"
+        },
+        {
+          "en": "foil",
+          "th": "ฟอยล์"
+        },
+        {
+          "en": "aluminium",
+          "th": "อะลูมิเนียม"
+        }
+      ],
+      "narration": {
+        "clip": "audio/pages/magnets/not-every-metal.m4a",
+        "timing": "audio/pages/magnets/not-every-metal.timing.json"
+      }
+    },
+    {
+      "id": "two-poles",
+      "art": "art/two-poles.webp",
+      "text": "Every magnet has two ends called poles. One is the north pole. One is the south pole. In our pictures, north is red and south is blue.",
+      "quickWords": [
+        {
+          "en": "pole",
+          "th": "ขั้ว"
+        },
+        {
+          "en": "north",
+          "th": "เหนือ"
+        },
+        {
+          "en": "south",
+          "th": "ใต้"
+        }
+      ],
+      "narration": {
+        "clip": "audio/pages/magnets/two-poles.m4a",
+        "timing": "audio/pages/magnets/two-poles.timing.json"
+      }
+    },
+    {
+      "id": "pull-together",
+      "art": "art/pull-together.webp",
+      "text": "Put a north pole near a south pole. The two magnets pull together. Snap!",
+      "quickWords": [
+        {
+          "en": "north",
+          "th": "เหนือ"
+        },
+        {
+          "en": "pole",
+          "th": "ขั้ว"
+        },
+        {
+          "en": "together",
+          "th": "ด้วยกัน"
+        }
+      ],
+      "narration": {
+        "clip": "audio/pages/magnets/pull-together.m4a",
+        "timing": "audio/pages/magnets/pull-together.timing.json"
+      }
+    },
+    {
+      "id": "push-apart",
+      "art": "art/push-apart.webp",
+      "text": "Put two north poles together. They push each other away. Two south poles push away too.",
+      "quickWords": [
+        {
+          "en": "push",
+          "th": "ผลัก"
+        },
+        {
+          "en": "south",
+          "th": "ใต้"
+        },
+        {
+          "en": "away",
+          "th": "ออกห่าง"
+        }
+      ],
+      "narration": {
+        "clip": "audio/pages/magnets/push-apart.m4a",
+        "timing": "audio/pages/magnets/push-apart.timing.json"
+      }
+    },
+    {
+      "id": "tiny-magnets",
+      "art": "art/tiny-magnets.webp",
+      "text": "Inside a piece of iron are many tiny magnets. In a magnet they all point the same way. That is what makes its pull strong.",
+      "quickWords": [
+        {
+          "en": "tiny",
+          "th": "เล็กจิ๋ว"
+        },
+        {
+          "en": "magnet",
+          "th": "แม่เหล็ก"
+        },
+        {
+          "en": "strong",
+          "th": "แรง"
+        }
+      ],
+      "narration": {
+        "clip": "audio/pages/magnets/tiny-magnets.m4a",
+        "timing": "audio/pages/magnets/tiny-magnets.timing.json"
+      }
+    },
+    {
+      "id": "strongest-ends",
+      "art": "art/strongest-ends.webp",
+      "text": "A magnet pulls hardest at its two ends. Look where the paper clips hang.",
+      "quickWords": [
+        {
+          "en": "end",
+          "th": "ปลาย"
+        },
+        {
+          "en": "paper clip",
+          "th": "คลิปหนีบกระดาษ"
+        },
+        {
+          "en": "hang",
+          "th": "ห้อย"
+        }
+      ],
+      "narration": {
+        "clip": "audio/pages/magnets/strongest-ends.m4a",
+        "timing": "audio/pages/magnets/strongest-ends.timing.json"
+      }
+    },
+    {
+      "id": "through-paper",
+      "art": "art/through-paper.webp",
+      "text": "A magnet can pull through paper. Move the magnet under the page and the paper clip follows.",
+      "quickWords": [
+        {
+          "en": "paper",
+          "th": "กระดาษ"
+        },
+        {
+          "en": "page",
+          "th": "หน้า"
+        },
+        {
+          "en": "follows",
+          "th": "เคลื่อนไปตาม"
+        }
+      ],
+      "narration": {
+        "clip": "audio/pages/magnets/through-paper.m4a",
+        "timing": "audio/pages/magnets/through-paper.timing.json"
+      }
+    },
+    {
+      "id": "borrowed-pull",
+      "art": "art/borrowed-pull.webp",
+      "text": "A paper clip that touches a magnet can lift another paper clip. For a little while, it is a magnet too.",
+      "quickWords": [
+        {
+          "en": "paper clip",
+          "th": "คลิปหนีบกระดาษ"
+        },
+        {
+          "en": "touches",
+          "th": "สัมผัส"
+        },
+        {
+          "en": "lift",
+          "th": "ยก"
+        }
+      ],
+      "narration": {
+        "clip": "audio/pages/magnets/borrowed-pull.m4a",
+        "timing": "audio/pages/magnets/borrowed-pull.timing.json"
+      }
+    },
+    {
+      "id": "earth",
+      "art": "art/earth.webp",
+      "text": "The Earth is a giant magnet. A compass needle is a small magnet. It turns to point north.",
+      "quickWords": [
+        {
+          "en": "Earth",
+          "th": "โลก"
+        },
+        {
+          "en": "compass",
+          "th": "เข็มทิศ"
+        },
+        {
+          "en": "needle",
+          "th": "เข็ม"
+        }
+      ],
+      "narration": {
+        "clip": "audio/pages/magnets/earth.m4a",
+        "timing": "audio/pages/magnets/earth.timing.json"
+      }
+    },
+    {
+      "id": "closing",
+      "kind": "closing",
+      "art": "art/closing.webp",
+      "text": "Magnets pull iron and steel. Different poles pull together. Same poles push apart. Never put a magnet in your mouth. What will your magnet stick to?",
+      "quickWords": [
+        {
+          "en": "iron",
+          "th": "เหล็ก"
+        },
+        {
+          "en": "steel",
+          "th": "เหล็กกล้า"
+        },
+        {
+          "en": "mouth",
+          "th": "ปาก"
+        }
+      ],
+      "narration": {
+        "clip": "audio/pages/magnets/closing.m4a",
+        "timing": "audio/pages/magnets/closing.timing.json"
+      }
+    }
   ]
 }
