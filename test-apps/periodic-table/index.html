@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>Chemistry</title>
+  <meta name="apple-mobile-web-app-title" content="Chemistry"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="theme-color" content="#f7fbff"/>
+  <link rel="icon" href="./icon-192.png"/>
+  <link rel="manifest" href="./manifest.webmanifest"/>
+  <link rel="stylesheet" href="./css/app.css"/>
+  <link rel="stylesheet" href="./css/around-us.css"/>
+  <link rel="stylesheet" href="./cg-back.css" />
+    <script src="./cg-update.js" defer></script>
+</head>
+<body>
+  <main id="app" class="app" data-mode="explore" data-screen="home">
+    <section id="home-screen" class="home-screen" aria-labelledby="home-title">
+      <header class="chem-header">
+        <a id="home-back-link" class="cg-back" href="../" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <h1 id="home-title">Chemistry</h1>
+        <span class="chem-header-spacer" aria-hidden="true"></span>
+      </header>
+      <div class="home-doors" aria-label="Choose a chemistry activity">
+        <button id="open-table" class="picture-door" type="button">
+          <span class="door-picture table-door-picture"><img src="./icon-512.png" alt="" draggable="false"/></span>
+          <span class="door-title">Periodic Table</span>
+          <span class="door-note">Meet all 118 elements</span>
+        </button>
+        <button id="open-kitchen" class="picture-door" type="button">
+          <span class="door-picture"><img src="./art/around-us/kitchen.webp" alt="" draggable="false"/></span>
+          <span class="door-title">Chemistry Around Us</span>
+          <span class="door-note">Explore the kitchen</span>
+        </button>
+      </div>
+    </section>
+
+    <header class="topbar table-only" hidden>
+      <span class="cg-back-slot" aria-hidden="true"></span><a id="back-link" class="cg-back" href="../" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <h1>Periodic Table</h1>
+      <a id="home-link" class="round-nav home" hidden href="../../children-apps/" aria-label="Go to the children apps home">
+        <span aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 11l8-7 8 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 10v10h12V10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 20v-5h4v5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Home</span>
+      </a>
+    </header>
+
+    <section class="control-strip table-only" hidden aria-label="Learning mode and question set">
+      <nav class="chip-group mode-picker" aria-label="Mode">
+        <button type="button" class="chip mode-chip is-active" data-mode="explore" aria-pressed="true">Explore</button>
+        <button type="button" class="chip mode-chip" data-mode="find-it" aria-pressed="false">Find It</button>
+        <button type="button" class="chip mode-chip" data-mode="symbol-match" aria-pressed="false">Symbol Match</button>
+        <button type="button" class="chip mode-chip" data-mode="atomic-number" aria-pressed="false">Atomic Number</button>
+      </nav>
+      <div class="chip-group set-picker" aria-label="Difficulty set">
+        <span class="set-label">Set</span>
+        <button type="button" class="chip set-chip is-active" data-set="starter" aria-pressed="true">Starter</button>
+        <button type="button" class="chip set-chip" data-set="first20" aria-pressed="false">First 20</button>
+        <button type="button" class="chip set-chip" data-set="common" aria-pressed="false">Common</button>
+        <button type="button" class="chip set-chip" data-set="all" aria-pressed="false">All 118</button>
+      </div>
+      <p id="game-prompt" class="game-prompt" aria-live="polite">Tap any element to hear one short fact.</p>
+    </section>
+
+    <section id="legend" class="legend table-only" hidden aria-label="Element category colours"></section>
+
+    <section id="periodic-zone" class="periodic-zone table-only" hidden aria-label="Interactive periodic table">
+      <div id="main-grid" class="main-grid"></div>
+      <div id="f-block" class="f-block"></div>
+    </section>
+
+    <section id="info-strip" class="info-strip table-only" hidden aria-label="Selected element information" aria-live="polite">
+      <div id="info-preview" class="info-preview">
+        <span class="atomic-number"></span>
+        <span class="symbol-line"><span class="symbol"></span><span class="icon" aria-hidden="true"></span></span>
+        <span class="element-name"></span>
+      </div>
+      <button id="speak-button" class="speak-button" type="button" aria-label="Replay this element's fact">
+        <svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true" focusable="false">
+          <path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/>
+          <path d="M15.5 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M18.5 6a9 9 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <p id="info-sentence" class="info-sentence"></p>
+      <button id="next-question" class="next-question" type="button" hidden>Next question</button>
+    </section>
+
+    <section id="kitchen-screen" class="kitchen-screen" hidden aria-labelledby="kitchen-title">
+      <header class="chem-header kitchen-header">
+        <button id="kitchen-back" class="cg-back" type="button" aria-label="Back to Chemistry home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <h1 id="kitchen-title">Kitchen Chemistry</h1>
+        <span class="chem-header-spacer" aria-hidden="true"></span>
+      </header>
+      <div class="kitchen-layout">
+        <div class="scene-frame">
+          <img id="kitchen-image" src="./art/around-us/kitchen.webp" alt="A cosy kitchen counter with salt, sugar, water, baking soda, vinegar, lemons, foil, milk and a steel pot" draggable="false"/>
+          <svg id="kitchen-targets" class="scene-targets" viewBox="0 0 1000 750" preserveAspectRatio="none" aria-label="Tappable kitchen objects"></svg>
+        </div>
+        <aside id="kitchen-panel" class="kitchen-panel" aria-live="polite">
+          <div class="panel-prompt">
+            <h2>What is it made of?</h2>
+            <p>Tap something in the kitchen picture to discover its chemistry.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <script src="./js/tap-zoom-guard.js"></script>
+  <script src="./js/elements.js"></script>
+  <script src="./js/voice.js"></script>
+  <script src="./js/app.js"></script>
+  <script src="./js/around-us.js"></script>
+</body>
+</html>
