@@ -28,12 +28,21 @@
           <span class="door-title">Periodic Table</span>
           <span class="door-note">Meet all 118 elements</span>
         </button>
-        <button id="open-kitchen" class="picture-door" type="button">
+        <button id="open-around-us" class="picture-door" type="button">
           <span class="door-picture"><img src="./art/around-us/kitchen.webp" alt="" draggable="false"/></span>
           <span class="door-title">Chemistry Around Us</span>
-          <span class="door-note">Explore the kitchen</span>
+          <span class="door-note">Explore everyday places</span>
         </button>
       </div>
+    </section>
+
+    <section id="scenes-screen" class="scenes-screen" hidden aria-labelledby="scenes-title">
+      <header class="chem-header">
+        <button id="scenes-back" class="cg-back" type="button" aria-label="Back to Chemistry home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <h1 id="scenes-title">Chemistry Around Us</h1>
+        <span class="chem-header-spacer" aria-hidden="true"></span>
+      </header>
+      <div id="scene-doors" class="scene-doors" aria-label="Choose a place to explore"></div>
     </section>
 
     <header class="topbar table-only" hidden>
@@ -85,21 +94,22 @@
       <button id="next-question" class="next-question" type="button" hidden>Next question</button>
     </section>
 
-    <section id="kitchen-screen" class="kitchen-screen" hidden aria-labelledby="kitchen-title">
-      <header class="chem-header kitchen-header">
-        <button id="kitchen-back" class="cg-back" type="button" aria-label="Back to Chemistry home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        <h1 id="kitchen-title">Kitchen Chemistry</h1>
+    <section id="scene-screen" class="scene-screen" hidden aria-labelledby="scene-title">
+      <header class="chem-header scene-header">
+        <button id="scene-back" class="cg-back" type="button" aria-label="Back to Chemistry Around Us"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <h1 id="scene-title">Kitchen</h1>
         <span class="chem-header-spacer" aria-hidden="true"></span>
       </header>
-      <div class="kitchen-layout">
-        <div class="scene-frame">
-          <img id="kitchen-image" src="./art/around-us/kitchen.webp" alt="A cosy kitchen counter with salt, sugar, water, baking soda, vinegar, lemons, foil, milk and a steel pot" draggable="false"/>
-          <svg id="kitchen-targets" class="scene-targets" viewBox="0 0 1000 750" preserveAspectRatio="none" aria-label="Tappable kitchen objects"></svg>
+      <div class="scene-layout">
+        <div id="scene-frame" class="scene-frame">
+          <img id="scene-image" src="./art/around-us/kitchen.webp" alt="A cosy kitchen counter with salt, sugar, water, baking soda, vinegar, lemons, foil, milk and a steel pot" draggable="false"/>
+          <svg id="scene-targets" class="scene-targets" viewBox="0 0 1000 750" preserveAspectRatio="none" aria-label="Tappable picture objects"></svg>
+          <div id="scene-fallback" class="scene-fallback" hidden></div>
         </div>
-        <aside id="kitchen-panel" class="kitchen-panel" aria-live="polite">
+        <aside id="scene-panel" class="scene-panel" aria-live="polite">
           <div class="panel-prompt">
             <h2>What is it made of?</h2>
-            <p>Tap something in the kitchen picture to discover its chemistry.</p>
+            <p>Tap something in the picture to discover its chemistry.</p>
           </div>
         </aside>
       </div>
