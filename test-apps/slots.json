@@ -4,10 +4,12 @@
     "thumb": "thumbs/periodic-table.webp",
     "title": "Chemistry app: hub room and Chemistry Around Us room",
     "side": "candidate",
-    "status": "your-turn",
+    "status": "retired",
     "note": "From your 23 Nov requests. The four places with the narrator voice are already in the app since 23 Nov (version 8). Redone as two levels after your \"main > chem hub > periodic table & everyday chem\": the Chemistry hub is a painted room where you tap the periodic-table chart or the arched doorway into Chemistry Around Us (a spare little table is kept for the next thing at this level). Chemistry Around Us is its own room where you tap the kitchen, the beach window, the dressing table or the jewellery box. Back from a place returns to that room, and back again returns to the hub. A gentle music loop plays only in the two rooms, with a round music button at top right that remembers off.",
     "ready_for_you": "2026-11-23",
-    "ask": "Open Chemistry, tap once for the music, then tap the chart, the doorway, and each of the four places: do the two rooms work the way you want? Say yes and it goes into the next release."
+    "answered": "2026-11-23",
+    "answer": "Yes, release it: the hub room and the Chemistry Around Us room are live in version 9 (23 Nov).",
+    "archived": true
   },
   {
     "path": "magnets-book",
@@ -1472,5 +1474,14 @@
     "answered": "2026-10-28",
     "answer": "Published live in Little Color Garden v39 (2026-10-28).",
     "removed": true
+  },
+  {
+    "path": "magic-math-voice",
+    "title": "Magic Math: robot voice no longer cut off",
+    "side": "experiment",
+    "status": "your-turn",
+    "note": "From your 23 Nov report that the robot voice in Number Toys and Read Big Numbers cut off soon after it started. Cause: the timer that guesses how long a spoken line lasts counted every line as one word (about 0.7 seconds), so on the iPad the next voice clip started on top of the robot. Fixed in Space, Unicorn and Mermaid Math, and single robot lines such as the too-long line are now protected too.",
+    "ready_for_you": "2026-11-23",
+    "ask": "On the iPad, open Number Toys and Read Big Numbers, type a very long number and tap Check or Read it: does the robot now read the whole number?"
   }
 ]
