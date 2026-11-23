@@ -254,7 +254,7 @@
     clearHintClasses();
     clearSelection();
     for (const button of document.querySelectorAll(".symbol-choice")) {
-      button.disabled = false;
+      button.removeAttribute("aria-disabled");
       button.classList.remove("is-selected");
     }
     const target = pool[state.round % pool.length];
@@ -321,7 +321,10 @@
     if (state.mode === "symbol-match") renderSymbolChoices();
     nextQuestionButton.hidden = false;
     for (const button of document.querySelectorAll(".symbol-choice")) {
-      button.disabled = true;
+      /* aria-disabled rather than disabled: a finished round still answers a
+         late tap with the press pulse instead of going dead (crawl 2026-11-15).
+         The prompt click handler already guards on state.game.complete. */
+      button.setAttribute("aria-disabled", "true");
       if (button.dataset.correct === "true") button.classList.add("is-selected");
     }
   }
@@ -370,6 +373,20 @@
     }
     state.round = 0;
     if (state.mode !== "explore") newQuestion();
+  }
+
+  /* Nightly crawl 2026-11-15: a tap on an option that is already selected must
+     still answer the child. One delegated listener gives every tappable
+     control a visible press pulse; game logic stays in the click handlers. */
+  function wirePressPulse() {
+    const tappable = ".chip, .element-tile, .symbol-choice, .speak-button, .next-question, .picture-door, .panel-speak, .element-chip, .scene-target";
+    document.addEventListener("pointerdown", (event) => {
+      const control = event.target instanceof Element ? event.target.closest(tappable) : null;
+      if (!control) return;
+      control.classList.remove("is-tapped");
+      void control.offsetWidth; /* restart the pulse on rapid taps */
+      control.classList.add("is-tapped");
+    }, true);
   }
 
   function wireControls() {
@@ -425,6 +442,7 @@
   buildMainGrid();
   buildFBlock();
   wireControls();
+  wirePressPulse();
   adjustNavigation();
   chooseMode("explore");
   window.PeriodicVoice.load();
@@ -446,6 +464,13 @@
     },
     getElement(atomicNumber) {
       return byNumber.get(atomicNumber) || null;
+    },
+    openElement(symbol) {
+      const element = elements.find((item) => item.symbol === symbol);
+      if (!element) return false;
+      chooseMode("explore");
+      selectElement(element, true);
+      return true;
     },
     chooseMode,
     chooseSet,

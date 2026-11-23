@@ -116,19 +116,25 @@ button {
 
 .chip-group {
   display: flex;
+  /* Nightly crawl 2026-11-15: chips are 60px targets now, so a picker that
+     cannot fit its row wraps to a second line instead of overlapping. */
+  flex-wrap: wrap;
   align-items: center;
   gap: 3px;
   white-space: nowrap;
 }
 
 .chip {
-  min-height: 31px;
-  padding: 4px 8px;
+  /* 9.7-inch iPad, young children (nightly crawl 2026-11-15): real 60x60
+     tap area on every mode and set chip. */
+  min-height: 60px;
+  min-width: 60px;
+  padding: 6px 10px;
   border: 1px solid #ccdcf0;
   border-radius: 999px;
   background: #fff;
   color: #244574;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 800;
   line-height: 1;
   cursor: pointer;
@@ -155,7 +161,6 @@ button {
   min-width: 0;
   margin: 0;
   padding: 5px 10px;
-  overflow: hidden;
   border: 1px solid #d5e5f7;
   border-radius: 13px;
   background: #fff;
@@ -164,8 +169,9 @@ button {
   font-weight: 800;
   line-height: 1.1;
   text-align: center;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  /* Wider 60px chips narrow this column, so the prompt wraps instead of
+     ellipsising (nightly crawl 2026-11-15: no clipped text). */
+  white-space: normal;
 }
 
 .game-prompt.is-question {
@@ -194,8 +200,8 @@ button {
 }
 
 .symbol-choice {
-  min-width: 50px;
-  min-height: 44px;
+  min-width: 60px;
+  min-height: 48px;
   padding: 3px 8px;
   border: 1px solid #a9c9ee;
   border-radius: 10px;
@@ -205,6 +211,12 @@ button {
   font-weight: 900;
   cursor: pointer;
   touch-action: manipulation;
+}
+
+/* A finished round dims its choices but stays tappable (see app.js), so a
+   late tap still gets the press pulse instead of silence. */
+.symbol-choice[aria-disabled="true"] {
+  opacity: .75;
 }
 
 .legend {
@@ -358,12 +370,14 @@ button {
   pointer-events: none;
 }
 
+/* Parked off-screen at its own full width instead of the old 1px
+   overflow-hidden box, which the nightly crawl read as clipped text for
+   every element name (2026-11-15). The tile keeps its aria-label; the
+   name span stays for the browser check. */
 .element-tile .element-name {
   position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
+  top: 0;
+  left: -9999px;
   white-space: nowrap;
 }
 
@@ -517,8 +531,37 @@ button {
 .chip:active,
 .round-nav:active,
 .element-tile:active,
-.symbol-choice:active {
+.symbol-choice:active,
+.next-question:active {
   filter: brightness(.96);
+}
+
+/* A tap must answer the child even when the option is already selected
+   (nightly crawl 2026-11-15): app.js drops .is-tapped on pointerdown and
+   every tappable control runs this short press pulse. */
+@keyframes tap-pulse {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+
+  45% {
+    transform: scale(.94);
+    filter: brightness(1.07);
+  }
+
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+.chip.is-tapped,
+.element-tile.is-tapped,
+.symbol-choice.is-tapped,
+.speak-button.is-tapped,
+.next-question.is-tapped {
+  animation: tap-pulse .28s ease-out;
 }
 
 .info-sentence {
@@ -535,8 +578,8 @@ button {
 }
 
 .next-question {
-  min-height: 40px;
-  padding: 6px 10px;
+  min-height: 60px;
+  padding: 8px 12px;
   border: 1px solid var(--blue);
   border-radius: 13px;
   background: var(--blue);
@@ -581,14 +624,35 @@ button {
   }
 }
 
-@media (orientation: landscape) and (max-height: 820px) {
-  :root {
-    --row-h: 46px;
+/* Upright tablets (controller check 2026-11-15, 768x1024): the two pickers
+   side by side wrapped "Atomic Number" onto its own line and left the set
+   picker floating vertically between the mode rows. Stacked instead: the four
+   mode chips fill row 1, the set label and its chips fill row 2, both from the
+   same left edge with one even gap size, and the prompt spans full width
+   below. Chips grow to share the row, so the four mode chips keep one line
+   with the 13px font and 10px side padding untouched. */
+@media (max-width: 850px) and (orientation: portrait) {
+  .control-strip {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+
+  .game-prompt {
+    grid-row: auto;
+  }
+
+  .chip-group {
+    gap: 4px;
   }
 
   .chip {
-    min-height: 29px;
-    padding-block: 3px;
+    flex: 1 1 auto;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 820px) {
+  :root {
+    --row-h: 46px;
   }
 
   .game-prompt {
@@ -649,10 +713,53 @@ button {
 
   .next-question {
     grid-column: 3;
-    min-height: 28px;
+  }
+}
+
+/* Short narrow landscapes (phones; nightly crawl 2026-11-15): the 60px chip
+   row takes back the height the old 29px chips lent the table, so the rows
+   shrink a little. Wide short landscapes (tablets) keep 44px tiles instead:
+   the block after the topbar rule finds the height in the chrome. */
+@media (orientation: landscape) and (max-height: 720px) {
+  :root {
+    --row-h: 40px;
+  }
+
+  .element-tile,
+  .series-placeholder {
+    min-height: 36px;
   }
 }
 
 /* The shared 56px back button (INTERACTION-DIRECTION.md, 2026-10-23) is pinned 16px from the top;
    the top bar must be tall enough that the mode chips below it start clear of it. */
 .topbar { min-height: 76px; }
+
+/* Short wide landscapes (controller check 2026-11-15, 1024x690): tiles must
+   stay 44px tall, so the rows go back to 46px and the height comes out of the
+   chrome instead of the table — the title band (the pinned back button ends
+   72px down; the chips start at 5 + 68 + 3 = 76px, clear of it), the band the
+   legend's min-height left under its 17px chips, the gaps, and the info
+   strip's slack over its 82px content. Placed after the topbar rule on
+   purpose so this wins the cascade. */
+@media (orientation: landscape) and (min-width: 851px) and (max-height: 720px) {
+  :root {
+    --row-h: 46px;
+  }
+
+  .app {
+    gap: 3px;
+  }
+
+  .topbar {
+    min-height: 68px;
+  }
+
+  .legend {
+    min-height: 18px;
+  }
+
+  .info-strip {
+    min-height: 82px;
+  }
+}

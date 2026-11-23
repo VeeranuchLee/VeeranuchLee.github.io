@@ -3,19 +3,49 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>Periodic Table</title>
-  <meta name="apple-mobile-web-app-title" content="Periodic Table"/>
+  <title>Chemistry</title>
+  <meta name="apple-mobile-web-app-title" content="Chemistry"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="theme-color" content="#f7fbff"/>
   <link rel="icon" href="./icon-192.png"/>
   <link rel="manifest" href="./manifest.webmanifest"/>
   <link rel="stylesheet" href="./css/app.css"/>
+  <link rel="stylesheet" href="./css/around-us.css"/>
   <link rel="stylesheet" href="./cg-back.css" />
     <script src="./cg-update.js" defer></script>
 </head>
 <body>
-  <main id="app" class="app" data-mode="explore">
-    <header class="topbar">
+  <main id="app" class="app" data-mode="explore" data-screen="home">
+    <section id="home-screen" class="home-screen" aria-labelledby="home-title">
+      <header class="chem-header">
+        <a id="home-back-link" class="cg-back" href="../" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <h1 id="home-title">Chemistry</h1>
+        <span class="chem-header-spacer" aria-hidden="true"></span>
+      </header>
+      <div class="home-doors" aria-label="Choose a chemistry activity">
+        <button id="open-table" class="picture-door" type="button">
+          <span class="door-picture table-door-picture"><img src="./icon-512.png" alt="" draggable="false"/></span>
+          <span class="door-title">Periodic Table</span>
+          <span class="door-note">Meet all 118 elements</span>
+        </button>
+        <button id="open-around-us" class="picture-door" type="button">
+          <span class="door-picture"><img src="./art/around-us/kitchen.webp" alt="" draggable="false"/></span>
+          <span class="door-title">Chemistry Around Us</span>
+          <span class="door-note">Explore everyday places</span>
+        </button>
+      </div>
+    </section>
+
+    <section id="scenes-screen" class="scenes-screen" hidden aria-labelledby="scenes-title">
+      <header class="chem-header">
+        <button id="scenes-back" class="cg-back" type="button" aria-label="Back to Chemistry home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <h1 id="scenes-title">Chemistry Around Us</h1>
+        <span class="chem-header-spacer" aria-hidden="true"></span>
+      </header>
+      <div id="scene-doors" class="scene-doors" aria-label="Choose a place to explore"></div>
+    </section>
+
+    <header class="topbar table-only" hidden>
       <span class="cg-back-slot" aria-hidden="true"></span><a id="back-link" class="cg-back" href="../" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       <h1>Periodic Table</h1>
       <a id="home-link" class="round-nav home" hidden href="../../children-apps/" aria-label="Go to the children apps home">
@@ -23,7 +53,7 @@
       </a>
     </header>
 
-    <section class="control-strip" aria-label="Learning mode and question set">
+    <section class="control-strip table-only" hidden aria-label="Learning mode and question set">
       <nav class="chip-group mode-picker" aria-label="Mode">
         <button type="button" class="chip mode-chip is-active" data-mode="explore" aria-pressed="true">Explore</button>
         <button type="button" class="chip mode-chip" data-mode="find-it" aria-pressed="false">Find It</button>
@@ -40,14 +70,14 @@
       <p id="game-prompt" class="game-prompt" aria-live="polite">Tap any element to hear one short fact.</p>
     </section>
 
-    <section id="legend" class="legend" aria-label="Element category colours"></section>
+    <section id="legend" class="legend table-only" hidden aria-label="Element category colours"></section>
 
-    <section id="periodic-zone" class="periodic-zone" aria-label="Interactive periodic table">
+    <section id="periodic-zone" class="periodic-zone table-only" hidden aria-label="Interactive periodic table">
       <div id="main-grid" class="main-grid"></div>
       <div id="f-block" class="f-block"></div>
     </section>
 
-    <section id="info-strip" class="info-strip" aria-label="Selected element information" aria-live="polite">
+    <section id="info-strip" class="info-strip table-only" hidden aria-label="Selected element information" aria-live="polite">
       <div id="info-preview" class="info-preview">
         <span class="atomic-number"></span>
         <span class="symbol-line"><span class="symbol"></span><span class="icon" aria-hidden="true"></span></span>
@@ -63,11 +93,33 @@
       <p id="info-sentence" class="info-sentence"></p>
       <button id="next-question" class="next-question" type="button" hidden>Next question</button>
     </section>
+
+    <section id="scene-screen" class="scene-screen" hidden aria-labelledby="scene-title">
+      <header class="chem-header scene-header">
+        <button id="scene-back" class="cg-back" type="button" aria-label="Back to Chemistry Around Us"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <h1 id="scene-title">Kitchen</h1>
+        <span class="chem-header-spacer" aria-hidden="true"></span>
+      </header>
+      <div class="scene-layout">
+        <div id="scene-frame" class="scene-frame">
+          <img id="scene-image" src="./art/around-us/kitchen.webp" alt="A cosy kitchen counter with salt, sugar, water, baking soda, vinegar, lemons, foil, milk and a steel pot" draggable="false"/>
+          <svg id="scene-targets" class="scene-targets" viewBox="0 0 1000 750" preserveAspectRatio="none" aria-label="Tappable picture objects"></svg>
+          <div id="scene-fallback" class="scene-fallback" hidden></div>
+        </div>
+        <aside id="scene-panel" class="scene-panel" aria-live="polite">
+          <div class="panel-prompt">
+            <h2>What is it made of?</h2>
+            <p>Tap something in the picture to discover its chemistry.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
   </main>
 
   <script src="./js/tap-zoom-guard.js"></script>
   <script src="./js/elements.js"></script>
   <script src="./js/voice.js"></script>
   <script src="./js/app.js"></script>
+  <script src="./js/around-us.js"></script>
 </body>
 </html>

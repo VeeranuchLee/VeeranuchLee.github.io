@@ -1,18 +1,28 @@
 /* The release pipeline reads CACHE_NAME; do not rename it. */
-const CACHE_NAME = 'periodic-table-v7';
+const CACHE_NAME = 'periodic-table-v8';
 
 const SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
   './css/app.css',
+  './css/around-us.css',
   './cg-back.css',
   './cg-update.js',
   './js/tap-zoom-guard.js',
   './js/elements.js',
   './js/voice.js',
   './js/app.js',
+  './js/around-us.js',
   './data/clips.json',
+  './data/around-us/kitchen.json',
+  './art/around-us/kitchen.webp',
+  './data/around-us/beach.json',
+  './art/around-us/beach.webp',
+  './data/around-us/dressing-table.json',
+  './art/around-us/dressing-table.webp',
+  './data/around-us/jewellery.json',
+  './art/around-us/jewellery.webp',
   './icon-192.png',
   './icon-512.png',
   './icons/001-H.webp',
