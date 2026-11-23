@@ -18,23 +18,26 @@
   <main id="app" class="app" data-mode="explore" data-screen="home">
     <section id="home-screen" class="home-screen room-home" aria-labelledby="home-title">
       <a id="home-back-link" class="cg-back" href="../" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-      <div id="room-stage" class="room-stage">
-        <img id="room-image" src="./art/chem-room.webp" width="2048" height="1536" alt="A bright chemistry room with a periodic table chart, a little kitchen, a window onto a beach, a dressing table and an open jewellery box" draggable="false"/>
+      <div id="room-stage" class="room-stage" data-room="./data/room.json">
+        <img id="room-image" class="room-image" src="./art/chem-hub-room.webp" width="2048" height="1536" alt="A bright chemistry room with a periodic table chart and an open doorway into a sunny home" draggable="false"/>
         <h1 id="home-title" class="room-title">Chemistry</h1>
-        <svg id="room-debug" class="room-debug" viewBox="0 0 2048 1536" aria-hidden="true"></svg>
-        <div id="room-labels" class="room-labels" aria-hidden="true"></div>
-        <div id="room-hotspots" class="room-hotspots" role="group" aria-label="Choose a chemistry activity"></div>
-        <div id="room-glints" class="room-glints" aria-hidden="true"></div>
+        <svg class="room-debug" viewBox="0 0 2048 1536" aria-hidden="true"></svg>
+        <div class="room-labels" aria-hidden="true"></div>
+        <div class="room-hotspots" role="group" aria-label="Choose a chemistry activity"></div>
+        <div class="room-glints" aria-hidden="true"></div>
       </div>
     </section>
 
-    <section id="scenes-screen" class="scenes-screen" hidden aria-labelledby="scenes-title">
-      <header class="chem-header">
-        <button id="scenes-back" class="cg-back" type="button" aria-label="Back to Chemistry home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        <h1 id="scenes-title">Chemistry Around Us</h1>
-        <span class="chem-header-spacer" aria-hidden="true"></span>
-      </header>
-      <div id="scene-doors" class="scene-doors" aria-label="Choose a place to explore"></div>
+    <section id="scenes-screen" class="scenes-screen room-home" hidden aria-labelledby="scenes-title">
+      <button id="scenes-back" class="cg-back" type="button" aria-label="Back to Chemistry home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="room-stage" data-room="./data/everyday-room.json">
+        <img class="room-image" src="./art/everyday-room.webp" width="2048" height="1536" alt="A cosy room with a little kitchen, a window onto a beach, a dressing table and an open jewellery box" draggable="false"/>
+        <h1 id="scenes-title" class="room-title">Chemistry Around Us</h1>
+        <svg class="room-debug" viewBox="0 0 2048 1536" aria-hidden="true"></svg>
+        <div class="room-labels" aria-hidden="true"></div>
+        <div class="room-hotspots" role="group" aria-label="Choose a place to explore"></div>
+        <div class="room-glints" aria-hidden="true"></div>
+      </div>
     </section>
 
     <header class="topbar table-only" hidden>

@@ -513,14 +513,18 @@
 
 /* Chemistry hub room (2026-11-23): one 4:3 painted room scaled whole inside either iPad
    orientation, the same pattern as the Biology hub. The objects are the buttons. */
-body:has(.app[data-screen="home"]) {
+body:has(.app[data-screen="home"]),
+body:has(.app[data-screen="scenes"]) {
   background: linear-gradient(145deg, #f3dcc0, #fff4e2);
 }
-.home-screen.room-home {
+.home-screen.room-home,
+.scenes-screen.room-home {
   display: grid;
   grid-template-rows: minmax(0, 1fr);
   place-items: center;
 }
+/* Same weight as the rule above, so [hidden] must be restated after it or both rooms stack. */
+.room-home[hidden] { display: none; }
 .room-stage {
   position: relative;
   width: min(100%, calc((100dvh - 12px) * 4 / 3));
@@ -531,7 +535,7 @@ body:has(.app[data-screen="home"]) {
   box-shadow: 0 10px 35px #6e412b55;
   background: #f1dcc0;
 }
-.room-stage > img,
+.room-stage > .room-image,
 .room-hotspots,
 .room-labels,
 .room-glints,
@@ -541,7 +545,7 @@ body:has(.app[data-screen="home"]) {
   width: 100%;
   height: 100%;
 }
-.room-stage > img { display: block; }
+.room-stage > .room-image { display: block; }
 .room-title {
   position: absolute;
   z-index: 7;

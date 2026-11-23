@@ -1,4 +1,5 @@
-/* Chemistry home, the Chemistry Around Us scene picker, and the shared scene screen. */
+/* Screen switching for the Chemistry hub room, the Chemistry Around Us room (js/chem-room.js
+   builds both rooms), the periodic table, and the shared scene screen. */
 (function () {
   "use strict";
 
@@ -20,7 +21,6 @@
   const homeScreen = document.getElementById("home-screen");
   const scenesScreen = document.getElementById("scenes-screen");
   const sceneScreen = document.getElementById("scene-screen");
-  const sceneDoors = document.getElementById("scene-doors");
   const sceneFrame = document.getElementById("scene-frame");
   const sceneImage = document.getElementById("scene-image");
   const sceneTargets = document.getElementById("scene-targets");
@@ -32,7 +32,6 @@
   const elementsBySymbol = new Map(elements.map((element) => [element.symbol, element]));
   const sceneData = new Map();
   const sceneSelection = new Map();
-  let doorsBuilt = false;
   let currentScene = null;
   let selectedThing = null;
 
@@ -59,8 +58,6 @@
     app.dataset.screen = "scenes";
     hideAllScreens();
     scenesScreen.hidden = false;
-    buildSceneDoors();
-    refreshDoorTitles();
   }
 
   function showScene(sceneId) {
@@ -264,44 +261,6 @@
     sceneFallback.hidden = false;
   }
 
-  function buildSceneDoors() {
-    if (doorsBuilt) return;
-    doorsBuilt = true;
-    for (const definition of SCENES) {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "picture-door scene-door";
-      button.dataset.scene = definition.id;
-
-      const picture = document.createElement("span");
-      picture.className = "door-picture";
-      const image = document.createElement("img");
-      image.src = `./art/around-us/${definition.id}.webp`;
-      image.alt = "";
-      image.draggable = false;
-      image.addEventListener("error", () => picture.classList.add("is-missing"));
-      image.addEventListener("load", () => picture.classList.remove("is-missing"));
-      picture.append(image);
-
-      const title = document.createElement("span");
-      title.className = "door-title";
-      title.dataset.scene = definition.id;
-      title.textContent = definition.fallbackTitle;
-
-      button.append(picture, title);
-      button.addEventListener("click", () => showScene(definition.id));
-      sceneDoors.append(button);
-    }
-  }
-
-  async function refreshDoorTitles() {
-    for (const definition of SCENES) {
-      const data = await loadSceneData(definition.id);
-      const title = sceneDoors.querySelector(`.door-title[data-scene="${definition.id}"]`);
-      if (data && data.title && title) title.textContent = data.title;
-    }
-  }
-
   async function loadSceneData(sceneId) {
     if (sceneData.has(sceneId)) return sceneData.get(sceneId);
     try {
@@ -354,7 +313,7 @@
   sceneImage.addEventListener("load", () => sceneFrame.classList.remove("is-missing"));
 
   document.getElementById("scenes-back").addEventListener("click", showHome);
-  document.getElementById("scene-back").addEventListener("click", showHome);
+  document.getElementById("scene-back").addEventListener("click", showScenes);
   document.getElementById("back-link").addEventListener("click", (event) => {
     if (app.dataset.screen !== "table") return;
     event.preventDefault();
