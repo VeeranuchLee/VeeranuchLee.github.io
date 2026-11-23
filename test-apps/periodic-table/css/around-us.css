@@ -530,3 +530,24 @@
     transform: none;
   }
 }
+
+/* Hub music switch (js/hub-music.js): the shared round button, mirrored to the top right. */
+.cg-back.chem-music {
+  left: auto;
+  right: calc(16px + env(safe-area-inset-right, 0px));
+}
+.cg-back.chem-music.music-off { color: #9a8578; }
+
+/* Hub background (owner 2026-11-23: "make bg for the chem hub too"): a pale watercolour plate
+   behind the Chemistry home and the scene picker only; the table and the scenes keep their own
+   plain surface. Without :has support the page simply stays plain. */
+body:has(.app[data-screen="home"]),
+body:has(.app[data-screen="scenes"]) {
+  background: var(--surface) url("../art/hub-bg-landscape.webp") center / cover no-repeat fixed;
+}
+@media (orientation: portrait) {
+  body:has(.app[data-screen="home"]),
+  body:has(.app[data-screen="scenes"]) {
+    background-image: url("../art/hub-bg-portrait.webp");
+  }
+}
