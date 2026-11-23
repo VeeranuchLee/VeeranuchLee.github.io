@@ -1,5 +1,5 @@
 /* The release pipeline reads CACHE_NAME; do not rename it. */
-const CACHE_NAME = 'periodic-table-v8';
+const CACHE_NAME = 'periodic-table-v9';
 
 const SHELL = [
   './',
@@ -14,6 +14,13 @@ const SHELL = [
   './js/voice.js',
   './js/app.js',
   './js/around-us.js',
+  './js/hub-music.js',
+  './audio/hub-bed.m4a',
+  './art/chem-hub-room.webp',
+  './art/everyday-room.webp',
+  './data/everyday-room.json',
+  './data/room.json',
+  './js/chem-room.js',
   './data/clips.json',
   './data/around-us/kitchen.json',
   './art/around-us/kitchen.webp',

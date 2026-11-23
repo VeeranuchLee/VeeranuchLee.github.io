@@ -456,40 +456,18 @@
 }
 
 @media (orientation: portrait) {
+  /* Portrait keeps the landscape door shape (picture on top, title under it), stacked and
+     centred. Stretching two rows to the full height left each door mostly empty white. */
   .home-doors {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: repeat(2, minmax(0, 1fr));
-    width: min(680px, 100%);
-    gap: 14px;
+    grid-template-rows: none;
+    align-content: center;
+    width: min(560px, 100%);
+    gap: 22px;
   }
 
   .home-doors .picture-door {
     min-height: 0;
-    grid-template-columns: minmax(180px, 44%) minmax(0, 1fr);
-    grid-template-rows: 1fr auto 1fr;
-    align-items: center;
-    text-align: left;
-  }
-
-  .home-doors .door-picture {
-    grid-column: 1;
-    grid-row: 1 / -1;
-    width: 100%;
-  }
-
-  .home-doors .door-title,
-  .home-doors .door-note {
-    grid-column: 2;
-  }
-
-  .home-doors .door-title {
-    grid-row: 2;
-    align-self: end;
-  }
-
-  .home-doors .door-note {
-    grid-row: 3;
-    align-self: start;
   }
 
   .scene-layout {
@@ -510,11 +488,6 @@
 }
 
 @media (max-width: 560px) and (orientation: portrait) {
-  .home-doors .picture-door {
-    grid-template-columns: 42% minmax(0, 1fr);
-    padding: 10px;
-  }
-
   .home-doors .door-title {
     font-size: 20px;
   }
@@ -530,3 +503,128 @@
     transform: none;
   }
 }
+
+/* Hub music switch (js/hub-music.js): the shared round button, mirrored to the top right. */
+.cg-back.chem-music {
+  left: auto;
+  right: calc(16px + env(safe-area-inset-right, 0px));
+}
+.cg-back.chem-music.music-off { color: #9a8578; }
+
+/* Chemistry hub room (2026-11-23): one 4:3 painted room scaled whole inside either iPad
+   orientation, the same pattern as the Biology hub. The objects are the buttons. */
+body:has(.app[data-screen="home"]),
+body:has(.app[data-screen="scenes"]) {
+  background: linear-gradient(145deg, #f3dcc0, #fff4e2);
+}
+.home-screen.room-home,
+.scenes-screen.room-home {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  place-items: center;
+}
+/* Same weight as the rule above, so [hidden] must be restated after it or both rooms stack. */
+.room-home[hidden] { display: none; }
+.room-stage {
+  position: relative;
+  width: min(100%, calc((100dvh - 12px) * 4 / 3));
+  aspect-ratio: 4 / 3;
+  max-height: calc(100dvh - 12px);
+  overflow: hidden;
+  border-radius: clamp(8px, 1.5vw, 22px);
+  box-shadow: 0 10px 35px #6e412b55;
+  background: #f1dcc0;
+}
+.room-stage > .room-image,
+.room-hotspots,
+.room-labels,
+.room-glints,
+.room-debug {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.room-stage > .room-image { display: block; }
+.room-title {
+  position: absolute;
+  z-index: 7;
+  left: 50%;
+  top: 2.2%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: .22em .72em .28em;
+  border: 3px solid #fff9;
+  border-radius: 999px;
+  background: #fff7e9e8;
+  box-shadow: 0 4px 0 #c9966aaa, 0 7px 18px #4c2c2255;
+  color: var(--ink);
+  font-size: clamp(20px, 3vw, 38px);
+  line-height: 1;
+  letter-spacing: -.03em;
+  white-space: nowrap;
+}
+.room-hotspot {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  cursor: pointer;
+  transition: background .12s ease, filter .12s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.room-hotspot:focus-visible { background: #fff3; filter: drop-shadow(0 0 12px #fff) drop-shadow(0 0 8px #f2bb3c); }
+.room-hotspot.pressed { background: #fff6; filter: brightness(1.08) drop-shadow(0 0 15px #fff4a8); }
+.room-labels { z-index: 6; pointer-events: none; }
+.room-label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  padding: .22em .6em .28em;
+  border: 2px solid #fff9;
+  border-radius: 999px;
+  background: #fff8e5e0;
+  box-shadow: 0 2px 0 #ad835c88;
+  color: var(--ink);
+  font-size: clamp(12px, 1.6vw, 20px);
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+}
+.room-glints { z-index: 5; pointer-events: none; }
+.room-glint {
+  position: absolute;
+  width: clamp(12px, 1.8vw, 26px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  filter: drop-shadow(0 0 6px #fff);
+  animation: chemRoomGlint 7s ease-in-out var(--delay) infinite;
+}
+.room-glint::before,
+.room-glint::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  background: #fffbea;
+  box-shadow: 0 0 8px #ffc84f;
+}
+.room-glint::before { width: 18%; height: 100%; }
+.room-glint::after { width: 100%; height: 18%; }
+@keyframes chemRoomGlint {
+  0%, 72%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(.35) rotate(0); }
+  78% { opacity: .95; transform: translate(-50%, -50%) scale(1) rotate(45deg); }
+  84% { opacity: 0; transform: translate(-50%, -50%) scale(.45) rotate(90deg); }
+}
+@media (prefers-reduced-motion: reduce) { .room-glint { animation: none; } }
+.room-debug { z-index: 20; pointer-events: none; display: none; }
+.room-stage.is-debug .room-debug { display: block; }
+.room-debug polygon { fill: #00c8ff33; stroke: #003bff; stroke-width: 8; }
