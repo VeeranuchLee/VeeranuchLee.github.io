@@ -353,10 +353,8 @@
   sceneImage.addEventListener("error", () => sceneFrame.classList.add("is-missing"));
   sceneImage.addEventListener("load", () => sceneFrame.classList.remove("is-missing"));
 
-  document.getElementById("open-table").addEventListener("click", showTable);
-  document.getElementById("open-around-us").addEventListener("click", showScenes);
   document.getElementById("scenes-back").addEventListener("click", showHome);
-  document.getElementById("scene-back").addEventListener("click", showScenes);
+  document.getElementById("scene-back").addEventListener("click", showHome);
   document.getElementById("back-link").addEventListener("click", (event) => {
     if (app.dataset.screen !== "table") return;
     event.preventDefault();

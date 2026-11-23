@@ -511,16 +511,116 @@
 }
 .cg-back.chem-music.music-off { color: #9a8578; }
 
-/* Hub background (owner 2026-11-23: "make bg for the chem hub too"): a pale watercolour plate
-   behind the Chemistry home and the scene picker only; the table and the scenes keep their own
-   plain surface. Without :has support the page simply stays plain. */
-body:has(.app[data-screen="home"]),
-body:has(.app[data-screen="scenes"]) {
-  background: var(--surface) url("../art/hub-bg-landscape.webp") center / cover no-repeat fixed;
+/* Chemistry hub room (2026-11-23): one 4:3 painted room scaled whole inside either iPad
+   orientation, the same pattern as the Biology hub. The objects are the buttons. */
+body:has(.app[data-screen="home"]) {
+  background: linear-gradient(145deg, #f3dcc0, #fff4e2);
 }
-@media (orientation: portrait) {
-  body:has(.app[data-screen="home"]),
-  body:has(.app[data-screen="scenes"]) {
-    background-image: url("../art/hub-bg-portrait.webp");
-  }
+.home-screen.room-home {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  place-items: center;
 }
+.room-stage {
+  position: relative;
+  width: min(100%, calc((100dvh - 12px) * 4 / 3));
+  aspect-ratio: 4 / 3;
+  max-height: calc(100dvh - 12px);
+  overflow: hidden;
+  border-radius: clamp(8px, 1.5vw, 22px);
+  box-shadow: 0 10px 35px #6e412b55;
+  background: #f1dcc0;
+}
+.room-stage > img,
+.room-hotspots,
+.room-labels,
+.room-glints,
+.room-debug {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.room-stage > img { display: block; }
+.room-title {
+  position: absolute;
+  z-index: 7;
+  left: 50%;
+  top: 2.2%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: .22em .72em .28em;
+  border: 3px solid #fff9;
+  border-radius: 999px;
+  background: #fff7e9e8;
+  box-shadow: 0 4px 0 #c9966aaa, 0 7px 18px #4c2c2255;
+  color: var(--ink);
+  font-size: clamp(20px, 3vw, 38px);
+  line-height: 1;
+  letter-spacing: -.03em;
+  white-space: nowrap;
+}
+.room-hotspot {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  cursor: pointer;
+  transition: background .12s ease, filter .12s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.room-hotspot:focus-visible { background: #fff3; filter: drop-shadow(0 0 12px #fff) drop-shadow(0 0 8px #f2bb3c); }
+.room-hotspot.pressed { background: #fff6; filter: brightness(1.08) drop-shadow(0 0 15px #fff4a8); }
+.room-labels { z-index: 6; pointer-events: none; }
+.room-label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  padding: .22em .6em .28em;
+  border: 2px solid #fff9;
+  border-radius: 999px;
+  background: #fff8e5e0;
+  box-shadow: 0 2px 0 #ad835c88;
+  color: var(--ink);
+  font-size: clamp(12px, 1.6vw, 20px);
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+}
+.room-glints { z-index: 5; pointer-events: none; }
+.room-glint {
+  position: absolute;
+  width: clamp(12px, 1.8vw, 26px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  filter: drop-shadow(0 0 6px #fff);
+  animation: chemRoomGlint 7s ease-in-out var(--delay) infinite;
+}
+.room-glint::before,
+.room-glint::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  background: #fffbea;
+  box-shadow: 0 0 8px #ffc84f;
+}
+.room-glint::before { width: 18%; height: 100%; }
+.room-glint::after { width: 100%; height: 18%; }
+@keyframes chemRoomGlint {
+  0%, 72%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(.35) rotate(0); }
+  78% { opacity: .95; transform: translate(-50%, -50%) scale(1) rotate(45deg); }
+  84% { opacity: 0; transform: translate(-50%, -50%) scale(.45) rotate(90deg); }
+}
+@media (prefers-reduced-motion: reduce) { .room-glint { animation: none; } }
+.room-debug { z-index: 20; pointer-events: none; display: none; }
+.room-stage.is-debug .room-debug { display: block; }
+.room-debug polygon { fill: #00c8ff33; stroke: #003bff; stroke-width: 8; }

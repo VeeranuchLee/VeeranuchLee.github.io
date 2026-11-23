@@ -16,23 +16,15 @@
 </head>
 <body>
   <main id="app" class="app" data-mode="explore" data-screen="home">
-    <section id="home-screen" class="home-screen" aria-labelledby="home-title">
-      <header class="chem-header">
-        <a id="home-back-link" class="cg-back" href="../" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        <h1 id="home-title">Chemistry</h1>
-        <span class="chem-header-spacer" aria-hidden="true"></span>
-      </header>
-      <div class="home-doors" aria-label="Choose a chemistry activity">
-        <button id="open-table" class="picture-door" type="button">
-          <span class="door-picture table-door-picture"><img src="./icon-512.png" alt="" draggable="false"/></span>
-          <span class="door-title">Periodic Table</span>
-          <span class="door-note">Meet all 118 elements</span>
-        </button>
-        <button id="open-around-us" class="picture-door" type="button">
-          <span class="door-picture"><img src="./art/around-us/kitchen.webp" alt="" draggable="false"/></span>
-          <span class="door-title">Chemistry Around Us</span>
-          <span class="door-note">Explore everyday places</span>
-        </button>
+    <section id="home-screen" class="home-screen room-home" aria-labelledby="home-title">
+      <a id="home-back-link" class="cg-back" href="../" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <div id="room-stage" class="room-stage">
+        <img id="room-image" src="./art/chem-room.webp" width="2048" height="1536" alt="A bright chemistry room with a periodic table chart, a little kitchen, a window onto a beach, a dressing table and an open jewellery box" draggable="false"/>
+        <h1 id="home-title" class="room-title">Chemistry</h1>
+        <svg id="room-debug" class="room-debug" viewBox="0 0 2048 1536" aria-hidden="true"></svg>
+        <div id="room-labels" class="room-labels" aria-hidden="true"></div>
+        <div id="room-hotspots" class="room-hotspots" role="group" aria-label="Choose a chemistry activity"></div>
+        <div id="room-glints" class="room-glints" aria-hidden="true"></div>
       </div>
     </section>
 
@@ -121,6 +113,7 @@
   <script src="./js/voice.js"></script>
   <script src="./js/app.js"></script>
   <script src="./js/around-us.js"></script>
+  <script src="./js/chem-room.js"></script>
   <script src="./js/hub-music.js"></script>
 </body>
 </html>
