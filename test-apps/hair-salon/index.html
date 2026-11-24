@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#fbe3ef">
+  <title>Hair Salon</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./cg-back.css">
+  <script src="./cg-update.js" defer></script>
+</head>
+<body>
+  <a class="cg-back" href="https://veeranuchlee.github.io/children-apps/" aria-label="Back to Children Games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  <main class="app" aria-label="Hair Salon">
+    <header class="topbar">
+      <span class="cg-back-slot" aria-hidden="true"></span>
+      <h1 class="title"><span>Hair</span> <em>Salon</em></h1>
+      <div class="actions">
+        <button id="undo" class="round-btn" type="button" aria-label="Undo" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 4 10l5 5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 10H14a6 6 0 0 1 0 12h-3" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+        </button>
+        <button id="grow" class="round-btn" type="button" aria-label="Grow the hair back">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21V11" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M12 13c-4.5 0-7-2.6-7-7 4.4 0 7 2.5 7 7z" fill="currentColor"/><path d="M12 11c0-4 2.4-6.5 7-6.5 0 4.2-2.5 6.5-7 6.5z" fill="currentColor" opacity=".75"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <section class="stage" id="stage" aria-label="The doll. Turn her around, or cut her hair with the scissors.">
+      <canvas id="view"></canvas>
+      <div id="hint" class="hint" aria-live="polite"></div>
+    </section>
+
+    <nav class="dock" aria-label="Salon tools">
+      <div class="group tools" role="group" aria-label="Tools">
+        <button class="tool on" data-tool="turn" type="button" aria-label="Turn the doll" aria-pressed="true">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 0 1 14.2-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M19 3v4.5h-4.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 12a8 8 0 0 1-14.2 5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M5 21v-4.5h4.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="tool" data-tool="cut" type="button" aria-label="Scissors" aria-pressed="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="6.5" r="3" fill="none" stroke="currentColor" stroke-width="2.2"/><circle cx="6" cy="17.5" r="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M8.4 8.3 20 18.5M8.4 15.7 20 5.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="group waves" role="group" aria-label="Straight or wavy">
+        <button class="tool on" data-wave="0" type="button" aria-label="Straight hair" aria-pressed="true">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v18M12 3v18M17 3v18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+        </button>
+        <button class="tool" data-wave="1" type="button" aria-label="Wavy hair" aria-pressed="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3c-3 3 3 6 0 9s3 6 0 9M12 3c-3 3 3 6 0 9s3 6 0 9M17 3c-3 3 3 6 0 9s3 6 0 9" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="group pots" id="pots" role="group" aria-label="Hair colour"></div>
+    </nav>
+  </main>
+  <script src="./tap-zoom-guard.js"></script>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
