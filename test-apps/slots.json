@@ -1477,11 +1477,20 @@
   },
   {
     "path": "magic-math-voice",
-    "title": "Magic Math: robot voice no longer cut off",
+    "title": "Magic Math: find what cuts the robot voice off",
     "side": "experiment",
     "status": "your-turn",
-    "note": "From your 23 Nov report that the robot voice in Number Toys and Read Big Numbers cut off soon after it started. Cause: the timer that guesses how long a spoken line lasts counted every line as one word (about 0.7 seconds), so on the iPad the next voice clip started on top of the robot. Fixed in Space, Unicorn and Mermaid Math, and single robot lines such as the too-long line are now protected too.",
-    "ready_for_you": "2026-11-23",
-    "ask": "On the iPad, open Number Toys and Read Big Numbers, type a very long number and tap Check or Read it: does the robot now read the whole number?"
+    "note": "You answered on 23 Nov: the robot voice still cuts off on the iPad Air 13\". The timer fix was real but not the whole cause, and the iPad simulator on the Mac reads the whole number without cutting off, so the cause shows only on a real iPad. This copy adds a small black log in the corner that records every start, stop and cut of the voice.",
+    "ready_for_you": "2026-11-24",
+    "ask": "On the iPad open space-math.html?speechlog=1, go to Read Big Numbers, type a long number, tap Read it, and screenshot the black log after it cuts off. Then do the same with ?speechlog=keep and say whether that one still cuts off."
+  },
+  {
+    "path": "hub-math-shop",
+    "title": "Main hub: Math room with Mermaid, Lemonade at the Shop stall",
+    "side": "candidate",
+    "status": "your-turn",
+    "note": "From your 24 Nov report. The Math room now uses Magic Math's three-world painting with Space, Unicorn and Mermaid Math; its Cards view lists the same three. Lemonade Stand moved to the Shop stall in the main room, which is now switched on and opens it directly.",
+    "ready_for_you": "2026-11-24",
+    "ask": "Open the main room: tap the Shop stall (it should open Lemonade Stand), then open Math and check Room and Cards both show Space, Unicorn and Mermaid."
   }
 ]
