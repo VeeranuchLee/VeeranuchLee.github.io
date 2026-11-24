@@ -42,16 +42,43 @@ const HEAD_S = new V3(0.87, 1.0, 0.9);
 const headGroup = new THREE.Group(); headGroup.scale.copy(HEAD_S); doll.add(headGroup);
 const skin = new THREE.MeshPhysicalMaterial({ color: 0xffd8c6, roughness: 0.42, clearcoat: 0.22, clearcoatRoughness: 0.45, sheen: 0.4, sheenColor: new THREE.Color(0xffc2c8) });
 /* A doll-shaped head: the oval narrows toward a soft chin, like a styling head's face. */
-const headGeo = new THREE.SphereGeometry(1, 96, 72);
+/* SCULPTED, NOT A BALL (owner, 2026-11-24: "it's just painted head on completely round shape
+   head"). The face is shaped in 3D before anything is painted on it: a nose with a ridge,
+   tip and nostril wings, a brow ridge, soft eye sockets, cheekbones, full lips, a chin, a
+   groove under the lower lip, slightly hollow temples, and a fuller back of the skull. Each
+   is a soft bump (or dip) pushed out along the surface, placed where the painted decal puts
+   that feature, so paint and shape agree (decal layout -> unit head: eyes y -0.05,
+   x +-0.36; nose tip y -0.35; lips y -0.63). */
+const headGeo = new THREE.SphereGeometry(1, 160, 120);
 {
-  const P = headGeo.attributes.position;
+  const SCULPT = [ // [x, y, sx, sy, height]
+    [0, -0.19, 0.05, 0.12, 0.05],   [0, -0.33, 0.07, 0.06, 0.075],              // nose ridge, tip
+    [-0.075, -0.37, 0.04, 0.035, 0.03], [0.075, -0.37, 0.04, 0.035, 0.03],      // nostril wings
+    [-0.33, 0.2, 0.17, 0.06, 0.035], [0.33, 0.2, 0.17, 0.06, 0.035],            // brow ridge
+    [-0.36, -0.05, 0.13, 0.09, -0.03], [0.36, -0.05, 0.13, 0.09, -0.03],        // eye sockets
+    [-0.46, -0.33, 0.15, 0.12, 0.045], [0.46, -0.33, 0.15, 0.12, 0.045],        // cheekbones
+    [0, -0.6, 0.12, 0.036, 0.04], [0, -0.675, 0.1, 0.042, 0.045],               // upper, lower lip
+    [0, -0.745, 0.08, 0.025, -0.018], [0, -0.87, 0.14, 0.08, 0.05],             // lip groove, chin
+    [-0.76, 0.15, 0.12, 0.16, -0.03], [0.76, 0.15, 0.12, 0.16, -0.03],          // temples
+  ];
+  const P = headGeo.attributes.position, v = new V3();
   for (let i = 0; i < P.count; i++) {
-    const y = P.getY(i);
-    if (y < 0) {
-      const t = THREE.MathUtils.smoothstep(-y, 0, 1);
-      P.setX(i, P.getX(i) * (1 - 0.2 * t));
-      if (P.getZ(i) < 0) P.setZ(i, P.getZ(i) * (1 - 0.06 * t));
+    v.fromBufferAttribute(P, i);                      // unit sphere: v is also its normal
+    const x0 = v.x, y0 = v.y, z0 = v.z;
+    let d = 0;
+    if (z0 > 0) {
+      const w = THREE.MathUtils.smoothstep(z0, 0.05, 0.4);
+      for (const [cx, cy, sx, sy, h] of SCULPT)
+        d += h * Math.exp(-(((x0 - cx) ** 2) / (2 * sx * sx) + ((y0 - cy) ** 2) / (2 * sy * sy)));
+      d *= w;
+    } else if (y0 > -0.2) d = 0.05 * THREE.MathUtils.smoothstep(-z0, 0, 0.8) * THREE.MathUtils.smoothstep(y0, -0.2, 0.3);  // fuller back of the skull
+    v.multiplyScalar(1 + d);
+    if (y0 < 0) {                                      // the jaw narrows toward the chin
+      const t = THREE.MathUtils.smoothstep(-y0, 0, 1);
+      v.x *= 1 - 0.2 * t;
+      if (z0 < 0) v.z *= 1 - 0.06 * t;
     }
+    P.setXYZ(i, v.x, v.y, v.z);
   }
   headGeo.computeVertexNormals();
 }
@@ -189,7 +216,7 @@ loadFace("blue");
 /* ---------- hair colour ---------- */
 const COLOURS = [
   // Blonde first: the styling-head toy the owner's daughter knows has long golden hair.
-  ["Blonde", 0xf6cf68], ["Brown", 0x7a4a2a], ["Black", 0x2c2326], ["Ginger", 0xd36a2c],
+  ["Blonde", 0xffd45a], ["Brown", 0x7a4a2a], ["Black", 0x2c2326], ["Ginger", 0xd36a2c],
   ["Pink", 0xf59ac9], ["Purple", 0xa98ce8], ["Blue", 0x70b6f2], ["Mint", 0x7fd8b6],
 ];
 // Shiny, like a doll's nylon hair.
@@ -235,9 +262,10 @@ function collide(p, layer, side, bang = false) {
     const ax = (0.9 + 0.035 * layer) * HEAD_S.x, ay = (0.74 + 0.03 * layer) * HEAD_S.y, cy = -0.1;
     const ex = p.x / ax, ey = (p.y - cy) / ay, e = Math.hypot(ex, ey);
     if (e < 1) {
-      const k = e < 1e-3 ? 0 : 1 / e;
-      const tx = e < 1e-3 ? side * ax : p.x * k, ty = e < 1e-3 ? p.y : cy + (p.y - cy) * k;
-      p.x += (tx - p.x) * 0.5; p.y += (ty - p.y) * 0.5;
+      // Out to the oval's edge SIDEWAYS, at the same height: pushing straight out from the
+      // centre lifted centre-front locks up and let them drop down in front of the face.
+      const tx = side * ax * Math.sqrt(Math.max(0, 1 - Math.min(1, ey * ey)));
+      p.x += (tx - p.x) * 0.5;
       if (Math.sign(p.x) !== side && Math.abs(p.x) < 0.05) p.x = side * 0.05;
     }
   }
@@ -285,7 +313,7 @@ const locks = [];
     const front = THREE.MathUtils.smoothstep(root.z, -0.35, 0.25);
     // Right on the parting a lock combs straight back rather than picking a side, so the
     // parting is a clean line instead of a tuft.
-    const partSide = Math.min(1, Math.abs(root.x) / 0.18);
+    const partSide = 0.3 + 0.7 * Math.min(1, Math.abs(root.x) / 0.18);
     const d = R.bang ? new V3(side * 0.08, -1, 0.35)
       : new V3(side * (0.08 + 0.67 * front) * partSide, -0.55, root.z > 0.1 ? -0.55 : -0.12);
     d.addScaledVector(n, -d.dot(n)).normalize();
