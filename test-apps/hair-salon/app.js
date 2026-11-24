@@ -41,8 +41,24 @@ const rim = new THREE.DirectionalLight(0xffe2f2, 1.1); rim.position.set(-3, 3, -
 const HEAD_S = new V3(0.87, 1.0, 0.9);
 const headGroup = new THREE.Group(); headGroup.scale.copy(HEAD_S); doll.add(headGroup);
 const skin = new THREE.MeshPhysicalMaterial({ color: 0xffd8c6, roughness: 0.42, clearcoat: 0.22, clearcoatRoughness: 0.45, sheen: 0.4, sheenColor: new THREE.Color(0xffc2c8) });
-const head = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 48), skin);
+/* A doll-shaped head: the oval narrows toward a soft chin, like a styling head's face. */
+const headGeo = new THREE.SphereGeometry(1, 96, 72);
+{
+  const P = headGeo.attributes.position;
+  for (let i = 0; i < P.count; i++) {
+    const y = P.getY(i);
+    if (y < 0) {
+      const t = THREE.MathUtils.smoothstep(-y, 0, 1);
+      P.setX(i, P.getX(i) * (1 - 0.2 * t));
+      if (P.getZ(i) < 0) P.setZ(i, P.getZ(i) * (1 - 0.06 * t));
+    }
+  }
+  headGeo.computeVertexNormals();
+}
+const head = new THREE.Mesh(headGeo, skin);
 headGroup.add(head);
+/* The face parts built from shapes, used until the painted face (below) has loaded. */
+const feat = new THREE.Group(); headGroup.add(feat);
 function onFace(x, y, lift = 0.0) {          // a point on the unit head, facing +z
   const z = Math.sqrt(Math.max(0, 1 - x * x - y * y));
   const n = new V3(x, y, z).normalize();
@@ -52,7 +68,7 @@ function stick(mesh, x, y, lift) {           // place a face part on the surface
   const { pos, n } = onFace(x, y, lift);
   mesh.position.copy(pos);
   mesh.lookAt(pos.clone().add(n));
-  headGroup.add(mesh);
+  feat.add(mesh);
   return mesh;
 }
 const gloss = (color, extra = {}) => new THREE.MeshPhysicalMaterial({ color, roughness: 0.25, clearcoat: 1, clearcoatRoughness: 0.12, ...extra });
@@ -73,7 +89,7 @@ for (const sx of [-1, 1]) {
   for (let k = 0; k < 3; k++) {             // lashes fanning out at the outer corner
     const lash = new THREE.Mesh(new THREE.CapsuleGeometry(0.012, 0.075, 3, 6), lashM);
     const lp = onFace(sx * (EYE_X + 0.17 + k * 0.05), EYE_Y + 0.12 - k * 0.035, 0.04);
-    lash.position.copy(lp.pos); lash.lookAt(lp.pos.clone().add(lp.n)); lash.rotateZ(sx * (0.5 + k * 0.35)); headGroup.add(lash);
+    lash.position.copy(lp.pos); lash.lookAt(lp.pos.clone().add(lp.n)); lash.rotateZ(sx * (0.5 + k * 0.35)); feat.add(lash);
   }
   const shadow = new THREE.Mesh(new THREE.CircleGeometry(0.2, 28),
     new THREE.MeshBasicMaterial({ color: 0xc79be9, transparent: true, opacity: 0.42, depthWrite: false }));
@@ -111,16 +127,69 @@ function capeRadius(y) {
   }
   return pr[pr.length - 1][0];
 }
-const cape = new THREE.Mesh(new THREE.LatheGeometry(CAPE_PROFILE.map(([r, y]) => new THREE.Vector2(r, y)).reverse(), 72),
-  new THREE.MeshPhysicalMaterial({ color: 0xf6a3cb, roughness: 0.45, clearcoat: 0.35, side: THREE.DoubleSide }));
-doll.add(cape);
-const collar = new THREE.Mesh(new THREE.TorusGeometry(CAPE_R0, 0.06, 10, 40),
-  new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.6 }));
-collar.rotation.x = Math.PI / 2; collar.position.y = CAPE_TOP; doll.add(collar);
+/* THE STYLING-HEAD BUST (owner, 2026-11-24, a photo of the toy her daughter knows: a doll's
+   head and shoulders with long hair, a pink top and a bead necklace). Bare shoulders in the
+   same glossy skin, a pink top from the chest down, and a necklace of bright beads. The
+   shoulder profile is still the surface the hair rests on. */
+const body = new THREE.Mesh(new THREE.LatheGeometry(CAPE_PROFILE.map(([r, y]) => new THREE.Vector2(r, y)).reverse(), 72), skin);
+doll.add(body);
+{
+  const TOP_Y = -1.9;
+  const prof = CAPE_PROFILE.filter(([, y]) => y < TOP_Y).map(([r, y]) => new THREE.Vector2(r + 0.025, y));
+  prof.unshift(new THREE.Vector2(capeRadius(TOP_Y) + 0.025, TOP_Y));
+  const top = new THREE.Mesh(new THREE.LatheGeometry(prof.reverse(), 72),
+    new THREE.MeshPhysicalMaterial({ color: 0xf45aa6, roughness: 0.35, clearcoat: 0.6, clearcoatRoughness: 0.2, side: THREE.DoubleSide }));
+  doll.add(top);
+  const hem = new THREE.Mesh(new THREE.TorusGeometry(capeRadius(TOP_Y) + 0.03, 0.045, 10, 72),
+    new THREE.MeshPhysicalMaterial({ color: 0xff8fc6, roughness: 0.3, clearcoat: 0.8 }));
+  hem.rotation.x = Math.PI / 2; hem.position.y = TOP_Y; doll.add(hem);
+  const BEADS = [0xff5fa2, 0xffd34d, 0x6ad37a, 0xa77bf0, 0xff6b5a, 0x56b4f5];
+  const n = 30;
+  for (let k = 0; k < n; k++) {
+    const a = (k / n) * Math.PI * 2;
+    const front = Math.max(0, Math.cos(a));
+    const y = -1.36 - 0.16 * front * front;
+    const r = capeRadius(y) + 0.05;
+    const bead = new THREE.Mesh(new THREE.SphereGeometry(0.055, 14, 10),
+      new THREE.MeshPhysicalMaterial({ color: BEADS[k % BEADS.length], roughness: 0.15, clearcoat: 1 }));
+    bead.position.set(Math.sin(a) * r, y, Math.cos(a) * r);
+    doll.add(bead);
+  }
+}
+
+/* ---------- the painted face (Codex, assets/face-*.webp) ----------
+   The decals are drawn to a fixed layout (eyes at 0.335/0.665 across and 0.47 down,
+   lips at 0.735 down), projected straight onto the front of the head. FW and FY place that
+   square on the unit head. When a decal loads, the shape-built face is hidden. */
+const FACE_W = 1.09, FACE_Y = -0.115;
+let faceMesh = null;
+function loadFace(name) {
+  new THREE.TextureLoader().load("./assets/face-" + name + ".webp", tex => {
+    tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 4;
+    tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
+    if (!faceMesh) {
+      const g = headGeo.clone(), P = g.attributes.position, uv = new Float32Array(P.count * 2);
+      for (let i = 0; i < P.count; i++) {
+        const x = P.getX(i), y = P.getY(i), z = P.getZ(i);
+        if (z < 0.05) { uv[2 * i] = -1; uv[2 * i + 1] = -1; continue; }   // the back shows nothing
+        uv[2 * i] = 0.5 + x / (2 * FACE_W);
+        uv[2 * i + 1] = 0.5 + (y - FACE_Y) / (2 * FACE_W);
+      }
+      g.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
+      faceMesh = new THREE.Mesh(g, new THREE.MeshPhysicalMaterial({ map: tex, transparent: true, roughness: 0.32, clearcoat: 0.6,
+        clearcoatRoughness: 0.2, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 }));
+      faceMesh.scale.setScalar(1.002);
+      headGroup.add(faceMesh);
+    } else { faceMesh.material.map = tex; faceMesh.material.needsUpdate = true; }
+    feat.visible = false;
+  }, undefined, () => { /* no decal yet: keep the shape-built face */ });
+}
+loadFace("blue");
 
 /* ---------- hair colour ---------- */
 const COLOURS = [
-  ["Brown", 0x7a4a2a], ["Black", 0x2c2326], ["Blonde", 0xf0cf82], ["Ginger", 0xd36a2c],
+  // Blonde first: the styling-head toy the owner's daughter knows has long golden hair.
+  ["Blonde", 0xf6cf68], ["Brown", 0x7a4a2a], ["Black", 0x2c2326], ["Ginger", 0xd36a2c],
   ["Pink", 0xf59ac9], ["Purple", 0xa98ce8], ["Blue", 0x70b6f2], ["Mint", 0x7fd8b6],
 ];
 // Shiny, like a doll's nylon hair.
