@@ -3267,6 +3267,9 @@ const Voice={
           if(k>=seq.length){a.onended=a.onerror=null;V._a=null;advance(false);return;}
           const url=seq[k++];
           a.src=url;
+          /* A little quicker than recorded (owner 2026-11-24: "a bit faster pls"). Safari
+             and Chromium keep the pitch at a changed rate (preservesPitch defaults true). */
+          a.playbackRate=RobotWords.RATE;
           const pr=a.play(); if(pr&&pr.catch)pr.catch(next);
         };
         const next=()=>{
@@ -3326,8 +3329,9 @@ const RobotWords=(()=>{
   const SCALE=/^rw-(thousand|million|billion|trillion|quadrillion|quintillion)\.m4a$/;
   let have=null;
   return{
-    WORD_GAP:20,
-    GROUP_GAP:170,
+    RATE:1.15,
+    WORD_GAP:0,
+    GROUP_GAP:110,
     isScale(url){return SCALE.test(String(url).split('/').pop());},
     load(){
       if(have)return;
