@@ -129,9 +129,18 @@ const rnd = rand(20261124);
 function collide(p, layer, side) {
   const r = p.length(), rc = 1.035 + 0.03 * layer;
   if (r < rc) p.multiplyScalar(rc / r);
-  if (p.z > 0.02 && p.y < 0.56 && p.y > -1.05) {                // keep the face clear,
-    const lim = 0.9 + 0.035 * layer;                             // easing aside, not jumping
-    if (Math.abs(p.x) < lim) p.x += (side * lim - p.x) * 0.45;
+  /* Keep the face clear with a smooth OVAL hairline (centre a little below the eyes),
+     not a box: a box pushed locks out sideways all at one height and left a ledge at the
+     temple. Locks inside the oval ease out along it, so they follow the face's curve. */
+  if (p.z > 0.0 && p.y > -1.05) {
+    const ax = 0.9 + 0.035 * layer, ay = 0.72 + 0.03 * layer, cy = -0.12;
+    const ex = p.x / ax, ey = (p.y - cy) / ay, e = Math.hypot(ex, ey);
+    if (e < 1) {
+      const k = e < 1e-3 ? 0 : 1 / e;
+      const tx = e < 1e-3 ? side * ax : p.x * k, ty = e < 1e-3 ? p.y : cy + (p.y - cy) * k;
+      p.x += (tx - p.x) * 0.5; p.y += (ty - p.y) * 0.5;
+      if (Math.sign(p.x) !== side && Math.abs(p.x) < 0.05) p.x = side * 0.05;
+    }
   }
   const h = Math.hypot(p.x, p.z);
   let need = 0;
@@ -145,21 +154,31 @@ function collide(p, layer, side) {
 }
 const locks = [];
 {
-  const N = 640, golden = Math.PI * (3 - Math.sqrt(5));
+  /* SYMMETRIC ROOTS (owner, 2026-11-24, on the iPad: "See the hair is uneven"). Roots are
+     laid out on the right half of the scalp and MIRRORED to the left, with the same layer,
+     length and shading, so the two sides of the face match. */
+  const N = 640, golden = Math.PI * (3 - Math.sqrt(5)), roots = [];
   for (let i = 0; i < N; i++) {
     const y = 1 - (i / (N - 1)) * 2, rr = Math.sqrt(1 - y * y), th = golden * i;
-    const root = new V3(Math.cos(th) * rr, y, Math.sin(th) * rr);
-    if (!scalpMask(root, 0.05)) continue;
-    const layer = locks.length % 3;
-    const side = Math.abs(root.x) < 0.04 ? (i % 2 ? 1 : -1) : Math.sign(root.x);
-    const endY = -2.3 + (rnd() - 0.5) * 0.14;
+    const base = new V3(Math.cos(th) * rr, y, Math.sin(th) * rr);
+    if (base.x < -0.02 || !scalpMask(base, 0.05)) continue;
+    const params = { layer: roots.length % 3, endY: -2.3 + (rnd() - 0.5) * 0.14, jit: rnd() * 0.5, r0: 0.045 + rnd() * 0.018, shade: 0.82 + rnd() * 0.26 };
+    if (base.x <= 0.02) { roots.push({ root: base, side: i % 2 ? 1 : -1, ...params }); continue; }
+    roots.push({ root: base, side: 1, ...params });
+    roots.push({ root: new V3(-base.x, base.y, base.z), side: -1, ...params });
+  }
+  for (const R of roots) {
+    const { root, layer, side, endY } = R;
     const pts = [];
     const p = root.clone().multiplyScalar(1.035 + 0.03 * layer);
     const n = root.clone().normalize();
     // Front and top locks sweep aside off the face; back locks fall straight down, so the
     // back of the head has no parting showing the cape through it.
     const front = THREE.MathUtils.smoothstep(root.z, -0.35, 0.25);
-    const d = new V3(side * (0.08 + 0.67 * front), -0.55, root.z > 0.1 ? -0.55 : -0.12);
+    // Right on the parting a lock combs straight back rather than picking a side, so the
+    // parting is a clean line instead of a tuft.
+    const partSide = Math.min(1, Math.abs(root.x) / 0.18);
+    const d = new V3(side * (0.08 + 0.67 * front) * partSide, -0.55, root.z > 0.1 ? -0.55 : -0.12);
     d.addScaledVector(n, -d.dot(n)).normalize();
     pts.push(p.clone());
     const prev = new V3();
@@ -176,8 +195,8 @@ const locks = [];
     const full = cum[pts.length - 1];
     /* Neighbouring locks share a wave phase (from where their root is), so the hair
        waves in soft bands like real wavy hair rather than each lock crinkling alone. */
-    locks.push({ pts, cum, full, len: full, layer, side, phase: Math.atan2(root.x, root.z) * 1.5 + root.y * 2 + rnd() * 0.5,
-      r0: 0.045 + rnd() * 0.018, shade: 0.82 + rnd() * 0.26 });
+    locks.push({ pts, cum, full, len: full, layer, side, phase: Math.abs(Math.atan2(root.x, root.z)) * 1.5 + root.y * 2 + R.jit,
+      r0: R.r0, shade: R.shade });
   }
 }
 
@@ -380,7 +399,7 @@ toolBtns.forEach(b => b.addEventListener("click", () => {
   if (tool === "cut" && !hintShown) { hintShown = true; hint("Swipe across the hair to cut"); }
 }));
 
-let yaw = 0.35, yawVel = 0;
+let yaw = 0.2, yawVel = 0;
 let dragging = false, lastX = 0, lastY = 0, swipeSnap = null, swipeCut = false;
 canvas.addEventListener("pointerdown", e => {
   ac();
