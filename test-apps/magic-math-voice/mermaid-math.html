@@ -4,7 +4,6 @@
      edit unicorn-math.html (or the substitution table in that script) and re-run it.
      check-math-parity.js fails if this file is not exactly what the script writes. -->
 <head>
-<script src="speech-log.js"></script>
 <script src="audio-wake.js"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -3187,13 +3186,13 @@ const Voice={
     const list=parts.filter(Boolean).map(part=>{
       const o=typeof part==='string'?{t:part,r:COMPANION}:part;
       const t=String(o&&o.t!=null?o.t:'').trim();
-      return t?{t,r:o.r===ROBOT?ROBOT:COMPANION}:null;
+      return t?{t,r:o.r===ROBOT?ROBOT:COMPANION,seq:(o&&o.seq)||null}:null;
     }).filter(Boolean);
     if(!list.length)return;
     /* Resolved once, up front, because two separate decisions need the answer: which
        engine speaks the line, and which tick marks the join in front of it. Asking twice
        invites the two to disagree. */
-    list.forEach(l=>{l.src=Clips.url(l.t,l.r);});
+    list.forEach(l=>{l.src=l.seq?null:Clips.url(l.t,l.r);});
     /* The long gap goes after the line that has to LAND, and roles moved which line that
        is. It used to be line one, because line one was always the number the child had
        just typed. Line one is now usually the companion reacting and the number is line
@@ -3253,6 +3252,34 @@ const Voice={
          needs none of it, and deliberately schedules no timer.
          A clip that fails to load advances the chain rather than stalling it, which is
          the same contract as u.onerror on the speech path below. */
+      /* THE ROBOT READER'S WORD CLIPS (2026-11-24). A line carrying `seq` is read as a
+         run of recorded words -- RobotWords below -- one after another on ONE <audio>
+         element, which the tap that started the chain has already been allowed to play.
+         It exists because iPadOS 26 Safari's speechSynthesis stops after about three
+         words on the owner's iPad, on a bare page as well as here, so the robot cannot
+         use the engine at all. A word that fails to load skips to the next rather than
+         stalling, the same contract as the clip path below. */
+      const seq=list[i].seq;
+      if(seq){
+        const a=new Audio(); V._a=a; let k=0;
+        const step=()=>{
+          if(!live()||V._a!==a)return;
+          if(k>=seq.length){a.onended=a.onerror=null;V._a=null;advance(false);return;}
+          const url=seq[k++];
+          a.src=url;
+          const pr=a.play(); if(pr&&pr.catch)pr.catch(next);
+        };
+        const next=()=>{
+          if(!live()||V._a!==a)return;
+          /* A beat after a scale word ("thousand", "million") so the groups land apart. */
+          const prev=seq[k-1]||'';
+          const gap=RobotWords.isScale(prev)?RobotWords.GROUP_GAP:RobotWords.WORD_GAP;
+          V._t=setTimeout(()=>{V._t=0;step();},gap);
+        };
+        a.onended=next; a.onerror=next;
+        step();
+        return;
+      }
       const src=list[i].src;
       if(src){
         const a=new Audio(src); V._a=a;
@@ -3286,6 +3313,43 @@ const Voice={
    digits — would guess wrong on "Can you build 47?" and split a sentence that must stay
    whole. The role is a decision about the line, so it is stated where the line is written. */
 const num=t=>({t,r:ROBOT});
+/* ══ THE ROBOT READER'S OWN VOICE (2026-11-24) ══
+   Owner: "make the robot voice with ElevenLabs" ... "only have robot voice for the ones
+   that we have robot face read it". The robot face is on screen only in Read Big Numbers,
+   so this set speaks only there: numberToWords() output, read word by word from
+   assets-runtime/narration/robot-words/ (the Magic Math Number Robot voice, 36 words built
+   by tools/build-robot-words-manifest.py). Resolved by clip id, never by text -- the set
+   has no `texts` map -- so no other line can reach it. If the index is missing or a word
+   has no clip, robotSay() returns a plain num() line and the old engine path runs. */
+const RobotWords=(()=>{
+  const ROOT='assets-runtime/narration/robot-words/';
+  const SCALE=/^rw-(thousand|million|billion|trillion|quadrillion|quintillion)\.m4a$/;
+  let have=null;
+  return{
+    WORD_GAP:20,
+    GROUP_GAP:170,
+    isScale(url){return SCALE.test(String(url).split('/').pop());},
+    load(){
+      if(have)return;
+      try{
+        fetch(ROOT+'clips.json').then(r=>r.ok?r.json():null).then(j=>{
+          if(!j||!j.clips||!j.clips.length)return;
+          have=new Set(j.clips);
+          /* Warm the cache: 36 small files, so the first read does not wait on the network. */
+          j.clips.forEach(id=>{try{fetch(ROOT+id+'.m4a');}catch(e){}});
+        }).catch(()=>{});
+      }catch(e){}
+    },
+    seq(words){
+      if(!have)return null;
+      const out=[];
+      const ws=String(words).trim().split(/\s+/);
+      for(const w of ws){if(!w)continue;if(!have.has('rw-'+w))return null;out.push(ROOT+'rw-'+w+'.m4a');}
+      return out.length?out:null;
+    }
+  };
+})();
+const robotSay=words=>{const seq=RobotWords.seq(words);return seq?{t:words,r:ROBOT,seq}:num(words);};
 const PRAISE=['Great job!','Amazing!','You did it!','Wonderful!','Super!','Fantastic!','Magical!','Sparkling!','Beautiful work!','You are a star!','Lovely!','Like magic!'];
 const praise=()=>PRAISE[Math.floor(Math.random()*PRAISE.length)];
 
@@ -9648,7 +9712,7 @@ function ReadBigNumbers({onBack, journeyBg, muted, onToggleMute}){
       clearTimeout(talkT.current);
       talkT.current=setTimeout(stopTalking,Math.max(2600,words.split(' ').length*430+1400));
       Voice.notifyNextChain(stopTalking);
-      Voice.lines([num(words)]);
+      Voice.lines([robotSay(words)]);
     };
     /* Warmed, not "tapped": the flag is cleared by a number chain FINISHING, never by
        the tap that started it. A second Read landing inside Voice's 140ms readout lead
@@ -9667,7 +9731,7 @@ function ReadBigNumbers({onBack, journeyBg, muted, onToggleMute}){
       clearTimeout(talkT.current);
       talkT.current=setTimeout(stopTalking,Math.max(2600,words.split(' ').length*430+1400));
       Voice.notifyNextChain(warmed);
-      Voice.lines([num(words)]);
+      Voice.lines([robotSay(words)]);
       return;
     }
     /* A muted tap returns inside Voice.lines without finishing her chain, so
@@ -16980,7 +17044,7 @@ function App(){
   /* Music.setMuted BEFORE Music.init(): init() calls apply(), and apply() decides
      whether to start playing. Syncing the stored mute afterwards would let a muted
      child hear the bed start on every reload before it was corrected. */
-  useEffect(()=>{Sound.setMuted(muted);Voice.muted=muted;Music.setMuted(muted);Clips.load();Music.init();},[]);
+  useEffect(()=>{Sound.setMuted(muted);Voice.muted=muted;Music.setMuted(muted);Clips.load();RobotWords.load();Music.init();},[]);
   /* Tell Clips which screen we are on, so a half-rendered mode stays all-robot
      rather than alternating voices. null is the home screen. */
   useEffect(()=>{Clips.setMode(mode);},[mode]);
