@@ -3121,6 +3121,9 @@ const Voice={
       const p=a.play(); if(p&&p.catch)p.catch(clear);
       return;
     }
+    /* No clip: the cast voice composed from cast-words, through lines()'s one-<audio>
+       player, so busy(), mute and _reset() cover it exactly as they cover a chain. */
+    if(CastWords.seq(text)){this.lines([{t:text,r}]);return;}
     try{
       const s=window.speechSynthesis; if(!s)return;
       this._reset();
@@ -3192,7 +3195,12 @@ const Voice={
     /* Resolved once, up front, because two separate decisions need the answer: which
        engine speaks the line, and which tick marks the join in front of it. Asking twice
        invites the two to disagree. */
-    list.forEach(l=>{l.src=l.seq?null:Clips.url(l.t,l.r);});
+    /* No whole-line clip: compose the line in the cast voice (CastWords) if every word
+       has a clip, so it never reaches speechSynthesis (2026-11-24). */
+    list.forEach(l=>{
+      l.src=l.seq?null:Clips.url(l.t,l.r);
+      if(!l.seq&&!l.src){const c=CastWords.seq(l.t);if(c){l.seq=c;l.cast=true;}}
+    });
     /* The long gap goes after the line that has to LAND, and roles moved which line that
        is. It used to be line one, because line one was always the number the child had
        just typed. Line one is now usually the companion reacting and the number is line
@@ -3228,7 +3236,7 @@ const Voice={
            number that resolved to a rendered clip, which is the companion's own voice —
            gets the neutral seam. */
         const nxt=list[i+1];
-        if(nxt.r===ROBOT&&!nxt.src)Sound.readout();else Sound.seam();
+        if(nxt.r===ROBOT&&!nxt.src&&!nxt.cast)Sound.readout();else Sound.seam();
         V._t=setTimeout(()=>{
           if(!live())return;
           V._t=0;
@@ -3259,24 +3267,27 @@ const Voice={
          words on the owner's iPad, on a bare page as well as here, so the robot cannot
          use the engine at all. A word that fails to load skips to the next rather than
          stalling, the same contract as the clip path below. */
-      const seq=list[i].seq;
+      const seq=list[i].seq, cast=!!list[i].cast;
       if(seq){
         const a=new Audio(); V._a=a; let k=0;
         const step=()=>{
           if(!live()||V._a!==a)return;
           if(k>=seq.length){a.onended=a.onerror=null;V._a=null;advance(false);return;}
           const url=seq[k++];
+          /* A number in a cast seq is a pause at punctuation, in ms. */
+          if(typeof url==='number'){V._t=setTimeout(()=>{V._t=0;step();},url);return;}
           a.src=url;
           /* A little quicker than recorded (owner 2026-11-24: "a bit faster pls"). Safari
              and Chromium keep the pitch at a changed rate (preservesPitch defaults true). */
-          a.playbackRate=RobotWords.RATE;
+          a.playbackRate=cast?CastWords.RATE:RobotWords.RATE;
           const pr=a.play(); if(pr&&pr.catch)pr.catch(next);
         };
         const next=()=>{
           if(!live()||V._a!==a)return;
+          if(typeof seq[k]==='number'){step();return;}   // the pause itself follows
           /* A beat after a scale word ("thousand", "million") so the groups land apart. */
           const prev=seq[k-1]||'';
-          const gap=RobotWords.isScale(prev)?RobotWords.GROUP_GAP:RobotWords.WORD_GAP;
+          const gap=cast?CastWords.WORD_GAP:RobotWords.isScale(prev)?RobotWords.GROUP_GAP:RobotWords.WORD_GAP;
           V._t=setTimeout(()=>{V._t=0;step();},gap);
         };
         a.onended=next; a.onerror=next;
@@ -3354,6 +3365,111 @@ const RobotWords=(()=>{
   };
 })();
 const robotSay=words=>{const seq=RobotWords.seq(words);return seq?{t:words,r:ROBOT,seq}:num(words);};
+/* ══ THE CAST VOICE, COMPOSED (2026-11-24) ══
+   Owner: "only have robot voice for the ones that we have robot face read it ... the rest
+   use cast voice." So every line outside Read Big Numbers -- numbers and maths readouts
+   included -- is the Magic Math Narrator, the voice of every other clip here, and never
+   speechSynthesis: iPadOS 26 Safari stops after about three words on the owner's iPad.
+
+   A line with a whole-line clip (Clips.url) still plays that clip; nothing here changes
+   which lines resolve. Only a line that resolves to NO clip comes here. seq() turns its
+   text into a run of clips from assets-runtime/narration/cast-words/ (phrases and number
+   words, built by tools/build-cast-words-manifest.py), longest phrase first: digits become
+   numberToWords() words ("1005" -> one thousand and five), "3s" becomes "threes", "3/4"
+   becomes fractionWords() ("three quarters"), "0.5" becomes "zero point five", and . ! ?
+   , and dashes become pauses. A clip id is the slug of its words (cw-carry-the), so the
+   set needs no text map and a fragment can never answer a whole-line lookup. If any word
+   has no clip, seq() returns null and the line falls back exactly as before. */
+const CastWords=(()=>{
+  const ROOT='assets-runtime/narration/cast-words/';
+  const STOP=1,COMMA=2;
+  let have=null,maxWords=1;
+  const plural=w=>/x$/.test(w)?w+'es':/y$/.test(w)?w.slice(0,-1)+'ies':w+'s';
+  /* Words and pauses, or null for anything this reader cannot say. */
+  const tokens=text=>{
+    const out=[],s=String(text);
+    const re=/([+\-−]?)(\d{1,3}(?:,\d{3})+(?!\d)|\d+)(?:\.(\d+)|\/(\d+))?(s(?![a-z]))?|([a-z]+(?:['’][a-z]+)*)|([.!?]+)|([,;:—–]|\s-\s)|(\s+|["“”])|(.)/gi;
+    let m;
+    while((m=re.exec(s))){
+      if(m[10]!==undefined)return null;
+      if(m[9]!==undefined)continue;
+      if(m[8]!==undefined){out.push(COMMA);continue;}
+      if(m[7]!==undefined){out.push(STOP);continue;}
+      if(m[6]!==undefined){out.push(m[6].toLowerCase().replace(/['’]/g,''));continue;}
+      /* A sign only counts at the start of a word ("-10"), never inside one. */
+      let sign=m[1];
+      if(sign&&m.index>0&&/[0-9a-z]/i.test(s[m.index-1]))return null;
+      const digits=m[2].replace(/,/g,'');
+      let ws;
+      if(m[4]!==undefined){
+        const n=+digits,d=+m[4];
+        if(typeof PART_NAMES==='undefined'||!PART_NAMES[d]||!PART_COUNT[n])return null;
+        ws=fractionWords(n,d).split(' ');
+      }else{
+        ws=numberToWords(digits).split(' ');
+        if(m[3]!==undefined){ws.push('point');m[3].split('').forEach(d=>ws.push(ONES[+d]));}
+      }
+      if(m[5]!==undefined)ws[ws.length-1]=plural(ws[ws.length-1]);
+      if(sign)ws.unshift(sign==='+'?'plus':'minus');
+      ws.forEach(w=>out.push(w));
+    }
+    return out;
+  };
+  return{
+    RATE:1,
+    WORD_GAP:30,          // between two clips with no punctuation between them
+    STOP_GAP:260,         // at . ! ?
+    COMMA_GAP:140,        // at , ; : and dashes
+    load(){
+      if(have)return;
+      try{
+        fetch(ROOT+'clips.json').then(r=>r.ok?r.json():null).then(j=>{
+          if(!j||!j.clips||!j.clips.length)return;
+          have=new Set(j.clips);
+          j.clips.forEach(id=>{maxWords=Math.max(maxWords,id.split('-').length-1);});
+          /* Warm the cache a little after start-up, so the first composed line does not
+             wait on the network for every word, without competing with the first screen. */
+          setTimeout(()=>{j.clips.forEach(id=>{try{fetch(ROOT+id+'.m4a');}catch(e){}});},1500);
+        }).catch(()=>{});
+      }catch(e){}
+    },
+    /* Clip URLs with pause lengths (numbers, in ms) between them, or null. */
+    seq(text){
+      if(!have)return null;
+      let t;
+      try{t=tokens(text);}catch(e){return null;}
+      if(!t)return null;
+      const out=[];
+      const pause=ms=>{if(!out.length)return;const last=out[out.length-1];
+        if(typeof last==='number')out[out.length-1]=Math.max(last,ms);else out.push(ms);};
+      /* Fewest clips wins -- the longest phrases -- found by a small dynamic programme
+         rather than greedily, so "1 whole row" is "one" + "whole row" even though "one
+         whole" is also a clip. A span may cross a pause inside it ("Little box. How many
+         tens in" is one clip) but must start and end on a word. */
+      const n=t.length,cost=new Array(n+1).fill(Infinity),pick=new Array(n+1);
+      cost[n]=0;
+      for(let i=n-1;i>=0;i--){
+        if(typeof t[i]!=='string'){cost[i]=cost[i+1];pick[i]=null;continue;}
+        const words=[];
+        for(let j=i;j<n&&words.length<maxWords;j++){
+          if(typeof t[j]!=='string')continue;
+          words.push(t[j]);
+          const id='cw-'+words.join('-');
+          if(have.has(id)&&1+cost[j+1]<cost[i]){cost[i]=1+cost[j+1];pick[i]={id,next:j+1};}
+        }
+      }
+      if(cost[0]===Infinity)return null;
+      for(let i=0;i<n;){
+        const p=pick[i];
+        if(!p){pause(t[i]===STOP?this.STOP_GAP:this.COMMA_GAP);i++;continue;}
+        out.push(ROOT+p.id+'.m4a');
+        i=p.next;
+      }
+      while(out.length&&typeof out[out.length-1]==='number')out.pop();
+      return out.some(x=>typeof x==='string')?out:null;
+    }
+  };
+})();
 const PRAISE=['Great job!','Amazing!','You did it!','Wonderful!','Super!','Fantastic!','Magical!','Sparkling!','Beautiful work!','You are a star!','Lovely!','Like magic!'];
 const praise=()=>PRAISE[Math.floor(Math.random()*PRAISE.length)];
 
@@ -12276,7 +12392,7 @@ function HundredBondGame({onBack, flowers, gardenFull, setFlowers, setGardenFull
     /* No whole rows left: everything missing is in the row the number already sits in,
        so the rule is the ten-frame's rule — count the empty seats. */
     else if(s.up>0)Voice.lines([num(`${problem.k} is in the last row.`),'Count the empty seats in it.']);
-    else Voice.lines([num(`${problem.k} is ${problem.k/10} whole rows.`),'Count the empty rows. Each one is ten.']);
+    else Voice.lines([num(`${problem.k} is ${problem.k/10} whole ${problem.k===10?'row':'rows'}.`),'Count the empty rows. Each one is ten.']);
   },[misses,problem]);
   useEffect(()=>{
     if(won||digits.some(d=>d===''))return;
@@ -12489,7 +12605,7 @@ function HundredMoveGame({onBack, flowers, gardenFull, setFlowers, setGardenFull
     Sound.ding();setTimeout(()=>Sound.celebrate(),200);
     mascot.happy();
     if(problem.kind==='build'){
-      Voice.lines([praise(),num(`${problem.delta>0?'+':''}${problem.delta}!`),num(`${problem.start} plus ${problem.delta} is ${problem.target}.`)]);
+      Voice.lines([praise(),num(`${problem.delta>0?'Plus':'Take away'} ${Math.abs(problem.delta)}!`),num(`${problem.start} ${problem.delta>0?'plus':'take away'} ${Math.abs(problem.delta)} is ${problem.target}.`)]);
     }else if(problem.kind==='edge'){
       Voice.lines([praise(),num(`${problem.target}!`),'It begins the next row — that is where the number lives!']);
     }else{
@@ -17048,7 +17164,7 @@ function App(){
   /* Music.setMuted BEFORE Music.init(): init() calls apply(), and apply() decides
      whether to start playing. Syncing the stored mute afterwards would let a muted
      child hear the bed start on every reload before it was corrected. */
-  useEffect(()=>{Sound.setMuted(muted);Voice.muted=muted;Music.setMuted(muted);Clips.load();RobotWords.load();Music.init();},[]);
+  useEffect(()=>{Sound.setMuted(muted);Voice.muted=muted;Music.setMuted(muted);Clips.load();RobotWords.load();CastWords.load();Music.init();},[]);
   /* Tell Clips which screen we are on, so a half-rendered mode stays all-robot
      rather than alternating voices. null is the home screen. */
   useEffect(()=>{Clips.setMode(mode);},[mode]);
