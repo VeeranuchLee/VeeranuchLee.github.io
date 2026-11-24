@@ -30,10 +30,20 @@ const key = new THREE.DirectionalLight(0xffffff, 1.6); key.position.set(2.5, 4, 
 const rim = new THREE.DirectionalLight(0xffe2f2, 1.1); rim.position.set(-3, 3, -5); scene.add(rim);
 
 /* ---------- the doll (original character: big round eyes, generic face) ---------- */
-const skin = new THREE.MeshStandardMaterial({ color: 0xf8dcc8, roughness: 0.72 });
-const head = new THREE.Mesh(new THREE.SphereGeometry(1, 56, 40), skin);
-doll.add(head);
-function onFace(x, y, lift = 0.0) {          // a point on the head surface, facing +z
+/* A PLASTIC FASHION DOLL, NOT A WOODEN ONE (owner, 2026-11-24): "my daughter prefer plastic
+   dolls like Barbie type than wooden dolls. The one we have in the app looks like wooden
+   type." So: glossy vinyl skin (clearcoat), a slimmer OVAL head, a made-up fashion-doll face
+   -- eye whites, coloured irises, thick lashes, lilac eyeshadow, thin brows, a small nose,
+   glossy pink lips -- a slim neck, and shiny nylon-like hair. It is an ORIGINAL generic
+   doll: no brand's face, name, logo or signature look is copied. The face is built on a
+   unit sphere inside `headGroup`, which is scaled to the oval; hair collides with the
+   same oval (HEAD_S), so it hugs the head. */
+const HEAD_S = new V3(0.87, 1.0, 0.9);
+const headGroup = new THREE.Group(); headGroup.scale.copy(HEAD_S); doll.add(headGroup);
+const skin = new THREE.MeshPhysicalMaterial({ color: 0xffd8c6, roughness: 0.42, clearcoat: 0.22, clearcoatRoughness: 0.45, sheen: 0.4, sheenColor: new THREE.Color(0xffc2c8) });
+const head = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 48), skin);
+headGroup.add(head);
+function onFace(x, y, lift = 0.0) {          // a point on the unit head, facing +z
   const z = Math.sqrt(Math.max(0, 1 - x * x - y * y));
   const n = new V3(x, y, z).normalize();
   return { pos: n.clone().multiplyScalar(1 + lift), n };
@@ -42,40 +52,56 @@ function stick(mesh, x, y, lift) {           // place a face part on the surface
   const { pos, n } = onFace(x, y, lift);
   mesh.position.copy(pos);
   mesh.lookAt(pos.clone().add(n));
-  doll.add(mesh);
+  headGroup.add(mesh);
   return mesh;
 }
-const irisMat = new THREE.MeshStandardMaterial({ color: 0x3b2846, roughness: 0.25 });
-const shineMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+const gloss = (color, extra = {}) => new THREE.MeshPhysicalMaterial({ color, roughness: 0.25, clearcoat: 1, clearcoatRoughness: 0.12, ...extra });
+const EYE_Y = -0.07, EYE_X = 0.37;
+const white = gloss(0xffffff), irisM = gloss(0x3f86d8), pupilM = gloss(0x141024), lashM = new THREE.MeshStandardMaterial({ color: 0x1d1420, roughness: 0.5 });
+const shine = new THREE.MeshBasicMaterial({ color: 0xffffff });
 for (const sx of [-1, 1]) {
-  const iris = new THREE.Mesh(new THREE.SphereGeometry(0.2, 28, 20), irisMat);
-  iris.scale.set(1, 1.18, 0.38);
-  stick(iris, sx * 0.36, 0.0, 0.0);
-  const s1 = new THREE.Mesh(new THREE.SphereGeometry(0.058, 14, 10), shineMat);
-  stick(s1, sx * 0.36 - 0.065, 0.085, 0.07);
-  const s2 = new THREE.Mesh(new THREE.SphereGeometry(0.028, 10, 8), shineMat);
-  stick(s2, sx * 0.36 + 0.07, -0.08, 0.07);
-  const lash = new THREE.Mesh(new THREE.TorusGeometry(0.21, 0.018, 6, 20, Math.PI * 0.8), irisMat);
-  lash.rotation.z = Math.PI * 0.1;
-  stick(lash, sx * 0.36, 0.035, 0.03);
-  const blush = new THREE.Mesh(new THREE.CircleGeometry(0.13, 24),
-    new THREE.MeshBasicMaterial({ color: 0xff9fbd, transparent: true, opacity: 0.45, depthWrite: false }));
-  stick(blush, sx * 0.6, -0.24, 0.012);
-  const ear = new THREE.Mesh(new THREE.SphereGeometry(0.19, 20, 14), skin);
-  ear.scale.set(0.55, 1, 0.6); ear.position.set(sx * 0.98, -0.06, 0.02); doll.add(ear);
+  const sclera = new THREE.Mesh(new THREE.SphereGeometry(0.195, 32, 20), white);
+  sclera.scale.set(1.22, 1.0, 0.28); stick(sclera, sx * EYE_X, EYE_Y, 0.0);
+  const iris = new THREE.Mesh(new THREE.SphereGeometry(0.145, 28, 18), irisM);
+  iris.scale.set(1, 1, 0.3); stick(iris, sx * EYE_X, EYE_Y - 0.01, 0.03);
+  const pupil = new THREE.Mesh(new THREE.SphereGeometry(0.065, 18, 12), pupilM);
+  pupil.scale.set(1, 1, 0.3); stick(pupil, sx * EYE_X, EYE_Y - 0.01, 0.045);
+  stick(new THREE.Mesh(new THREE.SphereGeometry(0.04, 12, 8), shine), sx * EYE_X - 0.055, EYE_Y + 0.06, 0.065);
+  stick(new THREE.Mesh(new THREE.SphereGeometry(0.016, 8, 6), shine), sx * EYE_X + 0.05, EYE_Y - 0.05, 0.065);
+  const lid = new THREE.Mesh(new THREE.TorusGeometry(0.235, 0.032, 8, 28, Math.PI * 0.92), lashM);
+  lid.scale.set(1.08, 0.8, 1); lid.rotation.z = Math.PI * 0.04; stick(lid, sx * EYE_X, EYE_Y - 0.02, 0.03);
+  for (let k = 0; k < 3; k++) {             // lashes fanning out at the outer corner
+    const lash = new THREE.Mesh(new THREE.CapsuleGeometry(0.012, 0.075, 3, 6), lashM);
+    const lp = onFace(sx * (EYE_X + 0.17 + k * 0.05), EYE_Y + 0.12 - k * 0.035, 0.04);
+    lash.position.copy(lp.pos); lash.lookAt(lp.pos.clone().add(lp.n)); lash.rotateZ(sx * (0.5 + k * 0.35)); headGroup.add(lash);
+  }
+  const shadow = new THREE.Mesh(new THREE.CircleGeometry(0.2, 28),
+    new THREE.MeshBasicMaterial({ color: 0xc79be9, transparent: true, opacity: 0.42, depthWrite: false }));
+  shadow.scale.set(1.3, 0.55, 1); stick(shadow, sx * EYE_X, EYE_Y + 0.19, 0.008);
+  const brow = new THREE.Mesh(new THREE.TorusGeometry(0.21, 0.024, 6, 24, Math.PI * 0.7), new THREE.MeshStandardMaterial({ color: 0x5a3526, roughness: 0.6 }));
+  brow.scale.set(1.15, 0.5, 1); brow.rotation.z = Math.PI * 0.15 + (sx < 0 ? 0 : 0); stick(brow, sx * (EYE_X + 0.02), EYE_Y + 0.28, 0.01);
+  const blush = new THREE.Mesh(new THREE.CircleGeometry(0.15, 24),
+    new THREE.MeshBasicMaterial({ color: 0xff95ad, transparent: true, opacity: 0.32, depthWrite: false }));
+  blush.scale.set(1, 0.7, 1); stick(blush, sx * 0.55, -0.3, 0.01);
+  const ear = new THREE.Mesh(new THREE.SphereGeometry(0.17, 20, 14), skin);
+  ear.scale.set(0.5, 1, 0.6); ear.position.set(sx * 0.98, -0.1, 0.02); headGroup.add(ear);
 }
-stick(new THREE.Mesh(new THREE.SphereGeometry(0.05, 14, 10),
-  new THREE.MeshStandardMaterial({ color: 0xefbfa6, roughness: 0.7 })), 0, -0.17, 0.0);
-const smile = new THREE.Mesh(new THREE.TorusGeometry(0.1, 0.024, 8, 20, Math.PI),
-  new THREE.MeshStandardMaterial({ color: 0xd9607a, roughness: 0.5 }));
-stick(smile, 0, -0.36, 0.0).rotateZ(Math.PI);
-const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.34, 0.5, 28), skin);
-neck.position.y = -1.0; doll.add(neck);
+{ // a small nose and glossy lips
+  const nose = new THREE.Mesh(new THREE.SphereGeometry(0.045, 16, 12), gloss(0xf6c3ad, { clearcoat: 0.5, roughness: 0.4 }));
+  nose.scale.set(0.7, 1.1, 0.8); stick(nose, 0, -0.27, 0.0);
+  const lipM = gloss(0xe9567f), lowM = gloss(0xf26d90);
+  const upper = new THREE.Mesh(new THREE.SphereGeometry(0.075, 24, 14), lipM);
+  upper.scale.set(1.75, 0.34, 0.36); stick(upper, 0, -0.44, 0.0);
+  const lower = new THREE.Mesh(new THREE.SphereGeometry(0.075, 24, 14), lowM);
+  lower.scale.set(1.5, 0.44, 0.4); stick(lower, 0, -0.495, 0.0);
+}
+const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.29, 0.55, 28), skin);
+neck.position.y = -1.08; doll.add(neck);
 /* The salon cape is lathed from a profile with SHOULDERS, so long hair has something to
    rest on and falls over it instead of hanging straight down beside a cone. The same
    profile is the collision surface below. */
-const CAPE_TOP = -1.15, CAPE_R0 = 0.42;
-const CAPE_PROFILE = [[0.42, -1.15], [0.78, -1.3], [1.18, -1.47], [1.42, -1.72], [1.53, -2.1], [1.63, -2.6], [1.72, -3.15]];
+const CAPE_TOP = -1.28, CAPE_R0 = 0.36;
+const CAPE_PROFILE = [[0.36, -1.28], [0.72, -1.42], [1.1, -1.58], [1.34, -1.82], [1.45, -2.2], [1.55, -2.7], [1.64, -3.2]];
 function capeRadius(y) {
   const pr = CAPE_PROFILE;
   if (y >= pr[0][1]) return 0;
@@ -86,7 +112,7 @@ function capeRadius(y) {
   return pr[pr.length - 1][0];
 }
 const cape = new THREE.Mesh(new THREE.LatheGeometry(CAPE_PROFILE.map(([r, y]) => new THREE.Vector2(r, y)).reverse(), 72),
-  new THREE.MeshStandardMaterial({ color: 0xcbb4f7, roughness: 0.8, side: THREE.DoubleSide }));
+  new THREE.MeshPhysicalMaterial({ color: 0xf6a3cb, roughness: 0.45, clearcoat: 0.35, side: THREE.DoubleSide }));
 doll.add(cape);
 const collar = new THREE.Mesh(new THREE.TorusGeometry(CAPE_R0, 0.06, 10, 40),
   new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.6 }));
@@ -97,7 +123,8 @@ const COLOURS = [
   ["Brown", 0x7a4a2a], ["Black", 0x2c2326], ["Blonde", 0xf0cf82], ["Ginger", 0xd36a2c],
   ["Pink", 0xf59ac9], ["Purple", 0xa98ce8], ["Blue", 0x70b6f2], ["Mint", 0x7fd8b6],
 ];
-const hairMat = new THREE.MeshStandardMaterial({ color: COLOURS[0][1], roughness: 0.42, metalness: 0.0, vertexColors: true, side: THREE.DoubleSide });
+// Shiny, like a doll's nylon hair.
+const hairMat = new THREE.MeshPhysicalMaterial({ color: COLOURS[0][1], roughness: 0.3, clearcoat: 0.45, clearcoatRoughness: 0.25, sheen: 0.6, sheenColor: new THREE.Color(0xffffff), vertexColors: true, side: THREE.DoubleSide });
 
 /* The scalp cap: a shell in hair colour so the gaps between locks never show skin. */
 function scalpMask(p, margin = 0) {
@@ -119,21 +146,24 @@ function scalpMask(p, margin = 0) {
   cg.computeVertexNormals();
   const cols = new Float32Array(keep.length).fill(0.82);
   cg.setAttribute("color", new THREE.BufferAttribute(cols, 3));
-  doll.add(new THREE.Mesh(cg, hairMat));
+  headGroup.add(new THREE.Mesh(cg, hairMat));
 }
 
 /* ---------- comb lines (simulated once) ---------- */
 const STEP = 0.03, RINGS = 34, RADIAL = 6, MIN_LEN = 0.85;
+// A fashion doll wears long hair with no fringe; the fringe code stays for a later style choice.
+const WITH_BANGS = false;
 function rand(seed) { let s = seed >>> 0; return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296); }
 const rnd = rand(20261124);
-function collide(p, layer, side) {
-  const r = p.length(), rc = 1.035 + 0.03 * layer;
-  if (r < rc) p.multiplyScalar(rc / r);
+function collide(p, layer, side, bang = false) {
+  const rc = 1.035 + 0.03 * layer;            // the oval head, in its own unit space
+  const qx = p.x / HEAD_S.x, qy = p.y / HEAD_S.y, qz = p.z / HEAD_S.z, r = Math.hypot(qx, qy, qz);
+  if (r < rc) { const k = rc / r; p.set(qx * k * HEAD_S.x, qy * k * HEAD_S.y, qz * k * HEAD_S.z); }
   /* Keep the face clear with a smooth OVAL hairline (centre a little below the eyes),
      not a box: a box pushed locks out sideways all at one height and left a ledge at the
      temple. Locks inside the oval ease out along it, so they follow the face's curve. */
-  if (p.z > 0.0 && p.y > -1.05) {
-    const ax = 0.9 + 0.035 * layer, ay = 0.72 + 0.03 * layer, cy = -0.12;
+  if (!bang && p.z > 0.0 && p.y > -1.15) {
+    const ax = (0.9 + 0.035 * layer) * HEAD_S.x, ay = (0.74 + 0.03 * layer) * HEAD_S.y, cy = -0.1;
     const ex = p.x / ax, ey = (p.y - cy) / ay, e = Math.hypot(ex, ey);
     if (e < 1) {
       const k = e < 1e-3 ? 0 : 1 / e;
@@ -145,7 +175,7 @@ function collide(p, layer, side) {
   const h = Math.hypot(p.x, p.z);
   let need = 0;
   if (p.y < CAPE_TOP) need = capeRadius(p.y);
-  else if (p.y < -0.75) need = 0.36;
+  else if (p.y < -0.8) need = 0.3;
   need += 0.045 + 0.03 * layer;
   if (need > 0.05 && h < need) {
     const k = need / Math.max(h, 1e-4);
@@ -157,28 +187,38 @@ const locks = [];
   /* SYMMETRIC ROOTS (owner, 2026-11-24, on the iPad: "See the hair is uneven"). Roots are
      laid out on the right half of the scalp and MIRRORED to the left, with the same layer,
      length and shading, so the two sides of the face match. */
-  const N = 640, golden = Math.PI * (3 - Math.sqrt(5)), roots = [];
+  const N = 920, golden = Math.PI * (3 - Math.sqrt(5)), roots = [];
   for (let i = 0; i < N; i++) {
     const y = 1 - (i / (N - 1)) * 2, rr = Math.sqrt(1 - y * y), th = golden * i;
     const base = new V3(Math.cos(th) * rr, y, Math.sin(th) * rr);
     if (base.x < -0.02 || !scalpMask(base, 0.05)) continue;
-    const params = { layer: roots.length % 3, endY: -2.3 + (rnd() - 0.5) * 0.14, jit: rnd() * 0.5, r0: 0.045 + rnd() * 0.018, shade: 0.82 + rnd() * 0.26 };
+    const params = { layer: roots.length % 3, endY: -2.3 + (rnd() - 0.5) * 0.14, jit: rnd() * 0.5, r0: 0.054 + rnd() * 0.016, shade: 0.82 + rnd() * 0.26 };
     if (base.x <= 0.02) { roots.push({ root: base, side: i % 2 ? 1 : -1, ...params }); continue; }
     roots.push({ root: base, side: 1, ...params });
     roots.push({ root: new V3(-base.x, base.y, base.z), side: -1, ...params });
   }
+  /* BANGS: two rows of short locks along the front hairline that fall forward over the
+     forehead and stop just above the eyes, a little longer toward the sides. They are
+     mirrored like the rest and can be trimmed. */
+  if (WITH_BANGS) for (let x = 0.03; x <= 0.63; x += 0.05) for (const [row, y] of [[0, 0.64], [1, 0.73]]) {
+    const z = Math.sqrt(1 - x * x - y * y);
+    const params = { layer: row, endY: 0.3 - 0.14 * Math.pow(x / 0.63, 2) + (rnd() - 0.5) * 0.02, jit: rnd() * 0.5, r0: 0.05 + rnd() * 0.012, shade: 0.86 + rnd() * 0.2, bang: true };
+    roots.push({ root: new V3(x, y, z), side: 1, ...params });
+    roots.push({ root: new V3(-x, y, z), side: -1, ...params });
+  }
   for (const R of roots) {
     const { root, layer, side, endY } = R;
     const pts = [];
-    const p = root.clone().multiplyScalar(1.035 + 0.03 * layer);
-    const n = root.clone().normalize();
+    const p = root.clone().multiplyScalar(1.035 + 0.03 * layer).multiply(HEAD_S);
+    const n = root.clone().divide(HEAD_S).normalize();   // the oval's surface normal
     // Front and top locks sweep aside off the face; back locks fall straight down, so the
     // back of the head has no parting showing the cape through it.
     const front = THREE.MathUtils.smoothstep(root.z, -0.35, 0.25);
     // Right on the parting a lock combs straight back rather than picking a side, so the
     // parting is a clean line instead of a tuft.
     const partSide = Math.min(1, Math.abs(root.x) / 0.18);
-    const d = new V3(side * (0.08 + 0.67 * front) * partSide, -0.55, root.z > 0.1 ? -0.55 : -0.12);
+    const d = R.bang ? new V3(side * 0.08, -1, 0.35)
+      : new V3(side * (0.08 + 0.67 * front) * partSide, -0.55, root.z > 0.1 ? -0.55 : -0.12);
     d.addScaledVector(n, -d.dot(n)).normalize();
     pts.push(p.clone());
     const prev = new V3();
@@ -186,7 +226,7 @@ const locks = [];
       prev.copy(p);
       d.multiplyScalar(0.84).add(new V3(0, -0.16, 0)).normalize();
       p.addScaledVector(d, STEP);
-      collide(p, layer, side);
+      collide(p, layer, side, !!R.bang);
       d.subVectors(p, prev).normalize();
       pts.push(p.clone());
     }
@@ -196,7 +236,7 @@ const locks = [];
     /* Neighbouring locks share a wave phase (from where their root is), so the hair
        waves in soft bands like real wavy hair rather than each lock crinkling alone. */
     locks.push({ pts, cum, full, len: full, layer, side, phase: Math.abs(Math.atan2(root.x, root.z)) * 1.5 + root.y * 2 + R.jit,
-      r0: R.r0, shade: R.shade });
+      r0: R.r0, shade: R.shade, bang: !!R.bang, minLen: R.bang ? 0.12 : MIN_LEN });
   }
 }
 
@@ -448,7 +488,7 @@ function cutAlong(x0, y0, x1, y1) {
   const cuts = [];
   for (let i = 0; i < locks.length; i++) {
     const L = locks[i];
-    if (L.len <= MIN_LEN + 0.02) continue;
+    if (L.len <= L.minLen + 0.02) continue;
     centresOf(L, L.len, 0, RINGS, scratch);
     let prevS = null;
     for (let r = 0; r < RINGS; r++) {
@@ -457,7 +497,7 @@ function cutAlong(x0, y0, x1, y1) {
         const t = segHit(prevS[0], prevS[1], s[0], s[1], x0, y0, x1, y1);
         if (t >= 0) {
           const at = L.len * ((r - 1 + t) / (RINGS - 1));
-          if (at >= MIN_LEN && at < L.len - 0.03) { cuts.push([i, at]); break; }
+          if (at >= L.minLen && at < L.len - 0.03) { cuts.push([i, at]); break; }
         }
       }
       prevS = s;
