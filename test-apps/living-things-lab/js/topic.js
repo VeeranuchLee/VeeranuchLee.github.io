@@ -6,6 +6,7 @@
   var debug = query.get("debug") === "1";
   var title = document.getElementById("topicTitle");
   var image = document.getElementById("topicImage");
+  var tabs = document.getElementById("pageTabs");
   var hotspots = document.getElementById("partHotspots");
   var labels = document.getElementById("allLabels");
   var lines = document.getElementById("leaderLines");
@@ -15,6 +16,8 @@
   var replay = document.getElementById("replay");
   var partName = document.getElementById("partName");
   var partFact = document.getElementById("partFact");
+  var startingName = partName.textContent;
+  var startingFact = partFact.textContent;
   var selected = null;
   var showAll = window.SafeStorage.local.getItem("living-things-lab-show-names") === "true";
   if (debug) document.body.classList.add("debug");
@@ -78,38 +81,96 @@
     if (!topic) { location.replace("./"); return; }
     document.title = topic.title + " — Living Things Lab";
     title.textContent = topic.title;
-    image.src = "./" + topic.image;
-    image.alt = topic.alt || (topic.id === "plant-cell" ? "A large painted plant cell with distinct organelles" : "A large cut-open flower showing its main structures");
+    var fallbackAlt = topic.id === "plant-cell" ? "A large painted plant cell with distinct organelles" : "A large cut-open flower showing its main structures";
+    var pages = topic.pages && topic.pages.length ? topic.pages : null;
+    var pageIndex = 0;
+    var tabButtons = [];
 
-    topic.parts.slice().sort(function (a, b) { return a.priority - b.priority; }).forEach(function (part) {
-      var button = shape(part.regions, part.holes, "part-hotspot");
-      button.setAttribute("role", "button");
-      button.setAttribute("tabindex", "0");
-      button.setAttribute("aria-label", part.name);
-      button.addEventListener("click", function () { choose(part); });
-      button.addEventListener("keydown", function (event) {
-        if (event.key !== "Enter" && event.key !== " ") return;
-        event.preventDefault(); choose(part);
+    // One renderer for both shapes: a whole topic, or one page of a topic split into pictures.
+    function render(pageLike) {
+      image.src = "./" + pageLike.image;
+      image.alt = pageLike.alt || fallbackAlt;
+      selected = null;
+      selection.replaceChildren();
+      partName.textContent = startingName;
+      partFact.textContent = startingFact;
+      replay.disabled = true;
+      hotspots.replaceChildren();
+      labels.replaceChildren();
+      lines.replaceChildren();
+      debugShapes.replaceChildren();
+      pageLike.parts.slice().sort(function (a, b) { return a.priority - b.priority; }).forEach(function (part) {
+        var button = shape(part.regions, part.holes, "part-hotspot");
+        button.setAttribute("role", "button");
+        button.setAttribute("tabindex", "0");
+        button.setAttribute("aria-label", part.name);
+        button.addEventListener("click", function () { choose(part); });
+        button.addEventListener("keydown", function (event) {
+          if (event.key !== "Enter" && event.key !== " ") return;
+          event.preventDefault(); choose(part);
+        });
+        hotspots.appendChild(button);
+
+        var label = document.createElement("button");
+        label.type = "button";
+        label.className = "all-label";
+        label.textContent = part.name;
+        label.style.left = (part.label[0] / data.imageSize.width * 100) + "%";
+        label.style.top = (part.label[1] / data.imageSize.height * 100) + "%";
+        label.addEventListener("click", function () { choose(part); });
+        labels.appendChild(label);
+
+        var line = document.createElementNS(NS, "line");
+        line.setAttribute("class", "leader-line");
+        line.setAttribute("x1", part.anchor[0]); line.setAttribute("y1", part.anchor[1]);
+        line.setAttribute("x2", part.label[0]); line.setAttribute("y2", part.label[1]);
+        lines.appendChild(line);
+        debugShapes.appendChild(shape(part.regions, part.holes, "debug-shape"));
       });
-      hotspots.appendChild(button);
+      applyShowAll();
+    }
 
-      var label = document.createElement("button");
-      label.type = "button";
-      label.className = "all-label";
-      label.textContent = part.name;
-      label.style.left = (part.label[0] / data.imageSize.width * 100) + "%";
-      label.style.top = (part.label[1] / data.imageSize.height * 100) + "%";
-      label.addEventListener("click", function () { choose(part); });
-      labels.appendChild(label);
+    function updateTabs() {
+      tabButtons.forEach(function (button, index) {
+        button.setAttribute("aria-pressed", String(index === pageIndex));
+      });
+    }
 
-      var line = document.createElementNS(NS, "line");
-      line.setAttribute("class", "leader-line");
-      line.setAttribute("x1", part.anchor[0]); line.setAttribute("y1", part.anchor[1]);
-      line.setAttribute("x2", part.label[0]); line.setAttribute("y2", part.label[1]);
-      lines.appendChild(line);
-      debugShapes.appendChild(shape(part.regions, part.holes, "debug-shape"));
-    });
-    applyShowAll();
+    function choosePage(index) {
+      pageIndex = index;
+      window.LabAudio.stop();
+      render(pages[index]);
+      updateTabs();
+      query.set("p", pages[index].id);
+      history.replaceState(null, "", "?" + query.toString());
+      window.LabAudio.chime();
+    }
+
+    if (pages) {
+      var wanted = query.get("p");
+      for (var i = 0; i < pages.length; i++) {
+        if (pages[i].id === wanted) { pageIndex = i; break; }
+      }
+      pages.forEach(function (page, index) {
+        var button = document.createElement("button");
+        button.type = "button";
+        button.className = "page-tab";
+        button.setAttribute("aria-pressed", "false");
+        var thumbnail = document.createElement("img");
+        thumbnail.src = "./" + page.image;
+        thumbnail.alt = "";
+        button.appendChild(thumbnail);
+        var text = document.createElement("span");
+        text.textContent = page.tab || page.id;
+        button.appendChild(text);
+        button.addEventListener("click", function () { if (index !== pageIndex) choosePage(index); });
+        tabs.appendChild(button);
+        tabButtons.push(button);
+      });
+      tabs.hidden = false;
+      updateTabs();
+    }
+    render(pages ? pages[pageIndex] : topic);
   }).catch(function () {
     partName.textContent = "Could not load";
     partFact.textContent = "Please return to the room and try again.";
