@@ -34,7 +34,7 @@
   function log(msg){rows.push(t()+' '+msg);if(rows.length>MAX)rows.shift();try{paint();}catch(e){}}
   window.__speechLog=function(){return rows.slice();};
   document.addEventListener('DOMContentLoaded',paint);
-  log('probe on'+(KEEP?' (KEEP)':'')+(/fix=suspend/.test(location.search)?' FIX=SUSPEND':/fix=wake/.test(location.search)?' FIX=WAKE':'')+' · '+navigator.userAgent.replace(/.*(iPhone OS|CPU OS|Mac OS X) ([\d_]+).*/,'$1 $2'));
+  log('probe on'+(KEEP?' (KEEP)':'')+(/fix=(\w+)/.test(location.search)?' FIX='+location.search.match(/fix=(\w+)/)[1].toUpperCase():'')+' · '+navigator.userAgent.replace(/.*(iPhone OS|CPU OS|Mac OS X) ([\d_]+).*/,'$1 $2'));
 
   var ss=window.speechSynthesis;
   if(ss){
@@ -69,15 +69,21 @@
   }else log('no speechSynthesis');
 
   var MP=HTMLMediaElement.prototype, play=MP.play, mpause=MP.pause;
+  /* fix=nomedia / fix=silent: no <audio> file ever plays. play() resolves and 'ended' fires
+     shortly after, so the game's chains advance exactly as if the clip had finished. */
+  var NOMEDIA=/[?&]fix=(nomedia|silent)/.test(location.search);
+  if(NOMEDIA){MP.play=function(){var el=this;log('MEDIA play SKIPPED '+name(el));
+      if(!el.loop)setTimeout(function(){try{el.dispatchEvent(new Event('ended'));}catch(e){}},60);
+      return Promise.resolve();};}
   function name(el){return String(el.currentSrc||el.src||'').split('/').pop().slice(0,40);}
-  MP.play=function(){var el=this;log('MEDIA play '+name(el)+(el.loop?' (loop)':''));
+  if(!NOMEDIA)MP.play=function(){var el=this;log('MEDIA play '+name(el)+(el.loop?' (loop)':''));
     var p=play.apply(this,arguments);
     if(p&&p.catch)p.catch(function(e){log('MEDIA play REFUSED '+name(el)+' '+(e&&e.name));});
     if(!el.__lg){el.__lg=1;['ended','pause','error'].forEach(function(k){el.addEventListener(k,function(){log('MEDIA '+k+' '+name(el));});});}
     return p;};
   MP.pause=function(){if(!this.paused)log('MEDIA pause() '+name(this)+' '+caller());return mpause.apply(this,arguments);};
 
-  var FIXWAKE=/[?&]fix=(wake|suspend)/.test(location.search), FIXSUSP=/[?&]fix=suspend/.test(location.search);
+  var FIXWAKE=/[?&]fix=(wake|suspend|silent)/.test(location.search), FIXSUSP=/[?&]fix=(suspend|silent)/.test(location.search);
   var ctxs=window.__ctxs=[];
   function talking(){try{var q=window.speechSynthesis;return !!(q&&(q.speaking||q.pending));}catch(e){return false;}}
   ['AudioContext','webkitAudioContext'].forEach(function(k){
