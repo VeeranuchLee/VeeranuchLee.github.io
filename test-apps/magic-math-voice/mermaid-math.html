@@ -2924,6 +2924,8 @@ const Sound = (() => {
     src.start(t);src.stop(t+dur);
   }catch(e){}};
   return{
+    /* The live context, for RobotWords' gapless word player (2026-11-24). */
+    context(){return ctx();},
     setMuted(v){_muted=v;},
     /* A tap is a finger landing on a surface, so it needs a body and a click. The two
        sines are the body; the 18 ms noise chip at 2.6 kHz is the fingernail. 18 ms is
@@ -3269,6 +3271,14 @@ const Voice={
          stalling, the same contract as the clip path below. */
       const seq=list[i].seq, cast=!!list[i].cast;
       if(seq){
+        /* The ROBOT's words go through WebAudio when it is running and every word is
+           decoded: all of them are scheduled back to back on one clock, so there is no
+           per-word load between them (owner 2026-11-24: "less space between each word").
+           Otherwise the <audio> chain below, word by word, as before. */
+        if(!cast){
+          const job=RobotWords.play(seq,()=>{if(V._a===job){V._a=null;advance(false);}});
+          if(job){V._a=job;return;}
+        }
         const a=new Audio(); V._a=a; let k=0;
         const step=()=>{
           if(!live()||V._a!==a)return;
@@ -3339,19 +3349,53 @@ const RobotWords=(()=>{
   const ROOT='assets-runtime/narration/robot-words/';
   const SCALE=/^rw-(thousand|million|billion|trillion|quadrillion|quintillion)\.m4a$/;
   let have=null;
+  const bufs=new Map();
   return{
-    RATE:1.15,
+    /* The clips are already sped up 1.4x with the pitch kept (build-runtime-audio.py
+       --tempo; owner 2026-11-24, "too slow ... less space between each word"), so the
+       page plays them at their own rate. */
+    RATE:1,
     WORD_GAP:0,
-    GROUP_GAP:110,
+    GROUP_GAP:60,
     isScale(url){return SCALE.test(String(url).split('/').pop());},
+    /* Schedule a whole number on the running sound context; null (and the caller uses the
+       <audio> chain) unless the context is running and every word is decoded. `done` runs
+       once, when the last word ends; the returned job's pause() stops it silently. */
+    play(seq,done){
+      let c=null; try{c=Sound.context&&Sound.context();}catch(e){}
+      if(!c||c.state!=='running'||!seq.every(u=>bufs.has(u)))return null;
+      const srcs=[]; let t=c.currentTime+.03;
+      seq.forEach((u,i)=>{
+        const w=bufs.get(u),s=c.createBufferSource();
+        s.buffer=w.b; s.connect(c.destination); s.start(t,w.s,w.e-w.s); srcs.push(s);
+        t+=w.e-w.s+(i<seq.length-1&&this.isScale(u)?this.GROUP_GAP:this.WORD_GAP)/1000;
+      });
+      let over=false;
+      srcs[srcs.length-1].onended=()=>{if(over)return;over=true;done();};
+      return{onended:null,onerror:null,pause(){if(over)return;over=true;srcs.forEach(s=>{try{s.stop();}catch(e){}});}};
+    },
     load(){
       if(have)return;
       try{
         fetch(ROOT+'clips.json').then(r=>r.ok?r.json():null).then(j=>{
           if(!j||!j.clips||!j.clips.length)return;
           have=new Set(j.clips);
-          /* Warm the cache: 36 small files, so the first read does not wait on the network. */
-          j.clips.forEach(id=>{try{fetch(ROOT+id+'.m4a');}catch(e){}});
+          /* Fetch and decode all 36 small words now, so the first read neither waits on the
+             network nor has a gap. Decoded on an OfflineAudioContext, which needs no tap. */
+          const OAC=window.OfflineAudioContext||window.webkitOfflineAudioContext;
+          let dec=null; try{dec=OAC?new OAC(1,1,24000):null;}catch(e){}
+          j.clips.forEach(id=>{try{
+            const url=ROOT+id+'.m4a';
+            fetch(url).then(r=>r.ok?r.arrayBuffer():null).then(ab=>{
+              if(!ab||!dec)return;
+              dec.decodeAudioData(ab,b=>{
+                /* Cut the encoder's silent priming and tail, keeping 10/20 ms either side. */
+                const d=b.getChannelData(0),sr=b.sampleRate;let i=0,k=d.length-1;
+                while(i<k&&Math.abs(d[i])<.004)i++;while(k>i&&Math.abs(d[k])<.004)k--;
+                bufs.set(url,{b,s:Math.max(0,i/sr-.01),e:Math.min(b.duration,k/sr+.02)});
+              },()=>{});
+            }).catch(()=>{});
+          }catch(e){}});
         }).catch(()=>{});
       }catch(e){}
     },
