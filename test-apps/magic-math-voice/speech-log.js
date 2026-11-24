@@ -34,7 +34,7 @@
   function log(msg){rows.push(t()+' '+msg);if(rows.length>MAX)rows.shift();try{paint();}catch(e){}}
   window.__speechLog=function(){return rows.slice();};
   document.addEventListener('DOMContentLoaded',paint);
-  log('probe on'+(KEEP?' (KEEP)':'')+' · '+navigator.userAgent.replace(/.*(iPhone OS|CPU OS|Mac OS X) ([\d_]+).*/,'$1 $2'));
+  log('probe on'+(KEEP?' (KEEP)':'')+(/fix=suspend/.test(location.search)?' FIX=SUSPEND':/fix=wake/.test(location.search)?' FIX=WAKE':'')+' · '+navigator.userAgent.replace(/.*(iPhone OS|CPU OS|Mac OS X) ([\d_]+).*/,'$1 $2'));
 
   var ss=window.speechSynthesis;
   if(ss){
@@ -50,6 +50,11 @@
       u.addEventListener('pause',function(){log('  pause#'+id);});
       u.addEventListener('resume',function(){log('  resume#'+id);});
       if(KEEP)(window.__keepUtt=window.__keepUtt||[]).push(u);
+      if(FIXSUSP&&window.__ctxs){
+        var back=function(){setTimeout(function(){if(talking())return;window.__ctxs.forEach(function(c){if(c.state!=='running'&&c.state!=='closed'){c.__ours=1;c.resume().then(function(){c.__ours=0;},function(){c.__ours=0;});}});},50);};
+        u.addEventListener('end',back);u.addEventListener('error',back);
+        window.__ctxs.forEach(function(c){if(c.state==='running')c.suspend();});
+      }
       return speak(u);
     };
     ss.cancel=function(){log('CANCEL [spk='+ss.speaking+' pend='+ss.pending+'] '+caller());return cancel();};
@@ -72,10 +77,22 @@
     return p;};
   MP.pause=function(){if(!this.paused)log('MEDIA pause() '+name(this)+' '+caller());return mpause.apply(this,arguments);};
 
+  var FIXWAKE=/[?&]fix=(wake|suspend)/.test(location.search), FIXSUSP=/[?&]fix=suspend/.test(location.search);
+  var ctxs=window.__ctxs=[];
+  function talking(){try{var q=window.speechSynthesis;return !!(q&&(q.speaking||q.pending));}catch(e){return false;}}
+  ['AudioContext','webkitAudioContext'].forEach(function(k){
+    var AC=window[k]; if(!AC||AC.prototype.__lgp)return; AC.prototype.__lgp=1;
+    var res=AC.prototype.resume, sus=AC.prototype.suspend;
+    AC.prototype.resume=function(){
+      if(FIXWAKE&&!this.__ours&&(talking()||this.state==='interrupted')){log('AUDIOCTX resume BLOCKED ('+this.state+') '+caller());return Promise.resolve();}
+      if(this.state!=='running')log('AUDIOCTX resume() from '+this.state+' '+caller());
+      return res.apply(this,arguments);};
+    AC.prototype.suspend=function(){log('AUDIOCTX suspend() '+caller());return sus.apply(this,arguments);};
+  });
   ['AudioContext','webkitAudioContext'].forEach(function(k){
     var AC=window[k]; if(!AC)return;
     var W=function(){var c=new (Function.prototype.bind.apply(AC,[null].concat([].slice.call(arguments))))();
-      log('AUDIOCTX new '+c.state);
+      log('AUDIOCTX new '+c.state); ctxs.push(c);
       c.addEventListener&&c.addEventListener('statechange',function(){log('AUDIOCTX '+c.state);});
       return c;};
     W.prototype=AC.prototype; window[k]=W;
